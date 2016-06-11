@@ -12,8 +12,6 @@ using System.Text;
 using System.Diagnostics;
 using System.Threading;
 using OpenTK.Graphics;
-
-
 namespace OpenTK
 {
     /// <summary>
@@ -34,16 +32,12 @@ namespace OpenTK
         List<DisplayResolution> available_resolutions = new List<DisplayResolution>();
         IList<DisplayResolution> available_resolutions_readonly;
         bool primary;
-
         OpenTK.Graphics.Rectangle bounds;
-
         static readonly List<DisplayDevice> available_displays = new List<DisplayDevice>();
         static readonly IList<DisplayDevice> available_displays_readonly;
         static readonly object display_lock = new object();
         static DisplayDevice primary_display;
-
         static Platform.IDisplayDeviceDriver implementation;
-
         #endregion
 
         #region --- Constructors ---
@@ -73,7 +67,6 @@ namespace OpenTK
             IsPrimary = primary;
             this.available_resolutions.AddRange(availableResolutions);
             this.bounds = bounds == Rectangle.Empty ? currentResolution.Bounds : bounds;
-
             Debug.Print("DisplayDevice {0} ({1}) supports {2} resolutions.",
                 available_displays.Count, primary ? "primary" : "secondary", available_resolutions.Count);
         }
@@ -148,7 +141,6 @@ namespace OpenTK
             {
                 if (value && primary_display != null && primary_display != this)
                     primary_display.IsPrimary = false;
-
                 lock (display_lock)
                 {
                     primary = value;
@@ -219,10 +211,8 @@ namespace OpenTK
         {
             if (resolution == null)
                 this.RestoreResolution();
-
             if (resolution == current_resolution)
                 return;
-
             //effect.FadeOut();
 
             if (implementation.TryChangeResolution(this, resolution))
@@ -231,9 +221,9 @@ namespace OpenTK
                     original_resolution = current_resolution;
                 current_resolution = resolution;
             }
-            else throw new Graphics.GraphicsModeException(String.Format("Device {0}: Failed to change resolution to {1}.",
-                    this, resolution));
-
+            else
+                throw new Graphics.GraphicsModeException(String.Format("Device {0}: Failed to change resolution to {1}.",
+                   this, resolution));
             //effect.FadeIn();
         }
 
@@ -270,7 +260,6 @@ namespace OpenTK
                     original_resolution = null;
                 }
                 else throw new Graphics.GraphicsModeException(String.Format("Device {0}: Failed to restore resolution.", this));
-
                 //effect.FadeIn();
             }
         }
@@ -304,7 +293,7 @@ namespace OpenTK
 
         DisplayResolution FindResolution(int width, int height, int bitsPerPixel, float refreshRate)
         {
-            return available_resolutions.Find(delegate(DisplayResolution test)
+            return available_resolutions.Find(delegate (DisplayResolution test)
             {
                 return
                     ((width > 0 && width == test.Width) || width == 0) &&

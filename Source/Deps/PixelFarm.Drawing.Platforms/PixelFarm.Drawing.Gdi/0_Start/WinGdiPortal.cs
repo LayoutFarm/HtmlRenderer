@@ -1,8 +1,8 @@
 ﻿//2014,2015 BSD, WinterDev
+
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 namespace PixelFarm.Drawing.WinGdi
 {
     public static class WinGdiPortal
@@ -11,7 +11,6 @@ namespace PixelFarm.Drawing.WinGdi
         static WinGdiPlatform platform;
         public static void Start()
         {
-
             if (isInit)
             {
                 return;
@@ -19,28 +18,13 @@ namespace PixelFarm.Drawing.WinGdi
             isInit = true;
             WinGdiPortal.platform = new WinGdiPlatform();
             GraphicsPlatform.GenericSerifFontName = System.Drawing.FontFamily.GenericSerif.Name;
-
         }
         public static void End()
         {
-            if (!isInit)
-            {
-                return;
-            }
-
-
-            var disposable = WinGdiPortal.platform as IDisposable;
-            if (disposable != null)
-            {
-                disposable.Dispose();
-                disposable = null;
-            }
         }
         public static GraphicsPlatform P
         {
             get { return platform; }
         }
-
-
     }
 }

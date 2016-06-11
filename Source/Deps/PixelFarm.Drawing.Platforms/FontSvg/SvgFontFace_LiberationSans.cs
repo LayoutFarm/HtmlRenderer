@@ -1,15 +1,14 @@
 ﻿//2014,2015 BSD,WinterDev   
-using System;
-using System.Collections.Generic; 
 
+using System;
+using System.Collections.Generic;
 namespace PixelFarm.Agg.Fonts
 {
     class SvgFontFace_LiberationSans
     {
         static SvgFontFace instance;
-
         public static SvgFontFace Instance
-        {   
+        {
             get
             {
                 if (instance == null)

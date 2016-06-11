@@ -34,11 +34,9 @@
 using System;
 namespace PixelFarm.Drawing
 {
-
     public struct Rectangle
     {
         private int x, y, width, height;
-
         /// <summary>
         ///	Empty Shared Field
         /// </summary>
@@ -48,8 +46,6 @@ namespace PixelFarm.Drawing
         /// </remarks>
 
         public static readonly Rectangle Empty;
-
-
         /// <summary>
         ///	Ceiling Shared Method
         /// </summary>
@@ -150,7 +146,6 @@ namespace PixelFarm.Drawing
             // touch each other
             if (!a.IntersectsWithInclusive(b))
                 return Empty;
-
             return Rectangle.FromLTRB(
                 Math.Max(a.Left, b.Left),
                 Math.Max(a.Top, b.Top),
@@ -573,7 +568,6 @@ namespace PixelFarm.Drawing
         {
             if (!(obj is Rectangle))
                 return false;
-
             return (this == (Rectangle)obj);
         }
 
@@ -668,6 +662,5 @@ namespace PixelFarm.Drawing
             return String.Format("{{X={0},Y={1},Width={2},Height={3}}}",
                          x, y, width, height);
         }
-
     }
 }

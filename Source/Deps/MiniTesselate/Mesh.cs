@@ -108,7 +108,6 @@
 
 using System.Collections.Generic;
 using System;
-
 namespace Tesselate
 {
     // the mesh class 
@@ -195,24 +194,20 @@ namespace Tesselate
         public Face faceHead = new Face();		/* dummy header for face list */
         public HalfEdge halfEdgeHead = new HalfEdge();		/* dummy header for edge list */
         HalfEdge otherHalfOfThisEdgeHead = new HalfEdge();	/* and its symmetric counterpart */
-
         /* Creates a new mesh with no edges, no vertices,
         * and no loops (what we usually call a "face").
         */
         public Mesh()
         {
             HalfEdge otherHalfOfThisEdge = this.otherHalfOfThisEdgeHead;
-
             vertexHead.nextVertex = vertexHead.prevVertex = vertexHead;
             vertexHead.edgeThisIsOriginOf = null;
             vertexHead.clientIndex = 0;
-
             faceHead.nextFace = faceHead.prevFace = faceHead;
             faceHead.halfEdgeThisIsLeftFaceOf = null;
             faceHead.trail = null;
             faceHead.marked = false;
             faceHead.isInterior = false;
-
             halfEdgeHead.nextHalfEdge = halfEdgeHead;
             halfEdgeHead.otherHalfOfThisEdge = otherHalfOfThisEdge;
             halfEdgeHead.nextEdgeCCWAroundOrigin = null;
@@ -221,7 +216,6 @@ namespace Tesselate
             halfEdgeHead.leftFace = null;
             halfEdgeHead.winding = 0;
             halfEdgeHead.regionThisIsUpperEdgeOf = null;
-
             otherHalfOfThisEdge.nextHalfEdge = otherHalfOfThisEdge;
             otherHalfOfThisEdge.otherHalfOfThisEdge = halfEdgeHead;
             otherHalfOfThisEdge.nextEdgeCCWAroundOrigin = null;
@@ -244,7 +238,6 @@ namespace Tesselate
             HalfEdge e;
             Face fPrev;
             Face fNew = newFace;
-
             fNew.indexDebug = faceIndex++;
             // insert in circular doubly-linked list before fNext
 
@@ -253,15 +246,12 @@ namespace Tesselate
             fPrev.nextFace = fNew;
             fNew.nextFace = fNext;
             fNext.prevFace = fNew;
-
             fNew.halfEdgeThisIsLeftFaceOf = eOrig;
             fNew.trail = null;
             fNew.marked = false;
-
             // The new face is marked "inside" if the old one was.  This is a
             // convenience for the common case where a face has been split in two.
             fNew.isInterior = fNext.isInterior;
-
             // fix other edges on this face loop
             e = eOrig;
             do
@@ -279,9 +269,7 @@ namespace Tesselate
             ContourVertex newVertex2 = new ContourVertex();
             Face newFace = new Face();
             HalfEdge e;
-
             e = MakeEdge(this.halfEdgeHead);
-
             MakeVertex(newVertex1, e, this.vertexHead);
             MakeVertex(newVertex2, e.otherHalfOfThisEdge, this.vertexHead);
             MakeFace(newFace, e, this.faceHead);
@@ -299,14 +287,12 @@ namespace Tesselate
             HalfEdge e;
             ContourVertex vPrev;
             ContourVertex vNew = newVertex;
-
             /* insert in circular doubly-linked list before vNext */
             vPrev = vNext.prevVertex;
             vNew.prevVertex = vPrev;
             vPrev.nextVertex = vNew;
             vNew.nextVertex = vNext;
             vNext.prevVertex = vNew;
-
             vNew.edgeThisIsOriginOf = eOrig;
             vNew.clientIndex = 0;
             /* leave coords, s, t undefined */
@@ -327,7 +313,6 @@ namespace Tesselate
         {
             HalfEdge e, eStart = vDel.edgeThisIsOriginOf;
             ContourVertex vPrev, vNext;
-
             /* change the origin of all affected edges */
             e = eStart;
             do
@@ -335,7 +320,6 @@ namespace Tesselate
                 e.originVertex = newOrg;
                 e = e.nextEdgeCCWAroundOrigin;
             } while (e != eStart);
-
             /* delete from circular doubly-linked list */
             vPrev = vDel.prevVertex;
             vNext = vDel.nextVertex;
@@ -350,7 +334,6 @@ namespace Tesselate
         {
             HalfEdge e, eStart = fDel.halfEdgeThisIsLeftFaceOf;
             Face fPrev, fNext;
-
             /* change the left face of all affected edges */
             e = eStart;
             do
@@ -358,7 +341,6 @@ namespace Tesselate
                 e.leftFace = newLface;
                 e = e.nextEdgeCCWAroundLeftFace;
             } while (e != eStart);
-
             /* delete from circular doubly-linked list */
             fPrev = fDel.prevFace;
             fNext = fDel.nextFace;
@@ -376,7 +358,6 @@ namespace Tesselate
         {
             HalfEdge aOnext = a.nextEdgeCCWAroundOrigin;
             HalfEdge bOnext = b.nextEdgeCCWAroundOrigin;
-
             aOnext.otherHalfOfThisEdge.nextEdgeCCWAroundLeftFace = b;
             bOnext.otherHalfOfThisEdge.nextEdgeCCWAroundLeftFace = a;
             a.nextEdgeCCWAroundOrigin = bOnext;
@@ -410,9 +391,7 @@ namespace Tesselate
         {
             bool joiningLoops = false;
             bool joiningVertices = false;
-
             if (eOrg == eDst) return;
-
             if (eDst.originVertex != eOrg.originVertex)
             {
                 /* We are merging two disjoint vertices -- destroy eDst.Org */
@@ -428,11 +407,9 @@ namespace Tesselate
 
             /* Change the edge structure */
             Splice(eDst, eOrg);
-
             if (!joiningVertices)
             {
                 ContourVertex newVertex = new ContourVertex();
-
                 /* We split one vertex into two -- the new vertex is eDst.Org.
                 * Make sure the old vertex points to a valid half-edge.
                 */
@@ -442,7 +419,6 @@ namespace Tesselate
             if (!joiningLoops)
             {
                 Face newFace = new Face();
-
                 /* We split one loop into two -- the new loop is eDst.Lface.
                 * Make sure the old face points to a valid half-edge.
                 */
@@ -457,7 +433,6 @@ namespace Tesselate
         static void KillEdge(HalfEdge eDel)
         {
             HalfEdge ePrev, eNext;
-
             /* Half-edges are allocated in pairs, see EdgePair above */
             if (eDel.otherHalfOfThisEdge.isFirstHalfEdge)
             {
@@ -485,7 +460,6 @@ namespace Tesselate
         {
             HalfEdge otherHalfOfEdgeToDelete = edgeToDelete.otherHalfOfThisEdge;
             bool joiningLoops = false;
-
             // First step: disconnect the origin vertex eDel.Org.  We make all
             // changes to get a consistent mesh in this "intermediate" state.
             if (edgeToDelete.leftFace != edgeToDelete.rightFace)
@@ -504,12 +478,10 @@ namespace Tesselate
                 // Make sure that eDel.Org and eDel.Rface point to valid half-edges
                 edgeToDelete.rightFace.halfEdgeThisIsLeftFaceOf = edgeToDelete.Oprev;
                 edgeToDelete.originVertex.edgeThisIsOriginOf = edgeToDelete.nextEdgeCCWAroundOrigin;
-
                 Splice(edgeToDelete, edgeToDelete.Oprev);
                 if (!joiningLoops)
                 {
                     Face newFace = new Face();
-
                     // We are splitting one loop into two -- create a new loop for eDel.
                     MakeFace(newFace, edgeToDelete, edgeToDelete.leftFace);
                 }
@@ -542,21 +514,16 @@ namespace Tesselate
         {
             HalfEdge eNewSym;
             HalfEdge eNew = MakeEdge(eOrg);
-
             eNewSym = eNew.otherHalfOfThisEdge;
-
             /* Connect the new edge appropriately */
             Splice(eNew, eOrg.nextEdgeCCWAroundLeftFace);
-
             /* Set the vertex and face information */
             eNew.originVertex = eOrg.directionVertex;
             {
                 ContourVertex newVertex = new ContourVertex();
-
                 MakeVertex(newVertex, eNewSym, eNew.originVertex);
             }
             eNew.leftFace = eNewSym.leftFace = eOrg.leftFace;
-
             return eNew;
         }
 
@@ -568,20 +535,16 @@ namespace Tesselate
         {
             HalfEdge eNew;
             HalfEdge tempHalfEdge = meshAddEdgeVertex(eOrg);
-
             eNew = tempHalfEdge.otherHalfOfThisEdge;
-
             /* Disconnect eOrg from eOrg.Dst and connect it to eNew.Org */
             Splice(eOrg.otherHalfOfThisEdge, eOrg.otherHalfOfThisEdge.Oprev);
             Splice(eOrg.otherHalfOfThisEdge, eNew);
-
             /* Set the vertex and face information */
             eOrg.directionVertex = eNew.originVertex;
             eNew.directionVertex.edgeThisIsOriginOf = eNew.otherHalfOfThisEdge;	/* may have pointed to eOrg.Sym */
             eNew.rightFace = eOrg.rightFace;
             eNew.winding = eOrg.winding;	/* copy old winding information */
             eNew.otherHalfOfThisEdge.winding = eOrg.otherHalfOfThisEdge.winding;
-
             return eNew;
         }
 
@@ -603,7 +566,6 @@ namespace Tesselate
 #endif
             }
         };
-
         /* MakeEdge creates a new pair of half-edges which form their own loop.
         * No vertex or face structures are allocated, but these must be assigned
         * before the current edge operation is completed.
@@ -611,7 +573,7 @@ namespace Tesselate
         static HalfEdge MakeEdge(HalfEdge eNext)
         {
             HalfEdge ePrev;
-            EdgePair pair = new EdgePair(); 
+            EdgePair pair = new EdgePair();
             /* Make sure eNext points to the first edge of the edge pair */
             if (eNext.otherHalfOfThisEdge.isFirstHalfEdge)
             {
@@ -626,7 +588,6 @@ namespace Tesselate
             ePrev.otherHalfOfThisEdge.nextHalfEdge = pair.e;
             pair.e.nextHalfEdge = eNext;
             eNext.otherHalfOfThisEdge.nextHalfEdge = pair.eSym;
-
             pair.e.isFirstHalfEdge = true;
             pair.e.otherHalfOfThisEdge = pair.eSym;
             pair.e.nextEdgeCCWAroundOrigin = pair.e;
@@ -635,7 +596,6 @@ namespace Tesselate
             pair.e.leftFace = null;
             pair.e.winding = 0;
             pair.e.regionThisIsUpperEdgeOf = null;
-
             pair.eSym.isFirstHalfEdge = false;
             pair.eSym.otherHalfOfThisEdge = pair.e;
             pair.eSym.nextEdgeCCWAroundOrigin = pair.eSym;
@@ -644,7 +604,6 @@ namespace Tesselate
             pair.eSym.leftFace = null;
             pair.eSym.winding = 0;
             pair.eSym.regionThisIsUpperEdgeOf = null;
-
             return pair.e;
         }
 
@@ -663,9 +622,7 @@ namespace Tesselate
             HalfEdge eNewSym;
             bool joiningLoops = false;
             HalfEdge eNew = MakeEdge(eOrg);
-
             eNewSym = eNew.otherHalfOfThisEdge;
-
             if (eDst.leftFace != eOrg.leftFace)
             {
                 /* We are connecting two disjoint loops -- destroy eDst.Lface */
@@ -676,19 +633,15 @@ namespace Tesselate
             /* Connect the new edge appropriately */
             Splice(eNew, eOrg.nextEdgeCCWAroundLeftFace);
             Splice(eNewSym, eDst);
-
             /* Set the vertex and face information */
             eNew.originVertex = eOrg.directionVertex;
             eNewSym.originVertex = eDst.originVertex;
             eNew.leftFace = eNewSym.leftFace = eOrg.leftFace;
-
             /* Make sure the old face points to a valid half-edge */
             eOrg.leftFace.halfEdgeThisIsLeftFaceOf = eNewSym;
-
             if (!joiningLoops)
             {
                 Face newFace = new Face();
-
                 /* We split one loop into two -- the new loop is eNew.Lface */
                 MakeFace(newFace, eNew, eOrg.leftFace);
             }
@@ -706,7 +659,6 @@ namespace Tesselate
             Face f2 = mesh2.faceHead;
             ContourVertex v2 = mesh2.vertexHead;
             HalfEdge e2 = mesh2.halfEdgeHead;
-
             /* Add the faces, vertices, and edges of mesh2 to those of mesh1 */
             if (f2.nextFace != f2)
             {
@@ -748,14 +700,12 @@ namespace Tesselate
             HalfEdge eStart = fZap.halfEdgeThisIsLeftFaceOf;
             HalfEdge e, eNext, eSym;
             Face fPrev, fNext;
-
             /* walk around face, deleting edges whose right face is also null */
             eNext = eStart.nextEdgeCCWAroundLeftFace;
             do
             {
                 e = eNext;
                 eNext = e.nextEdgeCCWAroundLeftFace;
-
                 e.leftFace = null;
                 if (e.rightFace == null)
                 {
@@ -785,13 +735,11 @@ namespace Tesselate
                     KillEdge(e);
                 }
             } while (e != eStart);
-
             /* delete from circular doubly-linked list */
             fPrev = fZap.prevFace;
             fNext = fZap.nextFace;
             fNext.prevFace = fPrev;
             fPrev.nextFace = fNext;
-
             fZap = null;
         }
 
@@ -805,7 +753,6 @@ namespace Tesselate
             Face f, fPrev;
             ContourVertex v, vPrev;
             HalfEdge e, ePrev;
-
             fPrev = fHead;
             for (fPrev = fHead; (f = fPrev.nextFace) != fHead; fPrev = f)
             {
@@ -935,19 +882,16 @@ namespace Tesselate
         public bool SetWindingNumber(int value, bool keepOnlyBoundary)
         {
             HalfEdge e, eNext;
-
             for (e = this.halfEdgeHead.nextHalfEdge; e != this.halfEdgeHead; e = eNext)
             {
                 eNext = e.nextHalfEdge;
                 if (e.rightFace.isInterior != e.leftFace.isInterior)
                 {
-
                     /* This is a boundary edge (one side is interior, one is exterior). */
                     e.winding = (e.leftFace.isInterior) ? value : -value;
                 }
                 else
                 {
-
                     /* Both regions are interior, or both are exterior. */
                     if (!keepOnlyBoundary)
                     {
@@ -971,7 +915,6 @@ namespace Tesselate
         public void DiscardExterior()
         {
             Face f, next;
-
             for (f = this.faceHead.nextFace; f != this.faceHead; f = next)
             {
                 /* Since f will be destroyed, save its next pointer. */
@@ -990,7 +933,6 @@ namespace Tesselate
         public bool TessellateInterior()
         {
             Face f, next;
-
             for (f = this.faceHead.nextFace; f != this.faceHead; f = next)
             {
                 /* Make sure we don''t try to tessellate the new triangles. */

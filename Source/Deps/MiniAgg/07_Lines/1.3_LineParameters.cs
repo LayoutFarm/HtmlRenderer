@@ -15,6 +15,7 @@
 //          mcseemagg@yahoo.com
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
+
 using System;
 namespace PixelFarm.Agg.Lines
 {
@@ -27,7 +28,6 @@ namespace PixelFarm.Agg.Lines
         public int inc;
         public int len;
         public int octant;
-
         // The number of the octant is determined as a 3-bit value as follows:
         // bit 0 = vertical flag
         // bit 1 = sx < 0
@@ -53,7 +53,6 @@ namespace PixelFarm.Agg.Lines
         //                                                        0,1,2,3,4,5,6,7 
         public static readonly byte[] s_orthogonal_quadrant = { 0, 0, 1, 1, 3, 3, 2, 2 };
         public static readonly byte[] s_diagonal_quadrant = { 0, 1, 2, 1, 0, 3, 2, 3 };
-
         //---------------------------------------------------------------------
         public LineParameters(int x1_, int y1_, int x2_, int y2_, int len_)
         {
@@ -93,19 +92,16 @@ namespace PixelFarm.Agg.Lines
             int xmid = (x1 + x2) >> 1;
             int ymid = (y1 + y2) >> 1;
             int len2 = len >> 1;
-
             //lp1 = this; // it is a struct so this is a copy
             //lp2 = this; // it is a struct so this is a copy
 
             lp1 = new LineParameters(this.x1, this.y1, this.x2, this.y2, this.len);
             lp2 = new LineParameters(this.x1, this.y1, this.x2, this.y2, this.len);
-
             lp1.x2 = xmid;
             lp1.y2 = ymid;
             lp1.len = len2;
             lp1.dx = Math.Abs(lp1.x2 - lp1.x1);
             lp1.dy = Math.Abs(lp1.y2 - lp1.y1);
-
             lp2.x1 = xmid;
             lp2.y1 = ymid;
             lp2.len = len2;
@@ -113,5 +109,4 @@ namespace PixelFarm.Agg.Lines
             lp2.dy = Math.Abs(lp2.y2 - lp2.y1);
         }
     };
-
 }

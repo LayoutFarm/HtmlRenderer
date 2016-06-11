@@ -1,7 +1,5 @@
 using System;
-
 using OpenTK;
-
 namespace Examples.Shapes
 {
     public struct VertexT2dN3dV3d
@@ -9,8 +7,7 @@ namespace Examples.Shapes
         public Vector2d TexCoord;
         public Vector3d Normal;
         public Vector3d Position;
-
-        public VertexT2dN3dV3d( Vector2d texcoord, Vector3d normal, Vector3d position )
+        public VertexT2dN3dV3d(Vector2d texcoord, Vector3d normal, Vector3d position)
         {
             TexCoord = texcoord;
             Normal = normal;
@@ -31,6 +28,4 @@ namespace Examples.Shapes
         public Vector3h Normal;
         public Vector3h Position;
     }
-
-   
 }

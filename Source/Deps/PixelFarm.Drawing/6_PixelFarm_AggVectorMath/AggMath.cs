@@ -21,9 +21,8 @@
 // Bessel function (besj) was adapted for use in AGG library by Andy Wilk 
 // Contact: castor.vulgaris@gmail.com
 //----------------------------------------------------------------------------
+
 using System;
-
-
 namespace PixelFarm.Agg
 {
     public static class AggMath
@@ -31,11 +30,9 @@ namespace PixelFarm.Agg
         //------------------------------------------------------vertex_dist_epsilon
         // Coinciding points maximal distance (Epsilon)
         public const double VERTEX_DISTANCE_EPSILON = 1e-14;
-
         //-----------------------------------------------------intersection_epsilon
         // See calc_intersection
         public const double INTERSECTION_EPSILON = 1.0e-30;
-
         //------------------------------------------------------------cross_product
         public static double Cross(double x1, double y1,
                                         double x2, double y2,
@@ -55,8 +52,6 @@ namespace PixelFarm.Agg
            (Cross(x2, y2, x3, y3, x, y) < 0.0)) &&
            (tmp1 ==
            (Cross(x3, y3, x1, y1, x, y) < 0.0));
-
-
             //bool cp1 = cross_product(x1, y1, x2, y2, x, y) < 0.0;
             //bool cp2 = cross_product(x2, y2, x3, y3, x, y) < 0.0;
             //bool cp3 = cross_product(x3, y3, x1, y1, x, y) < 0.0;
@@ -68,8 +63,6 @@ namespace PixelFarm.Agg
         {
             double dx = x2 - x1;
             double dy = y2 - y1;
-
-
             return Math.Sqrt(dx * dx + dy * dy);
         }
 
@@ -103,7 +96,6 @@ namespace PixelFarm.Agg
         {
             double dx = x2 - x1;
             double dy = y2 - y1;
-
             if (dx == 0 && dy == 0)
             {
                 return 0;
@@ -111,7 +103,6 @@ namespace PixelFarm.Agg
 
             double pdx = x - x1;
             double pdy = y - y1;
-
             return (pdx * dx + pdy * dy) / (dx * dx + dy * dy);
         }
 
@@ -127,9 +118,9 @@ namespace PixelFarm.Agg
             }
             else
                 if (u >= 1)
-                {
-                    return calc_sq_distance(x, y, x2, y2);
-                }
+            {
+                return calc_sq_distance(x, y, x2, y2);
+            }
             return calc_sq_distance(x, y, x1 + u * (x2 - x1), y1 + u * (y2 - y1));
         }
 
@@ -177,7 +168,6 @@ namespace PixelFarm.Agg
                    ((x4 - x2) * dy1 - (y4 - y2) * dx1 < 0.0) &&
                    ((x1 - x4) * dy2 - (y1 - y4) * dx2 < 0.0) !=
                    ((x2 - x4) * dy2 - (y2 - y4) * dx2 < 0.0);
-
             // It's is more expensive but more flexible 
             // in terms of boundary conditions.
             //--------------------
@@ -252,7 +242,6 @@ namespace PixelFarm.Agg
             double y = st[0].y;
             double xs = x;
             double ys = y;
-
             int j = st.Count;
             for (i = 1; i < j; i++)
             {
@@ -343,7 +332,6 @@ namespace PixelFarm.Agg
             64731,64763,64796,64828,64861,64893,64925,64957,64990,65022,65054,65086,65119,65151,
             65183,65215,65247,65279,65312,65344,65376,65408,65440,65472,65504
         };
-
         public static byte[] g_elder_bit_table = //---------g_elder_bit_table
         {
             0,0,1,1,2,2,2,2,3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,
@@ -355,7 +343,6 @@ namespace PixelFarm.Agg
             7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
             7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7
         };
-
         //---------------------------------------------------------------fast_sqrt
         //Fast integer Sqrt - really fast: no cycles, divisions or multiplications
         public static int fast_sqrt(int val)
@@ -365,7 +352,6 @@ namespace PixelFarm.Agg
             int t = val;
             int bit = 0;
             int shift = 11;
-
             //The following piece of code is just an emulation of the
             //Ix86 assembler command "bsr" (see above). However on old
             //Intels (like Intel MMX 233MHz) this code is about twice 
@@ -457,7 +443,7 @@ namespace PixelFarm.Agg
             }
 
             // Apply recurrence down from current max order
-            for (; ; )
+            for (;;)
             {
                 double c3 = 0;
                 double c2 = 1E-30;

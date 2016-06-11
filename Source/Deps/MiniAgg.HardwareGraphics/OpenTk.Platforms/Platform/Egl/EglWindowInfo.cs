@@ -30,7 +30,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.Diagnostics;
 using OpenTK.Graphics;
-
 namespace OpenTK.Platform.Egl
 {
     // Holds information about an EGL window.
@@ -42,7 +41,6 @@ namespace OpenTK.Platform.Egl
         IntPtr display;
         IntPtr surface;
         bool disposed;
-
         #endregion
 
         #region Constructiors
@@ -72,14 +70,11 @@ namespace OpenTK.Platform.Egl
 
         public void CreateWindowSurface(IntPtr config)
         {
-
             int[] eglSurfaceConfigs = new int[]{ 
                 //key,value
                 AngleProjectEglConfig.EGL_POST_SUB_BUFFER_SUPPORTED_NV,1,
-
                 Egl.NONE//end config array with zero
             };
-
             Surface = Egl.CreateWindowSurface(Display, config, Handle, eglSurfaceConfigs);
             int error = Egl.GetError();
             if (error != Egl.SUCCESS)

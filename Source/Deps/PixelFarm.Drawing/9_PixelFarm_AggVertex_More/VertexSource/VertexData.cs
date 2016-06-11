@@ -17,12 +17,11 @@
 //          mcseemagg@yahoo.com
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
+
 using System.Collections.Generic;
 using PixelFarm.VectorMath;
-
 namespace PixelFarm.Agg
 {
-    
     public struct VertexData
     {
         public VertexCmd command;
@@ -60,6 +59,4 @@ namespace PixelFarm.Agg
         }
 #endif
     }
-
-
 }

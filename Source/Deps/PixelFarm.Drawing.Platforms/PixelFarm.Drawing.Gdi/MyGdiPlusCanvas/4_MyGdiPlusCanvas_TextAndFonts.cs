@@ -17,12 +17,10 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Win32;
-
 namespace PixelFarm.Drawing.WinGdi
 {
     partial class MyGdiPlusCanvas
     {
-
         Font currentTextFont = null;
         Color mycurrentTextColor = Color.Black;
         //======================================
@@ -39,18 +37,15 @@ namespace PixelFarm.Drawing.WinGdi
 
         public Size MeasureString(char[] buff, int startAt, int len, Font font)
         {
-
             _characterRanges[0] = new System.Drawing.CharacterRange(0, len);
             _stringFormat.SetMeasurableCharacterRanges(_characterRanges);
             System.Drawing.Font font2 = (System.Drawing.Font)font.InnerFont;
-
             var size = gx.MeasureCharacterRanges(
                 new string(buff, startAt, len),
                 font2,
                 System.Drawing.RectangleF.Empty,
                 _stringFormat)[0].GetBounds(gx).Size;
             return new PixelFarm.Drawing.Size((int)Math.Round(size.Width), (int)Math.Round(size.Height));
-
         }
         /// <summary>
         /// Measure the width and height of string <paramref name="str"/> when drawn on device context HDC
@@ -87,7 +82,6 @@ namespace PixelFarm.Drawing.WinGdi
                 }
             }
             gx.ReleaseHdc(tempDc);
-
             charFit = _charFit[0];
             charFitWidth = charFit > 0 ? _charFitWidth[charFit - 1] : 0;
             return size;
@@ -104,7 +98,6 @@ namespace PixelFarm.Drawing.WinGdi
             }
             set
             {
-
                 this.currentTextFont = value;
             }
         }
@@ -122,7 +115,6 @@ namespace PixelFarm.Drawing.WinGdi
         }
         public override void DrawText(char[] buffer, int x, int y)
         {
-
             var tmpColor = this.internalSolidBrush.Color;
             internalSolidBrush.Color = this.currentTextColor;
             gx.DrawString(new string(buffer),
@@ -143,11 +135,9 @@ namespace PixelFarm.Drawing.WinGdi
                     logicalTextBox.Width,
                     logicalTextBox.Height));
             internalSolidBrush.Color = tmpColor;
-
         }
         public override void DrawText(char[] str, int startAt, int len, Rectangle logicalTextBox, int textAlignment)
         {
-
             //var intersectRect = Rectangle.Intersect(logicalTextBox,
             //    new Rectangle(currentClipRect.Left,
             //        currentClipRect.Top,
@@ -170,14 +160,12 @@ namespace PixelFarm.Drawing.WinGdi
                 internalSolidBrush,
                 logicalTextBox.X,
                 logicalTextBox.Y);
-
             //new System.Drawing.RectangleF(
             //    logicalTextBox.X,
             //    logicalTextBox.Y,
             //    logicalTextBox.Width,
             //    logicalTextBox.Height));
             internalSolidBrush.Color = tmpColor;
-
             //var str= new string(
             //fixed (char* startAddr = &str[0])
             //{

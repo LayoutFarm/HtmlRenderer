@@ -17,11 +17,10 @@
 //          mcseemagg@yahoo.com
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
-using System;
 
+using System;
 namespace PixelFarm.Agg.Transform
 {
-
     //============================================span_interpolator_persp_lerp
 
     public sealed class SpanInterpolatorPerspectiveLerp : ISpanInterpolator
@@ -32,10 +31,8 @@ namespace PixelFarm.Agg.Transform
         LineInterpolatorDDA2 m_coord_y;
         LineInterpolatorDDA2 m_scale_x;
         LineInterpolatorDDA2 m_scale_y;
-
         const int SUBPIXEL_SHIFT = 8;
         const int SUBPIXEL_SCALE = 1 << SUBPIXEL_SHIFT;
-
         //--------------------------------------------------------------------
         public SpanInterpolatorPerspectiveLerp()
         {
@@ -118,11 +115,9 @@ namespace PixelFarm.Agg.Transform
             m_trans_dir.Transform(ref xt, ref yt);
             int x1 = AggBasics.iround(xt * SUBPIXEL_SCALE);
             int y1 = AggBasics.iround(yt * SUBPIXEL_SCALE);
-
             double dx;
             double dy;
             double delta = 1 / (double)SUBPIXEL_SCALE;
-
             // Calculate scale by X at x1,y1
             dx = xt + delta;
             dy = yt;
@@ -130,7 +125,6 @@ namespace PixelFarm.Agg.Transform
             dx -= x;
             dy -= y;
             int sx1 = (int)AggBasics.uround(SUBPIXEL_SCALE / Math.Sqrt(dx * dx + dy * dy)) >> SUBPIXEL_SHIFT;
-
             // Calculate scale by Y at x1,y1
             dx = xt;
             dy = yt + delta;
@@ -138,7 +132,6 @@ namespace PixelFarm.Agg.Transform
             dx -= x;
             dy -= y;
             int sy1 = (int)AggBasics.uround(SUBPIXEL_SCALE / Math.Sqrt(dx * dx + dy * dy)) >> SUBPIXEL_SHIFT;
-
             // Calculate transformed coordinates at x2,y2 
             x += len;
             xt = x;
@@ -146,7 +139,6 @@ namespace PixelFarm.Agg.Transform
             m_trans_dir.Transform(ref xt, ref yt);
             int x2 = AggBasics.iround(xt * SUBPIXEL_SCALE);
             int y2 = AggBasics.iround(yt * SUBPIXEL_SCALE);
-
             // Calculate scale by X at x2,y2
             dx = xt + delta;
             dy = yt;
@@ -154,7 +146,6 @@ namespace PixelFarm.Agg.Transform
             dx -= x;
             dy -= y;
             int sx2 = (int)AggBasics.uround(SUBPIXEL_SCALE / Math.Sqrt(dx * dx + dy * dy)) >> SUBPIXEL_SHIFT;
-
             // Calculate scale by Y at x2,y2
             dx = xt;
             dy = yt + delta;
@@ -162,7 +153,6 @@ namespace PixelFarm.Agg.Transform
             dx -= x;
             dy -= y;
             int sy2 = (int)AggBasics.uround(SUBPIXEL_SCALE / Math.Sqrt(dx * dx + dy * dy)) >> SUBPIXEL_SHIFT;
-
             // Initialize the interpolators
             m_coord_x = new LineInterpolatorDDA2(x1, x2, (int)len);
             m_coord_y = new LineInterpolatorDDA2(y1, y2, (int)len);
@@ -179,18 +169,15 @@ namespace PixelFarm.Agg.Transform
             int y1 = m_coord_y.Y;
             int sx1 = m_scale_x.Y;
             int sy1 = m_scale_y.Y;
-
             // Calculate transformed coordinates at x2,y2 
             double xt = xe;
             double yt = ye;
             m_trans_dir.Transform(ref xt, ref yt);
             int x2 = AggBasics.iround(xt * SUBPIXEL_SCALE);
             int y2 = AggBasics.iround(yt * SUBPIXEL_SCALE);
-
             double delta = 1 / (double)SUBPIXEL_SCALE;
             double dx;
             double dy;
-
             // Calculate scale by X at x2,y2
             dx = xt + delta;
             dy = yt;
@@ -198,7 +185,6 @@ namespace PixelFarm.Agg.Transform
             dx -= xe;
             dy -= ye;
             int sx2 = (int)AggBasics.uround(SUBPIXEL_SCALE / Math.Sqrt(dx * dx + dy * dy)) >> SUBPIXEL_SHIFT;
-
             // Calculate scale by Y at x2,y2
             dx = xt;
             dy = yt + delta;
@@ -206,7 +192,6 @@ namespace PixelFarm.Agg.Transform
             dx -= xe;
             dy -= ye;
             int sy2 = (int)AggBasics.uround(SUBPIXEL_SCALE / Math.Sqrt(dx * dx + dy * dy)) >> SUBPIXEL_SHIFT;
-
             // Initialize the interpolators
             m_coord_x = new LineInterpolatorDDA2(x1, x2, (int)len);
             m_coord_y = new LineInterpolatorDDA2(y1, y2, (int)len);
@@ -218,7 +203,7 @@ namespace PixelFarm.Agg.Transform
             get { throw new System.NotImplementedException(); }
             set { throw new System.NotImplementedException(); }
         }
-       
+
 
         //----------------------------------------------------------------
         public void Next()

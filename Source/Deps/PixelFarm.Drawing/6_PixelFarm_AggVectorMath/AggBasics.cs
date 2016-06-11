@@ -19,13 +19,10 @@
 //----------------------------------------------------------------------------
 //#define USE_UNSAFE // no real code for this yet
 
-using System; 
+using System;
 using PixelFarm.VectorMath;
-
 namespace PixelFarm.Agg
 {
-    
-
     public static class AggBasics
     {
         public static bool is_equal_eps(double v1, double v2, double epsilon)

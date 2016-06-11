@@ -33,7 +33,6 @@ using OpenTK.Input;
 using System.Security;
 using Microsoft.Win32;
 using System.Diagnostics;
-
 namespace OpenTK.Platform.Windows
 {
     sealed class WinMMJoystick : IJoystickDriver
@@ -42,14 +41,12 @@ namespace OpenTK.Platform.Windows
 
         List<JoystickDevice> sticks = new List<JoystickDevice>();
         IList<JoystickDevice> sticks_readonly;
-
         // Todo: Read the joystick name from the registry.
         //static readonly string RegistryJoyConfig = @"Joystick%dConfiguration";
         //static readonly string RegistryJoyName = @"Joystick%dOEMName";
         //static readonly string RegstryJoyCurrent = @"CurrentJoystickSettings";
 
         bool disposed;
-
         #endregion
 
         #region Constructors
@@ -57,7 +54,6 @@ namespace OpenTK.Platform.Windows
         public WinMMJoystick()
         {
             sticks_readonly = sticks.AsReadOnly();
-
             // WinMM supports up to 16 joysticks.
             int number = 0;
             while (number < UnsafeNativeMethods.joyGetNumDevs())
@@ -77,19 +73,15 @@ namespace OpenTK.Platform.Windows
         JoystickDevice<WinMMJoyDetails> OpenJoystick(int number)
         {
             JoystickDevice<WinMMJoyDetails> stick = null;
-
             JoyCaps caps;
             JoystickError result = UnsafeNativeMethods.joyGetDevCaps(number, out caps, JoyCaps.SizeInBytes);
             if (result != JoystickError.NoError)
                 return null;
-
             int num_axes = caps.NumAxes;
             if ((caps.Capabilities & JoystCapsFlags.HasPov) != 0)
                 num_axes += 2;
-
-            stick = new JoystickDevice<WinMMJoyDetails>(number, num_axes, caps.NumButtons);            
+            stick = new JoystickDevice<WinMMJoyDetails>(number, num_axes, caps.NumButtons);
             stick.Details = new WinMMJoyDetails(num_axes);
-
             // Make sure to reverse the vertical axes, so that +1 points up and -1 points down.
             int axis = 0;
             if (axis < caps.NumAxes)
@@ -155,11 +147,9 @@ namespace OpenTK.Platform.Windows
                 info.Size = JoyInfoEx.SizeInBytes;
                 info.Flags = JoystickFlags.All;
                 UnsafeNativeMethods.joyGetPosEx(js.Id, ref info);
-
                 int num_axes = js.Axis.Count;
                 if ((js.Details.PovType & PovType.Exists) != 0)
                     num_axes -= 2; // Because the last two axis are used for POV input.
-
                 int axis = 0;
                 if (axis < num_axes)
                 { js.SetAxis((JoystickAxis)axis, js.Details.CalculateOffset((float)info.XPos, axis)); axis++; }
@@ -177,7 +167,6 @@ namespace OpenTK.Platform.Windows
                 if ((js.Details.PovType & PovType.Exists) != 0)
                 {
                     float x = 0, y = 0;
-
                     // A discrete POV returns specific values for left, right, etc.
                     // A continuous POV returns an integer indicating an angle in degrees * 100, e.g. 18000 == 180.00 degrees.
                     // The vast majority of joysticks have discrete POVs, so we'll treat all of them as discrete for simplicity.
@@ -191,7 +180,7 @@ namespace OpenTK.Platform.Windows
                         { y = -1; }
                         if (info.Pov > (int)JoystickPovPosition.Backward)
                         { x = -1; }
-                    }  
+                    }
                     //if ((js.Details.PovType & PovType.Discrete) != 0)
                     //{
                     //    if ((JoystickPovPosition)info.Pov == JoystickPovPosition.Centered)
@@ -339,9 +328,7 @@ namespace OpenTK.Platform.Windows
             public string RegKey;
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)]
             public string OemVxD;
-
             public static readonly int SizeInBytes;
-
             static JoyCaps()
             {
                 SizeInBytes = Marshal.SizeOf(default(JoyCaps));
@@ -364,9 +351,7 @@ namespace OpenTK.Platform.Windows
             public int Pov;
             uint Reserved1;
             uint Reserved2;
-
             public static readonly int SizeInBytes;
-
             static JoyInfoEx()
             {
                 SizeInBytes = Marshal.SizeOf(default(JoyInfoEx));
@@ -404,7 +389,6 @@ namespace OpenTK.Platform.Windows
         {
             public readonly float[] Min, Max; // Minimum and maximum offset of each axis.
             public PovType PovType;
-
             public WinMMJoyDetails(int num_axes)
             {
                 Min = new float[num_axes];

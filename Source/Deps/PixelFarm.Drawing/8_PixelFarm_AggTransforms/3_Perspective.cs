@@ -17,8 +17,8 @@
 // Perspective 2D transformations
 //
 //----------------------------------------------------------------------------
-using System;
 
+using System;
 namespace PixelFarm.Agg.Transform
 {
     //=======================================================trans_perspective
@@ -26,7 +26,6 @@ namespace PixelFarm.Agg.Transform
     {
         const double EPSILON = 1e-14;
         double sx, shy, w0, shx, sy, w1, tx, ty, w2;
-
         //------------------------------------------------------- 
         // Identity matrix
         public Perspective()
@@ -96,7 +95,6 @@ namespace PixelFarm.Agg.Transform
                     r[2] = r[4] = x2;
                     r[1] = r[3] = y1;
                     r[5] = r[7] = y2;
-
                     InternalGenerateQuadToQuad(q_h, r);
                 }
             }
@@ -138,7 +136,6 @@ namespace PixelFarm.Agg.Transform
         unsafe bool InternalGenerateQuadToQuad(double* qs_h, double* qdHead)
         {
             Perspective p = new Perspective();
-
             if (!square_to_quad(qs_h))
             {
                 return false;
@@ -449,7 +446,6 @@ namespace PixelFarm.Agg.Transform
         {
             Perspective temp = a;
             temp.multiply(b);
-
             return temp;
         }
 
@@ -542,8 +538,8 @@ namespace PixelFarm.Agg.Transform
             return 1.0 / determinant();
         }
 
-      
-        public bool IsValid 
+
+        public bool IsValid
         {
             get
             {
@@ -555,7 +551,6 @@ namespace PixelFarm.Agg.Transform
 
         bool is_identity()
         {
-
             return AggBasics.is_equal_eps(sx, 1.0, EPSILON) &&
                    AggBasics.is_equal_eps(shy, 0.0, EPSILON) &&
                    AggBasics.is_equal_eps(w0, 0.0, EPSILON) &&
@@ -626,10 +621,9 @@ namespace PixelFarm.Agg.Transform
             x = Math.Sqrt(sx * sx + shx * shx);
             y = Math.Sqrt(shy * shy + sy * sy);
         }
-         
+
         public VertexStore TransformToVxs(VertexStoreSnap snap)
         {
-
             var vxs = new VertexStore();
             var vsnapIter = snap.GetVertexSnapIter();
             double x, y;
@@ -640,18 +634,14 @@ namespace PixelFarm.Agg.Transform
                 this.Transform(ref x, ref y);
                 vxs.AddVertex(x, y, cmd);
             } while (!VertexHelper.IsEmpty(cmd));
-
             return vxs;
         }
         public VertexStore TransformToVxs(VertexStore src)
         {
-
-
             VertexCmd cmd;
             double x, y;
             int count = src.Count;
             var vxs = new VertexStore(count);
-
             for (int i = 0; i < count; ++i)
             {
                 cmd = src.GetVertex(i, out x, out y);

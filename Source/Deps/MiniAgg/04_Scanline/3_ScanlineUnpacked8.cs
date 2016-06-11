@@ -108,7 +108,6 @@ namespace PixelFarm.Agg
     //------------------------------------------------------------------------
     public sealed class ScanlineUnpacked8 : Scanline
     {
-
         int minX;
         public ScanlineUnpacked8()
         {
@@ -129,11 +128,9 @@ namespace PixelFarm.Agg
         {
             x -= minX;
             m_covers[x] = (byte)cover;
-
             if (x == last_x + 1)
             {
                 m_spans[last_span_index].len++;
-
             }
             else
             {
@@ -159,7 +156,6 @@ namespace PixelFarm.Agg
             }
             else
             {
-
                 last_span_index++;
                 m_spans[last_span_index] = new ScanlineSpan(x + minX, len, x);
                 //m_spans[last_span_index].x = x + minX;

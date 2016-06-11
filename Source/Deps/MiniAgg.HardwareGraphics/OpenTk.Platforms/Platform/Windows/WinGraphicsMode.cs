@@ -31,10 +31,8 @@ using System.Text;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-
 using OpenTK.Graphics;
 using ColorDepth = OpenTK.Graphics.ColorFormat;
-
 namespace OpenTK.Platform.Windows
 {
     internal class WinGraphicsMode : IGraphicsMode
@@ -45,7 +43,6 @@ namespace OpenTK.Platform.Windows
 
         // To avoid recursion when calling GraphicsMode.Default
         bool creating;
-
         #endregion
 
         #region --- Constructors ---
@@ -93,7 +90,6 @@ namespace OpenTK.Platform.Windows
             {
                 IntPtr deviceContext = ((WinWindowInfo)window).DeviceContext;
                 Debug.WriteLine(String.Format("Device context: {0}", deviceContext));
-
                 Debug.Write("Selecting pixel format... ");
                 PixelFormatDescriptor pixelFormat = new PixelFormatDescriptor();
                 pixelFormat.Size = API.PixelFormatDescriptorSize;
@@ -102,13 +98,11 @@ namespace OpenTK.Platform.Windows
                     PixelFormatDescriptorFlags.SUPPORT_OPENGL |
                     PixelFormatDescriptorFlags.DRAW_TO_WINDOW;
                 pixelFormat.ColorBits = (byte)(color.Red + color.Green + color.Blue);
-
                 pixelFormat.PixelType = color.IsIndexed ? PixelType.INDEXED : PixelType.RGBA;
                 pixelFormat.RedBits = (byte)color.Red;
                 pixelFormat.GreenBits = (byte)color.Green;
                 pixelFormat.BlueBits = (byte)color.Blue;
                 pixelFormat.AlphaBits = (byte)color.Alpha;
-
                 if (accum.BitsPerPixel > 0)
                 {
                     pixelFormat.AccumBits = (byte)(accum.Red + accum.Green + accum.Blue);
@@ -120,15 +114,12 @@ namespace OpenTK.Platform.Windows
 
                 pixelFormat.DepthBits = (byte)depth;
                 pixelFormat.StencilBits = (byte)stencil;
-
                 if (depth <= 0) pixelFormat.Flags |= PixelFormatDescriptorFlags.DEPTH_DONTCARE;
                 if (stereo) pixelFormat.Flags |= PixelFormatDescriptorFlags.STEREO;
                 if (buffers > 1) pixelFormat.Flags |= PixelFormatDescriptorFlags.DOUBLEBUFFER;
-
                 int pixel = Functions.ChoosePixelFormat(deviceContext, ref pixelFormat);
                 if (pixel == 0)
                     throw new GraphicsModeException("The requested GraphicsMode is not available.");
-
                 // Find out what we really got as a format:
                 PixelFormatDescriptor pfd = new PixelFormatDescriptor();
                 pixelFormat.Size = API.PixelFormatDescriptorSize;
@@ -142,7 +133,6 @@ namespace OpenTK.Platform.Windows
                     new ColorDepth(pfd.AccumBits),
                     (pfd.Flags & PixelFormatDescriptorFlags.DOUBLEBUFFER) != 0 ? 2 : 1,
                     (pfd.Flags & PixelFormatDescriptorFlags.STEREO) != 0);
-
                 return fmt;
             }
         }
@@ -158,7 +148,6 @@ namespace OpenTK.Platform.Windows
             using (IGraphicsContext context = new GraphicsContext(new GraphicsMode(new ColorFormat(), 0, 0, 0, new ColorFormat(), 2, false), native_window.WindowInfo, 1, 0, GraphicsContextFlags.Default))
             {
                 WinWindowInfo window = (WinWindowInfo)native_window.WindowInfo;
-
                 // See http://www.opengl.org/registry/specs/ARB/wgl_pixel_format.txt
                 // for more details
                 Debug.Write("Selecting pixel format (ARB)... ");
@@ -171,60 +160,47 @@ namespace OpenTK.Platform.Windows
                 int[] attribs = new int[]
                 {
                     (int)WGL_ARB_pixel_format.AccelerationArb,
-
                     (int)WGL_ARB_pixel_format.RedBitsArb,
                     (int)WGL_ARB_pixel_format.GreenBitsArb,
                     (int)WGL_ARB_pixel_format.BlueBitsArb,
                     (int)WGL_ARB_pixel_format.AlphaBitsArb,
                     (int)WGL_ARB_pixel_format.ColorBitsArb,
-                    
                     (int)WGL_ARB_pixel_format.DepthBitsArb,
                     (int)WGL_ARB_pixel_format.StencilBitsArb,
-                    
                     (int)WGL_ARB_multisample.SampleBuffersArb,
                     (int)WGL_ARB_multisample.SamplesArb,
-
                     (int)WGL_ARB_pixel_format.AccumRedBitsArb,
                     (int)WGL_ARB_pixel_format.AccumGreenBitsArb,
                     (int)WGL_ARB_pixel_format.AccumBlueBitsArb,
                     (int)WGL_ARB_pixel_format.AccumAlphaBitsArb,
                     (int)WGL_ARB_pixel_format.AccumBitsArb,
-
                     (int)WGL_ARB_pixel_format.DoubleBufferArb,
                     (int)WGL_ARB_pixel_format.StereoArb,
                     0
                 };
-
                 int[] values = new int[attribs.Length];
-
                 int[] attribs_values = new int[]
                 {
                     (int)WGL_ARB_pixel_format.AccelerationArb, (int)WGL_ARB_pixel_format.FullAccelerationArb,
                     (int)WGL_ARB_pixel_format.DrawToWindowArb, 1,
-
                     (int)WGL_ARB_pixel_format.RedBitsArb, color.Red,
                     (int)WGL_ARB_pixel_format.GreenBitsArb, color.Green,
                     (int)WGL_ARB_pixel_format.BlueBitsArb, color.Blue,
                     (int)WGL_ARB_pixel_format.AlphaBitsArb, color.Alpha,
                     (int)WGL_ARB_pixel_format.ColorBitsArb, color.BitsPerPixel - color.Alpha, // Should not contain alpha bpp (see spec)
-                    
                     (int)WGL_ARB_pixel_format.DepthBitsArb, depth,
                     (int)WGL_ARB_pixel_format.StencilBitsArb, stencil,
-                    
                     (int)WGL_ARB_multisample.SampleBuffersArb, samples > 0 ? 1 : 0,
                     (int)WGL_ARB_multisample.SamplesArb, samples,
-
                     (int)WGL_ARB_pixel_format.AccumRedBitsArb, accum.Red,
                     (int)WGL_ARB_pixel_format.AccumGreenBitsArb, accum.Green,
                     (int)WGL_ARB_pixel_format.AccumBlueBitsArb, accum.Blue,
                     (int)WGL_ARB_pixel_format.AccumAlphaBitsArb, accum.Alpha,
                     (int)WGL_ARB_pixel_format.AccumBitsArb, accum.BitsPerPixel, // Spec doesn't mention wether alpha bpp should be included...
-
                     (int)WGL_ARB_pixel_format.DoubleBufferArb, buffers > 1 ? 1 : 0,
                     (int)WGL_ARB_pixel_format.StereoArb, stereo ? 1 : 0,
                     0, 0
                 };
-
                 int[] pixel = new int[1], num_formats = new int[1];
                 bool success = Wgl.Arb.ChoosePixelFormat(window.DeviceContext, attribs_values, null, 1, pixel, num_formats);
                 if (!success || num_formats[0] == 0 || pixel[0] == 0)
@@ -249,7 +225,7 @@ namespace OpenTK.Platform.Windows
                     Debug.WriteLine("failed (pixel format attributes could not be determined).");
                     return null;
                 }
-                    
+
                 GraphicsMode mode = new GraphicsMode(new IntPtr(pixel[0]),
                     new ColorDepth(values[1], values[2], values[3], values[4]),
                     values[6],
@@ -258,7 +234,6 @@ namespace OpenTK.Platform.Windows
                     new ColorDepth(values[10], values[11], values[12], values[13]),
                     values[15] == 1 ? 2 : 1,
                     values[16] == 1 ? true : false);
-
                 Debug.WriteLine("success!");
                 return mode;
             }

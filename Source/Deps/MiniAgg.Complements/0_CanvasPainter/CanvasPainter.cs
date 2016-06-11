@@ -18,35 +18,29 @@
 // 
 // Class to output the vertex source of a string as a run of glyphs.
 //----------------------------------------------------------------------------
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-
 using PixelFarm.Agg;
 using PixelFarm.Agg.Image;
 using PixelFarm.Agg.Transform;
 using PixelFarm.Agg.VertexSource;
 using PixelFarm.VectorMath;
 using PixelFarm.Agg.Fonts;
-
-
 namespace PixelFarm.Agg
 {
     public class CanvasPainter
     {
         Graphics2D gx;
         Stroke stroke;
-
         ColorRGBA fillColor;
         ColorRGBA strokeColor;
-
         ScanlinePacked8 scline;
         ScanlineRasterizer sclineRas;
         ScanlineRasToDestBitmapRenderer sclineRasToBmp;
-
         FilterMan filterMan = new FilterMan();
-
         //-------------
         //tools
         //-------------
@@ -54,10 +48,8 @@ namespace PixelFarm.Agg
         Ellipse ellipse = new Ellipse();
         PathWriter lines = new PathWriter();
         RoundedRect roundRect = null;
-       
         MyImageReaderWriter sharedImageWriterReader = new MyImageReaderWriter();
         CurveFlattener curveFlattener = new CurveFlattener();
-
         TextPrinter textPrinter;
         MyTypeFacePrinter stringPrinter = new MyTypeFacePrinter();
         //-------------
@@ -66,11 +58,9 @@ namespace PixelFarm.Agg
             this.gx = graphic2d;
             this.sclineRas = gx.ScanlineRasterizer;
             this.stroke = new Stroke(1);//default
-
             this.scline = graphic2d.ScanlinePacked8;
             this.sclineRasToBmp = graphic2d.ScanlineRasToDestBitmap;
             this.textPrinter = new TextPrinter();
-
         }
         public void Clear(ColorRGBA color)
         {
@@ -133,7 +123,6 @@ namespace PixelFarm.Agg
         /// <param name="color"></param>
         public void Line(double x1, double y1, double x2, double y2, ColorRGBA color)
         {
-
             lines.Clear();
             lines.MoveTo(x1, y1);
             lines.LineTo(x2, y2);
@@ -255,7 +244,7 @@ namespace PixelFarm.Agg
            double x,
            double y)
         {
-            textPrinter.Print(this,text.ToString(), x, y); 
+            textPrinter.Print(this, text.ToString(), x, y);
         }
         //-------------------------------------------------------
 
@@ -271,7 +260,6 @@ namespace PixelFarm.Agg
         }
         public void Fill(VertexStore vxs)
         {
-
             sclineRas.AddPath(vxs);
             sclineRasToBmp.RenderWithColor(this.gx.DestImage, sclineRas, scline, fillColor);
         }
@@ -302,7 +290,6 @@ namespace PixelFarm.Agg
         }
         public void Fill(VertexStore vxs, ISpanGenerator spanGen)
         {
-
             this.sclineRas.AddPath(vxs);
             sclineRasToBmp.RenderWithSpan(this.gx.DestImage, sclineRas, scline, spanGen);
         }
@@ -346,9 +333,7 @@ namespace PixelFarm.Agg
                 new PixelFarm.VectorMath.Vector2(endX, endY),
                 new PixelFarm.VectorMath.Vector2(controlX1, controlY1),
                 new PixelFarm.VectorMath.Vector2(controlX2, controlY2));
-
             vxs = this.stroke.MakeVxs(vxs);
-
             sclineRas.Reset();
             sclineRas.AddPath(vxs);
             //sclineRasToBmp.DrawWithColor(sclineRas, sclinePack8, this.fillColor);
@@ -362,5 +347,4 @@ namespace PixelFarm.Agg
         //---------------- 
 
     }
-
 }

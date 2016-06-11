@@ -17,13 +17,11 @@
 //          mcseemagg@yahoo.com
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
+
 using System;
 using System.Runtime;
-
 using PixelFarm.Agg;
-
 using PixelFarm.VectorMath;
-
 namespace PixelFarm.Agg.Image
 {
     public class ChildImage : ImageReaderWriterBase
@@ -42,7 +40,6 @@ namespace PixelFarm.Agg.Image
                 image.Stride,
                 image.BitDepth,
                 image.BytesBetweenPixelsInclusive);
-          
         }
         public ChildImage(byte[] buffer,
             int bufferOffsetToFirstPixel,
@@ -99,12 +96,11 @@ namespace PixelFarm.Agg.Image
           int bufferOffset,
           int bitsPerPixel)
         {
-            SetDimmensionAndFormat(sourceImage.Width, 
+            SetDimmensionAndFormat(sourceImage.Width,
                 sourceImage.Height,
-                sourceImage.Stride, 
-                bitsPerPixel, 
+                sourceImage.Stride,
+                bitsPerPixel,
                 distanceBetweenPixelsInclusive);
-
             int offset = sourceImage.GetBufferOffsetXY(0, 0);
             byte[] buffer = sourceImage.GetBuffer();
             SetBuffer(buffer, offset + bufferOffset);
@@ -113,8 +109,6 @@ namespace PixelFarm.Agg.Image
         bool Attach(IImageReaderWriter sourceImage, int x1, int y1, int x2, int y2)
         {
             m_ByteBuffer = null;
-
-
             if (x1 > x2 || y1 > y2)
             {
                 throw new Exception("You need to have your x1 and y1 be the lower left corner of your sub image.");
@@ -122,7 +116,7 @@ namespace PixelFarm.Agg.Image
             RectInt boundsRect = new RectInt(x1, y1, x2, y2);
             if (boundsRect.Clip(new RectInt(0, 0, (int)sourceImage.Width - 1, (int)sourceImage.Height - 1)))
             {
-                SetDimmensionAndFormat(boundsRect.Width, boundsRect.Height, sourceImage.Stride , sourceImage.BitDepth, sourceImage.BytesBetweenPixelsInclusive);
+                SetDimmensionAndFormat(boundsRect.Width, boundsRect.Height, sourceImage.Stride, sourceImage.BitDepth, sourceImage.BytesBetweenPixelsInclusive);
                 int bufferOffset = sourceImage.GetBufferOffsetXY(boundsRect.Left, boundsRect.Bottom);
                 byte[] buffer = sourceImage.GetBuffer();
                 SetBuffer(buffer, bufferOffset);
@@ -136,7 +130,6 @@ namespace PixelFarm.Agg.Image
         {
             int height = this.Height;
             int strideInBytes = this.Stride;
-
             if (byteBuffer.Length < height * strideInBytes)
             {
                 throw new Exception("Your buffer does not have enough room it it for your height and strideInBytes.");
@@ -150,6 +143,5 @@ namespace PixelFarm.Agg.Image
             }
             SetUpLookupTables();
         }
-        
     }
 }

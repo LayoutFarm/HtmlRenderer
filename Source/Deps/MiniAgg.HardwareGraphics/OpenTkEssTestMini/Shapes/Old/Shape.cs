@@ -7,12 +7,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 using System.Runtime.InteropServices;
 using System.Drawing;
-
 using OpenTK;
-
 namespace Examples.Shapes
 {
     public abstract class Shape
@@ -21,7 +18,6 @@ namespace Examples.Shapes
         private Vector2[] texcoords;
         private int[] indices;
         private int[] colors;
-
         public Vector3[] Vertices
         {
             get { return vertices; }

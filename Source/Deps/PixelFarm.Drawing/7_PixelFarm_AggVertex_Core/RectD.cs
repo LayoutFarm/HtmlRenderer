@@ -1,17 +1,15 @@
 ﻿//2014,2015 BSD,WinterDev   
+
 using System;
-using System.Collections.Generic; 
+using System.Collections.Generic;
 using System.Text;
 using PixelFarm.VectorMath;
-
 namespace PixelFarm.Agg
 {
     public struct RectD
     {
         public double Left, Bottom, Right, Top;
-
         public static readonly RectD ZeroIntersection = new RectD(double.MaxValue, double.MaxValue, double.MinValue, double.MinValue);
-
         public RectD(double left, double bottom, double right, double top)
         {
             this.Left = left;
@@ -149,12 +147,10 @@ namespace PixelFarm.Agg
             Bottom = rectToCopy.Bottom;
             Right = rectToCopy.Right;
             Top = rectToCopy.Top;
-
             if (Left < rectToIntersectWith.Left) Left = rectToIntersectWith.Left;
             if (Bottom < rectToIntersectWith.Bottom) Bottom = rectToIntersectWith.Bottom;
             if (Right > rectToIntersectWith.Right) Right = rectToIntersectWith.Right;
             if (Top > rectToIntersectWith.Top) Top = rectToIntersectWith.Top;
-
             if (Left < Right && Bottom < Top)
             {
                 return true;
@@ -169,7 +165,6 @@ namespace PixelFarm.Agg
             if (Bottom < rectToIntersectWith.Bottom) Bottom = rectToIntersectWith.Bottom;
             if (Right > rectToIntersectWith.Right) Right = rectToIntersectWith.Right;
             if (Top > rectToIntersectWith.Top) Top = rectToIntersectWith.Top;
-
             if (Left < Right && Bottom < Top)
             {
                 return true;
@@ -242,7 +237,7 @@ namespace PixelFarm.Agg
             get { return (Right - Left) / 2; }
         }
 
-        
+
 
         public override string ToString()
         {

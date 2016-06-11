@@ -1,9 +1,9 @@
 ﻿// 2015,2014 ,MIT, WinterDev 
+
 using System;
-using System.Collections.Generic; 
+using System.Collections.Generic;
 using System.Text;
 using System.IO;
-
 namespace PixelFarm.Agg.VertexSource
 {
 #if DEBUG
@@ -72,7 +72,6 @@ namespace PixelFarm.Agg.VertexSource
                 out num_vertice,
                 out coord_xy,
                 out cmds);
-
             //write to binary format ?
             //1.  
             writer.Write(num_alloc_vertice);//hint
@@ -80,7 +79,7 @@ namespace PixelFarm.Agg.VertexSource
             writer.Write(num_vertice); //actual vertices
             //3. all vertice
             int totalCoord = num_vertice << 1;
-            for (int i = 0; i < totalCoord; )
+            for (int i = 0; i < totalCoord;)
             {
                 writer.Write(coord_xy[i]);//x
                 i++;
@@ -112,11 +111,9 @@ namespace PixelFarm.Agg.VertexSource
             }
             writer.Write((int)0);
             writer.Flush();
-
         }
         public static void WritePathIndexListToStream(BinaryWriter writer, int[] pathIndice, int len)
         {
-
             //1.
             writer.Write(len);
             for (int i = 0; i < len; ++i)
@@ -125,7 +122,6 @@ namespace PixelFarm.Agg.VertexSource
             }
             writer.Write((int)0);
             writer.Flush();
-
         }
         public static void ReadPathDataFromStream(BinaryReader reader, out PathWriter newPath)
         {
@@ -139,8 +135,7 @@ namespace PixelFarm.Agg.VertexSource
             double[] coord_xy = new double[totalCoord];
             //4.
             VertexCmd[] cmds = new VertexCmd[num_vertice];
-
-            for (int i = 0; i < totalCoord; )
+            for (int i = 0; i < totalCoord;)
             {
                 coord_xy[i] = reader.ReadDouble();
                 i++;
@@ -161,7 +156,6 @@ namespace PixelFarm.Agg.VertexSource
                 coord_xy,
                 cmds);
             int end = reader.ReadInt32();
-
         }
 
         public static void ReadColorDataFromStream(BinaryReader reader, out PixelFarm.Agg.ColorRGBA[] colors)

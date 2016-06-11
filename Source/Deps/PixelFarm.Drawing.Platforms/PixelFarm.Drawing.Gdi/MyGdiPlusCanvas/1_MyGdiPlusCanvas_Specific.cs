@@ -17,14 +17,10 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Win32;
-
 namespace PixelFarm.Drawing.WinGdi
 {
-
     partial class MyGdiPlusCanvas : Canvas, IFonts, IDisposable
     {
-
-         
         bool isDisposed;
         System.Drawing.Graphics gx;
         Stack<System.Drawing.Rectangle> clipRectStack = new Stack<System.Drawing.Rectangle>();
@@ -43,27 +39,21 @@ namespace PixelFarm.Drawing.WinGdi
             int width,
             int height)
         {
-
             //platform specific Win32
             //1.
             this.platform = platform;
             this.targetGfx = this.gx = targetGfx;
-
             //2. dimension
             this.left = left;
             this.top = top;
             this.right = left + width;
-            this.bottom = top + height; 
-
+            this.bottom = top + height;
             currentClipRect = new System.Drawing.Rectangle(0, 0, width, height);
-
             var fontInfo = platform.GetFont("tahoma", 10, FontStyle.Regular);
             this.CurrentFont = defaultFont = fontInfo.ResolvedFont;
             this.CurrentTextColor = Color.Black;
-
             internalPen = new System.Drawing.Pen(System.Drawing.Color.Black);
             internalSolidBrush = new System.Drawing.SolidBrush(System.Drawing.Color.Black);
-
 #if DEBUG
             debug_canvas_id = dbug_canvasCount + 1;
             dbug_canvasCount += 1;
@@ -74,7 +64,6 @@ namespace PixelFarm.Drawing.WinGdi
         public override string ToString()
         {
             return "visible_clip" + this.gx.VisibleClipBounds.ToString();
-
         }
 
         public override void CloseCanvas()
@@ -85,7 +74,6 @@ namespace PixelFarm.Drawing.WinGdi
             }
 
             isDisposed = true;
-
             ReleaseUnManagedResource();
         }
         /// <summary>
@@ -178,18 +166,11 @@ namespace PixelFarm.Drawing.WinGdi
         /// The string format to use for measuring strings for GDI+ text rendering
         /// </summary>
         static readonly System.Drawing.StringFormat _stringFormat;
-
         const int CANVAS_UNUSED = 1 << (1 - 1);
         const int CANVAS_DIMEN_CHANGED = 1 << (2 - 1);
-
-
         static System.Drawing.Font defaultGdiFont;
         static IntPtr defaultHFont;
-
-
         Font defaultFont;
-
-
         static MyGdiPlusCanvas()
         {
             _stringFormat = new System.Drawing.StringFormat(System.Drawing.StringFormat.GenericDefault);
@@ -214,7 +195,7 @@ namespace PixelFarm.Drawing.WinGdi
         {
             return System.Drawing.Color.FromArgb(c.A, c.R, c.G, c.B);
         }
-         
+
 
         //debug
 #if DEBUG
@@ -262,6 +243,5 @@ namespace PixelFarm.Drawing.WinGdi
         //    currentClipRect = intersectResult;
         //    return true;
         //}
-
     }
 }

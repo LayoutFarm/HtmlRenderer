@@ -1,18 +1,15 @@
 ﻿// 2015,2014 ,MIT, WinterDev
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-
 using System.Text;
 using PixelFarm.Agg;
 using PixelFarm.Agg.VertexSource;
-
 namespace PixelFarm.DrawingGL
 {
-
     partial class CanvasGL2d
     {
-
         static double DegToRad(double degree)
         {
             return degree * (Math.PI / 180d);
@@ -31,7 +28,6 @@ namespace PixelFarm.DrawingGL
             arr[2] = x + w; arr[3] = y;
             arr[4] = x + w; arr[5] = y + h;
             arr[6] = x; arr[7] = y + h;
-
             indices[0] = 0; indices[1] = 1; indices[2] = 2;
             indices[3] = 2; indices[4] = 3; indices[5] = 0;
         }
@@ -42,11 +38,9 @@ namespace PixelFarm.DrawingGL
             arr[0] = x; arr[1] = y;
             arr[2] = x + w; arr[3] = y;
             arr[4] = x + w; arr[5] = y + h;
-
             arr[6] = x + w; arr[7] = y + h;
             arr[8] = x; arr[9] = y + h;
             arr[10] = x; arr[11] = y;
-
         }
 
 
@@ -83,7 +77,6 @@ namespace PixelFarm.DrawingGL
             public double radStartAngle;
             public double radSweepDiff;
             public bool scaleUp;
-
         }
 
         static void ComputeArc2(double x0, double y0,
@@ -93,7 +86,6 @@ namespace PixelFarm.DrawingGL
                              bool sweepFlag,
                              double x, double y, ref CenterFormArc result)
         {
-
             //from  SVG1.1 spec
             //----------------------------------
             //step1: Compute (x1dash,y1dash)
@@ -103,13 +95,11 @@ namespace PixelFarm.DrawingGL
             double dy2 = (y0 - y) / 2.0;
             double cosAngle = Math.Cos(xAngleRad);
             double sinAngle = Math.Sin(xAngleRad);
-
             double x1 = (cosAngle * dx2 + sinAngle * dy2);
             double y1 = (-sinAngle * dx2 + cosAngle * dy2);
             // Ensure radii are large enough
             rx = Math.Abs(rx);
             ry = Math.Abs(ry);
-
             double prx = rx * rx;
             double pry = ry * ry;
             double px1 = x1 * x1;
@@ -122,7 +112,6 @@ namespace PixelFarm.DrawingGL
             {
                 rx = Math.Sqrt(radiiCheck) * rx;
                 ry = Math.Sqrt(radiiCheck) * ry;
-
                 prx = rx * rx;
                 pry = ry * ry;
                 result.scaleUp = true;
@@ -137,8 +126,6 @@ namespace PixelFarm.DrawingGL
             double coef = (sign * Math.Sqrt(sq));
             double cx1 = coef * ((rx * y1) / ry);
             double cy1 = coef * -((ry * x1) / rx);
-
-
             //----------------------------------
             //step3:  Compute (cx, cy) from (cx1, cy1)
             //----------------------------------
@@ -146,7 +133,6 @@ namespace PixelFarm.DrawingGL
             double sy2 = (y0 + y) / 2.0;
             double cx = sx2 + (cosAngle * cx1 - sinAngle * cy1);
             double cy = sy2 + (sinAngle * cx1 + cosAngle * cy1);
-
             //----------------------------------
             //step4: Compute theta and anfkediff
             double ux = (x1 - cx1) / rx;
@@ -159,14 +145,11 @@ namespace PixelFarm.DrawingGL
             p = ux; // (1 * ux) + (0 * uy)
             sign = (uy < 0) ? -1d : 1d;
             double angleStart = (sign * Math.Acos(p / n));  // Math.toDegrees(sign * Math.Acos(p / n));
-
             // Compute the angle extent
             n = Math.Sqrt((ux * ux + uy * uy) * (vx * vx + vy * vy));
             p = ux * vx + uy * vy;
             sign = (ux * vy - uy * vx < 0) ? -1d : 1d;
             double angleExtent = (sign * Math.Acos(p / n));// Math.toDegrees(sign * Math.Acos(p / n));
-
-
             //if (!sweepFlag && angleExtent > 0)
             //{
             //    angleExtent -= 360f;
@@ -180,7 +163,6 @@ namespace PixelFarm.DrawingGL
             result.cy = cy;
             result.radStartAngle = angleStart;
             result.radSweepDiff = angleExtent;
-
         }
         static Arc ComputeArc(double x0, double y0,
                               double rx, double ry,
@@ -189,7 +171,6 @@ namespace PixelFarm.DrawingGL
                               bool sweepFlag,
                                double x, double y)
         {
-
             /** 
          * This constructs an unrotated Arc2D from the SVG specification of an 
          * Elliptical arc.  To get the final arc you need to apply a rotation
@@ -209,7 +190,6 @@ namespace PixelFarm.DrawingGL
             angle = ((angle % 360.0) * Math.PI / 180f);
             double cosAngle = Math.Cos(angle);
             double sinAngle = Math.Sin(angle);
-
             //
             // Step 1 : Compute (x1, y1)
             //
@@ -241,7 +221,6 @@ namespace PixelFarm.DrawingGL
             double coef = (sign * Math.Sqrt(sq));
             double cx1 = coef * ((rx * y1) / ry);
             double cy1 = coef * -((ry * x1) / rx);
-
             //
             // Step 3 : Compute (cx, cy) from (cx1, cy1)
             //
@@ -249,7 +228,6 @@ namespace PixelFarm.DrawingGL
             double sy2 = (y0 + y) / 2.0;
             double cx = sx2 + (cosAngle * cx1 - sinAngle * cy1);
             double cy = sy2 + (sinAngle * cx1 + cosAngle * cy1);
-
             //
             // Step 4 : Compute the angleStart (angle1) and the angleExtent (dangle)
             //
@@ -263,7 +241,6 @@ namespace PixelFarm.DrawingGL
             p = ux; // (1 * ux) + (0 * uy)
             sign = (uy < 0) ? -1d : 1d;
             double angleStart = (sign * Math.Acos(p / n));  // Math.toDegrees(sign * Math.Acos(p / n));
-
             // Compute the angle extent
             n = Math.Sqrt((ux * ux + uy * uy) * (vx * vx + vy * vy));
             p = ux * vx + uy * vy;
@@ -294,11 +271,6 @@ namespace PixelFarm.DrawingGL
             arc.Init(x, y, rx, ry, -(angleStart), -(angleExtent));
             return arc;
         }
-
-
-
-
-
 
         //static unsafe void CreateLineCoords(ArrayList<VertexC4V2f> vrx,
         //         PixelFarm.Drawing.Color color,
@@ -334,6 +306,5 @@ namespace PixelFarm.DrawingGL
         //    vrx.AddVertex(new VertexC4V2f(color_uint, x, y));
 
         //}
-
     }
 }

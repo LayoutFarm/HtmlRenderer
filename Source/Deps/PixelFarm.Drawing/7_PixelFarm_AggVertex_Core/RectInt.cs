@@ -1,9 +1,5 @@
-﻿//2014,2015 BSD,WinterDev   
-
+﻿//2014,2015 BSD,WinterDev    
 using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace PixelFarm.Agg
 {
     public struct RectInt
@@ -40,7 +36,7 @@ namespace PixelFarm.Agg
         {
             int t;
             if (Left > Right) { t = Left; Left = Right; Right = t; }
-            if (Bottom > Top) { t = Bottom; Bottom = Top; Top = t; }             
+            if (Bottom > Top) { t = Bottom; Bottom = Top; Top = t; }
         }
 
         public void ExpandToInclude(RectInt rectToInclude)
@@ -76,12 +72,10 @@ namespace PixelFarm.Agg
             Bottom = rectToCopy.Bottom;
             Right = rectToCopy.Right;
             Top = rectToCopy.Top;
-
             if (Left < rectToIntersectWith.Left) Left = rectToIntersectWith.Left;
             if (Bottom < rectToIntersectWith.Bottom) Bottom = rectToIntersectWith.Bottom;
             if (Right > rectToIntersectWith.Right) Right = rectToIntersectWith.Right;
             if (Top > rectToIntersectWith.Top) Top = rectToIntersectWith.Top;
-
             if (Left < Right && Bottom < Top)
             {
                 return true;
@@ -96,7 +90,6 @@ namespace PixelFarm.Agg
             if (Bottom < rectToIntersectWith.Bottom) Bottom = rectToIntersectWith.Bottom;
             if (Right > rectToIntersectWith.Right) Right = rectToIntersectWith.Right;
             if (Top > rectToIntersectWith.Top) Top = rectToIntersectWith.Top;
-
             if (Left < Right && Bottom < Top)
             {
                 return true;
@@ -111,12 +104,10 @@ namespace PixelFarm.Agg
             int y1 = rect1.Bottom;
             int x2 = rect1.Right;
             int y2 = rect1.Top;
-
             if (x1 < rect2.Left) x1 = rect2.Left;
             if (y1 < rect2.Bottom) y1 = rect2.Bottom;
             if (x2 > rect2.Right) x2 = rect2.Right;
             if (y2 > rect2.Top) y2 = rect2.Top;
-
             if (x1 < x2 && y1 < y2)
             {
                 return true;

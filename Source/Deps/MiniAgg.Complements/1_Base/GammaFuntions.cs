@@ -17,11 +17,10 @@
 //          mcseemagg@yahoo.com
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
-using System;
 
+using System;
 namespace PixelFarm.Agg
 {
-
     public struct GammaNone : IGammaFunction
     {
         public float GetGamma(float x) { return x; }
@@ -40,8 +39,6 @@ namespace PixelFarm.Agg
         {
             return (float)Math.Pow(x, m_gamma);
         }
-
-      
     }
 
     //==========================================================gamma_threshold
@@ -58,15 +55,11 @@ namespace PixelFarm.Agg
         {
             return (x < m_threshold) ? 0.0f : 1.0f;
         }
-
-        
     }
 
     //============================================================gamma_linear
     public class GammaLinear : IGammaFunction
     {
-
-
         float m_start;
         float m_end;
         public GammaLinear()
@@ -81,7 +74,7 @@ namespace PixelFarm.Agg
         }
         public float Start { get { return this.m_start; } }
         public float End { get { return this.m_end; } }
-        public void Set(float s, float e) { m_start = s; m_end = e; } 
+        public void Set(float s, float e) { m_start = s; m_end = e; }
 
         public float GetGamma(float x)
         {
@@ -114,7 +107,5 @@ namespace PixelFarm.Agg
             if (y > 1.0) y = 1.0f;
             return y;
         }
-
-        
     }
 }

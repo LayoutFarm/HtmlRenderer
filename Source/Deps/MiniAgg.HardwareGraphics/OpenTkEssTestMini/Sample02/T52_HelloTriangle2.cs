@@ -6,13 +6,11 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Threading;
 using System.Drawing;
-
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.ES20;
 using Examples.Tutorial;
 using Mini;
-
 #endregion
 
 
@@ -50,7 +48,6 @@ namespace OpenTkEssTest
                     gl_FragColor = v_color;
                 }
             ";
-
             if (!shaderProgram.Build(vs, fs))
             {
                 throw new NotSupportedException();
@@ -73,38 +70,28 @@ namespace OpenTkEssTest
             //------------------------------------------------------------------------------------------------
             int width = miniGLControl.Width;
             int height = miniGLControl.Height;
-
             float[] vertices =
             {
                      0.0f,  0.5f, //2d coord
                      1, 0, 0, 0.1f,//r
-
                     -0.5f, -0.5f,  //2d coord
                      0,1,0,0.1f,//g
-
                      0.5f, -0.5f,  //2d corrd
                      0,0,1,0.1f, //b
             };
-
             GL.Viewport(0, 0, width, height);
-
             // Set the viewport 
             GL.Clear(ClearBufferMask.ColorBufferBit);
-        
             shaderProgram.UseProgram();
             // Load the vertex data 
             a_position.LoadV2f(vertices, 6, 0);
             a_color.LoadV3f(vertices, 6, 2);
             //GL.DrawArrays(BeginMode.Triangles, 0, 3);
-            GL.DrawArrays(BeginMode.Points , 0, 3);
-             
-            miniGLControl.SwapBuffers(); 
+            GL.DrawArrays(BeginMode.Points, 0, 3);
+            miniGLControl.SwapBuffers();
         }
         //-------------------------------
         ShaderVtxAttrib a_position;
         ShaderVtxAttrib a_color;
-
     }
-
-
 }

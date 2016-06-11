@@ -23,13 +23,11 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Threading;
 using System.Drawing;
-
 using OpenTK;
-using OpenTK.Graphics; 
+using OpenTK.Graphics;
 using OpenTK.Graphics.ES20;
 using Examples.Tutorial;
 using Mini;
-
 #endregion
 
 namespace OpenTkEssTest
@@ -38,7 +36,6 @@ namespace OpenTkEssTest
     [Info("T45_TextureWrap")]
     public class T45_TextureWrap : PrebuiltGLControlDemoBase
     {
-
         bool isGLInit;
         protected override void OnInitGLProgram(object sender, EventArgs args)
         {
@@ -90,13 +87,11 @@ namespace OpenTkEssTest
             mTexture = ES2Utils2.CreateMipMappedTexture2D();
             //glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
             GL.ClearColor(0, 0, 0, 0);
-
             isGLInit = true;
             this.EnableAnimationTimer = true;
         }
         protected override void OnGLRender(object sender, EventArgs args)
         {
-
             if (!isGLInit)
             {
                 return;
@@ -126,10 +121,8 @@ namespace OpenTkEssTest
                   0.3f,  0.3f, 0.0f, 1.0f, // Position 3
                   2.0f, -1.0f              // TexCoord 3
             };
-
             //GLushort indices[] = { 0, 1, 2, 0, 2, 3 };
             ushort[] indices = new ushort[] { 0, 1, 2, 0, 2, 3 };
-
             //// Set the viewport
             //glViewport(0, 0, getWindow()->getWidth(), getWindow()->getHeight());
             GL.Viewport(0, 0, this.Width, this.Height);
@@ -149,7 +142,6 @@ namespace OpenTkEssTest
 
             unsafe
             {
-
                 fixed (float* h = &vertices[0])
                 {
                     GL.VertexAttribPointer(mTexCoordLoc, 2, VertexAttribPointerType.Float, false, 6 * sizeof(float), (IntPtr)(h + 4));
@@ -169,8 +161,6 @@ namespace OpenTkEssTest
             GL.Uniform1(mOffsetLoc, -0.7f);
             //glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, indices);
             GL.DrawElements(BeginMode.Triangles, 6, DrawElementsType.UnsignedShort, indices);
-
-
             //// Draw quad with clamp to edge wrap mode
             //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.ClampToEdge);
@@ -188,10 +178,8 @@ namespace OpenTkEssTest
             //glUniform1f(mOffsetLoc, 0.7f);
             GL.Uniform1(mOffsetLoc, 0.7f);
             //glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, indices);
-            GL.DrawElements(BeginMode.Triangles,6, DrawElementsType.UnsignedShort,indices);
-
+            GL.DrawElements(BeginMode.Triangles, 6, DrawElementsType.UnsignedShort, indices);
             this.miniGLControl.SwapBuffers();
-
         }
         protected override void DemoClosing()
         {
@@ -200,17 +188,13 @@ namespace OpenTkEssTest
             mProgram = mTexture = 0;
         }
         int mProgram;
-
         // Attribute locations
         int mPositionLoc;
         int mTexCoordLoc;
-
         // Sampler location
         int mSamplerLoc;
-
         // Offset location
         int mOffsetLoc;
-
         // Texture handle
         int mTexture;
     }

@@ -10,9 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Diagnostics;
-
 using OpenTK.Input;
-
 namespace OpenTK.Platform.X11
 {
     internal class X11KeyMap : Dictionary<XKey, Key>
@@ -25,7 +23,6 @@ namespace OpenTK.Platform.X11
                 this.Add(XKey.Return, Key.Enter);
                 this.Add(XKey.space, Key.Space);
                 this.Add(XKey.BackSpace, Key.BackSpace);
-
                 this.Add(XKey.Shift_L, Key.ShiftLeft);
                 this.Add(XKey.Shift_R, Key.ShiftRight);
                 this.Add(XKey.Alt_L, Key.AltLeft);
@@ -36,16 +33,13 @@ namespace OpenTK.Platform.X11
                 this.Add(XKey.Super_R, Key.WinRight);
                 this.Add(XKey.Meta_L, Key.WinLeft);
                 this.Add(XKey.Meta_R, Key.WinRight);
-
                 this.Add(XKey.Menu, Key.Menu);
                 this.Add(XKey.Tab, Key.Tab);
                 this.Add(XKey.minus, Key.Minus);
                 this.Add(XKey.plus, Key.Plus);
                 this.Add(XKey.equal, Key.Plus);
-
                 this.Add(XKey.Caps_Lock, Key.CapsLock);
                 this.Add(XKey.Num_Lock, Key.NumLock);
-
                 for (int i = (int)XKey.F1; i <= (int)XKey.F35; i++)
                 {
                     this.Add((XKey)i, (Key)((int)Key.F1 + (i - (int)XKey.F1)));
@@ -77,7 +71,6 @@ namespace OpenTK.Platform.X11
                 this.Add(XKey.Insert, Key.PrintScreen);
                 this.Add(XKey.Print, Key.PrintScreen);
                 this.Add(XKey.Sys_Req, Key.PrintScreen);
-
                 this.Add(XKey.backslash, Key.BackSlash);
                 this.Add(XKey.bar, Key.BackSlash);
                 this.Add(XKey.braceleft, Key.BracketLeft);
@@ -90,19 +83,16 @@ namespace OpenTK.Platform.X11
                 this.Add(XKey.quotedbl, Key.Quote);
                 this.Add(XKey.quoteleft, Key.Tilde);
                 this.Add(XKey.asciitilde, Key.Tilde);
-
                 this.Add(XKey.comma, Key.Comma);
                 this.Add(XKey.less, Key.Comma);
                 this.Add(XKey.period, Key.Period);
                 this.Add(XKey.greater, Key.Period);
                 this.Add(XKey.slash, Key.Slash);
                 this.Add(XKey.question, Key.Slash);
-
                 this.Add(XKey.Left, Key.Left);
                 this.Add(XKey.Down, Key.Down);
                 this.Add(XKey.Right, Key.Right);
                 this.Add(XKey.Up, Key.Up);
-
                 this.Add(XKey.Delete, Key.Delete);
                 this.Add(XKey.Home, Key.Home);
                 this.Add(XKey.End, Key.End);
@@ -127,7 +117,6 @@ namespace OpenTK.Platform.X11
                 this.Add(XKey.KP_Page_Up, Key.Keypad9);
                 this.Add(XKey.KP_Delete, Key.KeypadDecimal);
                 this.Add(XKey.KP_Enter, Key.KeypadEnter);
-
             }
             catch (ArgumentException e)
             {

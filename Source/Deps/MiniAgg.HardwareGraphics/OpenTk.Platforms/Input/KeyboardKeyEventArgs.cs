@@ -28,7 +28,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 namespace OpenTK.Input
 {
     /// <summary>
@@ -46,7 +45,6 @@ namespace OpenTK.Input
         #region Fields
 
         Key key;
-
         #endregion
 
         #region Constructors

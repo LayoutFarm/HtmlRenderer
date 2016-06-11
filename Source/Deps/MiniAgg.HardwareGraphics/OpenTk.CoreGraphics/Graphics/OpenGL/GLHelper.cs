@@ -13,10 +13,6 @@ using System.Runtime.InteropServices;
 using System.Reflection;
 using System.Diagnostics;
 using System.Reflection.Emit;
-
-
-
-
 #if ENABLE_DESKTOP_OPENGL
 namespace OpenTK.Graphics.OpenGL
 {
@@ -47,14 +43,9 @@ namespace OpenTK.Graphics.OpenGL
     /// <see href="http://opengl.org/registry/"/>
     public sealed partial class GL : GraphicsBindingsBase
     {
-
-
         internal const string Library = "opengl32.dll";
-
         static SortedList<string, bool> AvailableExtensions = new SortedList<string, bool>();
         static readonly object sync_root = new object();
-
-
         static GL()
         {
         }
@@ -849,7 +840,6 @@ namespace OpenTK.Graphics.OpenGL
 
         public static void TexEnv(TextureEnvTarget target, TextureEnvParameter pname, Color4 c)
         {
-
             unsafe
             {
                 TexEnv(target, pname, &c.R);
@@ -932,8 +922,6 @@ namespace OpenTK.Graphics.OpenGL
 #pragma warning restore 1591
 #pragma warning restore 1572
 #pragma warning restore 1573
-
-
     }
 }
 

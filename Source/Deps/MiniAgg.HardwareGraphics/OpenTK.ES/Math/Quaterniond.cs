@@ -40,7 +40,6 @@ namespace OpenTK
 
         Vector3d xyz;
         double w;
-
         #endregion
 
         #region Constructors
@@ -109,7 +108,7 @@ namespace OpenTK
         /// Gets or sets the W component of this instance.
         /// </summary>
         public double W { get { return w; } set { w = value; } }
-        
+
         #endregion
 
         #region Instance
@@ -137,9 +136,7 @@ namespace OpenTK
             Quaterniond q = this;
             if (q.W > 1.0f)
                 q.Normalize();
-
             Vector4d result = new Vector4d();
-
             result.W = 2.0f * (float)System.Math.Acos(q.W); // angle
             float den = (float)System.Math.Sqrt(1.0 - q.W * q.W);
             if (den > 0.0001f)
@@ -225,7 +222,6 @@ namespace OpenTK
         /// Defines the identity quaternion.
         /// </summary>
         public readonly static Quaterniond Identity = new Quaterniond(0, 0, 0, 1);
-
         #endregion
 
         #region Add
@@ -466,14 +462,11 @@ namespace OpenTK
         {
             if (axis.LengthSquared == 0.0f)
                 return Identity;
-
             Quaterniond result = Identity;
-
             angle *= 0.5f;
             axis.Normalize();
             result.Xyz = axis * (double)System.Math.Sin(angle);
             result.W = (double)System.Math.Cos(angle);
-
             return Normalize(result);
         }
 
@@ -506,7 +499,6 @@ namespace OpenTK
 
 
             double cosHalfAngle = q1.W * q2.W + Vector3d.Dot(q1.Xyz, q2.Xyz);
-
             if (cosHalfAngle >= 1.0f || cosHalfAngle <= -1.0f)
             {
                 // angle = 0.0f, so just return one input.
@@ -547,7 +539,7 @@ namespace OpenTK
         #endregion
 
         #endregion
-                
+
         #region Operators
 
         /// <summary>

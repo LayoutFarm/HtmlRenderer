@@ -25,6 +25,7 @@ SOFTWARE.
 using System;
 using System.Runtime.InteropServices;
 //using System.Xml.Serialization;
+
 namespace OpenTK
 {
     /// <summary>Represents a 4D vector using four single-precision floating-point numbers.</summary>
@@ -41,57 +42,46 @@ namespace OpenTK
         /// The X component of the Vector4.
         /// </summary>
         public float X;
-
         /// <summary>
         /// The Y component of the Vector4.
         /// </summary>
         public float Y;
-
         /// <summary>
         /// The Z component of the Vector4.
         /// </summary>
         public float Z;
-
         /// <summary>
         /// The W component of the Vector4.
         /// </summary>
         public float W;
-
         /// <summary>
         /// Defines a unit-length Vector4 that points towards the X-axis.
         /// </summary>
         public static Vector4 UnitX = new Vector4(1, 0, 0, 0);
-
         /// <summary>
         /// Defines a unit-length Vector4 that points towards the Y-axis.
         /// </summary>
         public static Vector4 UnitY = new Vector4(0, 1, 0, 0);
-
         /// <summary>
         /// Defines a unit-length Vector4 that points towards the Z-axis.
         /// </summary>
         public static Vector4 UnitZ = new Vector4(0, 0, 1, 0);
-
         /// <summary>
         /// Defines a unit-length Vector4 that points towards the W-axis.
         /// </summary>
         public static Vector4 UnitW = new Vector4(0, 0, 0, 1);
-
         /// <summary>
         /// Defines a zero-length Vector4.
         /// </summary>
         public static Vector4 Zero = new Vector4(0, 0, 0, 0);
-
         /// <summary>
         /// Defines an instance with all components set to 1.
         /// </summary>
         public static readonly Vector4 One = new Vector4(1, 1, 1, 1);
-
         /// <summary>
         /// Defines the size of the Vector4 struct in bytes.
         /// </summary>
         public static readonly int SizeInBytes = Marshal.SizeOf(new Vector4());
-
         #endregion
 
         #region Constructors
@@ -902,12 +892,10 @@ namespace OpenTK
         public static void BaryCentric(ref Vector4 a, ref Vector4 b, ref Vector4 c, float u, float v, out Vector4 result)
         {
             result = a; // copy
-
             Vector4 temp = b; // copy
             Subtract(ref temp, ref a, out temp);
             Multiply(ref temp, u, out temp);
             Add(ref result, ref temp, out result);
-
             temp = c; // copy
             Subtract(ref temp, ref a, out temp);
             Multiply(ref temp, v, out temp);
@@ -967,7 +955,6 @@ namespace OpenTK
             Quaternion.Invert(ref quat, out i);
             Quaternion.Multiply(ref quat, ref v, out t);
             Quaternion.Multiply(ref t, ref i, out v);
-
             result = new Vector4(v.X, v.Y, v.Z, v.W);
         }
 
@@ -1111,7 +1098,7 @@ namespace OpenTK
         /// <param name="v">The instance.</param>
         /// <returns>A pointer to the first element of v.</returns>
         [CLSCompliant(false)]
-        unsafe public static explicit operator float*(Vector4 v)
+        unsafe public static explicit operator float* (Vector4 v)
         {
             return &v.X;
         }
@@ -1170,7 +1157,6 @@ namespace OpenTK
         {
             if (!(obj is Vector4))
                 return false;
-
             return this.Equals((Vector4)obj);
         }
 

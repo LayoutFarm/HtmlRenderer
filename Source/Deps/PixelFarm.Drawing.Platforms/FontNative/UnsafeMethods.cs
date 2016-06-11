@@ -7,10 +7,8 @@
 //-----------------------------------
 
 using System;
-using System.Runtime.InteropServices; 
- 
-
-namespace PixelFarm.Agg 
+using System.Runtime.InteropServices;
+namespace PixelFarm.Agg
 {
     //--------------------
     //on Windows...
@@ -40,10 +38,8 @@ namespace PixelFarm.Agg
         public static extern bool HeapDestroy(IntPtr hHeap);
         [DllImport("Kernel32.dll")]
         public static extern void CopyMemory(IntPtr dest, IntPtr src, int len);
-
         [DllImport("Kernel32.dll")]
         public static extern void VirtualAlloc(IntPtr address, int size, int flAllocType, int flProtect);
         //----------------------------------------------- 
     }
-
 }

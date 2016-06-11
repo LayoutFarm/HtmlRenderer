@@ -28,7 +28,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 namespace OpenTK.Platform.X11
 {
     /// \internal
@@ -40,7 +39,6 @@ namespace OpenTK.Platform.X11
         int screen;
         XVisualInfo visualInfo;
         EventMask eventMask;
-
         #region --- Constructors ---
 
         #region X11WindowInfo()
@@ -126,7 +124,6 @@ namespace OpenTK.Platform.X11
             if (obj == null) return false;
             if (this.GetType() != obj.GetType()) return false;
             X11WindowInfo info = (X11WindowInfo)obj;
-
             if (info == null) return false;
             // TODO: Assumes windows will have unique handles per X11 display.
             return object.Equals(display, info.display) &&

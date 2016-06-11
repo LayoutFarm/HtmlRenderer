@@ -9,7 +9,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 namespace OpenTK
 {
     /// <summary>
@@ -20,7 +19,6 @@ namespace OpenTK
         #region Fields
 
         IntPtr handle;
-
         /// <summary>
         /// Gets a System.IntPtr that represents the handle of this ContextHandle.
         /// </summary>
@@ -28,7 +26,6 @@ namespace OpenTK
 
         /// <summary>A read-only field that represents a handle that has been initialized to zero.</summary>
         public static readonly ContextHandle Zero = new ContextHandle(IntPtr.Zero);
-
         #endregion
 
         #region Constructors

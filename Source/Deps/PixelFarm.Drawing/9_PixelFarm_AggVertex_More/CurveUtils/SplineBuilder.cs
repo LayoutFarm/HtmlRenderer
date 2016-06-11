@@ -25,8 +25,6 @@ using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Diagnostics;
-
-
 #if SYSTEM_WINDOWS_VECTOR
 using VECTOR = System.Windows.Vector;
 using FLOAT = System.Double;
@@ -53,7 +51,6 @@ namespace burningmime.curves
     {
         private readonly CurveBuilder _builder;      // Underlying curve fitter
         private readonly Spline _spline;             // Underlyig spline
-
         public SplineBuilder(FLOAT pointDistance, FLOAT error, int samplesPerCurve)
         {
             _builder = new CurveBuilder(pointDistance, error);
@@ -68,22 +65,21 @@ namespace burningmime.curves
         public bool Add(VECTOR p)
         {
             CurveBuilder.AddPointResult res = _builder.AddPoint(p);
-            if(!res.WasChanged)
+            if (!res.WasChanged)
                 return false;
-
             // update spline
             ReadOnlyCollection<CubicBezier> curves = _builder.Curves;
-            if(res.WasAdded && curves.Count == 1)
+            if (res.WasAdded && curves.Count == 1)
             {
                 // first curve
                 Debug.Assert(_spline.Curves.Count == 0);
                 _spline.Add(curves[0]);
             }
-            else if(res.WasAdded)
+            else if (res.WasAdded)
             {
                 // split
                 _spline.Update(_spline.Curves.Count - 1, curves[res.FirstChangedIndex]);
-                for(int i = res.FirstChangedIndex + 1; i < curves.Count; i++)
+                for (int i = res.FirstChangedIndex + 1; i < curves.Count; i++)
                     _spline.Add(curves[i]);
             }
             else

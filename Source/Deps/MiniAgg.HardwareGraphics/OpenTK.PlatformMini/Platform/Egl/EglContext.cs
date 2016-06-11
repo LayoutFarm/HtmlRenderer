@@ -26,11 +26,9 @@
 #endregion
 
 using System;
-
 using OpenTK.Graphics;
 using System.Diagnostics;
 using OpenTK.Platform.Windows;
-
 namespace OpenTK.Platform.Egl
 {
     class EglContext : EmbeddedGraphicsContext
@@ -40,7 +38,6 @@ namespace OpenTK.Platform.Egl
         EglWindowInfo WindowInfo;
         IntPtr HandleAsEGLContext { get { return Handle.Handle; } set { Handle = new ContextHandle(value); } }
         bool vsync = true;   // Default vsync value is defined as 1 (true) in EGL.
-
         #endregion
 
         #region Constructors
@@ -52,29 +49,22 @@ namespace OpenTK.Platform.Egl
                 throw new ArgumentNullException("mode");
             if (window == null)
                 throw new ArgumentNullException("window");
-
             EglContext shared = (EglContext)sharedContext;
-
             int dummy_major, dummy_minor;
             if (!Egl.Initialize(window.Display, out dummy_major, out dummy_minor))
                 throw new GraphicsContextException(String.Format("Failed to initialize EGL, error {0}.", Egl.GetError()));
-
             WindowInfo = window;
-
             Mode = new EglGraphicsMode().SelectGraphicsMode(mode.ColorFormat, mode.Depth, mode.Stencil, mode.Samples, mode.AccumulatorFormat, mode.Buffers, mode.Stereo);
             if (!Mode.Index.HasValue)
                 throw new GraphicsModeException("Invalid or unsupported GraphicsMode.");
             IntPtr config = Mode.Index.Value;
-
             if (window.Surface == IntPtr.Zero)
                 window.CreateWindowSurface(config);
-
             int[] attrib_list = new int[] { 
                 //key,value
-                Egl.CONTEXT_CLIENT_VERSION, major, 
+                Egl.CONTEXT_CLIENT_VERSION, major,
                 Egl.NONE };
             HandleAsEGLContext = Egl.CreateContext(window.Display, config, shared != null ? shared.HandleAsEGLContext : IntPtr.Zero, attrib_list);
-
             MakeCurrent(window);
         }
 
@@ -85,7 +75,6 @@ namespace OpenTK.Platform.Egl
                 throw new ArgumentException("handle");
             if (window == null)
                 throw new ArgumentNullException("window");
-
             Handle = handle;
         }
         public EglWindowInfo MyWindowInfo

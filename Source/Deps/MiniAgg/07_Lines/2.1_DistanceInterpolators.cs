@@ -13,8 +13,8 @@
 //          mcseemagg@yahoo.com
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
-using System;
 
+using System;
 namespace PixelFarm.Agg.Lines
 {
     //===================================================distance_interpolator0
@@ -31,7 +31,6 @@ namespace PixelFarm.Agg.Lines
                 m_dy = (LineAA.Mr(y2) - LineAA.Mr(y1));
                 m_dist = ((LineAA.Mr(x + LineAA.SUBPIXEL_SCALE / 2) - LineAA.Mr(x2)) * m_dy -
                        (LineAA.Mr(y + LineAA.SUBPIXEL_SCALE / 2) - LineAA.Mr(y2)) * m_dx);
-
                 m_dx <<= LineAA.MR_SUBPIXEL_SHIFT;
                 m_dy <<= LineAA.MR_SUBPIXEL_SHIFT;
             }
@@ -49,7 +48,6 @@ namespace PixelFarm.Agg.Lines
         int m_dy2;
         int m_dist1;
         int m_dist2;
-
         public DistanceInterpolator00(int xc, int yc,
                                 int x1, int y1, int x2, int y2,
                                 int x, int y)
@@ -62,7 +60,6 @@ namespace PixelFarm.Agg.Lines
                     (LineAA.Mr(y + LineAA.SUBPIXEL_SCALE / 2) - LineAA.Mr(y1)) * m_dx1);
             m_dist2 = ((LineAA.Mr(x + LineAA.SUBPIXEL_SCALE / 2) - LineAA.Mr(x2)) * m_dy2 -
                     (LineAA.Mr(y + LineAA.SUBPIXEL_SCALE / 2) - LineAA.Mr(y2)) * m_dx2);
-
             m_dx1 <<= LineAA.MR_SUBPIXEL_SHIFT;
             m_dy1 <<= LineAA.MR_SUBPIXEL_SHIFT;
             m_dx2 <<= LineAA.MR_SUBPIXEL_SHIFT;
@@ -73,7 +70,6 @@ namespace PixelFarm.Agg.Lines
         public void IncX() { m_dist1 += m_dy1; m_dist2 += m_dy2; }
         public int Distance1 { get { return m_dist1; } }
         public int Distance2 { get { return m_dist2; } }
-
     }
 
     //===================================================distance_interpolator1
@@ -82,14 +78,12 @@ namespace PixelFarm.Agg.Lines
         int m_dx;
         int m_dy;
         int m_dist;
-
         public DistanceInterpolator1(int x1, int y1, int x2, int y2, int x, int y)
         {
             m_dx = (x2 - x1);
             m_dy = (y2 - y1);
             m_dist = (AggBasics.iround((double)(x + LineAA.SUBPIXEL_SCALE / 2 - x2) * (double)(m_dy) -
                           (double)(y + LineAA.SUBPIXEL_SCALE / 2 - y2) * (double)(m_dx)));
-
             m_dx <<= LineAA.SUBPIXEL_SHIFT;
             m_dy <<= LineAA.SUBPIXEL_SHIFT;
         }
@@ -127,7 +121,6 @@ namespace PixelFarm.Agg.Lines
         //---------------------------------------------------------------------
         public int Distance { get { return m_dist; } }
 
-
         //public int dx() { return m_dx; }
         //public int dy() { return m_dy; }
         ////---------------------------------------------------------------------
@@ -145,10 +138,8 @@ namespace PixelFarm.Agg.Lines
         int m_dy;
         int m_dx_start;
         int m_dy_start;
-
         int m_dist;
         int m_dist_start;
-
         //---------------------------------------------------------------------
 
         public DistanceInterpolator2(int x1, int y1, int x2, int y2,
@@ -158,13 +149,10 @@ namespace PixelFarm.Agg.Lines
             m_dy = (y2 - y1);
             m_dx_start = (LineAA.Mr(sx) - LineAA.Mr(x1));
             m_dy_start = (LineAA.Mr(sy) - LineAA.Mr(y1));
-
             m_dist = (AggBasics.iround((double)(x + LineAA.SUBPIXEL_SCALE / 2 - x2) * (double)(m_dy) -
                           (double)(y + LineAA.SUBPIXEL_SCALE / 2 - y2) * (double)(m_dx)));
-
             m_dist_start = ((LineAA.Mr(x + LineAA.SUBPIXEL_SCALE / 2) - LineAA.Mr(sx)) * m_dy_start -
                          (LineAA.Mr(y + LineAA.SUBPIXEL_SCALE / 2) - LineAA.Mr(sy)) * m_dx_start);
-
             m_dx <<= LineAA.SUBPIXEL_SHIFT;
             m_dy <<= LineAA.SUBPIXEL_SHIFT;
             m_dx_start <<= LineAA.MR_SUBPIXEL_SHIFT;
@@ -178,13 +166,10 @@ namespace PixelFarm.Agg.Lines
             m_dy = (y2 - y1);
             m_dx_start = (LineAA.Mr(ex) - LineAA.Mr(x2));
             m_dy_start = (LineAA.Mr(ey) - LineAA.Mr(y2));
-
             m_dist = (AggBasics.iround((double)(x + LineAA.SUBPIXEL_SCALE / 2 - x2) * (double)(m_dy) -
                           (double)(y + LineAA.SUBPIXEL_SCALE / 2 - y2) * (double)(m_dx)));
-
             m_dist_start = ((LineAA.Mr(x + LineAA.SUBPIXEL_SCALE / 2) - LineAA.Mr(ex)) * m_dy_start -
                          (LineAA.Mr(y + LineAA.SUBPIXEL_SCALE / 2) - LineAA.Mr(ey)) * m_dx_start);
-
             m_dx <<= LineAA.SUBPIXEL_SHIFT;
             m_dy <<= LineAA.SUBPIXEL_SHIFT;
             m_dx_start <<= LineAA.MR_SUBPIXEL_SHIFT;
@@ -273,7 +258,6 @@ namespace PixelFarm.Agg.Lines
         public int DxEnd { get { return m_dx_start; } }
         public int DyEnd { get { return m_dy_start; } }
 
-
         //public int dx() { return m_dx; }
         //public int dy() { return m_dy; }
         //---------------------------------------------------------------------
@@ -281,9 +265,8 @@ namespace PixelFarm.Agg.Lines
         //public void dec_x() { m_dist -= m_dy; m_dist_start -= m_dy_start; }
         //public void inc_y() { m_dist -= m_dx; m_dist_start -= m_dx_start; }
         //public void dec_y() { m_dist += m_dx; m_dist_start += m_dx_start; }
-
     }
-     
+
 
     //===================================================distance_interpolator3
     public class DistanceInterpolator3
@@ -294,11 +277,9 @@ namespace PixelFarm.Agg.Lines
         int m_dy_start;
         int m_dx_end;
         int m_dy_end;
-
         int m_dist;
         int m_dist_start;
         int m_dist_end;
-
         //---------------------------------------------------------------------
 
         public DistanceInterpolator3(int x1, int y1, int x2, int y2,
@@ -313,16 +294,12 @@ namespace PixelFarm.Agg.Lines
                 m_dy_start = (LineAA.Mr(sy) - LineAA.Mr(y1));
                 m_dx_end = (LineAA.Mr(ex) - LineAA.Mr(x2));
                 m_dy_end = (LineAA.Mr(ey) - LineAA.Mr(y2));
-
                 m_dist = (AggBasics.iround((double)(x + LineAA.SUBPIXEL_SCALE / 2 - x2) * (double)(m_dy) -
                               (double)(y + LineAA.SUBPIXEL_SCALE / 2 - y2) * (double)(m_dx)));
-
                 m_dist_start = ((LineAA.Mr(x + LineAA.SUBPIXEL_SCALE / 2) - LineAA.Mr(sx)) * m_dy_start -
                              (LineAA.Mr(y + LineAA.SUBPIXEL_SCALE / 2) - LineAA.Mr(sy)) * m_dx_start);
-
                 m_dist_end = ((LineAA.Mr(x + LineAA.SUBPIXEL_SCALE / 2) - LineAA.Mr(ex)) * m_dy_end -
                            (LineAA.Mr(y + LineAA.SUBPIXEL_SCALE / 2) - LineAA.Mr(ey)) * m_dx_end);
-
                 m_dx <<= LineAA.SUBPIXEL_SHIFT;
                 m_dy <<= LineAA.SUBPIXEL_SHIFT;
                 m_dx_start <<= LineAA.MR_SUBPIXEL_SHIFT;
@@ -417,7 +394,7 @@ namespace PixelFarm.Agg.Lines
         public int DxStart { get { return m_dx_start; } }
         public int DyStart { get { return m_dy_start; } }
         public int DxEnd { get { return m_dx_end; } }
-        public int DyEnd  { get {return m_dy_end; }}
+        public int DyEnd { get { return m_dy_end; } }
 
         //int dx() { return m_dx; }
         //int dy() { return m_dy; }
@@ -425,9 +402,7 @@ namespace PixelFarm.Agg.Lines
         //void dec_x() { m_dist -= m_dy; m_dist_start -= m_dy_start; m_dist_end -= m_dy_end; }
         //void inc_y() { m_dist -= m_dx; m_dist_start -= m_dx_start; m_dist_end -= m_dx_end; }
         //void dec_y() { m_dist += m_dx; m_dist_start += m_dx_start; m_dist_end += m_dx_end; }
-
     }
-
 
     //public class DistanceInterpolator4
     //{
@@ -447,7 +422,7 @@ namespace PixelFarm.Agg.Lines
     //    int m_len;
 
     //    //---------------------------------------------------------------------
-        
+
     //    public DistanceInterpolator4(int x1, int y1, int x2, int y2,
     //                           int sx, int sy, int ex, int ey,
     //                           int len, double scale, int x, int y)
@@ -631,5 +606,4 @@ namespace PixelFarm.Agg.Lines
     //    public int dy_end() { return m_dy_end; }
     //    public int len() { return m_len; }
     //}
-
 }

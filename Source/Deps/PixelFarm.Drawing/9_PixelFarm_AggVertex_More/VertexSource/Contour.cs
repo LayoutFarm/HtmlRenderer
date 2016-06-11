@@ -21,13 +21,14 @@
 // conv_stroke
 //
 //----------------------------------------------------------------------------
+
 namespace PixelFarm.Agg.VertexSource
 {
-    public sealed class Contour  
+    public sealed class Contour
     {
         ContourGenerator generator;
         VertexStoreSnap vertexSource;
-        public Contour(VertexStoreSnap vertexSource)  
+        public Contour(VertexStoreSnap vertexSource)
         {
             this.generator = new ContourGenerator();
             this.vertexSource = vertexSource;

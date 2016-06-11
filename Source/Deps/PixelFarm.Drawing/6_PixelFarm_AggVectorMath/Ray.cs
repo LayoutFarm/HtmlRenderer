@@ -39,19 +39,16 @@ either expressed or implied, of the FreeBSD Project.
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 namespace PixelFarm.VectorMath
 {
     [Flags]
     public enum IntersectionType { None = 0, FrontFace = 1, BackFace = 2, Both = FrontFace | BackFace };
-
     /// <summary>
     /// a virtual ray that is casted from a begin Position in a certain Direction.
     /// </summary>
     public class Ray
     {
         public static double sameSurfaceOffset = .00001;
-
         public Vector3 origin;
         public Vector3 direction;
         public double minDistanceToConsider;
@@ -59,10 +56,8 @@ namespace PixelFarm.VectorMath
         public Vector3 oneOverDirection;
         public bool isShadowRay;
         public IntersectionType intersectionType;
-
         public enum Sign { Negative = 1, Positive = 0 };
         public Sign[] sign = new Sign[3];
-
         public Ray(Vector3 origin, Vector3 direction, double minDistanceToConsider = 0, double maxDistanceToConsider = double.PositiveInfinity, IntersectionType intersectionType = IntersectionType.FrontFace)
         {
             this.origin = origin;
@@ -71,7 +66,6 @@ namespace PixelFarm.VectorMath
             this.maxDistanceToConsider = maxDistanceToConsider;
             this.intersectionType = intersectionType;
             oneOverDirection = 1 / direction;
-
             sign[0] = (oneOverDirection.x < 0) ? Sign.Negative : Sign.Positive;
             sign[1] = (oneOverDirection.y < 0) ? Sign.Negative : Sign.Positive;
             sign[2] = (oneOverDirection.z < 0) ? Sign.Negative : Sign.Positive;
@@ -97,11 +91,9 @@ namespace PixelFarm.VectorMath
             // we calculate distance to the intersection with the x planes of the box
             double minDistFound = (bounds[(int)ray.sign[0]].x - ray.origin.x) * ray.oneOverDirection.x;
             double maxDistFound = (bounds[1 - (int)ray.sign[0]].x - ray.origin.x) * ray.oneOverDirection.x;
-
             // now find the distance to the y planes of the box
             double minDistToY = (bounds[(int)ray.sign[1]].y - ray.origin.y) * ray.oneOverDirection.y;
             double maxDistToY = (bounds[1 - (int)ray.sign[1]].y - ray.origin.y) * ray.oneOverDirection.y;
-
             if ((minDistFound > maxDistToY) || (minDistToY > maxDistFound))
             {
                 return false;
@@ -120,7 +112,6 @@ namespace PixelFarm.VectorMath
             // and finaly the z planes
             double minDistToZ = (bounds[(int)ray.sign[2]].z - ray.origin.z) * ray.oneOverDirection.z;
             double maxDistToZ = (bounds[1 - (int)ray.sign[2]].z - ray.origin.z) * ray.oneOverDirection.z;
-
             if ((minDistFound > maxDistToZ) || (minDistToZ > maxDistFound))
             {
                 return false;

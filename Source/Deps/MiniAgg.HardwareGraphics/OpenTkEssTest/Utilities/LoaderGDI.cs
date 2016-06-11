@@ -12,46 +12,36 @@ using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
-
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
-
 namespace Examples.TextureLoaders
 {
     class ImageGDI
     {
-
         public static void LoadFromDisk(string filename, out uint texturehandle, out TextureTarget dimension)
         {
             dimension = (TextureTarget)0;
             texturehandle = TextureLoaderParameters.OpenGLDefaultTexture;
             ErrorCode GLError = ErrorCode.NoError;
-
             Bitmap CurrentBitmap = null;
-
             try // Exceptions will be thrown if any Problem occurs while working on the file. 
             {
                 CurrentBitmap = new Bitmap(filename);
                 if (TextureLoaderParameters.FlipImages)
                     CurrentBitmap.RotateFlip(RotateFlipType.RotateNoneFlipY);
-
                 if (CurrentBitmap.Height > 1)
                     dimension = TextureTarget.Texture2D;
                 else
                     dimension = TextureTarget.Texture1D;
-
                 GL.GenTextures(1, out texturehandle);
                 GL.BindTexture(dimension, texturehandle);
-
                 #region Load Texture
                 OpenTK.Graphics.OpenGL.PixelInternalFormat pif;
                 OpenTK.Graphics.OpenGL.PixelFormat pf;
                 OpenTK.Graphics.OpenGL.PixelType pt;
-
                 if (TextureLoaderParameters.Verbose)
                     Trace.WriteLine("File: " + filename + " Format: " + CurrentBitmap.PixelFormat);
-
                 switch (CurrentBitmap.PixelFormat)
                 {
                     case System.Drawing.Imaging.PixelFormat.Format8bppIndexed: // misses glColorTable setup
@@ -88,7 +78,6 @@ namespace Examples.TextureLoaders
                 }
 
                 BitmapData Data = CurrentBitmap.LockBits(new System.Drawing.Rectangle(0, 0, CurrentBitmap.Width, CurrentBitmap.Height), ImageLockMode.ReadOnly, CurrentBitmap.PixelFormat);
-
                 if (Data.Height > 1)
                 { // image is 2D
                     if (TextureLoaderParameters.BuildMipmapsForUncompressed)
@@ -123,12 +112,9 @@ namespace Examples.TextureLoaders
                 #region Set Texture Parameters
                 GL.TexParameter(dimension, TextureParameterName.TextureMinFilter, (int)TextureLoaderParameters.MinificationFilter);
                 GL.TexParameter(dimension, TextureParameterName.TextureMagFilter, (int)TextureLoaderParameters.MagnificationFilter);
-
                 GL.TexParameter(dimension, TextureParameterName.TextureWrapS, (int)TextureLoaderParameters.WrapModeS);
                 GL.TexParameter(dimension, TextureParameterName.TextureWrapT, (int)TextureLoaderParameters.WrapModeT);
-
                 GL.TexEnv(TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode, (int)TextureLoaderParameters.EnvMode);
-
                 GLError = GL.GetError();
                 if (GLError != ErrorCode.NoError)
                 {
@@ -150,6 +136,5 @@ namespace Examples.TextureLoaders
                 CurrentBitmap = null;
             }
         }
-
     }
 }

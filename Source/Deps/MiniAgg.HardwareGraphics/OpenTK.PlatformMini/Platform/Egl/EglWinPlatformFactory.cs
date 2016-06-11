@@ -28,10 +28,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 using OpenTK.Graphics;
 using OpenTK.Platform.Windows;
-
 namespace OpenTK.Platform.Egl
 {
     // EGL factory for the Windows platform.
@@ -81,7 +79,6 @@ namespace OpenTK.Platform.Egl
             IntPtr display = Egl.GetDisplay(dc);
             if (display == IntPtr.Zero)
                 display = Egl.GetDisplay(IntPtr.Zero);
-
             return display;
         }
 

@@ -1,15 +1,14 @@
 ﻿// 2015,2014 ,MIT, WinterDev   
+
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Collections.Generic;
-
 using PixelFarm;
 using PixelFarm.Agg;
 using PixelFarm.DrawingGL;
 using PixelFarm.Drawing;
 using Win32;
-
 namespace PixelFarm.Agg.Fonts
 {
     //platform specific
@@ -23,12 +22,9 @@ namespace PixelFarm.Agg.Fonts
         int width;
         int height;
         Dictionary<char, PixelFarm.Drawing.RectangleF> charMap = new Dictionary<char, PixelFarm.Drawing.RectangleF>();
-
         IntPtr hFont;
-
         PixelFarm.Drawing.FontInfo fontInfo;
         GLBitmap innerGLbmp;
-
 #if DEBUG
         static int debugTotalId;
         public readonly int dbugId = debugTotalId++;
@@ -59,7 +55,6 @@ namespace PixelFarm.Agg.Fonts
             //PrepareCharacterMap("ญู".ToCharArray()); 
             PrepareCharacterMapBlackOnWhite(chars);
             MakeTransparentOnWhite(textBoardBmp);
-
             //PrepareCharacterMapWhiteOnBlack(chars);
             //MakeTransparentOnBlack(textBoardBmp);
             //------------------ 
@@ -79,12 +74,10 @@ namespace PixelFarm.Agg.Fonts
             //draw each character
             int curX = 0;
             int curY = 0;
-
             //1. clear with white color, 
             MyWin32.PatBlt(gxdc, 0, 0, width, height, MyWin32.WHITENESS);
             //2. transparent background
             MyWin32.SetBkMode(gxdc, MyWin32._SetBkMode_TRANSPARENT);
-
             //set user font to dc
             MyWin32.SelectObject(gxdc, this.hFont);
             int fontHeight = fontInfo.FontHeight;
@@ -112,7 +105,6 @@ namespace PixelFarm.Agg.Fonts
                 NativeTextWin32.TextOut(gxdc, curX, curY, new char[] { c }, 1);
                 charMap.Add(c, new PixelFarm.Drawing.RectangleF(curX, curY, glyphBoxWidth, fontHeight));
                 curX += glyphBoxWidth; //move next 
-
             }
             gx.ReleaseHdc(gxdc);
             //myTextBoardBmp = new Bitmap(width, height, new LazyGdiBitmapBufferProvider(this.textBoardBmp));
@@ -127,7 +119,6 @@ namespace PixelFarm.Agg.Fonts
             //draw each character
             int curX = 0;
             int curY = 0;
-
             //1. clear with white color, 
             MyWin32.PatBlt(gxdc, 0, 0, width, height, MyWin32.BLACKNESS);
             //2. transparent background
@@ -137,7 +128,6 @@ namespace PixelFarm.Agg.Fonts
             MyWin32.SelectObject(gxdc, this.hFont);
             int rgb = ((255 & 0xFF) << 16 | (255 & 0xFF) << 8 | 255);
             MyWin32.SetTextColor(gxdc, rgb);
-
             //TODO:correct white text on black bg for subpixel rendering
             //when draw with subpixel rendering
             //on white bg -> red come first from left ,end with blue
@@ -168,7 +158,6 @@ namespace PixelFarm.Agg.Fonts
                 NativeTextWin32.TextOut(gxdc, curX, curY, new char[] { c }, 1);
                 charMap.Add(c, new PixelFarm.Drawing.RectangleF(curX, curY, glyphBoxWidth, fontHeight));
                 curX += glyphBoxWidth; //move next 
-
             }
             gx.ReleaseHdc(gxdc);
             //myTextBoardBmp = new Bitmap(width, height, new LazyGdiBitmapBufferProvider(this.textBoardBmp));
@@ -179,7 +168,6 @@ namespace PixelFarm.Agg.Fonts
         {
             int bmpW = bmp.Width;
             int bmpH = bmp.Height;
-
             //make a transparent bg?
             var bmpdata = bmp.LockBits(new System.Drawing.Rectangle(0, 0, bmpW, bmpH),
                  System.Drawing.Imaging.ImageLockMode.ReadWrite,
@@ -196,12 +184,11 @@ namespace PixelFarm.Agg.Fonts
                 //just fix 
                 fixed (byte* buffH = &pixelBuffer[0])
                 {
-                    for (int i = 0; i < buffLen; )
+                    for (int i = 0; i < buffLen;)
                     {
                         byte r = buffH[i]; //r
                         byte g = buffH[i + 1];//g
                         byte b = buffH[i + 2];//b 
-
                         //black will have alpha=255 
                         //1. weight balance all chanel (average)
                         buffH[i + 3] = (byte)(((r + g + b) / 3));
@@ -212,14 +199,12 @@ namespace PixelFarm.Agg.Fonts
             }
             System.Runtime.InteropServices.Marshal.Copy(pixelBuffer, 0, bmpdata.Scan0, buffLen);
             bmp.UnlockBits(bmpdata);
-
         }
 
         static void MakeTransparentOnWhite(System.Drawing.Bitmap bmp)
         {
             int bmpW = bmp.Width;
             int bmpH = bmp.Height;
-
             //make a transparent bg?
             var bmpdata = bmp.LockBits(new System.Drawing.Rectangle(0, 0, bmpW, bmpH),
                  System.Drawing.Imaging.ImageLockMode.ReadWrite,
@@ -236,12 +221,11 @@ namespace PixelFarm.Agg.Fonts
                 //just fix 
                 fixed (byte* buffH = &pixelBuffer[0])
                 {
-                    for (int i = 0; i < buffLen; )
+                    for (int i = 0; i < buffLen;)
                     {
                         byte r = buffH[i]; //r
                         byte g = buffH[i + 1];//g
                         byte b = buffH[i + 2];//b 
-
                         //black will have alpha=255 
                         //1. weight balance all chanel (average)
                         buffH[i + 3] = (byte)(255 - ((r + g + b) / 3));
@@ -252,13 +236,11 @@ namespace PixelFarm.Agg.Fonts
             }
             System.Runtime.InteropServices.Marshal.Copy(pixelBuffer, 0, bmpdata.Scan0, buffLen);
             bmp.UnlockBits(bmpdata);
-
         }
         static void MakeTransparentOnWhite2(System.Drawing.Bitmap bmp)
         {
             int bmpW = bmp.Width;
             int bmpH = bmp.Height;
-
             //make a transparent bg?
             var bmpdata = bmp.LockBits(new System.Drawing.Rectangle(0, 0, bmpW, bmpH),
                  System.Drawing.Imaging.ImageLockMode.ReadWrite,
@@ -275,13 +257,12 @@ namespace PixelFarm.Agg.Fonts
                 //just fix 
                 fixed (byte* buffH = &pixelBuffer[0])
                 {
-                    for (int i = 0; i < buffLen; )
+                    for (int i = 0; i < buffLen;)
                     {
                         byte r = buffH[i]; //r
                         byte g = buffH[i + 1];//g
                         byte b = buffH[i + 2];//b 
                         var avg = (r + g + b) / 3;
-
                         buffH[i + 3] = (byte)(255 - avg);
                         //if ((r == 255) && (g == 255) && (b == 255))
                         //{
@@ -293,7 +274,7 @@ namespace PixelFarm.Agg.Fonts
                         //else
                         //{   //black will have alpha=255 
                         //    //1. weight balance all chanel (average)
-                            
+
                         //    ////var avg= (byte)(255 - ((r + g + b) / 3);
                         //    //var avg = (byte)((r + g + b) / 3);
                         //    //var avg2 = ((float)avg) / 80;
@@ -329,7 +310,6 @@ namespace PixelFarm.Agg.Fonts
             }
             System.Runtime.InteropServices.Marshal.Copy(pixelBuffer, 0, bmpdata.Scan0, buffLen);
             bmp.UnlockBits(bmpdata);
-
         }
         public PixelFarm.Drawing.RectangleF[] GetGlyphPos(char[] buffer, int start, int len, int x, int y)
         {
@@ -343,7 +323,6 @@ namespace PixelFarm.Agg.Fonts
             float curY = y;
             //create destAndSrcArray
             PixelFarm.Drawing.RectangleF[] destAndSrcPairs = new PixelFarm.Drawing.RectangleF[len * 2];
-
             int pp = 0;
             int endAt = start + len;
             for (int i = start; i < endAt; ++i)
@@ -352,7 +331,6 @@ namespace PixelFarm.Agg.Fonts
                 PixelFarm.Drawing.RectangleF found;
                 if (charMap.TryGetValue(buffer[i], out found))
                 {
-
                     //dest
                     destAndSrcPairs[pp] = new PixelFarm.Drawing.RectangleF(curX, curY, found.Width, found.Height);
                     //src
@@ -367,7 +345,6 @@ namespace PixelFarm.Agg.Fonts
                 pp += 2;
             }
             return destAndSrcPairs;
-
         }
         public GLBitmap BmpBoard
         {
@@ -435,5 +412,4 @@ namespace PixelFarm.Agg.Fonts
             get { return true; }
         }
     }
-
 }

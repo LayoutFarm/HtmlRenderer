@@ -23,14 +23,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-
 using PixelFarm.Agg;
 using PixelFarm.Agg.Image;
 using PixelFarm.Agg.Transform;
 using PixelFarm.Agg.VertexSource;
 using PixelFarm.VectorMath;
- 
-
 namespace PixelFarm.Agg
 {
     public enum BlurMethod
@@ -44,7 +41,6 @@ namespace PixelFarm.Agg
     {
         StackBlur stackBlur;
         RecursiveBlur m_recursive_blur;
-
         public void DoStackBlur(ImageReaderWriterBase readerWriter, int radius)
         {
             if (stackBlur == null)
@@ -61,6 +57,5 @@ namespace PixelFarm.Agg
             }
             m_recursive_blur.Blur(readerWriter, radius);
         }
-
     }
 }

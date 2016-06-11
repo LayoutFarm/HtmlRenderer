@@ -9,9 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 using OpenTK.Platform;
-
 namespace OpenTK.Graphics
 {
     /// <summary>
@@ -21,7 +19,6 @@ namespace OpenTK.Graphics
     {
         /// <summary>Swaps buffers, presenting the rendered scene to the user.</summary>
         void SwapBuffers();
-
         /// <summary>Makes the GraphicsContext current in the calling thread.</summary>
         /// <param name="window">An OpenTK.Platform.IWindowInfo structure that points to a valid window.</param>
         /// <remarks>
@@ -29,7 +26,6 @@ namespace OpenTK.Graphics
         /// <para>It is an error to issue an OpenGL command in a thread without a current GraphicsContext.</para>
         /// </remarks>
         void MakeCurrent(IWindowInfo window);
-
         /// <summary>
         /// Gets a <see cref="System.Boolean"/> indicating whether this instance is current in the calling thread.
         /// </summary>
@@ -52,7 +48,6 @@ namespace OpenTK.Graphics
         /// </summary>
         /// <param name="window"></param>
         void Update(IWindowInfo window);
-
         /// <summary>Gets the GraphicsMode of this instance.</summary>
         GraphicsMode GraphicsMode { get; }
 
@@ -88,7 +83,6 @@ namespace OpenTK.Graphics
         /// Loads all OpenGL entry points. Requires this instance to be current on the calling thread.
         /// </summary>
         void LoadAll();
-
         /// <summary>
         /// Gets a handle to the OpenGL rendering context.
         /// </summary>

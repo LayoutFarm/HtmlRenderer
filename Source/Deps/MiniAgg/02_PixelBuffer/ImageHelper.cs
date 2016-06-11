@@ -17,18 +17,15 @@
 //          mcseemagg@yahoo.com
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
+
 using System;
 using System.Runtime;
-
 using PixelFarm.Agg;
-
 using PixelFarm.VectorMath;
-
 namespace PixelFarm.Agg.Image
 {
     public static class ImageHelper
     {
-
         /// <summary>
         /// This will create a new ImageBuffer that references the same memory as the image that you took the sub image from.
         /// It will modify the original main image when you draw to it.
@@ -38,7 +35,6 @@ namespace PixelFarm.Agg.Image
         /// <returns></returns>
         public static ChildImage CreateChildImage(IImageReaderWriter parentImage, RectInt childImageBounds)
         {
-
             if (childImageBounds.Left < 0 || childImageBounds.Bottom < 0 || childImageBounds.Right > parentImage.Width || childImageBounds.Top > parentImage.Height
                 || childImageBounds.Left >= childImageBounds.Right || childImageBounds.Bottom >= childImageBounds.Top)
             {
@@ -50,9 +46,7 @@ namespace PixelFarm.Agg.Image
             int width = Math.Min(parentImage.Width - left, childImageBounds.Width);
             int height = Math.Min(parentImage.Height - bottom, childImageBounds.Height);
             int bufferOffsetToFirstPixel = parentImage.GetBufferOffsetXY(left, bottom);
-
             return new ChildImage(parentImage, bufferOffsetToFirstPixel, width, height);
         }
-         
     }
 }

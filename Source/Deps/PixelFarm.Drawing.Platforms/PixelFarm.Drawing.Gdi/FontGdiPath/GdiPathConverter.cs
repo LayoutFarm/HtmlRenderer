@@ -1,26 +1,19 @@
 ﻿// 2015,2014 ,MIT, WinterDev   
+
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-
 using PixelFarm;
 using PixelFarm.Agg;
-
-
 namespace PixelFarm.Agg
 {
-
     public static class GdiPathConverter
     {
-
         public static void ConvertToVxs(System.Drawing.Drawing2D.PathData pathdata, VertexStore outputVxs)
         {
-
-
             byte[] pointTypes = pathdata.Types;
             PointF[] points = pathdata.Points;
             int pointCount = points.Length;
-
             //from MSDN document
             //0 = start of figure (MoveTo)
             //1 = one of the two endpoints of a line (LineTo)
@@ -37,7 +30,6 @@ namespace PixelFarm.Agg
             {
                 byte pointType = pointTypes[i];
                 PointF p = points[i];
-
                 switch (0x7 & pointType)
                 {
                     case 0:
@@ -59,28 +51,31 @@ namespace PixelFarm.Agg
                                     {
                                         outputVxs.AddP2c(p.X, p.Y);
                                         curvePointCount++;
-                                    } break;
+                                    }
+                                    break;
                                 case 1:
                                     {
                                         outputVxs.AddP3c(p.X, p.Y);
                                         curvePointCount++;
-                                    } break;
+                                    }
+                                    break;
                                 case 2:
                                     {
                                         outputVxs.AddLineTo(p.X, p.Y);
                                         curvePointCount = 0;//reset
-                                    } break;
+                                    }
+                                    break;
                                 default:
                                     {
                                         throw new NotSupportedException();
                                     }
                             }
-
-                        } break;
+                        }
+                        break;
                     default:
                         {
-
-                        } break;
+                        }
+                        break;
                 }
 
                 if ((pointType >> 7) == 1)
@@ -90,23 +85,17 @@ namespace PixelFarm.Agg
                 }
                 if ((pointType >> 6) == 1)
                 {
-
                 }
             }
-
         }
         public static void ConvertCharToVertexGlyph(System.Drawing.Font font, char c, VertexStore outputVxs)
         {
-
             using (GraphicsPath path = new GraphicsPath())
             {
                 path.AddString(c.ToString(), font.FontFamily, 1, font.Size, new Point(0, 0), null);
                 //get font shape from gpath
                 ConvertToVxs(path.PathData, outputVxs);
-
             }
-
         }
     }
-
 }

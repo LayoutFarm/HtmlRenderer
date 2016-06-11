@@ -17,25 +17,21 @@
 //          mcseemagg@yahoo.com
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
+
 using System;
 using System.Collections.Generic;
-
 namespace PixelFarm.Agg
 {
     //Gourand shading
     //============================================================span_gouraud
     public abstract class SpanGenGourand
     {
-
         CoordAndColor m_coord_0;
         CoordAndColor m_coord_1;
         CoordAndColor m_coord_2;
-
-
         double[] m_x = new double[8];
         double[] m_y = new double[8];
         VertexCmd[] m_cmd = new VertexCmd[8];
-
         public struct CoordAndColor
         {
             public double x;
@@ -56,7 +52,6 @@ namespace PixelFarm.Agg
                      double x3, double y3,
                      double d)
         {
-
             SetColor(c1, c2, c3);
             SetTriangle(x1, y1, x2, y2, x3, y3, d);
         }
@@ -90,26 +85,21 @@ namespace PixelFarm.Agg
             m_cmd[1] = VertexCmd.LineTo;
             m_cmd[2] = VertexCmd.LineTo;
             m_cmd[3] = VertexCmd.Stop;
-
             if (d != 0.0)
             {
                 AggMath.DilateTriangle(m_coord_0.x, m_coord_0.y,
                                 m_coord_1.x, m_coord_1.y,
                                 m_coord_2.x, m_coord_2.y,
                                 m_x, m_y, d);
-
                 AggMath.CalcIntersect(m_x[4], m_y[4], m_x[5], m_y[5],
                                   m_x[0], m_y[0], m_x[1], m_y[1],
                                   out m_coord_0.x, out m_coord_0.y);
-
                 AggMath.CalcIntersect(m_x[0], m_y[0], m_x[1], m_y[1],
                                   m_x[2], m_y[2], m_x[3], m_y[3],
                                   out m_coord_1.x, out m_coord_1.y);
-
                 AggMath.CalcIntersect(m_x[2], m_y[2], m_x[3], m_y[3],
                                   m_x[4], m_y[4], m_x[5], m_y[5],
                                   out m_coord_2.x, out m_coord_2.y);
-
                 m_cmd[3] = VertexCmd.LineTo;
                 m_cmd[4] = VertexCmd.LineTo;
                 m_cmd[5] = VertexCmd.LineTo;
@@ -118,13 +108,11 @@ namespace PixelFarm.Agg
         }
         public VertexStore MakeVxs()
         {
-
             VertexStore vxs = new VertexStore();
             for (int i = 0; i < 8; ++i)
             {
                 VertexCmd cmd;
                 vxs.AddVertex(m_x[i], m_y[i], cmd = m_cmd[i]);
-
                 if (cmd == VertexCmd.Stop)
                 {
                     break;
@@ -139,7 +127,6 @@ namespace PixelFarm.Agg
             c0 = m_coord_0;
             c1 = m_coord_1;
             c2 = m_coord_2;
-
             if (m_coord_0.y > m_coord_2.y)
             {
                 c0 = m_coord_2;

@@ -40,16 +40,12 @@ namespace OpenTK
 
         /// <summary>The X component of the Half4.</summary>
         public Half X;
-
         /// <summary>The Y component of the Half4.</summary>
         public Half Y;
-
         /// <summary>The Z component of the Half4.</summary>
         public Half Z;
-
         /// <summary>The W component of the Half4.</summary>
         public Half W;
-
         #endregion Public Fields
 
         #region Constructors
@@ -295,7 +291,6 @@ namespace OpenTK
 
         /// <summary>The size in bytes for an instance of the Half4 struct is 8.</summary>
         public static readonly int SizeInBytes = 8;
-
         #endregion Constants
 
         #region ISerializable
@@ -378,7 +373,6 @@ namespace OpenTK
         public static byte[] GetBytes(Vector4h h)
         {
             byte[] result = new byte[SizeInBytes];
-
             byte[] temp = Half.GetBytes(h.X);
             result[0] = temp[0];
             result[1] = temp[1];
@@ -391,7 +385,6 @@ namespace OpenTK
             temp = Half.GetBytes(h.W);
             result[6] = temp[0];
             result[7] = temp[1];
-
             return result;
         }
 

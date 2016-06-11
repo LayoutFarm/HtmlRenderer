@@ -17,17 +17,13 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using PixelFarm.DrawingGL;
-
 namespace PixelFarm.Drawing.DrawingGL
 {
-
     partial class MyCanvasGL
     {
         float strokeWidth = 1f;
         Color fillSolidColor = Color.Transparent;
         SmoothingMode layoutFarmSmoothMode;
-
-         
         public override void FillRectangle(Color color, float left, float top, float width, float height)
         {
             canvasGL2d.FillRect(color, left, top, width, height);
@@ -40,30 +36,32 @@ namespace PixelFarm.Drawing.DrawingGL
                     {
                         var solidBrush = brush as SolidBrush;
                         canvasGL2d.FillRect(solidBrush.Color, left, top, width, height);
-
-                    } break;
+                    }
+                    break;
                 case BrushKind.LinearGradient:
                     {
                         var linearGradientBrush = brush as LinearGradientBrush;
                         //create bg gradient first 
                         //fill linear gradient in spefic area 
                         canvasGL2d.FillRect(linearGradientBrush, left, top, width, height);
-
-                    } break;
+                    }
+                    break;
                 case BrushKind.CircularGraident:
                     {
-
-                    } break;
+                    }
+                    break;
                 case BrushKind.GeometryGradient:
                     {
-                    } break;
+                    }
+                    break;
                 case BrushKind.Texture:
                     {
-                    } break;
+                    }
+                    break;
                 default:
                     {
-
-                    } break;
+                    }
+                    break;
             }
         }
 
@@ -103,11 +101,10 @@ namespace PixelFarm.Drawing.DrawingGL
                         }
                         //use stencil buffer 
                         canvasGL2d.FillPolygon(brush, polygonPoints, polygonPoints.Length);
-
-                    } break;
+                    }
+                    break;
                 case BrushKind.Texture:
                     {
-
                         int j = points.Length;
                         float[] polygonPoints = new float[j * 2];
                         int n = 0;
@@ -127,30 +124,25 @@ namespace PixelFarm.Drawing.DrawingGL
                             //create gl image
                             var textureImage = tbrush.TextureImage;
                             tbrush.InnerImage2 = bmpTexture = GLBitmapTextureHelper.CreateBitmapTexture((System.Drawing.Bitmap)textureImage.InnerImage);
-
                         }
 
                         canvasGL2d.FillPolygon(brush, polygonPoints, polygonPoints.Length);
-
-
                         //delete gl
                         bmpTexture.Dispose();
                         tbrush.InnerImage2 = null;
-
-                    } break;
+                    }
+                    break;
                 case BrushKind.Solid:
                     {
                         var solidColorBrush = (SolidBrush)brush;
                         this.FillPolygon(solidColorBrush.Color, points);
-
-                    } break;
+                    }
+                    break;
                 default:
                     {
-
-
-                    } break;
+                    }
+                    break;
             }
-
         }
 
         public override void ClearSurface(Color c)
@@ -160,7 +152,6 @@ namespace PixelFarm.Drawing.DrawingGL
         //-------------------------------------------
         public override void DrawImage(Image image, RectangleF destRect)
         {
-
             if (image.IsReferenceImage)
             {
                 //use reference image  
@@ -202,7 +193,6 @@ namespace PixelFarm.Drawing.DrawingGL
             }
             else
             {
-
                 GLBitmap glBitmapTexture = image.InnerImage as GLBitmap;
                 if (glBitmapTexture != null)
                 {
@@ -220,8 +210,6 @@ namespace PixelFarm.Drawing.DrawingGL
                     }
                 }
             }
-
-
         }
 
         public override void DrawImage(Image image, RectangleF destRect, RectangleF srcRect)
@@ -274,7 +262,6 @@ namespace PixelFarm.Drawing.DrawingGL
             }
             set
             {
-
                 canvasGL2d.StrokeColor = value;
             }
         }
@@ -287,7 +274,6 @@ namespace PixelFarm.Drawing.DrawingGL
             //stroke color
             canvasGL2d.StrokeColor = color;
             canvasGL2d.DrawRect(left, top, width, height);
-
         }
         //---------------------------------------------------
 
@@ -297,19 +283,15 @@ namespace PixelFarm.Drawing.DrawingGL
         {
             //solid color
             var innerPath2 = path.InnerPath2;
-
-
             if (innerPath2 == null)
             {
                 System.Drawing.Drawing2D.PathData pathData = path.GetPathData() as System.Drawing.Drawing2D.PathData;
                 PixelFarm.Agg.VertexStore vxs = new PixelFarm.Agg.VertexStore();
                 PixelFarm.Agg.GdiPathConverter.ConvertToVxs(pathData, vxs);
-
                 //TODO: reuse flattener 
                 PixelFarm.Agg.VertexSource.CurveFlattener flattener = new PixelFarm.Agg.VertexSource.CurveFlattener();
                 vxs = flattener.MakeVxs2(vxs);
                 path.InnerPath2 = vxs;
-
                 this.canvasGL2d.FillVxs(color, vxs);
             }
             else
@@ -328,20 +310,16 @@ namespace PixelFarm.Drawing.DrawingGL
                 case BrushKind.Solid:
                     {
                         SolidBrush solidBrush = (SolidBrush)brush;
-
-
                         var innerPath2 = path.InnerPath2;
                         if (innerPath2 == null)
                         {
                             System.Drawing.Drawing2D.PathData pathData = path.GetPathData() as System.Drawing.Drawing2D.PathData;
                             PixelFarm.Agg.VertexStore vxs = new PixelFarm.Agg.VertexStore();
                             PixelFarm.Agg.GdiPathConverter.ConvertToVxs(pathData, vxs);
-
                             //TODO: reuse flattener 
 
                             vxs = flattener.MakeVxs2(vxs);
                             path.InnerPath2 = vxs;
-
                             this.canvasGL2d.FillVxs(solidBrush.Color, vxs);
                         }
                         else
@@ -352,17 +330,17 @@ namespace PixelFarm.Drawing.DrawingGL
                                 this.canvasGL2d.FillVxs(solidBrush.Color, vxs);
                             }
                         }
-                    } break;
+                    }
+                    break;
                 case BrushKind.LinearGradient:
                     {
-
-
-                    } break;
+                    }
+                    break;
                 default:
                     {
-                    } break;
+                    }
+                    break;
             }
-
         }
         public override void DrawPath(GraphicsPath gfxPath)
         {
@@ -376,7 +354,6 @@ namespace PixelFarm.Drawing.DrawingGL
                 vxs = flattener.MakeVxs2(vxs);
                 gfxPath.InnerPath2 = vxs;
                 this.canvasGL2d.DrawVxs(vxs);
-
             }
             else
             {
@@ -411,7 +388,6 @@ namespace PixelFarm.Drawing.DrawingGL
             set
             {
                 this.strokeWidth = value;
-
             }
         }
 
@@ -602,7 +578,7 @@ namespace PixelFarm.Drawing.DrawingGL
         {
             get
             {
-                return this.layoutFarmSmoothMode; 
+                return this.layoutFarmSmoothMode;
             }
             set
             {
@@ -613,12 +589,14 @@ namespace PixelFarm.Drawing.DrawingGL
                     case Drawing.SmoothingMode.AntiAlias:
                         {
                             this.canvasGL2d.SmoothMode = CanvasSmoothMode.AggSmooth;
-                        } break;
+                        }
+                        break;
                     default:
                         {
                             this.canvasGL2d.SmoothMode = CanvasSmoothMode.No;
-                        } break; 
-                }             
+                        }
+                        break;
+                }
             }
         }
         ///// <summary>
@@ -749,5 +727,4 @@ namespace PixelFarm.Drawing.DrawingGL
         //}
 
     }
-
 }

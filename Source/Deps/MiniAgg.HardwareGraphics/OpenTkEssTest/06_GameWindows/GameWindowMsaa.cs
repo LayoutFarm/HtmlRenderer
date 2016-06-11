@@ -7,7 +7,6 @@ using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
-
 namespace Examples
 {
     //[Example("GameWindow MSAA", ExampleCategory.OpenTK, "GameWindow", 2, Documentation = "GameWindowMsaa")]
@@ -30,7 +29,6 @@ namespace Examples
         {
             if (e.Key == Key.Escape)
                 this.Exit();
-
             if (e.Key == Key.F11)
                 if (this.WindowState == WindowState.Fullscreen)
                     this.WindowState = WindowState.Normal;
@@ -48,7 +46,6 @@ namespace Examples
         /// <param name="e">Not used.</param>
         protected override void OnLoad(EventArgs e)
         {
-
             GLHelper.ClearColor(PixelFarm.Drawing.Color.White);
             //GL.Enable(EnableCap.PolygonSmooth);
             //GL.Enable(EnableCap.Blend);
@@ -79,11 +76,9 @@ namespace Examples
         protected override void OnResize(EventArgs e)
         {
             GL.Viewport(0, 0, Width, Height);
-
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadIdentity();
             GL.Ortho(-1.0, 1.0, -1.0, 1.0, 0.0, 4.0);
-
             base.OnResize(e);
         }
 
@@ -112,9 +107,7 @@ namespace Examples
         /// <remarks>There is no need to call the base implementation.</remarks>
         protected override void OnRenderFrame(FrameEventArgs e)
         {
-
             GL.Clear(ClearBufferMask.ColorBufferBit);
-
             //GL.Enable(EnableCap.Blend);
             //GL.Enable(EnableCap.PolygonSmooth);
             //GL.Disable(EnableCap.DepthTest);
@@ -124,17 +117,13 @@ namespace Examples
 
 
             GL.Begin(BeginMode.Triangles);
-
-
             GLHelper.Color3(PixelFarm.Drawing.Conv.ToColor(Color.MidnightBlue));
             GL.Vertex2(-1.0f, 1.0f);
             GLHelper.Color3(PixelFarm.Drawing.Conv.ToColor(Color.SpringGreen));
             GL.Vertex2(0.0f, -1.0f);
             GLHelper.Color3(PixelFarm.Drawing.Conv.ToColor(Color.Ivory));
             GL.Vertex2(1.0f, 1.0f);
-
             GL.End();
-
             this.SwapBuffers();
         }
     }

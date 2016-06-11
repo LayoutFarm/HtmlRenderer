@@ -17,9 +17,9 @@
 //          mcseemagg@yahoo.com
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
+
 namespace PixelFarm.Agg.Transform
 {
-
     public interface ICoordTransformer
     {
         void Transform(ref double x, ref double y);

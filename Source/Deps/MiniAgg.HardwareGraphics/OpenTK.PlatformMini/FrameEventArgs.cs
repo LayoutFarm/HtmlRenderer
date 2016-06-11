@@ -26,7 +26,6 @@
 #endregion
 
 using System;
-
 namespace OpenTK
 {
     /// <summary>
@@ -37,13 +36,12 @@ namespace OpenTK
     public class FrameEventArgs : EventArgs
     {
         double elapsed;
-
         /// <summary>
         /// Constructs a new FrameEventArgs instance. 
         /// </summary>
         public FrameEventArgs()
         { }
-        
+
         /// <summary>
         /// Constructs a new FrameEventArgs instance. 
         /// </summary>
@@ -56,7 +54,7 @@ namespace OpenTK
         /// <summary>
         /// Gets a <see cref="System.Double"/> that indicates how many seconds of time elapsed since the previous event.
         /// </summary>
-        public double Time 
+        public double Time
         {
             get { return elapsed; }
             internal set

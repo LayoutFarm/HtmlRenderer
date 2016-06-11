@@ -34,7 +34,6 @@
 
 using System;
 using poly_subpix = PixelFarm.Agg.AggBasics.PolySubPix;
-
 namespace PixelFarm.Agg
 {
     partial class ScanlineRasterizer
@@ -57,7 +56,6 @@ namespace PixelFarm.Agg
             public int area;
             public int left;
             public int right;
-
             public static CellAA Create(int x, int y, int cover, int area, int left, int right)
             {
                 CellAA cell = new CellAA();
@@ -88,7 +86,6 @@ namespace PixelFarm.Agg
             ArrayList<CellAA> m_cells;
             ArrayList<CellAA> m_sorted_cells;
             ArrayList<SortedY> m_sorted_y;
-
             //------------------
             int cCell_x;
             int cCell_y;
@@ -102,15 +99,11 @@ namespace PixelFarm.Agg
             int m_max_x;
             int m_max_y;
             bool m_sorted;
-
-
             const int BLOCK_SHIFT = 12;
             const int BLOCK_SIZE = 1 << BLOCK_SHIFT;
             const int BLOCK_MASK = BLOCK_SIZE - 1;
             const int BLOCK_POOL = 256;
             const int BLOCK_LIMIT = BLOCK_SIZE * 1024;
-
-
             struct SortedY
             {
                 internal int start;
@@ -119,7 +112,6 @@ namespace PixelFarm.Agg
 
             public CellAARasterizer()
             {
-
                 m_sorted_cells = new ArrayList<CellAA>();
                 m_sorted_y = new ArrayList<SortedY>();
                 m_min_x = (0x7FFFFFFF);
@@ -127,11 +119,8 @@ namespace PixelFarm.Agg
                 m_max_x = (-0x7FFFFFFF);
                 m_max_y = (-0x7FFFFFFF);
                 m_sorted = false;
-
-
                 ResetCurrentCell();
                 this.m_cells = new ArrayList<CellAA>(BLOCK_SIZE);
-
             }
             void ResetCurrentCell()
             {
@@ -146,9 +135,7 @@ namespace PixelFarm.Agg
             public void Reset()
             {
                 m_num_used_cells = 0;
-
                 ResetCurrentCell();
-
                 m_sorted = false;
                 m_min_x = 0x7FFFFFFF;
                 m_min_y = 0x7FFFFFFF;
@@ -161,12 +148,9 @@ namespace PixelFarm.Agg
             const int POLY_SUBPIXEL_SHIFT = AggBasics.PolySubPix.SHIFT;
             const int POLY_SUBPIXEL_MASK = AggBasics.PolySubPix.MASK;
             const int POLY_SUBPIXEL_SCALE = AggBasics.PolySubPix.SCALE;
-
             public void DrawLine(int x1, int y1, int x2, int y2)
             {
-
                 int dx = x2 - x1;
-
                 if (dx >= DX_LIMIT || dx <= -DX_LIMIT)
                 {
                     int cx = (x1 + x2) >> 1;
@@ -182,10 +166,8 @@ namespace PixelFarm.Agg
                 int ey2 = y2 >> POLY_SUBPIXEL_SHIFT;
                 int fy1 = y1 & POLY_SUBPIXEL_MASK;
                 int fy2 = y2 & POLY_SUBPIXEL_MASK;
-
                 int x_from, x_to;
                 int p, rem, mod, lift, delta, first, incr;
-
                 if (ex1 < m_min_x) m_min_x = ex1;
                 if (ex1 > m_max_x) m_max_x = ex1;
                 if (ey1 < m_min_y) m_min_y = ey1;
@@ -194,9 +176,7 @@ namespace PixelFarm.Agg
                 if (ex2 > m_max_x) m_max_x = ex2;
                 if (ey2 < m_min_y) m_min_y = ey2;
                 if (ey2 > m_max_y) m_max_y = ey2;
-
                 AddNewCell(ex1, ey1);
-
                 //everything is on a single horizontal line
                 if (ey1 == ey2)
                 {
@@ -214,7 +194,6 @@ namespace PixelFarm.Agg
                     int ex = x1 >> POLY_SUBPIXEL_SHIFT;
                     int two_fx = (x1 - (ex << POLY_SUBPIXEL_SHIFT)) << 1;
                     int area;
-
                     first = POLY_SUBPIXEL_SCALE;
                     if (dy < 0)
                     {
@@ -223,14 +202,11 @@ namespace PixelFarm.Agg
                     }
 
                     x_from = x1;
-
                     delta = first - fy1;
                     cCell_cover += delta;
                     cCell_area += two_fx * delta;
-
                     ey1 += incr;
                     AddNewCell(ex, ey1);
-
                     delta = first + first - POLY_SUBPIXEL_SCALE;
                     area = two_fx * delta;
                     while (ey1 != ey2)
@@ -249,7 +225,6 @@ namespace PixelFarm.Agg
                 //ok, we have to render several hlines
                 p = (POLY_SUBPIXEL_SCALE - fy1) * dx;
                 first = POLY_SUBPIXEL_SCALE;
-
                 if (dy < 0)
                 {
                     p = fy1 * dx;
@@ -260,7 +235,6 @@ namespace PixelFarm.Agg
 
                 delta = p / dy;
                 mod = p % dy;
-
                 if (mod < 0)
                 {
                     delta--;
@@ -269,23 +243,19 @@ namespace PixelFarm.Agg
 
                 x_from = x1 + delta;
                 RenderHLine(ey1, x1, fy1, x_from, first);
-
                 ey1 += incr;
                 AddNewCell(x_from >> POLY_SUBPIXEL_SHIFT, ey1);
-
                 if (ey1 != ey2)
                 {
                     p = POLY_SUBPIXEL_SCALE * dx;
                     lift = p / dy;
                     rem = p % dy;
-
                     if (rem < 0)
                     {
                         lift--;
                         rem += dy;
                     }
                     mod -= dy;
-
                     while (ey1 != ey2)
                     {
                         delta = lift;
@@ -299,7 +269,6 @@ namespace PixelFarm.Agg
                         x_to = x_from + delta;
                         RenderHLine(ey1, x_from, POLY_SUBPIXEL_SCALE - first, x_to, first);
                         x_from = x_to;
-
                         ey1 += incr;
                         AddNewCell(x_from >> POLY_SUBPIXEL_SHIFT, ey1);
                     }
@@ -317,7 +286,6 @@ namespace PixelFarm.Agg
             public void SortCells()
             {
                 if (m_sorted) return; //Perform sort only the first time.
-
                 WriteCurrentCell();
                 //----------------------------------
                 //reset current cell 
@@ -328,19 +296,14 @@ namespace PixelFarm.Agg
                 //----------------------------------
 
                 if (m_num_used_cells == 0) return;
-
                 // Allocate the array of cell pointers 
                 m_sorted_cells.Allocate(m_num_used_cells);
-
                 // Allocate and zero the Y array
                 m_sorted_y.Allocate((int)(m_max_y - m_min_y + 1));
                 m_sorted_y.Zero();
-
-
                 CellAA[] cells = m_cells.Array;
                 SortedY[] sortedYData = m_sorted_y.Array;
                 CellAA[] sortedCellsData = m_sorted_cells.Array;
-
                 // Create the Y-histogram (count the numbers of cells for each Y)
                 for (int i = 0; i < m_num_used_cells; ++i)
                 {
@@ -408,7 +371,6 @@ namespace PixelFarm.Agg
             void AddNewCell(int x, int y)
             {
                 WriteCurrentCell();
-
                 cCell_x = x;
                 cCell_y = y;
                 cCell_cover = 0;
@@ -435,7 +397,6 @@ namespace PixelFarm.Agg
                         cCell_x, cCell_y,
                         cCell_cover, cCell_area,
                         cCell_left, cCell_right));
-
                     m_num_used_cells++;
                 }
             }
@@ -444,8 +405,6 @@ namespace PixelFarm.Agg
             {
                 int ex1 = x1 >> poly_subpix.SHIFT;
                 int ex2 = x2 >> poly_subpix.SHIFT;
-
-
                 //trivial case. Happens often
                 if (y1 == y2)
                 {
@@ -455,11 +414,8 @@ namespace PixelFarm.Agg
 
                 int fx1 = x1 & (int)poly_subpix.MASK;
                 int fx2 = x2 & (int)poly_subpix.MASK;
-
                 int delta, p, first, dx;
                 int incr, lift, mod, rem;
-
-
                 //everything is located in a single cell.  That is easy!
                 if (ex1 == ex2)
                 {
@@ -473,9 +429,7 @@ namespace PixelFarm.Agg
                 p = ((int)poly_subpix.SCALE - fx1) * (y2 - y1);
                 first = (int)poly_subpix.SCALE;
                 incr = 1;
-
                 dx = x2 - x1;
-
                 if (dx < 0)
                 {
                     p = fx1 * (y2 - y1);
@@ -486,7 +440,6 @@ namespace PixelFarm.Agg
 
                 delta = p / dx;
                 mod = p % dx;
-
                 if (mod < 0)
                 {
                     delta--;
@@ -495,17 +448,14 @@ namespace PixelFarm.Agg
 
                 cCell_cover += delta;
                 cCell_area += (fx1 + first) * delta;
-
                 ex1 += incr;
                 AddNewCell(ex1, ey);
                 y1 += delta;
-
                 if (ex1 != ex2)
                 {
                     p = (int)poly_subpix.SCALE * (y2 - y1 + delta);
                     lift = p / dx;
                     rem = p % dx;
-
                     if (rem < 0)
                     {
                         lift--;
@@ -513,7 +463,6 @@ namespace PixelFarm.Agg
                     }
 
                     mod -= dx;
-
                     while (ex1 != ex2)
                     {
                         delta = lift;
@@ -539,7 +488,6 @@ namespace PixelFarm.Agg
             //------------
             static class QuickSort
             {
-
                 public static void Sort(CellAA[] dataToSort)
                 {
                     Sort(dataToSort, 0, dataToSort.Length - 1);
@@ -571,9 +519,7 @@ namespace PixelFarm.Agg
                     int pivot = begPoint;
                     int m = begPoint + 1;
                     int n = endPoint;
-
                     var x_at_PivotPoint = dataToSort[pivot].x;
-
                     while ((m < endPoint)
                         && x_at_PivotPoint >= dataToSort[m].x)
                     {
@@ -591,7 +537,6 @@ namespace PixelFarm.Agg
                         CellAA temp = dataToSort[m];
                         dataToSort[m] = dataToSort[n];
                         dataToSort[n] = temp;
-
                         while ((m < endPoint) && (x_at_PivotPoint >= dataToSort[m].x))
                         {
                             m++;
@@ -608,12 +553,10 @@ namespace PixelFarm.Agg
                         CellAA temp2 = dataToSort[n];
                         dataToSort[n] = dataToSort[pivot];
                         dataToSort[pivot] = temp2;
-
                     }
                     return n;
                 }
             }
         }
-
     }
 }

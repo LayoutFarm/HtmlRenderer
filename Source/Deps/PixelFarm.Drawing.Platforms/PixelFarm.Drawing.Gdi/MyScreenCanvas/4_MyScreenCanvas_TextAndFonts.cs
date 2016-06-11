@@ -17,15 +17,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Win32;
-
 namespace PixelFarm.Drawing.WinGdi
 {
     partial class MyScreenCanvas
     {
-
         Font currentTextFont = null;
         Color mycurrentTextColor = Color.Black;
-
         //======================================
         //IFonts impl
         PixelFarm.Drawing.FontInfo IFonts.GetFontInfo(string fontname, float fsize, FontStyle st)
@@ -90,18 +87,15 @@ namespace PixelFarm.Drawing.WinGdi
             //else
             //{
             SetFont(font);
-
             var size = new PixelFarm.Drawing.Size();
             unsafe
             {
                 fixed (char* startAddr = &buff[0])
                 {
-
                     NativeTextWin32.UnsafeGetTextExtentExPoint(
                         tempDc, startAddr + startAt, len,
                         (int)Math.Round(maxWidth), _charFit, _charFitWidth, ref size);
                 }
-
             }
             charFit = _charFit[0];
             charFitWidth = charFit > 0 ? _charFitWidth[charFit - 1] : 0;
@@ -127,11 +121,9 @@ namespace PixelFarm.Drawing.WinGdi
             NativeTextWin32.TextOut(gxdc, CanvasOrgX + x, CanvasOrgY + y, buffer, buffer.Length);
             MyWin32.SelectClipRgn(gxdc, IntPtr.Zero);
             gx.ReleaseHdc();
-
         }
         public override void DrawText(char[] buffer, Rectangle logicalTextBox, int textAlignment)
         {
-
             ReleaseHdc();
             IntPtr gxdc = gx.GetHdc();
             var clipRect = System.Drawing.Rectangle.Intersect(logicalTextBox.ToRect(), currentClipRect);
@@ -142,12 +134,9 @@ namespace PixelFarm.Drawing.WinGdi
              clipRect.Right,
              clipRect.Bottom);
             MyWin32.SelectClipRgn(gxdc, hRgn);
-
             NativeTextWin32.TextOut(gxdc, CanvasOrgX + logicalTextBox.X, CanvasOrgY + logicalTextBox.Y, buffer, buffer.Length);
-
             MyWin32.SelectClipRgn(gxdc, IntPtr.Zero);
             gx.ReleaseHdc();
-
             //ReleaseHdc();
             //IntPtr gxdc = gx.GetHdc();
             //MyWin32.SetViewportOrgEx(gxdc, CanvasOrgX, CanvasOrgY, IntPtr.Zero);
@@ -164,15 +153,12 @@ namespace PixelFarm.Drawing.WinGdi
         }
         public override void DrawText(char[] str, int startAt, int len, Rectangle logicalTextBox, int textAlignment)
         {
-
 #if DEBUG
             dbugCounter.dbugDrawStringCount++;
 #endif
             var color = this.CurrentTextColor;
             if (color.A == 255)
             {
-
-
                 var clipRect = Rectangle.Intersect(logicalTextBox,
                     new Rectangle(currentClipRect.Left,
                         currentClipRect.Top,
@@ -185,12 +171,10 @@ namespace PixelFarm.Drawing.WinGdi
                  clipRect.Right,
                  clipRect.Bottom);
                 MyWin32.SelectClipRgn(tempDc, hRgn);
-
                 unsafe
                 {
                     fixed (char* startAddr = &str[0])
                     {
-
                         NativeTextWin32.TextOutUnsafe(tempDc,
                             (int)logicalTextBox.X + canvasOriginX,
                             (int)logicalTextBox.Y + canvasOriginY,
@@ -198,7 +182,6 @@ namespace PixelFarm.Drawing.WinGdi
                     }
                 }
                 MyWin32.SelectClipRgn(tempDc, IntPtr.Zero);
-
 #if DEBUG
                 //NativeTextWin32.dbugDrawTextOrigin(tempDc,
                 //        logicalTextBox.X + canvasOriginX,
@@ -210,7 +193,6 @@ namespace PixelFarm.Drawing.WinGdi
             {
                 //translucent / transparent text
                 InitHdc();
-
                 var intersectRect = Rectangle.Intersect(logicalTextBox,
                         new Rectangle(currentClipRect.Left,
                             currentClipRect.Top,
@@ -223,8 +205,6 @@ namespace PixelFarm.Drawing.WinGdi
                  intersectRect.Right,
                  intersectRect.Bottom);
                 MyWin32.SelectClipRgn(tempDc, hRgn);
-
-
                 unsafe
                 {
                     fixed (char* startAddr = &str[0])
@@ -252,12 +232,11 @@ namespace PixelFarm.Drawing.WinGdi
             }
             set
             {
-                ReleaseHdc(); 
+                ReleaseHdc();
                 this.currentTextFont = value;
                 MyFont myFont = value as MyFont;
                 IntPtr hdc = gx.GetHdc();
                 MyWin32.SelectObject(hdc, myFont.ToHfont());
-
                 gx.ReleaseHdc();
             }
         }
@@ -277,7 +256,5 @@ namespace PixelFarm.Drawing.WinGdi
                 //gx.ReleaseHdc();
             }
         }
-
-
     }
 }

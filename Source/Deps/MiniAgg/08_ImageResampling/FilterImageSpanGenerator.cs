@@ -21,9 +21,9 @@
 // Image transformations with filtering. Span generator base class
 //
 //----------------------------------------------------------------------------
+
 using System;
 using img_subpix_scale = PixelFarm.Agg.ImageFilterLookUpTable.ImgSubPixConst;
-
 namespace PixelFarm.Agg.Image
 {
     //=====================================================span_image_resample
@@ -89,11 +89,8 @@ namespace PixelFarm.Agg.Image
 
             rx = (rx * m_blur_x) >> img_subpix_scale.SHIFT;
             ry = (ry * m_blur_y) >> img_subpix_scale.SHIFT;
-
             if (rx < img_subpix_scale.SCALE) rx = img_subpix_scale.SCALE;
             if (ry < img_subpix_scale.SCALE) ry = img_subpix_scale.SCALE;
         }
-
-
     }
 }

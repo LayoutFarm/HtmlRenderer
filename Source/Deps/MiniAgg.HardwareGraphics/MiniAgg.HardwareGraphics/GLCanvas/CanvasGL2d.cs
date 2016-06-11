@@ -1,32 +1,26 @@
 ﻿// 2015,2014 ,MIT, WinterDev
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
-
 using PixelFarm.Agg;
 using PixelFarm.Agg.VertexSource;
 using Tesselate;
 using PixelFarm.Drawing;
 namespace PixelFarm.DrawingGL
 {
-
     public partial class CanvasGL2d : IDisposable
     {
-
         PixelFarm.Drawing.Color strokeColor = PixelFarm.Drawing.Color.Black;
         CanvasOrientation canvasOrientation = CanvasOptions.DefaultOrientation;
-
         int canvasOriginX = 0;
         int canvasOriginY = 0;
         int canvasW;
         int canvasH;
-
-
         //tools---------------------------------
         Tesselator tess = new Tesselator();
         TessListener2 tessListener = new TessListener2();
-
         RoundedRect roundRect = new RoundedRect();
         Ellipse ellipse = new Ellipse();
         PathWriter ps = new PathWriter();
@@ -36,8 +30,6 @@ namespace PixelFarm.DrawingGL
         GLScanlinePacked8 sclinePack8;
         Arc arcTool = new Arc();
         CurveFlattener curveFlattener = new CurveFlattener();
-
-
         public CanvasGL2d(int canvasW, int canvasH)
         {
             this.canvasW = canvasW;
@@ -46,7 +38,6 @@ namespace PixelFarm.DrawingGL
             sclineRasToGL = new GLScanlineRasToDestBitmapRenderer();
             sclinePack8 = new GLScanlinePacked8();
             tessListener.Connect(tess, Tesselate.Tesselator.WindingRuleType.Odd, true);
-
         }
         public CanvasSmoothMode SmoothMode
         {
@@ -70,7 +61,6 @@ namespace PixelFarm.DrawingGL
 
         public void DrawLine(float x1, float y1, float x2, float y2)
         {
-
             switch (this.SmoothMode)
             {
                 case CanvasSmoothMode.AggSmooth:
@@ -84,7 +74,8 @@ namespace PixelFarm.DrawingGL
                         sclineRas.AddPath(vxs);
                         sclineRasToGL.DrawWithColor(sclineRas, sclinePack8, this.strokeColor);
                         //--------------------------------------
-                    } break;
+                    }
+                    break;
                 default:
                     {
                         //drawline with solid color  
@@ -93,10 +84,10 @@ namespace PixelFarm.DrawingGL
                             float* lineCoords = stackalloc float[4];
                             lineCoords[0] = x1; lineCoords[1] = y1;
                             lineCoords[2] = x2; lineCoords[3] = y2;
-
                             UnsafeDrawV2fList(DrawMode.Lines, lineCoords, 2);
                         }
-                    } break;
+                    }
+                    break;
             }
         }
 
@@ -135,7 +126,8 @@ namespace PixelFarm.DrawingGL
                         sclineRas.Reset();
                         sclineRas.AddPath(vxs);
                         sclineRasToGL.DrawWithColor(sclineRas, sclinePack8, color);
-                    } break;
+                    }
+                    break;
                 default:
                     {
                         //tess the vxs first
@@ -143,11 +135,11 @@ namespace PixelFarm.DrawingGL
                         sclineRas.AddPath(vxs);
                         sclineRasToGL.DrawWithColor(sclineRas, sclinePack8, color);
                         //throw new NotSupportedException();
-                    } break;
+                    }
+                    break;
             }
-
         }
-        public void FillVxs( LinearGradientBrush brush, VertexStore vxs)
+        public void FillVxs(LinearGradientBrush brush, VertexStore vxs)
         {
             switch (this.SmoothMode)
             {
@@ -156,13 +148,15 @@ namespace PixelFarm.DrawingGL
                         sclineRas.Reset();
                         sclineRas.AddPath(vxs);
                         sclineRasToGL.DrawWithColor(sclineRas, sclinePack8, brush.Color);
-                    } break;
+                    }
+                    break;
                 default:
                     {
                         sclineRas.Reset();
                         sclineRas.AddPath(vxs);
                         sclineRasToGL.DrawWithColor(sclineRas, sclinePack8, brush.Color);
-                    } break;
+                    }
+                    break;
             }
         }
 
@@ -173,17 +167,18 @@ namespace PixelFarm.DrawingGL
             {
                 case CanvasSmoothMode.AggSmooth:
                     {
-
                         sclineRas.Reset();
                         sclineRas.AddPath(snap);
                         sclineRasToGL.DrawWithColor(sclineRas, sclinePack8, color);
-                    } break;
+                    }
+                    break;
                 default:
                     {
                         sclineRas.Reset();
                         sclineRas.AddPath(snap);
                         sclineRasToGL.DrawWithColor(sclineRas, sclinePack8, color);
-                    } break;
+                    }
+                    break;
             }
         }
 
@@ -196,13 +191,15 @@ namespace PixelFarm.DrawingGL
                         sclineRas.Reset();
                         sclineRas.AddPath(aggStroke.MakeVxs(vxs));
                         sclineRasToGL.DrawWithColor(sclineRas, sclinePack8, this.strokeColor);
-                    } break;
+                    }
+                    break;
                 default:
                     {
                         sclineRas.Reset();
                         sclineRas.AddPath(aggStroke.MakeVxs(vxs));
                         sclineRasToGL.DrawWithColor(sclineRas, sclinePack8, this.strokeColor);
-                    } break;
+                    }
+                    break;
             }
         }
 
@@ -232,13 +229,13 @@ namespace PixelFarm.DrawingGL
                         }
                         //close
                         ps.CloseFigure();
-
                         VertexStore vxs = aggStroke.MakeVxs(ps.Vxs);
                         sclineRas.Reset();
                         sclineRas.AddPath(vxs);
                         sclineRasToGL.DrawWithColor(sclineRas, sclinePack8, this.strokeColor);
                         //-------------------------------------- 
-                    } break;
+                    }
+                    break;
                 default:
                     {
                         unsafe
@@ -248,24 +245,23 @@ namespace PixelFarm.DrawingGL
                                 UnsafeDrawV2fList(DrawMode.LineLoop, arr, vertexCount);
                             }
                         }
-                    } break;
+                    }
+                    break;
             }
         }
         public void DrawEllipse(float x, float y, double rx, double ry)
         {
-
             ellipse.Reset(x, y, rx, ry);
             switch (this.SmoothMode)
             {
                 case CanvasSmoothMode.AggSmooth:
                     {
-
                         VertexStore vxs = aggStroke.MakeVxs(ellipse.MakeVxs());
                         sclineRas.Reset();
                         sclineRas.AddPath(vxs);
                         sclineRasToGL.DrawWithColor(sclineRas, sclinePack8, this.strokeColor);
-
-                    } break;
+                    }
+                    break;
                 default:
                     {
                         VertexStore vxs = ellipse.MakeVxs();
@@ -285,19 +281,22 @@ namespace PixelFarm.DrawingGL
                                         {
                                             coords[nn++] = (float)vx;
                                             coords[nn++] = (float)vy;
-                                        } break;
+                                        }
+                                        break;
                                     case VertexCmd.LineTo:
                                         {
                                             coords[nn++] = (float)vx;
                                             coords[nn++] = (float)vy;
-                                        } break;
+                                        }
+                                        break;
                                     case VertexCmd.Stop:
                                         {
-                                        } break;
+                                        }
+                                        break;
                                     default:
                                         {
-
-                                        } break;
+                                        }
+                                        break;
                                 }
                                 i++;
                                 cmd = vxs.GetVertex(i, out vx, out vy);
@@ -305,9 +304,9 @@ namespace PixelFarm.DrawingGL
                             //--------------------------------------                              
                             UnsafeDrawV2fList(DrawMode.LineLoop, coords, nn / 2);
                         }
-                    } break;
+                    }
+                    break;
             }
-
         }
         public void DrawCircle(float x, float y, double radius)
         {
@@ -319,7 +318,6 @@ namespace PixelFarm.DrawingGL
             roundRect.SetRect(x, y, x + w, y + h);
             roundRect.SetRadius(rx, ry);
             var vxs = this.aggStroke.MakeVxs(roundRect.MakeVxs());
-
             switch (this.SmoothMode)
             {
                 case CanvasSmoothMode.AggSmooth:
@@ -327,14 +325,15 @@ namespace PixelFarm.DrawingGL
                         sclineRas.Reset();
                         sclineRas.AddPath(vxs);
                         sclineRasToGL.DrawWithColor(sclineRas, sclinePack8, this.strokeColor);
-                    } break;
+                    }
+                    break;
                 default:
                     {
-
                         sclineRas.Reset();
                         sclineRas.AddPath(vxs);
                         sclineRasToGL.DrawWithColor(sclineRas, sclinePack8, this.strokeColor);
-                    } break;
+                    }
+                    break;
             }
         }
 
@@ -370,17 +369,14 @@ namespace PixelFarm.DrawingGL
                         sclineRas.Reset();
                         sclineRas.AddPath(vxs);
                         sclineRasToGL.FillWithColor(sclineRas, sclinePack8, color);
-
-
-                    } break;
+                    }
+                    break;
                 default:
                     {
-
                         List<Vertex> vertextList = TessPolygon(vertex2dCoords);
                         int j = vertextList.Count;
                         //-----------------------------   
-                        //fill polygon  with solid color
-
+                        //fill polygon  with solid color 
                         unsafe
                         {
                             float* vtx = stackalloc float[j * 2];
@@ -394,13 +390,12 @@ namespace PixelFarm.DrawingGL
                             }
                             UnsafeDrawV2fList(DrawMode.Triangles, vtx, j, color);
                         }
-
-                    } break;
+                    }
+                    break;
             }
         }
         public void DrawRect(float x, float y, float w, float h)
         {
-
             unsafe
             {
                 //set color 
@@ -419,13 +414,11 @@ namespace PixelFarm.DrawingGL
                 CreateRectCoords(rectCoords, x, y, w, h);
                 UnsafeDrawV2fList(DrawMode.Triangles, rectCoords, 6, color);
             }
-
         }
         public void FillEllipse(PixelFarm.Drawing.Color color, float x, float y, float rx, float ry)
         {
             ellipse.Reset(x, y, rx, ry);
             var vxs = ellipse.MakeVxs();
-
             switch (this.SmoothMode)
             {
                 case CanvasSmoothMode.AggSmooth:
@@ -433,7 +426,8 @@ namespace PixelFarm.DrawingGL
                         sclineRas.Reset();
                         sclineRas.AddPath(vxs);
                         sclineRasToGL.DrawWithColor(sclineRas, sclinePack8, color);
-                    } break;
+                    }
+                    break;
                 default:
                     {   //other mode
                         int n = vxs.Count;
@@ -441,7 +435,6 @@ namespace PixelFarm.DrawingGL
                         unsafe
                         {
                             float* coords = stackalloc float[(n * 2) + 4];
-
                             int i = 0;
                             int nn = 0;
                             int npoints = 0;
@@ -451,7 +444,6 @@ namespace PixelFarm.DrawingGL
                             coords[nn++] = (float)y;
                             npoints++;
                             var cmd = vxs.GetVertex(i, out vx, out vy);
-
                             while (i < n)
                             {
                                 switch (cmd)
@@ -461,20 +453,23 @@ namespace PixelFarm.DrawingGL
                                             coords[nn++] = (float)vx;
                                             coords[nn++] = (float)vy;
                                             npoints++;
-                                        } break;
+                                        }
+                                        break;
                                     case VertexCmd.LineTo:
                                         {
                                             coords[nn++] = (float)vx;
                                             coords[nn++] = (float)vy;
                                             npoints++;
-                                        } break;
+                                        }
+                                        break;
                                     case VertexCmd.Stop:
                                         {
-                                        } break;
+                                        }
+                                        break;
                                     default:
                                         {
-
-                                        } break;
+                                        }
+                                        break;
                                 }
                                 i++;
                                 cmd = vxs.GetVertex(i, out vx, out vy);
@@ -483,11 +478,10 @@ namespace PixelFarm.DrawingGL
                             coords[nn++] = coords[2];
                             coords[nn++] = coords[3];
                             npoints++;
-
-
                             UnsafeDrawV2fList(DrawMode.TriangleFan, coords, npoints, color);
                         }
-                    } break;
+                    }
+                    break;
             }
         }
 
@@ -506,19 +500,15 @@ namespace PixelFarm.DrawingGL
                  arcSize == SvgArcSize.Large,
                  arcSweep == SvgArcSweep.Negative,
                  endX, endY, ref centerFormArc);
-
-
             arcTool.Init(centerFormArc.cx, centerFormArc.cy, rx, ry,
                 centerFormArc.radStartAngle,
                 (centerFormArc.radStartAngle + centerFormArc.radSweepDiff));
-
             VertexStore vxs = new VertexStore();
             bool stopLoop = false;
             foreach (VertexData vertexData in arcTool.GetVertexIter())
             {
                 switch (vertexData.command)
                 {
-
                     case VertexCmd.Stop:
                         stopLoop = true;
                         break;
@@ -537,20 +527,16 @@ namespace PixelFarm.DrawingGL
             {
                 int vxs_count = vxs.Count;
                 double px0, py0, px_last, py_last;
-
                 vxs.GetVertex(0, out px0, out py0);
                 vxs.GetVertex(vxs_count - 1, out px_last, out py_last);
-
                 double distance1 = Math.Sqrt((px_last - px0) * (px_last - px0) + (py_last - py0) * (py_last - py0));
                 double distance2 = Math.Sqrt((endX - fromX) * (endX - fromX) + (endY - fromY) * (endY - fromY));
-
                 if (distance1 < distance2)
                 {
                     scaleRatio = distance2 / distance1;
                 }
                 else
                 {
-
                 }
             }
 
@@ -607,25 +593,19 @@ namespace PixelFarm.DrawingGL
                 new PixelFarm.VectorMath.Vector2(endX, endY),
                 new PixelFarm.VectorMath.Vector2(controlX1, controlY1),
                 new PixelFarm.VectorMath.Vector2(controlY2, controlY2));
-
             vxs = this.aggStroke.MakeVxs(vxs);
-
             sclineRas.Reset();
             sclineRas.AddPath(vxs);
             sclineRasToGL.DrawWithColor(sclineRas, sclinePack8, this.strokeColor);
-
         }
 
         public void FillRect(PixelFarm.Drawing.LinearGradientBrush linearGradientBrush, float x, float y, float w, float h)
         {
-
-
             if (linearGradientBrush != null)
             {
                 //use clip rect for fill rect gradient
                 EnableClipRect();
                 SetClipRectRel((int)x, (int)y, (int)w, (int)h);
-
                 //early exit
 
                 ////points 
@@ -648,32 +628,27 @@ namespace PixelFarm.DrawingGL
 
         public void FillRoundRect(PixelFarm.Drawing.Color color, float x, float y, float w, float h, float rx, float ry)
         {
-
             roundRect.SetRect(x, y, x + w, y + h);
             roundRect.SetRadius(rx, ry);
             //create round rect vxs
             var vxs = roundRect.MakeVxs();
-
             switch (this.SmoothMode)
             {
                 case CanvasSmoothMode.AggSmooth:
                     {
-
                         sclineRas.Reset();
                         sclineRas.AddPath(vxs);
                         sclineRasToGL.FillWithColor(sclineRas, sclinePack8, color);
-
-                    } break;
+                    }
+                    break;
                 default:
                     {
                         sclineRas.Reset();
                         sclineRas.AddPath(vxs);
                         sclineRasToGL.DrawWithColor(sclineRas, sclinePack8, color);
-
-
-                    } break;
+                    }
+                    break;
             }
-
         }
         public void FillCircle(PixelFarm.Drawing.Color color, float x, float y, float radius)
         {

@@ -1,9 +1,9 @@
 ﻿// 2015,2014 ,MIT, WinterDev
-using System; 
+
+using System;
 using System.Runtime.InteropServices;
 namespace PixelFarm.Agg
 {
-
     public class NativeBuffer
     {
         byte[] mmm;
@@ -59,9 +59,9 @@ namespace PixelFarm.Agg
                 {
                     memcpy(head_dest, head_src, len);
                 }
-            } 
+            }
         }
-         
+
 
         [DllImport("msvcrt.dll", EntryPoint = "memset", CallingConvention = CallingConvention.Cdecl)]
         static unsafe extern void memset(byte* dest, byte c, int byteCount);
@@ -70,6 +70,4 @@ namespace PixelFarm.Agg
         [DllImport("msvcrt.dll", EntryPoint = "memcpy", CallingConvention = CallingConvention.Cdecl)]
         static unsafe extern int memcmp(byte* dest, byte* src, int byteCount);
     }
-
-
 }

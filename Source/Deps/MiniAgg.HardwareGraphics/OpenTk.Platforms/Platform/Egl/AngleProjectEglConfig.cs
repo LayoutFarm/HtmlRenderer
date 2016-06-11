@@ -29,7 +29,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using OpenTK.Graphics;
-
 namespace OpenTK.Platform.Egl
 {
     static class AngleProjectEglConfig
@@ -39,5 +38,4 @@ namespace OpenTK.Platform.Egl
         /// </summary>
         public const int EGL_POST_SUB_BUFFER_SUPPORTED_NV = 0x30BE;
     }
-
 }

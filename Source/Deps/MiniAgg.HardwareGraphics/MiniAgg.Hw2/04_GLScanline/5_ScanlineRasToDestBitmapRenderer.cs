@@ -15,33 +15,27 @@
 //          mcseemagg@yahoo.com
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
+
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 using PixelFarm.Agg.Image;
 using PixelFarm.Agg.VertexSource;
 using OpenTK;
 using OpenTK.Graphics.ES20;
 using PixelFarm.DrawingGL;
-
 namespace PixelFarm.Agg
 {
-
     /// <summary
     /// to bitmap
     /// </summary>  
     class GLScanlineRasToDestBitmapRenderer
     {
-
         BasicShader scanlineShader;
-
         AggCoordList3f myLineBuffer = new AggCoordList3f();
-
         public GLScanlineRasToDestBitmapRenderer(BasicShader scanlineShader)
         {
             this.scanlineShader = scanlineShader;
-
         }
         internal void SetViewMatrix(MyMat4 mat)
         {
@@ -58,7 +52,6 @@ namespace PixelFarm.Agg
                 GLScanline scline,
                 PixelFarm.Drawing.Color color)
         {
-
             //early exit
             if (color.A == 0) { return; }
             if (!sclineRas.RewindScanlines()) { return; }
@@ -68,15 +61,12 @@ namespace PixelFarm.Agg
             //-----------------------------------------------  
             var lineBuff = this.myLineBuffer;
             lineBuff.Clear();
-
             while (sclineRas.SweepScanline(scline))
             {
                 int y = scline.Y;
                 lineBuff.BeginNewLine(y);
-
                 int num_spans = scline.SpanCount;
                 byte[] covers = scline.GetCovers();
-
                 //copy data from scanline to lineBuff
                 //TODO: move linebuf built into the scanline?
 
@@ -105,8 +95,6 @@ namespace PixelFarm.Agg
             {
                 this.scanlineShader.AggDrawLines(myLineBuffer, nelements, color);
             }
-
-
         }
 
         /// <summary>
@@ -129,15 +117,12 @@ namespace PixelFarm.Agg
             //-----------------------------------------------  
             var lineBuff = this.myLineBuffer;
             lineBuff.Clear();
-
             while (sclineRas.SweepScanline(scline))
             {
                 int y = scline.Y;
                 lineBuff.BeginNewLine(y);
-
                 int num_spans = scline.SpanCount;
                 byte[] covers = scline.GetCovers();
-
                 //copy data from scanline to lineBuff
                 //TODO: move linebuf built into the scanline?
 
@@ -166,7 +151,6 @@ namespace PixelFarm.Agg
             {
                 this.scanlineShader.AggDrawLines(myLineBuffer, nelements, color);
             }
-
         }
         const int BASE_MASK = 255;
         static void GLBlendHLine(int x1, int x2, bool isFillMode, AggCoordList3f lineBuffer, int srcColorAlpha, byte cover)
@@ -175,25 +159,25 @@ namespace PixelFarm.Agg
 
             int len = x2 - x1 + 1;
             int alpha = (((int)(srcColorAlpha) * (cover + 1)) >> 8);
-
             if (isFillMode)
             {
                 //same alpha...
                 if (alpha == BASE_MASK)
                 {
-
                     switch (len)
                     {
                         case 0:
                             {
-                            } break;
+                            }
+                            break;
                         case 1:
                             {
                                 //single px
                                 lineBuffer.AddCoord(x1 - 1, alpha);
                                 lineBuffer.AddCoord(x1, alpha);
                                 lineBuffer.AddCoord(x1 + 1, alpha);
-                            } break;
+                            }
+                            break;
                         default:
                             {
                                 //var c = PixelFarm.Drawing.Color.FromArgb(alpha, color).ToARGB();
@@ -204,7 +188,8 @@ namespace PixelFarm.Agg
                                 lineBuffer.AddCoord(x2 + 1, alpha);
                                 //lineBuffer.AddCoord(x2 + 2, 0);
                                 //lineBuffer.AddCoord(x2 + 2, 0);
-                            } break;
+                            }
+                            break;
                     }
                 }
                 else
@@ -218,23 +203,23 @@ namespace PixelFarm.Agg
             }
             else
             {
-
                 //same alpha...
                 if (alpha == BASE_MASK)
                 {
-
                     switch (len)
                     {
                         case 0:
                             {
-                            } break;
+                            }
+                            break;
                         case 1:
                             {
                                 //single px
                                 lineBuffer.AddCoord(x1 - 1, 0);
                                 lineBuffer.AddCoord(x1, alpha);
                                 //lineBuffer.AddCoord(x1 + 1, alpha);
-                            } break;
+                            }
+                            break;
                         default:
                             {
                                 //var c = PixelFarm.Drawing.Color.FromArgb(alpha, color).ToARGB();
@@ -244,7 +229,8 @@ namespace PixelFarm.Agg
                                 lineBuffer.AddCoord(x1, alpha);
                                 lineBuffer.AddCoord(x2 + 1, alpha);
                                 lineBuffer.AddCoord(x2 + 2, 0);
-                            } break;
+                            }
+                            break;
                     }
                 }
                 else
@@ -280,7 +266,8 @@ namespace PixelFarm.Agg
                                 coversIndex++;
                                 //lineBuffer.AddCoord(xpos, 0);
 
-                            } break;
+                            }
+                            break;
                         default:
                             {
                                 lineBuffer.AddCoord(xpos - 1, 0);
@@ -297,8 +284,8 @@ namespace PixelFarm.Agg
                                 while (--len != 0);
                                 //close with single px
                                 lineBuffer.AddCoord(xpos, 0);
-
-                            } break;
+                            }
+                            break;
                     }
                 }
             }
@@ -312,19 +299,17 @@ namespace PixelFarm.Agg
                         case 1:
                             {
                                 lineBuffer.AddCoord(xpos - 1, 0);
-
                                 //just one pix , 
                                 //alpha change ***
                                 int alpha = ((srcColorAlpha) * ((covers[coversIndex]) + 1)) >> 8;
                                 //single px
                                 lineBuffer.AddCoord(xpos, alpha);
-
                                 xpos++;
                                 coversIndex++;
-
                                 //lineBuffer.AddCoord(xpos, 0);
 
-                            } break;
+                            }
+                            break;
                         default:
                             {
                                 lineBuffer.AddCoord(xpos - 1, 0);
@@ -341,12 +326,11 @@ namespace PixelFarm.Agg
                                 while (--len != 0);
                                 //close with single px
                                 lineBuffer.AddCoord(xpos, 0);
-
-                            } break;
+                            }
+                            break;
                     }
                 }
             }
         }
     }
-
 }

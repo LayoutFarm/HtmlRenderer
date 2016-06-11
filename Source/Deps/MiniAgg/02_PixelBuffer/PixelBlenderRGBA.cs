@@ -26,27 +26,23 @@
 // 
 //----------------------------------------------------------------------------
 #define USE_BLENDER
-using System.Collections.Generic;
 
+using System.Collections.Generic;
 //using ColorT = MatterHackers.Agg.order_bgra;
 
 using System;
-
 using PixelFarm.Agg;
 //using Mono.Simd;
 
 namespace PixelFarm.Agg.Image
 {
-
     public interface IPixelBlender
     {
         int NumPixelBits { get; }
 
         ColorRGBA PixelToColorRGBA_Bytes(byte[] buffer, int bufferOffset);
-
         void CopyPixels(byte[] buffer, int bufferOffset, ColorRGBA sourceColor, int count);
         void CopyPixel(byte[] buffer, int bufferOffset, ColorRGBA sourceColor);
-
         void BlendPixel(byte[] buffer, int bufferOffset, ColorRGBA sourceColor);
         void BlendPixels(byte[] buffer, int bufferOffset, ColorRGBA[] sourceColors, int sourceColorsOffset, byte[] sourceCovers, int sourceCoversOffset, bool firstCoverForAll, int count);
     }
@@ -62,7 +58,6 @@ namespace PixelFarm.Agg.Image
     {
         public PixelBlenderBGRA()
         {
-
         }
         public ColorRGBA PixelToColorRGBA_Bytes(byte[] buffer, int bufferOffset)
         {
@@ -81,7 +76,6 @@ namespace PixelFarm.Agg.Image
                 buffer[bufferOffset + CO.G] = sourceColor.green;
                 buffer[bufferOffset + CO.B] = sourceColor.blue;
                 buffer[bufferOffset + CO.A] = sourceColor.alpha;
-
                 bufferOffset += 4;
             }
             while (--count != 0);
@@ -89,13 +83,11 @@ namespace PixelFarm.Agg.Image
 
         public void CopyPixel(byte[] buffer, int bufferOffset, ColorRGBA sourceColor)
         {
-
             buffer[bufferOffset + CO.R] = sourceColor.red;
             buffer[bufferOffset + CO.G] = sourceColor.green;
             buffer[bufferOffset + CO.B] = sourceColor.blue;
             buffer[bufferOffset + CO.A] = sourceColor.alpha;
             bufferOffset += 4;
-
         }
         public void BlendPixel(byte[] buffer, int bufferOffset, ColorRGBA sourceColor)
         {
@@ -179,12 +171,8 @@ namespace PixelFarm.Agg.Image
 
     public sealed class PixelBlenderGammaBGRA : PixelBlenderBGRABase, IPixelBlender
     {
-
-
         GammaLookUpTable m_gamma;
-
         static Dictionary<float, GammaLookUpTable> gammaTablePool = new Dictionary<float, GammaLookUpTable>();
-
         public PixelBlenderGammaBGRA(float gammaValue)
         {
             GammaLookUpTable found;
@@ -195,7 +183,6 @@ namespace PixelFarm.Agg.Image
             }
 
             this.m_gamma = found;
-
         }
         public ColorRGBA PixelToColorRGBA_Bytes(byte[] buffer, int bufferOffset)
         {
@@ -220,7 +207,6 @@ namespace PixelFarm.Agg.Image
 
         public void CopyPixel(byte[] buffer, int bufferOffset, ColorRGBA sourceColor)
         {
-
             buffer[bufferOffset + CO.R] = m_gamma.inv(sourceColor.red);
             buffer[bufferOffset + CO.G] = m_gamma.inv(sourceColor.green);
             buffer[bufferOffset + CO.B] = m_gamma.inv(sourceColor.blue);
@@ -252,7 +238,6 @@ namespace PixelFarm.Agg.Image
     public sealed class PixelBlenderPreMultBGRA : PixelBlenderBGRABase, IPixelBlender
     {
         static int[] m_Saturate9BitToByte = new int[1 << 9];
-
         public PixelBlenderPreMultBGRA()
         {
             if (m_Saturate9BitToByte[2] == 0)
@@ -286,7 +271,6 @@ namespace PixelFarm.Agg.Image
             buffer[bufferOffset + CO.G] = sourceColor.green;
             buffer[bufferOffset + CO.B] = sourceColor.blue;
             buffer[bufferOffset + CO.A] = sourceColor.alpha;
-
         }
 
         public void BlendPixel(byte[] pDestBuffer, int bufferOffset, ColorRGBA sourceColor)
@@ -450,11 +434,9 @@ namespace PixelFarm.Agg.Image
     {
         static int[] m_Saturate9BitToByte = new int[1 << 9];
         ColorRGBA polyColor;
-
         public PixelBlenderPolyColorPreMultBGRA(ColorRGBA polyColor)
         {
             this.polyColor = polyColor;
-
             if (m_Saturate9BitToByte[2] == 0)
             {
                 for (int i = 0; i < m_Saturate9BitToByte.Length; i++)
@@ -499,7 +481,6 @@ namespace PixelFarm.Agg.Image
                     int sourceR = (byte)(m_Saturate9BitToByte[(polyColor.Alpha0To255 * sourceColor.red + 255) >> 8]);
                     int sourceG = (byte)(m_Saturate9BitToByte[(polyColor.Alpha0To255 * sourceColor.green + 255) >> 8]);
                     int sourceB = (byte)(m_Saturate9BitToByte[(polyColor.Alpha0To255 * sourceColor.blue + 255) >> 8]);
-
                     int destR = m_Saturate9BitToByte[((pDestBuffer[bufferOffset + CO.R] * oneOverAlpha + 255) >> 8) + sourceR];
                     int destG = m_Saturate9BitToByte[((pDestBuffer[bufferOffset + CO.G] * oneOverAlpha + 255) >> 8) + sourceG];
                     int destB = m_Saturate9BitToByte[((pDestBuffer[bufferOffset + CO.B] * oneOverAlpha + 255) >> 8) + sourceB];
@@ -610,7 +591,6 @@ namespace PixelFarm.Agg.Image
             }
         }
     }
-
 }
 
 

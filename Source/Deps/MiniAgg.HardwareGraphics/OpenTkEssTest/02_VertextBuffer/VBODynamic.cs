@@ -58,7 +58,7 @@ namespace OpenTkEssTest
         }
 
         uint VBOHandle;
-        #endregion Particles
+#endregion Particles
 
         /// <summary>Load resources here.</summary>
         /// <param name="e">Not used.</param>

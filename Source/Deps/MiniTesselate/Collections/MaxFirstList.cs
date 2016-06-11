@@ -2,10 +2,8 @@
 
 using System;
 using System.Collections.Generic;
-
 namespace MiniCollection
 {
-
     //-----
     //design for our tess only
     //not for general use.
@@ -31,11 +29,9 @@ namespace MiniCollection
         where T : IComparable<T>
     {
         List<RefItem<T>> innerList = new List<RefItem<T>>();
-
         bool isSorted = false;
         public MaxFirstList()
         {
-
         }
         public bool IsEmpty
         {
@@ -50,7 +46,7 @@ namespace MiniCollection
         }
         void SortData()
         {
-            innerList.Sort(MaxFirstSort); 
+            innerList.Sort(MaxFirstSort);
             for (int i = innerList.Count - 1; i >= 0; --i)
             {
                 innerList[i].NodeNumber = i;
@@ -92,13 +88,10 @@ namespace MiniCollection
         }
         int BinSearch(RefItem<T> refItem, int begin, int end)
         {
-
-
             int pos = begin + ((end - begin) / 2);
             RefItem<T> sample = innerList[pos];
             if (refItem == sample)
             {
-
             }
             else
             {
@@ -134,10 +127,10 @@ namespace MiniCollection
             {
                 //use binary search to find node 
                 //1. find middle point 
-                int removeAt = refItem.NodeNumber; 
+                int removeAt = refItem.NodeNumber;
                 for (int i = innerList.Count - 1; i > removeAt; --i)
                 {
-                    innerList[i].NodeNumber = i - 1;                     
+                    innerList[i].NodeNumber = i - 1;
                 }
                 innerList.RemoveAt(removeAt);
             }
@@ -155,10 +148,5 @@ namespace MiniCollection
             //----------------------------------------------
             //delete that item  
         }
-
     }
-
-
-
-
 }

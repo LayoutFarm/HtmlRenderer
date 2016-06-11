@@ -1,16 +1,14 @@
 ﻿// 2015,2014 ,MIT, WinterDev
-using System;
 
+using System;
 //TODO: revise PixelFarm.Drawing.WinGdi need here
 
 namespace PixelFarm.Drawing.DrawingGL
 {
-
     class CanvasGLPlatform : GraphicsPlatform
     {
         //font store is platform specific
         static PixelFarm.Drawing.WinGdi.FontStore fontStore = new PixelFarm.Drawing.WinGdi.FontStore();
-
         System.Drawing.Bitmap sampleBmp;
         IFonts sampleIFonts;
         public CanvasGLPlatform()
@@ -53,13 +51,15 @@ namespace PixelFarm.Drawing.DrawingGL
                             //use gdi font board  
 
                             fontInfo.PlatformSpecificFont = new PixelFarm.Agg.Fonts.GdiTextureFont(800, 200, f, fontInfo);
-                        } break;
+                        }
+                        break;
                     default:
                         {
                             fontInfo.PlatformSpecificFont = PixelFarm.Agg.Fonts.NativeFontStore.LoadFont(
                                 "c:\\Windows\\Fonts\\" + fontFaceName + ".ttf", //sample only***
                                 (int)emsize);
-                        } break;
+                        }
+                        break;
                 }
             }
             return fontInfo;

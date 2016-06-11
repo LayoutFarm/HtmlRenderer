@@ -31,17 +31,12 @@
 // PostScript and PDF technology for software developers.
 // 
 //----------------------------------------------------------------------------
-using System;
 
+using System;
 using PixelFarm.VectorMath;
 using poly_subpix = PixelFarm.Agg.AggBasics.PolySubPix;
-
-
-
 namespace PixelFarm.Agg
 {
-
-
     //==================================================rasterizer_scanline_aa
     // Polygon rasterizer that is used to render filled polygons with 
     // high-quality Anti-Aliasing. Internally, by default, the class uses 
@@ -78,12 +73,9 @@ namespace PixelFarm.Agg
     {
         CellAARasterizer m_cellAARas;
         VectorClipper m_vectorClipper;
-
         int[] m_gammaLut = new int[AA_SCALE];
-
         FillingRule m_filling_rule;
         bool m_auto_close;
-
         /// <summary>
         /// multiplied move to start x
         /// </summary>
@@ -92,11 +84,8 @@ namespace PixelFarm.Agg
         /// multiplied move to starty
         /// </summary>
         int mul_start_y;
-
         Status m_status;
         int m_scan_y;
-
-
         //---------------------------
         const int AA_SHIFT = 8;
         const int AA_SCALE = 1 << AA_SHIFT;
@@ -106,13 +95,10 @@ namespace PixelFarm.Agg
         //---------------------------
 
         RectInt userModeClipBox;
-
         //---------------
         //offset x offset y
         double addVertextOffsetX = 0;
         double addVertextOffsetY = 0;
-
-
         enum Status
         {
             Initial,
@@ -125,13 +111,11 @@ namespace PixelFarm.Agg
         {
             m_cellAARas = new CellAARasterizer();
             m_vectorClipper = new VectorClipper(m_cellAARas);
-
             m_filling_rule = FillingRule.NonZero;
             m_auto_close = true;
             mul_start_x = 0;
             mul_start_y = 0;
             m_status = Status.Initial;
-
             for (int i = AA_SCALE - 1; i >= 0; --i)
             {
                 m_gammaLut[i] = i;
@@ -157,7 +141,6 @@ namespace PixelFarm.Agg
         {
             userModeClipBox = new RectInt(x1, y1, x2, y2);
             Reset();
-
             m_vectorClipper.SetClipBox(
                                 upscale(x1), upscale(y1),
                                 upscale(x2), upscale(y2));
@@ -208,7 +191,6 @@ namespace PixelFarm.Agg
             m_vectorClipper.MoveTo(
                 mul_start_x = upscale(x),
                 mul_start_y = upscale(y));
-
             m_status = Status.MoveTo;
         }
         //------------------------------------------------------------------------
@@ -244,21 +226,24 @@ namespace PixelFarm.Agg
                 case VertexCmd.MoveTo:
                     {
                         MoveTo(x, y);
-                    } break;
+                    }
+                    break;
                 case VertexCmd.LineTo:
                 case VertexCmd.P2c:
                 case VertexCmd.P3c:
                     {
-
                         LineTo(x, y);
-                    } break;
+                    }
+                    break;
                 case VertexCmd.EndAndCloseFigure:
                     {
                         ClosePolygon();
-                    } break;
+                    }
+                    break;
                 default:
                     {
-                    } break;
+                    }
+                    break;
             }
         }
         //------------------------------------------------------------------------
@@ -277,7 +262,6 @@ namespace PixelFarm.Agg
         }
         public void AddPath(VertexStoreSnap snap)
         {
-
             double x = 0;
             double y = 0;
             if (m_cellAARas.Sorted) { Reset(); }
@@ -288,7 +272,6 @@ namespace PixelFarm.Agg
                 //render all parts
                 VertexStore vxs = snap.GetInternalVxs();
                 int j = vxs.Count;
-
                 for (int i = 0; i < j; ++i)
                 {
                     var cmd = vxs.GetVertex(i, out x, out y);
@@ -303,15 +286,12 @@ namespace PixelFarm.Agg
                 VertexSnapIter snapIter = snap.GetVertexSnapIter();
                 VertexCmd cmd;
                 int dbugVertexCount = 0;
-
                 while ((cmd = snapIter.GetNextVertex(out x, out y)) != VertexCmd.Stop)
                 {
                     dbugVertexCount++;
                     AddVertex(cmd, x, y);
                 }
-
             }
-
         }
 
         public int MinX { get { return m_cellAARas.MinX; } }
@@ -334,9 +314,7 @@ namespace PixelFarm.Agg
             if (m_auto_close) { ClosePolygon(); }
 
             m_cellAARas.SortCells();
-
             if (m_cellAARas.TotalCells == 0) return false;
-
             m_scan_y = m_cellAARas.MinY;
             return true;
         }
@@ -346,7 +324,6 @@ namespace PixelFarm.Agg
         int CalculateAlpha(int area)
         {
             int cover = area >> (poly_subpix.SHIFT * 2 + 1 - AA_SHIFT);
-
             if (cover < 0)
             {
                 cover = -cover;
@@ -372,7 +349,7 @@ namespace PixelFarm.Agg
         //--------------------------------------------------------------------
         internal bool SweepScanline(Scanline scline)
         {
-            for (; ; )
+            for (;;)
             {
                 if (m_scan_y > m_cellAARas.MaxY)
                 {
@@ -380,15 +357,11 @@ namespace PixelFarm.Agg
                 }
 
                 scline.ResetSpans();
-
                 CellAA[] cells;
                 int offset;
                 int num_cells;
-
                 m_cellAARas.GetCells(m_scan_y, out cells, out offset, out num_cells);
-
                 int cover = 0;
-
                 while (num_cells != 0)
                 {
                     unsafe
@@ -396,18 +369,15 @@ namespace PixelFarm.Agg
                         fixed (CellAA* cur_cell_h = &cells[0])
                         {
                             CellAA* cur_cell_ptr = cur_cell_h + offset;
-
                             int alpha;
                             int x = cur_cell_ptr->x;
                             int area = cur_cell_ptr->area;
                             cover += cur_cell_ptr->cover;
-
                             //accumulate all cells with the same X
                             while (--num_cells != 0)
                             {
                                 offset++; //move next
                                 cur_cell_ptr++; //move next
-
                                 if (cur_cell_ptr->x != x)
                                 {
                                     break;
@@ -477,7 +447,6 @@ namespace PixelFarm.Agg
                         //    }
                         //} 
                     }
-
                 }
 
                 if (scline.SpanCount != 0) { break; }
@@ -489,8 +458,6 @@ namespace PixelFarm.Agg
             ++m_scan_y;
             return true;
         }
-
-
     }
 }
 

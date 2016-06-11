@@ -30,7 +30,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 using OpenTK.Graphics;
-
 namespace OpenTK
 {
     // Constructs GLControls.
@@ -42,7 +41,6 @@ namespace OpenTK
                 throw new ArgumentNullException("mode");
             if (control == null)
                 throw new ArgumentNullException("control");
-
             if (Configuration.RunningOnWindows) return new WinGLControl(mode, control);
             else if (Configuration.RunningOnMacOS) return new CarbonGLControl(mode, control);
             else if (Configuration.RunningOnX11) return new X11GLControl(mode, control);

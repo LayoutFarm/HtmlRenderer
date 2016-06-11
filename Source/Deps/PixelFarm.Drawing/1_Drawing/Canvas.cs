@@ -3,7 +3,7 @@
 
 namespace PixelFarm.Drawing
 {
-    public abstract class Canvas 
+    public abstract class Canvas
     {
         bool isContentReady;
 #if DEBUG
@@ -15,13 +15,12 @@ namespace PixelFarm.Drawing
         //const int CANVAS_UNUSED = 1 << (1 - 1);
         //const int CANVAS_DIMEN_CHANGED = 1 << (2 - 1);
         public Canvas()
-        { 
+        {
         }
         public abstract void CloseCanvas();
-        
         public abstract GraphicsPlatform Platform { get; }
         public abstract SmoothingMode SmoothingMode { get; set; }
-        
+
         //---------------------------------------------------------------------
         public abstract float StrokeWidth { get; set; }
         public abstract Color StrokeColor { get; set; }
@@ -30,7 +29,7 @@ namespace PixelFarm.Drawing
         public abstract void ResetInvalidateArea();
         public abstract void Invalidate(Rectangle rect);
         public abstract Rectangle InvalidateArea { get; }
-        
+
 
         public bool IsContentReady
         {
@@ -61,9 +60,8 @@ namespace PixelFarm.Drawing
         //---------------------------------------------------------------------
         //clip area
 
-        public abstract bool PushClipAreaRect(int width, int height,ref Rectangle updateArea);
+        public abstract bool PushClipAreaRect(int width, int height, ref Rectangle updateArea);
         public abstract void PopClipAreaRect();
-
         public abstract void SetClipRect(Rectangle clip, CombineMode combineMode = CombineMode.Replace);
         public abstract Rectangle CurrentClipRect { get; }
         //------------------------------------------------------
@@ -90,12 +88,10 @@ namespace PixelFarm.Drawing
         public abstract void FillRectangle(Color color, float left, float top, float width, float height);
         public abstract void FillRectangle(Brush brush, float left, float top, float width, float height);
         public abstract void DrawRectangle(Color color, float left, float top, float width, float height);
-
         //------------------------------------------------------- 
         //path,  polygons,ellipse spline,contour,   
         public abstract void FillPath(Color color, GraphicsPath gfxPath);
         public abstract void FillPath(Brush brush, GraphicsPath gfxPath);
-
         public abstract void DrawPath(GraphicsPath gfxPath);
         public abstract void FillPolygon(Brush brush, PointF[] points);
         public abstract void FillPolygon(Color color, PointF[] points);
@@ -126,7 +122,6 @@ namespace PixelFarm.Drawing
         //-------------------------------------------------------  
         public void Dispose()
         {
-
         }
         //for debug
         public int Note1

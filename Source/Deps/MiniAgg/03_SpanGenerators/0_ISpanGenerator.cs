@@ -28,5 +28,5 @@ namespace PixelFarm.Agg
         void GenerateColors(ColorRGBA[] outputColors,
             int startIndex,
             int x, int y, int len);
-    } 
+    }
 }

@@ -8,11 +8,8 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
- 
-
 namespace PixelFarm.Agg.Fonts
 {
-
     /// <summary>
     /// hb_direction_t;
     /// </summary>
@@ -28,7 +25,6 @@ namespace PixelFarm.Agg.Fonts
 
     static class HBScriptCode
     {
-
         //from HarfBuzz's hb-common.h
         /*1.1*/
         public static readonly int HB_SCRIPT_COMMON = HB_TAG('Z', 'y', 'y', 'y');
@@ -36,8 +32,6 @@ namespace PixelFarm.Agg.Fonts
         public static readonly int HB_SCRIPT_INHERITED = HB_TAG('Z', 'i', 'n', 'h');
         /*5.0*/
         public static readonly int HB_SCRIPT_UNKNOWN = HB_TAG('Z', 'z', 'z', 'z');
-
-
         /*1.1*/
         public static readonly int HB_SCRIPT_ARABIC = HB_TAG('A', 'r', 'a', 'b');
         /*1.1*/
@@ -82,10 +76,8 @@ namespace PixelFarm.Agg.Fonts
         public static readonly int HB_SCRIPT_TELUGU = HB_TAG('T', 'e', 'l', 'u');
         /*1.1*/
         public static readonly int HB_SCRIPT_THAI = HB_TAG('T', 'h', 'a', 'i');
-
         /*2.0*/
         public static readonly int HB_SCRIPT_TIBETAN = HB_TAG('T', 'i', 'b', 't');
-
         /*3.0*/
         public static readonly int HB_SCRIPT_BOPOMOFO = HB_TAG('B', 'o', 'p', 'o');
         /*3.0*/
@@ -114,14 +106,12 @@ namespace PixelFarm.Agg.Fonts
         public static readonly int HB_SCRIPT_THAANA = HB_TAG('T', 'h', 'a', 'a');
         /*3.0*/
         public static readonly int HB_SCRIPT_YI = HB_TAG('Y', 'i', 'i', 'i');
-
         /*3.1*/
         public static readonly int HB_SCRIPT_DESERET = HB_TAG('D', 's', 'r', 't');
         /*3.1*/
         public static readonly int HB_SCRIPT_GOTHIC = HB_TAG('G', 'o', 't', 'h');
         /*3.1*/
         public static readonly int HB_SCRIPT_OLD_ITALIC = HB_TAG('I', 't', 'a', 'l');
-
         /*3.2*/
         public static readonly int HB_SCRIPT_BUHID = HB_TAG('B', 'u', 'h', 'd');
         /*3.2*/
@@ -130,7 +120,6 @@ namespace PixelFarm.Agg.Fonts
         public static readonly int HB_SCRIPT_TAGALOG = HB_TAG('T', 'g', 'l', 'g');
         /*3.2*/
         public static readonly int HB_SCRIPT_TAGBANWA = HB_TAG('T', 'a', 'g', 'b');
-
         /*4.0*/
         public static readonly int HB_SCRIPT_CYPRIOT = HB_TAG('C', 'p', 'r', 't');
         /*4.0*/
@@ -145,7 +134,6 @@ namespace PixelFarm.Agg.Fonts
         public static readonly int HB_SCRIPT_TAI_LE = HB_TAG('T', 'a', 'l', 'e');
         /*4.0*/
         public static readonly int HB_SCRIPT_UGARITIC = HB_TAG('U', 'g', 'a', 'r');
-
         /*4.1*/
         public static readonly int HB_SCRIPT_BUGINESE = HB_TAG('B', 'u', 'g', 'i');
         /*4.1*/
@@ -162,7 +150,6 @@ namespace PixelFarm.Agg.Fonts
         public static readonly int HB_SCRIPT_SYLOTI_NAGRI = HB_TAG('S', 'y', 'l', 'o');
         /*4.1*/
         public static readonly int HB_SCRIPT_TIFINAGH = HB_TAG('T', 'f', 'n', 'g');
-
         /*5.0*/
         public static readonly int HB_SCRIPT_BALINESE = HB_TAG('B', 'a', 'l', 'i');
         /*5.0*/
@@ -173,7 +160,6 @@ namespace PixelFarm.Agg.Fonts
         public static readonly int HB_SCRIPT_PHAGS_PA = HB_TAG('P', 'h', 'a', 'g');
         /*5.0*/
         public static readonly int HB_SCRIPT_PHOENICIAN = HB_TAG('P', 'h', 'n', 'x');
-
         /*5.1*/
         public static readonly int HB_SCRIPT_CARIAN = HB_TAG('C', 'a', 'r', 'i');
         /*5.1*/
@@ -196,7 +182,6 @@ namespace PixelFarm.Agg.Fonts
         public static readonly int HB_SCRIPT_SUNDANESE = HB_TAG('S', 'u', 'n', 'd');
         /*5.1*/
         public static readonly int HB_SCRIPT_VAI = HB_TAG('V', 'a', 'i', 'i');
-
         /*5.2*/
         public static readonly int HB_SCRIPT_AVESTAN = HB_TAG('A', 'v', 's', 't');
         /*5.2*/
@@ -227,14 +212,12 @@ namespace PixelFarm.Agg.Fonts
         public static readonly int HB_SCRIPT_TAI_THAM = HB_TAG('L', 'a', 'n', 'a');
         /*5.2*/
         public static readonly int HB_SCRIPT_TAI_VIET = HB_TAG('T', 'a', 'v', 't');
-
         /*6.0*/
         public static readonly int HB_SCRIPT_BATAK = HB_TAG('B', 'a', 't', 'k');
         /*6.0*/
         public static readonly int HB_SCRIPT_BRAHMI = HB_TAG('B', 'r', 'a', 'h');
         /*6.0*/
         public static readonly int HB_SCRIPT_MANDAIC = HB_TAG('M', 'a', 'n', 'd');
-
         /*6.1*/
         public static readonly int HB_SCRIPT_CHAKMA = HB_TAG('C', 'a', 'k', 'm');
         /*6.1*/
@@ -249,7 +232,6 @@ namespace PixelFarm.Agg.Fonts
         public static readonly int HB_SCRIPT_SORA_SOMPENG = HB_TAG('S', 'o', 'r', 'a');
         /*6.1*/
         public static readonly int HB_SCRIPT_TAKRI = HB_TAG('T', 'a', 'k', 'r');
-
         /*7.0*/
         public static readonly int HB_SCRIPT_BASSA_VAH = HB_TAG('B', 'a', 's', 's');
         /*7.0*/
@@ -296,10 +278,8 @@ namespace PixelFarm.Agg.Fonts
         public static readonly int HB_SCRIPT_TIRHUTA = HB_TAG('T', 'i', 'r', 'h');
         /*7.0*/
         public static readonly int HB_SCRIPT_WARANG_CITI = HB_TAG('W', 'a', 'r', 'a');
-
         /* No script set. */
         public const int HB_SCRIPT_INVALID = 0;// HB_TAG(0,0,0,0);//HB_TAG_NONE,
-
         /* Dummy values to ensure any hb_tag_t value can be passed/stored as hb_script_t
          * without risking undefined behavior.  Include both a signed and unsigned max,
          * since technically enums are int, and indeed, hb_script_t ends up being signed.
@@ -309,14 +289,9 @@ namespace PixelFarm.Agg.Fonts
          */
         public static readonly int _HB_SCRIPT_MAX_VALUE = HB_TAG(0xff, 0xff, 0xff, 0xff);	  /*< skip >*/
         public static readonly int _HB_SCRIPT_MAX_VALUE_SIGNED = HB_TAG(0x7f, 0xff, 0xff, 0xff); /*< skip >*/
-
-
         static int HB_TAG(int c1, int c2, int c3, int c4)
         {
             return (c1 << 24) | (c2 << 16) | (c3 << 8) | (c4);
         }
-
     }
-
-    
 }

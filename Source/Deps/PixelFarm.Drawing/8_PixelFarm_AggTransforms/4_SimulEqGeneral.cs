@@ -17,34 +17,27 @@
 // Bilinear 2D transformations
 //
 //----------------------------------------------------------------------------
-using System;
 
+using System;
 namespace PixelFarm.Agg.Transform
 {
-     
-
     //============================================================matrix_pivot
     //template<uint Rows, uint Cols> 
     //===============================================================simul_eq
     //template<uint Size, uint RightCols>
     public static class SimulEqGeneral
     {
-
         public static bool Solve(double[,] left,
                          double[,] right,
                          double[,] result)
         {
-
             int rowCountRt = right.GetLength(0);
             int colCountRt = right.GetLength(1);
-
-
             double[,] mat = new double[rowCountRt, rowCountRt + colCountRt];
             //--------------------------------------
             //merge left and right matrix to tmp
             for (int i = 0; i < rowCountRt; i++)
             {
-
                 for (int j = 0; j < rowCountRt; j++)
                 {
                     mat[i, j] = left[i, j];
@@ -61,12 +54,11 @@ namespace PixelFarm.Agg.Transform
             for (int k = 0; k < rowCountRt; k++)
             {
                 if (DoMatrixPivot(mat, rowCountRt, k) < 0)
-                {   
+                {
                     return false; // Singularity....
                 }
 
                 double a1 = mat[k, k];
-
                 for (int j = k; j < toalMatWidth; j++)
                 {
                     mat[k, j] /= a1;
@@ -85,10 +77,8 @@ namespace PixelFarm.Agg.Transform
 
             for (int k = 0; k < colCountRt; k++)
             {
-
                 for (int m = rowCountRt - 1; m >= 0; m--)
                 {
-
                     result[m, k] = mat[m, rowCountRt + k];
                     for (int j = m + 1; j < rowCountRt; j++)
                     {
@@ -136,8 +126,4 @@ namespace PixelFarm.Agg.Transform
             return 0;
         }
     }
-
-
-
-
 }

@@ -11,7 +11,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 namespace OpenTK
 {
     /// <summary>
@@ -77,10 +76,8 @@ namespace OpenTK
         public static long Factorial(int n)
         {
             long result = 1;
-
             for (; n > 1; n--)
                 result *= n;
-
             return result;
         }
 
@@ -167,7 +164,6 @@ namespace OpenTK
         /// <returns>The angle expressed in radians</returns>
         public static float DegreesToRadians(float degrees)
         {
-            
             return degrees * DEG_TO_RAD;
         }
 
@@ -190,32 +186,26 @@ namespace OpenTK
         /// Obsolete. Do not use.
         /// </summary>
         public static readonly float PIF = 3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117067982148086513282306647093844609550582231725359408128481117450284102701938521105559644622948954930382f;
-
         /// <summary>
         /// Obsolete. Do not use.
         /// </summary>
         public static readonly float RTODF = 180.0f / PIF;
-
         /// <summary>
         /// Obsolete. Do not use.
         /// </summary>
         public static readonly float DTORF = PIF / 180.0f;
-
         /// <summary>
         /// Obsolete. Do not use.
         /// </summary>
         public static readonly double PI = 3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117067982148086513282306647093844609550582231725359408128481117450284102701938521105559644622948954930382d;
-
         /// <summary>
         /// Obsolete. Do not use.
         /// </summary>
         public static readonly double RTOD = 180.0d / PIF;
-
         /// <summary>
         /// Obsolete. Do not use.
         /// </summary>
         public static readonly double DTOR = PIF / 180.0d;
-
         #endregion
 
         #region Swap
@@ -344,13 +334,13 @@ namespace OpenTK
             return new Vector4(left).Add(right);
         }
 
-        #endregion
+    #endregion
 
     #region --- Subtraction ---
 
 
 
-        #endregion
+    #endregion
 
     #region --- Cross ---
 
@@ -364,9 +354,9 @@ namespace OpenTK
             return new Vector3(left).Cross(right);
         }
 
-        #endregion
+    #endregion
 
-        #endregion
+    #endregion
     }
 #endif
 }

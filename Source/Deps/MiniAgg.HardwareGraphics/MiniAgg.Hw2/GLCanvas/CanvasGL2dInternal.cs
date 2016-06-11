@@ -1,19 +1,15 @@
 ﻿//MIT 2014, WinterDev
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-
 using System.Text;
 using Tesselate;
-
 using PixelFarm.Agg;
 using PixelFarm.Agg.VertexSource;
-
 using OpenTK.Graphics.ES20;
-
 namespace PixelFarm.DrawingGL
 {
-
     public partial class CanvasGL2d
     {
         static unsafe void CreateRectCoords(float* arr, byte* indices,
@@ -24,7 +20,6 @@ namespace PixelFarm.DrawingGL
             arr[2] = x + w; arr[3] = y;
             arr[4] = x + w; arr[5] = y + h;
             arr[6] = x; arr[7] = y + h;
-
             indices[0] = 0; indices[1] = 1; indices[2] = 2;
             indices[3] = 2; indices[4] = 3; indices[5] = 0;
         }
@@ -44,11 +39,9 @@ namespace PixelFarm.DrawingGL
             vrx.AddVertex(new VertexC4V3f(color_uint, x, y));
             vrx.AddVertex(new VertexC4V3f(color_uint, x + w, y));
             vrx.AddVertex(new VertexC4V3f(color_uint, x + w, y + h));
-
             vrx.AddVertex(new VertexC4V3f(color_uint, x + w, y + h));
             vrx.AddVertex(new VertexC4V3f(color_uint, x, y + h));
             vrx.AddVertex(new VertexC4V3f(color_uint, x, y));
-
         }
         static unsafe void CreateRectCoords(CoordList2f coordList,
                   float x, float y, float w, float h)
@@ -56,7 +49,6 @@ namespace PixelFarm.DrawingGL
             coordList.AddCoord(x, y);
             coordList.AddCoord(x + w, y);
             coordList.AddCoord(x + w, y + h);
-
             coordList.AddCoord(x + w, y + h);
             coordList.AddCoord(x, y + h);
             coordList.AddCoord(x, y);
@@ -84,7 +76,6 @@ namespace PixelFarm.DrawingGL
             //-----------------------
             tess.BeginPolygon();
             tess.BeginContour();
-
             int j = vertexts.Count;
             for (int i = 0; i < j; ++i)
             {
@@ -99,13 +90,11 @@ namespace PixelFarm.DrawingGL
         //---test only ----
         void DrawLineAgg(float x1, float y1, float x2, float y2)
         {
-
             ps.Clear();
             ps.MoveTo(x1, y1);
             ps.LineTo(x2, y2);
             VertexStore vxs = aggStroke.MakeVxs(ps.Vxs);
             int n = vxs.Count;
-
             unsafe
             {
                 float* coords = stackalloc float[(n * 2)];
@@ -113,7 +102,6 @@ namespace PixelFarm.DrawingGL
                 int nn = 0;
                 int npoints = 0;
                 double vx, vy;
-
                 var cmd = vxs.GetVertex(i, out vx, out vy);
                 while (i < n)
                 {
@@ -125,22 +113,24 @@ namespace PixelFarm.DrawingGL
                                 coords[nn + 1] = (float)vy;
                                 nn += 2;
                                 npoints++;
-                            } break;
+                            }
+                            break;
                         case VertexCmd.LineTo:
                             {
                                 coords[nn] = (float)vx;
                                 coords[nn + 1] = (float)vy;
                                 nn += 2;
                                 npoints++;
-
-                            } break;
+                            }
+                            break;
                         case VertexCmd.Stop:
                             {
-                            } break;
+                            }
+                            break;
                         default:
                             {
-
-                            } break;
+                            }
+                            break;
                     }
                     i++;
                     cmd = vxs.GetVertex(i, out vx, out vy);
@@ -158,8 +148,6 @@ namespace PixelFarm.DrawingGL
 
         unsafe void DrawPolygonUnsafe(float* polygon2dVertices, int npoints)
         {
-
-
             //GL.EnableClientState(ArrayCap.VertexArray); //***
             ////vertex 2d 
             //GL.VertexPointer(2, VertexPointerType.Float, 0, (IntPtr)polygon2dVertices);

@@ -1,4 +1,5 @@
 ﻿// 2015,2014, MIT, WinterDev
+
 using System;
 namespace PixelFarm.Drawing
 {
@@ -10,7 +11,7 @@ namespace PixelFarm.Drawing
         public abstract object InnerFont { get; }
         public abstract void Dispose();
         public abstract int Height { get; }
-        
+
         public abstract System.IntPtr ToHfont();
         public abstract FontInfo FontInfo { get; }
         //-------------------------------------------
@@ -31,7 +32,6 @@ namespace PixelFarm.Drawing
 
     public abstract class FontFamily
     {
-
         public abstract string Name { get; }
     }
 
@@ -63,8 +63,6 @@ namespace PixelFarm.Drawing
     }
     public abstract class FontInfo
     {
-
-
         public float AscentPx { get; protected set; }
         public float DescentPx { get; protected set; }
         public float BaseLine { get; protected set; }
@@ -77,19 +75,15 @@ namespace PixelFarm.Drawing
         public abstract FontABC GetCharABCWidth(char c);
         public abstract int GetStringWidth(char[] buffer);
         public abstract int GetStringWidth(char[] buffer, int length);
-
         public abstract Font ResolvedFont { get; }
         public object PlatformSpecificFont { get; set; }
     }
     public interface IFonts
     {
-
         FontInfo GetFontInfo(string fontname, float fsize, FontStyle st);
         float MeasureWhitespace(Font f);
-
         Size MeasureString(char[] str, int startAt, int len, Font font);
         Size MeasureString(char[] str, int startAt, int len, Font font, float maxWidth, out int charFit, out int charFitWidth);
         void Dispose();
     }
-
 }

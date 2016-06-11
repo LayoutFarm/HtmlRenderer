@@ -30,15 +30,13 @@ namespace OpenTK.Graphics.ES20
     using System;
     using System.Text;
     using System.Runtime.InteropServices;
-    #pragma warning disable 3019
-    #pragma warning disable 1591
+#pragma warning disable 3019
+#pragma warning disable 1591
 
     partial class GL
     {
-
         internal static partial class Core
         {
-
             [System.Security.SuppressUnmanagedCodeSecurity()]
             [System.Runtime.InteropServices.DllImport(GL.Library, EntryPoint = "glActiveTexture", ExactSpelling = true)]
             internal extern static void ActiveTexture(OpenTK.Graphics.ES20.TextureUnit texture);

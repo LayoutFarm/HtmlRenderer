@@ -1,38 +1,37 @@
 ﻿#define COMPAT_REV1519 // Keeps compatibility with revision 1519
 
- #region License
- //
- // The Open Toolkit Library License
- //
- // Copyright (c) 2006 - 2009 the Open Toolkit library.
- //
- // Permission is hereby granted, free of charge, to any person obtaining a copy
- // of this software and associated documentation files (the "Software"), to deal
- // in the Software without restriction, including without limitation the rights to 
- // use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
- // the Software, and to permit persons to whom the Software is furnished to do
- // so, subject to the following conditions:
- //
- // The above copyright notice and this permission notice shall be included in all
- // copies or substantial portions of the Software.
- //
- // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
- // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- // NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
- // HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
- // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
- // OTHER DEALINGS IN THE SOFTWARE.
- //
- #endregion
+#region License
+//
+// The Open Toolkit Library License
+//
+// Copyright (c) 2006 - 2009 the Open Toolkit library.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights to 
+// use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+// the Software, and to permit persons to whom the Software is furnished to do
+// so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+// OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+// HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+// OTHER DEALINGS IN THE SOFTWARE.
+//
+#endregion
 
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 using System.ComponentModel;
-
 namespace OpenTK.Input
 {
     /// <summary>
@@ -149,14 +148,11 @@ namespace OpenTK.Input
             internal set
             {
                 wheel = value;
-
                 wheel_args.X = pos.X;
                 wheel_args.Y = pos.Y;
                 wheel_args.ValuePrecise = wheel;
                 wheel_args.DeltaPrecise = wheel - last_wheel;
-
                 WheelChanged(this, wheel_args);
-
                 last_wheel = wheel;
             }
         }
@@ -204,7 +200,6 @@ namespace OpenTK.Input
             {
                 bool previous_state = button_state[(int)button];
                 button_state[(int)button] = value;
-
                 button_args.X = pos.X;
                 button_args.Y = pos.Y;
                 button_args.Button = button;
@@ -251,22 +246,18 @@ namespace OpenTK.Input
         /// Occurs when the mouse's position is moved.
         /// </summary>
         public event EventHandler<MouseMoveEventArgs> Move = delegate { };
-
         /// <summary>
         /// Occurs when a button is pressed.
         /// </summary>
         public event EventHandler<MouseButtonEventArgs> ButtonDown = delegate { };
-
         /// <summary>
         /// Occurs when a button is released.
         /// </summary>
         public event EventHandler<MouseButtonEventArgs> ButtonUp = delegate { };
-
         /// <summary>
         /// Occurs when one of the mouse wheels is moved.
         /// </summary>
         public event EventHandler<MouseWheelEventArgs> WheelChanged = delegate { };
-
         #region --- Overrides ---
 
         /// <summary>
@@ -372,7 +363,6 @@ namespace OpenTK.Input
         #region Fields
 
         int x, y;
-
         #endregion
 
         #region Constructors
@@ -441,7 +431,6 @@ namespace OpenTK.Input
         #region Fields
 
         int x_delta, y_delta;
-
         #endregion
 
         #region Constructors
@@ -507,7 +496,6 @@ namespace OpenTK.Input
 
         MouseButton button;
         bool pressed;
-
         #endregion
 
         #region Constructors
@@ -573,7 +561,6 @@ namespace OpenTK.Input
 
         float value;
         float delta;
-
         #endregion
 
         #region Constructors

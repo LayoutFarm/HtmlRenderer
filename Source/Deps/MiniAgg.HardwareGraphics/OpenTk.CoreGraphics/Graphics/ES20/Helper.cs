@@ -28,7 +28,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 namespace OpenTK.Graphics.ES20
 {
     /// <summary>
@@ -38,7 +37,6 @@ namespace OpenTK.Graphics.ES20
     {
         const string Library = "libGLESv2.dll";
         static readonly object sync_root = new object();
-
         #region --- Protected Members ---
 
         /// <summary>
@@ -157,7 +155,6 @@ namespace OpenTK.Graphics.ES20
             int length;
             GetProgram(program, ProgramParameter.ActiveAttributeMaxLength, out length);
             StringBuilder sb = new StringBuilder(length == 0 ? 1 : length * 2);
-
             GetActiveAttrib(program, index, sb.Capacity, out length, out size, out type, sb);
             return sb.ToString();
         }
@@ -170,7 +167,6 @@ namespace OpenTK.Graphics.ES20
         {
             int length;
             GetProgram(program, ProgramParameter.ActiveUniformMaxLength, out length);
-
             StringBuilder sb = new StringBuilder(length == 0 ? 1 : length);
             GetActiveUniform(program, uniformIndex, sb.Capacity, out length, out size, out type, sb);
             return sb.ToString();

@@ -17,12 +17,10 @@
 #region Using Directives
 
 using System;
-using System.Collections.Generic; 
+using System.Collections.Generic;
 using System.Threading;
- 
-
 using OpenTK;
-using OpenTK.Graphics;  
+using OpenTK.Graphics;
 #endregion
 
 
@@ -34,18 +32,14 @@ namespace OpenTK.Graphics.ES20
         public Vector3[] normals;
         public Vector2[] texcoords;
         public ushort[] indices;
-
     }
 
     public static class GeometryUtils
     {
-
         static Vector3 MakeV3(float x, float y, float z) { return new Vector3(x, y, z); }
         static Vector2 MakeV2(float x, float y) { return new Vector2(x, y); }
         public static void GenerateCubeGeometry(float radius, CubeGeometry result)
         {
-
-
             result.positions = new Vector3[24];
             result.positions[0] = MakeV3(-radius, -radius, -radius);
             result.positions[1] = MakeV3(-radius, -radius, radius);
@@ -71,7 +65,6 @@ namespace OpenTK.Graphics.ES20
             result.positions[21] = MakeV3(radius, -radius, radius);
             result.positions[22] = MakeV3(radius, radius, radius);
             result.positions[23] = MakeV3(radius, radius, -radius);
-
             result.normals = new Vector3[24];
             result.normals[0] = MakeV3(0.0f, -1.0f, 0.0f);
             result.normals[1] = MakeV3(0.0f, -1.0f, 0.0f);
@@ -97,7 +90,6 @@ namespace OpenTK.Graphics.ES20
             result.normals[21] = MakeV3(1.0f, 0.0f, 0.0f);
             result.normals[22] = MakeV3(1.0f, 0.0f, 0.0f);
             result.normals[23] = MakeV3(1.0f, 0.0f, 0.0f);
-
             result.texcoords = new Vector2[24];
             result.texcoords[0] = MakeV2(0.0f, 0.0f);
             result.texcoords[1] = MakeV2(0.0f, 1.0f);
@@ -123,7 +115,6 @@ namespace OpenTK.Graphics.ES20
             result.texcoords[21] = MakeV2(0.0f, 1.0f);
             result.texcoords[22] = MakeV2(1.0f, 1.0f);
             result.texcoords[23] = MakeV2(1.0f, 0.0f);
-
             result.indices = new ushort[36];
             result.indices[0] = 0; result.indices[1] = 2; result.indices[2] = 1;
             result.indices[3] = 0; result.indices[4] = 3; result.indices[5] = 2;
@@ -137,10 +128,7 @@ namespace OpenTK.Graphics.ES20
             result.indices[27] = 16; result.indices[28] = 18; result.indices[29] = 19;
             result.indices[30] = 20; result.indices[31] = 23; result.indices[32] = 22;
             result.indices[33] = 20; result.indices[34] = 22; result.indices[35] = 21;
-
-
         }
-
     }
 
     public struct MyMat4
@@ -180,13 +168,11 @@ namespace OpenTK.Graphics.ES20
         static float Vector3length(ref Vector3 vec)
         {
             float lenSquared = Vector3lengthSquared(ref vec);
-
             return (lenSquared != 0.0f) ? (float)Math.Pow((lenSquared), 0.5) : 0.0f;
         }
 
-        static float Vector3lengthSquared(ref  Vector3 vec)
+        static float Vector3lengthSquared(ref Vector3 vec)
         {
-
             return vec.X * vec.X +
             vec.Y * vec.Y +
             vec.Z * vec.Z;
@@ -211,7 +197,6 @@ namespace OpenTK.Graphics.ES20
             float theta = (float)(angle * (Math.PI / 180.0f));
             float cos_t = (float)Math.Cos(theta);
             float sin_t = (float)Math.Sin(theta);
-
             return new MyMat4(cos_t + (u.X * u.X * (1.0f - cos_t)), (u.X * u.Y * (1.0f - cos_t)) - (u.Z * sin_t), (u.X * u.Z * (1.0f - cos_t)) + (u.Y * sin_t), 0.0f,
                            (u.Y * u.X * (1.0f - cos_t)) + (u.Z * sin_t), cos_t + (u.Y * u.Y * (1.0f - cos_t)), (u.Y * u.Z * (1.0f - cos_t)) - (u.X * sin_t), 0.0f,
                            (u.Z * u.X * (1.0f - cos_t)) - (u.Y * sin_t), (u.Z * u.Y * (1.0f - cos_t)) + (u.X * sin_t), cos_t + (u.Z * u.Z * (1.0f - cos_t)), 0.0f,
@@ -253,5 +238,4 @@ namespace OpenTK.Graphics.ES20
                            a.data[3] * b.data[12] + a.data[7] * b.data[13] + a.data[11] * b.data[14] + a.data[15] * b.data[15]);
         }
     }
-
 }

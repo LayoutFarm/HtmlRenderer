@@ -17,19 +17,16 @@
 //          mcseemagg@yahoo.com
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
+
 using System;
 using System.Runtime;
-
 using PixelFarm.Agg;
 using PixelFarm.VectorMath;
 using PixelFarm.Agg.Image;
-
 namespace PixelFarm.Agg
 {
-
     public abstract class ImageReaderWriterBase : IImageReaderWriter
     {
-
         const int BASE_MASK = 255;
         //--------------------------------------------
         //look up table
@@ -40,7 +37,6 @@ namespace PixelFarm.Agg
         //--------------------------------------------
         // Pointer to first pixel depending on strideInBytes and image position
         protected int bufferFirstPixel;
-
         int width;  // in pixels
         int height; // in pixels
         int strideInBytes; // Number of bytes per row. Can be < 0
@@ -52,7 +48,6 @@ namespace PixelFarm.Agg
 
         protected void Attach(int width, int height, int bitsPerPixel, byte[] imgbuffer, IPixelBlender recieveBlender)
         {
-
             if (width <= 0 || height <= 0)
             {
                 throw new ArgumentOutOfRangeException("You must have a width and height > than 0.");
@@ -72,7 +67,6 @@ namespace PixelFarm.Agg
             SetDimmensionAndFormat(width, height, stride, bitsPerPixel, bitsPerPixel / 8);
             this.m_ByteBuffer = imgbuffer;
             SetUpLookupTables();
-
             if (yTableArray.Length != height
                 || xTableArray.Length != width)
             {
@@ -80,7 +74,6 @@ namespace PixelFarm.Agg
             }
             //--------------------------
             SetRecieveBlender(recieveBlender);
-
         }
 
 
@@ -96,15 +89,10 @@ namespace PixelFarm.Agg
             if (BitDepth == sourceImage.BitDepth)
             {
                 int lengthInBytes = clippedSourceImageRect.Width * BytesBetweenPixelsInclusive;
-
                 int sourceOffset = sourceImage.GetBufferOffsetXY(clippedSourceImageRect.Left, clippedSourceImageRect.Bottom);
                 byte[] sourceBuffer = sourceImage.GetBuffer();
-
-
                 byte[] destBuffer = GetBuffer();
                 int destOffset = GetBufferOffsetXY(clippedSourceImageRect.Left + destXOffset, clippedSourceImageRect.Bottom + destYOffset);
-
-
                 for (int i = 0; i < clippedSourceImageRect.Height; i++)
                 {
                     AggMemMx.memmove(destBuffer, destOffset, sourceBuffer, sourceOffset, lengthInBytes);
@@ -126,15 +114,10 @@ namespace PixelFarm.Agg
                                     for (int i = clippedSourceImageRect.Bottom; i < clippedSourceImageRect.Top; i++)
                                     {
                                         int sourceOffset = sourceImage.GetBufferOffsetXY(clippedSourceImageRect.Left, clippedSourceImageRect.Bottom + i);
-
                                         byte[] sourceBuffer = sourceImage.GetBuffer();
-
-
-
                                         byte[] destBuffer = GetBuffer();
                                         int destOffset = GetBufferOffsetXY(clippedSourceImageRect.Left + destXOffset,
                                             clippedSourceImageRect.Bottom + i + destYOffset);
-
                                         for (int x = 0; x < numPixelsToCopy; x++)
                                         {
                                             destBuffer[destOffset++] = sourceBuffer[sourceOffset++];
@@ -145,13 +128,11 @@ namespace PixelFarm.Agg
                                     }
                                 }
                                 break;
-
                             default:
                                 haveConversion = false;
                                 break;
                         }
                         break;
-
                     default:
                         haveConversion = false;
                         break;
@@ -240,7 +221,7 @@ namespace PixelFarm.Agg
                 {
                     //go last
                     int* cur = first + height;
-                    for (int i = height - 1; i >= 0; )
+                    for (int i = height - 1; i >= 0;)
                     {
                         //--------------------
                         *cur = i * strideInBytes;
@@ -254,7 +235,7 @@ namespace PixelFarm.Agg
                     //go last
                     int* cur = first + width;
                     //even
-                    for (int i = width - 1; i >= 0; )
+                    for (int i = width - 1; i >= 0;)
                     {
                         //--------------------
                         *cur = i * m_DistanceInBytesBetweenPixelsInclusive;
@@ -264,7 +245,6 @@ namespace PixelFarm.Agg
                     }
                 }
             }
-
         }
 
 
@@ -274,12 +254,10 @@ namespace PixelFarm.Agg
             int bitDepth,
             int distanceInBytesBetweenPixelsInclusive)
         {
-
             this.width = width;
             this.height = height;
             this.strideInBytes = strideInBytes;
             this.bitDepth = bitDepth;
-
             if (distanceInBytesBetweenPixelsInclusive > 4)
             {
                 throw new System.Exception("It looks like you are passing bits per pixel rather than distance in bytes.");
@@ -306,10 +284,8 @@ namespace PixelFarm.Agg
         {
             int i = 0;
             byte[] mBuffer = buff.m_ByteBuffer;
-
             for (int y = my; y < h; ++y)
             {
-
                 int xbufferOffset = buff.GetBufferOffsetXY(0, y);
                 for (int x = mx; x < w; ++x)
                 {
@@ -317,7 +293,6 @@ namespace PixelFarm.Agg
                     byte r = mBuffer[xbufferOffset + 2];
                     byte g = mBuffer[xbufferOffset + 1];
                     byte b = mBuffer[xbufferOffset];
-
                     xbufferOffset += 4;
                     buffer[i] = b | (g << 8) | (r << 16);
                     i++;
@@ -359,16 +334,13 @@ namespace PixelFarm.Agg
         }
         public void BlendHL(int x1, int y, int x2, ColorRGBA sourceColor, byte cover)
         {
-
             if (sourceColor.alpha == 0) { return; }
             //-------------------------------------------------
 
             int len = x2 - x1 + 1;
             byte[] buffer = GetBuffer();
             int bufferOffset = GetBufferOffsetXY(x1, y);
-
             int alpha = (((int)(sourceColor.alpha) * (cover + 1)) >> 8);
-
             if (alpha == BASE_MASK)
             {
                 //full
@@ -376,7 +348,6 @@ namespace PixelFarm.Agg
             }
             else
             {
-
                 ColorRGBA c2 = new ColorRGBA(sourceColor, alpha);
                 do
                 {
@@ -385,9 +356,9 @@ namespace PixelFarm.Agg
                     bufferOffset += m_DistanceInBytesBetweenPixelsInclusive;
                 }
                 while (--len != 0);
-            } 
-        } 
-       
+            }
+        }
+
         public void BlendVL(int x, int y1, int y2, ColorRGBA sourceColor, byte cover)
         {
             throw new NotImplementedException();
@@ -438,8 +409,8 @@ namespace PixelFarm.Agg
 #endif
         }
 
-    
-        
+
+
         public void BlendSolidHSpan(int x, int y, int len, ColorRGBA sourceColor, byte[] covers, int coversIndex)
         {
             int colorAlpha = sourceColor.alpha;
@@ -461,8 +432,7 @@ namespace PixelFarm.Agg
                     bufferOffset += m_DistanceInBytesBetweenPixelsInclusive;
                     coversIndex++;
                 }
-                while (--len != 0); 
-
+                while (--len != 0);
             }
         }
 
@@ -509,7 +479,6 @@ namespace PixelFarm.Agg
         public void CopyColorVSpan(int x, int y, int len, ColorRGBA[] colors, int colorsIndex)
         {
             int bufferOffset = GetBufferOffsetXY(x, y);
-
             do
             {
                 recieveBlender.CopyPixel(m_ByteBuffer, bufferOffset, colors[colorsIndex]);
@@ -528,7 +497,6 @@ namespace PixelFarm.Agg
         public void BlendColorVSpan(int x, int y, int len, ColorRGBA[] colors, int colorsIndex, byte[] covers, int coversIndex, bool firstCoverForAll)
         {
             int bufferOffset = GetBufferOffsetXY(x, y);
-
             int scanWidthBytes = System.Math.Abs(Stride);
             if (!firstCoverForAll)
             {
@@ -556,7 +524,6 @@ namespace PixelFarm.Agg
                 {
                     do
                     {
-
                         CopyOrBlend_BasedOnAlphaAndCover(recieveBlender, m_ByteBuffer, bufferOffset, colors[colorsIndex], covers[coversIndex]);
                         bufferOffset += scanWidthBytes;
                         ++colorsIndex;
@@ -575,7 +542,6 @@ namespace PixelFarm.Agg
         public readonly int dbugId = dbugGetNewDebugId();
         static int dbugGetNewDebugId()
         {
-
             return dbugTotalId++;
         }
 #endif
@@ -623,7 +589,6 @@ namespace PixelFarm.Agg
             }
         }
 
-         
         //public void apply_gamma_inv(GammaLookUpTable g)
         //{
         //    throw new System.NotImplementedException();
@@ -647,7 +612,6 @@ namespace PixelFarm.Agg
         //    bufferOffset = bufferFirstPixel + yTableArray[y];
         //    return m_ByteBuffer;
         //}
-
     }
 
 
@@ -658,7 +622,6 @@ namespace PixelFarm.Agg
         ActualImage actualImage;
         public MyImageReaderWriter()
         {
-
         }
         public MyImageReaderWriter(ActualImage actualImage)
         {
@@ -681,7 +644,8 @@ namespace PixelFarm.Agg
                             actualImage.BitDepth,
                             actualImage.GetBuffer(),
                             new PixelBlenderBGRA());
-                    } break;
+                    }
+                    break;
                 case PixelFormat.GrayScale8:
                     {
                         Attach(actualImage.Width,
@@ -689,8 +653,8 @@ namespace PixelFarm.Agg
                             actualImage.BitDepth,
                             actualImage.GetBuffer(),
                             new PixelFarm.Agg.Image.PixelBlenderGray(1));
-
-                    } break;
+                    }
+                    break;
                 case PixelFormat.Rgb24:
                 default:
                     {
@@ -698,9 +662,5 @@ namespace PixelFarm.Agg
                     }
             }
         }
-
-
-
-
     }
 }

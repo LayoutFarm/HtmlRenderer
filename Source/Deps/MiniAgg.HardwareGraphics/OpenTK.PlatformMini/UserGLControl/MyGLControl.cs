@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-
 using System.Text;
 using System.Windows.Forms;
-
 using OpenTK;
 #if  ENABLE_DESKTOP_OPENGL
 using OpenTK.Graphics.OpenGL;
@@ -16,7 +14,6 @@ namespace OpenTK
 {
     public partial class MyGLControl : GLControl
     {
-
         OpenTK.Graphics.Color4 clearColor;
         EventHandler glPaintHandler;
         public MyGLControl()
@@ -30,7 +27,6 @@ namespace OpenTK
              2, // n buffer, 2=> double buffer
              false);//sterio
             ChildCtorOnlyResetGraphicMode(gfxmode);
-
             //-----------
             this.InitializeComponent();
         }
@@ -44,7 +40,6 @@ namespace OpenTK
             set
             {
                 clearColor = value;
-
                 if (!this.DesignMode)
                 {
                     MakeCurrent();
@@ -76,7 +71,6 @@ namespace OpenTK
             GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
             //---------------- 
             GL.Viewport(0, 0, max, max);
-
             //set up graphics
 
             throw new NotSupportedException();

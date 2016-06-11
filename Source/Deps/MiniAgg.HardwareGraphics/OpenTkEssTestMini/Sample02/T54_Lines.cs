@@ -6,13 +6,11 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Threading;
 using System.Drawing;
-
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.ES20;
 using Examples.Tutorial;
 using Mini;
-
 #endregion
 
 
@@ -25,15 +23,12 @@ namespace OpenTkEssTest
         MiniShaderProgram shaderProgram = new MiniShaderProgram();
         ShaderVtxAttrib a_position;
         ShaderVtxAttrib a_color;
-
         ShaderUniformMatrix4 u_matrix;
         ShaderUniformVar1 u_useSolidColor;
         ShaderUniformVar4 u_solidColor;
-
         MyMat4 orthoView;
         protected override void OnInitGLProgram(object sender, EventArgs args)
         {
-
             //----------------
             //vertex shader source
             string vs = @"        
@@ -68,7 +63,6 @@ namespace OpenTkEssTest
                     gl_FragColor = v_color;
                 }
             ";
-
             if (!shaderProgram.Build(vs, fs))
             {
                 throw new NotSupportedException();
@@ -77,11 +71,9 @@ namespace OpenTkEssTest
 
             a_position = shaderProgram.GetVtxAttrib("a_position");
             a_color = shaderProgram.GetVtxAttrib("a_color");
-
             u_matrix = shaderProgram.GetUniformMat4("u_mvpMatrix");
             u_useSolidColor = shaderProgram.GetUniform1("u_useSolidColor");
             u_solidColor = shaderProgram.GetUniform4("u_solidColor");
-
             //--------------------------------------------------------------------------------
             GL.Enable(EnableCap.Blend);
             GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
@@ -104,14 +96,14 @@ namespace OpenTkEssTest
         protected override void OnGLRender(object sender, EventArgs args)
         {
             //------------------------------------------------------------------------------------------------
-             
-            
+
+
             GL.Clear(ClearBufferMask.ColorBufferBit);
             shaderProgram.UseProgram();
             //---------------------------------------------------------  
-            u_matrix.SetData(orthoView.data); 
+            u_matrix.SetData(orthoView.data);
             //---------------------------------------------------------  
-            
+
             DrawLines(0, 0, 300, 300);
             //---------------------------------------------------------
 
@@ -122,22 +114,18 @@ namespace OpenTkEssTest
         void FillPolygonWithSolidColor(float[] onlyCoords,
                int numVertices, PixelFarm.Drawing.Color c)
         {
-
             u_useSolidColor.SetValue(1);
             u_solidColor.SetValue((float)c.R / 255f, (float)c.G / 255f, (float)c.B / 255f, (float)c.A / 255f);//use solid color 
             a_position.LoadV2f(onlyCoords, 2, 0);
             GL.DrawArrays(BeginMode.Triangles, 0, numVertices);
-
         }
         void FillPolygonWithSolidColor(float[] onlyCoords,
                int numVertices, float r, float g, float b, float a)
         {
-
             u_useSolidColor.SetValue(1);
             u_solidColor.SetValue(r, g, b, a);//use solid color 
             a_position.LoadV2f(onlyCoords, 2, 0);
             GL.DrawArrays(BeginMode.Triangles, 0, numVertices);
-
         }
         void FillPolygonWithVertexColor(float[] vertices, int numVertices)
         {
@@ -150,13 +138,12 @@ namespace OpenTkEssTest
 
         static float[] CreateRectCoords(float x, float y, float w, float h)
         {
-
             float[] vertices = new float[]{
-                x, y,  
-                x+w,y, 
-                x+w,y-h, 
-                x+w,y-h, 
-                x, y - h,  
+                x, y,
+                x+w,y,
+                x+w,y-h,
+                x+w,y-h,
+                x, y - h,
                 x, y
             };
             return vertices;
@@ -172,10 +159,6 @@ namespace OpenTkEssTest
         }
         void DrawImage(float x, float y)
         {
-            
         }
-
     }
-
-
 }

@@ -27,7 +27,6 @@
 
 using System;
 using OpenTK.Graphics;
-
 namespace OpenTK.Platform
 {
     // Provides the foundation for all desktop IGraphicsContext implementations.
@@ -45,11 +44,13 @@ namespace OpenTK.Platform
                 case DesktopBackend.ES20:
                     {
                         new OpenTK.Graphics.ES20.GL().LoadEntryPoints();
-                    } break;
+                    }
+                    break;
                 default:
                     {
                         throw new NotSupportedException();
-                    } break;
+                    }
+                    break;
             }
         }
     }

@@ -17,22 +17,18 @@
 //          mcseemagg@yahoo.com
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
- 
-using System;
 
+using System;
 namespace PixelFarm.Agg
 {
     public class GammaLookUpTable
     {
-
         const int GAMMA_SHIFT = 8;
         const int GAMMA_SIZE = 1 << GAMMA_SHIFT;
         const int GAMMA_MASK = GAMMA_SIZE - 1;
-
         float m_gamma;
         byte[] m_dir_gamma;
-        byte[] m_inv_gamma; 
-
+        byte[] m_inv_gamma;
         public GammaLookUpTable(float gamma)
         {
             m_gamma = gamma;
@@ -54,7 +50,6 @@ namespace PixelFarm.Agg
 
         public double Gamma
         {
-
             get { return m_gamma; }
         }
 

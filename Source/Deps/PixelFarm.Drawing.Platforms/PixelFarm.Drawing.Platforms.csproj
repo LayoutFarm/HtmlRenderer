@@ -119,7 +119,7 @@
       <Name>MiniAgg.Complements</Name>
     </ProjectReference>
     <ProjectReference Include="..\MiniAgg.HardwareGraphics\MiniAgg.HardwareGraphics\MiniAgg.HardwareGraphics.csproj">
-      <Project>{2B1F2C53-2F8D-4E0E-94EB-79171C91337B}</Project>
+      <Project>{2b1f2c53-2f8d-4e0e-94eb-79171c91337b}</Project>
       <Name>MiniAgg.HardwareGraphics</Name>
     </ProjectReference>
     <ProjectReference Include="..\MiniAgg\MiniAgg.csproj">

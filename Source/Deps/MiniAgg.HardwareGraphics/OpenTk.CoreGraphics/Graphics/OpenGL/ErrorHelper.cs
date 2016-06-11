@@ -29,7 +29,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Diagnostics;
-
 #if ENABLE_DESKTOP_OPENGL
 namespace OpenTK.Graphics.OpenGL
 {
@@ -51,7 +50,6 @@ namespace OpenTK.Graphics.OpenGL
         static readonly Dictionary<GraphicsContext, List<ErrorCode>> ContextErrors =
             new Dictionary<GraphicsContext, List<ErrorCode>>();
         readonly GraphicsContext Context;
-
         #endregion
 
         #region Constructors
@@ -60,7 +58,6 @@ namespace OpenTK.Graphics.OpenGL
         {
             if (context == null)
                 throw new GraphicsContextMissingException();
-
             Context = (GraphicsContext)context;
             lock (SyncRoot)
             {
@@ -100,7 +97,6 @@ namespace OpenTK.Graphics.OpenGL
                     error = GL.GetError();
                     error_list.Add(error);
                 } while (error != ErrorCode.NoError);
-
                 if (error_list.Count != 1)
                 {
                     StringBuilder sb = new StringBuilder();
@@ -115,7 +111,6 @@ namespace OpenTK.Graphics.OpenGL
                             break;
                     }
                     sb.Remove(sb.Length - 2, 2); // Remove the last comma
-
                     throw new GraphicsErrorException(sb.ToString());
                 }
             }

@@ -34,7 +34,6 @@ using System.Threading;
 using OpenTK.Graphics;
 using OpenTK.Input;
 using OpenTK.Platform;
-
 namespace OpenTK
 {
     /// <summary>
@@ -74,22 +73,17 @@ namespace OpenTK
         #region --- Fields ---
 
         object exit_lock = new object();
-
         IGraphicsContext glContext;
-
         bool isExiting = false;
-
         double update_period, render_period;
         double target_update_period, target_render_period;
         // TODO: Implement these:
         double update_time, render_time;
         VSyncMode vsync;
-
         Stopwatch update_watch = new Stopwatch(), render_watch = new Stopwatch();
         double next_render = 0.0, next_update = 0.0;
         FrameEventArgs update_args = new FrameEventArgs();
         FrameEventArgs render_args = new FrameEventArgs();
-
         #endregion
 
 
@@ -99,7 +93,8 @@ namespace OpenTK
 
         /// <summary>Constructs a new GameWindow with sensible default attributes.</summary>
         public GameWindow()
-            : this(640, 480, GraphicsMode.Default, "OpenTK Game Window", 0, DisplayDevice.Default) { }
+            : this(640, 480, GraphicsMode.Default, "OpenTK Game Window", 0, DisplayDevice.Default)
+        { }
 
         #endregion
 
@@ -109,7 +104,8 @@ namespace OpenTK
         /// <param name="width">The width of the GameWindow in pixels.</param>
         /// <param name="height">The height of the GameWindow in pixels.</param>
         public GameWindow(int width, int height)
-            : this(width, height, GraphicsMode.Default, "OpenTK Game Window", 0, DisplayDevice.Default) { }
+            : this(width, height, GraphicsMode.Default, "OpenTK Game Window", 0, DisplayDevice.Default)
+        { }
 
         #endregion
 
@@ -120,7 +116,8 @@ namespace OpenTK
         /// <param name="height">The height of the GameWindow in pixels.</param>
         /// <param name="mode">The OpenTK.Graphics.GraphicsMode of the GameWindow.</param>
         public GameWindow(int width, int height, GraphicsMode mode)
-            : this(width, height, mode, "OpenTK Game Window", 0, DisplayDevice.Default) { }
+            : this(width, height, mode, "OpenTK Game Window", 0, DisplayDevice.Default)
+        { }
 
         #endregion
 
@@ -132,7 +129,8 @@ namespace OpenTK
         /// <param name="mode">The OpenTK.Graphics.GraphicsMode of the GameWindow.</param>
         /// <param name="title">The title of the GameWindow.</param>
         public GameWindow(int width, int height, GraphicsMode mode, string title)
-            : this(width, height, mode, title, 0, DisplayDevice.Default) { }
+            : this(width, height, mode, title, 0, DisplayDevice.Default)
+        { }
 
         #endregion
 
@@ -145,7 +143,8 @@ namespace OpenTK
         /// <param name="title">The title of the GameWindow.</param>
         /// <param name="options">GameWindow options regarding window appearance and behavior.</param>
         public GameWindow(int width, int height, GraphicsMode mode, string title, GameWindowFlags options)
-            : this(width, height, mode, title, options, DisplayDevice.Default) { }
+            : this(width, height, mode, title, options, DisplayDevice.Default)
+        { }
 
         #endregion
 
@@ -207,9 +206,7 @@ namespace OpenTK
                 glContext = new GraphicsContext(mode == null ? GraphicsMode.Default : mode, WindowInfo, major, minor, flags);
                 glContext.MakeCurrent(WindowInfo);
                 (glContext as IGraphicsContextInternal).LoadAll();
-
                 VSync = VSyncMode.On;
-
                 //glWindow.WindowInfoChanged += delegate(object sender, EventArgs e) { OnWindowInfoChangedInternal(e); };
             }
             catch (Exception e)
@@ -378,7 +375,6 @@ namespace OpenTK
         public void Run(double updates_per_second, double frames_per_second)
         {
             EnsureUndisposed();
-
             try
             {
                 if (updates_per_second < 0.0 || updates_per_second > 200.0)
@@ -387,14 +383,11 @@ namespace OpenTK
                 if (frames_per_second < 0.0 || frames_per_second > 200.0)
                     throw new ArgumentOutOfRangeException("frames_per_second", frames_per_second,
                                                           "Parameter should be inside the range [0.0, 200.0]");
-
                 TargetUpdateFrequency = updates_per_second;
                 TargetRenderFrequency = frames_per_second;
-
                 Visible = true;   // Make sure the GameWindow is visible.
                 OnLoadInternal(EventArgs.Empty);
                 OnResize(EventArgs.Empty);
-
                 // On some platforms, ProcessEvents() does not return while the user is resizing or moving
                 // the window. We can avoid this issue by raising UpdateFrame and RenderFrame events
                 // whenever we encounter a size or move event.
@@ -418,7 +411,6 @@ namespace OpenTK
             {
                 Move -= DispatchUpdateAndRenderFrame;
                 Resize -= DispatchUpdateAndRenderFrame;
-
                 if (Exists)
                 {
                     // TODO: Should similar behaviour be retained, possibly on native window level?
@@ -438,14 +430,12 @@ namespace OpenTK
         {
             int num_updates = 0;
             double total_update_time = 0;
-
             // Cap the maximum time drift to 1 second (e.g. when the process is suspended).
             double time = update_watch.Elapsed.TotalSeconds;
             if (time <= 0)
                 return;
             if (time > 1.0)
                 time = 1.0;
-
             // Raise UpdateFrame events until we catch up with our target update rate.
             while (next_update - time <= 0 && time > 0)
             {
@@ -458,7 +448,6 @@ namespace OpenTK
                 // while reseting the Stopwatch frequently.
                 update_watch.Reset();
                 update_watch.Start();
-
                 // Don't schedule a new update more than 1 second in the future.
                 // Sometimes the hardware cannot keep up with updates
                 // (e.g. when the update rate is too high, or the UpdateFrame processing
@@ -466,9 +455,7 @@ namespace OpenTK
                 // once the load becomes lighter.
                 next_update += TargetUpdatePeriod;
                 next_update = Math.Max(next_update, -1.0);
-
                 total_update_time += update_time;
-
                 // Allow up to 10 consecutive UpdateFrame events to prevent the
                 // application from "hanging" when the hardware cannot keep up
                 // with the requested update rate.
@@ -492,7 +479,6 @@ namespace OpenTK
             if (time <= 0)
                 return;
             double time_left = next_render - time;
-
             if (time_left <= 0.0)
             {
                 // Schedule next render event. The 1 second cap ensures
@@ -500,10 +486,8 @@ namespace OpenTK
                 next_render = time_left + TargetRenderPeriod;
                 if (next_render < -1.0)
                     next_render = -1.0;
-
                 render_watch.Reset();
                 render_watch.Start();
-
                 if (time > 0)
                 {
                     // Todo: revisit this code. Maybe check average framerate instead?
@@ -616,10 +600,8 @@ namespace OpenTK
         /// </summary>
         public MouseDevice Mouse
         {
-
             get
             {
-
                 return InputDriver.Mouse.Count > 0 ? InputDriver.Mouse[0] : null;
             }
         }
@@ -921,7 +903,6 @@ namespace OpenTK
             {
                 base.WindowState = value;
                 Debug.Print("Updating Context after setting WindowState to {0}", value);
-
                 if (Context != null)
                     Context.Update(WindowInfo);
             }
@@ -936,22 +917,18 @@ namespace OpenTK
         /// Occurs before the window is displayed for the first time.
         /// </summary>
         public event EventHandler<EventArgs> Load;
-
         /// <summary>
         /// Occurs when it is time to render a frame.
         /// </summary>
         public event EventHandler<FrameEventArgs> RenderFrame;
-
         /// <summary>
         /// Occurs before the window is destroyed.
         /// </summary>
         public event EventHandler<EventArgs> Unload;
-
         /// <summary>
         /// Occurs when it is time to update a frame.
         /// </summary>
         public event EventHandler<FrameEventArgs> UpdateFrame;
-
         #endregion
 
         #endregion
@@ -1056,19 +1033,12 @@ namespace OpenTK
         private void OnWindowInfoChangedInternal(EventArgs e)
         {
             glContext.MakeCurrent(WindowInfo);
-
             OnWindowInfoChanged(e);
         }
 
-
-
-
-
         #endregion
 
         #endregion
-
-        
     }
 
     #region public enum VSyncMode

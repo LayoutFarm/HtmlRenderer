@@ -32,14 +32,12 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Reflection;
-
 namespace OpenTK
 {
     /// <summary>Provides information about the underlying OS and runtime.</summary>
     public static class Configuration
     {
         static bool runningOnWindows, runningOnUnix, runningOnX11, runningOnMacOS, runningOnLinux, runningOnMono;
-
         #region --- Constructors ---
 
         // Detects the underlying OS and runtime.
@@ -61,15 +59,12 @@ namespace OpenTK
                     case "":
                         throw new PlatformNotSupportedException(
                             "Unknown platform. Please file a bug report at http://www.opentk.com/node/add/project-issue/opentk");
-
                     case "Linux":
                         runningOnLinux = runningOnUnix = true;
                         break;
-
                     case "Darwin":
                         runningOnMacOS = runningOnUnix = true;
                         break;
-
                     default:
                         runningOnUnix = true;
                         break;
@@ -77,7 +72,6 @@ namespace OpenTK
             }
             else
                 throw new PlatformNotSupportedException("Unknown platform. Please report this error at http://www.opentk.com.");
-
             // Detect whether X is present.
             // Hack: it seems that this check will cause X to initialize itself on Mac OS X Leopard and newer.
             // We don't want that (we'll be using the native interfaces anyway), so we'll avoid this check
@@ -92,7 +86,6 @@ namespace OpenTK
             Type t = Type.GetType("Mono.Runtime");
             if (t != null)
                 runningOnMono = true;
-            
             Debug.Print("Detected configuration: {0} / {1}",
                 RunningOnWindows ? "Windows" : RunningOnLinux ? "Linux" : RunningOnMacOS ? "MacOS" :
                 runningOnUnix ? "Unix" : RunningOnX11 ? "X11" : "Unknown Platform",
@@ -160,22 +153,16 @@ namespace OpenTK
         {
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
             public string sysname;
-
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
             public string nodename;
-
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
             public string release;
-
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
             public string version;
-
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
             public string machine;
-
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 1024)]
             public string extraJustInCase;
-
         }
 
         /// <summary>
@@ -188,7 +175,6 @@ namespace OpenTK
             Debug.Flush();
             utsname uts = new utsname();
             uname(out uts);
-
             Debug.WriteLine("System:");
             Debug.Indent();
             Debug.WriteLine(uts.sysname);
@@ -197,13 +183,11 @@ namespace OpenTK
             Debug.WriteLine(uts.version);
             Debug.WriteLine(uts.machine);
             Debug.Unindent();
-
             return uts.sysname.ToString();
         }
 
         [DllImport("libc")]
         private static extern void uname(out utsname uname_struct);
-
         #endregion
 
         #endregion

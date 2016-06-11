@@ -9,11 +9,8 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Threading;
 using System.Drawing;
-
 using OpenTK;
 using OpenTK.Graphics;
-
-
 namespace OpenTK.Graphics.ES20
 {
     public static class ES2Utils2
@@ -27,9 +24,7 @@ namespace OpenTK.Graphics.ES20
             // Generate a texture object
             //GLuint texture;
             int texture = GL.GenTexture();
-
             GL.BindTexture(TextureTarget.Texture2D, texture);
-
             // Bind the texture object
             // glBindTexture(GL_TEXTURE_2D, texture);
 
@@ -48,9 +43,8 @@ namespace OpenTK.Graphics.ES20
                   255,   0,   0, // Red
                   0, 255,   0, // Green
                   0,   0, 255, // Blue
-                255, 255,   0, // Yellow
+                  255, 255,   0, // Yellow
             };
-
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgb, width, height, 0, PixelFormat.Rgb, PixelType.UnsignedByte, pixels);
             //glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, pixels);
 
@@ -69,7 +63,6 @@ namespace OpenTK.Graphics.ES20
             int height = 256;
             byte[] pixels = new byte[width * height * 3];
             int checkerSize = 8;
-
             for (int y = 0; y < height; ++y)
             {
                 for (int x = 0; x < width; ++x)
@@ -83,7 +76,6 @@ namespace OpenTK.Graphics.ES20
                     }
                     else
                     {
-
                         bColor = (byte)(255 * ((y / checkerSize) % 2));
                         rColor = (byte)(255 * (1 - ((y / checkerSize) % 2)));
                     }
@@ -106,13 +98,11 @@ namespace OpenTK.Graphics.ES20
             //    // Generate mipmaps
             //    glGenerateMipmap(GL_TEXTURE_2D);
             GL.GenerateMipmap(TextureTarget.Texture2D);
-
             //    // Set the filtering mode
             //    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.NearestMipmapNearest);
             //    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMinFilter.Linear);
-
             return texture;
         }
     }

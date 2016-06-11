@@ -28,12 +28,10 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 namespace OpenTK.Platform.Windows
 {
     using Graphics;
     using OpenTK.Input;
-
     class WinFactory : IPlatformFactory
     {
         #region IPlatformFactory Members

@@ -12,13 +12,7 @@
 // TODO: Find app that can build compressed dds cubemaps and verify that the import code works.
 
 using System;
-using System.IO;
-using System.Diagnostics;
-
-using OpenTK;
-using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
-
 namespace Examples.TextureLoaders
 {
     /// <summary> 
@@ -33,8 +27,6 @@ namespace Examples.TextureLoaders
         #region Constants
         private const byte HeaderSizeInBytes = 128; // all non-image data together is 128 Bytes
         private const uint BitMask = 0x00000007; // bits = 00 00 01 11
-
-
         private static NotImplementedException Unfinished = new NotImplementedException("ERROR: Only 2 Dimensional DXT1/3/5 compressed images for now. 1D/3D Textures may not be compressed according to spec.");
         #endregion Constants
 
@@ -644,7 +636,6 @@ namespace Examples.TextureLoaders
             byte[][] ThreeBits = new byte[2][];
             for (int i = 0; i < 2; i++)
                 ThreeBits[i] = new byte[4];
-
             // extract 3 bits each into the array
             ThreeBits[0][0] = (byte)(inputUInt24 & BitMask);
             inputUInt24 >>= 3;
@@ -661,7 +652,6 @@ namespace Examples.TextureLoaders
             ThreeBits[1][2] = (byte)(inputUInt24 & BitMask);
             inputUInt24 >>= 3;
             ThreeBits[1][3] = (byte)(inputUInt24 & BitMask);
-
             // stuff 8x 3bits into 3 bytes
             uint Result = 0;
             Result = Result | (uint)(ThreeBits[1][0] << 0);

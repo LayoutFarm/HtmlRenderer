@@ -39,11 +39,10 @@
 // Copyright (C) 2007
 **
 */
+
 using System.Collections.Generic;
 using System;
-
 using MiniCollection;
-
 namespace Tesselate
 {
     public class ContourVertex : IComparable<ContourVertex>
@@ -52,18 +51,14 @@ namespace Tesselate
         public ContourVertex prevVertex;		/* previous vertex (never null) */
         public HalfEdge edgeThisIsOriginOf;	/* a half-edge with this origin */
         public int clientIndex;		/* client's data */
-
         /* Internal data (keep hidden) */
         /* vertex location in 3D */
 
         internal double C_0;
         internal double C_1;
         internal double C_2;
-
         public double x, y;		/* projection onto the sweep plane */
         public RefItem<ContourVertex> priorityQueueHandle;	/* to allow deletion from priority queue */
-
-
         public int CompareTo(ContourVertex otherVertex)
         {
             if (VertEq(otherVertex))
@@ -95,7 +90,6 @@ namespace Tesselate
              * r is guaranteed to satisfy MIN(u.t,w.t) <= r <= MAX(u.t,w.t).
              */
             double gapL, gapR;
-
             if (!((u.VertLeq(u) && v.VertLeq(v))))
             {
                 throw new Exception();
@@ -103,7 +97,6 @@ namespace Tesselate
 
             gapL = v.x - u.x;
             gapR = w.x - v.x;
-
             if (gapL + gapR > 0)
             {
                 if (gapL < gapR)
@@ -127,7 +120,6 @@ namespace Tesselate
              * as v is above, on, or below the edge uw.
              */
             double gapL, gapR;
-
             if (!u.VertLeq(v) || !v.VertLeq(w))
             {
                 throw new System.Exception();
@@ -135,7 +127,6 @@ namespace Tesselate
 
             gapL = v.x - u.x;
             gapR = w.x - v.x;
-
             if (gapL + gapR > 0)
             {
                 return (v.y - w.y) * gapL + (v.y - u.y) * gapR;

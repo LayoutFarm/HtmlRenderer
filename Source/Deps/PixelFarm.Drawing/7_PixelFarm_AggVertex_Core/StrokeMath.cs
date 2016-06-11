@@ -22,13 +22,10 @@
 // Stroke math
 //
 //----------------------------------------------------------------------------
-using System;
 
-using PixelFarm.VectorMath;
-
-namespace PixelFarm.Agg 
+using System; 
+namespace PixelFarm.Agg
 {
-
     public class StrokeMath
     {
         public enum Status
@@ -56,7 +53,6 @@ namespace PixelFarm.Agg
         LineCap m_line_cap;
         LineJoin m_line_join;
         InnerJoin m_inner_join;
-
         public StrokeMath()
         {
             m_width = 0.5;
@@ -93,7 +89,6 @@ namespace PixelFarm.Agg
             set
             {
                 m_width = value / 2.0;
-
                 if (m_width < 0)
                 {
                     m_width_abs = -m_width;
@@ -138,15 +133,12 @@ namespace PixelFarm.Agg
         public void CreateCap(VertexStore output, VertexDistance v0, VertexDistance v1, double len)
         {
             output.Clear();
-
             double dx1 = (v1.y - v0.y) / len;
             double dy1 = (v1.x - v0.x) / len;
             double dx2 = 0;
             double dy2 = 0;
-
             dx1 *= m_width;
             dy1 *= m_width;
-
             if (m_line_cap != LineCap.Round)
             {
                 if (m_line_cap == LineCap.Square)
@@ -163,7 +155,6 @@ namespace PixelFarm.Agg
                 double a1;
                 int i;
                 int n = (int)(Math.PI / da);
-
                 da = Math.PI / (n + 1);
                 AddVertex(output, v0.x - dx1, v0.y + dy1);
                 if (m_width_sign > 0)
@@ -203,9 +194,7 @@ namespace PixelFarm.Agg
             double dy1 = m_width * (v1.x - v0.x) / len1;
             double dx2 = m_width * (v2.y - v1.y) / len2;
             double dy2 = m_width * (v2.x - v1.x) / len2;
-
             output.Clear();
-
             double cp = AggMath.Cross(v0.x, v0.y, v1.x, v1.y, v2.x, v2.y);
             if (cp != 0 && (cp > 0) == (m_width > 0))
             {
@@ -223,14 +212,12 @@ namespace PixelFarm.Agg
                         AddVertex(output, v1.x + dx1, v1.y - dy1);
                         AddVertex(output, v1.x + dx2, v1.y - dy2);
                         break;
-
                     case InnerJoin.Miter:
                         CreateMiter(output,
                                    v0, v1, v2, dx1, dy1, dx2, dy2,
                                    LineJoin.MiterRevert,
                                    limit, 0);
                         break;
-
                     case InnerJoin.Jag:
                     case InnerJoin.Round:
                         cp = (dx1 - dx2) * (dx1 - dx2) + (dy1 - dy2) * (dy1 - dy2);
@@ -272,7 +259,6 @@ namespace PixelFarm.Agg
                 double dx = (dx1 + dx2) / 2;
                 double dy = (dy1 + dy2) / 2;
                 double dbevel = Math.Sqrt(dx * dx + dy * dy);
-
                 if (m_line_join == LineJoin.Round || m_line_join == LineJoin.Bevel)
                 {
                     // This is an optimization that reduces the number of points 
@@ -321,18 +307,16 @@ namespace PixelFarm.Agg
                                    m_miter_limit,
                                    dbevel);
                         break;
-
                     case LineJoin.Round:
                         CreateArc(output, v1.x, v1.y, dx1, -dy1, dx2, -dy2);
                         break;
-
                     default: // Bevel join 
                         AddVertex(output, v1.x + dx1, v1.y - dy1);
                         AddVertex(output, v1.x + dx2, v1.y - dy2);
                         break;
                 }
             }
-        } 
+        }
         static void AddVertex(VertexStore output, double x, double y)
         {
             output.AddVertex(x, y, VertexCmd.LineTo);
@@ -347,9 +331,7 @@ namespace PixelFarm.Agg
             double a2 = Math.Atan2(dy2 * m_width_sign, dx2 * m_width_sign);
             double da = a1 - a2;
             int i, n;
-
             da = Math.Acos(m_width_abs / (m_width_abs + 0.125 / m_approx_scale)) * 2;
-
             AddVertex(output, x + dx1, y + dy1);
             if (m_width_sign > 0)
             {
@@ -394,7 +376,6 @@ namespace PixelFarm.Agg
             double lim = m_width_abs * mlimit;
             bool miter_limit_exceeded = true; // Assume the worst
             bool intersection_failed = true; // Assume the worst
-
             if (AggMath.CalcIntersect(v0.x + dx1, v0.y - dy1,
                                  v1.x + dx1, v1.y - dy1,
                                  v1.x + dx2, v1.y - dy2,
@@ -450,11 +431,9 @@ namespace PixelFarm.Agg
                         AddVertex(output, v1.x + dx1, v1.y - dy1);
                         AddVertex(output, v1.x + dx2, v1.y - dy2);
                         break;
-
                     case LineJoin.MiterRound:
                         CreateArc(output, v1.x, v1.y, dx1, -dy1, dx2, -dy2);
                         break;
-
                     default:
                         // If no miter-revert, calculate new dx1, dy1, dx2, dy2
                         //----------------

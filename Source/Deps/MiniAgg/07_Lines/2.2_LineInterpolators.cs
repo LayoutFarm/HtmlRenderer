@@ -13,13 +13,12 @@
 //          mcseemagg@yahoo.com
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
+
 using System;
 using PixelFarm.Agg.Image;
 using PixelFarm.Agg.Transform;
-
 namespace PixelFarm.Agg.Lines
 {
-
     //================================================line_interpolator_aa_base
     class LineInterpolatorAABase
     {
@@ -37,9 +36,7 @@ namespace PixelFarm.Agg.Lines
         protected int m_step;
         protected int[] m_dist = new int[MAX_HALF_WIDTH + 1];
         protected byte[] m_covers = new byte[MAX_HALF_WIDTH * 2 + 4];
-
         protected const int MAX_HALF_WIDTH = 64;
-
         public LineInterpolatorAABase(OutlineRenderer ren, LineParameters lp)
         {
             m_lp = lp;
@@ -53,15 +50,13 @@ namespace PixelFarm.Agg.Lines
             m_old_y = (m_y);
             m_count = ((lp.vertical ? Math.Abs((lp.y2 >> LineAA.SUBPIXEL_SHIFT) - m_y) :
                                    Math.Abs((lp.x2 >> LineAA.SUBPIXEL_SHIFT) - m_x)));
-            m_width = (ren.SubPixelWidth );
+            m_width = (ren.SubPixelWidth);
             //m_max_extent(m_width >> (line_subpixel_shift - 2));
             m_max_extent = ((m_width + LineAA.SUBPIXEL_MARK) >> LineAA.SUBPIXEL_SHIFT);
             m_step = 0;
-
             LineInterpolatorDDA2 li = new LineInterpolatorDDA2(0,
                 lp.vertical ? (lp.dy << LineAA.SUBPIXEL_SHIFT) : (lp.dx << LineAA.SUBPIXEL_SHIFT),
                 lp.len);
-
             int i;
             int stop = m_width + LineAA.SUBPIXEL_SCALE * 2;
             for (i = 0; i < MAX_HALF_WIDTH; ++i)
@@ -78,12 +73,9 @@ namespace PixelFarm.Agg.Lines
             m_li.Next();
             m_x += m_lp.inc;
             m_y = (m_lp.y1 + m_li.Y) >> LineAA.SUBPIXEL_SHIFT;
-
             if (m_lp.inc > 0) di.IncX(m_y - m_old_y);
             else di.DecX(m_y - m_old_y);
-
             m_old_y = m_y;
-
             return di.Distance / m_len;
         }
 
@@ -92,12 +84,9 @@ namespace PixelFarm.Agg.Lines
             m_li.Next();
             m_x += m_lp.inc;
             m_y = (m_lp.y1 + m_li.Y) >> LineAA.SUBPIXEL_SHIFT;
-
             if (m_lp.inc > 0) di.IncX(m_y - m_old_y);
             else di.DecX(m_y - m_old_y);
-
             m_old_y = m_y;
-
             return di.Distance / m_len;
         }
 
@@ -106,12 +95,9 @@ namespace PixelFarm.Agg.Lines
             m_li.Next();
             m_x += m_lp.inc;
             m_y = (m_lp.y1 + m_li.Y) >> LineAA.SUBPIXEL_SHIFT;
-
             if (m_lp.inc > 0) di.IncX(m_y - m_old_y);
             else di.DecX(m_y - m_old_y);
-
             m_old_y = m_y;
-
             return di.Distance / m_len;
         }
 
@@ -121,12 +107,9 @@ namespace PixelFarm.Agg.Lines
             m_li.Next();
             m_y += m_lp.inc;
             m_x = (m_lp.x1 + m_li.Y) >> LineAA.SUBPIXEL_SHIFT;
-
             if (m_lp.inc > 0) di.IncY(m_x - m_old_x);
             else di.DecY(m_x - m_old_x);
-
             m_old_x = m_x;
-
             return di.Distance / m_len;
         }
 
@@ -135,12 +118,9 @@ namespace PixelFarm.Agg.Lines
             m_li.Next();
             m_y += m_lp.inc;
             m_x = (m_lp.x1 + m_li.Y) >> LineAA.SUBPIXEL_SHIFT;
-
             if (m_lp.inc > 0) di.IncY(m_x - m_old_x);
             else di.DecY(m_x - m_old_x);
-
             m_old_x = m_x;
-
             return di.Distance / m_len;
         }
 
@@ -149,19 +129,15 @@ namespace PixelFarm.Agg.Lines
             m_li.Next();
             m_y += m_lp.inc;
             m_x = (m_lp.x1 + m_li.Y) >> LineAA.SUBPIXEL_SHIFT;
-
             if (m_lp.inc > 0) di.IncY(m_x - m_old_x);
             else di.DecY(m_x - m_old_x);
-
             m_old_x = m_x;
-
             return di.Distance / m_len;
         }
 
         public bool IsVertical { get { return m_lp.vertical; } }
         public int Width { get { return m_width; } }
         public int Count { get { return m_count; } }
-
     }
 
     //====================================================line_interpolator_aa0
@@ -174,7 +150,6 @@ namespace PixelFarm.Agg.Lines
         {
             m_di = new DistanceInterpolator1(lp.x1, lp.y1, lp.x2, lp.y2,
                  lp.x1 & ~LineAA.SUBPIXEL_MARK, lp.y1 & ~LineAA.SUBPIXEL_MARK);
-
             m_li.adjust_forward();
         }
 
@@ -186,9 +161,7 @@ namespace PixelFarm.Agg.Lines
             int s1 = BaseStepH(m_di);
             int Offset0 = MAX_HALF_WIDTH + 2;
             int Offset1 = Offset0;
-
             m_covers[Offset1++] = (byte)m_ren.GetCover(s1);
-
             dy = 1;
             while ((dist = base.m_dist[dy] - s1) <= base.m_width)
             {
@@ -217,9 +190,7 @@ namespace PixelFarm.Agg.Lines
             int s1 = base.BaseStepV(m_di);
             int Offset0 = MAX_HALF_WIDTH + 2;
             int Offset1 = Offset0;
-
             m_covers[Offset1++] = (byte)m_ren.GetCover(s1);
-
             dx = 1;
             while ((dist = base.m_dist[dx] - s1) <= base.m_width)
             {
@@ -245,18 +216,14 @@ namespace PixelFarm.Agg.Lines
     class LineInterpolatorAA1 : LineInterpolatorAABase
     {
         DistanceInterpolator2 m_di;
-
         public LineInterpolatorAA1(OutlineRenderer ren, LineParameters lp, int sx, int sy)
             : base(ren, lp)
         {
             m_di = new DistanceInterpolator2(lp.x1, lp.y1, lp.x2, lp.y2, sx, sy,
                  lp.x1 & ~LineAA.SUBPIXEL_MARK, lp.y1 & ~LineAA.SUBPIXEL_MARK);
-
             int dist1_start;
             int dist2_start;
-
             int npix = 1;
-
             if (lp.vertical)
             {
                 do
@@ -264,14 +231,10 @@ namespace PixelFarm.Agg.Lines
                     base.m_li.Prev();
                     base.m_y -= lp.inc;
                     base.m_x = (base.m_lp.x1 + base.m_li.Y) >> LineAA.SUBPIXEL_SHIFT;
-
                     if (lp.inc > 0) m_di.DecY(base.m_x - base.m_old_x);
                     else m_di.IncY(base.m_x - base.m_old_x);
-
                     base.m_old_x = base.m_x;
-
                     dist1_start = dist2_start = m_di.DistanceStart;
-
                     int dx = 0;
                     if (dist1_start < 0) ++npix;
                     do
@@ -296,14 +259,10 @@ namespace PixelFarm.Agg.Lines
                     base.m_li.Prev();
                     base.m_x -= lp.inc;
                     base.m_y = (base.m_lp.y1 + base.m_li.Y) >> LineAA.SUBPIXEL_SHIFT;
-
                     if (lp.inc > 0) m_di.DecX(base.m_y - base.m_old_y);
                     else m_di.IncX(base.m_y - base.m_old_y);
-
                     base.m_old_y = base.m_y;
-
                     dist1_start = dist2_start = m_di.DistanceStart;
-
                     int dy = 0;
                     if (dist1_start < 0) ++npix;
                     do
@@ -331,18 +290,15 @@ namespace PixelFarm.Agg.Lines
             int dist;
             int dy;
             int s1 = base.BaseStepH(m_di);
-
             dist_start = m_di.DistanceStart;
             int Offset0 = MAX_HALF_WIDTH + 2;
             int Offset1 = Offset0;
-
             m_covers[Offset1] = 0;
             if (dist_start <= 0)
             {
                 m_covers[Offset1] = (byte)base.m_ren.GetCover(s1);
             }
             ++Offset1;
-
             dy = 1;
             while ((dist = base.m_dist[dy] - s1) <= base.m_width)
             {
@@ -386,16 +342,13 @@ namespace PixelFarm.Agg.Lines
             int s1 = base.BaseStepV(m_di);
             int Offset0 = MAX_HALF_WIDTH + 2;
             int Offset1 = Offset0;
-
             dist_start = m_di.DistanceStart;
-
             m_covers[Offset1] = 0;
             if (dist_start <= 0)
             {
                 m_covers[Offset1] = (byte)base.m_ren.GetCover(s1);
             }
             ++Offset1;
-
             dx = 1;
             while ((dist = base.m_dist[dx] - s1) <= base.m_width)
             {
@@ -425,7 +378,6 @@ namespace PixelFarm.Agg.Lines
                                                base.m_y,
                                                Offset1 - Offset0, m_covers,
                                                Offset0);
-
             return ++base.m_step < base.m_count;
         }
     }
@@ -434,7 +386,6 @@ namespace PixelFarm.Agg.Lines
     class LineInterpolatorAA2 : LineInterpolatorAABase
     {
         DistanceInterpolator2 m_di;
-
         //---------------------------------------------------------------------
         public LineInterpolatorAA2(OutlineRenderer ren, LineParameters lp,
                               int ex, int ey)
@@ -456,9 +407,7 @@ namespace PixelFarm.Agg.Lines
             int s1 = base.BaseStepH(m_di);
             int Offset0 = MAX_HALF_WIDTH + 2;
             int Offset1 = Offset0;
-
             dist_end = m_di.DistanceEnd;
-
             int npix = 0;
             m_covers[Offset1] = 0;
             if (dist_end > 0)
@@ -467,7 +416,6 @@ namespace PixelFarm.Agg.Lines
                 ++npix;
             }
             ++Offset1;
-
             dy = 1;
             while ((dist = base.m_dist[dy] - s1) <= base.m_width)
             {
@@ -511,9 +459,7 @@ namespace PixelFarm.Agg.Lines
             int s1 = base.BaseStepV(m_di);
             int Offset0 = MAX_HALF_WIDTH + 2;
             int Offset1 = Offset0;
-
             dist_end = m_di.DistanceEnd;
-
             int npix = 0;
             m_covers[Offset1] = 0;
             if (dist_end > 0)
@@ -522,7 +468,6 @@ namespace PixelFarm.Agg.Lines
                 ++npix;
             }
             ++Offset1;
-
             dx = 1;
             while ((dist = base.m_dist[dx] - s1) <= base.m_width)
             {
@@ -562,7 +507,6 @@ namespace PixelFarm.Agg.Lines
     class LineInterpolatorAA3 : LineInterpolatorAABase
     {
         DistanceInterpolator3 m_di;
-
         //---------------------------------------------------------------------
         public LineInterpolatorAA3(OutlineRenderer ren, LineParameters lp,
                               int sx, int sy, int ex, int ey)
@@ -580,14 +524,10 @@ namespace PixelFarm.Agg.Lines
                     base.m_li.Prev();
                     base.m_y -= lp.inc;
                     base.m_x = (base.m_lp.x1 + base.m_li.Y) >> LineAA.SUBPIXEL_SHIFT;
-
                     if (lp.inc > 0) m_di.DecY(base.m_x - base.m_old_x);
                     else m_di.IncY(base.m_x - base.m_old_x);
-
                     base.m_old_x = base.m_x;
-
                     dist1_start = dist2_start = m_di.dist_start;
-
                     int dx = 0;
                     if (dist1_start < 0) ++npix;
                     do
@@ -611,14 +551,10 @@ namespace PixelFarm.Agg.Lines
                     base.m_li.Prev();
                     base.m_x -= lp.inc;
                     base.m_y = (base.m_lp.y1 + base.m_li.Y) >> LineAA.SUBPIXEL_SHIFT;
-
                     if (lp.inc > 0) m_di.DecX(base.m_y - base.m_old_y);
                     else m_di.IncX(base.m_y - base.m_old_y);
-
                     base.m_old_y = base.m_y;
-
                     dist1_start = dist2_start = m_di.dist_start;
-
                     int dy = 0;
                     if (dist1_start < 0) ++npix;
                     do
@@ -650,10 +586,8 @@ namespace PixelFarm.Agg.Lines
             int s1 = base.BaseStepH(m_di);
             int Offset0 = MAX_HALF_WIDTH + 2;
             int Offset1 = Offset0;
-
             dist_start = m_di.dist_start;
             dist_end = m_di.dist_end;
-
             int npix = 0;
             m_covers[Offset1] = 0;
             if (dist_end > 0)
@@ -665,7 +599,6 @@ namespace PixelFarm.Agg.Lines
                 ++npix;
             }
             ++Offset1;
-
             dy = 1;
             while ((dist = base.m_dist[dy] - s1) <= base.m_width)
             {
@@ -713,10 +646,8 @@ namespace PixelFarm.Agg.Lines
             int s1 = base.BaseStepV(m_di);
             int Offset0 = MAX_HALF_WIDTH + 2;
             int Offset1 = Offset0;
-
             dist_start = m_di.dist_start;
             dist_end = m_di.dist_end;
-
             int npix = 0;
             m_covers[Offset1] = 0;
             if (dist_end > 0)
@@ -728,7 +659,6 @@ namespace PixelFarm.Agg.Lines
                 ++npix;
             }
             ++Offset1;
-
             dx = 1;
             while ((dist = base.m_dist[dx] - s1) <= base.m_width)
             {
@@ -766,5 +696,4 @@ namespace PixelFarm.Agg.Lines
             return npix != 0 && ++base.m_step < base.m_count;
         }
     }
-
 }

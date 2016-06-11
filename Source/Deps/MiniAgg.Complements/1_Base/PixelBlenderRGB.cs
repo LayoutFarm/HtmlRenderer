@@ -25,9 +25,9 @@
 // PostScript and PDF technology for software developers.
 // 
 //----------------------------------------------------------------------------
+
 using System;
 using PixelFarm.Agg;
-
 namespace PixelFarm.Agg.Image
 {
     /*
@@ -175,18 +175,14 @@ namespace PixelFarm.Agg.Image
         }
         public void CopyPixel(byte[] buffer, int bufferOffset, ColorRGBA sourceColor)
         {
-
             buffer[bufferOffset + CO.R] = sourceColor.red;
             buffer[bufferOffset + CO.G] = sourceColor.green;
             buffer[bufferOffset + CO.B] = sourceColor.blue;
-
-
         }
         public void BlendPixel(byte[] buffer, int bufferOffset, ColorRGBA sourceColor)
         {
             unchecked
             {
-                 
                 int r = buffer[bufferOffset + CO.R];
                 int g = buffer[bufferOffset + CO.G];
                 int b = buffer[bufferOffset + CO.B];
@@ -246,11 +242,9 @@ namespace PixelFarm.Agg.Image
             }
         }
     };
-
     public sealed class BlenderGammaBGR : PixelBlenderBaseBGR, IPixelBlender
     {
         GammaLookUpTable m_gamma;
-
         public BlenderGammaBGR(float gamma = 1)
         {
             m_gamma = new GammaLookUpTable(gamma);
@@ -308,11 +302,9 @@ namespace PixelFarm.Agg.Image
             throw new NotImplementedException();
         }
     };
-
     public sealed class BlenderPreMultBGR : PixelBlenderBaseBGR, IPixelBlender
     {
         static int[] m_Saturate9BitToByte = new int[1 << 9];
-
         public BlenderPreMultBGR()
         {
             if (m_Saturate9BitToByte[2] == 0)
@@ -345,11 +337,9 @@ namespace PixelFarm.Agg.Image
         }
         public void CopyPixel(byte[] buffer, int bufferOffset, ColorRGBA sourceColor)
         {
-
             buffer[bufferOffset + CO.R] = sourceColor.red;
             buffer[bufferOffset + CO.G] = sourceColor.green;
             buffer[bufferOffset + CO.B] = sourceColor.blue;
-
         }
         public void BlendPixel(byte[] pDestBuffer, int bufferOffset, ColorRGBA sourceColor)
         {

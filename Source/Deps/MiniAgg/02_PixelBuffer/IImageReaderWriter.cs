@@ -17,59 +17,43 @@
 //          mcseemagg@yahoo.com
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
+
 using PixelFarm.Agg;
 using PixelFarm.VectorMath;
-
 using PixelFarm.Agg.Image;
-
 namespace PixelFarm.Agg
 {
-
     public interface IImageReaderWriter
     {
-      
         int BitDepth { get; }
         int Width { get; }
         int Height { get; }
         RectInt GetBounds();
-
         int GetBufferOffsetXY(int x, int y);
-        
         int Stride { get; }
         int BytesBetweenPixelsInclusive { get; }
 
         IPixelBlender GetRecieveBlender();
         void SetRecieveBlender(IPixelBlender value);
-
-        byte[] GetBuffer(); 
+        byte[] GetBuffer();
         ColorRGBA GetPixel(int x, int y);
         void SetPixel(int x, int y, ColorRGBA color);
-
-     
         //-------------------------------------------------------------------------------------------
         void BlendHL(int x, int y, int x2, ColorRGBA sourceColor, byte cover); //**
         void BlendVL(int x, int y1, int y2, ColorRGBA sourceColor, byte cover);
         //-------------------------------------------------------------------------------------------
-       
-        
+
+
         void CopyFrom(IImageReaderWriter sourceImage, RectInt sourceImageRect, int destXOffset, int destYOffset); //not used
-         
         // line stuff
         void CopyHL(int x, int y, int len, ColorRGBA sourceColor);//not used
         void CopyVL(int x, int y, int len, ColorRGBA sourceColor);//not used
-
-
         // color stuff
         void CopyColorHSpan(int x, int y, int len, ColorRGBA[] colors, int colorIndex); //**
         void CopyColorVSpan(int x, int y, int len, ColorRGBA[] colors, int colorIndex); // 
-
-
         void BlendSolidHSpan(int x, int y, int len, ColorRGBA sourceColor, byte[] covers, int coversIndex);// 
         void BlendSolidVSpan(int x, int y, int len, ColorRGBA sourceColor, byte[] covers, int coversIndex);// 
-
         void BlendColorHSpan(int x, int y, int len, ColorRGBA[] colors, int colorsIndex, byte[] covers, int coversIndex, bool firstCoverForAll);// 
         void BlendColorVSpan(int x, int y, int len, ColorRGBA[] colors, int colorsIndex, byte[] covers, int coversIndex, bool firstCoverForAll); //not used
-        
     }
-
 }

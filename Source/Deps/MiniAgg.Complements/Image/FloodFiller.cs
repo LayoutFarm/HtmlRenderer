@@ -1,11 +1,10 @@
 //2014,2015 BSD,WinterDev   
+
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Runtime.InteropServices;
-
 using PixelFarm.Agg.Image;
-
 namespace PixelFarm.Agg
 {
     public class FloodFill
@@ -14,7 +13,6 @@ namespace PixelFarm.Agg
         {
             protected ColorRGBA startColor;
             protected ColorRGBA fillColor;
-
             protected FillingRule(ColorRGBA fillColor)
             {
                 this.fillColor = fillColor;
@@ -53,7 +51,6 @@ namespace PixelFarm.Agg
         class ToleranceMatch : FillingRule
         {
             int tolerance0To255;
-
             public ToleranceMatch(ColorRGBA fillColor, int tolerance0To255)
                 : base(fillColor)
             {
@@ -73,7 +70,6 @@ namespace PixelFarm.Agg
             public int startX;
             public int endX;
             public int y;
-
             public Range(int startX, int endX, int y)
             {
                 this.startX = startX;
@@ -85,12 +81,9 @@ namespace PixelFarm.Agg
         ImageReaderWriterBase destImage;
         protected int imageStride = 0;
         protected byte[] destBuffer = null;
-
         protected bool[] pixelsChecked;
         FillingRule fillRule;
-
         Queue<Range> ranges = new Queue<Range>(9);
-
         public FloodFill(ColorRGBA fillColor)
         {
             fillRule = new ExactMatch(fillColor);
@@ -126,19 +119,13 @@ namespace PixelFarm.Agg
             destBuffer = destImage.GetBuffer();
             int imageWidth = destImage.Width;
             int imageHeight = destImage.Height;
-
             pixelsChecked = new bool[destImage.Width * destImage.Height];
-
             int startColorBufferOffset = destImage.GetBufferOffsetXY(x, y);
-
             fillRule.SetStartColor(new ColorRGBA(destImage.GetBuffer()[startColorBufferOffset + 2], destImage.GetBuffer()[startColorBufferOffset + 1], destImage.GetBuffer()[startColorBufferOffset]));
-
             LinearFill(x, y);
-
             while (ranges.Count > 0)
             {
                 Range range = ranges.Dequeue();
-
                 int downY = range.y - 1;
                 int upY = range.y + 1;
                 int downPixelOffset = (imageWidth * (range.y - 1)) + range.startX;
@@ -178,7 +165,6 @@ namespace PixelFarm.Agg
         {
             int bytesPerPixel = destImage.BytesBetweenPixelsInclusive;
             int imageWidth = destImage.Width;
-
             int leftFillX = x;
             int bufferOffset = destImage.GetBufferOffsetXY(x, y);
             int pixelOffset = (imageWidth * y) + x;
@@ -195,7 +181,6 @@ namespace PixelFarm.Agg
                 }
             }
             leftFillX++;
-
             int rightFillX = x;
             bufferOffset = destImage.GetBufferOffsetXY(x, y);
             pixelOffset = (imageWidth * y) + x;
@@ -212,7 +197,6 @@ namespace PixelFarm.Agg
                 }
             }
             rightFillX--;
-
             ranges.Enqueue(new Range(leftFillX, rightFillX, y));
         }
     }

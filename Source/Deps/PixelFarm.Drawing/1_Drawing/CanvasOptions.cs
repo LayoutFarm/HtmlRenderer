@@ -30,7 +30,6 @@
 
 namespace PixelFarm.Drawing
 {
-
     public enum SmoothingMode
     {
         AntiAlias = 4,
@@ -42,9 +41,7 @@ namespace PixelFarm.Drawing
     }
     public enum CanvasOrientation
     {
-        
         LeftTop,
-        LeftBottom, 
-       
+        LeftBottom,
     }
 }

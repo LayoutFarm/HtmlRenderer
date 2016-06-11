@@ -17,27 +17,21 @@
 //          mcseemagg@yahoo.com
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
-using System;
-using PixelFarm.VectorMath;
 
+using System; 
 namespace PixelFarm.Agg
 {
-
     class StrokeGenerator
     {
         StrokeMath m_stroker;
         VertexDistanceList vertexDistanceList;
         VertexStore m_out_vertices;
-
-
         double m_shorten;
         bool m_closed;
         StrokeMath.Status m_status;
         StrokeMath.Status m_prev_status;
-
         int m_src_vertex;
         int m_out_vertex;
-
         public StrokeGenerator()
         {
             m_stroker = new StrokeMath();
@@ -56,7 +50,6 @@ namespace PixelFarm.Agg
         {
             get { return this.m_stroker.LineJoin; }
             set { this.m_stroker.LineJoin = value; }
-
         }
         public InnerJoin InnerJoin
         {
@@ -134,7 +127,7 @@ namespace PixelFarm.Agg
         {
             this.Rewind();
             double x = 0, y = 0;
-            for (; ; )
+            for (;;)
             {
                 var cmd = GetNextVertex(ref x, ref y);
                 outputVxs.AddVertex(x, y, cmd);
@@ -167,7 +160,6 @@ namespace PixelFarm.Agg
                     case StrokeMath.Status.Init:
                         this.Rewind();
                         goto case StrokeMath.Status.Ready;
-
                     case StrokeMath.Status.Ready:
 
                         if (vertexDistanceList.Count < 2 + (m_closed ? 1 : 0))
@@ -180,20 +172,17 @@ namespace PixelFarm.Agg
                         m_src_vertex = 0;
                         m_out_vertex = 0;
                         break;
-
                     case StrokeMath.Status.Cap1:
                         m_stroker.CreateCap(
                             m_out_vertices,
                             vertexDistanceList[0],
                             vertexDistanceList[1],
                             vertexDistanceList[0].dist);
-
                         m_src_vertex = 1;
                         m_prev_status = StrokeMath.Status.Outline1;
                         m_status = StrokeMath.Status.OutVertices;
                         m_out_vertex = 0;
                         break;
-
                     case StrokeMath.Status.Cap2:
                         m_stroker.CreateCap(m_out_vertices,
                             vertexDistanceList[vertexDistanceList.Count - 1],
@@ -203,7 +192,6 @@ namespace PixelFarm.Agg
                         m_status = StrokeMath.Status.OutVertices;
                         m_out_vertex = 0;
                         break;
-
                     case StrokeMath.Status.Outline1:
                         if (m_closed)
                         {
@@ -234,12 +222,10 @@ namespace PixelFarm.Agg
                         m_status = StrokeMath.Status.OutVertices;
                         m_out_vertex = 0;
                         break;
-
                     case StrokeMath.Status.CloseFirst:
                         m_status = StrokeMath.Status.Outline2;
                         cmd = VertexCmd.MoveTo;
                         goto case StrokeMath.Status.Outline2;
-
                     case StrokeMath.Status.Outline2:
 
                         if (m_src_vertex <= (!m_closed ? 1 : 0))
@@ -256,12 +242,10 @@ namespace PixelFarm.Agg
                             vertexDistanceList.prev(m_src_vertex),
                             vertexDistanceList.curr(m_src_vertex).dist,
                             vertexDistanceList.prev(m_src_vertex).dist);
-
                         m_prev_status = m_status;
                         m_status = StrokeMath.Status.OutVertices;
                         m_out_vertex = 0;
                         break;
-
                     case StrokeMath.Status.OutVertices:
                         if (m_out_vertex >= m_out_vertices.Count)
                         {
@@ -276,18 +260,14 @@ namespace PixelFarm.Agg
                             return cmd;
                         }
                         break;
-
                     case StrokeMath.Status.EndPoly1:
                         m_status = m_prev_status;
                         x = (int)EndVertexOrientation.CCW;
                         return VertexCmd.EndAndCloseFigure;
-
                     case StrokeMath.Status.EndPoly2:
                         m_status = m_prev_status;
                         x = (int)EndVertexOrientation.CW;
                         return VertexCmd.EndAndCloseFigure;
-                             
-
                     case StrokeMath.Status.Stop:
                         cmd = VertexCmd.Stop;
                         break;
@@ -295,6 +275,5 @@ namespace PixelFarm.Agg
             }
             return cmd;
         }
-
     }
 }

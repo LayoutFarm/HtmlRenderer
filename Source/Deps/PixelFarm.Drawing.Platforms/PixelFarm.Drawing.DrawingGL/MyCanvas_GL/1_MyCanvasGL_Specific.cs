@@ -18,16 +18,11 @@ using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
 using PixelFarm.DrawingGL;
-
 using Win32;
-
 namespace PixelFarm.Drawing.DrawingGL
 {
-
     partial class MyCanvasGL : Canvas, IFonts, IDisposable
     {
-
-
         GraphicsPlatform platform;
         int pageFlags;
         Font currentFont;
@@ -36,7 +31,6 @@ namespace PixelFarm.Drawing.DrawingGL
         //-------
         Stack<System.Drawing.Rectangle> clipRectStack = new Stack<System.Drawing.Rectangle>();
         System.Drawing.Rectangle currentClipRect;
-
         public MyCanvasGL(GraphicsPlatform platform, int hPageNum, int vPageNum, int left, int top, int width, int height)
         {
             canvasGL2d = new CanvasGL2d(width, height);
@@ -56,12 +50,9 @@ namespace PixelFarm.Drawing.DrawingGL
 #endif
             this.StrokeWidth = 1;
             this.currentClipRect = new System.Drawing.Rectangle(0, 0, width, height);
-
-
         }
         //-------------------------------------------
         bool isDisposed;
-
         ~MyCanvasGL()
         {
             CloseCanvas();
@@ -107,7 +98,6 @@ namespace PixelFarm.Drawing.DrawingGL
 
         public void ReleaseUnManagedResource()
         {
-
             //if (hRgn != IntPtr.Zero)
             //{
             //    MyWin32.DeleteObject(hRgn);
@@ -120,7 +110,6 @@ namespace PixelFarm.Drawing.DrawingGL
             //hbmp = IntPtr.Zero;
 
             clipRectStack.Clear();
-
             //currentClipRect = new System.Drawing.Rectangle(0, 0, this.Width, this.Height);
 
 
@@ -134,10 +123,8 @@ namespace PixelFarm.Drawing.DrawingGL
 
         public void Reset(int hPageNum, int vPageNum, int newWidth, int newHeight)
         {
-
             this.ReleaseUnManagedResource();
             this.ClearPreviousStoredValues();
-
             //originalHdc = MyWin32.CreateCompatibleDC(IntPtr.Zero);
             //System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(newWidth, newHeight, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
             //hbmp = bmp.GetHbitmap();
@@ -206,7 +193,6 @@ namespace PixelFarm.Drawing.DrawingGL
         /// </summary>
         void InitHdc()
         {
-
         }
 
         /// <summary>
@@ -245,7 +231,6 @@ namespace PixelFarm.Drawing.DrawingGL
         static void DrawTransparentText(IntPtr hdc, string str, Font font, Point point, Size size, Color color)
         {
             throw new NotImplementedException();
-             
         }
 
 
@@ -262,12 +247,9 @@ namespace PixelFarm.Drawing.DrawingGL
         /// The string format to use for measuring strings for GDI+ text rendering
         /// </summary>
         static readonly System.Drawing.StringFormat _stringFormat;
-
         const int CANVAS_UNUSED = 1 << (1 - 1);
         const int CANVAS_DIMEN_CHANGED = 1 << (2 - 1);
-
         static FontInfo defaultFontInfo;
-
         static MyCanvasGL()
         {
             _stringFormat = new System.Drawing.StringFormat(System.Drawing.StringFormat.GenericDefault);
@@ -378,6 +360,5 @@ namespace PixelFarm.Drawing.DrawingGL
         //    currentClipRect = intersectResult;
         //    return true;
         //}
-
     }
 }

@@ -30,19 +30,15 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.Threading;
-
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
-
 #endregion --- Using Directives ---
 
 using Mini;
-
 namespace OpenTkEssTest
 {
     [Info(OrderCode = "01")]
@@ -52,8 +48,8 @@ namespace OpenTkEssTest
         public override void Init()
         {
             using (var example = new T07_Display_Lists_Flower())
-            { 
-                example.Run(30.0, 0.0); 
+            {
+                example.Run(30.0, 0.0);
             }
         }
     }
@@ -64,7 +60,6 @@ namespace OpenTkEssTest
 
         const int num_lists = 13;
         int[] lists = new int[num_lists];
-
         #endregion
 
         #region --- Constructor ---
@@ -80,13 +75,10 @@ namespace OpenTkEssTest
 
         protected override void OnLoad(EventArgs e)
         {
-
             GLClearColor(Color.MidnightBlue);
             GL.Enable(EnableCap.DepthTest);
-
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadIdentity();
-
             // Build some display lists.
             int first_list = GL.GenLists(num_lists);
             float c = 0;
@@ -94,26 +86,18 @@ namespace OpenTkEssTest
             {
                 lists[i] = first_list + i;
                 GL.NewList(first_list + i, ListMode.Compile);
-                
                 GL.Color3(0.3 + 0.7 * c * c, 0.3 + 1.4 * c * c, 0.7 - 0.7 * c * c);
                 c += 1 / (float)num_lists;
-
                 GL.PushMatrix();
-
                 GL.Rotate(c * 360.0f, 0.0, 0.0, 1.0);
                 GL.Translate(5.0, 0.0, 0.0);
-
                 GL.Begin(BeginMode.Quads);
-
                 GL.Vertex3(-1.0f, -1.0f, 1.0f);
                 GL.Vertex3(1.0f, -1.0f, 1.0f);
                 GL.Vertex3(1.0f, 1.0f, 1.0f);
                 GL.Vertex3(-1.0f, 1.0f, 1.0f);
-
                 GL.End();
-
                 GL.PopMatrix();
-
                 GL.EndList();
             }
         }
@@ -140,10 +124,8 @@ namespace OpenTkEssTest
                 clientRect.Width,
                 clientRect.Height));
             float aspect = this.ClientSize.Width / (float)this.ClientSize.Height;
-
             Matrix4 projection_matrix;
             Matrix4.CreatePerspectiveFieldOfView((float)Math.PI / 4, aspect, 1, 64, out projection_matrix);
-
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadMatrix(ref projection_matrix);
         }
@@ -169,10 +151,8 @@ namespace OpenTkEssTest
             Matrix4 lookat = Matrix4.LookAt(0, 0, 16, 0, 0, 0, 0, 1, 0);
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadMatrix(ref lookat);
-            
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             GL.CallLists(num_lists, ListNameType.Int, lists);
-
             SwapBuffers();
         }
 

@@ -25,19 +25,6 @@
 //
 #endregion
 
-#if PCL
-//dummy class for pcl
-namespace System
-{
-    public class SerializableAttribute : Attribute { }
-    public interface IClonable { }
-    public interface ISerializable { }
-}
-namespace System.Security
-{
-    public class SuppressUnmanagedCodeSecurityAttribute : Attribute { }
-}
-#endif
 namespace OpenTK.Graphics.ES20
 {
     using System;
@@ -48,10 +35,8 @@ namespace OpenTK.Graphics.ES20
 
     partial class GL
     {
-
         internal static partial class Core
         {
-
             [System.Security.SuppressUnmanagedCodeSecurity()]
             [System.Runtime.InteropServices.DllImport(GL.Library, EntryPoint = "glActiveTexture", ExactSpelling = true)]
             internal extern static void ActiveTexture(OpenTK.Graphics.ES20.TextureUnit texture);

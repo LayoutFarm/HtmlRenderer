@@ -25,9 +25,9 @@
 // PostScript and PDF technology for software developers.
 // 
 //----------------------------------------------------------------------------
+
 using System;
 using PixelFarm.Agg;
-
 namespace PixelFarm.Agg.Image
 {
     public class PixelBlenderGray : IPixelBlender
@@ -36,15 +36,11 @@ namespace PixelFarm.Agg.Image
 
         const byte BASE_MASK = 255;
         const int BASE_SHIFT = 8;
-
         static int[] m_Saturate9BitToByte = new int[1 << 9];
-
         int bytesBetweenPixelsInclusive;
-
         public PixelBlenderGray(int bytesBetweenPixelsInclusive)
         {
             this.bytesBetweenPixelsInclusive = bytesBetweenPixelsInclusive;
-
             if (m_Saturate9BitToByte[2] == 0)
             {
                 for (int i = 0; i < m_Saturate9BitToByte.Length; i++)
@@ -73,12 +69,9 @@ namespace PixelFarm.Agg.Image
         }
         public void CopyPixel(byte[] pDestBuffer, int bufferOffset, ColorRGBA sourceColor)
         {
-
             int y = (sourceColor.red * 77) + (sourceColor.green * 151) + (sourceColor.blue * 28);
             int gray = (y >> 8);
             pDestBuffer[bufferOffset] = (byte)gray;
-
-
         }
         public void BlendPixel(byte[] pDestBuffer, int bufferOffset, ColorRGBA sourceColor)
         {
@@ -145,19 +138,13 @@ namespace PixelFarm.Agg.Image
 
     public class BlenderGrayFromRed : IPixelBlender
     {
-
-
         const byte BASE_MASK = 255;
         const int BASE_SHIFT = 8;
-
         static int[] m_Saturate9BitToByte = new int[1 << 9];
-
         int bytesBetweenPixelsInclusive;
-
         public BlenderGrayFromRed(int bytesBetweenPixelsInclusive)
         {
             this.bytesBetweenPixelsInclusive = bytesBetweenPixelsInclusive;
-
             if (m_Saturate9BitToByte[2] == 0)
             {
                 for (int i = 0; i < m_Saturate9BitToByte.Length; i++)
@@ -184,10 +171,8 @@ namespace PixelFarm.Agg.Image
         }
         public void CopyPixel(byte[] pDestBuffer, int bufferOffset, ColorRGBA sourceColor)
         {
-
             pDestBuffer[bufferOffset] = sourceColor.red;
             bufferOffset += bytesBetweenPixelsInclusive;
-
         }
         public void BlendPixel(byte[] pDestBuffer, int bufferOffset, ColorRGBA sourceColor)
         {
@@ -252,19 +237,13 @@ namespace PixelFarm.Agg.Image
 
     public class BlenderGrayClampedMax : IPixelBlender
     {
-
-
         const byte BASE_MASK = 255;
         const int BASE_SHIFT = 8;
-
         static int[] m_Saturate9BitToByte = new int[1 << 9];
-
         int bytesBetweenPixelsInclusive;
-
         public BlenderGrayClampedMax(int bytesBetweenPixelsInclusive)
         {
             this.bytesBetweenPixelsInclusive = bytesBetweenPixelsInclusive;
-
             if (m_Saturate9BitToByte[2] == 0)
             {
                 for (int i = 0; i < m_Saturate9BitToByte.Length; i++)
@@ -292,10 +271,8 @@ namespace PixelFarm.Agg.Image
         }
         public void CopyPixel(byte[] pDestBuffer, int bufferOffset, ColorRGBA sourceColor)
         {
-
             byte clampedMax = Math.Min(Math.Max(sourceColor.red, Math.Max(sourceColor.green, sourceColor.blue)), (byte)255);
             pDestBuffer[bufferOffset] = clampedMax;
-
         }
         public void BlendPixel(byte[] pDestBuffer, int bufferOffset, ColorRGBA sourceColor)
         {

@@ -28,7 +28,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 namespace OpenTK
 {
 #if NO_SYSDRAWING
@@ -37,13 +36,13 @@ namespace OpenTK
     /// </summary>
     public struct Size : IEquatable<Size>
     {
-        #region Fields
+    #region Fields
 
         int width, height;
 
-        #endregion
+    #endregion
 
-        #region Constructors
+    #region Constructors
 
         /// <summary>
         /// Constructs a new Size instance.
@@ -57,9 +56,9 @@ namespace OpenTK
             Height = height;
         }
 
-        #endregion
+    #endregion
 
-        #region Public Members
+    #region Public Members
 
         /// <summary>
         /// Gets or sets the width of this instance.
@@ -202,9 +201,9 @@ namespace OpenTK
             return String.Format("{{{0}, {1}}}", Width, Height);
         }
 
-        #endregion
+    #endregion
 
-        #region IEquatable<Size> Members
+    #region IEquatable<Size> Members
 
         /// <summary>
         /// Indicates whether this instance is equal to the specified Size.
@@ -216,7 +215,7 @@ namespace OpenTK
             return Width == other.Width && Height == other.Height;
         }
         
-        #endregion
+    #endregion
     }
 #endif
 }

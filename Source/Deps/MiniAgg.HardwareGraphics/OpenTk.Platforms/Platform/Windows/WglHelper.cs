@@ -10,7 +10,6 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Reflection;
-
 namespace OpenTK.Platform.Windows
 {
     internal partial class Wgl
@@ -23,7 +22,6 @@ namespace OpenTK.Platform.Windows
             wglClass = assembly.GetType("OpenTK.Platform.Windows.Wgl");
             delegatesClass = wglClass.GetNestedType("Delegates", BindingFlags.Static | BindingFlags.NonPublic);
             importsClass = wglClass.GetNestedType("Imports", BindingFlags.Static | BindingFlags.NonPublic);
-
             // Ensure core entry points are ready prior to accessing any method.
             // Resolves bug [#993]: "Possible bug in GraphicsContext.CreateDummyContext()" 
             LoadAll();
@@ -34,14 +32,11 @@ namespace OpenTK.Platform.Windows
         #region --- Fields ---
 
         internal const string Library = "OPENGL32.DLL";
-
         private static Assembly assembly;
         private static Type wglClass;
         private static Type delegatesClass;
         private static Type importsClass;
-
         private static bool rebuildExtensionList = true;
-
         #endregion
 
         #region static Delegate LoadDelegate(string name, Type signature)
@@ -59,14 +54,12 @@ namespace OpenTK.Platform.Windows
         {
             Delegate d;
             string realName = name.StartsWith("wgl") ? name.Substring(3) : name;
-
             if (importsClass.GetMethod(realName,
                 BindingFlags.NonPublic | BindingFlags.Static) != null)
                 d = GetExtensionDelegate(name, signature) ??
                     Delegate.CreateDelegate(signature, typeof(Imports), realName);
             else
                 d = GetExtensionDelegate(name, signature);
-
             return d;
         }
 
@@ -86,7 +79,6 @@ namespace OpenTK.Platform.Windows
         private static Delegate GetExtensionDelegate(string name, Type signature)
         {
             IntPtr address = Imports.GetProcAddress(name);
-
             if (address == IntPtr.Zero ||
                 address == new IntPtr(1) ||     // Workaround for buggy nvidia drivers which return
                 address == new IntPtr(2))       // 1 or 2 instead of IntPtr.Zero for some extensions.
@@ -146,7 +138,6 @@ namespace OpenTK.Platform.Windows
                 // have to create one accelerated and one non-accelerated context in the same application, with the
                 // non-accelerated context coming second.
                 Wgl.Delegates.GetExtensionsStringARB get = Wgl.Delegates.wglGetExtensionsStringARB;
-
                 if (get != null)
                 {
                     string[] extensions = null;
@@ -157,7 +148,6 @@ namespace OpenTK.Platform.Windows
                     }
                     if (extensions == null || extensions.Length == 0)
                         return false;
-
                     foreach (string s in extensions)
                         if (s == ext)
                             return true;

@@ -17,16 +17,13 @@
 //          mcseemagg@yahoo.com
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
+
 using System;
 using System.Runtime;
-
 using PixelFarm.Agg;
-
 using PixelFarm.VectorMath;
-
 namespace PixelFarm.Agg.Image
 {
-
     public enum PixelFormat
     {
         Rgba32,

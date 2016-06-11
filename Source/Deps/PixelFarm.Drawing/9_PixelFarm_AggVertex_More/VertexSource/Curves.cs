@@ -14,11 +14,11 @@
 //          mcseemagg@yahoo.com
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
+
 using System;
 using System.Collections.Generic;
 using PixelFarm.VectorMath;
 using FlagsAndCommand = PixelFarm.Agg.VertexCmd;
-
 namespace PixelFarm.Agg.VertexSource
 {
     public static class Curves
@@ -34,9 +34,6 @@ namespace PixelFarm.Agg.VertexSource
         internal static readonly double CURVE_COLLINEARITY_EPSILON = 1e-30;
         internal static readonly double CURVE_ANGLE_TOLERANCE_EPSILON = 0.01;
         internal static readonly int CURVE_RECURSION_LIMIT = 32;
-
-
-
         //-------------------------------------------------------catrom_to_bezier
         public static Curve4Points CatromToBezier(double x1, double y1,
                                               double x2, double y2,
@@ -160,7 +157,6 @@ namespace PixelFarm.Agg.VertexSource
         double m_saved_fy;
         double m_saved_dfx;
         double m_saved_dfy;
-
         public Curve3Inc()
         {
             m_num_steps = (0);
@@ -188,16 +184,12 @@ namespace PixelFarm.Agg.VertexSource
             m_start_y = y1;
             m_end_x = x2;
             m_end_y = y2;
-
             double dx1 = cx - x1;
             double dy1 = cy - y1;
             double dx2 = x2 - cx;
             double dy2 = y2 - cy;
-
             double len = Math.Sqrt(dx1 * dx1 + dy1 * dy1) + Math.Sqrt(dx2 * dx2 + dy2 * dy2);
-
             m_num_steps = (int)AggBasics.uround(len * 0.25 * m_scale);
-
             if (m_num_steps < 4)
             {
                 m_num_steps = 4;
@@ -205,19 +197,14 @@ namespace PixelFarm.Agg.VertexSource
 
             double subdivide_step = 1.0 / m_num_steps;
             double subdivide_step2 = subdivide_step * subdivide_step;
-
             double tmpx = (x1 - cx * 2.0 + x2) * subdivide_step2;
             double tmpy = (y1 - cy * 2.0 + y2) * subdivide_step2;
-
             m_saved_fx = m_fx = x1;
             m_saved_fy = m_fy = y1;
-
             m_saved_dfx = m_dfx = tmpx + (cx - x1) * (2.0 * subdivide_step);
             m_saved_dfy = m_dfy = tmpy + (cy - y1) * (2.0 * subdivide_step);
-
             m_ddfx = tmpx * 2.0;
             m_ddfy = tmpy * 2.0;
-
             m_step = m_num_steps;
         }
 
@@ -241,7 +228,6 @@ namespace PixelFarm.Agg.VertexSource
             get { return 0; }
             set { }
         }
-
     }
 
     //-------------------------------------------------------------curve3_div
@@ -252,7 +238,6 @@ namespace PixelFarm.Agg.VertexSource
         double m_angle_tolerance;
         int m_count;
         ArrayList<Vector2> m_points;
-
         public Curve3Div()
         {
             m_points = new ArrayList<Vector2>();
@@ -308,7 +293,6 @@ namespace PixelFarm.Agg.VertexSource
             int j = m_points.Count;
             if (j > 0)
             {
-
                 //others
                 for (int i = 1; i < j; i++)
                 {
@@ -362,12 +346,10 @@ namespace PixelFarm.Agg.VertexSource
             double y23 = (y2 + y3) / 2;
             double x123 = (x12 + x23) / 2;
             double y123 = (y12 + y23) / 2;
-
             double dx = x3 - x1;
             double dy = y3 - y1;
             double d = Math.Abs(((x2 - x3) * dy - (y2 - y3) * dx));
             double da;
-
             if (d > Curves.CURVE_COLLINEARITY_EPSILON)
             {
                 // Regular case
@@ -387,7 +369,6 @@ namespace PixelFarm.Agg.VertexSource
                     //----------------------
                     da = Math.Abs(Math.Atan2(y3 - y2, x3 - x2) - Math.Atan2(y2 - y1, x2 - x1));
                     if (da >= Math.PI) da = 2 * Math.PI - da;
-
                     if (da < m_angle_tolerance)
                     {
                         // Finally we can stop the recursion
@@ -436,7 +417,6 @@ namespace PixelFarm.Agg.VertexSource
     //-------------------------------------------------------------curve4_points
     public sealed class Curve4Points
     {
-
         public readonly double c0, c1, c2, c3, c4, c5, c6, c7;
         public Curve4Points() { }
         public Curve4Points(double x1, double y1,
@@ -444,13 +424,11 @@ namespace PixelFarm.Agg.VertexSource
                       double x3, double y3,
                       double x4, double y4)
         {
-
             c0 = x1; c1 = y1;
             c2 = x2; c3 = y2;
             c4 = x3; c5 = y3;
             c6 = x4; c7 = y4;
         }
-
     }
 
     //-------------------------------------------------------------curve4_inc
@@ -477,7 +455,6 @@ namespace PixelFarm.Agg.VertexSource
         double m_saved_dfy;
         double m_saved_ddfx;
         double m_saved_ddfy;
-
         public Curve4Inc()
         {
             m_num_steps = (0);
@@ -518,20 +495,16 @@ namespace PixelFarm.Agg.VertexSource
             m_start_y = y1;
             m_end_x = x2;
             m_end_y = y2;
-
             double dx1 = cx1 - x1;
             double dy1 = cy1 - y1;
             double dx2 = cx2 - cx1;
             double dy2 = cy2 - cy1;
             double dx3 = x2 - cx2;
             double dy3 = y2 - cy2;
-
             double len = (Math.Sqrt(dx1 * dx1 + dy1 * dy1) +
                           Math.Sqrt(dx2 * dx2 + dy2 * dy2) +
                           Math.Sqrt(dx3 * dx3 + dy3 * dy3)) * 0.25 * m_scale;
-
             m_num_steps = (int)AggBasics.uround(len);
-
             if (m_num_steps < 4)
             {
                 m_num_steps = 4;
@@ -540,30 +513,22 @@ namespace PixelFarm.Agg.VertexSource
             double subdivide_step = 1.0 / m_num_steps;
             double subdivide_step2 = subdivide_step * subdivide_step;
             double subdivide_step3 = subdivide_step * subdivide_step * subdivide_step;
-
             double pre1 = 3.0 * subdivide_step;
             double pre2 = 3.0 * subdivide_step2;
             double pre4 = 6.0 * subdivide_step2;
             double pre5 = 6.0 * subdivide_step3;
-
             double tmp1x = x1 - cx1 * 2.0 + cx2;
             double tmp1y = y1 - cy1 * 2.0 + cy2;
-
             double tmp2x = (cx1 - cx2) * 3.0 - x1 + x2;
             double tmp2y = (cy1 - cy2) * 3.0 - y1 + y2;
-
             m_saved_fx = m_fx = x1;
             m_saved_fy = m_fy = y1;
-
             m_saved_dfx = m_dfx = (cx1 - x1) * pre1 + tmp1x * pre2 + tmp2x * subdivide_step3;
             m_saved_dfy = m_dfy = (cy1 - y1) * pre1 + tmp1y * pre2 + tmp2y * subdivide_step3;
-
             m_saved_ddfx = m_ddfx = tmp1x * pre4 + tmp2x * pre5;
             m_saved_ddfy = m_ddfy = tmp1y * pre4 + tmp2y * pre5;
-
             m_dddfx = tmp2x * pre5;
             m_dddfy = tmp2y * pre5;
-
             m_step = m_num_steps;
         }
 
@@ -646,13 +611,11 @@ namespace PixelFarm.Agg.VertexSource
             m_dfy += m_ddfy;
             m_ddfx += m_dddfx;
             m_ddfy += m_dddfy;
-
             x = m_fx;
             y = m_fy;
             --m_step;
             return VertexCmd.LineTo;
         }
-
     }
 
     //-------------------------------------------------------------curve4_div
@@ -664,7 +627,6 @@ namespace PixelFarm.Agg.VertexSource
         double m_cusp_limit;
         int m_count;
         ArrayList<Vector2> m_points;
-
         public Curve4Div()
         {
             m_points = new ArrayList<Vector2>();
@@ -743,7 +705,6 @@ namespace PixelFarm.Agg.VertexSource
             vertexData.command = FlagsAndCommand.MoveTo;
             vertexData.position = m_points[0];
             yield return vertexData;
-
             vertexData.command = FlagsAndCommand.LineTo;
             for (int i = 1; i < m_points.Count; i++)
             {
@@ -811,17 +772,13 @@ namespace PixelFarm.Agg.VertexSource
             double y234 = (y23 + y34) / 2;
             double x1234 = (x123 + x234) / 2;
             double y1234 = (y123 + y234) / 2;
-
-
             // Try to approximate the full cubic curve by a single straight line
             //------------------
             double dx = x4 - x1;
             double dy = y4 - y1;
-
             double d2 = Math.Abs(((x2 - x4) * dy - (y2 - y4) * dx));
             double d3 = Math.Abs(((x3 - x4) * dy - (y3 - y4) * dx));
             double da1, da2, k;
-
             int SwitchCase = 0;
             if (d2 > Curves.CURVE_COLLINEARITY_EPSILON)
             {
@@ -861,7 +818,6 @@ namespace PixelFarm.Agg.VertexSource
                         if (d2 <= 0) d2 = AggMath.calc_sq_distance(x2, y2, x1, y1);
                         else if (d2 >= 1) d2 = AggMath.calc_sq_distance(x2, y2, x4, y4);
                         else d2 = AggMath.calc_sq_distance(x2, y2, x1 + d2 * dx, y1 + d2 * dy);
-
                         if (d3 <= 0) d3 = AggMath.calc_sq_distance(x3, y3, x1, y1);
                         else if (d3 >= 1) d3 = AggMath.calc_sq_distance(x3, y3, x4, y4);
                         else d3 = AggMath.calc_sq_distance(x3, y3, x1 + d3 * dx, y1 + d3 * dy);
@@ -883,7 +839,6 @@ namespace PixelFarm.Agg.VertexSource
                         }
                     }
                     break;
-
                 case 1:
                     // p1,p2,p4 are collinear, p3 is significant
                     //----------------------
@@ -899,7 +854,6 @@ namespace PixelFarm.Agg.VertexSource
                         //----------------------
                         da1 = Math.Abs(Math.Atan2(y4 - y3, x4 - x3) - Math.Atan2(y3 - y2, x3 - x2));
                         if (da1 >= Math.PI) da1 = 2 * Math.PI - da1;
-
                         if (da1 < m_angle_tolerance)
                         {
                             m_points.AddVertex(new Vector2(x2, y2));
@@ -917,7 +871,6 @@ namespace PixelFarm.Agg.VertexSource
                         }
                     }
                     break;
-
                 case 2:
                     // p1,p3,p4 are collinear, p2 is significant
                     //----------------------
@@ -933,7 +886,6 @@ namespace PixelFarm.Agg.VertexSource
                         //----------------------
                         da1 = Math.Abs(Math.Atan2(y3 - y2, x3 - x2) - Math.Atan2(y2 - y1, x2 - x1));
                         if (da1 >= Math.PI) da1 = 2 * Math.PI - da1;
-
                         if (da1 < m_angle_tolerance)
                         {
                             m_points.AddVertex(new Vector2(x2, y2));
@@ -951,7 +903,6 @@ namespace PixelFarm.Agg.VertexSource
                         }
                     }
                     break;
-
                 case 3:
                     // Regular case
                     //-----------------
@@ -973,7 +924,6 @@ namespace PixelFarm.Agg.VertexSource
                         da2 = Math.Abs(Math.Atan2(y4 - y3, x4 - x3) - k);
                         if (da1 >= Math.PI) da1 = 2 * Math.PI - da1;
                         if (da2 >= Math.PI) da2 = 2 * Math.PI - da2;
-
                         if (da1 + da2 < m_angle_tolerance)
                         {
                             // Finally we can stop the recursion
@@ -1016,7 +966,6 @@ namespace PixelFarm.Agg.VertexSource
         Curve3Inc m_curve_inc = new Curve3Inc();
         Curve3Div m_curve_div = new Curve3Div();
         Curves.CurveApproximationMethod m_approximation_method;
-
         public Curve3()
         {
             m_approximation_method = Curves.CurveApproximationMethod.Div;
@@ -1055,7 +1004,6 @@ namespace PixelFarm.Agg.VertexSource
             set
             {
                 m_curve_inc.ApproximationScale = m_curve_div.ApproximationScale = value;
-
             }
         }
 
@@ -1083,7 +1031,6 @@ namespace PixelFarm.Agg.VertexSource
                new PixelFarm.VectorMath.Vector2(x1, y1),
                new PixelFarm.VectorMath.Vector2(x2, y2),
                new PixelFarm.VectorMath.Vector2(cx, cy));
-
             return;
             if (this.m_approximation_method == Curves.CurveApproximationMethod.Inc)
             {
@@ -1115,7 +1062,6 @@ namespace PixelFarm.Agg.VertexSource
                 m_curve_div.MakeLines(vxs);
             }
 
-
             ////---------------------------------------------------------------------
             //IEnumerator<VertexData> curveIterator = this.GetVertexIter().GetEnumerator();
             //curveIterator.MoveNext(); // First call returns path_cmd_move_to
@@ -1135,7 +1081,6 @@ namespace PixelFarm.Agg.VertexSource
             //    vxs.AddVertex(vertexData);
 
             //} while (!ShapePath.IsEmpty(curveIterator.Current.command));
-
         }
 
         //IEnumerable<VertexData> GetVertexIter()
@@ -1155,7 +1100,6 @@ namespace PixelFarm.Agg.VertexSource
         //        }
         //    }
         //}
-
     }
 
     //-----------------------------------------------------------------curve4
@@ -1164,7 +1108,6 @@ namespace PixelFarm.Agg.VertexSource
         Curve4Inc m_curve_inc = new Curve4Inc();
         Curve4Div m_curve_div = new Curve4Div();
         Curves.CurveApproximationMethod m_approximation_method;
-
         public Curve4()
         {
             m_approximation_method = Curves.CurveApproximationMethod.Div;
@@ -1187,9 +1130,8 @@ namespace PixelFarm.Agg.VertexSource
             BezierCurve.CreateBezierVxs4(vxs,
                new PixelFarm.VectorMath.Vector2(x1, y1),
                new PixelFarm.VectorMath.Vector2(x2, y2),
-               new PixelFarm.VectorMath.Vector2(p2x, p2y ),
-               new PixelFarm.VectorMath.Vector2(p3x, p3y ));
-
+               new PixelFarm.VectorMath.Vector2(p2x, p2y),
+               new PixelFarm.VectorMath.Vector2(p3x, p3y));
         }
         public Curve4(Curve4Points cp)
         {
@@ -1237,7 +1179,6 @@ namespace PixelFarm.Agg.VertexSource
         {
             get { return m_approximation_method; }
             set { m_approximation_method = value; }
-
         }
 
 

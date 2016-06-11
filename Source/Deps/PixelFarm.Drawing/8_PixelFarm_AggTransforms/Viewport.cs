@@ -22,8 +22,8 @@
 //                        to screen (device) ones.
 //
 //----------------------------------------------------------------------------
-using System;
 
+using System;
 namespace PixelFarm.Agg.Transform
 {
     //----------------------------------------------------------trans_viewport
@@ -50,7 +50,6 @@ namespace PixelFarm.Agg.Transform
         double m_dy1;
         double m_kx;
         double m_ky;
-
         public enum AspectRatio
         {
             //aspect_ratio_e 
@@ -58,7 +57,6 @@ namespace PixelFarm.Agg.Transform
             Meet,
             Slice
         };
-
         //-------------------------------------------------------------------
         public Viewport()
         {
@@ -247,7 +245,6 @@ namespace PixelFarm.Agg.Transform
                 double d;
                 m_kx = (device_x2 - device_x1) / (world_x2 - world_x1);
                 m_ky = (device_y2 - device_y1) / (world_y2 - world_y1);
-
                 if ((m_aspect == AspectRatio.Meet) == (m_kx < m_ky))
                 {
                     d = (world_y2 - world_y1) * m_ky / m_kx;

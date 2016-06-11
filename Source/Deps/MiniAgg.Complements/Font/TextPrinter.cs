@@ -5,7 +5,7 @@
 //plan?: port  them to C#  :)
 //-----------------------------------
 
-using System; 
+using System;
 namespace PixelFarm.Agg.Fonts
 {
     public enum Justification { Left, Center, Right }
@@ -32,19 +32,16 @@ namespace PixelFarm.Agg.Fonts
 
         public VertexStore CreateVxs(char[] buffer, double x = 0, double y = 0)
         {
-
             int j = buffer.Length;
             int buffsize = j * 2;
             //get kerning list 
 
             ProperGlyph[] properGlyphs = new ProperGlyph[buffsize];
-            currentFont.GetGlyphPos(buffer, 0, buffsize, properGlyphs); 
+            currentFont.GetGlyphPos(buffer, 0, buffsize, properGlyphs);
             VertexStore resultVxs = new VertexStore();
-
-           
             double xpos = x;
             for (int i = 0; i < buffsize; ++i)
-            {   
+            {
                 uint codepoint = properGlyphs[i].codepoint;
                 if (codepoint == 0)
                 {
@@ -52,7 +49,7 @@ namespace PixelFarm.Agg.Fonts
                 }
                 //-------------------------------------------------------------
                 FontGlyph glyph = this.currentFont.GetGlyphByIndex(codepoint);
-                var left = glyph.exportGlyph.img_horiBearingX; 
+                var left = glyph.exportGlyph.img_horiBearingX;
                 //-------------------------------------------------------- 
                 VertexStore vxs1 = Agg.Transform.Affine.TranslateToVxs(
                     glyph.flattenVxs,
@@ -60,8 +57,6 @@ namespace PixelFarm.Agg.Fonts
                     (float)(y));
                 //-------------------------------------------------------- 
                 resultVxs.AddSubVertices(vxs1);
-           
-
                 int w = (glyph.exportGlyph.advanceX) >> 6;
                 xpos += (w);
                 //-------------------------------------------------------------                
@@ -74,15 +69,12 @@ namespace PixelFarm.Agg.Fonts
         }
         public void Print(CanvasPainter painter, char[] buffer, double x, double y)
         {
-
             int j = buffer.Length;
             int buffsize = j * 2;
             //get kerning list 
 
             ProperGlyph[] properGlyphs = new ProperGlyph[buffsize];
             currentFont.GetGlyphPos(buffer, 0, buffsize, properGlyphs);
-
-
             double xpos = x;
             for (int i = 0; i < buffsize; ++i)
             {
@@ -94,7 +86,6 @@ namespace PixelFarm.Agg.Fonts
                 //-------------------------------------------------------------
                 FontGlyph glyph = this.currentFont.GetGlyphByIndex(codepoint);
                 var left = glyph.exportGlyph.img_horiBearingX;
-
                 //--------------------------------------------------------
                 //render with vector
                 //var mat = Agg.Transform.Affine.NewMatix(
@@ -106,7 +97,6 @@ namespace PixelFarm.Agg.Fonts
                     glyph.flattenVxs,
                     (float)(xpos),
                     (float)(y));
-
                 painter.Fill(vxs1);
                 //--------------------------------------------------------
                 ////render with bitmap
@@ -120,5 +110,4 @@ namespace PixelFarm.Agg.Fonts
             }
         }
     }
-
 }

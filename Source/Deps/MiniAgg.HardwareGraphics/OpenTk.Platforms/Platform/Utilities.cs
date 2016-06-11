@@ -14,7 +14,6 @@ using System.Runtime.InteropServices;
 using System.Reflection;
 using System.Diagnostics;
 using OpenTK.Graphics;
-
 #endregion
 
 namespace OpenTK.Platform
@@ -56,7 +55,6 @@ namespace OpenTK.Platform
         #region internal static void LoadExtensions(Type type)
 
         delegate Delegate LoadDelegateFunction(string name, Type signature);
-
         /// <internal />
         /// <summary>Loads all extensions for the specified class. This function is intended
         /// for OpenGL, Wgl, Glx, OpenAL etc.</summary>
@@ -80,36 +78,29 @@ namespace OpenTK.Platform
             Type extensions_class = type.GetNestedType("Delegates", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public);
             if (extensions_class == null)
                 throw new InvalidOperationException("The specified type does not have any loadable extensions.");
-
             FieldInfo[] delegates = extensions_class.GetFields(BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public);
             if (delegates == null)
                 throw new InvalidOperationException("The specified type does not have any loadable extensions.");
-
             MethodInfo load_delegate_method_info = type.GetMethod("LoadDelegate", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public);
             if (load_delegate_method_info == null)
                 throw new InvalidOperationException(type.ToString() + " does not contain a static LoadDelegate method.");
             LoadDelegateFunction LoadDelegate = (LoadDelegateFunction)Delegate.CreateDelegate(
                 typeof(LoadDelegateFunction), load_delegate_method_info);
-
             Debug.Write("Load extensions for " + type.ToString() + "... ");
-
             System.Diagnostics.Stopwatch time = new System.Diagnostics.Stopwatch();
             time.Reset();
             time.Start();
-
             foreach (FieldInfo f in delegates)
             {
                 Delegate d = LoadDelegate(f.Name, f.FieldType);
                 if (d != null)
                     ++supported;
-
                 f.SetValue(null, d);
             }
 
             FieldInfo rebuildExtensionList = type.GetField("rebuildExtensionList", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public);
             if (rebuildExtensionList != null)
                 rebuildExtensionList.SetValue(null, true);
-
             time.Stop();
             Debug.Print("{0} extensions loaded in {1} ms.", supported, time.ElapsedMilliseconds);
             time.Reset();
@@ -189,9 +180,7 @@ namespace OpenTK.Platform
         {
             GraphicsContext context = new GraphicsContext(mode, window, major, minor, flags);
             context.MakeCurrent(window);
-
             (context as IGraphicsContextInternal).LoadAll();
-
             return context;
         }
 
@@ -214,7 +203,6 @@ namespace OpenTK.Platform
             window.WindowHandle = windowHandle;
             window.RootWindow = rootWindow;
             window.VisualInfo = (X11.XVisualInfo)Marshal.PtrToStructure(visualInfo, typeof(X11.XVisualInfo));
-
             return window;
         }
 
@@ -264,7 +252,5 @@ namespace OpenTK.Platform
         #endregion
 
         #endregion
-
-
     }
 }

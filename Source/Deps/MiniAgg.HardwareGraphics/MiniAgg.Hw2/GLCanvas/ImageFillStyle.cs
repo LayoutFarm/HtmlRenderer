@@ -1,4 +1,4 @@
-﻿ 
+﻿
 namespace PixelFarm.DrawingGL
 {
     public enum ImageFillStyle

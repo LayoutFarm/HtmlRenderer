@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic; 
+using System.Collections.Generic;
 using PixelFarm.DrawingGL;
-
 namespace PixelFarm.DrawingGL
-{   
+{
     public enum TextureAtlasAllocResult
     {
         Ok,
@@ -16,15 +15,12 @@ namespace PixelFarm.DrawingGL
     }
     public class TextureAtlas
     {
-
         int width;
         int height;
         int currentXPos;
         int currentYPos;
         int currentLineMaxHeight = 0;
-
         List<PixelFarm.Drawing.RectangleF> areas = new List<Drawing.RectangleF>();
-
         public TextureAtlas(int w, int h)
         {
             this.width = w;
@@ -56,7 +52,6 @@ namespace PixelFarm.DrawingGL
             if (w > this.width)
             {
                 areaId = x = y = 0;
-
                 return TextureAtlasAllocResult.WidthOverLimit;
             }
             if (h > this.height)
@@ -82,7 +77,6 @@ namespace PixelFarm.DrawingGL
             y = currentYPos;
             areaId = this.areas.Count + 1;
             this.areas.Add(new Drawing.RectangleF(x, y, w, h));
-
             //move xpos to next
             this.currentXPos += w;
             if (currentLineMaxHeight < h)

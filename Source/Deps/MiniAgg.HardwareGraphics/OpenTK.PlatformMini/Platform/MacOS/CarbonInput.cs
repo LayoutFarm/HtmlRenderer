@@ -2,17 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
-
 namespace OpenTK.Platform.MacOS
 {
     using Input;
-
     class CarbonInput : IInputDriver
     {
         List<KeyboardDevice> dummy_keyboard_list = new List<KeyboardDevice>(1);
         List<MouseDevice> dummy_mice_list = new List<MouseDevice>(1);
         List<JoystickDevice> dummy_joystick_list = new List<JoystickDevice>(1);
-
         internal CarbonInput()
         {
             dummy_mice_list.Add(new MouseDevice());

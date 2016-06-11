@@ -1,16 +1,13 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-
-
 namespace PixelFarm.Drawing
 {
-
     public abstract class CustomRenderSurface
     {
-
         public CustomRenderSurface()
         {
         }
@@ -31,7 +28,6 @@ namespace PixelFarm.Drawing
             get;
         }
         public abstract void ConfirmSizeChanged();
-
         public abstract void QuadPagesCalculateCanvas();
         public abstract Size OwnerInnerContentSize
         {
@@ -42,9 +38,4 @@ namespace PixelFarm.Drawing
         public abstract void DrawToThisPage(Canvas destPage, Rectangle updateArea);
         //------------------------------------
     }
-
-
-
-
-
 }

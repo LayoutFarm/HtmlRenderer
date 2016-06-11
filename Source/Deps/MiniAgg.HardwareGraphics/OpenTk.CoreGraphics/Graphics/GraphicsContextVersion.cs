@@ -28,7 +28,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 namespace OpenTK.Graphics
 {
     /// <summary>
@@ -40,7 +39,6 @@ namespace OpenTK.Graphics
 
         int minor, major;
         string vendor = String.Empty, renderer = String.Empty;
-
         #endregion
 
         #region Constructors

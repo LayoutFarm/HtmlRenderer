@@ -12,16 +12,13 @@ using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
-
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
-
 namespace Examples.TextureLoaders
 {
     class ImageGDI
     {
-
         // public static void LoadFromDisk(string filename, out uint texturehandle, out TextureTarget dimension)
         //{
         //      dimension = (TextureTarget)0;

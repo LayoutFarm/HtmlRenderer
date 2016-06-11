@@ -13,13 +13,12 @@
 //          mcseemagg@yahoo.com
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
+
 using System;
 using PixelFarm.Agg.Image;
 using PixelFarm.Agg.Transform;
-
 namespace PixelFarm.Agg.Lines
 {
-
     //==========================================================line_profile_aa
     //
     // See Implementation agg_line_profile_aa.cpp 
@@ -29,24 +28,19 @@ namespace PixelFarm.Agg.Lines
         const int SUBPIX_SHIFT = 8;
         const int SUBPIX_SCALE = 1 << SUBPIX_SHIFT;
         const int SUBPIX_MASK = SUBPIX_SCALE - 1;
-
         const int AA_SHIFT = 8;
         const int AA_SCALE = 1 << AA_SHIFT;
         const int AA_MASK = AA_SCALE - 1;
-
         byte[] m_profile = new byte[64];
         byte[] m_gamma = new byte[AA_SCALE];
         int m_subpixel_width;
         double m_min_width;
         double m_smoother_width;
-
-
         public LineProfileAnitAlias(double w, IGammaFunction gamma_function)
         {
             m_subpixel_width = 0;
             m_min_width = 1.0;
             m_smoother_width = 1.0;
-
             SetGamma(gamma_function);
             SetWidth(w);
         }
@@ -82,12 +76,9 @@ namespace PixelFarm.Agg.Lines
         void SetWidth(double w)
         {
             if (w < 0.0) w = 0.0;
-
             if (w < m_smoother_width) w += w;
             else w += m_smoother_width;
-
             w *= 0.5;
-
             w -= m_smoother_width;
             double s = m_smoother_width;
             if (w < 0.0)
@@ -103,7 +94,6 @@ namespace PixelFarm.Agg.Lines
             double base_val = 1.0;
             if (center_width == 0.0) center_width = 1.0 / SUBPIX_SCALE;
             if (smoother_width == 0.0) smoother_width = 1.0 / SUBPIX_SCALE;
-
             double width = center_width + smoother_width;
             if (width < m_min_width)
             {
@@ -115,15 +105,11 @@ namespace PixelFarm.Agg.Lines
 
             byte[] ch = GetProfileBuffer(center_width + smoother_width);
             int chIndex = 0;
-
             int subpixel_center_width = (int)(center_width * SUBPIX_SCALE);
             int subpixel_smoother_width = (int)(smoother_width * SUBPIX_SCALE);
-
             int ch_center = SUBPIX_SCALE * 2;
             int ch_smoother = ch_center + subpixel_center_width;
-
             int i;
-
             int val = m_gamma[(int)(base_val * AA_MASK)];
             chIndex = ch_center;
             for (i = 0; i < subpixel_center_width; i++)
@@ -143,7 +129,6 @@ namespace PixelFarm.Agg.Lines
                                   subpixel_smoother_width -
                                   subpixel_center_width -
                                   SUBPIX_SCALE * 2;
-
             val = m_gamma[0];
             for (i = 0; i < n_smoother; i++)
             {
@@ -170,15 +155,11 @@ namespace PixelFarm.Agg.Lines
     public class OutlineRenderer : LineRenderer
     {
         const int MAX_HALF_WIDTH = 64;
-
         IImageReaderWriter destImageSurface;
         LineProfileAnitAlias lineProfile;
         RectInt clippingRectangle;
         bool doClipping;
-
-
         IPixelBlender destPixelBlender;
-
 #if false
         public int min_x() { throw new System.NotImplementedException(); }
         public int min_y() { throw new System.NotImplementedException(); }
@@ -242,12 +223,9 @@ namespace PixelFarm.Agg.Lines
             int x = x1 << LineAA.SUBPIXEL_SHIFT;
             int y = y1 << LineAA.SUBPIXEL_SHIFT;
             int w = SubPixelWidth;
-
             DistanceInterpolator0 di = new DistanceInterpolator0(xc1, yc1, xc2, yc2, x, y);
-
             x += LineAA.SUBPIXEL_SCALE / 2;
             y += LineAA.SUBPIXEL_SCALE / 2;
-
             int x0 = x1;
             int dx = x - xc1;
             int dy = y - yc1;
@@ -273,7 +251,6 @@ namespace PixelFarm.Agg.Lines
         public override void SemiDot(CompareFunction cmp, int xc1, int yc1, int xc2, int yc2)
         {
             if (doClipping && ClipLiangBarsky.Flags(xc1, yc1, clippingRectangle) != 0) return;
-
             int r = ((SubPixelWidth + LineAA.SUBPIXEL_MARK) >> LineAA.SUBPIXEL_SHIFT);
             if (r < 1) r = 1;
             EllipseBresenhamInterpolator ei = new EllipseBresenhamInterpolator(r, r);
@@ -283,12 +260,10 @@ namespace PixelFarm.Agg.Lines
             int dx0 = dx;
             int x = xc1 >> LineAA.SUBPIXEL_SHIFT;
             int y = yc1 >> LineAA.SUBPIXEL_SHIFT;
-
             do
             {
                 dx += ei.Dx;
                 dy += ei.Dy;
-
                 if (dy != dy0)
                 {
                     SemiDotHLine(cmp, xc1, yc1, xc2, yc2, x - dx0, y + dy0, x + dx0);
@@ -306,18 +281,15 @@ namespace PixelFarm.Agg.Lines
                        int xh1, int yh1, int xh2)
         {
             if (doClipping && ClipLiangBarsky.Flags(xc, yc, clippingRectangle) != 0) return;
-
             byte[] covers = new byte[MAX_HALF_WIDTH * 2 + 4];
             int index0 = 0;
             int index1 = 0;
             int x = xh1 << LineAA.SUBPIXEL_SHIFT;
             int y = yh1 << LineAA.SUBPIXEL_SHIFT;
             int w = SubPixelWidth;
-
             DistanceInterpolator00 di = new DistanceInterpolator00(xc, yc, xp1, yp1, xp2, yp2, x, y);
             x += LineAA.SUBPIXEL_SCALE / 2;
             y += LineAA.SUBPIXEL_SCALE / 2;
-
             int xh0 = xh1;
             int dx = x - xc;
             int dy = y - yc;
@@ -348,12 +320,10 @@ namespace PixelFarm.Agg.Lines
             int dx0 = dx;
             int x = xc >> LineAA.SUBPIXEL_SHIFT;
             int y = yc >> LineAA.SUBPIXEL_SHIFT;
-
             do
             {
                 dx += ei.Dx;
                 dy += ei.Dy;
-
                 if (dy != dy0)
                 {
                     PineHLine(xc, yc, x1, y1, x2, y2, x - dx0, y + dy0, x + dx0);
@@ -634,5 +604,4 @@ namespace PixelFarm.Agg.Lines
             }
         }
     }
-
 }

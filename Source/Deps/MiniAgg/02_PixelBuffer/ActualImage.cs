@@ -17,32 +17,27 @@
 //          mcseemagg@yahoo.com
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
+
 using System;
-using System.Runtime; 
+using System.Runtime;
 using PixelFarm.VectorMath;
 using PixelFarm.Agg.Image;
-
-namespace PixelFarm.Agg 
+namespace PixelFarm.Agg
 {
-
-     
     public class ActualImage
     {
         int width;
         int height;
         int stride;
         int bitDepth;
-
         PixelFormat pixelFormat;
         byte[] pixelBuffer;
-
         public ActualImage(int width, int height, PixelFormat format)
         {
             //width and height must >0
 
             this.width = width;
             this.height = height;
-
             switch (this.pixelFormat = format)
             {
                 case PixelFormat.Rgba32:
@@ -50,33 +45,31 @@ namespace PixelFarm.Agg
                         this.bitDepth = 32;
                         this.stride = width * (32 / 8);
                         this.pixelBuffer = new byte[stride * height];
-                    } break;
+                    }
+                    break;
                 case Image.PixelFormat.GrayScale8:
                     {
                         this.bitDepth = 8; //bit per pixel
                         int bytesPerPixel = (bitDepth + 7) / 8;
                         this.stride = 4 * ((width * bytesPerPixel + 3) / 4);
                         this.pixelBuffer = new byte[stride * height];
-
-                    } break;
+                    }
+                    break;
                 case Image.PixelFormat.Rgb24:
                     {
-
                         this.bitDepth = 24; //bit per pixel
                         int bytesPerPixel = (bitDepth + 7) / 8;
                         this.stride = 4 * ((width * bytesPerPixel + 3) / 4);
                         this.pixelBuffer = new byte[stride * height];
-
-
-                    }break;
+                    }
+                    break;
                 default:
-                    throw new NotSupportedException();                 
+                    throw new NotSupportedException();
             }
-
         }
-      
-        
-        
+
+
+
         public int Width
         {
             get { return this.width; }
@@ -95,6 +88,4 @@ namespace PixelFarm.Agg
         public int BitDepth { get { return this.bitDepth; } }
         public byte[] GetBuffer() { return this.pixelBuffer; }
     }
-
-
 }

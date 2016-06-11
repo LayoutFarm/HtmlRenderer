@@ -17,18 +17,17 @@
 //          mcseemagg@yahoo.com
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
+
 using System;
-using System.Collections.Generic; 
+using System.Collections.Generic;
 namespace PixelFarm.Agg
 {
-
     public class VertexStore
     {
         int m_num_vertices;
         int m_allocated_vertices;
         double[] m_coord_xy;
         VertexCmd[] m_cmds;
-
 #if DEBUG
         static int dbugTotal = 0;
         public readonly int dbugId = dbugGetNewId();
@@ -75,7 +74,6 @@ namespace PixelFarm.Agg
         }
         public VertexCmd GetBeforeLastVetex(out double x, out double y)
         {
-
             if (m_num_vertices > 1)
             {
                 return GetVertex((int)(m_num_vertices - 2), out x, out y);
@@ -166,17 +164,12 @@ namespace PixelFarm.Agg
 
         internal void SwapVertices(int v1, int v2)
         {
-
             double x_tmp = m_coord_xy[v1 << 1];
             double y_tmp = m_coord_xy[(v1 << 1) + 1];
-
             m_coord_xy[v1 << 1] = m_coord_xy[v2 << 1];//x
             m_coord_xy[(v1 << 1) + 1] = m_coord_xy[(v2 << 1) + 1];//y
-
             m_coord_xy[v2 << 1] = x_tmp;
             m_coord_xy[(v2 << 1) + 1] = y_tmp;
-
-
             VertexCmd cmd = m_cmds[v1];
             m_cmds[v1] = m_cmds[v2];
             m_cmds[v2] = cmd;
@@ -191,14 +184,13 @@ namespace PixelFarm.Agg
             while (indexToAdd >= m_allocated_vertices)
             {
                 int newSize = m_allocated_vertices + 256;
-
                 double[] new_xy = new double[newSize << 1];
                 VertexCmd[] newCmd = new VertexCmd[newSize];
                 if (m_coord_xy != null)
                 {
                     //copy old buffer to new buffer 
                     int actualLen = m_num_vertices << 1;
-                    for (int i = actualLen - 1; i >= 0; )
+                    for (int i = actualLen - 1; i >= 0;)
                     {
                         new_xy[i] = m_coord_xy[i];
                         i--;
@@ -212,7 +204,6 @@ namespace PixelFarm.Agg
                 }
                 m_coord_xy = new_xy;
                 m_cmds = newCmd;
-
                 m_allocated_vertices = newSize;
             }
         }
@@ -220,11 +211,11 @@ namespace PixelFarm.Agg
 
         public void AddSubVertices(VertexStore anotherVxs)
         {
-            int j = anotherVxs.Count; 
+            int j = anotherVxs.Count;
             this.HasMoreThanOnePart = true;
             for (int i = 0; i < j; ++i)
             {
-                double x,y;
+                double x, y;
                 VertexCmd cmd = anotherVxs.GetVertex(i, out x, out y);
                 this.AddVertex(x, y, cmd);
                 if (cmd == VertexCmd.Stop)
@@ -253,7 +244,6 @@ namespace PixelFarm.Agg
             out double[] m_coord_xy,
             out VertexCmd[] m_CommandAndFlags)
         {
-
             m_num_vertices = vstore.m_num_vertices;
             m_allocated_vertices = vstore.m_allocated_vertices;
             m_coord_xy = vstore.m_coord_xy;
@@ -262,5 +252,4 @@ namespace PixelFarm.Agg
 
         //----------------------------------------------------------
     }
-
 }

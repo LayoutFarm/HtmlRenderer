@@ -15,32 +15,25 @@
 //          mcseemagg@yahoo.com
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
+
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 using PixelFarm.Agg.Image;
 using PixelFarm.Agg.VertexSource;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
-
 namespace PixelFarm.Agg
 {
-
     /// <summary
     /// to bitmap
     /// </summary>  
     public class GLScanlineRasToDestBitmapRenderer
     {
-
-
-
         ArrayList<VertexC4V2S> mySinglePixelBuffer = new ArrayList<VertexC4V2S>();
         ArrayList<VertexC4V2S> myLineBuffer = new ArrayList<VertexC4V2S>();
-
         public GLScanlineRasToDestBitmapRenderer()
         {
-
         }
 
         /// <summary>
@@ -54,7 +47,6 @@ namespace PixelFarm.Agg
                 GLScanline scline,
                 PixelFarm.Drawing.Color color)
         {
-
             //early exit
             if (color.A == 0) { return; }
             if (!sclineRas.RewindScanlines()) { return; }
@@ -69,7 +61,6 @@ namespace PixelFarm.Agg
 
             this.mySinglePixelBuffer.Clear();
             this.myLineBuffer.Clear();
-
             while (sclineRas.SweepScanline(scline))
             {
                 int y = scline.Y;
@@ -95,7 +86,6 @@ namespace PixelFarm.Agg
 
 
             DrawPointAndLineWithVertices();
-
         }
         /// <summary>
         /// for lines
@@ -108,7 +98,6 @@ namespace PixelFarm.Agg
                 GLScanline scline,
                 PixelFarm.Drawing.Color color)
         {
-
             //early exit
             if (color.A == 0) { return; }
             if (!sclineRas.RewindScanlines()) { return; }
@@ -117,7 +106,6 @@ namespace PixelFarm.Agg
             //-----------------------------------------------   
             this.mySinglePixelBuffer.Clear();
             this.myLineBuffer.Clear();
-
             while (sclineRas.SweepScanline(scline))
             {
                 int y = scline.Y;
@@ -142,7 +130,6 @@ namespace PixelFarm.Agg
             }
             //---------------------------------------------
             DrawPointAndLineWithVertices();
-
         }
         void DrawPointAndLineWithVertices()
         {
@@ -204,27 +191,26 @@ namespace PixelFarm.Agg
             //if (color.A == 0) { return; }
 
             int len = x2 - x1 + 1;
-            int alpha = (((int)(color.A) * (cover + 1)) >> 8); 
-
+            int alpha = (((int)(color.A) * (cover + 1)) >> 8);
             switch (len)
             {
                 case 0:
                     {
-                    } break;
+                    }
+                    break;
                 case 1:
                     {
                         this.mySinglePixelBuffer.AddVertex(new VertexC4V2S(
                             PixelFarm.Drawing.Color.FromArgb(alpha, color).ToARGB(),
                             x1, y));
-
-                    } break;
+                    }
+                    break;
                 default:
                     {
                         var lineBuffer = this.myLineBuffer;
                         var c = PixelFarm.Drawing.Color.FromArgb(alpha, color).ToARGB();
                         lineBuffer.AddVertex(new VertexC4V2S(c, x1, y));
                         lineBuffer.AddVertex(new VertexC4V2S(c, x2 + 1, y));
-
                         //var c = PixelFarm.Drawing.Color.FromArgb(alpha, color).ToARGB();
 
                         //for (int i = 0; i < len; ++i)
@@ -234,7 +220,8 @@ namespace PixelFarm.Agg
                         //        c, x1 + i, y));
                         //}
 
-                    } break;
+                    }
+                    break;
             }
             //}
             //else
@@ -259,10 +246,8 @@ namespace PixelFarm.Agg
 
             unchecked
             {
-
                 int xpos = x;
                 var pointAndColors = this.mySinglePixelBuffer;
-
                 do
                 {
                     //alpha change
@@ -286,5 +271,4 @@ namespace PixelFarm.Agg
         }
         //====================================================================================== 
     }
-
 }

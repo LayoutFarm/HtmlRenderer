@@ -24,7 +24,6 @@ SOFTWARE.
 
 using System;
 using System.Runtime.InteropServices;
-
 namespace PixelFarm.VectorMath
 {
     /// <summary>Represents a 4D vector using four double-precision floating-point numbers.</summary>
@@ -38,57 +37,46 @@ namespace PixelFarm.VectorMath
         /// The X component of the Vector4d.
         /// </summary>
         public double x;
-
         /// <summary>
         /// The Y component of the Vector4d.
         /// </summary>
         public double y;
-
         /// <summary>
         /// The Z component of the Vector4d.
         /// </summary>
         public double z;
-
         /// <summary>
         /// The W component of the Vector4d.
         /// </summary>
         public double w;
-
         /// <summary>
         /// Defines a unit-length Vector4d that points towards the X-axis.
         /// </summary>
         public static Vector4 UnitX = new Vector4(1, 0, 0, 0);
-
         /// <summary>
         /// Defines a unit-length Vector4d that points towards the Y-axis.
         /// </summary>
         public static Vector4 UnitY = new Vector4(0, 1, 0, 0);
-
         /// <summary>
         /// Defines a unit-length Vector4d that points towards the Z-axis.
         /// </summary>
         public static Vector4 UnitZ = new Vector4(0, 0, 1, 0);
-
         /// <summary>
         /// Defines a unit-length Vector4d that points towards the W-axis.
         /// </summary>
         public static Vector4 UnitW = new Vector4(0, 0, 0, 1);
-
         /// <summary>
         /// Defines a zero-length Vector4d.
         /// </summary>
         public static Vector4 Zero = new Vector4(0, 0, 0, 0);
-
         /// <summary>
         /// Defines an instance with all components set to 1.
         /// </summary>
         public static readonly Vector4 One = new Vector4(1, 1, 1, 1);
-
         /// <summary>
         /// Defines the size of the Vector4d struct in bytes.
         /// </summary>
         public static readonly int SizeInBytes = Marshal.SizeOf(new Vector4());
-
         #endregion
 
         #region Constructors
@@ -644,12 +632,10 @@ namespace PixelFarm.VectorMath
         public static void BaryCentric(ref Vector4 a, ref Vector4 b, ref Vector4 c, double u, double v, out Vector4 result)
         {
             result = a; // copy
-
             Vector4 temp = b; // copy
             Subtract(ref temp, ref a, out temp);
             Multiply(ref temp, u, out temp);
             Add(ref result, ref temp, out result);
-
             temp = c; // copy
             Subtract(ref temp, ref a, out temp);
             Multiply(ref temp, v, out temp);
@@ -709,7 +695,6 @@ namespace PixelFarm.VectorMath
             Quaternion.Invert(ref quat, out i);
             Quaternion.Multiply(ref quat, ref v, out t);
             Quaternion.Multiply(ref t, ref i, out v);
-
             result = new Vector4(v.X, v.Y, v.Z, v.W);
         }
 
@@ -896,7 +881,6 @@ namespace PixelFarm.VectorMath
         {
             if (!(obj is Vector4))
                 return false;
-
             return this.Equals((Vector4)obj);
         }
 

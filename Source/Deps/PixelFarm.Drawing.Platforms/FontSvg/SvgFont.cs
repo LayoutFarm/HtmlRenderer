@@ -1,5 +1,6 @@
 ﻿// 2015,2014 ,MIT, WinterDev
 //----------------------------------- 
+
 using System;
 using System.Collections.Generic;
 using PixelFarm.Agg.Transform;
@@ -9,17 +10,13 @@ namespace PixelFarm.Agg.Fonts
     {
         SvgFontFace fontface;
         int emSizeInPoints;
-
         const int POINTS_PER_INCH = 72;
         const int PIXEL_PER_INCH = 96;
-
         int emSizeInPixels;
         double currentEmScalling;
-
         Dictionary<char, FontGlyph> cachedGlyphs = new Dictionary<char, FontGlyph>();
         Affine scaleTx;
         PixelFarm.Agg.VertexSource.CurveFlattener curveFlattner = new VertexSource.CurveFlattener();
-
         public SvgFont(SvgFontFace fontface, int emSizeInPoints)
         {
             this.fontface = fontface;
@@ -27,7 +24,6 @@ namespace PixelFarm.Agg.Fonts
             //------------------------------------
             emSizeInPixels = (int)(((float)emSizeInPoints / (float)POINTS_PER_INCH) * (float)PIXEL_PER_INCH);
             currentEmScalling = (float)emSizeInPixels / (float)fontface.UnitsPerEm;
-
             scaleTx = Affine.NewMatix(AffinePlan.Scale(currentEmScalling));
         }
         public override FontFace FontFace
@@ -44,8 +40,6 @@ namespace PixelFarm.Agg.Fonts
             {
                 //create font glyph for this font size
                 var originalGlyph = fontface.GetGlyphForCharacter(c);
-
-
                 VertexStore characterGlyph = scaleTx.TransformToVxs(originalGlyph.originalVxs);
                 glyph = new FontGlyph();
                 glyph.originalVxs = characterGlyph;
@@ -53,9 +47,7 @@ namespace PixelFarm.Agg.Fonts
                 characterGlyph = curveFlattner.MakeVxs(characterGlyph);
                 glyph.flattenVxs = characterGlyph;
                 glyph.horiz_adv_x = originalGlyph.horiz_adv_x;
-
                 cachedGlyphs.Add(c, glyph);
-
             }
             return glyph;
         }
@@ -66,7 +58,6 @@ namespace PixelFarm.Agg.Fonts
             {
                 //create font glyph for this font size
                 var originalGlyph = fontface.GetGlyphForCharacter(c);
-
                 VertexStore characterGlyph = scaleTx.TransformToVxs(originalGlyph.originalVxs);
                 glyph = new FontGlyph();
                 glyph.horiz_adv_x = originalGlyph.horiz_adv_x;
@@ -74,12 +65,9 @@ namespace PixelFarm.Agg.Fonts
                 //then flatten it
                 characterGlyph = curveFlattner.MakeVxs(characterGlyph);
                 glyph.flattenVxs = characterGlyph;
-
-
                 cachedGlyphs.Add(c, glyph);
             }
             return glyph;
-
         }
         public override void GetGlyphPos(char[] buffer, int start, int len, ProperGlyph[] properGlyphs)
         {
@@ -91,11 +79,9 @@ namespace PixelFarm.Agg.Fonts
                 properGlyphs[i].x_advance = f.horiz_adv_x >> 6; //64
                 properGlyphs[i].codepoint = (uint)buffer[i];
             }
-
         }
         protected override void OnDispose()
         {
-
         }
         public override int EmSizeInPixels
         {

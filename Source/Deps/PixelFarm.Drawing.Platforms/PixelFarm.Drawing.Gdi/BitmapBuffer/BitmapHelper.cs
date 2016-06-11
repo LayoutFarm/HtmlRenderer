@@ -1,9 +1,8 @@
 ﻿// 2015,2014 ,MIT, WinterDev
+
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
- 
-
 namespace PixelFarm.Agg.Image
 {
     public static class BitmapHelper
@@ -12,24 +11,19 @@ namespace PixelFarm.Agg.Image
             Bitmap windowsBitmap,
             RectInt rect)
         {
-
             int offset = 0;
             byte[] buffer = backingImageBufferByte.GetBuffer();
-
             BitmapHelper.CopyToWindowsBitmap(buffer, offset,
                 backingImageBufferByte.Stride, backingImageBufferByte.Height,
                 backingImageBufferByte.BitDepth,
                 windowsBitmap, rect);
-
         }
         public static void CopyToWindowsBitmap(ActualImage backingImageBufferByte,
            Bitmap windowsBitmap,
            RectInt rect)
         {
-
             int offset = 0;
             byte[] buffer = backingImageBufferByte.GetBuffer();
-
             BitmapHelper.CopyToWindowsBitmap(buffer, offset,
                 backingImageBufferByte.Stride, backingImageBufferByte.Height,
                 backingImageBufferByte.BitDepth,
@@ -47,18 +41,14 @@ namespace PixelFarm.Agg.Image
                           windowsBitmap.Height),
                           System.Drawing.Imaging.ImageLockMode.ReadWrite,
                           windowsBitmap.PixelFormat);
-
             int backBufferStrideInInts = sBackBufferStrideInBytes / 4;
             int backBufferHeight = sHeight;
             int backBufferHeightMinusOne = backBufferHeight - 1;
             int bitmapDataStride = bitmapData1.Stride;
-
-
             switch (bitDepth)
             {
                 case 24:
                     {
-
                         throw new NotSupportedException();
                         //unsafe
                         //{
@@ -86,7 +76,6 @@ namespace PixelFarm.Agg.Image
                         //}
                     }
                     break;
-
                 case 32:
                     {
                         unsafe
@@ -96,20 +85,16 @@ namespace PixelFarm.Agg.Image
                             {
                                 byte* pSource = pSourceFixed;
                                 byte* pDestBuffer = bitmapDataScan0 + bitmapDataStride * backBufferHeightMinusOne;
-
                                 int rect_bottom = rect.Bottom;
                                 int rect_top = rect.Top;
                                 int rect_left = rect.Left;
                                 int rect_right = rect.Right;
-
                                 for (int y = rect_bottom; y < rect_top; y++)
                                 {
                                     int* pSourceInt = (int*)pSource;
                                     pSourceInt += (sBackBufferStrideInBytes * y / 4);
-
                                     int* pDestBufferInt = (int*)pDestBuffer;
                                     pDestBufferInt -= (bitmapDataStride * y / 4);
-
                                     for (int x = rect_left; x < rect_right; x++)
                                     {
                                         pDestBufferInt[x] = pSourceInt[x];
@@ -119,7 +104,6 @@ namespace PixelFarm.Agg.Image
                         }
                     }
                     break;
-
                 default:
                     throw new NotImplementedException();
             }
@@ -130,10 +114,8 @@ namespace PixelFarm.Agg.Image
             ActualImage actualImage,
             Bitmap windowsBitmap)
         {
-
             int h = windowsBitmap.Height;
             int w = windowsBitmap.Width;
-
             byte[] buffer = actualImage.GetBuffer();
             BitmapData bitmapData1 = windowsBitmap.LockBits(
                       new Rectangle(0, 0,
@@ -141,10 +123,8 @@ namespace PixelFarm.Agg.Image
                           h),
                           System.Drawing.Imaging.ImageLockMode.ReadWrite,
                           windowsBitmap.PixelFormat);
-
             IntPtr scan0 = bitmapData1.Scan0;
             int stride = bitmapData1.Stride;
-
             unsafe
             {
                 fixed (byte* bufferH = &buffer[0])
@@ -170,10 +150,8 @@ namespace PixelFarm.Agg.Image
            Bitmap windowsBitmap,
            ActualImage actualImage)
         {
-
             int h = windowsBitmap.Height;
             int w = windowsBitmap.Width;
-
             byte[] buffer = actualImage.GetBuffer();
             BitmapData bitmapData1 = windowsBitmap.LockBits(
                       new Rectangle(0, 0,
@@ -181,10 +159,8 @@ namespace PixelFarm.Agg.Image
                           h),
                           System.Drawing.Imaging.ImageLockMode.ReadWrite,
                           windowsBitmap.PixelFormat);
-
             IntPtr scan0 = bitmapData1.Scan0;
             int stride = bitmapData1.Stride;
-
             //unsafe
             //{
             //    fixed (byte* bufferH = &buffer[0])
@@ -208,7 +184,6 @@ namespace PixelFarm.Agg.Image
                 fixed (byte* targetH = &buffer[0])
                 {
                     byte* src = (byte*)scan0;
-
                     for (int y = h; y > 0; --y)
                     {
                         byte* target = targetH + ((y - 1) * stride);
@@ -224,5 +199,4 @@ namespace PixelFarm.Agg.Image
             windowsBitmap.UnlockBits(bitmapData1);
         }
     }
-
 }

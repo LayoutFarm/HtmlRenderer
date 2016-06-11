@@ -1,4 +1,5 @@
 ﻿//MIT 2014, WinterDev
+
 namespace PixelFarm.DrawingGL
 {
     public enum CanvasSmoothMode
@@ -6,5 +7,4 @@ namespace PixelFarm.DrawingGL
         No,
         AggSmooth
     }
-
 }

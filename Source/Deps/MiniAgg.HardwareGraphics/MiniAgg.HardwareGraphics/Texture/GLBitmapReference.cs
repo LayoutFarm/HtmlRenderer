@@ -1,4 +1,5 @@
 ﻿// 2015,2014 ,MIT, WinterDev
+
 using System.Text;
 using System;
 namespace PixelFarm.DrawingGL
@@ -16,7 +17,6 @@ namespace PixelFarm.DrawingGL
         }
         void IDisposable.Dispose()
         {
-
         }
         public int Left { get; set; }
         public int Top { get; set; }
@@ -30,7 +30,5 @@ namespace PixelFarm.DrawingGL
         {
             return new Drawing.RectangleF(this.Left, this.Top, this.Width, this.Height);
         }
-
     }
-
 }

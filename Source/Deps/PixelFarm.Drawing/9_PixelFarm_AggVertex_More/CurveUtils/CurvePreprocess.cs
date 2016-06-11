@@ -26,8 +26,6 @@ using System.Globalization;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
-
-
 #if SYSTEM_WINDOWS_VECTOR
 using VECTOR = System.Windows.Vector;
 using FLOAT = System.Double;
@@ -49,7 +47,6 @@ namespace burningmime.curves
     public static class CurvePreprocess
     {
         private const FLOAT EPSILON = VectorHelper.EPSILON;
-
         /// <summary>
         /// Creates a list of equally spaced points that lie on the path described by straight line segments between
         /// adjacent points in the source list.
@@ -59,29 +56,29 @@ namespace burningmime.curves
         /// <returns>List of equally-spaced points on the path.</returns>
         public static List<VECTOR> Linearize(List<VECTOR> src, FLOAT md)
         {
-            if(src == null) throw new ArgumentNullException("src");
-            if(md <= VectorHelper.EPSILON) throw new InvalidOperationException("md " + md + " is be less than epislon " + EPSILON);
+            if (src == null) throw new ArgumentNullException("src");
+            if (md <= VectorHelper.EPSILON) throw new InvalidOperationException("md " + md + " is be less than epislon " + EPSILON);
             List<VECTOR> dst = new List<VECTOR>();
-            if(src.Count > 0)
+            if (src.Count > 0)
             {
                 VECTOR pp = src[0];
                 dst.Add(pp);
                 FLOAT cd = 0;
-                for(int ip = 1; ip < src.Count; ip++)
+                for (int ip = 1; ip < src.Count; ip++)
                 {
                     VECTOR p0 = src[ip - 1];
                     VECTOR p1 = src[ip];
                     FLOAT td = VectorHelper.Distance(p0, p1);
-                    if(cd + td > md)
+                    if (cd + td > md)
                     {
                         FLOAT pd = md - cd;
                         dst.Add(VectorHelper.Lerp(p0, p1, pd / td));
                         FLOAT rd = td - pd;
-                        while(rd > md)
+                        while (rd > md)
                         {
                             rd -= md;
                             VECTOR np = VectorHelper.Lerp(p0, p1, (td - rd) / td);
-                            if(!VectorHelper.EqualsOrClose(np, pp))
+                            if (!VectorHelper.EqualsOrClose(np, pp))
                             {
                                 dst.Add(np);
                                 pp = np;
@@ -96,7 +93,7 @@ namespace burningmime.curves
                 }
                 // last point
                 VECTOR lp = src[src.Count - 1];
-                if(!VectorHelper.EqualsOrClose(pp, lp))
+                if (!VectorHelper.EqualsOrClose(pp, lp))
                     dst.Add(lp);
             }
             return dst;
@@ -111,23 +108,22 @@ namespace burningmime.curves
         /// <returns>Either pts (if no duplicates were found), or a new list containing pts with duplicates removed.</returns>
         public static List<VECTOR> RemoveDuplicates(List<VECTOR> pts)
         {
-            if(pts.Count < 2)
+            if (pts.Count < 2)
                 return pts;
-
             // Common case -- no duplicates, so just return the source list
             VECTOR prev = pts[0];
             int len = pts.Count;
             int nDup = 0;
-            for(int i = 1; i < len; i++)
+            for (int i = 1; i < len; i++)
             {
                 VECTOR cur = pts[i];
-                if(VectorHelper.EqualsOrClose(prev, cur))
+                if (VectorHelper.EqualsOrClose(prev, cur))
                     nDup++;
                 else
                     prev = cur;
             }
 
-            if(nDup == 0)
+            if (nDup == 0)
                 return pts;
             else
             {
@@ -135,10 +131,10 @@ namespace burningmime.curves
                 List<VECTOR> dst = new List<VECTOR>(len - nDup);
                 prev = pts[0];
                 dst.Add(prev);
-                for(int i = 1; i < len; i++)
+                for (int i = 1; i < len; i++)
                 {
                     VECTOR cur = pts[i];
-                    if(!VectorHelper.EqualsOrClose(prev, cur))
+                    if (!VectorHelper.EqualsOrClose(prev, cur))
                     {
                         dst.Add(cur);
                         prev = cur;
@@ -160,9 +156,9 @@ namespace burningmime.curves
         /// <returns>A new list containing only the points needed to approximate the curve.</returns>
         public static List<VECTOR> RdpReduce(List<VECTOR> pts, FLOAT error)
         {
-            if(pts == null) throw new ArgumentNullException("pts");
+            if (pts == null) throw new ArgumentNullException("pts");
             pts = RemoveDuplicates(pts);
-            if(pts.Count < 3)
+            if (pts.Count < 3)
                 return new List<VECTOR>(pts);
             List<int> keepIndex = new List<int>(Math.Max(pts.Count / 2, 16));
             keepIndex.Add(0);
@@ -171,7 +167,7 @@ namespace burningmime.curves
             keepIndex.Sort();
             List<VECTOR> res = new List<VECTOR>(keepIndex.Count);
             // ReSharper disable once LoopCanBeConvertedToQuery
-            foreach(int idx in keepIndex)
+            foreach (int idx in keepIndex)
                 res.Add(pts[idx]);
             return res;
         }
@@ -179,27 +175,26 @@ namespace burningmime.curves
         private static void RdpRecursive(List<VECTOR> pts, FLOAT error, int first, int last, List<int> keepIndex)
         {
             int nPts = last - first + 1;
-            if(nPts < 3)
+            if (nPts < 3)
                 return;
-
             VECTOR a = pts[first];
             VECTOR b = pts[last];
             FLOAT abDist = VectorHelper.Distance(a, b);
             FLOAT aCrossB = VectorHelper.GetX(a) * VectorHelper.GetY(b) - VectorHelper.GetX(b) * VectorHelper.GetY(a);
             FLOAT maxDist = error;
             int split = 0;
-            for(int i = first + 1; i < last - 1; i++)
+            for (int i = first + 1; i < last - 1; i++)
             {
                 VECTOR p = pts[i];
                 FLOAT pDist = PerpendicularDistance(a, b, abDist, aCrossB, p);
-                if(pDist > maxDist)
+                if (pDist > maxDist)
                 {
                     maxDist = pDist;
                     split = i;
                 }
             }
 
-            if(split != 0)
+            if (split != 0)
             {
                 keepIndex.Add(split);
                 RdpRecursive(pts, error, first, split, keepIndex);
@@ -226,7 +221,7 @@ namespace burningmime.curves
             // products, doing the computation with larger vector types, etc... this is the best I could do in ~45 minutes
             // running on 3 hours of sleep, which is all scalar math, but RyuJIT puts it into XMM registers and does
             // ADDSS/SUBSS/MULSS/DIVSS because that's what it likes to do whenever it sees a vector in a function.
-            FLOAT area = Math.Abs(aCrossB + 
+            FLOAT area = Math.Abs(aCrossB +
                 VectorHelper.GetX(b) * VectorHelper.GetY(p) + VectorHelper.GetX(p) * VectorHelper.GetY(a) -
                 VectorHelper.GetX(p) * VectorHelper.GetY(b) - VectorHelper.GetX(a) * VectorHelper.GetY(p));
             FLOAT height = area / abDist;

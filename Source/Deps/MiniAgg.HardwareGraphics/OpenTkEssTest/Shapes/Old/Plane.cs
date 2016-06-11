@@ -7,9 +7,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 using OpenTK;
-
 namespace Examples.Shapes
 {
     public class Plane : Shape
@@ -20,7 +18,6 @@ namespace Examples.Shapes
             Normals = new Vector3[x_res * y_res];
             Indices = new int[6 * x_res * y_res];
             Texcoords = new Vector2[x_res * y_res];
-
             int i = 0;
             for (int y = -y_res / 2; y < y_res / 2; y++)
             {
@@ -43,7 +40,6 @@ namespace Examples.Shapes
                     Indices[i++] = (y + 0) * x_res + x;
                     Indices[i++] = (y + 1) * x_res + x;
                     Indices[i++] = (y + 0) * x_res + x + 1;
-
                     Indices[i++] = (y + 0) * x_res + x + 1;
                     Indices[i++] = (y + 1) * x_res + x;
                     Indices[i++] = (y + 1) * x_res + x + 1;

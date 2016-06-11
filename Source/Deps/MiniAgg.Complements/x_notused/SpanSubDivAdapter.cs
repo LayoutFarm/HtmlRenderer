@@ -77,10 +77,10 @@
 //            get { return this.m_interpolator.Transformer; }
 //            set { this.m_interpolator.Transformer = value; }
 //        }
-         
-        
+
+
 //        //----------------------------------------------------------------
-        
+
 //        public int SubDivShift
 //        {
 //            get { return this.m_subdiv_shift; }

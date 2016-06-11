@@ -30,7 +30,6 @@ using System.Collections.Generic;
 using System.Text;
 using OpenTK.Graphics;
 using OpenTK.Platform.X11;
-
 namespace OpenTK.Platform.Egl
 {
     class EglX11PlatformFactory : X11Factory

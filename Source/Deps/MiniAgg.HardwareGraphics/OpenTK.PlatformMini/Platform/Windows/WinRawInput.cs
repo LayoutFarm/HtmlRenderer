@@ -13,7 +13,6 @@ using System.Runtime.InteropServices;
 using System.Diagnostics;
 using System.Windows.Forms;
 using OpenTK.Input;
-
 #endregion
 
 namespace OpenTK.Platform.Windows
@@ -26,24 +25,19 @@ namespace OpenTK.Platform.Windows
         // The total number of input devices connected to this system.
         static int deviceCount;
         int rawInputStructSize = API.RawInputSize;
-
         private WinRawKeyboard keyboardDriver;
         private WinRawMouse mouseDriver;
-
         #region --- Constructors ---
 
         internal WinRawInput(WinWindowInfo parent)
         {
             Debug.WriteLine("Initalizing windows raw input driver.");
             Debug.Indent();
-
             AssignHandle(parent.WindowHandle);
             Debug.Print("Input window attached to parent {0}", parent);
             keyboardDriver = new WinRawKeyboard(this.Handle);
             mouseDriver = new WinRawMouse(this.Handle);
-            
             Debug.Unindent();
-
             //AllocateBuffer();
         }
 
@@ -77,7 +71,6 @@ namespace OpenTK.Platform.Windows
                     // Get the size of the input buffer
                     Functions.GetRawInputData(msg.LParam, GetRawInputDataEnum.INPUT,
                         IntPtr.Zero, ref size, API.RawInputHeaderSize);
-
                     //if (buffer == null || API.RawInputSize < size)
                     //{
                     //    throw new ApplicationException("Critical error when processing raw windows input.");
@@ -91,16 +84,13 @@ namespace OpenTK.Platform.Windows
                                 if (!keyboardDriver.ProcessKeyboardEvent(data))
                                     Functions.DefRawInputProc(ref data, 1, (uint)API.RawInputHeaderSize);
                                 return;
-
                             case RawInputDeviceType.MOUSE:
                                 if (!mouseDriver.ProcessEvent(data))
                                     Functions.DefRawInputProc(ref data, 1, (uint)API.RawInputHeaderSize);
                                 return;
-
                             case RawInputDeviceType.HID:
                                 Functions.DefRawInputProc(ref data, 1, (uint)API.RawInputHeaderSize);
                                 return;
-
                             default:
                                 break;
                         }
@@ -112,12 +102,10 @@ namespace OpenTK.Platform.Windows
                             Marshal.GetLastWin32Error()));
                     }
                     break;
-                
                 case WindowMessage.DESTROY:
                     Debug.Print("Input window detached from parent {0}.", Handle);
                     ReleaseHandle();
                     break;
-
                 case WindowMessage.QUIT:
                     Debug.WriteLine("Input window quit.");
                     this.Dispose();
@@ -232,7 +220,6 @@ namespace OpenTK.Platform.Windows
         #region --- IDisposable Members ---
 
         private bool disposed;
-
         public void Dispose()
         {
             Dispose(true);

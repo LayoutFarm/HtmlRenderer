@@ -21,13 +21,12 @@
 // Arc vertex generator
 //
 //----------------------------------------------------------------------------
+
 using System;
 using System.Collections.Generic;
 using PixelFarm.Agg;
 using PixelFarm.VectorMath;
-
 using FlagsAndCommand = PixelFarm.Agg.VertexCmd;
-
 namespace PixelFarm.Agg.VertexSource
 {
     //=====================================================================arc
@@ -38,26 +37,20 @@ namespace PixelFarm.Agg.VertexSource
     {
         double originX;
         double originY;
-
         double radiusX;
         double radiusY;
-
         double startAngle;
         double endAngle;
-
         double m_Scale;
         ArcDirection m_Direction;
         double flatenDeltaAngle;
         bool m_IsInitialized;
-
         //------------        
         double startX;
         double startY;
         double endX;
         double endY;
-
         int calculateNSteps;
-
         public enum ArcDirection
         {
             ClockWise,
@@ -110,7 +103,6 @@ namespace PixelFarm.Agg.VertexSource
             this.startY = startY;
             this.endX = endX;
             this.endY = endY;
-
         }
         public bool UseStartEndLimit
         {
@@ -135,7 +127,6 @@ namespace PixelFarm.Agg.VertexSource
             // go to the start
             if (UseStartEndLimit)
             {
-
                 //---------------------------------------------------------
                 VertexData vertexData = new VertexData();
                 vertexData.command = FlagsAndCommand.MoveTo;
@@ -168,18 +159,15 @@ namespace PixelFarm.Agg.VertexSource
                 vertexData.x = endX;
                 vertexData.y = endY;
                 yield return vertexData;
-
                 vertexData.command = FlagsAndCommand.Stop;
                 yield return vertexData;
             }
             else
             {
-
                 VertexData vertexData = new VertexData();
                 vertexData.command = FlagsAndCommand.MoveTo;
                 vertexData.x = originX + Math.Cos(startAngle) * radiusX;
                 vertexData.y = originY + Math.Sin(startAngle) * radiusY;
-
                 yield return vertexData;
                 //---------------------------------------------------------
                 double angle = startAngle;
@@ -187,7 +175,6 @@ namespace PixelFarm.Agg.VertexSource
                 while ((angle < endAngle - flatenDeltaAngle / 4) == (((int)ArcDirection.CounterClockWise) == 1))
                 {
                     angle += flatenDeltaAngle;
-
                     vertexData.x = originX + Math.Cos(angle) * radiusX;
                     vertexData.y = originY + Math.Sin(angle) * radiusY;
                     yield return vertexData;
@@ -196,7 +183,6 @@ namespace PixelFarm.Agg.VertexSource
                 vertexData.x = originX + Math.Cos(endAngle) * radiusX;
                 vertexData.y = originY + Math.Sin(endAngle) * radiusY;
                 yield return vertexData;
-
                 vertexData.command = FlagsAndCommand.Stop;
                 yield return vertexData;
             }

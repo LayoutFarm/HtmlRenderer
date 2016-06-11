@@ -30,7 +30,6 @@ namespace PixelFarm.Agg.Image
             int m_currentBufferOffset = -1;
             int m_src_width;
             int m_src_height;
-
             public ImageBufferAccessor(IImageReaderWriter imgRW)
             {
                 Attach(imgRW);

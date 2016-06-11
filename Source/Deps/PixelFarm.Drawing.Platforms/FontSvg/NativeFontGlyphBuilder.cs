@@ -6,15 +6,12 @@
 //-----------------------------------
 
 using System;
-using System.Collections.Generic; 
-
+using System.Collections.Generic;
 namespace PixelFarm.Agg.Fonts
 {
-
     static class NativeFontGlyphBuilder
     {
         static Agg.VertexSource.CurveFlattener curveFlattener = new Agg.VertexSource.CurveFlattener();
-
         unsafe internal static void CopyGlyphBitmap(FontGlyph fontGlyph, ExportGlyph* exportTypeFace)
         {
             FT_Bitmap* ftBmp = (FT_Bitmap*)exportTypeFace->bitmap;
@@ -23,13 +20,11 @@ namespace PixelFarm.Agg.Fonts
             int w = ftBmp->width;
             int stride = ftBmp->pitch;
             int size = stride * h;
-
             //copy it to array  
             //bmp glyph is bottom up 
             //so .. invert it...
 
             byte[] buff = new byte[size];
-
             //------------------------------------------------
             byte* currentSrc = ftBmp->buffer;
             int srcpos = size;
@@ -74,7 +69,6 @@ namespace PixelFarm.Agg.Fonts
                 src_p += stride;
             }
             fontGlyph.glyphImage32 = actualImage;
-
             ////------------------------------------------------
             //{
             //      //add System.Drawing to references 
@@ -97,7 +91,6 @@ namespace PixelFarm.Agg.Fonts
 
         static FT_Vector GetMidPoint(FT_Vector v1, FT_Vector v2)
         {
-
             return new FT_Vector(
                 (v1.x + v2.x) / 2,
                 (v1.y + v2.y) / 2);
@@ -115,20 +108,16 @@ namespace PixelFarm.Agg.Fonts
             int startContour = 0;
             int cpoint_index = 0;
             int todoContourCount = outline.n_contours;
-
             PixelFarm.Agg.VertexSource.PathWriter ps = new Agg.VertexSource.PathWriter();
             fontGlyph.originalVxs = ps.Vxs;
             const int resize = 64;
             int controlPointCount = 0;
-
             while (todoContourCount > 0)
             {
                 int nextContour = outline.contours[startContour] + 1;
                 bool isFirstPoint = true;
                 FT_Vector secondControlPoint = new FT_Vector();
                 FT_Vector thirdControlPoint = new FT_Vector();
-
-
                 bool justFromCurveMode = false;
                 //FT_Vector vpoint = new FT_Vector();
                 for (; cpoint_index < nextContour; ++cpoint_index)
@@ -137,7 +126,6 @@ namespace PixelFarm.Agg.Fonts
                     byte vtag = outline.tags[cpoint_index];
                     bool has_dropout = (((vtag >> 2) & 0x1) != 0);
                     int dropoutMode = vtag >> 3;
-
                     if ((vtag & 0x1) != 0)
                     {
                         //on curve
@@ -149,14 +137,15 @@ namespace PixelFarm.Agg.Fonts
                                     {
                                         ps.Curve3(secondControlPoint.x / resize, secondControlPoint.y / resize,
                                             vpoint.x / resize, vpoint.y / resize);
-
-                                    } break;
+                                    }
+                                    break;
                                 case 2:
                                     {
                                         ps.Curve4(secondControlPoint.x / resize, secondControlPoint.y / resize,
                                            thirdControlPoint.x / resize, thirdControlPoint.y / resize,
                                            vpoint.x / resize, vpoint.y / resize);
-                                    } break;
+                                    }
+                                    break;
                                 default:
                                     {
                                         throw new NotSupportedException();
@@ -167,7 +156,6 @@ namespace PixelFarm.Agg.Fonts
                         }
                         else
                         {
-
                             if (isFirstPoint)
                             {
                                 isFirstPoint = false;
@@ -186,7 +174,6 @@ namespace PixelFarm.Agg.Fonts
                                 //printf("[%d] on,x: %d,y:%d \n", mm, vpoint.x, vpoint.y);
                             }
                         }
-
                     }
                     else
                     {
@@ -205,7 +192,8 @@ namespace PixelFarm.Agg.Fonts
                                         //printf("[%d] bzc2nd,  x: %d,y:%d \n", mm, vpoint.x, vpoint.y);
                                         secondControlPoint = vpoint;
                                     }
-                                } break;
+                                }
+                                break;
                             case 1:
                                 {
                                     if (((vtag >> 1) & 0x1) != 0)
@@ -229,11 +217,13 @@ namespace PixelFarm.Agg.Fonts
                                         //printf("[%d] bzc2nd,  x: %d,y:%d \n", mm, vpoint.x, vpoint.y);
                                         secondControlPoint = vpoint;
                                     }
-                                } break;
+                                }
+                                break;
                             default:
                                 {
                                     throw new NotSupportedException();
-                                } break;
+                                }
+                                break;
                         }
 
                         controlPointCount++;
@@ -252,14 +242,15 @@ namespace PixelFarm.Agg.Fonts
                             {
                                 ps.Curve3(secondControlPoint.x / resize, secondControlPoint.y / resize,
                                     ps.LastMoveX, ps.LastMoveY);
-
-                            } break;
+                            }
+                            break;
                         case 2:
                             {
                                 ps.Curve4(secondControlPoint.x / resize, secondControlPoint.y / resize,
                                    thirdControlPoint.x / resize, thirdControlPoint.y / resize,
                                    ps.LastMoveX, ps.LastMoveY);
-                            } break;
+                            }
+                            break;
                         default:
                             { throw new NotSupportedException(); }
                     }
@@ -273,10 +264,6 @@ namespace PixelFarm.Agg.Fonts
             }
 
             fontGlyph.flattenVxs = curveFlattener.MakeVxs(fontGlyph.originalVxs);
-
         }
-
     }
-
-
 }

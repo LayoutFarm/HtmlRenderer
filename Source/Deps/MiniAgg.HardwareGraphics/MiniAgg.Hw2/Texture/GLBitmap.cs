@@ -3,12 +3,8 @@
 using System;
 using System.Text;
 using OpenTK.Graphics.ES20;
-
 namespace PixelFarm.DrawingGL
 {
-
-
-
     public abstract class LazyBitmapBufferProvider
     {
         public abstract IntPtr GetRawBufferHead();
@@ -27,7 +23,6 @@ namespace PixelFarm.DrawingGL
         byte[] rawBuffer;
         LazyBitmapBufferProvider lazyProvider;
         bool isInvertImage = false;
-
         public GLBitmap(int w, int h, byte[] rawBuffer, bool isInvertImage)
         {
             this.width = w;
@@ -100,7 +95,6 @@ namespace PixelFarm.DrawingGL
         }
         public void Dispose()
         {
-
             GL.DeleteTextures(1, ref textureId);
         }
 
@@ -110,6 +104,4 @@ namespace PixelFarm.DrawingGL
         static int dbugIdTotal;
 #endif
     }
-
-
 }

@@ -3,21 +3,19 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
- 
- 
 namespace PixelFarm.Drawing.Animation
-{   
+{
     public class ParallelTimeline
-    {  
-        public List<TimelineSeriesBase> animationLines = new List<TimelineSeriesBase>();    
-        public int endFrame; 
+    {
+        public List<TimelineSeriesBase> animationLines = new List<TimelineSeriesBase>();
+        public int endFrame;
         public ParallelTimeline()
-        { 
-        } 
+        {
+        }
         public void Add(TimelineSeriesBase artAnimationline)
         {
             animationLines.Add(artAnimationline);
-        } 
+        }
         public int FrameDuration
         {
             get
@@ -27,7 +25,6 @@ namespace PixelFarm.Drawing.Animation
             set
             {
                 endFrame = value - 1;
-
             }
         }
         public int EndFrame
@@ -36,7 +33,6 @@ namespace PixelFarm.Drawing.Animation
             {
                 return endFrame;
             }
-
-        } 
+        }
     }
 }

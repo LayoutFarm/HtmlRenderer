@@ -30,14 +30,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
-
 using System.Text;
 using System.Windows.Forms;
-
 using OpenTK.Platform;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
-
 namespace OpenTK
 {
     /// <summary>
@@ -60,7 +57,6 @@ namespace OpenTK
         // the premature Resize event and raise it as soon as the handle
         // is ready.
         bool resize_event_suppressed;
-
         #region --- Constructors ---
 
         /// <summary>
@@ -69,7 +65,6 @@ namespace OpenTK
         public GLControl()
             : this(GraphicsMode.Default)
         {
-
         }
 
         /// <summary>
@@ -91,17 +86,14 @@ namespace OpenTK
         {
             if (mode == null)
                 throw new ArgumentNullException("mode");
-
             SetStyle(ControlStyles.Opaque, true);
             SetStyle(ControlStyles.UserPaint, true);
             SetStyle(ControlStyles.AllPaintingInWmPaint, true);
             DoubleBuffered = false;
-
             this.format = mode;
             this.major = major;
             this.minor = minor;
             this.flags = flags;
-
             InitializeComponent();
         }
         protected void ChildCtorOnlyResetGraphicMode(GraphicsMode mode)
@@ -117,7 +109,6 @@ namespace OpenTK
             get
             {
                 ValidateState();
-
                 return implementation;
             }
         }
@@ -126,10 +117,8 @@ namespace OpenTK
         {
             if (IsDisposed)
                 throw new ObjectDisposedException(GetType().Name);
-
             if (!IsHandleCreated)
                 CreateControl();
-
             if (implementation == null || context == null || context.IsDisposed)
                 RecreateHandle();
         }
@@ -144,21 +133,16 @@ namespace OpenTK
         {
             if (context != null)
                 context.Dispose();
-
             if (implementation != null)
                 implementation.WindowInfo.Dispose();
-
             if (DesignMode)
                 implementation = new DummyGLControl();
             else
                 implementation = GLControlFactory.CreateGLControl(format, this);
-
             context = implementation.CreateContext(major, minor, flags);
             MakeCurrent();
-
             if (!DesignMode)
                 ((IGraphicsContextInternal)Context).LoadAll();
-
             // Deferred setting of vsync mode. See VSync property for more information.
             if (initial_vsync_value.HasValue)
             {
@@ -167,7 +151,6 @@ namespace OpenTK
             }
 
             base.OnHandleCreated(e);
-
             if (resize_event_suppressed)
             {
                 OnResize(EventArgs.Empty);
@@ -201,10 +184,8 @@ namespace OpenTK
         protected override void OnPaint(PaintEventArgs e)
         {
             ValidateState();
-
             if (DesignMode)
                 e.Graphics.Clear(BackColor);
-
             base.OnPaint(e);
         }
 
@@ -225,7 +206,6 @@ namespace OpenTK
 
             if (context != null)
                 context.Update(Implementation.WindowInfo);
-
             base.OnResize(e);
         }
 
@@ -237,7 +217,6 @@ namespace OpenTK
         {
             if (context != null)
                 context.Update(Implementation.WindowInfo);
-
             base.OnParentChanged(e);
         }
 
@@ -336,7 +315,6 @@ namespace OpenTK
             {
                 if (!IsHandleCreated)
                     return false;
-
                 ValidateState();
                 return Context.VSync;
             }
@@ -390,7 +368,6 @@ namespace OpenTK
 
         public IntPtr GetEglDisplay()
         {
-
             var eglContext = ((IGraphicsContextInternal)this.context).Implementation as OpenTK.Platform.Egl.EglContext;
             if (eglContext != null)
             {
@@ -420,7 +397,6 @@ namespace OpenTK
         public Bitmap GrabScreenshot()
         {
             ValidateState();
-
             throw new NotSupportedException();
             //Bitmap bmp = new Bitmap(this.ClientSize.Width, this.ClientSize.Height);
             //System.Drawing.Imaging.BitmapData data =

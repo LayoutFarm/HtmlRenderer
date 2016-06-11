@@ -5,19 +5,13 @@ using System;
 using System.Runtime.InteropServices;
 namespace PixelFarm.Agg.Image
 {
-
-   
-
-
     public static class StackBlurARGB
     {
-
         //-----------------------------------------------
         const int A_SHIFT = 24;
         const int R_SHIFT = 16;
         const int G_SHIFT = 8;
         const int B_SHIFT = 0;
-
         //lookp table cache
         static byte[] _radius2 = null;
         static byte[] _radius3 = null;
@@ -25,12 +19,10 @@ namespace PixelFarm.Agg.Image
         static byte[] _radius5 = null;
         static byte[] _radius6 = null;
         static byte[] _radius7 = null;
-        static byte[] _radius8 = null; 
-
+        static byte[] _radius8 = null;
         //------------------------------------------------
         static byte[] PrepareLookupTable(int radius)
         {
-            
             int div = radius + radius + 1;
             var dv = new byte[256 * div];
             for (int i = (256 * div) - 1; i >= 0; --i)
@@ -68,7 +60,6 @@ namespace PixelFarm.Agg.Image
             int pixel_index, int radius,
             out int rsum, out int gsum, out int bsum, out int asum)
         {
-
             rsum = gsum = bsum = asum = 0;
             for (int i = -radius; i <= 0; ++i)
             {
@@ -97,7 +88,6 @@ namespace PixelFarm.Agg.Image
              int srcImageHeight,
              int radius)
         {
-
             if (srcImageWidth < 1)
             {
                 return;
@@ -109,14 +99,11 @@ namespace PixelFarm.Agg.Image
             int width = srcImageWidth;
             int height = srcImageHeight;
             int wh = width * height;
-
             var r_buffer = new byte[wh];
             var g_buffer = new byte[wh];
             var b_buffer = new byte[wh];
             var a_buffer = new byte[wh];
-
             int p1, p2;
-
             LimitMinMax[] limitMinMax = new LimitMinMax[max(width, height)];
             //------------------------------
             //look up table : depends on radius,  
@@ -124,7 +111,6 @@ namespace PixelFarm.Agg.Image
             //------------------------------  
 
             PrepareHorizontalMinMax(width, radius, limitMinMax);
-
             int px_row_head = 0;
             int pixel_index = 0;
             for (int y = 0; y < height; y++)
@@ -132,24 +118,19 @@ namespace PixelFarm.Agg.Image
                 // blur horizontal
                 int rsum, gsum, bsum, asum;
                 CalculateSumARGBHorizontal(srcBuffer, width, pixel_index, radius, out rsum, out gsum, out bsum, out asum);
-
                 for (int x = 0; x < width; x++)
                 {
                     r_buffer[pixel_index] = dvLookup[rsum];
                     g_buffer[pixel_index] = dvLookup[gsum];
                     b_buffer[pixel_index] = dvLookup[bsum];
                     a_buffer[pixel_index] = dvLookup[asum];
-
                     LimitMinMax lim = limitMinMax[x];
                     p1 = srcBuffer[px_row_head + lim.Min];
                     p2 = srcBuffer[px_row_head + lim.Max];
-
                     rsum += ((p1 >> R_SHIFT) & 0xff) - ((p2 >> R_SHIFT) & 0xff);
                     gsum += ((p1 >> G_SHIFT) & 0xff) - ((p2 >> G_SHIFT) & 0xff);
                     bsum += ((p1 >> B_SHIFT) & 0xff) - ((p2 >> B_SHIFT) & 0xff);
                     asum += ((p1 >> A_SHIFT) & 0xff) - ((p2 >> A_SHIFT) & 0xff);
-
-
                     pixel_index++;
                 }
                 //go next row
@@ -193,22 +174,16 @@ namespace PixelFarm.Agg.Image
                         (uint)(dvLookup[gsum] << G_SHIFT) |
                         (uint)(dvLookup[bsum] << B_SHIFT) |
                         unchecked((uint)(dvLookup[asum] << A_SHIFT)));
-
                     var limit = limitMinMax[y];
                     p1 = x + limit.Min;
                     p2 = x + limit.Max;
-
-
                     rsum += r_buffer[p1] - r_buffer[p2]; //diff between 2 pixels
                     gsum += g_buffer[p1] - g_buffer[p2]; //diff between 2 pixels
                     bsum += b_buffer[p1] - b_buffer[p2]; //diff between 2 pixels
                     asum += a_buffer[p1] - a_buffer[p2];
-
                     pixel_index += width;
                 }
             }
-
-
         }
 
 
@@ -227,5 +202,4 @@ namespace PixelFarm.Agg.Image
             }
         }
     }
-
 }

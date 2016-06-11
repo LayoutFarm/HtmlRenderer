@@ -21,20 +21,16 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Threading;
 using System.Drawing;
-
 using OpenTK;
-using OpenTK.Graphics; 
+using OpenTK.Graphics;
 using OpenTK.Graphics.ES20;
 using Examples.Tutorial;
 using Mini;
-
 #endregion
 
 
 namespace OpenTkEssTest
 {
-
-
     [Info(OrderCode = "051")]
     [Info("T51_View2d")]
     public class T51_View2d : PrebuiltGLControlDemoBase
@@ -53,7 +49,6 @@ namespace OpenTkEssTest
                     v_texCoord = a_texCoord;
                  }	 
                 ";
-
             string fs = @"
                       precision mediump float;
                       varying vec2 v_texCoord;
@@ -63,7 +58,6 @@ namespace OpenTkEssTest
                          gl_FragColor = texture2D(s_texture, v_texCoord);
                       }
                 ";
-             
             shaderProgram.Build(vs, fs);
             //-------------------------------------------
 
@@ -72,7 +66,6 @@ namespace OpenTkEssTest
             a_textCoord = shaderProgram.GetVtxAttrib("a_texCoord");
             // Get the sampler location
             s_texture = shaderProgram.GetUniform1("s_texture");
-
             //// Load the texture
             mTexture = ES2Utils2.CreateSimpleTexture2D();
             GL.ClearColor(0, 0, 0, 0);
@@ -92,22 +85,15 @@ namespace OpenTkEssTest
                      1.0f,  0.0f         // TexCoord 3
                      };
             ushort[] indices = new ushort[] { 0, 1, 2, 0, 2, 3 };
-
             GL.Viewport(0, 0, this.Width, this.Height);
             GL.Clear(ClearBufferMask.ColorBufferBit);
-
             shaderProgram.UseProgram();
-
             a_position.LoadV3f(vertices, 5, 0);
             a_textCoord.LoadV2f(vertices, 5, 3);
-
-
             GL.ActiveTexture(TextureUnit.Texture0);
-            GL.BindTexture(TextureTarget.Texture2D, mTexture);             
+            GL.BindTexture(TextureTarget.Texture2D, mTexture);
             s_texture.SetValue(0);
-
             GL.DrawElements(BeginMode.Triangles, 6, DrawElementsType.UnsignedShort, indices);
-
             miniGLControl.SwapBuffers();
         }
         protected override void DemoClosing()
@@ -124,6 +110,5 @@ namespace OpenTkEssTest
         ShaderUniformVar1 s_texture;
         // Texture handle
         int mTexture;
-
     }
 }

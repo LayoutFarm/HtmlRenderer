@@ -1,7 +1,7 @@
 ﻿// 2015,2014 ,BSD, WinterDev
+
 using System;
 using System.Collections.Generic;
-
 namespace PixelFarm.Drawing
 {
     /// <summary>
@@ -65,7 +65,5 @@ namespace PixelFarm.Drawing
         {
             return new PixelFarm.Drawing.Rectangle(rect.X, rect.Y, rect.Width, rect.Height);
         }
-
-
     }
 }

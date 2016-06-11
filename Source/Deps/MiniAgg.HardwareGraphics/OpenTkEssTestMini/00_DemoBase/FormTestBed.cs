@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
- 
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-
-
 using OpenTK;
 using OpenTkEssTest;
-
 namespace Mini
 {
     public partial class FormTestBed : Form
@@ -17,7 +13,7 @@ namespace Mini
         MyMiniGLES2Control miniGLControl;
         public FormTestBed()
         {
-            InitializeComponent(); 
+            InitializeComponent();
         }
         public MyMiniGLES2Control InitMiniGLControl(int w, int h)
         {
@@ -35,7 +31,5 @@ namespace Mini
         {
             get { return this.miniGLControl; }
         }
-
-
     }
 }

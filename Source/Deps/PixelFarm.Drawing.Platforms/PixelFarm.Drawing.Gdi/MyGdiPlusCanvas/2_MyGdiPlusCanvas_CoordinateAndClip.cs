@@ -17,8 +17,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
-
-
 namespace PixelFarm.Drawing.WinGdi
 {
     partial class MyGdiPlusCanvas
@@ -32,20 +30,15 @@ namespace PixelFarm.Drawing.WinGdi
         Rectangle invalidateArea;
         CanvasOrientation orientation;
         bool isEmptyInvalidateArea;
-
         //--------------------------------------------------------------------
         public override void SetCanvasOrigin(int x, int y)
         {
-
-
             //----------- 
             int total_dx = x - canvasOriginX;
             int total_dy = y - canvasOriginY;
             this.gx.TranslateTransform(total_dx, total_dy);
-
             //clip rect move to another direction***
             this.currentClipRect.Offset(-total_dx, -total_dy);
-
             this.canvasOriginX = x;
             this.canvasOriginY = y;
         }
@@ -90,14 +83,11 @@ namespace PixelFarm.Drawing.WinGdi
 
         public override bool PushClipAreaRect(int width, int height, ref Rectangle updateArea)
         {
-
             this.clipRectStack.Push(currentClipRect);
-
             System.Drawing.Rectangle intersectResult =
                   System.Drawing.Rectangle.Intersect(
                   System.Drawing.Rectangle.FromLTRB(updateArea.Left, updateArea.Top, updateArea.Right, updateArea.Bottom),
                   new System.Drawing.Rectangle(0, 0, width, height));
-
             currentClipRect = intersectResult;
             if (intersectResult.Width <= 0 || intersectResult.Height <= 0)
             {
@@ -115,7 +105,6 @@ namespace PixelFarm.Drawing.WinGdi
         {
             if (clipRectStack.Count > 0)
             {
-
                 currentClipRect = clipRectStack.Pop();
                 gx.SetClip(currentClipRect);
             }
@@ -188,16 +177,13 @@ namespace PixelFarm.Drawing.WinGdi
         {
             this.invalidateArea = Rectangle.Empty;
             this.isEmptyInvalidateArea = true;//set
-
         }
         public override void Invalidate(Rectangle rect)
         {
             if (isEmptyInvalidateArea)
             {
-
                 invalidateArea = rect;
                 isEmptyInvalidateArea = false;
-
             }
             else
             {
@@ -208,5 +194,4 @@ namespace PixelFarm.Drawing.WinGdi
             this.IsContentReady = false;
         }
     }
-
 }

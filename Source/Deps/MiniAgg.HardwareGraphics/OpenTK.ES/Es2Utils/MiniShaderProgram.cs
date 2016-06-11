@@ -1,18 +1,14 @@
 ﻿//MIT 2014, WinterDev
+
 using System;
 using System.Collections.Generic;
-
-
 using OpenTK;
 using OpenTK.Graphics;
-
-
 namespace OpenTK.Graphics.ES20
 {
     public struct ShaderVtxAttrib
     {
         internal readonly int location;
-
         public ShaderVtxAttrib(int location)
         {
             this.location = location;
@@ -45,8 +41,6 @@ namespace OpenTK.Graphics.ES20
                 false,
                 totalFieldCount * sizeof(float), //total size
                 (IntPtr)(vertices + startOffset));
-
-
             Enable();
         }
         /// <summary>
@@ -63,7 +57,6 @@ namespace OpenTK.Graphics.ES20
 
         public void BindV3f(float[] vertices, int totalFieldCount, int startOffset)
         {
-
             unsafe
             {
                 fixed (float* h = &vertices[0])
@@ -76,11 +69,9 @@ namespace OpenTK.Graphics.ES20
                         (IntPtr)(h + startOffset));
                 }
             }
-
         }
         public void BindV2f(float[] vertices, int totalFieldCount, int startOffset)
         {
-
             unsafe
             {
                 fixed (float* h = &vertices[0])
@@ -93,12 +84,10 @@ namespace OpenTK.Graphics.ES20
                         (IntPtr)(h + startOffset));
                 }
             }
-
         }
 
         public void BindV4f(float[] vertices, int totalFieldCount, int startOffset)
         {
-
             unsafe
             {
                 fixed (float* h = &vertices[0])
@@ -111,7 +100,6 @@ namespace OpenTK.Graphics.ES20
                         (IntPtr)(h + startOffset));
                 }
             }
-
         }
         public void Enable()
         {
@@ -134,8 +122,6 @@ namespace OpenTK.Graphics.ES20
         {
             GL.UniformMatrix4(this.location, 1, false, mat);
         }
-
-
     }
     public struct ShaderUniformVar1
     {
@@ -152,8 +138,6 @@ namespace OpenTK.Graphics.ES20
         {
             GL.Uniform1(this.location, value);
         }
-
-
     }
     public struct ShaderUniformVar2
     {
@@ -162,7 +146,6 @@ namespace OpenTK.Graphics.ES20
         {
             this.location = location;
         }
-
     }
     public struct ShaderUniformVar3
     {
@@ -171,7 +154,6 @@ namespace OpenTK.Graphics.ES20
         {
             this.location = location;
         }
-
     }
     public struct ShaderUniformVar4
     {
@@ -198,7 +180,6 @@ namespace OpenTK.Graphics.ES20
     public class MiniShaderProgram
     {
         int mProgram;
-
         string vs;
         string fs;
         public void LoadVertexShaderSource(string vs)
@@ -216,7 +197,6 @@ namespace OpenTK.Graphics.ES20
         }
         public bool Build()
         {
-
             mProgram = OpenTK.Graphics.ES20.ES2Utils.CompileProgram(vs, fs);
             if (mProgram == 0)
             {
@@ -228,7 +208,13 @@ namespace OpenTK.Graphics.ES20
         {
             LoadVertexShaderSource(vs);
             LoadFragmentShaderSource(fs);
-            mProgram = OpenTK.Graphics.ES20.ES2Utils.CompileProgram(vs, fs);
+            try
+            {
+                mProgram = OpenTK.Graphics.ES20.ES2Utils.CompileProgram(vs, fs);
+            }
+            catch (Exception ex)
+            {
+            }
             if (mProgram == 0)
             {
                 return false;

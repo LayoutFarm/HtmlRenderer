@@ -1,10 +1,10 @@
 ﻿// 2015,2014 ,MIT, WinterDev   
+
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using PixelFarm;
-
 namespace PixelFarm.Agg.Fonts
 {
     class GdiPathFontFace : FontFace
@@ -26,7 +26,7 @@ namespace PixelFarm.Agg.Fonts
         {
             GdiPathFont found;
             if (!stockFonts.TryGetValue(emsize, out found))
-            {   
+            {
                 found = new GdiPathFont(this, emsize);
                 stockFonts.Add(emsize, found);
             }

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 namespace OpenTK.Platform.MacOS.Carbon
 {
     enum MacOSKeyCode
@@ -32,7 +31,6 @@ namespace OpenTK.Platform.MacOS.Carbon
         X = 7,
         Y = 16,
         Z = 6,
-
         Key_1 = 18,
         Key_2 = 19,
         Key_3 = 20,
@@ -43,21 +41,18 @@ namespace OpenTK.Platform.MacOS.Carbon
         Key_8 = 28,
         Key_9 = 25,
         Key_0 = 29,
-
         Space = 49,
         Tilde = 50,
-
         Minus = 27,
         Equals = 24,
-        BracketLeft = 33, 
-        BracketRight = 30, 
+        BracketLeft = 33,
+        BracketRight = 30,
         Backslash = 42,
-        Semicolon = 41, 
-        Quote = 39, 
+        Semicolon = 41,
+        Quote = 39,
         Comma = 43,
         Period = 47,
         Slash = 44,
-
         Enter = 36,
         Tab = 48,
         Backspace = 51,
@@ -95,9 +90,7 @@ namespace OpenTK.Platform.MacOS.Carbon
         F13 = 105,
         F14 = 107,
         F15 = 113,
-
         Menu = 110,
-
         Insert = 114,
         Home = 115,
         Pageup = 116,
@@ -108,17 +101,15 @@ namespace OpenTK.Platform.MacOS.Carbon
         Down = 125,
         Left = 123,
         Right = 124,
-
-
     }
     [Flags]
     enum MacOSKeyModifiers
     {
-        None     = 0,
-        Shift    = 0x0200,
+        None = 0,
+        Shift = 0x0200,
         CapsLock = 0x0400,
-        Control  = 0x1000,  // 
-        Command  = 0x0100,  // Open-Apple  - Windows key 
-        Option   = 0x0800,  // Option key is same position as the alt key on non-mac keyboards.
+        Control = 0x1000,  // 
+        Command = 0x0100,  // Open-Apple  - Windows key 
+        Option = 0x0800,  // Option key is same position as the alt key on non-mac keyboards.
     }
 }

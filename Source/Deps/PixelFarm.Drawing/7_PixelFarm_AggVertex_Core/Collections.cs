@@ -25,10 +25,8 @@
 using System;
 using System.Collections.Generic;
 using System.Collections;
-
 namespace PixelFarm.Agg
 {
-
     ////--------------------------------------------------------------pod_vector
     //// A simple class template to store Plain Old Data (POD), a vector
     //// of a fixed size. The data is contiguous in memory
@@ -80,7 +78,7 @@ namespace PixelFarm.Agg
     //    {
     //        usedSize = 0;
     //    }
-      
+
     //    // Set new capacity. All data is lost, size is set to zero.
     //    public void Clear(int newCapacity)
     //    {
@@ -208,12 +206,10 @@ namespace PixelFarm.Agg
         T[] internalArray = new T[0];
         public ArrayList()
         {
-
         }
         public ArrayList(int cap)
         {
             Allocate(cap, 0);
-
         }
         public ArrayList(ArrayList<T> srcCopy, int plusSize)
         {
@@ -231,7 +227,7 @@ namespace PixelFarm.Agg
             }
         }
 
-        
+
         public int Count
         {
             get { return currentSize; }
@@ -310,11 +306,8 @@ namespace PixelFarm.Agg
 
 
         static T zeroed_object = default(T);
-
-
         public void Zero()
         {
-
             for (int i = internalArray.Length - 1; i >= 0; --i)
             {
                 internalArray[i] = zeroed_object;
@@ -372,6 +365,4 @@ namespace PixelFarm.Agg
             }
         }
     }
-
-
 }

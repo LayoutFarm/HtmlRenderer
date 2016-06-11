@@ -1,7 +1,8 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
-using System.Drawing; 
+
+using System.Drawing;
 namespace PixelFarm.Drawing.DrawingGL
-{ 
+{
     class MyFont : Font
     {
         System.Drawing.Font myFont;
@@ -61,5 +62,4 @@ namespace PixelFarm.Drawing.DrawingGL
             get { return this.myFont; }
         }
     }
-
 }

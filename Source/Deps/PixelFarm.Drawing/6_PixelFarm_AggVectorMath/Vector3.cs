@@ -24,14 +24,10 @@ SOFTWARE.
 
 using System;
 using System.Runtime.InteropServices;
- 
-
 namespace PixelFarm.VectorMath
 {
-
     public class JsonIgnoreAttribute : Attribute
     {
-
     }
     /// <summary>
     /// Represents a 3D vector using three double-precision floating-point numbers.
@@ -46,17 +42,14 @@ namespace PixelFarm.VectorMath
         /// The X component of the Vector3.
         /// </summary>
         public double x;
-
         /// <summary>
         /// The Y component of the Vector3.
         /// </summary>
         public double y;
-
         /// <summary>
         /// The Z component of the Vector3.
         /// </summary>
         public double z;
-
         #endregion // Fields
 
         #region Constructors
@@ -150,15 +143,12 @@ namespace PixelFarm.VectorMath
                     case 0:
                         x = value;
                         break;
-
                     case 1:
                         y = value;
                         break;
-
                     case 2:
                         z = value;
                         break;
-
                     default:
                         throw new Exception();
                 }
@@ -238,7 +228,7 @@ namespace PixelFarm.VectorMath
         #endregion
 
         #region public double[] ToArray()
-        
+
         public double[] ToArray()
         {
             return new double[] { x, y, z };
@@ -256,42 +246,34 @@ namespace PixelFarm.VectorMath
         /// Defines a unit-length Vector3d that points towards the X-axis.
         /// </summary>
         public static readonly Vector3 UnitX = new Vector3(1, 0, 0);
-
         /// <summary>
         /// Defines a unit-length Vector3d that points towards the Y-axis.
         /// </summary>
         public static readonly Vector3 UnitY = new Vector3(0, 1, 0);
-
         /// <summary>
         /// /// Defines a unit-length Vector3d that points towards the Z-axis.
         /// </summary>
         public static readonly Vector3 UnitZ = new Vector3(0, 0, 1);
-
         /// <summary>
         /// Defines a zero-length Vector3.
         /// </summary>
         public static readonly Vector3 Zero = new Vector3(0, 0, 0);
-
         /// <summary>
         /// Defines an instance with all components set to 1.
         /// </summary>
         public static readonly Vector3 One = new Vector3(1, 1, 1);
-
         /// <summary>
         /// Defines an instance with all components set to positive infinity.
         /// </summary>
         public static readonly Vector3 PositiveInfinity = new Vector3(double.PositiveInfinity, double.PositiveInfinity, double.PositiveInfinity);
-
         /// <summary>
         /// Defines an instance with all components set to negative infinity.
         /// </summary>
         public static readonly Vector3 NegativeInfinity = new Vector3(double.NegativeInfinity, double.NegativeInfinity, double.NegativeInfinity);
-
         /// <summary>
         /// Defines the size of the Vector3d struct in bytes.
         /// </summary>
         public static readonly int SizeInBytes = Marshal.SizeOf(new Vector3());
-
         #endregion
 
         #region Add
@@ -758,12 +740,10 @@ namespace PixelFarm.VectorMath
         public static void BaryCentric(ref Vector3 a, ref Vector3 b, ref Vector3 c, double u, double v, out Vector3 result)
         {
             result = a; // copy
-
             Vector3 temp = b; // copy
             Subtract(ref temp, ref a, out temp);
             Multiply(ref temp, u, out temp);
             Add(ref result, ref temp, out result);
-
             temp = c; // copy
             Subtract(ref temp, ref a, out temp);
             Multiply(ref temp, v, out temp);
@@ -799,11 +779,9 @@ namespace PixelFarm.VectorMath
             result.x = vec.x * mat.Row0.x +
                        vec.y * mat.Row1.x +
                        vec.z * mat.Row2.x;
-
             result.y = vec.x * mat.Row0.y +
                        vec.y * mat.Row1.y +
                        vec.z * mat.Row2.y;
-
             result.z = vec.x * mat.Row0.z +
                        vec.y * mat.Row1.z +
                        vec.z * mat.Row2.z;
@@ -866,11 +844,9 @@ namespace PixelFarm.VectorMath
             result.x = norm.x * invMat.Row0.x +
                        norm.y * invMat.Row0.y +
                        norm.z * invMat.Row0.z;
-
             result.y = norm.x * invMat.Row1.x +
                        norm.y * invMat.Row1.y +
                        norm.z * invMat.Row1.z;
-
             result.z = norm.x * invMat.Row2.x +
                        norm.y * invMat.Row2.y +
                        norm.z * invMat.Row2.z;
@@ -898,12 +874,10 @@ namespace PixelFarm.VectorMath
                        pos.y * mat.Row1.x +
                        pos.z * mat.Row2.x +
                        mat.Row3.x;
-
             result.y = pos.x * mat.Row0.y +
                        pos.y * mat.Row1.y +
                        pos.z * mat.Row2.y +
                        mat.Row3.y;
-
             result.z = pos.x * mat.Row0.z +
                        pos.y * mat.Row1.z +
                        pos.z * mat.Row2.z +
@@ -1232,7 +1206,6 @@ namespace PixelFarm.VectorMath
         {
             if (!(obj is Vector3))
                 return false;
-
             return this.Equals((Vector3)obj);
         }
 

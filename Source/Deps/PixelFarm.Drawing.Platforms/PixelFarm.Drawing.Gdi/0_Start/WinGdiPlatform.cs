@@ -1,10 +1,12 @@
 ﻿//2014,2015 BSD, WinterDev
+
 using System;
 namespace PixelFarm.Drawing.WinGdi
 {
     class WinGdiPlatform : GraphicsPlatform
     {
-        static FontStore fontStore = new FontStore(); 
+        static FontStore fontStore = new FontStore();
+        System.Drawing.Bitmap sampleBmp;
         IFonts sampleIFonts;
         public WinGdiPlatform()
         {
@@ -12,7 +14,11 @@ namespace PixelFarm.Drawing.WinGdi
 
         ~WinGdiPlatform()
         {
-            
+            if (sampleBmp != null)
+            {
+                sampleBmp.Dispose();
+                sampleBmp = null;
+            }
             if (sampleIFonts != null)
             {
                 sampleIFonts.Dispose();
@@ -36,7 +42,6 @@ namespace PixelFarm.Drawing.WinGdi
         }
         public override Canvas CreateCanvas(object platformCanvas, int left, int top, int width, int height)
         {
-
             return new MyGdiPlusCanvas(this,
                 platformCanvas as System.Drawing.Graphics,
                 left,
@@ -50,7 +55,12 @@ namespace PixelFarm.Drawing.WinGdi
             {
                 if (sampleIFonts == null)
                 {
-                 
+                    if (sampleBmp == null)
+                    {
+                        sampleBmp = new System.Drawing.Bitmap(2, 2);
+                    }
+
+                    System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(sampleBmp);
                     sampleIFonts = new MyScreenCanvas(this, 0, 0, 0, 0, 2, 2);
                 }
                 return this.sampleIFonts;
@@ -60,7 +70,7 @@ namespace PixelFarm.Drawing.WinGdi
         {
             //create platform bitmap
             System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(w, h,
-                System.Drawing.Imaging.PixelFormat.Format32bppArgb); 
+                System.Drawing.Imaging.PixelFormat.Format32bppArgb);
             CopyFromAggActualImageToGdiPlusBitmap(rawBuffer, bmp);
             if (isBottomUp)
             {
@@ -73,10 +83,9 @@ namespace PixelFarm.Drawing.WinGdi
             //platform specific
             var bmpdata = bitmap.LockBits(new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height),
                  System.Drawing.Imaging.ImageLockMode.ReadOnly,
-                 System.Drawing.Imaging.PixelFormat.Format32bppArgb); 
+                 System.Drawing.Imaging.PixelFormat.Format32bppArgb);
             System.Runtime.InteropServices.Marshal.Copy(rawBuffer, 0,
                 bmpdata.Scan0, rawBuffer.Length);
-
             bitmap.UnlockBits(bmpdata);
         }
     }

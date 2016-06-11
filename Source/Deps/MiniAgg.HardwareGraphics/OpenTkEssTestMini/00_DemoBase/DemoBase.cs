@@ -2,13 +2,8 @@
 
 using System;
 using System.Collections.Generic;
-
-
-
 namespace Mini
 {
-
-
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public class InfoAttribute : Attribute
     {
@@ -63,24 +58,23 @@ namespace Mini
     public abstract class PrebuiltGLControlDemoBase : DemoBase
     {
         System.Windows.Forms.Timer aniTimer;
+        IntPtr hh1;
         public override void Init()
         {
             formTestBed = new FormTestBed();
             this.miniGLControl = formTestBed.InitMiniGLControl(this.Width, this.Height);//1276,720 
             this.aniTimer = new System.Windows.Forms.Timer();
-
-            this.formTestBed.Load += this.OnInitGLProgram;
+            //this.formTestBed.Load += this.OnInitGLProgram;
             this.formTestBed.FormClosing += formTestBed_FormClosing;
-
             this.formTestBed.Text = this.GetType().Name;
-
-
             miniGLControl.SetGLPaintHandler(this.OnGLRender);
             formTestBed.Show();
+            hh1 = miniGLControl.Handle;
+            miniGLControl.MakeCurrent();
+            this.OnInitGLProgram(null, EventArgs.Empty);
             formTestBed.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-
-            this.aniTimer.Interval = 200;//ms
-            this.aniTimer.Tick += TimerTick;
+            //this.aniTimer.Interval = 200;//ms
+            //this.aniTimer.Tick += TimerTick;
 
         }
 
@@ -89,7 +83,6 @@ namespace Mini
             //stop timer
             this.aniTimer.Enabled = false;
             this.miniGLControl.SetGLPaintHandler(null);
-
             DemoClosing();
         }
         protected virtual void DemoClosing()
@@ -120,14 +113,12 @@ namespace Mini
         {
             return this.miniGLControl.GetEglSurface();
         }
-
     }
 
     public class DemoConfigAttribute : Attribute
     {
         public DemoConfigAttribute()
         {
-
         }
         public DemoConfigAttribute(string name)
         {
@@ -138,7 +129,6 @@ namespace Mini
 
         public int MinValue { get; set; }
         public int MaxValue { get; set; }
-
     }
     enum DemoConfigPresentaionHint
     {
@@ -167,7 +157,6 @@ namespace Mini
     {
         System.Reflection.PropertyInfo property;
         List<ExampleConfigValue> optionFields;
-
         public ExampleConfigDesc(DemoConfigAttribute config, System.Reflection.PropertyInfo property)
         {
             this.property = property;
@@ -192,7 +181,6 @@ namespace Mini
                 this.PresentaionHint = Mini.DemoConfigPresentaionHint.OptionBoxes;
                 //find option
                 var enumFields = propType.GetFields();
-
                 int j = enumFields.Length;
                 optionFields = new List<ExampleConfigValue>(j);
                 for (int i = 0; i < j; ++i)
@@ -228,7 +216,6 @@ namespace Mini
             {
                 this.PresentaionHint = DemoConfigPresentaionHint.TextBox;
             }
-
         }
         public string Name
         {
@@ -262,23 +249,17 @@ namespace Mini
     {
         static Type exConfig = typeof(DemoConfigAttribute);
         static Type exInfoAttrType = typeof(InfoAttribute);
-
         List<ExampleConfigDesc> configList = new List<ExampleConfigDesc>();
-
         public ExampleAndDesc(Type t, string name)
         {
             this.Type = t;
             this.Name = name;
             this.OrderCode = "";
             var p1 = t.GetProperties();
-
             InfoAttribute[] exInfoList = t.GetCustomAttributes(exInfoAttrType, false) as InfoAttribute[];
             int m = exInfoList.Length;
-
-
             if (m > 0)
             {
-
                 for (int n = 0; n < m; ++n)
                 {
                     InfoAttribute info = exInfoList[n];
@@ -292,7 +273,6 @@ namespace Mini
                         this.Description += " " + info.Description;
                     }
                 }
-
             }
             if (string.IsNullOrEmpty(this.Description))
             {
@@ -312,7 +292,6 @@ namespace Mini
                         configList.Add(new ExampleConfigDesc((DemoConfigAttribute)foundAttrs[0], property));
                     }
                 }
-
             }
         }
         public Type Type { get; set; }
@@ -338,7 +317,6 @@ namespace Mini
     }
     class ExampleConfigValue
     {
-
         System.Reflection.FieldInfo fieldInfo;
         System.Reflection.PropertyInfo property;
         public ExampleConfigValue(System.Reflection.PropertyInfo property, System.Reflection.FieldInfo fieldInfo, string name)
@@ -347,14 +325,12 @@ namespace Mini
             this.fieldInfo = fieldInfo;
             this.Name = name;
             this.ValueAsInt32 = (int)fieldInfo.GetValue(null);
-
         }
         public string Name { get; set; }
         public int ValueAsInt32 { get; private set; }
 
         public void InvokeSet(object target)
         {
-
             this.property.GetSetMethod().Invoke(target, new object[] { ValueAsInt32 });
         }
     }

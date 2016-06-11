@@ -17,30 +17,27 @@
 //          mcseemagg@yahoo.com
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
-using System; 
+
+using System;
 namespace PixelFarm.Agg.Transform
-{  
+{
     //================================================span_interpolator_linear
     public sealed class SpanInterpolatorLinear : ISpanInterpolator
     {
         Transform.ICoordTransformer m_trans;
         LineInterpolatorDDA2 m_li_x;
         LineInterpolatorDDA2 m_li_y;
-
-
         const int SUB_PIXEL_SHIFT = 8;
-        const int SUB_PIXEL_SCALE = 1 << SUB_PIXEL_SHIFT; 
-
+        const int SUB_PIXEL_SCALE = 1 << SUB_PIXEL_SHIFT;
         public SpanInterpolatorLinear(Transform.ICoordTransformer trans)
         {
             m_trans = trans;
-        } 
-         
+        }
+
         public Transform.ICoordTransformer Transformer
         {
             get { return this.m_trans; }
             set { this.m_trans = value; }
-           
         }
         public void GetLocalScale(out int x, out int y)
         {
@@ -52,19 +49,16 @@ namespace PixelFarm.Agg.Transform
         {
             double tx;
             double ty;
-
             tx = x;
             ty = y;
             m_trans.Transform(ref tx, ref ty);
             int x1 = AggBasics.iround(tx * (double)SUB_PIXEL_SCALE);
             int y1 = AggBasics.iround(ty * (double)SUB_PIXEL_SCALE);
-
             tx = x + len;
             ty = y;
             m_trans.Transform(ref tx, ref ty);
             int x2 = AggBasics.iround(tx * (double)SUB_PIXEL_SCALE);
             int y2 = AggBasics.iround(ty * (double)SUB_PIXEL_SCALE);
-
             m_li_x = new LineInterpolatorDDA2(x1, x2, (int)len);
             m_li_y = new LineInterpolatorDDA2(y1, y2, (int)len);
         }
@@ -77,7 +71,7 @@ namespace PixelFarm.Agg.Transform
             m_li_y = new LineInterpolatorDDA2(m_li_y.Y, AggBasics.iround(ye * (double)SUB_PIXEL_SCALE), (int)len);
         }
 
-        
+
         public void Next()
         {
             m_li_x.Next();
@@ -90,7 +84,5 @@ namespace PixelFarm.Agg.Transform
             x = m_li_x.Y;
             y = m_li_y.Y;
         }
-    } 
- 
-
+    }
 }

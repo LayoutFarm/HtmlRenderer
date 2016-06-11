@@ -1,9 +1,8 @@
 ﻿// 2015,2014 ,BSD, WinterDev 
+
 using System.Drawing;
-
 namespace PixelFarm.Drawing.WinGdi
-{ 
-
+{
     class MyGraphicsPath : GraphicsPath
     {
         System.Drawing.Drawing2D.GraphicsPath p;
@@ -14,15 +13,12 @@ namespace PixelFarm.Drawing.WinGdi
         public override void AddArc(float x, float y, float width, float height, float startAngle, float sweepAngle)
         {
             p.AddArc(x, y, width, height, startAngle, sweepAngle);
-            
         }
         public override void AddArc(RectangleF rectF, float startAngle, float sweepAngle)
         {
             System.Drawing.RectangleF rectf = new System.Drawing.RectangleF(
                 rectF.X, rectF.Y, rectF.Width, rectF.Height);
-
             p.AddArc(rectf, startAngle, sweepAngle);
-
         }
         public override void AddLine(float x1, float y1, float x2, float y2)
         {
@@ -48,7 +44,6 @@ namespace PixelFarm.Drawing.WinGdi
         public override void StartFigure()
         {
             p.StartFigure();
-          
         }
         public override void AddEllipse(float x, float y, float w, float h)
         {

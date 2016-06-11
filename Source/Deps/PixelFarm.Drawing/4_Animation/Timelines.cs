@@ -5,18 +5,15 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
- 
-
 //implement simple timeline and animation
 
 namespace PixelFarm.Drawing.Animation
 {
-     
     /// <summary>
     /// describe property change in an interval ?
     /// </summary>
     public abstract class TimelineBase
-    {     
+    {
         //-------------------------------------------- 
         internal int stateFlags;
         int startFrame;
@@ -30,22 +27,17 @@ namespace PixelFarm.Drawing.Animation
         protected const int ASSIGN_BEGIN_VALUE = 1 << (2 - 1);
         //easier if specific both values
         protected const int ASSIGN_BOTH = ASSIGN_DEST_VALUE | ASSIGN_BEGIN_VALUE;
-
         //next 2 bits 
         //sometimes specific 'to' value => make it destination value
         //but may not specific 'from' value so use 'from' value from that value
         //in this case we must calculate 'by' value, depends on the init states
         protected const int SPECIFIC_FROM_VALUE = 1 << (3 - 1);
         protected const int SPECIFIC_TO_VALUE = 1 << (4 - 1);
-
         //5. fillstyle (at end of timeline) 
         protected const int FILL_SUSTAIN = 0; // sustain at destination value
         protected const int FILL_LOOP = 1 << (5 - 1); //fill with loop
-
         protected const int FILL_BEGIN = 0x0;//
         protected const int FILL_REVERSE = 1 << (6 - 1);//
-
-
         public int StartFrame
         {
             get
@@ -54,7 +46,6 @@ namespace PixelFarm.Drawing.Animation
             }
             set
             {
-
                 int diff = endFrame - startFrame;
                 if (diff <= 0)
                 {
@@ -62,7 +53,6 @@ namespace PixelFarm.Drawing.Animation
                 }
                 startFrame = value;
                 endFrame = startFrame + diff;
-
                 OnDurationChanged();
             }
         }
@@ -99,9 +89,7 @@ namespace PixelFarm.Drawing.Animation
         }
         protected virtual void OnDurationChanged()
         {
-
         }
-
     }
 
 
@@ -110,13 +98,10 @@ namespace PixelFarm.Drawing.Animation
     /// </summary>
     public class DoubleValueTimeline : TimelineBase
     {
-
         double fromValue; //start value
         double toValue; //end value
-
         double stepValue;// step up value in each frame
         double[] inbetweenValues;
-
         public Double FromValue
         {
             get
@@ -125,7 +110,6 @@ namespace PixelFarm.Drawing.Animation
             }
             set
             {
-
                 fromValue = value;
                 stateFlags |= ASSIGN_BEGIN_VALUE;
             }
@@ -159,11 +143,9 @@ namespace PixelFarm.Drawing.Animation
 
         protected override void OnDurationChanged()
         {
-
             int frameDuration = FrameDuration;
             if (frameDuration > 2)
             {
-
                 if (stateFlags == ASSIGN_BOTH)
                 {
                     stepValue = (toValue - fromValue) / (double)frameDuration;
@@ -176,19 +158,16 @@ namespace PixelFarm.Drawing.Animation
                     }
                 }
             }
-
         }
         public void SetValueRange(Double fromValue, Double toValue)
         {
             this.fromValue = fromValue;
             this.toValue = toValue;
-
             stateFlags = ASSIGN_BOTH;
             OnDurationChanged();
         }
         public Double GetValueAtFrameOffset(int frameOffset)
         {
-
             if (frameOffset == 0)
             {
                 return fromValue;
@@ -207,7 +186,6 @@ namespace PixelFarm.Drawing.Animation
 
     public class ColorTimeline : TimelineBase
     {
-
         Color fromValue;
         Color toValue;
         Color[] inbetweenValues;
@@ -241,17 +219,13 @@ namespace PixelFarm.Drawing.Animation
 
         public void EvaluateRange()
         {
-
             int frameDuration = FrameDuration;
             if (frameDuration > 2)
             {
-
                 ColorComponentStepup rCompo = new ColorComponentStepup(fromValue.R, toValue.R, frameDuration);
                 ColorComponentStepup gComp = new ColorComponentStepup(fromValue.G, toValue.G, frameDuration);
                 ColorComponentStepup bComp = new ColorComponentStepup(fromValue.B, toValue.B, frameDuration);
                 ColorComponentStepup aCompo = new ColorComponentStepup(fromValue.A, toValue.A, frameDuration);
-
-
                 int inbetweenCount = frameDuration - 2;
                 inbetweenValues = new Color[inbetweenCount];
                 for (int i = 0; i < inbetweenCount; i++)
@@ -280,7 +254,6 @@ namespace PixelFarm.Drawing.Animation
         }
         public Color GetValueAtFrameOffset(int frameOffset)
         {
-
             if (frameOffset == 0)
             {
                 return fromValue;
@@ -291,7 +264,6 @@ namespace PixelFarm.Drawing.Animation
             }
             else
             {
-
                 return inbetweenValues[frameOffset - 1];
             }
         }
@@ -442,7 +414,6 @@ namespace PixelFarm.Drawing.Animation
         {
             base.InnerAppendLast(doubleValueAnimation);
         }
-
     }
     public class ColorTimelineSeries : TimelineSeriesBase
     {
@@ -467,14 +438,11 @@ namespace PixelFarm.Drawing.Animation
     /// </summary>
     public abstract class TimelineSeriesBase
     {
-         
-        List<TimelineBase> timelines;  
-        int lastestFrame; 
-        int lastestTimelineIndex; 
-
+        List<TimelineBase> timelines;
+        int lastestFrame;
+        int lastestTimelineIndex;
         public readonly ArtGfxInstructionInfo targetGfxInfo;
         public readonly int moduleId;
-
         public TimelineSeriesBase(ArtGfxInstructionInfo gfxInfo)
         {
             this.targetGfxInfo = gfxInfo;
@@ -488,12 +456,11 @@ namespace PixelFarm.Drawing.Animation
             }
             timelines.Add(timeline);
         }
-      
+
         protected void InnerAppendLast(TimelineBase timeline)
         {
             if (timelines == null)
             {
-                
                 timelines = new List<TimelineBase>();
             }
             if (timelines.Count > 0)
@@ -503,49 +470,43 @@ namespace PixelFarm.Drawing.Animation
             }
             else
             {
-                timeline.StartFrame = 0; 
+                timeline.StartFrame = 0;
                 timelines.Add(timeline);
             }
         }
-        
+
         public TimelineBase GetTimelineAtFrame(int frameNumber)
         {
-            
             if (timelines != null)
             {
-                
                 TimelineBase timeline = timelines[lastestTimelineIndex];
                 if (frameNumber > lastestFrame)
                 {
-                    
                     while (frameNumber >= timeline.EndFrame
                         && lastestTimelineIndex < timelines.Count - 1)
                     {
                         lastestTimelineIndex++;
                         timeline = timelines[lastestTimelineIndex];
-
                     }
                     lastestFrame = frameNumber;
                     return timeline;
                 }
                 else
                 {
-                    
                     while (frameNumber < timeline.StartFrame
                         && lastestTimelineIndex > 0)
                     {
                         lastestTimelineIndex--;
                         timeline = timelines[lastestTimelineIndex];
-
                     }
                     lastestFrame = frameNumber;
                     return timeline;
                 }
             }
-            
+
             return null;
         }
-    } 
+    }
 }
 
 

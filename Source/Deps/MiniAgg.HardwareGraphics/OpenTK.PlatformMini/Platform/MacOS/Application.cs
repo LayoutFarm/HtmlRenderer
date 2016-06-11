@@ -12,7 +12,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
-
 namespace OpenTK.Platform.MacOS.Carbon
 {
     static class Application
@@ -21,7 +20,6 @@ namespace OpenTK.Platform.MacOS.Carbon
         static IntPtr uppHandler;
         static CarbonGLNative eventHandler;
         static int osMajor, osMinor, osBugfix;
-
         static Application()
         {
             Initialize();
@@ -30,30 +28,23 @@ namespace OpenTK.Platform.MacOS.Carbon
         internal static void Initialize()
         {
             if (mInitialized) return;
-            
             API.AcquireRootMenu();
-
             ConnectEvents();
-
             API.Gestalt(GestaltSelector.SystemVersionMajor, out osMajor);
             API.Gestalt(GestaltSelector.SystemVersionMinor, out osMinor);
             API.Gestalt(GestaltSelector.SystemVersionBugFix, out osBugfix);
-
             Debug.Print("Running on Mac OS X {0}.{1}.{2}.", osMajor, osMinor, osBugfix);
-
-			TransformProcessToForeground();
+            TransformProcessToForeground();
         }
 
-		private static void TransformProcessToForeground()
-		{
-			Carbon.ProcessSerialNumber psn = new ProcessSerialNumber();
-
-			Debug.Print("Setting process to be foreground application.");
-
-			API.GetCurrentProcess(ref psn);
-			API.TransformProcessType(ref psn, ProcessApplicationTransformState.kProcessTransformToForegroundApplication);
-			API.SetFrontProcess(ref psn);
-		}
+        private static void TransformProcessToForeground()
+        {
+            Carbon.ProcessSerialNumber psn = new ProcessSerialNumber();
+            Debug.Print("Setting process to be foreground application.");
+            API.GetCurrentProcess(ref psn);
+            API.TransformProcessType(ref psn, ProcessApplicationTransformState.kProcessTransformToForegroundApplication);
+            API.SetFrontProcess(ref psn);
+        }
 
         internal static CarbonGLNative WindowEventHandler
         {
@@ -68,7 +59,6 @@ namespace OpenTK.Platform.MacOS.Carbon
                 new EventTypeSpec(EventClass.Application, AppEventKind.AppActivated),
                 new EventTypeSpec(EventClass.Application, AppEventKind.AppDeactivated),
                 new EventTypeSpec(EventClass.Application, AppEventKind.AppQuit),
-
                 new EventTypeSpec(EventClass.Mouse, MouseEventKind.MouseDown),
                 new EventTypeSpec(EventClass.Mouse, MouseEventKind.MouseUp),
                 new EventTypeSpec(EventClass.Mouse, MouseEventKind.MouseMoved),
@@ -76,28 +66,22 @@ namespace OpenTK.Platform.MacOS.Carbon
                 new EventTypeSpec(EventClass.Mouse, MouseEventKind.MouseEntered),
                 new EventTypeSpec(EventClass.Mouse, MouseEventKind.MouseExited),
                 new EventTypeSpec(EventClass.Mouse, MouseEventKind.WheelMoved),
-                
                 new EventTypeSpec(EventClass.Keyboard, KeyboardEventKind.RawKeyDown),
                 new EventTypeSpec(EventClass.Keyboard, KeyboardEventKind.RawKeyRepeat),
                 new EventTypeSpec(EventClass.Keyboard, KeyboardEventKind.RawKeyUp),
                 new EventTypeSpec(EventClass.Keyboard, KeyboardEventKind.RawKeyModifiersChanged),
-
                 new EventTypeSpec(EventClass.AppleEvent, AppleEventKind.AppleEvent),
             };
-
             MacOSEventHandler handler = EventHandler;
             uppHandler = API.NewEventHandlerUPP(handler);
-
             API.InstallApplicationEventHandler(
                 uppHandler, eventTypes, IntPtr.Zero, IntPtr.Zero);
-            
             mInitialized = true;
         }
 
         static OSStatus EventHandler(IntPtr inCaller, IntPtr inEvent, IntPtr userData)
         {
             EventInfo evt = new EventInfo(inEvent);
-            
             switch (evt.EventClass)
             {
                 case EventClass.Application:
@@ -112,7 +96,6 @@ namespace OpenTK.Platform.MacOS.Carbon
                     Debug.Print("Processing apple event.");
                     API.ProcessAppleEvent(inEvent);
                     break;
-
                 case EventClass.Keyboard:
                 case EventClass.Mouse:
                     if (WindowEventHandler != null)
@@ -129,9 +112,7 @@ namespace OpenTK.Platform.MacOS.Carbon
         {
             window.Closed += MainWindowClosed;
             window.Visible = true;
-
             API.RunApplicationEventLoop();
-
             window.Closed -= MainWindowClosed;
         }
 

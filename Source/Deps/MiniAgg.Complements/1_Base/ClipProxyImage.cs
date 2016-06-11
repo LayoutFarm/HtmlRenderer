@@ -21,10 +21,10 @@
 // class ClippingPixelFormtProxy
 //
 //----------------------------------------------------------------------------
+
 using System;
 using System.IO;
 using PixelFarm.Agg;
-
 namespace PixelFarm.Agg.Image
 {
     public sealed class ClipProxyImage : ProxyImage
@@ -64,7 +64,6 @@ namespace PixelFarm.Agg.Image
             RectInt cb = ClipBox;
             ++cb.Right;
             ++cb.Top;
-
             if (sourceRect.Left < 0)
             {
                 destRect.Left -= sourceRect.Left;
@@ -78,7 +77,6 @@ namespace PixelFarm.Agg.Image
 
             if (sourceRect.Right > sourceWidth) sourceRect.Right = sourceWidth;
             if (sourceRect.Top > sourceHeight) sourceRect.Top = sourceHeight;
-
             if (destRect.Left < cb.Left)
             {
                 sourceRect.Left += cb.Left - destRect.Left;
@@ -92,17 +90,14 @@ namespace PixelFarm.Agg.Image
 
             if (destRect.Right > cb.Right) destRect.Right = cb.Right;
             if (destRect.Top > cb.Top) destRect.Top = cb.Top;
-
             rc.Right = destRect.Right - destRect.Left;
             rc.Top = destRect.Top - destRect.Bottom;
-
             if (rc.Right > sourceRect.Right - sourceRect.Left) rc.Right = sourceRect.Right - sourceRect.Left;
             if (rc.Top > sourceRect.Top - sourceRect.Bottom) rc.Top = sourceRect.Top - sourceRect.Bottom;
             return rc;
         }
         public void Clear(ColorRGBA color)
         {
-
             ColorRGBA c = color;
             int w = this.Width;
             if (w != 0)
@@ -112,7 +107,7 @@ namespace PixelFarm.Agg.Image
                     base.CopyHL(0, y, w, c);
                 }
             }
-        } 
+        }
 
         public RectInt ClipBox { get { return m_ClippingRect; } }
         int XMin { get { return m_ClippingRect.Left; } }
@@ -121,7 +116,7 @@ namespace PixelFarm.Agg.Image
         int YMax { get { return m_ClippingRect.Top; } }
 
 
-       
+
         public override ColorRGBA GetPixel(int x, int y)
         {
             return InClipArea(x, y) ? base.GetPixel(x, y) : new ColorRGBA();
@@ -134,10 +129,8 @@ namespace PixelFarm.Agg.Image
             if (y < YMin) return;
             if (x1 > XMax) return;
             if (x2 < XMin) return;
-
             if (x1 < XMin) x1 = XMin;
             if (x2 > XMax) x2 = (int)XMax;
-
             base.CopyHL(x1, y, (int)(x2 - x1 + 1), c);
         }
 
@@ -148,10 +141,8 @@ namespace PixelFarm.Agg.Image
             if (x < XMin) return;
             if (y1 > YMax) return;
             if (y2 < YMin) return;
-
             if (y1 < YMin) y1 = YMin;
             if (y2 > YMax) y2 = YMax;
-
             base.CopyVL(x, y1, (y2 - y1 + 1), c);
         }
 
@@ -171,12 +162,10 @@ namespace PixelFarm.Agg.Image
                 return;
             if (x2 < XMin)
                 return;
-
             if (x1 < XMin)
                 x1 = XMin;
             if (x2 > XMax)
                 x2 = XMax;
-
             base.BlendHL(x1, y, x2, c, cover);
         }
 
@@ -187,10 +176,8 @@ namespace PixelFarm.Agg.Image
             if (x < XMin) return;
             if (y1 > YMax) return;
             if (y2 < YMin) return;
-
             if (y1 < YMin) y1 = YMin;
             if (y2 > YMax) y2 = YMax;
-
             base.BlendVL(x, y1, y2, c, cover);
         }
 
@@ -206,7 +193,6 @@ namespace PixelFarm.Agg.Image
 
             if (y > YMax) return;
             if (y < YMin) return;
-
             if (x < XMin)
             {
                 len -= XMin - x;
@@ -234,7 +220,6 @@ namespace PixelFarm.Agg.Image
 
             if (x > XMax) return;
             if (x < XMin) return;
-
             if (y < YMin)
             {
                 len -= (YMin - y);
@@ -254,7 +239,6 @@ namespace PixelFarm.Agg.Image
         {
             if (y > YMax) return;
             if (y < YMin) return;
-
             if (x < XMin)
             {
                 int d = XMin - x;
@@ -275,7 +259,6 @@ namespace PixelFarm.Agg.Image
         {
             if (x > XMax) return;
             if (x < XMin) return;
-
             if (y < YMin)
             {
                 int d = YMin - y;
@@ -299,7 +282,6 @@ namespace PixelFarm.Agg.Image
                 return;
             if (y < YMin)
                 return;
-
             if (x < XMin)
             {
                 int d = XMin - x;
@@ -338,7 +320,6 @@ namespace PixelFarm.Agg.Image
         {
             RectInt destRect = sourceImageRect;
             destRect.Offset(destXOffset, destYOffset);
-
             RectInt clippedSourceRect = new RectInt();
             if (clippedSourceRect.IntersectRectangles(destRect, m_ClippingRect))
             {
@@ -348,12 +329,11 @@ namespace PixelFarm.Agg.Image
             }
         }
 
-        
+
         public override void BlendColorVSpan(int x, int y, int len, ColorRGBA[] colors, int colorsIndex, byte[] covers, int coversIndex, bool firstCoverForAll)
         {
             if (x > XMax) return;
             if (x < XMin) return;
-
             if (y < YMin)
             {
                 int d = YMin - y;
@@ -370,7 +350,6 @@ namespace PixelFarm.Agg.Image
             }
             base.BlendColorVSpan(x, y, len, colors, colorsIndex, covers, coversIndex, firstCoverForAll);
         }
-
 
         //public void reset_clipping(bool visibility)
         //{
@@ -390,6 +369,4 @@ namespace PixelFarm.Agg.Image
         //    }
         //} 
     }
-
-
 }

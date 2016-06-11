@@ -29,14 +29,10 @@
 
 using System;
 using PixelFarm.VectorMath;
-
 using img_subpix_const = PixelFarm.Agg.ImageFilterLookUpTable.ImgSubPixConst;
 using img_filter_const = PixelFarm.Agg.ImageFilterLookUpTable.ImgFilterConst;
-
-
 namespace PixelFarm.Agg
 {
-
     //-----------------------------------------------------ImageFilterLookUpTable
     public class ImageFilterLookUpTable
     {
@@ -44,7 +40,6 @@ namespace PixelFarm.Agg
         int m_diameter;
         int m_start;
         int[] m_weight_array;
-
         public static class ImgFilterConst
         {
             public const int SHIFT = 14;                     //----image_filter_shift
@@ -94,7 +89,6 @@ namespace PixelFarm.Agg
         public ImageFilterLookUpTable(Image.IImageFilter filter)
             : this(filter, true)
         {
-
         }
         public ImageFilterLookUpTable(Image.IImageFilter filter, bool normalization)
         {
@@ -119,10 +113,9 @@ namespace PixelFarm.Agg
         {
             int i;
             int flip = 1;
-
             for (i = 0; i < (int)ImgSubPixConst.SCALE; i++)
             {
-                for (; ; )
+                for (;;)
                 {
                     int sum = 0;
                     int j;
@@ -132,7 +125,6 @@ namespace PixelFarm.Agg
                     }
 
                     if (sum == (int)ImgFilterConst.SCALE) break;
-
                     double k = (double)((int)ImgFilterConst.SCALE) / (double)(sum);
                     sum = 0;
                     for (j = 0; j < m_diameter; j++)
@@ -143,7 +135,6 @@ namespace PixelFarm.Agg
 
                     sum -= (int)ImgFilterConst.SCALE;
                     int inc = (sum > 0) ? -1 : 1;
-
                     for (j = 0; j < m_diameter && sum != 0; j++)
                     {
                         flip ^= 1;
@@ -159,7 +150,6 @@ namespace PixelFarm.Agg
             }
 
             int pivot = m_diameter << (ImgSubPixConst.SHIFT - 1);
-
             for (i = 0; i < pivot; i++)
             {
                 m_weight_array[pivot + i] = m_weight_array[pivot - i];

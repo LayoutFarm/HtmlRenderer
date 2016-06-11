@@ -9,8 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Diagnostics; 
-
+using System.Diagnostics;
 namespace OpenTK
 {
     /// <summary>Contains information regarding a monitor's display resolution.</summary>
@@ -19,7 +18,6 @@ namespace OpenTK
         OpenTK.Graphics.Rectangle bounds;
         int bits_per_pixel;
         float refresh_rate;
-
         #region --- Constructors ---
 
         internal DisplayResolution() { }
@@ -34,7 +32,6 @@ namespace OpenTK
             if (height <= 0) throw new ArgumentOutOfRangeException("height", "Must be greater than zero.");
             if (bitsPerPixel <= 0) throw new ArgumentOutOfRangeException("bitsPerPixel", "Must be greater than zero.");
             if (refreshRate < 0) throw new ArgumentOutOfRangeException("refreshRate", "Must be greater than, or equal to zero.");
-
             this.bounds = new OpenTK.Graphics.Rectangle(x, y, width, height);
             this.bits_per_pixel = bitsPerPixel;
             this.refresh_rate = refreshRate;

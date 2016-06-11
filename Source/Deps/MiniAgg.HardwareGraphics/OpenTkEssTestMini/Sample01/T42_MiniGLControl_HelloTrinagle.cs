@@ -21,13 +21,11 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Threading;
 using System.Drawing;
-
 using OpenTK;
-using OpenTK.Graphics; 
+using OpenTK.Graphics;
 using OpenTK.Graphics.ES20;
 using Examples.Tutorial;
 using Mini;
-
 #endregion
 
 
@@ -39,9 +37,6 @@ namespace OpenTkEssTest
     [Info("T42_HelloTriangle")]
     public class T42_ES2HelloTriangleDemo : PrebuiltGLControlDemoBase
     {
-
-
-
         protected override void OnInitGLProgram(object sender, EventArgs args)
         {
             //----------------
@@ -61,7 +56,6 @@ namespace OpenTkEssTest
                     gl_FragColor = vec4(1.0,0.0, 0.0, 1.0);
                 }
             ";
-
             mProgram = ES2Utils.CompileProgram(vs, fs);
             if (mProgram == 0)
             {
@@ -79,16 +73,13 @@ namespace OpenTkEssTest
             //------------------------------------------------------------------------------------------------
             int width = miniGLControl.Width;
             int height = miniGLControl.Height;
-
             float[] vertices =
                 {
                      0.0f,  0.5f, 0.0f,
                     -0.5f, -0.5f, 0.0f,
                      0.5f, -0.5f, 0.0f,
                 };
-
             GL.Viewport(0, 0, width, height);
-
             // Set the viewport
             //glViewport(0, 0, getWindow()->getWidth(), getWindow()->getHeight());
             GL.Clear(ClearBufferMask.ColorBufferBit);
@@ -105,12 +96,8 @@ namespace OpenTkEssTest
             GL.DrawArrays(BeginMode.Triangles, 0, 3);
             //glDrawArrays(GL_TRIANGLES, 0, 3); 
             miniGLControl.SwapBuffers();
-
         }
         //-------------------------------
         int mProgram;
-
     }
-
-
 }

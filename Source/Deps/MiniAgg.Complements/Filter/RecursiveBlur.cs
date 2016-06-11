@@ -28,12 +28,11 @@
 // replaced by multiplication and shift. 
 //
 //----------------------------------------------------------------------------
+
 using System;
 using PixelFarm.Agg.Image;
-
 namespace PixelFarm.Agg.Image
 {
-
     //==============================================================stack_blur
     public class StackBlur
     {
@@ -44,11 +43,9 @@ namespace PixelFarm.Agg.Image
                 case 24:
                     StackBlurRGB24(img, rx, ry);
                     break;
-
                 case 32:
                     StackBlurRGBA32(img, rx, ry);
                     break;
-
                 default:
                     throw new NotImplementedException();
             }
@@ -322,7 +319,6 @@ namespace PixelFarm.Agg.Image
         {
             int currentHeadIndex;
             int currentTailIndex;
-
             int size;
             BlurStack[] blurValues;
             public CircularBlurStack(int size)
@@ -334,12 +330,10 @@ namespace PixelFarm.Agg.Image
                 for (int i = size - 1; i >= 0; --i)
                 {
                     blurValues[i] = new BlurStack();
-
                 }
             }
             public void Prepare(int count, int r, int g, int b, int a)
             {
-
                 this.currentHeadIndex = 0;
                 this.currentTailIndex = size - 1;
                 for (int i = 0; i < count; ++i)
@@ -347,7 +341,6 @@ namespace PixelFarm.Agg.Image
                     blurValues[i] = new BlurStack((byte)r, (byte)g, (byte)b, (byte)a);
                     this.Next();
                 }
-
             }
             public void ResetHeadTailPosition()
             {
@@ -356,7 +349,6 @@ namespace PixelFarm.Agg.Image
             }
             public void Next()
             {
-
                 //--------------------------
                 if (currentHeadIndex + 1 < size)
                 {
@@ -395,12 +387,10 @@ namespace PixelFarm.Agg.Image
 
         void StackBlurRGBA32(ImageReaderWriterBase img, int radius, int ry)
         {
-
             int width = img.Width;
             int w4 = img.Width * 4;
             int height = img.Height;
             int[] srcBuffer = new int[width * height];
-
             ImageReaderWriterBase.CopySubBufferToInt32Array(img, 0, 0, width, height, srcBuffer);
             StackBlurARGB.FastBlur32ARGB(srcBuffer, srcBuffer, img.Width, img.Height, radius);
             int i = 0;
@@ -418,9 +408,6 @@ namespace PixelFarm.Agg.Image
                 }
             }
         }
-
-
-
     }
 
 
@@ -429,14 +416,10 @@ namespace PixelFarm.Agg.Image
     public abstract class RecursizeBlurCalculator
     {
         public double r, g, b, a;
-
         public abstract RecursizeBlurCalculator CreateNew();
-
         public abstract void FromPix(ColorRGBA c);
-
         public abstract void Calc(double b1, double b2, double b3, double b4,
             RecursizeBlurCalculator c1, RecursizeBlurCalculator c2, RecursizeBlurCalculator c3, RecursizeBlurCalculator c4);
-
         public abstract void ToPix(ref ColorRGBA c);
     }
 
@@ -447,7 +430,6 @@ namespace PixelFarm.Agg.Image
         ArrayList<RecursizeBlurCalculator> m_sum2;
         ArrayList<ColorRGBA> m_buf;
         RecursizeBlurCalculator m_RecursizeBlurCalculatorFactory;
-
         public RecursiveBlur(RecursizeBlurCalculator recursizeBluerCalculatorFactory)
         {
             m_sum1 = new ArrayList<RecursizeBlurCalculator>();
@@ -459,49 +441,37 @@ namespace PixelFarm.Agg.Image
         {
             if (radius < 0.62) return;
             if (img.Width < 3) return;
-
             double s = (double)(radius * 0.5);
             double q = (double)((s < 2.5) ?
                                     3.97156 - 4.14554 * Math.Sqrt(1 - 0.26891 * s) :
                                     0.98711 * s - 0.96330);
-
             double q2 = (double)(q * q);
             double q3 = (double)(q2 * q);
-
             double b0 = (double)(1.0 / (1.578250 +
                                             2.444130 * q +
                                             1.428100 * q2 +
                                             0.422205 * q3));
-
             double b1 = (double)(2.44413 * q +
                                       2.85619 * q2 +
                                       1.26661 * q3);
-
             double b2 = (double)(-1.42810 * q2 +
                                      -1.26661 * q3);
-
             double b3 = (double)(0.422205 * q3);
-
             double b = (double)(1 - (b1 + b2 + b3) * b0);
-
             b1 *= b0;
             b2 *= b0;
             b3 *= b0;
-
             int w = img.Width;
             int h = img.Height;
             int wm = (int)w - 1;
             int x, y;
-
             int startCreatingAt = (int)m_sum1.Count;
             m_sum1.AdjustSize(w);
             m_sum2.AdjustSize(w);
             m_buf.Allocate(w);
-
             RecursizeBlurCalculator[] Sum1Array = m_sum1.Array;
             RecursizeBlurCalculator[] Sum2Array = m_sum2.Array;
             ColorRGBA[] BufferArray = m_buf.Array;
-
             for (int i = startCreatingAt; i < w; i++)
             {
                 Sum1Array[i] = m_RecursizeBlurCalculatorFactory.CreateNew();
@@ -517,7 +487,6 @@ namespace PixelFarm.Agg.Image
                 Sum1Array[1].Calc(b, b1, b2, b3, c, Sum1Array[0], Sum1Array[0], Sum1Array[0]);
                 c.FromPix(img.GetPixel(2, y));
                 Sum1Array[2].Calc(b, b1, b2, b3, c, Sum1Array[1], Sum1Array[0], Sum1Array[0]);
-
                 for (x = 3; x < w; ++x)
                 {
                     c.FromPix(img.GetPixel(x, y));
@@ -530,7 +499,6 @@ namespace PixelFarm.Agg.Image
                 Sum2Array[wm].ToPix(ref BufferArray[wm]);
                 Sum2Array[wm - 1].ToPix(ref BufferArray[wm - 1]);
                 Sum2Array[wm - 2].ToPix(ref BufferArray[wm - 2]);
-
                 for (x = wm - 3; x >= 0; --x)
                 {
                     Sum2Array[x].Calc(b, b1, b2, b3, Sum1Array[x], Sum2Array[x + 1], Sum2Array[x + 2], Sum2Array[x + 3]);

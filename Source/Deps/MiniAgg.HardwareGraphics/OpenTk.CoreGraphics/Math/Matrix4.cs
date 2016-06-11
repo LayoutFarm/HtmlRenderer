@@ -24,7 +24,6 @@ SOFTWARE.
 
 using System;
 using System.Runtime.InteropServices;
-
 namespace OpenTK
 {
     /// <summary>
@@ -52,12 +51,10 @@ namespace OpenTK
         /// Bottom row of the matrix
         /// </summary>
         public Vector4 Row3;
- 
         /// <summary>
         /// The identity matrix
         /// </summary>
         public static Matrix4 Identity = new Matrix4(Vector4.UnitX, Vector4.UnitY, Vector4.UnitZ, Vector4.UnitW);
-
         #endregion
 
         #region Constructors
@@ -274,9 +271,9 @@ namespace OpenTK
         #endregion
 
         #region Static
-        
+
         #region CreateFromAxisAngle
-        
+
         /// <summary>
         /// Build a rotation matrix from the specified axis/angle rotation.
         /// </summary>
@@ -288,15 +285,13 @@ namespace OpenTK
             float cos = (float)System.Math.Cos(-angle);
             float sin = (float)System.Math.Sin(-angle);
             float t = 1.0f - cos;
-
             axis.Normalize();
-
             result = new Matrix4(t * axis.X * axis.X + cos, t * axis.X * axis.Y - sin * axis.Z, t * axis.X * axis.Z + sin * axis.Y, 0.0f,
                                  t * axis.X * axis.Y + sin * axis.Z, t * axis.Y * axis.Y + cos, t * axis.Y * axis.Z - sin * axis.X, 0.0f,
                                  t * axis.X * axis.Z - sin * axis.Y, t * axis.Y * axis.Z + sin * axis.X, t * axis.Z * axis.Z + cos, 0.0f,
                                  0, 0, 0, 1);
         }
-        
+
         /// <summary>
         /// Build a rotation matrix from the specified axis/angle rotation.
         /// </summary>
@@ -309,7 +304,7 @@ namespace OpenTK
             CreateFromAxisAngle(axis, angle, out result);
             return result;
         }
-        
+
         #endregion
 
         #region CreateRotation[XYZ]
@@ -323,7 +318,6 @@ namespace OpenTK
         {
             float cos = (float)System.Math.Cos(angle);
             float sin = (float)System.Math.Sin(angle);
-
             result.Row0 = Vector4.UnitX;
             result.Row1 = new Vector4(0.0f, cos, sin, 0.0f);
             result.Row2 = new Vector4(0.0f, -sin, cos, 0.0f);
@@ -351,7 +345,6 @@ namespace OpenTK
         {
             float cos = (float)System.Math.Cos(angle);
             float sin = (float)System.Math.Sin(angle);
-
             result.Row0 = new Vector4(cos, 0.0f, -sin, 0.0f);
             result.Row1 = Vector4.UnitY;
             result.Row2 = new Vector4(sin, 0.0f, cos, 0.0f);
@@ -379,7 +372,6 @@ namespace OpenTK
         {
             float cos = (float)System.Math.Cos(angle);
             float sin = (float)System.Math.Sin(angle);
-
             result.Row0 = new Vector4(cos, sin, 0.0f, 0.0f);
             result.Row1 = new Vector4(-sin, cos, 0.0f, 0.0f);
             result.Row2 = Vector4.UnitZ;
@@ -501,15 +493,12 @@ namespace OpenTK
         public static void CreateOrthographicOffCenter(float left, float right, float bottom, float top, float zNear, float zFar, out Matrix4 result)
         {
             result = new Matrix4();
-
             float invRL = 1 / (right - left);
             float invTB = 1 / (top - bottom);
             float invFN = 1 / (zFar - zNear);
-
             result.M11 = 2 * invRL;
             result.M22 = 2 * invTB;
             result.M33 = -2 * invFN;
-
             result.M41 = -(right + left) * invRL;
             result.M42 = -(top + bottom) * invTB;
             result.M43 = -(zFar + zNear) * invFN;
@@ -534,9 +523,9 @@ namespace OpenTK
         }
 
         #endregion
-        
+
         #region CreatePerspectiveFieldOfView
-        
+
         /// <summary>
         /// Creates a perspective projection matrix.
         /// </summary>
@@ -567,15 +556,13 @@ namespace OpenTK
                 throw new ArgumentOutOfRangeException("zFar");
             if (zNear >= zFar)
                 throw new ArgumentOutOfRangeException("zNear");
-            
             float yMax = zNear * (float)System.Math.Tan(0.5f * fovy);
             float yMin = -yMax;
             float xMin = yMin * aspect;
             float xMax = yMax * aspect;
-
             CreatePerspectiveOffCenter(xMin, xMax, yMin, yMax, zNear, zFar, out result);
         }
-        
+
         /// <summary>
         /// Creates a perspective projection matrix.
         /// </summary>
@@ -600,11 +587,11 @@ namespace OpenTK
             CreatePerspectiveFieldOfView(fovy, aspect, zNear, zFar, out result);
             return result;
         }
-        
+
         #endregion
-        
+
         #region CreatePerspectiveOffCenter
-        
+
         /// <summary>
         /// Creates an perspective projection matrix.
         /// </summary>
@@ -631,20 +618,18 @@ namespace OpenTK
                 throw new ArgumentOutOfRangeException("zFar");
             if (zNear >= zFar)
                 throw new ArgumentOutOfRangeException("zNear");
-            
             float x = (2.0f * zNear) / (right - left);
             float y = (2.0f * zNear) / (top - bottom);
             float a = (right + left) / (right - left);
             float b = (top + bottom) / (top - bottom);
             float c = -(zFar + zNear) / (zFar - zNear);
             float d = -(2.0f * zFar * zNear) / (zFar - zNear);
-            
-            result = new Matrix4(x, 0, 0,  0,
-                                 0, y, 0,  0,
+            result = new Matrix4(x, 0, 0, 0,
+                                 0, y, 0, 0,
                                  a, b, c, -1,
-                                 0, 0, d,  0);
+                                 0, 0, d, 0);
         }
-        
+
         /// <summary>
         /// Creates an perspective projection matrix.
         /// </summary>
@@ -669,7 +654,7 @@ namespace OpenTK
             CreatePerspectiveOffCenter(left, right, bottom, top, zNear, zFar, out result);
             return result;
         }
-        
+
         #endregion
 
         #region Obsolete Functions
@@ -759,7 +744,6 @@ namespace OpenTK
         {
             float cos = (float)System.Math.Cos(angle);
             float sin = (float)System.Math.Sin(angle);
-
             Matrix4 result;
             result.Row0 = Vector4.UnitX;
             result.Row1 = new Vector4(0.0f, cos, sin, 0.0f);
@@ -778,7 +762,6 @@ namespace OpenTK
         {
             float cos = (float)System.Math.Cos(angle);
             float sin = (float)System.Math.Sin(angle);
-
             Matrix4 result;
             result.Row0 = new Vector4(cos, 0.0f, -sin, 0.0f);
             result.Row1 = Vector4.UnitY;
@@ -797,7 +780,6 @@ namespace OpenTK
         {
             float cos = (float)System.Math.Cos(angle);
             float sin = (float)System.Math.Sin(angle);
-
             Matrix4 result;
             result.Row0 = new Vector4(cos, sin, 0.0f, 0.0f);
             result.Row1 = new Vector4(-sin, cos, 0.0f, 0.0f);
@@ -818,9 +800,7 @@ namespace OpenTK
             float cos = (float)System.Math.Cos(-angle);
             float sin = (float)System.Math.Sin(-angle);
             float t = 1.0f - cos;
-
             axis.Normalize();
-
             Matrix4 result;
             result.Row0 = new Vector4(t * axis.X * axis.X + cos, t * axis.X * axis.Y - sin * axis.Z, t * axis.X * axis.Z + sin * axis.Y, 0.0f);
             result.Row1 = new Vector4(t * axis.X * axis.Y + sin * axis.Z, t * axis.Y * axis.Y + cos, t * axis.Y * axis.Z - sin * axis.X, 0.0f);
@@ -858,14 +838,11 @@ namespace OpenTK
             Vector3 z = Vector3.Normalize(eye - target);
             Vector3 x = Vector3.Normalize(Vector3.Cross(up, z));
             Vector3 y = Vector3.Normalize(Vector3.Cross(z, x));
-
             Matrix4 rot = new Matrix4(new Vector4(x.X, y.X, z.X, 0.0f),
                                         new Vector4(x.Y, y.Y, z.Y, 0.0f),
                                         new Vector4(x.Z, y.Z, z.Z, 0.0f),
                                         Vector4.UnitW);
-
             Matrix4 trans = Matrix4.CreateTranslation(-eye);
-
             return trans * rot;
         }
 
@@ -924,7 +901,6 @@ namespace OpenTK
             float yMin = -yMax;
             float xMin = yMin * aspect;
             float xMax = yMax * aspect;
-
             return Frustum(xMin, xMax, yMin, yMax, near, far);
         }
 
@@ -987,11 +963,10 @@ namespace OpenTK
             int[] colIdx = { 0, 0, 0, 0 };
             int[] rowIdx = { 0, 0, 0, 0 };
             int[] pivotIdx = { -1, -1, -1, -1 };
-
             // convert the matrix to an array for easy looping
-            float[,] inverse = {{mat.Row0.X, mat.Row0.Y, mat.Row0.Z, mat.Row0.W}, 
-                                {mat.Row1.X, mat.Row1.Y, mat.Row1.Z, mat.Row1.W}, 
-                                {mat.Row2.X, mat.Row2.Y, mat.Row2.Z, mat.Row2.W}, 
+            float[,] inverse = {{mat.Row0.X, mat.Row0.Y, mat.Row0.Z, mat.Row0.W},
+                                {mat.Row1.X, mat.Row1.Y, mat.Row1.Z, mat.Row1.W},
+                                {mat.Row2.X, mat.Row2.Y, mat.Row2.Z, mat.Row2.W},
                                 {mat.Row3.X, mat.Row3.Y, mat.Row3.Z, mat.Row3.W} };
             int icol = 0;
             int irow = 0;
@@ -1024,7 +999,6 @@ namespace OpenTK
                 }
 
                 ++(pivotIdx[icol]);
-
                 // Swap rows over so pivot is on diagonal
                 if (irow != icol)
                 {
@@ -1038,7 +1012,6 @@ namespace OpenTK
 
                 rowIdx[i] = irow;
                 colIdx[i] = icol;
-
                 float pivot = inverse[icol, icol];
                 // check for singular matrix
                 if (pivot == 0.0f)
@@ -1052,7 +1025,6 @@ namespace OpenTK
                 inverse[icol, icol] = 1.0f;
                 for (int k = 0; k < 4; ++k)
                     inverse[icol, k] *= oneOverPivot;
-
                 // Do elimination of non-diagonal elements
                 for (int j = 0; j < 4; ++j)
                 {
@@ -1194,7 +1166,6 @@ namespace OpenTK
         {
             if (!(obj is Matrix4))
                 return false;
-
             return this.Equals((Matrix4)obj);
         }
 

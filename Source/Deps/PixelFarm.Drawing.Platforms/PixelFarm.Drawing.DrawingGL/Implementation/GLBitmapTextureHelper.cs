@@ -1,9 +1,9 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using PixelFarm.DrawingGL;
-
 namespace PixelFarm.Drawing.DrawingGL
 {
     class LazyGdiBitmapBufferProvider : LazyBitmapBufferProvider
@@ -48,7 +48,7 @@ namespace PixelFarm.Drawing.DrawingGL
         }
     }
     public static class GLBitmapTextureHelper
-    {   
+    {
         public static GLBitmap CreateBitmapTexture(int width, int height, System.Drawing.Bitmap bitmap)
         {
             return new GLBitmap(new LazyGdiBitmapBufferProvider(bitmap));

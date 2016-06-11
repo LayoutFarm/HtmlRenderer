@@ -25,6 +25,7 @@ SOFTWARE.
 using System;
 using System.Runtime.InteropServices;
 //using System.Xml.Serialization;
+
 namespace OpenTK
 {
     /// <summary>
@@ -43,17 +44,14 @@ namespace OpenTK
         /// The X component of the Vector3.
         /// </summary>
         public float X;
-
         /// <summary>
         /// The Y component of the Vector3.
         /// </summary>
         public float Y;
-
         /// <summary>
         /// The Z component of the Vector3.
         /// </summary>
         public float Z;
-
         #endregion
 
         #region Constructors
@@ -327,32 +325,26 @@ namespace OpenTK
         /// Defines a unit-length Vector3 that points towards the X-axis.
         /// </summary>
         public static readonly Vector3 UnitX = new Vector3(1, 0, 0);
-
         /// <summary>
         /// Defines a unit-length Vector3 that points towards the Y-axis.
         /// </summary>
         public static readonly Vector3 UnitY = new Vector3(0, 1, 0);
-
         /// <summary>
         /// /// Defines a unit-length Vector3 that points towards the Z-axis.
         /// </summary>
         public static readonly Vector3 UnitZ = new Vector3(0, 0, 1);
-
         /// <summary>
         /// Defines a zero-length Vector3.
         /// </summary>
         public static readonly Vector3 Zero = new Vector3(0, 0, 0);
-
         /// <summary>
         /// Defines an instance with all components set to 1.
         /// </summary>
         public static readonly Vector3 One = new Vector3(1, 1, 1);
-
         /// <summary>
         /// Defines the size of the Vector3 struct in bytes.
         /// </summary>
         public static readonly int SizeInBytes = Marshal.SizeOf(new Vector3());
-
         #endregion
 
         #region Obsolete
@@ -917,12 +909,10 @@ namespace OpenTK
         public static void BaryCentric(ref Vector3 a, ref Vector3 b, ref Vector3 c, float u, float v, out Vector3 result)
         {
             result = a; // copy
-
             Vector3 temp = b; // copy
             Subtract(ref temp, ref a, out temp);
             Multiply(ref temp, u, out temp);
             Add(ref result, ref temp, out result);
-
             temp = c; // copy
             Subtract(ref temp, ref a, out temp);
             Multiply(ref temp, v, out temp);
@@ -959,11 +949,9 @@ namespace OpenTK
             result.X = vec.X * mat.Row0.X +
                        vec.Y * mat.Row1.X +
                        vec.Z * mat.Row2.X;
-
             result.Y = vec.X * mat.Row0.Y +
                        vec.Y * mat.Row1.Y +
                        vec.Z * mat.Row2.Y;
-
             result.Z = vec.X * mat.Row0.Z +
                        vec.Y * mat.Row1.Z +
                        vec.Z * mat.Row2.Z;
@@ -1027,11 +1015,9 @@ namespace OpenTK
             result.X = norm.X * invMat.Row0.X +
                        norm.Y * invMat.Row0.Y +
                        norm.Z * invMat.Row0.Z;
-
             result.Y = norm.X * invMat.Row1.X +
                        norm.Y * invMat.Row1.Y +
                        norm.Z * invMat.Row1.Z;
-
             result.Z = norm.X * invMat.Row2.X +
                        norm.Y * invMat.Row2.Y +
                        norm.Z * invMat.Row2.Z;
@@ -1060,12 +1046,10 @@ namespace OpenTK
                        pos.Y * mat.Row1.X +
                        pos.Z * mat.Row2.X +
                        mat.Row3.X;
-
             result.Y = pos.X * mat.Row0.Y +
                        pos.Y * mat.Row1.Y +
                        pos.Z * mat.Row2.Y +
                        mat.Row3.Y;
-
             result.Z = pos.X * mat.Row0.Z +
                        pos.Y * mat.Row1.Z +
                        pos.Z * mat.Row2.Z +
@@ -1341,7 +1325,6 @@ namespace OpenTK
         {
             if (!(obj is Vector3))
                 return false;
-
             return this.Equals((Vector3)obj);
         }
 

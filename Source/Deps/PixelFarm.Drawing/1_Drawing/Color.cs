@@ -82,25 +82,18 @@ namespace PixelFarm.Drawing
         public static readonly Color Yellow = new Color(255, 255, 255, 0);
         public static readonly Color LightGray = new Color(0xFF, 0xD3, 0xD3, 0xD3);
         public static readonly Color Gray = new Color(0xFF, 0x80, 0x80, 0x80);
-
-
         public static readonly Color Green = new Color(0xFF, 0x00, 0x80, 0x00);
         public static readonly Color OrangeRed = new Color(0xFF, 0xFF, 0x45, 0x00);//0xFF FF 45 00
         public static readonly Color DeepPink = new Color(0xFF, 0xFF, 0x14, 0x93);
         public static readonly Color Magenta = new Color(0xFF, 0xFF, 0, 0xFF);
-
-
-
         //internal static Color ColorFromDrawingColor(System.Drawing.Color c)
         //{
         //    return new Color(c.A, c.R, c.G, c.B);
         //}
         public static Color FromName(string name)
         {
-
             var color = KnownColors.FromKnownColor(name);
             return new Color(color.A, color.R, color.G, color.B);
-
         }
         public override int GetHashCode()
         {
@@ -110,7 +103,6 @@ namespace PixelFarm.Drawing
         {
             return (uint)((c1.a << 24) | (c1.r << 16) | (c1.g << 8) | (c1.b)) ==
                    (uint)((c2.a << 24) | (c2.r << 16) | (c2.g << 8) | (c2.b));
-
         }
         public static bool operator !=(Color c1, Color c2)
         {

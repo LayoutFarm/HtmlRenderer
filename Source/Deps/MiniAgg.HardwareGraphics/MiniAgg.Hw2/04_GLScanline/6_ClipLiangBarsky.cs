@@ -21,9 +21,9 @@
 // Liang-Barsky clipping 
 //
 //----------------------------------------------------------------------------
+
 namespace PixelFarm.Agg
 {
-
     static class ClipLiangBarsky
     {
         //------------------------------------------------------------------------
@@ -81,7 +81,6 @@ namespace PixelFarm.Agg
             int xIndex = 0;
             int yIndex = 0;
             double nearzero = 1e-30;
-
             double deltax = x2 - x1;
             double deltay = y2 - y1;
             double xin;
@@ -96,7 +95,6 @@ namespace PixelFarm.Agg
             double tin2;
             double tout1;
             int np = 0;
-
             if (deltax == 0.0)
             {
                 // bump off of the vertical
@@ -135,7 +133,6 @@ namespace PixelFarm.Agg
 
             tinx = (xin - x1) / deltax;
             tiny = (yin - y1) / deltay;
-
             if (tinx < tiny)
             {
                 // hits x first
@@ -162,9 +159,7 @@ namespace PixelFarm.Agg
                 {
                     toutx = (xout - x1) / deltax;
                     touty = (yout - y1) / deltay;
-
                     tout1 = (toutx < touty) ? toutx : touty;
-
                     if (tin2 > 0.0 || tout1 > 0.0)
                     {
                         if (tin2 <= tout1)
@@ -229,7 +224,6 @@ namespace PixelFarm.Agg
                              ref int x, ref int y, int flags)
         {
             int bound;
-
             if ((flags & ClippingFlags.cX1X2) != 0)
             {
                 if (x1 == x2)
@@ -267,7 +261,6 @@ namespace PixelFarm.Agg
             int f1 = Flags(x1, y1, clip_box);
             int f2 = Flags(x2, y2, clip_box);
             int ret = 0;
-
             if ((f2 | f1) == 0)
             {
                 // Fully visible

@@ -1,4 +1,5 @@
 ﻿// 2015,2014, MIT, WinterDev
+
 namespace PixelFarm.Drawing
 {
     public abstract class Image : System.IDisposable
@@ -14,14 +15,12 @@ namespace PixelFarm.Drawing
         public abstract bool IsReferenceImage { get; }
         public abstract int ReferenceX { get; }
         public abstract int ReferenceY { get; }
-
     }
     public sealed class Bitmap : Image
     {
         int width;
         int height;
         System.IDisposable innerImage;
-        
         public Bitmap(int w, int h, System.IDisposable innerImage)
         {
             this.width = w;

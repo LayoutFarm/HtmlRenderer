@@ -10,12 +10,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
-
 using OpenTK.Graphics;
-
 namespace OpenTK.Platform.Dummy
 {
-#if !PCL
     /// \internal
     /// <summary>
     /// An empty IGraphicsContext implementation to be used inside the Visual Studio designer.
@@ -27,7 +24,6 @@ namespace OpenTK.Platform.Dummy
         bool vsync;
         static int handle_count;
         Thread current_thread;
-
         #region --- Constructors ---
 
         public DummyGLContext()
@@ -100,5 +96,4 @@ namespace OpenTK.Platform.Dummy
 
         #endregion
     }
-#endif
 }

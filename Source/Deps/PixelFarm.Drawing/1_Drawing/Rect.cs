@@ -1,5 +1,5 @@
 ﻿//// 2015,2014 ,Apache2, WinterDev
- 
+
 //namespace PixelFarm.Drawing
 //{
 //    public struct Rectangle
@@ -8,7 +8,7 @@
 //        public int _top;
 //        public int _right;
 //        public int _bottom;
-        
+
 //        private Rectangle(int left, int top, int right, int bottom)
 //        {
 //            this._left = left;
@@ -44,22 +44,22 @@
 //        public static Rectangle CreateFromWH(int width, int height)
 //        {
 //            return new Rectangle(width, height);
-             
+
 //        }
 //        public static Rectangle CreateFromRect(int left, int top, int width, int height)
 //        {
 //            return new Rectangle(left, top, left + width, top + height);
-           
+
 
 //        }
 
-      
+
 //        public static Rectangle CreateFromRect(Rectangle r)
 //        {
 //            return CreateFromLTRB(r.Left, r.Top, r.Right, r.Bottom);
 //        }
 
-       
+
 //        public int Width
 //        {
 //            get

@@ -5,10 +5,8 @@
 #endregion
 
 using System;
-
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
-
 namespace Examples.Shapes
 {
     // Abstract base class for procedurally generated geometry
@@ -25,7 +23,6 @@ namespace Examples.Shapes
         protected BeginMode PrimitiveMode;
         protected VertexT2dN3dV3d[] VertexArray;
         protected uint[] IndexArray;
-
         public int GetTriangleCount
         {
             get
@@ -51,7 +48,6 @@ namespace Examples.Shapes
 
         private bool UseDisplayList;
         private int DisplayListHandle = 0;
-
         #endregion Display List
 
         public DrawableShape(bool useDisplayList)
@@ -67,7 +63,6 @@ namespace Examples.Shapes
         public void GetArraysforVBO(out BeginMode primitives, out VertexT2dN3dV3d[] vertices, out uint[] indices)
         {
             primitives = PrimitiveMode;
-
             vertices = new VertexT2dN3dV3d[VertexArray.Length];
             for (uint i = 0; i < VertexArray.Length; i++)
             {
@@ -82,7 +77,6 @@ namespace Examples.Shapes
         public void GetArraysforVBO(out BeginMode primitives, out VertexT2fN3fV3f[] vertices, out uint[] indices)
         {
             primitives = PrimitiveMode;
-
             vertices = new VertexT2fN3fV3f[VertexArray.Length];
             for (uint i = 0; i < VertexArray.Length; i++)
             {
@@ -97,7 +91,6 @@ namespace Examples.Shapes
         public void GetArraysforVBO(out BeginMode primitives, out VertexT2hN3hV3h[] vertices, out uint[] indices)
         {
             primitives = PrimitiveMode;
-
             vertices = new VertexT2hN3hV3h[VertexArray.Length];
             for (uint i = 0; i < VertexArray.Length; i++)
             {
@@ -146,16 +139,16 @@ namespace Examples.Shapes
                 DrawImmediateMode();
             else
                 if (DisplayListHandle == 0)
-                {
-                    if (VertexArray == null)
-                        throw new Exception("Cannot draw null Vertex Array.");
-                    DisplayListHandle = GL.GenLists(1);
-                    GL.NewList(DisplayListHandle, ListMode.CompileAndExecute);
-                    DrawImmediateMode();
-                    GL.EndList();
-                }
-                else
-                    GL.CallList(DisplayListHandle);
+            {
+                if (VertexArray == null)
+                    throw new Exception("Cannot draw null Vertex Array.");
+                DisplayListHandle = GL.GenLists(1);
+                GL.NewList(DisplayListHandle, ListMode.CompileAndExecute);
+                DrawImmediateMode();
+                GL.EndList();
+            }
+            else
+                GL.CallList(DisplayListHandle);
         }
 
         #region IDisposable Members
@@ -180,5 +173,4 @@ namespace Examples.Shapes
 
         #endregion
     }
-
 }

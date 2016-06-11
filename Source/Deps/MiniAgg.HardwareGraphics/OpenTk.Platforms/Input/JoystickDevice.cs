@@ -27,7 +27,6 @@
 
 using System;
 using System.Collections.Generic;
-
 namespace OpenTK.Input
 {
     /// <summary>
@@ -43,7 +42,6 @@ namespace OpenTK.Input
         JoystickButtonCollection button_collection;
         JoystickMoveEventArgs move_args = new JoystickMoveEventArgs(0, 0, 0);
         JoystickButtonEventArgs button_args = new JoystickButtonEventArgs(0, false);
-
         #endregion
 
         #region Constructors
@@ -52,10 +50,8 @@ namespace OpenTK.Input
         {
             if (axes < 0)
                 throw new ArgumentOutOfRangeException("axes");
-
             if (buttons < 0)
                 throw new ArgumentOutOfRangeException("buttons");
-
             Id = id;
             axis_collection = new JoystickAxisCollection(axes);
             button_collection = new JoystickButtonCollection(buttons);
@@ -99,25 +95,22 @@ namespace OpenTK.Input
         #endregion
 
         #region Events
-        
+
         /// <summary>
         /// Occurs when an axis of this JoystickDevice instance is moved.
         /// </summary>
         public EventHandler<JoystickMoveEventArgs> Move =
-            delegate(object sender, JoystickMoveEventArgs e) { };
-
+            delegate (object sender, JoystickMoveEventArgs e) { };
         /// <summary>
         /// Occurs when a button of this JoystickDevice instance is pressed.
         /// </summary>
         public EventHandler<JoystickButtonEventArgs> ButtonDown =
-            delegate(object sender, JoystickButtonEventArgs e) { };
-
+            delegate (object sender, JoystickButtonEventArgs e) { };
         /// <summary>
         /// Occurs when a button of this JoystickDevice is released.
         /// </summary>
         public EventHandler<JoystickButtonEventArgs> ButtonUp =
-            delegate(object sender, JoystickButtonEventArgs e) { };
-
+            delegate (object sender, JoystickButtonEventArgs e) { };
         #endregion
 
         #region Internal Members
@@ -185,7 +178,6 @@ namespace OpenTK.Input
 
         JoystickButton button;
         bool pressed;
-
         #endregion
 
         #region Constructors
@@ -229,7 +221,6 @@ namespace OpenTK.Input
         JoystickAxis axis;
         float value;
         float delta;
-
         #endregion
 
         #region Constructors
@@ -324,7 +315,6 @@ namespace OpenTK.Input
         #region Fields
 
         bool[] button_state;
-
         #endregion
 
         #region Constructors
@@ -333,7 +323,6 @@ namespace OpenTK.Input
         {
             if (numButtons < 0)
                 throw new ArgumentOutOfRangeException("numButtons");
-
             button_state = new bool[numButtons];
         }
 
@@ -417,7 +406,6 @@ namespace OpenTK.Input
         #region Fields
 
         float[] axis_state;
-
         #endregion
 
         #region Constructors
@@ -426,7 +414,6 @@ namespace OpenTK.Input
         {
             if (numAxes < 0)
                 throw new ArgumentOutOfRangeException("numAxes");
-
             axis_state = new float[numAxes];
         }
 

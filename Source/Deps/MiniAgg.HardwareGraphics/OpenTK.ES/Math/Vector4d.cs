@@ -39,57 +39,46 @@ namespace OpenTK
         /// The X component of the Vector4d.
         /// </summary>
         public double X;
-
         /// <summary>
         /// The Y component of the Vector4d.
         /// </summary>
         public double Y;
-
         /// <summary>
         /// The Z component of the Vector4d.
         /// </summary>
         public double Z;
-
         /// <summary>
         /// The W component of the Vector4d.
         /// </summary>
         public double W;
-
         /// <summary>
         /// Defines a unit-length Vector4d that points towards the X-axis.
         /// </summary>
         public static Vector4d UnitX = new Vector4d(1, 0, 0, 0);
-
         /// <summary>
         /// Defines a unit-length Vector4d that points towards the Y-axis.
         /// </summary>
         public static Vector4d UnitY = new Vector4d(0, 1, 0, 0);
-
         /// <summary>
         /// Defines a unit-length Vector4d that points towards the Z-axis.
         /// </summary>
         public static Vector4d UnitZ = new Vector4d(0, 0, 1, 0);
-
         /// <summary>
         /// Defines a unit-length Vector4d that points towards the W-axis.
         /// </summary>
         public static Vector4d UnitW = new Vector4d(0, 0, 0, 1);
-
         /// <summary>
         /// Defines a zero-length Vector4d.
         /// </summary>
         public static Vector4d Zero = new Vector4d(0, 0, 0, 0);
-
         /// <summary>
         /// Defines an instance with all components set to 1.
         /// </summary>
         public static readonly Vector4d One = new Vector4d(1, 1, 1, 1);
-
         /// <summary>
         /// Defines the size of the Vector4d struct in bytes.
         /// </summary>
         public static readonly int SizeInBytes = Marshal.SizeOf(new Vector4d());
-
         #endregion
 
         #region Constructors
@@ -905,12 +894,10 @@ namespace OpenTK
         public static void BaryCentric(ref Vector4d a, ref Vector4d b, ref Vector4d c, double u, double v, out Vector4d result)
         {
             result = a; // copy
-
             Vector4d temp = b; // copy
             Subtract(ref temp, ref a, out temp);
             Multiply(ref temp, u, out temp);
             Add(ref result, ref temp, out result);
-
             temp = c; // copy
             Subtract(ref temp, ref a, out temp);
             Multiply(ref temp, v, out temp);
@@ -970,7 +957,6 @@ namespace OpenTK
             Quaterniond.Invert(ref quat, out i);
             Quaterniond.Multiply(ref quat, ref v, out t);
             Quaterniond.Multiply(ref t, ref i, out v);
-
             result = new Vector4d(v.X, v.Y, v.Z, v.W);
         }
 
@@ -1114,7 +1100,7 @@ namespace OpenTK
         /// <param name="v">The instance.</param>
         /// <returns>A pointer to the first element of v.</returns>
         [CLSCompliant(false)]
-        unsafe public static explicit operator double*(Vector4d v)
+        unsafe public static explicit operator double* (Vector4d v)
         {
             return &v.X;
         }
@@ -1189,7 +1175,6 @@ namespace OpenTK
         {
             if (!(obj is Vector4d))
                 return false;
-
             return this.Equals((Vector4d)obj);
         }
 

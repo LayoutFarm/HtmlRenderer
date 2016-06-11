@@ -21,10 +21,10 @@
 // Rounded rectangle vertex generator
 //
 //----------------------------------------------------------------------------
+
 using System;
 using System.Collections.Generic;
 using PixelFarm.VectorMath;
-
 namespace PixelFarm.Agg.VertexSource
 {
     //------------------------------------------------------------rounded_rect
@@ -39,8 +39,7 @@ namespace PixelFarm.Agg.VertexSource
         }
         public SimpleRect(double left, double bottom, double right, double top)
         {
-           
-            bounds = new RectD(left, bottom, right, top); 
+            bounds = new RectD(left, bottom, right, top);
             if (left > right)
             {
                 bounds.Left = right;
@@ -52,18 +51,18 @@ namespace PixelFarm.Agg.VertexSource
                 bounds.Bottom = top;
                 bounds.Top = bottom;
             }
-        } 
+        }
         public void SetRect(double left, double bottom, double right, double top)
         {
             bounds = new RectD(left, bottom, right, top);
             if (left > right) { bounds.Left = right; bounds.Right = left; }
             if (bottom > top) { bounds.Bottom = top; bounds.Top = bottom; }
         }
-          
+
         public VertexStore MakeVxs()
         {
             PathWriter m_LinesToDraw = new PathWriter();
-            m_LinesToDraw.Clear();             
+            m_LinesToDraw.Clear();
             m_LinesToDraw.MoveTo(bounds.Left, bounds.Bottom);
             m_LinesToDraw.LineTo(bounds.Right, bounds.Bottom);
             m_LinesToDraw.LineTo(bounds.Right, bounds.Top);
@@ -75,7 +74,6 @@ namespace PixelFarm.Agg.VertexSource
         {
             return new VertexStoreSnap(this.MakeVxs());
         }
-
     }
 }
 

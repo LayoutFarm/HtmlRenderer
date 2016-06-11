@@ -41,17 +41,14 @@ namespace OpenTK
         /// The X component of the Vector3.
         /// </summary>
         public double X;
-
         /// <summary>
         /// The Y component of the Vector3.
         /// </summary>
         public double Y;
-
         /// <summary>
         /// The Z component of the Vector3.
         /// </summary>
         public double Z;
-
         #endregion
 
         #region Constructors
@@ -326,32 +323,26 @@ namespace OpenTK
         /// Defines a unit-length Vector3d that points towards the X-axis.
         /// </summary>
         public static readonly Vector3d UnitX = new Vector3d(1, 0, 0);
-
         /// <summary>
         /// Defines a unit-length Vector3d that points towards the Y-axis.
         /// </summary>
         public static readonly Vector3d UnitY = new Vector3d(0, 1, 0);
-
         /// <summary>
         /// /// Defines a unit-length Vector3d that points towards the Z-axis.
         /// </summary>
         public static readonly Vector3d UnitZ = new Vector3d(0, 0, 1);
-
         /// <summary>
         /// Defines a zero-length Vector3.
         /// </summary>
         public static readonly Vector3d Zero = new Vector3d(0, 0, 0);
-
         /// <summary>
         /// Defines an instance with all components set to 1.
         /// </summary>
         public static readonly Vector3d One = new Vector3d(1, 1, 1);
-
         /// <summary>
         /// Defines the size of the Vector3d struct in bytes.
         /// </summary>
         public static readonly int SizeInBytes = Marshal.SizeOf(new Vector3d());
-
         #endregion
 
         #region Obsolete
@@ -916,12 +907,10 @@ namespace OpenTK
         public static void BaryCentric(ref Vector3d a, ref Vector3d b, ref Vector3d c, double u, double v, out Vector3d result)
         {
             result = a; // copy
-
             Vector3d temp = b; // copy
             Subtract(ref temp, ref a, out temp);
             Multiply(ref temp, u, out temp);
             Add(ref result, ref temp, out result);
-
             temp = c; // copy
             Subtract(ref temp, ref a, out temp);
             Multiply(ref temp, v, out temp);
@@ -957,11 +946,9 @@ namespace OpenTK
             result.X = vec.X * mat.Row0.X +
                        vec.Y * mat.Row1.X +
                        vec.Z * mat.Row2.X;
-
             result.Y = vec.X * mat.Row0.Y +
                        vec.Y * mat.Row1.Y +
                        vec.Z * mat.Row2.Y;
-
             result.Z = vec.X * mat.Row0.Z +
                        vec.Y * mat.Row1.Z +
                        vec.Z * mat.Row2.Z;
@@ -1024,11 +1011,9 @@ namespace OpenTK
             result.X = norm.X * invMat.Row0.X +
                        norm.Y * invMat.Row0.Y +
                        norm.Z * invMat.Row0.Z;
-
             result.Y = norm.X * invMat.Row1.X +
                        norm.Y * invMat.Row1.Y +
                        norm.Z * invMat.Row1.Z;
-
             result.Z = norm.X * invMat.Row2.X +
                        norm.Y * invMat.Row2.Y +
                        norm.Z * invMat.Row2.Z;
@@ -1056,12 +1041,10 @@ namespace OpenTK
                        pos.Y * mat.Row1.X +
                        pos.Z * mat.Row2.X +
                        mat.Row3.X;
-
             result.Y = pos.X * mat.Row0.Y +
                        pos.Y * mat.Row1.Y +
                        pos.Z * mat.Row2.Y +
                        mat.Row3.Y;
-
             result.Z = pos.X * mat.Row0.Z +
                        pos.Y * mat.Row1.Z +
                        pos.Z * mat.Row2.Z +
@@ -1355,7 +1338,6 @@ namespace OpenTK
         {
             if (!(obj is Vector3))
                 return false;
-
             return this.Equals((Vector3)obj);
         }
 

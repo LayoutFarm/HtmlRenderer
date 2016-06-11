@@ -29,8 +29,8 @@
 // PostScript and PDF technology for software developers.
 // 
 //----------------------------------------------------------------------------
-using System;
 
+using System;
 namespace PixelFarm.Agg
 {
     //=============================================================scanline_p8
@@ -46,7 +46,6 @@ namespace PixelFarm.Agg
     {
         internal GLScanlinePacked8()
         {
-
         }
         public override void ResetSpans(int min_x, int max_x)
         {
@@ -71,7 +70,7 @@ namespace PixelFarm.Agg
             else
             {
                 last_span_index++;
-                m_spans[last_span_index] = new ScanlineSpan((short)x, m_cover_index);                
+                m_spans[last_span_index] = new ScanlineSpan((short)x, m_cover_index);
             }
             last_x = x;
             m_cover_index++;
@@ -88,8 +87,7 @@ namespace PixelFarm.Agg
             {
                 m_covers[m_cover_index] = (byte)cover;
                 last_span_index++;
-
-                m_spans[last_span_index] = new ScanlineSpan((short)x, (short)(-len), m_cover_index++); 
+                m_spans[last_span_index] = new ScanlineSpan((short)x, (short)(-len), m_cover_index++);
             }
             last_x = x + len - 1;
         }
@@ -97,12 +95,9 @@ namespace PixelFarm.Agg
         {
             last_x = 0x7FFFFFF0;
             last_span_index = 0;
-
             m_cover_index = 0;
             m_spans[last_span_index].len = 0;
             this.MixSpanType = false;
         }
-       
-    
     }
 }

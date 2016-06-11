@@ -24,7 +24,6 @@ SOFTWARE.
 
 using System;
 using System.Runtime.InteropServices;
-
 namespace OpenTK
 {
     /// <summary>Represents a 2D vector using two double-precision floating-point numbers.</summary>
@@ -36,35 +35,28 @@ namespace OpenTK
 
         /// <summary>The X coordinate of this instance.</summary>
         public double X;
-
         /// <summary>The Y coordinate of this instance.</summary>
         public double Y;
-
         /// <summary>
         /// Defines a unit-length Vector2d that points towards the X-axis.
         /// </summary>
         public static Vector2d UnitX = new Vector2d(1, 0);
-
         /// <summary>
         /// Defines a unit-length Vector2d that points towards the Y-axis.
         /// </summary>
         public static Vector2d UnitY = new Vector2d(0, 1);
-
         /// <summary>
         /// Defines a zero-length Vector2d.
         /// </summary>
         public static Vector2d Zero = new Vector2d(0, 0);
-
         /// <summary>
         /// Defines an instance with all components set to 1.
         /// </summary>
         public static readonly Vector2d One = new Vector2d(1, 1);
-
         /// <summary>
         /// Defines the size of the Vector2d struct in bytes.
         /// </summary>
         public static readonly int SizeInBytes = Marshal.SizeOf(new Vector2d());
-
         #endregion
 
         #region Constructors
@@ -759,12 +751,10 @@ namespace OpenTK
         public static void BaryCentric(ref Vector2d a, ref Vector2d b, ref Vector2d c, double u, double v, out Vector2d result)
         {
             result = a; // copy
-
             Vector2d temp = b; // copy
             Subtract(ref temp, ref a, out temp);
             Multiply(ref temp, u, out temp);
             Add(ref result, ref temp, out result);
-
             temp = c; // copy
             Subtract(ref temp, ref a, out temp);
             Multiply(ref temp, v, out temp);
@@ -800,7 +790,6 @@ namespace OpenTK
             Quaterniond.Invert(ref quat, out i);
             Quaterniond.Multiply(ref quat, ref v, out t);
             Quaterniond.Multiply(ref t, ref i, out v);
-
             result = new Vector2d(v.X, v.Y);
         }
 
@@ -967,7 +956,6 @@ namespace OpenTK
         {
             if (!(obj is Vector2d))
                 return false;
-
             return this.Equals((Vector2d)obj);
         }
 

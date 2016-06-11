@@ -21,8 +21,8 @@
 // class bspline
 //
 //----------------------------------------------------------------------------
-using System;
 
+using System;
 namespace PixelFarm.Agg
 {
     //----------------------------------------------------------------bspline
@@ -44,7 +44,6 @@ namespace PixelFarm.Agg
         private int m_yOffset;
         private double[] m_am = new double[16];
         private int m_last_idx;
-
         //------------------------------------------------------------------------
         public BSpline()
         {
@@ -63,7 +62,6 @@ namespace PixelFarm.Agg
             m_xOffset = (0);
             m_yOffset = (0);
             m_last_idx = -1;
-
             Init(num);
         }
 
@@ -113,16 +111,13 @@ namespace PixelFarm.Agg
                 int r;
                 int s;
                 double h, p, d, f, e;
-
                 for (k = 0; k < m_num; k++)
                 {
                     m_am[k] = 0.0;
                 }
 
                 int n1 = 3 * m_num;
-
                 double[] al = new double[n1];
-
                 for (k = 0; k < n1; k++)
                 {
                     al[k] = 0.0;
@@ -130,11 +125,9 @@ namespace PixelFarm.Agg
 
                 r = m_num;
                 s = m_num * 2;
-
                 n1 = m_num - 1;
                 d = m_am[m_xOffset + 1] - m_am[m_xOffset + 0];
                 e = (m_am[m_yOffset + 1] - m_am[m_yOffset + 0]) / d;
-
                 for (k = 1; k < n1; k++)
                 {
                     h = d;
@@ -156,7 +149,6 @@ namespace PixelFarm.Agg
                 m_am[n1] = 0.0;
                 al[n1 - 1] = al[s + n1 - 1];
                 m_am[n1 - 1] = al[n1 - 1];
-
                 for (k = n1 - 2, i = 0; i < m_num - 2; i++, k--)
                 {
                     al[k] = al[k] * al[k + 1] + al[s + k];
@@ -188,8 +180,7 @@ namespace PixelFarm.Agg
         {
             int j = n - 1;
             int k;
-
-            for (i = 0; (j - i) > 1; )
+            for (i = 0; (j - i) > 1;)
             {
                 k = (i + j) >> 1;
                 if (x0 < m_am[xOffset + k]) j = k;
@@ -201,7 +192,7 @@ namespace PixelFarm.Agg
 
         //------------------------------------------------------------------------
         double Interpolate(double x, int i)
-        {   
+        {
             int j = i + 1;
             double d = m_am[m_xOffset + i] - m_am[m_xOffset + j];
             double h = x - m_am[m_xOffset + j];
@@ -236,13 +227,10 @@ namespace PixelFarm.Agg
             if (m_num > 2)
             {
                 int i;
-
                 // Extrapolation on the left
                 if (x < m_am[m_xOffset + 0]) return ExtrapolateLeft(x);
-
                 // Extrapolation on the right
                 if (x >= m_am[m_xOffset + m_num - 1]) return ExtrapolateRight(x);
-
                 // Interpolation
                 BSearch(m_num, m_xOffset, x, out i);
                 return Interpolate(x, i);
@@ -258,10 +246,8 @@ namespace PixelFarm.Agg
             {
                 // Extrapolation on the left
                 if (x < m_am[m_xOffset + 0]) return ExtrapolateLeft(x);
-
                 // Extrapolation on the right
                 if (x >= m_am[m_xOffset + m_num - 1]) return ExtrapolateRight(x);
-
                 if (m_last_idx >= 0)
                 {
                     // Check if x is not in current range
@@ -278,15 +264,15 @@ namespace PixelFarm.Agg
                             if (m_last_idx > 0 &&
                                x >= m_am[m_xOffset + m_last_idx - 1] &&
                                x <= m_am[m_xOffset + m_last_idx])
-                            {
-                                // x is between pevious points
-                                --m_last_idx;
-                            }
-                            else
-                            {
-                                // Else perform full search
-                                BSearch(m_num, m_xOffset, x, out m_last_idx);
-                            }
+                        {
+                            // x is between pevious points
+                            --m_last_idx;
+                        }
+                        else
+                        {
+                            // Else perform full search
+                            BSearch(m_num, m_xOffset, x, out m_last_idx);
+                        }
                     }
                     return Interpolate(x, m_last_idx);
                 }

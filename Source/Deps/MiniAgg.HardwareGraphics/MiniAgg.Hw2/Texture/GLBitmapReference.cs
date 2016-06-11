@@ -1,4 +1,5 @@
 ﻿//MIT 2014, WinterDev
+
 using System.Text;
 using System;
 namespace PixelFarm.DrawingGL
@@ -13,7 +14,6 @@ namespace PixelFarm.DrawingGL
             this.Width = w;
             this.Height = h;
             this.ownerBmp = ownerBmp;
-
         }
         public int Left { get; set; }
         public int Top { get; set; }
@@ -27,7 +27,5 @@ namespace PixelFarm.DrawingGL
         {
             return new Drawing.RectangleF(this.Left, this.Top, this.Width, this.Height);
         }
-
     }
-
 }

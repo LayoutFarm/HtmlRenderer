@@ -29,11 +29,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using OpenTK.Graphics;
-
 namespace OpenTK.Platform.Egl
-{   
-    
-
+{
     class EglGraphicsMode : IGraphicsMode
     {
         #region IGraphicsMode Members
@@ -42,33 +39,26 @@ namespace OpenTK.Platform.Egl
         public GraphicsMode SelectGraphicsMode(ColorFormat color, int depth, int stencil, int samples, ColorFormat accum, int buffers, bool stereo)
         {
             IntPtr[] configs = new IntPtr[1];
-            int[] attribList = new int[] 
+            int[] attribList = new int[]
             { 
                 //Egl.SURFACE_TYPE, Egl.WINDOW_BIT,
 
-                Egl.RED_SIZE, color.Red, 
-                Egl.GREEN_SIZE, color.Green, 
+                Egl.RED_SIZE, color.Red,
+                Egl.GREEN_SIZE, color.Green,
                 Egl.BLUE_SIZE, color.Blue,
                 Egl.ALPHA_SIZE, color.Alpha,
-
                 Egl.DEPTH_SIZE, depth > 0 ? depth : 0,
                 Egl.STENCIL_SIZE, stencil > 0 ? stencil : 0,
-
                 //Egl.SAMPLE_BUFFERS, samples > 0 ? 1 : 0,
                 Egl.SAMPLES, samples > 0 ? samples : 0, 
                 //------------
                 Egl.NONE,
             };
-
-
-
-
             // Todo: what if we don't wish to use the default display?
             IntPtr display = Egl.GetDisplay(IntPtr.Zero);
             int major, minor;
             if (!Egl.Initialize(display, out major, out minor))
                 throw new GraphicsModeException(String.Format("Failed to initialize display connection, error {0}", Egl.GetError()));
-
             int num_configs;
             if (!Egl.GetConfigs(display, null, 0, out num_configs))
             {
@@ -93,7 +83,6 @@ namespace OpenTK.Platform.Egl
             int sample_buffers;
             Egl.GetConfigAttrib(display, active_config, Egl.SAMPLES, out sample_buffers);
             Egl.GetConfigAttrib(display, active_config, Egl.SAMPLES, out samples);
-
             return new GraphicsMode(active_config, new ColorFormat(r, g, b, a), d, s, sample_buffers > 0 ? samples : 0, 0, 2, false);
         }
 
