@@ -1,32 +1,26 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing.Drawing2D;
-
 namespace PixelFarm.Drawing.WinGdi
 {
-
     public class QuadPages
     {
-
         internal MyScreenCanvas pageA;
         internal MyScreenCanvas pageB;
         internal MyScreenCanvas pageC;
         internal MyScreenCanvas pageD;
-
         CanvasCollection physicalCanvasCollection;
-
         public QuadPages(GraphicsPlatform gfxPlatform,
             int cachedPageNum,
             int eachCachedPageWidth,
             int eachCachedPageHeight)
         {
-
             physicalCanvasCollection = new CanvasCollection(
                 gfxPlatform,
                 cachedPageNum, eachCachedPageWidth, eachCachedPageHeight);
-
         }
 
         public void Dispose()
@@ -56,7 +50,6 @@ namespace PixelFarm.Drawing.WinGdi
             {
                 pageD.Invalidate(r);
             }
-
         }
         public bool IsValid
         {
@@ -80,29 +73,22 @@ namespace PixelFarm.Drawing.WinGdi
                     {
                         return false;
                     }
-
-
                 }
                 return true;
             }
         }
 
         int render_parts = 0;
-
         internal const int PAGE_A = 0;
         internal const int PAGE_AB = 1;
         internal const int PAGE_AC = 2;
         internal const int PAGE_ABCD = 3;
-
         public void RenderToOutputWindowFullMode(
             IRenderElement topWindowRenderBox,
             IntPtr destOutputHdc,
             int viewportX, int viewportY, int viewportWidth, int viewportHeight)
         {
-
-
             int render_part = PAGE_A;
-
             if (pageA != null && !pageA.IsContentReady)
             {
                 UpdateAllArea(pageA, topWindowRenderBox);
@@ -142,52 +128,46 @@ namespace PixelFarm.Drawing.WinGdi
                             new Rectangle(0, 0,
                             viewportWidth,
                             viewportHeight));
-                    } break;
+                    }
+                    break;
                 case PAGE_AB:
                     {
                         int remainingHeightOfPageA = pageA.Bottom - viewportY;
-
                         pageA.RenderTo(destOutputHdc,
                             viewportX - pageA.Left, viewportY - pageA.Top,
                             new Rectangle(0, 0, viewportWidth, remainingHeightOfPageA));
                         pageB.RenderTo(destOutputHdc, 0, 0,
                             new Rectangle(0, remainingHeightOfPageA, viewportWidth, viewportHeight - remainingHeightOfPageA));
-
-                    } break;
+                    }
+                    break;
                 case PAGE_AC:
                     {
                         int remainingWidthOfPageA = pageA.Right - viewportX;
-
                         pageA.RenderTo(destOutputHdc,
                             viewportX - pageA.Left, viewportY - pageA.Top,
                             new Rectangle(0, 0, remainingWidthOfPageA, viewportHeight));
                         pageC.RenderTo(destOutputHdc, 0, 0,
                             new Rectangle(0, remainingWidthOfPageA, viewportWidth - remainingWidthOfPageA, viewportHeight));
-
-                    } break;
+                    }
+                    break;
                 case PAGE_ABCD:
                     {
                         int remainingHeightOfPageA = pageA.Bottom - viewportY;
-
                         pageA.RenderTo(destOutputHdc,
                             viewportX - pageA.Left, viewportY - pageA.Top,
                             new Rectangle(0, 0, viewportWidth, remainingHeightOfPageA));
                         pageB.RenderTo(destOutputHdc, 0, 0,
                             new Rectangle(0, remainingHeightOfPageA, viewportWidth, viewportHeight - remainingHeightOfPageA));
-
-
-
-                    } break;
+                    }
+                    break;
             }
         }
 
         static void UpdateAllArea(MyScreenCanvas mycanvas, IRenderElement topWindowRenderBox)
         {
-
             mycanvas.OffsetCanvasOrigin(-mycanvas.Left, -mycanvas.Top);
             Rectangle rect = mycanvas.Rect;
             topWindowRenderBox.DrawToThisCanvas(mycanvas, rect);
-
 #if DEBUG
             topWindowRenderBox.dbugShowRenderPart(mycanvas, rect);
 #endif
@@ -199,11 +179,9 @@ namespace PixelFarm.Drawing.WinGdi
 
         static void UpdateInvalidArea(MyScreenCanvas mycanvas, IRenderElement rootElement)
         {
-
             mycanvas.OffsetCanvasOrigin(-mycanvas.Left, -mycanvas.Top);
             Rectangle rect = mycanvas.InvalidateArea;
             rootElement.DrawToThisCanvas(mycanvas, rect);
-
 #if DEBUG
             rootElement.dbugShowRenderPart(mycanvas, rect);
 #endif
@@ -219,8 +197,6 @@ namespace PixelFarm.Drawing.WinGdi
             int viewportX, int viewportY,
             int viewportWidth, int viewportHeight)
         {
-
-
             switch (render_parts)
             {
                 case PAGE_A:
@@ -229,7 +205,8 @@ namespace PixelFarm.Drawing.WinGdi
                         {
                             UpdateInvalidArea(pageA, renderE);
                         }
-                    } break;
+                    }
+                    break;
                 case PAGE_AB:
                     {
                         if (!pageA.IsContentReady)
@@ -240,7 +217,8 @@ namespace PixelFarm.Drawing.WinGdi
                         {
                             UpdateInvalidArea(pageB, renderE);
                         }
-                    } break;
+                    }
+                    break;
                 case PAGE_AC:
                     {
                         if (!pageA.IsContentReady)
@@ -251,7 +229,8 @@ namespace PixelFarm.Drawing.WinGdi
                         {
                             UpdateInvalidArea(pageC, renderE);
                         }
-                    } break;
+                    }
+                    break;
                 case PAGE_ABCD:
                     {
                         if (!pageA.IsContentReady)
@@ -270,14 +249,14 @@ namespace PixelFarm.Drawing.WinGdi
                         {
                             UpdateInvalidArea(pageD, renderE);
                         }
-                    } break;
+                    }
+                    break;
             }
             //----------------------------------------------------------------------------------------------------------
             switch (render_parts)
             {
                 case PAGE_A:
                     {
-
                         Rectangle invalidateArea = pageA.InvalidateArea;
                         ////Console.WriteLine("update2:" + invalidateArea.ToString());
 
@@ -286,39 +265,36 @@ namespace PixelFarm.Drawing.WinGdi
                             new Rectangle(invalidateArea.Left -
                                 viewportX, invalidateArea.Top - viewportY,
                                 invalidateArea.Width, invalidateArea.Height));
-
                         pageA.ResetInvalidateArea();
-                    } break;
+                    }
+                    break;
                 case PAGE_AB:
                     {
-
                         int remainingHeightOfPageA = pageA.Top + pageA.Height - viewportY;
-
                         pageA.RenderTo(destOutputHdc, viewportX - pageA.Left, viewportY - pageA.Top,
                             new Rectangle(0, 0, viewportWidth, remainingHeightOfPageA));
                         pageB.RenderTo(destOutputHdc, 0, 0,
                             new Rectangle(0, remainingHeightOfPageA, viewportWidth, viewportHeight - remainingHeightOfPageA));
-                    } break;
+                    }
+                    break;
                 case PAGE_AC:
                     {
-                    } break;
+                    }
+                    break;
                 case PAGE_ABCD:
                     {
-                    } break;
-
+                    }
+                    break;
             }
         }
         public void CalculateCanvasPages(int viewportX, int viewportY, int viewportWidth, int viewportHeight)
         {
             int firstVerticalPageNum = viewportY / physicalCanvasCollection.EachPageHeight;
             int firstHorizontalPageNum = viewportX / physicalCanvasCollection.EachPageWidth;
-
             render_parts = PAGE_A;
-
             if (pageA == null)
             {
                 pageA = physicalCanvasCollection.GetCanvasPage(firstHorizontalPageNum, firstVerticalPageNum);
-
             }
             else
             {
@@ -380,7 +356,6 @@ namespace PixelFarm.Drawing.WinGdi
 
                 if (pageC != null)
                 {
-
                     render_parts = PAGE_ABCD;
                     if (pageD == null)
                     {
@@ -393,7 +368,6 @@ namespace PixelFarm.Drawing.WinGdi
                             physicalCanvasCollection.ReleasePage(pageD);
                             pageD = physicalCanvasCollection.GetCanvasPage(firstHorizontalPageNum + 1, firstVerticalPageNum + 1);
                         }
-
                     }
                 }
                 else
@@ -418,7 +392,6 @@ namespace PixelFarm.Drawing.WinGdi
         {
             physicalCanvasCollection.Dispose(); physicalCanvasCollection.ResizeAllPages(newWidth, newHeight);
             render_parts = 0;
-
             if (pageA != null)
             {
                 pageA.IsUnused = true;
@@ -440,8 +413,5 @@ namespace PixelFarm.Drawing.WinGdi
                 pageD = null;
             }
         }
-
-
-
     }
 }

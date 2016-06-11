@@ -8,19 +8,13 @@
 using System;
 using System.Text;
 using System.Collections.Generic;
-using System.Runtime.InteropServices; 
- 
-
-
+using System.Runtime.InteropServices;
 namespace PixelFarm.Agg.Fonts
 {
-
     public static class SvgFontStore
     {
         public const string DEFAULT_SVG_FONTNAME = "svg-LiberationSansFont";
-
         static Dictionary<string, SvgFontFace> fontFaces = new Dictionary<string, SvgFontFace>();
-
         internal static void SetShapingEngine(SvgFontFace fontFace, string lang, HBDirection hb_direction, int hb_scriptcode)
         {
             ////string lang = "en";
@@ -41,11 +35,10 @@ namespace PixelFarm.Agg.Fonts
 
         public static Font LoadFont(string filename, int fontPointSize)
         {
-
             //load font from specific file 
             SvgFontFace fontFace;
             if (!fontFaces.TryGetValue(filename, out fontFace))
-            {   
+            {
                 //temp ....
                 //all svg font remap to DEFAULT_SVG_FONTNAME
                 //TODO: add more svg font
@@ -63,7 +56,7 @@ namespace PixelFarm.Agg.Fonts
                     //use default?,  svg-liberation san fonts
 
                 }
-            } 
+            }
             if (fontFace == null)
             {
                 return null;
@@ -71,8 +64,7 @@ namespace PixelFarm.Agg.Fonts
 
 
 
-            return fontFace.GetFontAtSpecificSize(fontPointSize);             
-
+            return fontFace.GetFontAtSpecificSize(fontPointSize);
         }
 
 

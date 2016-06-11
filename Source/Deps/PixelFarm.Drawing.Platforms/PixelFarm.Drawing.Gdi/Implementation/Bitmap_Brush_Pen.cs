@@ -1,8 +1,8 @@
 ﻿// 2015,2014 ,MIT, WinterDev   
-using System.Drawing; 
+
+using System.Drawing;
 namespace PixelFarm.Drawing.WinGdi
 {
-     
     class MyFont : Font
     {
         System.Drawing.Font myFont;
@@ -21,7 +21,7 @@ namespace PixelFarm.Drawing.WinGdi
         {
             this.fontInfo = fontInfo;
         }
-     
+
         public override string Name
         {
             get { return this.myFont.Name; }
@@ -62,5 +62,4 @@ namespace PixelFarm.Drawing.WinGdi
             get { return this.myFont; }
         }
     }
-
 }

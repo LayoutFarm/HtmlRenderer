@@ -16,9 +16,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
- 
-
 namespace PixelFarm.Drawing.DrawingGL
 {
     partial class MyCanvasGL
@@ -33,17 +30,15 @@ namespace PixelFarm.Drawing.DrawingGL
             return this.platform.GetFont(fontname, fsize, st);
         }
         float IFonts.MeasureWhitespace(PixelFarm.Drawing.Font f)
-        {   
+        {
             //platform specific
             return PixelFarm.Drawing.WinGdi.FontStore.MeasureWhitespace(this, f);
-
         }
         //======================================
 
         public Size MeasureString(char[] buff, int startAt, int len, Font font)
         {
             throw new NotImplementedException();
-
             //if (_useGdiPlusTextRendering)
             //{
             //    ReleaseHdc();
@@ -116,7 +111,6 @@ namespace PixelFarm.Drawing.DrawingGL
             set
             {
                 textColor = value;
-
             }
         }
         public override Font CurrentFont
@@ -139,7 +133,6 @@ namespace PixelFarm.Drawing.DrawingGL
         }
         public override void DrawText(char[] buffer, int x, int y)
         {
-
             //handle draw canvas with 
             if (this.myGLTextPrinter == null)
             {
@@ -147,7 +140,6 @@ namespace PixelFarm.Drawing.DrawingGL
                 this.myGLTextPrinter.CurrentFont = this.currentFont.FontInfo.PlatformSpecificFont as PixelFarm.Agg.Fonts.Font;
             }
             myGLTextPrinter.Print(this.textColor, buffer, 0, buffer.Length, x, y);
-
         }
         public override void DrawText(char[] buffer, Rectangle logicalTextBox, int textAlignment)
         {
@@ -155,7 +147,6 @@ namespace PixelFarm.Drawing.DrawingGL
             {
                 this.myGLTextPrinter = new GLTextPrinter(canvasGL2d);
                 this.myGLTextPrinter.CurrentFont = this.currentFont.FontInfo.PlatformSpecificFont as PixelFarm.Agg.Fonts.Font;
-
             }
             myGLTextPrinter.Print(this.textColor, buffer, 0, buffer.Length, logicalTextBox.X, logicalTextBox.Y);
         }
@@ -168,6 +159,5 @@ namespace PixelFarm.Drawing.DrawingGL
             }
             myGLTextPrinter.Print(this.textColor, str, startAt, len, logicalTextBox.X, logicalTextBox.Y);
         }
-      
     }
 }

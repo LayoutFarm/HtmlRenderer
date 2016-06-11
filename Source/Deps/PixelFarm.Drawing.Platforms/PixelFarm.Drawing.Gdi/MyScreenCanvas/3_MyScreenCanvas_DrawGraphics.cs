@@ -17,10 +17,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Win32;
-
 namespace PixelFarm.Drawing.WinGdi
 {
-
     partial class MyScreenCanvas
     {
         float strokeWidth = 1f;
@@ -47,7 +45,6 @@ namespace PixelFarm.Drawing.WinGdi
             set
             {
                 this.internalPen.Width = this.strokeWidth = value;
-
             }
         }
 
@@ -74,7 +71,6 @@ namespace PixelFarm.Drawing.WinGdi
                 c.R,
                 c.G,
                 c.B));
-
         }
 
 
@@ -102,8 +98,8 @@ namespace PixelFarm.Drawing.WinGdi
                         internalSolidBrush.Color = ConvColor(solidBrush.Color);
                         gx.FillRectangle(internalSolidBrush, left, top, width, height);
                         internalSolidBrush.Color = prevColor;
-
-                    } break;
+                    }
+                    break;
                 case BrushKind.LinearGradient:
                     {
                         //draw with gradient
@@ -118,18 +114,20 @@ namespace PixelFarm.Drawing.WinGdi
                         {
                             gx.FillRectangle(linearGradBrush, left, top, width, height);
                         }
-                    } break;
+                    }
+                    break;
                 case BrushKind.GeometryGradient:
                     {
-                    } break;
+                    }
+                    break;
                 case BrushKind.CircularGraident:
                     {
-
-                    } break;
+                    }
+                    break;
                 case BrushKind.Texture:
                     {
-
-                    } break;
+                    }
+                    break;
             }
         }
         public override void FillRectangle(Color color, float left, float top, float width, float height)
@@ -138,7 +136,7 @@ namespace PixelFarm.Drawing.WinGdi
             internalSolidBrush.Color = ConvColor(color);
             gx.FillRectangle(internalSolidBrush, left, top, width, height);
         }
-         
+
 
         public override void DrawRectangle(Color color, float left, float top, float width, float height)
         {
@@ -227,7 +225,7 @@ namespace PixelFarm.Drawing.WinGdi
                 }
                 //loop draw
                 var inner = image.InnerImage as System.Drawing.Image;
-                for (int i = 0; i < j; )
+                for (int i = 0; i < j;)
                 {
                     gx.DrawImage(inner,
                         destAndSrcPairs[i].ToRectF(),
@@ -257,7 +255,6 @@ namespace PixelFarm.Drawing.WinGdi
             {
                 gx.DrawImage(image.InnerImage as System.Drawing.Image, destRect.ToRectF());
             }
-
         }
         public override void FillPath(Color color, GraphicsPath gfxPath)
         {
@@ -286,7 +283,8 @@ namespace PixelFarm.Drawing.WinGdi
                         gx.FillPath(internalSolidBrush,
                             path.InnerPath as System.Drawing.Drawing2D.GraphicsPath);
                         internalSolidBrush.Color = prevColor;
-                    } break;
+                    }
+                    break;
                 case BrushKind.LinearGradient:
                     {
                         LinearGradientBrush solidBrush = (LinearGradientBrush)brush;
@@ -295,18 +293,18 @@ namespace PixelFarm.Drawing.WinGdi
                         gx.FillPath(internalSolidBrush,
                             path.InnerPath as System.Drawing.Drawing2D.GraphicsPath);
                         internalSolidBrush.Color = prevColor;
-                    } break;
+                    }
+                    break;
                 default:
                     {
-                    } break;
+                    }
+                    break;
             }
-
         }
 
         public override void FillPolygon(Brush brush, PointF[] points)
         {
             ReleaseHdc();
-            
             var pps = ConvPointFArray(points);
             //use internal solid color            
             gx.FillPolygon(brush.InnerBrush as System.Drawing.Brush, pps);
@@ -314,7 +312,6 @@ namespace PixelFarm.Drawing.WinGdi
         public override void FillPolygon(Color color, PointF[] points)
         {
             ReleaseHdc();
-           
             var pps = ConvPointFArray(points);
             internalSolidBrush.Color = ConvColor(color);
             gx.FillPolygon(this.internalSolidBrush, pps);
@@ -358,5 +355,4 @@ namespace PixelFarm.Drawing.WinGdi
         //    }
         //}
     }
-
 }

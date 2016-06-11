@@ -16,23 +16,18 @@
 // Class TypeFace.cs
 //
 //----------------------------------------------------------------------------
-using System; 
+
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;
-
 using PixelFarm.Agg.Transform;
 using PixelFarm.Agg.VertexSource;
 using PixelFarm.VectorMath;
-
 namespace PixelFarm.Agg.Fonts
 {
-
-
     class SvgFontFace : FontFace
     {
-
-
         class Panos_1
         {
             // these are defined in the order in which they are present in the panos-1 attribute.
@@ -46,7 +41,6 @@ namespace PixelFarm.Agg.Fonts
             enum Letterform { Any, No_Fit, Normal_Contact, Normal_Weighted, Normal_Boxed, Normal_Flattened, Normal_Rounded, Normal_Off_Center, Normal_Square, Oblique_Contact, Oblique_Weighted, Oblique_Boxed, Oblique_Flattened, Oblique_Rounded, Oblique_Off_Center, Oblique_Square };
             enum Midline { Any, No_Fit, Standard_Trimmed, Standard_Pointed, Standard_Serifed, High_Trimmed, High_Pointed, High_Serifed, Constant_Trimmed, Constant_Pointed, Constant_Serifed, Low_Trimmed, Low_Pointed, Low_Serifed };
             enum XHeight { Any, No_Fit, Constant_Small, Constant_Standard, Constant_Large, Ducking_Small, Ducking_Standard, Ducking_Large };
-
             Family family;
             Serif_Style serifStyle;
             Weight weight;
@@ -57,7 +51,6 @@ namespace PixelFarm.Agg.Fonts
             Letterform letterform;
             Midline midline;
             XHeight xHeight;
-
             public Panos_1(String SVGPanos1String)
             {
                 int tempInt;
@@ -107,9 +100,7 @@ namespace PixelFarm.Agg.Fonts
         int underline_position;
         public int Underline_position { get { return underline_position; } }
         String unicode_range;
-
-        FontGlyph missingGlyph; 
-
+        FontGlyph missingGlyph;
         //-----------------------------------
         Dictionary<int, FontGlyph> originalGlyphs = new Dictionary<int, FontGlyph>(); // a glyph is indexed by the string it represents, usually one character, but sometimes multiple
         Dictionary<Char, Dictionary<Char, int>> hkerns = new Dictionary<char, Dictionary<char, int>>();
@@ -128,7 +119,6 @@ namespace PixelFarm.Agg.Fonts
 
         protected override void OnDispose()
         {
-
         }
         public SvgFont GetFontAtSpecificSize(int emsize)
         {
@@ -154,7 +144,6 @@ namespace PixelFarm.Agg.Fonts
             if (startPos >= 0)
             {
                 int endPos = source.IndexOf(end, startPos + start.Length);
-
                 int length = endPos - (startPos + start.Length);
                 startIndex = endPos + end.Length; // advance our start position to the last position used
                 return source.Substring(startPos + start.Length, length);
@@ -209,7 +198,6 @@ namespace PixelFarm.Agg.Fonts
 
             newGlyph.glyphName = GetStringValue(svgGlyphData, "glyph-name");
             String unicodeString = GetStringValue(svgGlyphData, "unicode");
-
             if (unicodeString != null)
             {
                 if (unicodeString.Length == 1)
@@ -238,18 +226,11 @@ namespace PixelFarm.Agg.Fonts
             //}
             int parseIndex = 0;
             int polyStartVertexSourceIndex = 0;
-
-
             Vector2 lastXY = new Vector2(0, 0);
-
             double px = 0;
             double py = 0;
-
-
-
             PathWriter gyphPath = new PathWriter();
             newGlyph.originalVxs = gyphPath.Vxs;
-
             if (dString == null || dString.Length == 0)
             {
                 return newGlyph;
@@ -260,11 +241,9 @@ namespace PixelFarm.Agg.Fonts
 
             while (parseIndex < dString.Length)
             {
-
                 char command = dString[parseIndex];
                 switch (command)
                 {
-
                     case 'M':
                         {
                             parseIndex++;
@@ -274,48 +253,52 @@ namespace PixelFarm.Agg.Fonts
                             px = GetNextNumber(dString, ref parseIndex);
                             py = GetNextNumber(dString, ref parseIndex);
                             gyphPath.MoveTo(px, py);
-
-                        } break;
+                        }
+                        break;
                     case 'v':
                         {
                             parseIndex++;
                             py = GetNextNumber(dString, ref parseIndex);
                             gyphPath.VerticalLineToRel(py);
-
-                        } break;
+                        }
+                        break;
                     case 'V':
                         {
                             parseIndex++;
                             py = GetNextNumber(dString, ref parseIndex);
                             gyphPath.VerticalLineTo(py);
-                        } break;
+                        }
+                        break;
                     case 'h':
                         {
                             parseIndex++;
                             px = GetNextNumber(dString, ref parseIndex);
                             gyphPath.HorizontalLineToRel(px);
-                        } break;
+                        }
+                        break;
                     case 'H':
                         {
                             parseIndex++;
                             px = GetNextNumber(dString, ref parseIndex);
                             gyphPath.HorizontalLineTo(px);
-                        } break;
+                        }
+                        break;
                     case 'l':
                         {
                             parseIndex++;
                             px = GetNextNumber(dString, ref parseIndex);
                             py = GetNextNumber(dString, ref parseIndex);
                             gyphPath.LineToRel(px, py);
-
-                        } break;
+                        }
+                        break;
                     case 'L':
                         {
                             parseIndex++;
                             px = GetNextNumber(dString, ref parseIndex);
                             py = GetNextNumber(dString, ref parseIndex);
                             gyphPath.LineTo(px, py);
-                        } break;
+                        }
+                        break;
                     case 'q':
                         {
                             //Curve3 
@@ -325,8 +308,8 @@ namespace PixelFarm.Agg.Fonts
                             px = GetNextNumber(dString, ref parseIndex);
                             py = GetNextNumber(dString, ref parseIndex);
                             gyphPath.Curve3Rel(p2x, p2y, px, py);
-
-                        } break;
+                        }
+                        break;
                     case 'Q':
                         {   //Curve3 
                             parseIndex++;
@@ -344,15 +327,16 @@ namespace PixelFarm.Agg.Fonts
                             px = GetNextNumber(dString, ref parseIndex);
                             py = GetNextNumber(dString, ref parseIndex);
                             gyphPath.SmoothCurve3Rel(px, py);
-
-                        } break;
+                        }
+                        break;
                     case 'T':
                         {
                             parseIndex++;
                             px = GetNextNumber(dString, ref parseIndex);
                             py = GetNextNumber(dString, ref parseIndex);
                             gyphPath.SmoothCurve3(px, py);
-                        } break;
+                        }
+                        break;
                     case 'z':
                     case 'Z':
                         {
@@ -364,18 +348,18 @@ namespace PixelFarm.Agg.Fonts
                             // We stored the position of the start of this polygon, no we flip it as we colse it.
                             //newGlyph.glyphData.InvertPolygon(polyStartVertexSourceIndex);
                             // VertexHelper.InvertPolygon(gyphPath.Vxs, polyStartVertexSourceIndex);
-                        } break;
+                        }
+                        break;
                     case ' ':
                     case '\n': // some white space we need to skip
                     case '\r':
                         {
                             parseIndex++;
-                        } break;
+                        }
+                        break;
                     default:
                         throw new NotImplementedException("unrecognized d command '" + command + "'.");
                 }
-
-
             }
 
             return newGlyph;
@@ -387,7 +371,6 @@ namespace PixelFarm.Agg.Fonts
             String fontElementString = GetSubString(svgContent, "<font", ">", ref startIndex);
             fontId = GetStringValue(fontElementString, "id");
             GetIntValue(fontElementString, "horiz-adv-x", out horiz_adv_x);
-
             String fontFaceString = GetSubString(svgContent, "<font-face", "/>", ref startIndex);
             fontFamily = GetStringValue(fontFaceString, "font-family");
             GetIntValue(fontFaceString, "font-weight", out font_weight);
@@ -398,21 +381,17 @@ namespace PixelFarm.Agg.Fonts
             GetIntValue(fontFaceString, "descent", out descent);
             GetIntValue(fontFaceString, "x-height", out x_height);
             GetIntValue(fontFaceString, "cap-height", out cap_height);
-
             String bboxString = GetStringValue(fontFaceString, "bbox");
             String[] valuesString = bboxString.Split(' ');
             int.TryParse(valuesString[0], out boundingBox.Left);
             int.TryParse(valuesString[1], out boundingBox.Bottom);
             int.TryParse(valuesString[2], out boundingBox.Right);
             int.TryParse(valuesString[3], out boundingBox.Top);
-
             GetIntValue(fontFaceString, "underline-thickness", out underline_thickness);
             GetIntValue(fontFaceString, "underline-position", out underline_position);
             unicode_range = GetStringValue(fontFaceString, "unicode-range");
-
             String missingGlyphString = GetSubString(svgContent, "<missing-glyph", "/>", ref startIndex);
             missingGlyph = CreateGlyphFromSVGGlyphData(missingGlyphString);
-
             String nextGlyphString = GetSubString(svgContent, "<glyph", "/>", ref startIndex);
             while (nextGlyphString != null)
             {
@@ -464,7 +443,6 @@ namespace PixelFarm.Agg.Fonts
             FontGlyph glyph;
             if (originalGlyphs.TryGetValue(character, out glyph))
             {
-
                 return glyph.horiz_adv_x;
             }
 

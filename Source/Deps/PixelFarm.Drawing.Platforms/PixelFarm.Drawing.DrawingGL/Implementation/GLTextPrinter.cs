@@ -1,10 +1,11 @@
 ﻿// 2015,2014 ,MIT, WinterDev
+
 using System.Text;
 using System;
-
 using PixelFarm.Agg.Fonts;
 using PixelFarm.DrawingGL;
 // 2015,2014 ,Apache2, WinterDev
+
 namespace PixelFarm.Drawing.DrawingGL
 {
     class GLTextPrinter
@@ -35,7 +36,6 @@ namespace PixelFarm.Drawing.DrawingGL
         }
         public void Print(PixelFarm.Drawing.Color color, char[] buffer, int start, int len, double x, double y)
         {
-
             if (this.currentFont.IsAtlasFont)
             {
                 //temp hard-code here!
@@ -73,10 +73,8 @@ namespace PixelFarm.Drawing.DrawingGL
                     this.canvas2d.DrawImage(bmp,
                         (float)(xpos + (left >> 6)),
                         (float)(y + (glyph.exportGlyph.bboxYmin >> 6)));
-
                     int w = (glyph.exportGlyph.advanceX) >> 6;
                     xpos += (w);
-
                     bmp.Dispose(); //temp here 
                     //-------------------------------------------------------------                
                 }

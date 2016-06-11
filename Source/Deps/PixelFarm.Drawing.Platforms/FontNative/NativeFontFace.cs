@@ -4,15 +4,12 @@
 //native dll lib
 //plan?: port  them to C#  :)
 //----------------------------------- 
+
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
- 
-
 namespace PixelFarm.Agg.Fonts
 {
-
-
     class NativeFontFace : FontFace
     {
         /// <summary>
@@ -23,27 +20,20 @@ namespace PixelFarm.Agg.Fonts
         /// free type handle (unmanaged mem)
         /// </summary>
         IntPtr ftFaceHandle;
-
         int currentFacePixelSize = 0;
-
         /// <summary>
         /// store font glyph for each px size
         /// </summary>
         Dictionary<int, Font> fonts = new Dictionary<int, Font>();
         IntPtr hb_font;
         Font px64Font;
-
-
         internal NativeFontFace(IntPtr unmanagedMem, IntPtr ftFaceHandle)
         {
             this.unmanagedMem = unmanagedMem;
             this.ftFaceHandle = ftFaceHandle;
-
-
             //---------------------------------
             //for master font at 64px
             px64Font = GetFontAtPixelSize(64);
-
         }
 
 
@@ -77,8 +67,7 @@ namespace PixelFarm.Agg.Fonts
             {
                 fonts.Clear();
                 fonts = null;
-            }           
-
+            }
         }
 
 
@@ -101,16 +90,13 @@ namespace PixelFarm.Agg.Fonts
                 //set current fontface size
                 currentFacePixelSize = pixelSize;
                 NativeMyFontsLib.MyFtSetPixelSizes(this.ftFaceHandle, pixelSize);
-
                 //create font size
                 NativeFont f = new NativeFont(this, pixelSize);
                 fonts.Add(pixelSize, f);
-
                 //------------------------------------
                 return f;
             }
             return found;
-
         }
         internal Font GetFontAtPointSize(float fontPointSize)
         {
@@ -131,7 +117,6 @@ namespace PixelFarm.Agg.Fonts
             {
                 ExportGlyph exportTypeFace = new ExportGlyph();
                 NativeMyFontsLib.MyFtLoadGlyph(ftFaceHandle, glyphIndex, ref exportTypeFace);
-
                 FontGlyph fontGlyph = new FontGlyph();
                 BuildGlyph(fontGlyph, &exportTypeFace, pixelSize);
                 return fontGlyph;
@@ -153,7 +138,6 @@ namespace PixelFarm.Agg.Fonts
                 BuildGlyph(fontGlyph, &exportTypeFace, pixelSize);
                 return fontGlyph;
             }
-
         }
 
         unsafe void BuildGlyph(FontGlyph fontGlyph, ExportGlyph* exportTypeFace, int pxsize)
@@ -182,10 +166,5 @@ namespace PixelFarm.Agg.Fonts
                 NativeFontGlyphBuilder.BuildGlyphOutline(fontGlyph, exportTypeFace);
             }
         }
-
-
-
-
     }
-
 }

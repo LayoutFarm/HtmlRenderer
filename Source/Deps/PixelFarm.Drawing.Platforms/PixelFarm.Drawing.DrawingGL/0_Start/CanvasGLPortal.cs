@@ -1,7 +1,7 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
-using System;
-using System.Text; 
 
+using System;
+using System.Text;
 namespace PixelFarm.Drawing.DrawingGL
 {
     public static class CanvasGLPortal
@@ -27,11 +27,9 @@ namespace PixelFarm.Drawing.DrawingGL
         }
         public static void Start()
         {
-
         }
         public static void End()
         {
-
         }
         public static GraphicsPlatform P
         {
@@ -40,7 +38,6 @@ namespace PixelFarm.Drawing.DrawingGL
         public static FontInfo GetFontInfo(string fontname, float emsize, FontLoadTechnique fontLoadTechnique)
         {
             return CanvasGLPlatform.PlatformGetFont(fontname, emsize, fontLoadTechnique);
-            
         }
     }
     public enum FontLoadTechnique
@@ -48,5 +45,4 @@ namespace PixelFarm.Drawing.DrawingGL
         NativeFreeType,
         GdiBitmapFont
     }
-
 }

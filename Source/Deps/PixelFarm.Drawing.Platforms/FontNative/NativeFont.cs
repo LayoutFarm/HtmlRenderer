@@ -1,8 +1,8 @@
 ﻿// 2015,2014 ,MIT, WinterDev
 //----------------------------------- 
-using System;
-using System.Collections.Generic; 
 
+using System;
+using System.Collections.Generic;
 namespace PixelFarm.Agg.Fonts
 {
     class NativeFont : Font
@@ -36,7 +36,6 @@ namespace PixelFarm.Agg.Fonts
             FontGlyph found;
             if (!dicGlyphs.TryGetValue(c, out found))
             {
-
                 found = ownerFace.ReloadGlyphFromChar(c, fontSizeInPixelUnit);
                 this.dicGlyphs.Add(c, found);
             }

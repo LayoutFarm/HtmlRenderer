@@ -9,17 +9,13 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
- 
 namespace PixelFarm.Agg.Fonts
 {
-
-
     [StructLayout(LayoutKind.Sequential)]
     struct FT_Vector
     {
         public int x;
         public int y;
-
         public FT_Vector(int x, int y)
         {
             this.x = x;
@@ -32,11 +28,9 @@ namespace PixelFarm.Agg.Fonts
     {
         public short n_contours;      /* number of contours in glyph        */
         public short n_points;        /* number of points in the glyph      */
-
         public FT_Vector* points;          /* the outline's points               */
         public byte* tags;            /* the points flags                   */
         public short* contours;        /* the contour end points             */
-
         public int flags;           /* outline masks                      */
     }
 
@@ -115,7 +109,4 @@ namespace PixelFarm.Agg.Fonts
         public char palette_mode;
         public void* palette;
     }
-
-   
-
 }

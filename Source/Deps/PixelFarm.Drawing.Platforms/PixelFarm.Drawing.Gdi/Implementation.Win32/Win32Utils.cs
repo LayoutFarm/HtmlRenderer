@@ -15,7 +15,6 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Drawing;
-
 namespace Win32
 {
     /// <summary>
@@ -27,12 +26,10 @@ namespace Win32
         /// Const for BitBlt copy raster-operation code.
         /// </summary>
         public const int BitBltCopy = 0x00CC0020;
-
         /// <summary>
         /// Const for BitBlt paint raster-operation code.
         /// </summary>
         public const int BitBltPaint = 0x00EE0086;
-
         /// <summary>
         /// Create a compatible memory HDC from the given HDC.<br/>
         /// The memory HDC can be rendered into without effecting the original HDC.<br/>
@@ -48,7 +45,6 @@ namespace Win32
             // Create a memory DC so we can work off-screen
             IntPtr memoryHdc = CreateCompatibleDC(hdc);
             SetBkMode(memoryHdc, 1);
-
             // Create a device-independent bitmap and select it into our DC
             var info = new Win32.BitMapInfo();
             info.biSize = Marshal.SizeOf(info);
@@ -60,17 +56,13 @@ namespace Win32
             IntPtr ppvBits;
             dib = CreateDIBSection(hdc, ref info, 0, out ppvBits, IntPtr.Zero, 0);
             SelectObject(memoryHdc, dib);
-
             return memoryHdc;
         }
 
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         public static extern IntPtr GetDC(IntPtr hWnd);
-        
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         public static extern IntPtr ReleaseDC(IntPtr hWnd, IntPtr hdc);
-        
-        
         /// <summary>
         /// Release the given memory HDC and dib section created from <see cref="CreateMemoryHdc"/>.
         /// </summary>
@@ -84,10 +76,8 @@ namespace Win32
 
         [DllImport("user32.dll")]
         public static extern bool IsWindowVisible(IntPtr hWnd);
-
         [DllImport("user32.dll")]
         public static extern IntPtr WindowFromDC(IntPtr hdc);
-
         /// <summary>
         /// Retrieves the dimensions of the bounding rectangle of the specified window. The dimensions are given in screen coordinates that are relative to the upper-left corner of the screen.
         /// </summary>
@@ -100,7 +90,6 @@ namespace Win32
         /// <returns>If the function succeeds, the return value is nonzero.</returns>
         [DllImport("User32", SetLastError = true)]
         public static extern int GetWindowRect(IntPtr hWnd, out Rectangle lpRect);
-
         /// <summary>
         /// Retrieves the dimensions of the bounding rectangle of the specified window. The dimensions are given in screen coordinates that are relative to the upper-left corner of the screen.
         /// </summary>
@@ -119,45 +108,30 @@ namespace Win32
 
         [DllImport("User32.dll")]
         public static extern bool MoveWindow(IntPtr handle, int x, int y, int width, int height, bool redraw);
-
         [DllImport("gdi32.dll")]
         public static extern int SetBkMode(IntPtr hdc, int mode);
-
         [DllImport("gdi32.dll")]
         public static extern int SelectObject(IntPtr hdc, IntPtr hgdiObj);
-
         [DllImport("gdi32.dll")]
         public static extern int SetTextColor(IntPtr hdc, int color);
-
-         
         [DllImport("gdi32.dll")]
         public static extern IntPtr CreateRectRgn(int nLeftRect, int nTopRect, int nRightRect, int nBottomRect);
-
         [DllImport("gdi32.dll")]
         public static extern int GetClipBox(IntPtr hdc, out Rectangle lprc);
-
         [DllImport("gdi32.dll")]
         public static extern int SelectClipRgn(IntPtr hdc, IntPtr hrgn);
-
         [DllImport("gdi32.dll")]
         public static extern bool DeleteObject(IntPtr hObject);
-
         [DllImport("gdi32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool BitBlt(IntPtr hdc, int nXDest, int nYDest, int nWidth, int nHeight, IntPtr hdcSrc, int nXSrc, int nYSrc, int dwRop);
-
         [DllImport("gdi32.dll", EntryPoint = "GdiAlphaBlend")]
         public static extern bool AlphaBlend(IntPtr hdcDest, int nXOriginDest, int nYOriginDest, int nWidthDest, int nHeightDest, IntPtr hdcSrc, int nXOriginSrc, int nYOriginSrc, int nWidthSrc, int nHeightSrc, BlendFunction blendFunction);
-
         [DllImport("gdi32.dll", ExactSpelling = true, SetLastError = true)]
         public static extern bool DeleteDC(IntPtr hdc);
-
         [DllImport("gdi32.dll", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr CreateCompatibleDC(IntPtr hdc);
-
         [DllImport("gdi32.dll")]
-        public static extern IntPtr CreateDIBSection(IntPtr hdc, [In] ref  Win32.BitMapInfo pbmi, uint iUsage, out IntPtr ppvBits, IntPtr hSection, uint dwOffset);
+        public static extern IntPtr CreateDIBSection(IntPtr hdc, [In] ref Win32.BitMapInfo pbmi, uint iUsage, out IntPtr ppvBits, IntPtr hSection, uint dwOffset);
     }
-
-
 }

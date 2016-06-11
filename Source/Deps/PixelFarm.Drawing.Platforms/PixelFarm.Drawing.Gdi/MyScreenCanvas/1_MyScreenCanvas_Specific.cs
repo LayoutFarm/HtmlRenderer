@@ -16,24 +16,20 @@
 using System;
 using System.Collections.Generic;
 using Win32;
-
 namespace PixelFarm.Drawing.WinGdi
 {
-
     partial class MyScreenCanvas : Canvas, IFonts, IDisposable
     {
         int pageNumFlags;
         int pageFlags;
         bool isDisposed;
         bool disposing;
-
         IntPtr originalHdc = IntPtr.Zero;
         System.Drawing.Graphics gx;
         IntPtr hRgn = IntPtr.Zero;
         IntPtr tempDc;
         IntPtr hbmp;
         IntPtr hFont = IntPtr.Zero;
-
         Stack<System.Drawing.Rectangle> clipRectStack = new Stack<System.Drawing.Rectangle>();
         //-------------------------------
         System.Drawing.Bitmap bgBmp;
@@ -44,8 +40,6 @@ namespace PixelFarm.Drawing.WinGdi
         //-------------------------------
 
         GraphicsPlatform platform;
-
-
 #if DEBUG
         static int dbugTotalId;
         public readonly int dbugId = dbugTotalId++;
@@ -57,31 +51,23 @@ namespace PixelFarm.Drawing.WinGdi
             int width,
             int height)
         {
-
             //platform specific Win32
             //1.
             this.platform = platform;
-
             this.pageNumFlags = (horizontalPageNum << 8) | verticalPageNum;
             //2. dimension
             this.left = left;
             this.top = top;
             this.right = left + width;
             this.bottom = top + height;
-
             CreateGraphicsFromNativeHdc(width, height);
-
-
             //-------------------------------------------------------
             currentClipRect = new System.Drawing.Rectangle(0, 0, width, height);
-
             var fontInfo = platform.GetFont("tahoma", 10, FontStyle.Regular);
             this.CurrentFont = defaultFont = fontInfo.ResolvedFont;
             this.CurrentTextColor = Color.Black;
-
             internalPen = new System.Drawing.Pen(System.Drawing.Color.Black);
             internalSolidBrush = new System.Drawing.SolidBrush(System.Drawing.Color.Black);
-
 #if DEBUG
             debug_canvas_id = dbug_canvasCount + 1;
             dbug_canvasCount += 1;
@@ -90,23 +76,18 @@ namespace PixelFarm.Drawing.WinGdi
         }
         void CreateGraphicsFromNativeHdc(int width, int height)
         {
-
             //3. create original dc from memory dc and prepare background
             var orgHdc = MyWin32.CreateCompatibleDC(IntPtr.Zero);
-
             bgBmp = new System.Drawing.Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
             hbmp = bgBmp.GetHbitmap();
             MyWin32.SelectObject(orgHdc, hbmp);
             MyWin32.PatBlt(orgHdc, 0, 0, width, height, MyWin32.WHITENESS);
             MyWin32.SetBkMode(orgHdc, MyWin32._SetBkMode_TRANSPARENT);
-
             //4. font
             hFont = MyWin32.SelectObject(orgHdc, hFont);
-
             //5. region
             hRgn = MyWin32.CreateRectRgn(0, 0, width, height);
             MyWin32.SelectObject(orgHdc, hRgn);
-
             //6. create graphics from hdc***  
 
             gx = System.Drawing.Graphics.FromHdc(orgHdc);
@@ -115,7 +96,6 @@ namespace PixelFarm.Drawing.WinGdi
         public override string ToString()
         {
             return "visible_clip" + this.gx.VisibleClipBounds.ToString();
-
         }
 
         public override void CloseCanvas()
@@ -174,7 +154,6 @@ namespace PixelFarm.Drawing.WinGdi
 
         void ReleaseUnManagedResource()
         {
-
             if (hRgn != IntPtr.Zero)
             {
                 MyWin32.DeleteObject(hRgn);
@@ -186,11 +165,7 @@ namespace PixelFarm.Drawing.WinGdi
             MyWin32.DeleteObject(hbmp);
             hbmp = IntPtr.Zero;
             clipRectStack.Clear();
-
             currentClipRect = new System.Drawing.Rectangle(0, 0, this.Width, this.Height);
-
-
-
 #if DEBUG
 
             debug_releaseCount++;
@@ -200,16 +175,12 @@ namespace PixelFarm.Drawing.WinGdi
         public void Reuse(int hPageNum, int vPageNum)
         {
             this.pageNumFlags = (hPageNum << 8) | vPageNum;
-
             int w = this.Width;
             int h = this.Height;
-
             this.ClearPreviousStoredValues();
-
             currentClipRect = new System.Drawing.Rectangle(0, 0, w, h);
             gx.Clear(System.Drawing.Color.White);
             MyWin32.SetRectRgn(hRgn, 0, 0, w, h);
-
             left = hPageNum * w;
             top = vPageNum * h;
             right = left + w;
@@ -229,20 +200,14 @@ namespace PixelFarm.Drawing.WinGdi
             MyWin32.SelectObject(orgHdc, hbmp);
             MyWin32.PatBlt(orgHdc, 0, 0, newWidth, newHeight, MyWin32.WHITENESS);
             MyWin32.SetBkMode(orgHdc, MyWin32._SetBkMode_TRANSPARENT);
-
-
             hFont = defaultHFont;
-
             MyWin32.SelectObject(orgHdc, hFont);
             currentClipRect = new System.Drawing.Rectangle(0, 0, newWidth, newHeight);
             MyWin32.SelectObject(orgHdc, hRgn);
             gx = System.Drawing.Graphics.FromHdc(orgHdc);
             this.originalHdc = orgHdc;
-
             gx.Clear(System.Drawing.Color.White);
             MyWin32.SetRectRgn(hRgn, 0, 0, newWidth, newHeight);
-
-
             left = hPageNum * newWidth;
             top = vPageNum * newHeight;
             right = left + newWidth;
@@ -320,7 +285,6 @@ namespace PixelFarm.Drawing.WinGdi
             {
                 if (disposing)
                 {
-
                     tempDc = IntPtr.Zero;
                 }
                 else
@@ -329,7 +293,6 @@ namespace PixelFarm.Drawing.WinGdi
                     gx.ReleaseHdc(tempDc);
                     tempDc = IntPtr.Zero;
                 }
-
             }
         }
 
@@ -340,7 +303,6 @@ namespace PixelFarm.Drawing.WinGdi
         void SetFont(Font font)
         {
             InitHdc();
-
             Win32Utils.SelectObject(tempDc, FontStore.GetCachedHFont(font.InnerFont as System.Drawing.Font));
         }
 
@@ -365,19 +327,15 @@ namespace PixelFarm.Drawing.WinGdi
         {
             IntPtr dib;
             var memoryHdc = Win32Utils.CreateMemoryHdc(hdc, size.Width, size.Height, out dib);
-
             try
             {
                 // copy target background to memory HDC so when copied back it will have the proper background
                 Win32Utils.BitBlt(memoryHdc, 0, 0, size.Width, size.Height, hdc, point.X, point.Y, Win32Utils.BitBltCopy);
-
                 // Create and select font
                 Win32Utils.SelectObject(memoryHdc, FontStore.GetCachedHFont(font.InnerFont as System.Drawing.Font));
                 Win32Utils.SetTextColor(memoryHdc, (color.B & 0xFF) << 16 | (color.G & 0xFF) << 8 | color.R);
-
                 // Draw text to memory HDC
                 NativeTextWin32.TextOut(memoryHdc, 0, 0, str, str.Length);
-
                 // copy from memory HDC to normal HDC with alpha blend so achieve the transparent text
                 Win32Utils.AlphaBlend(hdc, point.X, point.Y, size.Width, size.Height, memoryHdc, 0, 0, size.Width, size.Height, new BlendFunction(color.A));
             }
@@ -401,16 +359,11 @@ namespace PixelFarm.Drawing.WinGdi
         /// The string format to use for measuring strings for GDI+ text rendering
         /// </summary>
         static readonly System.Drawing.StringFormat _stringFormat;
-
         const int CANVAS_UNUSED = 1 << (1 - 1);
         const int CANVAS_DIMEN_CHANGED = 1 << (2 - 1);
-
-
         static IntPtr defaultHFont;
         Font defaultFont;
-
         static System.Drawing.Font defaultGdiFont;
-
         static MyScreenCanvas()
         {
             _stringFormat = new System.Drawing.StringFormat(System.Drawing.StringFormat.GenericDefault);
@@ -418,7 +371,6 @@ namespace PixelFarm.Drawing.WinGdi
             //---------------------------
             defaultGdiFont = new System.Drawing.Font("tahoma", 10);
             defaultHFont = defaultGdiFont.ToHfont();
-
         }
         static System.Drawing.PointF[] ConvPointFArray(PointF[] points)
         {
@@ -484,6 +436,5 @@ namespace PixelFarm.Drawing.WinGdi
         //    currentClipRect = intersectResult;
         //    return true;
         //}
-
     }
 }

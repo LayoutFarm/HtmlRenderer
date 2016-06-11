@@ -9,16 +9,11 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.IO;
-
-
 namespace PixelFarm.Agg.Fonts
 {
-
     public static class NativeFontStore
     {
-
         static Dictionary<string, NativeFontFace> fonts = new Dictionary<string, NativeFontFace>();
-
         internal static void SetShapingEngine(NativeFontFace fontFace, string lang, HBDirection hb_direction, int hb_scriptcode)
         {
             //string lang = "en";
@@ -39,7 +34,6 @@ namespace PixelFarm.Agg.Fonts
 
         public static Font LoadFont(string filename, int fontPointSize)
         {
-
             //load font from specific file 
             NativeFontFace fontFace;
             if (!fonts.TryGetValue(filename, out fontFace))
@@ -54,7 +48,6 @@ namespace PixelFarm.Agg.Fonts
                 //convert font point size to pixel size 
                 //---------------------------------------------------
                 IntPtr faceHandle = NativeMyFontsLib.MyFtNewMemoryFace(unmanagedMem, filelen);
-
                 if (faceHandle != IntPtr.Zero)
                 {
                     //ok pass
@@ -79,7 +72,6 @@ namespace PixelFarm.Agg.Fonts
                 }
                 else
                 {
-
                     //load font error
                     Marshal.FreeHGlobal(unmanagedMem);
                 }
@@ -89,8 +81,6 @@ namespace PixelFarm.Agg.Fonts
             //-------------------------------------------------
 
             return fontFace.GetFontAtPointSize(fontPointSize);
-
-
         }
 
 
@@ -103,5 +93,4 @@ namespace PixelFarm.Agg.Fonts
             return (int)(point * 96 / 72);
         }
     }
-
 }

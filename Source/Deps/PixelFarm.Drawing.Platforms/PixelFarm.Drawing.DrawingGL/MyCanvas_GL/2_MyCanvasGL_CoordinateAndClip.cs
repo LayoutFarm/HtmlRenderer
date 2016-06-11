@@ -16,8 +16,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
-
 namespace PixelFarm.Drawing.DrawingGL
 {
     static class Conv
@@ -32,7 +30,7 @@ namespace PixelFarm.Drawing.DrawingGL
         int left;
         int top;
         int right;
-        int bottom; 
+        int bottom;
         Rectangle invalidateArea;
         CanvasOrientation orientation;
         bool isEmptyInvalidateArea;
@@ -67,7 +65,6 @@ namespace PixelFarm.Drawing.DrawingGL
         {
             get
             {
-
                 return canvasGL2d.CanvasOriginX;
             }
         }
@@ -94,17 +91,15 @@ namespace PixelFarm.Drawing.DrawingGL
         public override bool IntersectsWith(Rectangle clientRect)
         {
             return clientRect.IntersectsWith(left, top, right, bottom);
-        } 
+        }
         //---------------------------------------------------
-        public override bool PushClipAreaRect(int width, int height,ref Rectangle updateArea)
+        public override bool PushClipAreaRect(int width, int height, ref Rectangle updateArea)
         {
             this.clipRectStack.Push(currentClipRect);
-
             System.Drawing.Rectangle intersectResult =
                 System.Drawing.Rectangle.Intersect(
                 System.Drawing.Rectangle.FromLTRB(updateArea.Left, updateArea.Top, updateArea.Right, updateArea.Bottom),
                 new System.Drawing.Rectangle(0, 0, width, height));
-
             currentClipRect = intersectResult;
             if (intersectResult.Width <= 0 || intersectResult.Height <= 0)
             {
@@ -130,7 +125,6 @@ namespace PixelFarm.Drawing.DrawingGL
 
             canvasGL2d.EnableClipRect();
             canvasGL2d.SetClipRectRel(currentClipRect.X, currentClipRect.Y, currentClipRect.Width, currentClipRect.Height);
-
         }
         public override Rectangle CurrentClipRect
         {
@@ -202,16 +196,13 @@ namespace PixelFarm.Drawing.DrawingGL
         {
             this.invalidateArea = Rectangle.Empty;
             this.isEmptyInvalidateArea = true;//set
-
         }
         public override void Invalidate(Rectangle rect)
         {
             if (isEmptyInvalidateArea)
             {
-
                 invalidateArea = rect;
                 isEmptyInvalidateArea = false;
-
             }
             else
             {
@@ -222,5 +213,4 @@ namespace PixelFarm.Drawing.DrawingGL
             this.IsContentReady = false;
         }
     }
-
 }

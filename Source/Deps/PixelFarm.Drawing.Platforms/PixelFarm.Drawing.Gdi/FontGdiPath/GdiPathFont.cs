@@ -1,12 +1,11 @@
 ﻿// 2015,2014 ,MIT, WinterDev   
+
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Collections.Generic;
-
 using PixelFarm;
 using PixelFarm.Agg;
-
 namespace PixelFarm.Agg.Fonts
 {
     class GdiPathFont : Font
@@ -16,11 +15,8 @@ namespace PixelFarm.Agg.Fonts
         const int POINTS_PER_INCH = 72;
         const int PIXEL_PER_INCH = 96;
         int emSizeInPixels;
-        double currentEmScalling; 
+        double currentEmScalling;
         Dictionary<char, FontGlyph> cachedGlyphs = new Dictionary<char, FontGlyph>();
-
-
-
         System.Drawing.Font gdiFont;
         public GdiPathFont(GdiPathFontFace fontface, int emSizeInPoints)
         {
@@ -33,8 +29,6 @@ namespace PixelFarm.Agg.Fonts
             //-----------------
             //implementation
             gdiFont = new System.Drawing.Font(fontface.FaceName, emSizeInPoints);
-
-
         }
         public override int GetAdvanceForCharacter(char c)
         {
@@ -78,7 +72,7 @@ namespace PixelFarm.Agg.Fonts
                 //------------------------
                 //create vector version, using Path
                 VertexStore vxs = new VertexStore();
-                PixelFarm.Agg.GdiPathConverter.ConvertCharToVertexGlyph(gdiFont, c, vxs);                 
+                PixelFarm.Agg.GdiPathConverter.ConvertCharToVertexGlyph(gdiFont, c, vxs);
                 found.originalVxs = vxs;
                 //create flatten version 
                 found.flattenVxs = curveFlattener.MakeVxs(vxs);//?

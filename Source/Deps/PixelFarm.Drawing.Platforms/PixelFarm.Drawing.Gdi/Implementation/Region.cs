@@ -1,9 +1,8 @@
 ﻿// 2015,2014 ,BSD, WinterDev 
-using System.Drawing;
 
+using System.Drawing;
 namespace PixelFarm.Drawing.WinGdi
 {
-
     class MyRegion : Region
     {
         System.Drawing.Region rgn = new System.Drawing.Region();

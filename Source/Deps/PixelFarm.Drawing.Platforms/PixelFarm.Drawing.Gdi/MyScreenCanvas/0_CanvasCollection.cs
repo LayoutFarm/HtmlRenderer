@@ -1,12 +1,10 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Collections.Generic;
 using System.Text;
-
-
 namespace PixelFarm.Drawing.WinGdi
 {
-
     class CanvasCollection
     {
         List<MyScreenCanvas> cachePages;
@@ -50,13 +48,11 @@ namespace PixelFarm.Drawing.WinGdi
             {
                 this.eachPageWidth = width;
                 this.eachPageHeight = height;
-
                 for (int i = cachePages.Count - 1; i > -1; i--)
                 {
                     cachePages[i].DimensionInvalid = true;
                 }
             }
-
         }
         public MyScreenCanvas GetCanvasPage(int hPageNum, int vPageNum)
         {
@@ -81,7 +77,6 @@ namespace PixelFarm.Drawing.WinGdi
                 MyScreenCanvas page = cachePages[0];
                 cachePages.RemoveAt(0);
                 page.IsUnused = false;
-
                 if (page.DimensionInvalid)
                 {
                     page.Reset(hPageNum, vPageNum, eachPageWidth, eachPageHeight);
@@ -93,7 +88,6 @@ namespace PixelFarm.Drawing.WinGdi
 
                 Rectangle rect = page.Rect;
                 page.Invalidate(rect);
-
                 return page;
             }
             else
@@ -120,7 +114,5 @@ namespace PixelFarm.Drawing.WinGdi
             }
             cachePages.Clear();
         }
-
     }
-
 }
