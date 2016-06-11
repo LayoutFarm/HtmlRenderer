@@ -48,10 +48,8 @@ namespace OpenTK.Graphics.ES20
 
     partial class GL
     {
-
         internal static partial class Core
         {
-
             [System.Security.SuppressUnmanagedCodeSecurity()]
             [System.Runtime.InteropServices.DllImport(GL.Library, EntryPoint = "glActiveTexture", ExactSpelling = true)]
             internal extern static void ActiveTexture(OpenTK.Graphics.ES20.TextureUnit texture);

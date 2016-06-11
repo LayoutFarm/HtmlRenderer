@@ -25,7 +25,7 @@
 //
 #endregion
 
-#if  ENABLE_DESKTOP_OPENGL && gl1_3
+#if ENABLE_DESKTOP_OPENGL && gl1_3
 namespace OpenTK.Graphics.OpenGL
 {
     using System;

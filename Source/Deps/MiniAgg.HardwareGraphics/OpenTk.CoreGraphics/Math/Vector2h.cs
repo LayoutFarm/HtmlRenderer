@@ -26,10 +26,8 @@ using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
-
 namespace OpenTK
 {
-
     /// <summary>2-component Vector of the Half type. Occupies 4 Byte total.</summary>
     [Serializable, StructLayout(LayoutKind.Sequential)]
     public struct Vector2h : ISerializable, IEquatable<Vector2h>
@@ -38,10 +36,8 @@ namespace OpenTK
 
         /// <summary>The X component of the Half2.</summary>
         public Half X;
-
         /// <summary>The Y component of the Half2.</summary>
         public Half Y;
-
         #endregion
 
         #region Constructors
@@ -233,7 +229,6 @@ namespace OpenTK
 
         /// <summary>The size in bytes for an instance of the Half2 struct is 4.</summary>
         public static readonly int SizeInBytes = 4;
-
         #endregion Constants
 
         #region ISerializable
@@ -308,14 +303,12 @@ namespace OpenTK
         public static byte[] GetBytes(Vector2h h)
         {
             byte[] result = new byte[SizeInBytes];
-
             byte[] temp = Half.GetBytes(h.X);
             result[0] = temp[0];
             result[1] = temp[1];
             temp = Half.GetBytes(h.Y);
             result[2] = temp[0];
             result[3] = temp[1];
-
             return result;
         }
 

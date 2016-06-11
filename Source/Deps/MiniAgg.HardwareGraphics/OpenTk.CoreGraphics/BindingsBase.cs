@@ -31,7 +31,6 @@ using System.Text;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
-
 namespace OpenTK
 {
     /// <summary>
@@ -45,19 +44,15 @@ namespace OpenTK
         /// A reflection handle to the nested type that contains the function delegates.
         /// </summary>
         readonly protected Type DelegatesClass;
-
         /// <summary>
         /// A refection handle to the nested type that contains core functions (i.e. not extensions).
         /// </summary>
         readonly protected Type CoreClass;
-
         /// <summary>
         /// A mapping of core function names to MethodInfo handles.
         /// </summary>
         readonly protected SortedList<string, MethodInfo> CoreFunctionMap = new SortedList<string, MethodInfo>();
-
         bool rebuildExtensionList = true;
-
         #endregion
 
         #region Constructors
@@ -69,7 +64,6 @@ namespace OpenTK
         {
             DelegatesClass = this.GetType().GetNestedType("Delegates", BindingFlags.Static | BindingFlags.NonPublic);
             CoreClass = this.GetType().GetNestedType("Core", BindingFlags.Static | BindingFlags.NonPublic);
-
             if (CoreClass != null)
             {
                 MethodInfo[] methods = CoreClass.GetMethods(BindingFlags.Static | BindingFlags.NonPublic);
@@ -110,7 +104,6 @@ namespace OpenTK
         /// values.
         /// </remarks>
         protected abstract IntPtr GetAddress(string funcname);
-
         /// <summary>
         /// Gets an object that can be used to synchronize access to the bindings implementation.
         /// </summary>
@@ -132,24 +125,18 @@ namespace OpenTK
             // than with reflection, but the first time is more significant.
 
             int supported = 0;
-
             FieldInfo[] delegates = DelegatesClass.GetFields(BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public);
             if (delegates == null)
                 throw new InvalidOperationException("The specified type does not have any loadable extensions.");
-
             Debug.Write("Loading extensions for " + this.GetType().FullName + "... ");
-
             Stopwatch time = new Stopwatch();
             time.Reset();
             time.Start();
-
             foreach (FieldInfo f in delegates)
             {
-                 
                 Delegate d = LoadDelegate(f.Name, f.FieldType);
                 if (d != null)
                     ++supported;
-
                 lock (SyncRoot)
                 {
                     f.SetValue(null, d);
@@ -157,7 +144,6 @@ namespace OpenTK
             }
 
             rebuildExtensionList = true;
-
             time.Stop();
             Debug.Print("{0} extensions loaded in {1} ms.", supported, time.Elapsed.TotalMilliseconds);
             time.Reset();
@@ -172,7 +158,6 @@ namespace OpenTK
             FieldInfo f = DelegatesClass.GetField(function, BindingFlags.Static | BindingFlags.NonPublic);
             if (f == null)
                 return false;
-
             Delegate old = f.GetValue(null) as Delegate;
             Delegate @new = LoadDelegate(f.Name, f.FieldType);
             lock (SyncRoot)
@@ -211,7 +196,6 @@ namespace OpenTK
         internal Delegate GetExtensionDelegate(string name, Type signature)
         {
             IntPtr address = GetAddress(name);
-
             if (address == IntPtr.Zero ||
                 address == new IntPtr(1) ||     // Workaround for buggy nvidia drivers which return
                 address == new IntPtr(2))       // 1 or 2 instead of IntPtr.Zero for some extensions.

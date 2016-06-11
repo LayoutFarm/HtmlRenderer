@@ -29,7 +29,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using OpenTK.Platform;
-
 namespace OpenTK.Graphics
 {
     // Provides the foundation for all IGraphicsContext implementations.
@@ -38,18 +37,14 @@ namespace OpenTK.Graphics
         #region Fields
 
         bool disposed;
-
         protected ContextHandle Handle;
         protected GraphicsMode Mode;
-
         #endregion
 
         #region IGraphicsContext Members
 
         public abstract void SwapBuffers();
-
         public abstract void MakeCurrent(IWindowInfo window);
-
         public abstract bool IsCurrent { get; }
 
         public bool IsDisposed
@@ -77,17 +72,14 @@ namespace OpenTK.Graphics
         public IGraphicsContext Implementation { get { return this; } }
 
         public abstract void LoadAll();
-
         public ContextHandle Context { get { return Handle; } }
 
         public abstract IntPtr GetAddress(string function);
-
         #endregion
 
         #region IDisposable Members
 
         public abstract void Dispose();
-
         #endregion
     }
 }

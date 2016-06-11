@@ -9,7 +9,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 namespace OpenTK.Platform
 {
     /// <summary>Descibes an OS window.</summary>

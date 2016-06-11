@@ -20,22 +20,18 @@ namespace OpenTK
         /// The left boundary of the structure.
         /// </summary>
         public float Left;
-
         /// <summary>
         /// The right boundary of the structure.
         /// </summary>
         public float Right;
-
         /// <summary>
         /// The top boundary of the structure.
         /// </summary>
         public float Top;
-
         /// <summary>
         /// The bottom boundary of the structure.
         /// </summary>
         public float Bottom;
-
         /// <summary>
         /// Constructs a new Box2 with the specified dimensions.
         /// </summary>

@@ -32,8 +32,6 @@
 //
 
 using System;
-
-
 namespace OpenTK.Graphics
 {
     public struct Size
@@ -76,7 +74,6 @@ namespace OpenTK.Graphics
         }
 
         public static readonly Size Empty = new Size();
-
     }
     public struct Point
     {
@@ -127,7 +124,6 @@ namespace OpenTK.Graphics
     public struct Rectangle
     {
         private int x, y, width, height;
-
         /// <summary>
         ///	Empty Shared Field
         /// </summary>
@@ -137,8 +133,6 @@ namespace OpenTK.Graphics
         /// </remarks>
 
         public static readonly Rectangle Empty;
-
-
         /// <summary>
         ///	Ceiling Shared Method
         /// </summary>
@@ -239,7 +233,6 @@ namespace OpenTK.Graphics
             // touch each other
             if (!a.IntersectsWithInclusive(b))
                 return Empty;
-
             return Rectangle.FromLTRB(
                 Math.Max(a.Left, b.Left),
                 Math.Max(a.Top, b.Top),
@@ -407,7 +400,7 @@ namespace OpenTK.Graphics
         ///	Read only.
         /// </remarks>
 
-         
+
         public int Bottom
         {
             get
@@ -443,7 +436,7 @@ namespace OpenTK.Graphics
         /// <remarks>
         ///	Indicates if the width or height are zero. Read only.
         /// </remarks>		
-        
+
         public bool IsEmpty
         {
             get
@@ -460,7 +453,7 @@ namespace OpenTK.Graphics
         ///	The X coordinate of the left edge of the Rectangle.
         ///	Read only.
         /// </remarks>
- 
+
         public int Left
         {
             get
@@ -477,7 +470,7 @@ namespace OpenTK.Graphics
         ///	The Location of the top-left corner of the Rectangle.
         /// </remarks>
 
-       
+
         public Point Location
         {
             get
@@ -500,7 +493,7 @@ namespace OpenTK.Graphics
         ///	Read only.
         /// </remarks>
 
-        
+
         public int Right
         {
             get
@@ -517,7 +510,7 @@ namespace OpenTK.Graphics
         ///	The Size of the Rectangle.
         /// </remarks>
 
-        
+
         public Size Size
         {
             get
@@ -540,7 +533,7 @@ namespace OpenTK.Graphics
         ///	Read only.
         /// </remarks>
 
-        
+
         public int Top
         {
             get
@@ -662,7 +655,6 @@ namespace OpenTK.Graphics
         {
             if (!(obj is Rectangle))
                 return false;
-
             return (this == (Rectangle)obj);
         }
 
@@ -740,6 +732,5 @@ namespace OpenTK.Graphics
             return String.Format("{{X={0},Y={1},Width={2},Height={3}}}",
                          x, y, width, height);
         }
-
     }
 }

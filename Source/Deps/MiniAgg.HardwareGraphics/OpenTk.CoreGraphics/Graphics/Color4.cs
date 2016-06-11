@@ -44,22 +44,18 @@ namespace OpenTK.Graphics
         /// The red component of this Color4 structure.
         /// </summary>
         public float R;
-        
         /// <summary>
         /// The green component of this Color4 structure.
         /// </summary>
         public float G;
-        
         /// <summary>
         /// The blue component of this Color4 structure.
         /// </summary>
         public float B;
-        
         /// <summary>
         /// The alpha component of this Color4 structure.
         /// </summary>
         public float A;
-
         #endregion
 
         #region Constructors
@@ -119,7 +115,6 @@ namespace OpenTK.Graphics
                 (uint)(R * Byte.MaxValue) << 16 |
                 (uint)(G * Byte.MaxValue) << 8 |
                 (uint)(B * Byte.MaxValue);
-
             return unchecked((int)value);
         }
 
@@ -178,7 +173,6 @@ namespace OpenTK.Graphics
         {
             if (!(obj is Color4))
                 return false;
-
             return Equals((Color4)obj);
         }
 

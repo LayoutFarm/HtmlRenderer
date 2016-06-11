@@ -9,7 +9,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 namespace OpenTK.Graphics
 {
     /// <summary>Defines the ColorFormat component of a GraphicsMode.</summary>
@@ -22,7 +21,6 @@ namespace OpenTK.Graphics
         byte red, green, blue, alpha;
         bool isIndexed;
         int bitsPerPixel;
-
         #region --- Constructors ---
 
         /// <summary>
@@ -36,7 +34,6 @@ namespace OpenTK.Graphics
             red = green = blue = alpha = 0;
             bitsPerPixel = bpp;
             isIndexed = false;
-
             switch (bpp)
             {
                 case 32:
@@ -155,10 +152,8 @@ namespace OpenTK.Graphics
             if ((object)left == (object)null && (object)right != (object)null ||
                 (object)left != (object)null && (object)right == (object)null)
                 return false;
-
             if ((object)left == (object)null && (object)right == (object)null)
                 return true;
-
             return left.Red == right.Red &&
                    left.Green == right.Green &&
                    left.Blue == right.Blue &&

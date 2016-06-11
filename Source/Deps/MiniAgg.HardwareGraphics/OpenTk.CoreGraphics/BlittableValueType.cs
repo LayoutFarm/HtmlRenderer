@@ -31,7 +31,6 @@ using System.Text;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 using System.Reflection;
-
 namespace OpenTK
 {
     #region BlittableValueType<T>
@@ -49,7 +48,6 @@ namespace OpenTK
 
         static readonly Type Type;
         static readonly int stride;
-
         #endregion
 
         #region Constructors
@@ -98,7 +96,6 @@ namespace OpenTK
         {
             if (!CheckStructLayoutAttribute(type))
                 Debug.Print("Warning: type {0} does not specify a StructLayoutAttribute with Pack=1. The memory layout of the struct may change between platforms.", type.Name);
-
             return CheckType(type);
         }
 
@@ -115,10 +112,8 @@ namespace OpenTK
             //Debug.Print("Checking type {0} (size: {1} bytes).", type.Name, Marshal.SizeOf(type));
             if (type.IsPrimitive)
                 return true;
-
             if (!type.IsValueType)
                 return false;
-
             FieldInfo[] fields = type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
             Debug.Indent();
             foreach (FieldInfo field in fields)
@@ -127,7 +122,6 @@ namespace OpenTK
                     return false;
             }
             Debug.Unindent();
-
             return Stride != 0;
         }
 
@@ -137,11 +131,9 @@ namespace OpenTK
         {
             StructLayoutAttribute[] attr = (StructLayoutAttribute[])
                 type.GetCustomAttributes(typeof(StructLayoutAttribute), true);
-
             if ((attr == null) ||
                 (attr != null && attr.Length > 0 && attr[0].Value != LayoutKind.Explicit && attr[0].Pack != 1))
                 return false;
-
             return true;
         }
 
@@ -198,7 +190,7 @@ namespace OpenTK
         /// </summary>
         /// <param name="type">An instance of the type to check.</param>
         /// <returns>True if T is blittable; false otherwise.</returns>
-        public static bool Check<T>(T[, ,] type)
+        public static bool Check<T>(T[,,] type)
         {
             return BlittableValueType<T>.Check();
         }
@@ -229,7 +221,6 @@ namespace OpenTK
         {
             if (!Check(type))
                 throw new ArgumentException("type");
-
             return BlittableValueType<T>.Stride;
         }
 
@@ -244,7 +235,6 @@ namespace OpenTK
         {
             if (!Check(type))
                 throw new ArgumentException("type");
-
             return BlittableValueType<T>.Stride;
         }
 
@@ -259,7 +249,6 @@ namespace OpenTK
         {
             if (!Check(type))
                 throw new ArgumentException("type");
-
             return BlittableValueType<T>.Stride;
         }
 
@@ -270,11 +259,10 @@ namespace OpenTK
         /// <param name="type">An instance of the value type.</param>
         /// <returns>An integer, specifying the size of the type in bytes.</returns>
         /// <exception cref="System.ArgumentException">Occurs when type is not blittable.</exception>
-        public static int StrideOf<T>(T[, ,] type)
+        public static int StrideOf<T>(T[,,] type)
         {
             if (!Check(type))
                 throw new ArgumentException("type");
-
             return BlittableValueType<T>.Stride;
         }
 
