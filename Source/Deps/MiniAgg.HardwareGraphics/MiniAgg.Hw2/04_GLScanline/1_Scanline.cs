@@ -11,7 +11,6 @@ namespace PixelFarm.Agg
         protected int m_cover_index;
         protected int lineY;
         protected int last_x;
-
         public GLScanline()
         {
             last_x = (0x7FFFFFF0);
@@ -35,7 +34,7 @@ namespace PixelFarm.Agg
         public byte[] GetCovers()
         {
             return m_covers;
-        } 
+        }
 
         //---------------------------------------------------
         public abstract void AddCell(int x, int cover);

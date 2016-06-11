@@ -1,4 +1,5 @@
 ﻿//MIT 2014, WinterDev
+
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,10 +9,8 @@ using PixelFarm.Agg.VertexSource;
 using OpenTK;
 using OpenTK.Graphics.ES20;
 using PixelFarm.DrawingGL;
-
 namespace PixelFarm.DrawingGL
 {
-
     class BasicShader
     {
         bool isInited;
@@ -19,18 +18,14 @@ namespace PixelFarm.DrawingGL
         ShaderVtxAttrib a_position;
         ShaderVtxAttrib a_color;
         ShaderVtxAttrib a_textureCoord;
-
         ShaderUniformMatrix4 u_matrix;
         ShaderUniformVar1 u_useSolidColor;
         ShaderUniformVar1 u_useAggColor;
-
         ShaderUniformVar4 u_solidColor;
         MyMat4 mymat4;
-
         public BasicShader()
         {
             shaderProgram = new MiniShaderProgram();
-
         }
         public void UnloadShader()
         {
@@ -86,7 +81,6 @@ namespace PixelFarm.DrawingGL
                     gl_FragColor= v_color;
                 }
             ";
-
             if (!shaderProgram.Build(vs, fs))
             {
                 throw new NotSupportedException();
@@ -95,15 +89,10 @@ namespace PixelFarm.DrawingGL
             a_position = shaderProgram.GetVtxAttrib("a_position");
             a_color = shaderProgram.GetVtxAttrib("a_color");
             a_textureCoord = shaderProgram.GetVtxAttrib("a_texcoord");
-
             u_matrix = shaderProgram.GetUniformMat4("u_mvpMatrix");
-
             u_useSolidColor = shaderProgram.GetUniform1("u_useSolidColor");
             u_useAggColor = shaderProgram.GetUniform1("u_useAggColor");
-
             u_solidColor = shaderProgram.GetUniform4("u_solidColor");
-
-
             shaderProgram.UseProgram();
             isInited = true;
         }
@@ -122,7 +111,6 @@ namespace PixelFarm.DrawingGL
         {
             u_useAggColor.SetValue(1); //***
             u_useSolidColor.SetValue(1);
-
             //put original color, to be normalize on server side
             u_solidColor.SetValue((float)color.R, (float)color.G, (float)color.B, (float)color.A);
             a_position.LoadV3f(linesBuffer.GetInternalArray(), 3, 0);
@@ -160,7 +148,6 @@ namespace PixelFarm.DrawingGL
             u_useAggColor.SetValue(0);
             u_useSolidColor.SetValue(1);
             u_solidColor.SetValue((float)color.R / 255f, (float)color.G / 255f, (float)color.B / 255f, (float)color.A / 255f);
-
             unsafe
             {
                 float* vtx = stackalloc float[4];
@@ -185,8 +172,6 @@ namespace PixelFarm.DrawingGL
             u_solidColor.SetValue((float)color.R / 255f, (float)color.G / 255f, (float)color.B / 255f, (float)color.A / 255f);
             a_position.LoadV2f(polygon2dVertices, 2, 0);
             GL.DrawArrays(BeginMode.Triangles, 0, nelements);
-
         }
     }
-
 }

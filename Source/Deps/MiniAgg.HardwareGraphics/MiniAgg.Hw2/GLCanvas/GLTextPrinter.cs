@@ -1,10 +1,9 @@
 ﻿//MIT 2014, WinterDev
+
 using System.Text;
 using System;
- 
 using Tesselate;
 using PixelFarm.Agg.Fonts;
-
 namespace PixelFarm.DrawingGL
 {
     class GLTextPrinter
@@ -54,10 +53,8 @@ namespace PixelFarm.DrawingGL
                 this.canvas2d.DrawImage(bmp,
                     (float)(xpos + (left >> 6)),
                     (float)(y + (glyph.exportGlyph.bboxYmin >> 6)));
-
                 int w = (glyph.exportGlyph.advanceX) >> 6;
                 xpos += (w);
-
                 bmp.Dispose(); //temp here 
                 //-------------------------------------------------------------                
             }

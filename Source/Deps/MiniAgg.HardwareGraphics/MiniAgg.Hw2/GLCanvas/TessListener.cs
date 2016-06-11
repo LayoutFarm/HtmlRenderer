@@ -8,9 +8,9 @@
  * 
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
+
 using System;
 using System.Collections.Generic;
-
 using Tesselate;
 namespace PixelFarm.DrawingGL
 {
@@ -34,7 +34,6 @@ namespace PixelFarm.DrawingGL
 
     public class TessListener2
     {
-
         List<Vertex> inputVertextList;
         List<Vertex> tempVertextList = new List<Vertex>();
         public List<Vertex> resultVertexList = new List<Vertex>();
@@ -46,7 +45,6 @@ namespace PixelFarm.DrawingGL
         }
         public void BeginCallBack(Tesselator.TriangleListType type)
         {
-
             //Console.WriteLine("begin: " + type.ToString());
             //Assert.IsTrue(GetNextOutputAsString() == "B");
             //switch (type)
@@ -89,8 +87,6 @@ namespace PixelFarm.DrawingGL
                 resultVertexList.Add(this.inputVertextList[index]);
                 // Console.WriteLine("v_cb:" + index + ":(" + inputVertextList[index] + ")");
             }
-
-
         }
 
         public void EdgeFlagCallBack(bool IsEdge)
@@ -132,14 +128,11 @@ namespace PixelFarm.DrawingGL
         }
         public void Connect(Tesselate.Tesselator tesselator, Tesselator.WindingRuleType windingRule, bool setEdgeFlag)
         {
-
-
             tesselator.callBegin = new Tesselate.Tesselator.CallBeginDelegate(BeginCallBack);
             tesselator.callEnd = new Tesselate.Tesselator.CallEndDelegate(EndCallBack);
             tesselator.callVertex = new Tesselate.Tesselator.CallVertexDelegate(VertexCallBack);
             tesselator.callCombine = new Tesselate.Tesselator.CallCombineDelegate(CombineCallBack);
             tesselator.windingRule = windingRule;
-
             if (setEdgeFlag)
             {
                 tesselator.callEdgeFlag += new Tesselate.Tesselator.CallEdgeFlagDelegate(EdgeFlagCallBack);
@@ -151,7 +144,6 @@ namespace PixelFarm.DrawingGL
             this.resultVertexList.Clear();
             this.inputVertextList = vertextList;
         }
-
     }
 
     //public class TessListener

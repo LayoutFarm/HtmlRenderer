@@ -108,7 +108,6 @@ namespace PixelFarm.Agg
     //------------------------------------------------------------------------
     public sealed class GLScanlineUnpacked8 : GLScanline
     {
-
         int minX;
         public GLScanlineUnpacked8()
         {
@@ -129,16 +128,14 @@ namespace PixelFarm.Agg
         {
             x -= minX;
             m_covers[x] = (byte)cover;
-
             if (x == last_x + 1)
             {
                 m_spans[last_span_index].len++;
-
             }
             else
             {
                 last_span_index++;
-                m_spans[last_span_index] = new ScanlineSpan(x + minX, x); 
+                m_spans[last_span_index] = new ScanlineSpan(x + minX, x);
             }
             last_x = x;
         }
@@ -156,9 +153,8 @@ namespace PixelFarm.Agg
             }
             else
             {
-
                 last_span_index++;
-                m_spans[last_span_index] = new ScanlineSpan(x + minX, len, x); 
+                m_spans[last_span_index] = new ScanlineSpan(x + minX, len, x);
             }
             last_x = x + (int)len - 1;
         }

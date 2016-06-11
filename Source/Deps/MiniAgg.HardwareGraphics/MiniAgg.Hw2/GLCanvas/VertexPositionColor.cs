@@ -26,14 +26,11 @@
 #endregion
 
 using System;
-
 using System.Runtime.InteropServices;
 using OpenTK;
 using OpenTK.Graphics.ES20;
-
 namespace PixelFarm.Agg
 {
-    
     [StructLayout(LayoutKind.Sequential)]
     struct VertexV2S1Cvr
     {
@@ -53,7 +50,7 @@ namespace PixelFarm.Agg
         public const int VX_OFFSET = 0;
         public const int N_COORDS = 2;
     }
-     
+
 
     [StructLayout(LayoutKind.Sequential)]
     struct VertexC4V3f
@@ -79,7 +76,6 @@ namespace PixelFarm.Agg
         public const int VX_OFFSET = sizeof(uint);
         public const OpenTK.Graphics.OpenGL.VertexPointerType VX_PTR_TYPE = OpenTK.Graphics.OpenGL.VertexPointerType.Float;
         public const int N_COORDS = 3;
-
     }
 
 
@@ -125,5 +121,4 @@ namespace PixelFarm.Agg
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
         }
     }
-
 }
