@@ -36,7 +36,6 @@ namespace LayoutFarm.ContentManagers
 
 
         ImageCacheSystem imageCacheLevel0 = new ImageCacheSystem();
-
         LayoutFarm.UI.UITimer timImageLoadMonitor;
 
 
@@ -50,6 +49,7 @@ namespace LayoutFarm.ContentManagers
 
         public ImageContentManager()
         {
+            timImageLoadMonitor = UI.UIPlatform.CurrentUIPlatform.CreateUITimer();
             //TODO: review here****
             timImageLoadMonitor.Interval = 50;//30 ms check state             
             timImageLoadMonitor.Tick += TimImageLoadMonitor_Tick;

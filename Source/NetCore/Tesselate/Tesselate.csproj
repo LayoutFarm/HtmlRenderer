@@ -56,7 +56,9 @@
     <Compile Include="..\..\Deps\MiniTesselate\Mesh.cs">
       <Link>Mesh.cs</Link>
     </Compile>
-    <Compile Include="Tesselator.cs" />
+    <Compile Include="..\..\Deps\MiniTesselate\Tesselator.cs">
+      <Link>Tesselator.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

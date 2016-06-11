@@ -9,6 +9,9 @@ namespace LayoutFarm.UI
         public abstract string GetClipboardData();
         public abstract void ClearClipboardData();
 
+
+
+        public static UIPlatform CurrentUIPlatform { get; set; }
     }
 
 

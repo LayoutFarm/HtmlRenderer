@@ -20,6 +20,7 @@ namespace TestGraphicPackage
         {
             InitializeComponent();
             this.uiPlatformWinForm = new LayoutFarm.UI.UIPlatformWinForm();
+            UI.UIPlatform.CurrentUIPlatform = uiPlatformWinForm;
             this.gfxPlatform = p;
         }
 
