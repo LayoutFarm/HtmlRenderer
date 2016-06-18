@@ -72,36 +72,15 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Deps\Espresso\Net20\Espresso.Interfaces\Espresso.Interfaces.csproj">
-      <Project>{81692f45-7266-4d82-a864-9d7dd839c290}</Project>
-      <Name>Espresso.Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Deps\Espresso\Net20\EspressoCore\EspressoCore.csproj">
-      <Project>{f6a70c3f-a6b4-4830-91a6-eb7437065028}</Project>
-      <Name>EspressoCore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Deps\PixelFarm.Drawing\PixelFarm.Drawing.csproj">
-      <Project>{51D63482-5697-4B16-8401-506965624657}</Project>
-      <Name>PixelFarm.Drawing</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.ClientPlatforms\LayoutFarm.ClientPlatforms.csproj">
-      <Project>{61369865-95B7-49F2-B012-67B4A2427A8B}</Project>
-      <Name>LayoutFarm.ClientPlatforms</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.Composers\LayoutFarm.Composers.csproj">
-      <Project>{1AF17E34-4C2D-4657-B993-E0608C555111}</Project>
-      <Name>LayoutFarm.Composers</Name>
+    <ProjectReference Include="..\HtmlRenderer.One.csproj">
+      <Project>{6f7e8b5f-b944-47aa-bbbf-e2917f0421a1}</Project>
+      <Name>HtmlRenderer.One</Name>
     </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.EaseWinForms\LayoutFarm.EaseWinForms.csproj">
-      <Project>{DD227C1C-04B9-487C-8762-DA69168D1C89}</Project>
+      <Project>{dd227c1c-04b9-487c-8762-da69168d1c89}</Project>
       <Name>LayoutFarm.EaseWinForms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.WebDom\LayoutFarm.WebDom.csproj">
-      <Project>{A7E65FD9-329D-4902-BCDA-51EE4F992FD5}</Project>
-      <Name>LayoutFarm.WebDom</Name>
-    </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

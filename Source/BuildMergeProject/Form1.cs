@@ -16,7 +16,7 @@ namespace BuildMergeProject
             mergePro.MergeAndSave(@"D:\projects\HTML-Renderer\Source\HtmlRenderer.One.csproj",
                "HtmlRenderer.One",
                "v2.0",
-               ";ICU_VER_54",
+               ";ICU_VER_54;NET20",
                new string[] {
                   "System",
                   "System.Drawing",
@@ -43,6 +43,9 @@ namespace BuildMergeProject
             mergePro.LoadSubProject(@"D:\projects\HTML-Renderer\Source\LayoutFarm.YourCustomWidgets\LayoutFarm.YourCustomWidgets.csproj");
             //platforms.Windows
             mergePro.LoadSubProject(@"D:\projects\HTML-Renderer\Source\LayoutFarm.Platforms.WinForms\LayoutFarm.Platforms.WinForms.csproj");
+            //js engine
+            mergePro.LoadSubProject(@"D:\projects\HTML-Renderer\Source\Deps\Espresso\Net20\Espresso.Interfaces\Espresso.Interfaces.csproj");
+            mergePro.LoadSubProject(@"D:\projects\HTML-Renderer\Source\Deps\Espresso\Net20\EspressoCore\EspressoCore.csproj");
             return mergePro;
         }
     }

@@ -1,0 +1,262 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8FF3BA9A-8E98-412D-83B8-D3981B32E54A}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Test3_MixHtml.One</RootNamespace>
+    <AssemblyName>Test3_MixHtml.One</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Test0_PresentationDevHelper_New\Dev\DemoBase.cs">
+      <Link>Dev\DemoBase.cs</Link>
+    </Compile>
+    <Compile Include="..\Test0_PresentationDevHelper_New\Dev\FormCanvasHelper.cs">
+      <Link>Dev\FormCanvasHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\Test0_PresentationDevHelper_New\Dev\FormDemoList.cs">
+      <Link>Dev\FormDemoList.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\Test0_PresentationDevHelper_New\Dev\FormDemoList.Designer.cs">
+      <Link>Dev\FormDemoList.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\Test0_PresentationDevHelper_New\Dev\FormLayoutInspector.cs">
+      <Link>Dev\FormLayoutInspector.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\Test0_PresentationDevHelper_New\Dev\FormLayoutInspector.Designer.cs">
+      <Link>Dev\FormLayoutInspector.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\Test0_PresentationDevHelper_New\Dev\FormPrint.cs">
+      <Link>Dev\FormPrint.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\Test0_PresentationDevHelper_New\Dev\FormPrint.Designer.cs">
+      <Link>Dev\FormPrint.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\Test3_MixHtml\Demo1\1.1_Demo_SingleButton.cs">
+      <Link>Demo1\1.1_Demo_SingleButton.cs</Link>
+    </Compile>
+    <Compile Include="..\Test3_MixHtml\Demo1\1.2_Demo_MultipleBoxes.cs">
+      <Link>Demo1\1.2_Demo_MultipleBoxes.cs</Link>
+    </Compile>
+    <Compile Include="..\Test3_MixHtml\Demo1\1.3_Demo_SampleGrid.cs">
+      <Link>Demo1\1.3_Demo_SampleGrid.cs</Link>
+    </Compile>
+    <Compile Include="..\Test3_MixHtml\Demo1\1.4_Demo_Drag.cs">
+      <Link>Demo1\1.4_Demo_Drag.cs</Link>
+    </Compile>
+    <Compile Include="..\Test3_MixHtml\Demo1\1.5_Demo_ScrollBar.cs">
+      <Link>Demo1\1.5_Demo_ScrollBar.cs</Link>
+    </Compile>
+    <Compile Include="..\Test3_MixHtml\Demo1\1.6_Demo_ScrollView.cs">
+      <Link>Demo1\1.6_Demo_ScrollView.cs</Link>
+    </Compile>
+    <Compile Include="..\Test3_MixHtml\Demo1\1.7_Demo_ListView.cs">
+      <Link>Demo1\1.7_Demo_ListView.cs</Link>
+    </Compile>
+    <Compile Include="..\Test3_MixHtml\Demo1\1.8_Demo_Hinge.cs">
+      <Link>Demo1\1.8_Demo_Hinge.cs</Link>
+    </Compile>
+    <Compile Include="..\Test3_MixHtml\Demo1\1.9_Demo_TreeView.cs">
+      <Link>Demo1\1.9_Demo_TreeView.cs</Link>
+    </Compile>
+    <Compile Include="..\Test3_MixHtml\Demo2\2.1_Demo_SingleLineTextBox.cs">
+      <Link>Demo2\2.1_Demo_SingleLineTextBox.cs</Link>
+    </Compile>
+    <Compile Include="..\Test3_MixHtml\Demo2\2.2_Demo_MultilineTextBox.cs">
+      <Link>Demo2\2.2_Demo_MultilineTextBox.cs</Link>
+    </Compile>
+    <Compile Include="..\Test3_MixHtml\Demo2\2.3_Demo_SingleLineTextBox_WithSuggestion.cs">
+      <Link>Demo2\2.3_Demo_SingleLineTextBox_WithSuggestion.cs</Link>
+    </Compile>
+    <Compile Include="..\Test3_MixHtml\Demo2\2.4_Demo_SingleTextLine_With_Compartment.cs">
+      <Link>Demo2\2.4_Demo_SingleTextLine_With_Compartment.cs</Link>
+    </Compile>
+    <Compile Include="..\Test3_MixHtml\Demo2\2.5_Demo_MultiLineTextBox_WithSugggestion.cs">
+      <Link>Demo2\2.5_Demo_MultiLineTextBox_WithSugggestion.cs</Link>
+    </Compile>
+    <Compile Include="..\Test3_MixHtml\Demo2\2.6_Demo_MultiLineTextBox_WithSugggestion.cs">
+      <Link>Demo2\2.6_Demo_MultiLineTextBox_WithSugggestion.cs</Link>
+    </Compile>
+    <Compile Include="..\Test3_MixHtml\Demo3\3.1_Demo_Visible.cs">
+      <Link>Demo3\3.1_Demo_Visible.cs</Link>
+    </Compile>
+    <Compile Include="..\Test3_MixHtml\Demo3\3.2_Demo_ControllerBox.cs">
+      <Link>Demo3\3.2_Demo_ControllerBox.cs</Link>
+    </Compile>
+    <Compile Include="..\Test3_MixHtml\Demo3\3.3_Demo_ControllerBox2.cs">
+      <Link>Demo3\3.3_Demo_ControllerBox2.cs</Link>
+    </Compile>
+    <Compile Include="..\Test3_MixHtml\Demo3\3.4_CompartmentBox.cs">
+      <Link>Demo3\3.4_CompartmentBox.cs</Link>
+    </Compile>
+    <Compile Include="..\Test3_MixHtml\Demo3\3.5_Demo_CompartmentBox2.cs">
+      <Link>Demo3\3.5_Demo_CompartmentBox2.cs</Link>
+    </Compile>
+    <Compile Include="..\Test3_MixHtml\Demo3\3.6_Demo_DragSelectionBox.cs">
+      <Link>Demo3\3.6_Demo_DragSelectionBox.cs</Link>
+    </Compile>
+    <Compile Include="..\Test3_MixHtml\Demo3\3.7_Compartment_withSpliter.cs">
+      <Link>Demo3\3.7_Compartment_withSpliter.cs</Link>
+    </Compile>
+    <Compile Include="..\Test3_MixHtml\Demo3\3.8_Compartment_withSpliter2.cs">
+      <Link>Demo3\3.8_Compartment_withSpliter2.cs</Link>
+    </Compile>
+    <Compile Include="..\Test3_MixHtml\Demo3\3.9_Compartment_withSpliter3.cs">
+      <Link>Demo3\3.9_Compartment_withSpliter3.cs</Link>
+    </Compile>
+    <Compile Include="..\Test3_MixHtml\Demo4\4.1_UIHtmlBox.cs">
+      <Link>Demo4\4.1_UIHtmlBox.cs</Link>
+    </Compile>
+    <Compile Include="..\Test3_MixHtml\Demo4\4.2_MixHtml.cs">
+      <Link>Demo4\4.2_MixHtml.cs</Link>
+    </Compile>
+    <Compile Include="..\Test3_MixHtml\Demo4\4.3.1_UIHtmlBoxWithResReq.cs">
+      <Link>Demo4\4.3.1_UIHtmlBoxWithResReq.cs</Link>
+    </Compile>
+    <Compile Include="..\Test3_MixHtml\Demo4\4.3.2_UIHtmlBox_ContentMx.cs">
+      <Link>Demo4\4.3.2_UIHtmlBox_ContentMx.cs</Link>
+    </Compile>
+    <Compile Include="..\Test3_MixHtml\Demo4\4.4_CssLeanBox.cs">
+      <Link>Demo4\4.4_CssLeanBox.cs</Link>
+    </Compile>
+    <Compile Include="..\Test3_MixHtml\Demo4\4.5_LightHtmlBox.cs">
+      <Link>Demo4\4.5_LightHtmlBox.cs</Link>
+    </Compile>
+    <Compile Include="..\Test3_MixHtml\Demo4\4.6_DynamicDom1.cs">
+      <Link>Demo4\4.6_DynamicDom1.cs</Link>
+    </Compile>
+    <Compile Include="..\Test3_MixHtml\Demo5\5.0_HtmlDemoBase.cs">
+      <Link>Demo5\5.0_HtmlDemoBase.cs</Link>
+    </Compile>
+    <Compile Include="..\Test3_MixHtml\Demo5\5.1_Demo_Hinges.cs">
+      <Link>Demo5\5.1_Demo_Hinges.cs</Link>
+    </Compile>
+    <Compile Include="..\Test3_MixHtml\Demo5\5.2_Demo_MultipleBoxes2.cs">
+      <Link>Demo5\5.2_Demo_MultipleBoxes2.cs</Link>
+    </Compile>
+    <Compile Include="..\Test3_MixHtml\Demo5\5.3_Demo_TabPage.cs">
+      <Link>Demo5\5.3_Demo_TabPage.cs</Link>
+    </Compile>
+    <Compile Include="..\Test3_MixHtml\Demo5\5.7_Demo_ListView.cs">
+      <Link>Demo5\5.7_Demo_ListView.cs</Link>
+    </Compile>
+    <Compile Include="..\Test3_MixHtml\Demo5\5.8_Demo_Hinge.cs">
+      <Link>Demo5\5.8_Demo_Hinge.cs</Link>
+    </Compile>
+    <Compile Include="..\Test3_MixHtml\Demo5\5.9_Demo_TreeView.cs">
+      <Link>Demo5\5.9_Demo_TreeView.cs</Link>
+    </Compile>
+    <Compile Include="..\Test3_MixHtml\Demo7\7.1_DemoDzBoard.cs">
+      <Link>Demo7\7.1_DemoDzBoard.cs</Link>
+    </Compile>
+    <Compile Include="..\Test3_MixHtml\Demo7\AppModule.cs">
+      <Link>Demo7\AppModule.cs</Link>
+    </Compile>
+    <Compile Include="..\Test3_MixHtml\Demo7\CompoModule.cs">
+      <Link>Demo7\CompoModule.cs</Link>
+    </Compile>
+    <Compile Include="..\Test3_MixHtml\Demo7\DesignBoardActions.cs">
+      <Link>Demo7\DesignBoardActions.cs</Link>
+    </Compile>
+    <Compile Include="..\Test3_MixHtml\Demo7\DesignBoardController.cs">
+      <Link>Demo7\DesignBoardController.cs</Link>
+    </Compile>
+    <Compile Include="..\Test3_MixHtml\Demo7\DesignBoardModule.cs">
+      <Link>Demo7\DesignBoardModule.cs</Link>
+    </Compile>
+    <Compile Include="..\Test3_MixHtml\Demo7\DzBoxSerializer.cs">
+      <Link>Demo7\DzBoxSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\Test3_MixHtml\Demo7\GraphicShapeElements.cs">
+      <Link>Demo7\GraphicShapeElements.cs</Link>
+    </Compile>
+    <Compile Include="..\Test3_MixHtml\Demo7\MenuBoardModule.cs">
+      <Link>Demo7\MenuBoardModule.cs</Link>
+    </Compile>
+    <Compile Include="..\Test3_MixHtml\HtmlHostCreatorHelper.cs">
+      <Link>HtmlHostCreatorHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\Test3_MixHtml\Program.cs">
+      <Link>Program.cs</Link>
+    </Compile>
+    <Compile Include="..\Test3_MixHtml\SampleViewportExtension.cs">
+      <Link>SampleViewportExtension.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="..\Test0_PresentationDevHelper_New\Dev\FormDemoList.resx">
+      <Link>Dev\FormDemoList.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Test0_PresentationDevHelper_New\Dev\FormLayoutInspector.resx">
+      <Link>Dev\FormLayoutInspector.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Test0_PresentationDevHelper_New\Dev\FormPrint.resx">
+      <Link>Dev\FormPrint.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HtmlRenderer.One.csproj">
+      <Project>{6f7e8b5f-b944-47aa-bbbf-e2917f0421a1}</Project>
+      <Name>HtmlRenderer.One</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
