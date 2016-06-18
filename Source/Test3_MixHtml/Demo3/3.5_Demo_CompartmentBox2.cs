@@ -1,4 +1,5 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,11 +13,9 @@ namespace LayoutFarm
     [DemoNote("3.5 Demo_CompartmentBox2")]
     class Demo_CompartmentBox2 : DemoBase
     {
-
         UINinespaceBox ninespaceBox;
         protected override void OnStartDemo(SampleViewport viewport)
         {
-
             //--------------------------------
             {
                 //background element
@@ -31,8 +30,6 @@ namespace LayoutFarm
             ninespaceBox = new UINinespaceBox(800, 600);
             viewport.AddContent(ninespaceBox);
             ninespaceBox.SetSize(800, 600);
-
-
         }
         void SetupBackgroundProperties(LayoutFarm.CustomWidgets.EaseBox backgroundBox)
         {
@@ -65,10 +62,7 @@ namespace LayoutFarm
 
             //-------------------------------------
             EaseBox centerBox;
-
             DockSpacesController dockspaceController;
-
-
             public UINinespaceBox(int w, int h)
                 : base(w, h)
             {
@@ -78,7 +72,6 @@ namespace LayoutFarm
             {
                 //1. controller
                 this.dockspaceController = new DockSpacesController(this, SpaceConcept.NineSpace);
-
                 //2.  
                 this.dockspaceController.LeftTopSpace.Content = boxLeftTop = CreateSpaceBox(SpaceName.LeftTop, Color.Red);
                 this.dockspaceController.RightTopSpace.Content = boxRightTop = CreateSpaceBox(SpaceName.RightTop, Color.Red);
@@ -89,16 +82,12 @@ namespace LayoutFarm
                 this.dockspaceController.TopSpace.Content = boxTop = CreateSpaceBox(SpaceName.Top, Color.Yellow);
                 this.dockspaceController.RightSpace.Content = boxRight = CreateSpaceBox(SpaceName.Right, Color.Green);
                 this.dockspaceController.BottomSpace.Content = boxBottom = CreateSpaceBox(SpaceName.Bottom, Color.Yellow);
-
-
                 //------------------------------------------------------------------------------------
                 //left and right space expansion
                 dockspaceController.LeftSpaceVerticalExpansion = VerticalBoxExpansion.TopBottom;
                 dockspaceController.RightSpaceVerticalExpansion = VerticalBoxExpansion.TopBottom;
                 dockspaceController.SetRightSpaceWidth(200);
                 dockspaceController.SetLeftSpaceWidth(200);
-
-
             }
 
 
@@ -115,8 +104,7 @@ namespace LayoutFarm
             {
                 if (!this.HasReadyRenderElement)
                 {
-
-                    var myRenderElement = base.GetPrimaryRenderElement(rootgfx); 
+                    var myRenderElement = base.GetPrimaryRenderElement(rootgfx);
                     //------------------------------------------------------
                     myRenderElement.AddChild(boxLeftTop);
                     myRenderElement.AddChild(boxRightTop);
@@ -138,7 +126,6 @@ namespace LayoutFarm
             {
                 base.SetSize(width, height);
                 dockspaceController.SetSize(width, height);
-
             }
             public override void Walk(UIVisitor visitor)
             {
@@ -147,7 +134,5 @@ namespace LayoutFarm
                 visitor.EndElement();
             }
         }
-
-
     }
 }

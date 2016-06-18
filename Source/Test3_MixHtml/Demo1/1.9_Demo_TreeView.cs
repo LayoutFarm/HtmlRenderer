@@ -1,11 +1,11 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
 using LayoutFarm.UI;
-
 namespace LayoutFarm
 {
     [DemoNote("1.9 TreeView")]
@@ -13,20 +13,16 @@ namespace LayoutFarm
     {
         protected override void OnStartDemo(SampleViewport viewport)
         {
-
             var treeView = new LayoutFarm.CustomWidgets.TreeView(300, 400);
             treeView.SetLocation(10, 10);
             treeView.BackColor = KnownColors.FromKnownColor(KnownColor.LightGray);
             viewport.AddContent(treeView);
-
             //prepare node icon
             ImageBinder nodeOpen = LoadImage("../../Demo/arrow_open.png");
-
             //add 
             for (int i = 0; i < 10; ++i)
             {
                 var childLevel0 = new LayoutFarm.CustomWidgets.TreeNode(400, 40);
-
                 childLevel0.BackColor = ((i % 2) == 0) ?
                          KnownColors.FromKnownColor(KnownColor.Blue) :
                          KnownColors.FromKnownColor(KnownColor.Yellow);
@@ -40,10 +36,8 @@ namespace LayoutFarm
                           KnownColors.FromKnownColor(KnownColor.YellowGreen);
                     childLevel0.AddChildNode(childLevel1);
                     childLevel1.NodeIconImage = nodeOpen;
-
                     for (int m = 0; m < 5; ++m)
                     {
-
                         var childLevel2 = new LayoutFarm.CustomWidgets.TreeNode(400, 20);
                         childLevel2.BackColor = ((m % 2) == 0) ?
                           KnownColors.FromKnownColor(KnownColor.OrangeRed) :
@@ -53,7 +47,6 @@ namespace LayoutFarm
                     }
                 }
             }
-
         }
         static Bitmap LoadBitmap(string filename)
         {
@@ -65,7 +58,6 @@ namespace LayoutFarm
         {
             System.Drawing.Bitmap gdiBmp = new System.Drawing.Bitmap(filename);
             Bitmap bmp = new Bitmap(gdiBmp.Width, gdiBmp.Height, gdiBmp);
-
             ImageBinder binder = new ClientImageBinder(null);
             binder.SetImage(bmp);
             binder.State = ImageBinderState.Loaded;

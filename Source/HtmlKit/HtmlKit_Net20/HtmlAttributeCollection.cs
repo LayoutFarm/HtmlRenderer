@@ -27,99 +27,98 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+namespace HtmlKit
+{
+    /// <summary>
+    /// A readonly collection of HTML attributes.
+    /// </summary>
+    /// <remarks>
+    /// A readonly collection of HTML attributes.
+    /// </remarks>
+    public class HtmlAttributeCollection : IEnumerable<HtmlAttribute>
+    {
+        /// <summary>
+        /// An empty attribute collection.
+        /// </summary>
+        /// <remarks>
+        /// An empty attribute collection.
+        /// </remarks>
+        public static readonly HtmlAttributeCollection Empty = new HtmlAttributeCollection();
+        readonly List<HtmlAttribute> attributes = new List<HtmlAttribute>();
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HtmlAttributeCollection"/> class.
+        /// </summary>
+        /// <remarks>
+        /// Creates a new <see cref="HtmlAttributeCollection"/>.
+        /// </remarks>
+        /// <param name="collection">A collection of attributes.</param>
+        public HtmlAttributeCollection(IEnumerable<HtmlAttribute> collection)
+        {
+            attributes = new List<HtmlAttribute>(collection);
+        }
 
-namespace HtmlKit {
-	/// <summary>
-	/// A readonly collection of HTML attributes.
-	/// </summary>
-	/// <remarks>
-	/// A readonly collection of HTML attributes.
-	/// </remarks>
-	public class HtmlAttributeCollection : IEnumerable<HtmlAttribute>
-	{
-		/// <summary>
-		/// An empty attribute collection.
-		/// </summary>
-		/// <remarks>
-		/// An empty attribute collection.
-		/// </remarks>
-		public static readonly HtmlAttributeCollection Empty = new HtmlAttributeCollection ();
+        internal HtmlAttributeCollection()
+        {
+            attributes = new List<HtmlAttribute>();
+        }
 
-		readonly List<HtmlAttribute> attributes = new List<HtmlAttribute> ();
+        /// <summary>
+        /// Get the number of attributes in the collection.
+        /// </summary>
+        /// <remarks>
+        /// Gets the number of attributes in the collection.
+        /// </remarks>
+        /// <value>The number of attributes in the collection.</value>
+        public int Count
+        {
+            get { return attributes.Count; }
+        }
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="HtmlAttributeCollection"/> class.
-		/// </summary>
-		/// <remarks>
-		/// Creates a new <see cref="HtmlAttributeCollection"/>.
-		/// </remarks>
-		/// <param name="collection">A collection of attributes.</param>
-		public HtmlAttributeCollection (IEnumerable<HtmlAttribute> collection)
-		{
-			attributes = new List<HtmlAttribute> (collection);
-		}
+        internal void Add(HtmlAttribute attribute)
+        {
+            if (attribute == null)
+                throw new ArgumentNullException("attribute");
+            attributes.Add(attribute);
+        }
 
-		internal HtmlAttributeCollection ()
-		{
-			attributes = new List<HtmlAttribute> ();
-		}
+        /// <summary>
+        /// Get the <see cref="HtmlAttribute"/> at the specified index.
+        /// </summary>
+        /// <remarks>
+        /// Gets the <see cref="HtmlAttribute"/> at the specified index.
+        /// </remarks>
+        /// <value>The HTML attribute at the specified index.</value>
+        /// <param name="index">The index.</param>
+        /// <exception cref="System.ArgumentOutOfRangeException">
+        /// <paramref name="index"/> is out of range.
+        /// </exception>
+        public HtmlAttribute this[int index]
+        {
+            get { return attributes[index]; }
+        }
 
-		/// <summary>
-		/// Get the number of attributes in the collection.
-		/// </summary>
-		/// <remarks>
-		/// Gets the number of attributes in the collection.
-		/// </remarks>
-		/// <value>The number of attributes in the collection.</value>
-		public int Count {
-			get { return attributes.Count; }
-		}
+        /// <summary>
+        /// Gets an enumerator for the attribute collection.
+        /// </summary>
+        /// <remarks>
+        /// Gets an enumerator for the attribute collection.
+        /// </remarks>
+        /// <returns>The enumerator.</returns>
+        public IEnumerator<HtmlAttribute> GetEnumerator()
+        {
+            return attributes.GetEnumerator();
+        }
 
-		internal void Add (HtmlAttribute attribute)
-		{
-			if (attribute == null)
-				throw new ArgumentNullException ("attribute");
-
-			attributes.Add (attribute);
-		}
-
-		/// <summary>
-		/// Get the <see cref="HtmlAttribute"/> at the specified index.
-		/// </summary>
-		/// <remarks>
-		/// Gets the <see cref="HtmlAttribute"/> at the specified index.
-		/// </remarks>
-		/// <value>The HTML attribute at the specified index.</value>
-		/// <param name="index">The index.</param>
-		/// <exception cref="System.ArgumentOutOfRangeException">
-		/// <paramref name="index"/> is out of range.
-		/// </exception>
-		public HtmlAttribute this[int index] {
-			get { return attributes[index]; }
-		}
-
-		/// <summary>
-		/// Gets an enumerator for the attribute collection.
-		/// </summary>
-		/// <remarks>
-		/// Gets an enumerator for the attribute collection.
-		/// </remarks>
-		/// <returns>The enumerator.</returns>
-		public IEnumerator<HtmlAttribute> GetEnumerator ()
-		{
-			return attributes.GetEnumerator ();
-		}
-
-		/// <summary>
-		/// Gets an enumerator for the attribute collection.
-		/// </summary>
-		/// <remarks>
-		/// Gets an enumerator for the attribute collection.
-		/// </remarks>
-		/// <returns>The enumerator.</returns>
-		IEnumerator IEnumerable.GetEnumerator ()
-		{
-			return attributes.GetEnumerator ();
-		}
-	}
+        /// <summary>
+        /// Gets an enumerator for the attribute collection.
+        /// </summary>
+        /// <remarks>
+        /// Gets an enumerator for the attribute collection.
+        /// </remarks>
+        /// <returns>The enumerator.</returns>
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return attributes.GetEnumerator();
+        }
+    }
 }

@@ -11,7 +11,6 @@ using PixelFarm.Agg.Image;
 using PixelFarm.Agg.VertexSource;
 using PixelFarm.Agg;
 using PixelFarm.VectorMath;
-
 namespace PixelFarm.Agg
 {
     public class SpriteShape
@@ -24,7 +23,6 @@ namespace PixelFarm.Agg
         Vector2 center;
         public SpriteShape()
         {
-
         }
 
         public PathWriter Path
@@ -33,8 +31,6 @@ namespace PixelFarm.Agg
             {
                 return path;
             }
-
-
         }
 
         public int NumPaths
@@ -59,7 +55,6 @@ namespace PixelFarm.Agg
             {
                 return colors;
             }
-
         }
 
         public int[] PathIndexList
@@ -68,7 +63,6 @@ namespace PixelFarm.Agg
             {
                 return pathIndexList;
             }
-
         }
 
         public Vector2 Center
@@ -81,7 +75,6 @@ namespace PixelFarm.Agg
 
         public void ParseLion()
         {
-
             numPaths = PixelFarm.Agg.LionDataStore.LoadLionData(path, colors, pathIndexList);
             PixelFarm.Agg.BoundingRect.GetBoundingRect(path.Vxs, pathIndexList, numPaths, out boundingRect);
             center.x = (boundingRect.Right - boundingRect.Left) / 2.0;
@@ -105,6 +98,5 @@ namespace PixelFarm.Agg
             center.x = (boundingRect.Right - boundingRect.Left) / 2.0;
             center.y = (boundingRect.Top - boundingRect.Bottom) / 2.0;
         }
-
     }
 }

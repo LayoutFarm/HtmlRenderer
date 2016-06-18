@@ -5,17 +5,13 @@ using LayoutFarm;
 using LayoutFarm.UI;
 namespace LayoutFarm.Demo
 {
-
     class Demo04_DynamicContent2 : DemoBase
     {
-
         public Demo04_DynamicContent2()
         {
-
         }
         protected override void OnStartDemo(HtmlPanel panel)
         {
-
             var htmldoc = panel.HtmlHost.CreatePresentationHtmlDoc();
             var rootNode = htmldoc.RootNode;
             //1. create body node             
@@ -28,12 +24,10 @@ namespace LayoutFarm.Demo
                 {
                     div.AddChild("span", span =>
                     {
-
                         span.AddTextContent("ABCD");
                         //3. attach event to specific span
                         span.AttachMouseDownEvent(e =>
                         {
-
 #if DEBUG
                             // System.Diagnostics.Debugger.Break();                           
                             //test change span property 
@@ -43,10 +37,8 @@ namespace LayoutFarm.Demo
 #endif
 
                             e.StopPropagation();
-
                         });
                     });
-
                     div.AddChild("span", span =>
                     {
                         span.AddTextContent("EFGHIJK");
@@ -69,15 +61,9 @@ namespace LayoutFarm.Demo
                     });
                 });
             });
-
             //2. add to view 
             panel.LoadHtmlDom(htmldoc,
                LayoutFarm.Composers.CssDefaults.DefaultStyleSheet);
-
-
         }
     }
-
-
-
 }

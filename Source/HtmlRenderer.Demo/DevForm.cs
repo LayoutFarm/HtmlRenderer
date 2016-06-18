@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
-
-
 namespace LayoutFarm.Demo
 {
     public partial class DevForm : Form
@@ -26,25 +23,20 @@ namespace LayoutFarm.Demo
             var demoInfo = lstDemoList.SelectedItem as DemoInfo;
             if (demoInfo != null)
             {
-
-
                 DemoBase demoInstance = (DemoBase)Activator.CreateInstance(demoInfo.DemoType);
                 if (demoInstance != null)
                 {
                     DemoForm demoForm = new DemoForm(this.graphicsPlatform);
                     demoForm.Show();
                     demoForm.Activate();
-
                     demoForm.LoadDemo(demoInstance);
                 }
-
             }
         }
 
         void LoadDemoList()
         {
             this.lstDemoList.Items.Clear();
-
             var demoBaseType = typeof(DemoBase);
             var thisAssem = System.Reflection.Assembly.GetAssembly(this.GetType());
             List<DemoInfo> demoInfoList = new List<DemoInfo>();
@@ -73,13 +65,11 @@ namespace LayoutFarm.Demo
             {
                 this.lstDemoList.Items.Add(demo);
             }
-
         }
         private void button1_Click(object sender, EventArgs e)
         {
             DemoForm demoForm = new DemoForm(this.graphicsPlatform);
             demoForm.PrepareSamples();
-
             demoForm.Show();
             demoForm.Activate();
         }
@@ -87,7 +77,6 @@ namespace LayoutFarm.Demo
 
         private void button2_Click(object sender, EventArgs e)
         {
-
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -97,20 +86,11 @@ namespace LayoutFarm.Demo
                 DemoForm demoForm = new DemoForm(this.graphicsPlatform);
                 demoForm.StartAtSampleIndex = 2;
                 demoForm.PrepareSamples();
-
                 demoForm.Show();
                 demoForm.Activate();
-
                 System.Threading.Thread.Sleep(10);
-
                 demoForm.Close();
-
             }
         }
-
-
-
-
-
     }
 }

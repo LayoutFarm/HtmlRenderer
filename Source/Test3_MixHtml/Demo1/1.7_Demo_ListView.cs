@@ -1,11 +1,11 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
 using LayoutFarm.UI;
-
 namespace LayoutFarm
 {
     [DemoNote("1.7 ListView")]
@@ -17,7 +17,6 @@ namespace LayoutFarm
             listview.SetLocation(10, 10);
             listview.BackColor = KnownColors.FromKnownColor(KnownColor.LightGray);
             viewport.AddContent(listview);
-
             //add 
             for (int i = 0; i < 10; ++i)
             {
@@ -32,7 +31,6 @@ namespace LayoutFarm
                 }
                 listview.AddItem(listItem);
             }
-
         }
     }
 }

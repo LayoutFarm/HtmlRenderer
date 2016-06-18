@@ -1,4 +1,5 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,37 +7,26 @@ using System.Text;
 using PixelFarm.Drawing;
 using LayoutFarm.CustomWidgets;
 using LayoutFarm.UI;
-
 namespace LayoutFarm
 {
-
-
-
     class UserHtmlWorkspace
     {
         HtmlBox htmlBox;
         string htmltext;
         string documentRootPath;
-
         public virtual void OnStartDemo(SampleViewport viewport)
         {
             //html box
             var contentMx = new LayoutFarm.ContentManagers.ImageContentManager();
             contentMx.ImageLoadingRequest += contentMx_ImageLoadingRequest;
-
-
             var host = HtmlHostCreatorHelper.CreateHtmlHost(viewport,
                 (s, e) => contentMx.AddRequestImage(e.ImageBinder),
                 contentMx_LoadStyleSheet);
-
             //1. htmlbox
             int viewportW = viewport.ViewportControl.Width;
             int viewportH = viewport.ViewportControl.Height;
             htmlBox = new HtmlBox(host, viewportW, viewportH);
             viewport.AddContent(htmlBox);
-
-           
-
             if (htmltext == null)
             {
                 htmltext = @"<html><head></head><body>NOT FOUND!</body></html>";

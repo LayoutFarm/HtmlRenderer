@@ -1,15 +1,13 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-
 using LayoutFarm;
 using LayoutFarm.UI;
-
-
 namespace TestGraphicPackage
 {
     public partial class Form1 : Form
@@ -26,10 +24,8 @@ namespace TestGraphicPackage
 
         static void ShowFormLayoutInspector(LayoutFarm.UI.UISurfaceViewportControl viewport)
         {
-
             var formLayoutInspector = new LayoutFarm.Dev.FormLayoutInspector();
             formLayoutInspector.Show();
-
             formLayoutInspector.FormClosed += (s, e2) =>
             {
                 formLayoutInspector = null;
@@ -40,25 +36,17 @@ namespace TestGraphicPackage
 
         private void cmdShowBasicFormCanvas_Click(object sender, EventArgs e)
         {
-
             LayoutFarm.UI.UISurfaceViewportControl viewport;
-
             int w = 800;
             int h = 600;
-
-
-
             MyRootGraphic rootgfx = new MyRootGraphic(
                 this.uiPlatformWinForm,
                 this.gfxPlatform,
                 w,
                 h);
-
-
             Form formCanvas = FormCanvasHelper.CreateNewFormCanvas(rootgfx,
                InnerViewportKind.GdiPlus,
                out viewport);
-
             viewport.PaintMe();
             formCanvas.Show();
             ShowFormLayoutInspector(viewport);
@@ -71,25 +59,16 @@ namespace TestGraphicPackage
             simpleForm.WindowState = FormWindowState.Maximized;
             Rectangle screenClientAreaRect = Screen.PrimaryScreen.WorkingArea;
             var viewport = new LayoutFarm.UI.UISurfaceViewportControl();
-
             viewport.Bounds = new Rectangle(0, 0, screenClientAreaRect.Width, screenClientAreaRect.Height);
             simpleForm.Controls.Add(viewport);
-
             int w = 800;
             int h = 600;
-
-
-
             var rootgfx = new MyRootGraphic(this.uiPlatformWinForm,
                 this.gfxPlatform, w, h);
-
             viewport.InitRootGraphics(rootgfx, rootgfx.TopWinEventPortal,
                 InnerViewportKind.GdiPlus);
-
             viewport.PaintMe();
-
             simpleForm.Show();
-
             ShowFormLayoutInspector(viewport);
         }
     }

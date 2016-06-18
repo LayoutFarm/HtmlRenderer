@@ -1,12 +1,9 @@
 ﻿using System;
 using System.IO;
-
 using System.Text;
 using System.Windows.Forms;
-
 using HtmlKit;
 using NUnit.Framework;
-
 namespace TestWithWinForms
 {
     public partial class Form1 : Form
@@ -47,9 +44,7 @@ namespace TestWithWinForms
         {
             if (text == null)
                 throw new ArgumentNullException("text");
-
             var quoted = new StringBuilder(text.Length + 2, (text.Length * 2) + 2);
-
             quoted.Append("\"");
             for (int i = 0; i < text.Length; i++)
             {
@@ -58,7 +53,6 @@ namespace TestWithWinForms
                 quoted.Append(text[i]);
             }
             quoted.Append("\"");
-
             return quoted.ToString();
         }
 
@@ -67,23 +61,18 @@ namespace TestWithWinForms
             var tokens = Path.ChangeExtension(path, ".tokens");
             var expected = File.Exists(tokens) ? File.ReadAllText(tokens) : string.Empty;
             var actual = new StringBuilder();
-           
             using (var textReader = File.OpenText(path))
             {
                 var tokenizer = new HtmlTokenizer(textReader);
                 HtmlToken token;
-
                 Assert.AreEqual(HtmlTokenizerState.Data, tokenizer.TokenizerState);
-
                 while (tokenizer.ReadNextToken(out token))
                 {
                     actual.AppendFormat("{0}: ", token.Kind);
-
                     switch (token.Kind)
                     {
                         case HtmlTokenKind.Data:
                             var text = (HtmlDataToken)token;
-
                             for (int i = 0; i < text.Data.Length; i++)
                             {
                                 switch (text.Data[i])
@@ -99,9 +88,7 @@ namespace TestWithWinForms
                             break;
                         case HtmlTokenKind.Tag:
                             var tag = (HtmlTagToken)token;
-
                             actual.AppendFormat("<{0}{1}", tag.IsEndTag ? "/" : "", tag.Name);
-
                             foreach (var attribute in tag.Attributes)
                             {
                                 if (attribute.Value != null)
@@ -111,7 +98,6 @@ namespace TestWithWinForms
                             }
 
                             actual.Append(tag.IsEmptyElement ? "/>" : ">");
-
                             actual.AppendLine();
                             break;
                         case HtmlTokenKind.Comment:
@@ -120,15 +106,11 @@ namespace TestWithWinForms
                             break;
                         case HtmlTokenKind.DocType:
                             var doctype = (HtmlDocTypeToken)token;
-
                             if (doctype.ForceQuirksMode)
                                 actual.Append("<!-- force quirks mode -->");
-
                             actual.Append("<!DOCTYPE");
-
                             if (doctype.Name != null)
                                 actual.AppendFormat(" {0}", doctype.Name.ToUpperInvariant());
-
                             if (doctype.PublicIdentifier != null)
                             {
                                 actual.AppendFormat(" PUBLIC {0}", Quote(doctype.PublicIdentifier));
@@ -154,10 +136,7 @@ namespace TestWithWinForms
 
             if (!File.Exists(tokens))
                 File.WriteAllText(tokens, actual.ToString());
-
             Assert.AreEqual(expected, actual.ToString(), "The token stream does not match the expected tokens.");
         }
-
-
     }
 }

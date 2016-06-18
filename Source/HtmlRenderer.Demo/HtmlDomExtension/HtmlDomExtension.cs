@@ -5,9 +5,7 @@ using LayoutFarm;
 using LayoutFarm.UI;
 namespace LayoutFarm.Demo
 {
-
     public delegate void Decorate(DomElement h);
-
     public static class HtmlDomExtension
     {
         //level 1
@@ -47,12 +45,10 @@ namespace LayoutFarm.Demo
         //level 2
         public static void AttachMouseDownEvent(this DomElement elem, HtmlEventHandler hdl)
         {
-
             elem.AttachEvent(UIEventName.MouseDown, hdl);
         }
         public static void AttachMouseUpEvent(this DomElement elem, HtmlEventHandler hdl)
         {
-
             elem.AttachEvent(UIEventName.MouseUp, hdl);
         }
     }

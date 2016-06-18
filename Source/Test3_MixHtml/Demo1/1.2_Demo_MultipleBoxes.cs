@@ -1,18 +1,17 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
 using LayoutFarm.UI;
-
 namespace LayoutFarm
 {
     [DemoNote("1.2 MultpleBox")]
     class Demo_MultipleBox : DemoBase
     {
         LayoutFarm.CustomWidgets.CheckBox currentSingleCheckedBox;
-
         protected override void OnStartDemo(SampleViewport viewport)
         {
             SetupImageList();
@@ -29,11 +28,9 @@ namespace LayoutFarm
             var imgBox = new CustomWidgets.ImageBox(imgBinder.Image.Width, imgBinder.Image.Height);
             imgBox.ImageBinder = imgBinder;
             viewport.AddContent(imgBox);
-
             //--------------------
             //checked box
             int boxHeight = 20;
-
             int boxY = 50;
             //multiple select
             for (int i = 0; i < 4; ++i)
@@ -41,7 +38,6 @@ namespace LayoutFarm
                 var statedBox = new LayoutFarm.CustomWidgets.CheckBox(20, boxHeight);
                 statedBox.SetLocation(10, boxY);
                 boxY += boxHeight + 5;
-
                 viewport.AddContent(statedBox);
             }
             //-------------------------------------------------------------------------
@@ -101,7 +97,6 @@ namespace LayoutFarm
                 }
                 this.lastX = e.X;
                 this.lastY = e.Y;
-
                 //temp fix here -> need converter
                 var p = this.Painter;
                 p.Clear(PixelFarm.Agg.ColorRGBA.White);
@@ -121,9 +116,7 @@ namespace LayoutFarm
             }
             protected override void OnMouseUp(UIMouseEventArgs e)
             {
-
             }
-
         }
 
         static void SetupImageList()
@@ -147,7 +140,6 @@ namespace LayoutFarm
         {
             System.Drawing.Bitmap gdiBmp = new System.Drawing.Bitmap(filename);
             Bitmap bmp = new Bitmap(gdiBmp.Width, gdiBmp.Height, gdiBmp);
-
             ImageBinder binder = new ClientImageBinder(null);
             binder.SetImage(bmp);
             binder.State = ImageBinderState.Loaded;

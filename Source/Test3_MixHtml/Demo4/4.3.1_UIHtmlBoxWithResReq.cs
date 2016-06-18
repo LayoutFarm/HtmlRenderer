@@ -1,4 +1,5 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,7 +7,6 @@ using System.Text;
 using PixelFarm.Drawing;
 using LayoutFarm.CustomWidgets;
 using LayoutFarm.UI;
-
 namespace LayoutFarm
 {
     [DemoNote("4.3.1 UIHtmlBox with Resource Request1")]
@@ -36,7 +36,6 @@ namespace LayoutFarm
                     (s, e) =>
                     {
                     });
-
             }
             return htmlHost;
         }
@@ -53,11 +52,10 @@ namespace LayoutFarm
             }
             //==================================================
             //html box
-            var htmlBox = new HtmlBox(GetHtmlHost(viewport), 800, 600); 
+            var htmlBox = new HtmlBox(GetHtmlHost(viewport), 800, 600);
             viewport.AddContent(htmlBox);
             string html = "<html><head></head><body><div>OK1</div><div>3 Images</div><img src=\"sample01.png\"></img><img src=\"sample01.png\"></img><img src=\"sample01.png\"></img></body></html>";
             htmlBox.LoadHtmlString(html);
         }
-
     }
 }

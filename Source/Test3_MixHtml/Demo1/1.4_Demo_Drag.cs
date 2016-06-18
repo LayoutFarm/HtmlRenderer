@@ -1,12 +1,11 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
-
 using LayoutFarm.UI;
-
 namespace LayoutFarm
 {
     [DemoNote("1.4 DemoDrag")]
@@ -44,19 +43,15 @@ namespace LayoutFarm
             {
                 e.MouseCursorStyle = MouseCursorStyle.Default;
                 box.BackColor = Color.LightGray;
-
             };
             box.MouseDrag += (s, e) =>
             {
-
                 box.BackColor = KnownColors.FromKnownColor(KnownColor.GreenYellow);
                 Point pos = box.Position;
                 box.SetLocation(pos.X + e.XDiff, pos.Y + e.YDiff);
                 e.MouseCursorStyle = MouseCursorStyle.Pointer;
                 e.CancelBubbling = true;
-
-            }; 
+            };
         }
-
     }
 }

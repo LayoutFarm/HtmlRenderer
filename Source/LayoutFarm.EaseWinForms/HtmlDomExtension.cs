@@ -3,13 +3,10 @@ using LayoutFarm.Composers;
 using LayoutFarm.WebDom;
 using LayoutFarm;
 using LayoutFarm.UI;
-
 namespace LayoutFarm.WebDom.Extension
 {
-
-  public delegate void Decorate(DomElement h);
-
-   public static class MyHtmlDocExtension
+    public delegate void Decorate(DomElement h);
+    public static class MyHtmlDocExtension
     {
         //level 1
         public static DomElement AddChild(this DomElement elem, string elementName)
@@ -48,12 +45,10 @@ namespace LayoutFarm.WebDom.Extension
         //level 2
         public static void AttachMouseDownEvent(this DomElement elem, HtmlEventHandler hdl)
         {
-
             elem.AttachEvent(UIEventName.MouseDown, hdl);
         }
         public static void AttachMouseUpEvent(this DomElement elem, HtmlEventHandler hdl)
         {
-
             elem.AttachEvent(UIEventName.MouseUp, hdl);
         }
     }

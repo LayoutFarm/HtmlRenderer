@@ -13,7 +13,6 @@
 using System;
 using System.Drawing;
 using System.Collections.Generic;
-
 using System.ComponentModel;
 using System.Windows.Forms;
 using LayoutFarm.WebDom;
@@ -21,9 +20,7 @@ using LayoutFarm.Css;
 using LayoutFarm.ContentManagers;
 using LayoutFarm.Composers;
 using LayoutFarm.HtmlBoxes;
-
 using Conv = LayoutFarm.UI.Conv;
-
 namespace LayoutFarm.Demo
 {
     /// <summary>
@@ -67,29 +64,19 @@ namespace LayoutFarm.Demo
     {
         List<MyHtmlContainer> waitingUpdateList = new List<MyHtmlContainer>();
         LayoutFarm.WebDom.WebDocument currentDoc;
-
-
         LayoutFarm.HtmlBoxes.HtmlHost htmlhost;
         LayoutFarm.HtmlBoxes.MyHtmlContainer htmlContainer;
-
-
         HtmlInputEventAdapter _htmlInputEventAdapter;
         /// <summary>
         /// the raw base stylesheet data used in the control
         /// </summary>
         string _baseRawCssData;
-
         /// <summary>
         /// the base stylesheet data used in the control
         /// </summary>
         WebDom.CssActiveSheet _baseCssData;
-
         Timer timer01 = new Timer();
-
-
-
         LayoutFarm.HtmlBoxes.LayoutVisitor htmlLayoutVisitor;
-
         PixelFarm.Drawing.Canvas renderCanvas;
         PixelFarm.Drawing.GraphicsPlatform gfxPlatform;
         int canvasW;
@@ -99,12 +86,10 @@ namespace LayoutFarm.Demo
         /// </summary>
         public HtmlPanel(PixelFarm.Drawing.GraphicsPlatform p, int w, int h)
         {
-
             AutoScroll = true;
             BackColor = SystemColors.Window;
             SetStyle(ControlStyles.ResizeRedraw, true);
             SetStyle(ControlStyles.SupportsTransparentBackColor, true);
-
             this.gfxPlatform = p;
             this.renderCanvas = gfxPlatform.CreateCanvas(0, 0,
                 this.canvasW = w, this.canvasH = h);
@@ -116,7 +101,6 @@ namespace LayoutFarm.Demo
         public void SetHtmlHost(HtmlHost htmlhost)
         {
             this.htmlhost = htmlhost;
-
             htmlhost.SetHtmlContainerUpdateHandler(htmlCont =>
             {
                 var updatedHtmlCont = htmlCont as MyHtmlContainer;
@@ -126,18 +110,14 @@ namespace LayoutFarm.Demo
                     waitingUpdateList.Add(updatedHtmlCont);
                 }
             });
-
             htmlContainer = new MyHtmlContainer(htmlhost);
             htmlContainer.AttachEssentialHandlers(
                 OnRefresh,
                 myHtmlContainer_NeedUpdateDom,
                 OnRefresh,
                 null);
-
             htmlLayoutVisitor = new LayoutVisitor(this.gfxPlatform);
             htmlLayoutVisitor.Bind(htmlContainer);
-
-
             //------------------------------------------------------- 
             timer01.Interval = 20;//20ms?
             timer01.Tick += (s, e) =>
@@ -154,7 +134,6 @@ namespace LayoutFarm.Demo
                 {
                     waitingUpdateList.RemoveAt(i);
                 }
-
             };
             timer01.Enabled = true;
             //-------------------------------------------
@@ -166,7 +145,6 @@ namespace LayoutFarm.Demo
 
         void myHtmlContainer_NeedUpdateDom(object sender, EventArgs e)
         {
-
             this.htmlhost.GetRenderTreeBuilder().RefreshCssTree(this.currentDoc.RootNode);
             this.htmlContainer.PerformLayout(this.htmlLayoutVisitor);
         }
@@ -283,19 +261,14 @@ namespace LayoutFarm.Demo
         }
         void SetHtml(LayoutFarm.HtmlBoxes.MyHtmlContainer htmlContainer, string html, CssActiveSheet cssData)
         {
-
-
             //-----------------------------------------------------------------
             var htmldoc = this.currentDoc =
                 LayoutFarm.Composers.WebDocumentParser.ParseDocument(
                     new WebDom.Parser.TextSource(html.ToCharArray()));
-
-
             //build rootbox from htmldoc
             var rootBox = this.htmlhost.GetRenderTreeBuilder().BuildCssRenderTree(htmldoc,
                 cssData,
                 null);
-
             htmlContainer.WebDocument = htmldoc;
             htmlContainer.RootCssBox = rootBox;
         }
@@ -316,21 +289,17 @@ namespace LayoutFarm.Demo
 
         void BuildCssBoxTree(MyHtmlContainer htmlCont, CssActiveSheet cssData)
         {
-
             var rootBox = this.htmlhost.GetRenderTreeBuilder().BuildCssRenderTree(
                 this.currentDoc,
                 cssData,
                 null);
-
             htmlCont.RootCssBox = rootBox;
-
         }
         public void ForceRefreshHtmlDomChange(LayoutFarm.WebDom.WebDocument doc)
         {
             //RefreshHtmlDomChange(_baseCssData);
             myHtmlContainer_NeedUpdateDom(this, EventArgs.Empty);
             this.PaintMe();
-
         }
         public HtmlContainer GetHtmlContainer()
         {
@@ -344,7 +313,6 @@ namespace LayoutFarm.Demo
         /// <returns>generated html</returns>
         public string GetHtml()
         {
-
             if (htmlContainer == null)
             {
                 return null;
@@ -385,9 +353,7 @@ namespace LayoutFarm.Demo
         protected override void OnLayout(LayoutEventArgs levent)
         {
             PerformHtmlLayout();
-
             base.OnLayout(levent);
-
             // to handle if vertical scrollbar is appearing or disappearing
             if (htmlContainer != null && Math.Abs(htmlContainer.MaxWidth - ClientSize.Width) > 0.1)
             {
@@ -411,7 +377,6 @@ namespace LayoutFarm.Demo
             }
         }
         int count01;
-
         /// <summary>
         /// Perform paint of the html in the control.
         /// </summary>
@@ -427,25 +392,15 @@ namespace LayoutFarm.Demo
         {
             if (htmlContainer != null)
             {
-
                 var bounds = this.Bounds;
-
                 htmlContainer.CheckDocUpdate();
-
                 var painter = GetSharedPainter(htmlContainer, renderCanvas);
-
                 renderCanvas.ClearSurface(PixelFarm.Drawing.Color.White);
-
                 var scrollPos = AutoScrollPosition;
-
                 painter.SetViewportSize(bounds.Width, bounds.Height);
-
                 painter.OffsetCanvasOrigin(scrollPos.X, scrollPos.Y);
-
                 htmlContainer.PerformPaint(painter);
-
                 painter.OffsetCanvasOrigin(-scrollPos.X, -scrollPos.Y);
-
                 ReleaseSharedPainter(painter);
                 //------------------------------------------------------------
 
@@ -453,8 +408,6 @@ namespace LayoutFarm.Demo
                 IntPtr hdc = GetDC(this.Handle);
                 renderCanvas.RenderTo(hdc, 0, 0, new PixelFarm.Drawing.Rectangle(0, 0, 800, 600));
                 ReleaseDC(this.Handle, hdc);
-
-
                 // call mouse move to handle paint after scroll or html change affecting mouse cursor.
                 //var mp = PointToClient(MousePosition);
                 //_htmlContainer.HandleMouseMove(this, new MouseEventArgs(MouseButtons.None, 0, mp.X, mp.Y, 0));
@@ -465,13 +418,11 @@ namespace LayoutFarm.Demo
                 e.Graphics.DrawString(count01.ToString(), this.Font, Brushes.Black, new PointF(0, 0));
             }
             count01++;
-
         }
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         static extern IntPtr GetDC(IntPtr hWnd);
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         static extern IntPtr ReleaseDC(IntPtr hWnd, IntPtr hdc);
-
         /// <summary>
         /// Set focus on the control for keyboard scrrollbars handling.
         /// </summary>
@@ -489,7 +440,6 @@ namespace LayoutFarm.Demo
         protected override void OnMouseLeave(EventArgs e)
         {
             base.OnMouseLeave(e);
-
             //if (_htmlContainer != null)
             //    _htmlContainer.HandleMouseLeave(this);
         }
@@ -503,9 +453,7 @@ namespace LayoutFarm.Demo
         {
             this.isMouseDown = true;
             this.isDragging = false;
-
             base.OnMouseDown(e);
-
             this._htmlInputEventAdapter.MouseDown(CreateMouseEventArg(e));
             PaintMe(null);
             //this.Invalidate();
@@ -519,8 +467,6 @@ namespace LayoutFarm.Demo
             this.isDragging = this.isMouseDown;
             var mouseE = CreateMouseEventArg(e);
             _htmlInputEventAdapter.MouseMove(mouseE);
-
-
             PaintMe(null);
         }
 
@@ -530,14 +476,10 @@ namespace LayoutFarm.Demo
         protected override void OnMouseUp(MouseEventArgs e)
         {
             base.OnMouseClick(e);
-
             //get mouseE before reset isMouseDown and isDragging
             var mouseE = CreateMouseEventArg(e);
-
             this.isMouseDown = this.isDragging = false;
-
             this._htmlInputEventAdapter.MouseUp(mouseE);
-
             PaintMe(null);
             this.isMouseDown = this.isDragging = false;
             // this.Invalidate();
@@ -585,9 +527,6 @@ namespace LayoutFarm.Demo
         protected override void OnKeyDown(KeyEventArgs e)
         {
             base.OnKeyDown(e);
-
-
-
             //if (_htmlContainer != null)
             //    _htmlContainer.HandleKeyDown(this, e);
             //if (e.KeyCode == Keys.Up)
@@ -704,7 +643,6 @@ namespace LayoutFarm.Demo
         private void UpdateScroll(Point location)
         {
             AutoScrollPosition = location;
-
         }
 
         /// <summary>
@@ -737,7 +675,6 @@ namespace LayoutFarm.Demo
             {
                 this.timer01.Stop();
                 htmlContainer.DetachEssentialHandlers();
-
                 htmlContainer.Dispose();
                 htmlContainer = null;
             }
@@ -824,7 +761,6 @@ namespace LayoutFarm.Demo
             }
 
             painter.Bind(htmlCont, canvas);
-
             return painter;
         }
         static void ReleaseSharedPainter(PaintVisitor p)

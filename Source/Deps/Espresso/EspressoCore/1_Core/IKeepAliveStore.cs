@@ -24,7 +24,6 @@
 // THE SOFTWARE.
 
 using System;
-
 namespace VroomJs
 {
     public interface IKeepAliveStore

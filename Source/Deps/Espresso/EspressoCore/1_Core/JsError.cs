@@ -1,7 +1,7 @@
 ﻿//2013 MIT, Federico Di Gregorio <fog@initd.org>
+
 using System;
 using System.Runtime.InteropServices;
-
 namespace VroomJs
 {
     [StructLayout(LayoutKind.Sequential)]

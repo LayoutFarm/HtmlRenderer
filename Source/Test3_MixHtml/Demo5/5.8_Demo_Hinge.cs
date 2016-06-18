@@ -1,17 +1,16 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
 using LayoutFarm.UI;
-
 namespace LayoutFarm.WebWidgets
 {
     [DemoNote("5.3 Hinge")]
     class Demo_Hinge : HtmlDemoBase
     {
-
         protected override void OnHtmlHostCreated()
         {
             //-------------------------------
@@ -31,6 +30,5 @@ namespace LayoutFarm.WebWidgets
             //2. set float part detail 
             return hingeBox;
         }
-
     }
 }

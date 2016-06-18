@@ -32,53 +32,37 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using VroomJs.Extension;
-
 namespace VroomJs
 {
-
     public partial class JsContext : IDisposable
     {
-
-
-
         readonly int _id;
         readonly JsEngine _engine;
         readonly ManagedMethodCallDel engineMethodCallbackDel;
-
         List<JsMethodDefinition> registerMethods = new List<JsMethodDefinition>();
         List<JsPropertyDefinition> registerProperties = new List<JsPropertyDefinition>();
-
         Dictionary<Type, JsTypeDefinition> mappingJsTypeDefinition = new Dictionary<Type, JsTypeDefinition>();
         Dictionary<Type, DelegateTemplate> cachedDelSamples = new Dictionary<Type, DelegateTemplate>();
-
         NativeObjectProxyStore proxyStore;
         JsTypeDefinitionBuilder jsTypeDefBuilder;
-
         internal JsContext(int id,
             JsEngine engine,
             HandleRef engineHandle,
             Action<int> notifyDispose,
             JsTypeDefinitionBuilder jsTypeDefBuilder)
         {
-
             _id = id;
             _engine = engine;
             _notifyDispose = notifyDispose;
-
             _keepalives = new KeepAliveDictionaryStore();
             _context = new HandleRef(this, jscontext_new(id, engineHandle));
             _convert = new JsConvert(this);
-
             this.jsTypeDefBuilder = jsTypeDefBuilder;
-
             engineMethodCallbackDel = new ManagedMethodCallDel(EngineListener_MethodCall);
             NativeV8JsInterOp.CtxRegisterManagedMethodCall(this, engineMethodCallbackDel);
             registerMethods.Add(null);//first is null
             registerProperties.Add(null); //first is null
-
-
             proxyStore = new NativeObjectProxyStore(this);
-
         }
 
         internal INativeRef GetObjectProxy(int index)
@@ -92,7 +76,6 @@ namespace VroomJs
         }
         internal void CollectionTypeMembers(JsTypeDefinition jsTypeDefinition)
         {
-
             List<JsMethodDefinition> methods = jsTypeDefinition.GetMethods();
             int j = methods.Count;
             for (int i = 0; i < j; ++i)
@@ -110,7 +93,6 @@ namespace VroomJs
                 p.SetMemberId(registerProperties.Count);
                 registerProperties.Add(p);
             }
-
         }
 
         void EngineListener_MethodCall(int mIndex, int methodKind, IntPtr metArgs)
@@ -123,12 +105,10 @@ namespace VroomJs
                         if (mIndex == 0) return;
                         //------------------------------------------
                         JsMethodDefinition getterMethod = registerProperties[mIndex].GetterMethod;
-
                         if (getterMethod != null)
                         {
                             getterMethod.InvokeMethod(new ManagedMethodArgs(this, metArgs));
                         }
-
                     }
                     break;
                 case 2:
@@ -154,25 +134,20 @@ namespace VroomJs
                     }
                     break;
             }
-
-
         }
         public JsEngine Engine
         {
             get { return _engine; }
         }
         readonly HandleRef _context;
-
         public HandleRef Handle
         {
             get { return _context; }
         }
 
         readonly JsConvert _convert;
-
         // Keep objects passed to V8 alive even if no other references exist.
         readonly IKeepAliveStore _keepalives;
-
         public JsEngineStats GetStats()
         {
             return new JsEngineStats
@@ -187,9 +162,7 @@ namespace VroomJs
         {
             if (script == null)
                 throw new ArgumentNullException("script");
-
             CheckDisposed();
-
             bool executionTimedOut = false;
             Timer timer = null;
             if (executionTimeout.HasValue)
@@ -239,9 +212,7 @@ namespace VroomJs
             //watch1.Start();
             if (code == null)
                 throw new ArgumentNullException("code");
-
             CheckDisposed();
-
             bool executionTimedOut = false;
             Timer timer = null;
             if (executionTimeout.HasValue)
@@ -262,7 +233,6 @@ namespace VroomJs
 
                 int ver = getVersion();
                 JsValue v = jscontext_execute(_context, code, name ?? "<Unnamed Script>");
-
                 //watch2.Stop();
                 res = _convert.FromJsValue(v);
 #if DEBUG_TRACE_API
@@ -301,7 +271,6 @@ namespace VroomJs
             JsValue v = jscontext_get_global(_context);
             object res = _convert.FromJsValue(v);
             jsvalue_dispose(v);
-
             Exception e = res as JsException;
             if (e != null)
                 throw e;
@@ -312,16 +281,13 @@ namespace VroomJs
         {
             if (name == null)
                 throw new ArgumentNullException("name");
-
             CheckDisposed();
-
             JsValue v = jscontext_get_variable(_context, name);
             object res = _convert.FromJsValue(v);
 #if DEBUG_TRACE_API
 			Console.WriteLine("Cleaning up return value get variable.");
 #endif
             jsvalue_dispose(v);
-
             Exception e = res as JsException;
             if (e != null)
                 throw e;
@@ -332,7 +298,6 @@ namespace VroomJs
 
         public void SetFunction(string name, Delegate func)
         {
-
             WeakDelegate del;
 #if NET20
 
@@ -388,7 +353,6 @@ namespace VroomJs
 
         private readonly Action<int> _notifyDispose;
         bool _disposed;
-
         public bool IsDisposed
         {
             get { return _disposed; }
@@ -403,11 +367,8 @@ namespace VroomJs
         protected virtual void Dispose(bool disposing)
         {
             CheckDisposed();
-
             _disposed = true;
-
             jscontext_dispose(_context);
-
             if (disposing)
             {
                 _keepalives.Clear();
@@ -551,7 +512,6 @@ namespace VroomJs
         internal bool TryGetMemberValue(Type type, object obj, string name, out JsValue value)
         {
             object result;
-
             // dictionaries.
             if (typeof(IDictionary).IsAssignableFrom(type))
             {
@@ -601,7 +561,6 @@ namespace VroomJs
             // and then keep alive a "weak delegate", i.e., just a name and the target.
             // The real method will be resolved during the invokation itself.
             BindingFlags mFlags = flags | BindingFlags.InvokeMethod | BindingFlags.FlattenHierarchy;
-
             // TODO: This is probably slooow.
             foreach (var met in type.GetMembers(flags))
             {
@@ -801,7 +760,6 @@ namespace VroomJs
             var obj = KeepAliveGet(slot);
             if (obj != null)
             {
-
                 Type type = obj.GetType();
                 MethodInfo mi;
 #if NET20
@@ -852,10 +810,8 @@ namespace VroomJs
 				Console.WriteLine("invoking " + obj.Target + " method " + obj.MethodName);
 #endif
                 object[] a = (object[])_convert.FromJsValue(args);
-
                 BindingFlags flags = BindingFlags.Public
                         | BindingFlags.InvokeMethod | BindingFlags.FlattenHierarchy;
-
                 if (func.Target != null)
                 {
                     flags |= BindingFlags.Instance;
@@ -978,7 +934,6 @@ namespace VroomJs
         {
             MethodInfo mi = type.GetMethod(methodName, flags);
             ParameterInfo[] paramTypes = mi.GetParameters();
-
             for (int i = Math.Min(paramTypes.Length, args.Length) - 1; i >= 0; --i)
             {
                 if (args[i] != null && args[i].GetType() == typeof(JsFunction))
@@ -1125,10 +1080,8 @@ namespace VroomJs
         public object Invoke(IntPtr funcPtr, IntPtr thisPtr, object[] args)
         {
             CheckDisposed();
-
             if (funcPtr == IntPtr.Zero)
                 throw new JsInteropException("wrapped V8 function is empty (IntPtr is Zero)");
-
             JsValue a = JsValue.Null; // Null value unless we're given args.
             if (args != null)
             {
@@ -1140,7 +1093,6 @@ namespace VroomJs
             object res = _convert.FromJsValue(v);
             jsvalue_dispose(v);
             jsvalue_dispose(a);
-
             Exception e = res as JsException;
             if (e != null)
                 throw e;
@@ -1160,9 +1112,7 @@ namespace VroomJs
         {
             if (name == null)
                 throw new ArgumentNullException("name");
-
             CheckDisposed();
-
             JsValue a = _convert.AnyToJsValue(value);
             JsValue b = jscontext_set_variable(_context, name, a);
 #if DEBUG_TRACE_API
@@ -1177,9 +1127,7 @@ namespace VroomJs
         {
             if (name == null)
                 throw new ArgumentNullException("name");
-
             CheckDisposed();
-
             JsValue a = _convert.ToJsValue(value);
             JsValue b = jscontext_set_variable(_context, name, a);
 #if DEBUG_TRACE_API
@@ -1192,9 +1140,7 @@ namespace VroomJs
         {
             if (name == null)
                 throw new ArgumentNullException("name");
-
             CheckDisposed();
-
             JsValue a = _convert.ToJsValue(value);
             JsValue b = jscontext_set_variable(_context, name, a);
 #if DEBUG_TRACE_API
@@ -1207,9 +1153,7 @@ namespace VroomJs
         {
             if (name == null)
                 throw new ArgumentNullException("name");
-
             CheckDisposed();
-
             JsValue a = _convert.ToJsValue(value);
             JsValue b = jscontext_set_variable(_context, name, a);
 #if DEBUG_TRACE_API
@@ -1222,9 +1166,7 @@ namespace VroomJs
         {
             if (name == null)
                 throw new ArgumentNullException("name");
-
             CheckDisposed();
-
             JsValue a = _convert.ToJsValue(value);
             JsValue b = jscontext_set_variable(_context, name, a);
 #if DEBUG_TRACE_API
@@ -1237,9 +1179,7 @@ namespace VroomJs
         {
             if (name == null)
                 throw new ArgumentNullException("name");
-
             CheckDisposed();
-
             JsValue a = _convert.ToJsValue(value);
             JsValue b = jscontext_set_variable(_context, name, a);
 #if DEBUG_TRACE_API
@@ -1252,9 +1192,7 @@ namespace VroomJs
         {
             if (name == null)
                 throw new ArgumentNullException("name");
-
             CheckDisposed();
-
             JsValue a = _convert.ToJsValue(proxy);
             JsValue b = jscontext_set_variable(_context, name, a);
 #if DEBUG_TRACE_API
@@ -1268,9 +1206,7 @@ namespace VroomJs
         {
             if (name == null)
                 throw new ArgumentNullException("name");
-
             CheckDisposed();
-
             JsValue a = _convert.ToJsValueNull();
             JsValue b = jscontext_set_variable(_context, name, a);
 #if DEBUG_TRACE_API
@@ -1296,30 +1232,25 @@ namespace VroomJs
             JsTypeDefinition found;
             if (this.mappingJsTypeDefinition.TryGetValue(type, out found))
                 return found;
-
             //if not found
             //just create it
             found = this.jsTypeDefBuilder.BuildTypeDefinition(type);
             this.mappingJsTypeDefinition.Add(type, found);
             this.RegisterTypeDefinition(found);
-
             return found;
         }
 
 
         public JsTypeDefinition GetJsTypeDefinition2(Type type)
         {
-
             JsTypeDefinition found;
             if (this.mappingJsTypeDefinition.TryGetValue(type, out found))
                 return found;
-
             //if not found
             //just create it
             found = this.jsTypeDefBuilder.BuildTypeDefinition(type);
             this.mappingJsTypeDefinition.Add(type, found);
             this.RegisterTypeDefinition(found);
-
             return found;
         }
 
@@ -1343,22 +1274,18 @@ namespace VroomJs
         public event EventHandler Elapsed;
         public Timer(double millisec)
         {
-
         }
 
         public void Start()
         {
-
         }
 
         public void Stop()
         {
-
         }
 
         public void Dispose()
         {
-
         }
     }
 }

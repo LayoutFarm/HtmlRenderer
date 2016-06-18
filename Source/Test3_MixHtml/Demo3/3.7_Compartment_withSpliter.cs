@@ -1,4 +1,5 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,11 +13,9 @@ namespace LayoutFarm
     [DemoNote("3.7 Demo_CompartmentWithSpliter")]
     class Demo_CompartmentWithSpliter : DemoBase
     {
-
         NinespaceBox ninespaceBox;
         protected override void OnStartDemo(SampleViewport viewport)
         {
-
             //--------------------------------
             {
                 //background element
@@ -35,10 +34,6 @@ namespace LayoutFarm
         }
         void SetupBackgroundProperties(LayoutFarm.CustomWidgets.EaseBox backgroundBox)
         {
-
         }
-
-   
-
     }
 }

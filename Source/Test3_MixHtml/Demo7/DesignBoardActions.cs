@@ -1,4 +1,5 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Collections.Generic;
 using PixelFarm.Drawing;
@@ -7,14 +8,12 @@ namespace LayoutFarm.DzBoardSample
 {
     abstract class DzBoardAction
     {
-
         public DzBoardAction()
         {
         }
 
         public abstract void InvokeUndo(DesignBoardModule dzBoard);
         public abstract void InvokeRedo(DesignBoardModule dzBoard);
-
     }
 
     class DzSetLocationAction : DzBoardAction
@@ -41,11 +40,9 @@ namespace LayoutFarm.DzBoardSample
     }
     class DzSetBoundsAction : DzBoardAction
     {
-
         UIBox dzBox;
         Rectangle oldBounds;
         Rectangle newBounds;
-
         public DzSetBoundsAction(UIBox box, Rectangle oldBounds, Rectangle newBounds)
         {
             this.dzBox = box;
@@ -59,9 +56,8 @@ namespace LayoutFarm.DzBoardSample
         }
         public override void InvokeRedo(DesignBoardModule dzBoard)
         {
-            this.dzBox.SetBounds(newBounds.Left, newBounds.Top, newBounds.Width, newBounds.Height);             
+            this.dzBox.SetBounds(newBounds.Left, newBounds.Top, newBounds.Width, newBounds.Height);
         }
-
     }
     class DzMoveElementSetAction : DzBoardAction
     {
@@ -80,7 +76,6 @@ namespace LayoutFarm.DzBoardSample
         }
         public override void InvokeRedo(DesignBoardModule dzBoard)
         {
-
             int j = dzBoxList.Count;
             for (int i = 0; i < j; ++i)
             {
@@ -92,7 +87,6 @@ namespace LayoutFarm.DzBoardSample
     {
         LinkedList<DzBoardAction> undoList = new LinkedList<DzBoardAction>();
         Stack<DzBoardAction> reverseUndoAction = new Stack<DzBoardAction>();
-
         int maxCommandsCount = 20;
         DesignBoardModule boardModule;
         public DzCommandCollection(DesignBoardModule module)
@@ -114,7 +108,6 @@ namespace LayoutFarm.DzBoardSample
             }
             set
             {
-
                 maxCommandsCount = value;
                 if (undoList.Count > maxCommandsCount)
                 {
@@ -164,7 +157,6 @@ namespace LayoutFarm.DzBoardSample
                 docAction.InvokeRedo(boardModule);
                 undoList.AddLast(docAction);
             }
-
         }
         public DzBoardAction PeekCommand
         {
@@ -179,7 +171,6 @@ namespace LayoutFarm.DzBoardSample
             {
                 return undoList.Count;
             }
-
         }
         public DzBoardAction PopUndoCommand()
         {
@@ -194,6 +185,5 @@ namespace LayoutFarm.DzBoardSample
                 return null;
             }
         }
-
     }
 }
