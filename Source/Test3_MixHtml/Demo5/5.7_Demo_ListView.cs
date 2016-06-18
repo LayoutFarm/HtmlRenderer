@@ -1,10 +1,4 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
-using PixelFarm.Drawing;
-using LayoutFarm.UI;
 
 namespace LayoutFarm.WebWidgets
 {
@@ -13,7 +7,6 @@ namespace LayoutFarm.WebWidgets
     {
         protected override void OnHtmlHostCreated()
         {
-
             var listview = new LayoutFarm.HtmlWidgets.ListView(100, 100);
             listview.SetLocation(30, 20);
             //add listview item 
@@ -22,7 +15,6 @@ namespace LayoutFarm.WebWidgets
                 var listItem = new HtmlWidgets.ListItem(100, 20);
                 listItem.Text = "item" + i;
                 listview.AddItem(listItem);
-
             }
             AddToViewport(listview);
             ////-------------------------------------------------------------------
@@ -41,8 +33,5 @@ namespace LayoutFarm.WebWidgets
             //    //var scRelation = new LayoutFarm.HtmlWidgets.ScrollingRelation(vscbar, listview);
             //}
         }
-
-
-
     }
 }

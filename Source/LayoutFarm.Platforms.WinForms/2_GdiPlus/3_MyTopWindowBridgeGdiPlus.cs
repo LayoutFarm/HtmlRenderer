@@ -1,12 +1,11 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 using System.Windows.Forms;
 using PixelFarm.Drawing;
-
-
 namespace LayoutFarm.UI.GdiPlus
 {
     class MyTopWindowBridgeGdiPlus : TopWindowBridge
@@ -16,7 +15,6 @@ namespace LayoutFarm.UI.GdiPlus
         public MyTopWindowBridgeGdiPlus(RootGraphic root, ITopWindowEventRoot topWinEventRoot)
             : base(root, topWinEventRoot)
         {
-
         }
         internal void BindWindowControl(Control windowControl)
         {
@@ -26,7 +24,6 @@ namespace LayoutFarm.UI.GdiPlus
             this.RootGfx.SetPaintDelegates(
                     this.gdiPlusViewport.CanvasInvlidateArea,
                     this.PaintToOutputWindow);
-
 #if DEBUG
             this.dbugWinControl = windowControl;
             this.gdiPlusViewport.dbugOutputWindow = this;
@@ -53,7 +50,6 @@ namespace LayoutFarm.UI.GdiPlus
         public override void PaintToCanvas(Canvas canvas)
         {
             this.gdiPlusViewport.PaintMe(canvas);
-
         }
         protected override void ChangeCursorStyle(MouseCursorStyle cursorStyle)
         {
@@ -76,6 +72,5 @@ namespace LayoutFarm.UI.GdiPlus
                     break;
             }
         }
-
     }
 }

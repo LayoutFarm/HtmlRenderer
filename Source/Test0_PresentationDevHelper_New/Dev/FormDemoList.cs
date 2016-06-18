@@ -1,12 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
-
-using LayoutFarm;
-using PixelFarm.Drawing;
 using LayoutFarm.UI;
 namespace LayoutFarm.Dev
 {

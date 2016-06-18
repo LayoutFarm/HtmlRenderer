@@ -1,15 +1,13 @@
 //2015 MIT, WinterDev
 // Copyright (c) 2013 SIL International
 // This software is licensed under the MIT license (http://opensource.org/licenses/MIT)
+
 using System;
 using System.Collections.Generic;
-
-
 namespace Icu
 {
     public class BreakIterator
     {
-
         /// <summary>
         /// The possible types of text boundaries.
         /// </summary>
@@ -69,7 +67,6 @@ namespace Icu
         /// Value indicating all text boundaries have been returned.
         /// </summary>
         public const int DONE = -1;
-
         /// <summary>
         /// Splits the specified text along the specified type of boundaries. Spaces and punctuations
         /// are not returned.
@@ -145,7 +142,6 @@ namespace Icu
                     IntPtr bi = NativeMethods.ubrk_open_unsafe(type, locale, head + start, len, out err);
                     if (err != ErrorCode.NoErrors)
                         throw new Exception("BreakIterator.Split() failed with code " + err);
-
                     int cur = NativeMethods.ubrk_first(bi);
                     while (cur != DONE)
                     {
@@ -178,6 +174,4 @@ namespace Icu
         }
 #endif
     }
-
-
 }

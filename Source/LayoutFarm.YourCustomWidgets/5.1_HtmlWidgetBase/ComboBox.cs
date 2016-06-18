@@ -2,7 +2,6 @@
 
 namespace LayoutFarm.HtmlWidgets
 {
-
     public class ComboBox : HingeBox
     {
         public ComboBox(int w, int h)

@@ -1,10 +1,4 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
-using PixelFarm.Drawing;
-using LayoutFarm.UI;
 
 namespace LayoutFarm.WebWidgets
 {
@@ -20,10 +14,8 @@ namespace LayoutFarm.WebWidgets
             {
                 var childLevel0 = new LayoutFarm.HtmlWidgets.TreeNode(400, 40);
                 childLevel0.NodeText = "node" + i;
-
                 for (int n = 0; n < 4; ++n)
                 {
-
                     var childLevel1 = new LayoutFarm.HtmlWidgets.TreeNode(400, 40);
                     childLevel1.NodeText = "node" + i + "." + n;
                     childLevel0.AddChildNode(childLevel1);
@@ -40,7 +32,6 @@ namespace LayoutFarm.WebWidgets
             }
 
             AddToViewport(treeView);
-
         }
         //protected override void OnStartDemo(SampleViewport viewport)
         //{

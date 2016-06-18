@@ -1,8 +1,8 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Collections.Generic;
 using PixelFarm.Drawing;
-
 namespace LayoutFarm.UI
 {
     public class UIDragHitCollection

@@ -1,7 +1,6 @@
 ﻿//BSD 2014 ,WinterDev 
- 
-using PixelFarm.Drawing;
 
+using PixelFarm.Drawing;
 namespace LayoutFarm.HtmlBoxes
 {
     enum SelectionSegmentKind
@@ -13,7 +12,6 @@ namespace LayoutFarm.HtmlBoxes
     class SelectionSegment
     {
         public static readonly SelectionSegment FullLine = new SelectionSegment();
-
         private SelectionSegment()
         {
             this.Kind = SelectionSegmentKind.FullLine;
@@ -23,13 +21,11 @@ namespace LayoutFarm.HtmlBoxes
             this.Kind = SelectionSegmentKind.Partial;
             this.BeginAtPx = beginAtPixel;
             this.WidthPx = width;
-           
         }
 
         public SelectionSegmentKind Kind { get; private set; }
         public void Clear()
         {
-
         }
         public int BeginAtPx { get; private set; }
         public int WidthPx { get; private set; }
@@ -50,7 +46,6 @@ namespace LayoutFarm.HtmlBoxes
             }
             else
             {
-
                 p.FillRectangle(
                  Color.LightGray,
                  this.BeginAtPx, 0,
@@ -59,5 +54,4 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
     }
-
 }

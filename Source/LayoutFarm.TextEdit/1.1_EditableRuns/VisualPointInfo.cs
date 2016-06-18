@@ -1,16 +1,13 @@
 ﻿// 2015,2014 ,Apache2, WinterDev 
+
 namespace LayoutFarm.Text
 {
-
     public abstract class VisualPointInfo
     {
-
         int lineCharIndex;
-
         EditableRun onVisualElement; int onTextRunCharOffset; int caretXPos; int onTextRunPixelOffset;
         public VisualPointInfo(int lineCharIndex)
         {
-
             this.lineCharIndex = lineCharIndex;
         }
 
@@ -52,7 +49,6 @@ namespace LayoutFarm.Text
         public abstract int LineId
         {
             get;
-
         }
         public abstract int LineTop
         {
@@ -103,7 +99,6 @@ namespace LayoutFarm.Text
             {
                 return onVisualElement.ToString() + " ,local[" + LocalSelectedIndex + "]";
             }
-
         }
 #endif
 

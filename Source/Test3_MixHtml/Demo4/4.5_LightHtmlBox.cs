@@ -1,14 +1,8 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
-using PixelFarm.Drawing;
+
 using LayoutFarm.CustomWidgets;
 using LayoutFarm.UI;
-
 using LayoutFarm.Composers;
-using LayoutFarm.WebDom;
 using LayoutFarm.WebDom.Extension;
 using LayoutFarm.HtmlBoxes;
 namespace LayoutFarm
@@ -17,14 +11,12 @@ namespace LayoutFarm
     class Demo_LightHtmlBox : DemoBase
     {
         HtmlHost htmlHost;
-
         protected override void OnStartDemo(SampleViewport viewport)
         {
             htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(viewport, null, null);
             ////==================================================
             //html box
             {
-
                 HtmlBox lightHtmlBox = new HtmlBox(htmlHost, 800, 50);
                 lightHtmlBox.SetLocation(50, 450);
                 viewport.AddContent(lightHtmlBox);
@@ -36,7 +28,6 @@ namespace LayoutFarm
             }
             //==================================================  
             {
-
                 HtmlBox lightHtmlBox2 = new HtmlBox(htmlHost, 800, 50);
                 lightHtmlBox2.SetLocation(0, 60);
                 viewport.AddContent(lightHtmlBox2);
@@ -48,14 +39,12 @@ namespace LayoutFarm
             }
             //==================================================  
             {
-
                 HtmlBox lightHtmlBox3 = new HtmlBox(htmlHost, 800, 50);
                 lightHtmlBox3.SetLocation(0, 100);
                 viewport.AddContent(lightHtmlBox3);
                 //fragment dom 
                 //create dom then to thie light box
                 lightHtmlBox3.LoadHtmlDom(CreateSampleHtmlDoc());
-
             }
             //================================================== 
             //textbox
@@ -91,10 +80,8 @@ namespace LayoutFarm
 #endif
 
                             e.StopPropagation();
-
                         });
                     });
-
                     div.AddChild("span", span =>
                     {
                         span.AddTextContent("EFGHIJK");
@@ -117,8 +104,6 @@ namespace LayoutFarm
                     });
                 });
             });
-
-
             return htmldoc;
         }
     }

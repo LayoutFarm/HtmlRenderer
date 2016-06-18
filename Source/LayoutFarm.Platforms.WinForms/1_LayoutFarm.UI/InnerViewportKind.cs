@@ -1,4 +1,5 @@
-﻿namespace LayoutFarm.UI
+﻿
+namespace LayoutFarm.UI
 {
     public enum InnerViewportKind
     {

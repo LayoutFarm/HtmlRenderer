@@ -12,13 +12,10 @@
 // 
 // - Sun Tsu,
 // "The Art of War"
- 
+
 using PixelFarm.Drawing;
-
-namespace LayoutFarm 
+namespace LayoutFarm
 {
-
-
     /// <summary>
     /// Provides some drawing functionallity
     /// </summary>
@@ -38,7 +35,6 @@ namespace LayoutFarm
         /// image used to draw loading image icon
         /// </summary>
         static Image _loadImage;
-
         /// <summary>
         /// image used to draw error image icon
         /// </summary>
@@ -146,15 +142,12 @@ namespace LayoutFarm
             //  SW-----SE
 
             var path = p.CreateGraphicsPath();
-
             nwRadius *= 2;
             neRadius *= 2;
             seRadius *= 2;
             swRadius *= 2;
-
             //NW ---- NE
             path.AddLine(rect.X + nwRadius, rect.Y, rect.Right - neRadius, rect.Y);
-
             //NE Arc
             if (neRadius > 0f)
             {
@@ -167,7 +160,6 @@ namespace LayoutFarm
             //  |
             // SE
             path.AddLine(rect.Right, rect.Top + neRadius, rect.Right, rect.Bottom - seRadius);
-
             //SE Arc
             if (seRadius > 0f)
             {
@@ -178,7 +170,6 @@ namespace LayoutFarm
 
             // SW --- SE
             path.AddLine(rect.Right - seRadius, rect.Bottom, rect.Left + swRadius, rect.Bottom);
-
             //SW Arc
             if (swRadius > 0f)
             {
@@ -191,7 +182,6 @@ namespace LayoutFarm
             // |
             // SW
             path.AddLine(rect.Left, rect.Bottom - swRadius, rect.Left, rect.Top + nwRadius);
-
             //NW Arc
             if (nwRadius > 0f)
             {
@@ -201,7 +191,6 @@ namespace LayoutFarm
             }
 
             path.CloseFigure();
-
             return path;
         }
 
@@ -232,8 +221,4 @@ namespace LayoutFarm
 
         #endregion
     }
-
-
-
-
 }

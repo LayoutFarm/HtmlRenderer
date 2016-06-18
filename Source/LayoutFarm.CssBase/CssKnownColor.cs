@@ -30,10 +30,8 @@
 
 using System;
 using System.Collections.Generic;
-
 namespace LayoutFarm.WebDom
 {
-
     public enum CssKnownColor
     {
         Empty,	/* 000 - Empty */
@@ -204,7 +202,6 @@ namespace LayoutFarm.WebDom
         WhiteSmoke,	/* 165 - WhiteSmoke */
         Yellow,	/* 166 - Yellow */
         YellowGreen,	/* 167 - YellowGreen */
-
         ButtonFace,	/* 168 - ButtonFace */
         ButtonHighlight,	/* 169 - ButtonHighlight */
         ButtonShadow,	/* 170 - ButtonShadow */
@@ -212,13 +209,9 @@ namespace LayoutFarm.WebDom
         GradientInactiveCaption,	/* 172 - GradientInactiveCaption */
         MenuBar,	/* 173 - MenuBar */
         MenuHighlight,	/* 174 - MenuHighlight */
-
-
-
     }
     public static class KnownColors
     {
-
         // FindColorMatch relies on the index + 1 == KnowColor match
         static internal uint[] argbValues = new uint[] {
             0x00000000,	/* 000 - Empty */
@@ -389,7 +382,6 @@ namespace LayoutFarm.WebDom
             0xFFF5F5F5,	/* 165 - WhiteSmoke */
             0xFFFFFF00,	/* 166 - Yellow */
             0xFF9ACD32,	/* 167 - YellowGreen */
- 
             0xFFECE9D8,	/* 168 - ButtonFace */
             0xFFFFFFFF,	/* 169 - ButtonHighlight */
             0xFFACA899,	/* 170 - ButtonShadow */
@@ -397,9 +389,7 @@ namespace LayoutFarm.WebDom
             0xFF9DB9EB,	/* 172 - GradientInactiveCaption */
             0xFFECE9D8,	/* 173 - MenuBar */
             0xFF316AC5,	/* 174 - MenuHighlight */
- 
         };
-
         static Dictionary<string, CssColor> colorsByName = new Dictionary<string, CssColor>();
         static KnownColors()
         {
@@ -613,7 +603,6 @@ namespace LayoutFarm.WebDom
                 case 172: return "GradientInactiveCaption";
                 case 173: return "MenuBar";
                 case 174: return "MenuHighlight";
-
                 default: return "";
             }
         }
@@ -621,6 +610,5 @@ namespace LayoutFarm.WebDom
         {
             return GetName((short)kc);
         }
-
     }
 }

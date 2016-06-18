@@ -1,6 +1,6 @@
 ﻿// 2015,2014 ,BSD, WinterDev 
-using PixelFarm.Drawing; 
 
+using PixelFarm.Drawing;
 namespace LayoutFarm.HtmlBoxes
 {
     static class CssBoxConstConfig

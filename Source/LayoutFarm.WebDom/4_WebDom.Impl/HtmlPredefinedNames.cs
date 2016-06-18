@@ -2,15 +2,11 @@
 
 namespace LayoutFarm.WebDom.Impl
 {
-
     public static class HtmlPredefineNames
     {
-
         static readonly ValueMap<WellknownName> _wellKnownHtmlNameMap =
             new ValueMap<WellknownName>();
-
         static UniqueStringTable htmlUniqueStringTableTemplate = new UniqueStringTable();
-
         static HtmlPredefineNames()
         {
             int j = _wellKnownHtmlNameMap.Count;
@@ -23,6 +19,5 @@ namespace LayoutFarm.WebDom.Impl
         {
             return htmlUniqueStringTableTemplate.Clone();
         }
-
     }
 }

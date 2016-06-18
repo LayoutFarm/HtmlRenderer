@@ -1,5 +1,6 @@
 ﻿// 2015,2014 ,BSD, WinterDev  
-namespace LayoutFarm 
+
+namespace LayoutFarm
 {
     static class FontDefaultConfig
     {

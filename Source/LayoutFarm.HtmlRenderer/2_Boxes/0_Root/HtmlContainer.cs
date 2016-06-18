@@ -16,27 +16,21 @@
 using System;
 using System.Collections.Generic;
 using PixelFarm.Drawing;
-
 namespace LayoutFarm.HtmlBoxes
 {
-
     public abstract class HtmlContainer : IDisposable
     {
         /// <summary>
         /// the root css box of the parsed html
         /// </summary>
         CssBox _rootBox;
-
         /// <summary>
         /// The actual size of the rendered html (after layout)
         /// </summary>
         float _actualWidth;
         float _actualHeight;
-
         float _maxWidth;
         float _maxHeight;
-
-
         /// <summary>
         /// 99999
         /// </summary>
@@ -55,7 +49,6 @@ namespace LayoutFarm.HtmlBoxes
             {
                 if (_rootBox != null)
                 {
-
                     _rootBox = null;
                     //---------------------------
                     this.OnRootDisposed();
@@ -99,7 +92,6 @@ namespace LayoutFarm.HtmlBoxes
         }
         public void PerformLayout(LayoutVisitor lay)
         {
-
             if (this._rootBox == null)
             {
                 return;
@@ -110,7 +102,6 @@ namespace LayoutFarm.HtmlBoxes
             // if width is not restricted we set it to large value to get the actual later    
             _rootBox.SetLocation(0, 0);
             _rootBox.SetVisualSize(this._maxWidth > 0 ? this._maxWidth : MAX_WIDTH, 0);
-
             CssBox.ValidateComputeValues(_rootBox);
             //----------------------- 
             //LayoutVisitor layoutArgs = new LayoutVisitor(this.GraphicsPlatform, this);
@@ -126,7 +117,6 @@ namespace LayoutFarm.HtmlBoxes
                 _rootBox.PerformLayout(lay);
             }
             lay.PopContainingBlock();
-
             //----------------------- 
             //TODO: review here again
             FloatingContextStack floatStack = lay.GetFloatingContextStack();
@@ -142,12 +132,9 @@ namespace LayoutFarm.HtmlBoxes
                 CssBox floatingOwner = floatingContext.Owner;
                 float rfx, rfy;
                 floatingOwner.GetGlobalLocation(out rfx, out rfy);
-
                 CssBox prevParent = null;
                 //TODO: review here again
                 float extraAdjustX = 0; //temp fixed
-
-
                 for (int n = 0; n < floatBoxCount; ++n)
                 {
                     float bfx, bfy;
@@ -156,7 +143,6 @@ namespace LayoutFarm.HtmlBoxes
                     //diff
                     float nx = bfx - rfx;
                     float ny = bfy - rfy;
-
                     if (prevParent != null && prevParent != box.ParentBox)
                     {
                         if (n > 0)
@@ -185,7 +171,6 @@ namespace LayoutFarm.HtmlBoxes
             var rectChild = new RectangleF(box.LocalX, box.LocalY,
                 box.InnerContentWidth,
                 box.InnerContentHeight);
-
             CssBox parent = box.ParentBox;
             bool found = false;
             while (parent != null)
@@ -199,7 +184,6 @@ namespace LayoutFarm.HtmlBoxes
                     box.GetGlobalLocation(out bfx, out bfy);
                     float rfx, rfy;
                     parent.GetGlobalLocation(out rfx, out rfy);
-
                     //diff
                     float nx = bfx - rfx;
                     float ny = bfy - rfy;
@@ -220,7 +204,6 @@ namespace LayoutFarm.HtmlBoxes
                 box.GetGlobalLocation(out bfx, out bfy);
                 float rfx, rfy;
                 this._rootBox.GetGlobalLocation(out rfx, out rfy);
-
                 //diff
                 float nx = bfx - rfx;
                 float ny = bfy - rfy;
@@ -240,15 +223,12 @@ namespace LayoutFarm.HtmlBoxes
             }
 
             p.PushContaingBlock(_rootBox);
-
 #if DEBUG
             p.dbugEnableLogRecord = false;
             p.dbugResetLogRecords();
 #endif
             _rootBox.Paint(p);
             p.PopContainingBlock();
-
-
 #if DEBUG
             if (p.dbugEnableLogRecord)
             {
@@ -267,7 +247,6 @@ namespace LayoutFarm.HtmlBoxes
         //------------------------------------------------------------------
         protected abstract void OnRequestImage(ImageBinder binder,
             object reqFrom, bool _sync);
-
         internal void RaiseImageRequest(
             ImageBinder binder,
             object reqBy,
@@ -278,7 +257,6 @@ namespace LayoutFarm.HtmlBoxes
         }
 
         protected abstract void OnRequestScrollView(CssBox box);
-
         internal void RequestScrollView(CssBox box)
         {
             OnRequestScrollView(box);
@@ -293,13 +271,11 @@ namespace LayoutFarm.HtmlBoxes
             if (newHeight > this._actualHeight)
             {
                 this._actualHeight = newHeight;
-
             }
         }
 
         protected virtual void OnRootDisposed()
         {
-
         }
         protected virtual void OnRootCreated(CssBox root)
         {
@@ -326,11 +302,9 @@ namespace LayoutFarm.HtmlBoxes
         {
             try
             {
-
                 if (all)
                 {
                     this.OnAllDisposed();
-
                     //RenderError = null;
                     //StylesheetLoadingRequest = null;
                     //ImageLoadingRequest = null;
@@ -339,11 +313,9 @@ namespace LayoutFarm.HtmlBoxes
 
                 if (_rootBox != null)
                 {
-
                     _rootBox = null;
                     this.OnRootDisposed();
                 }
-
 
                 //if (_selectionHandler != null)
                 //    _selectionHandler.Dispose();
@@ -352,7 +324,5 @@ namespace LayoutFarm.HtmlBoxes
             catch
             { }
         }
-
-
     }
 }

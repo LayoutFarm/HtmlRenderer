@@ -1,11 +1,9 @@
 ﻿//BSD 2014-2015,WinterDev
 
- 
-using PixelFarm.Drawing;
 
+using PixelFarm.Drawing;
 namespace LayoutFarm.HtmlBoxes
 {
-
     public class CssBoxListItem : CssBox
     {
         CssBox _listItemBulletBox;
@@ -26,9 +24,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         protected override void PerformContentLayout(LayoutVisitor lay)
         {
-
             base.PerformContentLayout(lay);
-
             if (_listItemBulletBox != null)
             {
                 //layout list item
@@ -41,6 +37,5 @@ namespace LayoutFarm.HtmlBoxes
                 _listItemBulletBox.FirstRun.SetLocation(_listItemBulletBox.VisualWidth - 5, this.ActualPaddingTop);
             }
         }
-      
     }
 }

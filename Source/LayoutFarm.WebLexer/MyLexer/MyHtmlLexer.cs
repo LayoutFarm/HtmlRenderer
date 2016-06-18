@@ -1,12 +1,10 @@
 ﻿//BSD  2015,2014 ,WinterDev
 
 using LayoutFarm.WebLexer;
-
 namespace LayoutFarm.WebDom.Parser
 {
     sealed partial class MyHtmlLexer : HtmlLexer
     {
-
         int _readIndex = 0;
         int _lastFlushAt = 0;
         int _appendCount = 0;
@@ -17,7 +15,6 @@ namespace LayoutFarm.WebDom.Parser
         }
         public override void BeginLex()
         {
-
 #if DEBUG
             dbug_currentLineNumber = 0;
             dbug_currentLineCharIndex = -1;
@@ -35,24 +32,19 @@ namespace LayoutFarm.WebDom.Parser
         }
         public override void Analyze(TextSnapshot textSnapshot)
         {
-
 #if DEBUG
             dbug_OnStartAnalyze();
 #endif
 
             this.textSnapshot = textSnapshot;
             char[] sourceBuffer = TextSnapshot.UnsafeGetInternalBuffer(textSnapshot);
-
             int lim = sourceBuffer.Length;
-
             char strEscapeChar = '"';
             int currentState = 0;
             //-----------------------------
 
             for (int i = 0; i < lim; i++)
             {
-
-
                 char c = sourceBuffer[i];
 #if DEBUG
                 dbug_currentLineCharIndex++;
@@ -143,7 +135,6 @@ namespace LayoutFarm.WebDom.Parser
                             }
                             //skip all comment  content ? 
                             AppendBuffer(c, i);
-
                         }
                         break;
                     case 5:
@@ -160,7 +151,6 @@ namespace LayoutFarm.WebDom.Parser
                                     break;
                                 case '>':
                                     {
-
                                         FlushExisingBuffer(i, HtmlLexerEvent.NodeNameOrAttribute);
                                         RaiseStateChanged(HtmlLexerEvent.VisitCloseAngle, i, 1);
                                         //flush 
@@ -202,7 +192,6 @@ namespace LayoutFarm.WebDom.Parser
                                         //start string escap with ' 
                                         currentState = 6;
                                         strEscapeChar = '\'';
-
                                     }
                                     break;
                                 default:
@@ -213,7 +202,6 @@ namespace LayoutFarm.WebDom.Parser
                                         if (char.IsWhiteSpace(c))
                                         {
                                             FlushExisingBuffer(i, HtmlLexerEvent.NodeNameOrAttribute);
-
                                         }
                                         else
                                         {
@@ -232,13 +220,11 @@ namespace LayoutFarm.WebDom.Parser
                                 //stop string escape
                                 //flush 
                                 FlushExisingBuffer(i, HtmlLexerEvent.AttributeValueAsLiteralString);
-
                                 currentState = 5;
                             }
                             else
                             {
                                 AppendBuffer(c, i);
-
                             }
                         }
                         break;
@@ -288,7 +274,6 @@ namespace LayoutFarm.WebDom.Parser
                                                 currentState = 10;
                                             }
                                         }
-
                                     }
                                     break;
                                 case '[':
@@ -303,7 +288,6 @@ namespace LayoutFarm.WebDom.Parser
                                         //doc type?
                                         if (char.IsLetter(sourceBuffer[i + 1]))
                                         {
-
                                             RaiseStateChanged(HtmlLexerEvent.VisitOpenAngleExclimation, i, 2);
                                             AppendBuffer(c, i);
                                             currentState = 5;
@@ -317,7 +301,6 @@ namespace LayoutFarm.WebDom.Parser
                             }
                         }
                         break;
-
                 }
             }
 
@@ -330,7 +313,6 @@ namespace LayoutFarm.WebDom.Parser
 
         void FlushExisingBuffer(int lastFlushAtIndex, HtmlLexerEvent lexerEvent)
         {
-
             //raise lexer event
             if (_appendCount > 0)
             {
@@ -340,7 +322,6 @@ namespace LayoutFarm.WebDom.Parser
 #endif
 
                 RaiseStateChanged(lexerEvent, this._firstAppendAt, (this._readIndex - this._firstAppendAt) + 1);
-
             }
 
             this._lastFlushAt = lastFlushAtIndex;
@@ -357,8 +338,5 @@ namespace LayoutFarm.WebDom.Parser
 
             this._readIndex = index;
         }
-
     }
-
-
 }

@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-
 using System.Runtime.InteropServices;
-
 namespace Icu
 {
     public static class UnicodeSet
@@ -76,7 +74,6 @@ namespace Icu
                 if (err != ErrorCode.NoErrors)
                     throw new ArgumentException("pattern");
                 var output = new List<string>();
-
                 // Parse the number of items in the Unicode set
                 for (int i = 0; i < NativeMethods.uset_getItemCount(result); i++)
                 {
@@ -87,7 +84,7 @@ namespace Icu
                         // Add a character range to the set
                         for (int j = startChar; j <= endChar; j++)
                         {
-                            output.Add(Convert.ToString((char)j, CultureInfo.InvariantCulture)); 
+                            output.Add(Convert.ToString((char)j, CultureInfo.InvariantCulture));
                         }
                     }
                     else

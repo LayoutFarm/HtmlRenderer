@@ -4,7 +4,6 @@ using PixelFarm.Drawing;
 using LayoutFarm.Composers;
 using LayoutFarm.WebDom;
 using LayoutFarm.WebDom.Extension;
-
 namespace LayoutFarm.HtmlWidgets
 {
     public enum HingeFloatPartStyle
@@ -20,7 +19,6 @@ namespace LayoutFarm.HtmlWidgets
         Color backColor = Color.LightGray;
         bool isOpen;
         HingeFloatPartStyle floatPartStyle;
-
         public HingeBox(int w, int h)
             : base(w, h)
         {
@@ -75,13 +73,11 @@ namespace LayoutFarm.HtmlWidgets
                         //----------------------------- 
                         e.StopPropagation();
                     });
-
                 });
             });
             //-------------------
 
             this.floatPartDomElement = this.CreateFloatPartDom(htmldoc);
-
             return presentationNode;
         }
 
@@ -95,7 +91,6 @@ namespace LayoutFarm.HtmlWidgets
         {
             if (isOpen) return;
             this.isOpen = true;
-
             switch (floatPartStyle)
             {
                 default:
@@ -108,12 +103,10 @@ namespace LayoutFarm.HtmlWidgets
                         int x, y;
                         this.presentationNode.GetGlobalLocation(out x, out y);
                         floatPartE.SetLocation(x, y + (int)landPartE.ActualHeight);
-
                     }
                     break;
                 case HingeFloatPartStyle.Embeded:
                     {
-
                     }
                     break;
             }
@@ -122,8 +115,6 @@ namespace LayoutFarm.HtmlWidgets
         {
             if (!isOpen) return;
             this.isOpen = false;
-
-
             if (floatPartDomElement == null)
             {
                 return;
@@ -147,7 +138,6 @@ namespace LayoutFarm.HtmlWidgets
                     {
                     }
                     break;
-
             }
         }
 
@@ -160,7 +150,4 @@ namespace LayoutFarm.HtmlWidgets
             }
         }
     }
-
-
-
 }

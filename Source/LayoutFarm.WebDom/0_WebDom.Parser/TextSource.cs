@@ -1,12 +1,12 @@
 ﻿//2014,2015 ,BSD, WinterDev 
+
 using System;
 using LayoutFarm.WebLexer;
-
 namespace LayoutFarm.WebDom.Parser
 {
     public class TextSource
     {
-        TextSnapshot actualSnapshot; 
+        TextSnapshot actualSnapshot;
         public TextSource(char[] textBuffer)
         {
             this.actualSnapshot = new TextSnapshot(textBuffer);
@@ -14,8 +14,6 @@ namespace LayoutFarm.WebDom.Parser
         internal TextSnapshot ActualSnapshot
         {
             get { return this.actualSnapshot; }
-
         }
     }
-     
 }

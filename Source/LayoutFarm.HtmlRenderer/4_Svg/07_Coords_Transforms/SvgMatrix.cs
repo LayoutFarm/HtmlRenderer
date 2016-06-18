@@ -3,8 +3,6 @@
 
 
 using System.Collections.Generic;
-
-
 namespace LayoutFarm.Svg.Transforms
 {
     /// <summary>
@@ -46,11 +44,9 @@ namespace LayoutFarm.Svg.Transforms
             this.points = m;
         }
 
-
         //public override object Clone()
         //{
         //    return new SvgMatrix(this.Points);
         //}
-
     }
 }

@@ -1,21 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using PixelFarm.Drawing;
-
 using LayoutFarm.HtmlBoxes;
 using LayoutFarm.Svg.Pathing;
-
 namespace LayoutFarm.Svg
 {
-
     public class SvgPath : SvgVisualElement
     {
-
-
-
         SvgPathSpec spec;
         List<Svg.Pathing.SvgPathSeg> segments;
-
         public SvgPath(SvgPathSpec spec, object controller)
             : base(controller)
         {
@@ -30,15 +23,12 @@ namespace LayoutFarm.Svg
 
         public override void ReEvaluateComputeValue(ref ReEvaluateArgs args)
         {
-
             var myspec = this.spec;
             this.fillColor = myspec.ActualColor;
             this.strokeColor = myspec.StrokeColor;
             this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, ref args);
-
             if (this.IsPathValid) { return; }
             ClearCachePath();
-
             if (segments == null)
             {
                 this.myCachedPath = null;
@@ -47,19 +37,13 @@ namespace LayoutFarm.Svg
             {
                 List<SvgPathSeg> segs = this.segments;
                 int segcount = segs.Count;
-
-
                 GraphicsPath gpath = this.myCachedPath = args.graphicsPlatform.CreateGraphicsPath();
                 float lastMoveX = 0;
                 float lastMoveY = 0;
-
-
                 PointF lastPoint = new PointF();
                 PointF p2 = new PointF();//curve control point
                 PointF p3 = new PointF();//curve control point
-
                 PointF intm_c3_c = new PointF();
-
                 for (int i = 0; i < segcount; ++i)
                 {
                     SvgPathSeg seg = segs[i];
@@ -68,7 +52,6 @@ namespace LayoutFarm.Svg
                         case SvgPathCommand.ZClosePath:
                             {
                                 gpath.CloseFigure();
-
                             }
                             break;
                         case SvgPathCommand.MoveTo:
@@ -78,7 +61,6 @@ namespace LayoutFarm.Svg
                                 moveTo.GetAbsolutePoints(ref lastPoint, out moveToPoint);
                                 lastPoint = moveToPoint;
                                 gpath.StartFigure();
-
                                 lastMoveX = lastPoint.X;
                                 lastMoveY = lastPoint.Y;
                             }
@@ -90,7 +72,6 @@ namespace LayoutFarm.Svg
                                 lineTo.GetAbsolutePoints(ref lastPoint, out lineToPoint);
                                 gpath.AddLine(lastPoint, lineToPoint);
                                 lastPoint = lineToPoint;
-
                             }
                             break;
                         case SvgPathCommand.HorizontalLineTo:
@@ -100,7 +81,6 @@ namespace LayoutFarm.Svg
                                 hlintTo.GetAbsolutePoints(ref lastPoint, out lineToPoint);
                                 gpath.AddLine(lastPoint, lineToPoint);
                                 lastPoint = lineToPoint;
-
                             }
                             break;
                         case SvgPathCommand.VerticalLineTo:
@@ -110,7 +90,6 @@ namespace LayoutFarm.Svg
                                 vlineTo.GetAbsolutePoints(ref lastPoint, out lineToPoint);
                                 gpath.AddLine(lastPoint, lineToPoint);
                                 lastPoint = lineToPoint;
-
                             }
                             break;
                         //---------------------------------------------------------------------------
@@ -131,9 +110,7 @@ namespace LayoutFarm.Svg
                                 //auto calculate for c1,c2 
                                 var quadCurve = (SvgPathSegCurveToQuadratic)seg;
                                 PointF p;
-
                                 quadCurve.GetAbsolutePoints(ref lastPoint, out intm_c3_c, out p);
-
                                 SvgCurveHelper.Curve3GetControlPoints(lastPoint, intm_c3_c, p, out p2, out p3);
                                 gpath.AddBezierCurve(lastPoint, p2, p3, p);
                                 lastPoint = p;
@@ -166,10 +143,7 @@ namespace LayoutFarm.Svg
 
                                             p2 = SvgCurveHelper.CreateMirrorPoint(p3, lastPoint);
                                             p3 = c2;
-
                                             gpath.AddBezierCurve(lastPoint, p2, p3, p);
-
-
                                             break;
                                         default:
 
@@ -180,7 +154,6 @@ namespace LayoutFarm.Svg
                                 lastPoint = p;
                             }
                             break;
-
                         case SvgPathCommand.TSmoothQuadraticBezierCurveTo:
                             {
                                 //curve 3
@@ -200,7 +173,6 @@ namespace LayoutFarm.Svg
                                         case SvgPathCommand.CurveTo:
                                         case SvgPathCommand.SmoothCurveTo:
                                             {
-
                                                 PointF c = SvgCurveHelper.CreateMirrorPoint(p3, lastPoint);
                                                 SvgCurveHelper.Curve3GetControlPoints(lastPoint, c, p, out p2, out p3);
                                                 gpath.AddBezierCurve(lastPoint, p2, p3, p);
@@ -224,7 +196,6 @@ namespace LayoutFarm.Svg
                                                 gpath.AddBezierCurve(lastPoint, p2, p3, p);
                                                 lastPoint = p;
                                                 intm_c3_c = c;
-
                                             }
                                             break;
                                         default:
@@ -260,7 +231,6 @@ namespace LayoutFarm.Svg
                                     arcTo.LargeArgFlag,
                                     arcTo.SweepFlag,
                                     out bz4Points);
-
                                 int j = bz4Points.Length;
                                 int nn = 0;
                                 while (nn < j)
@@ -275,14 +245,11 @@ namespace LayoutFarm.Svg
                                 //set control points
                                 p3 = bz4Points[nn - 2];
                                 p2 = bz4Points[nn - 3];
-
-
                                 lastPoint = p;
                                 //--------------------------------------------- 
 
                             }
                             break;
-
                         default:
                             throw new NotSupportedException();
                     }
@@ -293,7 +260,6 @@ namespace LayoutFarm.Svg
         }
         public override void Paint(PaintVisitor p)
         {
-
             if (fillColor.A > 0)
             {
                 p.FillPath(this.myCachedPath, this.fillColor);
@@ -302,8 +268,6 @@ namespace LayoutFarm.Svg
             {
                 p.DrawPath(this.myCachedPath, this.strokeColor, this.ActualStrokeWidth);
             }
-
         }
-
     }
 }

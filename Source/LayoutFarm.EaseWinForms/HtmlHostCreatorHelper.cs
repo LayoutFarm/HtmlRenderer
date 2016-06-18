@@ -1,11 +1,6 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
-using PixelFarm.Drawing;
-using LayoutFarm.UI;
-using LayoutFarm.HtmlBoxes;
 namespace LayoutFarm
 {
     static class HtmlHostCreatorHelper
@@ -17,7 +12,6 @@ namespace LayoutFarm
             HtmlBoxes.HtmlHost htmlhost = new HtmlBoxes.HtmlHost(sampleViewport.P);
             htmlhost.SetRootGraphics(sampleViewport.Root);
             htmlhost.RegisterCssBoxGenerator(new LayoutFarm.CustomWidgets.MyCustomCssBoxGenerator(htmlhost));
-
             htmlhost.AttachEssentailHandlers(imageReqHandler, textReq);
             htmlhost.SetHtmlContainerUpdateHandler(htmlCont =>
             {
@@ -26,5 +20,4 @@ namespace LayoutFarm
             return htmlhost;
         }
     }
-
 }

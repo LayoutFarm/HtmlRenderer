@@ -1,21 +1,18 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using LayoutFarm.ContentManagers;
-
 namespace LayoutFarm.CustomWidgets
 {
-
     public class HtmlHostContentManager
     {
         HtmlBoxes.HtmlHost htmlHost;
         Dictionary<TextContentManager, int> textContentManList = new Dictionary<TextContentManager, int>();
         Dictionary<ImageContentManager, int> imageContentManList = new Dictionary<ImageContentManager, int>();
-
         public HtmlHostContentManager()
         {
-
         }
         public void Bind(HtmlBoxes.HtmlHost htmlHost)
         {
@@ -32,9 +29,7 @@ namespace LayoutFarm.CustomWidgets
                 //2. stylesheet request
                 (s, e) =>
                 {
-
                 });
-
         }
 
         public void AddTextContentMan(TextContentManager textMan)

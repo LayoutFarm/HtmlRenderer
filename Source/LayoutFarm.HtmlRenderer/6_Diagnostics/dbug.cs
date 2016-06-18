@@ -1,14 +1,13 @@
 ﻿// 2015,2014 ,BSD, WinterDev 
+
 using System;
 using LayoutFarm.HtmlBoxes;
-
 namespace LayoutFarm
 {
 #if DEBUG
     public delegate void dbugCounterAction();
     public static class dbugCounter
     {
-       
         static int _dbugDrawStringCount;
         static int _dbugBoxPaint;
         static int _dbugLinePaint;
@@ -45,7 +44,6 @@ namespace LayoutFarm
         }
         public static long Snap(System.Diagnostics.Stopwatch sw, dbugCounterAction codeRgn)
         {
-
             sw.Stop();
             sw.Reset();
             sw.Start();
@@ -72,7 +70,7 @@ namespace LayoutFarm
         ///// <returns>the value of the property, null if no such property exists</returns>
         //public static string GetPropertyValue(CssBox cssBox, string propName)
         //{
-             
+
         //    switch (propName)
         //    {
         //        case "border-bottom-width":
@@ -216,10 +214,7 @@ namespace LayoutFarm
         //    }
         //    return null;
         //}
-
-
     }
 
 #endif
-
 }

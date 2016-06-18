@@ -2,7 +2,6 @@
 
 namespace LayoutFarm.HtmlWidgets
 {
-
     public abstract class WidgetBase
     {
         int width;
@@ -59,7 +58,6 @@ namespace LayoutFarm.HtmlWidgets
         {
         }
         public abstract WebDom.DomElement GetPresentationDomNode(WebDom.Impl.HtmlDocument htmldoc);
-
         //public UIElement GetPrimaryUIElement(HtmlHost htmlhost)
         //{
         //    this.htmlhost = htmlhost;

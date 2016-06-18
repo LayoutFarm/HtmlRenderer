@@ -1,14 +1,11 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
-using System;
 
+using System;
 namespace LayoutFarm.UI
 {
-
     public class NinespaceGrippers
     {
         NinespaceController ninespaceController;
-
-
         public NinespaceGrippers(NinespaceController ninespaceController)
         {
             this.ninespaceController = ninespaceController;
@@ -74,7 +71,6 @@ namespace LayoutFarm.UI
                                this.ninespaceController.BottomSpace.X + (this.ninespaceController.BottomSpace.Width / 2) - (this.TopGripper.Width / 2),
                                this.ninespaceController.BottomSpace.Y - (this.BottomGripper.Height / 2));
                         }
-
                     }
                     break;
                 case SpaceConcept.FourSpace:
@@ -130,7 +126,6 @@ namespace LayoutFarm.UI
                             this.ninespaceController.SetBottomSpaceHeight(
                               (this.ninespaceController.Owner.Height - this.BottomGripper.Top) - this.BottomGripper.Height / 2);
                         }
-
                     }
                     break;
                 case SpaceConcept.FourSpace:
@@ -154,8 +149,6 @@ namespace LayoutFarm.UI
                     {
                     }
                     break;
-
-
             }
         }
     }

@@ -15,15 +15,11 @@
 
 using System;
 using PixelFarm.Drawing;
-
 using LayoutFarm.Css;
 using LayoutFarm.HtmlBoxes;
 using LayoutFarm.WebDom;
-
 namespace LayoutFarm.Composers
 {
-
-
     public static class SpecSetter
     {
         internal static Color AsColor(WebDom.CssCodeValueExpression value)
@@ -133,7 +129,6 @@ namespace LayoutFarm.Composers
                 case WellknownCssPropertyName.BoxSizing:
                     spec.BoxSizing = UserMapUtil.GetBoxSizing(cssValue);
                     break;
-
                 case WellknownCssPropertyName.BoxShadow:
                     SetBoxShadow(spec, decl);
                     break;
@@ -153,7 +148,6 @@ namespace LayoutFarm.Composers
                 case WellknownCssPropertyName.CornerSWRadius:
                     spec.CornerSWRadius = cssValue.AsLength();
                     break;
-
                 //------------------------------------------------
                 case WellknownCssPropertyName.MarginBottom:
                     spec.MarginBottom = cssValue.AsTranslatedLength();
@@ -217,7 +211,6 @@ namespace LayoutFarm.Composers
                 case WellknownCssPropertyName.Color:
                     spec.Color = AsColor(cssValue);
                     break;
-
                 case WellknownCssPropertyName.Direction:
                     spec.CssDirection = UserMapUtil.GetCssDirection(cssValue);
                     break;
@@ -232,7 +225,6 @@ namespace LayoutFarm.Composers
                     break;
                 case WellknownCssPropertyName.LineHeight:
                     spec.LineHeight = cssValue.AsLength();
-
                     break;
                 case WellknownCssPropertyName.VerticalAlign:
                     spec.VerticalAlign = UserMapUtil.GetVerticalAlign(cssValue);
@@ -312,7 +304,6 @@ namespace LayoutFarm.Composers
                         //TODO: implement this
                     }
                     break;
-
                 //------------------------------------------------ 
                 //for flex item
                 case WellknownCssPropertyName.FlexGrow:
@@ -333,7 +324,6 @@ namespace LayoutFarm.Composers
                 case WellknownCssPropertyName.FlexExtensionPart:
                     spec.FlexExtensionPart = (int)cssValue.AsNumber();
                     break;
-
             }
         }
         static CssLength SetLineHeight(this CssBox box, CssLength len)
@@ -368,7 +358,6 @@ namespace LayoutFarm.Composers
                         //
                         var v0 = decl.GetPropertyValue(0);
                         var v1 = decl.GetPropertyValue(1);
-
                         box.BoxShadowHOffset = v0.AsLength();
                         box.BoxShadowVOffset = v1.AsLength();
                     }
@@ -380,9 +369,7 @@ namespace LayoutFarm.Composers
                         var v2 = decl.GetPropertyValue(2);
                         box.BoxShadowHOffset = v0.AsLength();
                         box.BoxShadowVOffset = v1.AsLength();
-
                         box.BoxShadowColor = AsColor(v2);
-
                     }
                     break;
             }
@@ -409,7 +396,6 @@ namespace LayoutFarm.Composers
                             len = CssLength.FontSizeMedium;
                         }
                         box.FontSize = len;
-
                     }
                     break;
                 case WebDom.CssValueHint.Iden:
@@ -459,7 +445,6 @@ namespace LayoutFarm.Composers
         /// <param name="propName"></param>
         static void SetPropertyValueFromParent(BoxSpec spec, BoxSpec parentSpec, WellknownCssPropertyName propName)
         {
-
             switch (propName)
             {
                 case WellknownCssPropertyName.BorderBottomWidth:
@@ -649,11 +634,9 @@ namespace LayoutFarm.Composers
                     break;
                 case WellknownCssPropertyName.FontVariant:
                     spec.FontVariant = parentSpec.FontVariant;
-
                     break;
                 case WellknownCssPropertyName.FontWeight:
                     spec.FontWeight = parentSpec.FontWeight;
-
                     break;
                 case WellknownCssPropertyName.ListStyle:
 
@@ -676,10 +659,7 @@ namespace LayoutFarm.Composers
                 case WellknownCssPropertyName.BoxSizing:
                     spec.BoxSizing = parentSpec.BoxSizing;
                     break;
-
             }
         }
-
     }
-
 }

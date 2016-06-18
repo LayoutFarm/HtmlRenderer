@@ -4,14 +4,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.InteropServices;
-
 namespace VroomJs.Extension
 {
     public static class TypeExtention
     {
         public static MemberInfo[] GetMembers(this Type type)
         {
-
 #if NET20
             var members = type.GetMembers();
             List<MemberInfo> memList = new List<MemberInfo>();

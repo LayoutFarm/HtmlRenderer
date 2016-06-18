@@ -5,7 +5,6 @@ namespace LayoutFarm.Svg.Transforms
 {
     public sealed class SvgTranslate : SvgTransform
     {
-
         public float X
         {
             get;
@@ -44,11 +43,9 @@ namespace LayoutFarm.Svg.Transforms
         {
         }
 
-
         //public override object Clone()
         //{
         //    return new SvgTranslate(this.x, this.y);
         //}
-
     }
 }

@@ -1,17 +1,13 @@
 ﻿//BSD 2014-2015 ,WinterDev
 //ArthurHub  , Jose Manuel Menendez Poo
 
-using System; 
+using System;
 using System.Text;
- 
 using PixelFarm.Drawing;
 using LayoutFarm.WebDom;
- 
 namespace LayoutFarm.HtmlBoxes
 {
-
     public delegate void HtmlContainerUpdateHandler(HtmlContainer htmlCont);
-
     public sealed class MyHtmlContainer : HtmlContainer
     {
         WebDocument webdoc;
@@ -24,7 +20,6 @@ namespace LayoutFarm.HtmlBoxes
         EventHandler domFinished;
         Rectangle currentSelectionArea;
         bool hasSomeSelectedArea;
-
         public MyHtmlContainer(HtmlHost htmlhost)
         {
             this.htmlhost = htmlhost;
@@ -39,7 +34,6 @@ namespace LayoutFarm.HtmlBoxes
             this.domRequestRebuild = domRequestRebuildHandler;
             this.containerInvalidateGfxHandler = containerInvalidateGfxHanlder;
             this.domFinished = domFinished;
-
         }
         public void DetachEssentialHandlers()
         {
@@ -69,7 +63,6 @@ namespace LayoutFarm.HtmlBoxes
             get { return this.webdoc; }
             set
             {
-
                 var htmldoc = this.webdoc as LayoutFarm.Composers.HtmlDocument;
                 if (htmldoc != null)
                 {
@@ -95,7 +88,6 @@ namespace LayoutFarm.HtmlBoxes
 
         public bool RefreshDomIfNeed()
         {
-            
             if (webdoc == null) return false;
             //----------------------------------
 
@@ -105,7 +97,6 @@ namespace LayoutFarm.HtmlBoxes
                 this.lastDomUpdateVersion = latestDomUpdateVersion;
                 //reset 
                 this.NeedLayout = false;
-
                 if (domVisualRefresh != null)
                 {
                     domVisualRefresh(this, EventArgs.Empty);
@@ -117,7 +108,6 @@ namespace LayoutFarm.HtmlBoxes
                 return true;
             }
             return false;
-
         }
         public override void ClearPreviousSelection()
         {
@@ -125,7 +115,6 @@ namespace LayoutFarm.HtmlBoxes
             {
                 _currentSelectionRange.ClearSelection();
                 _currentSelectionRange = null;
-
                 this.RootCssBox.InvalidateGraphics(this.currentSelectionArea);
                 this.currentSelectionArea = Rectangle.Empty;
             }
@@ -141,7 +130,6 @@ namespace LayoutFarm.HtmlBoxes
                 this.currentSelectionArea = (hasSomeSelectedArea) ?
                             Rectangle.Union(this.currentSelectionArea, selRange.SnapSelectionArea) :
                             selRange.SnapSelectionArea;
-
                 hasSomeSelectedArea = true;
             }
             else
@@ -200,19 +188,16 @@ namespace LayoutFarm.HtmlBoxes
         }
         protected override void OnRootCreated(CssBox root)
         {
-
             //this._selectionHandler = new SelectionHandler(root, this);
             base.OnRootCreated(root);
         }
         protected override void OnAllDisposed()
         {
-
         }
 
         public void GetHtml(StringBuilder stbuilder)
         {
             throw new NotSupportedException();
         }
-
     }
 }

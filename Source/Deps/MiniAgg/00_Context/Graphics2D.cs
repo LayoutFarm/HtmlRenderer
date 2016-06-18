@@ -39,8 +39,8 @@ namespace PixelFarm.Agg
         //render vertices
         public abstract void Render(VertexStoreSnap vertexSource, ColorRGBA colorBytes);
         //------------------------------------------------------------------------
-       
-      
+
+
         public void Render(VertexStore vxStorage, ColorRGBA c)
         {
             Render(new VertexStoreSnap(vxStorage), c);

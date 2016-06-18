@@ -1,27 +1,19 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Text;
-using PixelFarm.Drawing;
 using LayoutFarm.UI;
-using LayoutFarm.RenderBoxes;
 using System.Xml;
-
-
 namespace LayoutFarm.DzBoardSample
 {
     delegate void UISerializeHandler(DzBoxSerializer writer, UIElement box);
-
     class DzBoxSerializer : UIVisitor
     {
         Stack<UIElement> uiStacks = new Stack<UIElement>();
-
         XmlDocument xmldoc = new XmlDocument();
         XmlElement rootElement;
         XmlElement currentElement;
         Stack<XmlElement> elementStack = new Stack<XmlElement>();
-
         public DzBoxSerializer(string rootNodeName)
         {
             rootElement = currentElement = xmldoc.CreateElement(rootNodeName);
@@ -33,14 +25,12 @@ namespace LayoutFarm.DzBoardSample
             elementStack.Push(currentElement);
             currentElement.AppendChild(newElement);
             currentElement = newElement;
-
             uiStacks.Push(ui);
         }
         public override void EndElement()
         {
             uiStacks.Pop();
             currentElement = elementStack.Pop();
-
         }
         public override void Attribute(string name, double value)
         {
@@ -90,7 +80,6 @@ namespace LayoutFarm.DzBoardSample
                 }
                 //create element
                 int left, top, width, height;
-
                 switch (elemNode.Name)
                 {
                     case "rectbox":
@@ -98,33 +87,31 @@ namespace LayoutFarm.DzBoardSample
                             //create rect box and add to viewport
                             GetDimensionAttr(elemNode, out left, out top, out width, out height);
                             dzBoard.AddNewBox(left, top, width, height);
-                        } break;
+                        }
+                        break;
                     case "shapebox":
                         {
                             GetDimensionAttr(elemNode, out left, out top, out width, out height);
                             dzBoard.AddNewRect(left, top, width, height);
-
-                        } break;
+                        }
+                        break;
                     case "textbox":
                         {
-                          
-
-                        } break;
+                        }
+                        break;
                     default:
                         {
-                        } break;
+                        }
+                        break;
                 }
             }
         }
         static void GetDimensionAttr(XmlElement elemNode, out int left, out int top, out int width, out int height)
         {
-
             var s_left = elemNode.GetAttribute("left");
             var s_top = elemNode.GetAttribute("top");
             var s_width = elemNode.GetAttribute("width");
             var s_height = elemNode.GetAttribute("height");
-
-
             left = int.Parse(s_left);
             top = int.Parse(s_top);
             width = int.Parse(s_width);
@@ -138,14 +125,12 @@ namespace LayoutFarm.DzBoardSample
         static Dictionary<Type, string> registerTypeNames = new Dictionary<Type, string>();
         static DzBoxSerializerHelper()
         {
-
             registerTypeNames.Add(typeof(LayoutFarm.CustomWidgets.SimpleBox), "panel");
         }
 
         public static void WriteElement(DzBoxSerializer writer, UIBox uiElement, string elemName)
         {
             uiElement.Walk(writer);
-
             //writer.BeginElement(elemName);
             ////collect bounds and attrs
             //writer.AddAttribute("left", uiElement.Left.ToString());

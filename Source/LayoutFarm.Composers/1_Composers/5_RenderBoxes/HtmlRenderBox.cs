@@ -1,17 +1,13 @@
 ﻿//2014,2015,2015 Apache2, WinterDev
 
- 
-using System.Collections.Generic; 
-using PixelFarm.Drawing;
- 
-using LayoutFarm.RenderBoxes;
 
+using System.Collections.Generic;
+using PixelFarm.Drawing;
+using LayoutFarm.RenderBoxes;
 namespace LayoutFarm.HtmlBoxes
 {
- 
     public class HtmlRenderBox : RenderBoxBase
     {
-
         MyHtmlContainer myHtmlCont;
         CssBox cssBox;
         public HtmlRenderBox(RootGraphic rootgfx,
@@ -28,29 +24,24 @@ namespace LayoutFarm.HtmlBoxes
         {
             this.myHtmlCont = htmlCont;
             this.cssBox = box;
-
         }
         public override void ClearAllChildren()
         {
-
         }
         protected override void DrawBoxContent(Canvas canvas, Rectangle updateArea)
         {
             myHtmlCont.CheckDocUpdate();
-
             var painter = PainterStock.GetSharedPainter(this.myHtmlCont, canvas);
             painter.SetViewportSize(this.Width, this.Height);
 #if DEBUG
             painter.dbugDrawDiagonalBox(Color.Blue, this.X, this.Y, this.Width, this.Height);
 #endif
-            
-            myHtmlCont.PerformPaint(painter); 
 
+            myHtmlCont.PerformPaint(painter);
             PainterStock.ReleaseSharedPainter(painter);
         }
         public override void ChildrenHitTestCore(HitChain hitChain)
         {
-
         }
         public int HtmlWidth
         {
@@ -77,7 +68,6 @@ namespace LayoutFarm.HtmlBoxes
             }
 
             painter.Bind(htmlCont, canvas);
-
             return painter;
         }
         internal static void ReleaseSharedPainter(PaintVisitor p)
@@ -87,8 +77,6 @@ namespace LayoutFarm.HtmlBoxes
         }
         static Queue<PaintVisitor> painterStock = new Queue<PaintVisitor>();
     }
-
-
 }
 
 

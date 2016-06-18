@@ -1,4 +1,5 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 namespace LayoutFarm.UI
 {
@@ -19,7 +20,6 @@ namespace LayoutFarm.UI
             get
             {
                 return this.timer.Interval;
-
             }
             set
             {

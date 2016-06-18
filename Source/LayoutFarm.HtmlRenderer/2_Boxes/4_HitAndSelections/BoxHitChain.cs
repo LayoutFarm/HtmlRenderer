@@ -1,41 +1,32 @@
 ﻿//MIT 2014-2015 ,WinterDev
 
 using System.Collections.Generic;
-
 namespace LayoutFarm.HtmlBoxes
 {
     public struct HitInfo
     {
-
         public readonly int localX;
         public readonly int localY;
         public readonly HitObjectKind hitObjectKind;
         public readonly object hitObject;
-
         public HitInfo(CssBox box, int x, int y)
         {
             this.hitObject = box;
             this.hitObjectKind = HitObjectKind.CssBox;
-
             this.localX = x;
             this.localY = y;
-
         }
         internal HitInfo(CssLineBox lineBox, int x, int y)
         {
-
             this.hitObject = lineBox;
             this.hitObjectKind = HitObjectKind.LineBox;
-
             this.localX = x;
             this.localY = y;
         }
         public HitInfo(CssRun run, int x, int y)
         {
-
             this.hitObject = run;
             this.hitObjectKind = HitObjectKind.Run;
-
             this.localX = x;
             this.localY = y;
         }
@@ -53,17 +44,13 @@ namespace LayoutFarm.HtmlBoxes
 
     public class CssBoxHitChain
     {
-
         float globalOffsetX;
         float globalOffsetY;
-
         int rootGlobalX;
         int rootGlobalY;
-
         List<HitInfo> hitInfoList = new List<HitInfo>();
         public CssBoxHitChain()
         {
-
         }
         public void SetRootGlobalPosition(int globalX, int globalY)
         {
@@ -113,7 +100,6 @@ namespace LayoutFarm.HtmlBoxes
         {
             //position x,y relate with (0,0) of its linebox
             hitInfoList.Add(new HitInfo(lineBox, x, y));
-
         }
         internal void AddHit(CssRun run, int x, int y)
         {
@@ -156,6 +142,4 @@ namespace LayoutFarm.HtmlBoxes
         LineBox,
         Run
     }
-
-
 }

@@ -5,15 +5,10 @@ using LayoutFarm.HtmlBoxes;
 using LayoutFarm.UI;
 namespace LayoutFarm.Composers
 {
-
-
     public abstract class CustomCssBoxGenerator
     {
-
         public abstract CssBox CreateCssBox(LayoutFarm.WebDom.DomElement tag,
             CssBox parentBox, BoxSpec spec, HtmlHost host);
-
-
         public static CssBox CreateWrapper(object owner, RenderElement renderElement, BoxSpec spec, bool isInline)
         {
             var portalEvent = owner as IEventPortal;
@@ -32,6 +27,4 @@ namespace LayoutFarm.Composers
             }
         }
     }
-
-
 }

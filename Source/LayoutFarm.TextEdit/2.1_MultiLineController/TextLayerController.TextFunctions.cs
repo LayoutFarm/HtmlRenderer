@@ -1,21 +1,18 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 namespace LayoutFarm.Text
 {
-
     partial class InternalTextLayerController
     {
-
         public void ReplaceCurrentLineTextRun(IEnumerable<EditableRun> textruns)
         {
             textLineWriter.ReplaceCurrentLine(textruns);
         }
         public void ReplaceLine(int lineNum, IEnumerable<EditableRun> textruns)
         {
-
             if (textLineWriter.LineNumber == backGroundTextLineWriter.LineNumber)
             {
                 int prevIndex = textLineWriter.CharIndex;
@@ -54,17 +51,13 @@ namespace LayoutFarm.Text
                 EnableUndoHistoryRecording = true;
                 int startLineNum = textLineWriter.LineNumber;
                 int startCharIndex = textLineWriter.CharIndex;
-
-
                 textLineWriter.AddTextSpan(newTextRun);
                 textLineWriter.EnsureCurrentTextRun();
-
                 commandHistory.AddDocAction(
                     new DocActionInsertRuns(
                         new EditableRun[] { newTextRun }, startLineNum, startCharIndex,
                         textLineWriter.LineNumber, textLineWriter.CharIndex));
             }
-
         }
 
         public void ReplaceLocalContent(int nBackSpace, string content)
@@ -92,9 +85,7 @@ namespace LayoutFarm.Text
             RemoveSelectedText();
             int startLineNum = textLineWriter.LineNumber;
             int startCharIndex = textLineWriter.CharIndex;
-
             bool isRecordingHx = EnableUndoHistoryRecording;
-
             EnableUndoHistoryRecording = false;
             foreach (EditableRun t in textRuns)
             {
@@ -112,23 +103,17 @@ namespace LayoutFarm.Text
             commandHistory.AddDocAction(
                 new DocActionInsertRuns(textRuns, startLineNum, startCharIndex,
                     textLineWriter.LineNumber, textLineWriter.CharIndex));
-
             updateJustCurrentLine = false;
             TextEditRenderBox.NotifyTextContentSizeChanged(visualTextSurface);
-
         }
         public void AddTextRunToCurrentLine(EditableRun t)
         {
             updateJustCurrentLine = true;
-
             RemoveSelectedText();
             int startLineNum = textLineWriter.LineNumber;
             int startCharIndex = textLineWriter.CharIndex;
-
             bool isRecordingHx = EnableUndoHistoryRecording;
-
             EnableUndoHistoryRecording = false;
-
             if (t.IsLineBreak)
             {
                 textLineWriter.SplitToNewLine();
@@ -143,10 +128,8 @@ namespace LayoutFarm.Text
             commandHistory.AddDocAction(
                 new DocActionInsertRuns(t, startLineNum, startCharIndex,
                     textLineWriter.LineNumber, textLineWriter.CharIndex));
-
             updateJustCurrentLine = false;
             TextEditRenderBox.NotifyTextContentSizeChanged(visualTextSurface);
-
         }
         public void CopyAllToPlainText(StringBuilder output)
         {
@@ -162,14 +145,11 @@ namespace LayoutFarm.Text
 
         public void CopySelectedTextToPlainText(StringBuilder stBuilder)
         {
-
             if (selectionRange == null)
             {
-
             }
             else
             {
-
                 selectionRange.SwapIfUnOrder();
                 if (selectionRange.IsOnTheSameLine)
                 {
@@ -184,15 +164,12 @@ namespace LayoutFarm.Text
                     VisualPointInfo startPoint = selectionRange.StartPoint;
                     CurrentLineNumber = startPoint.LineId;
                     textLineWriter.CharIndex = startPoint.LineCharIndex;
-
                     LinkedList<EditableRun> runs = textLineWriter.CopySelectedTextRuns(selectionRange);
                     foreach (EditableRun t in runs)
                     {
                         t.CopyContentToStringBuilder(stBuilder);
                     }
-
                 }
-
             }
         }
         public void CopyCurrentLine(StringBuilder output)
@@ -207,7 +184,6 @@ namespace LayoutFarm.Text
 
         public void StartSelect()
         {
-
             if (textLineWriter != null)
             {
                 selectionRange = new VisualSelectionRange(GetCurrentPointInfo(), GetCurrentPointInfo());
@@ -216,13 +192,11 @@ namespace LayoutFarm.Text
             if (dbugEnableTextManRecorder)
             {
                 dbugTextManRecorder.WriteInfo("TxLMan::StartSelect");
-
             }
 #endif
         }
         public void EndSelect()
         {
-
             if (textLineWriter != null)
             {
 #if DEBUG
@@ -237,12 +211,10 @@ namespace LayoutFarm.Text
 
         public void CancelSelect()
         {
-
 #if DEBUG
             if (dbugEnableTextManRecorder)
             {
                 dbugTextManRecorder.WriteInfo("TxLMan::CancelSelect");
-
             }
 #endif
             selectionRange = null;
@@ -262,7 +234,6 @@ namespace LayoutFarm.Text
                 this.StartSelect();
             }
             this.EndSelect();
-
         }
 
         public VisualPointInfo FindTextRunOnPosition(int x, int y)

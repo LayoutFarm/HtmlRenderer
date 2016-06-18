@@ -3,8 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
-
 namespace LayoutFarm.WebDom
 {
     public enum CssDocMemberKind
@@ -21,7 +19,6 @@ namespace LayoutFarm.WebDom
 #endif
         public CssDocMember()
         {
-
 #if DEBUG
             this.dbugId = dbugTotalId;
             dbugTotalId++;
@@ -33,13 +30,10 @@ namespace LayoutFarm.WebDom
 
     public class CssRuleSet : CssDocMember
     {
-
         CssElementSelector elementSelector;
         List<CssPropertyDeclaration> _decls = new List<CssPropertyDeclaration>();
-
         public CssRuleSet()
         {
-
         }
 #if DEBUG
         public override string ToString()
@@ -67,30 +61,35 @@ namespace LayoutFarm.WebDom
             {
                 default:
                     {
-
-                    } break;
+                    }
+                    break;
                 case CssCombinatorOperator.AdjacentSibling:
                     {
                         throw new NotSupportedException();
-                    } break;
+                    }
+                    break;
                 case CssCombinatorOperator.Child:
                     {
                         throw new NotSupportedException();
-                    } break;
+                    }
+                    break;
                 case CssCombinatorOperator.Descendant:
                     {
                         throw new NotSupportedException();
-                    } break;
+                    }
+                    break;
                 case CssCombinatorOperator.GeneralSibling:
                     {
                         throw new NotSupportedException();
-                    } break;
+                    }
+                    break;
                 case CssCombinatorOperator.List:
                     {
                         CssCompundElementSelector combinatorExpr = new CssCompundElementSelector(combinator);
                         combinatorExpr.LeftSelector = this.elementSelector;
                         this.elementSelector = combinatorExpr;
-                    } break;
+                    }
+                    break;
             }
         }
         public void AddSelector(CssSimpleElementSelector primExpr)
@@ -98,7 +97,6 @@ namespace LayoutFarm.WebDom
 #if DEBUG
             if (primExpr == null)
             {
-
             }
 #endif
             if (elementSelector == null)
@@ -162,8 +160,6 @@ namespace LayoutFarm.WebDom
         {
             get { return CssDocMemberKind.RuleSet; }
         }
-
-
     }
 
 
@@ -219,9 +215,4 @@ namespace LayoutFarm.WebDom
             get { return CssDocMemberKind.Page; }
         }
     }
-
-
-
-
-
 }

@@ -1,7 +1,6 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
 
-using PixelFarm.Drawing; 
-
+using PixelFarm.Drawing;
 namespace LayoutFarm.UI.GdiPlus
 {
     public static class MyWinGdiPortal

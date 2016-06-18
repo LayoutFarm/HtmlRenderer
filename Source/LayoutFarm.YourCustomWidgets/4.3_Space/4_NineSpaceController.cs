@@ -1,8 +1,8 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 namespace LayoutFarm.UI
 {
     public abstract class NinespaceController
@@ -14,7 +14,6 @@ namespace LayoutFarm.UI
         protected const int R = 2;
         protected const int T = 3;
         protected const int B = 4;
-
         protected const int LT = 5;
         protected const int LB = 6;
         protected const int RT = 7;
@@ -24,23 +23,17 @@ namespace LayoutFarm.UI
         protected const int FOURSPACE_LB = 1;
         protected const int FOURSPACE_RT = 2;
         protected const int FOURSPACE_RB = 3;
-
-
         protected SpacePart[] spaces;
-
         //from user intention value
         protected int topSpaceHeight = 1;
         protected int bottomSpaceHeight = 1;
         protected int leftSpaceWidth = 1;
         protected int rightSpaceWidth = 1;
         protected int centerSpaceWidth = -1;
-
         protected int sizeW;
         protected int sizeH;
-
         protected SpaceConcept dockSpaceConcept = SpaceConcept.FiveSpace;
         protected UIBox myOwner;
-
         public NinespaceController(UIBox owner, SpaceConcept initConcept)
         {
             this.myOwner = owner;
@@ -184,7 +177,6 @@ namespace LayoutFarm.UI
         {
             get
             {
-
                 switch (dockSpaceConcept)
                 {
                     case SpaceConcept.TwoSpaceVertical:
@@ -215,7 +207,6 @@ namespace LayoutFarm.UI
                     case SpaceConcept.NineSpaceFree:
                     case SpaceConcept.FiveSpace:
                         {
-
                             return spaces[B];
                         }
                 }
@@ -349,7 +340,6 @@ namespace LayoutFarm.UI
         }
         public void SetTopSpaceHeight(int value)
         {
-
             if (dockSpaceConcept != SpaceConcept.FourSpace)
             {
                 if (value > OwnerVisualElement.Height - 2)
@@ -357,10 +347,8 @@ namespace LayoutFarm.UI
                     value = OwnerVisualElement.Height - 2;
                 }
                 topSpaceHeight = value;
-
                 if (spaces[C] == null)
                 {
-
                     bottomSpaceHeight = OwnerVisualElement.Height - topSpaceHeight;
                 }
                 else
@@ -373,7 +361,6 @@ namespace LayoutFarm.UI
             }
             else
             {
-
                 if (value > OwnerVisualElement.Height - 1)
                 {
                     value = OwnerVisualElement.Height - 1;
@@ -392,14 +379,11 @@ namespace LayoutFarm.UI
             {
                 return bottomSpaceHeight;
             }
-
         }
         public void SetBottomSpaceHeight(int value)
         {
-
             if (dockSpaceConcept != SpaceConcept.FourSpace)
             {
-
                 if (value > OwnerVisualElement.Height - 2)
                 {
                     value = OwnerVisualElement.Height - 2;
@@ -407,21 +391,18 @@ namespace LayoutFarm.UI
                 bottomSpaceHeight = value;
                 if (spaces[C] == null)
                 {
-
                     topSpaceHeight = OwnerVisualElement.Height - bottomSpaceHeight;
                 }
                 else
                 {
                     if (topSpaceHeight >= OwnerVisualElement.Height - bottomSpaceHeight - 1)
                     {
-
                         topSpaceHeight = OwnerVisualElement.Height - bottomSpaceHeight - 1;
                     }
                 }
             }
             else
             {
-
                 if (value > OwnerVisualElement.Height - 1)
                 {
                     value = OwnerVisualElement.Height - 1;
@@ -465,13 +446,11 @@ namespace LayoutFarm.UI
             {
                 return leftSpaceWidth;
             }
-
         }
         public void SetLeftSpaceWidth(int value)
         {
             if (dockSpaceConcept != SpaceConcept.FourSpace)
             {
-
                 if (value > OwnerVisualElement.Width - 2)
                 {
                     value = OwnerVisualElement.Width - 2;
@@ -479,7 +458,6 @@ namespace LayoutFarm.UI
                 leftSpaceWidth = value;
                 if (spaces[C] == null)
                 {
-
                     rightSpaceWidth = OwnerVisualElement.Width - leftSpaceWidth;
                 }
                 else
@@ -492,7 +470,6 @@ namespace LayoutFarm.UI
             }
             else
             {
-
                 if (value > OwnerVisualElement.Width - 1)
                 {
                     value = OwnerVisualElement.Width - 1;
@@ -516,7 +493,6 @@ namespace LayoutFarm.UI
             {
                 return rightSpaceWidth;
             }
-
         }
         public void SetRightSpaceWidth(int value)
         {
@@ -554,7 +530,6 @@ namespace LayoutFarm.UI
             this.HasSpecificRightSpaceWidth = true;
             this.InvalidateArrangementInAllDockSpaces();
             ArrangeAllSpaces();
-
         }
 
         public int CenterSpaceWidth
@@ -569,7 +544,6 @@ namespace LayoutFarm.UI
             this.centerSpaceWidth = value;
             if (value > -1)
             {
-
                 this.HasSpecificCenterSpaceWidth = true;
                 this.InvalidateArrangementInAllDockSpaces();
                 ArrangeAllSpaces();
@@ -578,7 +552,6 @@ namespace LayoutFarm.UI
 
         public virtual void TopDownReCalculateContentSize()
         {
-
 #if DEBUG
 
 #endif
@@ -605,19 +578,13 @@ namespace LayoutFarm.UI
 
             if (this.dockSpaceConcept == SpaceConcept.NineSpaceFree)
             {
-
                 int maxWidth = CalculateTotalFreeSpacesDesiredWidth();
                 int maxHeight = CalculateTotalFreeSpacesDesiredHeight();
-
             }
             else
             {
-
                 int maxWidth = CalculateTotalDockSpaceDesiredWidth();
                 int maxHeight = CalculateTotalDockSpaceDesiredHeight();
-
-
-
             }
             //---------------------------------------------------------
 #if DEBUG
@@ -628,7 +595,6 @@ namespace LayoutFarm.UI
 
         int CalculateTotalFreeSpacesDesiredWidth()
         {
-
             int maxWidth = 0;
             int w = CalculateTotalFreeSpacesDesiredWidth(spaces[LT], spaces[T], spaces[RT]);
             maxWidth = w;
@@ -686,7 +652,6 @@ namespace LayoutFarm.UI
                         return maxWidth;
                     }
             }
-
         }
         int CalculateTotalDockSpaceDesiredHeight()
         {
@@ -708,7 +673,6 @@ namespace LayoutFarm.UI
                             maxHeight = h;
                         }
                         return maxHeight;
-
                     }
                 default:
                     {
@@ -728,11 +692,9 @@ namespace LayoutFarm.UI
                         return maxHeight;
                     }
             }
-
         }
         static int CalculateTotalDockSpaceDesiredWidth(SpacePart bx1, SpacePart bx2, SpacePart bx3)
         {
-
             int total = 0;
             if (bx1 != null)
             {
@@ -750,8 +712,6 @@ namespace LayoutFarm.UI
         }
         static int CalculateTotalDockSpaceDesiredHeight(SpacePart bx1, SpacePart bx2, SpacePart bx3)
         {
-
-
             int total = 0;
             if (bx1 != null)
             {
@@ -766,11 +726,9 @@ namespace LayoutFarm.UI
                 total += bx3.DesiredHeight;
             }
             return total;
-
         }
         int CalculateTotalFreeSpacesDesiredHeight()
         {
-
             int maxHeight = 0;
             int h = CalculateTotalFreeSpacesDesiredHeight(spaces[LT], spaces[T], spaces[RT]);
             maxHeight = h;
@@ -785,13 +743,10 @@ namespace LayoutFarm.UI
                 maxHeight = h;
             }
             return maxHeight;
-
         }
         static int CalculateTotalFreeSpacesDesiredWidth(SpacePart bx1, SpacePart bx2, SpacePart bx3)
         {
-
             int totalWidth = 0;
-
             if (bx1 != null)
             {
                 switch (bx1.OverlapMode)
@@ -812,7 +767,6 @@ namespace LayoutFarm.UI
             {
                 //center not care overlapping
                 totalWidth += bx2.DesiredWidth;
-
             }
             if (bx3 != null)
             {
@@ -834,9 +788,7 @@ namespace LayoutFarm.UI
         }
         static int CalculateTotalFreeSpacesDesiredHeight(SpacePart bx1, SpacePart bx2, SpacePart bx3)
         {
-
             int totalHeight = 0;
-
             if (bx1 != null)
             {
                 switch (bx1.OverlapMode)
@@ -887,8 +839,6 @@ namespace LayoutFarm.UI
         }
 
         public abstract void ArrangeAllSpaces();
-
-
 #if DEBUG
         //public override string ToString()
         //{
@@ -916,8 +866,4 @@ namespace LayoutFarm.UI
         //{
         //}
     }
-
-
-
-
 }

@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
-
 using LayoutFarm.WebDom;
 using LayoutFarm.WebDom.Parser;
 namespace Test2_WebDomParsers
@@ -23,12 +18,9 @@ namespace Test2_WebDomParsers
             var blankHtmlDoc = new LayoutFarm.WebDom.Impl.HtmlDocument();
             var snapSource = new TextSource(this.richTextBox1.Text.ToCharArray());
             parser.Parse(snapSource, blankHtmlDoc, blankHtmlDoc.RootNode);
-
             this.treeView2.Nodes.Clear();
             var rootNode = new TreeNode("root");
-            
             DescibeNode(blankHtmlDoc.RootNode, rootNode);
-
             treeView2.Nodes.Add(rootNode);
             this.treeView2.ExpandAll();
         }
@@ -46,7 +38,6 @@ namespace Test2_WebDomParsers
                     DescibeNode(domElt.GetChildNode(i), treeNode);
                 }
             }
-
         }
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -55,10 +46,8 @@ namespace Test2_WebDomParsers
         }
         void LoadHtmlSamples(TreeView _samplesTreeView)
         {
-
             //find sample folder 
             string execFromFolder = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
-
 #if DEBUG
             string checkFolder = "\\Source\\Test2_WebDomParsers\\bin\\Debug";
 #else
@@ -74,12 +63,9 @@ namespace Test2_WebDomParsers
 
             int index = execFromFolder.LastIndexOf(checkFolder);
             string rootSampleFolder = execFromFolder.Substring(0, index) + "\\Source\\Test2_WebDomParsers\\SampleData";
-
             var root = new TreeNode("HTML Renderer");
             _samplesTreeView.Nodes.Add(root);
-
             string[] sampleDirs = System.IO.Directory.GetDirectories(rootSampleFolder);
-
             //only 1 file level (not recursive)
             foreach (string dirName in sampleDirs)
             {
@@ -101,7 +87,6 @@ namespace Test2_WebDomParsers
                 }
             }
             root.ExpandAll();
-
             _samplesTreeView.NodeMouseClick += new TreeNodeMouseClickEventHandler(_samplesTreeView_NodeMouseClick);
         }
 
@@ -114,6 +99,5 @@ namespace Test2_WebDomParsers
                 richTextBox1.Text = System.IO.File.ReadAllText(filename);
             }
         }
-
     }
 }

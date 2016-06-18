@@ -1,18 +1,10 @@
-﻿using System;
-using LayoutFarm.Composers;
-using LayoutFarm.WebDom;
-using LayoutFarm;
-using LayoutFarm.UI;
-
+﻿using LayoutFarm.UI;
 namespace LayoutFarm.Demo
 {
-
     class Demo03_DynamicContent1 : DemoBase
     {
-
         public Demo03_DynamicContent1()
         {
-
         }
         protected override void OnStartDemo(HtmlPanel panel)
         {
@@ -39,22 +31,17 @@ namespace LayoutFarm.Demo
                             //clear prev content and add new  text content 
                             span.ClearAllElements();
                             span.AddTextContent("XYZ0001");
-
                             //affect layout of html dom
                             panel.ForceRefreshHtmlDomChange(htmldoc);
-
 #endif
 
                             e.StopPropagation();
-
                         });
                     });
-
                     div.AddChild("span", span =>
                     {
                         span.AddTextContent("EFGHIJK");
                     });
-
                     //----------------------
 
                     div.AttachEvent(UIEventName.MouseDown, e =>
@@ -69,15 +56,9 @@ namespace LayoutFarm.Demo
                     });
                 });
             });
-
             //2. add to view 
             panel.LoadHtmlDom(htmldoc,
                LayoutFarm.Composers.CssDefaults.DefaultStyleSheet);
-
-
         }
     }
-
-
-
 }

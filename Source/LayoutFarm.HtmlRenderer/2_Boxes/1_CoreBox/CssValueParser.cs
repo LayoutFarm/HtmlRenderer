@@ -14,9 +14,8 @@
 // "The Art of War"
 
 using System;
-using PixelFarm.Drawing; 
+using PixelFarm.Drawing;
 using LayoutFarm.Css;
-
 namespace LayoutFarm.HtmlBoxes
 {
     /// <summary>
@@ -155,7 +154,7 @@ namespace LayoutFarm.HtmlBoxes
                     else if (length > 13 && SubStringEquals(str, idx, 5, "rgba(") && str[length - 1] == ')')
                     {
                         return GetColorByRgba(str, idx, length, out color);
-                    }                    
+                    }
                     else
                     {
                         return GetColorByName(str, idx, length, out color);
@@ -227,7 +226,6 @@ namespace LayoutFarm.HtmlBoxes
             int r = -1;
             int g = -1;
             int b = -1;
-
             if (length > 10)
             {
                 int s = idx + 4;
@@ -261,12 +259,10 @@ namespace LayoutFarm.HtmlBoxes
             int g = -1;
             int b = -1;
             int a = -1;
-
             if (length > 13)
             {
                 int s = idx + 5;
                 r = ParseIntAtIndex(str, ref s);
-
                 if (s < idx + length)
                 {
                     g = ParseIntAtIndex(str, ref s);
@@ -329,14 +325,12 @@ namespace LayoutFarm.HtmlBoxes
         {
             if (length < 1)
                 return -1;
-
             int num = 0;
             for (int i = 0; i < length; i++)
             {
                 int c = str[idx + i];
                 if (!(c >= 48 && c <= 57))
                     return -1;
-
                 num = num * 10 + c - 48;
             }
             return num;
@@ -351,14 +345,12 @@ namespace LayoutFarm.HtmlBoxes
         {
             if (length < 1)
                 return -1;
-
             int num = 0;
             for (int i = 0; i < length; i++)
             {
                 int c = str[idx + i];
                 if (!(c >= 48 && c <= 57) && !(c >= 65 && c <= 70) && !(c >= 97 && c <= 102))
                     return -1;
-
                 num = num * 16 + (c <= 57 ? c - 48 : (10 + c - (c <= 70 ? 65 : 97)));
             }
             return num;

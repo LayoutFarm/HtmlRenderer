@@ -14,14 +14,11 @@
 using PixelFarm.Drawing;
 namespace LayoutFarm.HtmlBoxes
 {
-
-
     /// <summary>
     /// CSS box for hr element.
     /// </summary>
     public sealed class CssBoxHr : CssBox
     {
-
         /// <summary>
         /// Init.
         /// </summary>
@@ -40,13 +37,11 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="g">Device context to use</param>
         protected override void PerformContentLayout(LayoutVisitor lay)
         {
-
             if (this.CssDisplay == Css.CssDisplay.None)
             {
                 return;
             }
             var prevSibling = lay.LatestSiblingBox;
-
             var myContainingBlock = lay.LatestContainingBlock;
             if (this.NeedComputedValueEvaluation)
             {
@@ -55,7 +50,6 @@ namespace LayoutFarm.HtmlBoxes
 
             float localLeft = myContainingBlock.GetClientLeft() + this.ActualMarginLeft;
             float localTop = 0;
-
             if (prevSibling == null)
             {
                 if (this.ParentBox != null)
@@ -69,26 +63,19 @@ namespace LayoutFarm.HtmlBoxes
             }
 
             float maringTopCollapse = UpdateMarginTopCollapse(prevSibling);
-
             if (maringTopCollapse < 0.1)
             {
                 maringTopCollapse = this.GetEmHeight() * 1.1f;
             }
             localTop += maringTopCollapse;
-
-
             this.SetLocation(localLeft, localTop);
             this.SetHeightToZero();
-
             //width at 100% (or auto)
             float minwidth = CalculateMinimumWidth(lay.EpisodeId);
-
             float width = myContainingBlock.VisualWidth
                           - myContainingBlock.ActualPaddingLeft - myContainingBlock.ActualPaddingRight
                           - myContainingBlock.ActualBorderLeftWidth - myContainingBlock.ActualBorderRightWidth
                           - ActualMarginLeft - ActualMarginRight - ActualBorderLeftWidth - ActualBorderRightWidth;
-
-
             //Check width if not auto
             if (!this.Width.IsEmptyOrAuto)
             {
@@ -130,22 +117,18 @@ namespace LayoutFarm.HtmlBoxes
             p.dbugEnterNewContext(this, PaintVisitor.PaintVisitorContextName.Init);
 #endif
             var rect = new RectangleF(0, 0, this.VisualWidth, this.VisualHeight);
-
             if (rect.Height > 2 && RenderUtils.IsColorVisible(ActualBackgroundColor))
             {
                 p.FillRectangle(ActualBackgroundColor, rect.X, rect.Y, rect.Width, rect.Height);
-
             }
 
             if (rect.Height > 1)
             {
                 p.PaintBorders(this, rect);
-
             }
             else
             {
                 p.PaintBorder(this, CssSide.Top, this.BorderTopColor, rect);
-
             }
 #if DEBUG
             p.dbugExitContext();

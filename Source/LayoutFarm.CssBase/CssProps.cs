@@ -26,26 +26,22 @@ namespace LayoutFarm.Css
     public enum CssDisplayOutside : byte
     {
         Internal,
-
         Block,
         Inline,
         RunIn,
-
         TableCell,
         TableCaption,
-        
     }
 
     public enum CssDisplayInside : byte
     {
         Internal,
-
         Flow,
         FlowRoot,
         Table,
         Flex,
         Grid,
-        Ruby,       
+        Ruby,
     }
 
 
@@ -54,10 +50,8 @@ namespace LayoutFarm.Css
     {
         [Map(CssConstants.Inline)]
         Inline,//default 
-
         [Map(CssConstants.InlineBlock)]
         InlineBlock,
-
         [Map(CssConstants.InlineFlex)]
         InlineFlex,
         //----------------------------
@@ -67,25 +61,18 @@ namespace LayoutFarm.Css
         InlineTable,
         [Map(CssConstants.TableColumn)]
         TableColumn,
-
         [Map(CssConstants.TableColumnGroup)]
         TableColumnGroup,
-
         [Map(CssConstants.TableRowGroup)]
         TableRowGroup,
-
         [Map(CssConstants.TableCaption)]
         TableCaption,
-
         [Map(CssConstants.TableHeaderGroup)]
         TableHeaderGroup,
-
         [Map(CssConstants.TableFooterGroup)]
         TableFooterGroup,
-
         [Map(CssConstants.None)]
         None,
-         
         [Map(CssConstants.Block)]
         Block,
         [Map(CssConstants.Table)]
@@ -94,22 +81,19 @@ namespace LayoutFarm.Css
         TableCell,
         [Map(CssConstants.ListItem)]
         ListItem,
-
         [Map(CssConstants.Flex)]
-        Flex 
+        Flex
     }
     public enum CssWhiteSpace : byte
     {
         [Map(CssConstants.Normal)]
         Normal,//default
-
         [Map(CssConstants.Pre)]
         Pre,
         [Map(CssConstants.PreLine)]
         PreLine,
         [Map(CssConstants.PreWrap)]
         PreWrap,
-
         [Map(CssConstants.NoWrap)]
         NoWrap,
     }
@@ -122,22 +106,16 @@ namespace LayoutFarm.Css
         None,
         [Map(CssConstants.Hidden)]
         Hidden,
-
         [Map(CssConstants.Visible)]
         Visible,//boundary-- extension ***
-
         [Map(CssConstants.Dotted)]
         Dotted,
-
         [Map(CssConstants.Dashed)]
         Dashed,
-
         [Map(CssConstants.Solid)]
         Solid,
-
         [Map(CssConstants.Double)]
         Double,
-
         [Map(CssConstants.Groove)]
         Groove,
         [Map(CssConstants.Ridge)]
@@ -146,10 +124,8 @@ namespace LayoutFarm.Css
         Inset,
         [Map(CssConstants.Outset)]
         Outset,
-
         [Map(CssConstants.Inherit)]
         Inherit,
-
         //extension
         Unknown
     }
@@ -161,7 +137,6 @@ namespace LayoutFarm.Css
         BreakAll,
         [Map(CssConstants.KeepAll)]
         KeepAll,
-
         [Map(CssConstants.Inherit)]
         Inherit
     }
@@ -191,7 +166,6 @@ namespace LayoutFarm.Css
         Bottom,
         [Map(CssConstants.Middle)]
         Middle
-
     }
     public enum CssVisibility : byte
     {
@@ -217,7 +191,6 @@ namespace LayoutFarm.Css
         Center,
         [Map(CssConstants.Justify)]
         Justify,
-
         [Map(CssConstants.Inherit)]
         Inherit
     }
@@ -260,7 +233,6 @@ namespace LayoutFarm.Css
         Scroll,
         [Map(CssConstants.Auto)]
         Auto,
-
         [Map(CssConstants.Inherit)]
         Inherit
     }
@@ -270,8 +242,6 @@ namespace LayoutFarm.Css
         Separate,
         [Map(CssConstants.Collapse)]
         Collapse,
-
-
         [Map(CssConstants.Inherit)]
         Inherit
     }
@@ -305,10 +275,8 @@ namespace LayoutFarm.Css
         Italic,
         [Map(CssConstants.Oblique)]
         Oblique,
-
         [Map(CssConstants.Inherit)]
         Inherit,
-
         Unknown,
     }
     public enum CssFontVariant : byte
@@ -317,7 +285,6 @@ namespace LayoutFarm.Css
         Normal,
         [Map(CssConstants.SmallCaps)]
         SmallCaps,
-
         [Map(CssConstants.Inherit)]
         Inherit,
         Unknown,
@@ -333,7 +300,6 @@ namespace LayoutFarm.Css
         Bolder,
         [Map(CssConstants.Lighter)]
         Lighter,
-
         [Map("100")]
         _100,
         [Map("200")]
@@ -346,13 +312,9 @@ namespace LayoutFarm.Css
         _500,
         [Map("600")]
         _600,
-
-
         [Map(CssConstants.Inherit)]
         Inherit,
-
         Unknown,
-
     }
     public enum CssListStylePosition : byte
     {
@@ -360,8 +322,6 @@ namespace LayoutFarm.Css
         Outside,
         [Map(CssConstants.Inside)]
         Inside,
-
-
         [Map(CssConstants.Inherit)]
         Inherit
     }
@@ -371,7 +331,6 @@ namespace LayoutFarm.Css
         None,
         [Map(CssConstants.Disc)]
         Disc,
-
         [Map(CssConstants.Circle)]
         Circle,
         [Map(CssConstants.Separate)]
@@ -380,31 +339,25 @@ namespace LayoutFarm.Css
 
         [Map(CssConstants.Inherit)]
         Inherit,
-
         //-----------------------------
         [Map(CssConstants.Decimal)]
         Decimal,
         [Map(CssConstants.DecimalLeadingZero)]
         DecimalLeadingZero,
-
         [Map(CssConstants.LowerAlpha)]
         LowerAlpha,
         [Map(CssConstants.UpperAlpha)]
         UpperAlpha,
-
         [Map(CssConstants.LowerLatin)]
         LowerLatin,
         [Map(CssConstants.UpperLatin)]
         UpperLatin,
-
         [Map(CssConstants.LowerGreek)]
         LowerGreek,
-
         [Map(CssConstants.LowerRoman)]
         LowerRoman,
         [Map(CssConstants.UpperRoman)]
         UpperRoman,
-
         [Map(CssConstants.Armenian)]
         Armenian,
         [Map(CssConstants.Georgian)]
@@ -424,7 +377,6 @@ namespace LayoutFarm.Css
     public enum CssNamedBorderWidth : byte
     {
         Unknown,
-
         [Map(CssConstants.Thin)]
         Thin,
         [Map(CssConstants.Medium)]
@@ -500,7 +452,6 @@ namespace LayoutFarm.Css
         Center,
         [Map(CssConstants.Baseline)]
         Baseline
-
     }
 
     public enum FlexAlignSelf : byte
@@ -535,7 +486,6 @@ namespace LayoutFarm.Css
         SpaceBetween,
         [Map(CssConstants.SpaceAround)]
         SpaceAround,
-
     }
 
     public enum CssBoxSizing : byte

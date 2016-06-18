@@ -1,4 +1,5 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 namespace LayoutFarm.UI
 {
@@ -13,6 +14,4 @@ namespace LayoutFarm.UI
         int DesiredWidth { get; }
         event EventHandler LayoutFinished;
     }
-
-
 }

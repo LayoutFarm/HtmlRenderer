@@ -1,13 +1,10 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
 
 using PixelFarm.Drawing;
-
 namespace LayoutFarm.CustomWidgets
 {
-
     public class CustomImageRenderBox : CustomRenderBox
     {
-
 #if DEBUG
         public bool dbugBreak;
 #endif
@@ -19,7 +16,6 @@ namespace LayoutFarm.CustomWidgets
         }
         public override void ClearAllChildren()
         {
-
         }
 
         public ImageBinder ImageBinder
@@ -48,7 +44,6 @@ namespace LayoutFarm.CustomWidgets
                         }
                         break;
                 }
-
             }
             else
             {
@@ -61,7 +56,4 @@ namespace LayoutFarm.CustomWidgets
 #endif
         }
     }
-
-
-
 }

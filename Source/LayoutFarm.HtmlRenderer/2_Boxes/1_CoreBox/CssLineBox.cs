@@ -16,7 +16,6 @@
 using System;
 using System.Collections.Generic;
 using PixelFarm.Drawing;
-
 namespace LayoutFarm.HtmlBoxes
 {
     //--------------------------
@@ -27,7 +26,6 @@ namespace LayoutFarm.HtmlBoxes
         float _y;
         float _width;
         float _height;
-
         public PartialBoxStrip(CssBox owner, float x, float y, float w, float h)
         {
             this.owner = owner;
@@ -70,10 +68,8 @@ namespace LayoutFarm.HtmlBoxes
 
         public void MergeBound(float left, float top, float right, float bottom)
         {
-
             float sR = this.Right;
             float sB = this.Bottom;
-
             if (left < this._x)
             {
                 this._x = left;
@@ -114,11 +110,9 @@ namespace LayoutFarm.HtmlBoxes
     /// </remarks>
     sealed class CssLineBox
     {
-       readonly CssBox _ownerBox;
-
+        readonly CssBox _ownerBox;
         //a run may come from another CssBox (not from _ownerBox)
         readonly List<CssRun> _runs = new List<CssRun>();
-
         //linebox and PartialBoxStrip is 1:1 relation 
         //a CssBox (Inline-splittable) may be splitted into many CssLineBoxes
 
@@ -127,9 +121,6 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         PartialBoxStrip[] _bottomUpBoxStrips;
         internal LinkedListNode<CssLineBox> linkedNode;
-
-
-
 #if DEBUG
         bool dbugIsClosed;
         static int dbugTotalId;
@@ -142,7 +133,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             _ownerBox = ownerBox;
         }
-         
+
         internal CssLineBox NextLine
         {
             get
@@ -186,7 +177,6 @@ namespace LayoutFarm.HtmlBoxes
         }
         internal float CalculateLineHeight()
         {
-
             float maxBottom = 0;
             List<CssRun> myruns = this._runs;
             int j = myruns.Count;
@@ -201,7 +191,6 @@ namespace LayoutFarm.HtmlBoxes
 
         internal void CloseLine(LayoutVisitor lay)
         {
-
 #if DEBUG
             this.dbugIsClosed = true;
 #endif
@@ -220,7 +209,6 @@ namespace LayoutFarm.HtmlBoxes
             float maxRight = 0;
             float maxBottom = 0;
             int j = myruns.Count;
-
             float firstRunStartAt = 0;
             for (int i = 0; i < j; ++i)
             {
@@ -250,7 +238,6 @@ namespace LayoutFarm.HtmlBoxes
             }
 
             this._bottomUpBoxStrips = tmpStrips.ToArray();
-
             lay.ReleaseStripList(tmpStrips);
             lay.ReleaseStripDic(unqiueStrips);
             //=============================================================
@@ -260,10 +247,8 @@ namespace LayoutFarm.HtmlBoxes
             this.CacheLineHeight = maxBottom;
             this.CachedLineContentWidth = maxRight;
             this.CachedExactContentWidth = (maxRight - firstRunStartAt);
-
             if (lineOwner.VisualWidth < CachedLineContentWidth)
             {
-
                 this.CachedLineContentWidth = this.OwnerBox.VisualWidth;
             }
         }
@@ -314,7 +299,6 @@ namespace LayoutFarm.HtmlBoxes
 
         public float CalculateTotalBoxBaseLine(LayoutVisitor lay)
         {
-
             //not correct !! 
             float maxRunHeight = 0;
             CssRun maxRun = null;
@@ -477,13 +461,10 @@ namespace LayoutFarm.HtmlBoxes
             //iterate from each words 
             CssBox latestOwner = null;
             var innerCanvas = p.InnerCanvas;
-
             var enterFont = innerCanvas.CurrentFont;
             var enterColor = innerCanvas.CurrentTextColor;
-
             var tmpRuns = this._runs;
             int j = tmpRuns.Count;
-
             for (int i = 0; i < j; ++i)
             {
                 //-----------------
@@ -498,22 +479,19 @@ namespace LayoutFarm.HtmlBoxes
                     case CssRunKind.SolidContent:
                         {
                             w.OwnerBox.Paint(p, new RectangleF(w.Left, w.Top, w.Width, w.Height));
-                        } break;
+                        }
+                        break;
                     case CssRunKind.BlockRun:
                         {
                             //Console.WriteLine("blockrun"); 
                             CssBlockRun blockRun = (CssBlockRun)w;
-
                             int ox = p.CanvasOriginX;
                             int oy = p.CanvasOriginY;
-
                             p.SetCanvasOrigin(ox + (int)blockRun.Left, oy + (int)blockRun.Top);
-
                             blockRun.ContentBox.Paint(p);
-
                             p.SetCanvasOrigin(ox, oy);
-
-                        } break;
+                        }
+                        break;
                     case CssRunKind.Text:
                         {
                             if (latestOwner != w.OwnerBox)
@@ -531,14 +509,15 @@ namespace LayoutFarm.HtmlBoxes
                                textRun.TextStartIndex,
                                textRun.TextLength, wordPoint,
                                new SizeF(w.Width, w.Height));
-
-                        } break;
+                        }
+                        break;
                     default:
                         {
 #if DEBUG
                             // w.OwnerBox.dbugPaintTextWordArea(g, offset, w);
 #endif
-                        } break;
+                        }
+                        break;
                 }
             }
 
@@ -549,14 +528,12 @@ namespace LayoutFarm.HtmlBoxes
                 innerCanvas.CurrentFont = enterFont;
                 innerCanvas.CurrentTextColor = enterColor;
             }
-
         }
 
 #if DEBUG
 
         internal void dbugPaintRuns(PaintVisitor p)
         {
-
             //return;
             //linebox  
             float x1 = 0;
@@ -584,7 +561,6 @@ namespace LayoutFarm.HtmlBoxes
             }
 
             p.FillRectangle(Color.Red, 0, 0, 5, 5);
-
         }
 
 #endif
@@ -616,7 +592,6 @@ namespace LayoutFarm.HtmlBoxes
                 bool isFirstLine, isLastLine;
                 CssBox.GetSplitInfo(stripOwner, this, out isFirstLine, out isLastLine);
                 stripOwner.PaintBackground(p, stripArea, isFirstLine, isLastLine);
-
                 //if (stripOwner.CssDisplay != Css.CssDisplay.TableCell
                 //    && stripOwner.HasSomeVisibleBorder)
                 //{
@@ -667,7 +642,6 @@ namespace LayoutFarm.HtmlBoxes
         /// <returns></returns>
         public override string ToString()
         {
-
             int j = _runs.Count;
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
             for (int i = 0; i < j; i++)
@@ -681,7 +655,6 @@ namespace LayoutFarm.HtmlBoxes
             CssBox lineOwnerBox,
             List<PartialBoxStrip> inputList, int startInputAt)
         {
-
             int j = inputList.Count;
             for (int i = startInputAt; i < j; ++i)
             {
@@ -694,7 +667,6 @@ namespace LayoutFarm.HtmlBoxes
                 }
             }
             return inputList.Count - j;
-
         }
         static void RegisterStripPart(CssBox runOwner,
             float left, float top, float right, float bottom,
@@ -736,8 +708,6 @@ namespace LayoutFarm.HtmlBoxes
                 }
             }
             return maxRun;
-
         }
-
     }
 }

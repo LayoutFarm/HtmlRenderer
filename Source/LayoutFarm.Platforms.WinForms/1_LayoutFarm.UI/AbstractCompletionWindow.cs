@@ -4,26 +4,21 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
- 
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-
 namespace LayoutFarm.UI
 {
     partial class AbstractCompletionWindow : Form
     {
         Form linkedParentForm;
         Control linkedParentControl;
-
         public AbstractCompletionWindow()
         {
             InitializeComponent();
-
             this.ShowInTaskbar = false;
             this.TopMost = true;
             this.FormBorderStyle = FormBorderStyle.None;
-
         }
         public Form LinkedParentForm
         {
@@ -35,7 +30,6 @@ namespace LayoutFarm.UI
             get { return this.linkedParentControl; }
             set
             {
-
                 this.linkedParentControl = value;
             }
         }

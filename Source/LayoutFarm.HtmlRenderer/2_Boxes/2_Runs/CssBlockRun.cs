@@ -1,4 +1,5 @@
 ﻿//BSD 2014-2015,WinterDev 
+
 namespace LayoutFarm.HtmlBoxes
 {
     public class CssBlockRun : CssRun
@@ -8,7 +9,6 @@ namespace LayoutFarm.HtmlBoxes
             : base(CssRunKind.BlockRun)
         {
             this.contentBlockBox = contentBlockBox;
-           
         }
         public CssBox ContentBox
         {

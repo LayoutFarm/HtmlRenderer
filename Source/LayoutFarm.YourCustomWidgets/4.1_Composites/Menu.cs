@@ -1,36 +1,28 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
-
 using LayoutFarm.UI;
 namespace LayoutFarm.CustomWidgets
 {
-
     public class MenuItem : UIBox
     {
-
         CustomRenderBox primElement;//background 
         Color backColor = Color.LightGray;
         bool thisMenuOpened;
-
-
         //1. land part
         UIBox landPart;
-
         //2. float part   
         MenuBox floatPart;
         CustomRenderBox floatPartRenderElement;
         HingeFloatPartStyle floatPartStyle;
-
         List<MenuItem> childItems;
-
         public MenuItem(int width, int height)
             : base(width, height)
         {
-
         }
 
         protected override bool HasReadyRenderElement
@@ -61,7 +53,6 @@ namespace LayoutFarm.CustomWidgets
                 renderE.SetLocation(this.Left, this.Top);
                 renderE.BackColor = backColor;
                 renderE.HasSpecificSize = true;
-
                 renderE.SetController(this);
                 //------------------------------------------------
                 //create visual layer                 
@@ -69,11 +60,9 @@ namespace LayoutFarm.CustomWidgets
                 if (this.landPart != null)
                 {
                     renderE.AddChild(this.landPart);
-
                 }
                 if (this.floatPart != null)
                 {
-
                 }
 
                 //---------------------------------
@@ -102,8 +91,6 @@ namespace LayoutFarm.CustomWidgets
         //---------------------------------------------------- 
         public event EventHandler<UIMouseEventArgs> MouseDown;
         public event EventHandler<UIMouseEventArgs> MouseUp;
-
-
         //----------------------------------------------------  
         public UIBox LandPart
         {
@@ -125,7 +112,6 @@ namespace LayoutFarm.CustomWidgets
                         //add 
                         primElement.AddChild(value);
                     }
-
                 }
                 else
                 {
@@ -158,11 +144,9 @@ namespace LayoutFarm.CustomWidgets
         {
             if (thisMenuOpened) return;
             this.thisMenuOpened = true;
-
             //-----------------------------------
             if (this.primElement == null) return;
             if (floatPart == null) return;
-
             switch (floatPartStyle)
             {
                 default:
@@ -179,25 +163,20 @@ namespace LayoutFarm.CustomWidgets
                             //temp here
 
                         }
-
                     }
                     break;
                 case HingeFloatPartStyle.Embeded:
                     {
-
                     }
                     break;
             }
-
         }
         public void Close()
         {
             if (!thisMenuOpened) return;
             this.thisMenuOpened = false;
-
             if (this.primElement == null) return;
             if (floatPart == null) return;
-
             switch (floatPartStyle)
             {
                 default:
@@ -211,7 +190,6 @@ namespace LayoutFarm.CustomWidgets
                         {
                             if (this.floatPartRenderElement != null)
                             {
-
                                 topRenderBox.RemoveChild(floatPartRenderElement);
                             }
                         }
@@ -221,7 +199,6 @@ namespace LayoutFarm.CustomWidgets
                     {
                     }
                     break;
-
             }
         }
         public void MaintenanceParentOpenState()
@@ -248,7 +225,6 @@ namespace LayoutFarm.CustomWidgets
         public void CloseRecursiveUp()
         {
             this.Close();
-
             if (this.ParentMenuItem != null &&
                !this.ParentMenuItem.MaintenceOpenState)
             {

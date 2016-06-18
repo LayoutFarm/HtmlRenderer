@@ -5,8 +5,6 @@
 using PixelFarm.Drawing;
 using LayoutFarm.Css;
 using LayoutFarm.HtmlBoxes;
-
-
 namespace LayoutFarm.Composers
 {
     //delegate for create cssbox
@@ -15,7 +13,6 @@ namespace LayoutFarm.Composers
             LayoutFarm.HtmlBoxes.CssBox parentBox,
             LayoutFarm.Css.BoxSpec spec,
             LayoutFarm.HtmlBoxes.HtmlHost htmlhost);
-
     //temp !, test only for custom box creation
     static class CustomBoxGenSample1
     {
@@ -25,8 +22,6 @@ namespace LayoutFarm.Composers
             LayoutFarm.Css.BoxSpec spec,
             LayoutFarm.HtmlBoxes.HtmlHost htmlhost)
         {
-
-
             //create cssbox 
             //test only!           
             var newspec = new BoxSpec();
@@ -36,7 +31,6 @@ namespace LayoutFarm.Composers
             newspec.Height = new CssLength(50, CssUnitOrNames.Pixels);
             newspec.Position = CssPosition.Absolute;
             newspec.Freeze(); //freeze before use
-
             HtmlElement htmlElement = (HtmlElement)domE;
             var newBox = new CssBox(newspec, parentBox.RootGfx);
             newBox.SetController(domE);
@@ -48,9 +42,7 @@ namespace LayoutFarm.Composers
             //----------
             return newBox;
         }
-
     }
     //------------------------------------------------------------
     public delegate void LazyCssBoxCreator(RootGraphic rootgfx, out RenderElement re, out object controller);
-
 }

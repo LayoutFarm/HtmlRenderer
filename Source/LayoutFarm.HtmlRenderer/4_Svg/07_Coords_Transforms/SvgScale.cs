@@ -5,8 +5,6 @@ namespace LayoutFarm.Svg.Transforms
 {
     public sealed class SvgScale : SvgTransform
     {
-
-
         public float X
         {
             get;

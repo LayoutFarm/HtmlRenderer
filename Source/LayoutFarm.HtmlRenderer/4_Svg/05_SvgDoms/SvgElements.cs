@@ -1,17 +1,14 @@
 ﻿//MS-PL, Apache2 
 //2014,2015, WinterDev
- 
+
 using PixelFarm.Drawing;
 using System.Collections.Generic;
- 
-using LayoutFarm.Css; 
+using LayoutFarm.Css;
 using LayoutFarm.HtmlBoxes;
 namespace LayoutFarm.Svg
 {
-
     public abstract class SvgNode
     {
-
     }
 
     public struct ReEvaluateArgs
@@ -20,7 +17,6 @@ namespace LayoutFarm.Svg
         public readonly float containerH;
         public readonly float emHeight;
         public readonly GraphicsPlatform graphicsPlatform;
-
         public ReEvaluateArgs(GraphicsPlatform graphicsPlatform, float containerW, float containerH, float emHeight)
         {
             this.graphicsPlatform = graphicsPlatform;
@@ -36,7 +32,6 @@ namespace LayoutFarm.Svg
         LinkedList<SvgElement> children;
         SvgElement parent;
         object controller;
-
         public SvgElement(object controller)
         {
             this.controller = controller;
@@ -87,7 +82,6 @@ namespace LayoutFarm.Svg
         }
         public virtual void ReEvaluateComputeValue(ref ReEvaluateArgs args)
         {
-
         }
         public static float ConvertToPx(CssLength length, ref ReEvaluateArgs args)
         {
@@ -122,11 +116,9 @@ namespace LayoutFarm.Svg
 
         public virtual void Paint(PaintVisitor p)
         {
-
         }
         public virtual bool HitTestCore(SvgHitChain svgChain, float x, float y)
         {
-
             return false;
         }
 
@@ -136,7 +128,6 @@ namespace LayoutFarm.Svg
         {
             return elem.controller;
         }
-
     }
 
     public class SvgDefinitionList : SvgElement
@@ -144,9 +135,7 @@ namespace LayoutFarm.Svg
         public SvgDefinitionList(object controller)
             : base(controller)
         {
-
         }
-
     }
     public class SvgFragment : SvgElement
     {
@@ -162,7 +151,6 @@ namespace LayoutFarm.Svg
         public SvgLinearGradient(object controller)
             : base(controller)
         {
-
         }
         public List<StopColorPoint> StopList { get; set; }
         public CssLength X1 { get; set; }
@@ -174,10 +162,5 @@ namespace LayoutFarm.Svg
 
     public class SvgUse : SvgNode
     {
-
     }
-
-
-
-
 }

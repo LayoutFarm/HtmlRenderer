@@ -2,11 +2,8 @@
 
 using System;
 using System.Collections.Generic;
-
 using LayoutFarm.Css;
 using LayoutFarm.WebDom;
-
-
 namespace LayoutFarm.Composers
 {
     //for RenderTreeBuilder ***
@@ -30,15 +27,11 @@ namespace LayoutFarm.Composers
 
     class TopDownActiveCssTemplate
     {
-
         CssActiveSheet activeSheet;
         bool isCloneOnce = false;
-
-
         UniqueStringTable ustrTable = new UniqueStringTable();
         List<BoxSpecLevel> specLevels = new List<BoxSpecLevel>();
         int currentSpecLevel = 0;
-
         public TopDownActiveCssTemplate(CssActiveSheet activeSheet)
         {
             this.activeSheet = activeSheet;
@@ -156,7 +149,6 @@ namespace LayoutFarm.Composers
              BoxSpec currentBoxSpec,
              BoxSpec parentSpec)
         {
-
             //1. tag name key
             int tagNameKey = ustrTable.AddStringIfNotExist(elemName);
             //2. class name key
@@ -202,7 +194,6 @@ namespace LayoutFarm.Composers
                     {
                         for (int i = 0; i < j; ++i)
                         {
-
                             CssRuleSetGroup ruleSetGroup = activeSheet.GetRuleSetForClassName(classNames[i]);
                             if (ruleSetGroup != null)
                             {
@@ -229,7 +220,6 @@ namespace LayoutFarm.Composers
                 boxTemplate.IsTemplate = true;
                 //copy back from template to currentBoxSpec
                 BoxSpec.CloneAllStyles(currentBoxSpec, boxTemplate);
-
             }
         }
 
@@ -328,15 +318,9 @@ namespace LayoutFarm.Composers
             Inherit,
             TagName,
             ClassName,
-
             StyleAttribute,
             HtmlAttribute,
             Id,
         }
-
     }
-
-
-
-
 }

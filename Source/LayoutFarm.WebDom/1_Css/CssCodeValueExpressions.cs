@@ -1,9 +1,9 @@
 ﻿//BSD  2015,2014 ,WinterDev 
+
 using System;
 using System.Collections.Generic;
 using System.Text;
 using LayoutFarm.Css;
-
 namespace LayoutFarm.WebDom
 {
     public abstract class CssCodeValueExpression
@@ -30,7 +30,6 @@ namespace LayoutFarm.WebDom
         LayoutFarm.Css.CssLength cachedLength;
         int cachedInt;
         protected float number;
-
         public bool IsInherit
         {
             get;
@@ -109,7 +108,6 @@ namespace LayoutFarm.WebDom
     {
         string unit;
         readonly string _propertyValue;
-
         public CssCodePrimitiveExpression(string value, CssValueHint hint)
             : base(hint)
         {
@@ -171,9 +169,7 @@ namespace LayoutFarm.WebDom
                     {
                         return Value;
                     }
-
             }
-
         }
     }
 
@@ -205,7 +201,6 @@ namespace LayoutFarm.WebDom
             sb.Append(this.FunctionName);
             sb.Append('(');
             int j = funcArgs.Count;
-
             for (int i = 0; i < j; ++i)
             {
                 sb.Append(funcArgs[i].ToString());
@@ -264,16 +259,13 @@ namespace LayoutFarm.WebDom
                 return hex;
             }
         }
-
     }
 
     public class CssCodeBinaryExpression : CssCodeValueExpression
     {
-
         public CssCodeBinaryExpression()
             : base(CssValueHint.BinaryExpression)
         {
-
         }
         public CssValueOpName OpName
         {
@@ -320,16 +312,12 @@ namespace LayoutFarm.WebDom
             else
             {
                 throw new NotSupportedException();
-
             }
             return stbuilder.ToString();
         }
         public override string GetTranslatedStringValue()
         {
-
             throw new NotImplementedException();
         }
     }
-
-
 }

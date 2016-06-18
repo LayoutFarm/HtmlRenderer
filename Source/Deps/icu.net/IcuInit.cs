@@ -1,15 +1,15 @@
 ﻿//2015-2016 MIT, WinterDev
+
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Runtime.InteropServices;
-
 namespace Icu
 {
     public static class IcuInit
     {
         public static void LoadIcuLibrary(string libFolder)
-        {   
+        {
             //1. load icudt first
             WinNativeMethods.LoadLibrary(libFolder + "\\icudt54.dll");
             //2. then
@@ -19,7 +19,6 @@ namespace Icu
 
     static class WinNativeMethods
     {
-
         //-----------------------------------------------
         //this is Windows Specific class ***
         [DllImport("Kernel32.dll")]

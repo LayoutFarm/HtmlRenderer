@@ -1,8 +1,7 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
- 
+
 namespace LayoutFarm.UI
 {
-
     public abstract partial class UIElement : IEventListener
     {
         int oneBitNativeEventFlags;
@@ -12,13 +11,10 @@ namespace LayoutFarm.UI
 #endif
         public UIElement()
         {
-
         }
 
-        
+
         public abstract RenderElement GetPrimaryRenderElement(RootGraphic rootgfx);
-
-
         protected void RegisterNativeEvent(int eventFlags)
         {
             this.oneBitNativeEventFlags |= eventFlags;
@@ -82,7 +78,6 @@ namespace LayoutFarm.UI
         //-------------------------------------------------------
         protected virtual void OnMouseDown(UIMouseEventArgs e)
         {
-
         }
         protected virtual void OnMouseMove(UIMouseEventArgs e)
         {
@@ -92,7 +87,6 @@ namespace LayoutFarm.UI
         }
         protected virtual void OnMouseEnter(UIMouseEventArgs e)
         {
-
         }
         protected virtual void OnMouseLeave(UIMouseEventArgs e)
         {
@@ -135,14 +129,12 @@ namespace LayoutFarm.UI
         }
         protected virtual void OnInterComponentMsg(object sender, int msgcode, string msg)
         {
-
-        } 
+        }
 
         protected virtual void OnElementChanged()
         {
         }
         public abstract void Walk(UIVisitor visitor);
-
         protected virtual void OnGuestTalk(UIGuestTalkEventArgs e)
         {
         }

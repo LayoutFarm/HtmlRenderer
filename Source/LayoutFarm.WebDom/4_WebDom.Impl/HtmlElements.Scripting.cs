@@ -1,10 +1,8 @@
 ﻿//2015 MIT, WinterDev  
-using LayoutFarm.Scripting;
 
+using LayoutFarm.Scripting;
 namespace LayoutFarm.WebDom.Impl
 {
-
-
     partial class HtmlElement : IHtmlElement
     {
         [JsMethod]
@@ -78,7 +76,5 @@ namespace LayoutFarm.WebDom.Impl
         {
             get { return this.AttrElementId; }
         }
-
     }
-
 }

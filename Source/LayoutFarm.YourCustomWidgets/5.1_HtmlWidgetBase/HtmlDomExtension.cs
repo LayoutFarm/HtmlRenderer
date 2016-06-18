@@ -1,11 +1,9 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
-using LayoutFarm.UI;
 
+using LayoutFarm.UI;
 namespace LayoutFarm.WebDom.Extension
 {
-
     public delegate void Decorate(DomElement h);
-
     public static class MyHtmlDocExtension
     {
         //level 1
@@ -45,12 +43,10 @@ namespace LayoutFarm.WebDom.Extension
         //level 2
         public static void AttachMouseDownEvent(this DomElement elem, HtmlEventHandler hdl)
         {
-
             elem.AttachEvent(UIEventName.MouseDown, hdl);
         }
         public static void AttachMouseUpEvent(this DomElement elem, HtmlEventHandler hdl)
         {
-
             elem.AttachEvent(UIEventName.MouseUp, hdl);
         }
     }

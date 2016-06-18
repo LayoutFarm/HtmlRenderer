@@ -1,4 +1,5 @@
 ﻿// 2015,2014 ,Apache2, WinterDev 
+
 namespace LayoutFarm.UI
 {
     public interface IEventPortal

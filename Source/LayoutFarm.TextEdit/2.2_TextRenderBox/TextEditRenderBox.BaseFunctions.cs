@@ -3,16 +3,13 @@
 using System.Text;
 using PixelFarm.Drawing;
 using LayoutFarm.UI;
-
 namespace LayoutFarm.Text
 {
-
     public sealed partial class TextEditRenderBox : RenderBoxBase
     {
         CaretRenderElement myCaret;
         EditableTextFlowLayer textLayer;
         InternalTextLayerController internalTextLayerController;
-
         int verticalExpectedCharIndex;
         bool isMultiLine = false;
         bool isInVerticalPhase = false;
@@ -20,33 +17,24 @@ namespace LayoutFarm.Text
         bool stateShowCaret = false;
         bool isDragBegin;
         TextSpanStyle currentSpanStyle;
-
         public TextEditRenderBox(RootGraphic rootgfx,
             int width, int height,
             bool isMultiLine)
             : base(rootgfx, width, height)
         {
-
-
             GlobalCaretController.RegisterCaretBlink(rootgfx);
             myCaret = new CaretRenderElement(rootgfx, 2, 17);
             myCaret.TransparentForAllEvents = true;
-
             this.MayHasViewport = true;
             this.BackgroundColor = Color.White;// Color.Transparent;
-
             this.currentSpanStyle = new TextSpanStyle();
             this.currentSpanStyle.FontInfo = rootgfx.DefaultTextEditFontInfo;
-
             textLayer = new EditableTextFlowLayer(this);
-
             internalTextLayerController = new InternalTextLayerController(this, textLayer);
-
             this.isMultiLine = isMultiLine;
             if (isMultiLine)
             {
                 textLayer.SetUseDoubleCanvas(false, true);
-
             }
             else
             {
@@ -108,7 +96,6 @@ namespace LayoutFarm.Text
 
         public Rectangle GetRectAreaOf(int beginlineNum, int beginColumnNum, int endLineNum, int endColumnNum)
         {
-
             EditableTextFlowLayer flowLayer = this.textLayer;
             EditableTextLine beginLine = flowLayer.GetTextLineAtPos(beginlineNum);
             if (beginLine == null)
@@ -124,7 +111,6 @@ namespace LayoutFarm.Text
             else
             {
                 VisualPointInfo beginPoint = beginLine.GetTextPointInfoFromCharIndex(beginColumnNum);
-
                 EditableTextLine endLine = flowLayer.GetTextLineAtPos(endLineNum);
                 VisualPointInfo endPoint = endLine.GetTextPointInfoFromCharIndex(endColumnNum);
                 return new Rectangle(beginPoint.X, beginLine.Top, endPoint.X, beginLine.ActualLineHeight);
@@ -159,7 +145,6 @@ namespace LayoutFarm.Text
             }
             if (internalTextLayerController.SelectionRange != null)
             {
-
                 internalTextLayerController.AddCharToCurrentLine(c);
                 if (textSurfaceEventListener != null)
                 {
@@ -183,21 +168,17 @@ namespace LayoutFarm.Text
         }
         void InvalidateGraphicOfCurrentLineArea()
         {
-
 #if DEBUG
             Rectangle c_lineArea = this.internalTextLayerController.CurrentParentLineArea;
 #endif
             InvalidateGraphicLocalArea(this, this.internalTextLayerController.CurrentParentLineArea);
-
         }
 
 
         internal void SwapCaretState()
         {
-
             this.stateShowCaret = !stateShowCaret;
             this.InvalidateGraphics();
-
             //int swapcount = dbugCaretSwapCount++;
             //if (stateShowCaret)
             //{
@@ -258,7 +239,6 @@ namespace LayoutFarm.Text
         }
         public void OnDoubleClick(UIMouseEventArgs e)
         {
-
             internalTextLayerController.CancelSelect();
             EditableRun textRun = this.CurrentTextRun;
             if (textRun != null)
@@ -267,7 +247,6 @@ namespace LayoutFarm.Text
                 int lineCharacterIndex = pointInfo.LineCharIndex;
                 int localselIndex = pointInfo.LocalSelectedIndex;
                 internalTextLayerController.CharIndex = lineCharacterIndex - localselIndex - 1;
-
                 internalTextLayerController.StartSelect();
                 internalTextLayerController.CharIndex += textRun.CharacterCount;
                 internalTextLayerController.EndSelect();
@@ -299,15 +278,12 @@ namespace LayoutFarm.Text
                     this.InvalidateGraphics();
                 }
             }
-
         }
         public void OnDragEnd(UIMouseEventArgs e)
         {
-
             isDragBegin = false;
             if ((UIMouseButtons)e.Button == UIMouseButtons.Left)
             {
-
                 internalTextLayerController.StartSelectIfNoSelection();
                 internalTextLayerController.SetCaretPos(e.X, e.Y);
                 internalTextLayerController.EndSelect();
@@ -318,10 +294,8 @@ namespace LayoutFarm.Text
         Rectangle GetSelectionUpdateArea()
         {
             VisualSelectionRange selectionRange = internalTextLayerController.SelectionRange;
-
             if (selectionRange != null && selectionRange.IsValid)
             {
-
                 return Rectangle.FromLTRB(0,
                     selectionRange.TopEnd.LineTop,
                     Width,
@@ -334,7 +308,6 @@ namespace LayoutFarm.Text
         }
         public void OnMouseUp(UIMouseEventArgs e)
         {
-
         }
         public void OnKeyUp(UIKeyEventArgs e)
         {
@@ -372,7 +345,6 @@ namespace LayoutFarm.Text
                         }
                         if (textSurfaceEventListener == null)
                         {
-
                             internalTextLayerController.DoBackspace();
                         }
                         else
@@ -386,13 +358,10 @@ namespace LayoutFarm.Text
                         }
 
                         EnsureCaretVisible();
-
                     }
                     break;
                 case UIKeys.Delete:
                     {
-
-
                         if (internalTextLayerController.SelectionRange != null)
                         {
                             InvalidateGraphicLocalArea(this, GetSelectionUpdateArea());
@@ -403,21 +372,16 @@ namespace LayoutFarm.Text
                         }
                         if (textSurfaceEventListener == null)
                         {
-
                             internalTextLayerController.DoDelete();
                         }
                         else
                         {
-
                             VisualSelectionRangeSnapShot delpart = internalTextLayerController.DoDelete();
                             TextSurfaceEventListener.NotifyCharactersRemoved(textSurfaceEventListener,
                                 new TextDomEventArgs(internalTextLayerController.updateJustCurrentLine));
-
                         }
 
                         EnsureCaretVisible();
-
-
                     }
                     break;
                 default:
@@ -427,21 +391,17 @@ namespace LayoutFarm.Text
                             UIKeys keycode = e.KeyCode;
                             if (keycode >= UIKeys.F1 && keycode <= UIKeys.F12)
                             {
-
                                 InvalidateGraphicLocalArea(this, GetSelectionUpdateArea());
                                 TextSurfaceEventListener.NotifyFunctionKeyDown(textSurfaceEventListener, keycode);
                                 EnsureCaretVisible();
-
                             }
                         }
-
                     }
                     break;
             }
 
             if (e.HasKeyData && e.Ctrl)
             {
-
                 switch (e.KeyCode)
                 {
                     case UIKeys.C:
@@ -460,35 +420,27 @@ namespace LayoutFarm.Text
                                 }
                             }
                             ReleaseStringBuilder(stBuilder);
-
                         }
                         break;
                     case UIKeys.V:
                         {
-
                             if (Clipboard.ContainUnicodeText())
                             {
-
                                 internalTextLayerController.AddTextRunsToCurrentLine(
                                     new EditableRun[]{
                                         new EditableTextRun(this.Root,
                                             Clipboard.GetUnicodeText(), this.CurrentTextSpanStyle)
                                            });
                                 EnsureCaretVisible();
-
                             }
-
                         }
                         break;
                     case UIKeys.X:
                         {
-
                             if (internalTextLayerController.SelectionRange != null)
                             {
-
                                 if (internalTextLayerController.SelectionRange != null)
                                 {
-
                                     InvalidateGraphicLocalArea(this, GetSelectionUpdateArea());
                                 }
                                 StringBuilder stBuilder = GetFreeStringBuilder();
@@ -499,33 +451,21 @@ namespace LayoutFarm.Text
                                 }
 
                                 internalTextLayerController.DoDelete();
-
-
                                 EnsureCaretVisible();
                                 ReleaseStringBuilder(stBuilder);
-
                             }
-
                         }
                         break;
-
                     case UIKeys.Z:
                         {
-
                             internalTextLayerController.UndoLastAction();
                             EnsureCaretVisible();
-
                         }
                         break;
-
                     case UIKeys.Y:
                         {
-
-
                             internalTextLayerController.ReverseLastUndoAction();
                             EnsureCaretVisible();
-
-
                         }
                         break;
                     case UIKeys.B:
@@ -580,9 +520,7 @@ namespace LayoutFarm.Text
         public bool OnProcessDialogKey(UIKeyEventArgs e)
         {
             UIKeys keyData = (UIKeys)e.KeyData;
-
             SetCaretState(true);
-
             if (isInVerticalPhase && (keyData != UIKeys.Up || keyData != UIKeys.Down))
             {
                 isInVerticalPhase = false;
@@ -597,7 +535,6 @@ namespace LayoutFarm.Text
                     }
                 case UIKeys.Return:
                     {
-
                         if (textSurfaceEventListener != null &&
                             TextSurfaceEventListener.NotifyPreviewEnter(textSurfaceEventListener))
                         {
@@ -605,26 +542,19 @@ namespace LayoutFarm.Text
                         }
                         if (isMultiLine)
                         {
-
                             if (internalTextLayerController.SelectionRange != null)
                             {
                                 InvalidateGraphicLocalArea(this, GetSelectionUpdateArea());
                             }
                             internalTextLayerController.SplitCurrentLineIntoNewLine();
-
-
                             if (textSurfaceEventListener != null)
                             {
-
-
                                 TextSurfaceEventListener.NofitySplitNewLine(textSurfaceEventListener, e);
-
                             }
 
                             Rectangle lineArea = internalTextLayerController.CurrentLineArea;
                             if (lineArea.Bottom > this.ViewportBottom)
                             {
-
                                 ScrollBy(0, lineArea.Bottom - this.ViewportBottom);
                             }
                             else
@@ -632,7 +562,6 @@ namespace LayoutFarm.Text
                                 InvalidateGraphicOfCurrentLineArea();
                             }
                             EnsureCaretVisible();
-
                             return true;
                         }
                         return true;
@@ -654,7 +583,6 @@ namespace LayoutFarm.Text
                         else
                         {
                             internalTextLayerController.StartSelectIfNoSelection();
-
                         }
 
                         Point currentCaretPos = Point.Empty;
@@ -662,7 +590,6 @@ namespace LayoutFarm.Text
                         {
                             while (!internalTextLayerController.IsOnStartOfLine)
                             {
-
                                 Point prvCaretPos = internalTextLayerController.CaretPos;
                                 internalTextLayerController.CharIndex--;
                                 currentCaretPos = internalTextLayerController.CaretPos;
@@ -674,7 +601,6 @@ namespace LayoutFarm.Text
                         }
                         else
                         {
-
                             if (internalTextLayerController.IsOnStartOfLine)
                             {
                                 internalTextLayerController.CharIndex--;
@@ -684,7 +610,6 @@ namespace LayoutFarm.Text
                             {
                                 while (!internalTextLayerController.IsOnStartOfLine)
                                 {
-
                                     Point prvCaretPos = internalTextLayerController.CaretPos;
                                     internalTextLayerController.CharIndex--;
                                     currentCaretPos = internalTextLayerController.CaretPos;
@@ -761,14 +686,12 @@ namespace LayoutFarm.Text
                                     Point prvCaretPos = internalTextLayerController.CaretPos;
                                     internalTextLayerController.CharIndex++;
                                     currentCaretPos = internalTextLayerController.CaretPos;
-
                                     if (currentCaretPos.X != prvCaretPos.X)
                                     {
                                         //forward check next caret
                                         int nextCharWidth = internalTextLayerController.GetNextCharacterWidth();
                                         if (nextCharWidth > 0)
                                         {
-
                                             break;
                                         }
                                     }
@@ -801,7 +724,6 @@ namespace LayoutFarm.Text
                         {
                             if (!isInVerticalPhase)
                             {
-
                                 isInVerticalPhase = true;
                                 verticalExpectedCharIndex = internalTextLayerController.CharIndex;
                             }
@@ -818,7 +740,6 @@ namespace LayoutFarm.Text
                             //---------------------------- 
 
                             internalTextLayerController.CurrentLineNumber++;
-
                             if (verticalExpectedCharIndex > internalTextLayerController.CurrentLineCharCount - 1)
                             {
                                 internalTextLayerController.CharIndex = internalTextLayerController.CurrentLineCharCount - 1;
@@ -843,7 +764,6 @@ namespace LayoutFarm.Text
                             {
                                 InvalidateGraphicOfCurrentLineArea();
                             }
-
                         }
 
                         if (textSurfaceEventListener != null)
@@ -851,7 +771,6 @@ namespace LayoutFarm.Text
                             TextSurfaceEventListener.NotifyArrowKeyCaretPosChanged(textSurfaceEventListener, keyData);
                         }
                         return true;
-
                     }
                 case UIKeys.Up:
                     {
@@ -881,7 +800,6 @@ namespace LayoutFarm.Text
                             //----------------------------
 
                             internalTextLayerController.CurrentLineNumber--;
-
                             if (verticalExpectedCharIndex > internalTextLayerController.CurrentLineCharCount - 1)
                             {
                                 internalTextLayerController.CharIndex = internalTextLayerController.CurrentLineCharCount - 1;
@@ -898,7 +816,6 @@ namespace LayoutFarm.Text
                             }
 
                             Rectangle lineArea = internalTextLayerController.CurrentLineArea;
-
                             if (lineArea.Top < ViewportY)
                             {
                                 ScrollBy(0, lineArea.Top - ViewportY);
@@ -934,7 +851,6 @@ namespace LayoutFarm.Text
             get
             {
                 return internalTextLayerController.CurrentLineArea.Size;
-
             }
         }
         void EnsureCaretVisible()
@@ -942,21 +858,18 @@ namespace LayoutFarm.Text
             //----------------------
             Point textManCaretPos = internalTextLayerController.CaretPos;
             textManCaretPos.Offset(-ViewportX, -ViewportY);
-
             //----------------------  
             if (textManCaretPos.X >= this.Width)
             {
                 if (!isMultiLine)
                 {
                     var r = internalTextLayerController.CurrentLineArea;
-
                     //Rectangle r = internalTextLayerController.CurrentParentLineArea;
                     if (r.Width >= this.Width)
                     {
 #if DEBUG
                         dbug_SetInitObject(this);
                         dbug_StartLayoutTrace(dbugVisualElementLayoutMsg.ArtVisualTextSurafce_EnsureCaretVisible);
-
 #endif
                         //SetCalculatedSize(this, r.Width, r.Height);
                         //InnerDoTopDownReCalculateContentSize(this);
@@ -969,7 +882,6 @@ namespace LayoutFarm.Text
                 }
                 else
                 {
-
                 }
 
                 ScrollBy(textManCaretPos.X - this.Width, 0);
@@ -990,7 +902,6 @@ namespace LayoutFarm.Text
         }
         void RefreshSnapshotCanvas()
         {
-
         }
         public bool OnlyCurrentlineUpdated
         {
@@ -1004,7 +915,6 @@ namespace LayoutFarm.Text
         {
             get
             {
-
                 return internalTextLayerController.CurrentLineCharIndex;
             }
         }
@@ -1043,21 +953,16 @@ namespace LayoutFarm.Text
             internalTextLayerController.AddCharToCurrentLine(' ');
             internalTextLayerController.AddCharToCurrentLine(' ');
             internalTextLayerController.AddCharToCurrentLine(' ');
-
             if (textSurfaceEventListener != null)
             {
                 TextSurfaceEventListener.NotifyCharacterAdded(textSurfaceEventListener, '\t');
             }
 
             InvalidateGraphicOfCurrentLineArea();
-
-
         }
 
         public void DoTyping(string text)
         {
-
-
             if (internalTextLayerController.SelectionRange != null)
             {
                 InvalidateGraphicLocalArea(this, GetSelectionUpdateArea());

@@ -1,12 +1,7 @@
 ﻿//2015, MIT ,WinterDev
 
 using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.IO;
-
 using VroomJs;
-
 namespace LayoutFarm.Scripting
 {
     class MyJsTypeDefinitionBuilder : JsTypeDefinitionBuilder
@@ -15,7 +10,6 @@ namespace LayoutFarm.Scripting
         Type typeOfJsTypeAttr = typeof(JsTypeAttribute);
         Type typeOfJsMethodAttr = typeof(JsMethodAttribute);
         Type typeOfJsPropertyAttr = typeof(JsPropertyAttribute);
-
         public MyJsTypeDefinitionBuilder()
         {
             //use built in attr
@@ -23,11 +17,8 @@ namespace LayoutFarm.Scripting
 
         JsTypeDefinition BuildTypeDefinition(Type t, JsTypeDefinition typedefinition)
         {
-
-
             var methods = t.GetMethods(System.Reflection.BindingFlags.Instance |
                System.Reflection.BindingFlags.Public);
-
             foreach (var met in methods)
             {
                 if (met.IsSpecialName)
@@ -44,11 +35,9 @@ namespace LayoutFarm.Scripting
                 {
                     typedefinition.AddMember(new JsMethodDefinition(met.Name ?? GetProperMemberName(met), met));
                 }
-
             }
             var properties = t.GetProperties(System.Reflection.BindingFlags.Instance
                 | System.Reflection.BindingFlags.Public);
-
             foreach (var property in properties)
             {
                 var customAttrs = property.GetCustomAttributes(typeOfJsPropertyAttr, false);
@@ -87,7 +76,6 @@ namespace LayoutFarm.Scripting
             //only instance /public method /prop***
             var methods = t.GetMethods(System.Reflection.BindingFlags.Instance |
                 System.Reflection.BindingFlags.Public);
-
             foreach (var met in methods)
             {
                 if (met.IsSpecialName)
@@ -100,11 +88,9 @@ namespace LayoutFarm.Scripting
                     var attr = customAttrs[0] as JsMethodAttribute;
                     typedefinition.AddMember(new JsMethodDefinition(attr.Name ?? GetProperMemberName(met), met));
                 }
-
             }
             var properties = t.GetProperties(System.Reflection.BindingFlags.Instance
                 | System.Reflection.BindingFlags.Public);
-
             foreach (var property in properties)
             {
                 var customAttrs = property.GetCustomAttributes(typeOfJsPropertyAttr, false);
@@ -128,8 +114,6 @@ namespace LayoutFarm.Scripting
             {
                 return mbInfo.Name;
             }
-
         }
     }
-
 }

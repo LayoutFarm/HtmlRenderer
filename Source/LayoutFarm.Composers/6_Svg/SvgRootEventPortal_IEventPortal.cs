@@ -1,18 +1,14 @@
 ﻿//2014,2015, WinterDev
 //MS-PL, Apache2 some parts derived from github.com/vvvv/svg 
- 
-using PixelFarm.Drawing; 
-using LayoutFarm.UI; 
 
+using PixelFarm.Drawing;
+using LayoutFarm.UI;
 namespace LayoutFarm.Svg
 {
-
     partial class SvgRootEventPortal : IEventPortal
-    {   
-         
+    {
         void IEventPortal.PortalMouseDown(UIMouseEventArgs e)
         {
-             
             //find hit svg graphics....
             SvgHitChain hitChain = GetFreeHitChain();
             hitChain.SetRootGlobalPosition(e.X, e.Y);
@@ -25,7 +21,6 @@ namespace LayoutFarm.Svg
                 portal.PortalMouseDown(e);
                 return true;
             });
-
             if (!e.CancelBubbling)
             {
                 //2. propagate events
@@ -39,19 +34,15 @@ namespace LayoutFarm.Svg
                     {
                         ((SvgRect)svgElement).FillColor = Color.White;
                     }
-                    return true; 
-                }); 
+                    return true;
+                });
             }
 
             e.CancelBubbling = true;
-
             ReleaseHitChain(hitChain);
-
         }
         void IEventPortal.PortalMouseUp(UIMouseEventArgs e)
         {
-             
-
             //find hit svg graphics....
             SvgHitChain hitChain = GetFreeHitChain();
             hitChain.SetRootGlobalPosition(e.X, e.Y);
@@ -64,7 +55,6 @@ namespace LayoutFarm.Svg
                 portal.PortalMouseUp(e);
                 return true;
             });
-
             if (!e.CancelBubbling)
             {
                 //2. propagate events
@@ -76,14 +66,12 @@ namespace LayoutFarm.Svg
             }
 
             e.CancelBubbling = true;
-
             ReleaseHitChain(hitChain);
         }
         void IEventPortal.PortalMouseMove(UIMouseEventArgs e)
         {
             int x = e.X;
             int y = e.Y;
-
             if (e.IsDragging)
             {
                 //dragging *** , if changed
@@ -92,7 +80,6 @@ namespace LayoutFarm.Svg
                 SvgHitChain hitChain = GetFreeHitChain();
                 hitChain.SetRootGlobalPosition(x, y);
                 HitTestCore(this.SvgRoot.SvgSpec, hitChain, e.X, e.Y);
-
                 SetEventOrigin(e, hitChain);
                 //---------------------------------------------------------
                 //propagate mouse drag 
@@ -106,7 +93,6 @@ namespace LayoutFarm.Svg
                 {
                     //clear previous svg selection 
                     ClearPreviousSelection();
-
                     //if (hitChain.Count > 0)
                     //{
                     //    //create selection range 
@@ -123,7 +109,6 @@ namespace LayoutFarm.Svg
 
                     ForEachEventListenerBubbleUp(e, hitChain, () =>
                     {
-
                         e.CurrentContextElement.ListenMouseMove(e);
                         return true;
                     });
@@ -132,7 +117,6 @@ namespace LayoutFarm.Svg
 
                 //---------------------------------------------------------
                 ReleaseHitChain(hitChain);
-
             }
             else
             {
@@ -149,7 +133,6 @@ namespace LayoutFarm.Svg
                     portal.PortalMouseMove(e);
                     return true;
                 });
-
                 //---------------------------------------------------------
                 if (!e.CancelBubbling)
                 {
@@ -194,8 +177,5 @@ namespace LayoutFarm.Svg
         {
             //this.OnLostFocus(e);
         }
-
-
-
     }
 }

@@ -3,7 +3,6 @@
 using PixelFarm.Drawing;
 namespace LayoutFarm
 {
-
     public class TopWindowRenderBox : RenderBoxBase
     {
         public TopWindowRenderBox(RootGraphic rootGfx, int width, int height)
@@ -17,7 +16,5 @@ namespace LayoutFarm
             canvas.FillRectangle(Color.White, 0, 0, this.Width, this.Height);
             this.DrawDefaultLayer(canvas, ref updateArea);
         }
-
     }
-
 }

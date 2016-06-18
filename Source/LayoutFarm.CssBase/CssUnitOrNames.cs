@@ -3,7 +3,6 @@
 
 namespace LayoutFarm.Css
 {
-
     /// <summary>
     /// Represents the possible units of the CSS lengths
     /// </summary>

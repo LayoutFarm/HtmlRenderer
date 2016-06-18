@@ -1,16 +1,13 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Collections.Generic;
-
 namespace LayoutFarm.Text
 {
-
-
     partial class EditableTextFlowLayer
     {
         class FlowReLocator
         {
-
             EditableTextFlowLayer flowLayer;
             List<EditableTextLine> sourceLines;
             bool isMultiLine = false;
@@ -18,11 +15,8 @@ namespace LayoutFarm.Text
             EditableTextLine currentLine;
             FlowFeeder feeder = null;
             bool isFirstRunOfLine = true;
-
-
             private FlowReLocator()
             {
-
             }
             public int OwnerElementWidth
             {
@@ -59,7 +53,6 @@ namespace LayoutFarm.Text
             }
             void Load(List<EditableTextLine> sourceLines)
             {
-
                 if (sourceLines.Count > 0)
                 {
                     this.currentLine = sourceLines[0];
@@ -68,7 +61,6 @@ namespace LayoutFarm.Text
                 this.sourceLines = sourceLines;
                 isMultiLine = true;
                 isFirstRunOfLine = true;
-
             }
             public bool ReadNextRun()
             {
@@ -78,16 +70,13 @@ namespace LayoutFarm.Text
             {
                 EditableRun v = null;
                 int sourceLineId = feeder.CurrentLineId;
-
                 if (this.currentRelocatorLineId == sourceLineId)
                 {
-
                 }
                 else if (sourceLineId > this.currentRelocatorLineId)
                 {
                     v = feeder.UnsafeRemoveCurrent();
                     currentLine.UnsafeAddLast(v);
-
                     if (feeder.IsUnStableBlankLine)
                     {
                         feeder.RemoveCurrentBlankLine();
@@ -100,10 +89,8 @@ namespace LayoutFarm.Text
                     sourceLine.SplitToNewLine(v);
                     feeder.Read(); currentRelocatorLineId = sourceLineId + 1;
                     currentLine = sourceLines[currentRelocatorLineId];
-
                 }
                 isFirstRunOfLine = false;
-
             }
 
 
@@ -121,7 +108,6 @@ namespace LayoutFarm.Text
                 {
                     return feeder.CurrentRun;
                 }
-
             }
             public void SetCurrentLineTop(int y)
             {
@@ -141,7 +127,6 @@ namespace LayoutFarm.Text
             public void RemoveCurrentBlankLine()
             {
                 feeder.RemoveCurrentBlankLine();
-
             }
             public bool IsFirstRunOfLine
             {
@@ -152,11 +137,9 @@ namespace LayoutFarm.Text
             }
             public void SplitIntoNewLine()
             {
-
                 EditableRun currentRun = feeder.CurrentRun;
                 EditableTextLine line = currentRun.OwnerEditableLine;
                 line.SplitToNewLine(currentRun);
-
                 feeder.Read();
             }
 
@@ -171,7 +154,6 @@ namespace LayoutFarm.Text
             }
             public void CloseCurrentLine(int lineWidth, int lineHeight)
             {
-
                 currentLine.SetPostArrangeLineSize(lineWidth, lineHeight);
                 if (isMultiLine)
                 {
@@ -190,7 +172,6 @@ namespace LayoutFarm.Text
                 }
                 else
                 {
-
                     currentRelocatorLineId++;
                     EditableTextLine newLine = new EditableTextLine(flowLayer);
                     flowLayer.AppendLine(newLine);
@@ -220,13 +201,10 @@ namespace LayoutFarm.Text
                 flowRelocator.currentRelocatorLineId = 0;
                 flowRelocator.currentLine = null;
                 flowRelocator.isFirstRunOfLine = true;
-
                 FlowFeeder.FreeFlowFeeder(flowRelocator.feeder);
                 flowRelocator.feeder = null;
-
                 flowRelcatorStack.Push(flowRelocator);
             }
-
         }
 
 
@@ -269,20 +247,15 @@ namespace LayoutFarm.Text
 
         class FlowFeeder
         {
-
             List<EditableTextLine> sourceLines;
             bool isMultiLine = false;
             int currentFeederLineId = 0;
             EditableTextLine currentLine;
-
             LinkedListNode<EditableRun> curNode;
-
             int readState = 0;
             EditableTextFlowLayer flowLayer;
-
             private FlowFeeder()
             {
-
             }
             public void Load(EditableTextFlowLayer flowLayer)
             {
@@ -298,14 +271,11 @@ namespace LayoutFarm.Text
             }
             void Load(EditableTextLine sourceLine)
             {
-
                 this.currentLine = sourceLine;
                 readState = 2;
-
             }
             void Load(List<EditableTextLine> sourceLines)
             {
-
                 if (sourceLines.Count > 0)
                 {
                     this.currentLine = sourceLines[0];
@@ -363,7 +333,6 @@ namespace LayoutFarm.Text
 #endif
                             curNode = currentLine.First; ;
                             readState = 2;
-
                         }
                     }
                 }
@@ -380,7 +349,6 @@ namespace LayoutFarm.Text
                 LinkedListNode<EditableRun> tobeRemoveNode = curNode;
                 EditableRun v = tobeRemoveNode.Value;
                 EditableTextLine line = v.OwnerEditableLine;
-
                 if (tobeRemoveNode == line.First)
                 {
                     curNode = null;
@@ -413,11 +381,6 @@ namespace LayoutFarm.Text
                         }
 
                         readState = 4;
-
-
-
-
-
                         return true;
                     case 0:
                         {
@@ -446,7 +409,6 @@ namespace LayoutFarm.Text
 
                                     if (isMultiLine)
                                     {
-
                                         readState = 3;
                                         if (currentFeederLineId < sourceLines.Count - 1)
                                         {
@@ -472,7 +434,6 @@ namespace LayoutFarm.Text
                                     }
                                 }
                             }
-
                         }
                         break;
                     case 1:
@@ -502,7 +463,6 @@ namespace LayoutFarm.Text
                                 }
                                 return false;
                             }
-
                         }
                         break;
                     case 3:
@@ -543,7 +503,6 @@ namespace LayoutFarm.Text
             }
             public bool Read()
             {
-
                 switch (readState)
                 {
                     case 2:
@@ -586,7 +545,6 @@ namespace LayoutFarm.Text
 
                                     if (isMultiLine)
                                     {
-
                                         readState = 3;
                                         while (currentFeederLineId < sourceLines.Count - 1)
                                         {
@@ -594,7 +552,6 @@ namespace LayoutFarm.Text
                                             curNode = currentLine.First;
                                             if (curNode != null)
                                             {
-
                                                 readState = 0;
                                                 return true;
                                             }
@@ -608,14 +565,12 @@ namespace LayoutFarm.Text
                                     }
                                 }
                             }
-
                         }
                         break;
                     case 1:
                         {
                             if (isMultiLine)
                             {
-
                                 readState = 3;
                                 while (currentFeederLineId < sourceLines.Count - 1)
                                 {
@@ -623,7 +578,6 @@ namespace LayoutFarm.Text
                                     curNode = currentLine.First;
                                     if (curNode != null)
                                     {
-
                                         readState = 0;
                                         return true;
                                     }
@@ -635,7 +589,6 @@ namespace LayoutFarm.Text
                                 }
                                 return false;
                             }
-
                         }
                         break;
                     case 3:
@@ -690,8 +643,6 @@ namespace LayoutFarm.Text
                 flowFeeder.readState = 0;
                 flowFeederStack.Push(flowFeeder);
             }
-
-
         }
     }
 }

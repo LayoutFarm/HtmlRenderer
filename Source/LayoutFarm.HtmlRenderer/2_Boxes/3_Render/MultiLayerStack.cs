@@ -1,9 +1,7 @@
 ﻿// 2015,2014 ,BSD, WinterDev
 
- 
-using System.Collections.Generic;
- 
 
+using System.Collections.Generic;
 namespace LayoutFarm.HtmlBoxes
 {
     class MultiLayerStack<T>
@@ -23,7 +21,6 @@ namespace LayoutFarm.HtmlBoxes
         Stack<LevelInfo> levelInfoStack = new Stack<LevelInfo>();
         int currentLayerStartAt = 0;
         int currentLayerItemCount = 0;
-
         public void AddLayerItem(T item)
         {
             itemCollection.Add(item);
@@ -61,8 +58,5 @@ namespace LayoutFarm.HtmlBoxes
             this.currentLayerStartAt = prevLayerInfo.currentLayerStartAt;
             this.currentLayerItemCount = prevLayerInfo.currentLeyerCount;
         }
-
-
     }
-
 }

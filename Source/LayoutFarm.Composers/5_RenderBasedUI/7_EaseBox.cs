@@ -1,11 +1,10 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
-using System; 
+
+using System;
 using System.Collections.Generic;
 using System.Text;
-
 using PixelFarm.Drawing;
 using LayoutFarm.UI;
-
 namespace LayoutFarm.InternalUI
 {
     enum BoxContentLayoutKind
@@ -33,22 +32,16 @@ namespace LayoutFarm.InternalUI
         Color backColor = Color.LightGray;
         int viewportX;
         int viewportY;
-
         int desiredHeight;
         int desiredWidth;
-
         UICollection uiList;
-
         public event EventHandler<UIMouseEventArgs> MouseDown;
         public event EventHandler<UIMouseEventArgs> MouseMove;
         public event EventHandler<UIMouseEventArgs> MouseDrag;
         public event EventHandler<UIMouseEventArgs> MouseUp;
-
-         
         public event EventHandler<UIMouseEventArgs> MouseLeave;
         public event EventHandler<UIMouseEventArgs> LostSelectedFocus;
         public event EventHandler<UIGuestTalkEventArgs> GuestRequest;
-
         public EaseBox(int width, int height)
             : base(width, height)
         {
@@ -84,7 +77,6 @@ namespace LayoutFarm.InternalUI
         {
             if (primElement == null)
             {
-
                 var renderE = new CustomRenderBox(rootgfx, this.Width, this.Height);
                 renderE.HasSpecificHeight = this.HasSpecificHeight;
                 renderE.HasSpecificWidth = this.HasSpecificWidth;
@@ -122,8 +114,6 @@ namespace LayoutFarm.InternalUI
 
         protected override void OnMouseDown(UIMouseEventArgs e)
         {
-         
-
             if (this.MouseDown != null)
             {
                 this.MouseDown(this, e);
@@ -150,7 +140,6 @@ namespace LayoutFarm.InternalUI
                     this.MouseMove(this, e);
                 }
             }
-            
         }
         protected override void OnMouseLeave(UIMouseEventArgs e)
         {
@@ -159,7 +148,7 @@ namespace LayoutFarm.InternalUI
                 this.MouseLeave(this, e);
             }
         }
-        
+
         protected override void OnMouseUp(UIMouseEventArgs e)
         {
             if (this.MouseUp != null)
@@ -191,7 +180,7 @@ namespace LayoutFarm.InternalUI
                 this.dropable = value;
             }
         }
-       
+
         public void RemoveSelf()
         {
             var parentBox = this.CurrentPrimaryRenderElement.ParentRenderElement as LayoutFarm.RenderElement;
@@ -205,12 +194,10 @@ namespace LayoutFarm.InternalUI
         public override int ViewportX
         {
             get { return this.viewportX; }
-
         }
         public override int ViewportY
         {
             get { return this.viewportY; }
-
         }
         public override void SetViewport(int x, int y)
         {
@@ -290,7 +277,6 @@ namespace LayoutFarm.InternalUI
 
             needContentLayout = true;
             this.uiList.AddUI(ui);
-
             if (this.HasReadyRenderElement)
             {
                 primElement.AddChild(ui);
@@ -307,7 +293,6 @@ namespace LayoutFarm.InternalUI
         }
         public void RemoveChild(UIElement ui)
         {
-
             needContentLayout = true;
             this.uiList.RemoveUI(ui);
             if (this.HasReadyRenderElement)
@@ -328,7 +313,6 @@ namespace LayoutFarm.InternalUI
             }
             if (this.HasReadyRenderElement)
             {
-
                 primElement.ClearAllChildren();
                 if (this.panelLayoutKind != BoxContentLayoutKind.Absolute)
                 {
@@ -373,15 +357,12 @@ namespace LayoutFarm.InternalUI
         }
         public override void PerformContentLayout()
         {
-
-
             this.InvalidateGraphics();
             //temp : arrange as vertical stack***
             switch (this.ContentLayoutKind)
             {
                 case BoxContentLayoutKind.VerticalStack:
                     {
-
                         int count = this.ChildCount;
                         int ypos = 0;
                         int maxRight = 0;
@@ -395,7 +376,6 @@ namespace LayoutFarm.InternalUI
 
                                 //}
                                 element.PerformContentLayout();
-
                                 //int elemH = element.HasSpecificHeight ?
                                 //    element.Height :
                                 //    element.DesiredHeight;
@@ -405,7 +385,6 @@ namespace LayoutFarm.InternalUI
                                 //element.SetBounds(0, ypos, element.Width, elemH);
                                 element.SetBounds(0, ypos, element.Width, element.Height);
                                 ypos += element.Height;
-
                                 int tmp_right = element.DesiredWidth + element.Left;
                                 if (tmp_right > maxRight)
                                 {
@@ -415,16 +394,13 @@ namespace LayoutFarm.InternalUI
                         }
 
                         this.SetDesiredSize(maxRight, ypos);
-
-                    } break;
+                    }
+                    break;
                 case BoxContentLayoutKind.HorizontalStack:
                     {
-
                         int count = this.ChildCount;
                         int xpos = 0;
-
                         int maxBottom = 0;
-
                         for (int i = 0; i < count; ++i)
                         {
                             var element = this.GetChild(i) as UIBox;
@@ -433,26 +409,22 @@ namespace LayoutFarm.InternalUI
                                 element.PerformContentLayout();
                                 element.SetBounds(xpos, 0, element.DesiredWidth, element.DesiredHeight);
                                 xpos += element.DesiredWidth;
-
                                 int tmp_bottom = element.DesiredHeight + element.Top;
                                 if (tmp_bottom > maxBottom)
                                 {
                                     maxBottom = tmp_bottom;
                                 }
-
                             }
                         }
 
                         this.SetDesiredSize(xpos, maxBottom);
-
-                    } break;
+                    }
+                    break;
                 default:
                     {
-
                         int count = this.ChildCount;
                         int maxRight = 0;
                         int maxBottom = 0;
-
                         for (int i = 0; i < count; ++i)
                         {
                             var element = this.GetChild(i) as UIBox;
@@ -480,7 +452,8 @@ namespace LayoutFarm.InternalUI
                         {
                             this.SetDesiredSize(this.DesiredWidth, maxBottom);
                         }
-                    } break;
+                    }
+                    break;
             }
             //------------------------------------------------
             base.RaiseLayoutFinished();
@@ -510,6 +483,4 @@ namespace LayoutFarm.InternalUI
             base.OnGuestTalk(e);
         }
     }
-
-
 }

@@ -11,7 +11,6 @@ namespace LayoutFarm
                 color.R,
                 color.G,
                 color.B);
-
         }
         public static LayoutFarm.WebDom.CssColor ConvertToCssColor(PixelFarm.Drawing.Color color)
         {
@@ -20,7 +19,6 @@ namespace LayoutFarm
                 color.R,
                 color.G,
                 color.B);
-
         }
     }
 }

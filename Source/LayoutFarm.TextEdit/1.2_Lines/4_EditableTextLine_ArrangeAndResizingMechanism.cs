@@ -1,10 +1,9 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Collections.Generic;
-
 namespace LayoutFarm.Text
 {
-
     partial class EditableTextLine
     {
         public void RefreshInlineArrange()
@@ -20,7 +19,6 @@ namespace LayoutFarm.Text
                 lastestX += r.Width;
                 r = r.NextTextRun;
             }
-
         }
         internal void SetPostArrangeLineSize(int lineWidth, int lineHeight)
         {
@@ -37,7 +35,6 @@ namespace LayoutFarm.Text
         public void LocalResumeLineReArrange()
         {
             lineFlags &= ~LOCAL_SUSPEND_LINE_REARRANGE;
-
             LinkedListNode<EditableRun> curNode = this.First;
             int cx = 0;
             while (curNode != null)
@@ -48,7 +45,5 @@ namespace LayoutFarm.Text
                 curNode = curNode.Next;
             }
         }
-
     }
-
 }

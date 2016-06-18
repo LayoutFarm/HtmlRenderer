@@ -17,7 +17,6 @@ namespace LayoutFarm.WebDom
         IHtmlElement createElement(string nodeName);
         IHtmlDocument createDocumentFragment();
         IHtmlElement createShadowRootElement();
-
     }
     public interface IHtmlElement : INode
     {

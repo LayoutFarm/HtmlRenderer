@@ -1,14 +1,12 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
- 
-using PixelFarm.Drawing; 
+
+using PixelFarm.Drawing;
 namespace LayoutFarm
 {
     partial class RenderElement
     {
-
         public bool InvalidateGraphics()
         {
-
             propFlags &= ~RenderElementConst.IS_GRAPHIC_VALID;
             if ((uiLayoutFlags & RenderElementConst.LY_SUSPEND_GRAPHIC) != 0)
             {
@@ -71,14 +69,12 @@ namespace LayoutFarm
             }
             set
             {
-
             }
         }
 
 
         internal bool BlockGraphicUpdateBubble
         {
-
             get
             {
 #if DEBUG
@@ -88,7 +84,5 @@ namespace LayoutFarm
 #endif
             }
         }
-
     }
-
 }

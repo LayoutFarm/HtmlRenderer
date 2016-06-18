@@ -1,23 +1,15 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
 
 using PixelFarm.Drawing;
-using LayoutFarm.RenderBoxes;
 using LayoutFarm.UI;
-using LayoutFarm.CustomWidgets;
 namespace LayoutFarm
 {
     [DemoNote("3.3 Demo_ControllerBoxs2")]
     class Demo_ControllerBoxs2 : DemoBase
     {
         UIControllerBox controllerBox1;
-
         protected override void OnStartDemo(SampleViewport viewport)
         {
-
             //--------------------------------
 
             var bgbox = new LayoutFarm.CustomWidgets.SimpleBox(800, 600);
@@ -25,7 +17,6 @@ namespace LayoutFarm
             bgbox.SetLocation(0, 0);
             SetupBackgroundProperties(bgbox);
             viewport.AddContent(bgbox);
-
             //--------------------------------
 
             var box1 = new LayoutFarm.CustomWidgets.SimpleBox(150, 150);
@@ -34,7 +25,6 @@ namespace LayoutFarm
             //box1.dbugTag = 1;
             SetupActiveBoxProperties(box1);
             viewport.AddContent(box1);
-
             //--------------------------------
 
             var box2 = new LayoutFarm.CustomWidgets.SimpleBox(60, 60);
@@ -42,8 +32,6 @@ namespace LayoutFarm
             //box2.dbugTag = 2;
             SetupActiveBoxProperties(box2);
             viewport.AddContent(box2);
-
-
             controllerBox1 = new UIControllerBox(40, 40);
             Color c = KnownColors.FromKnownColor(KnownColor.Yellow);
             controllerBox1.BackColor = new Color(100, c.R, c.G, c.B);
@@ -52,7 +40,6 @@ namespace LayoutFarm
             controllerBox1.Visible = false;
             SetupControllerBoxProperties(controllerBox1);
             viewport.AddContent(controllerBox1);
-
         }
         void SetupBackgroundProperties(LayoutFarm.CustomWidgets.EaseBox backgroundBox)
         {
@@ -62,7 +49,6 @@ namespace LayoutFarm
                 controllerBox1.TargetBox = null;//release target box
                 controllerBox1.Visible = false;
             };
-
         }
         void SetupActiveBoxProperties(LayoutFarm.CustomWidgets.EaseBox box)
         {
@@ -79,9 +65,7 @@ namespace LayoutFarm
                 controllerBox1.Visible = true;
                 //--------------------------------------------
                 e.CancelBubbling = true;
-
                 e.SetMouseCapture(controllerBox1);
-
             };
             //2. mouse up
             box.MouseUp += (s, e) =>
@@ -93,7 +77,6 @@ namespace LayoutFarm
                 controllerBox1.TargetBox = null;
                 e.CancelBubbling = true;
             };
-
         }
 
         static void MoveWithSnapToGrid(UIControllerBox controllerBox, int dx, int dy)
@@ -102,13 +85,10 @@ namespace LayoutFarm
             Point pos = controllerBox.Position;
             int newX = pos.X + dx;
             int newY = pos.Y + dy;
-
             int gridSize = 5;
             float halfGrid = (float)gridSize / 2f;
-
             int nearestX = (int)((newX + halfGrid) / gridSize) * gridSize;
             int nearestY = (int)((newY + halfGrid) / gridSize) * gridSize;
-
             controllerBox.SetLocation(nearestX, nearestY);
             var targetBox = controllerBox.TargetBox;
             if (targetBox != null)
@@ -125,9 +105,7 @@ namespace LayoutFarm
                 MoveWithSnapToGrid(controllerBox, e.DiffCapturedX, e.DiffCapturedY);
                 e.MouseCursorStyle = MouseCursorStyle.Pointer;
                 e.CancelBubbling = true;
-
             };
-
         }
 
         //-----------------------------------------------------------------
@@ -151,10 +129,8 @@ namespace LayoutFarm
                     gridBox = new LayoutFarm.CustomWidgets.GridBox(30, 30);
                     gridBox.SetLocation(5, 5);
                     gridBox.BuildGrid(3, 3, CellSizeStyle.UniformCell);
-
                     var myRenderElement = base.GetPrimaryRenderElement(rootgfx) as LayoutFarm.CustomWidgets.CustomRenderBox;
                     myRenderElement.AddChild(gridBox);
-
                 }
                 return base.GetPrimaryRenderElement(rootgfx);
             }
@@ -175,8 +151,5 @@ namespace LayoutFarm
                 visitor.EndElement();
             }
         }
-
-
-
     }
 }

@@ -1,17 +1,14 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 namespace LayoutFarm.Text
 {
-
     public abstract class EditableRun : RenderElement
     {
-
         EditableTextLine ownerTextLine;
         LinkedListNode<EditableRun> _internalLinkedNode;
-
         public EditableRun(RootGraphic gfx)
             : base(gfx, 10, 10)
         {
@@ -21,7 +18,6 @@ namespace LayoutFarm.Text
         internal LinkedListNode<EditableRun> internalLinkedNode
         {
             get { return this._internalLinkedNode; }
-
         }
         internal void SetInternalLinkedNode(LinkedListNode<EditableRun> linkedNode, EditableTextLine ownerTextLine)
         {
@@ -33,23 +29,16 @@ namespace LayoutFarm.Text
         public abstract bool IsInsertable { get; }
         public abstract TextSpanStyle SpanStyle { get; }
         public abstract void SetStyle(TextSpanStyle spanStyle);
-
-
         public abstract int GetRunWidth(int charOffset);
         public abstract string Text { get; }
         public abstract void UpdateRunWidth();
-
-
         public abstract void CopyContentToStringBuilder(StringBuilder stBuilder);
         public abstract char GetChar(int index);
         public abstract int CharacterCount { get; }
 
 
         public abstract EditableRun Copy(int startIndex, int length);
-
         public abstract EditableRun Copy(int startIndex);
-
-
         internal EditableTextLine OwnerEditableLine
         {
             get
@@ -75,7 +64,6 @@ namespace LayoutFarm.Text
         {
             get
             {
-
                 if (this.internalLinkedNode != null)
                 {
                     if (internalLinkedNode.Previous != null)
@@ -93,8 +81,6 @@ namespace LayoutFarm.Text
         public abstract VisualLocationInfo GetCharacterFromPixelOffset(int pixelOffset);
         public abstract EditableRun LeftCopy(int index);
         public abstract void InsertAfter(int index, char c);
-
-
         public static EditableRun InnerRemove(EditableRun tt, int startIndex, int length, bool withFreeRun)
         {
             return tt.Remove(startIndex, length, withFreeRun);
@@ -113,7 +99,6 @@ namespace LayoutFarm.Text
 #if DEBUG
         public override string ToString()
         {
-
             return "[" + this.dbug_obj_id + "]" + Text;
         }
 #endif
@@ -124,7 +109,6 @@ namespace LayoutFarm.Text
 #endif
 
             ve.UpdateRunWidth();
-
 #if DEBUG
             dbug_ExitTopDownReCalculateContent(ve);
 #endif

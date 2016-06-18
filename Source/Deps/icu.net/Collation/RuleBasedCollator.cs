@@ -1,9 +1,9 @@
 // Copyright (c) 2013 SIL International
 // This software is licensed under the MIT license (http://opensource.org/licenses/MIT)
+
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-
 #if !PCL
 using System.Globalization;
 using Icu;
@@ -27,7 +27,7 @@ namespace Icu.Collation
             ///true if the handle is released successfully; otherwise, in the event of a catastrophic failure, false. In this case, it generates a ReleaseHandleFailed Managed Debugging Assistant.
             ///</returns>
 #if !PCL
-			[ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+            [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
 #endif
             protected override bool ReleaseHandle()
             {
@@ -50,7 +50,6 @@ namespace Icu.Collation
 
         private SafeRuleBasedCollatorHandle collatorHandle;
         readonly ParseError parseError = new ParseError();
-
         /// <summary>
         /// RuleBasedCollator constructor.
         /// This takes the table rules and builds a collation table out of them.
@@ -67,7 +66,8 @@ namespace Icu.Collation
         /// <param name="rules">the collation rules to build the collation table from</param>
         /// <param name="collationStrength">the collation strength to use</param>
         public RuleBasedCollator(string rules, CollationStrength collationStrength)
-            : this(rules, NormalizationMode.Default, collationStrength) { }
+            : this(rules, NormalizationMode.Default, collationStrength)
+        { }
 
         /// <summary>
         /// RuleBasedCollator constructor.
@@ -210,7 +210,6 @@ namespace Icu.Collation
         }
 
         private byte[] keyData = new byte[1024];
-
 #if !PCL
         /// <summary>
         /// Get a sort key for the argument string.
@@ -300,7 +299,7 @@ namespace Icu.Collation
             ///true if the handle is released successfully; otherwise, in the event of a catastrophic failure, false. In this case, it generates a ReleaseHandleFailed Managed Debugging Assistant.
             ///</returns>
 #if !PCL
-			[ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+            [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
 #endif
             protected override bool ReleaseHandle()
             {
@@ -335,7 +334,7 @@ namespace Icu.Collation
             }
         }
 
-#region ICloneable Members
+        #region ICloneable Members
 
         ///<summary>
         ///Creates a new object that is a copy of the current instance.
@@ -413,9 +412,9 @@ namespace Icu.Collation
             }
         }
 
-#endregion
+        #endregion
 
-#region IComparer<string> Members
+        #region IComparer<string> Members
         /// <summary>
         /// Compares two strings based on the rules of this RuleBasedCollator
         /// </summary>
@@ -445,7 +444,6 @@ namespace Icu.Collation
                                                     string2.Length);
         }
 
-#endregion
-
+        #endregion
     }
 }

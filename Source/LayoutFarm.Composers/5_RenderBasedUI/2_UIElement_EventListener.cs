@@ -1,10 +1,8 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
 
 using LayoutFarm.UI;
-
 namespace LayoutFarm.InternalUI
 {
-
     partial class UIElement
     {
         void IEventListener.ListenKeyPress(UIKeyEventArgs e)
@@ -44,7 +42,6 @@ namespace LayoutFarm.InternalUI
         }
         void IEventListener.ListenMouseDoubleClick(UIMouseEventArgs e)
         {
-
         }
         void IEventListener.ListenMouseWheel(UIMouseEventArgs e)
         {

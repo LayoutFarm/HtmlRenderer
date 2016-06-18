@@ -1,29 +1,22 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Collections.Generic;
-
 using System.IO;
-
 using LayoutFarm.RenderBoxes;
-
 namespace LayoutFarm
 {
-
 #if DEBUG
     public class dbugVisualLayoutTracer
     {
-
         StreamWriter strmWriter;
         RootGraphic visualroot;
         string outputFileName = null;
         int msgLineNum = 0;
         Stack<object> elementStack = new Stack<object>();
-
         int indentCount = 0;
         int myTraceCount = 0;
         static int tracerCount = 0;
-
-
         public dbugVisualLayoutTracer(RootGraphic visualroot)
         {
             this.visualroot = visualroot;
@@ -52,7 +45,6 @@ namespace LayoutFarm
         {
             elementStack.Pop();
             EndCurrentContext();
-
         }
         public void PushLayerElement(RenderElementLayer layer)
         {
@@ -63,7 +55,6 @@ namespace LayoutFarm
         {
             elementStack.Pop();
             EndCurrentContext();
-
         }
 
         public object PeekElement()
@@ -78,7 +69,7 @@ namespace LayoutFarm
         }
         public void Stop()
         {
-            strmWriter.Flush(); 
+            strmWriter.Flush();
         }
         public void WriteInfo(RenderElement v, string info, string indentPrefix, string indentPostfix)
         {
@@ -88,7 +79,6 @@ namespace LayoutFarm
             strmWriter.Write(indentPrefix + indentCount + indentPostfix + info + " ");
             strmWriter.Write(v.dbug_FullElementDescription());
             strmWriter.Write("\r\n"); strmWriter.Flush();
-
         }
         public void WriteInfo(string info)
         {
@@ -122,10 +112,7 @@ namespace LayoutFarm
         }
         void ShouldBreak()
         {
-
         }
-
     }
 #endif
-
 }

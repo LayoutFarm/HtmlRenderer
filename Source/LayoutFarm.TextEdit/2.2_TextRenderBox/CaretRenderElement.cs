@@ -3,7 +3,6 @@
 using PixelFarm.Drawing;
 namespace LayoutFarm.Text
 {
-
     class CaretRenderElement : RenderElement
     {
         //implement caret for text edit

@@ -1,16 +1,15 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using LayoutFarm.UI;
 namespace LayoutFarm.Text
 {
     public class TextDomEventArgs : EventArgs
     {
-
         public bool updateJustCurrentLine;
         public readonly UIKeys key;
         public readonly char c;
         public bool PreventDefault;
-
         public TextDomEventArgs(char c)
         {
             this.c = c;
@@ -23,7 +22,6 @@ namespace LayoutFarm.Text
         {
             this.updateJustCurrentLine = updateJustCurrentLine;
         }
-
     }
 
     public sealed class TextSurfaceEventListener
@@ -39,13 +37,9 @@ namespace LayoutFarm.Text
         public event EventHandler<TextDomEventArgs> CharacterReplaced;
         public event EventHandler<TextDomEventArgs> ReplacedAll;
         public event EventHandler<TextDomEventArgs> ArrowKeyCaretPosChanged;
-
         public event EventHandler<TextDomEventArgs> KeyDown;
-
         public event EventHandler<UIKeyEventArgs> SpecialKeyInserted;
-
         public event EventHandler<UIKeyEventArgs> SplitedNewLine;
-
         public TextSurfaceEventListener()
         {
         }
@@ -94,7 +88,6 @@ namespace LayoutFarm.Text
         }
         internal static bool NotifyPreviewArrow(TextSurfaceEventListener listener, UIKeys key)
         {
-
             if (listener.PreviewArrowKeyDown != null)
             {
                 TextDomEventArgs e = new TextDomEventArgs(key);
@@ -184,11 +177,6 @@ namespace LayoutFarm.Text
 
         internal static void NotifyFunctionKeyDown(TextSurfaceEventListener listener, UIKeys key)
         {
-
         }
-
     }
-
-
-
 }

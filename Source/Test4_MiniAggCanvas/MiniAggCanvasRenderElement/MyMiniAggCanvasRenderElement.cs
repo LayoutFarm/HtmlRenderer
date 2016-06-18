@@ -1,28 +1,16 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 using PixelFarm.Drawing;
-
-using LayoutFarm.Text;
-using LayoutFarm.UI;
-using LayoutFarm.RenderBoxes;
-
 using PixelFarm.Agg;
-
 namespace LayoutFarm.CustomWidgets
 {
-
-
     public class MyMiniAggCanvasRenderElement : RenderBoxBase, IDisposable
     {
-
-
         Graphics2D gfx2d;
         bool needUpdate;
         List<BasicSprite> sprites = new List<BasicSprite>();
-
         ActualImage actualImage;
         Bitmap bmp;
         public MyMiniAggCanvasRenderElement(RootGraphic rootgfx, int width, int height)
@@ -31,11 +19,9 @@ namespace LayoutFarm.CustomWidgets
             this.actualImage = new ActualImage(width, height, PixelFarm.Agg.Image.PixelFormat.Rgba32);
             this.gfx2d = Graphics2D.CreateFromImage(actualImage);
             needUpdate = true;
-
         }
         public override void ClearAllChildren()
         {
-
         }
         public Color BackColor
         {
@@ -47,7 +33,6 @@ namespace LayoutFarm.CustomWidgets
         {
             this.sprites.Add(sprite);
             needUpdate = true;
-
         }
         protected override void DrawBoxContent(Canvas canvas, Rectangle updateArea)
         {
@@ -68,7 +53,6 @@ namespace LayoutFarm.CustomWidgets
 
                 //gfx2d.Clear(ColorRGBA.White);//if want opaque bg
                 ReleaseUnmanagedResources();
-
                 int j = sprites.Count;
                 for (int i = 0; i < j; ++i)
                 {
@@ -78,7 +62,6 @@ namespace LayoutFarm.CustomWidgets
                 //---------------------------------
                 var buffer = actualImage.GetBuffer();
                 this.bmp = canvas.Platform.CreatePlatformBitmap(this.Width, this.Height, this.actualImage.GetBuffer(), true);
-
                 needUpdate = false;
             }
             canvas.DrawImage(this.bmp, new RectangleF(0, 0, this.Width, this.Height));
@@ -127,11 +110,5 @@ namespace LayoutFarm.CustomWidgets
 
         //    bitmap.UnlockBits(bmpdata);
         //}
-
-
-
     }
-
-
-
 }

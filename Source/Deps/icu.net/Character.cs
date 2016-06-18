@@ -1,9 +1,9 @@
 // Copyright (c) 2013 SIL International
 // This software is licensed under the MIT license (http://opensource.org/licenses/MIT)
+
 using System;
 using System.Globalization;
 using System.Runtime.InteropServices;
-
 namespace Icu
 {
     public static class Character
@@ -82,7 +82,6 @@ namespace Icu
             CHANGES_WHEN_CASEMAPPED = 55,
             CHANGES_WHEN_NFKC_CASEFOLDED = 56,
             BINARY_LIMIT = 57,
-
             BIDI_CLASS = 0x1000,
             INT_START = BIDI_CLASS,
             BLOCK = 0x1001,
@@ -106,15 +105,12 @@ namespace Icu
             SENTENCE_BREAK = 0x1013,
             WORD_BREAK = 0x1014,
             INT_LIMIT = 0x1015,
-
             GENERAL_CATEGORY_MASK = 0x2000,
             MASK_START = GENERAL_CATEGORY_MASK,
             MASK_LIMIT = 0x2001,
-
             NUMERIC_VALUE = 0x3000,
             DOUBLE_START = NUMERIC_VALUE,
             DOUBLE_LIMIT = 0x3001,
-
             AGE = 0x4000,
             STRING_START = AGE,
             BIDI_MIRRORING_GLYPH = 0x4001,
@@ -265,7 +261,6 @@ namespace Icu
         }
 
         public const double NO_NUMERIC_VALUE = (double)-123456789;
-
         /// <summary></summary>
         public static int Digit(int characterCode, byte radix)
         {

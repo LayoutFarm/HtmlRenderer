@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-
 namespace Test4_AggCanvasBox
 {
     static class Program
@@ -15,15 +14,11 @@ namespace Test4_AggCanvasBox
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
-
             //temp
             //TODO: fix this , 
-            var platform = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.Start();           
-
+            var platform = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.Start();
             formDemoList = new LayoutFarm.Dev.FormDemoList();
-            formDemoList.LoadDemoList(typeof(Program)); 
-
+            formDemoList.LoadDemoList(typeof(Program));
             Application.Run(formDemoList);
             LayoutFarm.UI.GdiPlus.MyWinGdiPortal.End();
         }

@@ -25,14 +25,12 @@
 
 using System;
 using System.Collections.Generic;
-
 namespace VroomJs
 {
     class KeepAliveDictionaryStore : IKeepAliveStore
     {
         Dictionary<int, object> _store = new Dictionary<int, object>();
         int _store_index = 1;
-
         public int MaxSlots
         {
             get { return Int32.MaxValue; }

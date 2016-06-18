@@ -2,7 +2,6 @@
 
 using PixelFarm.Drawing;
 using LayoutFarm.UI;
-
 namespace LayoutFarm.CustomWidgets
 {
     public class NinespaceBox : EaseBox
@@ -22,10 +21,8 @@ namespace LayoutFarm.CustomWidgets
         EaseBox gripperRight;
         EaseBox gripperTop;
         EaseBox gripperBottom;
-
         DockSpacesController dockspaceController;
         NinespaceGrippers ninespaceGrippers;
-
         public NinespaceBox(int w, int h)
             : base(w, h)
         {
@@ -53,20 +50,16 @@ namespace LayoutFarm.CustomWidgets
         static Color rightTopColor = Color.White;
         static Color leftBottomColor = Color.White;
         static Color rightBottomColor = Color.White;
-
         static Color leftColor = Color.White;
         static Color topColor = Color.White;
         static Color rightColor = Color.White;
         static Color bottomColor = Color.White;
         static Color centerColor = Color.White;
-
         static Color gripperColor = Color.Gray;
-
         void SetupDockSpaces(SpaceConcept spaceConcept)
         {
             //1. controller
             this.dockspaceController = new DockSpacesController(this, spaceConcept);
-
             //2.  
             this.dockspaceController.LeftTopSpace.Content = boxLeftTop = CreateSpaceBox(SpaceName.LeftTop, leftTopColor);
             this.dockspaceController.RightTopSpace.Content = boxRightTop = CreateSpaceBox(SpaceName.RightTop, rightTopColor);
@@ -77,9 +70,7 @@ namespace LayoutFarm.CustomWidgets
             this.dockspaceController.TopSpace.Content = boxTop = CreateSpaceBox(SpaceName.Top, topColor);
             this.dockspaceController.RightSpace.Content = boxRight = CreateSpaceBox(SpaceName.Right, rightColor);
             this.dockspaceController.BottomSpace.Content = boxBottom = CreateSpaceBox(SpaceName.Bottom, bottomColor);
-
             this.dockspaceController.CenterSpace.Content = boxCentral = CreateSpaceBox(SpaceName.Center, centerColor);
-
             //--------------------------------
             //left and right space expansion
             //dockspaceController.LeftSpaceVerticalExpansion = VerticalBoxExpansion.TopBottom;
@@ -97,7 +88,6 @@ namespace LayoutFarm.CustomWidgets
         }
         public void SetDockSpaceConcept(LayoutFarm.UI.SpaceConcept concept)
         {
-
         }
         EaseBox CreateGripper(PixelFarm.Drawing.Color bgcolor, bool isVertical)
         {
@@ -121,14 +111,12 @@ namespace LayoutFarm.CustomWidgets
                 this.ninespaceGrippers.UpdateNinespaces();
                 e.MouseCursorStyle = MouseCursorStyle.Pointer;
                 e.CancelBubbling = true;
-
             };
             gripperBox.MouseUp += (s, e) =>
             {
                 e.MouseCursorStyle = MouseCursorStyle.Default;
                 e.CancelBubbling = true;
             };
-
             return gripperBox;
         }
 
@@ -136,9 +124,7 @@ namespace LayoutFarm.CustomWidgets
         {
             if (!this.HasReadyRenderElement)
             {
-
                 var renderE = base.GetPrimaryRenderElement(rootgfx);
-
                 //------------------------------------------------------
                 renderE.AddChild(boxCentral);
                 //------------------------------------------------------
@@ -151,7 +137,6 @@ namespace LayoutFarm.CustomWidgets
                 renderE.AddChild(boxRight);
                 renderE.AddChild(boxTop);
                 renderE.AddChild(boxBottom);
-
                 //grippers
                 if (this.ShowGrippers)
                 {
@@ -169,7 +154,6 @@ namespace LayoutFarm.CustomWidgets
         {
             base.SetSize(width, height);
             dockspaceController.SetSize(width, height);
-
         }
         public override void PerformContentLayout()
         {
@@ -184,10 +168,8 @@ namespace LayoutFarm.CustomWidgets
 
         public void SetLeftSpaceWidth(int w)
         {
-
             this.dockspaceController.SetLeftSpaceWidth(w);
             this.ninespaceGrippers.UpdateGripperPositions();
-
         }
         public void SetRightSpaceWidth(int w)
         {
@@ -201,7 +183,5 @@ namespace LayoutFarm.CustomWidgets
             this.Describe(visitor);
             visitor.EndElement();
         }
-
     }
-
 }

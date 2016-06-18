@@ -23,83 +23,61 @@ using System.Windows.Forms;
 using System.Reflection;
 using System.IO;
 using LayoutFarm.ContentManagers;
-
-
 using LayoutFarm.WebDom;
-
 using Timer = System.Threading.Timer;
-
 namespace LayoutFarm.Demo
 {
     public partial class DemoForm : Form
     {
-
         /// <summary>
         /// Cache for resource images
         /// </summary>
         private readonly Dictionary<string, Image> _imageCache = new Dictionary<string, Image>(StringComparer.OrdinalIgnoreCase);
-
         /// <summary>
         /// the private font used for the demo
         /// </summary>
         private readonly PrivateFontCollection _privateFont = new PrivateFontCollection();
-
         /// <summary>
         /// the html samples used for performance testing
         /// </summary>
         private readonly List<string> _perfTestSamples = new List<string>();
-
         /// <summary>
         /// the html samples to show in the demo
         /// </summary>
         private readonly Dictionary<string, string> _samples = new Dictionary<string, string>();
-
         /// <summary>
         /// timer to update the rendered html when html in editor changes with delay
         /// </summary>
         private readonly Timer _updateHtmlTimer;
-
         /// <summary>
         /// used ignore html editor updates when updating seperatly
         /// </summary>
         private bool _updateLock;
-
         PixelFarm.Drawing.GraphicsPlatform graphicsPlatform;
         LayoutFarm.HtmlBoxes.HtmlHost htmlHost;
         string htmlRootFolder;
-
         /// <summary>
         /// Init.
         /// </summary>
         public DemoForm(PixelFarm.Drawing.GraphicsPlatform p)
         {
-
-
             this.graphicsPlatform = p;
             this._htmlPanel = new LayoutFarm.Demo.HtmlPanel(this.graphicsPlatform, 800, 600);
             this.htmlHost = new LayoutFarm.HtmlBoxes.HtmlHost(p);
-
             htmlHost.AttachEssentailHandlers(
                 this.HandleImageRequest,
                 this.HandleStylesheetRequest);
             _htmlPanel.SetHtmlHost(htmlHost);
-
             InitializeComponent();
-
-
             //_htmlToolTip.ImageLoad += OnImageLoad; 
             //_htmlToolTip.SetToolTip(_htmlPanel, Resources.Tooltip);
 
             _htmlEditor.Font = new Font(FontFamily.GenericMonospace, 10);
-
             StartPosition = FormStartPosition.CenterScreen;
             var size = Screen.GetWorkingArea(Point.Empty);
             Size = new Size((int)(size.Width * 0.7), (int)(size.Height * 0.8));
-
-
             _updateHtmlTimer = new Timer(OnUpdateHtmlTimerTick);
             this.Text += " : " + Path.GetDirectoryName(Application.ExecutablePath);
-
             this._samplesTreeView.NodeMouseClick += new TreeNodeMouseClickEventHandler(_samplesTreeView_NodeMouseClick);
         }
 
@@ -117,11 +95,9 @@ namespace LayoutFarm.Demo
             //load file
             _updateLock = true;
             Application.UseWaitCursor = true;
-
             //set root folder of current html panel
             this.htmlRootFolder = Path.GetDirectoryName(filename);
             _htmlPanel.Text = File.ReadAllText(filename);
-
             Application.UseWaitCursor = false;
             _updateLock = false;
             UpdateWebBrowserHtml();
@@ -131,7 +107,6 @@ namespace LayoutFarm.Demo
         {
             LoadCustomFonts();
             LoadSamples();
-
         }
         public void LoadDemo(DemoBase demoBase)
         {
@@ -144,11 +119,8 @@ namespace LayoutFarm.Demo
         /// </summary>
         private void LoadSamples()
         {
-
-
             //find sample folder 
             string execFromFolder = Path.GetDirectoryName(Application.ExecutablePath);
-
             //only from debug ?
             if (!execFromFolder.EndsWith("\\Source\\HtmlRenderer.Demo\\bin\\Debug"))
             {
@@ -157,12 +129,9 @@ namespace LayoutFarm.Demo
 
             int index = execFromFolder.LastIndexOf("\\Source\\HtmlRenderer.Demo\\bin\\Debug");
             string rootSampleFolder = execFromFolder.Substring(0, index) + "\\Source\\HtmlRenderer.Demo\\Samples";
-
             var root = new TreeNode("HTML Renderer");
             _samplesTreeView.Nodes.Add(root);
-
             string[] sampleDirs = Directory.GetDirectories(rootSampleFolder);
-
             //only 1 file level (not recursive)
             foreach (string dirName in sampleDirs)
             {
@@ -268,7 +237,6 @@ namespace LayoutFarm.Demo
             BeginInvoke(new MethodInvoker(() =>
             {
                 _updateLock = true;
-
                 try
                 {
                     _htmlPanel.Text = _htmlEditor.Text;
@@ -281,7 +249,6 @@ namespace LayoutFarm.Demo
                 //SyntaxHilight.AddColoredText(_htmlEditor.Text, _htmlEditor);
 
                 UpdateWebBrowserHtml();
-
                 _updateLock = false;
             }));
         }
@@ -479,7 +446,7 @@ namespace LayoutFarm.Demo
                 }
                 //----------------------------------
                 if (image != null)
-                {   
+                {
                     //cache
                     _imageCache[src] = image;
                 }
@@ -492,7 +459,7 @@ namespace LayoutFarm.Demo
                         image = new Bitmap(fullImageFileName);
                         //cache
                         _imageCache[src] = image;
-                    } 
+                    }
                 }
                 //----------------------------------
             }
@@ -536,7 +503,6 @@ namespace LayoutFarm.Demo
             _runTestButton.Text = "Running..";
             _runTestButton.Enabled = false;
             Application.DoEvents();
-
             GC.Collect();
 #if NET_40
             AppDomain.MonitoringIsEnabled = true;
@@ -545,7 +511,6 @@ namespace LayoutFarm.Demo
 
 
             const int iterations = 40;
-
             //for (int i = 0; i < iterations; i++)
             //{                
             //    foreach (var html in _perfTestSamples)
@@ -567,7 +532,6 @@ namespace LayoutFarm.Demo
             //HtmlRenderer.dbugCounter.dbugDrawStringCount = 0;
             long ms_total = 0;
             System.Diagnostics.Stopwatch sw = new Stopwatch();
-
 #if DEBUG
             for (int i = 0; i < iterations; i++)
             {
@@ -579,10 +543,8 @@ namespace LayoutFarm.Demo
                         //HtmlRenderer.dbugCounter.dbugDrawStringCount = 0;
                         _htmlPanel.Text = _perfTestSamples[sampleNum];
                         Application.DoEvents(); // so paint will be called 
-
                     });
                 }
-
             }
 #endif
             long endMemory = 0;
@@ -597,8 +559,6 @@ namespace LayoutFarm.Demo
                 htmlSize += sample.Length * 2;
             }
             htmlSize = htmlSize / 1024f;
-
-
             var msg = string.Format("{0} HTMLs ({1:N0} KB)\r\n{2} Iterations", _perfTestSamples.Count, htmlSize, iterations);
             msg += "\r\n\r\n";
             msg += string.Format("CPU:\r\nTotal: {0} msec\r\nIterationAvg: {1:N2} msec\r\nSingleAvg: {2:N2} msec",
@@ -606,10 +566,8 @@ namespace LayoutFarm.Demo
             msg += "\r\n\r\n";
             msg += string.Format("Memory:\r\nTotal: {0:N0} KB\r\nIterationAvg: {1:N0} KB\r\nSingleAvg: {2:N0} KB\r\nOverhead: {3:N0}%",
                                  totalMem, totalMem / iterations, totalMem / iterations / _perfTestSamples.Count, 100 * (totalMem / iterations) / htmlSize);
-
             Clipboard.SetDataObject(msg);
             MessageBox.Show(msg, "Test run results");
-
             _updateLock = false;
             _runTestButton.Text = "Run Performance Test";
             _runTestButton.Enabled = true;

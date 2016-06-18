@@ -1,12 +1,10 @@
 ﻿//BSD  2015,2014 ,WinterDev 
+
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 namespace LayoutFarm.WebDom
 {
-
-
     public abstract class CssElementSelector
     {
         public CssElementSelector Parent { get; set; }
@@ -36,7 +34,6 @@ namespace LayoutFarm.WebDom
         public SimpleElementSelectorKind selectorType;
         public CssSimpleElementSelector()
         {
-
         }
         public CssSimpleElementSelector(SimpleElementSelectorKind selectorType)
         {
@@ -72,7 +69,6 @@ namespace LayoutFarm.WebDom
                     default:
                         return Name;
                 }
-
             }
         }
 
@@ -107,7 +103,6 @@ namespace LayoutFarm.WebDom
             CssSimpleElementSelector another = anotherSelector as CssSimpleElementSelector;
             return another != null && (another.Name == this.Name) &&
                 (another.selectorType == this.selectorType);
-
         }
         public static bool IsCompatible(CssSimpleElementSelector sel1, CssSimpleElementSelector sel2)
         {
@@ -116,7 +111,6 @@ namespace LayoutFarm.WebDom
             var parOrSelf1 = GetTopParentOrSelf(sel1);
             var parOrSelf2 = GetTopParentOrSelf(sel2);
             return parOrSelf1.IsSameNameAndType(parOrSelf2);
-
         }
         static CssElementSelector GetTopParentOrSelf(CssSimpleElementSelector selector)
         {
@@ -131,7 +125,6 @@ namespace LayoutFarm.WebDom
             }
             return parent;
         }
-
     }
 
 
@@ -142,7 +135,6 @@ namespace LayoutFarm.WebDom
     {
         CssElementSelector _left;
         CssElementSelector _right;
-
         public CssCompundElementSelector(CssCombinatorOperator opname)
         {
             this.OperatorName = opname;
@@ -156,12 +148,10 @@ namespace LayoutFarm.WebDom
             set
             {
                 this._left = value;
-
                 if (this.OperatorName != CssCombinatorOperator.List)
                 {
                     value.Parent = this;
                 }
-
             }
         }
         public CssElementSelector RightSelector
@@ -187,7 +177,6 @@ namespace LayoutFarm.WebDom
             {
                 StringBuilder sb = new StringBuilder();
                 sb.Append(LeftSelector.SelectorSignature);
-
                 switch (OperatorName)
                 {
                     case CssCombinatorOperator.Descendant:
@@ -203,7 +192,6 @@ namespace LayoutFarm.WebDom
                     case CssCombinatorOperator.Child:
                         {
                             sb.Append('>');
-
                         }
                         break;
                     case CssCombinatorOperator.GeneralSibling:
@@ -218,7 +206,6 @@ namespace LayoutFarm.WebDom
                         break;
                     default:
                         {
-
                         }
                         break;
                 }
@@ -267,19 +254,13 @@ namespace LayoutFarm.WebDom
         /// Child op GT
         /// </summary>
         Child, //>
-
         /// <summary>
         /// simple space
         /// </summary>
         Descendant,
-
         /// <summary>
         /// sibling operator tile 
         /// </summary> 
         GeneralSibling, //  ~
-
-
     }
-
-
 }

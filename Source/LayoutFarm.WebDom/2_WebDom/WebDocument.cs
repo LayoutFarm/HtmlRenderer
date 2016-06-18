@@ -1,14 +1,12 @@
 ﻿//BSD  2015,2014 ,WinterDev   
-using System.Collections.Generic;
 
+using System.Collections.Generic;
 namespace LayoutFarm.WebDom
 {
-
     public abstract class WebDocument
     {
         UniqueStringTable uniqueStringTable;
         Dictionary<string, DomElement> registerElementsById;
-
         public WebDocument(UniqueStringTable uniqueStringTable)
         {
             this.uniqueStringTable = uniqueStringTable;
@@ -40,9 +38,7 @@ namespace LayoutFarm.WebDom
         }
         public abstract DomElement CreateElement(string prefix, string localName);
         public abstract DomNode CreateDocumentNodeElement();
-
         public abstract DomElement CreateShadowRootElement();
-
         public DomElement CreateElement(string localName)
         {
             return this.CreateElement(null, localName);
@@ -58,7 +54,6 @@ namespace LayoutFarm.WebDom
         }
 
         public abstract DomTextNode CreateTextNode(char[] strBufferForElement);
-
         public DomCDataNode CreateCDataNode()
         {
             return new DomCDataNode(this);
@@ -67,7 +62,6 @@ namespace LayoutFarm.WebDom
         internal void RegisterElementById(DomElement element)
         {
             if (registerElementsById == null) this.registerElementsById = new Dictionary<string, DomElement>();
-
             //replace exisitng if exists *** 
             registerElementsById[element.AttrElementId] = element;
         }
@@ -102,7 +96,4 @@ namespace LayoutFarm.WebDom
         Idle,
         ChangedAfterIdle
     }
-
-
-
 }

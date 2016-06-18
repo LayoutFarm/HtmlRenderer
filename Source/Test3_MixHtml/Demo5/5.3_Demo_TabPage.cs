@@ -1,18 +1,8 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
-using PixelFarm.Drawing;
+
 using LayoutFarm.UI;
-
 using LayoutFarm.Composers;
-using LayoutFarm.WebDom;
 using LayoutFarm.WebDom.Extension;
-using LayoutFarm.HtmlBoxes;
-using LayoutFarm.CustomWidgets;
-
-
 namespace LayoutFarm.WebWidgets
 {
     [DemoNote("5.3 DemoTabPage")]
@@ -20,7 +10,6 @@ namespace LayoutFarm.WebWidgets
     {
         protected override void OnHtmlHostCreated()
         {
-
             var tabContainer = new LayoutFarm.HtmlWidgets.TabPageContainer(300, 400);
             tabContainer.SetLocation(10, 10);
             AddToViewport(tabContainer);
@@ -28,7 +17,6 @@ namespace LayoutFarm.WebWidgets
             {
                 var tabPage = new LayoutFarm.HtmlWidgets.TabPage();
                 tabPage.PageTitle = "page" + i;
-
                 //test bridge 
                 //var panel01 = new CustomWidgets.Panel(300, 200);
                 //panel01.BackColor = Color.OrangeRed;
@@ -37,8 +25,6 @@ namespace LayoutFarm.WebWidgets
                 var lightHtmlBox = new CustomWidgets.HtmlBox(this.myHtmlHost, 300, 200);
                 lightHtmlBox.LoadHtmlDom(CreateSampleHtmlDoc(tabPage.PageTitle));
                 tabPage.ContentUI = lightHtmlBox;
-
-
                 tabContainer.AddItem(tabPage);
             }
 
@@ -61,21 +47,20 @@ namespace LayoutFarm.WebWidgets
                         span.SetAttribute("style", "font:16pt tahoma;background-color:red");
                         span.AddTextContent("ABCD:" + pageNote);
                         //3. attach event to specific span
-//                        span.AttachMouseDownEvent(e =>
-//                        {
-//#if DEBUG
-//                            // System.Diagnostics.Debugger.Break();                           
-//                            //test change span property 
-//                            //clear prev content and add new  text content 
-//                            span.ClearAllElements();
-//                            span.AddTextContent("XYZ0001");
-//#endif
+                        //                        span.AttachMouseDownEvent(e =>
+                        //                        {
+                        //#if DEBUG
+                        //                            // System.Diagnostics.Debugger.Break();                           
+                        //                            //test change span property 
+                        //                            //clear prev content and add new  text content 
+                        //                            span.ClearAllElements();
+                        //                            span.AddTextContent("XYZ0001");
+                        //#endif
 
-//                            e.StopPropagation();
+                        //                            e.StopPropagation();
 
-//                        });
+                        //                        });
                     });
-
                     div.AddChild("span", span =>
                     {
                         span.AddTextContent("EFGHIJK");
@@ -98,8 +83,6 @@ namespace LayoutFarm.WebWidgets
                     });
                 });
             });
-
-
             return htmldoc;
         }
     }

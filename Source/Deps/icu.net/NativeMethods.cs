@@ -1,9 +1,9 @@
 // Copyright (c) 2013 SIL International
 // This software is licensed under the MIT license (http://opensource.org/licenses/MIT)
+
 using System;
 using System.Runtime.InteropServices;
 using Icu.Collation;
-
 namespace Icu
 {
     internal static class NativeMethods
@@ -62,7 +62,6 @@ namespace Icu
 			 */
         [DllImport(ICU_COMMON_LIB, EntryPoint = "uenum_close" + ICU_VERSION_SUFFIX, CallingConvention = CallingConvention.Cdecl)]
         public static extern void uenum_close(IntPtr en);
-
         /**
              * Function type declaration for uenum_unext().
              *
@@ -80,7 +79,6 @@ namespace Icu
             RuleBasedCollator.SafeEnumeratorHandle en,
             out int resultLength,
             out ErrorCode status);
-
         #region Unicode collator
         /// <summary>
         /// Open a Collator for comparing strings.
@@ -99,7 +97,6 @@ namespace Icu
         public static extern RuleBasedCollator.SafeRuleBasedCollatorHandle ucol_open(
             [MarshalAs(UnmanagedType.LPStr)] string loc,
             out ErrorCode status);
-
         /// <summary>
         /// Open a UCollator for comparing strings.
         /// </summary>
@@ -108,7 +105,6 @@ namespace Icu
         public static extern RuleBasedCollator.SafeRuleBasedCollatorHandle ucol_open(
             byte[] loc,
             out ErrorCode err);
-
         ///<summary>
         /// Produce an Collator instance according to the rules supplied.
         /// The rules are used to change the default ordering, defined in the
@@ -134,7 +130,6 @@ namespace Icu
             CollationStrength strength,
             ref ParseError parseError,
             out ErrorCode status);
-
         /**
  * Open a collator defined by a short form string.
  * The structure and the syntax of the string is defined in the "Naming collators"
@@ -190,7 +185,6 @@ namespace Icu
         [DllImport(ICU_I18N_LIB, EntryPoint = "ucol_close" + ICU_VERSION_SUFFIX,
                    CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern void ucol_close(IntPtr coll);
-
         /**
  * Compare two strings.
  * The strings will be compared using the options already specified.
@@ -213,7 +207,6 @@ namespace Icu
                                                           Int32 sourceLength,
                                                           [MarshalAs(UnmanagedType.LPWStr)] string target,
                                                           Int32 targetLength);
-
         /**
  * Get the collation strength used in a UCollator.
  * The strength influences how strings are compared.
@@ -289,8 +282,6 @@ public static extern CollationStrength ucol_getStrength(SafeRuleBasedCollatorHan
  */
         [DllImport(ICU_I18N_LIB, EntryPoint = "ucol_countAvailable" + ICU_VERSION_SUFFIX, CallingConvention = CallingConvention.Cdecl)]
         public static extern Int32 ucol_countAvailable();
-
-
         /**
  * Create a string enumerator of all locales for which a valid
  * collator may be opened.
@@ -301,8 +292,6 @@ public static extern CollationStrength ucol_getStrength(SafeRuleBasedCollatorHan
  */
         [DllImport(ICU_I18N_LIB, EntryPoint = "ucol_openAvailableLocales" + ICU_VERSION_SUFFIX, CallingConvention = CallingConvention.Cdecl)]
         public static extern RuleBasedCollator.SafeEnumeratorHandle ucol_openAvailableLocales(out ErrorCode status);
-
-
         /**
  * Create a string enumerator of all possible keywords that are relevant to
  * collation. At this point, the only recognized keyword for this
@@ -469,7 +458,6 @@ public static extern CollationStrength ucol_getStrength(SafeRuleBasedCollatorHan
                                                    [Out, MarshalAs(UnmanagedType.LPArray)] byte[]
                                                    result,
                                                    Int32 resultLength);
-
         /** Gets the next count bytes of a sort key. Caller needs
  *  to preserve state array between calls and to provide
  *  the same type of UCharIterator set with the same string.
@@ -636,7 +624,6 @@ ucol_nextSortKeyPart(SafeRuleBasedCollatorHandle collator,
             CollationAttribute attr,
             CollationAttributeValue value,
             out ErrorCode status);
-
         /**
  * Universal attribute getter
  * @param coll collator which attributes are to be changed
@@ -654,7 +641,6 @@ ucol_nextSortKeyPart(SafeRuleBasedCollatorHandle collator,
             RuleBasedCollator.SafeRuleBasedCollatorHandle collator,
             CollationAttribute attr,
             out ErrorCode status);
-
         /** Variable top
  * is a two byte primary value which causes all the codepoints with primary values that
  * are less or equal than the variable top to be shifted when alternate handling is set
@@ -746,7 +732,6 @@ ucol_nextSortKeyPart(SafeRuleBasedCollatorHandle collator,
             IntPtr stackBuffer,
             ref Int32 pBufferSize,
             out ErrorCode status);
-
         /**
  * Returns current rules. Delta defines whether full rules are returned or just the tailoring.
  * Returns number of UChars needed to store rules. If buffer is NULL or bufferLen is not enough
@@ -792,7 +777,6 @@ ucol_nextSortKeyPart(SafeRuleBasedCollatorHandle collator,
         public static extern IntPtr
             ucol_getLocaleByType(RuleBasedCollator.SafeRuleBasedCollatorHandle collator, LocaleType type,
                                  out ErrorCode status);
-
         /**
  * Get an Unicode set that contains all the characters and sequences tailored in
  * this collator. The result must be disposed of by using uset_close.
@@ -860,12 +844,10 @@ ucol_nextSortKeyPart(SafeRuleBasedCollatorHandle collator,
                    CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern IntPtr ucol_openRules(string rules, int rulesLength, UColAttributeValue normalizationMode,
                                                     UColAttributeValue strength, out ParseError parseError, out ErrorCode status);
-
         [DllImport(ICU_I18N_LIB, EntryPoint = "ucol_getBound" + ICU_VERSION_SUFFIX,
                    CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern int ucol_getBound(byte[] source, int sourceLength, UColBoundMode boundType, int noOfLevels,
                                                 byte[] result, int resultLength, out ErrorCode status);
-
         #endregion Unicode collator
 
         /*
@@ -902,7 +884,6 @@ ucol_nextSortKeyPart(SafeRuleBasedCollatorHandle collator,
             Default_Strength = Tertiary,
             Quaternary = 3, //Quaternary collation strength
             Identical = 15, //Identical collation strength
-
             Off = 16,
             //Turn the feature off - works for FrenchCollation, CaseLevel, HiraganaQuaternaryMode, DecompositionMode
             On = 17,
@@ -910,7 +891,6 @@ ucol_nextSortKeyPart(SafeRuleBasedCollatorHandle collator,
 
             Shifted = 20, // Valid for AlternateHandling. Alternate handling will be shifted
             NonIgnorable = 21, // Valid for AlternateHandling. Alternate handling will be non-ignorable
-
             LowerFirst = 24, // Valid for CaseFirst - lower case sorts before upper case
             UpperFirst = 25 // Valid for CaseFirst - upper case sorts before lower case
         }
@@ -940,23 +920,19 @@ ucol_nextSortKeyPart(SafeRuleBasedCollatorHandle collator,
         [DllImport(ICU_COMMON_LIB, EntryPoint = "u_init" + ICU_VERSION_SUFFIX,
                    CallingConvention = CallingConvention.Cdecl)]
         public static extern void u_Init(out ErrorCode errorCode);
-
         /// <summary>Clean up the ICU files that could be locked</summary>
         [DllImport(ICU_COMMON_LIB, EntryPoint = "u_cleanup" + ICU_VERSION_SUFFIX,
                    CallingConvention = CallingConvention.Cdecl)]
         public static extern void u_Cleanup();
-
         /// <summary>Return the ICU data directory</summary>
         [DllImport(ICU_COMMON_LIB, EntryPoint = "u_getDataDirectory" + ICU_VERSION_SUFFIX,
                    CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr u_GetDataDirectory();
-
         /// <summary>Set the ICU data directory</summary>
         [DllImport(ICU_COMMON_LIB, EntryPoint = "u_setDataDirectory" + ICU_VERSION_SUFFIX,
                    CallingConvention = CallingConvention.Cdecl)]
         public static extern void u_SetDataDirectory(
             [MarshalAs(UnmanagedType.LPStr)]string directory);
-
         /// <summary>get the name of an ICU code point</summary>
         [DllImport(ICU_COMMON_LIB, EntryPoint = "u_charName" + ICU_VERSION_SUFFIX,
                    CallingConvention = CallingConvention.Cdecl)]
@@ -966,7 +942,6 @@ ucol_nextSortKeyPart(SafeRuleBasedCollatorHandle collator,
             IntPtr buffer,
             int bufferLength,
             out ErrorCode errorCode);
-
         /// ------------------------------------------------------------------------------------
         /// <summary>
         /// get the numeric value for the Unicode digit
@@ -977,7 +952,6 @@ ucol_nextSortKeyPart(SafeRuleBasedCollatorHandle collator,
         public static extern int u_digit(
             int characterCode,
             byte radix);
-
         /// ------------------------------------------------------------------------------------
         /// <summary>
         /// gets any of a variety of integer property values for the Unicode digit
@@ -995,11 +969,9 @@ ucol_nextSortKeyPart(SafeRuleBasedCollatorHandle collator,
         public static extern int u_getIntPropertyValue(
             int characterCode,
             Character.UProperty choice);
-
         [DllImport(ICU_COMMON_LIB, EntryPoint = "u_getUnicodeVersion" + ICU_VERSION_SUFFIX,
                    CallingConvention = CallingConvention.Cdecl)]
         public static extern void u_getUnicodeVersion(byte[] versionInfo);
-
         /// <summary>
         /// Get the general character type.
         /// </summary>
@@ -1008,7 +980,6 @@ ucol_nextSortKeyPart(SafeRuleBasedCollatorHandle collator,
         [DllImport(ICU_COMMON_LIB, EntryPoint = "u_charType" + ICU_VERSION_SUFFIX,
                    CallingConvention = CallingConvention.Cdecl)]
         public static extern int u_charType(int characterCode);
-
         /// ------------------------------------------------------------------------------------
         /// <summary>
         ///Get the numeric value for a Unicode code point as defined in the Unicode Character Database.
@@ -1033,7 +1004,6 @@ ucol_nextSortKeyPart(SafeRuleBasedCollatorHandle collator,
                    CallingConvention = CallingConvention.Cdecl)]
         public static extern double u_getNumericValue(
             int characterCode);
-
         /// ------------------------------------------------------------------------------------
         /// <summary>
         ///	Determines whether the specified code point is a punctuation character.
@@ -1047,7 +1017,6 @@ ucol_nextSortKeyPart(SafeRuleBasedCollatorHandle collator,
         [return: MarshalAs(UnmanagedType.I1)]
         public static extern bool u_ispunct(
             int characterCode);
-
         /// ------------------------------------------------------------------------------------
         /// <summary>
         ///	Determines whether the code point has the Bidi_Mirrored property.
@@ -1074,7 +1043,6 @@ ucol_nextSortKeyPart(SafeRuleBasedCollatorHandle collator,
         [return: MarshalAs(UnmanagedType.I1)]
         public static extern bool u_isMirrored(
             int characterCode);
-
         /// ------------------------------------------------------------------------------------
         /// <summary>
         ///	Determines whether the specified code point is a control character. A control
@@ -1096,7 +1064,6 @@ ucol_nextSortKeyPart(SafeRuleBasedCollatorHandle collator,
         [return: MarshalAs(UnmanagedType.I1)]
         public static extern bool u_iscntrl(
             int characterCode);
-
         /// ------------------------------------------------------------------------------------
         /// <summary>
         ///	Determines whether the specified character is a space character.
@@ -1121,7 +1088,6 @@ ucol_nextSortKeyPart(SafeRuleBasedCollatorHandle collator,
         [return: MarshalAs(UnmanagedType.I1)]
         public static extern bool u_isspace(
             int characterCode);
-
         #region LCID
         /// ------------------------------------------------------------------------------------
         /// <summary>Get the ICU LCID for a locale</summary>
@@ -1129,14 +1095,12 @@ ucol_nextSortKeyPart(SafeRuleBasedCollatorHandle collator,
         [DllImport(ICU_COMMON_LIB, EntryPoint = "uloc_getLCID" + ICU_VERSION_SUFFIX,
                    CallingConvention = CallingConvention.Cdecl)]
         public static extern int uloc_getLCID([MarshalAs(UnmanagedType.LPStr)]string localeID);
-
         /// ------------------------------------------------------------------------------------
         /// <summary>Gets the ICU locale ID for the specified Win32 LCID value. </summary>
         /// ------------------------------------------------------------------------------------
         [DllImport(ICU_COMMON_LIB, EntryPoint = "uloc_getLocaleForLCID" + ICU_VERSION_SUFFIX,
                    CallingConvention = CallingConvention.Cdecl)]
         public static extern int uloc_getLocaleForLCID(int lcid, IntPtr locale, int localeCapacity, out ErrorCode err);
-
         /// ------------------------------------------------------------------------------------
         /// <summary>Return the ISO 3 char value, if it exists</summary>
         /// ------------------------------------------------------------------------------------
@@ -1144,7 +1108,6 @@ ucol_nextSortKeyPart(SafeRuleBasedCollatorHandle collator,
                    CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr uloc_getISO3Country(
             [MarshalAs(UnmanagedType.LPStr)]string locale);
-
         /// ------------------------------------------------------------------------------------
         /// <summary>Return the ISO 3 char value, if it exists</summary>
         /// ------------------------------------------------------------------------------------
@@ -1152,7 +1115,6 @@ ucol_nextSortKeyPart(SafeRuleBasedCollatorHandle collator,
                    CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr uloc_getISO3Language(
             [MarshalAs(UnmanagedType.LPStr)]string locale);
-
         /// ------------------------------------------------------------------------------------
         /// <summary>
         /// Gets the size of the all available locale list.
@@ -1162,7 +1124,6 @@ ucol_nextSortKeyPart(SafeRuleBasedCollatorHandle collator,
         [DllImport(ICU_COMMON_LIB, EntryPoint = "uloc_countAvailable" + ICU_VERSION_SUFFIX,
                    CallingConvention = CallingConvention.Cdecl)]
         public static extern int uloc_countAvailable();
-
         /// ------------------------------------------------------------------------------------
         /// <summary>
         /// Gets the specified locale from a list of all available locales.
@@ -1176,7 +1137,6 @@ ucol_nextSortKeyPart(SafeRuleBasedCollatorHandle collator,
         [DllImport(ICU_COMMON_LIB, EntryPoint = "uloc_getAvailable" + ICU_VERSION_SUFFIX,
                    CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr uloc_getAvailable(int n);
-
         /// ------------------------------------------------------------------------------------
         /// <summary>
         /// Gets the language code for the specified locale.
@@ -1193,7 +1153,6 @@ ucol_nextSortKeyPart(SafeRuleBasedCollatorHandle collator,
                    CallingConvention = CallingConvention.Cdecl)]
         public static extern int uloc_getLanguage(string localeID, IntPtr language,
                                                    int languageCapacity, out ErrorCode err);
-
         /// ------------------------------------------------------------------------------------
         /// <summary>
         /// Gets the script code for the specified locale.
@@ -1210,7 +1169,6 @@ ucol_nextSortKeyPart(SafeRuleBasedCollatorHandle collator,
                    CallingConvention = CallingConvention.Cdecl)]
         public static extern int uloc_getScript(string localeID, IntPtr script,
                                                  int scriptCapacity, out ErrorCode err);
-
         /// ------------------------------------------------------------------------------------
         /// <summary>
         /// Gets the country code for the specified locale.
@@ -1227,7 +1185,6 @@ ucol_nextSortKeyPart(SafeRuleBasedCollatorHandle collator,
                    CallingConvention = CallingConvention.Cdecl)]
         public static extern int uloc_getCountry(string localeID, IntPtr country,
                                                   int countryCapacity, out ErrorCode err);
-
         /// ------------------------------------------------------------------------------------
         /// <summary>
         /// Gets the variant code for the specified locale.
@@ -1244,7 +1201,6 @@ ucol_nextSortKeyPart(SafeRuleBasedCollatorHandle collator,
                    CallingConvention = CallingConvention.Cdecl)]
         public static extern int uloc_getVariant(string localeID, IntPtr variant,
                                                   int variantCapacity, out ErrorCode err);
-
         /// ------------------------------------------------------------------------------------
         /// <summary>
         /// Gets the full name suitable for display for the specified locale.
@@ -1265,42 +1221,34 @@ ucol_nextSortKeyPart(SafeRuleBasedCollatorHandle collator,
             CallingConvention = CallingConvention.Cdecl)]
         public static extern int uloc_getDisplayName(string localeID, string inLocaleID,
             IntPtr result, int maxResultSize, out ErrorCode err);
-
         [DllImport(ICU_COMMON_LIB, EntryPoint = "uloc_getDisplayLanguage" + ICU_VERSION_SUFFIX,
             CallingConvention = CallingConvention.Cdecl)]
         public static extern int uloc_getDisplayLanguage(string localeID, string displayLocaleID,
             IntPtr result, int maxResultSize, out ErrorCode err);
-
         [DllImport(ICU_COMMON_LIB, EntryPoint = "uloc_getDisplayScript" + ICU_VERSION_SUFFIX,
             CallingConvention = CallingConvention.Cdecl)]
         public static extern int uloc_getDisplayScript(string localeID, string displayLocaleID,
             IntPtr result, int maxResultSize, out ErrorCode err);
-
         [DllImport(ICU_COMMON_LIB, EntryPoint = "uloc_getDisplayCountry" + ICU_VERSION_SUFFIX,
             CallingConvention = CallingConvention.Cdecl)]
         public static extern int uloc_getDisplayCountry(string localeID, string displayLocaleID,
             IntPtr result, int maxResultSize, out ErrorCode err);
-
         [DllImport(ICU_COMMON_LIB, EntryPoint = "uloc_getDisplayVariant" + ICU_VERSION_SUFFIX,
             CallingConvention = CallingConvention.Cdecl)]
         public static extern int uloc_getDisplayVariant(string localeID, string displayLocaleID,
             IntPtr result, int maxResultSize, out ErrorCode err);
-
         [DllImport(ICU_COMMON_LIB, EntryPoint = "uloc_getName" + ICU_VERSION_SUFFIX,
             CallingConvention = CallingConvention.Cdecl)]
         public static extern int uloc_getName(string localeID, IntPtr name,
             int nameCapacity, out ErrorCode err);
-
         [DllImport(ICU_COMMON_LIB, EntryPoint = "uloc_getName" + ICU_VERSION_SUFFIX,
             CallingConvention = CallingConvention.Cdecl)]
         public static extern int uloc_getBaseName(string localeID, IntPtr name,
             int nameCapacity, out ErrorCode err);
-
         [DllImport(ICU_COMMON_LIB, EntryPoint = "uloc_canonicalize" + ICU_VERSION_SUFFIX,
             CallingConvention = CallingConvention.Cdecl)]
         public static extern int uloc_canonicalize(string localeID, IntPtr name,
             int nameCapacity, out ErrorCode err);
-
         #endregion
 
         /// <summary>Return the lower case equivalent of the string.</summary>
@@ -1309,21 +1257,18 @@ ucol_nextSortKeyPart(SafeRuleBasedCollatorHandle collator,
         public static extern int u_strToLower(IntPtr dest,
             int destCapacity, string src, int srcLength,
             [MarshalAs(UnmanagedType.LPStr)] string locale, out ErrorCode errorCode);
-
         /// <summary>Return the title case equivalent of the string.</summary>
         [DllImport(ICU_COMMON_LIB, EntryPoint = "u_strToTitle" + ICU_VERSION_SUFFIX,
             CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern int u_strToTitle(IntPtr dest,
             int destCapacity, string src, int srcLength, IntPtr titleIter,
             [MarshalAs(UnmanagedType.LPStr)] string locale, out ErrorCode errorCode);
-
         /// <summary>Return the upper case equivalent of the string.</summary>
         [DllImport(ICU_COMMON_LIB, EntryPoint = "u_strToUpper" + ICU_VERSION_SUFFIX,
             CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern int u_strToUpper(IntPtr dest,
             int destCapacity, string src, int srcLength,
             [MarshalAs(UnmanagedType.LPStr)] string locale, out ErrorCode errorCode);
-
         #region normalize
         /// <summary>
         /// Normalize a string according to the given mode and options.
@@ -1333,7 +1278,6 @@ ucol_nextSortKeyPart(SafeRuleBasedCollatorHandle collator,
         public static extern int unorm_normalize(string source, int sourceLength,
                                                   Normalizer.UNormalizationMode mode, int options,
                                                   IntPtr result, int resultLength, out ErrorCode errorCode);
-
         /// <summary>
         /// Check whether a string is normalized according to the given mode and options.
         /// </summary>
@@ -1359,7 +1303,6 @@ ucol_nextSortKeyPart(SafeRuleBasedCollatorHandle collator,
                    CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern IntPtr ubrk_open(BreakIterator.UBreakIteratorType type, string locale,
                                                string text, int textLength, out ErrorCode errorCode);
-
         /// <summary>
         ///(unsafe version) Open a new UBreakIterator for locating text boundaries for a specified locale.
         /// </summary>
@@ -1373,7 +1316,6 @@ ucol_nextSortKeyPart(SafeRuleBasedCollatorHandle collator,
                    CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static unsafe extern IntPtr ubrk_open_unsafe(BreakIterator.UBreakIteratorType type, string locale,
                char* startChar, int length, out ErrorCode errorCode);
-
         /// <summary>
         /// Close a UBreakIterator.
         /// </summary>
@@ -1381,7 +1323,6 @@ ucol_nextSortKeyPart(SafeRuleBasedCollatorHandle collator,
         [DllImport(ICU_COMMON_LIB, EntryPoint = "ubrk_close" + ICU_VERSION_SUFFIX,
                    CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern void ubrk_close(IntPtr bi);
-
         /// <summary>
         /// Determine the index of the first character in the text being scanned.
         /// </summary>
@@ -1390,7 +1331,6 @@ ucol_nextSortKeyPart(SafeRuleBasedCollatorHandle collator,
         [DllImport(ICU_COMMON_LIB, EntryPoint = "ubrk_first" + ICU_VERSION_SUFFIX,
                    CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern int ubrk_first(IntPtr bi);
-
         /// <summary>
         /// Determine the text boundary following the current text boundary.
         /// </summary>
@@ -1399,7 +1339,6 @@ ucol_nextSortKeyPart(SafeRuleBasedCollatorHandle collator,
         [DllImport(ICU_COMMON_LIB, EntryPoint = "ubrk_next" + ICU_VERSION_SUFFIX,
                    CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern int ubrk_next(IntPtr bi);
-
         /// <summary>
         /// Return the status from the break rule that determined the most recently returned break position.
         /// </summary>
@@ -1418,7 +1357,6 @@ ucol_nextSortKeyPart(SafeRuleBasedCollatorHandle collator,
         /// <param name="set">Unicode set to dispose of </param>
         [DllImport(ICU_COMMON_LIB, EntryPoint = "uset_close" + ICU_VERSION_SUFFIX, CallingConvention = CallingConvention.Cdecl)]
         public static extern void uset_close(IntPtr set);
-
         /// <summary>
         /// Creates a Unicode set that contains the range of characters start..end, inclusive.
         /// If start > end then an empty set is created (same as using uset_openEmpty()).
@@ -1429,7 +1367,6 @@ ucol_nextSortKeyPart(SafeRuleBasedCollatorHandle collator,
         [DllImport(ICU_COMMON_LIB, EntryPoint = "uset_open" + ICU_VERSION_SUFFIX,
                    CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern IntPtr uset_open(char start, char end);
-
         /// <summary>
         /// Creates a set from the given pattern.
         /// </summary>
@@ -1440,7 +1377,6 @@ ucol_nextSortKeyPart(SafeRuleBasedCollatorHandle collator,
         [DllImport(ICU_COMMON_LIB, EntryPoint = "uset_openPattern" + ICU_VERSION_SUFFIX,
                    CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern IntPtr uset_openPattern(string pattern, int patternLength, ref ErrorCode status);
-
         /// <summary>
         /// Adds the given character to the given Unicode set.  After this call, uset_contains(set, c) will return TRUE.  A frozen set will not be modified.
         /// </summary>
@@ -1449,7 +1385,6 @@ ucol_nextSortKeyPart(SafeRuleBasedCollatorHandle collator,
         [DllImport(ICU_COMMON_LIB, EntryPoint = "uset_add" + ICU_VERSION_SUFFIX,
                    CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern void uset_add(IntPtr set, char c);
-
         /// <summary>
         /// Returns a string representation of this set.  If the result of calling this function is 
         /// passed to a uset_openPattern(), it will produce another set that is equal to this one.
@@ -1465,7 +1400,6 @@ ucol_nextSortKeyPart(SafeRuleBasedCollatorHandle collator,
                    CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern int uset_toPattern(IntPtr set, IntPtr result, int resultCapacity,
             bool escapeUnprintable, ref ErrorCode status);
-
         /// <summary>
         /// Adds the given string to the given Unicode set
         /// </summary>
@@ -1476,7 +1410,6 @@ ucol_nextSortKeyPart(SafeRuleBasedCollatorHandle collator,
         [DllImport(ICU_COMMON_LIB, EntryPoint = "uset_addString" + ICU_VERSION_SUFFIX,
                 CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern void uset_addString(IntPtr set, string str, int strLen);
-
         /// <summary>
         /// Returns an item of this Unicode set.  An item is either a range of characters or a single multicharacter string.
         /// </summary>
@@ -1492,7 +1425,6 @@ ucol_nextSortKeyPart(SafeRuleBasedCollatorHandle collator,
                    CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern int uset_getItem(IntPtr set, int itemIndex, out int start, out int end, IntPtr str,
             int strCapacity, ref ErrorCode ec);
-
         /// <summary>
         /// Returns the number of items in this set.  An item is either a range of characters or a single multicharacter string
         /// </summary>
@@ -1501,7 +1433,6 @@ ucol_nextSortKeyPart(SafeRuleBasedCollatorHandle collator,
         [DllImport(ICU_COMMON_LIB, EntryPoint = "uset_getItemCount" + ICU_VERSION_SUFFIX,
                    CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern int uset_getItemCount(IntPtr set);
-
         #endregion Unicode set
     }
 }

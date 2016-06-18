@@ -1,12 +1,7 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
+
 using PixelFarm.Drawing;
 using LayoutFarm.CustomWidgets;
-using LayoutFarm.UI;
-
 namespace LayoutFarm
 {
     [DemoNote("4.3.2 UIHtmlBox with ContentMx")]
@@ -19,13 +14,10 @@ namespace LayoutFarm
             {
                 htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(viewport, null, null);
                 var htmlBoxContentMx = new HtmlHostContentManager();
-
                 var contentMx = new LayoutFarm.ContentManagers.ImageContentManager();
                 contentMx.ImageLoadingRequest += contentMx_ImageLoadingRequest;
-
                 htmlBoxContentMx.AddImageContentMan(contentMx);
                 htmlBoxContentMx.Bind(htmlHost);
-
             }
             return htmlHost;
         }
@@ -39,12 +31,10 @@ namespace LayoutFarm
             {
                 string sub01 = appPath.Substring(0, pos);
                 imgFolderPath = sub01 + "\\images";
-
             }
             //==================================================
             //html box
             var htmlBox = new HtmlBox(GetHtmlHost(viewport), 800, 600);
-
             viewport.AddContent(htmlBox);
             string html = "<html><head></head><body><div>OK1</div><div>3 Images</div><img src=\"sample01.png\"></img><img src=\"sample01.png\"></img><img src=\"sample01.png\"></img></body></html>";
             htmlBox.LoadHtmlString(html);
@@ -62,6 +52,5 @@ namespace LayoutFarm
             System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(absolutePath);
             e.SetResultImage(new Bitmap(bmp.Width, bmp.Height, bmp));
         }
-
     }
 }

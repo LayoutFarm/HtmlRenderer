@@ -14,18 +14,13 @@
 
 using System;
 using System.Collections.Generic;
-using PixelFarm.Drawing; 
-
+using PixelFarm.Drawing;
 namespace LayoutFarm.HtmlBoxes
 {
-
     public static class BoxHitUtils
     {
-
-
         public static bool HitTest(CssBox box, float x, float y, CssBoxHitChain hitChain)
         {
-
             //--------------------------------------
             float boxHitLocalX = x - box.LocalX;
             float boxHitLocalY = y - box.LocalY;
@@ -65,7 +60,8 @@ namespace LayoutFarm.HtmlBoxes
                                     return true;
                                 }
                             }
-                        } break;
+                        }
+                        break;
                 }
                 //exit 
                 return false;
@@ -87,7 +83,6 @@ namespace LayoutFarm.HtmlBoxes
 
             if (box.LineBoxCount > 0)
             {
-
                 bool foundSomeLine = false;
                 foreach (var lineBox in box.GetLineBoxIter())
                 {
@@ -98,9 +93,7 @@ namespace LayoutFarm.HtmlBoxes
                         float lineBoxLocalY = boxHitLocalY - lineBox.CachedLineTop;
                         //2.
                         hitChain.AddHit(lineBox, (int)boxHitLocalX, (int)lineBoxLocalY);
-
                         var foundRun = BoxHitUtils.GetCssRunOnLocation(lineBox, (int)boxHitLocalX, (int)lineBoxLocalY);
-
                         if (foundRun != null)
                         {
                             //3.
@@ -176,7 +169,6 @@ namespace LayoutFarm.HtmlBoxes
                 CssLineBox lastLine = null;
                 foreach (CssBox cbox in a.GetChildBoxIter())
                 {
-
                     CssLineBox candidateLine = GetNearestLine(cbox, point, out foundExact);
                     if (candidateLine != null)
                     {
@@ -198,8 +190,6 @@ namespace LayoutFarm.HtmlBoxes
                     }
                 }
                 found = foundExact;
-
-
             }
             return null;
         }
@@ -249,7 +239,6 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         internal static CssBox SearchUpForContainingBlockBox(CssBox startBox)
         {
-
             if (startBox.ParentBox == null)
             {
                 return startBox; //This is the initial containing block.
