@@ -1,8 +1,7 @@
 ﻿// 2015,2014 ,Apache2, WinterDev 
-using System.Collections.Generic; 
+
+using System.Collections.Generic;
 using LayoutFarm.RenderBoxes;
-
-
 namespace LayoutFarm
 {
 #if DEBUG
@@ -22,7 +21,6 @@ namespace LayoutFarm
         int currentIndentLevel;
         public dbugLayoutMsgWriter()
         {
-
         }
         public void Add(dbugLayoutMsg msg)
         {
@@ -32,7 +30,6 @@ namespace LayoutFarm
         public void Add(RenderElement ve, string msg)
         {
             this.Add(new dbugLayoutMsg(ve, msg));
-
         }
         public void EnterNewLevel()
         {
@@ -42,8 +39,6 @@ namespace LayoutFarm
         {
             this.currentIndentLevel--;
         }
-
-
     }
     public class dbugLayoutMsg
     {
@@ -51,7 +46,6 @@ namespace LayoutFarm
         public object owner;
         public string msg;
         public int indentLevel;
-
         public dbugLayoutMsg(RenderElement ve, string msg)
         {
             this.owner = ve;
@@ -78,8 +72,5 @@ namespace LayoutFarm
         }
     }
 
-
 #endif
-
-
 }

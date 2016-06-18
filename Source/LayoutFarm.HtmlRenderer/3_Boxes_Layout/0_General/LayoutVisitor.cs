@@ -2,31 +2,21 @@
 
 using System;
 using System.Collections.Generic;
- 
 using PixelFarm.Drawing;
-
 namespace LayoutFarm.HtmlBoxes
 {
-
-
     public class LayoutVisitor : BoxVisitor
     {
         HtmlContainer htmlContainer;
         float totalMarginLeftAndRight;
-
         Queue<Dictionary<CssBox, PartialBoxStrip>> dicStripPool;
         Queue<List<PartialBoxStrip>> listStripPool;
-
         Dictionary<CssBox, PartialBoxStrip> readyDicStrip = new Dictionary<CssBox, PartialBoxStrip>();
         List<PartialBoxStrip> readyListStrip = new List<PartialBoxStrip>();
-
         FloatingContextStack floatingContextStack = new FloatingContextStack();
-
-
         static int totalLayoutIdEpisode = 0;
         int episodeId = 1;
         GraphicsPlatform gfxPlatform;
-
         public LayoutVisitor(GraphicsPlatform gfxPlatform)
         {
             this.gfxPlatform = gfxPlatform;
@@ -46,11 +36,9 @@ namespace LayoutFarm.HtmlBoxes
             this.htmlContainer = null;
             if (dicStripPool != null) dicStripPool.Clear();
             if (listStripPool != null) listStripPool.Clear();
-
             readyDicStrip.Clear();
             readyListStrip.Clear();
             totalMarginLeftAndRight = 0;
-
         }
         public GraphicsPlatform GraphicsPlatform
         {
@@ -63,9 +51,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         protected override void OnPushDifferentContainingBlock(CssBox box)
         {
-
             this.totalMarginLeftAndRight += (box.ActualMarginLeft + box.ActualMarginRight);
-
         }
         internal CssBox FloatingContextOwner
         {
@@ -76,7 +62,6 @@ namespace LayoutFarm.HtmlBoxes
         }
         protected override void OnPushContainingBlock(CssBox box)
         {
-
             floatingContextStack.PushContainingBlock(box);
             base.OnPushContainingBlock(box);
         }
@@ -90,7 +75,6 @@ namespace LayoutFarm.HtmlBoxes
         protected override void OnPopDifferentContaingBlock(CssBox box)
         {
             this.totalMarginLeftAndRight -= (box.ActualMarginLeft + box.ActualMarginRight);
-
         }
         internal CssBox LatestSiblingBox
         {
@@ -100,7 +84,6 @@ namespace LayoutFarm.HtmlBoxes
         internal CssBox LatestLeftFloatBox
         {
             get { return floatingContextStack.LatestLeftFloatBox; }
-
         }
         internal CssBox LatestRightFloatBox
         {
@@ -108,7 +91,6 @@ namespace LayoutFarm.HtmlBoxes
             {
                 return floatingContextStack.LatestRightFloatBox;
             }
-
         }
         internal bool HasFloatBoxInContext
         {
@@ -128,16 +110,12 @@ namespace LayoutFarm.HtmlBoxes
         }
         internal void UpdateRootSize(CssBox box)
         {
-
             float candidateRootWidth = Math.Max(
                 box.CalculateMinimumWidth(this.episodeId) + CalculateWidthMarginTotalUp(box),
                 (box.VisualWidth + this.ContainerBlockGlobalX) < CssBoxConstConfig.BOX_MAX_RIGHT ? box.VisualWidth : 0);
-
-
             this.htmlContainer.UpdateSizeIfWiderOrHigher(
                 this.ContainerBlockGlobalX + candidateRootWidth,
                 this.ContainerBlockGlobalY + box.VisualHeight);
-
         }
         /// <summary>
         /// Get the total margin value (left and right) from the given box to the given end box.<br/>
@@ -146,7 +124,6 @@ namespace LayoutFarm.HtmlBoxes
         /// <returns>the total margin</returns>
         float CalculateWidthMarginTotalUp(CssBox box)
         {
-
             if ((box.VisualWidth + this.ContainerBlockGlobalX) > CssBoxConstConfig.BOX_MAX_RIGHT ||
                 (box.ParentBox != null && (box.ParentBox.VisualWidth + this.ContainerBlockGlobalX) > CssBoxConstConfig.BOX_MAX_RIGHT))
             {
@@ -164,14 +141,12 @@ namespace LayoutFarm.HtmlBoxes
         }
         internal void RequestScrollView(CssBox requestFrom)
         {
-
             this.htmlContainer.RequestScrollView(requestFrom);
         }
         internal float MeasureWhiteSpace(CssBox box)
         {
             //depends on Font of this box           
             float w = this.SampleIFonts.MeasureWhitespace(box.ActualFont);
-
             if (!(box.WordSpacing.IsEmpty || box.WordSpacing.IsNormalWordSpacing))
             {
                 w += CssValueParser.ConvertToPxWithFontAdjust(box.WordSpacing, 0, box);
@@ -208,7 +183,6 @@ namespace LayoutFarm.HtmlBoxes
         {
             //clear before add to pool
             dic.Clear();
-
             if (this.readyDicStrip == null)
             {
                 this.readyDicStrip = dic;
@@ -249,7 +223,6 @@ namespace LayoutFarm.HtmlBoxes
         {
             //clear before add to pool
             list.Clear();
-
             if (this.readyListStrip == null)
             {
                 this.readyListStrip = list;
@@ -287,7 +260,6 @@ namespace LayoutFarm.HtmlBoxes
         }
         public void dbugEnterNewContext(CssBox box, PaintVisitorContextName contextName)
         {
-
             if (this.dbugEnableLogRecord)
             {
                 var controller = CssBox.UnsafeGetController(box);
@@ -297,7 +269,6 @@ namespace LayoutFarm.HtmlBoxes
                 logRecords.Add(new string('>', dbugIndentLevel) + dbugIndentLevel.ToString() +
                     "x:" + box.Left + ",y:" + box.Top + ",w:" + box.VisualWidth + "h:" + box.VisualHeight +
                     " " + box.ToString() + ",id:" + box.__aa_dbugId);
-
                 dbugIndentLevel++;
             }
         }
@@ -315,6 +286,4 @@ namespace LayoutFarm.HtmlBoxes
         }
 #endif
     }
-
-
 }

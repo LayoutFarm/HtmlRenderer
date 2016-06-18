@@ -35,7 +35,6 @@ namespace LayoutFarm.WebDom.Impl
         {
             //write inner run
             writer.InnerStringBuilder.Append(this.GetOriginalBuffer());
-
         }
     }
     public enum TextSplitPartKind : byte
@@ -45,5 +44,4 @@ namespace LayoutFarm.WebDom.Impl
         SingleWhitespace,
         LineBreak,
     }
-
 }

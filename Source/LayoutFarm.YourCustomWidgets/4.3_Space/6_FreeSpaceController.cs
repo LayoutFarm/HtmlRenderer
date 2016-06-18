@@ -4,7 +4,6 @@ namespace LayoutFarm.UI
 {
     public class FreeSpacesController : NinespaceController
     {
-
         public FreeSpacesController(UIBox owner)
             : base(owner, SpaceConcept.NineSpaceFree)
         {
@@ -13,7 +12,6 @@ namespace LayoutFarm.UI
             spaces[T] = InitSpace(SpaceName.Top);
             spaces[B] = InitSpace(SpaceName.Bottom);
             spaces[C] = InitSpace(SpaceName.Center);
-
             spaces[LT] = InitSpace(SpaceName.LeftTop);
             spaces[RT] = InitSpace(SpaceName.RightTop);
             spaces[RB] = InitSpace(SpaceName.RightBottom);
@@ -22,7 +20,6 @@ namespace LayoutFarm.UI
 
         public override void ArrangeAllSpaces()
         {
-
 #if DEBUG
             // vinv.dbug_EnterLayerReArrangeContent(this);
 #endif
@@ -32,15 +29,10 @@ namespace LayoutFarm.UI
             bool suddenArr = false;
             int ownerWidth = this.OwnerVisualElement.Width;
             int ownerHeight = this.OwnerVisualElement.Height;
-
-
             if (centerspace != null)
             {
-
-
                 int dw = centerspace.Width;
                 int dh = centerspace.Height;
-
                 if (dw > ownerWidth)
                 {
                     dw = ownerWidth;
@@ -77,7 +69,6 @@ namespace LayoutFarm.UI
 
             int offsetx = FindMaxWidthBar(spaces[LT], spaces[L], spaces[LB]);
             int offsety = FindMaxHeightBar(spaces[LT], spaces[T], spaces[RT]);
-
             if (offsetx != 0 || offsety != 0)
             {
                 for (int i = spaces.Length - 1; i > -1; --i)
@@ -91,7 +82,6 @@ namespace LayoutFarm.UI
                     //}
 
                 }
-
             }
 #if DEBUG
             //vinv.dbug_ExitLayerReArrangeContent();
@@ -101,7 +91,6 @@ namespace LayoutFarm.UI
             SpacePart centerspace,
             bool suddenArr)
         {
-
             if (space == null)
             {
                 return;
@@ -111,11 +100,8 @@ namespace LayoutFarm.UI
             var centerspacex = centerspace.Content;
             int x_pos = centerspace.X;
             int y_pos = centerspace.Y;
-
             int dw = OwnerVisualElement.Width;
             int dh = OwnerVisualElement.Height;
-
-
             if (space.DesiredWidth < dw)
             {
                 dw = space.DesiredWidth;
@@ -131,8 +117,6 @@ namespace LayoutFarm.UI
                 0,
                 dw,
                 dh);
-
-
             switch (space.SpaceName)
             {
                 case SpaceName.Left:
@@ -151,7 +135,6 @@ namespace LayoutFarm.UI
                                 break;
                         }
                         space.SetLocation(x_pos, y_pos);
-
                     }
                     break;
                 case SpaceName.Right:
@@ -167,7 +150,6 @@ namespace LayoutFarm.UI
                             case NamedSpaceContainerOverlapMode.Middle:
                                 {
                                     x_pos -= space.Width / 2;
-
                                 }
                                 break;
                         }
@@ -192,9 +174,7 @@ namespace LayoutFarm.UI
                     break;
                 case SpaceName.Bottom:
                     {
-
                         y_pos = centerspace.Bottom;
-
                         switch (space.OverlapMode)
                         {
                             case NamedSpaceContainerOverlapMode.Inner:
@@ -208,7 +188,6 @@ namespace LayoutFarm.UI
                                 }
                                 break;
                         }
-
                     }
                     break;
                 case SpaceName.LeftTop:
@@ -228,7 +207,6 @@ namespace LayoutFarm.UI
                                 }
                                 break;
                         }
-
                     }
                     break;
                 case SpaceName.LeftBottom:
@@ -248,10 +226,8 @@ namespace LayoutFarm.UI
                                 break;
                             case NamedSpaceContainerOverlapMode.Middle:
                                 {
-
                                     x_pos -= space.Width / 2;
                                     y_pos = centerspace.Bottom - space.Height / 2;
-
                                 }
                                 break;
                         }
@@ -277,11 +253,9 @@ namespace LayoutFarm.UI
                                     //outter - half of grip
                                     x_pos = centerspace.Right - (space.Width / 2);
                                     y_pos -= space.Height - (space.Height / 2);
-
                                 }
                                 break;
                         }
-
                     }
                     break;
                 case SpaceName.RightBottom:
@@ -305,20 +279,15 @@ namespace LayoutFarm.UI
                                     //outer - half of grid box
                                     x_pos = centerspace.Right - (space.Width / 2);
                                     y_pos = centerspace.Bottom - (space.Height / 2);
-
                                 }
                                 break;
                         }
-
-
                     }
                     break;
             }
 
             //VisualInvalidateCanvasArgs vinv = contentArrVisitor.GetVisualInvalidateCanvasArgs();
             space.SetLocation(x_pos, y_pos);
-
-
         }
         static int FindMaxHeightBar(SpacePart b1,
             SpacePart b2, SpacePart b3)
@@ -326,14 +295,12 @@ namespace LayoutFarm.UI
             //find bar with max height
             int maxHeight = 0;
             int h = 0;
-
             if (b1 != null)
             {
                 h = FindMaxHeightBar(b1);
                 if (h > maxHeight)
                 {
                     maxHeight = h;
-
                 }
             }
             if (b2 != null)
@@ -342,17 +309,14 @@ namespace LayoutFarm.UI
                 if (h > maxHeight)
                 {
                     maxHeight = h;
-
                 }
             }
             if (b3 != null)
             {
-
                 h = FindMaxHeightBar(b3);
                 if (h > maxHeight)
                 {
                     maxHeight = h;
-
                 }
             }
 
@@ -361,17 +325,14 @@ namespace LayoutFarm.UI
         static int FindMaxWidthBar(SpacePart b1,
             SpacePart b2, SpacePart b3)
         {
-
             int maxWidth = 0;
             int w = 0;
-
             if (b1 != null)
             {
                 w = FindMaxWidthBar(b1);
                 if (w > maxWidth)
                 {
                     maxWidth = w;
-
                 }
             }
             if (b2 != null)
@@ -380,24 +341,20 @@ namespace LayoutFarm.UI
                 if (w > maxWidth)
                 {
                     maxWidth = w;
-
                 }
             }
             if (b3 != null)
             {
-
                 w = FindMaxWidthBar(b3);
                 if (w > maxWidth)
                 {
                     maxWidth = w;
-
                 }
             }
             return maxWidth;
         }
         static int FindMaxHeightBar(SpacePart bx)
         {
-
             switch (bx.OverlapMode)
             {
                 case NamedSpaceContainerOverlapMode.Middle:
@@ -412,13 +369,10 @@ namespace LayoutFarm.UI
                     {
                         return 0;
                     }
-
             }
-
         }
         static int FindMaxWidthBar(SpacePart bx)
         {
-
             switch (bx.OverlapMode)
             {
                 case NamedSpaceContainerOverlapMode.Middle:
@@ -433,13 +387,7 @@ namespace LayoutFarm.UI
                     {
                         return 0;
                     }
-
             }
-
         }
-
-
-
     }
-
 }

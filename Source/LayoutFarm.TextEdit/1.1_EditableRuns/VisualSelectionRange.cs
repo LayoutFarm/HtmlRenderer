@@ -1,12 +1,11 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
-
 namespace LayoutFarm.Text
 {
-
     public struct VisualSelectionRangeSnapShot
     {
         public readonly int startLineNum;
@@ -26,7 +25,6 @@ namespace LayoutFarm.Text
                 && endLineNum == 0 && endColumnNum == 0;
         }
         public static readonly VisualSelectionRangeSnapShot Empty = new VisualSelectionRangeSnapShot();
-
     }
 
     class VisualSelectionRange
@@ -166,32 +164,24 @@ namespace LayoutFarm.Text
                 }
                 return startPoint;
             }
-
         }
         public void Draw(Canvas destPage, Rectangle updateArea)
         {
-
             if (IsOnTheSameLine)
             {
-
                 VisualPointInfo topEndPoint = TopEnd;
                 VisualPointInfo bottomEndPoint = BottomEnd;
-
                 int linetop = topEndPoint.LineTop;
-
                 destPage.FillRectangle(Color.LightGray, topEndPoint.X, linetop,
                     bottomEndPoint.X - topEndPoint.X, topEndPoint.ActualLineHeight);
-
             }
             else
             {
                 EditableVisualPointInfo topEndPoint = TopEnd;
                 int lineYPos = topEndPoint.LineTop;
-
                 destPage.FillRectangle(Color.LightGray, topEndPoint.X, lineYPos,
                     topEndPoint.CurrentWidth - topEndPoint.X,
                     topEndPoint.ActualLineHeight);
-
                 int topLineId = topEndPoint.LineId;
                 int bottomLineId = BottomEnd.LineId;
                 if (bottomLineId - topLineId > 1)
@@ -209,10 +199,8 @@ namespace LayoutFarm.Text
                 }
                 VisualPointInfo bottomEndPoint = BottomEnd;
                 lineYPos = bottomEndPoint.LineTop;
-
                 destPage.FillRectangle(Color.LightGray, 0, lineYPos, bottomEndPoint.X,
                      bottomEndPoint.ActualLineHeight);
-
             }
         }
         public void UpdateSelectionRange()
@@ -227,13 +215,10 @@ namespace LayoutFarm.Text
                 EditableTextLine stopLine = endPoint.EditableLine;
                 endPoint = stopLine.GetTextPointInfoFromCharIndex(endPoint.LineCharIndex);
             }
-
         }
 
         public IEnumerable<EditableRun> GetPrintableTextRunIter()
         {
-
-
             EditableRun startRun = null;
             if (startPoint.TextRun == null)
             {
@@ -265,7 +250,6 @@ namespace LayoutFarm.Text
 #if DEBUG
         public override string ToString()
         {
-
             StringBuilder stBuilder = new StringBuilder();
             if (this.IsValid)
             {

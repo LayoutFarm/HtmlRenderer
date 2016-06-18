@@ -1,13 +1,11 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
-using System;
 
+using System;
 namespace LayoutFarm.UI
 {
-
     public delegate void UIMouseEventHandler(object sender, UIMouseEventArgs e);
     public delegate void UIKeyEventHandler(object sender, UIKeyEventArgs e);
     public delegate void UIKeyPressEventHandler(object sender, UIKeyEventArgs e);
-
     public class UIKeyEventArgs : UIEventArgs
     {
         int keyData;
@@ -75,14 +73,12 @@ namespace LayoutFarm.UI
         int y;
         public UIEventArgs()
         {
-
         }
         public virtual void Clear()
         {
             x = y = 0;
             this.ExactHitObject = this.SourceHitElement = this.CurrentContextElement = null;
             this.Shift = this.Alt = this.Ctrl = this.CancelBubbling = false;
-
         }
         /// <summary>
         /// exact hit object (include run)
@@ -123,7 +119,6 @@ namespace LayoutFarm.UI
         {
             get;
             set;
-
         }
 
 
@@ -169,7 +164,6 @@ namespace LayoutFarm.UI
             get { return this.IsCanceled; }
             set { this.IsCanceled = value; }
         }
-
     }
 
 
@@ -242,7 +236,6 @@ namespace LayoutFarm.UI
 
     public class UIMouseEventArgs : UIEventArgs
     {
-
         public UIMouseEventArgs()
         {
         }
@@ -277,7 +270,6 @@ namespace LayoutFarm.UI
 
         public override void Clear()
         {
-
             base.Clear();
             this.Button = UIMouseButtons.Left;
             this.Clicks =
@@ -287,8 +279,6 @@ namespace LayoutFarm.UI
                   this.GlobalY =
                   this.CapturedMouseX =
                   this.CapturedMouseY = 0;
-
-
             this.MouseCursorStyle = UI.MouseCursorStyle.Default;
             this.IsDragging = false;
             this.DraggingElement = null;
@@ -316,8 +306,6 @@ namespace LayoutFarm.UI
         public void SetMouseCapture(IEventListener listener)
         {
             this.DraggingElement = listener;
-
-
         }
         //-------------------------------------------------------------------
 
@@ -391,10 +379,7 @@ namespace LayoutFarm.UI
             get;
             set;
         }
-
     }
-
-
 
     //public class UISizeChangedEventArgs : UIEventArgs
     //{
@@ -439,7 +424,4 @@ namespace LayoutFarm.UI
     //        pool.Push(e);
     //    }
     //}
-
-
-
 }

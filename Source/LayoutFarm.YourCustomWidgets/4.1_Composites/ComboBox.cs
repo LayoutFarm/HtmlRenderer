@@ -1,29 +1,24 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
-using System; 
-using PixelFarm.Drawing;
-using LayoutFarm.UI; 
 
+using System;
+using PixelFarm.Drawing;
+using LayoutFarm.UI;
 namespace LayoutFarm.CustomWidgets
 {
-
     public class ComboBox : UIBox
     {
-
         CustomRenderBox primElement;//background 
         Color backColor = Color.LightGray;
         bool isOpen;
         //1. land part
         UIBox landPart;
-
         //2. float part   
         UIBox floatPart;
         RenderElement floatPartRenderElement;
         HingeFloatPartStyle floatPartStyle;
-
         public ComboBox(int width, int height)
             : base(width, height)
         {
-
         }
 
         protected override bool HasReadyRenderElement
@@ -51,7 +46,6 @@ namespace LayoutFarm.CustomWidgets
             if (primElement == null)
             {
                 var renderE = new CustomRenderBox(rootgfx, this.Width, this.Height);
-
                 renderE.SetLocation(this.Left, this.Top);
                 renderE.BackColor = backColor;
                 renderE.SetController(this);
@@ -65,7 +59,6 @@ namespace LayoutFarm.CustomWidgets
                 }
                 if (this.floatPart != null)
                 {
-
                 }
                 //---------------------------------
                 primElement = renderE;
@@ -92,8 +85,6 @@ namespace LayoutFarm.CustomWidgets
 
         public event EventHandler<UIMouseEventArgs> MouseDown;
         public event EventHandler<UIMouseEventArgs> MouseUp;
-
-
         //----------------------------------------------------  
         public UIBox LandPart
         {
@@ -116,7 +107,6 @@ namespace LayoutFarm.CustomWidgets
                         //add 
                         primElement.AddChild(value);
                     }
-
                 }
                 else
                 {
@@ -153,12 +143,9 @@ namespace LayoutFarm.CustomWidgets
         {
             if (isOpen) return;
             this.isOpen = true;
-
             //-----------------------------------
             if (this.primElement == null) return;
             if (floatPart == null) return;
-
-
             switch (floatPartStyle)
             {
                 default:
@@ -173,40 +160,39 @@ namespace LayoutFarm.CustomWidgets
                             this.floatPartRenderElement = this.floatPart.GetPrimaryRenderElement(primElement.Root);
                             topRenderBox.AddChild(floatPartRenderElement);
                         }
-
-                    } break;
+                    }
+                    break;
                 case HingeFloatPartStyle.Embeded:
                     {
-
-                    } break;
+                    }
+                    break;
             }
         }
         public void CloseHinge()
         {
             if (!isOpen) return;
             this.isOpen = false;
-
             if (this.primElement == null) return;
             if (floatPart == null) return;
-
             switch (floatPartStyle)
             {
                 default:
                     {
-                    } break;
+                    }
+                    break;
                 case HingeFloatPartStyle.Popup:
                     {
-
                         var topRenderBox = primElement.GetTopWindowRenderBox();
                         if (topRenderBox != null)
                         {
-                            topRenderBox.RemoveChild(floatPartRenderElement); 
+                            topRenderBox.RemoveChild(floatPartRenderElement);
                         }
-                    } break;
+                    }
+                    break;
                 case HingeFloatPartStyle.Embeded:
                     {
-                    } break;
-
+                    }
+                    break;
             }
         }
 

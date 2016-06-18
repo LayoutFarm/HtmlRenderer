@@ -1,10 +1,8 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
 
 using PixelFarm.Drawing;
-
 namespace LayoutFarm.Text
 {
-
     partial class EditableTextLine : LayoutFarm.RenderBoxes.IParentLink
     {
         public new void AddLast(EditableRun v)
@@ -28,7 +26,6 @@ namespace LayoutFarm.Text
             {
                 AddLineBreakBefore(this.FirstRun);
             }
-
         }
         public void AddBefore(EditableRun beforeVisualElement, EditableRun v)
         {
@@ -40,7 +37,6 @@ namespace LayoutFarm.Text
             {
                 AddLineBreakBefore(beforeVisualElement);
             }
-
         }
         public void AddAfter(EditableRun afterVisualElement, EditableRun v)
         {
@@ -90,5 +86,4 @@ namespace LayoutFarm.Text
         }
 #endif
     }
-
 }

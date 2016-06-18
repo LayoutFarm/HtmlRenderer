@@ -1,10 +1,10 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 namespace LayoutFarm.Text
 {
     partial class InternalTextLayerController
     {
-
         public VisualSelectionRangeSnapShot DoDelete()
         {
             //recursive
@@ -17,13 +17,10 @@ namespace LayoutFarm.Text
 #endif
 
             VisualSelectionRangeSnapShot removedRange = this.RemoveSelectedText();
-
             if (removedRange.IsEmpty())
             {
                 updateJustCurrentLine = true;
-
                 char deletedChar = textLineWriter.DoDelete();
-
                 //some language
 
                 if (deletedChar == '\0')
@@ -31,7 +28,6 @@ namespace LayoutFarm.Text
                     commandHistory.AddDocAction(
                         new DocActionJoinWithNextLine(
                             textLineWriter.LineNumber, textLineWriter.CharIndex));
-
                     JoinWithNextLine();
                     updateJustCurrentLine = false;
                 }
@@ -59,18 +55,13 @@ namespace LayoutFarm.Text
 #endif
         public bool DoBackspace()
         {
-
-
 #if DEBUG
 
             if (dbugEnableTextManRecorder)
             {
-
                 dbug_BackSpaceCount++;
-
                 dbugTextManRecorder.WriteInfo("TxLMan::DoBackSpace");
                 dbugTextManRecorder.BeginContext();
-
             }
 #endif
 
@@ -96,7 +87,6 @@ namespace LayoutFarm.Text
                         commandHistory.AddDocAction(
                             new DocActionJoinWithNextLine(
                                 textLineWriter.LineNumber, textLineWriter.CharIndex));
-
                         JoinWithNextLine();
                     }
 #if DEBUG

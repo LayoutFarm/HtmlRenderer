@@ -4,10 +4,8 @@ using PixelFarm.Drawing;
 using LayoutFarm.Composers;
 using LayoutFarm.WebDom;
 using LayoutFarm.WebDom.Extension;
-
 namespace LayoutFarm.HtmlWidgets
 {
-
     public class Button : HtmlWidgetBase
     {
         string buttonText = "";
@@ -31,7 +29,6 @@ namespace LayoutFarm.HtmlWidgets
             //----------------------------------
             pnode = htmldoc.CreateElement("div");
             pnode.SetAttribute("style", "display:inline-block;width:" + Width + "px;height:" + this.Height + "px;");
-
             pnode.AddChild("div", div2 =>
             {
                 //init
@@ -52,7 +49,6 @@ namespace LayoutFarm.HtmlWidgets
                     ee.ChangeBackgroundColor(Color.FromArgb(0xaa, 0xaa, 0xaa));
                     //div2.SetAttribute("style", "padding:5px;background-color:#aaaaaa;");
                     e.StopPropagation();
-
                 });
                 div2.AttachMouseUpEvent(e =>
                 {
@@ -65,11 +61,8 @@ namespace LayoutFarm.HtmlWidgets
                     ee.ChangeBackgroundColor(Color.FromArgb(0xdd, 0xdd, 0xdd));
                     e.StopPropagation();
                 });
-
             });
-
             return pnode;
         }
-
     }
 }

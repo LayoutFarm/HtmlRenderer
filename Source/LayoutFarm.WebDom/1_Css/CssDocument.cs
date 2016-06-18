@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 namespace LayoutFarm.WebDom
 {
     public class CssDocument
@@ -11,7 +10,6 @@ namespace LayoutFarm.WebDom
         List<CssDocMember> cssItemCollection = new List<CssDocMember>();
         public CssDocument()
         {
-
         }
         public void Add(CssDocMember cssitem)
         {
@@ -40,5 +38,4 @@ namespace LayoutFarm.WebDom
 #endif
 
     }
-
 }

@@ -1,17 +1,15 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
-
 using LayoutFarm.Composers;
 using LayoutFarm.Text;
 using LayoutFarm.UI;
-
 namespace LayoutFarm.CustomWidgets
 {
-
     public class TextBox : UIBox
     {
         TextSurfaceEventListener textSurfaceListener;
@@ -20,12 +18,10 @@ namespace LayoutFarm.CustomWidgets
         TextSpanStyle defaultSpanStyle;
         Color backgroundColor = Color.White;
         string userTextContent;
-
         public TextBox(int width, int height, bool multiline)
             : base(width, height)
         {
             this._multiline = multiline;
-
         }
         public void ClearText()
         {
@@ -103,7 +99,6 @@ namespace LayoutFarm.CustomWidgets
                 int lineCount = 0;
                 while (line != null)
                 {
-
                     if (lineCount > 0)
                     {
                         textEditRenderElement.SplitCurrentLineToNewLine();
@@ -187,15 +182,12 @@ namespace LayoutFarm.CustomWidgets
                     tbox.CurrentTextSpanStyle = this.defaultSpanStyle;
                 }
                 tbox.BackgroundColor = this.backgroundColor;
-
-
                 tbox.SetController(this);
                 RegisterNativeEvent(
                   1 << UIEventIdentifier.NE_MOUSE_DOWN
                   | 1 << UIEventIdentifier.NE_LOST_FOCUS
                   | 1 << UIEventIdentifier.NE_SIZE_CHANGED
                   );
-
                 if (this.textSurfaceListener != null)
                 {
                     tbox.TextSurfaceListener = textSurfaceListener;
@@ -307,7 +299,6 @@ namespace LayoutFarm.CustomWidgets
                 e.CancelBubbling = true;
                 e.MouseCursorStyle = MouseCursorStyle.IBeam;
             }
-
         }
         protected override void OnMouseUp(UIMouseEventArgs e)
         {
@@ -331,8 +322,5 @@ namespace LayoutFarm.CustomWidgets
             visitor.TextNode(this.Text);
             visitor.EndElement();
         }
-
     }
-
-
 }

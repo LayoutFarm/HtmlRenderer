@@ -1,10 +1,9 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Collections.Generic;
-
 namespace LayoutFarm.Text
 {
-
     partial class EditableTextLine
     {
         #region Hidden Original Method Do Not Use
@@ -38,5 +37,4 @@ namespace LayoutFarm.Text
         }
         #endregion
     }
-
 }

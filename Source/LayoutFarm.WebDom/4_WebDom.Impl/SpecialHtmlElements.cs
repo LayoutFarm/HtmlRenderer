@@ -3,7 +3,6 @@
 using System;
 namespace LayoutFarm.WebDom.Impl
 {
-
     sealed class HtmlRootElement : HtmlElement
     {
         public HtmlRootElement(HtmlDocument ownerDoc)
@@ -47,7 +46,4 @@ namespace LayoutFarm.WebDom.Impl
         }
 #endif
     }
-
-
-
 }

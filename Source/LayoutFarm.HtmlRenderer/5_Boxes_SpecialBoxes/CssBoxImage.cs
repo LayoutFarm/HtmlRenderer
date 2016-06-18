@@ -16,7 +16,6 @@
 using System;
 using System.Collections.Generic;
 using PixelFarm.Drawing;
-
 namespace LayoutFarm.HtmlBoxes
 {
     /// <summary>
@@ -24,12 +23,10 @@ namespace LayoutFarm.HtmlBoxes
     /// </summary>
     public class CssBoxImage : CssBox
     {
-
         /// <summary>
         /// the image word of this image box
         /// </summary>
         readonly CssImageRun _imgRun;
-
         /// <summary>
         /// Init.
         /// </summary>
@@ -39,11 +36,9 @@ namespace LayoutFarm.HtmlBoxes
             IRootGraphics rootgfx, ImageBinder binder)
             : base(boxSpec, rootgfx)
         {
-
             this._imgRun = new CssImageRun();
             this._imgRun.ImageBinder = binder;
             this._imgRun.SetOwner(this);
-
             var runlist = new List<CssRun>(1);
             runlist.Add(_imgRun);
             CssBox.UnsafeSetContentRuns(this, runlist, false);
@@ -51,11 +46,9 @@ namespace LayoutFarm.HtmlBoxes
         public override void Clear()
         {
             base.Clear();
-
             var runlist = new List<CssRun>(1);
             runlist.Add(_imgRun);
             CssBox.UnsafeSetContentRuns(this, runlist, false);
-
         }
 
         public ImageBinder ImageBinder
@@ -65,28 +58,22 @@ namespace LayoutFarm.HtmlBoxes
             {
                 this._imgRun.ImageBinder = value;
                 this.RunSizeMeasurePass = false;
-
             }
         }
         public override void Paint(PaintVisitor p, RectangleF rect)
         {
             PaintBackground(p, rect, true, true);
-
-
             if (this.HasSomeVisibleBorder)
             {
                 p.PaintBorders(this, rect, true, true);
             }
             //--------------------------------------------------------- 
             RectangleF r = _imgRun.Rectangle;
-
             r.Height -= ActualBorderTopWidth + ActualBorderBottomWidth + ActualPaddingTop + ActualPaddingBottom;
             r.Y += ActualBorderTopWidth + ActualPaddingTop;
             r.X = (float)Math.Floor(r.X);
             r.Y = (float)Math.Floor(r.Y);
-
             bool tryLoadOnce = false;
-
         EVAL_STATE:
             switch (_imgRun.ImageBinder.State)
             {
@@ -95,36 +82,32 @@ namespace LayoutFarm.HtmlBoxes
                         //async request image
                         if (!tryLoadOnce)
                         {
-
                             p.RequestImageAsync(_imgRun.ImageBinder, this._imgRun, this);
                             //retry again
                             tryLoadOnce = true;
                             goto EVAL_STATE;
                         }
-                    } break;
+                    }
+                    break;
                 case ImageBinderState.Loading:
                     {
                         //RenderUtils.DrawImageLoadingIcon(g, r);
-                    } break;
+                    }
+                    break;
                 case ImageBinderState.Loaded:
                     {
-
                         Bitmap img;
                         if ((img = (Bitmap)_imgRun.ImageBinder.Image) != null)
                         {
-
                             if (_imgRun.ImageRectangle == Rectangle.Empty)
                             {
                                 p.DrawImage(img,
                                       r.Left, r.Top,
                                       img.Width, img.Height);
-
                             }
                             else
                             {
-
                                 p.DrawImage(img, _imgRun.ImageRectangle);
-
                             }
                         }
                         else
@@ -135,22 +118,22 @@ namespace LayoutFarm.HtmlBoxes
                                 p.DrawRectangle(Color.LightGray, r.X, r.Y, r.Width, r.Height);
                             }
                         }
-                    } break;
+                    }
+                    break;
                 case ImageBinderState.NoImage:
                     {
-
-                    } break;
+                    }
+                    break;
                 case ImageBinderState.Error:
                     {
                         RenderUtils.DrawImageErrorIcon(p.InnerCanvas, r);
-                    } break;
+                    }
+                    break;
             }
 
             //#if DEBUG
             //            p.FillRectangle(Color.Red, rect.X, rect.Y, rect.Width, rect.Height);
             //#endif
-
-
         }
 
         /// <summary>
@@ -182,7 +165,6 @@ namespace LayoutFarm.HtmlBoxes
             }
 
             this.RunSizeMeasurePass = true;
-
             MeasureImageSize(_imgRun, lay);
         }
 
@@ -195,18 +177,15 @@ namespace LayoutFarm.HtmlBoxes
         {
             var width = imgRun.OwnerBox.Width;
             var height = imgRun.OwnerBox.Height;
-
             bool hasImageTagWidth = width.Number > 0 && width.UnitOrNames == Css.CssUnitOrNames.Pixels;
             bool hasImageTagHeight = height.Number > 0 && height.UnitOrNames == Css.CssUnitOrNames.Pixels;
             bool scaleImageHeight = false;
-
             if (hasImageTagWidth)
             {
                 imgRun.Width = width.Number;
             }
             else if (width.Number > 0 && width.IsPercentage)
             {
-
                 imgRun.Width = width.Number * lay.LatestContainingBlock.VisualWidth;
                 scaleImageHeight = true;
             }
@@ -228,11 +207,13 @@ namespace LayoutFarm.HtmlBoxes
                     case Css.CssUnitOrNames.Percent:
                         {
                             maxWidthVal = maxWidth.Number * lay.LatestContainingBlock.VisualWidth;
-                        } break;
+                        }
+                        break;
                     case Css.CssUnitOrNames.Pixels:
                         {
                             maxWidthVal = maxWidth.Number;
-                        } break;
+                        }
+                        break;
                 }
 
 
@@ -275,9 +256,5 @@ namespace LayoutFarm.HtmlBoxes
             }
             //imageWord.Height += imageWord.OwnerBox.ActualBorderBottomWidth + imageWord.OwnerBox.ActualBorderTopWidth + imageWord.OwnerBox.ActualPaddingTop + imageWord.OwnerBox.ActualPaddingBottom;
         }
-
     }
-
-
-
 }

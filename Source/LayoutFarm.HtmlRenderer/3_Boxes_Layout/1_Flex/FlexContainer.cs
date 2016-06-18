@@ -3,10 +3,8 @@
 
 using System.Collections.Generic;
 using LayoutFarm.Css;
-
 namespace LayoutFarm.HtmlBoxes
 {
-
     //here not follow exact w3c
     //just experimnent only
 
@@ -30,13 +28,11 @@ namespace LayoutFarm.HtmlBoxes
         float maxSizeH;
         const int MAXSIZE_W = 99999;
         const int MAXSIZE_H = 99999;
-
         public FlexItem(CssBox box)
         {
             this.box = box;
             this.MinWidth = CssLength.AutoLength;
             this.MinHeight = CssLength.AutoLength;
-
             if (box.Width.IsEmptyOrAuto)
             {
                 //auto
@@ -46,7 +42,6 @@ namespace LayoutFarm.HtmlBoxes
             else
             {
                 maxSizeW = minSizeW = box.VisualWidth;
-
             }
             if (box.Height.IsEmptyOrAuto)
             {
@@ -59,7 +54,6 @@ namespace LayoutFarm.HtmlBoxes
             }
             this.PlanWidth = minSizeW;
             this.PlanHeight = minSizeH;
-
         }
         public int FlexShrink
         {
@@ -168,7 +162,6 @@ namespace LayoutFarm.HtmlBoxes
             float curX = 0;
             float curY = 0;
             float availableW = AvaliableParentWidth;
-
             for (int i = 0; i < j; ++i)
             {
                 FlexItem flexItem = flexItems[i];
@@ -204,7 +197,6 @@ namespace LayoutFarm.HtmlBoxes
 
                     if (totalExpandCount > 0)
                     {
-
                         float remainingW = availableW - curX;
                         float onePart = remainingW / totalExpandCount;
                         //add to plan width
@@ -224,7 +216,6 @@ namespace LayoutFarm.HtmlBoxes
                             curX += flexItem.PlanWidth;
                         }
                     }
-
                 }
             }
             else if (curX > availableW)
@@ -235,7 +226,6 @@ namespace LayoutFarm.HtmlBoxes
             }
 
             this.LineWidthAfterArrange = curX;
-
             //-----------------------------------------------
             //check for height
             float maxHeight = 0;

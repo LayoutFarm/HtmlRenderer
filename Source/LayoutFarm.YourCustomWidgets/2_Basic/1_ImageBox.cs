@@ -1,18 +1,15 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
 
 using LayoutFarm.UI;
-
 namespace LayoutFarm.CustomWidgets
 {
     public class ImageBox : EaseBox
     {
-
         CustomImageRenderBox imgRenderBox;
         ImageBinder imageBinder;
         public ImageBox(int width, int height)
             : base(width, height)
         {
-
         }
         public ImageBinder ImageBinder
         {

@@ -1,11 +1,11 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
 using LayoutFarm.UI;
-
 namespace LayoutFarm.CustomWidgets
 {
     public class TreeView : UIBox
@@ -16,20 +16,16 @@ namespace LayoutFarm.CustomWidgets
         int viewportX, viewportY;
         UICollection uiList;
         int latestItemY;
-
         SimpleBox panel; //panel 
         public TreeView(int width, int height)
             : base(width, height)
         {
-
             //panel for listview items
             this.panel = new SimpleBox(width, height);
-
             panel.ContentLayoutKind = BoxContentLayoutKind.VerticalStack;
             panel.BackColor = Color.LightGray;
             uiList = new UICollection(this);
             uiList.AddUI(panel);
-
         }
 
         protected override bool HasReadyRenderElement
@@ -80,7 +76,6 @@ namespace LayoutFarm.CustomWidgets
             latestItemY += treeNode.Height;
             treeNode.SetOwnerTreeView(this);
             panel.AddChild(treeNode);
-
         }
         //----------------------------------------------------
         protected override void OnMouseDown(UIMouseEventArgs e)
@@ -104,12 +99,10 @@ namespace LayoutFarm.CustomWidgets
         public override int ViewportX
         {
             get { return this.viewportX; }
-
         }
         public override int ViewportY
         {
             get { return this.viewportY; }
-
         }
         public override void SetViewport(int x, int y)
         {
@@ -124,11 +117,9 @@ namespace LayoutFarm.CustomWidgets
 
         public event EventHandler<UIMouseEventArgs> MouseDown;
         public event EventHandler<UIMouseEventArgs> MouseUp;
-
         //----------------------------------------------------  
         public override void PerformContentLayout()
         {
-
             //manually perform layout of its content 
             //here: arrange item in panel
             this.panel.PerformContentLayout();
@@ -162,7 +153,6 @@ namespace LayoutFarm.CustomWidgets
         public TreeNode(int width, int height)
             : base(width, height)
         {
-
         }
         public ImageBinder NodeIconImage
         {
@@ -270,7 +260,6 @@ namespace LayoutFarm.CustomWidgets
         }
         public void AddChildNode(TreeNode treeNode)
         {
-
             if (childNodes == null)
             {
                 childNodes = new List<TreeNode>();
@@ -292,7 +281,6 @@ namespace LayoutFarm.CustomWidgets
                     var tnRenderElement = treeNode.GetPrimaryRenderElement(primElement.Root);
                     tnRenderElement.SetLocation(indentWidth, newChildNodeY);
                     primElement.AddChild(tnRenderElement);
-
                     newChildNodeY += tnRenderElement.Height;
                     //-----------------
                 }
@@ -309,7 +297,6 @@ namespace LayoutFarm.CustomWidgets
         {
             if (!this.isOpen) return;
             this.isOpen = false;
-
             this.TreeView.PerformContentLayout();
         }
         public override void PerformContentLayout()
@@ -319,7 +306,6 @@ namespace LayoutFarm.CustomWidgets
             //reset
             this.desiredHeight = NODE_DEFAULT_HEIGHT;
             this.newChildNodeY = NODE_DEFAULT_HEIGHT;
-
             if (this.isOpen)
             {
                 if (childNodes != null)
@@ -334,7 +320,6 @@ namespace LayoutFarm.CustomWidgets
                             newChildNodeY,
                             childNode.Width,
                             childNode.DesiredHeight);
-
                         newChildNodeY += childNode.DesiredHeight;
                     }
                 }
@@ -351,7 +336,6 @@ namespace LayoutFarm.CustomWidgets
         //------------------------------------------------
         void SetupNodeIconBehaviour(ImageBox uiNodeIcon)
         {
-
             uiNodeIcon.MouseDown += (s, e) =>
             {
                 if (this.IsOpen)
@@ -364,20 +348,12 @@ namespace LayoutFarm.CustomWidgets
                     this.Expand();
                 }
             };
-
         }
         public override void Walk(UIVisitor visitor)
         {
-
             visitor.BeginElement(this, "treenode");
             this.Describe(visitor);
             visitor.EndElement();
         }
-
     }
-
-
-
-
-
 }

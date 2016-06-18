@@ -1,11 +1,8 @@
 ﻿//BSD  2015,2014 ,WinterDev
 
 using System.Text;
-
-
 namespace LayoutFarm.WebDom
 {
-
     /// <summary>
     /// css attr selector
     /// </summary>
@@ -14,12 +11,10 @@ namespace LayoutFarm.WebDom
         public string AttributeName;
         public CssAttributeSelectorOperator operatorName;
         public CssCodeValueExpression valueExpression;
-
         public string SelectorSignature
         {
             get
             {
-
                 StringBuilder sb = new StringBuilder();
                 sb.Append('[');
                 sb.Append(AttributeName);
@@ -32,7 +27,6 @@ namespace LayoutFarm.WebDom
                         break;
                     case CssAttributeSelectorOperator.Existance:
                         {
-
                         }
                         break;
                     case CssAttributeSelectorOperator.Hyphen:
@@ -60,7 +54,6 @@ namespace LayoutFarm.WebDom
                             sb.Append("$=");
                         }
                         break;
-
                 }
                 if (valueExpression != null)
                 {
@@ -68,7 +61,6 @@ namespace LayoutFarm.WebDom
                 }
                 sb.Append(']');
                 return sb.ToString();
-
             }
         }
     }
@@ -83,5 +75,4 @@ namespace LayoutFarm.WebDom
         Suffix,
         WhiteSpace
     }
-
 }

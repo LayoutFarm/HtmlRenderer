@@ -1,16 +1,15 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
 using LayoutFarm.RenderBoxes;
-
 namespace LayoutFarm
 {
 #if DEBUG
     partial class RootGraphic
     {
-
         public bool dbug_ShowRootUpdateArea;
         public bool dbug_ShowNativeScrollableElementUpdateArea;
         public bool dbug_ShowNativeScrollableElementDrawToThisPage;
@@ -24,8 +23,6 @@ namespace LayoutFarm
         public bool dbugEnableLayoutProfiler;
         public System.IO.StreamWriter dbugLayoutProfilerWriter;
         public bool dbugEventIsDragging;
-
-
         public int dbug_RootUpdateCounter;
         public int dbug_drawLevel;
         public LinkedList<dbugLayoutMsg> dbug_rootHitChainMsg = new LinkedList<dbugLayoutMsg>();
@@ -61,10 +58,8 @@ namespace LayoutFarm
             System.IO.StreamWriter visualInvaldateStreamWriter
             )
         {
-
             dbugHitTracker = new dbugHitTestTracker(hitTestTrackerDebugStreamWriter);
             dbugEvalScrollBarTracer = new dbugVisualEvalScrollBarTrace(this);
-
             if (dbugEnableLayoutProfiler)
             {
                 //string filename = dbugCoreConst.dbugRootFolder + "\\layout_trace\\p_" + Guid.NewGuid().ToString() + ".txt";
@@ -78,7 +73,6 @@ namespace LayoutFarm
                 dbugGraphicInvalidateTracer.Start(visualInvaldateStreamWriter);
                 dbugGraphicInvalidateTracer.WriteInfo("root_debug_init()");
             }
-
         }
         public void dbug_WriteTick(long tick)
         {
@@ -116,24 +110,15 @@ namespace LayoutFarm
         }
         public void dbug_AddDrawElement(RenderElement visualElement, Canvas currentCanvas, string additionalMsg)
         {
-
             StringBuilder stBuilder = new StringBuilder();
             stBuilder.Append(new string('.', dbug_drawLevel));
-
             stBuilder.Append("[" + dbug_drawLevel + "] c_" + currentCanvas.debug_canvas_id + " ");
             stBuilder.Append(visualElement.dbug_FullElementDescription());
-
-
-
             Rectangle r = visualElement.dbugGetGlobalRect();
             stBuilder.Append(" global(" + r.X + "," + r.Y + "," + r.Width + "," + r.Height + ")");
-
             Rectangle currentClipRect = currentCanvas.CurrentClipRect;
-
             stBuilder.Append(" clip(" + currentClipRect.X +
                 "," + currentClipRect.Y + "," + currentClipRect.Width + "," + currentClipRect.Height + ") ");
-
-
             if (visualElement.dbugParentVisualElement != null)
             {
                 stBuilder.Append(" of " + visualElement.dbugParentVisualElement.dbug_FullElementDescription());
@@ -147,12 +132,10 @@ namespace LayoutFarm
                 stBuilder.Append(visualElement.dbug_FullElementDescription());
                 dbug_rootDrawingMsg.AddLast(new dbugLayoutMsg(visualElement, stBuilder.ToString()));
             }
-
         }
 
         public void dbug_AddDrawLayer(RenderElementLayer layer)
         {
-
             dbug_rootDrawingMsg.AddLast(new dbugLayoutMsg(layer,
                 new string('.', dbug_drawLevel) + "[F" + dbug_drawLevel + "] " + layer.ToString()));
         }
@@ -198,14 +181,12 @@ namespace LayoutFarm
                     dbugGraphicInvalidateTracer.WriteInfo(strmsg);
                 }
             }
-
         }
         public void dbug_EndVisualInvalidateTrace()
         {
             if (dbugGraphicInvalidateTracer != null)
             {
                 dbugGraphicInvalidateTracer.Stop();
-
                 if (dbugInvalidateTracerStack.Count > 0)
                 {
                     dbugGraphicInvalidateTracer = dbugInvalidateTracerStack.Pop();
@@ -214,7 +195,6 @@ namespace LayoutFarm
                 {
                     dbugGraphicInvalidateTracer = null;
                 }
-
             }
         }
 
@@ -233,7 +213,6 @@ namespace LayoutFarm
 
         dbugVisualLayoutTracer dbugLastestDebugVisualLay;
         Stack<dbugVisualLayoutTracer> debugLayoutTracerStack = new Stack<dbugVisualLayoutTracer>();
-
         public dbugVisualLayoutTracer dbug_GetLastestVisualLayoutTracer()
         {
             return dbugLastestDebugVisualLay;
@@ -253,7 +232,7 @@ namespace LayoutFarm
                 dbugLastestDebugVisualLay.WriteInfo("---------switch to new sesssion---------");
                 debugLayoutTracerStack.Push(dbugLastestDebugVisualLay);
             }
-            dbugLastestDebugVisualLay = new dbugVisualLayoutTracer(this); 
+            dbugLastestDebugVisualLay = new dbugVisualLayoutTracer(this);
             dbugLastestDebugVisualLay.Start(layoutTraceStreamWriter);
             dbugLastestDebugVisualLay.WriteInfo("---------Layout Trace---------");
             dbugLastestDebugVisualLay.WriteInfo(beginMsg);
@@ -294,19 +273,15 @@ namespace LayoutFarm
         {
             if (dbugLastestDebugVisualLay != null)
             {
-
                 dbugLastestDebugVisualLay.WriteInfo(str);
             }
         }
         public int dbugNotNeedArrCount = 0;
         public int dbugNotNeedArrCountEpisode = 0;
-
-
         public void dbug_PushLayoutTraceMessage(dbugVisualRootMsg msg, RenderElementLayer layer)
         {
             if (dbugLastestDebugVisualLay != null)
             {
-
                 dbugLastestDebugVisualLay.WriteInfo(msg.msg, layer);
             }
         }

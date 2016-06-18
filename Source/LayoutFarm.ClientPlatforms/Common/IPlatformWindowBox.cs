@@ -14,5 +14,4 @@ namespace LayoutFarm.UI
         void SetSize(int w, int h);
         bool UseRelativeLocationToParent { get; set; }
     }
-
 }

@@ -15,18 +15,12 @@
 
 
 using System.Collections.Generic;
-
 using LayoutFarm.WebDom;
 using LayoutFarm.WebDom.Parser;
-
-
-
 namespace LayoutFarm.Composers
 {
-
     public static class WebDocumentParser
     {
-
         /// <summary>
         /// Parses the source html to css boxes tree structure.
         /// </summary>
@@ -47,7 +41,6 @@ namespace LayoutFarm.Composers
             //------------------------ 
             parser.Parse(snapSource, (LayoutFarm.WebDom.Impl.HtmlDocument)htmldoc, parentElement);
             FreeHtmlParser(parser);
-
         }
         static Queue<HtmlParser> sharedParsers = new Queue<HtmlParser>();
         static object sharedParserLock1 = new object();
@@ -73,7 +66,5 @@ namespace LayoutFarm.Composers
                 sharedParsers.Enqueue(parser);
             }
         }
-
     }
-
 }

@@ -23,14 +23,11 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         sealed class CssVerticalCellSpacingBox : CssBox
         {
-
-
             private readonly CssBox _extendedBox;
             /// <summary>
             /// the index of the row where box ends
             /// </summary>
             private readonly int _endRow;
-
             public CssVerticalCellSpacingBox(CssBox extendedBox, int startRow)
                 : base(specForVCell, extendedBox.RootGfx)
             {
@@ -57,6 +54,5 @@ namespace LayoutFarm.HtmlBoxes
                 specForVCell.Freeze();
             }
         }
-
     }
 }

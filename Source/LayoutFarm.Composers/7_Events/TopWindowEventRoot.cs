@@ -1,34 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using LayoutFarm.UI;
-
 namespace LayoutFarm
 {
-
     class TopWindowEventRoot : ITopWindowEventRoot
     {
         RootGraphic rootgfx;
         RenderElementEventPortal topWinBoxEventPortal;
         IEventPortal iTopBoxEventPortal;
-
-
         IEventListener currentKbFocusElem;
         IEventListener currentMouseActiveElement;
         IEventListener latestMouseDown;
-
         IEventListener draggingElement;
-
-
         DateTime lastTimeMouseUp;
         int dblClickSense = 150;//ms         
-
         UIHoverMonitorTask hoverMonitoringTask;
         MouseCursorStyle mouseCursorStyle;
-
         bool isMouseDown;
         bool isDragging;
-
         bool lastKeydownWithControl;
         bool lastKeydownWithAlt;
         bool lastKeydownWithShift;
@@ -36,8 +25,6 @@ namespace LayoutFarm
         int prevLogicalMouseY;
         int localMouseDownX;
         int localMouseDownY;
-
-
         //-------
         //event stock
         Stack<UIMouseEventArgs> stockMouseEvents = new Stack<UIMouseEventArgs>();
@@ -89,19 +76,13 @@ namespace LayoutFarm
             this.prevLogicalMouseY = y;
             this.isMouseDown = true;
             this.isDragging = false;
-
             UIMouseEventArgs e = GetFreeMouseEvent();
             SetUIMouseEventArgsInfo(e, x, y, 0, button);
-
             e.PreviousMouseDown = this.latestMouseDown;
-
             iTopBoxEventPortal.PortalMouseDown(e);
-
             this.currentMouseActiveElement = this.latestMouseDown = e.CurrentContextElement;
-
             this.localMouseDownX = e.X;
             this.localMouseDownY = e.Y;
-
             if (e.DraggingElement != null)
             {
                 if (e.DraggingElement != e.CurrentContextElement)
@@ -112,7 +93,6 @@ namespace LayoutFarm
                     //find new capture pos
                     this.localMouseDownX = e.GlobalX - globalX;
                     this.localMouseDownY = e.GlobalY - globalY;
-
                 }
                 this.draggingElement = e.DraggingElement;
             }
@@ -131,20 +111,15 @@ namespace LayoutFarm
             int ydiff = y - prevLogicalMouseY;
             this.prevLogicalMouseX = x;
             this.prevLogicalMouseY = y;
-
-
             UIMouseEventArgs e = GetFreeMouseEvent();
             SetUIMouseEventArgsInfo(e, x, y, 0, button);
             e.SetDiff(xdiff, ydiff);
             //----------------------------------
             e.IsDragging = isDragging;
-
             this.isMouseDown = this.isDragging = false;
-
             DateTime snapMouseUpTime = DateTime.Now;
             TimeSpan timediff = snapMouseUpTime - lastTimeMouseUp;
             this.lastTimeMouseUp = snapMouseUpTime;
-
             if (this.isDragging)
             {
                 if (draggingElement != null)
@@ -182,12 +157,10 @@ namespace LayoutFarm
         }
         void ITopWindowEventRoot.RootMouseMove(int x, int y, int button)
         {
-
             int xdiff = x - prevLogicalMouseX;
             int ydiff = y - prevLogicalMouseY;
             this.prevLogicalMouseX = x;
             this.prevLogicalMouseY = y;
-
             if (xdiff == 0 && ydiff == 0)
             {
                 return;
@@ -197,7 +170,6 @@ namespace LayoutFarm
             //when mousemove -> reset hover!            
             hoverMonitoringTask.Reset();
             hoverMonitoringTask.Enabled = true;
-
             UIMouseEventArgs e = GetFreeMouseEvent();
             SetUIMouseEventArgsInfo(e, x, y, 0, button);
             e.SetDiff(xdiff, ydiff);
@@ -213,8 +185,6 @@ namespace LayoutFarm
                     e.SetLocation(e.GlobalX - d_GlobalX, e.GlobalY - d_globalY);
                     e.CapturedMouseX = this.localMouseDownX;
                     e.CapturedMouseY = this.localMouseDownY;
-
-
                     var iportal = draggingElement as IEventPortal;
                     if (iportal != null)
                     {
@@ -239,19 +209,16 @@ namespace LayoutFarm
 
             this.mouseCursorStyle = e.MouseCursorStyle;
             ReleaseMouseEvent(e);
-
         }
         void ITopWindowEventRoot.RootMouseWheel(int delta)
         {
             UIMouseEventArgs e = GetFreeMouseEvent();
             SetUIMouseEventArgsInfo(e, 0, 0, 0, delta);
-
             if (currentMouseActiveElement != null)
             {
                 currentMouseActiveElement.ListenMouseWheel(e);
             }
             iTopBoxEventPortal.PortalMouseWheel(e);
-
             this.mouseCursorStyle = e.MouseCursorStyle;
             ReleaseMouseEvent(e);
         }
@@ -275,15 +242,11 @@ namespace LayoutFarm
             }
 
             StopCaretBlink();
-
             UIKeyEventArgs e = GetFreeKeyEvent();
             e.SetKeyChar(c);
-
             e.ExactHitObject = e.SourceHitElement = currentKbFocusElem;
             currentKbFocusElem.ListenKeyPress(e);
-
             iTopBoxEventPortal.PortalKeyPress(e);
-
             ReleaseKeyEvent(e);
         }
         void ITopWindowEventRoot.RootKeyDown(int keydata)
@@ -296,13 +259,9 @@ namespace LayoutFarm
             UIKeyEventArgs e = GetFreeKeyEvent();
             SetKeyData(e, keydata);
             StopCaretBlink();
-
-
             e.ExactHitObject = e.SourceHitElement = currentKbFocusElem;
             currentKbFocusElem.ListenKeyDown(e);
-
             iTopBoxEventPortal.PortalKeyDown(e);
-
             ReleaseKeyEvent(e);
         }
 
@@ -314,19 +273,15 @@ namespace LayoutFarm
             }
 
             StopCaretBlink();
-
             UIKeyEventArgs e = GetFreeKeyEvent();
             SetKeyData(e, keydata);
             //----------------------------------------------------
 
             e.ExactHitObject = e.SourceHitElement = currentKbFocusElem;
-
             currentKbFocusElem.ListenKeyUp(e);
-
             iTopBoxEventPortal.PortalKeyUp(e);
             //----------------------------------------------------
             ReleaseKeyEvent(e);
-
             StartCaretBlink();
         }
         bool ITopWindowEventRoot.RootProcessDialogKey(int keyData)
@@ -339,7 +294,6 @@ namespace LayoutFarm
 
             StopCaretBlink();
             UI.UIKeys k = (UIKeys)keyData;
-
             UIKeyEventArgs e = GetFreeKeyEvent();
             e.KeyData = (int)keyData;
             e.SetEventInfo(
@@ -347,14 +301,9 @@ namespace LayoutFarm
                 this.lastKeydownWithShift = ((k & UIKeys.Shift) == UIKeys.Shift),
                 this.lastKeydownWithAlt = ((k & UIKeys.Alt) == UIKeys.Alt),
                 this.lastKeydownWithControl = ((k & UIKeys.Control) == UIKeys.Control));
-
             bool result = false;
-
             e.ExactHitObject = e.SourceHitElement = currentKbFocusElem;
-
             result = currentKbFocusElem.ListenProcessDialogKey(e);
-
-
             ReleaseKeyEvent(e);
             return result;
         }

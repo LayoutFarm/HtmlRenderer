@@ -1,7 +1,7 @@
 ﻿// 2015,2014 ,BSD, WinterDev   
+
 namespace LayoutFarm.WebDom.Impl
 {
-
     class HtmlShadowDocument : HtmlDocument
     {
         //this is not document fragment ***

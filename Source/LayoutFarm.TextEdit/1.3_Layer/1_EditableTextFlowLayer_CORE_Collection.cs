@@ -1,10 +1,9 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Collections.Generic;
-
 namespace LayoutFarm.Text
 {
-
     partial class EditableTextFlowLayer
     {
         public override IEnumerable<RenderElement> GetRenderElementReverseIter()
@@ -25,11 +24,9 @@ namespace LayoutFarm.Text
                             veNode = veNode.Previous;
                         }
                     }
-
                 }
                 else
                 {
-
                     EditableTextLine ln = (EditableTextLine)lineCollection;
                     LinkedListNode<EditableRun> veNode = ln.Last;
                     while (veNode != null)
@@ -52,20 +49,17 @@ namespace LayoutFarm.Text
                     {
                         EditableTextLine ln = lines[i];
                         LinkedListNode<EditableRun> veNode = ln.First;
-
                         while (veNode != null)
                         {
                             yield return veNode.Value;
                             veNode = veNode.Next;
                         }
                     }
-
                 }
                 else
                 {
                     EditableTextLine ln = (EditableTextLine)lineCollection;
                     LinkedListNode<EditableRun> veNode = ln.First;
-
                     while (veNode != null)
                     {
                         yield return veNode.Value;
@@ -76,8 +70,6 @@ namespace LayoutFarm.Text
         }
         public void AddTop(EditableRun visualElement)
         {
-
-
             if ((layerFlags & FLOWLAYER_HAS_MULTILINE) != 0)
             {
                 List<EditableTextLine> lines = (List<EditableTextLine>)lineCollection;
@@ -87,9 +79,6 @@ namespace LayoutFarm.Text
             {
                 ((EditableTextLine)lineCollection).AddLast(visualElement);
             }
-
-
-
         }
         public void AddBefore(EditableRun beforeVisualElement, EditableRun visualElement)
         {
@@ -102,14 +91,10 @@ namespace LayoutFarm.Text
             {
                 throw new NotSupportedException();
             }
-
-
         }
 
         public void AddAfter(EditableRun afterVisualElement, EditableRun visualElement)
         {
-
-
             EditableTextLine targetLine = afterVisualElement.OwnerEditableLine;
             if (targetLine != null)
             {
@@ -119,7 +104,6 @@ namespace LayoutFarm.Text
             {
                 throw new NotSupportedException();
             }
-
         }
 
         public override void Clear()
@@ -133,7 +117,6 @@ namespace LayoutFarm.Text
                     lines[i].Clear();
                 }
                 lines.Clear();
-
                 lineCollection = new EditableTextLine(this);
                 FlowLayerHasMultiLines = false;
             }
@@ -141,12 +124,10 @@ namespace LayoutFarm.Text
             {
                 ((EditableTextLine)lineCollection).Clear();
             }
-
         }
 
         internal void Remove(int lineId)
         {
-
 #if DEBUG
             if (lineId < 0)
             {
@@ -179,6 +160,5 @@ namespace LayoutFarm.Text
                 FlowLayerHasMultiLines = false;
             }
         }
-
     }
 }

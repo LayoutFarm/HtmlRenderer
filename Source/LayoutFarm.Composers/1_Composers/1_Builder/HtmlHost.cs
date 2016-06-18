@@ -3,44 +3,30 @@
 
 using System;
 using System.Collections.Generic;
-
 using PixelFarm.Drawing;
-
 using LayoutFarm.ContentManagers;
 using LayoutFarm.Composers;
 using LayoutFarm.Css;
 using LayoutFarm.WebDom;
-
 namespace LayoutFarm.HtmlBoxes
 {
-
     public class HtmlHost
     {
-
         List<LayoutFarm.Composers.CustomCssBoxGenerator> generators = new List<LayoutFarm.Composers.CustomCssBoxGenerator>();
-
         HtmlContainerUpdateHandler htmlContainerUpdateHandler;
-
         EventHandler<ImageRequestEventArgs> requestImage;
         EventHandler<TextRequestEventArgs> requestStyleSheet;
-
         GraphicsPlatform gfxplatform;
         HtmlDocument commonHtmlDoc;
         RootGraphic rootgfx;
-
         Queue<LayoutFarm.HtmlBoxes.LayoutVisitor> htmlLayoutVisitorStock = new Queue<LayoutVisitor>();
         LayoutFarm.Composers.RenderTreeBuilder renderTreeBuilder;
-
-
-
         private HtmlHost(GraphicsPlatform gfxplatform, WebDom.CssActiveSheet activeSheet)
         {
-
             this.gfxplatform = gfxplatform;
             this.BaseStylesheet = activeSheet;
             this.commonHtmlDoc = new HtmlDocument();
             this.commonHtmlDoc.CssActiveSheet = activeSheet;
-
         }
         public HtmlHost(GraphicsPlatform gfxplatform)
             : this(gfxplatform,
@@ -98,7 +84,6 @@ namespace LayoutFarm.HtmlBoxes
             HtmlDocument sharedDocument = new HtmlSharedDocument(this.commonHtmlDoc);
             sharedDocument.SetDomUpdateHandler(this.commonHtmlDoc.DomUpdateHandler);
             sharedDocument.CssActiveSheet = this.commonHtmlDoc.CssActiveSheet;
-
             return sharedDocument;
         }
         public LayoutFarm.HtmlBoxes.LayoutVisitor GetSharedHtmlLayoutVisitor(HtmlContainer htmlCont)
@@ -158,7 +143,6 @@ namespace LayoutFarm.HtmlBoxes
           LayoutFarm.WebDom.DomElement tag,
           LayoutFarm.Css.BoxSpec boxspec)
         {
-
             for (int i = generators.Count - 1; i >= 0; --i)
             {
                 var newbox = generators[i].CreateCssBox(tag, parent, boxspec, this);
@@ -185,9 +169,7 @@ namespace LayoutFarm.HtmlBoxes
                 case 0: { } break;
                 case 1:
                     {
-
                         CssBox hostBox = HtmlElement.InternalGetPrincipalBox(parentElement);
-
                         //only one child -- easy 
                         DomNode child = parentElement.GetChildNode(0);
                         int newBox = 0;
@@ -195,16 +177,13 @@ namespace LayoutFarm.HtmlBoxes
                         {
                             case HtmlNodeType.TextNode:
                                 {
-
                                     HtmlTextNode singleTextNode = (HtmlTextNode)child;
                                     RunListHelper.AddRunList(hostBox, parentElement.Spec, singleTextNode);
-
                                 }
                                 break;
                             case HtmlNodeType.ShortElement:
                             case HtmlNodeType.OpenElement:
                                 {
-
                                     HtmlElement childElement = (HtmlElement)child;
                                     var spec = childElement.Spec;
                                     if (spec.CssDisplay == CssDisplay.None)
@@ -247,10 +226,8 @@ namespace LayoutFarm.HtmlBoxes
                 default:
                     {
                         CssBox hostBox = HtmlElement.InternalGetPrincipalBox(parentElement);
-
                         CssWhiteSpace ws = parentElement.Spec.WhiteSpace;
                         int childCount = parentElement.ChildrenCount;
-
                         int newBox = 0;
                         for (int i = 0; i < childCount; ++i)
                         {
@@ -280,7 +257,6 @@ namespace LayoutFarm.HtmlBoxes
                                                     RunListHelper.AddRunList(
                                                         CssBox.AddNewAnonInline(hostBox),
                                                         parentElement.Spec, textNode);
-
                                                 }
                                                 break;
                                             default:
@@ -297,7 +273,6 @@ namespace LayoutFarm.HtmlBoxes
                                         }
 
                                         newBox++;
-
                                     }
                                     break;
                                 case HtmlNodeType.ShortElement:
@@ -316,12 +291,10 @@ namespace LayoutFarm.HtmlBoxes
                                         }
                                         else
                                         {
-
                                             CssBox existingCssBox = HtmlElement.InternalGetPrincipalBox(childElement);
                                             if (existingCssBox == null)
                                             {
                                                 CssBox box = CreateBox(hostBox, childElement, fullmode);
-
                                             }
                                             else
                                             {
@@ -344,7 +317,6 @@ namespace LayoutFarm.HtmlBoxes
                                     break;
                             }
                         }
-
                     }
                     break;
             }
@@ -364,17 +336,14 @@ namespace LayoutFarm.HtmlBoxes
             //----------------------------------------- 
             //some box has predefined behaviour 
             CssBox newBox = null;
-
             switch (childElement.WellknownElementName)
             {
-
                 case WellKnownDomNodeName.br:
                     //special treatment for br
                     newBox = new CssBox(childElement.Spec, parentBox.RootGfx);
                     newBox.SetController(childElement);
                     CssBox.SetAsBrBox(newBox);
                     CssBox.ChangeDisplayType(newBox, CssDisplay.Block);
-
                     parentBox.AppendChild(newBox);
                     childElement.SetPrincipalBox(newBox);
                     return newBox;
@@ -552,8 +521,5 @@ namespace LayoutFarm.HtmlBoxes
             //------------------------------------
             return box;
         }
-
-
-
     }
 }

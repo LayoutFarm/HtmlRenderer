@@ -1,9 +1,8 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
-using System;
 
+using System;
 namespace LayoutFarm.UI
 {
-
     public enum UIScrollEventType
     {
         SmallDecrement = 0,
@@ -88,6 +87,5 @@ namespace LayoutFarm.UI
                 return need_it;
             }
         }
-
     }
 }

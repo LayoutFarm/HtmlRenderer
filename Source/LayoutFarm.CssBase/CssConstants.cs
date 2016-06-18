@@ -16,7 +16,6 @@
 
 namespace LayoutFarm.Css
 {
-
     /// <summary>
     /// String constants to avoid typing errors.
     /// </summary>
@@ -32,31 +31,22 @@ namespace LayoutFarm.Css
         public const string Bolder = "bolder";
         public const string Bottom = "bottom";
         public const string BreakAll = "break-all";
-
-
         public const string Center = "center";
         public const string Collapse = "collapse";
         public const string Cursive = "cursive";
         public const string Circle = "circle";
-
         public const string Decimal = "decimal";
         public const string DecimalLeadingZero = "decimal-leading-zero";
         public const string Disc = "disc";
-
         public const string Fantasy = "fantasy";
-
         public const string Hide = "hide";
-
         public const string Inherit = "inherit";
         public const string Inline = "inline";
         public const string InlineTable = "inline-table";
         public const string Inset = "inset";
         public const string Italic = "italic";
-
         public const string Justify = "justify";
-
         public const string KeepAll = "keep-all";
-
         public const string Large = "large";
         public const string Larger = "larger";
         public const string Left = "left";
@@ -68,7 +58,6 @@ namespace LayoutFarm.Css
         public const string LowerLatin = "lower-latin";
         public const string LowerRoman = "lower-roman";
         public const string LowerGreek = "lower-greek";
-
         public const string Armenian = "armenian";
         public const string Georgian = "georgian";
         public const string Hebrew = "hebrew";
@@ -89,11 +78,8 @@ namespace LayoutFarm.Css
         public const string Pre = "pre";
         public const string PreWrap = "pre-wrap";
         public const string PreLine = "pre-line";
-
         public const string Right = "right";
         public const string Rtl = "rtl";
-
-
         public const string SansSerif = "sans-serif";
         public const string Serif = "serif";
         public const string Show = "show";
@@ -133,7 +119,6 @@ namespace LayoutFarm.Css
         public const string Double = "double";
         public const string Groove = "groove";
         public const string Ridge = "ridge";
-
         public const string ContentBox = "content-box";
         public const string BorderBox = "border-box";
         public const string Initial = "initial";
@@ -141,45 +126,34 @@ namespace LayoutFarm.Css
         /// Centimeters
         /// </summary>
         public const string Cm = "cm";
-
         /// <summary>
         /// Milimeters
         /// </summary>
         public const string Mm = "mm";
-
         /// <summary>
         /// Pixels
         /// </summary>
         public const string Px = "px";
-
         /// <summary>
         /// Inches
         /// </summary>
         public const string In = "in";
-
         /// <summary>
         /// Em - The font size of the relevant font
         /// </summary>
         public const string Em = "em";
-
         /// <summary>
         /// The 'x-height' of the relevan font
         /// </summary>
         public const string Ex = "ex";
-
         /// <summary>
         /// Points
         /// </summary>
         public const string Pt = "pt";
-
         /// <summary>
         /// Picas
         /// </summary>
         public const string Pc = "pc";
-
-
-
-
         //------------------------------------------------------------------
         public const string Relative = "relative";
         public const string Static = "static";
@@ -200,21 +174,17 @@ namespace LayoutFarm.Css
         public const string RowReverse = "row-reverse";
         public const string Column = "column";
         public const string ColumnReverse = "column-reverse";
-
         //------------------------------------------------------------------ 
 
         public const string Flex = "flex";
         public const string InlineFlex = "inline-flex";
-
         public const string Wrap = "wrap";
         public const string WrapReverse = "wrap-reverse";
         public const string MainSize = "main-size";
-
         public const string FlexStart = "flex-start";
         public const string FlexEnd = "flex-end";
         public const string SpaceBetween = "space-between";
         public const string SpaceAround = "space-around";
-
-        public const string Stretch = "stretch"; 
+        public const string Stretch = "stretch";
     }
 }

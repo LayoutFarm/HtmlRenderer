@@ -1,44 +1,35 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Text;
-
 using PixelFarm.Drawing;
-
 using LayoutFarm.RenderBoxes;
-
 namespace LayoutFarm.Text
 {
-
-
-
 #if DEBUG
     [DebuggerDisplay("ELN {dbugShortLineInfo}")]
 #endif
     sealed partial class EditableTextLine : LinkedList<EditableRun>
     {
-
         internal EditableTextFlowLayer editableFlowLayer;
         int currentLineNumber;
         int actualLineHeight;
         int actualLineWidth;
         int lineTop;
         int lineFlags;
-
         const int LINE_CONTENT_ARRANGED = 1 << (1 - 1);
         const int LINE_SIZE_VALID = 1 << (2 - 1);
         const int LOCAL_SUSPEND_LINE_REARRANGE = 1 << (3 - 1);
         const int END_WITH_LINE_BREAK = 1 << (4 - 1);
         public const int DEFAULT_LINE_HEIGHT = 17;
-
 #if DEBUG
         static int dbugLineTotalCount = 0;
         internal int dbugLineId;
 #endif
         internal EditableTextLine(EditableTextFlowLayer ownerFlowLayer)
         {
-
             this.editableFlowLayer = ownerFlowLayer;
             this.actualLineHeight = DEFAULT_LINE_HEIGHT;
 #if DEBUG
@@ -83,11 +74,9 @@ namespace LayoutFarm.Text
         }
         internal bool HitTestCore(HitChain hitChain)
         {
-
             int testX;
             int testY;
             hitChain.GetTestPoint(out testX, out testY);
-
             if (this.Count == 0)
             {
                 return false;
@@ -205,12 +194,9 @@ namespace LayoutFarm.Text
         }
         internal IEnumerable<EditableRun> GetVisualElementForward(EditableRun startVisualElement, EditableRun stopVisualElement)
         {
-
             if (startVisualElement != null)
             {
-
                 LinkedListNode<EditableRun> lexnode = GetLineLinkedNode(startVisualElement);
-
                 while (lexnode != null)
                 {
                     yield return lexnode.Value;
@@ -259,7 +245,6 @@ namespace LayoutFarm.Text
                 {
                     return lastRun.Right;
                 }
-
             }
         }
 
@@ -311,7 +296,6 @@ namespace LayoutFarm.Text
         {
             get
             {
-
                 return currentLineNumber == editableFlowLayer.LineCount - 1;
             }
         }
@@ -319,7 +303,6 @@ namespace LayoutFarm.Text
         {
             get
             {
-
                 return IsFirstLine && IsLastLine;
             }
         }
@@ -342,7 +325,6 @@ namespace LayoutFarm.Text
                 {
                     return null;
                 }
-
             }
         }
         public EditableTextLine Prev
@@ -412,11 +394,5 @@ namespace LayoutFarm.Text
             this.lineFlags &= ~LINE_SIZE_VALID;
             this.lineFlags &= ~LINE_CONTENT_ARRANGED;
         }
-
-
-
     }
-
-
-
 }

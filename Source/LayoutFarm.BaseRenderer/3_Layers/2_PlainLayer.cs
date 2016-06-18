@@ -1,19 +1,15 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
- 
+
 using System.Collections.Generic;
 using PixelFarm.Drawing;
- 
-
 namespace LayoutFarm.RenderBoxes
 {
-
     class PlainLayer : RenderElementLayer
     {
         LinkedList<RenderElement> myElements = new LinkedList<RenderElement>();
         public PlainLayer(RenderElement owner)
             : base(owner)
         {
-
         }
         public override IEnumerable<RenderElement> GetRenderElementReverseIter()
         {
@@ -37,20 +33,16 @@ namespace LayoutFarm.RenderBoxes
 
         public void AddChild(RenderElement re)
         {
-            
             re.internalLinkedNode = myElements.AddLast(re);
             RenderElement.SetParentLink(re, this.owner);
-
             re.InvalidateGraphics();
         }
         public void RemoveChild(RenderElement re)
         {
-             
             myElements.Remove(re.internalLinkedNode);
             re.internalLinkedNode = null;
             var bounds = re.RectBounds;
             RenderElement.SetParentLink(re, null);
-
             RenderElement.InvalidateGraphicLocalArea(this.OwnerRenderElement, bounds);
         }
         public override void Clear()
@@ -70,14 +62,12 @@ namespace LayoutFarm.RenderBoxes
         }
         IEnumerable<RenderElement> GetHitTestIter()
         {
-
             LinkedListNode<RenderElement> curNode = this.myElements.Last;
             while (curNode != null)
             {
                 yield return curNode.Value;
                 curNode = curNode.Previous;
             }
-
         }
 
         public override void DrawChildContent(Canvas canvasPage, Rectangle updateArea)
@@ -92,38 +82,29 @@ namespace LayoutFarm.RenderBoxes
             {
                 if (child.IntersectsWith(ref updateArea))
                 {
-
                     int x = child.X;
                     int y = child.Y;
-
                     canvasPage.OffsetCanvasOrigin(x, y);
                     updateArea.Offset(-x, -y);
-
                     child.DrawToThisCanvas(canvasPage, updateArea);
-
                     canvasPage.OffsetCanvasOrigin(-x, -y);
                     updateArea.Offset(x, y);
                 }
-
             }
 
             this.FinishDrawingChildContent();
-
         }
 #if DEBUG
         public override void dbug_DumpElementProps(dbugLayoutMsgWriter writer)
         {
-
             writer.Add(new dbugLayoutMsg(
                 this, this.ToString()));
             writer.EnterNewLevel();
-
             foreach (RenderElement child in this.GetDrawingIter())
             {
                 child.dbug_DumpVisualProps(writer);
             }
             writer.LeaveCurrentLevel();
-
         }
 #endif
         public override bool HitTestCore(HitChain hitChain)
@@ -147,7 +128,6 @@ namespace LayoutFarm.RenderBoxes
             int local_lineWidth = 0;
             int local_lineHeight = 17;
             LinkedListNode<RenderElement> curNode = velist.First;
-
             while (curNode != null)
             {
                 RenderElement visualElement = curNode.Value;
@@ -156,7 +136,6 @@ namespace LayoutFarm.RenderBoxes
                     visualElement.TopDownReCalculateContentSize();
                 }
                 int e_desiredRight = visualElement.Right;
-
                 if (local_lineWidth < e_desiredRight)
                 {
                     local_lineWidth = e_desiredRight;
@@ -198,7 +177,6 @@ namespace LayoutFarm.RenderBoxes
 #endif
 
             SetPostCalculateLayerContentSize(ReCalculateContentSizeNoLayout(this.myElements));
-
 #if DEBUG
             vinv_dbug_ExitLayerReCalculateContent();
 #endif
@@ -206,7 +184,6 @@ namespace LayoutFarm.RenderBoxes
 #if DEBUG
         public override string ToString()
         {
-
             return "plain layer " + "(L" + dbug_layer_id + this.dbugLayerState + ") postcal:" +
                 this.PostCalculateContentSize.ToString() + " of " + this.OwnerRenderElement.dbug_FullElementDescription();
         }

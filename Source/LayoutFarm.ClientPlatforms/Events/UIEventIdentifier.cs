@@ -2,15 +2,12 @@
 
 namespace LayoutFarm.UI
 {
-
     public static class UIEventIdentifier
     {
-
         public const int NE_KEY_PRESS = 1;
         public const int NE_KEY_DOWN = 2;
         public const int NE_KEY_UP = 3;
         public const int MAX_KEYBOARD_EVENT_NUMBER = 3;
-
         public const int NE_MOUSE_ENTER = 4;
         public const int NE_MOUSE_MOVE = 5;
         public const int NE_MOUSE_LEAVE = 6;
@@ -35,26 +32,5 @@ namespace LayoutFarm.UI
         public const int NE_LOST_FOCUS = 24;
         public const int NE_SIZE_CHANGED = 25;
         public const int NE_LOST_MOUSE_FOCUS = 26;
-
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

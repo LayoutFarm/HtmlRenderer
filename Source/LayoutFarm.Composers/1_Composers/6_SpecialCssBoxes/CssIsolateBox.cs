@@ -1,9 +1,7 @@
 ﻿// 2015,2014 ,BSD, WinterDev 
 
 using PixelFarm.Drawing;
-
 using LayoutFarm.Css;
-
 namespace LayoutFarm.HtmlBoxes
 {
     class CssIsolateBox : CssBox
@@ -11,7 +9,6 @@ namespace LayoutFarm.HtmlBoxes
         public CssIsolateBox(BoxSpec spec, RootGraphic rootgfx)
             : base(spec, rootgfx)
         {
-
         }
     }
 
@@ -41,9 +38,5 @@ namespace LayoutFarm.HtmlBoxes
             globalY = p.Y;
             return this;
         }
-
     }
-
-
-
 }

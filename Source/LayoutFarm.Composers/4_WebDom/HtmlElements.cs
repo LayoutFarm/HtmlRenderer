@@ -2,20 +2,14 @@
 //ArthurHub  , Jose Manuel Menendez Poo
 
 using System;
-
 using LayoutFarm.HtmlBoxes;
 using LayoutFarm.WebDom;
-
-
 namespace LayoutFarm.Composers
 {
-
     class HtmlElement : LayoutFarm.WebDom.Impl.HtmlElement
     {
         CssBox principalBox;
         Css.BoxSpec boxSpec;
-
-
         internal HtmlElement(HtmlDocument owner, int prefix, int localNameIndex)
             : base(owner, prefix, localNameIndex)
         {
@@ -47,7 +41,6 @@ namespace LayoutFarm.Composers
 
         protected override void OnElementChangedInIdleState(ElementChangeKind changeKind)
         {
-
             //1. 
             this.OwnerDocument.SetDocumentState(DocumentState.ChangedAfterIdle);
             if (this.OwnerDocument.IsDocFragment) return;
@@ -69,7 +62,6 @@ namespace LayoutFarm.Composers
 
         protected override void OnElementChanged()
         {
-
             CssBox box = this.principalBox;
             if (box is CssScrollView)
             {
@@ -84,13 +76,10 @@ namespace LayoutFarm.Composers
             scrollView.SetController(this);
             scrollView.SetVisualSize(box.VisualWidth, box.VisualHeight);
             scrollView.SetExpectedSize(box.VisualWidth, box.VisualHeight);
-
             box.ParentBox.InsertChild(box, scrollView);
             box.ParentBox.RemoveChild(box);
-
             //scrollbar width= 10
             scrollView.SetInnerBox(box);
-
             //change primary render element
             this.principalBox = scrollView;
             scrollView.InvalidateGraphics();
@@ -209,9 +198,5 @@ namespace LayoutFarm.Composers
             }
             return base.RemoveChild(childNode);
         }
-
     }
-
-
-
 }

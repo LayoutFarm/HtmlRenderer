@@ -1,16 +1,14 @@
 ﻿// 2015,2014 ,BSD, WinterDev 
+
 using System.Collections.Generic;
 using System.Globalization;
-
 using LayoutFarm.Composers;
 using LayoutFarm.Css;
 using LayoutFarm.WebDom;
-
 namespace LayoutFarm.HtmlBoxes
 {
     static class TableBoxCreator
     {
-
         public static CssBox CreateOtherPredefinedTableElement(CssBox parent,
             HtmlElement childElement, CssDisplay selectedCssDisplayType)
         {
@@ -33,7 +31,6 @@ namespace LayoutFarm.HtmlBoxes
             }
             col.SetController(childElement);
             parent.AppendChild(col);
-
             string spanValue;
             int spanNum = 1;//default
             if (childElement.TryGetAttribute(WellknownName.Span, out spanValue))
@@ -99,21 +96,17 @@ namespace LayoutFarm.HtmlBoxes
         static readonly char[] circleItem = new[] { 'o' };
         static readonly char[] squareItem = new[] { '♠' };
         static Composers.ContentTextSplitter splitter = new Composers.ContentTextSplitter();
-
         public static CssBox CreateListItemBox(CssBox parent, HtmlElement childElement)
         {
             var spec = childElement.Spec;
             var newBox = new CssBoxListItem(spec, parent.RootGfx);
             newBox.SetController(childElement);
             parent.AppendChild(newBox);
-
             if (spec.ListStyleType != CssListStyleType.None)
             {
-
                 //create sub item collection 
                 var itemBulletBox = new CssBox(spec.GetAnonVersion(), parent.RootGfx);
                 newBox.BulletBox = itemBulletBox;
-
                 CssBox.UnsafeSetParent(itemBulletBox, newBox);
                 CssBox.ChangeDisplayType(itemBulletBox, CssDisplay.Inline);
                 //---------------------------------------------------------------
@@ -154,13 +147,10 @@ namespace LayoutFarm.HtmlBoxes
                 }
                 //--------------------------------------------------------------- 
                 CssBox.UnsafeSetTextBuffer(itemBulletBox, text_content);
-
                 List<CssRun> runlist;
                 bool hasSomeCharacter;
                 splitter.ParseWordContent(text_content, spec, itemBulletBox.IsBlock, out runlist, out hasSomeCharacter);
-
                 RunListHelper.AddRunList(itemBulletBox, spec, runlist, text_content, false);
-
             }
             return newBox;
         }
@@ -170,10 +160,8 @@ namespace LayoutFarm.HtmlBoxes
         /// <returns></returns>
         static int GetIndexForList(CssBox box, HtmlElement childElement)
         {
-
             HtmlElement parentNode = childElement.ParentNode as HtmlElement;
             int index = 1;
-
             string reversedAttrValue;
             bool reversed = false;
             if (parentNode.TryGetAttribute(WellknownName.Reversed, out reversedAttrValue))

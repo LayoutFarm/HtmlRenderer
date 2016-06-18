@@ -1,7 +1,7 @@
 ﻿// 2015, BSD, WinterDev
+
 using System;
 using System.Collections.Generic;
-
 namespace LayoutFarm.HtmlBoxes
 {
     struct FloatFormattingContext
@@ -12,7 +12,6 @@ namespace LayoutFarm.HtmlBoxes
         public float lineRightOffset;
         public float offsetFloatTop;
         public bool floatingOutOfLine;
-
     }
 
     class FloatingContextStack
@@ -20,10 +19,8 @@ namespace LayoutFarm.HtmlBoxes
         List<FloatingContext> totalContext = new List<FloatingContext>();
         List<FloatingContext> floatingContexts = new List<FloatingContext>();
         FloatingContext latestFloatingContext;
-
         public FloatingContextStack()
         {
-
         }
         public void PushContainingBlock(CssBox box)
         {
@@ -57,14 +54,11 @@ namespace LayoutFarm.HtmlBoxes
                     floatingContexts.RemoveAt(floatingContexts.Count - 1);
                     latestFloatingContext = floatingContexts[floatingContexts.Count - 1];
                     break;
-
             }
-
         }
         internal CssBox LatestLeftFloatBox
         {
             get { return latestFloatingContext.LatestLeftFloatBox; }
-
         }
         public CssBox LatestRightFloatBox
         {
@@ -81,7 +75,6 @@ namespace LayoutFarm.HtmlBoxes
         public void AddFloatBox(CssBox floatBox)
         {
             latestFloatingContext.AddFloatBox(floatBox);
-
         }
         public CssBox CurrentTopOwner
         {
@@ -122,7 +115,6 @@ namespace LayoutFarm.HtmlBoxes
                 _floatBoxes = new List<CssBox>();
             }
             _floatBoxes.Add(box);
-
             switch (box.Float)
             {
                 case Css.CssFloat.Left:
@@ -134,7 +126,6 @@ namespace LayoutFarm.HtmlBoxes
                 default:
                     throw new NotSupportedException();
             }
-
         }
         public CssBox LatestLeftFloatBox
         {
@@ -169,7 +160,6 @@ namespace LayoutFarm.HtmlBoxes
                 {
                     return _floatBoxes.Count;
                 }
-
             }
         }
         public CssBox GetBox(int index)
@@ -187,8 +177,5 @@ namespace LayoutFarm.HtmlBoxes
                 _floatBoxes.Clear();
             }
         }
-
-
     }
-
 }

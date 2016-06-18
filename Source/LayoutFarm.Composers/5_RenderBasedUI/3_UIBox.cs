@@ -1,31 +1,29 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
-using System; 
+
+using System;
 using PixelFarm.Drawing;
 namespace LayoutFarm.InternalUI
 {
-
     abstract class UIBox : UIElement, IScrollable, IBoxElement
-    { 
+    {
         int _left;
         int _top;
         int _width;
         int _height;
         bool _hide;
         bool specificWidth;
-        bool specificHeight; 
+        bool specificHeight;
         public event EventHandler LayoutFinished;
-
 #if DEBUG
         static int dbugTotalId;
         public readonly int dbugId = dbugTotalId++;
-
 #endif
         public UIBox(int width, int height)
         {
             this._width = width;
             this._height = height;
             //default for box
-            this.AutoStopMouseEventPropagation = true; 
+            this.AutoStopMouseEventPropagation = true;
         }
         public virtual void Focus()
         {
@@ -33,7 +31,7 @@ namespace LayoutFarm.InternalUI
             if (this.HasReadyRenderElement)
             {
                 //focus
-                
+
                 this.CurrentPrimaryRenderElement.Root.SetCurrentKeyboardFocus(this.CurrentPrimaryRenderElement);
             }
         }
@@ -55,7 +53,6 @@ namespace LayoutFarm.InternalUI
                 {
                     CurrentPrimaryRenderElement.HasSpecificWidth = value;
                 }
-
             }
         }
         public bool HasSpecificHeight
@@ -81,7 +78,6 @@ namespace LayoutFarm.InternalUI
         {
             this._left = left;
             this._top = top;
-
             if (this.HasReadyRenderElement)
             {
                 this.CurrentPrimaryRenderElement.SetLocation(left, top);
@@ -99,7 +95,6 @@ namespace LayoutFarm.InternalUI
         {
             this._width = width;
             this._height = height;
-
             if (this.HasReadyRenderElement)
             {
                 this.CurrentPrimaryRenderElement.SetSize(_width, _height);
@@ -114,7 +109,6 @@ namespace LayoutFarm.InternalUI
         {
             get
             {
-
                 if (this.HasReadyRenderElement)
                 {
                     return this.CurrentPrimaryRenderElement.X;
@@ -231,7 +225,6 @@ namespace LayoutFarm.InternalUI
 
         public virtual void PerformContentLayout()
         {
-
         }
         public virtual int DesiredHeight
         {
@@ -245,8 +238,8 @@ namespace LayoutFarm.InternalUI
         //----------------------------------- 
         public object Tag { get; set; }
         //----------------------------------- 
-         
-         
+
+
         //---------------------------------------------------
         void IBoxElement.ChangeElementSize(int w, int h)
         {
@@ -258,5 +251,4 @@ namespace LayoutFarm.InternalUI
             get { return this.Height; }
         }
     }
-
 }

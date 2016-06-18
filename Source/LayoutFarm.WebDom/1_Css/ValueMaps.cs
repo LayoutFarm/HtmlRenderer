@@ -8,8 +8,6 @@ using System.Linq;
 #endif
 namespace LayoutFarm.WebDom
 {
-
-
     public class ValueMap<T>
     {
         static Type mapNameAttrType = typeof(MapAttribute);
@@ -17,7 +15,6 @@ namespace LayoutFarm.WebDom
         readonly Dictionary<T, string> valueToString;
         public ValueMap()
         {
-
             LoadAndAssignValues(out stringToValue, out valueToString);
         }
 
@@ -26,7 +23,6 @@ namespace LayoutFarm.WebDom
         {
             stringToValue = new Dictionary<string, T>();
             valueToString = new Dictionary<T, string>();
-
 #if PORTABLE
             var fields = typeof(T).GetTypeInfo().DeclaredFields.ToArray();
 #else
@@ -48,10 +44,8 @@ namespace LayoutFarm.WebDom
                     T value = (T)field.GetValue(null);
                     stringToValue.Add(cssNameAttr.Name, value);//1.
                     valueToString.Add(value, cssNameAttr.Name);//2.                   
-
                 }
             }
-
         }
         public string GetStringFromValue(T value)
         {
@@ -76,6 +70,4 @@ namespace LayoutFarm.WebDom
             }
         }
     }
-
-
 }

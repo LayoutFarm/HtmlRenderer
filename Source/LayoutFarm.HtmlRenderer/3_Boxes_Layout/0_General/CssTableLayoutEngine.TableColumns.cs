@@ -11,7 +11,6 @@ namespace LayoutFarm.HtmlBoxes
             None,
             StartAtMin,
             Adjust,
-
             ExpandToMax,
             FromCellConstraint
         }
@@ -20,11 +19,9 @@ namespace LayoutFarm.HtmlBoxes
         {
             int index;
             ColumnSpecificWidthLevel spWidthLevel;
-
             float actualWidth;
             float minContentWidth;
             float maxContentWidth;
-
             public TableColumn(int index)
             {
                 this.index = index;
@@ -35,7 +32,6 @@ namespace LayoutFarm.HtmlBoxes
             }
             public void SetWidth(float width, ColumnSpecificWidthLevel specificWidthLevel)
             {
-
                 this.SpecificWidthLevel = specificWidthLevel;
                 this.actualWidth = width;
             }
@@ -158,11 +154,13 @@ namespace LayoutFarm.HtmlBoxes
                         case ColumnSpecificWidthLevel.None:
                             {
                                 numOfUnspecificColWidth++;
-                            } break;
+                            }
+                            break;
                         default:
                             {
                                 occupiedSpace += col.Width;
-                            } break;
+                            }
+                            break;
                     }
                     //if (!col.HasSpecificWidth)
                     //{
@@ -177,7 +175,6 @@ namespace LayoutFarm.HtmlBoxes
 
             public bool FindFirstReducibleColumnWidth(int startAtIndex, out int foundAtIndex)
             {
-
                 int col_count = columns.Length;
                 for (int i = startAtIndex; i < col_count; ++i)
                 {
@@ -186,7 +183,6 @@ namespace LayoutFarm.HtmlBoxes
                         foundAtIndex = i;
                         return true;
                     }
-
                 }
                 foundAtIndex = -1;
                 return false;
@@ -215,7 +211,6 @@ namespace LayoutFarm.HtmlBoxes
                     //}
                 }
                 return total;
-
             }
 
             public void S4_AddMoreWidthToColumns(bool onlyNonspeicificWidth, float value)
@@ -225,7 +220,6 @@ namespace LayoutFarm.HtmlBoxes
                     for (int i = columns.Length - 1; i >= 0; --i)
                     {
                         var col = columns[i];
-
                         if (!col.HasSpecificWidth)
                         {
                             col.AddMoreWidthValue(value, ColumnSpecificWidthLevel.Adjust);
@@ -284,7 +278,6 @@ namespace LayoutFarm.HtmlBoxes
                     return sum;
                 }
             }
-
         }
     }
 }

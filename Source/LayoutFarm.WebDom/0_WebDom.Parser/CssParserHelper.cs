@@ -16,13 +16,11 @@
 using System;
 namespace LayoutFarm.WebDom.Parser
 {
-
     /// <summary>
     /// Parser to parse CSS stylesheet source string into CSS objects.
     /// </summary>
     public static class CssParserHelper
     {
-
         /// <summary>
         /// Parse the given stylesheet source to CSS blocks dictionary.<br/>
         /// The CSS blocks are organized into two level buckets of media type and class name.<br/>
@@ -44,7 +42,6 @@ namespace LayoutFarm.WebDom.Parser
             var cssData = combineWithDefault ?
                 defaultActiveSheet.Clone() :
                 new WebDom.CssActiveSheet();
-
             if (!string.IsNullOrEmpty(stylesheet))
             {
                 ParseStyleSheet(cssData, stylesheet);
@@ -72,7 +69,6 @@ namespace LayoutFarm.WebDom.Parser
                 WebDom.CssDocument cssDoc = parser.OutputCssDocument;
                 WebDom.CssActiveSheet cssActiveDoc = new WebDom.CssActiveSheet();
                 cssActiveDoc.LoadCssDoc(cssDoc);
-
                 if (cssData != null)
                 {
                     //merge ?
@@ -84,10 +80,6 @@ namespace LayoutFarm.WebDom.Parser
                 }
             }
         }
-
-
-
-
     }
 }
 

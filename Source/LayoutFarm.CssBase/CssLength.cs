@@ -3,10 +3,8 @@
 
 using System;
 using System.Globalization;
-
 namespace LayoutFarm.Css
 {
-
     /// <summary>
     /// Represents and gets info about a CSS Length
     /// </summary>
@@ -45,12 +43,9 @@ namespace LayoutFarm.Css
         public static readonly CssLength AutoLength = new CssLength(IS_ASSIGN | IS_AUTO | (int)CssUnitOrNames.AutoLength);
         public static readonly CssLength NotAssign = new CssLength(0);
         public static readonly CssLength NormalWordOrLine = new CssLength(IS_ASSIGN | NORMAL | (int)CssUnitOrNames.NormalLength);
-
         public static readonly CssLength MainSize = new CssLength(IS_ASSIGN | IS_MAINSIZE | (int)CssUnitOrNames.MainSize);
-
         public static readonly CssLength ZeroNoUnit = CssLength.MakeZeroLengthNoUnit();
         public static readonly CssLength ZeroPx = CssLength.MakePixelLength(0);
-
         //-----------------------------------------------------------------------------------------
         public static readonly CssLength Medium = new CssLength(IS_ASSIGN | IS_BORDER_THICKNESS_NAME | (int)CssUnitOrNames.BorderMedium);
         public static readonly CssLength Thick = new CssLength(IS_ASSIGN | IS_BORDER_THICKNESS_NAME | (int)CssUnitOrNames.BorderThick);
@@ -104,7 +99,6 @@ namespace LayoutFarm.Css
             this._flags = internalFlags;
             if (this.HasError)
             {
-
             }
         }
 
@@ -143,7 +137,6 @@ namespace LayoutFarm.Css
         /// </summary>
         public bool IsPercentage
         {
-
             get { return this.UnitOrNames == CssUnitOrNames.Percent; }
         }
         public bool IsAuto
@@ -180,7 +173,6 @@ namespace LayoutFarm.Css
         public bool IsRelative
         {
             get { return (this._flags & IS_RELATIVE) != 0; }
-
         }
 
         /// <summary>
@@ -227,12 +219,10 @@ namespace LayoutFarm.Css
             else
             {
                 string u = string.Empty;
-
                 switch (UnitOrNames)
                 {
                     case CssUnitOrNames.Percent:
                         return string.Format(NumberFormatInfo.InvariantInfo, "{0}%", Number);
-
                     case CssUnitOrNames.EmptyValue:
                         break;
                     case CssUnitOrNames.Ems:
@@ -263,7 +253,5 @@ namespace LayoutFarm.Css
                 return string.Format(NumberFormatInfo.InvariantInfo, "{0}{1}", Number, u);
             }
         }
-
-
     }
 }

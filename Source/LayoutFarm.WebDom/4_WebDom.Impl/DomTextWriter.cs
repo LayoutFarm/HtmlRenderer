@@ -3,11 +3,8 @@
 
 using System;
 using System.Text;
-
-
 namespace LayoutFarm.WebDom
 {
-
     public class DomTextWriter
     {
         StringBuilder stbuilder;
@@ -42,6 +39,5 @@ namespace LayoutFarm.WebDom
         {
             stbuilder.AppendLine();
         }
-
     }
 }

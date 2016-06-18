@@ -2,7 +2,6 @@
 
 namespace LayoutFarm.Composers
 {
-
     class HtmlDocumentFragment : HtmlDocument
     {
         HtmlDocument primaryHtmlDoc;

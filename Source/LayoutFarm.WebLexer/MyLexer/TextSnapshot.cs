@@ -1,4 +1,5 @@
 ﻿//2014,2015 ,BSD, WinterDev 
+
 using System;
 namespace LayoutFarm.WebLexer
 {
@@ -81,12 +82,10 @@ namespace LayoutFarm.WebLexer
             int lim = length - 3;
             if (start < lim)
             {
-
                 int i = start;
                 char ex1 = tmpChars[i];
                 char ex2 = tmpChars[i + 1];
                 char ex3 = tmpChars[i + 2];
-
                 do
                 {
                     if (ex1 == c1 && ex2 == c2 && ex3 == c3)
@@ -94,18 +93,13 @@ namespace LayoutFarm.WebLexer
                         return i;
                     }
                     i++;
-
                     ex1 = ex2;
                     ex2 = ex3;
                     ex3 = tmpChars[i];
-
                 } while (i < lim);
             }
             //not found
             return -1;
         }
-
-
     }
-
 }

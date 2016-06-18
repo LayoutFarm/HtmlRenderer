@@ -1,11 +1,9 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using LayoutFarm.UI;
-
 namespace LayoutFarm.CustomWidgets
 {
-
-
     public class CheckBox : EaseBox
     {
         //check icon
@@ -14,7 +12,6 @@ namespace LayoutFarm.CustomWidgets
         public CheckBox(int w, int h)
             : base(w, h)
         {
-
         }
         public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
         {
@@ -23,7 +20,6 @@ namespace LayoutFarm.CustomWidgets
                 //first time
                 RenderElement baseRenderElement = base.GetPrimaryRenderElement(rootgfx);
                 imageBox = new ImageBox(16, 16);
-
                 if (this.isChecked)
                 {
                     imageBox.ImageBinder = ResImageList.GetImageBinder(ImageName.CheckBoxChecked);
@@ -37,7 +33,6 @@ namespace LayoutFarm.CustomWidgets
                 {
                     //toggle checked/unchecked
                     this.Checked = !this.Checked;
-
                 };
                 this.AddChild(imageBox);
                 return baseRenderElement;
@@ -46,7 +41,6 @@ namespace LayoutFarm.CustomWidgets
             {
                 return base.GetPrimaryRenderElement(rootgfx);
             }
-
         }
         public bool Checked
         {
@@ -77,7 +71,6 @@ namespace LayoutFarm.CustomWidgets
             }
         }
         public event EventHandler WhenChecked;
-
         public override void Walk(UIVisitor visitor)
         {
             visitor.BeginElement(this, "checkbox");
@@ -85,6 +78,4 @@ namespace LayoutFarm.CustomWidgets
             visitor.EndElement();
         }
     }
-
-
 }

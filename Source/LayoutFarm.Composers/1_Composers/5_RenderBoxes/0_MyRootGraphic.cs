@@ -1,29 +1,21 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Collections.Generic;
-
 using PixelFarm.Drawing;
 using LayoutFarm.RenderBoxes;
-
 namespace LayoutFarm.UI
 {
-
     public sealed class MyRootGraphic : RootGraphic, ITopWindowEventRootProvider
     {
-
         List<RenderElement> layoutQueue = new List<RenderElement>();
         List<object> elementUpdateQueue = new List<object>();
-
         List<HtmlBoxes.MyHtmlContainer> htmlContainerUpdateQueue = new List<HtmlBoxes.MyHtmlContainer>();
-
         List<ToNotifySizeChangedEvent> tobeNotifySizeChangedList = new List<ToNotifySizeChangedEvent>();
-
         List<RenderElementRequest> renderRequestList = new List<RenderElementRequest>();
         GraphicsTimerTaskManager graphicTimerTaskMan;
         GraphicsPlatform graphicsPlatform;
-
         static object normalUpdateTask = new object();
-
         readonly TopWindowEventRoot topWindowEventRoot;
         readonly RenderBoxBase topWindowRenderBox;
         UIPlatform uiPlatform;
@@ -43,8 +35,6 @@ namespace LayoutFarm.UI
             //create default render box***
             this.topWindowRenderBox = new TopWindowRenderBox(this, width, height);
             this.topWindowEventRoot = new TopWindowEventRoot(this.topWindowRenderBox);
-
-
             this.SubscribeGraphicsIntervalTask(normalUpdateTask,
                 TaskIntervalPlan.Animation,
                 20,
@@ -58,7 +48,6 @@ namespace LayoutFarm.UI
         public override RootGraphic CreateNewOne(int w, int h)
         {
             return new MyRootGraphic(this.uiPlatform, this.graphicsPlatform, w, h);
-
         }
         public ITopWindowEventRoot TopWinEventPortal
         {
@@ -83,7 +72,6 @@ namespace LayoutFarm.UI
             {
                 return this.topWindowRenderBox;
             }
-
         }
         public override void PrepareRender()
         {
@@ -92,7 +80,6 @@ namespace LayoutFarm.UI
             this.ClearElementUpdateQueue();
             this.ClearLayoutQueue();
             this.ClearRenderRequests();
-
             if (layoutQueue.Count == 0)
             {
                 return;
@@ -101,7 +88,6 @@ namespace LayoutFarm.UI
         }
         void ClearNotificationSizeChangeList()
         {
-
         }
         public override GraphicsPlatform P
         {
@@ -113,7 +99,6 @@ namespace LayoutFarm.UI
             {
                 return graphicsPlatform.TextEditFontInfo;
             }
-
         }
         public override void ClearRenderRequests()
         {
@@ -134,13 +119,11 @@ namespace LayoutFarm.UI
 
         public override void CaretStartBlink()
         {
-
             graphicTimerTaskMan.StartCaretBlinkTask();
         }
         public override void CaretStopBlink()
         {
             graphicTimerTaskMan.StopCaretBlinkTask();
-
         }
 
         ~MyRootGraphic()
@@ -186,24 +169,25 @@ namespace LayoutFarm.UI
                 RenderElementRequest req = renderRequestList[i];
                 switch (req.req)
                 {
-
                     case RequestCommand.AddToWindowRoot:
                         {
                             this.TopWindowRenderBox.AddChild(req.ve);
-                        } break;
+                        }
+                        break;
                     case RequestCommand.DoFocus:
                         {
                             //RenderElement ve = req.ve;
                             //wintop.CurrentKeyboardFocusedElement = ve;
                             //ve.InvalidateGraphic();
 
-                        } break;
+                        }
+                        break;
                     case RequestCommand.InvalidateArea:
                         {
                             Rectangle r = (Rectangle)req.parameters;
                             this.InvalidateGraphicArea(req.ve, ref r);
-                        } break;
-
+                        }
+                        break;
                 }
             }
             renderRequestList.Clear();
@@ -228,7 +212,6 @@ namespace LayoutFarm.UI
         }
         public override void AddToLayoutQueue(RenderElement renderElement)
         {
-
 #if DEBUG
             RootGraphic dbugVisualRoot = this;
 #endif
@@ -256,7 +239,6 @@ namespace LayoutFarm.UI
         }
         void ClearElementUpdateQueue()
         {
-
             for (int i = this.elementUpdateQueue.Count - 1; i >= 0; --i)
             {
                 //clear
@@ -269,13 +251,10 @@ namespace LayoutFarm.UI
                 }
                 this.elementUpdateQueue.RemoveAt(i);
             }
-
         }
         void ClearLayoutQueue()
         {
-
             this.LayoutQueueClearing = true;
-
             for (int i = this.layoutQueue.Count - 1; i >= 0; --i)
             {
                 //clear
@@ -325,7 +304,6 @@ namespace LayoutFarm.UI
         {
             if (debugVisualLay != null)
             {
-
                 debugVisualLay.WriteInfo(msg.text, ve);
                 debugVisualLay.EndCurrentContext();
             }
@@ -338,7 +316,6 @@ namespace LayoutFarm.UI
         }
         public void dbugShowRenderPart(Canvas canvasPage, Rectangle updateArea)
         {
-
             RootGraphic visualroot = this;
             if (visualroot.dbug_ShowRootUpdateArea)
             {
@@ -350,7 +327,6 @@ namespace LayoutFarm.UI
                 canvasPage.DrawRectangle(Color.Yellow,
                         updateArea.Left, updateArea.Top,
                         updateArea.Width - 1, updateArea.Height - 1);
-
                 Color c_color = canvasPage.CurrentTextColor;
                 canvasPage.CurrentTextColor = Color.White;
                 canvasPage.DrawText(visualroot.dbug_RootUpdateCounter.ToString().ToCharArray(), updateArea.Left, updateArea.Top);

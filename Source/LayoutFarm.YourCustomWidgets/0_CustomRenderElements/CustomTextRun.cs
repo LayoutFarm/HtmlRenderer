@@ -1,13 +1,10 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
 
 using PixelFarm.Drawing;
-
 namespace LayoutFarm.CustomWidgets
 {
-
     public class CustomTextRun : RenderElement
     {
-
         char[] textBuffer;
         Color textColor;
 #if DEBUG

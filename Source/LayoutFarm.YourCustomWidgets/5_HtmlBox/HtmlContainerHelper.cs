@@ -1,9 +1,8 @@
 ﻿// 2015,2014 ,Apache2, WinterDev 
-using LayoutFarm.Composers;
 
+using LayoutFarm.Composers;
 namespace LayoutFarm.HtmlBoxes
 {
-
     static class HtmlContainerHelper
     {
         public static MyHtmlContainer CreateHtmlContainerFromFullHtml(
@@ -11,8 +10,6 @@ namespace LayoutFarm.HtmlBoxes
             string fullHtmlString,
             HtmlRenderBox htmlFrgmentRenderBox)
         {
-
-
             var htmldoc = WebDocumentParser.ParseDocument(
                  new LayoutFarm.WebDom.Parser.TextSource(fullHtmlString.ToCharArray()));
             //1. builder 
@@ -27,30 +24,23 @@ namespace LayoutFarm.HtmlBoxes
             //3. create small htmlContainer
 
             var htmlContainer = new MyHtmlContainer(htmlHost);
-
             htmlContainer.WebDocument = htmldoc;
             htmlContainer.RootCssBox = rootElement;
             htmlContainer.SetMaxSize(htmlFrgmentRenderBox.Width, 0);
-
             var lay = htmlHost.GetSharedHtmlLayoutVisitor(htmlContainer);
             htmlContainer.PerformLayout(lay);
             htmlHost.ReleaseHtmlLayoutVisitor(lay);
-
-
             htmlFrgmentRenderBox.SetHtmlContainer(htmlContainer, rootElement);
             return htmlContainer;
-
         }
         public static MyHtmlContainer CreateHtmlContainerFromFragmentHtml(
             HtmlHost htmlHost,
             string htmlFragment,
             HtmlRenderBox htmlFrgmentRenderBox)
         {
-
             var htmldoc = htmlHost.CreateNewSharedHtmlDoc();
             var myHtmlBodyElement = htmldoc.CreateElement("body");
             htmldoc.RootNode.AddChild(myHtmlBodyElement);
-
             //data is wraped up within div?
             //TODO: review this, use shadow dom instead
             var newDivHost = htmldoc.CreateElement("div");
@@ -59,7 +49,6 @@ namespace LayoutFarm.HtmlBoxes
                      new LayoutFarm.WebDom.Parser.TextSource(htmlFragment.ToCharArray()),
                      htmldoc,
                      newDivHost);
-
             //1. builder 
             var renderTreeBuilder = htmlHost.GetRenderTreeBuilder();
             //-------------------------------------------------------------------
@@ -68,23 +57,17 @@ namespace LayoutFarm.HtmlBoxes
                  htmldoc,
                  htmldoc.CssActiveSheet,
                  htmlFrgmentRenderBox);
-
             //3. create small htmlContainer
 
             var htmlContainer = new MyHtmlContainer(htmlHost);
-
             htmlContainer.WebDocument = newDivHost.OwnerDocument;
             htmlContainer.RootCssBox = rootElement;
             htmlContainer.SetMaxSize(htmlFrgmentRenderBox.Width, 0);
-
             var lay = htmlHost.GetSharedHtmlLayoutVisitor(htmlContainer);
             htmlContainer.PerformLayout(lay);
             htmlHost.ReleaseHtmlLayoutVisitor(lay);
-
-
             htmlFrgmentRenderBox.SetHtmlContainer(htmlContainer, rootElement);
             return htmlContainer;
-
         }
 
         public static MyHtmlContainer CreateHtmlContainer(
@@ -92,7 +75,6 @@ namespace LayoutFarm.HtmlBoxes
             WebDom.WebDocument htmldoc,
             HtmlRenderBox htmlFrgmentRenderBox)
         {
-
             //1. builder 
             var renderTreeBuilder = htmlHost.GetRenderTreeBuilder();
             //-------------------------------------------------------------------
@@ -107,22 +89,14 @@ namespace LayoutFarm.HtmlBoxes
             //3. create small htmlContainer
 
             var htmlContainer = new MyHtmlContainer(htmlHost);
-
             htmlContainer.WebDocument = htmldoc;
             htmlContainer.RootCssBox = rootElement;
             htmlContainer.SetMaxSize(htmlFrgmentRenderBox.Width, 0);
-
             var lay = htmlHost.GetSharedHtmlLayoutVisitor(htmlContainer);
             htmlContainer.PerformLayout(lay);
             htmlHost.ReleaseHtmlLayoutVisitor(lay);
-
-
             htmlFrgmentRenderBox.SetHtmlContainer(htmlContainer, rootElement);
             return htmlContainer;
         }
-
-
-
-
     }
 }

@@ -1,11 +1,9 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Collections.Generic;
-
 namespace LayoutFarm.Text
 {
-
-
     partial class EditableTextLine
     {
         public static void InnerDoJoinWithNextLine(EditableTextLine line)
@@ -17,7 +15,6 @@ namespace LayoutFarm.Text
             if (!IsLastLine)
             {
                 EditableTextLine lowerLine = editableFlowLayer.GetTextLine(currentLineNumber + 1);
-
                 this.LocalSuspendLineReArrange();
                 int cx = 0;
                 EditableRun lastTextRun = (EditableRun)this.LastRun;
@@ -29,13 +26,11 @@ namespace LayoutFarm.Text
                 foreach (EditableRun r in lowerLine)
                 {
                     this.AddLast(r);
-
                     EditableRun.DirectSetLocation(r, cx, 0);
                     cx += r.Width;
                 }
                 this.LocalResumeLineReArrange();
                 this.EndWithLineBreak = lowerLine.EndWithLineBreak;
-
                 editableFlowLayer.Remove(lowerLine.currentLineNumber);
             }
         }
@@ -45,7 +40,6 @@ namespace LayoutFarm.Text
         }
         public void Copy(LinkedList<EditableRun> output)
         {
-
             LinkedListNode<EditableRun> curNode = this.First;
             while (curNode != null)
             {
@@ -62,7 +56,6 @@ namespace LayoutFarm.Text
             {
                 if (startPoint.TextRun == endPoint.TextRun)
                 {
-
                     EditableRun elem =
                       startPoint.TextRun.Copy(
                         startPoint.LocalSelectedIndex + 1,
@@ -74,10 +67,8 @@ namespace LayoutFarm.Text
                 }
                 else
                 {
-
                     EditableTextLine startLine = null;
                     EditableTextLine stopLine = null;
-
                     if (startPoint.LineId == currentLineNumber)
                     {
                         startLine = this;
@@ -113,7 +104,6 @@ namespace LayoutFarm.Text
                         if (preCutTextRun != null)
                         {
                             output.AddLast(preCutTextRun);
-
                         }
                     }
                     else
@@ -137,10 +127,8 @@ namespace LayoutFarm.Text
             }
             else
             {
-
                 EditableTextLine startLine = null;
                 EditableTextLine stopLine = null;
-
                 if (startPoint.LineId == currentLineNumber)
                 {
                     startLine = this;
@@ -164,7 +152,6 @@ namespace LayoutFarm.Text
                 {
                     if (startPoint.LineCharIndex == -1)
                     {
-
                         foreach (EditableRun t in editableFlowLayer.TextRunForward(startPoint.TextRun, endPoint.TextRun.PrevTextRun))
                         {
                             output.AddLast(t.Clone());
@@ -174,13 +161,10 @@ namespace LayoutFarm.Text
                         {
                             output.AddLast(postCutTextRun);
                         }
-
                     }
                     else
                     {
-
                         EditableRun postCutTextRun = startPoint.TextRun.Copy(startPoint.LocalSelectedIndex + 1);
-
                         if (postCutTextRun != null)
                         {
                             output.AddLast(postCutTextRun);
@@ -224,17 +208,14 @@ namespace LayoutFarm.Text
         {
             EditableVisualPointInfo startPoint = selectionRange.StartPoint;
             EditableVisualPointInfo endPoint = selectionRange.EndPoint;
-
             if (startPoint.TextRun != null)
             {
                 if (startPoint.TextRun == endPoint.TextRun)
                 {
-
                     EditableRun removedRun = (EditableRun)startPoint.TextRun;
                     EditableRun.InnerRemove(removedRun,
                                     startPoint.LocalSelectedIndex + 1,
                                     endPoint.LineCharIndex - startPoint.LineCharIndex, false);
-
                     if (removedRun.CharacterCount == 0)
                     {
                         if (startPoint.LineId == this.currentLineNumber)
@@ -254,7 +235,6 @@ namespace LayoutFarm.Text
                     EditableVisualPointInfo newStopPoint = null;
                     EditableTextLine startLine = null;
                     EditableTextLine stopLine = null;
-
                     if (startPoint.LineId == currentLineNumber)
                     {
                         startLine = this;
@@ -274,13 +254,11 @@ namespace LayoutFarm.Text
                     }
 
                     newStopPoint = stopLine.Split(endPoint);
-
                     if (startLine == stopLine)
                     {
                         if (newStartPoint.TextRun != null)
                         {
                             LinkedList<EditableRun> tobeRemoveRuns = new LinkedList<EditableRun>();
-
                             if (newStartPoint.LineCharIndex == -1)
                             {
                                 foreach (EditableRun t in editableFlowLayer.TextRunForward(
@@ -305,8 +283,6 @@ namespace LayoutFarm.Text
                                 startLine.Remove(t);
                             }
                             startLine.LocalResumeLineReArrange();
-
-
                         }
                         else
                         {
@@ -317,7 +293,6 @@ namespace LayoutFarm.Text
                     {
                         int startLineId = newStartPoint.LineId;
                         int stopLineId = newStopPoint.LineId;
-
                         if (newStopPoint.LineCharIndex > -1)
                         {
                             stopLine.RemoveLeft((EditableRun)newStopPoint.TextRun);
@@ -368,13 +343,11 @@ namespace LayoutFarm.Text
                     stopLine = editableFlowLayer.GetTextLine(endPoint.LineId);
                 }
                 newStopPoint = stopLine.Split(endPoint);
-
                 if (startLine == stopLine)
                 {
                     if (newStartPoint.TextRun != null)
                     {
                         LinkedList<EditableRun> tobeRemoveRuns = new LinkedList<EditableRun>();
-
                         if (newStartPoint.LineCharIndex == -1)
                         {
                             foreach (EditableRun t in editableFlowLayer.TextRunForward(
@@ -401,15 +374,12 @@ namespace LayoutFarm.Text
                     else
                     {
                         throw new NotSupportedException();
-
                     }
                 }
                 else
                 {
-
                     int startLineId = newStartPoint.LineId;
                     int stopLineId = newStopPoint.LineId;
-
                     if (newStopPoint.LineCharIndex > -1)
                     {
                         stopLine.RemoveLeft((EditableRun)newStopPoint.TextRun);
@@ -438,7 +408,6 @@ namespace LayoutFarm.Text
                     startLine.JoinWithNextLine();
                 }
             }
-
         }
 
         EditableRun GetPrevTextRun(EditableRun run)
@@ -504,18 +473,14 @@ namespace LayoutFarm.Text
                 EditableRun preCutTextRun = (EditableRun)toBeCutTextRun.LeftCopy(startPoint.LocalSelectedIndex);
                 EditableRun middleCutTextRun = (EditableRun)toBeCutTextRun.Copy(startPoint.LocalSelectedIndex + 1, endPoint.LineCharIndex - startPoint.LineCharIndex);
                 EditableRun postCutTextRun = (EditableRun)toBeCutTextRun.Copy(endPoint.LocalSelectedIndex + 1);
-
-
                 EditableVisualPointInfo newStartRangePointInfo = null;
                 EditableVisualPointInfo newEndRangePointInfo = null;
-
                 EditableTextLine line = this;
                 if (startPoint.LineId != currentLineNumber)
                 {
                     line = editableFlowLayer.GetTextLine(startPoint.LineId);
                 }
                 line.LocalSuspendLineReArrange();
-
                 if (preCutTextRun != null)
                 {
                     line.AddBefore(toBeCutTextRun, preCutTextRun);
@@ -525,7 +490,6 @@ namespace LayoutFarm.Text
                 }
                 else
                 {
-
                     EditableRun prevTxtRun = GetPrevTextRun((EditableRun)startPoint.TextRun);
                     if (prevTxtRun != null)
                     {
@@ -590,9 +554,7 @@ namespace LayoutFarm.Text
                     throw new NotSupportedException();
                 }
                 line.Remove(toBeCutTextRun);
-
                 line.LocalResumeLineReArrange();
-
                 return new EditableVisualPointInfo[] { newStartRangePointInfo, newEndRangePointInfo };
             }
             else
@@ -630,15 +592,12 @@ namespace LayoutFarm.Text
                        null,
                        pointInfo.TextRunCharOffset,
                        pointInfo.TextRunPixelOffset);
-
             }
 
             this.LocalSuspendLineReArrange();
             EditableVisualPointInfo result = null;
             EditableRun preCutTextRun = (EditableRun)tobeCutRun.LeftCopy(pointInfo.LocalSelectedIndex);
             EditableRun postCutTextRun = (EditableRun)tobeCutRun.Copy(pointInfo.LocalSelectedIndex + 1);
-
-
             if (preCutTextRun != null)
             {
                 this.AddBefore(tobeCutRun, preCutTextRun);
@@ -654,7 +613,6 @@ namespace LayoutFarm.Text
                     preCutTextRun,
                     pointInfo.TextRunCharOffset,
                     pointInfo.TextRunPixelOffset);
-
             }
             else
             {
@@ -731,17 +689,14 @@ namespace LayoutFarm.Text
                     infoTextRun,
                     pointInfo.TextRunCharOffset,
                     pointInfo.TextRunPixelOffset);
-
             }
 
             this.Remove(tobeCutRun);
             this.LocalResumeLineReArrange();
-
             return result;
         }
         void RightCopy(VisualPointInfo pointInfo, LinkedList<EditableRun> output)
         {
-
             if (pointInfo.LineId != currentLineNumber)
             {
                 throw new NotSupportedException();
@@ -764,8 +719,6 @@ namespace LayoutFarm.Text
 
         void LeftCopy(VisualPointInfo pointInfo, LinkedList<EditableRun> output)
         {
-
-
             if (pointInfo.LineId != currentLineNumber)
             {
                 throw new NotSupportedException();
@@ -792,7 +745,6 @@ namespace LayoutFarm.Text
             {
                 output.AddLast(preCutTextRun);
             }
-
         }
 
 
@@ -840,7 +792,6 @@ namespace LayoutFarm.Text
 
         public EditableVisualPointInfo GetTextPointInfoFromCharIndex(int charIndex)
         {
-
             int limit = CharCount - 1;
             if (charIndex > limit)
             {
@@ -853,20 +804,15 @@ namespace LayoutFarm.Text
             EditableRun lastestRun = null;
             foreach (EditableRun r in this)
             {
-
                 lastestRun = r;
                 int thisCharCount = lastestRun.CharacterCount;
                 if (thisCharCount + rCharOffset > charIndex)
                 {
-
                     int localCharOffset = charIndex - rCharOffset;
-
                     int pixelOffset = lastestRun.GetRunWidth(localCharOffset);
-
                     textPointInfo.SetAdditionVisualInfo(lastestRun,
                         localCharOffset, rPixelOffset + pixelOffset
                         , rPixelOffset);
-
                     return textPointInfo;
                 }
                 else
@@ -882,7 +828,6 @@ namespace LayoutFarm.Text
 
         internal EditableTextLine SplitToNewLine(EditableRun startVisualElement)
         {
-
             LinkedListNode<EditableRun> curNode = GetLineLinkedNode(startVisualElement);
             EditableTextLine newSplitedLine = editableFlowLayer.InsertNewLine(this.currentLineNumber + 1);
             newSplitedLine.LocalSuspendLineReArrange();
@@ -898,12 +843,10 @@ namespace LayoutFarm.Text
                 }
                 else
                 {
-
                 }
             }
             newSplitedLine.LocalResumeLineReArrange();
             return newSplitedLine;
         }
     }
-
 }

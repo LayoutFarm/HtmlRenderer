@@ -1,11 +1,11 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
-
-using LayoutFarm.UI; 
+using LayoutFarm.UI;
 namespace LayoutFarm.CustomWidgets
 {
     public class ListView : UIBox
@@ -53,12 +53,10 @@ namespace LayoutFarm.CustomWidgets
             if (primElement == null)
             {
                 var renderE = new CustomRenderBox(rootgfx, this.Width, this.Height);
-
                 renderE.SetLocation(this.Left, this.Top);
                 renderE.BackColor = backColor;
                 renderE.SetController(this);
                 renderE.HasSpecificSize = true;
-
                 //------------------------------------------------
                 //create visual layer
 
@@ -101,7 +99,6 @@ namespace LayoutFarm.CustomWidgets
             var item = items[index];
             panel.RemoveChild(item);
             items.RemoveAt(index);
-
         }
         public ListItem GetItem(int index)
         {
@@ -134,7 +131,6 @@ namespace LayoutFarm.CustomWidgets
             {
                 if (value < this.ItemCount)
                 {
-
                     if (this.selectedIndex != value)
                     {
                         //1. current item
@@ -184,12 +180,10 @@ namespace LayoutFarm.CustomWidgets
         public override int ViewportX
         {
             get { return this.viewportX; }
-
         }
         public override int ViewportY
         {
             get { return this.viewportY; }
-
         }
         public override void SetViewport(int x, int y)
         {
@@ -204,7 +198,6 @@ namespace LayoutFarm.CustomWidgets
 
         public event EventHandler<UIMouseEventArgs> MouseDown;
         public event EventHandler<UIMouseEventArgs> MouseUp;
-
         public override void Walk(UIVisitor visitor)
         {
             visitor.BeginElement(this, "listview");
@@ -218,7 +211,6 @@ namespace LayoutFarm.CustomWidgets
     {
         CustomContainerRenderBox primElement;
         CustomTextRun listItemText;
-
         string itemText;
         Color backColor;
         public ListItem(int width, int height)
@@ -239,14 +231,10 @@ namespace LayoutFarm.CustomWidgets
             {
                 //1.
                 var element = new CustomContainerRenderBox(rootgfx, this.Width, this.Height);
-
                 element.SetLocation(this.Left, this.Top);
                 element.BackColor = this.backColor;
-
-
                 listItemText = new CustomTextRun(rootgfx, 200, this.Height);
                 element.AddChild(listItemText);
-
                 if (this.itemText != null)
                 {
                     listItemText.Text = this.itemText;
@@ -281,7 +269,7 @@ namespace LayoutFarm.CustomWidgets
             }
         }
         //----------------- 
-         
+
 
 
         public override void Walk(UIVisitor visitor)
@@ -291,5 +279,4 @@ namespace LayoutFarm.CustomWidgets
             visitor.EndElement();
         }
     }
-
 }

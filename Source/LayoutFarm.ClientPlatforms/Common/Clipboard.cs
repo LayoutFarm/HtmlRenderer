@@ -30,6 +30,4 @@ namespace LayoutFarm.UI
             currentUIPlatform = uiPlatform;
         }
     }
-
-
 }

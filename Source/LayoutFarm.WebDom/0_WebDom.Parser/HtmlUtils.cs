@@ -18,16 +18,13 @@ using System.Collections.Generic;
 using LayoutFarm.WebLexer;
 namespace LayoutFarm.WebDom.Parser
 {
-
     static class HtmlTagMatching
     {
-
         /// <summary>
         /// List of html tags that don't have content 
         /// </summary>
         static readonly Dictionary<WellknownName, byte> noContentTags = new Dictionary<WellknownName, byte>(); //void element
         static readonly Dictionary<WellknownName, byte> canbeOmittedTags = new Dictionary<WellknownName, byte>();
-
         static HtmlTagMatching()
         {
             //html5 (2015-04-24) void elements
@@ -48,7 +45,6 @@ namespace LayoutFarm.WebDom.Parser
             noContentTags.Add(WebDom.WellknownName.Source, 0);
             noContentTags.Add(WebDom.WellknownName.Track, 0);
             noContentTags.Add(WebDom.WellknownName.Wbr, 0);
-
             //*** not in spec, from previous version?
             noContentTags.Add(WebDom.WellknownName.BaseFont, 0);
             noContentTags.Add(WebDom.WellknownName.Frame, 0);
@@ -75,8 +71,6 @@ namespace LayoutFarm.WebDom.Parser
             canbeOmittedTags.Add(WellknownName.TD, 0);
             canbeOmittedTags.Add(WellknownName.TR, 0);
             canbeOmittedTags.Add(WellknownName.P, 0);
-
-
             //-----------------------------------------------------------
         }
         /// <summary>
@@ -104,14 +98,12 @@ namespace LayoutFarm.WebDom.Parser
         }
         public static bool CanAutoClose(int nameIndex, int nextNodeNameIndex)
         {
-
             throw new NotSupportedException();
         }
     }
 
     static class HtmlDecodeHelper
     {
-
         /// <summary>
         /// the html decode only pairs
         /// </summary>
@@ -119,25 +111,19 @@ namespace LayoutFarm.WebDom.Parser
         //private static readonly Dictionary<string, char> _encodeDecode0 = new Dictionary<string, char>(StringComparer.InvariantCultureIgnoreCase);
         private static readonly Dictionary<string, char> _decodeOnly = new Dictionary<string, char>(StringComparer.OrdinalIgnoreCase);
         private static readonly Dictionary<string, char> _encodeDecode0 = new Dictionary<string, char>(StringComparer.OrdinalIgnoreCase);
-
         /// <summary>
         /// Init.
         /// </summary>
         static HtmlDecodeHelper()
         {
-
-
-
             _encodeDecode0["&lt;"] = '<';
             _encodeDecode0["&gt;"] = '>';
             _encodeDecode0["&quot;"] = '"';
             _encodeDecode0["&amp;"] = '&';
-
             _decodeOnly["nbsp"] = ' ';
             _decodeOnly["rdquo"] = '"';
             _decodeOnly["lsquo"] = '\'';
             _decodeOnly["apos"] = '\'';
-
             // ISO 8859-1 Symbols
             _decodeOnly["iexcl"] = Convert.ToChar(161);
             _decodeOnly["cent"] = Convert.ToChar(162);
@@ -172,7 +158,6 @@ namespace LayoutFarm.WebDom.Parser
             _decodeOnly["iquest"] = Convert.ToChar(191);
             _decodeOnly["times"] = Convert.ToChar(215);
             _decodeOnly["divide"] = Convert.ToChar(247);
-
             // ISO 8859-1 Characters
             _decodeOnly["Agrave"] = Convert.ToChar(192);
             _decodeOnly["Aacute"] = Convert.ToChar(193);
@@ -236,7 +221,6 @@ namespace LayoutFarm.WebDom.Parser
             _decodeOnly["yacute"] = Convert.ToChar(253);
             _decodeOnly["thorn"] = Convert.ToChar(254);
             _decodeOnly["yuml"] = Convert.ToChar(255);
-
             // Math Symbols Supported by HTML
             _decodeOnly["forall"] = Convert.ToChar(8704);
             _decodeOnly["part"] = Convert.ToChar(8706);
@@ -276,7 +260,6 @@ namespace LayoutFarm.WebDom.Parser
             _decodeOnly["otimes"] = Convert.ToChar(8855);
             _decodeOnly["perp"] = Convert.ToChar(8869);
             _decodeOnly["sdot"] = Convert.ToChar(8901);
-
             // Greek Letters Supported by HTML
             _decodeOnly["Alpha"] = Convert.ToChar(913);
             _decodeOnly["Beta"] = Convert.ToChar(914);
@@ -330,7 +313,6 @@ namespace LayoutFarm.WebDom.Parser
             _decodeOnly["thetasym"] = Convert.ToChar(977);
             _decodeOnly["upsih"] = Convert.ToChar(978);
             _decodeOnly["piv"] = Convert.ToChar(982);
-
             // Other Entities Supported by HTML
             _decodeOnly["OElig"] = Convert.ToChar(338);
             _decodeOnly["oelig"] = Convert.ToChar(339);
@@ -457,12 +439,10 @@ namespace LayoutFarm.WebDom.Parser
             while (i < lim)
             {
                 char c = sourceBuffer[i];
-
                 if (c != '&')
                 {
                     newbuff.Add(c);
                     i++;
-
                     continue;
                 }
 
@@ -570,7 +550,6 @@ namespace LayoutFarm.WebDom.Parser
                         char foundResult;
                         //decode
                         string ss = new string(sourceBuffer, i - 2, numCharCount + 2);
-
                         if (_encodeDecode0.TryGetValue(ss, out foundResult) ||
                           (_decodeOnly.TryGetValue(ss, out foundResult)))
                         {
@@ -583,6 +562,5 @@ namespace LayoutFarm.WebDom.Parser
             }
             return newbuff.ToArray();
         }
-
     }
 }

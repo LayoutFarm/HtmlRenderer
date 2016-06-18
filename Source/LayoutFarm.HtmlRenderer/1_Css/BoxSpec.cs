@@ -15,15 +15,10 @@
 
 using System;
 using PixelFarm.Drawing;
-
 namespace LayoutFarm.Css
 {
-
-
     public sealed partial class BoxSpec
     {
-
-
         bool _freezed;
         //public readonly long versionId = totalVersion++;
         //static long totalVersion;
@@ -64,7 +59,6 @@ namespace LayoutFarm.Css
         CssLength _top = CssLength.AutoLength;//w3 css 
         CssLength _right = CssLength.AutoLength;//w3 css 
         CssLength _bottom = CssLength.AutoLength;//w3 css 
-
         CssLength _width = CssLength.AutoLength;
         CssLength _height = CssLength.AutoLength;
         //==========================================================
@@ -105,13 +99,11 @@ namespace LayoutFarm.Css
             this._freezed = true;
             _fontFeats.Freeze(); //1.
             _listFeats.Freeze(); //2. 
-
             _borderFeats.Freeze();//3.
             _paddingFeats.Freeze();//4.
             _marginFeats.Freeze();//5.
             _cornerFeats.Freeze();//6.
             _backgroundFeats.Freeze();//7   
-
             _boxShadow.Freeze(); //8
             _flexFeats.Freeze(); //9.
         }
@@ -121,13 +113,11 @@ namespace LayoutFarm.Css
             this._freezed = false;
             _fontFeats.DeFreeze(); //1.
             _listFeats.DeFreeze(); //2. 
-
             _borderFeats.DeFreeze();//3.
             _paddingFeats.DeFreeze();//4.
             _marginFeats.DeFreeze();//5.
             _cornerFeats.DeFreeze();//6.
             _backgroundFeats.DeFreeze();//7   
-
             _boxShadow.DeFreeze(); //8
             _flexFeats.DeFreeze(); //9.
         }
@@ -204,7 +194,6 @@ namespace LayoutFarm.Css
             set
             {
                 if (Assignable()) CheckBorderVersion().TopWidth = value;
-
             }
         }
         //--------------------------------------------------------------------------------------
@@ -229,7 +218,6 @@ namespace LayoutFarm.Css
 
         public CssBorderStyle BorderBottomStyle
         {
-
             get { return this._borderFeats.BottomStyle; }
             set { if (Assignable()) CheckBorderVersion().BottomStyle = value; }
         }
@@ -253,7 +241,6 @@ namespace LayoutFarm.Css
             {
                 if (Assignable()) CheckBorderVersion().RightColor = value;
             }
-
         }
 
         public Color BorderTopColor
@@ -418,7 +405,6 @@ namespace LayoutFarm.Css
         {
             get { return this._backgroundFeats.BackgroundColor; }
             set { if (Assignable()) this.CheckBgVersion().BackgroundColor = value; }
-
         }
         public ImageBinder BackgroundImageBinder
         {
@@ -646,7 +632,6 @@ namespace LayoutFarm.Css
         {
             get
             {
-
                 return _actualColor;
             }
         }
@@ -663,7 +648,6 @@ namespace LayoutFarm.Css
         }
         internal FontInfo GetFontInfo(IFonts ifonts, float parentFontSize)
         {
-
             //---------------------------------------
             if (_actualFontInfo != null)
             {
@@ -714,7 +698,6 @@ namespace LayoutFarm.Css
             }
 
             float fsize = FontDefaultConfig.DEFAULT_FONT_SIZE;
-
             if (fontsize.IsFontSizeName)
             {
                 switch (fontsize.UnitOrNames)
@@ -740,7 +723,6 @@ namespace LayoutFarm.Css
                             //    parentFontSize = parentBox._actualFont.Size;
                             //}
                             fsize = parentFontSize - 2;
-
                         }
                         break;
                     case CssUnitOrNames.FONTSIZE_LARGER:
@@ -752,7 +734,6 @@ namespace LayoutFarm.Css
                             //    parentFontSize = parentBox._actualFont.Size;
                             //}
                             fsize = parentFontSize + 2;
-
                         }
                         break;
                     default:
@@ -934,7 +915,6 @@ namespace LayoutFarm.Css
 #if DEBUG
         public static bool dbugCompare(dbugPropCheckReport dbugR, BoxSpec boxBase, BoxSpec spec)
         {
-
             int dd = boxBase.__aa_dbugId;
             dbugR.Check("_fontProps", CssFontFeature.dbugIsEq(dbugR, boxBase._fontFeats, spec._fontFeats));
             dbugR.Check("_listProps", CssListFeature.dbugIsEq(dbugR, boxBase._listFeats, spec._listFeats));
@@ -943,43 +923,33 @@ namespace LayoutFarm.Css
             dbugR.Check("_actualColor", boxBase._actualColor == spec._actualColor);
             dbugR.Check("_emptyCells", boxBase._emptyCells == spec._emptyCells);
             dbugR.Check("_textAlign", boxBase._textAlign == spec._textAlign);
-
             dbugR.Check("_verticalAlign", boxBase._verticalAlign == spec._verticalAlign);
             dbugR.Check("_visibility", boxBase._visibility == spec._visibility);
             dbugR.Check("_whitespace", boxBase._whitespace == spec._whitespace);
             dbugR.Check("_wordBreak", boxBase._wordBreak == spec._wordBreak);
             dbugR.Check("_cssDirection", boxBase._cssDirection == spec._cssDirection);
-
             dbugR.Check("_backgroundProps", CssBackgroundFeature.dbugIsEq(dbugR, boxBase._backgroundFeats, spec._backgroundFeats));
             dbugR.Check("_borderProps", CssBorderFeature.dbugIsEq(dbugR, boxBase._borderFeats, spec._borderFeats));
             dbugR.Check("_cornerProps", CssCornerFeature.dbugIsEq(dbugR, boxBase._cornerFeats, spec._cornerFeats));
-
             //---------------------------------------
             dbugR.Check("_left", CssLength.IsEq(boxBase._left, spec._left));
             dbugR.Check("_top", CssLength.IsEq(boxBase._top, spec._top));
             dbugR.Check("_bottom", CssLength.IsEq(boxBase._bottom, spec._bottom));
             dbugR.Check("_right", CssLength.IsEq(boxBase._right, spec._right));
-
-
             dbugR.Check("_width", CssLength.IsEq(boxBase._width, spec._width));
             dbugR.Check("_height", CssLength.IsEq(boxBase._height, spec._height));
             dbugR.Check("_maxWidth", CssLength.IsEq(boxBase._maxWidth, spec._maxWidth));
-
-
             dbugR.Check("_position", boxBase._position == spec._position);
             dbugR.Check("_wordSpacing", CssLength.IsEq(boxBase._wordSpacing, spec._wordSpacing));
             dbugR.Check("_float", boxBase._float == spec._float);
             dbugR.Check("_cssDisplay", boxBase._cssDisplay == spec._cssDisplay);
             dbugR.Check("_overflow", boxBase._overflow == spec._overflow);
             dbugR.Check("_textDecoration", boxBase._textDecoration == spec._textDecoration);
-
-
             if (dbugR.Count > 0)
             {
                 return false;
             }
             return true;
-
         }
 #endif
     }
@@ -1010,5 +980,4 @@ namespace LayoutFarm.Css
         }
     }
 #endif
-
 }

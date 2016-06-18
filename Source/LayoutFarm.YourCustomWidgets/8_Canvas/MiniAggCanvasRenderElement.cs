@@ -1,13 +1,10 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
-using System;
 
+using System;
 using PixelFarm.Agg;
 using PixelFarm.Drawing;
-
 namespace LayoutFarm.CustomWidgets
 {
-
-
     public class MiniAggCanvasRenderElement : RenderBoxBase, IDisposable
     {
         Graphics2D gfx2d;
@@ -27,7 +24,6 @@ namespace LayoutFarm.CustomWidgets
         }
         public override void ClearAllChildren()
         {
-
         }
         public Color BackColor
         {
@@ -36,7 +32,6 @@ namespace LayoutFarm.CustomWidgets
         }
         protected override void DrawBoxContent(Canvas canvas, Rectangle updateArea)
         {
-
             // canvas.FillRectangle(Color.White, 0, 0, this.Width, this.Height);
             if (needUpdate)
             {
@@ -119,7 +114,4 @@ namespace LayoutFarm.CustomWidgets
 
 
     }
-
-
-
 }

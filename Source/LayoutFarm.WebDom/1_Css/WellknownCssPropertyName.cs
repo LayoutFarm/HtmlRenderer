@@ -1,18 +1,16 @@
 ﻿//BSD  2015,2014 ,WinterDev  
+
 namespace LayoutFarm.WebDom
 {
     public enum WellknownCssPropertyName
     {
         Unknown,
-
         [Map("display")]
         Display,
-
         [Map("display-inside")]
         DisplayInside, //css3
         [Map("display-outside")]
         DisplayOutside, //css3
-
         [Map("border")]
         Border,
         [Map("border-left")]
@@ -108,7 +106,6 @@ namespace LayoutFarm.WebDom
         //----------------------------------
         [Map("box-sizing")]
         BoxSizing,
-
         [Map("background-color")]
         BackgroundColor,
         [Map("background-image")]
@@ -144,7 +141,6 @@ namespace LayoutFarm.WebDom
         TextAlign,
         [Map("text-decoration")]
         TextDecoration,
-
         [Map("white-space")]
         Whitespace,
         [Map("word-break")]
@@ -165,7 +161,6 @@ namespace LayoutFarm.WebDom
         FontVariant,
         [Map("font-weight")]
         FontWeight,
-
         [Map("list-style")]
         ListStyle,
         [Map("list-style-position")]
@@ -174,7 +169,6 @@ namespace LayoutFarm.WebDom
         ListStyleImage,
         [Map("list-style-type")]
         ListStyleType,
-
         [Map("overflow")]
         Overflow,
         //----------------------------------
@@ -189,7 +183,6 @@ namespace LayoutFarm.WebDom
         PageBreakBefore,
         [Map("page-break-after")]
         PageBreakAfter,
-
         [Map("box-shadow")]
         BoxShadow,
         //----------------------------------
@@ -214,7 +207,6 @@ namespace LayoutFarm.WebDom
         FlexShrink,
         [Map("flex-basis")]
         FlexBasis,
-
         //experiment , special extension
         [Map("flex-ext-num")]
         FlexExtensionNum,
@@ -222,5 +214,4 @@ namespace LayoutFarm.WebDom
         FlexExtensionPart,
         //----------------------------------
     }
-
 }

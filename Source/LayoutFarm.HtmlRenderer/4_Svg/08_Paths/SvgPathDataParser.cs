@@ -1,24 +1,19 @@
 ﻿//Apache2 2014,WinterDev
 
 using System;
-using System.Collections.Generic; 
-
+using System.Collections.Generic;
 namespace LayoutFarm.Svg.Pathing
 {
-
     public class SvgPathDataParser
     {
         public List<SvgPathSeg> Parse(char[] pathDataBuffer)
         {
-
             //parse pathdata to pathsegments
             List<SvgPathSeg> pathSegments = new List<SvgPathSeg>();
             List<float> numbers = new List<float>();
-
             int j = pathDataBuffer.Length;
-
             int currentState = 0;
-            for (int i = 0; i < j; )
+            for (int i = 0; i < j;)
             {
                 //lex and parse
                 char c = pathDataBuffer[i];
@@ -47,7 +42,8 @@ namespace LayoutFarm.Svg.Pathing
                                             throw new NotSupportedException();
                                         }
                                         numbers.Clear();//reset
-                                    } break;
+                                    }
+                                    break;
                                 case 'L':
                                 case 'l':
                                     {
@@ -65,7 +61,8 @@ namespace LayoutFarm.Svg.Pathing
                                             throw new NotSupportedException();
                                         }
                                         numbers.Clear();//reset
-                                    } break;
+                                    }
+                                    break;
                                 case 'H':
                                 case 'h':
                                     {
@@ -82,7 +79,8 @@ namespace LayoutFarm.Svg.Pathing
                                             throw new NotSupportedException();
                                         }
                                         numbers.Clear();//reset
-                                    } break;
+                                    }
+                                    break;
                                 case 'V':
                                 case 'v':
                                     {
@@ -99,17 +97,18 @@ namespace LayoutFarm.Svg.Pathing
                                             throw new NotSupportedException();
                                         }
                                         numbers.Clear();//reset
-                                    } break;
+                                    }
+                                    break;
                                 case 'Z':
                                 case 'z':
                                     {
                                         pathSegments.Add(new SvgPathSegClosePath());
                                         i++;
-                                    } break;
+                                    }
+                                    break;
                                 case 'A':
                                 case 'a':
                                     {
-
                                         ParseNumberList(pathDataBuffer, i + 1, out i, numbers);
                                         if (numbers.Count == 7)
                                         {
@@ -125,7 +124,8 @@ namespace LayoutFarm.Svg.Pathing
                                             throw new NotSupportedException();
                                         }
                                         numbers.Clear();
-                                    } break;
+                                    }
+                                    break;
                                 case 'C':
                                 case 'c':
                                     {
@@ -144,8 +144,8 @@ namespace LayoutFarm.Svg.Pathing
                                             throw new NotSupportedException();
                                         }
                                         numbers.Clear();
-
-                                    } break;
+                                    }
+                                    break;
                                 case 'Q':
                                 case 'q':
                                     {
@@ -163,7 +163,8 @@ namespace LayoutFarm.Svg.Pathing
                                             throw new NotSupportedException();
                                         }
                                         numbers.Clear();
-                                    } break;
+                                    }
+                                    break;
                                 case 'S':
                                 case 's':
                                     {
@@ -173,7 +174,6 @@ namespace LayoutFarm.Svg.Pathing
                                             var scubicCurve = new SvgPathSegCurveToCubicSmooth(
                                                 numbers[0], numbers[1],
                                                 numbers[2], numbers[3]);
-
                                             scubicCurve.IsRelative = c == 's';
                                             pathSegments.Add(scubicCurve);
                                         }
@@ -182,7 +182,8 @@ namespace LayoutFarm.Svg.Pathing
                                             throw new NotSupportedException();
                                         }
                                         numbers.Clear();
-                                    } break;
+                                    }
+                                    break;
                                 case 'T':
                                 case 't':
                                     {
@@ -199,16 +200,19 @@ namespace LayoutFarm.Svg.Pathing
                                             throw new NotSupportedException();
                                         }
                                         numbers.Clear();
-                                    } break;
-
+                                    }
+                                    break;
                                 default:
                                     {
-                                    } break;
+                                    }
+                                    break;
                             }
-                        } break;
+                        }
+                        break;
                     default:
                         {
-                        } break;
+                        }
+                        break;
                 }
             }
             return pathSegments;
@@ -220,12 +224,10 @@ namespace LayoutFarm.Svg.Pathing
             int j = pathDataBuffer.Length;
             int currentState = 0;
             int startCollectNumber = -1;
-
             for (; latestIndex < j; ++latestIndex)
             {
                 //lex and parse
                 char c = pathDataBuffer[latestIndex];
-
                 if (c == ',' || char.IsWhiteSpace(c))
                 {
                     if (startCollectNumber >= 0)
@@ -245,7 +247,6 @@ namespace LayoutFarm.Svg.Pathing
                 {
                     case 0:
                         {
-
                             //--------------------------
                             if (c == '-')
                             {
@@ -271,7 +272,8 @@ namespace LayoutFarm.Svg.Pathing
                                 }
                                 return;
                             }
-                        } break;
+                        }
+                        break;
                     case 1:
                         {
                             //after negative expect first number
@@ -295,7 +297,8 @@ namespace LayoutFarm.Svg.Pathing
                                 }
                                 return;
                             }
-                        } break;
+                        }
+                        break;
                     case 2:
                         {
                             //number state
@@ -323,7 +326,8 @@ namespace LayoutFarm.Svg.Pathing
                                 }
                                 return;
                             }
-                        } break;
+                        }
+                        break;
                     case 3:
                         {
                             //after .
@@ -346,7 +350,8 @@ namespace LayoutFarm.Svg.Pathing
                                 return;
                                 //break hear
                             }
-                        } break;
+                        }
+                        break;
                 }
             }
             //-------------------

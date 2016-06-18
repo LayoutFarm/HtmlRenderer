@@ -3,20 +3,16 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 namespace LayoutFarm.WebDom.Parser
 {
     public delegate void CssLexerEmitHandler(CssTokenName tkname, int startIndex, int len);
-
     public class CssLexer
     {
-
         int _appendLength = 0;
         int _startIndex = 0;
         CssLexerEmitHandler _emitHandler;
         char latestEscapeChar;
         bool isCollectionWhitespace;
-
         public CssLexer(CssLexerEmitHandler emitHandler)
         {
             this._emitHandler = emitHandler;
@@ -32,7 +28,6 @@ namespace LayoutFarm.WebDom.Parser
 
             CssLexState lexState = CssLexState.Init;
             int j = cssSourceBuffer.Length;
-
             for (int i = 0; i < j; ++i)
             {
                 char c = cssSourceBuffer[i];
@@ -86,7 +81,6 @@ namespace LayoutFarm.WebDom.Parser
                                         lexState = CssLexState.CollectString;
                                     }
                                     break;
-
                                 case CssTokenName.Divide:
                                     {
                                         //is open comment or not
@@ -107,7 +101,6 @@ namespace LayoutFarm.WebDom.Parser
                                     {
                                         AppendBuffer(i);
                                         lexState = CssLexState.Iden;
-
                                     }
                                     break;
                                 case CssTokenName.Dot:
@@ -164,7 +157,6 @@ namespace LayoutFarm.WebDom.Parser
                                 //exit collect string 
                                 lexState = CssLexState.Init;
                                 EmitBuffer(i, CssTokenName.LiteralString);
-
                             }
                             else
                             {
@@ -193,7 +185,6 @@ namespace LayoutFarm.WebDom.Parser
                         break;
                     case CssLexState.Iden:
                         {
-
                             CssTokenName terminalTokenName = GetTerminalTokenName(c);
                             switch (terminalTokenName)
                             {
@@ -218,18 +209,14 @@ namespace LayoutFarm.WebDom.Parser
                                     {
                                         //iden can contains minus 
                                         AppendBuffer(i);
-
                                     }
                                     break;
-
                                 default:
                                     {
                                         //flush exising buffer
                                         EmitBuffer(i, CssTokenName.Iden);
                                         Emit(terminalTokenName, i);
-
                                         lexState = CssLexState.Init;
-
                                     }
                                     break;
                                 case CssTokenName.Unknown:
@@ -300,7 +287,6 @@ namespace LayoutFarm.WebDom.Parser
                                         lexState = CssLexState.Init;
                                     }
                                     break;
-
                                 case CssTokenName.Unknown:
                                     {
                                         EmitBuffer(i, CssTokenName.Number);
@@ -314,8 +300,6 @@ namespace LayoutFarm.WebDom.Parser
                         break;
                     case CssLexState.UnitAfterNumber:
                         {
-
-
                             if (char.IsLetter(c))
                             {
                                 AppendBuffer(i);
@@ -342,7 +326,6 @@ namespace LayoutFarm.WebDom.Parser
                                 }
                                 lexState = CssLexState.Init;
                             }
-
                         }
                         break;
                 }
@@ -357,14 +340,11 @@ namespace LayoutFarm.WebDom.Parser
                     case CssLexState.Number:
                         EmitBuffer(cssSourceBuffer.Length - 1, CssTokenName.Number);
                         break;
-
                     case CssLexState.Iden:
                     default:
                         EmitBuffer(cssSourceBuffer.Length - 1, CssTokenName.Iden);
                         break;
-
                 }
-
             }
         }
         void AppendBuffer(int i)
@@ -405,7 +385,6 @@ namespace LayoutFarm.WebDom.Parser
         //===============================================================================================
         static readonly Dictionary<char, CssTokenName> terminals = new Dictionary<char, CssTokenName>();
         static readonly Dictionary<string, CssTokenName> multiCharTokens = new Dictionary<string, CssTokenName>();
-
         static CssLexer()
         {
             //" @+-*/%.:;[](){}"
@@ -417,9 +396,7 @@ namespace LayoutFarm.WebDom.Parser
             terminals.Add('\'', CssTokenName.Quote);
             terminals.Add('"', CssTokenName.DoubleQuote);
             terminals.Add(',', CssTokenName.Comma);
-
             terminals.Add('@', CssTokenName.At);
-
             terminals.Add('+', CssTokenName.Plus);
             terminals.Add('-', CssTokenName.Minus);
             terminals.Add('*', CssTokenName.Star);
@@ -427,23 +404,17 @@ namespace LayoutFarm.WebDom.Parser
             terminals.Add('%', CssTokenName.Percent);
             terminals.Add('#', CssTokenName.Sharp);
             terminals.Add('~', CssTokenName.Tile);
-
-
             terminals.Add('.', CssTokenName.Dot);
             terminals.Add(':', CssTokenName.Colon);
             terminals.Add(';', CssTokenName.SemiColon);
-
             terminals.Add('[', CssTokenName.LBracket);
             terminals.Add(']', CssTokenName.RBracket);
-
             terminals.Add('(', CssTokenName.LParen);
             terminals.Add(')', CssTokenName.RParen);
-
             terminals.Add('{', CssTokenName.LBrace);
             terminals.Add('}', CssTokenName.RBrace);
             terminals.Add('<', CssTokenName.LAngle);
             terminals.Add('>', CssTokenName.RAngle);
-
             terminals.Add('=', CssTokenName.OpEq);
             terminals.Add('|', CssTokenName.OrPipe);
             terminals.Add('$', CssTokenName.Dollar);
@@ -460,7 +431,6 @@ namespace LayoutFarm.WebDom.Parser
     public enum CssLexState
     {
         Init,
-
         Comment,
         Iden,
         CollectString,
@@ -475,7 +445,6 @@ namespace LayoutFarm.WebDom.Parser
         Whitespace,
         At,
         Comma,
-
         Plus, //+
         Minus,//-
         Star,//*
@@ -487,33 +456,24 @@ namespace LayoutFarm.WebDom.Parser
         OpEq,//=
         Dollar,//$
         Tile, //~
-
         SemiColon,
         Sharp, //#
-
         OrPipe, //|
-
         LParen,
         RParen,
         LBracket,
         RBracket,
         LBrace,
         RBrace,
-
         LAngle, //<
         RAngle,  //>
-
-
         Iden,
         Number,
         NumberUnit,
         LiteralString,
-
         Comment,
-
         Quote, //  '
         DoubleQuote,  // "
-
         //------------------
         DoubleColon, //::
         TileAssign, //~=
@@ -534,25 +494,19 @@ namespace LayoutFarm.WebDom.Parser
         AfterPropertyName,
         ExpectPropertyValue,
         ExpectValueOfHexColor,
-
         AfterPropertyValue,
         Comment,
         ExpectBlockAttrIden,
-
         AfterBlockAttrIden,
         AfterAttrName,
         ExpectedBlockAttrValue,
         AfterBlockNameAttr,
         ExpectAtRuleName,
-
         //@media
         MediaList,
-
         //@import
         ExpectImportURL,
-
         ExpectedFuncParameter,
         AfterFuncParameter,
     }
-
 }

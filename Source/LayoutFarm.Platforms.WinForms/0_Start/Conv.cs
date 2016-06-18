@@ -63,7 +63,5 @@ namespace LayoutFarm.UI
         {
             return new PixelFarm.Drawing.Rectangle(rect.X, rect.Y, rect.Width, rect.Height);
         }
-
-
     }
 }

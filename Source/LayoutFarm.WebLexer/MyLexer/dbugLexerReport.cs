@@ -1,15 +1,11 @@
 ﻿//BSD  2015,2014 ,WinterDev
 
 using System.IO;
-
 namespace LayoutFarm.WebLexer
 {
-
-
 #if DEBUG
     public class dbugLexerReport
     {
-
         StreamWriter strmWriter;
         int lineCount = 0;
         public void Start(StreamWriter strmWriter)
@@ -19,7 +15,6 @@ namespace LayoutFarm.WebLexer
         }
         public void WriteLine(string info)
         {
-
             strmWriter.WriteLine(lineCount + " " + info);
             strmWriter.Flush();
             lineCount++;
@@ -30,5 +25,4 @@ namespace LayoutFarm.WebLexer
         }
     }
 #endif
-
 }

@@ -15,7 +15,6 @@
 
 namespace LayoutFarm.HtmlBoxes
 {
-    
     enum CssSide
     {
         Top,

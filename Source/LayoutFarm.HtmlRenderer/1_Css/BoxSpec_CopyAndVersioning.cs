@@ -4,14 +4,10 @@
 
 namespace LayoutFarm.Css
 {
-
     partial class BoxSpec
     {
-
-
         public static void InheritStyles(BoxSpec target, BoxSpec source)
         {
-
             //----------------------------------------
             if (source == null)
             {
@@ -66,7 +62,6 @@ namespace LayoutFarm.Css
             target._boxSizing = source._boxSizing;
             target._backgroundFeats = source._backgroundFeats;
             target._borderFeats = source._borderFeats;
-
             target._cornerFeats = source._cornerFeats;
 #if DEBUG
             //if (target.__aa_dbugId == 9)
@@ -86,21 +81,15 @@ namespace LayoutFarm.Css
             target._top = source._top;
             target._bottom = source._bottom;
             target._right = source._right;
-
             target._width = source._width;
-
             target._height = source._height;
             target._maxWidth = source._maxWidth;
             target._position = source._position;
-
             target._wordSpacing = source._wordSpacing;
             target._lineHeight = source._lineHeight;
             target._float = source._float;
-
-
             target._overflow = source._overflow;
             target._textDecoration = source._textDecoration;
-
             //3.
             //===================================== 
             target._cssDirection = source._cssDirection;
@@ -116,7 +105,6 @@ namespace LayoutFarm.Css
             this.anonVersion = new BoxSpec();
             BoxSpec.InheritStyles(anonVersion, this);
             anonVersion.Freeze();
-
             return anonVersion;
         }
         //---------------------------------------------------------------
@@ -129,7 +117,6 @@ namespace LayoutFarm.Css
         {
             if (this.__aa_dbugId == 9)
             {
-
             }
             return this._marginFeats = this._marginFeats.GetMyOwnVersion(this);
         }
@@ -163,5 +150,4 @@ namespace LayoutFarm.Css
             return this._flexFeats = this._flexFeats.GetMyOwnVersion(this);
         }
     }
-
 }

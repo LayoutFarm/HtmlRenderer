@@ -1,8 +1,8 @@
 // Copyright (c) 2013 SIL International
 // This software is licensed under the MIT license (http://opensource.org/licenses/MIT)
+
 using System;
 using System.IO;
-
 namespace Icu
 {
     internal enum ErrorCode
@@ -189,8 +189,6 @@ namespace Icu
         STRINGPREP_PROHIBITED_ERROR = IDNA_PROHIBITED_ERROR,
         STRINGPREP_UNASSIGNED_ERROR = IDNA_UNASSIGNED_ERROR,
         STRINGPREP_CHECK_BIDI_ERROR = IDNA_CHECK_BIDI_ERROR,
-
-
         ERROR_LIMIT = IDNA_ERROR_LIMIT      /** This must always be the last value to indicate the limit for UErrorCode (last error code +1) */
     }
 
@@ -498,7 +496,4 @@ namespace Icu
             }
         }
     }
-
- 
-
 }

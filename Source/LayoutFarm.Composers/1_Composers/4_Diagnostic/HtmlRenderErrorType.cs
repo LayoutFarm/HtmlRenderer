@@ -12,7 +12,7 @@
 // 
 // - Sun Tsu,
 // "The Art of War"
- 
+
 namespace LayoutFarm.HtmlDiagnostics
 {
     /// <summary>

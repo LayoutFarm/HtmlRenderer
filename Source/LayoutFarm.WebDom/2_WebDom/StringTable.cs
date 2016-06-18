@@ -2,10 +2,8 @@
 
 using System;
 using System.Collections.Generic;
-
 namespace LayoutFarm.WebDom
 {
-     
     public class UniqueStringTable
     {
         Dictionary<string, int> dic;
@@ -24,7 +22,6 @@ namespace LayoutFarm.WebDom
         /// <returns></returns>
         public int GetStringIndex(string str)
         {
-
             if (str == null)
             {
                 return 0;
@@ -39,10 +36,9 @@ namespace LayoutFarm.WebDom
                 return -1;
             }
         }
-        
+
         public int AddStringIfNotExist(string str)
         {
-
             if (str == null)
             {
                 return 0;
@@ -54,7 +50,7 @@ namespace LayoutFarm.WebDom
                 return foundIndex;
             }
             else
-            {   
+            {
                 int index = dic.Count;
                 dic.Add(str, index);
                 list.Add(str);
@@ -91,7 +87,7 @@ namespace LayoutFarm.WebDom
             return list;
         }
 
-        
+
         public UniqueStringTable Clone()
         {
             UniqueStringTable newClone = new UniqueStringTable();
@@ -103,7 +99,6 @@ namespace LayoutFarm.WebDom
             }
             newClone.list.Clear();
             newClone.list.AddRange(list);
-
             return newClone;
         }
     }

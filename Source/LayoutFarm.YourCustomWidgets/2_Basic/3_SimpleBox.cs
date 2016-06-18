@@ -32,6 +32,4 @@ namespace LayoutFarm.CustomWidgets
             visitor.EndElement();
         }
     }
-
-
 }

@@ -1,9 +1,8 @@
 ﻿// 2015,2014 ,BSD, WinterDev 
-using System;
- 
-using LayoutFarm.HtmlBoxes; 
-using LayoutFarm.WebDom;
 
+using System;
+using LayoutFarm.HtmlBoxes;
+using LayoutFarm.WebDom;
 namespace LayoutFarm.Composers
 {
     sealed class HtmlRootElement : HtmlElement
@@ -45,7 +44,6 @@ namespace LayoutFarm.Composers
                 return wrapper;
             }
         }
-
     }
 
 
@@ -104,7 +102,4 @@ namespace LayoutFarm.Composers
             shadowDoc.RootNode.AddChild(childNode);
         }
     }
-
-
-
 }

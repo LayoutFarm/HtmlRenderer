@@ -4,10 +4,8 @@
 using System.Text;
 namespace LayoutFarm.WebDom.Impl
 {
-
     public partial class HtmlElement : DomElement, IHtmlElement
     {
-
         CssRuleSet elementRuleSet;
         public HtmlElement(HtmlDocument owner, int prefix, int localNameIndex)
             : base(owner, prefix, localNameIndex)
@@ -41,7 +39,6 @@ namespace LayoutFarm.WebDom.Impl
                 value = null;
                 return false;
             }
-
         }
 
 
@@ -58,7 +55,6 @@ namespace LayoutFarm.WebDom.Impl
 
         protected override void OnElementChangedInIdleState(ElementChangeKind changeKind)
         {
-
             //1. 
             this.OwnerDocument.SetDocumentState(DocumentState.ChangedAfterIdle);
             if (this.OwnerDocument.IsDocFragment) return;
@@ -108,7 +104,6 @@ namespace LayoutFarm.WebDom.Impl
             //parse html and create dom node
             //clear content of this node
             this.ClearAllElements();
-
             //parse 
             //throw new NotSupportedException();
             //then apply new content ***
@@ -134,8 +129,6 @@ namespace LayoutFarm.WebDom.Impl
                 writer.Write("\"");
             }
             writer.Write('>');
-
-
             //content
             foreach (var childnode in this.GetChildNodeIterForward())
             {
@@ -160,7 +153,6 @@ namespace LayoutFarm.WebDom.Impl
         }
         public virtual void SetLocation(int x, int y)
         {
-
         }
         public virtual float ActualHeight
         {
@@ -177,7 +169,4 @@ namespace LayoutFarm.WebDom.Impl
             }
         }
     }
-
-
-
 }

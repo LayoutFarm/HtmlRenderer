@@ -1,10 +1,9 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Collections.Generic;
-
 namespace LayoutFarm.InternalUI
 {
-
     class UICollection
     {
         List<UIElement> uiList = new List<UIElement>();

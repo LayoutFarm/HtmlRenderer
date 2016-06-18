@@ -1,11 +1,10 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using PixelFarm.Drawing;
 using LayoutFarm.UI;
-
 namespace LayoutFarm.CustomWidgets
 {
-
     /// <summary>
     /// textbox with decoration(eg. placeholder)
     /// </summary>
@@ -16,7 +15,6 @@ namespace LayoutFarm.CustomWidgets
         string placeHolderText = "";
         bool multiline;
         Text.TextSurfaceEventListener textEvListener;
-
         public TextBoxContainer(int w, int h, bool multiline)
             : base(w, h)
         {
@@ -42,26 +40,20 @@ namespace LayoutFarm.CustomWidgets
             {
                 //first time
                 RenderElement baseRenderElement = base.GetPrimaryRenderElement(rootgfx);
-
                 //1. add place holder first
                 placeHolder = new CustomTextRun(rootgfx, this.Width - 4, this.Height - 4);
                 placeHolder.Text = placeHolderText;
                 placeHolder.SetLocation(1, 1);
                 placeHolder.TextColor = Color.FromArgb(180, Color.LightGray);
-
                 baseRenderElement.AddChild(placeHolder);
-
                 //2. textbox 
                 myTextBox = new TextBox(this.Width - 4, this.Height - 4, multiline);
                 myTextBox.BackgroundColor = Color.Transparent;
                 myTextBox.SetLocation(2, 2);
-
                 textEvListener = new Text.TextSurfaceEventListener();
-
                 myTextBox.TextEventListener = textEvListener;
                 textEvListener.KeyDown += new EventHandler<Text.TextDomEventArgs>(textEvListener_KeyDown);
                 baseRenderElement.AddChild(myTextBox);
-
                 return baseRenderElement;
             }
             else

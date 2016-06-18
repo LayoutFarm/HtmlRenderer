@@ -1,21 +1,18 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
-
 namespace LayoutFarm.Text
 {
     class TextLineWriter : TextLineReader
     {
         BackGroundTextLineWriter backgroundWriter;
-
-
         public TextLineWriter(EditableTextFlowLayer textLayer)
             : base(textLayer)
         {
-
         }
         public TextSpanStyle CurrentSpanStyle
         {
@@ -29,7 +26,6 @@ namespace LayoutFarm.Text
             if (backgroundWriter == null)
             {
                 backgroundWriter = new BackGroundTextLineWriter(this.TextLayer);
-
 #if DEBUG
                 backgroundWriter.dbugTextManRecorder = this.dbugTextManRecorder;
 #endif
@@ -72,23 +68,17 @@ namespace LayoutFarm.Text
         {
             int precutIndex = selectionRange.StartPoint.LineCharIndex;
             CurrentLine.Remove(selectionRange);
-
             CurrentLine.TextLineReCalculateActualLineSize();
             CurrentLine.RefreshInlineArrange();
-
             EnsureCurrentTextRun(precutIndex);
-
         }
 
         public void ReplaceCurrentLine(IEnumerable<EditableRun> textRuns)
         {
             int currentCharIndex = CharIndex;
-
             CurrentLine.ReplaceAll(textRuns);
-
             CurrentLine.TextLineReCalculateActualLineSize();
             CurrentLine.RefreshInlineArrange();
-
             EnsureCurrentTextRun(currentCharIndex);
         }
         public void JoinWithNextLine()
@@ -121,7 +111,6 @@ namespace LayoutFarm.Text
                 }
                 CurrentLine.TextLineReCalculateActualLineSize();
                 CurrentLine.RefreshInlineArrange();
-
                 return toBeRemovedChar;
             }
         }
@@ -134,7 +123,6 @@ namespace LayoutFarm.Text
             else
             {
                 return CurrentTextRun;
-
             }
         }
 
@@ -146,11 +134,8 @@ namespace LayoutFarm.Text
                 EditableRun t = new EditableTextRun(this.Root,
                     c,
                     this.CurrentSpanStyle);
-
                 var owner = this.FlowLayer.OwnerRenderElement;
-
                 CurrentLine.AddLast(t);
-
                 SetCurrentTextRun(t);
             }
             else
@@ -176,20 +161,17 @@ namespace LayoutFarm.Text
 
             CurrentLine.TextLineReCalculateActualLineSize();
             CurrentLine.RefreshInlineArrange();
-
             CharIndex++;
         }
         public void AddTextSpan(EditableRun textRun)
         {
             if (CurrentLine.IsBlankLine)
             {
-
                 CurrentLine.AddLast(textRun);
                 SetCurrentTextRun(textRun);
                 CurrentLine.TextLineReCalculateActualLineSize();
                 CurrentLine.RefreshInlineArrange();
                 CharIndex += textRun.CharacterCount;
-
             }
             else
             {
@@ -207,7 +189,6 @@ namespace LayoutFarm.Text
                     CurrentLine.TextLineReCalculateActualLineSize();
                     CurrentLine.RefreshInlineArrange();
                     EnsureCurrentTextRun(CharIndex + textRun.CharacterCount);
-
                 }
                 else
                 {
@@ -247,26 +228,21 @@ namespace LayoutFarm.Text
 
         public void SplitToNewLine()
         {
-
             EditableRun lineBreakRun = new EditableTextRun(this.Root, '\n', this.CurrentSpanStyle);
             EditableRun currentRun = CurrentTextRun;
             if (CurrentLine.IsBlankLine)
             {
-
                 CurrentLine.AddLast(lineBreakRun);
-
             }
             else
             {
                 if (CharIndex == -1)
                 {
-
                     CurrentLine.AddFirst(lineBreakRun);
                     SetCurrentTextRun(null);
                 }
                 else
                 {
-
                     EditableRun rightSplitedPart = EditableRun.InnerRemove(currentRun,
                         CurrentTextRunCharIndex + 1, true);
                     if (rightSplitedPart != null)
@@ -274,7 +250,6 @@ namespace LayoutFarm.Text
                         CurrentLine.AddAfter(currentRun, rightSplitedPart);
                     }
                     CurrentLine.AddAfter(currentRun, lineBreakRun);
-
                     if (currentRun.CharacterCount == 0)
                     {
                         CurrentLine.Remove(currentRun);
@@ -288,7 +263,6 @@ namespace LayoutFarm.Text
         }
         public EditableVisualPointInfo[] SplitSelectedText(VisualSelectionRange selectionRange)
         {
-
             EditableVisualPointInfo[] newPoints = CurrentLine.Split(selectionRange);
             EnsureCurrentTextRun();
             return newPoints;
@@ -297,7 +271,6 @@ namespace LayoutFarm.Text
 
     abstract class TextLineReader
     {
-
 #if DEBUG
         static int dbugTotalId;
         int dbug_MyId;
@@ -306,7 +279,6 @@ namespace LayoutFarm.Text
 
         EditableTextFlowLayer visualFlowLayer;
         EditableTextLine currentLine;
-
         int currentLineY = 0;
         EditableRun currentTextRun;
         int charIndex = -1;
@@ -315,7 +287,6 @@ namespace LayoutFarm.Text
         int rPixelOffset = 0;
         public TextLineReader(EditableTextFlowLayer flowlayer)
         {
-
 #if DEBUG
             this.dbug_MyId = dbugTotalId;
             dbugTotalId++;
@@ -323,9 +294,7 @@ namespace LayoutFarm.Text
 
             this.visualFlowLayer = flowlayer;
             flowlayer.Reflow += new EventHandler(flowlayer_Reflow);
-
             currentLine = flowlayer.GetTextLine(0);
-
             if (currentLine.FirstRun != null)
             {
                 currentTextRun = currentLine.FirstRun;
@@ -347,7 +316,6 @@ namespace LayoutFarm.Text
             int prevCharIndex = charIndex;
             this.CharIndex = -1;
             this.CharIndex = prevCharIndex;
-
         }
         protected EditableTextLine CurrentLine
         {
@@ -383,14 +351,12 @@ namespace LayoutFarm.Text
                 charIndex = rCharOffset + currentTextRun.CharacterCount - 1;
                 caretXPos = rPixelOffset + currentTextRun.Width;
                 return true;
-
             }
             return false;
         }
 
         bool MoveToNextTextRun()
         {
-
 #if DEBUG
             if (currentTextRun.IsLineBreak)
             {
@@ -407,7 +373,6 @@ namespace LayoutFarm.Text
                 currentTextRun = nextTextRun;
                 charIndex = rCharOffset;
                 caretXPos = rPixelOffset + currentTextRun.GetCharWidth(0);
-
                 return true;
             }
             return false;
@@ -416,15 +381,12 @@ namespace LayoutFarm.Text
         public void MoveToLine(int lineNumber)
         {
             currentLine = visualFlowLayer.GetTextLine(lineNumber);
-
             currentLineY = currentLine.Top;
-
             currentTextRun = (EditableRun)currentLine.FirstRun;
             rCharOffset = 0;
             rPixelOffset = 0;
             charIndex = -1;
             caretXPos = 0;
-
         }
         public void CopyContentToStrignBuilder(StringBuilder stBuilder)
         {
@@ -438,7 +400,6 @@ namespace LayoutFarm.Text
                 {
                     if (charIndex < 0)
                     {
-
                         return '\0';
                     }
                     if (charIndex == rCharOffset + currentTextRun.CharacterCount - 1)
@@ -471,13 +432,11 @@ namespace LayoutFarm.Text
                 {
                     if (charIndex < 0)
                     {
-
                         return 0;
                     }
                     if (charIndex == rCharOffset + currentTextRun.CharacterCount - 1)
                     {
                         EditableRun nextRun = currentTextRun.NextTextRun;
-
                         if (nextRun != null)
                         {
                             return nextRun.GetCharWidth(0);
@@ -490,7 +449,6 @@ namespace LayoutFarm.Text
                     else
                     {
                         return currentTextRun.GetCharWidth(charIndex - rCharOffset + 1);
-
                     }
                 }
                 else
@@ -517,7 +475,6 @@ namespace LayoutFarm.Text
                 new EditableVisualPointInfo(currentLine, charIndex);
             textPointInfo.SetAdditionVisualInfo(currentTextRun,
                 rCharOffset, caretXPos, rPixelOffset);
-
             return textPointInfo;
         }
         public Point CaretPosition
@@ -571,19 +528,16 @@ namespace LayoutFarm.Text
             }
             set
             {
-
                 if (currentTextRun == null)
                 {
                     charIndex = -1;
                     caretXPos = 0;
                     rCharOffset = 0;
                     rPixelOffset = 0;
-
                     return;
                 }
                 int pixDiff = value - caretXPos; if (pixDiff > 0)
                 {
-
                     do
                     {
                         int thisTextRunPixelLength = currentTextRun.Width;
@@ -615,8 +569,6 @@ namespace LayoutFarm.Text
                     {
                         if (value >= rPixelOffset)
                         {
-
-
                             VisualLocationInfo foundLocation = EditableRun.InnerGetCharacterFromPixelOffset(currentTextRun, value - rPixelOffset);
                             if (foundLocation.charIndex == -1)
                             {
@@ -650,7 +602,6 @@ namespace LayoutFarm.Text
             }
             set
             {
-
 #if DEBUG
                 if (dbugTextManRecorder != null)
                 {
@@ -691,7 +642,6 @@ namespace LayoutFarm.Text
                                     charIndex++;
                                     caretXPos += currentTextRun.GetCharWidth(charIndex - rCharOffset);
                                 }
-
                             }
                             break;
                         case -1:
@@ -706,7 +656,6 @@ namespace LayoutFarm.Text
                                     {
                                         caretXPos -= currentTextRun.GetCharWidth(charIndex - rCharOffset);
                                         charIndex--;
-
                                     }
                                 }
                             }
@@ -721,7 +670,6 @@ namespace LayoutFarm.Text
                                         {
                                             charIndex = value;
                                             caretXPos = rPixelOffset + currentTextRun.GetRunWidth(charIndex - rCharOffset + 1);
-
 #if DEBUG
                                             if (dbugTextManRecorder != null)
                                             {
@@ -743,7 +691,6 @@ namespace LayoutFarm.Text
                                         if (rCharOffset - 1 < value)
                                         {
                                             charIndex = value; caretXPos = rPixelOffset + currentTextRun.GetRunWidth(charIndex - rCharOffset + 1);
-
 #if DEBUG
                                             if (dbugTextManRecorder != null)
                                             {
@@ -849,7 +796,6 @@ namespace LayoutFarm.Text
         public void MoveToPrevLine()
         {
             MoveToLine(currentLine.LineNumber - 1);
-
         }
         public Rectangle LineArea
         {
@@ -883,5 +829,4 @@ namespace LayoutFarm.Text
         {
         }
     }
-
 }

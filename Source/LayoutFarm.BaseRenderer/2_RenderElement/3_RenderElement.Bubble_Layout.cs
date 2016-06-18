@@ -1,13 +1,9 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
- 
+
 namespace LayoutFarm
 {
-
-
-
     partial class RenderElement
     {
-
         public virtual void TopDownReCalculateContentSize()
         {
             MarkHasValidCalculateSize();
@@ -17,7 +13,7 @@ namespace LayoutFarm
             v.b_width = w;
             v.b_height = h;
             v.MarkHasValidCalculateSize();
-        } 
+        }
         internal static int GetLayoutSpecificDimensionType(RenderElement visualElement)
         {
             return visualElement.uiLayoutFlags & 0x3;
@@ -32,7 +28,6 @@ namespace LayoutFarm
         }
         protected void MarkHasValidCalculateSize()
         {
-
             uiLayoutFlags |= RenderElementConst.LAY_HAS_CALCULATED_SIZE;
 #if DEBUG
             this.dbug_ValidateRecalculateSizeEpisode++;
@@ -60,25 +55,24 @@ namespace LayoutFarm
             }
         }
 
-//        internal void MarkInvalidContentArrangement()
-//        {
-//            uiLayoutFlags &= ~RenderElementConst.LY_HAS_ARRANGED_CONTENT;
-//#if DEBUG
+        //        internal void MarkInvalidContentArrangement()
+        //        {
+        //            uiLayoutFlags &= ~RenderElementConst.LY_HAS_ARRANGED_CONTENT;
+        //#if DEBUG
 
-//            this.dbug_InvalidateContentArrEpisode++;
-//            dbug_totalInvalidateContentArrEpisode++;
-//#endif
-//        }
-//        public void MarkInvalidContentSize()
-//        {
-//            uiLayoutFlags &= ~RenderElementConst.LAY_HAS_CALCULATED_SIZE;
-//#if DEBUG
-//            this.dbug_InvalidateRecalculateSizeEpisode++;
-//#endif
-//        }
+        //            this.dbug_InvalidateContentArrEpisode++;
+        //            dbug_totalInvalidateContentArrEpisode++;
+        //#endif
+        //        }
+        //        public void MarkInvalidContentSize()
+        //        {
+        //            uiLayoutFlags &= ~RenderElementConst.LAY_HAS_CALCULATED_SIZE;
+        //#if DEBUG
+        //            this.dbug_InvalidateRecalculateSizeEpisode++;
+        //#endif
+        //        }
         public void MarkValidContentArrangement()
         {
-
 #if DEBUG
             this.dbug_ValidateContentArrEpisode++;
 #endif
@@ -94,7 +88,6 @@ namespace LayoutFarm
         }
         internal bool FirstArrangementPass
         {
-
             get
             {
                 return (propFlags & RenderElementConst.FIRST_ARR_PASS) != 0;

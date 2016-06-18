@@ -4,12 +4,9 @@
 using System.IO;
 namespace LayoutFarm
 {
-
-
 #if DEBUG
     public class dbugHitTestTracker
     {
-
         StreamWriter strmWriter;
         bool play = false;
         public int seriesCounter = 0;
@@ -54,10 +51,7 @@ namespace LayoutFarm
         }
         public void Close()
         {
-
         }
     }
 #endif
-
-
 }

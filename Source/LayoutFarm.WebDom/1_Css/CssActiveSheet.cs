@@ -15,10 +15,8 @@
 
 using System;
 using System.Collections.Generic;
-
 namespace LayoutFarm.WebDom
 {
-
     public class CssActiveSheet
     {
         //major groups...  
@@ -27,14 +25,12 @@ namespace LayoutFarm.WebDom
         Dictionary<string, CssRuleSetGroup> rulesForElementId = new Dictionary<string, CssRuleSetGroup>();
         Dictionary<string, CssRuleSetGroup> rulesForPsedoClass = new Dictionary<string, CssRuleSetGroup>();
         Dictionary<string, CssRuleSetGroup> rulesForAll = new Dictionary<string, CssRuleSetGroup>();
-
 #if DEBUG
         CssActiveSheet dbugOriginal;
 #endif
 
         public CssActiveSheet()
         {
-
         }
         public void LoadCssDoc(WebDom.CssDocument cssDoc)
         {
@@ -59,11 +55,8 @@ namespace LayoutFarm.WebDom
         {
             List<CssRuleSetGroup> relatedRuleSets = new List<CssRuleSetGroup>();
             ExpandSelector(relatedRuleSets, ruleset.GetSelector());
-
-
             CssPropertyAssignmentCollection assignmentCollection = new CssPropertyAssignmentCollection(null);
             assignmentCollection.LoadRuleSet(ruleset);
-
             foreach (var ruleSetGroup in relatedRuleSets)
             {
                 //start with share*** rule set
@@ -98,14 +91,12 @@ namespace LayoutFarm.WebDom
             //create active element set                
             if (selector.IsSimpleSelector)
             {
-
                 WebDom.CssSimpleElementSelector simpleSelector = (WebDom.CssSimpleElementSelector)selector;
                 switch (simpleSelector.selectorType)
                 {
                     default:
                         {
                             throw new NotSupportedException();
-
                         }
                     case WebDom.SimpleElementSelectorKind.ClassName:
                         {
@@ -118,8 +109,6 @@ namespace LayoutFarm.WebDom
                         break;
                     case WebDom.SimpleElementSelectorKind.Extend:
                         {
-
-
                         }
                         break;
                     case WebDom.SimpleElementSelectorKind.Id:
@@ -153,14 +142,12 @@ namespace LayoutFarm.WebDom
                                 GetGroupOrCreateIfNotExists(
                                     rulesForAll,
                                     simpleSelector));
-
                         }
                         break;
                 }
             }
             else
             {
-
                 WebDom.CssCompundElementSelector combiSelector = (WebDom.CssCompundElementSelector)selector;
                 switch (combiSelector.OperatorName)
                 {
@@ -174,7 +161,6 @@ namespace LayoutFarm.WebDom
                         {
                             //focus on right side?
                             ExpandSelector(relatedRuleSets, combiSelector.RightSelector);
-
                         }
                         break;
                     default:
@@ -182,7 +168,6 @@ namespace LayoutFarm.WebDom
                             throw new NotSupportedException();
                         }
                 }
-
             }
             //-----------------------------------------------------------------------------
         }
@@ -231,7 +216,6 @@ namespace LayoutFarm.WebDom
             newclone.rulesForAll = CloneNew(this.rulesForAll);
 #if DEBUG
             newclone.dbugOriginal = this;
-
 #endif
             return newclone;
         }
@@ -297,13 +281,10 @@ namespace LayoutFarm.WebDom
     /// </summary>
     public class CssRuleSetGroup
     {
-
         CssPropertyAssignmentCollection _assignments;
-
         WebDom.CssSimpleElementSelector _originalSelector;
         CssRuleSetGroup _parent;
         List<CssRuleSetGroup> _subGroups;
-
 #if DEBUG
         static int dbugTotalId = 0;
         public readonly int dbugId = dbugTotalId++;
@@ -311,7 +292,6 @@ namespace LayoutFarm.WebDom
 
         public CssRuleSetGroup(string name)
         {
-
             //if (dbugId == 170)
             //{
             //}
@@ -325,7 +305,6 @@ namespace LayoutFarm.WebDom
             this.Name = name;
             this._parent = parent;
             this._originalSelector = simpleSelector;
-
         }
         public CssRuleSetGroup GetOrCreateSubgroup(WebDom.CssSimpleElementSelector simpleSelector)
         {
@@ -377,14 +356,11 @@ namespace LayoutFarm.WebDom
             }
             else
             {
-
             }
-
         }
 
         public CssRuleSetGroup Clone()
         {
-
             CssRuleSetGroup newGroup = new CssRuleSetGroup(this.Name);
             newGroup._originalSelector = this._originalSelector;
             if (this._assignments != null)
@@ -425,7 +401,6 @@ namespace LayoutFarm.WebDom
         }
         public void Merge(CssRuleSetGroup another)
         {
-
             //merge 
             //------------  
             if (another._assignments != null)
@@ -475,7 +450,6 @@ namespace LayoutFarm.WebDom
                 return this._originalSelector;
             }
         }
-
     }
 
 
@@ -523,7 +497,6 @@ namespace LayoutFarm.WebDom
         }
         public void MergeProperties(CssPropertyAssignmentCollection sourceCollection)
         {
-
             Dictionary<WellknownCssPropertyName, CssPropertyDeclaration> fromDic = sourceCollection._myAssignments;
             Dictionary<WellknownCssPropertyName, CssPropertyDeclaration> targetDic = this._myAssignments;
             foreach (CssPropertyDeclaration sourceAssignment in fromDic.Values)

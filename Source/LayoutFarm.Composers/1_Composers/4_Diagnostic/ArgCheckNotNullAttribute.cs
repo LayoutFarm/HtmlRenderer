@@ -8,7 +8,6 @@ namespace LayoutFarm.HtmlDiagnostics
     {
         public ArgNotNullAttribute()
         {
-
         }
         public ArgNotNullAttribute(string desc)
         {
@@ -16,5 +15,4 @@ namespace LayoutFarm.HtmlDiagnostics
         }
         public string Description { get; private set; }
     }
-
 }

@@ -1,5 +1,5 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
- 
+
 namespace LayoutFarm
 {
     public interface IBoxElement
@@ -7,5 +7,4 @@ namespace LayoutFarm
         void ChangeElementSize(int w, int h);
         int MinHeight { get; }
     }
-
 }

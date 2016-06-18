@@ -19,22 +19,16 @@ using LayoutFarm.Css;
 using LayoutFarm.HtmlBoxes;
 using LayoutFarm.WebDom;
 using LayoutFarm.WebDom.Parser;
-
-
 namespace LayoutFarm.Composers
 {
-
-
     /// <summary>
     /// Handle css DOM tree generation from raw html and stylesheet.
     /// </summary>
     public class RenderTreeBuilder
     {
-
         WebDom.Parser.CssParser miniCssParser = new CssParser();
         ContentTextSplitter contentTextSplitter = new ContentTextSplitter();
         internal event ContentManagers.RequestStyleSheetEventHandler RequestStyleSheet;
-
         HtmlHost htmlHost;
         internal RenderTreeBuilder(HtmlHost htmlHost)
         {
@@ -56,7 +50,6 @@ namespace LayoutFarm.Composers
            HtmlElement parentElement,
            TopDownActiveCssTemplate activeCssTemplate)
         {
-
             //recursive 
             CssBox principalCssBox = parentElement.CurrentPrincipalBox;
             bool isblockContext = true;//default
@@ -68,7 +61,6 @@ namespace LayoutFarm.Composers
             foreach (WebDom.DomNode node in parentElement.GetChildNodeIterForward())
             {
                 activeCssTemplate.EnterLevel();
-
                 switch (node.NodeType)
                 {
                     case WebDom.HtmlNodeType.OpenElement:
@@ -121,7 +113,6 @@ namespace LayoutFarm.Composers
                                                                 activeCssTemplate.LoadRawStyleElementContent(stylesheet);
                                                             }
                                                         }
-
                                                     }
                                                     break;
                                                 case "import":
@@ -153,18 +144,15 @@ namespace LayoutFarm.Composers
                         break;
                     case WebDom.HtmlNodeType.TextNode:
                         {
-
                             HtmlTextNode textnode = (HtmlTextNode)node;
                             //inner content is parsed here 
 
                             var parentSpec = parentElement.Spec;
                             char[] originalBuffer = textnode.GetOriginalBuffer();
-
                             List<CssRun> runlist;
                             bool hasSomeCharacter;
                             contentTextSplitter.ParseWordContent(originalBuffer, parentSpec, isblockContext, out runlist, out hasSomeCharacter);
                             textnode.SetSplitParts(runlist, hasSomeCharacter);
-
                         }
                         break;
                 }
@@ -189,16 +177,12 @@ namespace LayoutFarm.Composers
 
             TopDownActiveCssTemplate activeTemplate = new TopDownActiveCssTemplate(cssActiveSheet);
             PrepareStylesAndContentOfChildNodes((HtmlElement)htmldoc.RootNode, activeTemplate);
-
-
             //----------------------------------------------------------------  
             RootGraphic rootgfx = (containerElement != null) ? containerElement.Root : null;
             //TODO: review here, we should create cssbox at  document.body? 
             CssBox bridgeBox = HtmlHost.CreateBridgeBox(this.htmlHost.GfxPlatform.SampleIFonts, containerElement, rootgfx);
             ((HtmlElement)htmldoc.RootNode).SetPrincipalBox(bridgeBox);
-
             htmlHost.UpdateChildBoxes((HtmlRootElement)htmldoc.RootNode, true);
-
             htmldoc.SetDocumentState(DocumentState.Idle);
             //----------------------------------------------------------------  
             //SetTextSelectionStyle(htmlCont, cssData);
@@ -210,16 +194,13 @@ namespace LayoutFarm.Composers
            CssActiveSheet cssActiveSheet,
            RootGraphic rootgfx)
         {
-
             htmldoc.CssActiveSheet = cssActiveSheet;
             htmldoc.SetDocumentState(DocumentState.Building);
             TopDownActiveCssTemplate activeTemplate = new TopDownActiveCssTemplate(cssActiveSheet);
             PrepareStylesAndContentOfChildNodes((HtmlElement)htmldoc.RootNode, activeTemplate);
-
             //TODO: review here, we should create cssbox at document.body?  
             CssBox rootBox = HtmlHost.CreateIsolateBox(this.htmlHost.GfxPlatform.SampleIFonts, rootgfx);
             ((HtmlElement)htmldoc.RootNode).SetPrincipalBox(rootBox);
-
             htmlHost.UpdateChildBoxes((HtmlRootElement)htmldoc.RootNode, true);
             htmldoc.SetDocumentState(DocumentState.Idle);
             return rootBox;
@@ -264,7 +245,6 @@ namespace LayoutFarm.Composers
         //----------------------------------------------------------------
         public void RefreshCssTree(DomElement startAt)
         {
-
             HtmlElement startAtElement = (HtmlElement)startAt;
             startAtElement.OwnerDocument.SetDocumentState(DocumentState.Building);
             //----------------------------------------------------------------     
@@ -272,7 +252,6 @@ namespace LayoutFarm.Composers
 
             TopDownActiveCssTemplate activeTemplate = new TopDownActiveCssTemplate(((HtmlDocument)startAtElement.OwnerDocument).CssActiveSheet);
             PrepareStylesAndContentOfChildNodes(startAtElement, activeTemplate);
-
             CssBox existingCssBox = HtmlElement.InternalGetPrincipalBox(startAtElement);
             if (existingCssBox != null)
             {
@@ -282,7 +261,6 @@ namespace LayoutFarm.Composers
 
 
             this.htmlHost.UpdateChildBoxes(startAtElement, false);
-
             startAtElement.OwnerDocument.SetDocumentState(DocumentState.Idle);
             //----------------------------------------------------------------   
         }
@@ -293,8 +271,6 @@ namespace LayoutFarm.Composers
         {
             return;
             System.Diagnostics.Stopwatch sw1 = new System.Diagnostics.Stopwatch();
-
-
             sw1.Reset();
             GC.Collect();
             //sw1.Start();
@@ -327,7 +303,6 @@ namespace LayoutFarm.Composers
           BoxSpec parentSpec,
           TopDownActiveCssTemplate activeCssTemplate)
         {
-
             BoxSpec curSpec = element.Spec;
             BoxSpec.InheritStyles(curSpec, parentSpec);
             //--------------------------------
@@ -381,12 +356,10 @@ namespace LayoutFarm.Composers
                 }
                 else
                 {
-
                 }
                 //----------------------------------------------------------------
                 element.IsStyleEvaluated = true;
                 element.ElementRuleSet = parsedRuleSet;
-
             }
             else
             {
@@ -410,7 +383,6 @@ namespace LayoutFarm.Composers
                             propDecl);
                     }
                 }
-
             }
             //===================== 
             curSpec.Freeze(); //***
@@ -448,7 +420,6 @@ namespace LayoutFarm.Composers
         //}
         private static void AssignStylesForElementId(CssBox box, TopDownActiveCssTemplate activeCssTemplate, string elementId)
         {
-
             throw new NotSupportedException();
             //foreach (var ruleSet in cssData.GetCssRuleSetIter(elementId))
             //{
@@ -778,7 +749,6 @@ namespace LayoutFarm.Composers
                             {
                                 var spec = tag.Spec;
                                 spec.Height = TranslateLength(attr);
-
                             }
                             break;
                         case WebDom.WellknownName.HSpace:
@@ -821,8 +791,6 @@ namespace LayoutFarm.Composers
                                 WebDom.CssCodePrimitiveExpression propValue = new WebDom.CssCodePrimitiveExpression(
                                           attr.Value.ToLower(), WebDom.CssValueHint.Iden);
                                 tag.Spec.VerticalAlign = UserMapUtil.GetVerticalAlign(propValue);
-
-
                             }
                             break;
                         case WebDom.WellknownName.VSpace:
@@ -833,12 +801,10 @@ namespace LayoutFarm.Composers
                             {
                                 var spec = tag.Spec;
                                 spec.Width = TranslateLength(attr);
-
                             }
                             break;
                         case WellknownName.Src:
                             {
-
                                 var cssBoxImage = HtmlElement.InternalGetPrincipalBox(tag) as CssBoxImage;
                                 if (cssBoxImage != null)
                                 {
@@ -855,7 +821,6 @@ namespace LayoutFarm.Composers
                                             clientImageBinder.SetOwner(tag);
                                             cssBoxImage1.ImageBinder = clientImageBinder;
                                         }
-
                                     }
                                     else
                                     {
@@ -864,10 +829,7 @@ namespace LayoutFarm.Composers
                                         //clientImageBinder.SetOwner(tag);
 
                                     }
-
                                 }
-
-
                             }
                             break;
                     }
@@ -885,7 +847,6 @@ namespace LayoutFarm.Composers
         public static CssLength TranslateLength(DomAttribute attr)
         {
             return UserMapUtil.TranslateLength(attr.Value.ToLower());
-
         }
         private static CssLength TranslateLength(CssLength len)
         {
@@ -919,9 +880,4 @@ namespace LayoutFarm.Composers
 
         #endregion
     }
-
-
-
-
-
 }

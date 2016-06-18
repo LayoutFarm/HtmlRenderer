@@ -1,18 +1,14 @@
 ﻿// 2015,2014 ,Apache2, WinterDev 
 
 using LayoutFarm.UI;
-
 namespace LayoutFarm.CustomWidgets
 {
-
     public class MiniAggCanvasBox : UIBox
     {
         MiniAggCanvasRenderElement canvasRenderElement;
         public MiniAggCanvasBox(int w, int h)
             : base(w, h)
         {
-
-
         }
         public override RenderElement CurrentPrimaryRenderElement
         {
@@ -24,7 +20,6 @@ namespace LayoutFarm.CustomWidgets
             {
                 return this.canvasRenderElement != null;
             }
-
         }
         public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
         {
@@ -34,11 +29,8 @@ namespace LayoutFarm.CustomWidgets
                 canvas.HasSpecificHeight = this.HasSpecificHeight;
                 canvas.HasSpecificWidth = this.HasSpecificWidth;
                 canvas.SetLocation(this.Left, this.Top);
-
                 canvas.Painter.StrokeWidth = 1;
                 canvas.Painter.StrokeColor = PixelFarm.Agg.ColorRGBA.Black;
-
-
                 this.canvasRenderElement = canvas;
                 canvas.SetController(this);
             }

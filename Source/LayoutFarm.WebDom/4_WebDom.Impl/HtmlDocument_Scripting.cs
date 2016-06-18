@@ -1,19 +1,16 @@
 ﻿//2015 MIT, WinterDev  
 
 using LayoutFarm.Scripting;
-
 namespace LayoutFarm.WebDom.Impl
 {
-
     partial class HtmlDocument : IHtmlDocument
     {
-
         [JsMethod]
         IHtmlElement IHtmlDocument.getElementById(string id)
         {
             return this.GetElementById(id) as HtmlElement;
         }
-        
+
         [JsMethod]
         ITextNode IHtmlDocument.createTextNode(string nodeContent)
         {
@@ -41,5 +38,4 @@ namespace LayoutFarm.WebDom.Impl
             return (IHtmlElement)this.CreateShadowRootElement();
         }
     }
-
 }

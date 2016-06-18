@@ -8,7 +8,6 @@ namespace LayoutFarm.Svg
     {
         float rootGlobalX;
         float rootGlobalY;
-
         List<SvgHitInfo> svgList = new List<SvgHitInfo>();
         public SvgHitChain()
         {

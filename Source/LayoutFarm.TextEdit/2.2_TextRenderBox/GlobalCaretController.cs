@@ -1,21 +1,17 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
-using System;
 
+using System;
 using LayoutFarm.RenderBoxes;
 using LayoutFarm.UI;
-
 namespace LayoutFarm.Text
 {
-
     static class GlobalCaretController
     {
         static bool enableCaretBlink = true;//default
         static TextEditRenderBox currentTextBox;
-
         static EventHandler<GraphicsTimerTaskEventArgs> tickHandler;
         static object caretBlinkTask = new object();
         static GraphicsTimerTask task;
-
         static GlobalCaretController()
         {
             tickHandler = new EventHandler<GraphicsTimerTaskEventArgs>(caret_TickHandler);
@@ -30,12 +26,10 @@ namespace LayoutFarm.Text
                     TaskIntervalPlan.CaretBlink,
                     20,
                     tickHandler);
-
             }
         }
         static void caret_TickHandler(object sender, GraphicsTimerTaskEventArgs e)
         {
-
             if (currentTextBox != null)
             {
                 currentTextBox.SwapCaretState();
@@ -45,7 +39,6 @@ namespace LayoutFarm.Text
             {
                 //Console.WriteLine("no current textbox");
             }
-
         }
         public static bool EnableCaretBlink
         {
@@ -76,12 +69,7 @@ namespace LayoutFarm.Text
                     }
                 }
                 currentTextBox = value;
-
             }
         }
-
-
-
     }
-
 }

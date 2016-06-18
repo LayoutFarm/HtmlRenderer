@@ -2,11 +2,8 @@
 
 namespace LayoutFarm.UI
 {
-
     public interface IEventListener
     {
-
-
         //--------------------------------------------------------------------------
         void ListenKeyPress(UIKeyEventArgs args);
         void ListenKeyDown(UIKeyEventArgs e);
@@ -27,7 +24,6 @@ namespace LayoutFarm.UI
         void ListenLostKeyboardFocus(UIFocusEventArgs e);
         //--------------------------------------------------------------------------  
         void ListenInterComponentMsg(object sender, int msgcode, string msg);
-
         void ListenGuestTalk(UIGuestTalkEventArgs e);
         //-------------------------------------------------------------------------- 
         void HandleContentLayout();

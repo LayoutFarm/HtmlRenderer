@@ -3,7 +3,6 @@
 using System;
 using System.Text;
 using System.Collections.Generic;
-
 namespace LayoutFarm.WebDom
 {
     public enum HtmlNodeType
@@ -23,11 +22,9 @@ namespace LayoutFarm.WebDom
 
     public abstract class DomNode : INode
     {
-
         WebDocument ownerDoc;
         DomNode parentNode;
         HtmlNodeType nodeType;
-
 #if DEBUG
         static int dbugTotalId;
         public int dbugId;
@@ -81,13 +78,11 @@ namespace LayoutFarm.WebDom
         {
             this.parentNode = parentNode;
         }
-
     }
 
 
     public abstract class DomTextNode : DomNode, ITextNode
     {
-
         char[] copyBuffer;
         public DomTextNode(WebDocument ownerDoc, char[] copyBuffer)
             : base(ownerDoc)
@@ -161,7 +156,7 @@ namespace LayoutFarm.WebDom
 #if DEBUG
         public override string ToString()
         {
-            StringBuilder stbuilder= new StringBuilder();
+            StringBuilder stbuilder = new StringBuilder();
             stbuilder.Append("<!");
             stbuilder.Append(this.DocNodeName);
             if (docNodeAttrList != null)
@@ -173,7 +168,7 @@ namespace LayoutFarm.WebDom
                 }
             }
             stbuilder.Append(">");
-            return stbuilder.ToString();             
+            return stbuilder.ToString();
         }
 #endif
     }
@@ -191,7 +186,6 @@ namespace LayoutFarm.WebDom
             get;
             set;
         }
-
     }
     public class DomCDataNode : DomNode
     {
@@ -205,7 +199,6 @@ namespace LayoutFarm.WebDom
             get;
             set;
         }
-
     }
 
     /// <summary>
@@ -213,11 +206,9 @@ namespace LayoutFarm.WebDom
     /// </summary>
     public class DomAttribute : DomNode
     {
-
         internal int nodePrefixNameIndex;
         internal int nodeLocalNameIndex;
         string attrValue;
-
         public DomAttribute(WebDocument ownerDoc,
             int nodePrefixNameIndex,
             int nodeLocalNameIndex)
@@ -226,7 +217,6 @@ namespace LayoutFarm.WebDom
             SetNodeType(HtmlNodeType.Attribute);
             this.nodePrefixNameIndex = nodePrefixNameIndex;
             this.nodeLocalNameIndex = nodeLocalNameIndex;
-
         }
 
         public string Value
@@ -297,7 +287,4 @@ namespace LayoutFarm.WebDom
             }
         }
     }
-
-
-
 }

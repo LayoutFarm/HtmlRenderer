@@ -1,6 +1,6 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
-using System; 
 
+using System;
 namespace LayoutFarm.InternalUI
 {
     interface IScrollable
@@ -14,6 +14,4 @@ namespace LayoutFarm.InternalUI
         int DesiredWidth { get; }
         event EventHandler LayoutFinished;
     }
-
-
 }

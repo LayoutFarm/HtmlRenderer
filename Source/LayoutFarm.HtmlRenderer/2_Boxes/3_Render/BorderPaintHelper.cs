@@ -16,17 +16,13 @@
 using System;
 using PixelFarm.Drawing;
 using LayoutFarm.Css;
-
 namespace LayoutFarm.HtmlBoxes
 {
-
-
     /// <summary>
     /// Contains all the complex paint code to paint different style borders.
     /// </summary>
     static class BorderPaintHelper
     {
-
         /// <summary>
         /// Draws all the border of the box with respect to style, width, etc.
         /// </summary>
@@ -37,10 +33,8 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="isLast">is it the last rectangle of the element</param>
         public static void DrawBoxBorders(PaintVisitor p, CssBox box, RectangleF rect, bool isFirst, bool isLast)
         {
-
             if (rect.Width > 0 && rect.Height > 0)
             {
-
                 if (box.BorderTopVisible)
                 {
                     DrawBorder(CssSide.Top, box, p, rect, isFirst, isLast);
@@ -60,7 +54,6 @@ namespace LayoutFarm.HtmlBoxes
                 {
                     DrawBorder(CssSide.Right, box, p, rect, isFirst, true);
                 }
-
             }
         }
 
@@ -76,16 +69,13 @@ namespace LayoutFarm.HtmlBoxes
         public static void DrawBorder(Color color, CssSide border, PointF[] borderPts, Canvas g,
             CssBox box, RectangleF rectangle)
         {
-
             SetInOutsetRectanglePoints(border, box, rectangle, true, true, borderPts);
             g.FillPolygon(color, borderPts);
         }
         public static void DrawBorder(CssSide border, PointF[] borderPts, Canvas g, CssBox box, Color solidColor, RectangleF rectangle)
         {
-
             SetInOutsetRectanglePoints(border, box, rectangle, true, true, borderPts);
             g.FillPolygon(solidColor, borderPts);
-
         }
         #region Private methods
 
@@ -120,7 +110,6 @@ namespace LayoutFarm.HtmlBoxes
                     borderColor = (borderStyle == CssBorderStyle.Outset) ?
                                     Darken(box.BorderRightColor) :
                                     box.BorderRightColor;
-
                     break;
                 case CssSide.Bottom:
                     actualBorderWidth = box.ActualBorderBottomWidth;
@@ -129,11 +118,9 @@ namespace LayoutFarm.HtmlBoxes
                                     Darken(box.BorderBottomColor) :
                                     box.BorderBottomColor;
                     break;
-
                 default:
                     throw new ArgumentOutOfRangeException("border");
             }
-
         }
 
 
@@ -149,13 +136,10 @@ namespace LayoutFarm.HtmlBoxes
         static void DrawBorder(CssSide borderSide, CssBox box,
             PaintVisitor p, RectangleF rect, bool isLineStart, bool isLineEnd)
         {
-
             float actualBorderWidth;
             Color borderColor;
             CssBorderStyle style;
             GetBorderBorderDrawingInfo(box, borderSide, out style, out borderColor, out actualBorderWidth);
-
-
             Canvas g = p.InnerCanvas;
             if (box.HasSomeRoundCorner)
             {
@@ -190,11 +174,9 @@ namespace LayoutFarm.HtmlBoxes
                             // inset/outset border needs special rectangle
                             PointF[] borderPnts = new PointF[4];
                             SetInOutsetRectanglePoints(borderSide, box, rect, isLineStart, isLineEnd, borderPnts);
-
-
                             g.FillPolygon(borderColor, borderPnts);
-
-                        } break;
+                        }
+                        break;
                     default:
                         {
                             // solid/dotted/dashed border draw as simple line
@@ -206,7 +188,6 @@ namespace LayoutFarm.HtmlBoxes
                             g.StrokeColor = borderColor;
                             float prevStrokeW = g.StrokeWidth;
                             g.StrokeWidth = actualBorderWidth;
-
                             switch (borderSide)
                             {
                                 case CssSide.Top:
@@ -225,11 +206,9 @@ namespace LayoutFarm.HtmlBoxes
 
                             g.StrokeWidth = prevStrokeW;
                             g.StrokeColor = prevColor;
-
-                        } break;
+                        }
+                        break;
                 }
-
-
             }
         }
 
@@ -294,20 +273,16 @@ namespace LayoutFarm.HtmlBoxes
         static GraphicsPath GetRoundedBorderPath(PaintVisitor p, CssSide border, CssBox b, RectangleF r)
         {
             GraphicsPath path = null;
-
             switch (border)
             {
                 case CssSide.Top:
                     if (b.ActualCornerNW > 0 || b.ActualCornerNE > 0)
                     {
-
                         path = p.GraphicsPlatform.CreateGraphicsPath();
-
                         if (b.ActualCornerNW > 0)
                             path.AddArc(r.Left + b.ActualBorderLeftWidth / 2, r.Top + b.ActualBorderTopWidth / 2, b.ActualCornerNW * 2, b.ActualCornerNW * 2, 180f, 90f);
                         else
                             path.AddLine(r.Left + b.ActualBorderLeftWidth / 2, r.Top + b.ActualBorderTopWidth / 2, r.Left + b.ActualBorderLeftWidth, r.Top + b.ActualBorderTopWidth / 2);
-
                         if (b.ActualCornerNE > 0)
                             path.AddArc(r.Right - b.ActualCornerNE * 2 - b.ActualBorderRightWidth / 2, r.Top + b.ActualBorderTopWidth / 2, b.ActualCornerNE * 2, b.ActualCornerNE * 2, 270f, 90f);
                         else
@@ -322,7 +297,6 @@ namespace LayoutFarm.HtmlBoxes
                             path.AddArc(r.Right - b.ActualCornerNE * 2 - b.ActualBorderRightWidth / 2, r.Bottom - b.ActualCornerSE * 2 - b.ActualBorderBottomWidth / 2, b.ActualCornerSE * 2, b.ActualCornerSE * 2, 0f, 90f);
                         else
                             path.AddLine(r.Right - b.ActualBorderRightWidth / 2, r.Bottom - b.ActualBorderBottomWidth / 2, r.Right - b.ActualBorderRightWidth / 2, r.Bottom - b.ActualBorderBottomWidth / 2 - .1f);
-
                         if (b.ActualCornerSW > 0)
                             path.AddArc(r.Left + b.ActualBorderLeftWidth / 2, r.Bottom - b.ActualCornerSW * 2 - b.ActualBorderBottomWidth / 2, b.ActualCornerSW * 2, b.ActualCornerSW * 2, 90f, 90f);
                         else
@@ -387,7 +361,6 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         static Pen GetPen(GraphicsPlatform platform, CssBorderStyle style, Color color, float width)
         {
-
             var p = new Pen(color);
             p.Width = width;
             switch (style)

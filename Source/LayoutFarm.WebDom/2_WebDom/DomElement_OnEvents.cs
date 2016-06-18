@@ -1,12 +1,10 @@
 ﻿//BSD  2015,2014 ,WinterDev
 
- 
-using LayoutFarm.UI;
 
+using LayoutFarm.UI;
 namespace LayoutFarm.WebDom
 {
     public delegate void HtmlEventHandler(UIEventArgs e);
-
     partial class DomElement : IEventListener
     {
         //------------------------------------------------------
@@ -17,12 +15,13 @@ namespace LayoutFarm.WebDom
                 case UIEventName.MouseDown:
                     {
                         this.evhMouseDown += handler;
-                    } break;
+                    }
+                    break;
                 case UIEventName.MouseUp:
                     {
                         this.evhMouseUp += handler;
-                    } break;
-
+                    }
+                    break;
             }
         }
 
@@ -33,13 +32,14 @@ namespace LayoutFarm.WebDom
                 case UIEventName.MouseDown:
                     {
                         this.evhMouseDown -= handler;
-                    } break;
+                    }
+                    break;
                 case UIEventName.MouseUp:
                     {
                         this.evhMouseUp -= handler;
-                    } break;
+                    }
+                    break;
             }
-
         }
         //-------------------------------------------------------
         public void AttachEventOnMouseLostFocus(HtmlEventHandler handler)
@@ -58,8 +58,6 @@ namespace LayoutFarm.WebDom
 
         protected virtual void OnDoubleClick(UIMouseEventArgs e)
         {
-
-
         }
         protected virtual void OnLostMouseFocus(UIMouseEventArgs e)
         {
@@ -77,18 +75,15 @@ namespace LayoutFarm.WebDom
         }
         protected virtual void OnMouseWheel(UIMouseEventArgs e)
         {
-
         }
         protected virtual void OnCollapsed()
         {
         }
         protected virtual void OnExpanded()
         {
-
         }
         protected virtual void OnElementLanded()
         {
-
         }
         protected virtual void OnShown()
         {
@@ -126,12 +121,11 @@ namespace LayoutFarm.WebDom
         }
         protected virtual void OnMouseEnter(UIMouseEventArgs e)
         {
-
         }
         protected virtual void OnMouseLeave(UIMouseEventArgs e)
         {
         }
-       
+
 
         protected virtual void OnContentLayout()
         {
@@ -141,11 +135,10 @@ namespace LayoutFarm.WebDom
             this.OwnerDocument.DomUpdateVersion++;
         }
         protected virtual void OnElementChanged()
-        { 
+        {
         }
         protected virtual void OnInterComponentMsg(object sender, int msgcode, string msg)
         {
-
         }
     }
 }

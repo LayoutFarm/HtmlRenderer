@@ -1,19 +1,16 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
-using System; 
+
+using System;
 using PixelFarm.Drawing;
 using LayoutFarm.RenderBoxes;
-
 namespace LayoutFarm
 {
-
-
     public abstract partial class RenderElement : IRenderElement
     {
         RootGraphic rootGfx;
         IParentLink parentLink;
         object controller;
         int propFlags;
-
         public RenderElement(RootGraphic rootGfx, int width, int height)
         {
             this.b_width = width;
@@ -41,7 +38,6 @@ namespace LayoutFarm
         public RootGraphic Root
         {
             get { return this.rootGfx; }
-
         }
 
         public RenderElement GetTopWindowRenderBox()
@@ -72,7 +68,6 @@ namespace LayoutFarm
                 propFlags = value ?
                        propFlags | RenderElementConst.TRANSPARENT_FOR_ALL_EVENTS :
                        propFlags & ~RenderElementConst.TRANSPARENT_FOR_ALL_EVENTS;
-
             }
         }
 
@@ -87,15 +82,12 @@ namespace LayoutFarm
         }
         public virtual void ClearAllChildren()
         {
-
         }
         public virtual void AddChild(RenderElement renderE)
         {
-
         }
         public virtual void RemoveChild(RenderElement renderE)
         {
-
         }
 
         protected bool HasParentLink
@@ -153,10 +145,9 @@ namespace LayoutFarm
         {
             return null;
         }
- 
+
         public virtual void ChildrenHitTestCore(HitChain hitChain)
         {
-
         }
         //==============================================================
         public bool Visible
@@ -174,7 +165,6 @@ namespace LayoutFarm
                 propFlags = value ?
                     propFlags & ~RenderElementConst.HIDDEN :
                     propFlags | RenderElementConst.HIDDEN;
-
                 if (parentLink != null)
                 {
                     this.InvalidateGraphicBounds(this.RectBounds);
@@ -208,7 +198,6 @@ namespace LayoutFarm
                       propFlags | RenderElementConst.IS_TOP_RENDERBOX :
                       propFlags & ~RenderElementConst.IS_TOP_RENDERBOX;
             }
-
         }
 
         internal bool HasDoubleScrollableSurface
@@ -249,7 +238,6 @@ namespace LayoutFarm
 
         public bool HitTestCore(HitChain hitChain)
         {
-
             if ((propFlags & RenderElementConst.HIDDEN) != 0)
             {
                 return false;
@@ -261,7 +249,6 @@ namespace LayoutFarm
             if ((testY >= b_top && testY <= (b_top + b_height)
             && (testX >= b_left && testX <= (b_left + b_width))))
             {
-
                 if (this.MayHasViewport)
                 {
                     hitChain.OffsetTestPoint(
@@ -274,7 +261,6 @@ namespace LayoutFarm
                 }
 
                 hitChain.AddHitObject(this);
-
                 if (this.MayHasChild)
                 {
                     this.ChildrenHitTestCore(hitChain);
@@ -311,10 +297,8 @@ namespace LayoutFarm
         //==============================================================
         //render...
         public abstract void CustomDrawToThisCanvas(Canvas canvas, Rectangle updateArea);
-
         public void DrawToThisCanvas(Canvas canvas, Rectangle updateArea)
         {
-
             if ((propFlags & RenderElementConst.HIDDEN) == RenderElementConst.HIDDEN)
             {
                 return;
@@ -341,11 +325,8 @@ namespace LayoutFarm
             }
             else
             {
-
             }
             canvas.PopClipAreaRect();
-
-
 #if DEBUG
             dbugVRoot.dbug_drawLevel--;
 #endif

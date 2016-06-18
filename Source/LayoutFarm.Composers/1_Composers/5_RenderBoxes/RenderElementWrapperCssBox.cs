@@ -1,18 +1,14 @@
 ﻿//2014,2015,2015 Apache2, WinterDev 
-using System;
 
+using System;
 using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
-
 using LayoutFarm.Css;
-
 namespace LayoutFarm.HtmlBoxes.InternalWrappers
 {
-
     sealed class CssExternalRun : CssRun
     {
-
         RenderElement externalRenderE;
         Rectangle renderElementRect;
         public CssExternalRun(RenderElement externalRenderE)
@@ -60,7 +56,6 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
         /// offset y from nearest ancester render element 
         /// </summary>
         protected int adjustY;
-
         public WrapperCssBoxBase(object controller,
              BoxSpec spec,
              RootGraphic root, CssDisplay display)
@@ -70,8 +65,6 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
         }
 
         internal abstract RenderElement GetParentRenderElement(out int globalX, out int globalY);
-
-
         RenderElement RenderBoxes.IParentLink.ParentRenderElement
         {
             get
@@ -111,27 +104,21 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
             int w = re.Width;
             int h = re.Height;
             ChangeDisplayType(this, CssDisplay.Inline);
-
             this.externalRun = new CssExternalRun(re);
             this.externalRun.SetOwner(this);
-
             var runlist = new List<CssRun>(1);
             runlist.Add(externalRun);
             CssBox.UnsafeSetContentRuns(this, runlist, false);
             ChangeDisplayType(this, Css.CssDisplay.Inline);
-
             //---------------------------------------------------  
             LayoutFarm.RenderElement.SetParentLink(re, this);
-
         }
         public override void Clear()
         {
             base.Clear();
-
             var runlist = new List<CssRun>(1);
             runlist.Add(externalRun);
             CssBox.UnsafeSetContentRuns(this, runlist, false);
-
         }
         public override void Paint(PaintVisitor p, RectangleF r)
         {
@@ -141,12 +128,8 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
             var canvasPage = p.InnerCanvas;
             canvasPage.OffsetCanvasOrigin(x, y);
             updateArea.Offset(-x, -y);
-
             externalRun.RenderElement.DrawToThisCanvas(canvasPage, updateArea);
-
             canvasPage.OffsetCanvasOrigin(-x, -y);
-
-
         }
         public RenderElement RenderElement
         {
@@ -183,16 +166,13 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
             //start 
             globalX = (int)this.externalRun.Left;
             globalY = (int)this.externalRun.Top;
-
             while (cbox != null)
             {
                 globalX += (int)cbox.LocalX;
                 globalY += (int)cbox.LocalY;
                 var renderRoot = cbox as LayoutFarm.HtmlBoxes.RenderElementBridgeCssBox;
-
                 if (renderRoot != null)
                 {
-
                     this.adjustX = globalX;
                     this.adjustY = globalY;
                     return renderRoot.ContainerElement;
@@ -217,7 +197,6 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
             SetAsCustomCssBox(this);
             int w = renderElement.Width;
             int h = renderElement.Height;
-
             this.renderE = renderElement;
             ChangeDisplayType(this, CssDisplay.Block);
             this.SetVisualSize(w, h);
@@ -236,7 +215,6 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
                 //todo: user minimum font height of the IBoxElement
                 int w = (int)this.VisualWidth;
                 int h = Math.Max((int)this.VisualHeight, ibox.MinHeight);
-
                 ibox.ChangeElementSize(w, h);
                 this.SetVisualSize(w, h);
             }
@@ -264,16 +242,13 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
             //start 
             globalX = 0;
             globalY = 0;
-
             while (cbox != null)
             {
                 globalX += (int)cbox.LocalX;
                 globalY += (int)cbox.LocalY;
                 var renderRoot = cbox as LayoutFarm.HtmlBoxes.RenderElementBridgeCssBox;
-
                 if (renderRoot != null)
                 {
-
                     this.adjustX = globalX;
                     this.adjustY = globalY;
                     return renderRoot.ContainerElement;

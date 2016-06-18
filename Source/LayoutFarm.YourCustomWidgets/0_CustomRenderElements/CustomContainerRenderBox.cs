@@ -1,14 +1,10 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
 
 using PixelFarm.Drawing;
-
-
 namespace LayoutFarm.CustomWidgets
 {
-
     public class CustomContainerRenderBox : CustomRenderBox
     {
-
 #if DEBUG
         public bool dbugBreak;
 #endif
@@ -19,8 +15,6 @@ namespace LayoutFarm.CustomWidgets
         }
         public override void ClearAllChildren()
         {
-
         }
     }
-
 }

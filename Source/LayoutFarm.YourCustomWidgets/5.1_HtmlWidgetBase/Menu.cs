@@ -1,33 +1,26 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using LayoutFarm.WebDom;
 using LayoutFarm.WebDom.Extension;
-
 namespace LayoutFarm.HtmlWidgets
 {
-
     public class MenuItem
     {
         string menuItemText;
-
         DomElement pnode;
         DomElement menuIcon;
-
         MenuBox ownerMenuBox;
-
         bool thisMenuOpened;
-
         //2. float part   
         MenuBox floatPart;
         HingeFloatPartStyle floatPartStyle;
         List<MenuItem> childItems;
-
         public MenuItem(int width, int height)
         {
-
         }
         public DomElement GetPresentationDomNode(DomElement hostNode)
         {
@@ -42,7 +35,6 @@ namespace LayoutFarm.HtmlWidgets
                 {
                     //****
                     this.MaintenanceParentOpenState();
-
                     if (this.IsOpened)
                     {
                         this.Close();
@@ -73,7 +65,6 @@ namespace LayoutFarm.HtmlWidgets
                     pnode.AddTextContent(this.menuItemText);
                 }
             });
-
             //--------------------------------------------------------
             //create simple menu item box 
 
@@ -106,13 +97,10 @@ namespace LayoutFarm.HtmlWidgets
         {
             if (thisMenuOpened) return;
             this.thisMenuOpened = true;
-
             //-----------------------------------
             if (pnode == null) return;
             if (floatPart == null) return;
-
             this.ownerMenuBox.CurrentActiveMenuItem = this;
-
             switch (floatPartStyle)
             {
                 default:
@@ -124,28 +112,21 @@ namespace LayoutFarm.HtmlWidgets
                         {
                             floatPart.ShowMenu(this);
                         }
-
-
                     }
                     break;
                 case HingeFloatPartStyle.Embeded:
                     {
-
                     }
                     break;
             }
-
         }
         public void Close()
         {
             if (!thisMenuOpened) return;
             this.thisMenuOpened = false;
-
             if (pnode == null) return;
             if (floatPart == null) return;
-
             this.ownerMenuBox.CurrentActiveMenuItem = null;
-
             switch (floatPartStyle)
             {
                 default:
@@ -155,19 +136,16 @@ namespace LayoutFarm.HtmlWidgets
                 case HingeFloatPartStyle.Popup:
                     {
                         if (this.ownerMenuBox == null) return;
-
                         if (floatPart != null)
                         {
                             floatPart.HideMenu();
                         }
-
                     }
                     break;
                 case HingeFloatPartStyle.Embeded:
                     {
                     }
                     break;
-
             }
         }
 
@@ -200,7 +178,6 @@ namespace LayoutFarm.HtmlWidgets
         public void CloseRecursiveUp()
         {
             this.Close();
-
             if (this.ParentMenuItem != null &&
                !this.ParentMenuItem.MaintenaceOpenState)
             {
@@ -232,7 +209,6 @@ namespace LayoutFarm.HtmlWidgets
             {
                 floatPart.AddChildBox(childItem);
             }
-
         }
     }
 
@@ -255,10 +231,8 @@ namespace LayoutFarm.HtmlWidgets
 
         public override DomElement GetPresentationDomNode(WebDom.Impl.HtmlDocument htmldoc)
         {
-
             if (pnode != null) return pnode;
             this.htmldoc = htmldoc;
-
             pnode = htmldoc.CreateElement("div");
             //TODO: review IsLandPart again, this is temp fixed 
             if (!this.IsLandPart)
@@ -301,7 +275,6 @@ namespace LayoutFarm.HtmlWidgets
             //add to topmost box 
             if (!showing)
             {
-
                 //create presentation node
                 if (this.pnode == null)
                 {
@@ -310,7 +283,6 @@ namespace LayoutFarm.HtmlWidgets
                 }
                 var relativeMenuItemElement = relativeToMenuItem.CurrentDomElement as IHtmlElement;
                 int x, y;
-
                 relativeMenuItemElement.getGlobalLocation(out x, out y);
                 var pHtmlNode = pnode as WebDom.Impl.HtmlElement;
                 pHtmlNode.SetLocation(x + relativeToMenuItem.OwnerMenuBox.Width, y);
@@ -355,8 +327,5 @@ namespace LayoutFarm.HtmlWidgets
             get { return this.currentActiveMenuItem; }
             set { this.currentActiveMenuItem = value; }
         }
-
-
-
     }
 }

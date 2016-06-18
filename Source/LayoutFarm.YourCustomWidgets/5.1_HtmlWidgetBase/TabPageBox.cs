@@ -1,15 +1,13 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-
 using PixelFarm.Drawing;
-
 using LayoutFarm.WebDom;
 using LayoutFarm.WebDom.Extension;
 using LayoutFarm.UI;
-
 namespace LayoutFarm.HtmlWidgets
 {
     //tab page similar to listview
@@ -20,7 +18,6 @@ namespace LayoutFarm.HtmlWidgets
         UIElement contentUI;
         public TabPage()
         {
-
         }
         public string PageTitle
         {
@@ -101,11 +98,8 @@ namespace LayoutFarm.HtmlWidgets
                 if (this.contentNode != null)
                 {
                 }
-
             }
         }
-
-
     }
     public class TabPageContainer : HtmlWidgetBase
     {
@@ -113,13 +107,10 @@ namespace LayoutFarm.HtmlWidgets
         DomElement titleBar;
         DomElement contentNode;
         DomElement tabTitleList;
-
         Color backColor = Color.LightGray;
         List<TabPage> tabPageCollection = new List<TabPage>();
-
         TabPage currentPage;
         int currentSelectedIndex;
-
         public TabPageContainer(int width, int height)
             : base(width, height)
         {
@@ -154,7 +145,6 @@ namespace LayoutFarm.HtmlWidgets
 
             tabPageCollection.Add(tabPage);
             tabPage.OwnerContainer = this;
-
             if (pnode != null)
             {
                 if (currentPage == null)
@@ -207,10 +197,6 @@ namespace LayoutFarm.HtmlWidgets
             //change content ***
             contentNode.ClearAllElements();
             contentNode.AddChild(childPage.GetPageBody(contentNode));
-
         }
     }
-
-
-
 }

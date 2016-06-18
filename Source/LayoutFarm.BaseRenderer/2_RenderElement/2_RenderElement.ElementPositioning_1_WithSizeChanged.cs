@@ -1,9 +1,8 @@
 ﻿// 2015,2014 ,Apache2, WinterDev 
+
 using PixelFarm.Drawing;
 namespace LayoutFarm
 {
-
-
     partial class RenderElement
     {
         public void SetWidth(int width)
@@ -24,12 +23,9 @@ namespace LayoutFarm
             }
             else
             {
-
                 var prevBounds = this.RectBounds;
-
                 this.b_width = width;
                 this.b_height = height;
-
                 //combine before and after rect 
                 //add to invalidate root invalidate queue  
                 this.InvalidateGraphicBounds(Rectangle.Union(prevBounds, this.RectBounds));
@@ -38,7 +34,6 @@ namespace LayoutFarm
 
         public void SetLocation(int left, int top)
         {
-
             if (parentLink == null)
             {
                 this.b_left = left;
@@ -79,6 +74,5 @@ namespace LayoutFarm
                 this.InvalidateGraphicBounds(Rectangle.Union(prevBounds, this.RectBounds));
             }
         }
-
     }
 }

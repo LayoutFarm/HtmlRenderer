@@ -1,12 +1,10 @@
 ﻿//BSD  2015,2014 ,WinterDev
 
 using System.Collections.Generic;
-
 namespace LayoutFarm.WebDom
 {
     public abstract partial class DomElement : DomNode
     {
-
         internal int nodePrefixNameIndex;
         internal int nodeLocalNameIndex;
         Dictionary<int, DomAttribute> myAttributes;
@@ -19,14 +17,12 @@ namespace LayoutFarm.WebDom
         HtmlEventHandler evhMouseDown;
         HtmlEventHandler evhMouseUp;
         HtmlEventHandler evhMouseLostFocus;
-
         public DomElement(WebDocument ownerDoc, int nodePrefixNameIndex, int nodeLocalNameIndex)
             : base(ownerDoc)
         {
             this.nodePrefixNameIndex = nodePrefixNameIndex;
             this.nodeLocalNameIndex = nodeLocalNameIndex;
             SetNodeType(HtmlNodeType.OpenElement);
-
         }
 
         public static bool EqualNames(DomElement node1, DomElement node2)
@@ -48,7 +44,6 @@ namespace LayoutFarm.WebDom
                 {
                     yield return attr;
                 }
-
             }
         }
         public IEnumerable<DomNode> GetChildNodeIterForward()
@@ -161,9 +156,7 @@ namespace LayoutFarm.WebDom
                         }
                         myChildrenNodes.Add((DomNode)childNode);
                         childNode.SetParent(this);
-
                         NotifyChange(ElementChangeKind.AddChild);
-
                     }
                     break;
             }
@@ -226,7 +219,6 @@ namespace LayoutFarm.WebDom
         }
         protected virtual void OnElementChangedInIdleState(ElementChangeKind changeKind)
         {
-
         }
         //------------------------------------------
         public DomAttribute FindAttribute(int attrLocalNameIndex)
@@ -236,7 +228,6 @@ namespace LayoutFarm.WebDom
                 DomAttribute found;
                 myAttributes.TryGetValue(attrLocalNameIndex, out found);
                 return found;
-
             }
             return null;
         }
@@ -324,9 +315,5 @@ namespace LayoutFarm.WebDom
         {
             get { return this.LocalName; }
         }
-
     }
-
-
-
 }

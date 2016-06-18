@@ -1,15 +1,13 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
-
 using LayoutFarm.CustomWidgets;
 using LayoutFarm.WebDom;
-using LayoutFarm.WebDom.Extension; 
-
-
+using LayoutFarm.WebDom.Extension;
 namespace LayoutFarm.HtmlWidgets
 {
     public class TreeView : HtmlWidgetBase
@@ -17,7 +15,6 @@ namespace LayoutFarm.HtmlWidgets
         //composite          
         List<TreeNode> treeNodes = new List<TreeNode>();
         DomElement pnode;
-
         //content 
         public TreeView(int width, int height)
             : base(width, height)
@@ -27,13 +24,12 @@ namespace LayoutFarm.HtmlWidgets
         {
             if (pnode != null) return pnode;
             //create primary presentation node
-          
+
             pnode = htmldoc.CreateElement("div");
             pnode.SetAttribute("style", "font:10pt tahoma");
             int j = treeNodes.Count;
             for (int i = 0; i < j; ++i)
             {
-
                 pnode.AddChild(treeNodes[i].GetPrimaryPresentationNode(pnode));
             }
             return pnode;
@@ -47,14 +43,12 @@ namespace LayoutFarm.HtmlWidgets
         }
         public void PerformContentLayout()
         {
-
-        } 
+        }
     }
 
     public class TreeNode
     {
         const int NODE_DEFAULT_HEIGHT = 17;
-
         Color backColor;
         bool isOpen = true;//test, open by default
         int newChildNodeY = NODE_DEFAULT_HEIGHT;
@@ -74,7 +68,6 @@ namespace LayoutFarm.HtmlWidgets
         string nodeString;
         int width;
         int height;
-
         public TreeNode(int width, int height)
         {
             this.width = width;
@@ -86,7 +79,6 @@ namespace LayoutFarm.HtmlWidgets
             set
             {
                 this.nodeString = value;
-
             }
         }
 
@@ -151,7 +143,6 @@ namespace LayoutFarm.HtmlWidgets
                         }
                     }
                 });
-
             });
             return pnode;
         }
@@ -239,8 +230,6 @@ namespace LayoutFarm.HtmlWidgets
 
                 //});
             });
-
-
             //---------------------
             return pnode;
         }
@@ -291,7 +280,6 @@ namespace LayoutFarm.HtmlWidgets
         }
         public void AddChildNode(TreeNode treeNode)
         {
-
             if (childNodes == null)
             {
                 childNodes = new List<TreeNode>();
@@ -336,14 +324,12 @@ namespace LayoutFarm.HtmlWidgets
                 {
                     htmlPNode.removeChild(this.nodeBody);
                 }
-
             }
             //this.TreeView.PerformContentLayout();
         }
-         
+
         void SetupNodeIconBehaviour(ImageBox uiNodeIcon)
         {
-
             uiNodeIcon.MouseDown += (s, e) =>
             {
                 if (this.IsOpen)
@@ -356,13 +342,6 @@ namespace LayoutFarm.HtmlWidgets
                     this.Expand();
                 }
             };
-
         }
-
     }
-
-
-
-
-
 }

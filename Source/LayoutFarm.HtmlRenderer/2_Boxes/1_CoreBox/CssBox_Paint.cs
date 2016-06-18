@@ -1,12 +1,10 @@
 ﻿// 2015,2014 ,BSD, WinterDev
 //ArthurHub  , Jose Manuel Menendez Poo
 
-using System; 
+using System;
 using PixelFarm.Drawing;
-
 namespace LayoutFarm.HtmlBoxes
 {
-
     partial class CssBox
     {
         public void InvalidateGraphics()
@@ -73,17 +71,14 @@ namespace LayoutFarm.HtmlBoxes
             }
             else
             {
-
                 Color color = Color.Green;
                 switch (this._cssDisplay)
                 {
                     case Css.CssDisplay.TableCell:
                         color = Color.OrangeRed;
                         break;
-
                 }
                 p.dbugDrawDiagonalBox(color, r.Left, r.Top, r.Right, r.Bottom);
-
             }
         }
 #endif
@@ -108,7 +103,6 @@ namespace LayoutFarm.HtmlBoxes
             //----------------------------------------------- 
             bool hasPrevClip = false;
             RectangleF prevClip = RectangleF.Empty;
-
             p.EnterNewLatePaintContext();
             //---------------------------------------------
             //if (display != Css.CssDisplay.Inline ||
@@ -116,7 +110,6 @@ namespace LayoutFarm.HtmlBoxes
             //    this.Position == Css.CssPosition.Fixed)
             if (this._renderBGAndBorder)
             {
-
                 RectangleF bound = new RectangleF(0, 0, this.VisualWidth, this.VisualHeight);
                 PaintBackground(p, bound, true, true);
                 if (this.HasSomeVisibleBorder)
@@ -137,26 +130,20 @@ namespace LayoutFarm.HtmlBoxes
                 var c_lineNode = this._clientLineBoxes.First;
                 while (c_lineNode != null)
                 {
-
                     CssLineBox line = c_lineNode.Value;
                     if (line.CachedLineBottom >= viewport_top &&
                         line.CachedLineTop <= viewport_bottom)
                     {
-
 #if DEBUG
                         dbugCounter.dbugLinePaintCount++;
 #endif
 
                         drawState = 1;//drawing in viewport area
-
                         int cX = p.CanvasOriginX;
                         int cy = p.CanvasOriginY;
-
                         p.SetCanvasOrigin(cX, cy + (int)line.CachedLineTop);
-
                         //1.                                 
                         line.PaintBackgroundAndBorder(p);
-
                         if (line.SelectionSegment != null)
                         {
                             line.SelectionSegment.PaintSelection(p, line);
@@ -165,13 +152,11 @@ namespace LayoutFarm.HtmlBoxes
                         line.PaintRuns(p);
                         //3. 
                         line.PaintDecoration(p);
-
 #if DEBUG
                         line.dbugPaintRuns(p);
 #endif
 
                         p.SetCanvasOrigin(cX, cy);//back
-
                     }
                     else if (drawState == 1)
                     {
@@ -185,7 +170,6 @@ namespace LayoutFarm.HtmlBoxes
             }
             else
             {
-
                 if (this.HasContainingBlockProperty)
                 {
                     p.PushContaingBlock(this);
@@ -194,7 +178,6 @@ namespace LayoutFarm.HtmlBoxes
                     var node = this._aa_boxes.GetFirstLinkedNode();
                     while (node != null)
                     {
-
                         CssBox b = node.Value;
                         if (b.CssDisplay == Css.CssDisplay.None)
                         {
@@ -238,7 +221,6 @@ namespace LayoutFarm.HtmlBoxes
                     //if not
                     int ox = p.CanvasOriginX;
                     int oy = p.CanvasOriginY;
-
                     var node = this._aa_boxes.GetFirstLinkedNode();
                     while (node != null)
                     {
@@ -289,16 +271,13 @@ namespace LayoutFarm.HtmlBoxes
                 //late paint -> floatBox 
                 Rectangle latestClipRect = p.CurrentClipRect;
                 p.PopLocalClipArea(); //temp
-
                 p.PushContaingBlock(this);
                 int j = p.LatePaintItemCount;
                 int ox = p.CanvasOriginX;
                 int oy = p.CanvasOriginY;
-
                 for (int i = 0; i < j; ++i)
                 {
                     CssBox box = p.GetLatePaintItem(i);
-
                     if (box.CssDisplay == Css.CssDisplay.None)
                     {
                         continue;
@@ -308,9 +287,7 @@ namespace LayoutFarm.HtmlBoxes
                     p.SetCanvasOrigin(ox, oy);
                 }
                 p.PopContainingBlock();
-
                 p.PushLocalClipArea(latestClipRect.Width, latestClipRect.Height);//push back
-
             }
             p.ExitCurrentLatePaintContext();
             //must! , 
@@ -353,7 +330,6 @@ namespace LayoutFarm.HtmlBoxes
             {
                 Brush brush = null;
                 bool dispose = false;
-
                 if (BackgroundGradient != Color.Transparent)
                 {
                     //use bg gradient 
@@ -373,7 +349,6 @@ namespace LayoutFarm.HtmlBoxes
 
                 Canvas g = p.InnerCanvas;
                 SmoothingMode smooth = g.SmoothingMode;
-
                 if (brush != null)
                 {
                     // atodo: handle it correctly (tables background)
@@ -397,12 +372,10 @@ namespace LayoutFarm.HtmlBoxes
                     }
                     else
                     {
-
                         g.FillRectangle(brush, (float)Math.Ceiling(rect.X), (float)Math.Ceiling(rect.Y), rect.Width, rect.Height);
                     }
 
                     g.SmoothingMode = smooth;
-
                     if (roundrect != null) roundrect.Dispose();
                     if (dispose) brush.Dispose();
                 }
@@ -434,7 +407,6 @@ namespace LayoutFarm.HtmlBoxes
                         var h = fontInfo.LineHeight;
                         float desc = fontInfo.DescentPx;
                         y = (float)Math.Round(rectangle.Top + h - desc);
-
                     }
                     break;
                 case Css.CssTextDecoration.LineThrough:
@@ -452,7 +424,6 @@ namespace LayoutFarm.HtmlBoxes
 
             //y -= ActualPaddingBottom - ActualBorderBottomWidth;
             y -= (ActualPaddingBottom + ActualBorderBottomWidth);
-
             float x1 = rectangle.X;
             if (isFirst)
             {
@@ -469,13 +440,11 @@ namespace LayoutFarm.HtmlBoxes
             var prevColor = g.StrokeColor;
             g.StrokeColor = ActualColor;
             g.DrawLine(x1, y, x2, y);
-
             g.StrokeColor = prevColor;
         }
 
         public virtual void Paint(PaintVisitor p, RectangleF r)
         {
-
         }
     }
 }

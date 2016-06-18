@@ -2,7 +2,6 @@
 
 namespace LayoutFarm.UI
 {
-
     public enum UIEventName
     {
         Unknown,
@@ -12,12 +11,9 @@ namespace LayoutFarm.UI
         MouseMove,
         MouseUp,
         MouseHover,
-
-
         KeyDown,
         KeyUp,
         KeyPress,
-
     }
     public enum UIKeyEventName
     {
@@ -37,7 +33,6 @@ namespace LayoutFarm.UI
         MouseLeave,
         MouseHover,
         MouseWheel
-
     }
     public enum UIDragEventName
     {

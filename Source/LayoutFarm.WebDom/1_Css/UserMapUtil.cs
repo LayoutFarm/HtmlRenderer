@@ -1,8 +1,8 @@
 ﻿//BSD, 2014 WinterDev
+
 using System;
 using LayoutFarm.Css;
 using LayoutFarm.HtmlBoxes;
-
 namespace LayoutFarm.WebDom
 {
     public enum WellKnownDomNodeName : byte
@@ -36,22 +36,17 @@ namespace LayoutFarm.WebDom
         div,
         [Map("span")]
         span,
-
         [Map("link")]
         link,
         [Map("p")]
         p,
-
         //----------------------------------
         [Map("table")]
         table,
-
         [Map("tr")]
         tr,//table-row
-
         [Map("tbody")]
         tbody,//table-row-group
-
         [Map("thead")]
         thead, //table-header-group
         //from css2.1 spec:
@@ -65,17 +60,14 @@ namespace LayoutFarm.WebDom
 
         [Map("col")]
         col,//table-column, specifics that an element describes a column of cells
-
         [Map("colgroup")]
         colgroup,//table-column-group, specific that an element groups one or more columns;
-
         [Map("template")]
         template, //html5 template
         [Map("td")]
         td,//table-cell                
         [Map("th")]
         th,//table-cell
-
         [Map("caption")]
         caption,//table-caption element
         //----------------------------------------
@@ -83,8 +75,6 @@ namespace LayoutFarm.WebDom
 
         [Map("iframe")]
         iframe,
-
-
         //----------------------------------------
         [FeatureDeprecated("not support in Html5")]
         [Map("frame")]
@@ -95,16 +85,12 @@ namespace LayoutFarm.WebDom
         [FeatureDeprecated("not support in Html5,Use Css instead")]
         [Map("basefont")]
         basefont,
-
         [Map("base")]
         _base,
-
         [Map("meta")]
         meta,
         [Map("param")]
         _param,
-
-
         [Map("svg")]
         svg,
         [Map("rect")]
@@ -117,14 +103,12 @@ namespace LayoutFarm.WebDom
         svg_polygon,
         [Map("polyline")]
         svg_polyline,
-
         [Map("defs")]
         svg_defs,
         [Map("linearGradient")]
         svg_linearGradient,
         [Map("stop")]
         svg_stop,
-
         [Map("path")]
         svg_path,
         [Map("image")]
@@ -136,7 +120,6 @@ namespace LayoutFarm.WebDom
 
     public static class UserMapUtil
     {
-
         static readonly ValueMap<CssDisplay> _cssDisplayMap = new ValueMap<CssDisplay>();
         static readonly ValueMap<CssDirection> _cssDirectionMap = new ValueMap<CssDirection>();
         static readonly ValueMap<CssPosition> _cssPositionMap = new ValueMap<CssPosition>();
@@ -156,22 +139,13 @@ namespace LayoutFarm.WebDom
         static readonly ValueMap<CssFontWeight> _cssFontWeightMap = new ValueMap<CssFontWeight>();
         static readonly ValueMap<CssListStylePosition> _cssListStylePositionMap = new ValueMap<CssListStylePosition>();
         static readonly ValueMap<CssListStyleType> _cssListStyleTypeMap = new ValueMap<CssListStyleType>();
-
         static readonly ValueMap<CssNamedBorderWidth> _cssNamedBorderWidthMap = new ValueMap<CssNamedBorderWidth>();
         static readonly ValueMap<CssBackgroundRepeat> _cssBackgroundRepeatMap = new ValueMap<CssBackgroundRepeat>();
-
-
-
         static readonly ValueMap<LayoutFarm.WebDom.WellknownCssPropertyName> _wellKnownCssPropNameMap = new ValueMap<WebDom.WellknownCssPropertyName>();
         static readonly ValueMap<WellKnownDomNodeName> _wellknownHtmlTagNameMap = new ValueMap<WellKnownDomNodeName>();
-
         static readonly ValueMap<CssBoxSizing> _cssBoxSizingMap = new ValueMap<CssBoxSizing>();
-
-
-
         static UserMapUtil()
         {
-
         }
 
         //-----------------------
@@ -270,11 +244,9 @@ namespace LayoutFarm.WebDom
              WebDom.CssValueEvaluatedAs.Position,
              CssPosition.Static,
              value);
-
         }
         public static CssWordBreak GetWordBreak(WebDom.CssCodeValueExpression value)
         {
-
             return (CssWordBreak)EvaluateIntPropertyValueFromString(
              _cssWordBreakMap,
              WebDom.CssValueEvaluatedAs.WordBreak,
@@ -288,7 +260,6 @@ namespace LayoutFarm.WebDom
                 WebDom.CssValueEvaluatedAs.TextDecoration,
                 CssTextDecoration.NotAssign,
                 value);
-
         }
         public static CssOverflow GetOverflow(WebDom.CssCodeValueExpression value)
         {
@@ -379,12 +350,10 @@ namespace LayoutFarm.WebDom
 
         public static CssEmptyCell GetEmptyCell(WebDom.CssCodeValueExpression value)
         {
-
             return (CssEmptyCell)EvaluateIntPropertyValueFromString(
                _cssEmptyCellMap,
                WebDom.CssValueEvaluatedAs.EmptyCell,
                CssEmptyCell.Show, value);
-
         }
 
         public static string ToCssStringValue(this CssEmptyCell value)
@@ -406,12 +375,10 @@ namespace LayoutFarm.WebDom
         public static string ToCssStringValue(this CssWhiteSpace value)
         {
             return _cssWhitespaceMap.GetStringFromValue(value);
-
         }
         public static string ToCssStringValue(this CssVisibility value)
         {
             return _cssVisibilityMap.GetStringFromValue(value);
-
         }
         public static string ToCssStringValue(this CssVerticalAlign value)
         {
@@ -477,7 +444,6 @@ namespace LayoutFarm.WebDom
               WebDom.CssValueEvaluatedAs.FontStyle,
               CssFontStyle.Normal,
               value);
-
         }
         public static string ToCssStringValue(this CssFontVariant fontVariant)
         {
@@ -495,7 +461,6 @@ namespace LayoutFarm.WebDom
         {
             if (length.IsFontSizeName)
             {
-
                 switch (length.UnitOrNames)
                 {
                     case CssUnitOrNames.FONTSIZE_MEDIUM:
@@ -586,7 +551,6 @@ namespace LayoutFarm.WebDom
                         }
                     default:
                         {
-
                             CssLength len = TranslateLength(value.ToString());
                             value.SetCssLength(len, WebDom.CssValueEvaluatedAs.Length);
                             return len;
@@ -602,7 +566,6 @@ namespace LayoutFarm.WebDom
         {
             if (value.EvaluatedAs != WebDom.CssValueEvaluatedAs.TranslatedLength)
             {
-
                 switch (value.Hint)
                 {
                     case WebDom.CssValueHint.Number:
@@ -624,7 +587,6 @@ namespace LayoutFarm.WebDom
                                 value.SetCssLength(len, WebDom.CssValueEvaluatedAs.TranslatedLength);
                                 return len;
                             }
-
                         }
                     default:
                         {
@@ -680,7 +642,6 @@ namespace LayoutFarm.WebDom
                WebDom.CssValueEvaluatedAs.ListStylePosition,
                CssListStylePosition.Outside,
                value);
-
         }
 
         public static string ToCssStringValue(this CssListStyleType listStyleType)
@@ -734,7 +695,6 @@ namespace LayoutFarm.WebDom
         public static CssLength ParseGenericLength(string lenValue)
         {
             float parsedNumber = 0f;
-
             switch (lenValue)
             {
                 case null:
@@ -758,7 +718,6 @@ namespace LayoutFarm.WebDom
             //If no units, has error
             if (lenValue.Length < 3)
             {
-
                 if (float.TryParse(lenValue, out parsedNumber))
                 {
                     return new CssLength(parsedNumber, CssUnitOrNames.Pixels);
@@ -767,7 +726,6 @@ namespace LayoutFarm.WebDom
                 {
                     return new CssLength(parsedNumber, CssUnitOrNames.Unknown);
                 }
-
             }
             //Get units of the length
             //TODO: Units behave different in paper and in screen! 
@@ -792,7 +750,6 @@ namespace LayoutFarm.WebDom
             else
             {
                 string number_part = lenValue.Substring(0, lenValue.Length - 2);
-
                 if (!float.TryParse(number_part,
                     System.Globalization.NumberStyles.Number,
                     System.Globalization.NumberFormatInfo.InvariantInfo, out parsedNumber))
@@ -805,10 +762,8 @@ namespace LayoutFarm.WebDom
                     return new CssLength(parsedNumber, unit);
                 }
             }
-
         }
     }
-
 
     //public static class UserMapUtil
     //{
@@ -1517,5 +1472,4 @@ namespace LayoutFarm.WebDom
 
     //    }
     //}
-
 }

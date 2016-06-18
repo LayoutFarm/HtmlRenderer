@@ -4,7 +4,6 @@ namespace LayoutFarm.UI
 {
     public sealed class SpacePart
     {
-
         NamedSpaceContainerOverlapMode overlapMode;
         SpaceName spaceName;
         UIBox spaceContent;
@@ -15,7 +14,6 @@ namespace LayoutFarm.UI
         int spaceY;
         bool hidden;
         bool hasCalculatedSize;
-
         internal SpacePart(NinespaceController ownerDockspaceController, int spaceWidth, int spaceHeight, SpaceName docSpacename)
         {
             this.ownerDockspaceController = ownerDockspaceController;
@@ -53,7 +51,6 @@ namespace LayoutFarm.UI
             get
             {
                 return this.overlapMode;
-
             }
             set
             {
@@ -72,7 +69,6 @@ namespace LayoutFarm.UI
             get
             {
                 return this.spaceY;
-
             }
         }
         public int Width
@@ -80,7 +76,6 @@ namespace LayoutFarm.UI
             get
             {
                 return this.spaceWidth;
-
             }
         }
         public int Height
@@ -88,7 +83,6 @@ namespace LayoutFarm.UI
             get
             {
                 return this.spaceHeight;
-
             }
         }
         public bool Visible
@@ -96,7 +90,6 @@ namespace LayoutFarm.UI
             get
             {
                 return !hidden;
-
             }
         }
         public int Right
@@ -133,7 +126,6 @@ namespace LayoutFarm.UI
         {
             this.spaceX = x;
             this.spaceY = y;
-
         }
         public void SetBound(int x, int y, int w, int h)
         {
@@ -152,7 +144,6 @@ namespace LayoutFarm.UI
             var uiContent = this.Content;
             if (uiContent != null)
             {
-
                 uiContent.PerformContentLayout();
             }
         }
@@ -176,8 +167,4 @@ namespace LayoutFarm.UI
 #endif
 
     }
-
-
-
-
 }
