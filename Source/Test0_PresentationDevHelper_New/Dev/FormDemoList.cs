@@ -13,7 +13,7 @@ namespace LayoutFarm.Dev
     public partial class FormDemoList : Form
     {
         static readonly PixelFarm.Drawing.GraphicsPlatform gdiPlatform = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.Start();
-        static readonly PixelFarm.Drawing.GraphicsPlatform openGLPlatform = LayoutFarm.UI.OpenGL.MyOpenGLPortal.Start();
+        static readonly PixelFarm.Drawing.GraphicsPlatform openGLPlatform = null;
 
         UIPlatform uiPlatformWinForm;
 

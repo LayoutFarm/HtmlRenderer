@@ -47,8 +47,6 @@
  */
 
 using System;
-using System.Collections.Generic;
-using DictKey = Tesselate.ActiveRegion;
 namespace Tesselate
 {
     public class ActiveRegion

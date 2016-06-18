@@ -1,6 +1,5 @@
 ﻿//MIT 2014, WinterDev
 
-using System.Text;
 using System;
 using System.Runtime.InteropServices;
 namespace PixelFarm.DrawingGL

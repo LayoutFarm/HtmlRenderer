@@ -16,9 +16,7 @@
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Text;
+
 using PixelFarm.Agg.Image;
 namespace PixelFarm.Agg
 {

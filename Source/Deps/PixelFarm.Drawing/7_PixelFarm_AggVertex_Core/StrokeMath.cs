@@ -23,7 +23,7 @@
 //
 //----------------------------------------------------------------------------
 
-using System; 
+using System;
 namespace PixelFarm.Agg
 {
     public class StrokeMath

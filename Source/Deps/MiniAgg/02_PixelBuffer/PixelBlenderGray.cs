@@ -27,7 +27,6 @@
 //----------------------------------------------------------------------------
 
 using System;
-using PixelFarm.Agg;
 namespace PixelFarm.Agg.Image
 {
     public class PixelBlenderGray : IPixelBlender
@@ -43,7 +42,7 @@ namespace PixelFarm.Agg.Image
             this.bytesBetweenPixelsInclusive = bytesBetweenPixelsInclusive;
             if (m_Saturate9BitToByte[2] == 0)
             {
-                for (int i = 0; i < m_Saturate9BitToByte.Length; i++)
+                for (int i = m_Saturate9BitToByte.Length - 1; i >= 0; --i)
                 {
                     m_Saturate9BitToByte[i] = Math.Min(i, 255);
                 }

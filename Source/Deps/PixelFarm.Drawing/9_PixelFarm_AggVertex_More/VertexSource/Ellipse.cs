@@ -106,7 +106,7 @@ namespace PixelFarm.Agg.VertexSource
             }
             vertexData.x = (int)EndVertexOrientation.CCW;
             vertexData.y = 0;
-            vertexData.command = FlagsAndCommand.EndAndCloseFigure;
+            vertexData.command = FlagsAndCommand.CloseAndEndFigure;
             yield return vertexData;
             vertexData.command = FlagsAndCommand.Stop;
             yield return vertexData;

@@ -27,10 +27,6 @@
 //----------------------------------------------------------------------------
 #define USE_UNSAFE_CODE
 
-using System;
-using PixelFarm.Agg.Image;
-using PixelFarm.VectorMath;
-using PixelFarm.Agg.Lines;
 using img_subpix_const = PixelFarm.Agg.ImageFilterLookUpTable.ImgSubPixConst;
 using img_filter_const = PixelFarm.Agg.ImageFilterLookUpTable.ImgFilterConst;
 namespace PixelFarm.Agg.Image

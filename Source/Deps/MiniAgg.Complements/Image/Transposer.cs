@@ -18,7 +18,7 @@
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
 
-using PixelFarm.Agg;
+
 namespace PixelFarm.Agg.Image
 {
     //=======================================================pixfmt_transposer

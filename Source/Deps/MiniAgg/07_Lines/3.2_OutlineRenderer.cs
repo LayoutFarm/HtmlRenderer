@@ -16,7 +16,6 @@
 
 using System;
 using PixelFarm.Agg.Image;
-using PixelFarm.Agg.Transform;
 namespace PixelFarm.Agg.Lines
 {
     //==========================================================line_profile_aa

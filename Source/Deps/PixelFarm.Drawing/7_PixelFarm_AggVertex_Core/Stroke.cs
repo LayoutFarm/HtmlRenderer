@@ -103,7 +103,7 @@ namespace PixelFarm.Agg
                         }
                         break;
                     case VertexCmd.EndFigure:
-                    case VertexCmd.EndAndCloseFigure:
+                    case VertexCmd.CloseAndEndFigure:
                         {
                             strkgen.AddVertex(x, y, cmd);
                             if (i < j - 2)

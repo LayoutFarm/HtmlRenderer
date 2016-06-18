@@ -1,7 +1,5 @@
 ﻿//MIT 2014, WinterDev
 
-using System.Text;
-using System;
 namespace PixelFarm.DrawingGL
 {
     public class GLBitmapReference

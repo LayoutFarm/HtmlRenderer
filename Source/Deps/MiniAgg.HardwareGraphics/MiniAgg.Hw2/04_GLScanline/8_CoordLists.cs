@@ -1,13 +1,5 @@
 ﻿//2014 MIT,WinterDev   
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using PixelFarm.Agg.Image;
-using PixelFarm.Agg.VertexSource;
-using OpenTK;
-using OpenTK.Graphics.ES20;
-using PixelFarm.DrawingGL;
 namespace PixelFarm.Agg
 {
     class AggCoordList3f

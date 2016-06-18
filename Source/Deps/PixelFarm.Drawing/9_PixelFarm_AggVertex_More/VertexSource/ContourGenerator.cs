@@ -96,7 +96,7 @@ namespace PixelFarm.Agg.VertexSource
                 case VertexCmd.MoveTo:
                     vertexDistanceList.ReplaceLast(new VertexDistance(x, y));
                     break;
-                case VertexCmd.EndAndCloseFigure:
+                case VertexCmd.CloseAndEndFigure:
                     {
                         //end and close
                         m_closed = true;
@@ -224,7 +224,7 @@ namespace PixelFarm.Agg.VertexSource
                         if (!m_closed) return VertexCmd.Stop;
                         m_status = StrokeMath.Status.Stop;
                         x = (int)EndVertexOrientation.CCW;
-                        return VertexCmd.EndAndCloseFigure;
+                        return VertexCmd.CloseAndEndFigure;
                     case StrokeMath.Status.Stop:
                         return VertexCmd.Stop;
                 }

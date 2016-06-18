@@ -54,9 +54,7 @@
     </Compile>
     <Compile Include="2_GdiPlus\2_GdiPlusCanvasViewport.cs" />
     <Compile Include="2_GdiPlus\0_MyWinGdiPortal.cs" />
-    <Compile Include="3_OpenGL\1_GpuOpenGLSurfaceView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="3_OpenGL\1_GpuOpenGLSurfaceView.cs" />
     <Compile Include="3_OpenGL\1_GpuOpenGLSurfaceView.Designer.cs">
       <DependentUpon>1_GpuOpenGLSurfaceView.cs</DependentUpon>
     </Compile>
@@ -92,18 +90,6 @@
       <Project>{AE0DF71E-9B14-4197-B55A-E1E0CE0683C7}</Project>
       <Name>MiniAgg.Complements</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Deps\MiniAgg.HardwareGraphics\MiniAgg.HardwareGraphics\MiniAgg.HardwareGraphics.csproj">
-      <Project>{2b1f2c53-2f8d-4e0e-94eb-79171c91337b}</Project>
-      <Name>MiniAgg.HardwareGraphics</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Deps\MiniAgg.HardwareGraphics\OpenTk.CoreGraphics\OpenTk.CoreGraphics.csproj">
-      <Project>{D9E24F68-37FA-4C11-AC17-0C351681908F}</Project>
-      <Name>OpenTk.CoreGraphics</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Deps\MiniAgg.HardwareGraphics\OpenTk.Platforms\OpenTk.Platforms.csproj">
-      <Project>{93D4A59A-D626-41C5-AD66-B8472B7BBD71}</Project>
-      <Name>OpenTk.Platforms</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Deps\MiniAgg\MiniAgg.csproj">
       <Project>{4D5CE655-58FA-4523-8E46-738B941E9E47}</Project>
       <Name>MiniAgg</Name>
@@ -124,11 +110,6 @@
       <Project>{61369865-95B7-49F2-B012-67B4A2427A8B}</Project>
       <Name>LayoutFarm.ClientPlatforms</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="3_OpenGL\1_GpuOpenGLSurfaceView.resx">
-      <DependentUpon>1_GpuOpenGLSurfaceView.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

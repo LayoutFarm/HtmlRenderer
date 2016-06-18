@@ -18,7 +18,7 @@
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
 
-using PixelFarm.Agg.Image;
+
 using PixelFarm.Agg.Lines;
 namespace PixelFarm.Agg
 {

@@ -1,6 +1,6 @@
 ﻿// 2015,2014 ,MIT, WinterDev 
 
-using System;
+
 using System.Collections.Generic;
 namespace PixelFarm.Agg.Fonts
 {

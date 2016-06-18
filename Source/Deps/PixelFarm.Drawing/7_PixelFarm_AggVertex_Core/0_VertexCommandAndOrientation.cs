@@ -21,7 +21,7 @@ namespace PixelFarm.Agg
         //end figure command 2 lower bits 
         //is end command when 2 lower bit > HasMore
         EndFigure = 0x02,
-        EndAndCloseFigure = 0x03,
+        CloseAndEndFigure = 0x03,
         //----------------------- 
         //start from move to is 
         MoveTo = 0x04,
@@ -56,7 +56,7 @@ namespace PixelFarm.Agg
         }
         public static bool IsClose(VertexCmd c)
         {
-            return c == VertexCmd.EndAndCloseFigure;
+            return c == VertexCmd.CloseAndEndFigure;
         }
         public static bool IsNextPoly(VertexCmd c)
         {

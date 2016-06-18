@@ -4,13 +4,6 @@
 // found in the LICENSE file.
 //
 
-using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
-using System.Threading;
-using System.Drawing;
-using OpenTK;
-using OpenTK.Graphics;
 namespace OpenTK.Graphics.ES20
 {
     public static class ES2Utils2

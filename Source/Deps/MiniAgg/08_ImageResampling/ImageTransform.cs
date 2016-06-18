@@ -1,4 +1,4 @@
-﻿//WinterDev
+﻿//2014-2016, BSD WinterDev
 
 namespace PixelFarm.Agg.Image
 {

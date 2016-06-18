@@ -19,7 +19,7 @@ namespace Win32
     /// <summary>
     /// Utility for Win32 API.
     /// </summary>
-    static class Win32Utils
+    static class Win32Utils_Windows
     {
         /// <summary>
         /// Const for BitBlt copy raster-operation code.

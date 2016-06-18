@@ -6,12 +6,7 @@
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Drawing;
-using OpenTK;
-using OpenTK.Input;
 namespace Examples
 {
     public static class Utilities

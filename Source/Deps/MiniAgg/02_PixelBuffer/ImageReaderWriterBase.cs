@@ -19,9 +19,6 @@
 //----------------------------------------------------------------------------
 
 using System;
-using System.Runtime;
-using PixelFarm.Agg;
-using PixelFarm.VectorMath;
 using PixelFarm.Agg.Image;
 namespace PixelFarm.Agg
 {

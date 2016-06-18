@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using PixelFarm.Agg;
 namespace PixelFarm.DrawingGL
 {

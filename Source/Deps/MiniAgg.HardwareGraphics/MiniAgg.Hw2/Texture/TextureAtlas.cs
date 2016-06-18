@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using PixelFarm.DrawingGL;
+﻿using System.Collections.Generic;
 namespace PixelFarm.DrawingGL
 {
     public enum TextureAtlasAllocResult

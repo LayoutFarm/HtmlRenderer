@@ -18,15 +18,8 @@
 #region Using Directives
 
 using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Windows.Forms;
-using System.Threading;
 using System.Drawing;
-using OpenTK;
-using OpenTK.Graphics;
 using OpenTK.Graphics.ES20;
-using Examples.Tutorial;
 using Mini;
 #endregion
 

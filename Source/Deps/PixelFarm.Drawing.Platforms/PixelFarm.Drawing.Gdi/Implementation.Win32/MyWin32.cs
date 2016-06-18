@@ -1,8 +1,6 @@
 // 2015,2014 ,Apache2, WinterDev
 
 using System;
-using System.Collections.Generic;
-using System.Collections;
 using System.Runtime.InteropServices;
 using System.Text;
 namespace Win32
