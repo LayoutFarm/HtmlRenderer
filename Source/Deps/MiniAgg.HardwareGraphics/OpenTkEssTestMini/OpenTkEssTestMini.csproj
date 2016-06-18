@@ -73,6 +73,7 @@
     <Compile Include="Sample02\T51_View2d.cs" />
     <Compile Include="Sample02\T53_Viewport.cs" />
     <Compile Include="Sample02\T54_Lines.cs" />
+    <Compile Include="Sample02\T55_Line2.cs" />
     <Compile Include="Sample03\T103_BasicAggDraw.cs" />
     <Compile Include="Sample03\T101_BlankCanvas.cs" />
     <Compile Include="Sample03\T102_BasicDraw.cs" />

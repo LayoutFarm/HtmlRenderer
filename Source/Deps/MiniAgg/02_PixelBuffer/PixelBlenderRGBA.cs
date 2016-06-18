@@ -28,10 +28,7 @@
 #define USE_BLENDER
 
 using System.Collections.Generic;
-//using ColorT = MatterHackers.Agg.order_bgra;
-
 using System;
-using PixelFarm.Agg;
 //using Mono.Simd;
 
 namespace PixelFarm.Agg.Image

@@ -163,8 +163,9 @@ namespace PixelFarm.Agg.Transform
         }
 
         // Custom matrix. Usually used in derived classes
-        private Affine(double v0_sx, double v1_shy, double v2_shx,
-                       double v3_sy, double v4_tx, double v5_ty)
+        private Affine(double v0_sx, double v1_shy,
+                       double v2_shx, double v3_sy,
+                       double v4_tx, double v5_ty)
         {
             sx = v0_sx;
             shy = v1_shy;
@@ -173,6 +174,12 @@ namespace PixelFarm.Agg.Transform
             tx = v4_tx;
             ty = v5_ty;
         }
+        public double m11 { get { return sx; } }
+        public double m12 { get { return shy; } }
+        public double m21 { get { return shx; } }
+        public double m22 { get { return sy; } }
+        public double dx { get { return tx; } }
+        public double dy { get { return ty; } }
         // Custom matrix from m[6]
         private Affine(double[] m)
         {
@@ -386,7 +393,10 @@ namespace PixelFarm.Agg.Transform
         // Identity matrix
         static Affine NewIdentity()
         {
-            var newIden = new Affine(1, 0, 0, 1, 0, 0);
+            var newIden = new Affine(
+                1, 0,
+                0, 1,
+                0, 0);
             newIden.isIdenHint = true;
             return newIden;
         }
@@ -405,34 +415,53 @@ namespace PixelFarm.Agg.Transform
         // often.
         public static Affine NewRotation(double angRad)
         {
-            return new Affine(Math.Cos(angRad), Math.Sin(angRad), -Math.Sin(angRad), Math.Cos(angRad), 0.0, 0.0);
+            double cos_rad, sin_rad;
+            return new Affine(
+               cos_rad = Math.Cos(angRad), sin_rad = Math.Sin(angRad),
+                -sin_rad, cos_rad,
+                0.0, 0.0);
         }
 
         //====================================================trans_affine_scaling
         // Scaling matrix. x, y - scale coefficients by X and Y respectively
         public static Affine NewScaling(double scale)
         {
-            return new Affine(scale, 0.0, 0.0, scale, 0.0, 0.0);
+            return new Affine(
+                scale, 0.0,
+                0.0, scale,
+                0.0, 0.0);
         }
 
         public static Affine NewScaling(double x, double y)
         {
-            return new Affine(x, 0.0, 0.0, y, 0.0, 0.0);
+            return new Affine(
+                x, 0.0,
+                0.0, y,
+                0.0, 0.0);
         }
 
         public static Affine NewTranslation(double x, double y)
         {
-            return new Affine(1.0, 0.0, 0.0, 1.0, x, y);
+            return new Affine(
+                1.0, 0.0,
+                0.0, 1.0,
+                x, y);
         }
 
         public static Affine NewTranslation(Vector2 offset)
         {
-            return new Affine(1.0, 0.0, 0.0, 1.0, offset.x, offset.y);
+            return new Affine(
+                1.0, 0.0,
+                0.0, 1.0,
+                offset.x, offset.y);
         }
 
         public static Affine NewSkewing(double x, double y)
         {
-            return new Affine(1.0, Math.Tan(y), Math.Tan(x), 1.0, 0.0, 0.0);
+            return new Affine(
+                1.0, Math.Tan(y),
+                Math.Tan(x), 1.0,
+                0.0, 0.0);
         }
 
         /*

@@ -28,10 +28,7 @@
 #define USE_UNSAFE_CODE
 
 using System;
-using PixelFarm.VectorMath;
-using PixelFarm.Agg.Lines;
 using img_subpix_const = PixelFarm.Agg.ImageFilterLookUpTable.ImgSubPixConst;
-using img_filter_const = PixelFarm.Agg.ImageFilterLookUpTable.ImgFilterConst;
 namespace PixelFarm.Agg.Image
 {
     // it should be easy to write a 90 rotating or mirroring filter too. LBB 2012/01/14

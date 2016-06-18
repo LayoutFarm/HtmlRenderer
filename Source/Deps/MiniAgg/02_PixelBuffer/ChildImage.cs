@@ -19,9 +19,6 @@
 //----------------------------------------------------------------------------
 
 using System;
-using System.Runtime;
-using PixelFarm.Agg;
-using PixelFarm.VectorMath;
 namespace PixelFarm.Agg.Image
 {
     public class ChildImage : ImageReaderWriterBase

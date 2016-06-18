@@ -1,10 +1,6 @@
 ﻿// 2015,2014 ,MIT, WinterDev   
 
-using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using PixelFarm;
 namespace PixelFarm.Agg.Fonts
 {
     class GdiPathFontFace : FontFace

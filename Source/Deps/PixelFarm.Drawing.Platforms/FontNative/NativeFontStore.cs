@@ -50,8 +50,7 @@ namespace PixelFarm.Agg.Fonts
                 IntPtr faceHandle = NativeMyFontsLib.MyFtNewMemoryFace(unmanagedMem, filelen);
                 if (faceHandle != IntPtr.Zero)
                 {
-                    //ok pass
-
+                    //ok pass 
                     //-------------------
                     //test change font size
                     //NativeMyFontsLib.MyFtSetCharSize(faceHandle,
@@ -60,8 +59,7 @@ namespace PixelFarm.Agg.Fonts
                     //    96,//horizontal device resolution (eg screen resolution 96 dpi)
                     //    96);// vertical device resolution 
 
-                    //-------------------
-
+                    //------------------- 
                     fontFace = new NativeFontFace(unmanagedMem, faceHandle);
                     ExportTypeFaceInfo exportTypeInfo = new ExportTypeFaceInfo();
                     NativeMyFontsLib.MyFtGetFaceInfo(faceHandle, ref exportTypeInfo);

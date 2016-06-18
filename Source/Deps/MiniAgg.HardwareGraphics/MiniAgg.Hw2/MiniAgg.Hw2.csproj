@@ -43,7 +43,6 @@
     <Compile Include="04_GLScanline\4.2_CellAARasterizer.cs" />
     <Compile Include="04_GLScanline\4.3_VectorClipper.cs" />
     <Compile Include="04_GLScanline\5_ScanlineRasToDestBitmapRenderer.cs" />
-    <Compile Include="04_GLScanline\6_ClipLiangBarsky.cs" />
     <Compile Include="04_GLScanline\8_CoordLists.cs" />
     <Compile Include="GLCanvas\CanvasGL2d.cs" />
     <Compile Include="GLCanvas\CanvasGL2dInternal.cs" />

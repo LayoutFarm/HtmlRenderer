@@ -32,8 +32,6 @@
 // 
 //----------------------------------------------------------------------------
 
-using System;
-using PixelFarm.VectorMath;
 using poly_subpix = PixelFarm.Agg.AggBasics.PolySubPix;
 namespace PixelFarm.Agg
 {
@@ -235,7 +233,7 @@ namespace PixelFarm.Agg
                         LineTo(x, y);
                     }
                     break;
-                case VertexCmd.EndAndCloseFigure:
+                case VertexCmd.CloseAndEndFigure:
                     {
                         ClosePolygon();
                     }

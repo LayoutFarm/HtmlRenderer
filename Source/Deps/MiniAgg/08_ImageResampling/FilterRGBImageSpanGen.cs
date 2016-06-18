@@ -26,8 +26,6 @@
 // 
 //----------------------------------------------------------------------------
 
-using System;
-using PixelFarm.Agg.Image;
 using img_subpix_const = PixelFarm.Agg.ImageFilterLookUpTable.ImgSubPixConst;
 using img_filter_const = PixelFarm.Agg.ImageFilterLookUpTable.ImgFilterConst;
 namespace PixelFarm.Agg.Image

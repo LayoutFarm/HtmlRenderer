@@ -106,7 +106,6 @@
  * a region which is not part of the output polygon.
  */
 
-using System.Collections.Generic;
 using System;
 namespace Tesselate
 {

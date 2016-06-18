@@ -18,11 +18,8 @@
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
 using PixelFarm.Agg.Image;
 using PixelFarm.Agg.Transform;
-using PixelFarm.VectorMath;
 namespace PixelFarm.Agg
 {
     public abstract class Graphics2D
@@ -42,13 +39,8 @@ namespace PixelFarm.Agg
         //render vertices
         public abstract void Render(VertexStoreSnap vertexSource, ColorRGBA colorBytes);
         //------------------------------------------------------------------------
-        //render images ...
-        public abstract void Render(IImageReaderWriter imageSource,
-            double x, double y,
-            double angleRadians,
-            double scaleX, double ScaleY);
-        public abstract void Render(IImageReaderWriter source, double x, double y);
-        public abstract void Render(IImageReaderWriter source, AffinePlan[] affinePlans);
+       
+      
         public void Render(VertexStore vxStorage, ColorRGBA c)
         {
             Render(new VertexStoreSnap(vxStorage), c);
@@ -97,20 +89,9 @@ namespace PixelFarm.Agg
             set;
         }
         //================
-        public static Graphics2D CreateFromImage(ActualImage actualImage)
+        public static ImageGraphics2D CreateFromImage(ActualImage actualImage)
         {
             return new ImageGraphics2D(actualImage);
-        }
-
-        public double RasterOffsetX
-        {
-            get { return this.sclineRas.AddVertexOffsetX; }
-            set { this.sclineRas.AddVertexOffsetX = value; }
-        }
-        public double RasterOffsetY
-        {
-            get { return this.sclineRas.AddVertexOffsetY; }
-            set { this.sclineRas.AddVertexOffsetY = value; }
         }
         public abstract bool UseSubPixelRendering
         {

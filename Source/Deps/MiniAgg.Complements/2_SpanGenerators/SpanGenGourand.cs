@@ -18,8 +18,6 @@
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
 namespace PixelFarm.Agg
 {
     //Gourand shading

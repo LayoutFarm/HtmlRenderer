@@ -1,14 +1,8 @@
 ﻿//MIT 2014, WinterDev
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 using PixelFarm.Agg;
-using PixelFarm.Agg.Image;
-using PixelFarm.Agg.VertexSource;
-using OpenTK;
 using OpenTK.Graphics.ES20;
-using PixelFarm.DrawingGL;
 namespace PixelFarm.DrawingGL
 {
     class BasicShader

@@ -3,8 +3,6 @@
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using PixelFarm;
-using PixelFarm.Agg;
 namespace PixelFarm.Agg
 {
     public static class GdiPathConverter

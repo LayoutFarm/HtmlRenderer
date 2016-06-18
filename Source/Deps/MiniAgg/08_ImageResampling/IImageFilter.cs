@@ -27,9 +27,6 @@
 //----------------------------------------------------------------------------
 
 
-using System;
-using PixelFarm.Agg.Image;
-using PixelFarm.VectorMath;
 namespace PixelFarm.Agg.Image
 {
     public interface IImageFilter

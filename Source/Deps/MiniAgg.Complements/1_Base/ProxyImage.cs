@@ -18,9 +18,6 @@
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
 
-using System;
-using PixelFarm.Agg;
-using PixelFarm.VectorMath;
 namespace PixelFarm.Agg.Image
 {
     public abstract class ProxyImage : IImageReaderWriter

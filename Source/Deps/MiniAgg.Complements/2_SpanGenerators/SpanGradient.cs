@@ -14,7 +14,7 @@
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
 
-using System;
+
 using PixelFarm.Agg.Gradients;
 namespace PixelFarm.Agg
 {

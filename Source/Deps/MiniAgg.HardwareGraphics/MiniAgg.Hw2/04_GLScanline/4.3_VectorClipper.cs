@@ -22,7 +22,6 @@
 
 //#include "agg_clip_liang_barsky.h"
 
-using poly_subpix = PixelFarm.Agg.AggBasics.PolySubPix;
 namespace PixelFarm.Agg
 {
     partial class GLScanlineRasterizer

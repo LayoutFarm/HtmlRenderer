@@ -27,7 +27,6 @@
 //----------------------------------------------------------------------------
 
 using System;
-using PixelFarm.Agg;
 namespace PixelFarm.Agg.Image
 {
     /*

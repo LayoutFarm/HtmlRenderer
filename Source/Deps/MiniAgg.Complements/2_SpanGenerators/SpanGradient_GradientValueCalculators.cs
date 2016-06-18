@@ -14,7 +14,7 @@
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
 
-using System;
+
 namespace PixelFarm.Agg.Gradients
 {
     public interface IGradientValueCalculator

@@ -37,6 +37,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="0_CanvasPainter\AggCanvasPainter.cs" />
     <Compile Include="2_SpanGenerators\SpanGradient_GradientValueCalculators.cs" />
     <Compile Include="Image\FilterMan.cs" />
     <Compile Include="0_CanvasPainter\ScanlineRasToDestBitmapRendererExtension.cs" />

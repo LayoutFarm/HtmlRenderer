@@ -14,7 +14,6 @@
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
 
-using System;
 namespace PixelFarm.Agg.Lines
 {
     //===================================================distance_interpolator0
