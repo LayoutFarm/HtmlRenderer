@@ -1,13 +1,12 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using PixelFarm.Drawing; 
-
+using PixelFarm.Drawing;
 namespace LayoutFarm.CustomWidgets
 {
-
     //library specific 
     //for 
     public static class ResImageList
@@ -33,7 +32,6 @@ namespace LayoutFarm.CustomWidgets
         {
             Image found;
             images.TryGetValue(imageName, out found);
-
             ImageBinder binder = new ClientImageBinder(null);
             binder.SetImage(found);
             binder.State = ImageBinderState.Loaded;
@@ -45,11 +43,7 @@ namespace LayoutFarm.CustomWidgets
     {
         CheckBoxChecked,
         CheckBoxUnChecked,
-
         RadioBoxChecked,
         RadioBoxUnChecked
     }
-
-
-
 }

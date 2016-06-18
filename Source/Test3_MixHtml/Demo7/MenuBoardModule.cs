@@ -1,15 +1,9 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
-using PixelFarm.Drawing;
-using LayoutFarm.UI;
-using LayoutFarm.CustomWidgets;
 
+using System;
+using LayoutFarm.CustomWidgets;
 namespace LayoutFarm.DzBoardSample
 {
-
     class MenuItemClickEventArgs : EventArgs
     {
         public MenuItemClickEventArgs(string menuItemName)
@@ -22,7 +16,6 @@ namespace LayoutFarm.DzBoardSample
     class MenuBoardModule : CompoModule
     {
         public event EventHandler<MenuItemClickEventArgs> menuItemClick;
-
         protected override void OnStartModule()
         {
             var htmlBox = new HtmlBox(htmlHost, 500, 40);
@@ -34,10 +27,7 @@ namespace LayoutFarm.DzBoardSample
                 <span id='cmd_rect' style='padding:2px'>Rect</span>   
                 <span id='cmd_img' style='padding:2px'>Image</span>                 
             </body></html>";
-
             htmlBox.LoadHtmlString(htmltext);
-
-
             var dom1 = htmlBox.HtmlContainer.WebDocument as LayoutFarm.WebDom.IHtmlDocument;
             if (dom1 != null)
             {
@@ -52,9 +42,7 @@ namespace LayoutFarm.DzBoardSample
                     }
                     e.StopPropagation();
                 });
-
             }
         }
-
     }
 }

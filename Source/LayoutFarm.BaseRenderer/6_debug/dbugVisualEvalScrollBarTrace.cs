@@ -1,29 +1,20 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Collections.Generic;
-
 using System.IO;
-
-
-
 namespace LayoutFarm
 {
-
 #if DEBUG
     public class dbugVisualEvalScrollBarTrace
     {
-
         StreamWriter strmWriter;
         RootGraphic visualroot;
         string outputFileName = null;
-
         int msgCounter = 0;
-
         Stack<RenderElement> elementStack = new Stack<RenderElement>();
-
         int indentCount = 0;
         int myTraceCount = 0;
-
         static int tracerCount = 0;
         public dbugVisualEvalScrollBarTrace(RootGraphic visualroot)
         {
@@ -31,7 +22,6 @@ namespace LayoutFarm
             myTraceCount = tracerCount;
             ++tracerCount;
             outputFileName = dbugCoreConst.dbugRootFolder + "\\invalidate\\" + myTraceCount + "_" + Guid.NewGuid().ToString() + ".txt";
-
         }
         public void BeginNewContext()
         {
@@ -45,7 +35,6 @@ namespace LayoutFarm
         {
             elementStack.Push(v);
             BeginNewContext();
-
         }
 
         public RenderElement PopElement()
@@ -83,9 +72,7 @@ namespace LayoutFarm
         void ShouldBreak()
         {
         }
-
     }
 #endif
-
 }
 

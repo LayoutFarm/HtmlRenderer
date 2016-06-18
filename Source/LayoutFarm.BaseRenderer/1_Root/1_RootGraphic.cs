@@ -1,22 +1,17 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
-using System; 
+
+using System;
 using PixelFarm.Drawing;
 using LayoutFarm.RenderBoxes;
-
 namespace LayoutFarm
 {
     public abstract partial class RootGraphic : IRootGraphics
     {
-
         public delegate void PaintToOutputWindowDelegate();
-
         protected PaintToOutputWindowDelegate paintToOutputWindowHandler;
         CanvasInvalidateDelegate canvasInvalidateDelegate;
-
-
         Rectangle accumulateInvalidRect;
         bool hasAccumRect;
-
         public RootGraphic(int width, int heigth)
         {
             this.Width = width;
@@ -52,10 +47,8 @@ namespace LayoutFarm
         public abstract void AddToLayoutQueue(RenderElement renderElement);
         public abstract void AddToElementUpdateQueue(object requestBy);
         public abstract void SetCurrentKeyboardFocus(RenderElement renderElement);
-
         //TODO: review this !
         public abstract void AddToUpdateQueue(object toupdateObj);
-
         public bool LayoutQueueClearing
         {
             get;
@@ -70,9 +63,7 @@ namespace LayoutFarm
             TaskIntervalPlan planName,
             int intervalMs,
             EventHandler<GraphicsTimerTaskEventArgs> tickhandler);
-
         public abstract void RemoveIntervalTask(object uniqueName);
-
         //--------------------------------------------------------------------------
 #if DEBUG
 
@@ -92,7 +83,6 @@ namespace LayoutFarm
         public abstract void PrepareRender();
         public void FlushAccumGraphics()
         {
-
             if (!this.hasAccumRect)
             {
                 return;
@@ -100,8 +90,6 @@ namespace LayoutFarm
 
             this.canvasInvalidateDelegate(accumulateInvalidRect);
             this.paintToOutputWindowHandler();
-
-
             hasAccumRect = false;
         }
         public void SetPaintDelegates(CanvasInvalidateDelegate canvasPaintToOutput, PaintToOutputWindowDelegate paintToOutputHandler)
@@ -129,7 +117,7 @@ namespace LayoutFarm
             }
         }
 #endif
-       
+
 
         public void InvalidateGraphicArea(RenderElement fromElement, ref Rectangle elemClientRect)
         {
@@ -142,16 +130,13 @@ namespace LayoutFarm
             //int globalX = 0;
             //int globalY = 0;
             Point globalPoint = new Point();
-
             bool isBubbleUp = false;
-
 #if DEBUG
             int dbug_ncount = 0;
             dbugWriteStopGfxBubbleUp(fromElement, ref dbug_ncount, dbug_ncount, ">> :" + elemClientRect.ToString());
 #endif
             do
             {
-
                 if (!fromElement.Visible)
                 {
 #if DEBUG
@@ -182,7 +167,6 @@ namespace LayoutFarm
                 {
                     //elemClientRect.Offset(globalX, globalY);
                     elemClientRect.Offset(globalPoint);
-
                     if (fromElement.HasDoubleScrollableSurface)
                     {
                         //container.VisualScrollableSurface.WindowRootNotifyInvalidArea(elementClientRect);
@@ -191,10 +175,8 @@ namespace LayoutFarm
                     Rectangle elementRect = fromElement.RectBounds;
                     elementRect.Offset(fromElement.ViewportX, fromElement.ViewportY);
                     elemClientRect.Intersect(elementRect);
-
                     globalPoint.X = -fromElement.ViewportX;
                     globalPoint.Y = -fromElement.ViewportY;
-
                     //globalX = -fromElement.ViewportX;
                     //globalY = -fromElement.ViewportY;
                 }
@@ -212,11 +194,11 @@ namespace LayoutFarm
                     }
 #endif
 
-                    var parentLink = fromElement.MyParentLink; 
+                    var parentLink = fromElement.MyParentLink;
                     if (parentLink == null)
                     {
                         return;
-                    } 
+                    }
                     parentLink.AdjustLocation(ref globalPoint);
                     //move up
                     fromElement = parentLink.ParentRenderElement;// fromElement.ParentRenderElement;
@@ -227,9 +209,7 @@ namespace LayoutFarm
                 }
 
                 isBubbleUp = true;
-
             } while (true);
-
 #if DEBUG
             var dbugMyroot = this;
             if (dbugMyroot.dbugEnableGraphicInvalidateTrace
@@ -246,7 +226,6 @@ namespace LayoutFarm
             //----------------------------------------
             //elemClientRect.Offset(globalX, globalY);
             elemClientRect.Offset(globalPoint);
-
             if (elemClientRect.Top > this.Height
                 || elemClientRect.Left > this.Width
                 || elemClientRect.Bottom < 0
@@ -308,6 +287,6 @@ namespace LayoutFarm
         /// <param name="w"></param>
         /// <param name="h"></param>
         /// <returns></returns>
-        public abstract RootGraphic CreateNewOne(int w,int h);
+        public abstract RootGraphic CreateNewOne(int w, int h);
     }
 }

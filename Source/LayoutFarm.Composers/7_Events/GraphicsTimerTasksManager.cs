@@ -1,6 +1,7 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
-using System.Collections.Generic; 
+using System.Collections.Generic;
 using LayoutFarm.RenderBoxes;
 namespace LayoutFarm.UI
 {
@@ -9,14 +10,11 @@ namespace LayoutFarm.UI
         Dictionary<object, GraphicsTimerTask> registeredTasks = new Dictionary<object, GraphicsTimerTask>();
         List<GraphicsTimerTask> fastIntervalTaskList = new List<GraphicsTimerTask>();
         List<GraphicsTimerTask> caretIntervalTaskList = new List<GraphicsTimerTask>();
-
         RootGraphic rootgfx;
         UITimer uiTimer1;
-
         int fastPlanInterval = 20;//ms 
         int caretBlinkInterval = 500;//ms (2 fps)
         int tickAccum = 0;
-
         bool enableCaretBlink = true;
         public GraphicsTimerTaskManager(RootGraphic rootgfx, UIPlatform platform)
         {
@@ -55,7 +53,6 @@ namespace LayoutFarm.UI
             GraphicsTimerTask existingTask;
             if (!registeredTasks.TryGetValue(uniqueName, out existingTask))
             {
-
                 existingTask = new GraphicsTimerTask(this.rootgfx, planName, uniqueName, intervalMs, tickhandler);
                 registeredTasks.Add(uniqueName, existingTask);
                 switch (planName)
@@ -63,13 +60,14 @@ namespace LayoutFarm.UI
                     case TaskIntervalPlan.CaretBlink:
                         {
                             caretIntervalTaskList.Add(existingTask);
-                        } break;
+                        }
+                        break;
                     default:
                         {
                             fastIntervalTaskList.Add(existingTask);
-                        } break;
+                        }
+                        break;
                 }
-
             }
             return existingTask;
         }
@@ -79,17 +77,18 @@ namespace LayoutFarm.UI
             if (registeredTasks.TryGetValue(uniqueName, out found))
             {
                 registeredTasks.Remove(uniqueName);
-
                 switch (found.PlanName)
                 {
                     case TaskIntervalPlan.CaretBlink:
                         {
                             caretIntervalTaskList.Remove(found);
-                        } break;
+                        }
+                        break;
                     default:
                         {
                             fastIntervalTaskList.Remove(found);
-                        } break;
+                        }
+                        break;
                 }
             }
         }
@@ -102,7 +101,6 @@ namespace LayoutFarm.UI
 
         void graphicTimer1_Tick(object sender, EventArgs e)
         {
-
             //-------------------------------------------------
             tickAccum += fastPlanInterval;
             //Console.WriteLine("tickaccum:" + tickAccum.ToString());
@@ -141,7 +139,6 @@ namespace LayoutFarm.UI
                     needUpdate |= args.NeedUpdate;
                 }
                 FreeTaskEventArgs(args);
-
             }
             else
             {
@@ -162,9 +159,8 @@ namespace LayoutFarm.UI
             if (needUpdate > 0)
             {
                 this.rootgfx.PrepareRender();
-                this.rootgfx.FlushAccumGraphics(); 
+                this.rootgfx.FlushAccumGraphics();
             }
-
         }
         Stack<MyIntervalTaskEventArgs> taskEventPools = new Stack<MyIntervalTaskEventArgs>();
         MyIntervalTaskEventArgs GetTaskEventArgs()
@@ -184,7 +180,5 @@ namespace LayoutFarm.UI
             args.ClearForReuse();
             taskEventPools.Push(args);
         }
-
-
     }
 }

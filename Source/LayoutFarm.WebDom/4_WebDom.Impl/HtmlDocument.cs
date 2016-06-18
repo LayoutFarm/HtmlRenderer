@@ -2,7 +2,6 @@
 //ArthurHub  , Jose Manuel Menendez Poo
 
 using System;
-
 namespace LayoutFarm.WebDom.Impl
 {
     public partial class HtmlDocument : WebDocument
@@ -89,7 +88,6 @@ namespace LayoutFarm.WebDom.Impl
         }
         public DomAttribute CreateAttribute(WellknownName attrName)
         {
-
             return new DomAttribute(this, 0, (int)attrName);
         }
         public override DomTextNode CreateTextNode(char[] strBufferForElement)
@@ -127,7 +125,4 @@ namespace LayoutFarm.WebDom.Impl
             }
         }
     }
-
-
-
 }

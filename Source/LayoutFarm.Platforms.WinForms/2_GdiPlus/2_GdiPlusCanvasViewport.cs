@@ -1,10 +1,10 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
 using PixelFarm.Drawing.WinGdi;
-
 namespace LayoutFarm.UI.GdiPlus
 {
     class GdiPlusCanvasViewport : CanvasViewport
@@ -82,10 +82,8 @@ namespace LayoutFarm.UI.GdiPlus
                 //quadPages.RenderToOutputWindowFullMode(rootGraphics.TopWindowRenderBox, hdc, this.ViewportX, this.ViewportY, this.ViewportWidth, this.ViewportHeight);
                 quadPages.RenderToOutputWindowPartialMode(rootGraphics.TopWindowRenderBox, hdc,
                    this.ViewportX, this.ViewportY, this.ViewportWidth, this.ViewportHeight);
-
             }
             this.rootGraphics.IsInRenderPhase = false;
-
 #if DEBUG
 
             RootGraphic visualroot = RootGraphic.dbugCurrentGlobalVRoot;
@@ -103,7 +101,6 @@ namespace LayoutFarm.UI.GdiPlus
             if (dbugHelper01.dbugVE_HighlightMe != null)
             {
                 dbugOutputWindow.dbug_HighlightMeNow(dbugHelper01.dbugVE_HighlightMe.dbugGetGlobalRect());
-
             }
 #endif
         }
@@ -131,7 +128,6 @@ namespace LayoutFarm.UI.GdiPlus
 
             mycanvas.IsContentReady = true;
             mycanvas.OffsetCanvasOrigin(mycanvas.Left, mycanvas.Top);
-
             //if (this.FullMode)
             //{
             //    quadPages.RenderToOutputWindowFullMode(rootGraphics.TopWindowRenderBox, hdc,
@@ -146,7 +142,6 @@ namespace LayoutFarm.UI.GdiPlus
 
             //}
             this.rootGraphics.IsInRenderPhase = false;
-
 #if DEBUG
 
             RootGraphic visualroot = RootGraphic.dbugCurrentGlobalVRoot;
@@ -164,10 +159,8 @@ namespace LayoutFarm.UI.GdiPlus
             if (dbugHelper01.dbugVE_HighlightMe != null)
             {
                 dbugOutputWindow.dbug_HighlightMeNow(dbugHelper01.dbugVE_HighlightMe.dbugGetGlobalRect());
-
             }
 #endif
         }
     }
-
 }

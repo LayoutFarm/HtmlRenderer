@@ -1,43 +1,32 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using PixelFarm.Drawing;
-
 namespace LayoutFarm.UI
 {
-
     abstract class CanvasViewport
     {
         int viewportX;
         int viewportY;
         int viewportWidth;
         int viewportHeight;
-
         protected IRenderElement topWindowBox;
         protected RootGraphic rootGraphics;
-
         int h_smallChange = 0;
         int h_largeChange = 0;
         int v_smallChange = 0;
         int v_largeChange = 0;
-
-
         EventHandler<EventArgs> canvasSizeChangedHandler;
-
         bool fullMode = true;
         bool isClosed;//is this viewport closed
-
-
         public CanvasViewport(RootGraphic rootgfx,
             Size viewportSize, int cachedPageNum)
         {
             this.rootGraphics = rootgfx;
             this.topWindowBox = rootgfx.TopWindowRenderBox;
-
             this.viewportWidth = viewportSize.Width;
             this.viewportHeight = viewportSize.Height;
-
             canvasSizeChangedHandler = Canvas_SizeChanged;
-
             viewportX = 0;
             viewportY = 0;
         }
@@ -70,12 +59,10 @@ namespace LayoutFarm.UI
 #endif
         public void UpdateCanvasViewportSize(int viewportWidth, int viewportHeight)
         {
-
             if (this.viewportWidth != viewportWidth || this.viewportHeight != viewportHeight)
             {
                 this.viewportWidth = viewportWidth;
                 this.viewportHeight = viewportHeight;
-
                 ResetQuadPages(viewportWidth, viewportHeight);
                 CalculateCanvasPages();
             }
@@ -93,7 +80,6 @@ namespace LayoutFarm.UI
         }
         protected virtual void ResetQuadPages(int viewportWidth, int viewportHeight)
         {
-
         }
 
         protected virtual void Canvas_SizeChanged(object sender, EventArgs e)
@@ -130,7 +116,6 @@ namespace LayoutFarm.UI
 
         protected virtual void CalculateCanvasPages()
         {
-
         }
 
         public void ScrollByNotRaiseEvent(int dx, int dy, out UIScrollEventArgs hScrollEventArgs, out UIScrollEventArgs vScrollEventArgs)
@@ -152,7 +137,6 @@ namespace LayoutFarm.UI
                     UIScrollEventType.ThumbPosition,
                     old_y,
                     viewportY, UIScrollOrientation.VerticalScroll);
-
             }
             else if (dy > 0)
             {
@@ -166,11 +150,9 @@ namespace LayoutFarm.UI
                 }
                 else
                 {
-
                     viewportY += dy;
                 }
                 vScrollEventArgs = new UIScrollEventArgs(UIScrollEventType.ThumbPosition, old_y, viewportY, UIScrollOrientation.VerticalScroll);
-
             }
             hScrollEventArgs = null;
             if (dx == 0)
@@ -178,7 +160,6 @@ namespace LayoutFarm.UI
             }
             else if (dx > 0)
             {
-
                 int old_x = viewportX;
                 int viewportRight = viewportX + viewportWidth; if (viewportRight + dx > rootGraphics.Width)
                 {
@@ -192,7 +173,6 @@ namespace LayoutFarm.UI
                     viewportX += dx;
                 }
                 hScrollEventArgs = new UIScrollEventArgs(UIScrollEventType.ThumbPosition, old_x, viewportX, UIScrollOrientation.HorizontalScroll);
-
             }
             else
             {
@@ -207,10 +187,8 @@ namespace LayoutFarm.UI
                     viewportX += dx;
                 }
                 hScrollEventArgs = new UIScrollEventArgs(UIScrollEventType.ThumbPosition, old_x, viewportX, UIScrollOrientation.HorizontalScroll);
-
             }
             CalculateCanvasPages();
-
         }
 
         public void ScrollToNotRaiseScrollChangedEvent(int x, int y, out UIScrollEventArgs hScrollEventArgs, out UIScrollEventArgs vScrollEventArgs)
@@ -220,7 +198,6 @@ namespace LayoutFarm.UI
             if (x > rootGraphics.Width - viewportWidth)
             {
                 x = rootGraphics.Width - viewportWidth;
-
             }
             if (x < 0)
             {
@@ -245,26 +222,19 @@ namespace LayoutFarm.UI
             viewportY = y;
             vScrollEventArgs = new UIScrollEventArgs(UIScrollEventType.ThumbPosition, old_y, viewportY, UIScrollOrientation.VerticalScroll);
             CalculateCanvasPages();
-
         }
 
         public void EvaluateScrollBar(out ScrollSurfaceRequestEventArgs hScrollSupportEventArgs,
              out ScrollSurfaceRequestEventArgs vScrollSupportEventArgs)
         {
-
             hScrollSupportEventArgs = null;
             vScrollSupportEventArgs = null;
-
-
             v_largeChange = viewportHeight;
             v_smallChange = v_largeChange / 4;
-
             h_largeChange = viewportWidth;
             h_smallChange = h_largeChange / 4;
-
             if (rootGraphics.Height <= viewportHeight)
             {
-
                 vScrollSupportEventArgs = new ScrollSurfaceRequestEventArgs(false);
             }
             else

@@ -1,13 +1,12 @@
 ﻿// 2015,2014 ,Apache2, WinterDev 
+
 namespace LayoutFarm.RenderBoxes
 {
-
     public struct RenderElementRequest
     {
         public RenderElement ve;
         public RequestCommand req;
         public object parameters;
-
         public RenderElementRequest(RenderElement ve, RequestCommand req)
         {
             this.ve = ve;
@@ -20,7 +19,6 @@ namespace LayoutFarm.RenderBoxes
             this.req = req;
             this.parameters = parameters;
         }
-
     }
     public enum RequestCommand
     {
@@ -28,8 +26,5 @@ namespace LayoutFarm.RenderBoxes
         AddToWindowRoot,
         InvalidateArea,
         NotifySizeChanged,
-
     }
-
-
 }

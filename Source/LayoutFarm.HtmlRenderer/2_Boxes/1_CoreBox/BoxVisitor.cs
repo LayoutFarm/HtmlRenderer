@@ -1,7 +1,6 @@
 ﻿// 2015,2014 ,BSD, WinterDev
- 
-using System.Collections.Generic;
 
+using System.Collections.Generic;
 namespace LayoutFarm.HtmlBoxes
 {
     public abstract class BoxVisitor
@@ -10,8 +9,6 @@ namespace LayoutFarm.HtmlBoxes
         CssBox latestContainingBlock = null;
         float globalXOffset;
         float globalYOffset;
-
-
         internal void PushContaingBlock(CssBox box)
         {
             //enter new containing block
@@ -32,7 +29,8 @@ namespace LayoutFarm.HtmlBoxes
             {
                 case 0:
                     {
-                    } break;
+                    }
+                    break;
                 case 1:
                     {
                         //last on
@@ -45,7 +43,8 @@ namespace LayoutFarm.HtmlBoxes
                             OnPopDifferentContaingBlock(box);
                         }
                         this.latestContainingBlock = null;
-                    } break;
+                    }
+                    break;
                 default:
                     {
                         var box = this.containgBlockStack.Pop();
@@ -57,10 +56,9 @@ namespace LayoutFarm.HtmlBoxes
                             OnPopDifferentContaingBlock(box);
                         }
                         this.latestContainingBlock = containgBlockStack.Peek();
-
-                    } break;
+                    }
+                    break;
             }
-
         }
         internal float ContainerBlockGlobalX
         {
@@ -87,7 +85,5 @@ namespace LayoutFarm.HtmlBoxes
         {
             get { return this.latestContainingBlock; }
         }
-
     }
-
 }

@@ -17,11 +17,8 @@ using System;
 using System.Collections.Generic;
 namespace LayoutFarm.HtmlBoxes
 {
-
-
     partial class CssBox
     {
-
         //condition 1: 
         //  box with multiple children box under block-formatting context
         //  eg. 
@@ -48,25 +45,19 @@ namespace LayoutFarm.HtmlBoxes
         //condition 2: valid  
         //condition 3  : invalid *
         CssBoxCollection _aa_boxes;
-
         //condition 1: invalid *
         //condition 2: invalid *
         //condition 3: valid 
         List<CssRun> _aa_contentRuns;
-
-
         //condition 1: invalid *
         //condition 2: valid  
         //condition 3: valid  
         LinkedList<CssLineBox> _clientLineBoxes;
-
         /// <summary>
         /// absolute position layer
         /// </summary>
         CssBoxCollection _absPosLayer;
-
         CssBlockRun justBlockRun;
-
         //----------------------------------------------------   
         //only in condition 3
         char[] _buffer;
@@ -74,7 +65,6 @@ namespace LayoutFarm.HtmlBoxes
         CssBoxDecorator decorator;
         bool mayHasViewport;
         bool isOutOfFlowBox;
-
         internal bool IsOutOfFlowBox
         {
             get { return this.isOutOfFlowBox; }
@@ -166,15 +156,16 @@ namespace LayoutFarm.HtmlBoxes
                     {
                         this._absPosLayer.Remove(box);
                         //this._absLayer2.Remove(box);
-                    } break;
+                    }
+                    break;
                 default:
                     {
                         this._aa_boxes.Remove(box);
-
-                    } break;
+                    }
+                    break;
             }
         }
-        
+
         public void AppendChild(CssBox box)
         {
             switch (box.Position)
@@ -203,8 +194,8 @@ namespace LayoutFarm.HtmlBoxes
                         {
                             ancester.AppendToAbsoluteLayer(box);
                         }
-
-                    } break;
+                    }
+                    break;
                 case Css.CssPosition.Fixed:
                     {
                         //css3:
@@ -228,7 +219,8 @@ namespace LayoutFarm.HtmlBoxes
                         {
                             ancester.AppendToAbsoluteLayer(box);
                         }
-                    } break;
+                    }
+                    break;
                 case Css.CssPosition.Center:
                     {
                         //css3:
@@ -249,12 +241,13 @@ namespace LayoutFarm.HtmlBoxes
                         {
                             ancester.AppendToAbsoluteLayer(box);
                         }
-
-                    } break;
+                    }
+                    break;
                 default:
                     {
                         this._aa_boxes.AddChild(this, box);
-                    } break;
+                    }
+                    break;
             }
         }
         internal bool HasAbsoluteLayer
@@ -423,5 +416,4 @@ namespace LayoutFarm.HtmlBoxes
 #endif
 
     }
-
 }

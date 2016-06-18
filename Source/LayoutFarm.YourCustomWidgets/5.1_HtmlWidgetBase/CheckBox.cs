@@ -1,14 +1,11 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
-using System;
 
+using System;
 using LayoutFarm.CustomWidgets;
 using LayoutFarm.WebDom;
 using LayoutFarm.WebDom.Extension;
-
-
 namespace LayoutFarm.HtmlWidgets
 {
-
     public class CheckBox : HtmlWidgetBase
     {
         DomElement pnode;
@@ -66,7 +63,6 @@ namespace LayoutFarm.HtmlWidgets
             if (pnode != null) return pnode;
             //---------------------------------------------------
             pnode = htmldoc.CreateElement("div");
-
             pnode.AddChild("img", img =>
             {
                 //init 
@@ -81,7 +77,6 @@ namespace LayoutFarm.HtmlWidgets
                     e.StopPropagation();
                 });
             });
-
             //pnode.AddChild("img", img =>
             //{
 
@@ -106,9 +101,7 @@ namespace LayoutFarm.HtmlWidgets
             {
                 span.AddTextContent(this.checkBoxText);
             });
-
             return pnode;
         }
-
     }
 }

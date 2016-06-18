@@ -1,24 +1,20 @@
 ﻿//MS-PL, Apache2 
 //2014,2015, WinterDev
 
- 
 
-using LayoutFarm.Css; 
+
+using LayoutFarm.Css;
 using LayoutFarm.HtmlBoxes;
 using PixelFarm.Drawing;
-
 namespace LayoutFarm.Svg
 {
     public class SvgImage : SvgVisualElement
     {
         SvgImageSpec imageSpec;
-
         Color strokeColor = Color.Transparent;
         Color fillColor = Color.Black;
         GraphicsPath _path;
         LayoutFarm.HtmlBoxes.CssImageRun _imgRun;
-
-
         public SvgImage(SvgImageSpec spec, object controller)
             : base(controller)
         {
@@ -57,7 +53,6 @@ namespace LayoutFarm.Svg
             var myspec = this.imageSpec;
             this.fillColor = myspec.ActualColor;
             this.strokeColor = myspec.StrokeColor;
-
             this.ActualX = ConvertToPx(myspec.X, ref args);
             this.ActualY = ConvertToPx(myspec.Y, ref args);
             this.ActualWidth = ConvertToPx(myspec.Width, ref args);
@@ -74,11 +69,9 @@ namespace LayoutFarm.Svg
                 this._imgRun.ImageBinder = new SvgImageBinder(myspec.ImageSrc);
             }
             ValidatePath();
-
         }
         public override void Paint(PaintVisitor p)
         {
-
             Canvas g = p.InnerCanvas;
             if (fillColor.A > 0)
             {
@@ -94,7 +87,6 @@ namespace LayoutFarm.Svg
 
                 RectangleF r = new RectangleF(this.ActualX, this.ActualY, this.ActualWidth, this.ActualHeight);
                 bool tryLoadOnce = false;
-
             EVAL_STATE:
                 switch (this.ImageBinder.State)
                 {
@@ -103,24 +95,23 @@ namespace LayoutFarm.Svg
                             //async request image
                             if (!tryLoadOnce)
                             {
-
                                 p.RequestImageAsync(_imgRun.ImageBinder, this._imgRun, this);
                                 //retry again
                                 tryLoadOnce = true;
                                 goto EVAL_STATE;
                             }
-                        } break;
+                        }
+                        break;
                     case ImageBinderState.Loading:
                         {
                             //RenderUtils.DrawImageLoadingIcon(g, r);
-                        } break;
+                        }
+                        break;
                     case ImageBinderState.Loaded:
                         {
-
                             Image img;
                             if ((img = _imgRun.ImageBinder.Image) != null)
                             {
-
                                 if (_imgRun.ImageRectangle == Rectangle.Empty)
                                 {
                                     g.DrawImage(img, r);
@@ -129,7 +120,6 @@ namespace LayoutFarm.Svg
                                 {
                                     //
                                     g.DrawImage(img, _imgRun.ImageRectangle);
-
                                 }
                             }
                             else
@@ -140,25 +130,25 @@ namespace LayoutFarm.Svg
                                     g.DrawRectangle(Color.LightGray, r.X, r.Y, r.Width, r.Height);
                                 }
                             }
-                        } break;
+                        }
+                        break;
                     case ImageBinderState.NoImage:
                         {
-
-                        } break;
+                        }
+                        break;
                     case ImageBinderState.Error:
                         {
                             RenderUtils.DrawImageErrorIcon(g, r);
-                        } break;
+                        }
+                        break;
                 }
             }
             //--------------------------------------------------------- 
             if (this.strokeColor.A > 0
                 && this.ActualStrokeWidth > 0)
             {
-
                 p.DrawPath(_path, strokeColor, ActualStrokeWidth);
             }
-
         }
         static GraphicsPath CreateRectGraphicPath(GraphicsPlatform gfxPlatform, float x, float y, float w, float h)
         {
@@ -168,8 +158,6 @@ namespace LayoutFarm.Svg
             _path.CloseFigure();
             return _path;
         }
-
-
     }
 
     public class SvgImageSpec : SvgVisualSpec

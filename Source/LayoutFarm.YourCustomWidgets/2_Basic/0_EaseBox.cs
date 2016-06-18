@@ -1,14 +1,12 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 using PixelFarm.Drawing;
 using LayoutFarm.UI;
-
 namespace LayoutFarm.CustomWidgets
 {
-
     public abstract class EaseBox : UIBox
     {
         BoxContentLayoutKind panelLayoutKind;
@@ -19,22 +17,16 @@ namespace LayoutFarm.CustomWidgets
         Color backColor = Color.LightGray;
         int viewportX;
         int viewportY;
-
         int desiredHeight;
         int desiredWidth;
-
         UICollection uiList;
-
         public event EventHandler<UIMouseEventArgs> MouseDown;
         public event EventHandler<UIMouseEventArgs> MouseMove;
         public event EventHandler<UIMouseEventArgs> MouseUp;
         public event EventHandler<UIMouseEventArgs> MouseLeave;
-
         public event EventHandler<UIMouseEventArgs> MouseDrag;
-
         public event EventHandler<UIMouseEventArgs> LostMouseFocus;
         public event EventHandler<UIGuestTalkEventArgs> DragOver;
-
         public EaseBox(int width, int height)
             : base(width, height)
         {
@@ -105,7 +97,6 @@ namespace LayoutFarm.CustomWidgets
             {
                 var renderE = new CustomRenderBox(rootgfx, this.Width, this.Height);
                 BuildChildrenRenderElement(renderE);
-
                 this.primElement = renderE;
             }
             return primElement;
@@ -120,7 +111,6 @@ namespace LayoutFarm.CustomWidgets
 
         protected override void OnMouseDown(UIMouseEventArgs e)
         {
-
             if (this.MouseDown != null)
             {
                 this.MouseDown(this, e);
@@ -201,12 +191,10 @@ namespace LayoutFarm.CustomWidgets
         public override int ViewportX
         {
             get { return this.viewportX; }
-
         }
         public override int ViewportY
         {
             get { return this.viewportY; }
-
         }
         public override void SetViewport(int x, int y)
         {
@@ -279,7 +267,6 @@ namespace LayoutFarm.CustomWidgets
         }
         public void AddChild(UIElement ui)
         {
-
             if (this.uiList == null)
             {
                 this.uiList = new UICollection(this);
@@ -287,7 +274,6 @@ namespace LayoutFarm.CustomWidgets
 
             needContentLayout = true;
             this.uiList.AddUI(ui);
-
             if (this.HasReadyRenderElement)
             {
                 primElement.AddChild(ui);
@@ -304,7 +290,6 @@ namespace LayoutFarm.CustomWidgets
         }
         public void RemoveChild(UIElement ui)
         {
-
             needContentLayout = true;
             this.uiList.RemoveUI(ui);
             if (this.HasReadyRenderElement)
@@ -325,7 +310,6 @@ namespace LayoutFarm.CustomWidgets
             }
             if (this.HasReadyRenderElement)
             {
-
                 primElement.ClearAllChildren();
                 if (this.panelLayoutKind != BoxContentLayoutKind.Absolute)
                 {
@@ -370,15 +354,12 @@ namespace LayoutFarm.CustomWidgets
         }
         public override void PerformContentLayout()
         {
-
-
             this.InvalidateGraphics();
             //temp : arrange as vertical stack***
             switch (this.ContentLayoutKind)
             {
                 case CustomWidgets.BoxContentLayoutKind.VerticalStack:
                     {
-
                         int count = this.ChildCount;
                         int ypos = 0;
                         int maxRight = 0;
@@ -392,7 +373,6 @@ namespace LayoutFarm.CustomWidgets
 
                                 //}
                                 element.PerformContentLayout();
-
                                 //int elemH = element.HasSpecificHeight ?
                                 //    element.Height :
                                 //    element.DesiredHeight;
@@ -402,7 +382,6 @@ namespace LayoutFarm.CustomWidgets
                                 //element.SetBounds(0, ypos, element.Width, elemH);
                                 element.SetBounds(0, ypos, element.Width, element.Height);
                                 ypos += element.Height;
-
                                 int tmp_right = element.DesiredWidth + element.Left;
                                 if (tmp_right > maxRight)
                                 {
@@ -412,17 +391,13 @@ namespace LayoutFarm.CustomWidgets
                         }
 
                         this.SetDesiredSize(maxRight, ypos);
-
                     }
                     break;
                 case CustomWidgets.BoxContentLayoutKind.HorizontalStack:
                     {
-
                         int count = this.ChildCount;
                         int xpos = 0;
-
                         int maxBottom = 0;
-
                         for (int i = 0; i < count; ++i)
                         {
                             var element = this.GetChild(i) as UIBox;
@@ -431,27 +406,22 @@ namespace LayoutFarm.CustomWidgets
                                 element.PerformContentLayout();
                                 element.SetBounds(xpos, 0, element.DesiredWidth, element.DesiredHeight);
                                 xpos += element.DesiredWidth;
-
                                 int tmp_bottom = element.DesiredHeight + element.Top;
                                 if (tmp_bottom > maxBottom)
                                 {
                                     maxBottom = tmp_bottom;
                                 }
-
                             }
                         }
 
                         this.SetDesiredSize(xpos, maxBottom);
-
                     }
                     break;
                 default:
                     {
-
                         int count = this.ChildCount;
                         int maxRight = 0;
                         int maxBottom = 0;
-
                         for (int i = 0; i < count; ++i)
                         {
                             var element = this.GetChild(i) as UIBox;
@@ -489,7 +459,6 @@ namespace LayoutFarm.CustomWidgets
         {
             //describe base properties
             base.Describe(visitor);
-
             //describe child content
             if (uiList != null)
             {
@@ -510,6 +479,4 @@ namespace LayoutFarm.CustomWidgets
             base.OnGuestTalk(e);
         }
     }
-
-
 }

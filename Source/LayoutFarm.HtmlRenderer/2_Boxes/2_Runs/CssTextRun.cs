@@ -23,7 +23,6 @@ namespace LayoutFarm.HtmlBoxes
     {
         int _textStartIndex;
         int _textLength;
-
         /// <summary>
         /// Init.
         /// </summary>
@@ -44,7 +43,6 @@ namespace LayoutFarm.HtmlBoxes
         {
             //for single space only 
             this._textLength = 1;
-
         }
 
         private CssTextRun(int whiteSpaceLength)
@@ -132,7 +130,6 @@ namespace LayoutFarm.HtmlBoxes
         }
         public override void WriteContent(System.Text.StringBuilder stbuilder, int start, int length)
         {
-
 #if DEBUG
             if (start < -1)
             {
@@ -145,16 +142,19 @@ namespace LayoutFarm.HtmlBoxes
                 case CssRunKind.Space:
                     {
                         stbuilder.Append(new string(' ', this._textLength));
-                    } break;
+                    }
+                    break;
                 case CssRunKind.Text:
                     {
                         char[] ownerTextBuff = CssBox.UnsafeGetTextBuffer(this.OwnerBox);
                         stbuilder.Append(ownerTextBuff, this._textStartIndex, this._textLength);
-                    } break;
+                    }
+                    break;
                 case CssRunKind.SingleSpace:
                     {
                         stbuilder.Append(' ');
-                    } break;
+                    }
+                    break;
             }
         }
 
@@ -165,13 +165,8 @@ namespace LayoutFarm.HtmlBoxes
         /// <returns></returns>
         public override string ToString()
         {
-
-
             string txt = this.Text;
-
             return string.Format("{0} ({1} char{2})", txt.Replace(' ', '-').Replace("\n", "\\n"), txt.Length, txt.Length != 1 ? "s" : string.Empty);
         }
-
-
     }
 }

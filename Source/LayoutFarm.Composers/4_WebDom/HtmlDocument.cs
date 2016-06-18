@@ -3,19 +3,13 @@
 
 using System;
 using System.Collections.Generic;
-
-
 using LayoutFarm.WebDom;
-
 namespace LayoutFarm.Composers
 {
-
     public class HtmlDocument : LayoutFarm.WebDom.Impl.HtmlDocument
     {
-
         //foc custom elements 
         Dictionary<string, CreateCssBoxDelegate> registedCustomElemenGens = new Dictionary<string, CreateCssBoxDelegate>();
-
         internal HtmlDocument()
         {
             this.SetRootElement(new HtmlRootElement(this));
@@ -76,13 +70,5 @@ namespace LayoutFarm.Composers
         {
             return this.registedCustomElemenGens.TryGetValue(customElementName, out cssBoxGen);
         }
-
-
-
     }
-
-
-
-
-
 }

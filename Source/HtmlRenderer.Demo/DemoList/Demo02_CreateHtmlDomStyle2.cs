@@ -1,18 +1,10 @@
-﻿using System;
-using LayoutFarm.Composers;
-using LayoutFarm.WebDom;
-using LayoutFarm;
-using LayoutFarm.UI;
+﻿using LayoutFarm.UI;
 namespace LayoutFarm.Demo
 {
-
     class Demo02_CreateHtmlDomStyle2 : DemoBase
     {
-
-
         public Demo02_CreateHtmlDomStyle2()
         {
-
         }
         protected override void OnStartDemo(HtmlPanel panel)
         {
@@ -32,7 +24,6 @@ namespace LayoutFarm.Demo
                         //3. attach event to specific span
                         span.AttachEvent(UIEventName.MouseDown, e =>
                         {
-
                             //-------------------------------
                             //mousedown on specific span !
                             //-------------------------------
@@ -43,7 +34,6 @@ namespace LayoutFarm.Demo
 
                             //test stop propagation 
                             e.StopPropagation();
-
                         });
                     });
                     //----------------------
@@ -58,16 +48,10 @@ namespace LayoutFarm.Demo
 
                     });
                 });
-            }); 
-
+            });
             //2. add to view 
             panel.LoadHtmlDom(htmldoc,
-               LayoutFarm.Composers.CssDefaults.DefaultStyleSheet); 
-
-
+               LayoutFarm.Composers.CssDefaults.DefaultStyleSheet);
         }
     }
-
-
-
 }

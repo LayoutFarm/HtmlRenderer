@@ -12,7 +12,6 @@
 // "The Art of War"
 
 using PixelFarm.Drawing;
-
 namespace LayoutFarm.HtmlBoxes
 {
     /// <summary>
@@ -20,7 +19,6 @@ namespace LayoutFarm.HtmlBoxes
     /// </summary>
     public sealed class CssImageRun : CssRun
     {
-
         ImageBinder imgBinder;
         /// <summary>
         /// the image rectange restriction as returned from image load event
@@ -85,7 +83,6 @@ namespace LayoutFarm.HtmlBoxes
             get { return this.imgBinder; }
             set
             {
-                
                 this.imgBinder = value;
             }
         }
@@ -100,7 +97,6 @@ namespace LayoutFarm.HtmlBoxes
 
         public override void WriteContent(System.Text.StringBuilder stbuilder, int start, int length)
         {
-             
         }
 
 #if DEBUG

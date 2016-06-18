@@ -14,10 +14,8 @@
 // "The Art of War"
 
 using System;
-using PixelFarm.Drawing; 
+using PixelFarm.Drawing;
 using LayoutFarm.Css;
-
-
 namespace LayoutFarm.HtmlBoxes
 {
     /// <summary>
@@ -35,9 +33,7 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="rectangle">the rectangle to draw image in</param>
         public static void DrawBackgroundImage(Canvas g, CssBox box, ImageBinder imageBinder, RectangleF rectangle)
         {
-
-            var image =  imageBinder.Image;
-
+            var image = imageBinder.Image;
             //temporary comment image scale code 
             var imgSize = image.Size;
             //new Size(imageLoadHandler.Rectangle == Rectangle.Empty ? imageLoadHandler.Image.Width : imageLoadHandler.Rectangle.Width,
@@ -45,15 +41,12 @@ namespace LayoutFarm.HtmlBoxes
 
             // get the location by BackgroundPosition value
             var location = GetLocation(box.BackgroundPositionX, box.BackgroundPositionY, rectangle, imgSize);
-
             //var srcRect = imageLoadHandler.Rectangle == Rectangle.Empty
             //                  ? new Rectangle(0, 0, imgSize.Width, imgSize.Height)
             //                  : new Rectangle(imageLoadHandler.Rectangle.Left, imageLoadHandler.Rectangle.Top, imgSize.Width, imgSize.Height);
             var srcRect = new Rectangle(0, 0, image.Width, image.Height);
-
             // initial image destination rectangle
             var destRect = new Rectangle(location, imgSize);
-
             // need to clip so repeated image will be cut on rectangle
 
             var prevClip = g.CurrentClipRect;
@@ -64,7 +57,6 @@ namespace LayoutFarm.HtmlBoxes
                (int)rectangle.Height);
             copyRect.Intersect(prevClip);
             g.SetClipRect(copyRect);
-
             switch (box.BackgroundRepeat)
             {
                 case CssBackgroundRepeat.NoRepeat:
@@ -96,11 +88,8 @@ namespace LayoutFarm.HtmlBoxes
         /// <returns>the top-left location</returns>
         static Point GetLocation(CssLength posX, CssLength posY, RectangleF rectangle, Size imgSize)
         {
-
-
             int left = (int)rectangle.Left;
             int top = (int)rectangle.Top;
-
             if (posX.IsBackgroundPositionName)
             {
                 switch (posX.UnitOrNames)
@@ -108,11 +97,13 @@ namespace LayoutFarm.HtmlBoxes
                     case CssUnitOrNames.LEFT:
                         {
                             left = (int)(rectangle.Left + .5f);
-                        } break;
+                        }
+                        break;
                     case CssUnitOrNames.RIGHT:
                         {
                             left = (int)rectangle.Right - imgSize.Width;
-                        } break;
+                        }
+                        break;
                 }
             }
             else
@@ -127,11 +118,13 @@ namespace LayoutFarm.HtmlBoxes
                     case CssUnitOrNames.TOP:
                         {
                             top = (int)rectangle.Top;
-                        } break;
+                        }
+                        break;
                     case CssUnitOrNames.BOTTOM:
                         {
                             top = (int)rectangle.Bottom - imgSize.Height;
-                        } break;
+                        }
+                        break;
                 }
             }
             else
@@ -149,7 +142,6 @@ namespace LayoutFarm.HtmlBoxes
         {
             while (destRect.X > rectangle.X)
                 destRect.X -= imgSize.Width;
-
             //TODO: replement texture brysg again;
 
             //using (var brush = g.Platform.CreateTextureBrush(img, srcRect))
@@ -167,8 +159,6 @@ namespace LayoutFarm.HtmlBoxes
         {
             while (destRect.Y > rectangle.Y)
                 destRect.Y -= imgSize.Height;
-
-
             //TODO: reimplement this again
             //using (var brush = g.Platform.CreateTextureBrush(img, srcRect))
             //{
@@ -187,7 +177,6 @@ namespace LayoutFarm.HtmlBoxes
                 destRect.X -= imgSize.Width;
             while (destRect.Y > rectangle.Y)
                 destRect.Y -= imgSize.Height;
-
             //TODO: reimplement this again
             //using (var brush = g.Platform.CreateTextureBrush(img, srcRect))
             //{

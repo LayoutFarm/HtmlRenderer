@@ -31,10 +31,8 @@ namespace VroomJs
     {
         public static readonly DateTime EPOCH = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
         public static readonly DateTime EPOCH_LocalTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-
         static JsConvert()
         {
-
         }
         public JsConvert(JsContext context)
         {
@@ -42,7 +40,6 @@ namespace VroomJs
         }
 
         readonly JsContext _context;
-
         public object FromJsValue(JsValue v)
         {
 #if DEBUG_TRACE_API
@@ -53,22 +50,16 @@ namespace VroomJs
                 case JsValueType.Empty:
                 case JsValueType.Null:
                     return null;
-
                 case JsValueType.Boolean:
                     return v.I32 != 0;
-
                 case JsValueType.Integer:
                     return v.I32;
-
                 case JsValueType.Index:
                     return (UInt32)v.I64;
-
                 case JsValueType.Number:
                     return v.Num;
-
                 case JsValueType.String:
                     return Marshal.PtrToStringUni(v.Ptr);
-
                 case JsValueType.Date:
                     /*
                     // The formula (v.num * 10000) + 621355968000000000L was taken from a StackOverflow
@@ -100,10 +91,8 @@ namespace VroomJs
                     if (v.Ptr != IntPtr.Zero)
                         return new JsException(Marshal.PtrToStringUni(v.Ptr));
                     return new JsInteropException("unknown error without reason");
-
                 case JsValueType.StringError:
                     return new JsException(Marshal.PtrToStringUni(v.Ptr));
-
                 case JsValueType.Managed:
                     return _context.KeepAliveGet(v.Index);
                 case JsValueType.JsTypeWrap:
@@ -133,10 +122,8 @@ namespace VroomJs
 #endif
                 case JsValueType.Wrapped:
                     return new JsObject(_context, v.Ptr);
-
                 case JsValueType.Error:
                     return JsException.Create(this, (JsError)Marshal.PtrToStructure(v.Ptr, typeof(JsError)));
-
                 case JsValueType.Function:
                     var fa = new JsValue[2];
                     for (int i = 0; i < 2; i++)
@@ -220,13 +207,11 @@ namespace VroomJs
                 Index = jsInstance.ManagedIndex
                 //Index = keepAliveId jsInstance.ManagedIndex
             };
-
         }
         public JsValue ToJsValue(object[] arr)
         {
             int len = arr.Length;
             JsValue v = JsContext.jsvalue_alloc_array(len);
-
             if (v.Length != len)
             {
                 throw new JsInteropException("can't allocate memory on the unmanaged side");
@@ -247,7 +232,6 @@ namespace VroomJs
         {
             if (obj == null)
                 return new JsValue { Type = JsValueType.Null };
-
             if (obj is INativeRef)
             {
                 //extension
@@ -257,15 +241,12 @@ namespace VroomJs
             }
 
             Type type = obj.GetType();
-
             // Check for nullable types (we will cast the value out of the box later).
 
             if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
                 type = type.GetGenericArguments()[0];
-
             if (type == typeof(Boolean))
                 return new JsValue { Type = JsValueType.Boolean, I32 = (bool)obj ? 1 : 0 };
-
             if (type == typeof(String) || type == typeof(Char))
             {
                 // We need to allocate some memory on the other side; will be free'd by unmanaged code.
@@ -282,7 +263,6 @@ namespace VroomJs
                 return new JsValue { Type = JsValueType.Integer, I32 = (int)obj };
             if (type == typeof(UInt32))
                 return new JsValue { Type = JsValueType.Integer, I32 = (int)(UInt32)obj };
-
             if (type == typeof(Int64))
                 return new JsValue { Type = JsValueType.Number, Num = (double)(Int64)obj };
             if (type == typeof(UInt64))
@@ -293,14 +273,12 @@ namespace VroomJs
                 return new JsValue { Type = JsValueType.Number, Num = (double)obj };
             if (type == typeof(Decimal))
                 return new JsValue { Type = JsValueType.Number, Num = (double)(Decimal)obj };
-
             if (type == typeof(DateTime))
                 return new JsValue
                 {
                     Type = JsValueType.Date,
                     Num = Convert.ToInt64(((DateTime)obj).Subtract(EPOCH).TotalMilliseconds) /*(((DateTime)obj).Ticks - 621355968000000000.0 + 26748000000000.0)/10000.0*/
                 };
-
             // Arrays of anything that can be cast to object[] are recursively convertef after
             // allocating an appropriate jsvalue on the unmanaged side.
 

@@ -1,12 +1,12 @@
 // Copyright (c) 2013 SIL International
 // This software is licensed under the MIT license (http://opensource.org/licenses/MIT)
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Reflection;
 using System.Runtime.InteropServices;
-
 namespace Icu.Collation
 {
     public abstract class Collator : IComparer<string>
@@ -31,9 +31,7 @@ namespace Icu.Collation
         public abstract SortKey GetSortKey(string source);
 #endif
         public abstract int Compare(string source, string target);
-
         public abstract object Clone();
-
         public enum Fallback
         {
             NoFallback,
@@ -103,7 +101,6 @@ namespace Icu.Collation
             SortKey sortKey = CultureInfo.InvariantCulture.CompareInfo.GetSortKey(string.Empty);
             SetInternalOriginalStringField(sortKey, originalString);
             SetInternalKeyDataField(sortKey, keyData, keyDataLength);
-
             return sortKey;
         }
 
@@ -111,7 +108,6 @@ namespace Icu.Collation
         {
             byte[] keyDataCopy = new byte[keyDataLength];
             Array.Copy(keyData, keyDataCopy, keyDataLength);
-
             string propertyName = "SortKey.KeyData";
             string monoInternalFieldName = "key";
             string netInternalFieldName = "m_KeyData";
@@ -120,7 +116,6 @@ namespace Icu.Collation
                                               netInternalFieldName,
                                               monoInternalFieldName,
                                               keyDataCopy);
-
         }
 
         private static void SetInternalOriginalStringField(SortKey sortKey, string originalString)
@@ -158,14 +153,10 @@ namespace Icu.Collation
             string monoInternalFieldName,
             P value)
         {
-
-
             Type type = instance.GetType();
             FieldInfo fieldInfo;
-
             if (IsRunningOnMono())
             {
-
 #if PCL
                 fieldInfo = GetField(type, monoInternalFieldName, false, false);
 #else
@@ -229,7 +220,6 @@ namespace Icu.Collation
         {
             if (rules == null)
                 return null;
-
             ErrorCode err;
             ParseError parseError;
             IntPtr col = NativeMethods.ucol_openRules(rules, rules.Length, UColAttributeValue.UCOL_DEFAULT,
@@ -238,7 +228,6 @@ namespace Icu.Collation
             {
                 if (err == ErrorCode.NoErrors)
                     return null;
-
                 return new CollationRuleErrorInfo
                 {
                     Line = parseError.Line + 1,
@@ -306,6 +295,5 @@ namespace Icu.Collation
                     throw new Exception("Collator.GetSortKeyBound() failed with code " + err);
             }
         }
-
     }
 }

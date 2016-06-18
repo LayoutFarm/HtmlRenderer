@@ -2,17 +2,14 @@
 
 using PixelFarm.Drawing;
 using LayoutFarm.UI;
-
 namespace LayoutFarm.CustomWidgets
 {
-
     class GridBoxRenderElement : CustomRenderBox
     {
         GridLayer gridLayer;
         public GridBoxRenderElement(RootGraphic rootgfx, int w, int h)
             : base(rootgfx, w, h)
         {
-
         }
         public void BuildGrid(int nCols, int nRows, CellSizeStyle cellSizeStyle)
         {
@@ -32,11 +29,9 @@ namespace LayoutFarm.CustomWidgets
         }
         protected override void DrawBoxContent(Canvas canvas, Rectangle updateArea)
         {
-
 #if DEBUG
             if (this.dbugBreak)
             {
-
             }
 #endif
             //sample bg   
@@ -59,11 +54,9 @@ namespace LayoutFarm.CustomWidgets
 
     public class GridBox : EaseBox
     {
-
         GridBoxRenderElement gridBoxRenderE;
         GridTable gridTable = new GridTable();
         CellSizeStyle cellSizeStyle;
-
         public GridBox(int width, int height)
             : base(width, height)
         {
@@ -85,7 +78,6 @@ namespace LayoutFarm.CustomWidgets
             var rows = gridTable.Rows;
             for (int n = 0; n < nrows; ++n)
             {
-
                 rows.Add(new GridRow(1));
             }
         }
@@ -93,11 +85,9 @@ namespace LayoutFarm.CustomWidgets
         {
             //readjust cellsize
             base.SetSize(width, height);
-
             //----------------------------------
             var cols = gridTable.Columns;
             int ncols = cols.Count;
-
             //each col width
             int eachColWidth = width / ncols;
             int colLeft = 0;
@@ -142,8 +132,6 @@ namespace LayoutFarm.CustomWidgets
                 row.Top = rowTop; ;
                 rowTop += eachRowHeight;
             }
-
-
         }
         public void AddUI(UIElement ui, int rowIndex, int colIndex)
         {
@@ -207,8 +195,4 @@ namespace LayoutFarm.CustomWidgets
             visitor.EndElement();
         }
     }
-
-
-
-
 }

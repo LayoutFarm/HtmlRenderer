@@ -1,22 +1,17 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Text;
-
 using LayoutFarm.Composers;
 using LayoutFarm.HtmlBoxes;
 using LayoutFarm.UI;
-
 namespace LayoutFarm.CustomWidgets
 {
-
-
-
     public class HtmlBox : UIBox, IEventPortal
     {
         WaitingContentKind waitingContentKind;
         string waitingHtmlString;
         HtmlDocument waitingHtmlDoc;
-
         enum WaitingContentKind : byte
         {
             NoWaitingContent,
@@ -27,15 +22,12 @@ namespace LayoutFarm.CustomWidgets
 
         HtmlHost htmlhost;
         MyHtmlContainer myHtmlCont;
-
         //presentation
         HtmlRenderBox htmlRenderBox;
         HtmlInputEventAdapter inputEventAdapter;
-
         public HtmlBox(HtmlHost htmlHost, int width, int height)
             : base(width, height)
         {
-
             this.htmlhost = htmlHost;
         }
         internal HtmlHost HtmlHost
@@ -72,7 +64,6 @@ namespace LayoutFarm.CustomWidgets
 
         void IEventPortal.PortalMouseUp(UIMouseEventArgs e)
         {
-
             e.CurrentContextElement = this;
             GetInputEventAdapter().MouseUp(e, htmlRenderBox.CssBox);
         }
@@ -84,36 +75,30 @@ namespace LayoutFarm.CustomWidgets
         }
         void IEventPortal.PortalMouseMove(UIMouseEventArgs e)
         {
-
             e.CurrentContextElement = this;
             GetInputEventAdapter().MouseMove(e, htmlRenderBox.CssBox);
         }
         void IEventPortal.PortalMouseWheel(UIMouseEventArgs e)
         {
-
             e.CurrentContextElement = this;
         }
         void IEventPortal.PortalKeyDown(UIKeyEventArgs e)
         {
-
             e.CurrentContextElement = this;
             GetInputEventAdapter().KeyDown(e, htmlRenderBox.CssBox);
         }
         void IEventPortal.PortalKeyPress(UIKeyEventArgs e)
         {
-
             e.CurrentContextElement = this;
             GetInputEventAdapter().KeyPress(e, htmlRenderBox.CssBox);
         }
         void IEventPortal.PortalKeyUp(UIKeyEventArgs e)
         {
-
             e.CurrentContextElement = this;
             GetInputEventAdapter().KeyUp(e, htmlRenderBox.CssBox);
         }
         bool IEventPortal.PortalProcessDialogKey(UIKeyEventArgs e)
         {
-
             e.CurrentContextElement = this;
             var result = GetInputEventAdapter().ProcessDialogKey(e, htmlRenderBox.CssBox);
             return result;
@@ -137,9 +122,7 @@ namespace LayoutFarm.CustomWidgets
                             //ctrl+ c => copy to clipboard
                             StringBuilder stbuilder = new StringBuilder();
                             this.myHtmlCont.CopySelection(stbuilder);
-
                             LayoutFarm.UI.Clipboard.SetText(stbuilder.ToString());
-
                         }
                         break;
                 }
@@ -151,7 +134,6 @@ namespace LayoutFarm.CustomWidgets
         {
             if (htmlRenderBox == null)
             {
-
                 var newFrRenderBox = new HtmlRenderBox(rootgfx, this.Width, this.Height);
                 newFrRenderBox.SetController(this);
                 newFrRenderBox.HasSpecificSize = true;
@@ -179,7 +161,6 @@ namespace LayoutFarm.CustomWidgets
                         LoadHtmlString(this.waitingHtmlString);
                     }
                     break;
-
             }
 
             return htmlRenderBox;
@@ -190,7 +171,6 @@ namespace LayoutFarm.CustomWidgets
             this.waitingHtmlDoc = null;
             this.waitingHtmlString = null;
             waitingContentKind = WaitingContentKind.NoWaitingContent;
-
         }
         public void LoadHtmlDom(HtmlDocument htmldoc)
         {
@@ -219,7 +199,6 @@ namespace LayoutFarm.CustomWidgets
             {
                 //just parse content and load 
                 this.myHtmlCont = HtmlContainerHelper.CreateHtmlContainerFromFullHtml(this.htmlhost, htmlString, htmlRenderBox);
-
                 SetHtmlContainerEventHandlers();
                 ClearWaitingContent();
             }
@@ -235,9 +214,7 @@ namespace LayoutFarm.CustomWidgets
             {
                 //just parse content and load 
                 this.myHtmlCont = HtmlContainerHelper.CreateHtmlContainerFromFragmentHtml(this.htmlhost, fragmentHtmlString, htmlRenderBox);
-
                 SetHtmlContainerEventHandlers();
-
                 ClearWaitingContent();
             }
         }
@@ -255,7 +232,6 @@ namespace LayoutFarm.CustomWidgets
                     if (htmlRenderBox == null) return;
                     //--------------------------- 
                     htmlhost.GetRenderTreeBuilder().RefreshCssTree(myHtmlCont.RootElement);
-
                     var lay = this.htmlhost.GetSharedHtmlLayoutVisitor(myHtmlCont);
                     myHtmlCont.PerformLayout(lay);
                     this.htmlhost.ReleaseHtmlLayoutVisitor(lay);
@@ -264,7 +240,6 @@ namespace LayoutFarm.CustomWidgets
                 (s, e) => this.InvalidateGraphics(),
                 //4
                 (s, e) => { this.RaiseLayoutFinished(); });
-
         }
         public MyHtmlContainer HtmlContainer
         {

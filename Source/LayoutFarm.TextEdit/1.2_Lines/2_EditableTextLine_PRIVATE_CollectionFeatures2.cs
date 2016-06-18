@@ -1,12 +1,9 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Collections.Generic;
-
 namespace LayoutFarm.Text
 {
-
-
-
     partial class EditableTextLine
     {
         void AddLineBreakAfter(EditableRun afterTextRun)
@@ -40,12 +37,8 @@ namespace LayoutFarm.Text
                 }
 
                 this.EndWithLineBreak = true; this.LocalSuspendLineReArrange(); EditableTextLine newTextline = editableFlowLayer.InsertNewLine(currentLineNumber + 1);
-
                 int j = tempTextRuns.Count;
-
-
                 newTextline.LocalSuspendLineReArrange(); int cx = 0;
-
                 for (int i = 0; i < j; ++i)
                 {
                     EditableRun t = tempTextRuns[i];
@@ -55,7 +48,6 @@ namespace LayoutFarm.Text
 
                 newTextline.LocalResumeLineReArrange(); this.LocalResumeLineReArrange();
             }
-
         }
         void AddLineBreakBefore(EditableRun beforeTextRun)
         {
@@ -76,7 +68,6 @@ namespace LayoutFarm.Text
                 }
                 this.EndWithLineBreak = true;
                 EditableTextLine newTextline = editableFlowLayer.InsertNewLine(currentLineNumber + 1);
-
                 this.LocalSuspendLineReArrange();
                 newTextline.LocalSuspendLineReArrange();
                 int j = tempTextRuns.Count;
@@ -85,7 +76,6 @@ namespace LayoutFarm.Text
                     EditableRun t = tempTextRuns[i];
                     this.Remove(t);
                     newTextline.AddLast(t);
-
                 }
                 this.LocalResumeLineReArrange();
                 newTextline.LocalResumeLineReArrange();
@@ -102,7 +92,6 @@ namespace LayoutFarm.Text
                 }
 
                 LinkedList<EditableRun> tobeRemoveTextRuns = CollectLeftRuns(t);
-
                 LinkedListNode<EditableRun> curNode = tobeRemoveTextRuns.First;
                 LocalSuspendLineReArrange();
                 while (curNode != null)
@@ -121,7 +110,6 @@ namespace LayoutFarm.Text
             }
 
             LinkedList<EditableRun> tobeRemoveTextRuns = CollectRightRuns(t);
-
             LinkedListNode<EditableRun> curNode = tobeRemoveTextRuns.First;
             LocalSuspendLineReArrange();
             while (curNode != null)
@@ -130,11 +118,9 @@ namespace LayoutFarm.Text
                 curNode = curNode.Next;
             }
             LocalResumeLineReArrange();
-
         }
         LinkedList<EditableRun> CollectLeftRuns(EditableRun t)
         {
-
             if (t.IsLineBreak)
             {
                 throw new NotSupportedException();
@@ -169,8 +155,6 @@ namespace LayoutFarm.Text
                 this.AddLast(r);
             }
             this.LocalResumeLineReArrange();
-
         }
     }
-
 }

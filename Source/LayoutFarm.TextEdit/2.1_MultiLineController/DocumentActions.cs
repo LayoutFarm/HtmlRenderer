@@ -1,4 +1,5 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Collections.Generic;
 namespace LayoutFarm.Text
@@ -14,9 +15,7 @@ namespace LayoutFarm.Text
         }
 
         public abstract void InvokeUndo(InternalTextLayerController textdom);
-
         public abstract void InvokeRedo(InternalTextLayerController textdom);
-
     }
 
     class DocActionCharTyping : DocumentAction
@@ -164,7 +163,6 @@ namespace LayoutFarm.Text
             textdom.CurrentLineNumber = endLineNumber;
             textdom.CharIndex = endCharIndex;
             textdom.EndSelect();
-
             textdom.DoDelete();
         }
         public override void InvokeRedo(InternalTextLayerController textdom)
@@ -213,10 +211,8 @@ namespace LayoutFarm.Text
     {
         LinkedList<DocumentAction> undoList = new LinkedList<DocumentAction>();
         Stack<DocumentAction> reverseUndoAction = new Stack<DocumentAction>();
-
         int maxCommandsCount = 20;
         InternalTextLayerController textdom;
-
         public DocumentCommandCollection(InternalTextLayerController textdomManager)
         {
             this.textdom = textdomManager;
@@ -236,7 +232,6 @@ namespace LayoutFarm.Text
             }
             set
             {
-
                 maxCommandsCount = value;
                 if (undoList.Count > maxCommandsCount)
                 {
@@ -286,7 +281,6 @@ namespace LayoutFarm.Text
                 docAction.InvokeRedo(textdom);
                 undoList.AddLast(docAction);
             }
-
         }
         public DocumentAction PeekCommand
         {
@@ -301,7 +295,6 @@ namespace LayoutFarm.Text
             {
                 return undoList.Count;
             }
-
         }
         public DocumentAction PopUndoCommand()
         {
@@ -316,6 +309,5 @@ namespace LayoutFarm.Text
                 return null;
             }
         }
-
     }
 }

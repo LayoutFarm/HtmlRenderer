@@ -1,9 +1,9 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
-using System; 
+
+using System;
 using PixelFarm.Drawing;
 namespace LayoutFarm.Text
 {
-
     public class VisualPaintEventArgs : EventArgs
     {
         public Canvas canvas;
@@ -30,5 +30,4 @@ namespace LayoutFarm.Text
     }
 
     public delegate void VisualPaintEventHandler(object sender, VisualPaintEventArgs e);
-
 }

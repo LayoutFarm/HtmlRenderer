@@ -3,8 +3,6 @@
 using System;
 using System.Collections.Generic;
 using PixelFarm.Drawing;
-
-
 namespace LayoutFarm.Text
 {
     public class TextMan
@@ -49,23 +47,14 @@ namespace LayoutFarm.Text
 
     partial class InternalTextLayerController
     {
-
-
         VisualSelectionRange selectionRange;
-
         internal bool updateJustCurrentLine = true;
-
         bool enableUndoHistoryRecording = true;
-
         DocumentCommandCollection commandHistory;
-
-
         BackGroundTextLineWriter backGroundTextLineWriter;
         TextLineWriter textLineWriter;
         TextEditRenderBox visualTextSurface;
-
         TextMan textMan;
-
 #if DEBUG
         dbugMultiTextManRecorder dbugTextManRecorder;
         internal bool dbugEnableTextManRecorder = false;
@@ -75,19 +64,14 @@ namespace LayoutFarm.Text
             TextEditRenderBox visualTextSurface,
             EditableTextFlowLayer textLayer)
         {
-
-
             this.visualTextSurface = visualTextSurface;
             textLineWriter = new TextLineWriter(textLayer);
             backGroundTextLineWriter = textLineWriter.GetBackgroundWriter();
             commandHistory = new DocumentCommandCollection(this);
-
             this.textMan = new TextMan(this, visualTextSurface);
-
 #if DEBUG
             if (dbugEnableTextManRecorder)
             {
-
                 dbugTextManRecorder = new dbugMultiTextManRecorder();
                 textLineWriter.dbugTextManRecorder = dbugTextManRecorder;
                 throw new NotSupportedException();
@@ -129,11 +113,9 @@ namespace LayoutFarm.Text
 #endif
             if (SelectionRange != null)
             {
-
 #if DEBUG
                 if (dbugEnableTextManRecorder)
                 {
-
                     dbugTextManRecorder.WriteInfo(SelectionRange);
                 }
 #endif
@@ -142,7 +124,6 @@ namespace LayoutFarm.Text
             }
             if (passRemoveSelectedText && c == ' ')
             {
-
             }
             else
             {
@@ -151,12 +132,9 @@ namespace LayoutFarm.Text
             }
 
             textLineWriter.AddCharacter(c);
-
-
 #if DEBUG
             if (dbugEnableTextManRecorder)
             {
-
                 dbugTextManRecorder.EndContext();
             }
 #endif
@@ -171,7 +149,6 @@ namespace LayoutFarm.Text
 
         VisualSelectionRangeSnapShot RemoveSelectedText()
         {
-
 #if DEBUG
             if (dbugEnableTextManRecorder)
             {
@@ -200,7 +177,6 @@ namespace LayoutFarm.Text
                 }
 #endif
                 CancelSelect();
-
 #if DEBUG
                 if (dbugEnableTextManRecorder)
                 {
@@ -210,9 +186,7 @@ namespace LayoutFarm.Text
                 return VisualSelectionRangeSnapShot.Empty;
             }
             selectionRange.SwapIfUnOrder();
-
             VisualSelectionRangeSnapShot selSnapshot = selectionRange.GetSelectionRangeSnapshot();
-
             VisualPointInfo startPoint = selectionRange.StartPoint;
             CurrentLineNumber = startPoint.LineId;
             int preCutIndex = startPoint.LineCharIndex;
@@ -222,14 +196,12 @@ namespace LayoutFarm.Text
                 LinkedList<EditableRun> tobeDeleteTextRun = textLineWriter.CopySelectedTextRuns(selectionRange);
                 if (tobeDeleteTextRun != null)
                 {
-
                     commandHistory.AddDocAction(
                     new DocActionDeleteRange(tobeDeleteTextRun,
                         selSnapshot.startLineNum,
                         selSnapshot.startColumnNum,
                         selSnapshot.endLineNum,
                         selSnapshot.endColumnNum));
-
                     textLineWriter.RemoveSelectedTextRuns(selectionRange);
                     updateJustCurrentLine = true;
                 }
@@ -238,7 +210,6 @@ namespace LayoutFarm.Text
             {
                 int startPointLindId = startPoint.LineId;
                 int startPointCharIndex = startPoint.LineCharIndex;
-
                 LinkedList<EditableRun> tobeDeleteTextRun = textLineWriter.CopySelectedTextRuns(selectionRange);
                 if (tobeDeleteTextRun != null)
                 {
@@ -248,7 +219,6 @@ namespace LayoutFarm.Text
                         selSnapshot.startColumnNum,
                         selSnapshot.endLineNum,
                         selSnapshot.endColumnNum));
-
                     textLineWriter.RemoveSelectedTextRuns(selectionRange);
                     updateJustCurrentLine = false;
                     textLineWriter.MoveToLine(startPointLindId);
@@ -257,16 +227,13 @@ namespace LayoutFarm.Text
             }
             CancelSelect();
             TextEditRenderBox.NotifyTextContentSizeChanged(visualTextSurface);
-
 #if DEBUG
             if (dbugEnableTextManRecorder)
             {
-
                 dbugTextManRecorder.EndContext();
             }
 #endif
             return selSnapshot;
-
         }
         void SplitSelectedText()
         {
@@ -285,21 +252,15 @@ namespace LayoutFarm.Text
                     selectionRange = null;
                 }
             }
-
         }
         public void SplitCurrentLineIntoNewLine()
         {
             RemoveSelectedText();
-
             commandHistory.AddDocAction(
                  new DocActionSplitToNewLine(textLineWriter.LineNumber, textLineWriter.CharIndex));
-
             textLineWriter.SplitToNewLine();
-
             CurrentLineNumber++;
-
             updateJustCurrentLine = false;
-
             TextEditRenderBox.NotifyTextContentSizeChanged(visualTextSurface);
         }
         public TextSpanStyle GetFirstTextStyleInSelectedRange()
@@ -326,21 +287,16 @@ namespace LayoutFarm.Text
             int startLineNum = textLineWriter.LineNumber;
             int startCharIndex = textLineWriter.CharIndex;
             SplitSelectedText();
-
-
             VisualSelectionRange selRange = SelectionRange;
             if (selRange != null)
             {
-
                 foreach (EditableRun r in selRange.GetPrintableTextRunIter())
                 {
                     r.SetStyle(textStyle);
                 }
 
                 this.updateJustCurrentLine = selectionRange.IsOnTheSameLine;
-
                 CancelSelect();
-
                 CharIndex++;
                 CharIndex--;
             }
@@ -385,7 +341,6 @@ namespace LayoutFarm.Text
             set
             {
                 int diff = value - textLineWriter.LineNumber;
-
                 switch (diff)
                 {
                     case 0:
@@ -394,13 +349,11 @@ namespace LayoutFarm.Text
                         }
                     case 1:
                         {
-
                             if (textLineWriter.HasNextLine)
                             {
                                 textLineWriter.MoveToNextLine();
                                 DoHome();
                             }
-
                         }
                         break;
                     case -1:
@@ -417,7 +370,6 @@ namespace LayoutFarm.Text
                             if (diff > 1)
                             {
                                 textLineWriter.MoveToLine(value);
-
                             }
                             else
                             {
@@ -428,9 +380,7 @@ namespace LayoutFarm.Text
                                 else
                                 {
                                     textLineWriter.MoveToLine(value);
-
                                 }
-
                             }
                         }
                         break;
@@ -444,7 +394,6 @@ namespace LayoutFarm.Text
             {
                 return selectionRange;
             }
-
         }
         public void UpdateSelectionRange()
         {
@@ -466,7 +415,6 @@ namespace LayoutFarm.Text
             }
             set
             {
-
                 if (textLineWriter.CharIndex < 0 && value < -1)
                 {
                     if (textLineWriter.HasPrevLine)
@@ -512,7 +460,6 @@ namespace LayoutFarm.Text
             }
             set
             {
-
                 if (textLineWriter.LineCount > 0)
                 {
                     EditableTextLine line = textLineWriter.GetTextLineAtPos(value.Y);
@@ -520,7 +467,6 @@ namespace LayoutFarm.Text
                     if (line != null)
                     {
                         calculatedLineId = line.LineNumber;
-
                     }
                     this.CurrentLineNumber = calculatedLineId;
                     this.textLineWriter.CaretXPos = value.X;
@@ -541,7 +487,6 @@ namespace LayoutFarm.Text
                 if (line != null)
                 {
                     calculatedLineId = line.LineNumber;
-
                 }
                 this.CurrentLineNumber = calculatedLineId;
                 this.textLineWriter.CaretXPos = x;
@@ -582,10 +527,5 @@ namespace LayoutFarm.Text
         {
             commandHistory.ReverseLastUndoAction();
         }
-
     }
-
-
-
-
 }

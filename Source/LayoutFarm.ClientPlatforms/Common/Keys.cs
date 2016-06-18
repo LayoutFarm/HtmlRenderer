@@ -2,7 +2,6 @@
 
 namespace LayoutFarm.UI
 {
-
     public enum UIKeys
     {
         Modifiers = -65536,
@@ -393,5 +392,4 @@ namespace LayoutFarm.UI
         //
         Alt = 262144,
     }
-
 }

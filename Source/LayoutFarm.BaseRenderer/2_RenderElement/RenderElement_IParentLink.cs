@@ -1,12 +1,10 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
 
 using System.Collections.Generic;
-
 using PixelFarm.Drawing;
 using LayoutFarm.RenderBoxes;
 namespace LayoutFarm
 {
-
     partial class RenderElement : IParentLink
     {
         internal LinkedListNode<RenderElement> internalLinkedNode;

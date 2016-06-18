@@ -15,10 +15,8 @@
 
 using System;
 using System.Globalization;
-
 namespace LayoutFarm.Composers
 {
-
     static class BulletNumberFormatter
     {
         #region Fields and Consts
@@ -36,38 +34,32 @@ namespace LayoutFarm.Composers
                     "(V)MM", "(V)MMM", "M(X)"
                 }
             };
-
         private static readonly string[,] _hebrewDigitsTable = new[,]
             {
                 {"א", "ב", "ג", "ד", "ה", "ו", "ז", "ח", "ט"},
                 {"י", "כ", "ל", "מ", "נ", "ס", "ע", "פ", "צ"},
                 {"ק", "ר", "ש", "ת", "תק", "תר", "תש", "תת", "תתק",}
             };
-
         private static readonly string[,] _georgianDigitsTable = new[,]
             {
                 {"ა", "ბ", "გ", "დ", "ე", "ვ", "ზ", "ჱ", "თ"},
                 {"ი", "პ", "ლ", "მ", "ნ", "ჲ", "ო", "პ", "ჟ"},
                 {"რ", "ს", "ტ", "ჳ", "ფ", "ქ", "ღ", "ყ", "შ"}
             };
-
         private static readonly string[,] _armenianDigitsTable = new[,]
             {
                 {"Ա", "Բ", "Գ", "Դ", "Ե", "Զ", "Է", "Ը", "Թ"},
                 {"Ժ", "Ի", "Լ", "Խ", "Ծ", "Կ", "Հ", "Ձ", "Ղ"},
                 {"Ճ", "Մ", "Յ", "Ն", "Շ", "Ո", "Չ", "Պ", "Ջ"}
             };
-
         private static readonly string[] _hiraganaDigitsTable = new[]
             {
                 "あ", "ぃ", "ぅ", "ぇ", "ぉ", "か", "き", "く", "け", "こ", "さ", "し", "す", "せ", "そ", "た", "ち", "つ", "て", "と", "な", "に", "ぬ", "ね", "の", "は", "ひ", "ふ", "へ", "ほ", "ま", "み", "む", "め", "も", "ゃ", "ゅ", "ょ", "ら", "り", "る", "れ", "ろ", "ゎ", "ゐ", "ゑ", "を", "ん"
             };
-
         private static readonly string[] _satakanaDigitsTable = new[]
             {
                 "ア", "イ", "ウ", "エ", "オ", "カ", "キ", "ク", "ケ", "コ", "サ", "シ", "ス", "セ", "ソ", "タ", "チ", "ツ", "テ", "ト", "ナ", "ニ", "ヌ", "ネ", "ノ", "ハ", "ヒ", "フ", "ヘ", "ホ", "マ", "ミ", "ム", "メ", "モ", "ヤ", "ユ", "ヨ", "ラ", "リ", "ル", "レ", "ロ", "ワ", "ヰ", "ヱ", "ヲ", "ン"
             };
-
         #endregion
 
 
@@ -107,7 +99,6 @@ namespace LayoutFarm.Composers
                 default:
                     return ConvertToEnglishNumber(number, false);
             }
-
         }
 
         /// <summary>
@@ -223,13 +214,10 @@ namespace LayoutFarm.Composers
             var sb = string.Empty;
             while (number > 0)
             {
-
                 sb = Convert.ToString(alphabet[Math.Max(0, number % 49 - 1)], CultureInfo.InvariantCulture) + sb;
                 number /= 49;
             }
             return sb;
         }
-
-
     }
 }

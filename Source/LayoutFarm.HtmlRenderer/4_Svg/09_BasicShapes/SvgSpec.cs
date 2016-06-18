@@ -2,10 +2,8 @@
 //MS-PL,  
 
 using System.Collections.Generic;
-using PixelFarm.Drawing; 
- 
-using LayoutFarm.Css; 
-
+using PixelFarm.Drawing;
+using LayoutFarm.Css;
 namespace LayoutFarm.Svg
 {
     public class SvgVisualSpec
@@ -106,7 +104,6 @@ namespace LayoutFarm.Svg
     public class SvgPolygonSpec : SvgVisualSpec
     {
         public List<PointF> Points { get; set; }
-
     }
     public class SvgPolylineSpec : SvgVisualSpec
     {
@@ -172,5 +169,4 @@ namespace LayoutFarm.Svg
             set;
         }
     }
-
 }

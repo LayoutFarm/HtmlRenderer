@@ -1,11 +1,9 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 using PixelFarm.Drawing;
 using LayoutFarm.UI;
-
 namespace LayoutFarm
 {
     [DemoNote("2.6 MultiLineText_WithSuggestionPopupWin")]
@@ -13,20 +11,15 @@ namespace LayoutFarm
     {
         LayoutFarm.CustomWidgets.TextBox textbox;
         SuggestionWindowMx sgBox;
-
         Point textBoxGlobalOffset;
         bool alreadyHasTextBoxGlobalOffset;
-
-
         Dictionary<char, List<string>> words = new Dictionary<char, List<string>>();
-
         protected override void OnStartDemo(SampleViewport viewport)
         {
             textbox = new LayoutFarm.CustomWidgets.TextBox(400, 300, true);
             textbox.SetLocation(20, 20);
             var textSplitter = new Composers.ContentTextSplitter();
             textbox.TextSplitter = textSplitter;
-
             sgBox = new SuggestionWindowMx(300, 200);
             sgBox.Hide();
             //------------------------------------
@@ -56,7 +49,8 @@ namespace LayoutFarm
                             sgBox.SelectedIndex++;
                             e.PreventDefault = true;
                         }
-                    } break;
+                    }
+                    break;
                 case UIKeys.Up:
                     {
                         if (sgBox.Visible && sgBox.SelectedIndex > 0)
@@ -64,7 +58,8 @@ namespace LayoutFarm
                             sgBox.SelectedIndex--;
                             e.PreventDefault = true;
                         }
-                    } break;
+                    }
+                    break;
             }
         }
         void textSurfaceListener_PreviewEnterKeyDown(object sender, Text.TextDomEventArgs e)
@@ -107,7 +102,6 @@ namespace LayoutFarm
             //sample parse ...
             //In this example  all country name start with Captial letter so ...
             string currentTextSpanText = textbox.CurrentTextSpan.Text.ToUpper();
-
             //analyze content
             var textBuffer = currentTextSpanText.ToCharArray();
             var results = new List<LayoutFarm.Composers.TextSplitBound>();
@@ -120,10 +114,8 @@ namespace LayoutFarm
             }
             Composers.TextSplitBound lastSplitPart = results[m - 1];
             this.currentLocalText = GetString(textBuffer, lastSplitPart);
-
             //char firstChar = currentTextSpanText[0];
             char firstChar = currentLocalText[0];
-
             List<string> keywords;
             if (words.TryGetValue(firstChar, out keywords))
             {
@@ -146,7 +138,6 @@ namespace LayoutFarm
                 sgBox.Show();
                 //TODO: implement selectedIndex suggestion hint here
                 sgBox.SelectedIndex = 0;
-
                 //move listview under caret position 
                 var caretPos = textbox.CaretPosition;
                 //temp fixed
@@ -158,7 +149,6 @@ namespace LayoutFarm
                 }
 
                 sgBox.SetLocation(textBoxGlobalOffset.X + caretPos.X, caretPos.Y + 70);
-
             }
             else
             {
@@ -168,7 +158,6 @@ namespace LayoutFarm
 
         void BuildSampleCountryList()
         {
-
             AddKeywordList(@"
 Afghanistan
 Albania
@@ -409,7 +398,6 @@ Zimbabwe");
         }
         void AddKeywordList(string keywordString)
         {
-
             string[] seplist = keywordString.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
             int j = seplist.Length;
             for (int i = 0; i < j; ++i)
@@ -430,7 +418,6 @@ Zimbabwe");
                 list.Sort();
             }
         }
-
     }
 
     class SuggestionWindowMx

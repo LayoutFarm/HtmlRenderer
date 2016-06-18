@@ -1,21 +1,14 @@
-﻿using System;
-using LayoutFarm.Composers;
-using LayoutFarm.WebDom;
-using LayoutFarm;
+﻿using LayoutFarm.Composers;
 using LayoutFarm.UI;
 namespace LayoutFarm.Demo
 {
-
     class Demo05_Dynamic_BoxSpec : DemoBase
     {
-
         public Demo05_Dynamic_BoxSpec()
         {
-
         }
         protected override void OnStartDemo(HtmlPanel panel)
         {
-
             var htmldoc = panel.HtmlHost.CreatePresentationHtmlDoc();
             var rootNode = htmldoc.RootNode;
             //1. create body node             
@@ -39,11 +32,8 @@ namespace LayoutFarm.Demo
 #endif
 
                             e.StopPropagation();
-
                         });
-
                     });
-
                     div.AddChild("span", span =>
                     {
                         span.AddTextContent("EFGHIJK");
@@ -54,14 +44,12 @@ namespace LayoutFarm.Demo
                             var s_span = new EaseScriptElement(span);
                             s_span.ChangeFontColor(PixelFarm.Drawing.Color.Red);
                             s_span.ChangeBackgroundColor(PixelFarm.Drawing.Color.Yellow);
-
                         });
                         span.AttachMouseUpEvent(e =>
                         {
                             var s_span = new EaseScriptElement(span);
                             s_span.ChangeFontColor(PixelFarm.Drawing.Color.Black);
                             s_span.ChangeBackgroundColor(PixelFarm.Drawing.Color.White);
-
                         });
                     });
                     //----------------------
@@ -77,15 +65,9 @@ namespace LayoutFarm.Demo
                     });
                 });
             });
-
             //2. add to view 
             panel.LoadHtmlDom(htmldoc,
                LayoutFarm.Composers.CssDefaults.DefaultStyleSheet);
-
-
         }
     }
-
-
-
 }

@@ -2,13 +2,10 @@
 
 
 using LayoutFarm.UI;
-
 namespace LayoutFarm.WebDom
 {
-
     partial class DomElement : IEventListener
     {
-
         void IEventListener.ListenKeyPress(UIKeyEventArgs e)
         {
             OnKeyPress(e);
@@ -32,7 +29,6 @@ namespace LayoutFarm.WebDom
         void IEventListener.ListenLostMouseFocus(UIMouseEventArgs e)
         {
             OnLostMouseFocus(e);
-
         }
         void IEventListener.ListenMouseMove(UIMouseEventArgs e)
         {
@@ -42,7 +38,6 @@ namespace LayoutFarm.WebDom
         {
             //1. mouse up
             OnMouseUp(e);
-
         }
         void IEventListener.ListenMouseClick(UIMouseEventArgs e)
         {
@@ -102,6 +97,5 @@ namespace LayoutFarm.WebDom
         }
 
         public abstract void GetGlobalLocation(out int x, out int y);
-
     }
 }

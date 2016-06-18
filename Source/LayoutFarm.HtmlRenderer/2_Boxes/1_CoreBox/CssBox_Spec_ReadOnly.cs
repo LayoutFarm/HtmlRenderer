@@ -15,7 +15,6 @@
 
 using PixelFarm.Drawing;
 using LayoutFarm.Css;
-
 namespace LayoutFarm.HtmlBoxes
 {
     /// <summary>
@@ -29,7 +28,6 @@ namespace LayoutFarm.HtmlBoxes
 
     partial class CssBox
     {
-
         public CssLength Height
         {
             get { return this._myspec.Height; }
@@ -169,7 +167,6 @@ namespace LayoutFarm.HtmlBoxes
         CssLength LineHeight
         {
             get { return this._myspec.LineHeight; }
-
         }
 
         public CssTextAlign CssTextAlign
@@ -236,7 +233,6 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-
                 return this._myspec.ActualColor;
             }
         }

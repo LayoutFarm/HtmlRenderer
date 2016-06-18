@@ -17,7 +17,6 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Printing;
 using System.Windows.Forms;
-
 namespace LayoutFarm.Demo
 {
     static class Program
@@ -34,14 +33,9 @@ namespace LayoutFarm.Demo
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
-
-
             var platform = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.Start();
             Application.Run(new DevForm(platform));
             LayoutFarm.UI.GdiPlus.MyWinGdiPortal.End();
-
-
             //            Application.Run(new PerfForm());
 
             //            PerfForm.Run();

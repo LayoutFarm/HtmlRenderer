@@ -3,21 +3,15 @@
 
 
 using System.Collections.Generic;
-
 using LayoutFarm.Composers;
 using LayoutFarm.HtmlBoxes;
 using LayoutFarm.UI;
-
-
 namespace LayoutFarm.Svg
 {
-
     partial class SvgRootEventPortal
     {
         Stack<SvgHitChain> hitChainPools = new Stack<SvgHitChain>();
         HtmlElement elementNode;
-
-
         public SvgRootEventPortal(HtmlElement elementNode)
         {
             this.elementNode = elementNode;
@@ -89,7 +83,6 @@ namespace LayoutFarm.Svg
 
         static void ForEachEventListenerBubbleUp(UIEventArgs e, SvgHitChain hitChain, EventListenerAction listenerAction)
         {
-
             for (int i = hitChain.Count - 1; i >= 0; --i)
             {
                 //propagate up 
@@ -131,7 +124,6 @@ namespace LayoutFarm.Svg
 
         static void ForEachSvgElementBubbleUp(UIEventArgs e, SvgHitChain hitChain, EventListenerAction listenerAction)
         {
-
             for (int i = hitChain.Count - 1; i >= 0; --i)
             {
                 //propagate up 
@@ -144,7 +136,6 @@ namespace LayoutFarm.Svg
                 {
                     return;
                 }
-
             }
         }
         static void SetEventOrigin(UIEventArgs e, SvgHitChain hitChain)
@@ -152,17 +143,13 @@ namespace LayoutFarm.Svg
             int count = hitChain.Count;
             if (count > 0)
             {
-
                 var hitInfo = hitChain.GetHitInfo(count - 1);
                 e.ExactHitObject = hitInfo;
-
             }
         }
         void ClearPreviousSelection()
         {
             //TODO: add clear svg selection here
         }
-
     }
-
 }

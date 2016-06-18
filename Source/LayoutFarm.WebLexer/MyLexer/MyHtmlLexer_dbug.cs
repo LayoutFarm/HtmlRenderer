@@ -1,13 +1,11 @@
 ﻿//BSD  2015,2014 ,WinterDev
 
 using LayoutFarm.WebLexer;
-
 namespace LayoutFarm.WebDom.Parser
 {
 #if DEBUG
     partial class MyHtmlLexer
     {
-
         dbugLexerReport dbug_LexerReport;
         int dbug_currentLineCharIndex = -1;
         int dbug_currentLineNumber = 0;
@@ -33,7 +31,6 @@ namespace LayoutFarm.WebDom.Parser
         {
             if (dbug_LexerReport != null)
             {
-
                 dbug_LexerReport.WriteLine("[" + dbug_currentLineNumber + " ," +
                     dbug_currentLineCharIndex + "] state=" + currentState + " char=" + c);
             }

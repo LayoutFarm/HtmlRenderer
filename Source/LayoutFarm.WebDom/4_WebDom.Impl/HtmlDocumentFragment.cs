@@ -2,8 +2,6 @@
 
 namespace LayoutFarm.WebDom.Impl
 {
-
-
     public class HtmlDocumentFragment : HtmlDocument
     {
         HtmlDocument primaryHtmlDoc;

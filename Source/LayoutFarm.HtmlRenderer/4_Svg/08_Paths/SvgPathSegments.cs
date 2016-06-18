@@ -4,7 +4,6 @@
 
 using System;
 using PixelFarm.Drawing;
-
 namespace LayoutFarm.Svg.Pathing
 {
     public enum SvgPathCommand : byte
@@ -32,13 +31,10 @@ namespace LayoutFarm.Svg.Pathing
             get;
             set;
         }
-
-
     }
 
     public class SvgPathSegMoveTo : SvgPathSeg
     {
-
         public SvgPathSegMoveTo(float x, float y)
         {
             this.X = x;
@@ -56,7 +52,6 @@ namespace LayoutFarm.Svg.Pathing
             if (this.IsRelative)
             {
                 p = new PointF(this.X + last.X, this.Y + last.Y);
-
             }
             else
             {
@@ -75,7 +70,6 @@ namespace LayoutFarm.Svg.Pathing
     }
     public class SvgPathSegLineTo : SvgPathSeg
     {
-
         public SvgPathSegLineTo(float x, float y)
         {
             this.X = x;
@@ -92,7 +86,6 @@ namespace LayoutFarm.Svg.Pathing
             if (this.IsRelative)
             {
                 p = new PointF(this.X + last.X, this.Y + last.Y);
-
             }
             else
             {
@@ -110,7 +103,6 @@ namespace LayoutFarm.Svg.Pathing
     }
     public class SvgPathSegLineToHorizontal : SvgPathSeg
     {
-
         public SvgPathSegLineToHorizontal(float x)
         {
             this.X = x;
@@ -125,7 +117,6 @@ namespace LayoutFarm.Svg.Pathing
             if (this.IsRelative)
             {
                 p = new PointF(this.X + last.X, last.Y);
-
             }
             else
             {
@@ -143,7 +134,6 @@ namespace LayoutFarm.Svg.Pathing
     }
     public class SvgPathSegLineToVertical : SvgPathSeg
     {
-
         public SvgPathSegLineToVertical(float y)
         {
             this.Y = y;
@@ -159,7 +149,6 @@ namespace LayoutFarm.Svg.Pathing
             if (this.IsRelative)
             {
                 p = new PointF(last.X, this.Y + last.Y);
-
             }
             else
             {
@@ -219,7 +208,6 @@ namespace LayoutFarm.Svg.Pathing
         public override string ToString()
         {
             char cmd = IsRelative ? 'c' : 'C';
-
             return cmd + this.X.ToString() + " " + this.Y + " " +
                 this.X1 + " " + this.Y1 + " "
                 + this.X2 + " " + this.Y2;
@@ -235,7 +223,6 @@ namespace LayoutFarm.Svg.Pathing
             float y1 = start.Y + (controlPoint.Y - start.Y) * 2 / 3;
             float x2 = controlPoint.X + (endPoint.X - controlPoint.X) / 3;
             float y2 = controlPoint.Y + (endPoint.Y - controlPoint.Y) / 3;
-
             control1 = new PointF(x1, y1);
             control2 = new PointF(x2, y2);
         }
@@ -255,17 +242,12 @@ namespace LayoutFarm.Svg.Pathing
             SvgArcSweep arcSweep,
             out PointF[] bezier4Points)
         {
-
-
             double sinPhi = Math.Sin(angle * SvgPathSegArc.RAD_PER_DEG);
             double cosPhi = Math.Cos(angle * SvgPathSegArc.RAD_PER_DEG);
-
             double x1dash = cosPhi * (start.X - end.X) / 2.0 + sinPhi * (start.Y - end.Y) / 2.0;
             double y1dash = -sinPhi * (start.X - end.X) / 2.0 + cosPhi * (start.Y - end.Y) / 2.0;
-
             double root;
             double numerator = (rx * rx * ry * ry) - (rx * rx * y1dash * y1dash) - (ry * ry * x1dash * x1dash);
-
             if (numerator < 0.0)
             {
                 float s = (float)Math.Sqrt(1.0 - numerator / (rx * rx * ry * ry));
@@ -282,13 +264,10 @@ namespace LayoutFarm.Svg.Pathing
 
             double cxdash = root * rx * y1dash / ry;
             double cydash = -root * ry * x1dash / rx;
-
             double cx = cosPhi * cxdash - sinPhi * cydash + (start.X + end.X) / 2.0;
             double cy = sinPhi * cxdash + cosPhi * cydash + (start.Y + end.Y) / 2.0;
-
             double theta1 = SvgPathSegArc.CalculateVectorAngle(1.0, 0.0, (x1dash - cxdash) / rx, (y1dash - cydash) / ry);
             double dtheta = SvgPathSegArc.CalculateVectorAngle((x1dash - cxdash) / rx, (y1dash - cydash) / ry, (-x1dash - cxdash) / rx, (-y1dash - cydash) / ry);
-
             if (arcSweep == SvgArcSweep.Negative && dtheta > 0)
             {
                 dtheta -= 2.0 * Math.PI;
@@ -299,15 +278,11 @@ namespace LayoutFarm.Svg.Pathing
             }
 
             int nsegments = (int)Math.Ceiling((double)Math.Abs(dtheta / (Math.PI / 2.0)));
-
             double delta = dtheta / nsegments;
             double t = 8.0 / 3.0 * Math.Sin(delta / 4.0) * Math.Sin(delta / 4.0) / Math.Sin(delta / 2.0);
-
             double startX = start.X;
             double startY = start.Y;
-
             bezier4Points = new PointF[nsegments * 4];
-
             int nn = 0;
             for (int n = 0; n < nsegments; ++n)
             {
@@ -316,32 +291,22 @@ namespace LayoutFarm.Svg.Pathing
                 double theta2 = theta1 + delta;
                 double cosTheta2 = Math.Cos(theta2);
                 double sinTheta2 = Math.Sin(theta2);
-
                 double endpointX = cosPhi * rx * cosTheta2 - sinPhi * ry * sinTheta2 + cx;
                 double endpointY = sinPhi * rx * cosTheta2 + cosPhi * ry * sinTheta2 + cy;
-
                 double dx1 = t * (-cosPhi * rx * sinTheta1 - sinPhi * ry * cosTheta1);
                 double dy1 = t * (-sinPhi * rx * sinTheta1 + cosPhi * ry * cosTheta1);
-
                 double dxe = t * (cosPhi * rx * sinTheta2 + sinPhi * ry * cosTheta2);
                 double dye = t * (sinPhi * rx * sinTheta2 - cosPhi * ry * cosTheta2);
-
                 bezier4Points[nn] = new PointF((float)startX, (float)startY);
                 bezier4Points[nn + 1] = new PointF((float)(startX + dx1), (float)(startY + dy1));
                 bezier4Points[nn + 2] = new PointF((float)(endpointX + dxe), (float)(endpointY + dye));
                 bezier4Points[nn + 3] = new PointF((float)endpointX, (float)endpointY);
-
                 nn += 4;
-
                 theta1 = theta2;
                 startX = (float)endpointX;
                 startY = (float)endpointY;
             }
         }
-
-
-
-
     }
     public class SvgPathSegCurveToCubicSmooth : SvgPathSeg
     {
@@ -378,7 +343,6 @@ namespace LayoutFarm.Svg.Pathing
         public override string ToString()
         {
             char cmd = IsRelative ? 's' : 'S';
-
             return cmd + this.X.ToString() + " " + this.Y + " " +
                 this.X2 + " " + this.Y2;
         }
@@ -393,7 +357,6 @@ namespace LayoutFarm.Svg.Pathing
         }
         public SvgPathSegCurveToQuadratic(float x1, float y1, float x, float y)
         {
-
             this.X1 = x1;
             this.Y1 = y1;
             this.X = x;
@@ -406,7 +369,6 @@ namespace LayoutFarm.Svg.Pathing
         public PointF ControlPoint
         {
             get { return new PointF(this.X1, this.Y1); }
-
         }
         public void GetAbsolutePoints(ref PointF last, out PointF c1, out PointF p)
         {
@@ -428,7 +390,6 @@ namespace LayoutFarm.Svg.Pathing
         public override string ToString()
         {
             char cmd = IsRelative ? 'q' : 'Q';
-
             return cmd + this.X.ToString() + " " + this.Y + " " +
                 this.X1 + " " + this.Y1;
         }
@@ -454,12 +415,10 @@ namespace LayoutFarm.Svg.Pathing
             if (this.IsRelative)
             {
                 p = new PointF(this.X + last.X, this.Y + last.Y);
-
             }
             else
             {
                 p = new PointF(this.X, this.Y);
-
             }
         }
 
@@ -467,7 +426,6 @@ namespace LayoutFarm.Svg.Pathing
         public override string ToString()
         {
             char cmd = IsRelative ? 't' : 'T';
-
             return cmd + this.X.ToString() + " " + this.Y;
         }
 #endif
@@ -477,7 +435,6 @@ namespace LayoutFarm.Svg.Pathing
     {
         public const double RAD_PER_DEG = Math.PI / 180.0;
         public const double DOUBLE_PI = Math.PI * 2;
-
         public override SvgPathCommand Command
         {
             get { return SvgPathCommand.Arc; }
@@ -509,19 +466,16 @@ namespace LayoutFarm.Svg.Pathing
             if (this.IsRelative)
             {
                 p = new PointF(this.X + last.X, this.Y + last.Y);
-
             }
             else
             {
                 p = new PointF(this.X, this.Y);
-
             }
         }
         public static double CalculateVectorAngle(double ux, double uy, double vx, double vy)
         {
             double ta = Math.Atan2(uy, ux);
             double tb = Math.Atan2(vy, vx);
-
             if (tb >= ta)
             {
                 return tb - ta;
@@ -533,7 +487,6 @@ namespace LayoutFarm.Svg.Pathing
         public override string ToString()
         {
             char cmd = IsRelative ? 'a' : 'A';
-
             return cmd + this.R1.ToString() + " " + this.R2 + " " +
                 this.Angle + " " + this.LargeArgFlag + " " +
                 this.SweepFlag.ToString() + " " + this.X + " " + this.Y;
@@ -572,5 +525,4 @@ namespace LayoutFarm.Svg.Pathing
         Small = 0,
         Large = 1
     }
-
 }

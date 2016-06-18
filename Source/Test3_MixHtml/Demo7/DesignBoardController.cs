@@ -1,12 +1,8 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
-using System;
-using System.Collections;
+
 using System.Collections.Generic;
-using System.Text;
 using PixelFarm.Drawing;
 using LayoutFarm.UI;
-using LayoutFarm.RenderBoxes;
-
 namespace LayoutFarm.DzBoardSample
 {
     class UIControllerBox : LayoutFarm.CustomWidgets.EaseBox
@@ -16,14 +12,10 @@ namespace LayoutFarm.DzBoardSample
         //small controller box
         LayoutFarm.CustomWidgets.EaseBox boxLeftTop;
         LayoutFarm.CustomWidgets.EaseBox boxRightTop;
-
         LayoutFarm.CustomWidgets.EaseBox boxLeftBottom;
         LayoutFarm.CustomWidgets.EaseBox boxRightBottom;
         DockSpacesController dockspaceController;
-
-
         Rectangle beginRect;
-
         public UIControllerBox(int w, int h)
             : base(w, h)
         {
@@ -63,14 +55,12 @@ namespace LayoutFarm.DzBoardSample
                 //record
                 if (value != null)
                 {
-
                     beginRect = new Rectangle(value.Left, value.Top, value.Width, value.Height);
                 }
             }
         }
         public void ReleaseTarget()
         {
-
             this.TargetBox = null;
             this.MasterSelectionSet = null;
         }
@@ -80,7 +70,6 @@ namespace LayoutFarm.DzBoardSample
             if (!this.HasReadyRenderElement)
             {
                 var renderE = base.GetPrimaryRenderElement(rootgfx);
-
                 if (contentBox != null)
                 {
                     renderE.AddChild(contentBox);
@@ -100,7 +89,6 @@ namespace LayoutFarm.DzBoardSample
         {
             var targetBox = this.TargetBox;
             int diffX = 0, diffY = 0;
-
             if (targetBox != null)
             {
                 var targetBoxLocation = targetBox.GetGlobalLocation();
@@ -130,12 +118,12 @@ namespace LayoutFarm.DzBoardSample
                             //copy this box to a clipboard***
                             //copy this content to clipboard 
                             this.DesignBoardModule.CopyToClipBoard(this.TargetBox as IDesignBox);
-                        } break;
+                        }
+                        break;
                 }
             }
             else
             {
-
                 switch (e.KeyCode)
                 {
                     case UIKeys.Delete:
@@ -151,8 +139,8 @@ namespace LayoutFarm.DzBoardSample
                                 //remove other from selection set too!
                                 masterCollectionSet.NotifyRemoveUIElement(this);
                             }
-
-                        } break;
+                        }
+                        break;
                 }
             }
             base.OnKeyDown(e);
@@ -173,11 +161,9 @@ namespace LayoutFarm.DzBoardSample
 
         protected override void OnMouseMove(UIMouseEventArgs e)
         {
-
             if (e.IsDragging)
             {
                 MoveWithSnapToGrid(this, e.DiffCapturedX, e.DiffCapturedY);
-
                 e.MouseCursorStyle = MouseCursorStyle.Pointer;
                 e.CancelBubbling = true;
             }
@@ -202,9 +188,7 @@ namespace LayoutFarm.DzBoardSample
                 this.TargetBox,
                 new Point(this.beginRect.Left, this.beginRect.Top),
                 newBeginPoint);
-
             this.beginRect = new Rectangle(newBeginPoint.X, newBeginPoint.Y, this.TargetBox.Width, this.TargetBox.Height);
-
             base.OnMouseUp(e);
         }
 
@@ -220,12 +204,9 @@ namespace LayoutFarm.DzBoardSample
 
             int gridSize = controllerBox.GridSize;
             float halfGrid = (float)gridSize / 2f;
-
             int nearestX = (int)((newX + halfGrid) / gridSize) * gridSize;
             int nearestY = (int)((newY + halfGrid) / gridSize) * gridSize;
-
             controllerBox.MoveTo(nearestX, nearestY);
-
         }
         static void MoveWithSnapToGrid(UIControllerBox controllerBox, int dx, int dy)
         {
@@ -239,21 +220,16 @@ namespace LayoutFarm.DzBoardSample
 
             int gridSize = controllerBox.GridSize;
             float halfGrid = (float)gridSize / 2f;
-
             int nearestX = (int)((newX + halfGrid) / gridSize) * gridSize;
             int nearestY = (int)((newY + halfGrid) / gridSize) * gridSize;
-
             controllerBox.MoveTo(nearestX, nearestY);
-
         }
 
         public void MoveTo(int left, int top)
         {
             var offsetX = left - this.Left;
             var offsetY = top - this.Top;
-
             SetLocation(left, top);
-
             if (this.MasterSelectionSet != null)
             {
                 MasterSelectionSet.NotifyMoveFrom(this, offsetX, offsetY);
@@ -281,8 +257,6 @@ namespace LayoutFarm.DzBoardSample
             this.dockspaceController.RightTopSpace.Content = boxRightTop = CreateTinyControlBox(SpaceName.RightTop);
             this.dockspaceController.LeftBottomSpace.Content = boxLeftBottom = CreateTinyControlBox(SpaceName.LeftBottom);
             this.dockspaceController.RightBottomSpace.Content = boxRightBottom = CreateTinyControlBox(SpaceName.RightBottom);
-
-
         }
         public override void Walk(UIVisitor visitor)
         {
@@ -301,7 +275,6 @@ namespace LayoutFarm.DzBoardSample
 
             tinyBox.MouseDrag += (s, e) =>
             {
-
                 ResizeTargetWithSnapToGrid2((SpaceName)tinyBox.Tag, this, e, e.DiffCapturedX, e.DiffCapturedY);
                 e.MouseCursorStyle = MouseCursorStyle.Pointer;
                 e.CancelBubbling = true;
@@ -332,7 +305,6 @@ namespace LayoutFarm.DzBoardSample
         }
         void ResizeTargetWithSnapToGrid2(SpaceName tinyBoxSpaceName, UIControllerBox controllerBox, UIMouseEventArgs e, int dx, int dy)
         {
-
             //sample move with snap to grid
             Point pos = controllerBox.Position;
             int newX = pos.X + dx;// e.XDiff;
@@ -343,11 +315,8 @@ namespace LayoutFarm.DzBoardSample
             float halfGrid = (float)gridSize / 2f;
             int nearestX = (int)((newX + halfGrid) / gridSize) * gridSize;
             int nearestY = (int)((newY + halfGrid) / gridSize) * gridSize;
-
             int xdiff = nearestX - pos.X;
             int ydiff = nearestY - pos.Y;
-
-
             int diffX = 0, diffY = 0;
             var targetBox = controllerBox.TargetBox;
             if (targetBox != null)
@@ -366,8 +335,6 @@ namespace LayoutFarm.DzBoardSample
                         {
                             controllerBox.SetLocation(controllerBox.Left + xdiff, controllerBox.Top + ydiff);
                             controllerBox.SetSize(controllerBox.Width - xdiff, controllerBox.Height - ydiff);
-
-
                             if (targetBox != null)
                             {
                                 //move target box too 
@@ -377,16 +344,14 @@ namespace LayoutFarm.DzBoardSample
                                     controllerBox.Height - 10);
                             }
                         }
-
-                    } break;
+                    }
+                    break;
                 case SpaceName.RightTop:
                     {
                         if (xdiff != 0 || ydiff != 0)
                         {
                             controllerBox.SetLocation(controllerBox.Left, controllerBox.Top + ydiff);
                             controllerBox.SetSize(controllerBox.Width + xdiff, controllerBox.Height - ydiff);
-
-
                             if (targetBox != null)
                             {
                                 //move target box too 
@@ -396,13 +361,13 @@ namespace LayoutFarm.DzBoardSample
                                    controllerBox.Height - 10);
                             }
                         }
-                    } break;
+                    }
+                    break;
                 case SpaceName.RightBottom:
                     {
                         if (xdiff != 0 || ydiff != 0)
                         {
                             controllerBox.SetSize(controllerBox.Width + xdiff, controllerBox.Height + ydiff);
-
                             if (targetBox != null)
                             {
                                 //move target box too 
@@ -412,15 +377,14 @@ namespace LayoutFarm.DzBoardSample
                                    controllerBox.Height - 10);
                             }
                         }
-                    } break;
+                    }
+                    break;
                 case SpaceName.LeftBottom:
                     {
                         if (xdiff != 0 || ydiff != 0)
                         {
                             controllerBox.SetLocation(controllerBox.Left + xdiff, controllerBox.Top);
                             controllerBox.SetSize(controllerBox.Width - xdiff, controllerBox.Height + ydiff);
-
-
                             if (targetBox != null)
                             {
                                 //move target box too 
@@ -430,8 +394,8 @@ namespace LayoutFarm.DzBoardSample
                                    controllerBox.Height - 10);
                             }
                         }
-                    } break;
-
+                    }
+                    break;
             }
         }
 
@@ -463,26 +427,19 @@ namespace LayoutFarm.DzBoardSample
             if (targetBox != null)
             {
                 int diffX = 0, diffY = 0;
-
                 var targetBoxLocation = targetBox.GetGlobalLocation();
                 diffX = controllerBox.Left - targetBoxLocation.X;
                 diffY = controllerBox.Top - targetBoxLocation.Y;
-
-
-
                 //move target box too 
                 var newRect = new Rectangle(targetBox.Left + diffX + 5,
                     targetBox.Top + diffY + 5,
                     controllerBox.Width - 10,
                     controllerBox.Height - 10);
-
                 controllerBox.DesignBoardModule.HistoryRecordDzElementNewBounds(
                     controllerBox.TargetBox,
                     controllerBox.beginRect,
                     newRect);
-
                 controllerBox.beginRect = newRect;
-
                 targetBox.SetBounds(newRect.Left,
                     newRect.Top,
                     newRect.Width,
@@ -507,9 +464,7 @@ namespace LayoutFarm.DzBoardSample
         {
             if (!this.HasReadyRenderElement)
             {
-
                 var myRenderElement = base.GetPrimaryRenderElement(rootgfx) as LayoutFarm.CustomWidgets.CustomRenderBox;
-
             }
             return base.GetPrimaryRenderElement(rootgfx);
         }
@@ -554,7 +509,6 @@ namespace LayoutFarm.DzBoardSample
         }
         public void NotifyRemoveUIElement(UIControllerBox src)
         {
-
             for (int i = selectionList.Count - 1; i >= 0; --i)
             {
                 var controlBox = selectionList[i];
@@ -564,7 +518,6 @@ namespace LayoutFarm.DzBoardSample
                     var dzModule = controlBox.DesignBoardModule;
                     var target = controlBox.TargetBox;
                     controlBox.RelaseTargetAndRemoveSelf();
-
                 }
             }
         }
@@ -588,16 +541,19 @@ namespace LayoutFarm.DzBoardSample
                     case UIKeys.V:
                         {
                             this.DesignBoardModule.PasteClipboardData();
-                        } break;
+                        }
+                        break;
                     case UIKeys.Z:
                         {
                             //undo
                             this.DesignBoardModule.UndoLastAction();
-                        } break;
+                        }
+                        break;
                     case UIKeys.Y:
                         {
                             //redo 
-                        } break;
+                        }
+                        break;
                 }
             }
             base.OnKeyDown(e);
@@ -616,7 +572,4 @@ namespace LayoutFarm.DzBoardSample
             visitor.EndElement();
         }
     }
-
-
-
 }

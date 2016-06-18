@@ -1,8 +1,7 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
- 
-using System.Collections.Generic; 
-using PixelFarm.Drawing;
 
+using System.Collections.Generic;
+using PixelFarm.Drawing;
 namespace LayoutFarm.RenderBoxes
 {
     public struct HitInfo
@@ -47,15 +46,12 @@ namespace LayoutFarm.RenderBoxes
     public class HitChain
     {
         List<HitInfo> hitList = new List<HitInfo>();
-
         int startTestX;
         int startTestY;
-
         int testPointX;
-        int testPointY; 
+        int testPointY;
         public HitChain()
         {
-
         }
 
         public Point TestPoint
@@ -72,7 +68,6 @@ namespace LayoutFarm.RenderBoxes
         }
         public void SetStartTestPoint(int x, int y)
         {
-
             testPointX = x;
             testPointY = y;
             startTestX = x;
@@ -81,17 +76,14 @@ namespace LayoutFarm.RenderBoxes
 
         public void OffsetTestPoint(int dx, int dy)
         {
-
             testPointX += dx;
             testPointY += dy;
         }
         public void ClearAll()
         {
-
             testPointX = 0;
             testPointY = 0;
             hitList.Clear();
-
         }
 
         public bool IsFree
@@ -120,8 +112,6 @@ namespace LayoutFarm.RenderBoxes
         }
         public void AddHitObject(RenderElement hitObject)
         {
-             
-
             hitList.Add(new HitInfo(hitObject, new Point(testPointX, testPointY)));
 #if DEBUG
             if (dbugHitTracker != null)
@@ -139,12 +129,11 @@ namespace LayoutFarm.RenderBoxes
                 hitList.RemoveAt(hitList.Count - 1);
             }
         }
-         
+
 
 #if DEBUG
         public bool dbugBreak;
 #endif
 
     }
-
 }

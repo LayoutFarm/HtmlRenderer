@@ -4,7 +4,6 @@ using PixelFarm.Drawing;
 using LayoutFarm.UI;
 namespace LayoutFarm.CustomWidgets
 {
-
     public class Label : UIBox
     {
         string text;
@@ -23,7 +22,6 @@ namespace LayoutFarm.CustomWidgets
                 trun.TextColor = this.textColor;
                 trun.Text = this.Text;
                 this.myTextRun = trun;
-
             }
             //-----------
             return myTextRun;
@@ -42,7 +40,6 @@ namespace LayoutFarm.CustomWidgets
             set
             {
                 this.text = value;
-
                 if (this.myTextRun != null)
                 {
                     this.myTextRun.Text = value;
@@ -82,5 +79,4 @@ namespace LayoutFarm.CustomWidgets
             visitor.EndElement();
         }
     }
-
 }

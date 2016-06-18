@@ -4,11 +4,8 @@ using System.Collections.Generic;
 using LayoutFarm.Css;
 namespace LayoutFarm.HtmlBoxes
 {
-
-
     partial class CssBox
     {
-
         /// <summary>
         /// the parent css box of this css box in the hierarchy
         /// </summary>
@@ -68,8 +65,8 @@ namespace LayoutFarm.HtmlBoxes
             //**
             box._boxCompactFlags &= ~BoxFlags.LAY_RUNSIZE_MEASURE;
         }
-       
-         
+
+
         //-----------
 #if DEBUG
         public override string ToString()
@@ -100,5 +97,4 @@ namespace LayoutFarm.HtmlBoxes
         }
 #endif
     }
-
 }

@@ -24,7 +24,6 @@ using PixelFarm.Agg.Image;
 using PixelFarm.Agg.Transform;
 namespace PixelFarm.Agg
 {
-
     public partial class ImageGraphics2D : Graphics2D
     {
         ImageReaderWriterBase destImageReaderWriter;

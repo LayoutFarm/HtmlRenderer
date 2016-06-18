@@ -4,11 +4,8 @@ using System.Collections.Generic;
 using System.Text;
 namespace LayoutFarm.Text
 {
-
     partial class TextEditRenderBox
     {
-
-
         TextSurfaceEventListener textSurfaceEventListener;
         public TextSurfaceEventListener TextSurfaceListener
         {
@@ -133,7 +130,6 @@ namespace LayoutFarm.Text
 
         public EditableRun CreateEditableTextRun(string str)
         {
-
             var span = new EditableTextRun(this.Root, str, this.currentSpanStyle);
             span.UpdateRunWidth();
             return span;

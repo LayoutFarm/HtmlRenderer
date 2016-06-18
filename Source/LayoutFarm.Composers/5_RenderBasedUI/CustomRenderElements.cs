@@ -3,7 +3,6 @@
 using PixelFarm.Drawing;
 namespace LayoutFarm.InternalUI
 {
-
     class CustomRenderBox : RenderBoxBase
     {
         Color backColor;
@@ -27,23 +26,18 @@ namespace LayoutFarm.InternalUI
                     this.InvalidateGraphics();
                 }
             }
-
         }
         protected override void DrawBoxContent(Canvas canvas, Rectangle updateArea)
         {
-
 #if DEBUG
             if (this.dbugBreak)
             {
-
             }
 #endif
             //sample bg   
             //canvas.FillRectangle(BackColor, updateArea.Left, updateArea.Top, updateArea.Width, updateArea.Height);
             canvas.FillRectangle(BackColor, 0, 0, this.Width, this.Height);
             this.DrawDefaultLayer(canvas, ref updateArea);
-
-
 #if DEBUG
             //canvas.dbug_DrawCrossRect(PixelFarm.Drawing.Color.Black,
             //    new Rectangle(0, 0, this.Width, this.Height));
@@ -52,9 +46,5 @@ namespace LayoutFarm.InternalUI
             //   new Rectangle(updateArea.Left, updateArea.Top, updateArea.Width, updateArea.Height));
 #endif
         }
-
     }
-
-
-
 }

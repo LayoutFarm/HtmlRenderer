@@ -1,19 +1,16 @@
 ﻿//BSD  2015,2014 ,WinterDev 
+
 using System;
 using System.Collections.Generic;
 using System.Text;
 namespace LayoutFarm.WebDom
 {
-
-
     public class CssPropertyDeclaration
     {
         bool isAutoGen;
         bool markedAsInherit;
-
         CssCodeValueExpression firstValue;
         List<CssCodeValueExpression> moreValues;
-
 #if DEBUG
         static int dbugTotalId;
         public readonly int dbugId = dbugTotalId++;
@@ -139,7 +136,6 @@ namespace LayoutFarm.WebDom
 
         public CssCodeValueExpression GetPropertyValue(int index)
         {
-
             switch (index)
             {
                 case 0:
@@ -182,7 +178,6 @@ namespace LayoutFarm.WebDom
         TranslatedLength,
         Color,
         TranslatedString,
-
         BorderStyle,
         BorderCollapse,
         WhiteSpace,
@@ -200,7 +195,6 @@ namespace LayoutFarm.WebDom
         FontWeight,
         FontStyle,
         FontVariant,
-
         ListStylePosition,
         ListStyleType,
         BackgroundRepeat,
@@ -211,5 +205,4 @@ namespace LayoutFarm.WebDom
         Unknown,
         Divide,
     }
-
 }

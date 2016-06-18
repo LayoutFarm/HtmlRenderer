@@ -1,4 +1,5 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -6,14 +7,11 @@ using PixelFarm.Drawing;
 using LayoutFarm.RenderBoxes;
 namespace LayoutFarm.UI
 {
-
     class RenderElementEventPortal : IEventPortal
     {
-
         //current hit chain        
         HitChain _previousChain = new HitChain();
         Stack<HitChain> hitChainStack = new Stack<HitChain>();
-
 #if DEBUG
         int dbugMsgChainVersion;
 #endif
@@ -29,7 +27,6 @@ namespace LayoutFarm.UI
         HitChain GetFreeHitChain()
         {
             return new HitChain();
-
             //            if (hitChainStack.Count > 0)
             //            {                    
             //                return hitChainStack.Pop();
@@ -52,7 +49,6 @@ namespace LayoutFarm.UI
             this._previousChain = hitChain;
             //temp fix here 
             this._previousChain.ClearAll();
-
             // hitChain.ClearAll();
             //if (isDragging && hitChain.Count < 2)
             //{
@@ -70,16 +66,12 @@ namespace LayoutFarm.UI
             {
                 var hitInfo = hitChain.GetHitInfo(count - 1);
                 e.ExactHitObject = hitInfo.hitElement;
-
             }
         }
 
 
         static RenderElement HitTestOnPreviousChain(HitChain hitPointChain, HitChain previousChain, int x, int y)
         {
-
-
-
 #if DEBUG
             if (hitPointChain == previousChain)
             {
@@ -89,11 +81,9 @@ namespace LayoutFarm.UI
 
             if (previousChain.Count > 0)
             {
-
                 previousChain.SetStartTestPoint(x, y);
                 //test on prev chain top to bottom
                 int j = previousChain.Count;
-
                 for (int i = 0; i < j; ++i)
                 {
                     HitInfo hitInfo = previousChain.GetHitInfo(i);
@@ -142,7 +132,6 @@ namespace LayoutFarm.UI
             //test on previous chain first , find common element 
             hitPointChain.ClearAll();
             hitPointChain.SetStartTestPoint(x, y);
-
             //if (this.dbugId > 0 && isDragging && previousChain.Count > 1)
             //{
 
@@ -185,11 +174,9 @@ namespace LayoutFarm.UI
 
         void IEventPortal.PortalMouseWheel(UIMouseEventArgs e)
         {
-
         }
         void IEventPortal.PortalMouseDown(UIMouseEventArgs e)
         {
-
 #if DEBUG
             if (this.dbugRootGraphics.dbugEnableGraphicInvalidateTrace)
             {
@@ -204,9 +191,7 @@ namespace LayoutFarm.UI
 
             HitChain hitPointChain = GetFreeHitChain();
             HitTestCoreWithPrevChainHint(hitPointChain, this._previousChain, e.X, e.Y);
-
             int hitCount = hitPointChain.Count;
-
             RenderElement hitElement = hitPointChain.TopMostElement;
             if (hitCount > 0)
             {
@@ -215,7 +200,6 @@ namespace LayoutFarm.UI
                 SetEventOrigin(e, hitPointChain);
                 //------------------------------ 
                 var prevMouseDownElement = e.PreviousMouseDown;
-
                 IEventListener currentMouseDown = null;
                 //portal                
                 ForEachOnlyEventPortalBubbleUp(e, hitPointChain, (portal) =>
@@ -225,12 +209,10 @@ namespace LayoutFarm.UI
                     currentMouseDown = e.CurrentContextElement;
                     return true;
                 });
-
                 //------------------------------
                 //use events
                 if (!e.CancelBubbling)
                 {
-
                     e.CurrentContextElement = currentMouseDown = null; //clear 
                     ForEachEventListenerBubbleUp(e, hitPointChain, (listener) =>
                     {
@@ -262,19 +244,14 @@ namespace LayoutFarm.UI
                     prevMouseDownElement.ListenLostMouseFocus(e);
                     prevMouseDownElement = null;
                 }
-
-
             }
             //---------------------------------------------------------------
 
 #if DEBUG
             RootGraphic visualroot = this.dbugRootGraphics;
-
             if (visualroot.dbug_RecordHitChain)
             {
                 visualroot.dbug_rootHitChainMsg.Clear();
-
-
                 HitInfo hitInfo;
                 for (int tt = hitPointChain.Count - 1; tt >= 0; --tt)
                 {
@@ -284,7 +261,6 @@ namespace LayoutFarm.UI
                     {
                         ve.dbug_WriteOwnerLayerInfo(visualroot, tt);
                         ve.dbug_WriteOwnerLineInfo(visualroot, tt);
-
                         string hit_info = new string('.', tt) + " [" + tt + "] "
                             + "(" + hitInfo.point.X + "," + hitInfo.point.Y + ") "
                             + ve.dbug_FullElementDescription();
@@ -294,9 +270,7 @@ namespace LayoutFarm.UI
             }
 #endif
             SwapHitChain(hitPointChain);
-
             e.StopPropagation();
-
 #if DEBUG
             if (local_msgVersion != dbugMsgChainVersion)
             {
@@ -343,7 +317,6 @@ namespace LayoutFarm.UI
 
                     return true;//stop
                 });
-
                 if (!foundSomeHit && e.CurrentMouseActive != null)
                 {
                     e.CurrentMouseActive.ListenMouseLeave(e);
@@ -354,22 +327,16 @@ namespace LayoutFarm.UI
                 }
             }
             SwapHitChain(hitPointChain);
-
             e.StopPropagation();
         }
         void IEventPortal.PortalGotFocus(UIFocusEventArgs e)
         {
-
-
         }
         void IEventPortal.PortalLostFocus(UIFocusEventArgs e)
         {
-
         }
         void IEventPortal.PortalMouseUp(UIMouseEventArgs e)
         {
-
-
 #if DEBUG
 
             if (this.dbugRootGraphics.dbugEnableGraphicInvalidateTrace)
@@ -381,10 +348,8 @@ namespace LayoutFarm.UI
 #endif
 
             HitChain hitPointChain = GetFreeHitChain();
-
             HitTestCoreWithPrevChainHint(hitPointChain, this._previousChain, e.X, e.Y);
             int hitCount = hitPointChain.Count;
-
             if (hitCount > 0)
             {
                 SetEventOrigin(e, hitPointChain);
@@ -416,14 +381,12 @@ namespace LayoutFarm.UI
                     }
                     else
                     {
-
                         ForEachEventListenerBubbleUp(e, hitPointChain, (listener) =>
                         {
                             listener.ListenMouseClick(e);
                             return true;
                         });
                     }
-
                 }
             }
             SwapHitChain(hitPointChain);
@@ -431,15 +394,12 @@ namespace LayoutFarm.UI
         }
         void IEventPortal.PortalKeyDown(UIKeyEventArgs e)
         {
-
         }
         void IEventPortal.PortalKeyUp(UIKeyEventArgs e)
         {
-
         }
         void IEventPortal.PortalKeyPress(UIKeyEventArgs e)
         {
-
         }
         bool IEventPortal.PortalProcessDialogKey(UIKeyEventArgs e)
         {
@@ -449,7 +409,6 @@ namespace LayoutFarm.UI
         //===================================================================
         delegate bool EventPortalAction(IEventPortal evPortal);
         delegate bool EventListenerAction(IEventListener listener);
-
         static void ForEachOnlyEventPortalBubbleUp(UIEventArgs e, HitChain hitPointChain, EventPortalAction eventPortalAction)
         {
             for (int i = hitPointChain.Count - 1; i >= 0; --i)
@@ -459,7 +418,6 @@ namespace LayoutFarm.UI
                 IEventPortal eventPortal = currentHitElement as IEventPortal;
                 if (eventPortal != null)
                 {
-
                     var ppp = hitPoint.point;
                     e.CurrentContextElement = currentHitElement as IEventListener;
                     e.SetLocation(ppp.X, ppp.Y);
@@ -482,12 +440,11 @@ namespace LayoutFarm.UI
                     if (e.SourceHitElement == null)
                     {
                         e.SourceHitElement = listener;
-                    } 
+                    }
 
                     var hitPoint = hitInfo.point;
                     e.SetLocation(hitPoint.X, hitPoint.Y);
                     e.CurrentContextElement = listener;
-
                     if (listenerAction(listener))
                     {
                         return;
@@ -665,8 +622,6 @@ namespace LayoutFarm.UI
 
         void BroadcastDragHitEvents(UIMouseEventArgs e)
         {
-
-
             //Point globalDragingElementLocation = currentDragingElement.GetGlobalLocation();
             //Rectangle dragRect = currentDragingElement.GetGlobalRect();
 
@@ -764,6 +719,4 @@ namespace LayoutFarm.UI
         }
 #endif
     }
-
-
 }

@@ -1,21 +1,17 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
- 
+
 using PixelFarm.Drawing;
 using LayoutFarm.RenderBoxes;
-
 namespace LayoutFarm
 {
-
 #if DEBUG
     [System.Diagnostics.DebuggerDisplay("RenderBoxBase {dbugGetCssBoxInfo}")]
 #endif
     public abstract class RenderBoxBase : RenderElement
     {
-
         int myviewportX;
         int myviewportY;
         PlainLayer defaultLayer;
-
         public RenderBoxBase(RootGraphic rootgfx, int width, int height)
             : base(rootgfx, width, height)
         {
@@ -29,7 +25,6 @@ namespace LayoutFarm
         {
             this.myviewportX = viewportX;
             this.myviewportY = viewportY;
-
             this.InvalidateGraphics();
         }
         public override int ViewportX
@@ -52,9 +47,7 @@ namespace LayoutFarm
         {
             canvas.OffsetCanvasOrigin(-myviewportX, -myviewportY);
             updateArea.Offset(myviewportX, myviewportY);
-
             this.DrawBoxContent(canvas, updateArea);
-
             canvas.OffsetCanvasOrigin(myviewportX, myviewportY);
             updateArea.Offset(-myviewportX, -myviewportY);
         }
@@ -72,7 +65,6 @@ namespace LayoutFarm
 
         public override sealed void TopDownReCalculateContentSize()
         {
-
             if (!ForceReArrange && this.HasCalculatedSize)
             {
                 return;
@@ -87,7 +79,6 @@ namespace LayoutFarm
             {
                 defaultLayer.TopDownReCalculateContentSize();
                 ground_contentSize = defaultLayer.PostCalculateContentSize;
-
             }
             int finalWidth = ground_contentSize.Width;
             if (finalWidth == 0)
@@ -104,16 +95,19 @@ namespace LayoutFarm
                 case RenderElementConst.LY_HAS_SPC_HEIGHT:
                     {
                         finalHeight = cHeight;
-                    } break;
+                    }
+                    break;
                 case RenderElementConst.LY_HAS_SPC_WIDTH:
                     {
                         finalWidth = cWidth;
-                    } break;
+                    }
+                    break;
                 case RenderElementConst.LY_HAS_SPC_SIZE:
                     {
                         finalWidth = cWidth;
                         finalHeight = cHeight;
-                    } break;
+                    }
+                    break;
             }
 
 
@@ -165,7 +159,6 @@ namespace LayoutFarm
 
         public override RenderElement FindUnderlyingSiblingAtPoint(Point point)
         {
-
             if (this.MyParentLink != null)
             {
                 return this.MyParentLink.FindOverlapedChildElementAtPoint(this, point);
@@ -173,7 +166,7 @@ namespace LayoutFarm
 
             return null;
         }
-         
+
         public override Size InnerContentSize
         {
             get
@@ -195,7 +188,6 @@ namespace LayoutFarm
                 {
                     return this.Size;
                 }
-
             }
         }
 
@@ -218,16 +210,12 @@ namespace LayoutFarm
         //-----------------------------------------------------------------
         public void dbugForceTopDownReArrangeContent()
         {
-
             dbug_EnterReArrangeContent(this);
             dbug_topDownReArrContentPass++;
             this.dbug_BeginArr++;
             debug_PushTopDownElement(this);
-
             this.MarkValidContentArrangement();
-
             IsInTopDownReArrangePhase = true;
-
             if (this.defaultLayer != null)
             {
                 this.defaultLayer.TopDownReArrangeContent();
@@ -239,52 +227,38 @@ namespace LayoutFarm
             this.dbug_FinishArr++;
             debug_PopTopDownElement(this);
             dbug_ExitReArrangeContent();
-
         }
         public void dbugTopDownReArrangeContentIfNeed()
         {
-
             bool isIncr = false;
-
-
             if (!ForceReArrange && !this.NeedContentArrangement)
             {
                 if (!this.FirstArrangementPass)
                 {
                     this.FirstArrangementPass = true;
-
                     dbug_WriteInfo(dbugVisitorMessage.PASS_FIRST_ARR);
-
-
                 }
                 else
                 {
-
                     isIncr = true;
                     this.dbugVRoot.dbugNotNeedArrCount++;
                     this.dbugVRoot.dbugNotNeedArrCountEpisode++;
                     dbug_WriteInfo(dbugVisitorMessage.NOT_NEED_ARR);
                     this.dbugVRoot.dbugNotNeedArrCount--;
-
                 }
                 return;
             }
 
             dbugForceTopDownReArrangeContent();
-
-
-
             if (isIncr)
             {
                 this.dbugVRoot.dbugNotNeedArrCount--;
             }
-
         }
         public override void dbug_DumpVisualProps(dbugLayoutMsgWriter writer)
         {
             base.dbug_DumpVisualProps(writer);
             writer.EnterNewLevel();
-
             writer.LeaveCurrentLevel();
         }
         void debug_RecordLayerInfo(RenderElementLayer layer)
@@ -296,11 +270,7 @@ namespace LayoutFarm
             }
         }
         static int dbug_topDownReArrContentPass = 0;
-
 #endif
 
     }
-
-
-
 }

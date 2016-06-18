@@ -1,13 +1,7 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
-using PixelFarm.Drawing;
-using LayoutFarm.CustomWidgets;
-using LayoutFarm.UI;
-using LayoutFarm.WebDom;
 
+using LayoutFarm.CustomWidgets;
+using LayoutFarm.WebDom;
 namespace LayoutFarm
 {
     [DemoNote("4.6 dynamic dom1")]
@@ -18,7 +12,6 @@ namespace LayoutFarm
         HtmlBoxes.HtmlHost htmlhost;
         SampleViewport viewport;
         bool testToggle;
-
         protected override void OnStartDemo(SampleViewport viewport)
         {
             this.viewport = viewport;
@@ -48,12 +41,10 @@ namespace LayoutFarm
                     </div>
             </body></html>";
             htmlMenuBox.LoadHtmlString(html);
-
             //set event handlers
             var htmldoc = htmlMenuBox.HtmlContainer.WebDocument as IHtmlDocument;
             var div_menuBox = htmldoc.getElementById("menubox") as IHtmlElement;
             if (div_menuBox == null) return;
-
             //test set innerHTML
             div_menuBox.attachEventListener("mousedown", (e) =>
             {
@@ -65,7 +56,6 @@ namespace LayoutFarm
                             //test toggle with innerHTML
                             var testHtmlDoc = testHtmlBox.HtmlContainer.WebDocument as IHtmlDocument;
                             var div1 = testHtmlDoc.getElementById("div1") as IHtmlElement;
-
                             if (div1 != null)
                             {
                                 //test set innerHTML
@@ -74,14 +64,13 @@ namespace LayoutFarm
                                         "<div>22222</div>";
                                 testToggle = !testToggle;
                             }
-
-                        } break;
+                        }
+                        break;
                     case "test_dom2":
                         {
                             //test toggle with DocumentFragment
                             var testHtmlDoc = testHtmlBox.HtmlContainer.WebDocument as IHtmlDocument;
                             var div1 = testHtmlDoc.getElementById("div1") as IHtmlElement;
-
                             if (div1 != null)
                             {
                                 var docFragment = testHtmlDoc.createDocumentFragment();
@@ -90,12 +79,10 @@ namespace LayoutFarm
                                     var node1 = docFragment.createElement("div") as IHtmlElement;
                                     node1.appendChild(
                                         docFragment.createTextNode("3333"));//TODO: review this
-
                                     docFragment.rootNode.appendChild(node1);
                                 }
                                 else
                                 {
-
                                     var node1 = docFragment.createElement("div") as IHtmlElement;
                                     node1.appendChild(
                                         docFragment.createTextNode("4444"));//TODO: review this
@@ -105,13 +92,13 @@ namespace LayoutFarm
                                 div1.appendChild(docFragment.rootNode);
                                 testToggle = !testToggle;
                             }
-                        } break;
+                        }
+                        break;
                     case "test_dom3":
                         {
                             //shadow dom!
                             var testHtmlDoc = testHtmlBox.HtmlContainer.WebDocument as IHtmlDocument;
                             var div1 = testHtmlDoc.getElementById("div1") as IHtmlElement;
-
                             if (div1 != null)
                             {
                                 var shadowRoot = testHtmlDoc.createShadowRootElement() as IHtmlElement;
@@ -136,12 +123,10 @@ namespace LayoutFarm
                                 div1.appendChild(shadowRoot);
                                 testToggle = !testToggle;
                             }
-                        } break;
+                        }
+                        break;
                 }
             });
-
         }
-
     }
-
 }

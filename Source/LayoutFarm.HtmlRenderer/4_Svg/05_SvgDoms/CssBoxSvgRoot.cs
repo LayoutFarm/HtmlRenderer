@@ -3,10 +3,8 @@
 
 using PixelFarm.Drawing;
 using LayoutFarm.Svg;
-
 namespace LayoutFarm.HtmlBoxes
 {
-
     public sealed class CssBoxSvgRoot : CssBox
     {
         public CssBoxSvgRoot(Css.BoxSpec spec, IRootGraphics rootgfx, SvgElement svgElem)
@@ -22,7 +20,6 @@ namespace LayoutFarm.HtmlBoxes
             var svgElement = this.SvgSpec;
             //recompute value if need  
             var cnode = svgElement.GetFirstNode();
-
             ReEvaluateArgs reEvalArgs = new ReEvaluateArgs(gfxPlatform,
                 containingBlock.VisualWidth,
                 100,
@@ -53,7 +50,6 @@ namespace LayoutFarm.HtmlBoxes
             }
 
             g.SmoothingMode = prevMode;
-
 #if DEBUG
             p.dbugExitContext();
 #endif
@@ -68,9 +64,5 @@ namespace LayoutFarm.HtmlBoxes
         {
             return true;//stop here
         }
-
-
     }
-
-
 }

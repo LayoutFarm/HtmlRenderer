@@ -1,7 +1,4 @@
 ﻿using System;
-using LayoutFarm.Composers;
-using LayoutFarm.WebDom;
-
 namespace LayoutFarm.Demo
 {
     public abstract class DemoBase
@@ -33,17 +30,14 @@ namespace LayoutFarm.Demo
         }
         public override string ToString()
         {
-            if(string.IsNullOrEmpty(DemoNote))
+            if (string.IsNullOrEmpty(DemoNote))
             {
                 return this.DemoType.Name;
             }
             else
             {
-                return this.DemoType.Name + " : "+ this.DemoNote;
-            }             
+                return this.DemoType.Name + " : " + this.DemoNote;
+            }
         }
     }
-
-
-
 }

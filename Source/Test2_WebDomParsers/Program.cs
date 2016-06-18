@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-
 namespace Test2_WebDomParsers
 {
     static class Program

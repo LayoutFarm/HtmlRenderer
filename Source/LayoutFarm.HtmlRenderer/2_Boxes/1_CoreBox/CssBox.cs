@@ -17,11 +17,8 @@ using System;
 using System.Collections.Generic;
 using PixelFarm.Drawing;
 using LayoutFarm.Css;
-
 namespace LayoutFarm.HtmlBoxes
 {
-
-
     /// <summary>
     /// Represents a CSS Box of text or replaced elements.
     /// </summary>
@@ -34,23 +31,19 @@ namespace LayoutFarm.HtmlBoxes
     /// </remarks>
     public partial class CssBox
     {
-
         readonly Css.BoxSpec _myspec;
         object _controller;
         IRootGraphics rootgfx;
-
 #if DEBUG
         public int dbugMark1;
         public readonly int __aa_dbugId = dbugTotalId++;
         static int dbugTotalId;
-
         public int dbugMark2;
 #endif
         public CssBox(BoxSpec spec, IRootGraphics rootgfx)
         {
             this.rootgfx = rootgfx;
             this._aa_boxes = new CssBoxCollection();
-
 #if DEBUG
             //if (this.__aa_dbugId == 6)
             //{
@@ -71,7 +64,6 @@ namespace LayoutFarm.HtmlBoxes
         {
             this.rootgfx = rootgfx;
             this._aa_boxes = new CssBoxCollection();
-
 #if DEBUG
             //if (this.__aa_dbugId == 6)
             //{
@@ -239,7 +231,6 @@ namespace LayoutFarm.HtmlBoxes
             tmpFlags &= ~BoxFlags.HAS_EVAL_WHITESPACE;
             tmpFlags &= ~BoxFlags.TEXT_IS_ALL_WHITESPACE;
             tmpFlags &= ~BoxFlags.TEXT_IS_EMPTY;
-
             this._boxCompactFlags = tmpFlags;
         }
 
@@ -260,13 +251,11 @@ namespace LayoutFarm.HtmlBoxes
                 {
                     return ChildCount == 0;
                 }
-
             }
         }
 #if DEBUG
         internal string dbugCopyTextContent()
         {
-
             if (this._aa_contentRuns != null)
             {
                 return new string(this._buffer);
@@ -275,7 +264,6 @@ namespace LayoutFarm.HtmlBoxes
             {
                 return null;
             }
-
         }
 #endif
         internal void AddLineBox(CssLineBox linebox)
@@ -299,7 +287,6 @@ namespace LayoutFarm.HtmlBoxes
 
         internal static void GetSplitInfo(CssBox box, CssLineBox lineBox, out bool isFirstLine, out bool isLastLine)
         {
-
             CssLineBox firstHostLine, lastHostLine;
             var runList = box.Runs;
             if (runList == null)
@@ -309,7 +296,6 @@ namespace LayoutFarm.HtmlBoxes
             else
             {
                 int j = runList.Count;
-
                 firstHostLine = runList[0].HostLine;
                 lastHostLine = runList[j - 1].HostLine;
             }
@@ -431,7 +417,6 @@ namespace LayoutFarm.HtmlBoxes
                         //others ... 
                         if (this.NeedComputedValueEvaluation) { this.ReEvaluateComputedValues(lay.SampleIFonts, lay.LatestContainingBlock); }
                         this.MeasureRunsSize(lay);
-
                     }
                     break;
                 case Css.CssDisplay.Block:
@@ -448,7 +433,6 @@ namespace LayoutFarm.HtmlBoxes
                         // 2) block formatting context  
                         if (this.NeedComputedValueEvaluation) { this.ReEvaluateComputedValues(lay.SampleIFonts, lay.LatestContainingBlock); }
                         this.MeasureRunsSize(lay);
-
                         //for general block layout 
                         CssLayoutEngine.PerformContentLayout(this, lay);
                     }
@@ -503,7 +487,6 @@ namespace LayoutFarm.HtmlBoxes
                 Font actualFont = this.ActualFont;
                 var fontInfo = actualFont.FontInfo;
                 float fontHeight = fontInfo.LineHeight;
-
                 var tmpRuns = this.Runs;
                 for (int i = tmpRuns.Count - 1; i >= 0; --i)
                 {
@@ -520,7 +503,6 @@ namespace LayoutFarm.HtmlBoxes
                                     textRun.TextStartIndex,
                                     textRun.TextLength,
                                     actualFont);
-
                             }
                             break;
                         case CssRunKind.SingleSpace:
@@ -557,7 +539,6 @@ namespace LayoutFarm.HtmlBoxes
         /// <returns></returns>
         internal float CalculateMinimumWidth(int calculationEpisode)
         {
-
             float maxWidth = 0;
             float padding = 0f;
             if (this._lastCalculationEpisodeNum == calculationEpisode)
@@ -579,7 +560,6 @@ namespace LayoutFarm.HtmlBoxes
                     {
                         padding += (box.ActualBorderRightWidth + box.ActualPaddingRight) +
                             (box.ActualBorderLeftWidth + box.ActualPaddingLeft);
-
                         if (box == this)
                         {
                             break;
@@ -594,7 +574,6 @@ namespace LayoutFarm.HtmlBoxes
             }
             this._lastCalculationEpisodeNum = calculationEpisode;
             return _cachedMinimumWidth = maxWidth + padding;
-
         }
 
 
@@ -604,7 +583,6 @@ namespace LayoutFarm.HtmlBoxes
 
             float maxRunWidth = 0;
             CssRun foundRun = null;
-
             if (box._clientLineBoxes != null)
             {
                 var lineNode = box._clientLineBoxes.First;
@@ -657,7 +635,6 @@ namespace LayoutFarm.HtmlBoxes
                     //special for table element
                     if (targetBox._aa_boxes != null)
                     {
-
                         foreach (var tr in targetBox._aa_boxes)
                         {
                             //td
@@ -689,7 +666,6 @@ namespace LayoutFarm.HtmlBoxes
                             }
                         }
                     }
-
                 }
                 return minWidth;
             }
@@ -734,7 +710,6 @@ namespace LayoutFarm.HtmlBoxes
         /// <returns>Resulting bottom margin</returns>
         internal float GetHeightAfterMarginBottomCollapse(CssBox containerBox)
         {
-
             //TODO: review again 
             float margin = 0;
             if (ParentBox != null && this.IsLastChild && containerBox.ActualMarginBottom < 0.1)
@@ -766,15 +741,12 @@ namespace LayoutFarm.HtmlBoxes
             //here not found any static child 
 
             cnode = _aa_boxes.GetLastLinkedNode();
-
             if (this.Height.IsAuto && cnode != null)
             {
-
                 CssBox box = cnode.Value;
                 lastChildBotom = box.LocalVisualBottom;
                 //found static child 
                 return lastChildBotom + margin + this.ActualPaddingBottom + ActualBorderBottomWidth;
-
             }
             return this.ActualPaddingTop + this.ActualBorderTopWidth + this.ActualPaddingBottom + ActualBorderBottomWidth;
         }
@@ -828,11 +800,9 @@ namespace LayoutFarm.HtmlBoxes
         {
             var spec = CssBox.UnsafeGetBoxSpec(parent);
             var newBox = new CssBox(spec.GetAnonVersion(), parent.rootgfx);
-
             parent.AppendChild(newBox);
             CssBox.ChangeDisplayType(newBox, Css.CssDisplay.Inline);
             return newBox;
         }
-
     }
 }

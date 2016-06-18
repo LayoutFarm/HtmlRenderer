@@ -15,7 +15,6 @@
 
 using System;
 using System.Drawing;
-
 namespace LayoutFarm.WebDom
 {
     /// <summary>
@@ -28,7 +27,6 @@ namespace LayoutFarm.WebDom
         /// the location to scroll to
         /// </summary>
         private readonly Point _location;
-
         /// <summary>
         /// init.
         /// </summary>

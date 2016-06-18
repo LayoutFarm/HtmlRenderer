@@ -1,22 +1,17 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 using PixelFarm.Drawing;
 using LayoutFarm.RenderBoxes;
-
 namespace LayoutFarm.Text
 {
-
-
     partial class EditableTextFlowLayer : RenderElementLayer
     {
-
         object lineCollection;
         public event EventHandler Reflow;
         TextEditRenderBox owner;
-
         public EditableTextFlowLayer(TextEditRenderBox owner)
             : base(owner)
         {
@@ -55,7 +50,6 @@ namespace LayoutFarm.Text
 
         internal IEnumerable<EditableRun> GetDrawingIter(EditableRun start, EditableRun stop)
         {
-
             if ((layerFlags & FLOWLAYER_HAS_MULTILINE) != 0)
             {
                 List<EditableTextLine> lines = (List<EditableTextLine>)lineCollection;
@@ -94,7 +88,6 @@ namespace LayoutFarm.Text
                 {
                     return 1;
                 }
-
             }
         }
 
@@ -106,21 +99,16 @@ namespace LayoutFarm.Text
             }
 
             this.BeginDrawingChildContent();
-
             if ((layerFlags & FLOWLAYER_HAS_MULTILINE) != 0)
             {
-
                 List<EditableTextLine> lines = (List<EditableTextLine>)lineCollection;
                 int renderAreaTop = updateArea.Top;
                 int renderAreaBottom = updateArea.Bottom;
                 bool foundFirstLine = false;
                 int j = lines.Count;
-
                 for (int i = 0; i < j; ++i)
                 {
-
                     EditableTextLine line = lines[i];
-
 #if DEBUG
                     if (this.OwnerRenderElement is RenderBoxBase)
                     {
@@ -129,7 +117,6 @@ namespace LayoutFarm.Text
 #endif
 
                     int y = line.Top;
-
                     LinkedListNode<EditableRun> curNode = line.First;
                     if (!foundFirstLine)
                     {
@@ -154,16 +141,13 @@ namespace LayoutFarm.Text
                     canvas.OffsetCanvasOriginY(y);
                     while (curNode != null)
                     {
-
                         EditableRun child = curNode.Value;
                         if (child.IntersectOnHorizontalWith(ref updateArea))
                         {
                             int x = child.X;
                             canvas.OffsetCanvasOriginX(x);
                             updateArea.OffsetX(-x);
-
                             child.DrawToThisCanvas(canvas, updateArea);
-
                             canvas.OffsetCanvasOriginX(-x);
                             updateArea.OffsetX(x);
                         }
@@ -184,10 +168,8 @@ namespace LayoutFarm.Text
 #endif
 
                 LinkedListNode<EditableRun> curNode = line.First;
-
                 if (curNode != null)
                 {
-
                     int y = line.Top;
                     canvas.OffsetCanvasOriginY(y);
                     updateArea.OffsetY(-y);
@@ -199,9 +181,7 @@ namespace LayoutFarm.Text
                             int x = child.X;
                             canvas.OffsetCanvasOriginX(x);
                             updateArea.OffsetX(-x);
-
                             child.DrawToThisCanvas(canvas, updateArea);
-
                             canvas.OffsetCanvasOriginX(-x);
                             updateArea.OffsetX(x);
                         }
@@ -210,10 +190,8 @@ namespace LayoutFarm.Text
                     canvas.OffsetCanvasOriginY(-y);
                     updateArea.OffsetY(y);
                 }
-
             }
             this.FinishDrawingChildContent();
-
         }
 
         public override bool HitTestCore(HitChain hitChain)
@@ -225,7 +203,6 @@ namespace LayoutFarm.Text
                     List<EditableTextLine> lines = (List<EditableTextLine>)lineCollection;
                     int j = lines.Count;
                     int testYPos = hitChain.TestPoint.Y;
-
                     for (int i = 0; i < j; ++i)
                     {
                         EditableTextLine line = lines[i];
@@ -254,7 +231,6 @@ namespace LayoutFarm.Text
 
         static Size ReCalculateContentSizeHorizontalFlow(EditableTextFlowLayer layer)
         {
-
             if (layer.lineCollection == null)
             {
                 return Size.Empty;
@@ -266,16 +242,11 @@ namespace LayoutFarm.Text
             int curY = 0;
             bool lastestIsBlock = false;
             int maxHeightInRow = 0;
-
             int maxWidth = 0;
-
             int curY_fromTop = 0;
             bool isFirstRunOfLine = true;
-
-
             int childCount = 0;
             EditableRun lastNotNullElement = null;
-
             while (flowFeeder.Read())
             {
                 EditableRun currentRun = flowFeeder.CurrentRun;
@@ -287,10 +258,8 @@ namespace LayoutFarm.Text
 
                     lastNotNullElement = currentRun;
                     childCount++;
-
                     if (lastestIsBlock || currentRun.IsBlockElement)
                     {
-
                         curX = 0;
                         if (!isFirstRunOfLine)
                         {
@@ -304,14 +273,12 @@ namespace LayoutFarm.Text
                             maxHeightInRow = 0;
                         }
                         lastestIsBlock = currentRun.IsBlockElement;
-
                         if (lastestIsBlock)
                         {
                         }
                         if (!currentRun.HasCalculatedSize)
                         {
                             EditableRun.InnerTextRunTopDownReCalculateContentSize(currentRun);
-
                         }
 #if DEBUG
                         else
@@ -334,12 +301,9 @@ namespace LayoutFarm.Text
                     else
                     {
                         lastestIsBlock = currentRun.IsBlockElement;
-
-
                         if (!currentRun.HasCalculatedSize)
                         {
                             EditableRun.InnerTextRunTopDownReCalculateContentSize(currentRun);
-
                         }
 #if DEBUG
                         else
@@ -367,8 +331,6 @@ namespace LayoutFarm.Text
                 {
                     if (flowFeeder.ReadState == 1)
                     {
-
-
                         curX = 0;
                         curY = curY_fromTop + maxHeightInRow;
                         curY_fromTop = curY;
@@ -387,14 +349,8 @@ namespace LayoutFarm.Text
             }
 
             int finalHeight = curY_fromTop + maxHeightInRow;
-
-
-
-
-
             FlowFeeder.FreeFlowFeeder(flowFeeder);
             return new Size(maxWidth, finalHeight);
-
         }
 
         public override void TopDownReArrangeContent()
@@ -431,15 +387,12 @@ namespace LayoutFarm.Text
 #endif
             if (this.LineCount > 1)
             {
-
                 List<EditableTextLine> lines = (List<EditableTextLine>)this.lineCollection;
                 EditableTextLine lastline = lines[lines.Count - 1];
                 SetPostCalculateLayerContentSize(lastline.ActualLineWidth, lastline.ActualLineHeight + lastline.LineTop);
-
             }
             else
             {
-
                 SetPostCalculateLayerContentSize(ReCalculateContentSizeHorizontalFlow(this));
             }
 #if DEBUG
@@ -490,7 +443,6 @@ namespace LayoutFarm.Text
                 }
                 else
                 {
-
                     EditableTextLine line = (EditableTextLine)lineCollection;
                     if (line.IntersectsWith(y))
                     {
@@ -527,8 +479,6 @@ namespace LayoutFarm.Text
             int ownerClientLeft, int ownerClientWidth,
             int ownerClientTop)
         {
-
-
 #if DEBUG
             long startTick = DateTime.Now.Ticks;
 #endif
@@ -538,10 +488,8 @@ namespace LayoutFarm.Text
             int curX = 0;
             int curY = 0;
             bool lastestIsBlock = false;
-
             int maxWidth = 0;
             int curY_fromTop = ownerClientTop;
-
             int maxHeightInRow = EditableTextLine.DEFAULT_LINE_HEIGHT;
             int lineCount = lines.Count;
             for (int i = 0; i < lineCount; ++i)
@@ -550,7 +498,6 @@ namespace LayoutFarm.Text
                 curX = ownerClientLeft;
                 lastestIsBlock = false;
                 line.SetTop(curY_fromTop);
-
                 if (!line.NeedArrange)
                 {
                     maxHeightInRow = line.ActualLineHeight;
@@ -564,7 +511,6 @@ namespace LayoutFarm.Text
                     maxHeightInRow = EditableTextLine.DEFAULT_LINE_HEIGHT;
                     EditableTextLine newLine = null;
                     line.ValidateContentArrangement();
-
                     bool isFirstRunInThisLine = true;
                     foreach (EditableRun currentRun in line)
                     {
@@ -575,7 +521,6 @@ namespace LayoutFarm.Text
                         int v_desired_height = currentRun.Height;
                         if (isFirstRunInThisLine)
                         {
-
                             lastestIsBlock = currentRun.IsBlockElement;
                             if (v_desired_height > maxHeightInRow)
                             {
@@ -593,31 +538,23 @@ namespace LayoutFarm.Text
 
                             EditableRun.DirectSetSize(currentRun,
                                     v_desired_width, v_desired_height);
-
                             currentRun.MarkValidContentArrangement();
-
                             curX += v_desired_width;
-
                             isFirstRunInThisLine = false;
                         }
                         else
                         {
-
                             if (lastestIsBlock || currentRun.IsBlockElement ||
                             (curX + v_desired_width > ownerClientRight))
                             {
-
                                 newLine = new EditableTextLine(this);
                                 newLine.AddLast(currentRun);
                                 curY = curY_fromTop + maxHeightInRow;
                                 curY_fromTop = curY;
                                 maxHeightInRow = EditableTextLine.DEFAULT_LINE_HEIGHT;
-
                                 EditableRun nextR = currentRun.NextTextRun;
-
                                 while (nextR != null)
                                 {
-
                                     line.UnsafeRemoveVisualElement(nextR);
                                     newLine.AddLast(nextR);
                                     nextR = nextR.NextTextRun;
@@ -635,20 +572,16 @@ namespace LayoutFarm.Text
                             }
                             else
                             {
-
                                 lastestIsBlock = currentRun.IsBlockElement;
-
                                 if (v_desired_height > maxHeightInRow)
                                 {
                                     maxHeightInRow = v_desired_height;
                                 }
                                 EditableRun.DirectSetLocation(currentRun, curX, 0);
-
                                 EditableRun.DirectSetSize(currentRun,
                                        v_desired_width, v_desired_height);
                                 currentRun.MarkValidContentArrangement();
                                 curX += v_desired_width;
-
                             }
                         }
 
@@ -668,7 +601,6 @@ namespace LayoutFarm.Text
             }
 
             ValidateArrangement();
-
         }
 
 
@@ -688,14 +620,12 @@ namespace LayoutFarm.Text
             }
             int ownerClientRight = ownerClientLeft + ownerClientWidth;
             int default_line_height = EditableTextLine.DEFAULT_LINE_HEIGHT;
-
             int curX = 0;
             int curY = 0;
             bool lastestIsBlock = false;
             int maxHeightInRow = 2;
             int maxWidth = 0;
             int curY_fromTop = ownerClientTop;
-
 #if DEBUG
             long startTick = DateTime.Now.Ticks;
 #endif
@@ -707,7 +637,6 @@ namespace LayoutFarm.Text
             int childCount = 0;
             while (flowRelocator.ReadNextRun())
             {
-
                 EditableRun currentRun = flowRelocator.CurrentRun;
                 if (currentRun != null)
                 {
@@ -719,11 +648,9 @@ namespace LayoutFarm.Text
 
                     int v_desired_width = currentRun.Width;
                     int v_desired_height = currentRun.Height;
-
                     if (lastestIsBlock || currentRun.IsBlockElement ||
                        (curX + v_desired_width > ownerClientRight))
                     {
-
                         if (!flowRelocator.IsFirstRunOfLine)
                         {
                             flowRelocator.CloseCurrentLine(curX, maxHeightInRow);
@@ -745,7 +672,6 @@ namespace LayoutFarm.Text
                             maxHeightInRow = v_desired_height;
                         }
                         EditableRun.DirectSetLocation(currentRun, curX, 0);
-
                         if (lastestIsBlock)
                         {
                             v_desired_width = flowRelocator.OwnerElementWidth;
@@ -753,14 +679,10 @@ namespace LayoutFarm.Text
 
                         EditableRun.DirectSetSize(currentRun,
                             v_desired_width, v_desired_height);
-
-
                         curX += v_desired_width;
                     }
                     else
                     {
-
-
                         flowRelocator.Accept();
                         lastestIsBlock = currentRun.IsBlockElement;
                         if (v_desired_height > maxHeightInRow)
@@ -768,12 +690,10 @@ namespace LayoutFarm.Text
                             maxHeightInRow = v_desired_height;
                         }
                         EditableRun.DirectSetLocation(currentRun, curX, 0);
-
                         EditableRun.DirectSetSize(
                             currentRun,
                             v_desired_width,
                             v_desired_height);
-
                         curX += v_desired_width;
                     }
 #if DEBUG
@@ -791,7 +711,6 @@ namespace LayoutFarm.Text
                                     maxWidth = curX;
                                 }
                                 flowRelocator.CloseCurrentLineWithLineBreak(curX, maxHeightInRow);
-
                                 curX = ownerClientLeft;
                                 curY = curY_fromTop + maxHeightInRow;
                                 curY_fromTop = curY;
@@ -799,7 +718,6 @@ namespace LayoutFarm.Text
                                 flowRelocator.SetCurrentLineTop(curY);
                             }
                             break;
-
                         case 4:
                             {
                                 if (maxWidth < curX)
@@ -811,7 +729,6 @@ namespace LayoutFarm.Text
                             }
                             break;
                     }
-
                 }
             }
 
@@ -823,8 +740,6 @@ namespace LayoutFarm.Text
 
 
             int finalHeight = curY_fromTop + maxHeightInRow;
-
-
             ValidateArrangement();
             FlowReLocator.FreeFlowRelocator(flowRelocator);
         }
@@ -853,13 +768,11 @@ namespace LayoutFarm.Text
                 }
                 else
                 {
-
                     EditableTextLine line = lines[insertAt];
                     int cy = line.Top;
                     textLine.SetTop(cy);
                     textLine.SetLineNumber(insertAt);
                     cy += line.ActualLineHeight;
-
                     for (int i = insertAt; i < j; i++)
                     {
                         line = lines[i];
@@ -873,27 +786,22 @@ namespace LayoutFarm.Text
             }
             else
             {
-
                 lines = new List<EditableTextLine>();
                 lines.Add((EditableTextLine)lineCollection);
                 lineCollection = lines;
                 FlowLayerHasMultiLines = true;
-
                 int j = lines.Count;
                 if (insertAt > j - 1)
                 {
                     AppendLine(textLine);
-
                 }
                 else
                 {
-
                     EditableTextLine line = lines[insertAt];
                     int cy = line.Top;
                     textLine.SetTop(cy);
                     textLine.SetLineNumber(insertAt);
                     cy += line.ActualLineHeight;
-
                     for (int i = insertAt; i < j; i++)
                     {
                         line = lines[i];
@@ -924,12 +832,10 @@ namespace LayoutFarm.Text
                         stBuilder.Append('\n');
                     }
                 }
-
             }
             else
             {
                 ((EditableTextLine)lineCollection).CopyLineContent(stBuilder);
-
             }
         }
 
@@ -959,7 +865,6 @@ namespace LayoutFarm.Text
                         {
                             if (r == stopRun)
                             {
-
                                 break;
                             }
                             else
@@ -978,18 +883,15 @@ namespace LayoutFarm.Text
                         currentLine = currentLine.Next;
                     }
                 }
-
             }
         }
         internal void Reload(IEnumerable<EditableRun> runs)
         {
-
             Clear();
             foreach (EditableRun run in runs)
             {
                 AddTop(run);
             }
-
         }
 
 #if DEBUG
@@ -1003,17 +905,14 @@ namespace LayoutFarm.Text
 
         public override void dbug_DumpElementProps(dbugLayoutMsgWriter writer)
         {
-
             writer.Add(new dbugLayoutMsg(
                 this, this.ToString()));
             writer.EnterNewLevel();
-
             foreach (EditableRun child in this.dbugGetDrawingIter2())
             {
                 child.dbug_DumpVisualProps(writer);
             }
             writer.LeaveCurrentLevel();
-
         }
         public override string ToString()
         {
@@ -1022,7 +921,6 @@ namespace LayoutFarm.Text
         }
         public IEnumerable<EditableRun> dbugGetDrawingIter2()
         {
-
             if ((layerFlags & FLOWLAYER_HAS_MULTILINE) != 0)
             {
                 List<EditableTextLine> lines = (List<EditableTextLine>)lineCollection;
@@ -1048,7 +946,6 @@ namespace LayoutFarm.Text
                 }
             }
         }
-
 
 #endif
     }

@@ -1,21 +1,16 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
-
 namespace LayoutFarm.Text
 {
-
-
     partial class EditableTextLine
     {
-
         void AddNormalRunToLast(EditableRun v)
         {
-
             v.SetInternalLinkedNode(base.AddLast(v), this);
-
         }
         void AddNormalRunToFirst(EditableRun v)
         {
@@ -57,10 +52,7 @@ namespace LayoutFarm.Text
 
 
             base.Remove(GetLineLinkedNode(v));
-
             EditableRun.RemoveParentLink(v);
-
-
             if ((this.lineFlags & LOCAL_SUSPEND_LINE_REARRANGE) != 0)
             {
                 return;

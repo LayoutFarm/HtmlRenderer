@@ -1,13 +1,11 @@
 ﻿//BSD, 2014-2015, WinterDev
 
- 
-using PixelFarm.Drawing; 
 
+using PixelFarm.Drawing;
 namespace LayoutFarm.Css
 {
     abstract class CssFeatureBase
     {
-
 #if DEBUG
         static int dbugIdTotal = 0;
         int __aa_dbugId = dbugIdTotal++;
@@ -15,7 +13,6 @@ namespace LayoutFarm.Css
 
         protected readonly object owner;
         bool freezed;
-
         public CssFeatureBase(object owner)
         {
             this.owner = owner;
@@ -25,14 +22,12 @@ namespace LayoutFarm.Css
         public void Freeze()
         {
             this.freezed = true;
-
         }
         public void DeFreeze() { this.freezed = false; }
 
 
         protected bool Assignable()
         {
-
             return !this.freezed;
         }
     }
@@ -43,8 +38,6 @@ namespace LayoutFarm.Css
         CssBorderStyle _leftStyle, _topStyle, _rightStyle, _bottomStyle;
         Color _leftColor, _topColor, _rightColor, _bottomColor;
         CssBorderCollapse _borderCollapse;
-
-
         public static readonly CssBorderFeature Default = new CssBorderFeature(null);
         static CssBorderFeature()
         {
@@ -54,7 +47,6 @@ namespace LayoutFarm.Css
         public CssBorderFeature(object owner)
             : base(owner)
         {
-
             this.LeftWidth =
                 this.TopWidth =
                 this.RightWidth =
@@ -73,12 +65,10 @@ namespace LayoutFarm.Css
             this.BorderCollapse = CssBorderCollapse.Separate;
             this.BorderSpacingV = CssLength.ZeroNoUnit;
             this.BorderSpacingH = CssLength.ZeroNoUnit;
-
         }
         private CssBorderFeature(object owner, CssBorderFeature inheritFrom)
             : base(owner)
         {
-
             this.LeftWidth = inheritFrom.LeftWidth;
             this.TopWidth = inheritFrom.TopWidth;
             this.RightWidth = inheritFrom.RightWidth;
@@ -123,50 +113,49 @@ namespace LayoutFarm.Css
         public CssBorderStyle LeftStyle
         {
             get { return this._leftStyle; }
-            set { if (Assignable())  this._leftStyle = value; }
-
+            set { if (Assignable()) this._leftStyle = value; }
         }
         public CssBorderStyle TopStyle
         {
             get { return this._topStyle; }
-            set { if (Assignable())  this._topStyle = value; }
+            set { if (Assignable()) this._topStyle = value; }
         }
         public CssBorderStyle RightStyle
         {
             get { return this._rightStyle; }
-            set { if (Assignable())  this._rightStyle = value; }
+            set { if (Assignable()) this._rightStyle = value; }
         }
         public CssBorderStyle BottomStyle
         {
             get { return this._bottomStyle; }
-            set { if (Assignable())this._bottomStyle = value; }
+            set { if (Assignable()) this._bottomStyle = value; }
         }
 
         public Color LeftColor
         {
             get { return this._leftColor; }
-            set { if (Assignable())this._leftColor = value; }
+            set { if (Assignable()) this._leftColor = value; }
         }
         public Color TopColor
         {
             get { return this._topColor; }
-            set { if (Assignable())this._topColor = value; }
+            set { if (Assignable()) this._topColor = value; }
         }
         public Color RightColor
         {
             get { return this._rightColor; }
-            set { if (Assignable())this._rightColor = value; }
+            set { if (Assignable()) this._rightColor = value; }
         }
         public Color BottomColor
         {
             get { return this._bottomColor; }
-            set { if (Assignable())this._bottomColor = value; }
+            set { if (Assignable()) this._bottomColor = value; }
         }
 
         public CssBorderCollapse BorderCollapse
         {
             get { return this._borderCollapse; }
-            set { if (Assignable())this._borderCollapse = value; }
+            set { if (Assignable()) this._borderCollapse = value; }
         }
 
         public CssLength BorderSpacingH
@@ -203,22 +192,17 @@ namespace LayoutFarm.Css
             rep.Check("TopWidth", CssLength.IsEq(prop1.TopWidth, prop2.TopWidth));
             rep.Check("RightWidth", CssLength.IsEq(prop1.RightWidth, prop2.RightWidth));
             rep.Check("BottomWidth", CssLength.IsEq(prop1.BottomWidth, prop2.BottomWidth));
-
             rep.Check("LeftStyle", prop1.LeftStyle == prop2.LeftStyle);
             rep.Check("TopStyle", prop1.TopStyle == prop2.TopStyle);
             rep.Check("RightStyle", prop1.RightStyle == prop2.RightStyle);
             rep.Check("BottomStyle", prop1.BottomStyle == prop2.BottomStyle);
-
             rep.Check("LeftColor", prop1.LeftColor == prop2.LeftColor);
             rep.Check("TopColor", prop1.TopColor == prop2.TopColor);
             rep.Check("RightColor", prop1.RightColor == prop2.RightColor);
             rep.Check("BottomColor", prop1.BottomColor == prop2.BottomColor);
-
             rep.Check("BorderCollapse", prop1.BorderCollapse == prop2.BorderCollapse);
-
             rep.Check("BorderSpacingH", CssLength.IsEq(prop1.BorderSpacingH, prop2.BorderSpacingH));
             rep.Check("BorderSpacingV", CssLength.IsEq(prop1.BorderSpacingV, prop2.BorderSpacingV));
-
             return inCount == rep.Count;
         }
 #endif
@@ -240,12 +224,10 @@ namespace LayoutFarm.Css
                 this.Top =
                 this.Right =
                 this.Bottom = CssLength.ZeroPx;
-
         }
         private CssMarginFeature(object newOwner, CssMarginFeature inheritFrom)
             : base(newOwner)
         {
-
             this.Left = inheritFrom.Left;
             this.Top = inheritFrom.Top;
             this.Right = inheritFrom.Right;
@@ -296,7 +278,6 @@ namespace LayoutFarm.Css
             rep.Check("Top", CssLength.IsEq(prop1.Top, prop2.Top));
             rep.Check("Right", CssLength.IsEq(prop1.Right, prop2.Right));
             rep.Check("Bottom", CssLength.IsEq(prop1.Bottom, prop2.Bottom));
-
             return inCount == rep.Count;
         }
 #endif
@@ -305,7 +286,6 @@ namespace LayoutFarm.Css
     {
         CssLength _left, _top, _right, _bottom;
         public static readonly CssPaddingFeature Default = new CssPaddingFeature(null);
-
         static CssPaddingFeature()
         {
             Default.Freeze();
@@ -313,7 +293,6 @@ namespace LayoutFarm.Css
         public CssPaddingFeature(object owner)
             : base(owner)
         {
-
             this.Left =
                    Top =
                    Right =
@@ -322,7 +301,6 @@ namespace LayoutFarm.Css
         private CssPaddingFeature(object newOwner, CssPaddingFeature inheritFrom)
             : base(newOwner)
         {
-
             this.Left = inheritFrom.Left;
             this.Left = inheritFrom.Left;
             this.Right = inheritFrom.Right;
@@ -371,7 +349,6 @@ namespace LayoutFarm.Css
             rep.Check("Top", CssLength.IsEq(prop1.Top, prop2.Top));
             rep.Check("Right", CssLength.IsEq(prop1.Right, prop2.Right));
             rep.Check("Bottom", CssLength.IsEq(prop1.Bottom, prop2.Bottom));
-
             return inCount == rep.Count;
         }
 #endif
@@ -393,7 +370,6 @@ namespace LayoutFarm.Css
         public CssListFeature(object owner)
             : base(owner)
         {
-
             ListStyleType = CssListStyleType.Disc;
             ListStyleImage = string.Empty;
             ListStylePosition = CssListStylePosition.Outside;
@@ -474,7 +450,6 @@ namespace LayoutFarm.Css
             rep.Check("ListStyleType", prop1.ListStyleImage == prop2.ListStyleImage);
             rep.Check("ListStyleType", prop1.ListStylePosition == prop2.ListStylePosition);
             rep.Check("ListStyleType", prop1.ListStyle == prop2.ListStyle);
-
             return inCount == rep.Count;
         }
 #endif
@@ -484,7 +459,6 @@ namespace LayoutFarm.Css
     {
         CssLength _ne, _nw, _se, _sw;
         public static readonly CssCornerFeature Default = new CssCornerFeature(null);
-
         static CssCornerFeature()
         {
             Default.Freeze();
@@ -492,7 +466,6 @@ namespace LayoutFarm.Css
         public CssCornerFeature(object owner)
             : base(owner)
         {
-
             this.NERadius =
                 NWRadius =
                 SERadius =
@@ -501,13 +474,10 @@ namespace LayoutFarm.Css
         private CssCornerFeature(object owner, CssCornerFeature inheritFrom)
             : base(owner)
         {
-
-
             this.NERadius = inheritFrom.NERadius;
             this.NWRadius = inheritFrom.NWRadius;
             this.SERadius = inheritFrom.SERadius;
             this.SWRadius = inheritFrom.SWRadius;
-
         }
         public CssCornerFeature GetMyOwnVersion(object checkOwner)
         {
@@ -551,7 +521,6 @@ namespace LayoutFarm.Css
             rep.Check("NWRadius", CssLength.IsEq(prop1.NWRadius, prop2.NWRadius));
             rep.Check("SERadius", CssLength.IsEq(prop1.SERadius, prop2.SERadius));
             rep.Check("SWRadius", CssLength.IsEq(prop1.SWRadius, prop2.SWRadius));
-
             return inCount == rep.Count;
         }
 #endif
@@ -559,17 +528,12 @@ namespace LayoutFarm.Css
 
     class CssFontFeature : CssFeatureBase
     {
-
-
         CssLength _fontSize;
         CssFontStyle _fontStyle;
         CssFontWeight _fontWeight;
         CssFontVariant _fontVariant;
         string _fontFam;
-
-
         public static readonly CssFontFeature Default = new CssFontFeature(null);
-
         static CssFontFeature()
         {
             Default.Freeze();
@@ -578,7 +542,6 @@ namespace LayoutFarm.Css
         public CssFontFeature(object owner)
             : base(owner)
         {
-
             FontFamily = FontDefaultConfig.DEFAULT_FONT_NAME;
             FontSize = CssLength.FontSizeMedium;
             FontStyle = CssFontStyle.Normal;
@@ -588,7 +551,6 @@ namespace LayoutFarm.Css
         private CssFontFeature(object owner, CssFontFeature inheritFrom)
             : base(owner)
         {
-
             this.FontFamily = inheritFrom.FontFamily;
             this.FontSize = inheritFrom.FontSize;
             this.FontStyle = inheritFrom.FontStyle;
@@ -681,7 +643,6 @@ namespace LayoutFarm.Css
         string _bgPosition;
         CssLength _bgPosX, _bgPosY;
         CssBackgroundRepeat _bgRepeat;
-
         static CssBackgroundFeature()
         {
             Default.Freeze();
@@ -689,12 +650,10 @@ namespace LayoutFarm.Css
         public CssBackgroundFeature(object owner)
             : base(owner)
         {
-
             this.BackgroundColor = Color.Transparent; //"transparent";
             this.BackgroundGradient = Color.Transparent;// "none";
             this.BackgroundGradientAngle = 90.0f;
             this.BackgroundImageBinder = ImageBinder.NoImage;
-
             this.BackgroundPosX = new CssLength(0, CssUnitOrNames.Percent);
             this.BackgroundPosY = new CssLength(0, CssUnitOrNames.Percent);
             this.BackgroundRepeat = CssBackgroundRepeat.Repeat;
@@ -702,12 +661,10 @@ namespace LayoutFarm.Css
         private CssBackgroundFeature(object owner, CssBackgroundFeature inheritFrom)
             : base(owner)
         {
-
             BackgroundColor = inheritFrom.BackgroundColor;
             BackgroundGradient = inheritFrom.BackgroundGradient;
             BackgroundGradientAngle = inheritFrom.BackgroundGradientAngle;
             BackgroundImageBinder = inheritFrom.BackgroundImageBinder;
-
             BackgroundPosX = inheritFrom.BackgroundPosX;
             BackgroundPosY = inheritFrom.BackgroundPosY;
             BackgroundRepeat = inheritFrom.BackgroundRepeat;
@@ -797,7 +754,6 @@ namespace LayoutFarm.Css
             rep.Check("BackgroundPosX", CssLength.IsEq(prop1.BackgroundPosX, prop2.BackgroundPosX));
             rep.Check("BackgroundPosY", CssLength.IsEq(prop1.BackgroundPosY, prop2.BackgroundPosY));
             rep.Check("CssBackgroundRepeat", prop1.BackgroundRepeat == prop2.BackgroundRepeat);
-
             return inMsgCount == rep.Count;
         }
 #endif
@@ -808,9 +764,7 @@ namespace LayoutFarm.Css
         Color _shadowColor;
         CssLength _hOffset, _vOffset, _blurRadius, _spreadDistance;
         bool _inset;
-
         public static readonly CssBoxShadowFeature Default = new CssBoxShadowFeature(null);
-
         static CssBoxShadowFeature()
         {
             Default.Freeze();
@@ -823,12 +777,10 @@ namespace LayoutFarm.Css
                this.BlurRadius =
                this.SpreadDistance = CssLength.ZeroNoUnit;
             this.ShadowColor = Color.FromArgb(220, Color.Gray);
-
         }
         private CssBoxShadowFeature(object newOwner, CssBoxShadowFeature inheritFrom)
             : base(newOwner)
         {
-
             this.HOffset = inheritFrom.HOffset;
             this.VOffset = inheritFrom.VOffset;
             this.BlurRadius = inheritFrom.BlurRadius;
@@ -888,7 +840,6 @@ namespace LayoutFarm.Css
             rep.Check("Top", CssLength.IsEq(prop1.Top, prop2.Top));
             rep.Check("Right", CssLength.IsEq(prop1.Right, prop2.Right));
             rep.Check("Bottom", CssLength.IsEq(prop1.Bottom, prop2.Bottom));
-
             return inCount == rep.Count;
         }
 #endif
@@ -898,7 +849,6 @@ namespace LayoutFarm.Css
     class CssFlexFeature : CssFeatureBase
     {
         public static readonly CssFlexFeature Default = new CssFlexFeature(null);
-
         FlexFlowDirection _flexFlowDirection;
         FlexWrap _flexLineWrapping;
         int _flexOrder;
@@ -909,7 +859,6 @@ namespace LayoutFarm.Css
         FlexAlignItem _alignItem;//cross-axis alignment
         FlexAlignSelf _alignSelf; //cross-axis alignment
         FlexAlignContent _alignContent;//packing flex lines
-
         //----
         // temp expriment extension
         int _flexExtensionNum;
@@ -922,12 +871,10 @@ namespace LayoutFarm.Css
         public CssFlexFeature(object owner)
             : base(owner)
         {
-
         }
         private CssFlexFeature(object newOwner, CssFlexFeature inheritFrom)
             : base(newOwner)
         {
-
         }
         public CssFlexFeature GetMyOwnVersion(object checkOwner)
         {
@@ -1009,6 +956,4 @@ namespace LayoutFarm.Css
             set { if (Assignable()) this._flexExtensionPartNo = value; }
         }
     }
-
-
 }

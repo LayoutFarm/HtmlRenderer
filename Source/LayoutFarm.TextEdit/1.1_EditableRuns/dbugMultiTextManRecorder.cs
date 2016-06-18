@@ -1,4 +1,5 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.IO;
 namespace LayoutFarm.Text
@@ -10,18 +11,14 @@ namespace LayoutFarm.Text
     }
     public class dbugMultiTextManRecorder
     {
-
         StreamWriter strmWriter;
-
         string outputFileName = null;
         int msgCounter = 0;
         int indentCount = 0;
         int myTraceCount = 0;
-
         static int tracerCount = 0;
         public dbugMultiTextManRecorder()
         {
-
             myTraceCount = tracerCount;
             ++tracerCount;
             //outputFileName = dbugCoreConst.dbugRootFolder + "\\invalidate\\" + myTraceCount + "_" + Guid.NewGuid().ToString() + ".txt";
@@ -36,7 +33,6 @@ namespace LayoutFarm.Text
         }
         public void Start(StreamWriter writer)
         {
-
             //fs = new FileStream(outputFileName, FileMode.Create);
             strmWriter = writer;
             strmWriter.AutoFlush = true;
@@ -71,7 +67,6 @@ namespace LayoutFarm.Text
         void ShouldBreak()
         {
         }
-
     }
 #endif
 }

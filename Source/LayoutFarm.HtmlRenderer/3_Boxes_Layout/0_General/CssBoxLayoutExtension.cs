@@ -2,8 +2,6 @@
 
 namespace LayoutFarm.HtmlBoxes
 {
-
-
     static class CssBoxLayoutExtension
     {
         //--------------------------------
@@ -26,9 +24,9 @@ namespace LayoutFarm.HtmlBoxes
             return box.VisualWidth - (box.ActualBorderLeftWidth +
                 box.ActualPaddingLeft + box.ActualPaddingRight + box.ActualBorderRightWidth);
         }
-        public static  float GetClientHeight(this CssBox box)
+        public static float GetClientHeight(this CssBox box)
         {
-            return box.VisualHeight - (box.ActualBorderTopWidth + box.ActualPaddingTop  + box.ActualPaddingBottom + box.ActualBorderBottomWidth);
+            return box.VisualHeight - (box.ActualBorderTopWidth + box.ActualPaddingTop + box.ActualPaddingBottom + box.ActualBorderBottomWidth);
         }
         internal static float CalculateInnerContentHeight(this CssBox startBox)
         {

@@ -3,11 +3,8 @@
 
 namespace LayoutFarm
 {
-
-
     partial class RenderElement
     {
-
         //public Point GetLocationLimitTo(RenderElement parentHint)
         //{
         //    RenderElement parentVisualElement = this.ParentVisualElement;

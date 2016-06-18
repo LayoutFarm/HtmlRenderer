@@ -1,7 +1,6 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
- 
-using PixelFarm.Drawing;
 
+using PixelFarm.Drawing;
 namespace LayoutFarm
 {
 #if DEBUG
@@ -22,14 +21,11 @@ namespace LayoutFarm
         public static dbugVisualElementLayoutMsg RowCollection_Remove = new dbugVisualElementLayoutMsg("RowCollection::Remove");
         public static dbugVisualElementLayoutMsg DockSpaceLayer_ArrAllDockSpaces = new dbugVisualElementLayoutMsg("DockSpaceLayer::ArrAllDockSpaces");
         public static dbugVisualElementLayoutMsg DockSpaceLayer_ArrAllFreeSpaces = new dbugVisualElementLayoutMsg("DockSpaceLayer::ArrAllFreeSpaces");
-
         public static dbugVisualElementLayoutMsg ArtVisualTextSurafce_EnsureCaretVisible = new dbugVisualElementLayoutMsg("ArtVisualTextSurafce::EnsureCaretVisible");
-
         public static dbugVisualElementLayoutMsg Clear_CAL = new dbugVisualElementLayoutMsg("ClEAR CAL : ");
         public static dbugVisualElementLayoutMsg Clear_ARR = new dbugVisualElementLayoutMsg("ClEAR ARR : ");
         public static dbugVisualElementLayoutMsg Clear_CAL_ARR = new dbugVisualElementLayoutMsg("ClEAR CAL+ARR : ");
         public static dbugVisualElementLayoutMsg Clear_ARR_CAL = new dbugVisualElementLayoutMsg("ClEAR ARR+CAL : ");
-         
     }
 
     partial class RenderElement
@@ -54,7 +50,6 @@ namespace LayoutFarm
         }
         public virtual void dbug_WriteOwnerLayerInfo(RootGraphic visualroot, int i)
         {
-
             if (this.parentLink != null)
             {
                 visualroot.dbug_rootHitChainMsg.AddLast(new dbugLayoutMsg(this, new string('.', i) + " [Ly:" + i + "] " +
@@ -63,7 +58,6 @@ namespace LayoutFarm
         }
         public virtual void dbug_WriteOwnerLineInfo(RootGraphic visualroot, int i)
         {
-
         }
 
         public string dbugGetCssBoxInfo
@@ -79,11 +73,7 @@ namespace LayoutFarm
         public bool dbug_hide_objIden = false;
         public readonly int dbug_obj_id = 0;
         static int dbug_totalObjectId = 0;
-
-
         public string dbug_ObjectNote;
-
-
         public void dbug_SetFixedElementCode(string staticElementCode)
         {
             dbug_FixedElementCode = staticElementCode;
@@ -96,7 +86,6 @@ namespace LayoutFarm
 
         public virtual string dbug_FullElementDescription()
         {
-
             string user_elem_id = null;
             string element_iden = dbug_FixedElementCode;
             if (dbug_ObjectNote != null)
@@ -106,7 +95,6 @@ namespace LayoutFarm
 
             if (IsBlockElement)
             {
-
                 if (user_elem_id != null)
                 {
                     return element_iden + dbug_GetBoundInfo() + "b " + " i" + dbug_obj_id + "a ,(ID=" + user_elem_id + ") " + dbug_GetLayoutInfo();
@@ -118,7 +106,6 @@ namespace LayoutFarm
             }
             else
             {
-
                 if (user_elem_id != null)
                 {
                     return element_iden + dbug_GetBoundInfo() + " "
@@ -148,9 +135,7 @@ namespace LayoutFarm
         }
         public string dbug_GetLayoutInfo()
         {
-
             string info = string.Empty;
-
             if (!this.HasCalculatedSize)
             {
                 info += "[C:" + dbug_InvalidateRecalculateSizeEpisode + "]";
@@ -183,7 +168,6 @@ namespace LayoutFarm
             }
 
             return info;
-
         }
         public int dbug_BeginArr;
         public int dbug_FinishArr;
@@ -192,9 +176,6 @@ namespace LayoutFarm
         public int dbug_InvalidateRecalculateSizeEpisode = 0;
         public int dbug_ValidateRecalculateSizeEpisode = 0;
         public static int dbug_totalInvalidateContentArrEpisode = 0;
-
-
-
         public RootGraphic dbugVRoot
         {
             get
@@ -209,11 +190,9 @@ namespace LayoutFarm
             {
                 canvasPage.DrawRectangle(Color.Red,
                     0, 0, this.Width - 1, this.Height - 1);
-
             }
             if (dbugVRoot.dbug_ForceShowObjectIden)
             {
-
                 var prevColor = canvasPage.CurrentTextColor;
                 canvasPage.CurrentTextColor = Color.Blue;
                 canvasPage.DrawText(
@@ -237,19 +216,15 @@ namespace LayoutFarm
         {
             var debugVisualLay = dbugGetLayoutTracer();
             if (debugVisualLay == null) return;
-             
             debugVisualLay.PushVisualElement(v);
             debugVisualLay.WriteInfo(v, ">>TOPDOWN_RECAL_CONTENT ", "-", "&");
-
         }
         public static void dbug_ExitTopDownReCalculateContent(RenderElement v)
         {
             var debugVisualLay = dbugGetLayoutTracer();
             if (debugVisualLay == null) return;
-
             debugVisualLay.WriteInfo(v, "<<TOPDOWN_RECAL_CONTENT ", "-", "&");
             debugVisualLay.PopVisualElement();
-
         }
         public static void dbug_SetInitObject(RenderElement ve)
         {
@@ -259,24 +234,17 @@ namespace LayoutFarm
         {
             var debugVisualLay = dbugGetLayoutTracer();
             if (debugVisualLay == null) return;
-
-
-
             debugVisualLay.PushVisualElement(v);
             debugVisualLay.WriteInfo(v, "ARR_INNER", ">>", "&");
-
         }
 
         public static void dbug_ExitReArrangeContent(RenderElement ve)
         {
             var debugVisualLay = dbugGetLayoutTracer();
             if (debugVisualLay == null) return;
-
-
             RenderElement v = (RenderElement)debugVisualLay.PeekElement();
             debugVisualLay.WriteInfo(v, "ARR_INNER", "<<", "&");
             debugVisualLay.PopVisualElement();
-
         }
         public static void dbug_StartLayoutTrace(dbugVisualElementLayoutMsg m, int i)
         {
@@ -316,8 +284,6 @@ namespace LayoutFarm
         {
             var debugVisualLay = dbugGetLayoutTracer();
             if (debugVisualLay == null) return;
-
-
             //switch (dbugFlags & 0x3)
             //{
             //    case VISUAL_ELEMENT:
@@ -344,12 +310,9 @@ namespace LayoutFarm
 
         public static void dbug_EndLayoutTrace()
         {
-
             var debugVisualLay = dbugGetLayoutTracer();
             if (debugVisualLay == null) return;
-
             debugVisualLay.WriteInfo("-----  END SESSION -------");
-
             //-------------------------------------------------------------
         }
         static dbugVisualLayoutTracer dbugGetLayoutTracer()
@@ -368,23 +331,18 @@ namespace LayoutFarm
         //-----------------------------------------------------------------
         protected static void dbug_WriteInfo(dbugVisitorMessage m)
         {
-
         }
         protected static void debug_PushTopDownElement(RenderElement ve)
         {
         }
         protected static void debug_PopTopDownElement(RenderElement ve)
         {
-
         }
         protected static void dbug_ExitReArrangeContent()
         {
-
         }
         //temp
         static object dbugInitObject;
-
-
 #if DEBUG
         public void dbugShowRenderPart(Canvas canvasPage, Rectangle updateArea)
         {
@@ -399,7 +357,6 @@ namespace LayoutFarm
                 canvasPage.DrawRectangle(Color.Yellow,
                         updateArea.Left, updateArea.Top,
                         updateArea.Width - 1, updateArea.Height - 1);
-
                 Color c_color = canvasPage.CurrentTextColor;
                 canvasPage.CurrentTextColor = Color.White;
                 canvasPage.DrawText(visualroot.dbug_RootUpdateCounter.ToString().ToCharArray(), updateArea.Left, updateArea.Top);

@@ -1,16 +1,11 @@
 ﻿// 2015,2014 ,BSD, WinterDev
 //ArthurHub  , Jose Manuel Menendez Poo
 
-using System; 
+using System;
 using PixelFarm.Drawing;
 using LayoutFarm.Css;
-
-
 namespace LayoutFarm.HtmlBoxes
 {
-
-
-
     partial class CssBox
     {
         /// <summary>
@@ -26,7 +21,6 @@ namespace LayoutFarm.HtmlBoxes
         //location, size 
         float _visualWidth;
         float _visualHeight;
-
         //----------------------------------
         //absolute layer width,height
         float _innerContentW;
@@ -34,14 +28,11 @@ namespace LayoutFarm.HtmlBoxes
         //----------------------------------
         int _viewportX;
         int _viewportY;
-
         //TODO: review here again!
         bool specificUserContentSizeWidth;
         float _cssBoxWidth;
         float _cssBoxHeight;
         CssBoxSizing _boxSizing;
-
-
         /// <summary>
         /// user's expected height
         /// </summary>
@@ -50,30 +41,23 @@ namespace LayoutFarm.HtmlBoxes
         /// user's expected width 
         /// </summary>
         float _expectedWidth;
-
-
         float _actualPaddingTop;
         float _actualPaddingBottom;
         float _actualPaddingRight;
         float _actualPaddingLeft;
-
         float _actualMarginTop;
         float _actualMarginBottom;
         float _actualMarginRight;
         float _actualMarginLeft;
-
-
         float _actualBorderTopWidth;
         float _actualBorderLeftWidth;
         float _actualBorderBottomWidth;
         float _actualBorderRightWidth;
-
         //corner
         float _actualCornerNW;
         float _actualCornerNE;
         float _actualCornerSW;
         float _actualCornerSE;
-
         //------------------------------
         int _lastCalculationEpisodeNum = 0;
         float _cachedMinimumWidth = 0;
@@ -111,8 +95,6 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="localY"></param>
         public void SetLocation(float localX, float localY)
         {
-
-
             this._localX = localX;
             this._localY = localY;
             this._boxCompactFlags |= BoxFlags.HAS_ASSIGNED_LOCATION;
@@ -185,7 +167,6 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         internal void ReEvaluateComputedValues(IFonts iFonts, CssBox containingBlock)
         {
-
             //depend on parent
             //1. fonts 
             if (this.ParentBox != null)
@@ -206,14 +187,11 @@ namespace LayoutFarm.HtmlBoxes
             float cbWidth = containingBlock.VisualWidth;
             int tmpBoxCompactFlags = this._boxCompactFlags;
             this._boxCompactFlags |= BoxFlags.LAY_EVAL_COMPUTE_VALUES;
-
-
             //www.w3.org/TR/CSS2/box.html#margin-properties
             //w3c: margin applies to all elements except elements table display type
             //other than table-caption,table and inline table
             var cssDisplay = this.CssDisplay;
             BoxSpec spec = _myspec;
-
             switch (cssDisplay)
             {
                 case CssDisplay.None:
@@ -244,7 +222,6 @@ namespace LayoutFarm.HtmlBoxes
                         this._actualMarginTop = RecalculateMargin(spec.MarginTop, cbWidth);
                         this._actualMarginRight = RecalculateMargin(spec.MarginRight, cbWidth);
                         this._actualMarginBottom = RecalculateMargin(spec.MarginBottom, cbWidth);
-
                     }
                     break;
             }
@@ -276,8 +253,6 @@ namespace LayoutFarm.HtmlBoxes
             //-----------------------------------------------------------------------
             //borders         
             float a1, a2, a3, a4;
-
-
             this._actualBorderLeftWidth = a1 = (spec.BorderLeftStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(spec.BorderLeftWidth, this);
             this._actualBorderTopWidth = a2 = (spec.BorderTopStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(spec.BorderTopWidth, this);
             this._actualBorderRightWidth = a3 = (spec.BorderRightStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(spec.BorderRightWidth, this);
@@ -288,7 +263,6 @@ namespace LayoutFarm.HtmlBoxes
             this._borderTopVisible = a2 > 0 && spec.BorderTopStyle >= CssBorderStyle.Visible;
             this._borderRightVisible = a3 > 0 && spec.BorderRightStyle >= CssBorderStyle.Visible;
             this._borderBottomVisble = a4 > 0 && spec.BorderBottomStyle >= CssBorderStyle.Visible;
-
             //extension ***
             if (a1 + a2 + a3 + a4 > 0)
             {
@@ -306,7 +280,6 @@ namespace LayoutFarm.HtmlBoxes
             this._actualCornerNW = a2 = CssValueParser.ConvertToPx(spec.CornerNWRadius, 0, this);
             this._actualCornerSE = a3 = CssValueParser.ConvertToPx(spec.CornerSERadius, 0, this);
             this._actualCornerSW = a4 = CssValueParser.ConvertToPx(spec.CornerSWRadius, 0, this);
-
             if ((a1 + a2 + a3 + a4) > 0)
             {
                 //evaluate 
@@ -349,7 +322,6 @@ namespace LayoutFarm.HtmlBoxes
             this._actualTextIndent = CssValueParser.ConvertToPx(spec.TextIndent, containingBlock.VisualWidth, this);
             this._actualBorderSpacingHorizontal = spec.BorderSpacingHorizontal.Number;
             this._actualBorderSpacingVertical = spec.BorderSpacingVertical.Number;
-
             //-----------------------
             //this._actualLineHeight = 0.9f * CssValueParser.ConvertToPx(LineHeight, this.GetEmHeight(), this); 
             //expected width expected height
@@ -374,7 +346,6 @@ namespace LayoutFarm.HtmlBoxes
 
             if (this._myspec.HasBoxShadow)
             {
-
                 //temp fix here
                 //TODO: review move shadow to external decoration object/box
                 if (decorator == null)
@@ -419,7 +390,6 @@ namespace LayoutFarm.HtmlBoxes
         }
         void dbugBeforeSetHeight(float height)
         {
-
         }
 #endif
         /// <summary>
@@ -436,7 +406,6 @@ namespace LayoutFarm.HtmlBoxes
 #endif
             this._cssBoxWidth = width;
             this._visualWidth = width;
-
             // must be separate because the margin can be calculated by percentage of the width
             //(again, because actual padding or margin may need css box with first)
             if (_boxSizing == CssBoxSizing.ContentBox)
@@ -444,7 +413,6 @@ namespace LayoutFarm.HtmlBoxes
                 this._visualWidth = width +
                        this.ActualPaddingLeft + this.ActualPaddingRight +
                        +this.ActualBorderLeftWidth + this.ActualBorderRightWidth;
-
             }
 
             this.specificUserContentSizeWidth = true;
@@ -458,8 +426,6 @@ namespace LayoutFarm.HtmlBoxes
             this._cssBoxWidth = containerClientWidth - (
                        this.ActualPaddingLeft + this.ActualPaddingRight +
                        +this.ActualBorderLeftWidth + this.ActualBorderRightWidth);
-
-
         }
         internal void SetCssBoxHeight(float height)
         {
@@ -499,7 +465,6 @@ namespace LayoutFarm.HtmlBoxes
         }
         public void SetVisualHeight(float height)
         {
-
 #if DEBUG
             dbugBeforeSetHeight(height);
 #endif
@@ -536,7 +501,6 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-
                 return this._visualWidth;
             }
         }
@@ -700,8 +664,6 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-
-
 #if DEBUG
                 //if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
                 //{
@@ -720,7 +682,6 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-
                 return this._actualMarginBottom;
             }
         }
@@ -784,7 +745,6 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-
                 return _actualBorderRightWidth;
             }
         }
@@ -796,7 +756,6 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-
                 return _actualCornerNW;
             }
         }
@@ -808,7 +767,6 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-
                 return _actualCornerNE;
             }
         }
@@ -820,7 +778,6 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-
                 return _actualCornerSE;
             }
         }
@@ -832,7 +789,6 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-
                 return _actualCornerSW;
             }
         }
@@ -928,17 +884,13 @@ namespace LayoutFarm.HtmlBoxes
         }
         internal CssBox GetGlobalLocationRelativeToRoot(out float globalX, out float globalY)
         {
-
             if (this.justBlockRun != null)
             {
-
                 var hostLineOfThisRun = this.justBlockRun.HostLine;
                 var hostBox = hostLineOfThisRun.OwnerBox;
                 CssBox foundRoot = hostBox.GetGlobalLocationRelativeToRoot(out globalX, out globalY);
                 globalX += this.justBlockRun.Left;
                 globalY += this.justBlockRun.Top + hostLineOfThisRun.CachedLineTop;
-
-
                 return foundRoot;
             }
             else
@@ -955,7 +907,6 @@ namespace LayoutFarm.HtmlBoxes
                 }
                 return foundRoot;
             }
-
         }
         public CssBox GetGlobalLocation(out float globalX, out float globalY)
         {
@@ -1007,6 +958,5 @@ namespace LayoutFarm.HtmlBoxes
             this.mayHasViewport = true;
             this.InvalidateGraphics();
         }
-
     }
 }

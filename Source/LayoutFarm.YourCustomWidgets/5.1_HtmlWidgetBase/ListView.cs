@@ -1,12 +1,11 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
-
 using LayoutFarm.UI;
-
 namespace LayoutFarm.HtmlWidgets
 {
     public class ListView : HtmlWidgetBase
@@ -17,7 +16,6 @@ namespace LayoutFarm.HtmlWidgets
         List<ListItem> items = new List<ListItem>();
         int selectedIndex = -1;//default = no selection
         WebDom.DomElement pnode;
-
         public ListView(int w, int h)
             : base(w, h)
         {
@@ -66,13 +64,11 @@ namespace LayoutFarm.HtmlWidgets
         public void Remove(ListItem item)
         {
             items.Remove(item);
-
         }
         public void RemoveAt(int index)
         {
             var item = items[index];
             items.RemoveAt(index);
-
         }
         public void ClearItems()
         {
@@ -88,7 +84,6 @@ namespace LayoutFarm.HtmlWidgets
             {
                 if (value < this.ItemCount)
                 {
-
                     if (this.selectedIndex != value)
                     {
                         //1. current item
@@ -116,8 +111,6 @@ namespace LayoutFarm.HtmlWidgets
                 }
             }
         }
-
-
     }
     public class ListItem
     {
@@ -146,7 +139,6 @@ namespace LayoutFarm.HtmlWidgets
             set
             {
                 this.itemText = value;
-
             }
         }
         public WebDom.DomElement GetPresentationNode(WebDom.DomElement hostNode)
@@ -164,10 +156,7 @@ namespace LayoutFarm.HtmlWidgets
             textSpanNode = ownerdoc.CreateElement("span");
             textSpanNode.AddChild(ownerdoc.CreateTextNode(itemText.ToCharArray()));
             pnode.AddChild(textSpanNode);
-
             return pnode;
         }
-
     }
-
 }

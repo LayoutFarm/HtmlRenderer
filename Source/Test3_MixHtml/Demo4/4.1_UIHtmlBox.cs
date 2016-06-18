@@ -1,12 +1,7 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
+
 using PixelFarm.Drawing;
 using LayoutFarm.CustomWidgets;
-using LayoutFarm.UI;
-
 namespace LayoutFarm
 {
     [DemoNote("4.1 UIHtmlBox")]
@@ -20,19 +15,15 @@ namespace LayoutFarm
             //html box
             var contentMx = new LayoutFarm.ContentManagers.ImageContentManager();
             contentMx.ImageLoadingRequest += contentMx_ImageLoadingRequest;
-
-
             var host = HtmlHostCreatorHelper.CreateHtmlHost(viewport,
                 (s, e) => contentMx.AddRequestImage(e.ImageBinder),
                 contentMx_LoadStyleSheet);
-
             htmlBox = new HtmlBox(host, 1024, 800);
             viewport.AddContent(htmlBox);
             if (htmltext == null)
             {
-
                 htmltext = @"<html><head></head><body>NOT FOUND!</body></html>";
-            } 
+            }
 
             htmlBox.LoadHtmlString(htmltext);
         }

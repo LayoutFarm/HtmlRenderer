@@ -29,10 +29,8 @@ namespace LayoutFarm.WebDom.Parser
 
     class HtmlStack
     {
-
         List<DomElement> nodes = new List<DomElement>();
         int count;
-
         public HtmlStack()
         {
         }
@@ -72,5 +70,4 @@ namespace LayoutFarm.WebDom.Parser
             this.count = 0;
         }
     }
-
 }

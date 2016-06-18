@@ -1,8 +1,7 @@
 ﻿//BSD 2014-2015,WinterDev
 
- 
-using PixelFarm.Drawing;
 
+using PixelFarm.Drawing;
 namespace LayoutFarm.HtmlBoxes
 {
     class CssFloatContainerBox : CssBox
@@ -19,5 +18,4 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
     }
-
 }

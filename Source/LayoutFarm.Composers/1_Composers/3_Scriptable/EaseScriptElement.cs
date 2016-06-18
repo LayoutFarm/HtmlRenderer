@@ -1,11 +1,9 @@
 ﻿// 2015,2014 ,MIT, WinterDev 
 
 using PixelFarm.Drawing;
-
 using LayoutFarm.Css;
 using LayoutFarm.HtmlBoxes;
-using LayoutFarm.WebDom; 
-
+using LayoutFarm.WebDom;
 namespace LayoutFarm.Composers
 {
     public struct EaseScriptElement
@@ -51,7 +49,6 @@ namespace LayoutFarm.Composers
                     WellknownCssPropertyName.Color,
                     new CssCodeColor(
                         CssColorConv.ConvertToCssColor(newcolor))));
-
             HtmlElement.InvokeNotifyChangeOnIdleState(elem, ElementChangeKind.Spec);
         }
         public void ChangeBackgroundColor(Color backgroundColor)
@@ -81,14 +78,10 @@ namespace LayoutFarm.Composers
                new CssPropertyDeclaration(
                    WellknownCssPropertyName.BackgroundColor,
                    new CssCodeColor(CssColorConv.ConvertToCssColor(backgroundColor))));
-
             elem.SkipPrincipalBoxEvalulation = false;
-
             CssBox cssbox = HtmlElement.InternalGetPrincipalBox(elem);
-
             if (cssbox != null)
             {
-
 #if DEBUG
                 cssbox.dbugMark1++;
 #endif
@@ -99,9 +92,7 @@ namespace LayoutFarm.Composers
             HtmlElement.InvokeNotifyChangeOnIdleState(
                elem,
                ElementChangeKind.Spec);
-
             InvalidateCssBox(cssbox);
-
         }
         static void InvalidateCssBox(CssBox cssbox)
         {
@@ -117,6 +108,5 @@ namespace LayoutFarm.Composers
                 rootCssBox.ContainerElement.InvalidateGraphics();
             }
         }
-
     }
 }

@@ -1,25 +1,15 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
+
 using PixelFarm.Drawing;
-using LayoutFarm.UI;
 using LayoutFarm.CustomWidgets;
-using LayoutFarm.RenderBoxes;
-
-
 namespace LayoutFarm
 {
     [DemoNote("3.9 Demo_CompartmentWithSpliter3")]
     class Demo_CompartmentWithSpliter3 : DemoBase
     {
-
         NinespaceBox ninespaceBox;
         protected override void OnStartDemo(SampleViewport viewport)
         {
-
-
             //--------------------------------
             {
                 //background element
@@ -31,19 +21,14 @@ namespace LayoutFarm
             }
             //--------------------------------
             //ninespace compartment
-            ninespaceBox = new NinespaceBox(viewport.PrimaryScreenWidth, viewport.PrimaryScreenHeight-15);
+            ninespaceBox = new NinespaceBox(viewport.PrimaryScreenWidth, viewport.PrimaryScreenHeight - 15);
             ninespaceBox.ShowGrippers = true;
-
-
             var ninespace2 = new NinespaceBox(400, 600);
-
             ninespace2.SetLeftSpaceWidth(150);
             ninespace2.ShowGrippers = true;
             ninespaceBox.RightSpace.AddChild(ninespace2);
-
-
             viewport.AddContent(ninespaceBox);
-           // ninespaceBox.SetSize(800, 600);
+            // ninespaceBox.SetSize(800, 600);
 
             ////test add some content to the ninespace box
             //var sampleListView = CreateSampleListView();
@@ -53,7 +38,6 @@ namespace LayoutFarm
         }
         void SetupBackgroundProperties(LayoutFarm.CustomWidgets.EaseBox backgroundBox)
         {
-
         }
 
         static LayoutFarm.CustomWidgets.ListView CreateSampleListView()
@@ -77,7 +61,5 @@ namespace LayoutFarm
             }
             return listview;
         }
-
-
     }
 }

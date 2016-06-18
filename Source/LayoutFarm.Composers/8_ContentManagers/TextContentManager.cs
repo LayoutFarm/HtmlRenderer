@@ -5,7 +5,6 @@ using System;
 namespace LayoutFarm.ContentManagers
 {
     public delegate void RequestStyleSheetEventHandler(TextRequestEventArgs args);
-
     public class TextRequestEventArgs : EventArgs
     {
         public TextRequestEventArgs(string src)
@@ -14,7 +13,6 @@ namespace LayoutFarm.ContentManagers
         }
         public string Src { get; private set; }
         public string TextContent { get; set; }
-
     }
 
     public class TextContentManager
@@ -27,14 +25,10 @@ namespace LayoutFarm.ContentManagers
         public event EventHandler<TextRequestEventArgs> StylesheetLoadingRequest;
         public TextContentManager()
         {
-
         }
         public void AddStyleSheetRequest(TextRequestEventArgs arg)
         {
             this.StylesheetLoadingRequest(this, arg);
         }
     }
-
-
-
 }

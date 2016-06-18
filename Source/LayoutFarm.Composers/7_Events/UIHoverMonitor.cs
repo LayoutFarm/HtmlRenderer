@@ -1,11 +1,10 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
-using System;
 
+using System;
 namespace LayoutFarm.UI
 {
     class UIHoverMonitorTask : UITimerTask
     {
-
         int mouseMoveCounter = -1;
         EventHandler targetEventHandler;
         bool isEnabled;
@@ -24,11 +23,9 @@ namespace LayoutFarm.UI
                 this.isEnabled = value;
                 if (value)
                 {
-
                 }
                 else
                 {
-
                 }
             }
         }
@@ -56,6 +53,4 @@ namespace LayoutFarm.UI
             }
         }
     }
-
-
 }

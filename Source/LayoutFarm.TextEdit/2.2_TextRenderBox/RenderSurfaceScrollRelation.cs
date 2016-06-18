@@ -1,4 +1,5 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 namespace LayoutFarm.UI
 {
@@ -9,7 +10,6 @@ namespace LayoutFarm.UI
         public event EventHandler<UIScrollEventArgs> VScrollChanged;
         public event EventHandler<UIScrollEventArgs> HScrollChanged;
         object owner;
-
         public RenderSurfaceScrollRelation(object owner)
         {
             this.owner = owner;
@@ -74,6 +74,5 @@ namespace LayoutFarm.UI
             get;
             set;
         }
-
     }
 }

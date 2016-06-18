@@ -1,16 +1,12 @@
 ﻿// 2015,2014 ,BSD, WinterDev 
 
 using System.Collections.Generic;
-
-
 using LayoutFarm.Css;
 using LayoutFarm.Composers;
-
 namespace LayoutFarm.HtmlBoxes
 {
     static class RunListHelper
     {
-
         public static void AddRunList(CssBox toBox, BoxSpec spec, HtmlTextNode textnode)
         {
             AddRunList(toBox, spec, textnode.InternalGetRuns(), textnode.GetOriginalBuffer(), textnode.IsWhiteSpace);
@@ -22,7 +18,6 @@ namespace LayoutFarm.HtmlBoxes
             char[] buffer,
             bool isAllWhitespace)
         {
-
             CssBox.UnsafeSetTextBuffer(toBox, buffer);
             if (runlist != null)
             {
@@ -32,7 +27,6 @@ namespace LayoutFarm.HtmlBoxes
                 }
             }
             CssBox.UnsafeSetContentRuns(toBox, runlist, isAllWhitespace);
-
         }
     }
 }

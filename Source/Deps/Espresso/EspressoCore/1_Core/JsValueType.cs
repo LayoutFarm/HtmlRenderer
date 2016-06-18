@@ -25,7 +25,6 @@
 
 using System;
 using System.Runtime.InteropServices;
-
 namespace VroomJs
 {
     enum JsValueType
@@ -47,7 +46,6 @@ namespace VroomJs
         Dictionary = 15,
         Error = 16,
         Function = 17,
-
         //---------------
         //my extension
         JsTypeWrap = 18

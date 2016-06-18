@@ -2,12 +2,10 @@
 
 using System.Collections.Generic;
 using PixelFarm.Drawing;
-
 namespace LayoutFarm.RenderBoxes
 {
     public abstract class RenderElementLayer
     {
-
 #if DEBUG
         public int dbug_layer_id;
         static int dbug_layer_id_count = 0;
@@ -16,24 +14,18 @@ namespace LayoutFarm.RenderBoxes
 #endif
 
         protected int layerFlags;
-
         protected const int IS_LAYER_HIDDEN = 1 << (14 - 1);
         protected const int IS_GROUND_LAYER = 1 << (15 - 1);
         protected const int MAY_HAS_OTHER_OVERLAP_CHILD = 1 << (16 - 1);
-
         protected const int DOUBLE_BACKCANVAS_WIDTH = 1 << (18 - 1);
         protected const int DOUBLE_BACKCANVAS_HEIGHT = 1 << (19 - 1);
         protected const int CONTENT_DRAWING = 1 << (22 - 1);
         protected const int ARRANGEMENT_VALID = 1 << (23 - 1);
         protected const int HAS_CALCULATE_SIZE = 1 << (24 - 1);
-
         protected const int FLOWLAYER_HAS_MULTILINE = 1 << (25 - 1);
-
         protected RenderElement owner;
-
         int postCalculateContentWidth;
         int postCalculateContentHeight;
-
         public RenderElementLayer(RenderElement owner)
         {
             this.owner = owner;
@@ -48,7 +40,6 @@ namespace LayoutFarm.RenderBoxes
             get { return this.owner.Root; }
         }
         public abstract void Clear();
-
         public bool Visible
         {
             get
@@ -60,7 +51,6 @@ namespace LayoutFarm.RenderBoxes
                 layerFlags = value ?
                     layerFlags & ~IS_LAYER_HIDDEN :
                     layerFlags | IS_LAYER_HIDDEN;
-
             }
         }
 
@@ -100,7 +90,6 @@ namespace LayoutFarm.RenderBoxes
                 layerFlags = value ?
                     layerFlags | DOUBLE_BACKCANVAS_WIDTH :
                     layerFlags & ~DOUBLE_BACKCANVAS_WIDTH;
-
             }
         }
 
@@ -134,7 +123,6 @@ namespace LayoutFarm.RenderBoxes
             ValidateCalculateContentSize();
             postCalculateContentWidth = s.Width;
             postCalculateContentHeight = s.Height;
-
         }
 
         public abstract bool HitTestCore(HitChain hitChain);
@@ -143,7 +131,6 @@ namespace LayoutFarm.RenderBoxes
         public abstract IEnumerable<RenderElement> GetRenderElementIter();
         public abstract IEnumerable<RenderElement> GetRenderElementReverseIter();
         public abstract void DrawChildContent(Canvas canvasPage, Rectangle updateArea);
-
         protected void ValidateArrangement()
         {
 #if DEBUG
@@ -157,7 +144,6 @@ namespace LayoutFarm.RenderBoxes
         {
             get
             {
-
                 return (layerFlags & ARRANGEMENT_VALID) == 0;
             }
         }
@@ -186,7 +172,6 @@ namespace LayoutFarm.RenderBoxes
                 {
                     return string.Empty;
                 }
-
             }
         }
         public abstract void dbug_DumpElementProps(dbugLayoutMsgWriter writer);
@@ -206,10 +191,8 @@ namespace LayoutFarm.RenderBoxes
         {
             var debugVisualLay = dbugGetLayoutTracer();
             if (debugVisualLay == null) return;
-
             debugVisualLay.PushLayerElement(layer);
             debugVisualLay.WriteInfo("..>L_RECAL_TOPDOWN :" + layer.ToString());
-
         }
         protected static void vinv_dbug_ExitLayerReCalculateContent()
         {
@@ -218,7 +201,6 @@ namespace LayoutFarm.RenderBoxes
             RenderElementLayer layer = (RenderElementLayer)debugVisualLay.PeekElement();
             debugVisualLay.WriteInfo("<..L_RECAL_TOPDOWN  :" + layer.ToString());
             debugVisualLay.PopLayerElement();
-
         }
         protected static void vinv_dbug_BeginSetElementBound(RenderElement ve)
         {
@@ -226,16 +208,13 @@ namespace LayoutFarm.RenderBoxes
             if (debugVisualLay == null) return;
             debugVisualLay.BeginNewContext();
             debugVisualLay.WriteInfo(dbugVisitorMessage.WITH_0.text, ve);
-
         }
         protected static void vinv_dbug_EndSetElementBound(RenderElement ve)
         {
             var debugVisualLay = dbugGetLayoutTracer();
             if (debugVisualLay == null) return;
-
             debugVisualLay.WriteInfo(dbugVisitorMessage.WITH_1.text, ve);
             debugVisualLay.EndCurrentContext();
-
         }
         protected static void vinv_dbug_EnterLayerReArrangeContent(RenderElementLayer layer)
         {
@@ -243,25 +222,19 @@ namespace LayoutFarm.RenderBoxes
             if (debugVisualLay == null) return;
             debugVisualLay.PushLayerElement(layer);
             debugVisualLay.WriteInfo("..>LAYER_ARR :" + layer.ToString());
-
         }
         protected static void vinv_dbug_ExitLayerReArrangeContent()
         {
-
             var debugVisualLay = dbugGetLayoutTracer();
             if (debugVisualLay == null) return;
-
             RenderElementLayer layer = (RenderElementLayer)debugVisualLay.PeekElement();
             debugVisualLay.WriteInfo("<..LAYER_ARR :" + layer.ToString());
             debugVisualLay.PopLayerElement();
-
-
         }
         protected static void vinv_dbug_WriteInfo(dbugVisitorMessage msg, object o)
         {
             var debugVisualLay = dbugGetLayoutTracer();
             if (debugVisualLay == null) return;
-
             debugVisualLay.WriteInfo(msg.text);
         }
 #endif
@@ -270,6 +243,4 @@ namespace LayoutFarm.RenderBoxes
             get { return this.owner; }
         }
     }
-
-
 }

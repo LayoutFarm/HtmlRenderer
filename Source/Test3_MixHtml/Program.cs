@@ -1,9 +1,8 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Collections.Generic;
-
 using System.Windows.Forms;
-
 namespace TestGraphicPackage2
 {
     static class Program
@@ -14,28 +13,19 @@ namespace TestGraphicPackage2
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
-
             //temp
             //TODO: fix this , 
             var platform = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.Start();
             formDemoList = new LayoutFarm.Dev.FormDemoList();
             formDemoList.LoadDemoList(typeof(Program));
-
             LoadHtmlSamples(formDemoList.SamplesTreeView);
-
             Application.Run(formDemoList);
-
             LayoutFarm.UI.GdiPlus.MyWinGdiPortal.End();
-
-
         }
         static void LoadHtmlSamples(TreeView _samplesTreeView)
         {
-
             //find sample folder 
             string execFromFolder = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
-
 #if DEBUG
             string checkFolder = "\\Source\\Test3_MixHtml\\bin\\Debug";
 #else
@@ -51,12 +41,9 @@ namespace TestGraphicPackage2
 
             int index = execFromFolder.LastIndexOf(checkFolder);
             string rootSampleFolder = execFromFolder.Substring(0, index) + "\\Source\\HtmlRenderer.Demo\\Samples";
-
             var root = new TreeNode("HTML Renderer");
             _samplesTreeView.Nodes.Add(root);
-
             string[] sampleDirs = System.IO.Directory.GetDirectories(rootSampleFolder);
-
             //only 1 file level (not recursive)
             foreach (string dirName in sampleDirs)
             {
@@ -79,7 +66,6 @@ namespace TestGraphicPackage2
             }
             root.ExpandAll();
             _samplesTreeView.NodeMouseDoubleClick += new TreeNodeMouseClickEventHandler(_samplesTreeView_NodeMouseDoubleClick);
-
         }
         static void _samplesTreeView_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
@@ -91,10 +77,7 @@ namespace TestGraphicPackage2
                 LayoutFarm.Demo_UIHtmlBox demoHtmlBox = new LayoutFarm.Demo_UIHtmlBox();
                 demoHtmlBox.LoadHtml(filename, fileContent);
                 formDemoList.RunDemo(demoHtmlBox);
-
             }
-
         }
-
     }
 }

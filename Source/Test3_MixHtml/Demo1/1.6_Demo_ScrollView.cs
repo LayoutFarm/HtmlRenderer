@@ -1,12 +1,8 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
+
 using PixelFarm.Drawing;
 using LayoutFarm.UI;
 using LayoutFarm.ContentManagers;
-
 namespace LayoutFarm
 {
     [DemoNote("1.6 ScrollView")]
@@ -78,11 +74,9 @@ namespace LayoutFarm
             panel.BackColor = Color.LightGray;
             panel.ContentLayoutKind = CustomWidgets.BoxContentLayoutKind.VerticalStack;
             viewport.AddContent(panel);
-
             //-------------------------  
             //load images...
             int lastY = 0;
-
             for (int i = 0; i < 5; ++i)
             {
                 var imgbox = new LayoutFarm.CustomWidgets.ImageBox(36, 400);
@@ -92,14 +86,11 @@ namespace LayoutFarm
                 ClientImageBinder binder = new ClientImageBinder("../../images/0" + (i + 1) + ".jpg");
                 binder.SetOwner(imgbox);
                 binder.SetLazyFunc(LazyImageLoad);
-
                 //if use lazy img load func
                 imageContentMan.AddRequestImage(binder);
-
                 imgbox.ImageBinder = binder;
                 imgbox.BackColor = Color.OrangeRed;
                 imgbox.SetLocation(0, lastY);
-
                 imgbox.MouseUp += (s, e) =>
                 {
                     if (e.Button == UIMouseButtons.Right)
@@ -107,16 +98,13 @@ namespace LayoutFarm
                         //test remove this imgbox on right mouse click
                         panel.RemoveChild(imgbox);
                     }
-
                 };
                 lastY += imgbox.Height + 5;
                 panel.AddChild(imgbox);
-
             }
             //--------------------------
             //panel may need more 
             panel.SetViewport(0, 0);
-
             //-------------------------  
             {
                 //vertical scrollbar

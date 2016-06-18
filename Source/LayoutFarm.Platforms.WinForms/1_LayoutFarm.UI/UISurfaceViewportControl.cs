@@ -1,22 +1,17 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
 using System.Windows.Forms;
 using PixelFarm.Drawing;
-using LayoutFarm.RenderBoxes;
-
 namespace LayoutFarm.UI
 {
-
     public partial class UISurfaceViewportControl : UserControl
     {
         TopWindowBridge winBridge;
         RootGraphic rootgfx;
         ITopWindowEventRoot topWinEventRoot;
         InnerViewportKind innerViewportKind;
-
         List<Form> subForms = new List<Form>();
         public UISurfaceViewportControl()
         {
@@ -28,12 +23,10 @@ namespace LayoutFarm.UI
             ITopWindowEventRoot topWinEventRoot,
             InnerViewportKind innerViewportKind)
         {
-
             //1.
             this.rootgfx = rootgfx;
             this.topWinEventRoot = topWinEventRoot;
             this.innerViewportKind = innerViewportKind;
-
             switch (innerViewportKind)
             {
                 case InnerViewportKind.GL:
@@ -55,7 +48,8 @@ namespace LayoutFarm.UI
                         //this.winBridge = bridge;
 
 
-                    } break;
+                    }
+                    break;
                 case InnerViewportKind.GdiPlus:
                 default:
                     {
@@ -65,9 +59,9 @@ namespace LayoutFarm.UI
                         this.Controls.Add(view);
                         //--------------------------------------- 
                         view.Bind(bridge);
-
                         this.winBridge = bridge;
-                    } break;
+                    }
+                    break;
             }
         }
 
@@ -86,9 +80,7 @@ namespace LayoutFarm.UI
         }
         protected override void OnLoad(EventArgs e)
         {
-
             this.winBridge.OnHostControlLoaded();
-
         }
         public void PaintMe()
         {
@@ -130,27 +122,23 @@ namespace LayoutFarm.UI
                         var newForm = new AbstractCompletionWindow();
                         newForm.LinkedParentForm = this.FindForm();
                         newForm.LinkedParentControl = this;
-
                         UISurfaceViewportControl newSurfaceViewport = this.CreateNewOne(300, 200);
                         newSurfaceViewport.Location = new System.Drawing.Point(0, 0);
                         newForm.Controls.Add(newSurfaceViewport);
                         vi.ResetRootGraphics(newSurfaceViewport.RootGfx);
                         vi.SetLocation(0, 0);
                         newSurfaceViewport.AddContent(vi);
-                        
-                        
                         //------------------------------------------------------                       
                         var platformWinBox = new PlatformWinBoxForm(newForm);
                         topWinBox.PlatformWinBox = platformWinBox;
                         platformWinBox.UseRelativeLocationToParent = true;
                         subForms.Add(newForm);
-                    } 
+                    }
                 }
                 else
                 {
                     this.rootgfx.TopWindowRenderBox.AddChild(vi);
                 }
-                 
             }
             else
             {
@@ -181,7 +169,6 @@ namespace LayoutFarm.UI
 
             UISurfaceViewportControl newViewportControl = new UISurfaceViewportControl();
             newViewportControl.Size = new System.Drawing.Size(w, h);
-
             RootGraphic newRootGraphic = this.rootgfx.CreateNewOne(w, h);
             ITopWindowEventRoot topEventRoot = null;
             if (newRootGraphic is ITopWindowEventRootProvider)
@@ -192,10 +179,7 @@ namespace LayoutFarm.UI
                 newRootGraphic,//new root
                 topEventRoot,
                 this.innerViewportKind);
-
             return newViewportControl;
-
-
         }
         //-----------
     }
@@ -262,5 +246,4 @@ namespace LayoutFarm.UI
             form.Size = new System.Drawing.Size(w, h);
         }
     }
-
 }

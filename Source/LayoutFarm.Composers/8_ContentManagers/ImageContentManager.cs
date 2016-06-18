@@ -4,10 +4,8 @@
 using System;
 using System.Collections.Generic;
 using PixelFarm.Drawing;
-
 namespace LayoutFarm.ContentManagers
 {
-
     public class ImageRequestEventArgs : EventArgs
     {
         public ImageRequestEventArgs(ImageBinder binder)
@@ -28,25 +26,16 @@ namespace LayoutFarm.ContentManagers
 
     public class ImageContentManager
     {
-
         public event EventHandler<ImageRequestEventArgs> ImageLoadingRequest;
-
         LinkedList<ImageBinder> inputList = new LinkedList<ImageBinder>();
         LinkedList<ImageBinder> outputList = new LinkedList<ImageBinder>();
-
-
         ImageCacheSystem imageCacheLevel0 = new ImageCacheSystem();
         LayoutFarm.UI.UITimer timImageLoadMonitor;
-
-
         bool hasSomeInputHint;
         bool hasSomeOutputHint;
-
-
         object outputListSync = new object();
         object inputListSync = new object();
         bool working = false;
-
         public ImageContentManager()
         {
             timImageLoadMonitor = UI.UIPlatform.CurrentUIPlatform.CreateUITimer();
@@ -58,7 +47,6 @@ namespace LayoutFarm.ContentManagers
 
         private void TimImageLoadMonitor_Tick(object sender, EventArgs e)
         {
-
             lock (inputListSync)
             {
                 if (working)
@@ -82,7 +70,6 @@ namespace LayoutFarm.ContentManagers
             {
                 var firstNode = inputList.First;
                 inputList.RemoveFirst();
-
                 ImageBinder binder = firstNode.Value;
                 //wait until finish this  .... 
 
@@ -95,7 +82,6 @@ namespace LayoutFarm.ContentManagers
                     binder.ImageSource,
                     out foundImage))
                 {
-
                     this.ImageLoadingRequest(
                         this,
                         new ContentManagers.ImageRequestEventArgs(
@@ -115,7 +101,6 @@ namespace LayoutFarm.ContentManagers
                     //process image infomation
                     //....  
                     binder.SetImage(foundImage);
-
                 }
 
                 //next image
@@ -152,11 +137,9 @@ namespace LayoutFarm.ContentManagers
             contentReq.State = ImageBinderState.Loading;
             //2.
             inputList.AddLast(contentReq);
-
             //another thread will manage this request 
             //and store in outputlist         
             hasSomeInputHint = true;
         }
-
     }
 }

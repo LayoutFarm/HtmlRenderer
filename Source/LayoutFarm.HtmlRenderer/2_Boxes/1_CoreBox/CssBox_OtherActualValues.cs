@@ -1,28 +1,22 @@
 ﻿// 2015,2014 ,BSD, WinterDev
 //ArthurHub  , Jose Manuel Menendez Poo
 
-using System; 
+using System;
 using PixelFarm.Drawing;
 using LayoutFarm.Css;
-
 namespace LayoutFarm.HtmlBoxes
 {
     partial class CssBox
     {
         Font _actualFont;
-
         float _actualLineHeight;
         float _actualWordSpacing; //assign for whitespace run ?
-
         float _actualTextIndent;
         float _actualEmHeight;
-
         float _actualBorderSpacingHorizontal;
         float _actualBorderSpacingVertical;
-
         CssDisplayOutside _displayOutside;
         CssDisplayInside _displayInside;
-
         /// <summary>
         /// Gets the line height
         /// </summary>
@@ -97,19 +91,23 @@ namespace LayoutFarm.HtmlBoxes
                 case CssSide.Left:
                     {
                         this._actualBorderLeftWidth = w;
-                    } break;
+                    }
+                    break;
                 case CssSide.Top:
                     {
                         this._actualBorderTopWidth = w;
-                    } break;
+                    }
+                    break;
                 case CssSide.Right:
                     {
                         this._actualBorderRightWidth = w;
-                    } break;
+                    }
+                    break;
                 case CssSide.Bottom:
                     {
                         this._actualBorderBottomWidth = w;
-                    } break;
+                    }
+                    break;
             }
         }
 
@@ -143,7 +141,6 @@ namespace LayoutFarm.HtmlBoxes
             {
                 default:
                     throw new NotSupportedException();
-
                 case CssDisplay.TableColumn:
                 case CssDisplay.TableColumnGroup:
                 case CssDisplay.TableRow:
@@ -154,8 +151,6 @@ namespace LayoutFarm.HtmlBoxes
                     outside = CssDisplayOutside.Internal;
                     inside = CssDisplayInside.Internal;
                     break;
-
-
                 //outside -> inline
                 case CssDisplay.Inline:
                     outside = CssDisplayOutside.Inline; //*
@@ -183,12 +178,10 @@ namespace LayoutFarm.HtmlBoxes
                     outside = CssDisplayOutside.Block;
                     inside = CssDisplayInside.Flex;
                     break;
-
                 case CssDisplay.Block:
                     outside = CssDisplayOutside.Block;
                     inside = CssDisplayInside.Flow;
                     break;
-
                 case CssDisplay.Table:
                     outside = CssDisplayOutside.Block;
                     inside = CssDisplayInside.Table;
@@ -203,17 +196,13 @@ namespace LayoutFarm.HtmlBoxes
                     outside = CssDisplayOutside.TableCell;
                     inside = CssDisplayInside.Flow;
                     break;
-
             }
-
         }
         public static void ChangeDisplayType(CssBox box, CssDisplay newdisplay)
         {
-
             TransplateDisplayOutsideInside(newdisplay, out box._displayOutside, out box._displayInside);
-
             if ((box._boxCompactFlags & BoxFlags.DONT_CHANGE_DISPLAY_TYPE) == 0)
-            {     
+            {
                 box._cssDisplay = newdisplay;
             }
 
@@ -223,15 +212,12 @@ namespace LayoutFarm.HtmlBoxes
             //        newdisplay == CssDisplay.InlineFlex)
             //        && !box.IsBrElement);
             box.OutsideDisplayIsInline = box._displayOutside == CssDisplayOutside.Inline && !box.IsBrElement;
-
             //---------------------------
 
             box._isVisible = box._cssDisplay != CssDisplay.None && box._myspec.Visibility == CssVisibility.Visible;
-
             box._renderBGAndBorder = box._cssDisplay != Css.CssDisplay.Inline ||
                    box.Position == CssPosition.Absolute || //out of flow
                    box.Position == CssPosition.Fixed; //out of flow
-
             //-------------------------
             //check containing property 
             //-------------------------
@@ -264,6 +250,5 @@ namespace LayoutFarm.HtmlBoxes
         {
             box._boxCompactFlags |= BoxFlags.IS_CUSTOM_CSSBOX;
         }
-
     }
 }

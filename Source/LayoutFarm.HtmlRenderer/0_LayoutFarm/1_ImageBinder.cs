@@ -1,16 +1,13 @@
 ﻿//BSD 2014-2015,WinterDev
- 
-using PixelFarm.Drawing;
 
+using PixelFarm.Drawing;
 namespace LayoutFarm
 {
     public abstract class ImageBinder
     {
-
         Image _image;
         string _imageSource;
         LazyLoadImageFunc lazyLoadImgFunc;
-
 #if DEBUG
         static int dbugTotalId;
         public int dbugId = dbugTotalId++;
@@ -22,7 +19,6 @@ namespace LayoutFarm
         public ImageBinder(string imgSource)
         {
             this._imageSource = imgSource;
-
         }
         public string ImageSource
         {
@@ -54,7 +50,6 @@ namespace LayoutFarm
         }
         public int ImageHeight
         {
-
             get
             {
                 if (this._image != null)
@@ -79,7 +74,6 @@ namespace LayoutFarm
         }
         protected virtual void OnImageChanged()
         {
-
         }
         public bool HasLazyFunc
         {
@@ -88,7 +82,6 @@ namespace LayoutFarm
 
         public void SetLazyFunc(LazyLoadImageFunc lazyLoadFunc)
         {
-
             this.lazyLoadImgFunc = lazyLoadFunc;
         }
         public void LazyLoadImage()
@@ -99,7 +92,6 @@ namespace LayoutFarm
             }
         }
         public static readonly ImageBinder NoImage = new NoImageImageBinder();
-
         class NoImageImageBinder : ImageBinder
         {
             public NoImageImageBinder()
@@ -111,9 +103,6 @@ namespace LayoutFarm
 
 
     public delegate void LazyLoadImageFunc(ImageBinder binder);
-
-
-
     public enum ImageBinderState
     {
         Unload,
@@ -122,5 +111,4 @@ namespace LayoutFarm
         Error,
         NoImage
     }
-
 }

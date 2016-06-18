@@ -1,10 +1,4 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
-using PixelFarm.Drawing;
-using LayoutFarm.UI;
 
 namespace LayoutFarm
 {
@@ -24,7 +18,6 @@ namespace LayoutFarm
             }
             //----------------------------------------------------------------
             {
-
                 var scbar = new LayoutFarm.CustomWidgets.ScrollBar(15, 200);
                 scbar.SetLocation(30, 10);
                 scbar.MinValue = 0;

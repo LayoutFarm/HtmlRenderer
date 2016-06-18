@@ -15,7 +15,6 @@
 
 using System;
 using PixelFarm.Drawing;
-
 namespace LayoutFarm.HtmlBoxes
 {
     public enum CssRunKind : byte
@@ -46,14 +45,12 @@ namespace LayoutFarm.HtmlBoxes
     /// </remarks>
     public abstract class CssRun
     {
-
         /// <summary>
         /// the CSS box owner of the word
         /// </summary>
         CssBox _owner;
         readonly CssRunKind _runKind;
         CssLineBox _hostline;
-
         /// <summary>
         /// Rectangle
         /// </summary>         
@@ -61,7 +58,6 @@ namespace LayoutFarm.HtmlBoxes
         float _y;
         float _width;
         float _height;
-
 #if DEBUG
         static int dbugTotalId;
         public readonly int dbugId = dbugTotalId++;
@@ -132,7 +128,6 @@ namespace LayoutFarm.HtmlBoxes
         public RectangleF Rectangle
         {
             get { return new RectangleF(this._x, this._y, this._width, this._height); }
-
         }
 
         /// <summary>
@@ -144,7 +139,6 @@ namespace LayoutFarm.HtmlBoxes
             set
             {
                 this._x = value;
-                 
             }
         }
 
@@ -157,14 +151,14 @@ namespace LayoutFarm.HtmlBoxes
             set { this._y = value; }
         }
         internal void SetLocation(float x, float y)
-        { 
+        {
             this._x = x;
             this._y = y;
         }
         internal void Offset(float xdiff, float ydiff)
         {
             this._x += xdiff;
-            this._y += ydiff; 
+            this._y += ydiff;
         }
         internal void OffsetY(float ydiff)
         {
@@ -253,9 +247,6 @@ namespace LayoutFarm.HtmlBoxes
         }
 
         public abstract void WriteContent(System.Text.StringBuilder stbuilder, int start, int length);
-
-
-
         /// <summary>
         /// Represents this word for debugging purposes
         /// </summary>
@@ -271,11 +262,9 @@ namespace LayoutFarm.HtmlBoxes
             int offset, out int selectionIndex,
             out int runSelectionOffsetPx)
         {
-
             int charFit;
             int charFitWidth;
             var maxWidth = offset;
-
             switch (this.Kind)
             {
                 case CssRunKind.BlockRun:
@@ -283,36 +272,37 @@ namespace LayoutFarm.HtmlBoxes
                         //contains sub  
                         selectionIndex = -1;
                         runSelectionOffsetPx = 0;
-                    } break;
+                    }
+                    break;
                 case CssRunKind.SolidContent:
                     {
                         // not a text word - set full selection
                         selectionIndex = -1;
                         runSelectionOffsetPx = 0;
-                    } break;
+                    }
+                    break;
                 case CssRunKind.Text:
                     {
                         char[] ownerTextBuff = CssBox.UnsafeGetTextBuffer(this.OwnerBox);
                         CssTextRun textRun = (CssTextRun)this;
                         ifonts.MeasureString(ownerTextBuff, textRun.TextStartIndex, textRun.TextLength,
                             this.OwnerBox.ActualFont, maxWidth, out charFit, out charFitWidth);
-
                         selectionIndex = charFit;
                         runSelectionOffsetPx = charFitWidth;
-                    } break;
+                    }
+                    break;
                 case CssRunKind.Space:
                     {
                         char[] ownerTextBuff = CssBox.UnsafeGetTextBuffer(this.OwnerBox);
                         CssTextRun textRun = (CssTextRun)this;
                         ifonts.MeasureString(ownerTextBuff, textRun.TextStartIndex, textRun.TextLength,
                             this.OwnerBox.ActualFont, maxWidth, out charFit, out charFitWidth);
-
                         selectionIndex = charFit;
                         runSelectionOffsetPx = charFitWidth;
-                    } break;
+                    }
+                    break;
                 case CssRunKind.SingleSpace:
                     {
-
                         if (offset > this.Width / 2)
                         {
                             selectionIndex = -1;
@@ -323,13 +313,13 @@ namespace LayoutFarm.HtmlBoxes
                             selectionIndex = 0;
                             runSelectionOffsetPx = (int)this.Width;
                         }
-                    } break;
+                    }
+                    break;
                 default:
                     {
                         throw new NotSupportedException();
                     }
             }
-
         }
 
 
@@ -342,7 +332,5 @@ namespace LayoutFarm.HtmlBoxes
             globalY = y2 + this._y;
             return root;
         }
-
-
     }
 }

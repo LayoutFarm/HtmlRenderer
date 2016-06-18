@@ -1,42 +1,31 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using System.Collections.Generic;
-
 using System.IO;
-
-
-
 namespace LayoutFarm
 {
-
 #if DEBUG
     public class dbugVisualInvalidationTracer
     {
-
         StreamWriter strmWriter;
         RootGraphic visualroot;
         string outputFileName = null;
-
         int msgCounter = 0;
-
         Stack<RenderElement> elementStack = new Stack<RenderElement>();
-
         int indentCount = 0;
         int dbug_Id = 0;
         static int dbug_totalId = 0;
-
         public dbugVisualInvalidationTracer(RootGraphic visualroot)
         {
             this.visualroot = visualroot;
             dbug_Id = dbug_totalId;
             ++dbug_totalId;
             outputFileName = dbugCoreConst.dbugRootFolder + "\\invalidate\\" + dbug_Id + "_" + Guid.NewGuid().ToString() + ".txt";
-
         }
         public void BeginNewContext()
         {
             ++indentCount;
-
         }
         public void EndCurrentContext()
         {
@@ -46,7 +35,6 @@ namespace LayoutFarm
         {
             elementStack.Push(v);
             BeginNewContext();
-
         }
 
         public RenderElement PopElement()
@@ -62,7 +50,7 @@ namespace LayoutFarm
 
         public void Start(StreamWriter writer)
         {
-            this.strmWriter = writer;             
+            this.strmWriter = writer;
         }
         public void Stop()
         {
@@ -93,12 +81,9 @@ namespace LayoutFarm
         {
             if (msgCounter >= 40)
             {
-
             }
         }
-
     }
 #endif
-
 }
 

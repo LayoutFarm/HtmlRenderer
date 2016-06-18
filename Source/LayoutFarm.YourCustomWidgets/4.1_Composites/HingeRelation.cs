@@ -2,7 +2,6 @@
 
 
 using LayoutFarm.UI;
-
 namespace LayoutFarm.CustomWidgets
 {
     public class HingeRelation
@@ -75,8 +74,6 @@ namespace LayoutFarm.CustomWidgets
             //-----------------------------------
             if (landPart == null) return;
             if (floatPart == null) return;
-
-
             switch (floatPartStyle)
             {
                 default:
@@ -96,7 +93,6 @@ namespace LayoutFarm.CustomWidgets
                     break;
                 case HingeFloatPartStyle.Embeded:
                     {
-
                     }
                     break;
             }
@@ -105,10 +101,8 @@ namespace LayoutFarm.CustomWidgets
         {
             if (!isOpen) return;
             this.isOpen = false;
-
             if (this.landPart == null) return;
             if (floatPart == null) return;
-
             switch (floatPartStyle)
             {
                 default:
@@ -123,14 +117,12 @@ namespace LayoutFarm.CustomWidgets
                             var parentContainer = floatPartRenderElement.ParentRenderElement as CustomRenderBox;
                             parentContainer.RemoveChild(floatPartRenderElement);
                         }
-
                     }
                     break;
                 case HingeFloatPartStyle.Embeded:
                     {
                     }
                     break;
-
             }
         }
 
@@ -143,6 +135,4 @@ namespace LayoutFarm.CustomWidgets
             }
         }
     }
-
-
 }

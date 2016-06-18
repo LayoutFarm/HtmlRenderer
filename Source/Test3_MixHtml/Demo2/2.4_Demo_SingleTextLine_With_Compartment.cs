@@ -1,13 +1,10 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 using PixelFarm.Drawing;
 using LayoutFarm.UI;
 using LayoutFarm.CustomWidgets;
-using LayoutFarm.RenderBoxes;
-
 namespace LayoutFarm
 {
     [DemoNote("2.4 Demo_SingleTextLine_With_Compartment")]
@@ -16,11 +13,9 @@ namespace LayoutFarm
         LayoutFarm.CustomWidgets.TextBox textbox;
         LayoutFarm.CustomWidgets.ListView listView;
         Dictionary<char, List<string>> words = new Dictionary<char, List<string>>();
-
         UINinespaceBox ninespaceBox;
         protected override void OnStartDemo(SampleViewport viewport)
         {
-
             //--------------------------------
             {
                 //background element
@@ -57,11 +52,9 @@ namespace LayoutFarm
             BuildSampleCountryList();
             ninespaceBox.LeftSpace.AddChild(textbox);
             ninespaceBox.RightSpace.AddChild(listView);
-
         }
         void SetupBackgroundProperties(LayoutFarm.CustomWidgets.EaseBox backgroundBox)
         {
-
         }
 
         void textSurfaceListener_PreviewArrowKeyDown(object sender, Text.TextDomEventArgs e)
@@ -75,25 +68,23 @@ namespace LayoutFarm
                         {
                             listView.SelectedIndex++;
                         }
-
-                    } break;
+                    }
+                    break;
                 case UIKeys.Up:
                     {
                         if (listView.SelectedIndex > 0)
                         {
                             listView.SelectedIndex--;
                         }
-
-                    } break;
+                    }
+                    break;
             }
-
         }
         void textSurfaceListener_PreviewEnterKeyDown(object sender, Text.TextDomEventArgs e)
         {
             //accept selected text 
             if (textbox.CurrentTextSpan != null)
             {
-
                 ListItem selectedItem = listView.GetItem(listView.SelectedIndex);
                 if (selectedItem != null)
                 {
@@ -121,7 +112,6 @@ namespace LayoutFarm
             //In this example  all country name start with Captial letter so ...
             string currentTextSpanText = textbox.CurrentTextSpan.Text.ToUpper();
             char firstChar = currentTextSpanText[0];
-
             List<string> keywords;
             if (words.TryGetValue(firstChar, out keywords))
             {
@@ -135,7 +125,6 @@ namespace LayoutFarm
                         CustomWidgets.ListItem item = new CustomWidgets.ListItem(listViewWidth, 17);
                         item.BackColor = Color.LightGray;
                         item.Tag = item.Text = keywords[i];
-
                         listView.AddItem(item);
                     }
                 }
@@ -146,7 +135,6 @@ namespace LayoutFarm
 
         void BuildSampleCountryList()
         {
-
             AddKeywordList(@"
 Afghanistan
 Albania
@@ -387,7 +375,6 @@ Zimbabwe");
         }
         void AddKeywordList(string keywordString)
         {
-
             string[] seplist = keywordString.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
             int j = seplist.Length;
             for (int i = 0; i < j; ++i)
@@ -423,15 +410,10 @@ Zimbabwe");
             SimpleBox boxBottom;
             //-------------------------------------
             SimpleBox centerBox;
-
-
-
             EaseBox gripperLeft;
             EaseBox gripperRight;
             EaseBox gripperTop;
             EaseBox gripperBottom;
-
-
             DockSpacesController dockspaceController;
             NinespaceGrippers ninespaceGrippers;
             public UINinespaceBox(int w, int h)
@@ -443,7 +425,6 @@ Zimbabwe");
             {
                 //1. controller
                 this.dockspaceController = new DockSpacesController(this, SpaceConcept.NineSpace);
-
                 //2.  
                 this.dockspaceController.LeftTopSpace.Content = boxLeftTop = CreateSpaceBox(SpaceName.LeftTop, Color.Red);
                 this.dockspaceController.RightTopSpace.Content = boxRightTop = CreateSpaceBox(SpaceName.RightTop, Color.Red);
@@ -454,15 +435,12 @@ Zimbabwe");
                 this.dockspaceController.TopSpace.Content = boxTop = CreateSpaceBox(SpaceName.Top, Color.Yellow);
                 this.dockspaceController.RightSpace.Content = boxRight = CreateSpaceBox(SpaceName.Right, Color.Green);
                 this.dockspaceController.BottomSpace.Content = boxBottom = CreateSpaceBox(SpaceName.Bottom, Color.Yellow);
-
-
                 //--------------------------------
                 //left and right space expansion
                 dockspaceController.LeftSpaceVerticalExpansion = VerticalBoxExpansion.TopBottom;
                 dockspaceController.RightSpaceVerticalExpansion = VerticalBoxExpansion.TopBottom;
                 dockspaceController.SetRightSpaceWidth(200);
                 dockspaceController.SetLeftSpaceWidth(200);
-
                 //------------------------------------------------------------------------------------
                 this.ninespaceGrippers = new NinespaceGrippers(this.dockspaceController);
                 this.ninespaceGrippers.LeftGripper = gripperLeft = CreateGripper(Color.Red, false);
@@ -487,7 +465,6 @@ Zimbabwe");
 
                 gripperBox.MouseDrag += (s, e) =>
                 {
-
                     Point pos = gripperBox.Position;
                     if (isVertical)
                     {
@@ -501,14 +478,12 @@ Zimbabwe");
                     this.ninespaceGrippers.UpdateNinespaces();
                     e.MouseCursorStyle = MouseCursorStyle.Pointer;
                     e.CancelBubbling = true;
-
                 };
                 gripperBox.MouseUp += (s, e) =>
                 {
                     e.MouseCursorStyle = MouseCursorStyle.Default;
                     e.CancelBubbling = true;
                 };
-
                 return gripperBox;
             }
             static CustomWidgets.SimpleBox CreateSpaceBox(SpaceName name, Color bgcolor)
@@ -524,7 +499,6 @@ Zimbabwe");
             {
                 if (!this.HasReadyRenderElement)
                 {
-
                     var renderE = base.GetPrimaryRenderElement(rootgfx);
                     //------------------------------------------------------
                     renderE.AddChild(boxLeftTop);
@@ -536,13 +510,11 @@ Zimbabwe");
                     renderE.AddChild(boxRight);
                     renderE.AddChild(boxTop);
                     renderE.AddChild(boxBottom);
-
                     //grippers
                     renderE.AddChild(gripperLeft);
                     renderE.AddChild(gripperRight);
                     renderE.AddChild(gripperTop);
                     renderE.AddChild(gripperBottom);
-
                     //------------------------------------------------------
                 }
                 return base.GetPrimaryRenderElement(rootgfx);
@@ -552,18 +524,12 @@ Zimbabwe");
             {
                 base.SetSize(width, height);
                 dockspaceController.SetSize(width, height);
-
             }
 
             public SimpleBox LeftSpace { get { return this.boxLeft; } }
             public SimpleBox RightSpace { get { return this.boxRight; } }
             public SimpleBox TopSpace { get { return this.boxTop; } }
             public SimpleBox BottomSpace { get { return this.boxBottom; } }
-
-
-
         }
-
-
     }
 }

@@ -5,10 +5,8 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Reflection;
 using System.IO;
- 
 namespace VroomJs
 {
-     
     public abstract class JsTypeDefinitionBuilder
     {
         internal JsTypeDefinition BuildTypeDefinition(Type t)
@@ -16,16 +14,14 @@ namespace VroomJs
             return this.OnBuildRequest(t);
         }
         protected abstract JsTypeDefinition OnBuildRequest(Type t);
-    } 
-    
+    }
+
     class DefaultJsTypeDefinitionBuilder : JsTypeDefinitionBuilder
     {
-
 #if NET20
         protected override JsTypeDefinition OnBuildRequest(Type t)
         {
             JsTypeDefinition typedefinition = new JsTypeDefinition(t.Name);
-
             //only instance /public method /prop***
             var methods = t.GetMethods(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
             foreach (var met in methods)

@@ -1,11 +1,9 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 using PixelFarm.Drawing;
 using LayoutFarm.UI;
-
 namespace LayoutFarm
 {
     [DemoNote("2.3 SingleLineText_WithSuggestion")]
@@ -14,15 +12,12 @@ namespace LayoutFarm
         LayoutFarm.CustomWidgets.TextBox textbox;
         LayoutFarm.CustomWidgets.ListView listView;
         Dictionary<char, List<string>> words = new Dictionary<char, List<string>>();
-
         protected override void OnStartDemo(SampleViewport viewport)
         {
             textbox = new LayoutFarm.CustomWidgets.TextBox(400, 30, false);
             textbox.SetLocation(20, 20);
             var textSplitter = new Composers.ContentTextSplitter();
             textbox.TextSplitter = textSplitter;
-
-
             listView = new CustomWidgets.ListView(300, 200);
             listView.SetLocation(0, 40);
             listView.Visible = false;
@@ -53,18 +48,17 @@ namespace LayoutFarm
                         {
                             listView.SelectedIndex++;
                         }
-
-                    } break;
+                    }
+                    break;
                 case UIKeys.Up:
                     {
                         if (listView.SelectedIndex > 0)
                         {
                             listView.SelectedIndex--;
                         }
-
-                    } break;
+                    }
+                    break;
             }
-
         }
         void textSurfaceListener_PreviewEnterKeyDown(object sender, Text.TextDomEventArgs e)
         {
@@ -74,7 +68,6 @@ namespace LayoutFarm
             {
                 textbox.ReplaceCurrentTextRunContent(currentLocalText.Length,
                     (string)listView.GetItem(listView.SelectedIndex).Tag);
-
                 //------------------------------------- 
                 //then hide suggestion list
                 listView.ClearItems();
@@ -83,7 +76,6 @@ namespace LayoutFarm
             }
 
             e.PreventDefault = true;
-
         }
 
 
@@ -108,7 +100,6 @@ namespace LayoutFarm
             //sample parse ...
             //In this example  all country name start with Captial letter so ...
             string currentTextSpanText = textbox.CurrentTextSpan.Text.ToUpper();
-
             //analyze content
             var textBuffer = currentTextSpanText.ToCharArray();
             var results = new List<LayoutFarm.Composers.TextSplitBound>();
@@ -121,10 +112,8 @@ namespace LayoutFarm
             }
             Composers.TextSplitBound lastSplitPart = results[m - 1];
             this.currentLocalText = GetString(textBuffer, lastSplitPart);
-
             //char firstChar = currentTextSpanText[0];
             char firstChar = currentLocalText[0];
-
             List<string> keywords;
             if (words.TryGetValue(firstChar, out keywords))
             {
@@ -138,7 +127,6 @@ namespace LayoutFarm
                         CustomWidgets.ListItem item = new CustomWidgets.ListItem(listViewWidth, 17);
                         item.BackColor = Color.LightGray;
                         item.Tag = item.Text = keywords[i];
-
                         listView.AddItem(item);
                     }
                 }
@@ -157,7 +145,6 @@ namespace LayoutFarm
 
         void BuildSampleCountryList()
         {
-
             AddKeywordList(@"
 Afghanistan
 Albania
@@ -398,7 +385,6 @@ Zimbabwe");
         }
         void AddKeywordList(string keywordString)
         {
-
             string[] seplist = keywordString.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
             int j = seplist.Length;
             for (int i = 0; i < j; ++i)
@@ -419,6 +405,5 @@ Zimbabwe");
                 list.Sort();
             }
         }
-
     }
 }

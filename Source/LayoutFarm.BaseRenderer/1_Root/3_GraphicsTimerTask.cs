@@ -1,9 +1,9 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
-using System; 
-using PixelFarm.Drawing; 
+
+using System;
+using PixelFarm.Drawing;
 namespace LayoutFarm.RenderBoxes
 {
-
     public abstract class GraphicsTimerTaskEventArgs : EventArgs
     {
         public int NeedUpdate
@@ -29,11 +29,10 @@ namespace LayoutFarm.RenderBoxes
         bool enable;
         object uniqueName;
         EventHandler<GraphicsTimerTaskEventArgs> tickHandler;
-       
         public GraphicsTimerTask(RootGraphic rootgfx,
             TaskIntervalPlan planName,
             object uniqueName,
-            int internvalMs,             
+            int internvalMs,
             EventHandler<GraphicsTimerTaskEventArgs> tickHandler)
         {
             this.PlanName = planName;

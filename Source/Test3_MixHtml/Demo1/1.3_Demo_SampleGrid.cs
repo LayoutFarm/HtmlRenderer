@@ -1,12 +1,7 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
-using PixelFarm.Drawing; 
- 
-using LayoutFarm.UI;
 
+using PixelFarm.Drawing;
+using LayoutFarm.UI;
 namespace LayoutFarm
 {
     [DemoNote("1.3 Grid")]
@@ -26,12 +21,10 @@ namespace LayoutFarm
                 var gridBox = new LayoutFarm.CustomWidgets.GridBox(100, 100);
                 gridBox.SetLocation(200, 50);
                 gridBox.BuildGrid(2, 4, CellSizeStyle.UniformCell);
-                 
                 viewport.AddContent(gridBox);
-
                 var simpleButton = new LayoutFarm.CustomWidgets.SimpleBox(20, 20);
                 simpleButton.BackColor = KnownColors.FromKnownColor(KnownColor.OliveDrab);
-                gridBox.AddUI(simpleButton, 1, 1); 
+                gridBox.AddUI(simpleButton, 1, 1);
             }
 
 
@@ -41,10 +34,8 @@ namespace LayoutFarm
                 var gridBox = new LayoutFarm.CustomWidgets.GridBox(100, 100);
                 gridBox.SetLocation(350, 50);
                 gridBox.BuildGrid(3, 8, CellSizeStyle.UniformCell);
-
                 viewport.AddContent(gridBox);
             }
-
         }
     }
 }

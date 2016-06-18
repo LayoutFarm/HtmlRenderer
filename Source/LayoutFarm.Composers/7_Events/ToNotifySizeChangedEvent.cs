@@ -9,5 +9,4 @@ namespace LayoutFarm.UI
         public IEventListener ui;
         public AffectedElementSideFlags affectedSideFlags;
     }
-
 }

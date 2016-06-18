@@ -1,9 +1,8 @@
 ﻿// 2015,2014 ,Apache2, WinterDev 
-using PixelFarm.Drawing; 
+
+using PixelFarm.Drawing;
 namespace LayoutFarm
 {
-
-
     partial class RenderElement
     {
         //----------------------
@@ -12,7 +11,6 @@ namespace LayoutFarm
         int b_left;
         int b_width;
         int b_height;
-
         int uiLayoutFlags;
         //-----------------------------------------------
 
@@ -88,7 +86,6 @@ namespace LayoutFarm
             {
                 return 0;
             }
-
         }
         public virtual int ViewportX
         {
@@ -132,7 +129,6 @@ namespace LayoutFarm
             {
                 Point parentGlobalLocation = GetGlobalLocationStatic(parentVisualElement);
                 re.parentLink.AdjustLocation(ref parentGlobalLocation);
-
                 if (parentVisualElement.MayHasViewport)
                 {
                     return new Point(
@@ -187,7 +183,6 @@ namespace LayoutFarm
                 uiLayoutFlags = value ?
                     uiLayoutFlags | RenderElementConst.LY_HAS_SPC_SIZE :
                     uiLayoutFlags & ~RenderElementConst.LY_HAS_SPC_SIZE;
-
             }
         }
 
@@ -228,7 +223,6 @@ namespace LayoutFarm
                 ((left >= r.Left) && (left < r.Right)))
             {
                 int top = this.b_top;
-
                 return (((top <= r.Top) && (this.Bottom > r.Top)) ||
                           ((top >= r.Top) && (top < r.Bottom)));
             }
@@ -245,8 +239,5 @@ namespace LayoutFarm
             return (((left <= r.Left) && (this.Right > r.Left)) ||
                      ((left >= r.Left) && (left < r.Right)));
         }
-
-
-
     }
 }

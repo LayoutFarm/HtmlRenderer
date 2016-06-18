@@ -11,9 +11,7 @@ namespace VroomJs
         readonly JsContext _context;
         readonly IntPtr _funcPtr;
         readonly IntPtr _thisPtr;
-
         static MethodInfo myInvokeMethodInfo;
-
         static JsFunction()
         {
 #if NET20
@@ -28,7 +26,6 @@ namespace VroomJs
                 throw new ArgumentNullException("context");
             if (funcPtr == IntPtr.Zero)
                 throw new ArgumentException("can't wrap an empty function (ptr is Zero)", "ptr");
-
             _context = context;
             _funcPtr = funcPtr;
             _thisPtr = thisPtr;
@@ -111,7 +108,6 @@ namespace VroomJs
                         delHolderType = returnVoid ?
                             typeof(ActionDelegateHolder) :
                             typeof(FuncDelegateHolder<>).MakeGenericType(typelist);
-
                     }
                     break;
                 case 1:
@@ -120,7 +116,6 @@ namespace VroomJs
                         delHolderType = returnVoid ?
                             typeof(ActionDelegateHolder<>).MakeGenericType(typelist) :
                             typeof(FuncDelegateHolder<,>).MakeGenericType(typelist);
-
                     }
                     break;
                 case 2:
@@ -135,7 +130,6 @@ namespace VroomJs
                         delHolderType = returnVoid ?
                             typeof(ActionDelegateHolder<,,>).MakeGenericType(typelist) :
                             typeof(FuncDelegateHolder<,,,>).MakeGenericType(typelist);
-
                     }
                     break;
                 case 4:
@@ -158,17 +152,14 @@ namespace VroomJs
                 Activator.CreateInstance(delHolderType) as DelegateHolder);
             //cache 
             this._context.CacheDelegateForType(targetDelegateType, newTemplate);
-
             //new delegate created from sample
             return newTemplate.CreateNewDelegate(targetDelegateType, this);
-
         }
 
 
         #region IDisposable implementation
 
         bool _disposed;
-
         public void Dispose()
         {
             Dispose(true);
@@ -179,9 +170,7 @@ namespace VroomJs
         {
             if (_disposed)
                 throw new ObjectDisposedException("JsObject:" + _funcPtr);
-
             _disposed = true;
-
             _context.Engine.DisposeObject(this._funcPtr);
             if (_thisPtr != IntPtr.Zero)
             {

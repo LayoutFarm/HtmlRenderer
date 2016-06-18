@@ -2,7 +2,7 @@
 
 using System;
 using System.Collections.Generic;
-using PixelFarm.Drawing; 
+using PixelFarm.Drawing;
 namespace LayoutFarm.HtmlBoxes
 {
     //----------------------------------------------------------------------------
@@ -13,15 +13,11 @@ namespace LayoutFarm.HtmlBoxes
         HtmlContainer htmlContainer;
         Canvas canvas;
         Rectangle latestClip = new Rectangle(0, 0, CssBoxConstConfig.BOX_MAX_RIGHT, CssBoxConstConfig.BOX_MAX_BOTTOM);
-
         MultiLayerStack<CssBox> latePaintStack = new MultiLayerStack<CssBox>();
-
         float viewportWidth;
         float viewportHeight;
-
         public PaintVisitor()
         {
-
         }
         public void Bind(HtmlContainer htmlCont, Canvas canvas)
         {
@@ -87,11 +83,9 @@ namespace LayoutFarm.HtmlBoxes
                 latestClip,
                 new Rectangle(0, 0, (int)w, (int)h));
             this.latestClip = intersectResult;
-
 #if DEBUG
             if (this.dbugEnableLogRecord)
             {
-
                 canvas.DrawRectangle(Color.DeepPink,
                     intersectResult.X, intersectResult.Y,
                     intersectResult.Width, intersectResult.Height);
@@ -105,7 +99,6 @@ namespace LayoutFarm.HtmlBoxes
         }
         internal void PopLocalClipArea()
         {
-
             //return;
 #if DEBUG
             if (this.dbugEnableLogRecord)
@@ -194,21 +187,15 @@ namespace LayoutFarm.HtmlBoxes
             Color leftColor = box.BorderLeftColor;
             Color rightColor = box.BorderRightColor;
             Color bottomColor = box.BorderBottomColor;
-
             var g = this.InnerCanvas;
-
             // var b1 = RenderUtils.GetSolidBrush(topColor);
             BorderPaintHelper.DrawBorder(CssSide.Top, borderPoints, g, box, topColor, rect);
-
             // var b2 = RenderUtils.GetSolidBrush(leftColor);
             BorderPaintHelper.DrawBorder(CssSide.Left, borderPoints, g, box, leftColor, rect);
-
             // var b3 = RenderUtils.GetSolidBrush(rightColor);
             BorderPaintHelper.DrawBorder(CssSide.Right, borderPoints, g, box, rightColor, rect);
-
             //var b4 = RenderUtils.GetSolidBrush(bottomColor);
             BorderPaintHelper.DrawBorder(CssSide.Bottom, borderPoints, g, box, bottomColor, rect);
-
         }
         internal void PaintBorder(CssBox box, CssSide border, Color solidColor, RectangleF rect)
         {
@@ -249,8 +236,6 @@ namespace LayoutFarm.HtmlBoxes
             var prevColor = g.StrokeColor;
             g.StrokeColor = color;
             g.DrawRectangle(color, x1, y1, x2 - x1, y2 - y1);
-
-
             g.DrawLine(x1, y1, x2, y2);
             g.DrawLine(x1, y2, x2, y1);
             g.StrokeColor = prevColor;
@@ -259,7 +244,6 @@ namespace LayoutFarm.HtmlBoxes
         {
             var g = this.canvas;
             this.dbugDrawDiagonalBox(color, rect.Left, rect.Top, rect.Right, rect.Bottom);
-
         }
 #endif
         //-------
@@ -309,7 +293,6 @@ namespace LayoutFarm.HtmlBoxes
         //---------
         public void DrawText(char[] str, int startAt, int len, PointF point, SizeF size)
         {
-
 #if DEBUG
             dbugCounter.dbugDrawStringCount++;
 #endif
@@ -318,7 +301,6 @@ namespace LayoutFarm.HtmlBoxes
                   (int)point.X, (int)point.Y,
                   (int)size.Width, (int)size.Height), 0
                   );
-
         }
 #if DEBUG
         int dbugIndentLevel;
@@ -335,7 +317,6 @@ namespace LayoutFarm.HtmlBoxes
         }
         public void dbugEnterNewContext(CssBox box, PaintVisitorContextName contextName)
         {
-
             if (this.dbugEnableLogRecord)
             {
                 var controller = CssBox.UnsafeGetController(box);
@@ -347,7 +328,6 @@ namespace LayoutFarm.HtmlBoxes
                     "(" + this.CanvasOriginX + "," + this.CanvasOriginY + ") " +
                     "x:" + box.Left + ",y:" + box.Top + ",w:" + box.VisualWidth + "h:" + box.VisualHeight +
                     " " + box.ToString() + ",id:" + box.__aa_dbugId);
-
                 dbugIndentLevel++;
             }
         }
@@ -372,7 +352,6 @@ namespace LayoutFarm.HtmlBoxes
         }
         internal int LatePaintItemCount
         {
-
             get { return this.latePaintStack.CurrentLayerItemCount; }
         }
         internal CssBox GetLatePaintItem(int index)
@@ -393,7 +372,4 @@ namespace LayoutFarm.HtmlBoxes
         }
         //-----------------------------------------------------
     }
-
-
-
 }

@@ -8,8 +8,6 @@ namespace LayoutFarm.Svg.Transforms
     /// </summary>
     public sealed class SvgShear : SvgTransform
     {
-
-
         public float X
         {
             get;
@@ -44,7 +42,6 @@ namespace LayoutFarm.Svg.Transforms
             this.X = x;
             this.Y = y;
         }
-
 
         //public override object Clone()
         //{

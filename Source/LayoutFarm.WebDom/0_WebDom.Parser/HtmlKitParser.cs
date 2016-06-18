@@ -2,14 +2,12 @@
 
 using System;
 using HtmlKit;
-
 namespace LayoutFarm.WebDom.Parser
 {
     class HtmlKitParser : HtmlParser
     {
         WebDocument _resultHtmlDoc;
         HtmlStack openEltStack = new HtmlStack();
-
         public override void Parse(TextSource textSnapshot, WebDocument htmldoc, DomElement currentNode)
         {
             this._resultHtmlDoc = htmldoc;
@@ -37,7 +35,6 @@ namespace LayoutFarm.WebDom.Parser
                                     //open tag 
                                     DomElement elem = this._resultHtmlDoc.CreateElement(null, tag.Name);
                                     currentNode.AddChild(elem);
-
                                     foreach (var attribute in tag.Attributes)
                                     {
                                         var attr = this._resultHtmlDoc.CreateAttribute(null, attribute.Name);
@@ -58,7 +55,6 @@ namespace LayoutFarm.WebDom.Parser
                                     //this is end tag
                                     //check end tag match or not
                                     int tagNameIndex = _resultHtmlDoc.AddStringIfNotExists(tag.Name);
-
                                     if (currentNode.Name == tag.Name)
                                     {
                                         currentNode = openEltStack.Pop();
@@ -113,13 +109,8 @@ namespace LayoutFarm.WebDom.Parser
                                         {
                                             throw new NotSupportedException();
                                         }
-
-
-
                                     }
-
                                 }
-
                             }
                             break;
                         case HtmlTokenKind.Comment:
@@ -142,5 +133,4 @@ namespace LayoutFarm.WebDom.Parser
             this.openEltStack.Clear();
         }
     }
-
 }

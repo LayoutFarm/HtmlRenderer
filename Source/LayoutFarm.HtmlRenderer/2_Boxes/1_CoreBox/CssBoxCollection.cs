@@ -1,10 +1,9 @@
 ﻿//2014,2015 BSD, WinterDev 
+
 using System;
 using System.Collections.Generic;
-
 namespace LayoutFarm.HtmlBoxes
 {
-
     class CssBoxCollection
     {
         LinkedList<CssBox> _boxes = new LinkedList<CssBox>();
@@ -30,10 +29,9 @@ namespace LayoutFarm.HtmlBoxes
                 cNode = cNode.Previous;
             }
         }
-        
+
         public void AddChild(CssBox owner, CssBox box)
         {
-
 #if DEBUG
             if (owner == box)
             {
@@ -112,7 +110,6 @@ namespace LayoutFarm.HtmlBoxes
                 case 1:
                     {
                         return this._boxes.First.Next;//0,1
-
                     }
                 case 2:
                     {
@@ -124,7 +121,6 @@ namespace LayoutFarm.HtmlBoxes
                     }
                 default:
                     {
-
                         int j = this._boxes.Count;
                         var cnode = this._boxes.First;
                         for (int i = 0; i < j; ++i)
@@ -132,7 +128,6 @@ namespace LayoutFarm.HtmlBoxes
                             if (i == index)
                             {
                                 return cnode;
-
                             }
                             else if (i > index)
                             {

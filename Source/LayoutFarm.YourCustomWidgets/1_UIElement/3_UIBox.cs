@@ -1,10 +1,9 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
+
 using System;
 using PixelFarm.Drawing;
-
 namespace LayoutFarm.UI
 {
-
     public abstract class UIBox : UIElement, IScrollable, IBoxElement
     {
         int _left;
@@ -14,13 +13,10 @@ namespace LayoutFarm.UI
         bool _hide;
         bool specificWidth;
         bool specificHeight;
-
         public event EventHandler LayoutFinished;
-
 #if DEBUG
         static int dbugTotalId;
         public readonly int dbugId = dbugTotalId++;
-
 #endif
         public UIBox(int width, int height)
         {
@@ -56,7 +52,6 @@ namespace LayoutFarm.UI
                 {
                     CurrentPrimaryRenderElement.HasSpecificWidth = value;
                 }
-
             }
         }
         public bool HasSpecificHeight
@@ -82,7 +77,6 @@ namespace LayoutFarm.UI
         {
             this._left = left;
             this._top = top;
-
             if (this.HasReadyRenderElement)
             {
                 this.CurrentPrimaryRenderElement.SetLocation(left, top);
@@ -100,7 +94,6 @@ namespace LayoutFarm.UI
         {
             this._width = width;
             this._height = height;
-
             if (this.HasReadyRenderElement)
             {
                 this.CurrentPrimaryRenderElement.SetSize(_width, _height);
@@ -115,7 +108,6 @@ namespace LayoutFarm.UI
         {
             get
             {
-
                 if (this.HasReadyRenderElement)
                 {
                     return this.CurrentPrimaryRenderElement.X;
@@ -232,7 +224,6 @@ namespace LayoutFarm.UI
 
         public virtual void PerformContentLayout()
         {
-
         }
         public virtual int DesiredHeight
         {
@@ -275,5 +266,4 @@ namespace LayoutFarm.UI
             }
         }
     }
-
 }

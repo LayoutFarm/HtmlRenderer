@@ -1,11 +1,10 @@
 ﻿//BSD 2014-2015,WinterDev  
+
 using System.Collections.Generic;
 using LayoutFarm.Css;
 using LayoutFarm.HtmlBoxes;
-
 namespace LayoutFarm.Composers
 {
-
     public struct TextSplitBound
     {
         public readonly int startIndex;
@@ -21,7 +20,6 @@ namespace LayoutFarm.Composers
     {
         //configure icu's locale here 
         string icuLocal = "th-TH";
-
         Stack<List<CssRun>> myRunPool = new Stack<List<CssRun>>(3);
         public ContentTextSplitter()
         {
@@ -52,15 +50,12 @@ namespace LayoutFarm.Composers
 
         void AddToRunList(char[] textBuffer, List<CssRun> runlist, int startIndex, int appendLength, ref bool needICUSplitter)
         {
-
-
             if (needICUSplitter)
             {
                 //use icu splitter 
                 //copy text buffer to icu *** 
                 var parts = Icu.BreakIterator.GetSplitBoundIter(Icu.BreakIterator.UBreakIteratorType.WORD,
                     icuLocal, textBuffer, startIndex, appendLength);
-
                 //iterate new split
                 foreach (var bound in parts)
                 {
@@ -77,8 +72,6 @@ namespace LayoutFarm.Composers
         }
         public IEnumerable<TextSplitBound> ParseWordContent(char[] textBuffer, int startIndex, int appendLength)
         {
-
-
             int s_index = startIndex;
             foreach (var splitBound in Icu.BreakIterator.GetSplitBoundIter(Icu.BreakIterator.UBreakIteratorType.WORD,
                    icuLocal, textBuffer, startIndex, appendLength))
@@ -88,7 +81,6 @@ namespace LayoutFarm.Composers
                 {
                     yield return new TextSplitBound(s_index, splitBound.startIndex - s_index);
                     s_index = splitBound.startIndex;
-
                 }
                 s_index += splitBound.length;
                 yield return new TextSplitBound(splitBound.startIndex, splitBound.length);
@@ -105,11 +97,9 @@ namespace LayoutFarm.Composers
             out List<CssRun> runlistOutput,
             out bool hasSomeCharacter)
         {
-
             bool preserverLine = false;
             bool preserveWhiteSpace = false;
             var isblock = spec.CssDisplay == CssDisplay.Block;
-
             switch (spec.WhiteSpace)
             {
                 case CssWhiteSpace.Pre:
@@ -139,7 +129,6 @@ namespace LayoutFarm.Composers
             //--------------------------------------  
 
             bool needICUSplitter = false;
-
             for (int i = 0; i < buffLength; ++i)
             {
                 char c0 = textBuffer[i];
@@ -186,7 +175,6 @@ namespace LayoutFarm.Composers
                                 startIndex = i;
                                 appendLength = 1;//start collect whitespace 
                             }
-
                         }
                         break;
                     case WordParsingState.Whitespace:
@@ -211,9 +199,7 @@ namespace LayoutFarm.Composers
                             }
                             else
                             {
-
                                 runlist.Add(CssTextRun.CreateWhitespace(preserveWhiteSpace ? appendLength : 1));
-
                                 if (char.IsPunctuation(c0))
                                 {
                                     parsingState = WordParsingState.Init;
@@ -251,7 +237,6 @@ namespace LayoutFarm.Composers
                                 hasSomeCharacter = true;
                                 startIndex = i;//start collect
                                 appendLength = 1; //collect whitespace
-
                                 if (isWhiteSpace)
                                 {
                                     if (c0 == '\n')
@@ -282,10 +267,8 @@ namespace LayoutFarm.Composers
                                 }
                                 appendLength++;
                             }
-
                         }
                         break;
-
                 }
             }
             //--------------------
@@ -300,7 +283,6 @@ namespace LayoutFarm.Composers
                             if (preserveWhiteSpace)
                             {
                                 runlist.Add(CssTextRun.CreateWhitespace(appendLength));
-
                             }
                             else
                             {
@@ -316,12 +298,10 @@ namespace LayoutFarm.Composers
                             if (needICUSplitter)
                             {
                                 AddToRunList(textBuffer, runlist, startIndex, appendLength, ref needICUSplitter);
-
                             }
                             else
                             {
                                 runlist.Add(CssTextRun.CreateTextRun(startIndex, appendLength));
-
                             }
 
                             hasSomeCharacter = true;
