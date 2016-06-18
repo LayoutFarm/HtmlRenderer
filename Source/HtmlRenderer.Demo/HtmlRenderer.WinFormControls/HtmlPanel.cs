@@ -16,11 +16,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
 using LayoutFarm.WebDom;
-using LayoutFarm.Css;
-using LayoutFarm.ContentManagers;
 using LayoutFarm.Composers;
 using LayoutFarm.HtmlBoxes;
-using Conv = LayoutFarm.UI.Conv;
 namespace LayoutFarm.Demo
 {
     /// <summary>

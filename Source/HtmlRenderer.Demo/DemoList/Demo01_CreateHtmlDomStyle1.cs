@@ -1,7 +1,4 @@
-﻿using System;
-using LayoutFarm.Composers;
-using LayoutFarm.WebDom;
-using LayoutFarm;
+﻿using LayoutFarm.WebDom;
 using LayoutFarm.UI;
 namespace LayoutFarm.Demo
 {

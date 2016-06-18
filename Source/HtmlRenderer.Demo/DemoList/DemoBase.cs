@@ -1,6 +1,4 @@
 ﻿using System;
-using LayoutFarm.Composers;
-using LayoutFarm.WebDom;
 namespace LayoutFarm.Demo
 {
     public abstract class DemoBase

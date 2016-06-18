@@ -1,12 +1,8 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
-using LayoutFarm;
 using LayoutFarm.UI;
 namespace TestGraphicPackage
 {

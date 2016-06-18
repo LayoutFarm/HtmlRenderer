@@ -1,7 +1,5 @@
 ﻿// 2015,2014 ,MIT, WinterDev
 
-using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
 using LayoutFarm.WebDom;
 namespace LayoutFarm.Ease

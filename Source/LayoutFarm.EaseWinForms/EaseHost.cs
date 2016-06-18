@@ -1,9 +1,6 @@
 ﻿// 2015,2014 ,MIT, WinterDev
 
-using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
-using LayoutFarm;
 using PixelFarm.Drawing;
 using LayoutFarm.UI;
 namespace LayoutFarm.Ease
