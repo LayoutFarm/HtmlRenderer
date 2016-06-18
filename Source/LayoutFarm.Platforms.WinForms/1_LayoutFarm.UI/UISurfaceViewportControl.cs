@@ -2,11 +2,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
 using System.Windows.Forms;
 using PixelFarm.Drawing;
-using LayoutFarm.RenderBoxes;
 namespace LayoutFarm.UI
 {
     public partial class UISurfaceViewportControl : UserControl

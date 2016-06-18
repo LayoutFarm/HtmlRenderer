@@ -1,13 +1,7 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
 using PixelFarm.Drawing;
-using LayoutFarm.RenderBoxes;
 using LayoutFarm.UI;
-using LayoutFarm.CustomWidgets;
 namespace LayoutFarm
 {
     [DemoNote("3.3 Demo_ControllerBoxs2")]

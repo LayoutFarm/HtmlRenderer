@@ -1,8 +1,5 @@
 ﻿using System;
 using PixelFarm.Agg.Transform;
-using PixelFarm.Agg.Image;
-using PixelFarm.Agg.VertexSource;
-using PixelFarm.VectorMath;
 namespace PixelFarm.Agg
 {
     public class LionFillSprite : BasicSprite

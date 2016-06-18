@@ -1,14 +1,8 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Forms;
 using PixelFarm.Drawing;
-using LayoutFarm;
 using LayoutFarm.UI;
-using LayoutFarm.HtmlBoxes;
 namespace LayoutFarm.DzBoardSample
 {
     class AppModule

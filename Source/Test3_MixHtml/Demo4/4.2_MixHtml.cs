@@ -1,12 +1,6 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
-using PixelFarm.Drawing;
 using LayoutFarm.CustomWidgets;
-using LayoutFarm.UI;
 namespace LayoutFarm
 {
     [DemoNote("4.2 MixHtml and Text")]

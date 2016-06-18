@@ -5,11 +5,7 @@
 
 using System;
 using System.Globalization;
-using PixelFarm.Agg.Transform;
-using PixelFarm.Agg.Image;
 using PixelFarm.Agg.VertexSource;
-using PixelFarm.Agg;
-using PixelFarm.VectorMath;
 namespace PixelFarm.Agg
 {
     class LionDataStore

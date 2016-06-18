@@ -1,13 +1,10 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 using PixelFarm.Drawing;
 using LayoutFarm.UI;
 using LayoutFarm.CustomWidgets;
-using LayoutFarm.RenderBoxes;
 namespace LayoutFarm
 {
     [DemoNote("2.4 Demo_SingleTextLine_With_Compartment")]
