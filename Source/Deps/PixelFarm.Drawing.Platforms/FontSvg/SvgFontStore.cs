@@ -5,10 +5,7 @@
 //plan?: port  them to C#  :)
 //-----------------------------------
 
-using System;
-using System.Text;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 namespace PixelFarm.Agg.Fonts
 {
     public static class SvgFontStore

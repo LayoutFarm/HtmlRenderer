@@ -27,7 +27,6 @@
 
 using System;
 using System.Runtime.InteropServices;
-using OpenTK;
 using OpenTK.Graphics.ES20;
 namespace PixelFarm.Agg
 {

@@ -15,7 +15,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 using Win32;
 namespace PixelFarm.Drawing.WinGdi
 {
@@ -245,7 +244,7 @@ namespace PixelFarm.Drawing.WinGdi
             {
                 //var clip = _g.Clip.GetHrgn(_g);
                 tempDc = gx.GetHdc();
-                Win32Utils.SetBkMode(tempDc, 1);
+                Win32Utils_Gdi.SetBkMode(tempDc, 1);
                 //Win32Utils.SelectClipRgn(_hdc, clip);
                 //Win32Utils.DeleteObject(clip);
             }
@@ -258,7 +257,7 @@ namespace PixelFarm.Drawing.WinGdi
         {
             if (tempDc != IntPtr.Zero)
             {
-                Win32Utils.SelectClipRgn(tempDc, IntPtr.Zero);
+                Win32Utils_Gdi.SelectClipRgn(tempDc, IntPtr.Zero);
                 gx.ReleaseHdc(tempDc);
                 tempDc = IntPtr.Zero;
             }
@@ -271,7 +270,7 @@ namespace PixelFarm.Drawing.WinGdi
         void SetFont(Font font)
         {
             InitHdc();
-            Win32Utils.SelectObject(tempDc, FontStore.GetCachedHFont(font.InnerFont as System.Drawing.Font));
+            Win32Utils_Gdi.SelectObject(tempDc, FontStore.GetCachedHFont(font.InnerFont as System.Drawing.Font));
         }
 
         /// <summary>
@@ -281,7 +280,7 @@ namespace PixelFarm.Drawing.WinGdi
         {
             InitHdc();
             int rgb = (color.B & 0xFF) << 16 | (color.G & 0xFF) << 8 | color.R;
-            Win32Utils.SetTextColor(tempDc, rgb);
+            Win32Utils_Gdi.SetTextColor(tempDc, rgb);
         }
 
         /// <summary>
@@ -294,22 +293,22 @@ namespace PixelFarm.Drawing.WinGdi
         static void DrawTransparentText(IntPtr hdc, string str, Font font, Point point, Size size, Color color)
         {
             IntPtr dib;
-            var memoryHdc = Win32Utils.CreateMemoryHdc(hdc, size.Width, size.Height, out dib);
+            var memoryHdc = Win32Utils_Gdi.CreateMemoryHdc(hdc, size.Width, size.Height, out dib);
             try
             {
                 // copy target background to memory HDC so when copied back it will have the proper background
-                Win32Utils.BitBlt(memoryHdc, 0, 0, size.Width, size.Height, hdc, point.X, point.Y, Win32Utils.BitBltCopy);
+                Win32Utils_Gdi.BitBlt(memoryHdc, 0, 0, size.Width, size.Height, hdc, point.X, point.Y, Win32Utils_Gdi.BitBltCopy);
                 // Create and select font
-                Win32Utils.SelectObject(memoryHdc, FontStore.GetCachedHFont(font.InnerFont as System.Drawing.Font));
-                Win32Utils.SetTextColor(memoryHdc, (color.B & 0xFF) << 16 | (color.G & 0xFF) << 8 | color.R);
+                Win32Utils_Gdi.SelectObject(memoryHdc, FontStore.GetCachedHFont(font.InnerFont as System.Drawing.Font));
+                Win32Utils_Gdi.SetTextColor(memoryHdc, (color.B & 0xFF) << 16 | (color.G & 0xFF) << 8 | color.R);
                 // Draw text to memory HDC
                 NativeTextWin32.TextOut(memoryHdc, 0, 0, str, str.Length);
                 // copy from memory HDC to normal HDC with alpha blend so achieve the transparent text
-                Win32Utils.AlphaBlend(hdc, point.X, point.Y, size.Width, size.Height, memoryHdc, 0, 0, size.Width, size.Height, new BlendFunction(color.A));
+                Win32Utils_Gdi.AlphaBlend(hdc, point.X, point.Y, size.Width, size.Height, memoryHdc, 0, 0, size.Width, size.Height, new BlendFunction(color.A));
             }
             finally
             {
-                Win32Utils.ReleaseMemoryHdc(memoryHdc, dib);
+                Win32Utils_Gdi.ReleaseMemoryHdc(memoryHdc, dib);
             }
         }
 

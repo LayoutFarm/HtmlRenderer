@@ -199,7 +199,7 @@ namespace PixelFarm.Agg.VertexSource
                 }
             }
 
-            yield return new VertexData(VertexCmd.EndAndCloseFigure, (int)EndVertexOrientation.CCW, 0);
+            yield return new VertexData(VertexCmd.CloseAndEndFigure, (int)EndVertexOrientation.CCW, 0);
             yield return new VertexData(VertexCmd.Stop);
         }
 

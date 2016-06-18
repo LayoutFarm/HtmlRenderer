@@ -1,7 +1,5 @@
 ﻿// 2015,2014 ,BSD, WinterDev
 
-using System;
-using System.Collections.Generic;
 namespace PixelFarm.Drawing
 {
     /// <summary>

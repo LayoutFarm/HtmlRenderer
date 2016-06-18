@@ -27,7 +27,6 @@
 //----------------------------------------------------------------------------
 
 using System;
-using System.Collections;
 namespace PixelFarm.Agg
 {
     // Supported byte orders for RGB and RGBA pixel formats

@@ -7,7 +7,6 @@
 //-----------------------------------
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.IO;
 namespace PixelFarm.Agg.Fonts
@@ -18,9 +17,6 @@ namespace PixelFarm.Agg.Fonts
         public bool hasKerning;
         public IntPtr hb_font;
     }
-
-
-
 
     static class NativeMyFontsLib
     {

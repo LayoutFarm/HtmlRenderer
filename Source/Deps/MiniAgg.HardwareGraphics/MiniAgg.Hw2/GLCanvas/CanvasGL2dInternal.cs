@@ -2,12 +2,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
-using Tesselate;
 using PixelFarm.Agg;
-using PixelFarm.Agg.VertexSource;
-using OpenTK.Graphics.ES20;
 namespace PixelFarm.DrawingGL
 {
     public partial class CanvasGL2d

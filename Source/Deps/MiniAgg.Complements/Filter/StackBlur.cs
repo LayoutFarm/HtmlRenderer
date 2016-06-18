@@ -2,7 +2,6 @@
 //ref:  adapt from snippetsfor.net/CSharp/StackBlur
 
 using System;
-using System.Runtime.InteropServices;
 namespace PixelFarm.Agg.Image
 {
     public static class StackBlurARGB

@@ -15,8 +15,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
-using Win32;
 namespace PixelFarm.Drawing.WinGdi
 {
     partial class MyGdiPlusCanvas : Canvas, IFonts, IDisposable

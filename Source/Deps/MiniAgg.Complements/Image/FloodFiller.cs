@@ -1,10 +1,5 @@
 //2014,2015 BSD,WinterDev   
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Runtime.InteropServices;
-using PixelFarm.Agg.Image;
 namespace PixelFarm.Agg
 {
     public class FloodFill

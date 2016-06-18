@@ -18,7 +18,7 @@
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
 
-using System;
+
 namespace PixelFarm.Agg
 {
     public interface ISpanInterpolator

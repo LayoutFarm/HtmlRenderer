@@ -18,7 +18,7 @@
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
 
-using System; 
+using System;
 namespace PixelFarm.Agg
 {
     class StrokeGenerator
@@ -111,7 +111,7 @@ namespace PixelFarm.Agg
                 case VertexCmd.MoveTo:
                     vertexDistanceList.ReplaceLast(new VertexDistance(x, y));
                     break;
-                case VertexCmd.EndAndCloseFigure:
+                case VertexCmd.CloseAndEndFigure:
                     m_closed = true;
                     break;
                 case VertexCmd.EndFigure:
@@ -263,11 +263,11 @@ namespace PixelFarm.Agg
                     case StrokeMath.Status.EndPoly1:
                         m_status = m_prev_status;
                         x = (int)EndVertexOrientation.CCW;
-                        return VertexCmd.EndAndCloseFigure;
+                        return VertexCmd.CloseAndEndFigure;
                     case StrokeMath.Status.EndPoly2:
                         m_status = m_prev_status;
                         x = (int)EndVertexOrientation.CW;
-                        return VertexCmd.EndAndCloseFigure;
+                        return VertexCmd.CloseAndEndFigure;
                     case StrokeMath.Status.Stop:
                         cmd = VertexCmd.Stop;
                         break;

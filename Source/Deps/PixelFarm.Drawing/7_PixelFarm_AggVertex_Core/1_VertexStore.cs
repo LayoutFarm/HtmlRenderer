@@ -146,7 +146,7 @@ namespace PixelFarm.Agg
         }
         public void AddCloseFigure()
         {
-            AddVertex(0, 0, VertexCmd.EndAndCloseFigure);
+            AddVertex(0, 0, VertexCmd.CloseAndEndFigure);
         }
         public void AddStop()
         {

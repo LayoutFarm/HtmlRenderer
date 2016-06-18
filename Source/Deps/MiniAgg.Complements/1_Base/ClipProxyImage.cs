@@ -22,9 +22,6 @@
 //
 //----------------------------------------------------------------------------
 
-using System;
-using System.IO;
-using PixelFarm.Agg;
 namespace PixelFarm.Agg.Image
 {
     public sealed class ClipProxyImage : ProxyImage

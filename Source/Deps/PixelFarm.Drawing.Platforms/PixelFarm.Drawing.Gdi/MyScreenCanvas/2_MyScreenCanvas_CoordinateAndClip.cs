@@ -13,10 +13,6 @@
 // - Sun Tsu,
 // "The Art of War"
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using PixelFarm.Drawing;
 namespace PixelFarm.Drawing.WinGdi
 {
     partial class MyScreenCanvas

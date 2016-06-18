@@ -19,8 +19,6 @@
 //----------------------------------------------------------------------------
 
 using System;
-using PixelFarm.Agg;
-using PixelFarm.Agg.Image;
 using PixelFarm.Agg.Transform;
 using PixelFarm.Agg.VertexSource;
 using PixelFarm.VectorMath;

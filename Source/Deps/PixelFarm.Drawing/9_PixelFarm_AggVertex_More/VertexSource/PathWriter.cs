@@ -89,7 +89,11 @@ namespace PixelFarm.Agg.VertexSource
             latestSVGPathCmd = SvgPathCommand.MoveTo;
             figureCount = 0;
         }
-
+        public void ClearAndStartNewVxs()
+        {
+            myvxs = new VertexStore();
+            Clear();
+        }
         //-------------------------------------------------------------------
         public double LastMoveX { get { return this.lastMoveX; } }
         public double LastMoveY { get { return this.lastMoveY; } }
@@ -378,14 +382,14 @@ namespace PixelFarm.Agg.VertexSource
         {
             if (VertexHelper.IsVertextCommand(myvxs.GetLastCommand()))
             {
-                myvxs.AddVertex((int)EndVertexOrientation.CCW, 0, VertexCmd.EndAndCloseFigure);
+                myvxs.AddVertex((int)EndVertexOrientation.CCW, 0, VertexCmd.CloseAndEndFigure);
             }
         }
         public void CloseFigure()
         {
             if (VertexHelper.IsVertextCommand(myvxs.GetLastCommand()))
             {
-                myvxs.AddVertex(0, 0, VertexCmd.EndAndCloseFigure);
+                myvxs.AddVertex(0, 0, VertexCmd.CloseAndEndFigure);
             }
         }
         //// Concatenate path. The path is added as is.

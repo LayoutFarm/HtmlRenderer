@@ -2,14 +2,7 @@
 #region Using Directives
 
 using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
-using System.Threading;
-using System.Drawing;
-using OpenTK;
-using OpenTK.Graphics;
 using OpenTK.Graphics.ES20;
-using Examples.Tutorial;
 using Mini;
 #endregion
 
@@ -17,7 +10,7 @@ using Mini;
 namespace OpenTkEssTest
 {
     [Info(OrderCode = "054")]
-    [Info("T54_Viewport")]
+    [Info("T54_Lines")]
     public class T54_Lines : PrebuiltGLControlDemoBase
     {
         MiniShaderProgram shaderProgram = new MiniShaderProgram();
@@ -104,7 +97,7 @@ namespace OpenTkEssTest
             u_matrix.SetData(orthoView.data);
             //---------------------------------------------------------  
 
-            DrawLines(0, 0, 300, 300);
+            DrawLines(0, 0, 300, 150);
             //---------------------------------------------------------
 
             miniGLControl.SwapBuffers();

@@ -1,6 +1,5 @@
 ﻿// 2015,2014 ,MIT, WinterDev   
 
-using System.Drawing;
 namespace PixelFarm.Drawing.WinGdi
 {
     class MyFont : Font

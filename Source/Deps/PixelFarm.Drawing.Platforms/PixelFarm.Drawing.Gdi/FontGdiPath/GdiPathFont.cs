@@ -1,11 +1,7 @@
 ﻿// 2015,2014 ,MIT, WinterDev   
 
 using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Collections.Generic;
-using PixelFarm;
-using PixelFarm.Agg;
 namespace PixelFarm.Agg.Fonts
 {
     class GdiPathFont : Font

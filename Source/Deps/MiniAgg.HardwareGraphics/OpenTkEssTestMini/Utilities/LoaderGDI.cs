@@ -8,13 +8,6 @@
 
 // TODO: Find paint program that can properly export 8/16-bit Textures and make sure they are loaded correctly.
 
-using System;
-using System.Diagnostics;
-using System.Drawing;
-using System.Drawing.Imaging;
-using OpenTK;
-using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL;
 namespace Examples.TextureLoaders
 {
     class ImageGDI

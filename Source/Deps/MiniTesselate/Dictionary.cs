@@ -39,8 +39,6 @@
 // Copyright (C) 2007
 */
 
-using System;
-using System.Collections.Generic;
 using DictKey = Tesselate.ActiveRegion;
 namespace Tesselate
 {

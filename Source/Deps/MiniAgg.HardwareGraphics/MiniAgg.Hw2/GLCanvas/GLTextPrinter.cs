@@ -1,8 +1,5 @@
 ﻿//MIT 2014, WinterDev
 
-using System.Text;
-using System;
-using Tesselate;
 using PixelFarm.Agg.Fonts;
 namespace PixelFarm.DrawingGL
 {

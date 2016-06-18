@@ -24,7 +24,7 @@
 
 namespace PixelFarm.Agg
 {
-    static class ClipLiangBarsky
+    public static class ClipLiangBarsky
     {
         //------------------------------------------------------------------------
         static class ClippingFlags

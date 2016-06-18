@@ -1,6 +1,6 @@
 ﻿// 2015,2014 ,MIT, WinterDev
 
-using System;
+
 using System.Runtime.InteropServices;
 namespace PixelFarm.Agg
 {
@@ -8,7 +8,6 @@ namespace PixelFarm.Agg
     {
         byte[] mmm;
         int totalAllocSize;
-        int currentIndex;
         public NativeBuffer(int initSize)
         {
             this.mmm = new byte[initSize];
@@ -62,6 +61,7 @@ namespace PixelFarm.Agg
             }
         }
 
+        //this is platform specific ***
 
         [DllImport("msvcrt.dll", EntryPoint = "memset", CallingConvention = CallingConvention.Cdecl)]
         static unsafe extern void memset(byte* dest, byte c, int byteCount);

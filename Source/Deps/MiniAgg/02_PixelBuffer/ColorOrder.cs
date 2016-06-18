@@ -18,11 +18,6 @@
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
 
-using System;
-using System.Runtime;
-using PixelFarm.Agg;
-using PixelFarm.VectorMath;
-using PixelFarm.Agg.Image;
 namespace PixelFarm.Agg
 {
     public static class CO

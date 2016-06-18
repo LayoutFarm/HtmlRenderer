@@ -36,8 +36,8 @@ namespace PixelFarm.Agg.Transform
         //--------------------------------------------------------------------
         public SpanInterpolatorPerspectiveLerp()
         {
-            m_trans_dir = new Transform.Perspective();
-            m_trans_inv = new Transform.Perspective();
+            m_trans_dir = new Perspective();
+            m_trans_inv = new Perspective();
         }
 
         //--------------------------------------------------------------------

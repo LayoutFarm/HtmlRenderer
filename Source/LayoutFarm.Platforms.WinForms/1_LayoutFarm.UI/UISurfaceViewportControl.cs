@@ -38,18 +38,21 @@ namespace LayoutFarm.UI
             {
                 case InnerViewportKind.GL:
                     {
-                        PixelFarm.Drawing.DrawingGL.CanvasGLPortal.Start();
+                        //temp not suppport 
 
-                        var bridge = new OpenGL.MyTopWindowBridgeOpenGL(rootgfx, topWinEventRoot);
-                        var view = new OpenGL.GpuOpenGLSurfaceView();
-                        view.Width = 800;
-                        view.Height = 600;
-                        //view.Dock = DockStyle.Fill;
-                        this.Controls.Add(view);
-                        //--------------------------------------- 
-                        view.Bind(bridge);
+                        throw new NotSupportedException();
+                        //PixelFarm.Drawing.DrawingGL.CanvasGLPortal.Start();
 
-                        this.winBridge = bridge;
+                        //var bridge = new OpenGL.MyTopWindowBridgeOpenGL(rootgfx, topWinEventRoot);
+                        //var view = new OpenGL.GpuOpenGLSurfaceView();
+                        //view.Width = 800;
+                        //view.Height = 600;
+                        ////view.Dock = DockStyle.Fill;
+                        //this.Controls.Add(view);
+                        ////--------------------------------------- 
+                        //view.Bind(bridge);
+
+                        //this.winBridge = bridge;
 
 
                     } break;

@@ -24,7 +24,6 @@
 
 using System;
 using img_subpix_const = PixelFarm.Agg.ImageFilterLookUpTable.ImgSubPixConst;
-using PixelFarm.Agg.Image;
 namespace PixelFarm.Agg
 {
     public abstract class ImgSpanGen : ISpanGenerator
