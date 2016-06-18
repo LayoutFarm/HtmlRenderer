@@ -8,7 +8,6 @@
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AssemblyName>HtmlRenderer.One</AssemblyName>
-    <ProjectGuid>{6F7E8B5F-B944-47AA-BBBF-E2917F0421A1}</ProjectGuid>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -18,7 +17,7 @@
     <Optimize>false</Optimize>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <DefineConstants>DEBUG; TRACE;ICU_VER_54</DefineConstants>
+    <DefineConstants>DEBUG; TRACE;ICU_VER_54;NET20</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -27,7 +26,7 @@
     <OutputPath>bin\Release\</OutputPath>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
-    <DefineConstants> TRACE;ICU_VER_54</DefineConstants>
+    <DefineConstants> TRACE;ICU_VER_54;NET20</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -36,6 +35,35 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Deps\Espresso\Net20\Espresso.Interfaces\..\..\Espresso.Interfaces\IScriptable.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\0_Start\JsBridge.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\0_Start\ScriptInterfaces.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\1_Core\BoundWeakDelegate.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\1_Core\IKeepAliveStore.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\1_Core\JsContext.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\1_Core\JsContext.Dynamic.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\1_Core\JsContext.NativeMethods.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\1_Core\JsConvert.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\1_Core\JsEngine.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\1_Core\JsEngine.NativeMethods.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\1_Core\JsEngineStats.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\1_Core\JsError.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\1_Core\JsException.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\1_Core\JsExecutionTimedOutException.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\1_Core\JsFunction.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\1_Core\JsInteropException.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\1_Core\JsObject.Dynamic.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\1_Core\JsObjectMarshalType.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\1_Core\JsScript.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\1_Core\JsValue.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\1_Core\JsValueType.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\1_Core\KeepAliveDictionaryStore.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\1_Core\WeakDelegate.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\3_MiniBridge\DelegateHolders.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\3_MiniBridge\JsTypeDefinitionBuilder.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\3_MiniBridge\NativeV8JsInterOp.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\Extension.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\HandleRef.cs" />
     <Compile Include="Deps\icu.net\BreakIterator.cs" />
     <Compile Include="Deps\icu.net\Character.cs" />
     <Compile Include="Deps\icu.net\Collation\AlternateHandling.cs" />
@@ -680,9 +708,7 @@
     <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\UISurfaceViewportControl.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\UISurfaceViewportControl.Designer.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\2_GdiPlus\0_MyWinGdiPortal.cs" />
-    <Compile Include="LayoutFarm.Platforms.WinForms\2_GdiPlus\1_CpuGdiPlusSurfaceView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="LayoutFarm.Platforms.WinForms\2_GdiPlus\1_CpuGdiPlusSurfaceView.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\2_GdiPlus\1_CpuGdiPlusSurfaceView.Designer.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\2_GdiPlus\2_GdiPlusCanvasViewport.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\2_GdiPlus\3_MyTopWindowBridgeGdiPlus.cs" />
