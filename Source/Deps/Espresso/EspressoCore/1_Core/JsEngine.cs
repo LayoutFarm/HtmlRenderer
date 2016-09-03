@@ -1,22 +1,13 @@
 ﻿//2013 MIT, Federico Di Gregorio <fog@initd.org>
-
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading;
-namespace VroomJs
+
+namespace Espresso
 {
     public partial class JsEngine : IDisposable
     {
-        //readonly GCHandle keepalive_remove_hdl;
-        //readonly GCHandle keepalive_get_property_value_hdl;
-        //readonly GCHandle keepalive_set_property_value_hdl;
-        //readonly GCHandle keepalive_valueof_hdl;
-        //readonly GCHandle keepalive_invoke_hdl;
-
-        //readonly GCHandle keepalive_delete_property_hdl;
-        //readonly GCHandle keepalive_enumerate_properties_hdl;
-
 
         readonly KeepaliveRemoveDelegate _keepalive_remove;
         readonly KeepAliveGetPropertyValueDelegate _keepalive_get_property_value;
@@ -25,14 +16,19 @@ namespace VroomJs
         readonly KeepAliveInvokeDelegate _keepalive_invoke;
         readonly KeepAliveDeletePropertyDelegate _keepalive_delete_property;
         readonly KeepAliveEnumeratePropertiesDelegate _keepalive_enumerate_properties;
+
         readonly Dictionary<int, JsContext> _aliveContexts = new Dictionary<int, JsContext>();
         readonly Dictionary<int, JsScript> _aliveScripts = new Dictionary<int, JsScript>();
+
         int _currentContextId = 0;
         int _currentScriptId = 0;
-        readonly HandleRef _engine;
+        readonly HandleRef _engine;//native js engine 
         JsTypeDefinitionBuilder defaultTypeBuilder;
+
+
         static JsEngine()
         {
+            //
             JsObjectMarshalType objectMarshalType = JsObjectMarshalType.Dictionary;
 #if NET40
             objectMarshalType = JsObjectMarshalType.Dynamic;
@@ -41,6 +37,7 @@ namespace VroomJs
         }
         public JsEngine(JsTypeDefinitionBuilder defaultTypeBuilder, int maxYoungSpace, int maxOldSpace)
         {
+
             _keepalive_remove = new KeepaliveRemoveDelegate(KeepAliveRemove);
             _keepalive_get_property_value = new KeepAliveGetPropertyValueDelegate(KeepAliveGetPropertyValue);
             _keepalive_set_property_value = new KeepAliveSetPropertyValueDelegate(KeepAliveSetPropertyValue);
@@ -48,6 +45,7 @@ namespace VroomJs
             _keepalive_invoke = new KeepAliveInvokeDelegate(KeepAliveInvoke);
             _keepalive_delete_property = new KeepAliveDeletePropertyDelegate(KeepAliveDeleteProperty);
             _keepalive_enumerate_properties = new KeepAliveEnumeratePropertiesDelegate(KeepAliveEnumerateProperties);
+
             _engine = new HandleRef(this, jsengine_new(
                 _keepalive_remove,
                 _keepalive_get_property_value,
@@ -60,13 +58,50 @@ namespace VroomJs
                 maxOldSpace));
             this.defaultTypeBuilder = defaultTypeBuilder;
         }
-        public JsEngine(int maxYoungSpace, int maxOldSpace)
-            : this(new DefaultJsTypeDefinitionBuilder(), maxYoungSpace, maxOldSpace)
+        public JsEngine(IntPtr nativeJsEnginePtr)
+            : this(nativeJsEnginePtr, new DefaultJsTypeDefinitionBuilder())
         {
+        }
+        public JsEngine(IntPtr nativeJsEnginePtr,
+            JsTypeDefinitionBuilder defaultTypeBuilder)
+        {
+            //native js engine is created from native side
+            //for this managed object
+            //so we add more managed function to handle
+            _keepalive_remove = new KeepaliveRemoveDelegate(KeepAliveRemove);
+            _keepalive_get_property_value = new KeepAliveGetPropertyValueDelegate(KeepAliveGetPropertyValue);
+            _keepalive_set_property_value = new KeepAliveSetPropertyValueDelegate(KeepAliveSetPropertyValue);
+            _keepalive_valueof = new KeepAliveValueOfDelegate(KeepAliveValueOf);
+            _keepalive_invoke = new KeepAliveInvokeDelegate(KeepAliveInvoke);
+            _keepalive_delete_property = new KeepAliveDeletePropertyDelegate(KeepAliveDeleteProperty);
+            _keepalive_enumerate_properties = new KeepAliveEnumeratePropertiesDelegate(KeepAliveEnumerateProperties);
+
+            jsengine_registerManagedDels(
+                nativeJsEnginePtr,
+                _keepalive_remove,
+                _keepalive_get_property_value,
+                _keepalive_set_property_value,
+                _keepalive_valueof,
+                _keepalive_invoke,
+                _keepalive_delete_property,
+                _keepalive_enumerate_properties
+                );
+            _engine = new HandleRef(this, nativeJsEnginePtr);
+            this.defaultTypeBuilder = defaultTypeBuilder;
+        }
+        public JsEngine(int maxYoungSpace, int maxOldSpace)
+           : this(new DefaultJsTypeDefinitionBuilder(), maxYoungSpace, maxOldSpace)
+        {
+
         }
         public JsEngine()
             : this(new DefaultJsTypeDefinitionBuilder(), -1, -1)
         {
+
+        }
+        internal HandleRef UnmanagedEngineHandler
+        {
+            get { return this._engine; }
         }
 
         public void TerminateExecution()
@@ -186,7 +221,17 @@ namespace VroomJs
         {
             CheckDisposed();
             int id = Interlocked.Increment(ref _currentContextId);
-            JsContext ctx = new JsContext(id, this, _engine, ContextDisposed, this.defaultTypeBuilder);
+
+            JsContext ctx = new JsContext(id, this, ContextDisposed, this.defaultTypeBuilder);
+
+            _aliveContexts.Add(id, ctx);
+            return ctx;
+        }
+        public JsContext CreateContext(IntPtr nativeJsContext)
+        {
+            CheckDisposed();
+            int id = Interlocked.Increment(ref _currentContextId);
+            JsContext ctx = new JsContext(id, this, ContextDisposed, nativeJsContext, this.defaultTypeBuilder);
             _aliveContexts.Add(id, ctx);
             return ctx;
         }
@@ -194,7 +239,9 @@ namespace VroomJs
         {
             CheckDisposed();
             int id = Interlocked.Increment(ref _currentContextId);
-            JsContext ctx = new JsContext(id, this, _engine, ContextDisposed, customTypeDefBuilder);
+
+            JsContext ctx = new JsContext(id, this, ContextDisposed, customTypeDefBuilder);
+
             _aliveContexts.Add(id, ctx);
             return ctx;
         }
@@ -220,6 +267,7 @@ namespace VroomJs
         #region IDisposable implementation
 
         bool _disposed;
+
         public bool IsDisposed
         {
             get { return _disposed; }
@@ -235,6 +283,7 @@ namespace VroomJs
         {
             CheckDisposed();
             _disposed = true; //? here?
+
             if (disposing)
             {
                 foreach (var aliveContext in _aliveContexts)
@@ -246,6 +295,7 @@ namespace VroomJs
                 {
                     JsScript.jsscript_dispose(aliveScript.Value.Handle);
                 }
+
             }
 #if DEBUG_TRACE_API
 				Console.WriteLine("Calling jsEngine dispose: " + _engine.Handle.ToInt64());

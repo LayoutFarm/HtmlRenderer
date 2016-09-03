@@ -21,6 +21,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -116,12 +117,7 @@
     <Compile Include="..\..\EspressoCore\Extension.cs">
       <Link>Extension.cs</Link>
     </Compile>
-    <Compile Include="..\..\EspressoCore\ExtensionAttribute.cs">
-      <Link>ExtensionAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\..\EspressoCore\HandleRef.cs">
-      <Link>HandleRef.cs</Link>
-    </Compile>
+    <Compile Include="0_Start\JsBridgeForNet20.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Espresso.Interfaces\Espresso.Interfaces.csproj">

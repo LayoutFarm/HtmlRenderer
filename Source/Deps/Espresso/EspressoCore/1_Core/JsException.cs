@@ -24,10 +24,12 @@
 // THE SOFTWARE.
 
 using System;
-namespace VroomJs
+namespace Espresso
 {
+
     public class JsException : Exception
     {
+
         internal static JsException Create(JsConvert convert, JsError error)
         {
             string type = (string)convert.FromJsValue(error.Type);
@@ -36,6 +38,7 @@ namespace VroomJs
             int line = error.Line;
             int column = error.Column + 1; // because zero based.
             JsObject nativeException = (JsObject)convert.FromJsValue(error.Exception);
+
             JsException exception;
             if (type == "SyntaxError")
             {
@@ -60,6 +63,7 @@ namespace VroomJs
         public JsException(string message, Exception inner)
             : base(message, inner)
         {
+
         }
 
         //protected JsException(SerializationInfo info, StreamingContext context)
@@ -85,6 +89,7 @@ namespace VroomJs
         }
 
         readonly JsObject _nativeException;
+
         public JsObject NativeException
         {
             get { return _nativeException; }
