@@ -24,7 +24,8 @@
 // THE SOFTWARE.
 
 using System;
-namespace VroomJs
+
+namespace Espresso
 {
     class WeakDelegate
     {
@@ -32,7 +33,7 @@ namespace VroomJs
         {
             Target = target;
             MethodName = name;
-        }
+        } 
         public WeakDelegate(Type type, string name)
         {
             Type = type;

@@ -2,10 +2,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using System.IO;
-namespace VroomJs
+
+namespace Espresso
 {
+
     public abstract class JsTypeMemberDefinition
     {
         string mbname;
@@ -62,6 +63,7 @@ namespace VroomJs
         {
             this.memberId = memberId;
         }
+
     }
     public class JsTypeDefinition : JsTypeMemberDefinition
     {
@@ -69,15 +71,13 @@ namespace VroomJs
         List<JsFieldDefinition> fields = new List<JsFieldDefinition>();
         List<JsMethodDefinition> methods = new List<JsMethodDefinition>();
         List<JsPropertyDefinition> props = new List<JsPropertyDefinition>();
+
         public JsTypeDefinition(string typename)
             : base(typename, JsMemberKind.Type)
         {
+
         }
-        public void AddMember(JsFieldDefinition fieldDef)
-        {
-            fieldDef.SetOwner(this);
-            fields.Add(fieldDef);
-        }
+        
         public void AddMember(JsMethodDefinition methodDef)
         {
             methodDef.SetOwner(this);
@@ -87,6 +87,7 @@ namespace VroomJs
         {
             propDef.SetOwner(this);
             props.Add(propDef);
+
         }
         /// <summary>
         /// serialization this typedefinition to binary format and 
@@ -107,6 +108,7 @@ namespace VroomJs
             writer.Write((short)0);
             //3. typename                         
             WriteUtf16String(this.MemberName, writer);
+
             //4. num of field
             int j = fields.Count;
             writer.Write((short)j);
@@ -115,8 +117,10 @@ namespace VroomJs
                 JsFieldDefinition fielddef = fields[i];
                 //field flags
                 writer.Write((short)0);
+
                 //*** field id -- unique field id within one type
                 writer.Write((short)fielddef.MemberId);
+
                 //field name
                 WriteUtf16String(fielddef.MemberName, writer);
             }
@@ -147,6 +151,7 @@ namespace VroomJs
                 //name
                 WriteUtf16String(property.MemberName, writer);
             }
+
         }
 
         internal List<JsFieldDefinition> GetFields()
@@ -182,19 +187,24 @@ namespace VroomJs
         public JsFieldDefinition(string fieldname)
             : base(fieldname, JsMemberKind.Field)
         {
+
         }
     }
 
     public class JsPropertyDefinition : JsTypeMemberDefinition
     {
+
         System.Reflection.PropertyInfo propInfo;
+
         public JsPropertyDefinition(string name)
             : base(name, JsMemberKind.Property)
         {
+
         }
         public JsPropertyDefinition(string name, JsMethodCallDel getter, JsMethodCallDel setter)
             : base(name, JsMemberKind.Property)
         {
+
             if (getter != null)
             {
                 this.GetterMethod = new JsPropertyGetDefinition(name, getter);
@@ -207,6 +217,7 @@ namespace VroomJs
         public JsPropertyDefinition(string name, System.Reflection.PropertyInfo propInfo)
             : base(name, JsMemberKind.Property)
         {
+
             this.propInfo = propInfo;
 #if NET20
 
@@ -220,13 +231,13 @@ namespace VroomJs
             {
                 this.SetterMethod = new JsPropertySetDefinition(name, setter);
             }
-#else       
-            var getter = propInfo.GetMethod; 
+#else
+            var getter = propInfo.GetMethod;
             if (getter != null)
             {
                 this.GetterMethod = new JsPropertyGetDefinition(name, getter);
             }
-            var setter = propInfo.SetMethod; 
+            var setter = propInfo.SetMethod;
             if (setter != null)
             {
                 this.SetterMethod = new JsPropertySetDefinition(name, setter);
@@ -249,6 +260,7 @@ namespace VroomJs
 
     public class JsPropertyGetDefinition : JsMethodDefinition
     {
+
         public JsPropertyGetDefinition(string name, JsMethodCallDel getter)
             : base(name, getter)
         {
@@ -261,6 +273,7 @@ namespace VroomJs
 
     public class JsPropertySetDefinition : JsMethodDefinition
     {
+
         public JsPropertySetDefinition(string name, JsMethodCallDel setter)
             : base(name, setter)
         {
@@ -273,11 +286,13 @@ namespace VroomJs
 
     public class JsMethodDefinition : JsTypeMemberDefinition
     {
+
         JsMethodCallDel methodCallDel;
         System.Reflection.MethodInfo method;
         System.Reflection.ParameterInfo[] parameterInfoList;
         System.Type methodReturnType;
         bool isReturnTypeVoid;
+
         public JsMethodDefinition(string methodName, JsMethodCallDel methodCallDel)
             : base(methodName, JsMemberKind.Method)
         {
@@ -327,6 +342,7 @@ namespace VroomJs
 
                 //send to .net 
                 object result = this.method.Invoke(thisArg, parameters);
+
                 if (isReturnTypeVoid)
                 {
                     //set to undefine because of void
@@ -345,6 +361,7 @@ namespace VroomJs
     }
 
     public delegate void JsMethodCallDel(ManagedMethodArgs args);
+
     public struct ManagedMethodArgs
     {
         IntPtr metArgsPtr;
@@ -415,16 +432,21 @@ namespace VroomJs
             }
 
             var proxy = this.context.CreateWrapper(result, jsTypeDef);
+
             NativeV8JsInterOp.ResultSetJsValue(metArgsPtr,
                this.context.Converter.ToJsValue(proxy));
         }
         public void SetResultAutoWrap<T>(T result)
             where T : class, new()
         {
+
             var jsTypeDef = this.context.GetJsTypeDefinition<T>(result);
             var proxy = this.context.CreateWrapper(result, jsTypeDef);
+
             NativeV8JsInterOp.ResultSetJsValue(metArgsPtr,
                this.context.Converter.ToJsValue(proxy));
         }
+
+
     }
 }

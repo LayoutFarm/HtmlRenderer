@@ -18,7 +18,7 @@
     <Optimize>false</Optimize>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <DefineConstants>DEBUG; TRACE;ICU_VER_54</DefineConstants>
+    <DefineConstants>DEBUG; TRACE;ICU_VER_54;NET20</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -27,7 +27,7 @@
     <OutputPath>bin\Release\</OutputPath>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
-    <DefineConstants> TRACE;ICU_VER_54</DefineConstants>
+    <DefineConstants> TRACE;ICU_VER_54;NET20</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -36,6 +36,35 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Deps\Espresso\Net20\Espresso.Interfaces\..\..\EspressoCore\IScriptable.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\0_Start\JsBridge.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\0_Start\ScriptInterfaces.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\1_Core\BoundWeakDelegate.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\1_Core\IKeepAliveStore.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\1_Core\JsContext.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\1_Core\JsContext.Dynamic.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\1_Core\JsContext.NativeMethods.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\1_Core\JsConvert.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\1_Core\JsEngine.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\1_Core\JsEngine.NativeMethods.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\1_Core\JsEngineStats.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\1_Core\JsError.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\1_Core\JsException.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\1_Core\JsExecutionTimedOutException.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\1_Core\JsFunction.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\1_Core\JsInteropException.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\1_Core\JsObject.Dynamic.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\1_Core\JsObjectMarshalType.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\1_Core\JsScript.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\1_Core\JsValue.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\1_Core\JsValueType.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\1_Core\KeepAliveDictionaryStore.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\1_Core\WeakDelegate.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\3_MiniBridge\DelegateHolders.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\3_MiniBridge\JsTypeDefinitionBuilder.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\3_MiniBridge\NativeV8JsInterOp.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\Extension.cs" />
+    <Compile Include="Deps\Espresso\Net20\EspressoCore\0_Start\JsBridgeForNet20.cs" />
     <Compile Include="Deps\icu.net\BreakIterator.cs" />
     <Compile Include="Deps\icu.net\Character.cs" />
     <Compile Include="Deps\icu.net\Collation\AlternateHandling.cs" />
@@ -291,11 +320,15 @@
     <Compile Include="Deps\MiniAgg.HardwareGraphics\OpenTK.PlatformMini\Toolkit.cs" />
     <Compile Include="Deps\MiniAgg.HardwareGraphics\OpenTK.PlatformMini\UserGLControl\CarbonGLControl.cs" />
     <Compile Include="Deps\MiniAgg.HardwareGraphics\OpenTK.PlatformMini\UserGLControl\DummyGLControl.cs" />
-    <Compile Include="Deps\MiniAgg.HardwareGraphics\OpenTK.PlatformMini\UserGLControl\GLControl.cs" />
+    <Compile Include="Deps\MiniAgg.HardwareGraphics\OpenTK.PlatformMini\UserGLControl\GLControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Deps\MiniAgg.HardwareGraphics\OpenTK.PlatformMini\UserGLControl\GLControl.Designer.cs" />
     <Compile Include="Deps\MiniAgg.HardwareGraphics\OpenTK.PlatformMini\UserGLControl\GLControlFactory.cs" />
     <Compile Include="Deps\MiniAgg.HardwareGraphics\OpenTK.PlatformMini\UserGLControl\IGLControl.cs" />
-    <Compile Include="Deps\MiniAgg.HardwareGraphics\OpenTK.PlatformMini\UserGLControl\MyGLControl.cs" />
+    <Compile Include="Deps\MiniAgg.HardwareGraphics\OpenTK.PlatformMini\UserGLControl\MyGLControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Deps\MiniAgg.HardwareGraphics\OpenTK.PlatformMini\UserGLControl\MyGLControl.Designer.cs" />
     <Compile Include="Deps\MiniAgg.HardwareGraphics\OpenTK.PlatformMini\UserGLControl\WinGLControl.cs" />
     <Compile Include="Deps\MiniAgg.HardwareGraphics\OpenTK.PlatformMini\UserGLControl\X11GLControl.cs" />
@@ -670,14 +703,18 @@
     <Compile Include="LayoutFarm.Platforms.WinForms\0_Start\CanvasViewport.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\0_Start\Conv.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\0_Start\dbugHelper.cs" />
-    <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\AbstractCompletionWindow.cs" />
+    <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\AbstractCompletionWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\AbstractCompletionWindow.Designer.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\InnerViewportKind.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\MyUITimer.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\TopWindowBridge.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\TopWindowBridge_dbug.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\UIPlatformWinForms.cs" />
-    <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\UISurfaceViewportControl.cs" />
+    <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\UISurfaceViewportControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\UISurfaceViewportControl.Designer.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\2_GdiPlus\0_MyWinGdiPortal.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\2_GdiPlus\1_CpuGdiPlusSurfaceView.cs">
@@ -839,6 +876,9 @@
     <Compile Include="LayoutFarm.YourCustomWidgets\7_WindowUI\UIFloatWindow.cs" />
     <Compile Include="LayoutFarm.YourCustomWidgets\8_Canvas\MiniAggCanvasBox.cs" />
     <Compile Include="LayoutFarm.YourCustomWidgets\8_Canvas\MiniAggCanvasRenderElement.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Deps\Espresso\Net20\Espresso.Interfaces\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

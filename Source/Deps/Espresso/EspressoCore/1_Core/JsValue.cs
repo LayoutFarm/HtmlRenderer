@@ -25,7 +25,8 @@
 
 using System;
 using System.Runtime.InteropServices;
-namespace VroomJs
+
+namespace Espresso
 {
     [StructLayout(LayoutKind.Explicit)]
     struct JsValue
@@ -41,11 +42,13 @@ namespace VroomJs
         /// </summary>
         [FieldOffset(0)]
         public IntPtr Ptr;
+
         /// <summary>
         /// offset(8)See JsValueType, marshaled as integer. 
         /// </summary>
         [FieldOffset(8)]
         public JsValueType Type;
+
         /// <summary>
         /// offset(12) Length of array or string 
         /// </summary>
@@ -56,6 +59,10 @@ namespace VroomJs
         /// </summary>
         [FieldOffset(12)]
         public int Index;
+
+
+
+
         public static JsValue Null
         {
             get { return new JsValue() { Type = JsValueType.Null }; }

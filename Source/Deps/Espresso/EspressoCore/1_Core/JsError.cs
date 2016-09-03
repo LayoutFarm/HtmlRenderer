@@ -1,8 +1,8 @@
 ﻿//2013 MIT, Federico Di Gregorio <fog@initd.org>
-
 using System;
 using System.Runtime.InteropServices;
-namespace VroomJs
+
+namespace Espresso
 {
     [StructLayout(LayoutKind.Sequential)]
     struct JsError
