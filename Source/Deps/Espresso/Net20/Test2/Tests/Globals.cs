@@ -26,7 +26,7 @@
 using System;
 using NUnit.Framework;
 
-namespace VroomJs.Tests
+namespace Espresso.Tests
 {
     [TestFixture]
     public class Globals

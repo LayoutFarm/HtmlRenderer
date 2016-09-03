@@ -25,7 +25,8 @@
 
 using System;
 using System.Collections.Generic;
-namespace VroomJs
+
+namespace Espresso
 {
     public class DynamicObject
     {
@@ -54,12 +55,12 @@ namespace VroomJs
                 //this.members[name] = value;
             }
         }
-
+ 
         public virtual bool TryGetMember(string mbname, out object result)
         {
             result = null;
             return false;
-        }
+        } 
         public virtual bool TrySetMember(string mbname, object value)
         {
             return false;
@@ -69,7 +70,7 @@ namespace VroomJs
             return null;
         }
     }
-
+     
 
     public class JsObject : DynamicObject, IDisposable
     {
@@ -77,12 +78,14 @@ namespace VroomJs
         {
             if (ptr == IntPtr.Zero)
                 throw new ArgumentException("can't wrap an empty object (ptr is Zero)", "ptr");
+
             _context = context;
             _handle = ptr;
         }
 
         readonly JsContext _context;
         readonly IntPtr _handle;
+
         public IntPtr Handle
         {
             get { return _handle; }
@@ -92,18 +95,19 @@ namespace VroomJs
             result = _context.InvokeProperty(this, name, args);
             return true;
         }
-
+       
         public override bool TryGetMember(string mbname, out object result)
         {
             return (result = _context.GetPropertyValue(this, mbname)) != null;
-        }
 
+        }
+        
         public override bool TrySetMember(string mbname, object value)
         {
             _context.SetPropertyValue(this, mbname, value);
             return true;
         }
-
+        
         public override IEnumerable<string> GetDynamicMemberNames()
         {
             return _context.GetMemberNames(this);
@@ -112,6 +116,7 @@ namespace VroomJs
         #region IDisposable implementation
 
         bool _disposed;
+
         public void Dispose()
         {
             Dispose(true);
@@ -122,7 +127,9 @@ namespace VroomJs
         {
             if (_disposed)
                 throw new ObjectDisposedException("JsObject:" + _handle);
+
             _disposed = true;
+
             _context.Engine.DisposeObject(this.Handle);
         }
 
@@ -134,6 +141,7 @@ namespace VroomJs
 
         #endregion
     }
+
 }
 
 

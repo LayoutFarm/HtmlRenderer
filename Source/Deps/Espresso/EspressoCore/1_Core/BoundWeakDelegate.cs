@@ -3,7 +3,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-namespace VroomJs
+
+namespace Espresso
 {
     class BoundWeakDelegate : WeakDelegate
     {

@@ -1,9 +1,8 @@
 ﻿//2015, MIT WinterDev
-
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-namespace VroomJs
+namespace Espresso
 {
     //create more if you want
 
@@ -11,6 +10,7 @@ namespace VroomJs
     {
         public readonly Type delHolderType;
         public readonly DelegateHolder holder;
+
         public DelegateTemplate(Type delHolderType, DelegateHolder holder)
         {
             this.delHolderType = delHolderType;
@@ -46,6 +46,8 @@ namespace VroomJs
 
     abstract class DelegateHolder
     {
+
+
         public JsFunction jsFunc;
         /// <summary>
         /// create new black delegate holder with the same kind
@@ -53,11 +55,14 @@ namespace VroomJs
         /// <returns></returns>
         public abstract DelegateHolder New();
         public abstract MethodInfo InvokeMethodInfo { get; }
+
     }
 
     class FuncDelegateHolder<TResult> : DelegateHolder
     {
+
         static MethodInfo invokeMethodInfo = Helper.GetInvokeMethod<FuncDelegateHolder<TResult>>();
+
         public TResult Invoke()
         {
             return (TResult)this.jsFunc.Invoke(new object[0]);
@@ -74,6 +79,7 @@ namespace VroomJs
     class FuncDelegateHolder<T, TResult> : DelegateHolder
     {
         static MethodInfo invokeMethodInfo = Helper.GetInvokeMethod<FuncDelegateHolder<T, TResult>>();
+
         public TResult Invoke(T arg)
         {
             return (TResult)this.jsFunc.Invoke(arg);
@@ -90,6 +96,7 @@ namespace VroomJs
     class FuncDelegateHolder<T1, T2, TResult> : DelegateHolder
     {
         static MethodInfo invokeMethodInfo = Helper.GetInvokeMethod<FuncDelegateHolder<T1, T2, TResult>>();
+
         public TResult Invoke(T1 arg1, T2 arg2)
         {
             return (TResult)this.jsFunc.Invoke(arg1, arg2);
@@ -122,6 +129,7 @@ namespace VroomJs
     class FuncDelegateHolder<T1, T2, T3, T4, TResult> : DelegateHolder
     {
         static MethodInfo invokeMethodInfo = Helper.GetInvokeMethod<FuncDelegateHolder<T1, T2, T3, T4, TResult>>();
+
         public TResult Invoke(T1 arg1, T2 arg2, T3 arg3, T4 arg4)
         {
             return (TResult)this.jsFunc.Invoke(arg1, arg2, arg3, arg4);
@@ -152,6 +160,7 @@ namespace VroomJs
         {
             get { return invokeMethodInfo; }
         }
+
     }
     class ActionDelegateHolder<T> : DelegateHolder
     {
@@ -218,4 +227,6 @@ namespace VroomJs
             get { return invokeMethodInfo; }
         }
     }
+
+
 }

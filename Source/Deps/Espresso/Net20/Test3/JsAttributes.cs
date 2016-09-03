@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.IO;
 
-namespace VRoomJsTest2
+namespace Test3
 {
     [AttributeUsage(AttributeTargets.Class)]
     public class JsTypeAttribute : Attribute

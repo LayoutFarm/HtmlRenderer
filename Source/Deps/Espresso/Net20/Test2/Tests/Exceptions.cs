@@ -23,47 +23,56 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace VroomJs.Tests
+using System;
+using NUnit.Framework;
+
+namespace Espresso.Tests
 {
-    public class TestClass
+    [TestFixture]
+    public class Exceptions
     {
-        int intProp;
-        string strProp;
-        bool boolProp;
+        JsEngine jsEngine;
 
-        public int Int32Property
+        [SetUp]
+        public void Setup()
         {
-            get
-            {
-                return this.intProp;
-            }
-            set
-            {
-                this.intProp = value;
-            }
+            jsEngine = new JsEngine();
         }
-        public string StringProperty
+
+        [TearDown]
+        public void Teardown()
         {
-            get { return this.strProp; }
-            set
-            {
-                this.strProp = value;
-            }
+            jsEngine.Dispose();
         }
-        public bool BoolProperty
+
+        [TestCase]
+        [ExpectedException(typeof(JsException))]
+        public void SimpleExpressionException()
         {
-            get { return this.boolProp; }
-            set
+            using (JsContext js = jsEngine.CreateContext())
             {
-                this.boolProp = value;
+                js.Execute("throw 'xxx'");
             }
         }
 
-        public TestClass NestedObject { get; set; }
-
-        public TestClass Method1(int i, string s)
+        [TestCase]
+        [ExpectedException(typeof(JsException))]
+        public void JsObjectException()
         {
-            return new TestClass { Int32Property = this.Int32Property + i, StringProperty = this.StringProperty + s };
+            using (JsContext js = jsEngine.CreateContext())
+            {
+                js.Execute("throw {msg:'Error!'}");
+            }
+        }
+
+        [TestCase]
+        [ExpectedException(typeof(JsException))]
+        public void CompilationException()
+        {
+            using (JsContext js = jsEngine.CreateContext())
+            {
+                js.Execute("a+§");
+            }
         }
     }
 }

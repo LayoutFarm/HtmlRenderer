@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Reflection;
-using System.Runtime.InteropServices;
-namespace VroomJs.Extension
+namespace Espresso.Extension
 {
     public static class TypeExtention
     {
         public static MemberInfo[] GetMembers(this Type type)
         {
+
 #if NET20
             var members = type.GetMembers();
             List<MemberInfo> memList = new List<MemberInfo>();
@@ -30,3 +28,10 @@ namespace VroomJs.Extension
         }
     }
 }
+
+#if NET20
+namespace System.Runtime.CompilerServices
+{
+    public partial class ExtensionAttribute : Attribute { }
+}
+#endif

@@ -23,56 +23,47 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System;
-using NUnit.Framework;
-
-namespace VroomJs.Tests
+namespace Espresso.Tests
 {
-    [TestFixture]
-    public class Exceptions
+    public class TestClass
     {
-        JsEngine jsEngine;
+        int intProp;
+        string strProp;
+        bool boolProp;
 
-        [SetUp]
-        public void Setup()
+        public int Int32Property
         {
-            jsEngine = new JsEngine();
-        }
-
-        [TearDown]
-        public void Teardown()
-        {
-            jsEngine.Dispose();
-        }
-
-        [TestCase]
-        [ExpectedException(typeof(JsException))]
-        public void SimpleExpressionException()
-        {
-            using (JsContext js = jsEngine.CreateContext())
+            get
             {
-                js.Execute("throw 'xxx'");
+                return this.intProp;
+            }
+            set
+            {
+                this.intProp = value;
+            }
+        }
+        public string StringProperty
+        {
+            get { return this.strProp; }
+            set
+            {
+                this.strProp = value;
+            }
+        }
+        public bool BoolProperty
+        {
+            get { return this.boolProp; }
+            set
+            {
+                this.boolProp = value;
             }
         }
 
-        [TestCase]
-        [ExpectedException(typeof(JsException))]
-        public void JsObjectException()
-        {
-            using (JsContext js = jsEngine.CreateContext())
-            {
-                js.Execute("throw {msg:'Error!'}");
-            }
-        }
+        public TestClass NestedObject { get; set; }
 
-        [TestCase]
-        [ExpectedException(typeof(JsException))]
-        public void CompilationException()
+        public TestClass Method1(int i, string s)
         {
-            using (JsContext js = jsEngine.CreateContext())
-            {
-                js.Execute("a+§");
-            }
+            return new TestClass { Int32Property = this.Int32Property + i, StringProperty = this.StringProperty + s };
         }
     }
 }

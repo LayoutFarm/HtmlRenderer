@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace VroomJs
+namespace Espresso
 {
     public interface INativeRef
     {

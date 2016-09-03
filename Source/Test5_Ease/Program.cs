@@ -15,7 +15,7 @@ namespace Test5_Ease
             EaseHost.StartGraphicsHost();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            VroomJs.JsBridge.LoadV8(@"D:\projects\HTML-Renderer\Source\Deps\VRoomJs2\natives\libespr.dll");
+            Espresso.JsBridge.LoadV8(@"D:\projects\HTML-Renderer\Source\Deps\VRoomJs2\natives\libespr.dll");
             Application.Run(new Form1());
         }
     }
