@@ -1,4 +1,4 @@
-﻿//2014,2015 BSD,WinterDev   
+﻿//BSD, 2014-2016, WinterDev
 //ref:  adapt from snippetsfor.net/CSharp/StackBlur
 
 using System;
@@ -11,14 +11,6 @@ namespace PixelFarm.Agg.Image
         const int R_SHIFT = 16;
         const int G_SHIFT = 8;
         const int B_SHIFT = 0;
-        //lookp table cache
-        static byte[] _radius2 = null;
-        static byte[] _radius3 = null;
-        static byte[] _radius4 = null;
-        static byte[] _radius5 = null;
-        static byte[] _radius6 = null;
-        static byte[] _radius7 = null;
-        static byte[] _radius8 = null;
         //------------------------------------------------
         static byte[] PrepareLookupTable(int radius)
         {

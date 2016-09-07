@@ -1,4 +1,4 @@
-//2014,2015 BSD,WinterDev   
+//BSD, 2014-2016, WinterDev
 //----------------------------------------------------------------------------
 // Anti-Grain Geometry - Version 2.4
 // Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
@@ -18,7 +18,7 @@
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
 
-
+using PixelFarm.Drawing;
 using PixelFarm.Agg.Lines;
 namespace PixelFarm.Agg
 {
@@ -26,13 +26,13 @@ namespace PixelFarm.Agg
     {
         public int Dilation { get { return 1; } }
 
-        public void SetPixelLowRes(ColorRGBA[][] buf, ColorRGBA[] p, int offset, int x, int y)
+        public void SetPixelLowRes(Color[][] buf, Color[] p, int offset, int x, int y)
         {
             p[offset] = buf[y][x];
         }
 
         public void SetPixelHighRes(ImageReaderWriterBase sourceImage,
-            ColorRGBA[] destBuffer,
+            Color[] destBuffer,
             int destBufferOffset,
             int x,
             int y)

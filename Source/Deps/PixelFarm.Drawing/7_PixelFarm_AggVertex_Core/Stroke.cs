@@ -1,4 +1,4 @@
-//2014,2015 BSD,WinterDev   
+//BSD, 2014-2016, WinterDev
 //----------------------------------------------------------------------------
 // Anti-Grain Geometry - Version 2.4
 // Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
@@ -22,7 +22,6 @@
 //
 //----------------------------------------------------------------------------
 
-using System.Collections.Generic;
 namespace PixelFarm.Agg
 {
     public sealed class Stroke
@@ -98,9 +97,6 @@ namespace PixelFarm.Agg
                 switch (cmd)
                 {
                     case VertexCmd.Stop:
-                    case VertexCmd.HasMore:
-                        {
-                        }
                         break;
                     case VertexCmd.EndFigure:
                     case VertexCmd.CloseAndEndFigure:

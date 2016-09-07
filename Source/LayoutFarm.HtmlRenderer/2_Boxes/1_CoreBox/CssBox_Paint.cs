@@ -3,6 +3,7 @@
 
 using System;
 using PixelFarm.Drawing;
+using PixelFarm.Drawing.Fonts;
 namespace LayoutFarm.HtmlBoxes
 {
     partial class CssBox

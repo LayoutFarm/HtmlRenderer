@@ -1,4 +1,4 @@
-﻿//2014,2015 MIT,WinterDev  
+﻿//MIT, 2014-2016, WinterDev
 
 //----------------------------------------------------------------------------
 // Anti-Grain Geometry - Version 2.4
@@ -201,7 +201,7 @@ namespace PixelFarm.Agg
                 // We invert it because it is the transform to make the image go to the same position as the polygon. LBB [2/24/2004]
                 Affine sourceRectTransform = destRectTransform.CreateInvert();
                 var interpolator = new SpanInterpolatorLinear(sourceRectTransform);
-                var imgSpanGen = new ImgSpanGenRGBA_BilinearClip(source, ColorRGBA.Black, interpolator);
+                var imgSpanGen = new ImgSpanGenRGBA_BilinearClip(source, Drawing.Color.Black, interpolator);
                 Render(destRectTransform.TransformToVxs(imgBoundsPath), imgSpanGen);
                 // this is some debug you can enable to visualize the dest bounding box
                 //LineFloat(BoundingRect.left, BoundingRect.top, BoundingRect.right, BoundingRect.top, WHITE);
@@ -247,7 +247,7 @@ namespace PixelFarm.Agg
             Affine sourceRectTransform = destRectTransform.CreateInvert();
             var imgSpanGen = new ImgSpanGenRGBA_BilinearClip(
                 source,
-                ColorRGBA.Black,
+                Drawing.Color.Black,
                 new SpanInterpolatorLinear(sourceRectTransform));
             Render(destRectTransform.TransformToVxs(tmpImgBoundVxs), imgSpanGen);
             ReleaseVxs(tmpImgBoundVxs);
@@ -342,7 +342,7 @@ namespace PixelFarm.Agg
                 Affine sourceRectTransform = destRectTransform.CreateInvert();
                 var imgSpanGen = new ImgSpanGenRGBA_BilinearClip(
                     source,
-                    ColorRGBA.Black,
+                    Drawing.Color.Black,
                     new SpanInterpolatorLinear(sourceRectTransform));
                 Render(destRectTransform.TransformToVxs(imgBoundsPath), imgSpanGen);
 #if false // this is some debug you can enable to visualize the dest bounding box

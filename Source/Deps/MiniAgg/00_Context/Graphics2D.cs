@@ -1,4 +1,4 @@
-//2014,2015 BSD,WinterDev  
+//BSD, 2014-2016, WinterDev
 //----------------------------------------------------------------------------
 // Anti-Grain Geometry - Version 2.4
 // Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
@@ -34,25 +34,17 @@ namespace PixelFarm.Agg
 
         public abstract void SetClippingRect(RectInt rect);
         public abstract RectInt GetClippingRect();
-        public abstract void Clear(ColorRGBA color);
+        public abstract void Clear(Drawing.Color color);
         //------------------------------------------------------------------------
         //render vertices
-        public abstract void Render(VertexStoreSnap vertexSource, ColorRGBA colorBytes);
+        public abstract void Render(VertexStoreSnap vertexSource, Drawing.Color c);
         //------------------------------------------------------------------------
 
 
-        public void Render(VertexStore vxStorage, ColorRGBA c)
+        public void Render(VertexStore vxs, Drawing.Color c)
         {
-            Render(new VertexStoreSnap(vxStorage), c);
+            Render(new VertexStoreSnap(vxs), c);
         }
-        public void Render(VertexStoreSnap vertexSource, double x, double y, ColorRGBA color)
-        {
-            var inputVxs = vertexSource.GetInternalVxs();
-            var vxs = Affine.TranslateTransformToVxs(vertexSource, x, y);//Affine.NewTranslation(x, y).TransformToVxs (inputVxs);
-            Render(vxs, color);
-        }
-
-
 
         public Affine CurrentTransformMatrix
         {
@@ -101,7 +93,7 @@ namespace PixelFarm.Agg
 
 
 #if DEBUG
-        public void dbugLine(double x1, double y1, double x2, double y2, ColorRGBA color)
+        public void dbugLine(double x1, double y1, double x2, double y2, Drawing.Color color)
         {
             VertexStore vxs = new VertexStore(8);
             vxs.AddMoveTo(x1, y1);

@@ -1,4 +1,4 @@
-//2014,2015 MIT,WinterDev  
+//MIT, 2014-2016, WinterDev
 
 //----------------------------------------------------------------------------
 // Anti-Grain Geometry - Version 2.4
@@ -20,6 +20,7 @@
 //----------------------------------------------------------------------------
 
 using System;
+using PixelFarm.Drawing;
 using PixelFarm.Agg.Image;
 using PixelFarm.Agg.Transform;
 namespace PixelFarm.Agg
@@ -107,7 +108,7 @@ namespace PixelFarm.Agg
             this.myTmpImgRectVxs = vxs;
             vxs.Clear();
         }
-        public override void Clear(ColorRGBA color)
+        public override void Clear(Color color)
         {
             RectInt clippingRectInt = GetClippingRect();
             var destImage = this.DestImage;
@@ -158,7 +159,7 @@ namespace PixelFarm.Agg
                         //skip clipping ****
                         //TODO: reimplement clipping***
                         //------------------------------ 
-                        if (color == ColorRGBA.White)
+                        if (color == Color.White)
                         {
                             //fast cleat with white color
                             int n = buffer.Length / 4;
@@ -175,7 +176,7 @@ namespace PixelFarm.Agg
                                 }
                             }
                         }
-                        else if (color == ColorRGBA.Black)
+                        else if (color == Color.Black)
                         {
                             //fast cleat with black color
                             int n = buffer.Length / 4;
@@ -217,7 +218,7 @@ namespace PixelFarm.Agg
             }
         }
 
-        public override void Render(VertexStoreSnap vertextSnap, ColorRGBA color)
+        public override void Render(VertexStoreSnap vxsSnap, Drawing.Color color)
         {
             //reset rasterizer before render each vertextSnap 
             //-----------------------------
@@ -225,11 +226,11 @@ namespace PixelFarm.Agg
             Affine transform = this.CurrentTransformMatrix;
             if (!transform.IsIdentity())
             {
-                sclineRas.AddPath(transform.TransformToVxs(vertextSnap));
+                sclineRas.AddPath(transform.TransformToVxs(vxsSnap));
             }
             else
             {
-                sclineRas.AddPath(vertextSnap);
+                sclineRas.AddPath(vxsSnap);
             }
             sclineRasToBmp.RenderWithColor(destImageReaderWriter, sclineRas, sclinePack8, color);
             unchecked { destImageChanged++; };

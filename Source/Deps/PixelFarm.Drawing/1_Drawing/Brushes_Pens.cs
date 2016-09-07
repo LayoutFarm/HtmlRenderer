@@ -1,4 +1,4 @@
-﻿//2014,2015 MIT, WinterDev
+﻿//MIT, 2014-2016, WinterDev
 
 using System;
 using System.Collections.Generic;
@@ -69,11 +69,7 @@ namespace PixelFarm.Drawing
         {
             get { return this.textureImage; }
         }
-        public object InnerImage2
-        {
-            get;
-            set;
-        }
+
 
         public override object InnerBrush
         {
@@ -90,6 +86,8 @@ namespace PixelFarm.Drawing
         {
         }
     }
+
+
     public abstract class GeometryGraidentBrush : Brush
     {
     }

@@ -1,4 +1,4 @@
-//2014,2015 BSD,WinterDev   
+//BSD, 2014-2016, WinterDev
 //----------------------------------------------------------------------------
 // Anti-Grain Geometry - Version 2.4
 // Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
@@ -22,8 +22,6 @@
 //
 //----------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
 namespace PixelFarm.Agg.VertexSource
 {
     //---------------------------------------------------------------conv_curve
@@ -56,6 +54,9 @@ namespace PixelFarm.Agg.VertexSource
         //tools , curve producer
         readonly Curve3 m_curve3 = new Curve3();
         readonly Curve4 m_curve4 = new Curve4();
+        public CurveFlattener()
+        {
+        }
         public double ApproximationScale
         {
             get
@@ -279,178 +280,6 @@ namespace PixelFarm.Agg.VertexSource
         public VertexStore MakeVxs(VertexStore srcVxs)
         {
             return MakeVxs(new VertexStoreSnap(srcVxs));
-        }
-        public VertexStore MakeVxs2(VertexStore srcVxs)
-        {
-            return MakeVxs2(new VertexStoreSnap(srcVxs));
-        }
-        public VertexStore MakeVxs2(VertexStoreSnap vsnap)
-        {
-            VertexStore vxs = new VertexStore();
-            m_curve3.Reset();
-            m_curve4.Reset();
-            var snapIter = vsnap.GetVertexSnapIter();
-            CurvePointMode latestCurveMode = CurvePointMode.NotCurve;
-            double x, y;
-            VertexCmd cmd;
-            VectorMath.Vector2 c3p2 = new VectorMath.Vector2();
-            VectorMath.Vector2 c4p2 = new VectorMath.Vector2();
-            VectorMath.Vector2 c4p3 = new VectorMath.Vector2();
-            double lastX = 0;
-            double lasty = 0;
-            double lastMoveX = 0;
-            double lastMoveY = 0;
-            do
-            {
-                //this vertex
-                cmd = snapIter.GetNextVertex(out x, out y);
-                switch (cmd)
-                {
-                    //this p2 control
-                    case VertexCmd.P2c:
-                        {
-                            switch (latestCurveMode)
-                            {
-                                case CurvePointMode.P2:
-                                    {
-                                    }
-                                    break;
-                                case CurvePointMode.P3:
-                                    {
-                                    }
-                                    break;
-                                case CurvePointMode.NotCurve:
-                                    {
-                                        c3p2.x = x;
-                                        c3p2.y = y;
-                                    }
-                                    break;
-                                default:
-                                    {
-                                    }
-                                    break;
-                            }
-                            latestCurveMode = CurvePointMode.P2;
-                        }
-                        break;
-                    case VertexCmd.P3c:
-                        {
-                            //this is p3c
-                            switch (latestCurveMode)
-                            {
-                                case CurvePointMode.P2:
-                                    {
-                                        c4p2.x = c3p2.x;
-                                        c4p2.y = c3p2.y;
-                                        c4p3.x = x;
-                                        c4p3.y = y;
-                                        c3p2.x = x;
-                                    }
-                                    break;
-                                case CurvePointMode.P3:
-                                    {
-                                        // vxs.AddVertex(x, y, cmd);
-                                        c4p3.x = x;
-                                        c4p3.y = y;
-                                        //m_curve4.MakeLines(vxs,
-                                        //    lastX, lasty,
-                                        //    c3p2.X, c3p2.Y,
-                                        //    c4p2.x, c4p2.y,
-                                        //    x, y);
-
-                                        // vxs.AddVertex(x, y, cmd);
-
-                                    }
-                                    break;
-                                case CurvePointMode.NotCurve:
-                                    {
-                                        c4p2.x = x;
-                                        c4p2.y = y;
-                                    }
-                                    break;
-                            }
-                            latestCurveMode = CurvePointMode.P3;
-                        }
-                        break;
-                    case VertexCmd.LineTo:
-                        {
-                            switch (latestCurveMode)
-                            {
-                                case CurvePointMode.P2:
-                                    {
-                                        m_curve3.MakeLines(vxs,
-                                            lastX,
-                                            lasty,
-                                            c3p2.X,
-                                            c3p2.Y,
-                                            x,
-                                            y);
-                                    }
-                                    break;
-                                case CurvePointMode.P3:
-                                    {
-                                        //from curve4
-                                        // vxs.AddVertex(x, y, cmd);
-                                        m_curve4.MakeLines(vxs,
-                                            lastX, lasty,
-                                            c4p2.x, c4p2.y,
-                                            c4p3.x, c4p3.y,
-                                            x, y);
-                                    }
-                                    break;
-                                default:
-                                    {
-                                        vxs.AddVertex(x, y, cmd);
-                                    }
-                                    break;
-                            }
-                            //-----------
-                            latestCurveMode = CurvePointMode.NotCurve;
-                            lastX = x;
-                            lasty = y;
-                            //-----------
-                        }
-                        break;
-                    case VertexCmd.MoveTo:
-                        {
-                            //move to, and end command
-                            vxs.AddVertex(x, y, cmd);
-                            //-----------
-                            latestCurveMode = CurvePointMode.NotCurve;
-                            lastMoveX = lastX = x;
-                            lastMoveY = lasty = y;
-                            //-----------
-                        }
-                        break;
-                    case VertexCmd.CloseAndEndFigure:
-                        {
-                            latestCurveMode = CurvePointMode.NotCurve;
-                            vxs.AddVertex(x, y, cmd);
-                            //move to begin 
-                            lastX = lastMoveX;
-                            lasty = lastMoveY;
-                        }
-                        break;
-                    case VertexCmd.EndFigure:
-                        {
-                            latestCurveMode = CurvePointMode.NotCurve;
-                            vxs.AddVertex(x, y, cmd);
-                        }
-                        break;
-                    default:
-                        {
-                            //move to, and end command
-                            vxs.AddVertex(x, y, cmd);
-                            //-----------
-                            latestCurveMode = CurvePointMode.NotCurve;
-                            lastX = x;
-                            lasty = y;
-                            //-----------
-                        }
-                        break;
-                }
-            } while (cmd != VertexCmd.Stop);
-            return vxs;
         }
     }
 }

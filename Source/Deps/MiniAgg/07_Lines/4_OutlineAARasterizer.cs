@@ -1,4 +1,4 @@
-//2014,2015 BSD,WinterDev   
+//BSD, 2014-2016, WinterDev
 //----------------------------------------------------------------------------
 // Anti-Grain Geometry - Version 2.4
 // Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
@@ -540,7 +540,9 @@ namespace PixelFarm.Agg.Lines
         {
             switch (cmd)
             {
-                case VertexCmd.HasMore:
+                case VertexCmd.Stop:
+                    {
+                    }
                     break;
                 case VertexCmd.MoveTo:
                     Render(false);
@@ -574,7 +576,7 @@ namespace PixelFarm.Agg.Lines
 
             Render(false);
         }
-        public void RenderVertexSnap(VertexStoreSnap s, ColorRGBA c)
+        public void RenderVertexSnap(VertexStoreSnap s, Drawing.Color c)
         {
             m_ren.Color = c;
             AddPath(s);

@@ -1,4 +1,4 @@
-﻿//2014,2015 BSD,WinterDev   
+﻿//BSD, 2014-2016, WinterDev
 //----------------------------------------------------------------------------
 // Anti-Grain Geometry - Version 2.4
 // Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
@@ -15,15 +15,14 @@
 //----------------------------------------------------------------------------
 
 using System;
-using PixelFarm.Agg.Image;
-using PixelFarm.Agg.Transform;
+using PixelFarm.Drawing;
 namespace PixelFarm.Agg.Lines
 {
     public abstract class LineRenderer
     {
-        ColorRGBA m_color;
+        Color m_color;
         public delegate bool CompareFunction(int value);
-        public ColorRGBA Color
+        public Color Color
         {
             get { return m_color; }
             set { this.m_color = value; }

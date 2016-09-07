@@ -1,4 +1,4 @@
-// 2015,2014 ,MIT, WinterDev 
+//MIT, 2014-2016, WinterDev 
 //----------------------------------------------------------------------------
 // Anti-Grain Geometry - Version 2.4
 // Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
@@ -23,6 +23,7 @@
 //----------------------------------------------------------------------------
 
 using System;
+using PixelFarm.Drawing;
 namespace PixelFarm.Agg
 {
     //=======================================================span_gouraud_rgba
@@ -88,18 +89,18 @@ namespace PixelFarm.Agg
 
         //--------------------------------------------------------------------
         public SpanGenGouraudRGBA() { }
-        public SpanGenGouraudRGBA(ColorRGBA c1,
-                          ColorRGBA c2,
-                          ColorRGBA c3,
+        public SpanGenGouraudRGBA(Color c1,
+                          Color c2,
+                          Color c3,
                           double x1, double y1,
                           double x2, double y2,
                           double x3, double y3)
             : this(c1, c2, c3, x1, y1, x2, y2, x3, y3, 0)
         { }
 
-        public SpanGenGouraudRGBA(ColorRGBA c1,
-                          ColorRGBA c2,
-                          ColorRGBA c3,
+        public SpanGenGouraudRGBA(Color c1,
+                          Color c2,
+                          Color c3,
                           double x1, double y1,
                           double x2, double y2,
                           double x3, double y3,
@@ -121,7 +122,7 @@ namespace PixelFarm.Agg
             m_rgba3.Init(c1, c2);
         }
 
-        public void GenerateColors(ColorRGBA[] outputColors, int startIndex, int x, int y, int len)
+        public void GenerateColors(Color[] outputColors, int startIndex, int x, int y, int len)
         {
             m_rgba1.Calculate(y);//(m_rgba1.m_1dy > 2) ? m_rgba1.m_y1 : y);
             RGBA_Calculator pc1 = m_rgba1;

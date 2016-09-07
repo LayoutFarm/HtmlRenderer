@@ -1,4 +1,4 @@
-﻿//2014,2015 MIT, WinterDev
+﻿//MIT, 2014-2016, WinterDev
 
 namespace PixelFarm.Drawing
 {

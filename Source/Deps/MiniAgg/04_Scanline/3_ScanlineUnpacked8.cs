@@ -1,4 +1,4 @@
-//2014,2015 BSD,WinterDev   
+//BSD, 2014-2016, WinterDev
 //----------------------------------------------------------------------------
 // Anti-Grain Geometry - Version 2.4
 // Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
@@ -26,6 +26,7 @@
 // 
 //----------------------------------------------------------------------------
 
+using System;
 namespace PixelFarm.Agg
 {
     //=============================================================scanline_u8
@@ -112,6 +113,7 @@ namespace PixelFarm.Agg
         public ScanlineUnpacked8()
         {
         }
+
         public override void ResetSpans(int min_x, int max_x)
         {
             int max_len = max_x - min_x + 2;
@@ -136,9 +138,6 @@ namespace PixelFarm.Agg
             {
                 last_span_index++;
                 m_spans[last_span_index] = new ScanlineSpan(x + minX, x);
-                //m_spans[last_span_index].x = x + minX;
-                //m_spans[last_span_index].cover_index = (int)x;
-                //m_spans[last_span_index].len = 1;
             }
             last_x = x;
         }
@@ -158,9 +157,6 @@ namespace PixelFarm.Agg
             {
                 last_span_index++;
                 m_spans[last_span_index] = new ScanlineSpan(x + minX, len, x);
-                //m_spans[last_span_index].x = x + minX;
-                //m_spans[last_span_index].len = (int)len;
-                //m_spans[last_span_index].cover_index = (int)x;
             }
             last_x = x + (int)len - 1;
         }

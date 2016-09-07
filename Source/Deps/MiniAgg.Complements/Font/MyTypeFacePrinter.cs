@@ -1,4 +1,4 @@
-﻿// 2015,2014 ,BSD, WinterDev
+﻿//BSD, 2014-2016, WinterDev
 
 //----------------------------------------------------------------------------
 // Anti-Grain Geometry - Version 2.4
@@ -22,19 +22,20 @@
 using System;
 using System.Collections.Generic;
 using PixelFarm.VectorMath;
-namespace PixelFarm.Agg.Fonts
+using PixelFarm.Agg;
+namespace PixelFarm.Drawing.Fonts
 {
     public class MyTypeFacePrinter
     {
         Vector2 totalSizeCach;
         string textToPrint;
-        Font currentFont;
+        PixelFarm.Drawing.Font currentFont;
         public MyTypeFacePrinter()
         {
             this.Baseline = Baseline.Text;
             this.Justification = Justification.Left;
         }
-        public Font CurrentFont
+        public PixelFarm.Drawing.Font CurrentFont
         {
             get { return this.currentFont; }
             set
@@ -60,51 +61,6 @@ namespace PixelFarm.Agg.Fonts
         {
             this.textToPrint = textToPrint;
         }
-
-
-        void RenderFromCache(Graphics2D graphics2D, double x, double y, string text)
-        {
-            //if (text != null && text.Length > 0)
-            //{
-            //    Vector2 currentOffset = Vector2.Zero;
-
-            //    currentOffset = GetBaseline(currentOffset);
-            //    currentOffset.y += Origin.y;
-
-            //    string[] lines = text.Split('\n');
-            //    foreach (string line in lines)
-            //    {
-            //        currentOffset = GetXPositionForLineBasedOnJustification(currentOffset, line);
-            //        currentOffset.x += Origin.x;
-
-            //        for (int currentChar = 0; currentChar < line.Length; currentChar++)
-            //        {
-            //            ImageReaderWriterBase currentGlyphImage = typeFaceStyle.GetImageForCharacter(line[currentChar], 0, 0);
-
-            //            if (currentGlyphImage != null)
-            //            {
-            //                graphics2D.Render(currentGlyphImage, currentOffset.x, currentOffset.y);
-            //            }
-
-            //            // get the advance for the next character
-            //            if (currentChar < line.Length - 1)
-            //            {
-            //                // pass the next char so the typeFaceStyle can do kerning if it needs to.
-            //                currentOffset.x += typeFaceStyle.GetAdvanceForCharacter(line[currentChar], line[currentChar + 1]);
-            //            }
-            //            else
-            //            {
-            //                currentOffset.x += typeFaceStyle.GetAdvanceForCharacter(line[currentChar]);
-            //            }
-            //        }
-
-            //        // before we go onto the next line we need to move down a line
-            //        currentOffset.x = 0;
-            //        currentOffset.y -= typeFaceStyle.EmSizeInPixels;
-            //    }
-            //}
-        }
-
         IEnumerable<VertexData> GetVertexIter(string text)
         {
             if (text != null && text.Length > 0)
@@ -194,138 +150,6 @@ namespace PixelFarm.Agg.Fonts
             }
             return currentOffset;
         }
-
-#if true
-
-        public bool IsDynamicVertexGen
-        {
-            get { return true; }
-        }
-
-
-
-
-#else
-        public void rewind(int pathId)
-        {
-            currentChar = 0;
-            currentOffset = new Vector2(0, 0);
-            if (text != null && text.Length > 0)
-            {
-                currentGlyph = typeFaceStyle.GetGlyphForCharacter(text[currentChar]);
-                if (currentGlyph != null)
-                {
-                    currentGlyph.rewind(0);
-                }
-            }
-        }
-
-        public ShapePath.FlagsAndCommand vertex(out double x, out double y)
-        {
-            x = 0;
-            y = 0;
-            if (text != null && text.Length > 0)
-            {
-                ShapePath.FlagsAndCommand curCommand = ShapePath.FlagsAndCommand.CommandStop;
-                if (currentGlyph != null)
-                {
-                    curCommand = currentGlyph.vertex(out x, out y);
-                }
-
-                double xAlignOffset = 0;
-                Vector2 size = GetSize();
-                switch (Justification)
-                {
-                    case Justification.Left:
-                        xAlignOffset = 0;
-                        break;
-
-                    case Justification.Center:
-                        xAlignOffset = -size.x / 2;
-                        break;
-
-                    case Justification.Right:
-                        xAlignOffset = -size.x;
-                        break;
-
-                    default:
-                        throw new NotImplementedException();
-                }
-
-                double yAlignOffset = 0;
-                switch (Baseline)
-                {
-                    case Baseline.Text:
-                        //yAlignOffset = -typeFaceStyle.DescentInPixels;
-                        yAlignOffset = 0;
-                        break;
-
-                    case Baseline.BoundsTop:
-                        yAlignOffset = -typeFaceStyle.AscentInPixels;
-                        break;
-
-                    case Baseline.BoundsCenter:
-                        yAlignOffset = -typeFaceStyle.AscentInPixels / 2;
-                        break;
-
-                    default:
-                        throw new NotImplementedException();
-                }
-
-
-                while (curCommand == ShapePath.FlagsAndCommand.CommandStop
-                    && currentChar < text.Length - 1)
-                {
-                    if (currentChar == 0 && text[currentChar] == '\n')
-                    {
-                        currentOffset.x = 0;
-                        currentOffset.y -= typeFaceStyle.EmSizeInPixels;
-                    }
-                    else
-                    {
-                        if (currentChar < text.Length)
-                        {
-                            // pass the next char so the typeFaceStyle can do kerning if it needs to.
-                            currentOffset.x += typeFaceStyle.GetAdvanceForCharacter(text[currentChar], text[currentChar + 1]);
-                        }
-                        else
-                        {
-                            currentOffset.x += typeFaceStyle.GetAdvanceForCharacter(text[currentChar]);
-                        }
-                    }
-
-                    currentChar++;
-                    currentGlyph = typeFaceStyle.GetGlyphForCharacter(text[currentChar]);
-                    if (currentGlyph != null)
-                    {
-                        currentGlyph.rewind(0);
-                        curCommand = currentGlyph.vertex(out x, out y);
-                    }
-                    else if (text[currentChar] == '\n')
-                    {
-                        if (currentChar + 1 < text.Length - 1 && (text[currentChar + 1] == '\n') && text[currentChar] != text[currentChar + 1])
-                        {
-                            currentChar++;
-                        }
-                        currentOffset.x = 0;
-                        currentOffset.y -= typeFaceStyle.EmSizeInPixels;
-                    }
-                }
-
-                if (ShapePath.is_vertex(curCommand))
-                {
-
-                    x += currentOffset.x + xAlignOffset + Origin.x;
-                    y += currentOffset.y + yAlignOffset + Origin.y;
-
-                }
-
-                return curCommand;
-            }
-
-            return ShapePath.FlagsAndCommand.CommandStop;
-        }
-#endif
 
         public Vector2 GetSize(string text)
         {

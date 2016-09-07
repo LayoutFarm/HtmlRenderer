@@ -1,4 +1,4 @@
-//2014,2015 BSD,WinterDev   
+//BSD, 2014-2016, WinterDev
 //----------------------------------------------------------------------------
 // Anti-Grain Geometry - Version 2.4
 // Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
@@ -47,7 +47,7 @@ namespace PixelFarm.Agg.Image
                 throw new NotSupportedException("The source is expected to be 32 bit.");
             }
         }
-        public override void GenerateColors(ColorRGBA[] outputColors, int startIndex, int x, int y, int len)
+        public override void GenerateColors(Drawing.Color[] outputColors, int startIndex, int x, int y, int len)
         {
             ISpanInterpolator spanInterpolator = Interpolator;
             spanInterpolator.Begin(x + dx, y + dy, len);
@@ -58,7 +58,7 @@ namespace PixelFarm.Agg.Image
             int y_lr = y_hr >> img_subpix_const.SHIFT;
             int bufferIndex = srcRW.GetBufferOffsetXY(x_lr, y_lr);
             byte[] srcBuff = srcRW.GetBuffer();
-            ColorRGBA color = ColorRGBA.White;
+            Drawing.Color color = Drawing.Color.White;
             do
             {
                 color.blue = srcBuff[bufferIndex++];
@@ -75,14 +75,14 @@ namespace PixelFarm.Agg.Image
     //=====================================span_image_filter_rgb_bilinear_clip
     class ImgSpanGenRGB_BilinearClip : ImgSpanGen
     {
-        ColorRGBA m_bgcolor;
+        Drawing.Color m_bgcolor;
         const int BASE_SHIFT = 8;
         const int BASE_SCALE = (int)(1 << BASE_SHIFT);
         const int BASE_MASK = BASE_SCALE - 1;
         ImageReaderWriterBase srcRW;
         //--------------------------------------------------------------------
         public ImgSpanGenRGB_BilinearClip(IImageReaderWriter src,
-                                          ColorRGBA back_color,
+                                          Drawing.Color back_color,
                                           ISpanInterpolator inter)
             : base(inter)
         {
@@ -90,12 +90,12 @@ namespace PixelFarm.Agg.Image
             srcRW = (ImageReaderWriterBase)src;
         }
 
-        public ColorRGBA BackgroundColor
+        public Drawing.Color BackgroundColor
         {
             get { return this.m_bgcolor; }
             set { this.m_bgcolor = value; }
         }
-        public override void GenerateColors(ColorRGBA[] outputColors, int startIndex, int x, int y, int len)
+        public override void GenerateColors(Drawing.Color[] outputColors, int startIndex, int x, int y, int len)
         {
             ISpanInterpolator spanInterpolator = base.Interpolator;
             spanInterpolator.Begin(x + base.dx, y + base.dy, len);

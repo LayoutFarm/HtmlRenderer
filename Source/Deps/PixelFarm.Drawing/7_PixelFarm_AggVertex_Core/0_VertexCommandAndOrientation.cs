@@ -1,8 +1,5 @@
-﻿//2014,2015 BSD,WinterDev   
+﻿//BSD, 2014-2016, WinterDev
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 namespace PixelFarm.Agg
 {
     /// <summary>
@@ -16,7 +13,6 @@ namespace PixelFarm.Agg
         //---------------------------------
         //first lower 4 bits compact flags
         Stop = 0x00,
-        HasMore = 0x01, //has more vertex
         //-----------------------
         //end figure command 2 lower bits 
         //is end command when 2 lower bit > HasMore
@@ -52,12 +48,13 @@ namespace PixelFarm.Agg
         }
         public static bool IsEndFigure(VertexCmd c)
         {
-            return ((int)c & 0x3) > (int)VertexCmd.EndFigure;
+            //check only 2 lower bit
+            return ((int)c & 0x3) >= (int)VertexCmd.EndFigure;
         }
-        public static bool IsClose(VertexCmd c)
-        {
-            return c == VertexCmd.CloseAndEndFigure;
-        }
+        //public static bool IsClose(VertexCmd c)
+        //{
+        //    return c == VertexCmd.CloseAndEndFigure;
+        //}
         public static bool IsNextPoly(VertexCmd c)
         {
             //?

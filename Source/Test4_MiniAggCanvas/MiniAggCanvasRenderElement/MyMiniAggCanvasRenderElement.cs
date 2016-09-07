@@ -16,7 +16,7 @@ namespace LayoutFarm.CustomWidgets
         public MyMiniAggCanvasRenderElement(RootGraphic rootgfx, int width, int height)
             : base(rootgfx, width, height)
         {
-            this.actualImage = new ActualImage(width, height, PixelFarm.Agg.Image.PixelFormat.Rgba32);
+            this.actualImage = new ActualImage(width, height, PixelFarm.Agg.Image.PixelFormat.ARGB32);
             this.gfx2d = Graphics2D.CreateFromImage(actualImage);
             needUpdate = true;
         }

@@ -1,4 +1,4 @@
-//2014,2015 BSD,WinterDev   
+//BSD, 2014-2016, WinterDev
 //----------------------------------------------------------------------------
 // Anti-Grain Geometry - Version 2.4
 // Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
@@ -24,9 +24,6 @@
 
 using System;
 using System.Collections.Generic;
-using PixelFarm.Agg;
-using PixelFarm.VectorMath;
-using FlagsAndCommand = PixelFarm.Agg.VertexCmd;
 namespace PixelFarm.Agg.VertexSource
 {
     //=====================================================================arc
@@ -129,13 +126,13 @@ namespace PixelFarm.Agg.VertexSource
             {
                 //---------------------------------------------------------
                 VertexData vertexData = new VertexData();
-                vertexData.command = FlagsAndCommand.MoveTo;
+                vertexData.command = VertexCmd.MoveTo;
                 vertexData.x = startX;
                 vertexData.y = startY;
                 yield return vertexData;
                 //---------------------------------------------------------
                 double angle = startAngle;
-                vertexData.command = FlagsAndCommand.LineTo;
+                vertexData.command = VertexCmd.LineTo;
                 //calculate nsteps
                 int n = 0;
                 while (n < calculateNSteps - 1)
@@ -159,19 +156,19 @@ namespace PixelFarm.Agg.VertexSource
                 vertexData.x = endX;
                 vertexData.y = endY;
                 yield return vertexData;
-                vertexData.command = FlagsAndCommand.Stop;
+                vertexData.command = VertexCmd.Stop;
                 yield return vertexData;
             }
             else
             {
                 VertexData vertexData = new VertexData();
-                vertexData.command = FlagsAndCommand.MoveTo;
+                vertexData.command = VertexCmd.MoveTo;
                 vertexData.x = originX + Math.Cos(startAngle) * radiusX;
                 vertexData.y = originY + Math.Sin(startAngle) * radiusY;
                 yield return vertexData;
                 //---------------------------------------------------------
                 double angle = startAngle;
-                vertexData.command = FlagsAndCommand.LineTo;
+                vertexData.command = VertexCmd.LineTo;
                 while ((angle < endAngle - flatenDeltaAngle / 4) == (((int)ArcDirection.CounterClockWise) == 1))
                 {
                     angle += flatenDeltaAngle;
@@ -183,7 +180,7 @@ namespace PixelFarm.Agg.VertexSource
                 vertexData.x = originX + Math.Cos(endAngle) * radiusX;
                 vertexData.y = originY + Math.Sin(endAngle) * radiusY;
                 yield return vertexData;
-                vertexData.command = FlagsAndCommand.Stop;
+                vertexData.command = VertexCmd.Stop;
                 yield return vertexData;
             }
         }

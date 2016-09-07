@@ -1,4 +1,4 @@
-//2014,2015 BSD,WinterDev   
+//BSD, 2014-2016, WinterDev
 //----------------------------------------------------------------------------
 // Anti-Grain Geometry - Version 2.4
 // Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
@@ -54,23 +54,34 @@ namespace PixelFarm.Agg
             public int y;
             public int cover;
             public int area;
-            public int left;
-            public int right;
-            public static CellAA Create(int x, int y, int cover, int area, int left, int right)
+#if DEBUG
+            public int dbugLeft;
+            public int dbugRight;
+#endif
+            public static CellAA Create(int x, int y, int cover, int area)
             {
                 CellAA cell = new CellAA();
                 cell.x = x;
                 cell.y = y;
                 cell.cover = cover;
                 cell.area = area;
-                cell.left = left;
-                cell.right = right;
+                return cell;
+            }
+            public static CellAA dbugCreate(int x, int y, int cover, int area, int left, int right)
+            {
+                CellAA cell = new CellAA();
+                cell.x = x;
+                cell.y = y;
+                cell.cover = cover;
+                cell.area = area;
+                cell.dbugLeft = left;
+                cell.dbugRight = right;
                 return cell;
             }
 #if DEBUG
             public override string ToString()
             {
-                return "x:" + x + ",y:" + y + ",cover:" + cover + ",area:" + area + ",left:" + left + ",right:" + right;
+                return "x:" + x + ",y:" + y + ",cover:" + cover + ",area:" + area + ",left:" + dbugLeft + ",right:" + dbugRight;
             }
 #endif
 
@@ -91,6 +102,7 @@ namespace PixelFarm.Agg
             int cCell_y;
             int cCell_cover;
             int cCell_area;
+            //------------------
             int cCell_left;
             int cCell_right;
             //------------------
@@ -392,11 +404,20 @@ namespace PixelFarm.Agg
                     {
                         m_cells = new ArrayList<CellAA>(m_cells, BLOCK_SIZE);
                     }
-
+#if DEBUG
+                    //m_cells.SetData(m_num_used_cells, CellAA.dbugCreate(
+                    //    cCell_x, cCell_y,
+                    //    cCell_cover, cCell_area,
+                    //    cCell_left,
+                    //    cCell_right));
                     m_cells.SetData(m_num_used_cells, CellAA.Create(
-                        cCell_x, cCell_y,
-                        cCell_cover, cCell_area,
-                        cCell_left, cCell_right));
+                     cCell_x, cCell_y,
+                     cCell_cover, cCell_area));
+#else
+                    m_cells.SetData(m_num_used_cells, CellAA.Create(
+                    cCell_x, cCell_y,
+                    cCell_cover, cCell_area));
+#endif
                     m_num_used_cells++;
                 }
             }

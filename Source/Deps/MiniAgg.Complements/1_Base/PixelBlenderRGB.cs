@@ -1,4 +1,4 @@
-//2014,2015 BSD,WinterDev   
+//BSD, 2014-2016, WinterDev
 //----------------------------------------------------------------------------
 // Anti-Grain Geometry - Version 2.4
 // Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
@@ -27,6 +27,7 @@
 //----------------------------------------------------------------------------
 
 using System;
+using PixelFarm.Drawing;
 namespace PixelFarm.Agg.Image
 {
     /*
@@ -152,47 +153,47 @@ namespace PixelFarm.Agg.Image
 
     public sealed class PixelBlenderBGR : PixelBlenderBaseBGR, IPixelBlender
     {
-        public ColorRGBA PixelToColorRGBA_Bytes(byte[] buffer, int bufferOffset)
+        public Color PixelToColorRGBA_Bytes(byte[] buffer, int bufferOffset)
         {
-            return new ColorRGBA(
+            return new Color(
                 buffer[bufferOffset + CO.R],
                 buffer[bufferOffset + CO.G],
-                buffer[bufferOffset + CO.B],
-                255);
+                buffer[bufferOffset + CO.B]
+                );
         }
 
-        public void CopyPixels(byte[] buffer, int bufferOffset, ColorRGBA sourceColor, int count)
+        public void CopyPixels(byte[] buffer, int bufferOffset, Color sourceColor, int count)
         {
             do
             {
-                buffer[bufferOffset + CO.R] = sourceColor.red;
-                buffer[bufferOffset + CO.G] = sourceColor.green;
-                buffer[bufferOffset + CO.B] = sourceColor.blue;
+                buffer[bufferOffset + CO.R] = sourceColor.R;
+                buffer[bufferOffset + CO.G] = sourceColor.G;
+                buffer[bufferOffset + CO.B] = sourceColor.B;
                 bufferOffset += 3;
             }
             while (--count != 0);
         }
-        public void CopyPixel(byte[] buffer, int bufferOffset, ColorRGBA sourceColor)
+        public void CopyPixel(byte[] buffer, int bufferOffset, Color sourceColor)
         {
-            buffer[bufferOffset + CO.R] = sourceColor.red;
-            buffer[bufferOffset + CO.G] = sourceColor.green;
-            buffer[bufferOffset + CO.B] = sourceColor.blue;
+            buffer[bufferOffset + CO.R] = sourceColor.R;
+            buffer[bufferOffset + CO.G] = sourceColor.G;
+            buffer[bufferOffset + CO.B] = sourceColor.B;
         }
-        public void BlendPixel(byte[] buffer, int bufferOffset, ColorRGBA sourceColor)
+        public void BlendPixel(byte[] buffer, int bufferOffset, Color sourceColor)
         {
             unchecked
             {
                 int r = buffer[bufferOffset + CO.R];
                 int g = buffer[bufferOffset + CO.G];
                 int b = buffer[bufferOffset + CO.B];
-                buffer[bufferOffset + CO.R] = (byte)(((sourceColor.red - r) * sourceColor.alpha + (r << (int)ColorRGBA.BASE_SHIFT)) >> (int)ColorRGBA.BASE_SHIFT);
-                buffer[bufferOffset + CO.G] = (byte)(((sourceColor.green - g) * sourceColor.alpha + (g << (int)ColorRGBA.BASE_SHIFT)) >> (int)ColorRGBA.BASE_SHIFT);
-                buffer[bufferOffset + CO.B] = (byte)(((sourceColor.blue - b) * sourceColor.alpha + (b << (int)ColorRGBA.BASE_SHIFT)) >> (int)ColorRGBA.BASE_SHIFT);
+                buffer[bufferOffset + CO.R] = (byte)(((sourceColor.R - r) * sourceColor.A + (r << (int)Color.BASE_SHIFT)) >> (int)Color.BASE_SHIFT);
+                buffer[bufferOffset + CO.G] = (byte)(((sourceColor.G - g) * sourceColor.A + (g << (int)Color.BASE_SHIFT)) >> (int)Color.BASE_SHIFT);
+                buffer[bufferOffset + CO.B] = (byte)(((sourceColor.B - b) * sourceColor.A + (b << (int)Color.BASE_SHIFT)) >> (int)Color.BASE_SHIFT);
             }
         }
 
         public void BlendPixels(byte[] destBuffer, int bufferOffset,
-            ColorRGBA[] sourceColors, int sourceColorsOffset,
+            Color[] sourceColors, int sourceColorsOffset,
             byte[] covers, int coversIndex, bool firstCoverForAll, int count)
         {
             if (firstCoverForAll)
@@ -211,7 +212,7 @@ namespace PixelFarm.Agg.Image
                 {
                     do
                     {
-                        sourceColors[sourceColorsOffset].alpha = (byte)((sourceColors[sourceColorsOffset].alpha * cover + 255) >> 8);
+                        sourceColors[sourceColorsOffset].alpha = (byte)((sourceColors[sourceColorsOffset].A * cover + 255) >> 8);
                         BlendPixel(destBuffer, bufferOffset, sourceColors[sourceColorsOffset]);
                         bufferOffset += 3;
                         ++sourceColorsOffset;
@@ -230,8 +231,8 @@ namespace PixelFarm.Agg.Image
                     }
                     else
                     {
-                        ColorRGBA color = sourceColors[sourceColorsOffset];
-                        color.alpha = (byte)((color.alpha * (cover) + 255) >> 8);
+                        Color color = sourceColors[sourceColorsOffset];
+                        color.alpha = (byte)((color.A * (cover) + 255) >> 8);
                         BlendPixel(destBuffer, bufferOffset, color);
                     }
                     bufferOffset += 3;
@@ -259,43 +260,43 @@ namespace PixelFarm.Agg.Image
             m_gamma = g;
         }
 
-        public ColorRGBA PixelToColorRGBA_Bytes(byte[] buffer, int bufferOffset)
+        public Color PixelToColorRGBA_Bytes(byte[] buffer, int bufferOffset)
         {
-            return new ColorRGBA(buffer[bufferOffset + CO.R], buffer[bufferOffset + CO.G], buffer[bufferOffset + CO.B], 255);
+            return new Color(buffer[bufferOffset + CO.R], buffer[bufferOffset + CO.G], buffer[bufferOffset + CO.B]);
         }
 
-        public void CopyPixels(byte[] buffer, int bufferOffset, ColorRGBA sourceColor, int count)
+        public void CopyPixels(byte[] buffer, int bufferOffset, Color sourceColor, int count)
         {
             do
             {
-                buffer[bufferOffset + CO.R] = m_gamma.inv(sourceColor.red);
-                buffer[bufferOffset + CO.G] = m_gamma.inv(sourceColor.green);
-                buffer[bufferOffset + CO.B] = m_gamma.inv(sourceColor.blue);
+                buffer[bufferOffset + CO.R] = m_gamma.inv(sourceColor.R);
+                buffer[bufferOffset + CO.G] = m_gamma.inv(sourceColor.G);
+                buffer[bufferOffset + CO.B] = m_gamma.inv(sourceColor.B);
                 bufferOffset += 3;
             } while (count-- > 0);
         }
 
-        public void CopyPixel(byte[] buffer, int bufferOffset, ColorRGBA sourceColor)
+        public void CopyPixel(byte[] buffer, int bufferOffset, Color sourceColor)
         {
-            buffer[bufferOffset + CO.R] = m_gamma.inv(sourceColor.red);
-            buffer[bufferOffset + CO.G] = m_gamma.inv(sourceColor.green);
-            buffer[bufferOffset + CO.B] = m_gamma.inv(sourceColor.blue);
+            buffer[bufferOffset + CO.R] = m_gamma.inv(sourceColor.R);
+            buffer[bufferOffset + CO.G] = m_gamma.inv(sourceColor.G);
+            buffer[bufferOffset + CO.B] = m_gamma.inv(sourceColor.B);
         }
-        public void BlendPixel(byte[] buffer, int bufferOffset, ColorRGBA sourceColor)
+        public void BlendPixel(byte[] buffer, int bufferOffset, Color sourceColor)
         {
             unchecked
             {
                 int r = buffer[bufferOffset + CO.R];
                 int g = buffer[bufferOffset + CO.G];
                 int b = buffer[bufferOffset + CO.B];
-                buffer[bufferOffset + CO.R] = m_gamma.inv((byte)(((sourceColor.red - r) * sourceColor.alpha + (r << (int)ColorRGBA.BASE_SHIFT)) >> (int)ColorRGBA.BASE_SHIFT));
-                buffer[bufferOffset + CO.G] = m_gamma.inv((byte)(((sourceColor.green - g) * sourceColor.alpha + (g << (int)ColorRGBA.BASE_SHIFT)) >> (int)ColorRGBA.BASE_SHIFT));
-                buffer[bufferOffset + CO.B] = m_gamma.inv((byte)(((sourceColor.blue - b) * sourceColor.alpha + (b << (int)ColorRGBA.BASE_SHIFT)) >> (int)ColorRGBA.BASE_SHIFT));
+                buffer[bufferOffset + CO.R] = m_gamma.inv((byte)(((sourceColor.R - r) * sourceColor.A + (r << (int)Color.BASE_SHIFT)) >> (int)Color.BASE_SHIFT));
+                buffer[bufferOffset + CO.G] = m_gamma.inv((byte)(((sourceColor.G - g) * sourceColor.A + (g << (int)Color.BASE_SHIFT)) >> (int)Color.BASE_SHIFT));
+                buffer[bufferOffset + CO.B] = m_gamma.inv((byte)(((sourceColor.B - b) * sourceColor.A + (b << (int)Color.BASE_SHIFT)) >> (int)Color.BASE_SHIFT));
             }
         }
 
         public void BlendPixels(byte[] buffer, int bufferOffset,
-            ColorRGBA[] sourceColors, int sourceColorsOffset,
+            Color[] sourceColors, int sourceColorsOffset,
             byte[] sourceCovers, int sourceCoversOffset, bool firstCoverForAll, int count)
         {
             throw new NotImplementedException();
@@ -315,47 +316,48 @@ namespace PixelFarm.Agg.Image
             }
         }
 
-        public ColorRGBA PixelToColorRGBA_Bytes(byte[] buffer, int bufferOffset)
+        public Color PixelToColorRGBA_Bytes(byte[] buffer, int bufferOffset)
         {
-            return new ColorRGBA(buffer[bufferOffset + CO.R],
+            return new Color(
+                buffer[bufferOffset + CO.R],
                 buffer[bufferOffset + CO.G],
-                buffer[bufferOffset + CO.B],
-                255);
+                buffer[bufferOffset + CO.B]
+                );
         }
 
-        public void CopyPixels(byte[] buffer, int bufferOffset, ColorRGBA sourceColor, int count)
+        public void CopyPixels(byte[] buffer, int bufferOffset, Color sourceColor, int count)
         {
             do
             {
-                buffer[bufferOffset + CO.R] = sourceColor.red;
-                buffer[bufferOffset + CO.G] = sourceColor.green;
-                buffer[bufferOffset + CO.B] = sourceColor.blue;
+                buffer[bufferOffset + CO.R] = sourceColor.R;
+                buffer[bufferOffset + CO.G] = sourceColor.G;
+                buffer[bufferOffset + CO.B] = sourceColor.B;
                 bufferOffset += 3;
             }
             while (--count != 0);
         }
-        public void CopyPixel(byte[] buffer, int bufferOffset, ColorRGBA sourceColor)
+        public void CopyPixel(byte[] buffer, int bufferOffset, Color sourceColor)
         {
-            buffer[bufferOffset + CO.R] = sourceColor.red;
-            buffer[bufferOffset + CO.G] = sourceColor.green;
-            buffer[bufferOffset + CO.B] = sourceColor.blue;
+            buffer[bufferOffset + CO.R] = sourceColor.R;
+            buffer[bufferOffset + CO.G] = sourceColor.G;
+            buffer[bufferOffset + CO.B] = sourceColor.B;
         }
-        public void BlendPixel(byte[] pDestBuffer, int bufferOffset, ColorRGBA sourceColor)
+        public void BlendPixel(byte[] pDestBuffer, int bufferOffset, Color sourceColor)
         {
-            if (sourceColor.alpha == 255)
+            if (sourceColor.A == 255)
             {
-                pDestBuffer[bufferOffset + CO.R] = sourceColor.red;
-                pDestBuffer[bufferOffset + CO.G] = sourceColor.green;
-                pDestBuffer[bufferOffset + CO.B] = sourceColor.blue;
+                pDestBuffer[bufferOffset + CO.R] = sourceColor.R;
+                pDestBuffer[bufferOffset + CO.G] = sourceColor.G;
+                pDestBuffer[bufferOffset + CO.B] = sourceColor.B;
             }
             else
             {
-                int OneOverAlpha = BASE_MASK - sourceColor.alpha;
+                int OneOverAlpha = BASE_MASK - sourceColor.A;
                 unchecked
                 {
-                    int r = m_Saturate9BitToByte[((pDestBuffer[bufferOffset + CO.R] * OneOverAlpha + 255) >> 8) + sourceColor.red];
-                    int g = m_Saturate9BitToByte[((pDestBuffer[bufferOffset + CO.G] * OneOverAlpha + 255) >> 8) + sourceColor.green];
-                    int b = m_Saturate9BitToByte[((pDestBuffer[bufferOffset + CO.B] * OneOverAlpha + 255) >> 8) + sourceColor.blue];
+                    int r = m_Saturate9BitToByte[((pDestBuffer[bufferOffset + CO.R] * OneOverAlpha + 255) >> 8) + sourceColor.R];
+                    int g = m_Saturate9BitToByte[((pDestBuffer[bufferOffset + CO.G] * OneOverAlpha + 255) >> 8) + sourceColor.G];
+                    int b = m_Saturate9BitToByte[((pDestBuffer[bufferOffset + CO.B] * OneOverAlpha + 255) >> 8) + sourceColor.B];
                     pDestBuffer[bufferOffset + CO.R] = (byte)r;
                     pDestBuffer[bufferOffset + CO.G] = (byte)g;
                     pDestBuffer[bufferOffset + CO.B] = (byte)b;
@@ -364,7 +366,7 @@ namespace PixelFarm.Agg.Image
         }
 
         public void BlendPixels(byte[] destBuffer, int bufferOffset,
-            ColorRGBA[] sourceColors, int sourceColorsOffset,
+            Color[] sourceColors, int sourceColorsOffset,
             byte[] covers, int coversIndex, bool firstCoverForAll, int count)
         {
             if (firstCoverForAll)
@@ -383,7 +385,7 @@ namespace PixelFarm.Agg.Image
                 {
                     do
                     {
-                        sourceColors[sourceColorsOffset].alpha = (byte)((sourceColors[sourceColorsOffset].alpha * cover + 255) >> 8);
+                        sourceColors[sourceColorsOffset].alpha = (byte)((sourceColors[sourceColorsOffset].A * cover + 255) >> 8);
                         BlendPixel(destBuffer, bufferOffset, sourceColors[sourceColorsOffset]);
                         bufferOffset += 3;
                         ++sourceColorsOffset;
@@ -402,7 +404,7 @@ namespace PixelFarm.Agg.Image
                     }
                     else
                     {
-                        ColorRGBA color = sourceColors[sourceColorsOffset];
+                        Color color = sourceColors[sourceColorsOffset];
                         color.alpha = (byte)((color.alpha * (cover) + 255) >> 8);
                         BlendPixel(destBuffer, bufferOffset, color);
                     }

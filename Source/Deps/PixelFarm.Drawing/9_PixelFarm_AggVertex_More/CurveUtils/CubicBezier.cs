@@ -21,7 +21,6 @@
 
 using System;
 using System.Globalization;
-using System.Runtime.CompilerServices;
 using System.Text;
 #if SYSTEM_WINDOWS_VECTOR
 using VECTOR = System.Windows.Vector;
