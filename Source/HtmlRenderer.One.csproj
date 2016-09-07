@@ -8,6 +8,7 @@
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AssemblyName>HtmlRenderer.One</AssemblyName>
+    <ProjectGuid>{6F7E8B5F-B944-47AA-BBBF-E2917F0421A1}</ProjectGuid>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -243,11 +244,15 @@
     <Compile Include="Deps\MiniAgg.HardwareGraphics\PixelFarm.MiniPlatforms.WindowsForms\Toolkit.cs" />
     <Compile Include="Deps\MiniAgg.HardwareGraphics\PixelFarm.MiniPlatforms.WindowsForms\UserGLControl\CarbonGLControl.cs" />
     <Compile Include="Deps\MiniAgg.HardwareGraphics\PixelFarm.MiniPlatforms.WindowsForms\UserGLControl\DummyGLControl.cs" />
-    <Compile Include="Deps\MiniAgg.HardwareGraphics\PixelFarm.MiniPlatforms.WindowsForms\UserGLControl\GLControl.cs" />
+    <Compile Include="Deps\MiniAgg.HardwareGraphics\PixelFarm.MiniPlatforms.WindowsForms\UserGLControl\GLControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Deps\MiniAgg.HardwareGraphics\PixelFarm.MiniPlatforms.WindowsForms\UserGLControl\GLControl.Designer.cs" />
     <Compile Include="Deps\MiniAgg.HardwareGraphics\PixelFarm.MiniPlatforms.WindowsForms\UserGLControl\GLControlFactory.cs" />
     <Compile Include="Deps\MiniAgg.HardwareGraphics\PixelFarm.MiniPlatforms.WindowsForms\UserGLControl\IGLControl.cs" />
-    <Compile Include="Deps\MiniAgg.HardwareGraphics\PixelFarm.MiniPlatforms.WindowsForms\UserGLControl\MyGLControl.cs" />
+    <Compile Include="Deps\MiniAgg.HardwareGraphics\PixelFarm.MiniPlatforms.WindowsForms\UserGLControl\MyGLControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Deps\MiniAgg.HardwareGraphics\PixelFarm.MiniPlatforms.WindowsForms\UserGLControl\MyGLControl.Designer.cs" />
     <Compile Include="Deps\MiniAgg.HardwareGraphics\PixelFarm.MiniPlatforms.WindowsForms\UserGLControl\WinGLControl.cs" />
     <Compile Include="Deps\MiniAgg.HardwareGraphics\PixelFarm.MiniPlatforms.WindowsForms\UserGLControl\X11GLControl.cs" />
@@ -711,17 +716,23 @@
     <Compile Include="LayoutFarm.Platforms.WinForms\0_Start\CanvasViewport.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\0_Start\Conv.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\0_Start\dbugHelper.cs" />
-    <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\AbstractCompletionWindow.cs" />
+    <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\AbstractCompletionWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\AbstractCompletionWindow.Designer.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\InnerViewportKind.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\MyUITimer.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\TopWindowBridge.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\TopWindowBridge_dbug.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\UIPlatformWinForms.cs" />
-    <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\UISurfaceViewportControl.cs" />
+    <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\UISurfaceViewportControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\UISurfaceViewportControl.Designer.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\2_GdiPlus\0_MyWinGdiPortal.cs" />
-    <Compile Include="LayoutFarm.Platforms.WinForms\2_GdiPlus\1_CpuGdiPlusSurfaceView.cs" />
+    <Compile Include="LayoutFarm.Platforms.WinForms\2_GdiPlus\1_CpuGdiPlusSurfaceView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="LayoutFarm.Platforms.WinForms\2_GdiPlus\1_CpuGdiPlusSurfaceView.Designer.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\2_GdiPlus\2_GdiPlusCanvasViewport.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\2_GdiPlus\3_MyTopWindowBridgeGdiPlus.cs" />
@@ -878,6 +889,9 @@
     <Compile Include="LayoutFarm.YourCustomWidgets\7_WindowUI\UIFloatWindow.cs" />
     <Compile Include="LayoutFarm.YourCustomWidgets\8_Canvas\MiniAggCanvasBox.cs" />
     <Compile Include="LayoutFarm.YourCustomWidgets\8_Canvas\MiniAggCanvasRenderElement.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Deps\Espresso\Net20\Espresso.Interfaces\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,4 +1,4 @@
-﻿// 2015,2014 ,Apache2, WinterDev 
+﻿//Apache2, 2014-2016, WinterDev 
 
 namespace LayoutFarm.RenderBoxes
 {

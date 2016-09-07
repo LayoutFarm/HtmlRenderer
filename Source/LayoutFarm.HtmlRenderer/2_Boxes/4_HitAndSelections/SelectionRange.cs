@@ -1,4 +1,4 @@
-﻿//MIT 2014-2015 ,WinterDev
+﻿//MIT, 2014-2016, WinterDev
 
 using System;
 using System.Collections.Generic;
