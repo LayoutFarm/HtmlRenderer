@@ -1,12 +1,12 @@
-﻿// 2015,2014 ,MIT, WinterDev
+﻿//MIT, 2014-2016, WinterDev
 //-----------------------------------
 //use FreeType and HarfBuzz wrapper
 //native dll lib
 //plan?: port  them to C#  :)
 //-----------------------------------
 
-
-namespace PixelFarm.Agg.Fonts
+using PixelFarm.Agg;
+namespace PixelFarm.Drawing.Fonts
 {
     public enum Justification { Left, Center, Right }
     public enum Baseline
@@ -20,11 +20,11 @@ namespace PixelFarm.Agg.Fonts
 
     public class TextPrinter
     {
-        Font currentFont;
+        Drawing.Font currentFont;
         public TextPrinter()
         {
         }
-        public Font CurrentFont
+        public Drawing.Font CurrentFont
         {
             get { return this.currentFont; }
             set { this.currentFont = value; }
@@ -38,6 +38,7 @@ namespace PixelFarm.Agg.Fonts
 
             ProperGlyph[] properGlyphs = new ProperGlyph[buffsize];
             currentFont.GetGlyphPos(buffer, 0, buffsize, properGlyphs);
+            //-----------------------------------------------------------
             VertexStore resultVxs = new VertexStore();
             double xpos = x;
             for (int i = 0; i < buffsize; ++i)
@@ -49,7 +50,7 @@ namespace PixelFarm.Agg.Fonts
                 }
                 //-------------------------------------------------------------
                 FontGlyph glyph = this.currentFont.GetGlyphByIndex(codepoint);
-                var left = glyph.exportGlyph.img_horiBearingX;
+                var left = glyph.glyphMatrix.img_horiBearingX;
                 //-------------------------------------------------------- 
                 VertexStore vxs1 = Agg.Transform.Affine.TranslateToVxs(
                     glyph.flattenVxs,
@@ -57,7 +58,7 @@ namespace PixelFarm.Agg.Fonts
                     (float)(y));
                 //-------------------------------------------------------- 
                 resultVxs.AddSubVertices(vxs1);
-                int w = (glyph.exportGlyph.advanceX) >> 6;
+                int w = (glyph.glyphMatrix.advanceX) >> 6;
                 xpos += (w);
                 //-------------------------------------------------------------                
             }
@@ -85,7 +86,7 @@ namespace PixelFarm.Agg.Fonts
                 }
                 //-------------------------------------------------------------
                 FontGlyph glyph = this.currentFont.GetGlyphByIndex(codepoint);
-                var left = glyph.exportGlyph.img_horiBearingX;
+                var left = glyph.glyphMatrix.img_horiBearingX;
                 //--------------------------------------------------------
                 //render with vector
                 //var mat = Agg.Transform.Affine.NewMatix(
@@ -100,11 +101,16 @@ namespace PixelFarm.Agg.Fonts
                 painter.Fill(vxs1);
                 //--------------------------------------------------------
                 ////render with bitmap
-                //this.painter.DrawImage(glyph.glyphImage32,
-                //    (float)(xpos + (left >> 6)),
-                //    (float)(y + (glyph.exportGlyph.bboxYmin >> 6)));
-
-                int w = (glyph.exportGlyph.advanceX) >> 6;
+                //if (glyph.glyphImage32 != null)
+                //{
+                //    if (glyph.glyphImage32.Width > 0 && glyph.glyphImage32.Height > 0)
+                //    {
+                //        painter.DrawImage(glyph.glyphImage32,
+                //            (float)(xpos + (left >> 6)),
+                //            (float)(y + (glyph.exportGlyph.bboxYmin >> 6)));
+                //    }
+                //}
+                int w = (glyph.glyphMatrix.advanceX) >> 6;
                 xpos += (w);
                 //-------------------------------------------------------------                
             }

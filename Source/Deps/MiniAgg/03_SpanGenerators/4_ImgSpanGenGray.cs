@@ -1,4 +1,4 @@
-//2014,2015 BSD,WinterDev   
+//BSD, 2014-2016, WinterDev
 //----------------------------------------------------------------------------
 // Anti-Grain Geometry - Version 2.4
 // Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
@@ -33,7 +33,7 @@ namespace PixelFarm.Agg.Image
                 throw new NotSupportedException("The source is expected to be 32 bit.");
             }
         }
-        public override void GenerateColors(ColorRGBA[] outputColors, int startIndex, int x, int y, int len)
+        public override void GenerateColors(Drawing.Color[] outputColors, int startIndex, int x, int y, int len)
         {
             int bytesBetweenPixelsInclusive = srcRW.BytesBetweenPixelsInclusive;
             ISpanInterpolator spanInterpolator = Interpolator;

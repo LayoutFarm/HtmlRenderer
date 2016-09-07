@@ -15,6 +15,7 @@
 
 using System;
 using PixelFarm.Drawing;
+using PixelFarm.Drawing.Fonts;
 namespace LayoutFarm.Css
 {
     public sealed partial class BoxSpec

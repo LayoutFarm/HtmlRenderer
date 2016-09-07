@@ -1,4 +1,4 @@
-﻿// 2015,2014 ,BSD, WinterDev   
+﻿//BSD, 2014-2016, WinterDev   
 //ArthurHub  , Jose Manuel Menendez Poo
 
 // "Therefore those skilled at the unorthodox
@@ -42,14 +42,14 @@ namespace PixelFarm.Drawing.WinGdi
         /// collection of all installed and added font families to check if font exists
         /// </summary>
         static readonly Dictionary<string, System.Drawing.FontFamily> _existingFontFamilies = new Dictionary<string, System.Drawing.FontFamily>(StringComparer.InvariantCultureIgnoreCase);
-        readonly Dictionary<System.Drawing.Font, PixelFarm.Drawing.FontInfo> _fontInfoCache = new Dictionary<System.Drawing.Font, PixelFarm.Drawing.FontInfo>();
-        readonly Dictionary<FontKey, PixelFarm.Drawing.FontInfo> _fontInfoCacheByFontKey = new Dictionary<FontKey, PixelFarm.Drawing.FontInfo>();
+        readonly Dictionary<System.Drawing.Font, PixelFarm.Drawing.Fonts.FontInfo> _fontInfoCache = new Dictionary<System.Drawing.Font, PixelFarm.Drawing.Fonts.FontInfo>();
+        readonly Dictionary<FontKey, PixelFarm.Drawing.Fonts.FontInfo> _fontInfoCacheByFontKey = new Dictionary<FontKey, PixelFarm.Drawing.Fonts.FontInfo>();
         /// <summary>
         /// Get cached font instance for the given font properties.<br/>
         /// Improve performance not to create same font multiple times.
         /// </summary>
         /// <returns>cached font instance</returns>
-        public PixelFarm.Drawing.FontInfo GetCachedFont(string family, float size, System.Drawing.FontStyle style)
+        public PixelFarm.Drawing.Fonts.FontInfo GetCachedFont(string family, float size, System.Drawing.FontStyle style)
         {
             var font = TryGetFont(family, size, style);
             if (font == null)
@@ -79,9 +79,9 @@ namespace PixelFarm.Drawing.WinGdi
             }
             return font;
         }
-        public PixelFarm.Drawing.FontInfo GetCachedFont(System.Drawing.Font f)
+        public PixelFarm.Drawing.Fonts.FontInfo GetCachedFont(System.Drawing.Font f)
         {
-            PixelFarm.Drawing.FontInfo found;
+            PixelFarm.Drawing.Fonts.FontInfo found;
             if (!_fontInfoCache.TryGetValue(f, out found))
             {
                 //if not found then create it
@@ -92,9 +92,9 @@ namespace PixelFarm.Drawing.WinGdi
         /// <summary>
         /// Get cached font if it exists in cache or null if it is not.
         /// </summary>
-        PixelFarm.Drawing.FontInfo TryGetFont(string family, float size, System.Drawing.FontStyle style)
+        PixelFarm.Drawing.Fonts.FontInfo TryGetFont(string family, float size, System.Drawing.FontStyle style)
         {
-            PixelFarm.Drawing.FontInfo fontInfo = null;
+            PixelFarm.Drawing.Fonts.FontInfo fontInfo = null;
             FontKey fontKey = new FontKey(family.ToLower(), size, style);
             _fontInfoCacheByFontKey.TryGetValue(fontKey, out fontInfo);
             return fontInfo;
@@ -103,7 +103,7 @@ namespace PixelFarm.Drawing.WinGdi
         /// <summary>
         // create font (try using existing font family to support custom fonts)
         /// </summary>
-        PixelFarm.Drawing.FontInfo CreateFont(string family,
+        PixelFarm.Drawing.Fonts.FontInfo CreateFont(string family,
           float size, System.Drawing.FontStyle style)
         {
             System.Drawing.FontFamily fontFamily;
@@ -119,7 +119,7 @@ namespace PixelFarm.Drawing.WinGdi
             return RegisterFont(newFont, new FontKey(family, size, style));
         }
 
-        PixelFarm.Drawing.FontInfo RegisterFont(System.Drawing.Font newFont, FontKey fontKey)
+        PixelFarm.Drawing.Fonts.FontInfo RegisterFont(System.Drawing.Font newFont, FontKey fontKey)
         {
             //from ...
             //1. http://msdn.microsoft.com/en-us/library/xwf9s90b%28v=vs.100%29.aspx
@@ -132,7 +132,7 @@ namespace PixelFarm.Drawing.WinGdi
 
             //-------------------
             //evaluate this font, collect font matrix in pixel mode
-            PixelFarm.Drawing.FontInfo fontInfo;
+            PixelFarm.Drawing.Fonts.FontInfo fontInfo;
             if (!_fontInfoCache.TryGetValue(newFont, out fontInfo))
             {
                 System.Drawing.FontFamily ff = newFont.FontFamily;
@@ -145,8 +145,8 @@ namespace PixelFarm.Drawing.WinGdi
                 int fontEmHeight = newFont.FontFamily.GetEmHeight(newFont.Style);
                 int fontAscent = newFont.FontFamily.GetCellAscent(newFont.Style);
                 float descent = newFont.FontFamily.GetCellDescent(newFont.Style);
-                var myFont = new PixelFarm.Drawing.WinGdi.MyFont(newFont);
-                fontInfo = new PixelFarm.Drawing.WinGdi.MyFontInfo(
+                var myFont = new PixelFarm.Drawing.WinGdi.WinGdiFont(newFont);
+                fontInfo = new PixelFarm.Drawing.WinGdi.WinGdiFontInfo(
                     myFont,
                     fontHeight,
                     (fontAscent * fontSize / fontEmHeight),

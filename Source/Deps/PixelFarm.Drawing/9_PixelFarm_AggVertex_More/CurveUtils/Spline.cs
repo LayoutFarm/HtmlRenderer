@@ -22,9 +22,6 @@
 #define PIXEL_FARM_NET20
 
 using System;
-using System.Globalization;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Collections.Generic;
 using System.Diagnostics;
 #if SYSTEM_WINDOWS_VECTOR

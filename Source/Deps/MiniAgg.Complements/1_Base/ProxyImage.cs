@@ -1,4 +1,4 @@
-//2014,2015 BSD,WinterDev   
+//BSD, 2014-2016, WinterDev
 //----------------------------------------------------------------------------
 // Anti-Grain Geometry - Version 2.4
 // Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
@@ -18,6 +18,7 @@
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
 
+using PixelFarm.Drawing;
 namespace PixelFarm.Agg.Image
 {
     public abstract class ProxyImage : IImageReaderWriter
@@ -65,7 +66,7 @@ namespace PixelFarm.Agg.Image
             linkedImage.SetRecieveBlender(value);
         }
 
-        public virtual ColorRGBA GetPixel(int x, int y)
+        public virtual Color GetPixel(int x, int y)
         {
             return linkedImage.GetPixel(x, y);
         }
@@ -75,7 +76,7 @@ namespace PixelFarm.Agg.Image
             linkedImage.CopyFrom(sourceImage, sourceImageRect, destXOffset, destYOffset);
         }
 
-        public virtual void SetPixel(int x, int y, ColorRGBA color)
+        public virtual void SetPixel(int x, int y, Color color)
         {
             linkedImage.SetPixel(x, y, color);
         }
@@ -85,52 +86,52 @@ namespace PixelFarm.Agg.Image
         //    linkedImage.BlendPixel(x, y, sourceColor, cover);
         //}
 
-        public virtual void CopyHL(int x, int y, int len, ColorRGBA sourceColor)
+        public virtual void CopyHL(int x, int y, int len, Color sourceColor)
         {
             linkedImage.CopyHL(x, y, len, sourceColor);
         }
 
-        public virtual void CopyVL(int x, int y, int len, ColorRGBA sourceColor)
+        public virtual void CopyVL(int x, int y, int len, Color sourceColor)
         {
             linkedImage.CopyVL(x, y, len, sourceColor);
         }
 
-        public virtual void BlendHL(int x1, int y, int x2, ColorRGBA sourceColor, byte cover)
+        public virtual void BlendHL(int x1, int y, int x2, Color sourceColor, byte cover)
         {
             linkedImage.BlendHL(x1, y, x2, sourceColor, cover);
         }
 
-        public virtual void BlendVL(int x, int y1, int y2, ColorRGBA sourceColor, byte cover)
+        public virtual void BlendVL(int x, int y1, int y2, Color sourceColor, byte cover)
         {
             linkedImage.BlendVL(x, y1, y2, sourceColor, cover);
         }
 
-        public virtual void BlendSolidHSpan(int x, int y, int len, ColorRGBA c, byte[] covers, int coversIndex)
+        public virtual void BlendSolidHSpan(int x, int y, int len, Color c, byte[] covers, int coversIndex)
         {
             linkedImage.BlendSolidHSpan(x, y, len, c, covers, coversIndex);
         }
 
-        public virtual void CopyColorHSpan(int x, int y, int len, ColorRGBA[] colors, int colorIndex)
+        public virtual void CopyColorHSpan(int x, int y, int len, Color[] colors, int colorIndex)
         {
             linkedImage.CopyColorHSpan(x, y, len, colors, colorIndex);
         }
 
-        public virtual void CopyColorVSpan(int x, int y, int len, ColorRGBA[] colors, int colorIndex)
+        public virtual void CopyColorVSpan(int x, int y, int len, Color[] colors, int colorIndex)
         {
             linkedImage.CopyColorVSpan(x, y, len, colors, colorIndex);
         }
 
-        public virtual void BlendSolidVSpan(int x, int y, int len, ColorRGBA c, byte[] covers, int coversIndex)
+        public virtual void BlendSolidVSpan(int x, int y, int len, Color c, byte[] covers, int coversIndex)
         {
             linkedImage.BlendSolidVSpan(x, y, len, c, covers, coversIndex);
         }
 
-        public virtual void BlendColorHSpan(int x, int y, int len, ColorRGBA[] colors, int colorsIndex, byte[] covers, int coversIndex, bool firstCoverForAll)
+        public virtual void BlendColorHSpan(int x, int y, int len, Color[] colors, int colorsIndex, byte[] covers, int coversIndex, bool firstCoverForAll)
         {
             linkedImage.BlendColorHSpan(x, y, len, colors, colorsIndex, covers, coversIndex, firstCoverForAll);
         }
 
-        public virtual void BlendColorVSpan(int x, int y, int len, ColorRGBA[] colors, int colorsIndex, byte[] covers, int coversIndex, bool firstCoverForAll)
+        public virtual void BlendColorVSpan(int x, int y, int len, Color[] colors, int colorsIndex, byte[] covers, int coversIndex, bool firstCoverForAll)
         {
             linkedImage.BlendColorVSpan(x, y, len, colors, colorsIndex, covers, coversIndex, firstCoverForAll);
         }

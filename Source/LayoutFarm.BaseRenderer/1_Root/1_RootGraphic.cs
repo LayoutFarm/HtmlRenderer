@@ -2,6 +2,7 @@
 
 using System;
 using PixelFarm.Drawing;
+using PixelFarm.Drawing.Fonts;
 using LayoutFarm.RenderBoxes;
 namespace LayoutFarm
 {

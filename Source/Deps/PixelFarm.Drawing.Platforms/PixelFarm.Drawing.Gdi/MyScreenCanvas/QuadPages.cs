@@ -1,4 +1,4 @@
-﻿// 2015,2014 ,Apache2, WinterDev
+﻿//MIT, 2014-2016, WinterDev
 
 using System;
 namespace PixelFarm.Drawing.WinGdi

@@ -1,9 +1,5 @@
-﻿//2014,2015 BSD,WinterDev   
+﻿//BSD, 2014-2016, WinterDev
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using PixelFarm.VectorMath;
 namespace PixelFarm.Agg.VertexSource
 {
     class ContourGenerator

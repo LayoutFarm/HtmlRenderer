@@ -1,4 +1,4 @@
-//2014,2015 BSD,WinterDev   
+//BSD, 2014-2016, WinterDev
 //----------------------------------------------------------------------------
 // Anti-Grain Geometry - Version 2.4
 // Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
@@ -19,6 +19,7 @@
 //----------------------------------------------------------------------------
 
 using System;
+using PixelFarm.Drawing;
 using PixelFarm.Agg.Image;
 namespace PixelFarm.Agg
 {
@@ -296,7 +297,7 @@ namespace PixelFarm.Agg
                 }
             }
         }
-        public ColorRGBA GetPixel(int x, int y)
+        public Color GetPixel(int x, int y)
         {
             return recieveBlender.PixelToColorRGBA_Bytes(m_ByteBuffer, GetBufferOffsetXY(x, y));
         }
@@ -304,18 +305,18 @@ namespace PixelFarm.Agg
         {
             return bufferFirstPixel + yTableArray[y] + xTableArray[x];
         }
-        public void SetPixel(int x, int y, ColorRGBA color)
+        public void SetPixel(int x, int y, Color color)
         {
             recieveBlender.CopyPixel(GetBuffer(), GetBufferOffsetXY(x, y), color);
         }
 
-        public void CopyHL(int x, int y, int len, ColorRGBA sourceColor)
+        public void CopyHL(int x, int y, int len, Color sourceColor)
         {
             int bufferOffset = GetBufferOffsetXY(x, y);
             recieveBlender.CopyPixels(this.m_ByteBuffer, bufferOffset, sourceColor, len);
         }
 
-        public void CopyVL(int x, int y, int len, ColorRGBA sourceColor)
+        public void CopyVL(int x, int y, int len, Color sourceColor)
         {
             throw new NotImplementedException();
 #if false
@@ -329,15 +330,15 @@ namespace PixelFarm.Agg
             while (--len != 0);
 #endif
         }
-        public void BlendHL(int x1, int y, int x2, ColorRGBA sourceColor, byte cover)
+        public void BlendHL(int x1, int y, int x2, Color sourceColor, byte cover)
         {
-            if (sourceColor.alpha == 0) { return; }
+            if (sourceColor.A == 0) { return; }
             //-------------------------------------------------
 
             int len = x2 - x1 + 1;
             byte[] buffer = GetBuffer();
             int bufferOffset = GetBufferOffsetXY(x1, y);
-            int alpha = (((int)(sourceColor.alpha) * (cover + 1)) >> 8);
+            int alpha = (((int)(sourceColor.A) * (cover + 1)) >> 8);
             if (alpha == BASE_MASK)
             {
                 //full
@@ -345,7 +346,7 @@ namespace PixelFarm.Agg
             }
             else
             {
-                ColorRGBA c2 = new ColorRGBA(sourceColor, alpha);
+                Color c2 = Color.FromArgb(alpha, sourceColor);
                 do
                 {
                     //copy pixel-by-pixel
@@ -356,7 +357,7 @@ namespace PixelFarm.Agg
             }
         }
 
-        public void BlendVL(int x, int y1, int y2, ColorRGBA sourceColor, byte cover)
+        public void BlendVL(int x, int y1, int y2, Color sourceColor, byte cover)
         {
             throw new NotImplementedException();
 #if false
@@ -408,7 +409,7 @@ namespace PixelFarm.Agg
 
 
 
-        public void BlendSolidHSpan(int x, int y, int len, ColorRGBA sourceColor, byte[] covers, int coversIndex)
+        public void BlendSolidHSpan(int x, int y, int len, Color sourceColor, byte[] covers, int coversIndex)
         {
             int colorAlpha = sourceColor.alpha;
             if (colorAlpha != 0)
@@ -424,7 +425,7 @@ namespace PixelFarm.Agg
                     }
                     else
                     {
-                        recieveBlender.BlendPixel(buffer, bufferOffset, new ColorRGBA(sourceColor, alpha));
+                        recieveBlender.BlendPixel(buffer, bufferOffset, Color.FromArgb(alpha, sourceColor));
                     }
                     bufferOffset += m_DistanceInBytesBetweenPixelsInclusive;
                     coversIndex++;
@@ -433,9 +434,9 @@ namespace PixelFarm.Agg
             }
         }
 
-        public void BlendSolidVSpan(int x, int y, int len, ColorRGBA sourceColor, byte[] covers, int coversIndex)
+        public void BlendSolidVSpan(int x, int y, int len, Color sourceColor, byte[] covers, int coversIndex)
         {
-            if (sourceColor.alpha != 0)
+            if (sourceColor.A != 0)
             {
                 int scanWidthBytes = Stride;
                 unchecked
@@ -443,8 +444,9 @@ namespace PixelFarm.Agg
                     int bufferOffset = GetBufferOffsetXY(x, y);
                     do
                     {
-                        byte oldAlpha = sourceColor.alpha;
-                        sourceColor.alpha = (byte)(((int)(sourceColor.alpha) * ((int)(covers[coversIndex++]) + 1)) >> 8);
+                        byte oldAlpha = sourceColor.A;
+                        //TODO:review here, sourceColor mat not changed
+                        sourceColor.alpha = (byte)(((int)(sourceColor.A) * ((int)(covers[coversIndex++]) + 1)) >> 8);
                         if (sourceColor.alpha == BASE_MASK)
                         {
                             recieveBlender.CopyPixel(m_ByteBuffer, bufferOffset, sourceColor);
@@ -461,7 +463,7 @@ namespace PixelFarm.Agg
             }
         }
 
-        public void CopyColorHSpan(int x, int y, int len, ColorRGBA[] colors, int colorsIndex)
+        public void CopyColorHSpan(int x, int y, int len, Color[] colors, int colorsIndex)
         {
             int bufferOffset = GetBufferOffsetXY(x, y);
             do
@@ -473,7 +475,7 @@ namespace PixelFarm.Agg
             while (--len != 0);
         }
 
-        public void CopyColorVSpan(int x, int y, int len, ColorRGBA[] colors, int colorsIndex)
+        public void CopyColorVSpan(int x, int y, int len, Color[] colors, int colorsIndex)
         {
             int bufferOffset = GetBufferOffsetXY(x, y);
             do
@@ -485,13 +487,13 @@ namespace PixelFarm.Agg
             while (--len != 0);
         }
 
-        public void BlendColorHSpan(int x, int y, int len, ColorRGBA[] colors, int colorsIndex, byte[] covers, int coversIndex, bool firstCoverForAll)
+        public void BlendColorHSpan(int x, int y, int len, Color[] colors, int colorsIndex, byte[] covers, int coversIndex, bool firstCoverForAll)
         {
             int bufferOffset = GetBufferOffsetXY(x, y);
             recieveBlender.BlendPixels(m_ByteBuffer, bufferOffset, colors, colorsIndex, covers, coversIndex, firstCoverForAll, len);
         }
 
-        public void BlendColorVSpan(int x, int y, int len, ColorRGBA[] colors, int colorsIndex, byte[] covers, int coversIndex, bool firstCoverForAll)
+        public void BlendColorVSpan(int x, int y, int len, Color[] colors, int colorsIndex, byte[] covers, int coversIndex, bool firstCoverForAll)
         {
             int bufferOffset = GetBufferOffsetXY(x, y);
             int scanWidthBytes = System.Math.Abs(Stride);
@@ -544,7 +546,7 @@ namespace PixelFarm.Agg
 #endif
 
 
-        static void CopyOrBlend_BasedOnAlpha(IPixelBlender recieveBlender, byte[] destBuffer, int bufferOffset, ColorRGBA sourceColor)
+        static void CopyOrBlend_BasedOnAlpha(IPixelBlender recieveBlender, byte[] destBuffer, int bufferOffset, Color sourceColor)
         {
             //if (sourceColor.m_A != 0)
             {
@@ -561,7 +563,7 @@ namespace PixelFarm.Agg
             }
         }
 
-        static void CopyOrBlend_BasedOnAlphaAndCover(IPixelBlender recieveBlender, byte[] destBuffer, int bufferOffset, ColorRGBA sourceColor, int cover)
+        static void CopyOrBlend_BasedOnAlphaAndCover(IPixelBlender recieveBlender, byte[] destBuffer, int bufferOffset, Color sourceColor, int cover)
         {
             if (cover == 255)
             {
@@ -634,7 +636,7 @@ namespace PixelFarm.Agg
             //calculate image stride
             switch (actualImage.PixelFormat)
             {
-                case PixelFormat.Rgba32:
+                case PixelFormat.ARGB32:
                     {
                         Attach(actualImage.Width,
                             actualImage.Height,
@@ -652,7 +654,7 @@ namespace PixelFarm.Agg
                             new PixelFarm.Agg.Image.PixelBlenderGray(1));
                     }
                     break;
-                case PixelFormat.Rgb24:
+                case PixelFormat.RGB24:
                 default:
                     {
                         throw new NotSupportedException();

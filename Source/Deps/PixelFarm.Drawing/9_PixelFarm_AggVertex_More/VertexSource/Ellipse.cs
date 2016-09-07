@@ -1,4 +1,4 @@
-//2014,2015 BSD,WinterDev   
+//BSD, 2014-2016, WinterDev
 //----------------------------------------------------------------------------
 // Anti-Grain Geometry - Version 2.4
 // Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
@@ -24,7 +24,6 @@
 
 using System;
 using System.Collections.Generic;
-using FlagsAndCommand = PixelFarm.Agg.VertexCmd;
 using PixelFarm.VectorMath;
 namespace PixelFarm.Agg.VertexSource
 {
@@ -39,19 +38,19 @@ namespace PixelFarm.Agg.VertexSource
         bool m_cw;
         public Ellipse()
         {
-            Init(0, 0, 1, 1, 4, false);
+            Set(0, 0, 1, 1, 4, false);
         }
         public Ellipse(double originX, double originY, double radiusX, double radiusY, int num_steps = 0, bool cw = false)
         {
-            Init(originX, originY, radiusX, radiusY, num_steps, cw);
+            Set(originX, originY, radiusX, radiusY, num_steps, cw);
         }
         public void Reset(double originX, double originY, double radiusX, double radiusY, int num_steps = 0)
         {
-            Init(originX, originY, radiusX, radiusY, num_steps, false);
+            Set(originX, originY, radiusX, radiusY, num_steps, false);
         }
-        void Init(double ox, double oy,
+        public void Set(double ox, double oy,
                  double rx, double ry,
-                 int num_steps, bool cw)
+                 int num_steps = 0, bool cw = false)
         {
             originX = ox;
             originY = oy;
@@ -77,13 +76,13 @@ namespace PixelFarm.Agg.VertexSource
         IEnumerable<VertexData> GetVertexIter()
         {
             VertexData vertexData = new VertexData();
-            vertexData.command = FlagsAndCommand.MoveTo;
+            vertexData.command = VertexCmd.MoveTo;
             vertexData.x = originX + radiusX;
             vertexData.y = originY;
             yield return vertexData;
             double anglePerStep = MathHelper.Tau / (double)numSteps;
             double angle = 0;
-            vertexData.command = FlagsAndCommand.LineTo;
+            vertexData.command = VertexCmd.LineTo;
             if (m_cw)
             {
                 for (int i = 1; i < numSteps; i++)
@@ -106,9 +105,9 @@ namespace PixelFarm.Agg.VertexSource
             }
             vertexData.x = (int)EndVertexOrientation.CCW;
             vertexData.y = 0;
-            vertexData.command = FlagsAndCommand.CloseAndEndFigure;
+            vertexData.command = VertexCmd.CloseAndEndFigure;
             yield return vertexData;
-            vertexData.command = FlagsAndCommand.Stop;
+            vertexData.command = VertexCmd.Stop;
             yield return vertexData;
         }
 

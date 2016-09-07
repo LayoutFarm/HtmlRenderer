@@ -3,6 +3,7 @@
 using System;
 using System.Text;
 using PixelFarm.Drawing;
+using PixelFarm.Drawing.Fonts;
 namespace LayoutFarm.Text
 {
     class SolidTextRun : EditableRun

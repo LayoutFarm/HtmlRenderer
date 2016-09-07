@@ -1,4 +1,4 @@
-// 2015,2014 ,MIT, WinterDev
+//MIT, 2014-2016, WinterDev
 //----------------------------------------------------------------------------
 // Anti-Grain Geometry - Version 2.4
 // Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
@@ -14,7 +14,7 @@
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
 
-
+using PixelFarm.Drawing;
 using PixelFarm.Agg.Gradients;
 namespace PixelFarm.Agg
 {
@@ -53,7 +53,7 @@ namespace PixelFarm.Agg
         //--------------------------------------------------------------------
         public void Prepare() { }
         //--------------------------------------------------------------------
-        public void GenerateColors(ColorRGBA[] outputColors, int startIndex, int x, int y, int len)
+        public void GenerateColors(Color[] outputColors, int startIndex, int x, int y, int len)
         {
             m_interpolator.Begin(x + 0.5, y + 0.5, len);
             do
@@ -79,29 +79,29 @@ namespace PixelFarm.Agg
     //=====================================================gradient_linear_color
     public class LinearGradientColorsProvider : Gradients.IGradientColorsProvider
     {
-        ColorRGBA m_c1;
-        ColorRGBA m_c2;
+        Color m_c1;
+        Color m_c2;
         int gradientSteps;
-        public LinearGradientColorsProvider(ColorRGBA c1, ColorRGBA c2)
+        public LinearGradientColorsProvider(Color c1, Color c2)
             : this(c1, c2, 256)
         {
         }
-        public LinearGradientColorsProvider(ColorRGBA c1, ColorRGBA c2, int gradientSteps)
+        public LinearGradientColorsProvider(Color c1, Color c2, int gradientSteps)
         {
             m_c1 = c1;
             m_c2 = c2;
             this.gradientSteps = gradientSteps;
         }
         public int GradientSteps { get { return gradientSteps; } }
-        public ColorRGBA GetColor(int v)
+        public Color GetColor(int v)
         {
             return m_c1.CreateGradient(m_c2, (float)(v) / (float)(gradientSteps - 1));
         }
-        public void SetColors(ColorRGBA c1, ColorRGBA c2)
+        public void SetColors(Color c1, Color c2)
         {
             SetColors(c1, c2, 256);
         }
-        public void SetColors(ColorRGBA c1, ColorRGBA c2, int gradientSteps)
+        public void SetColors(Color c1, Color c2, int gradientSteps)
         {
             m_c1 = c1;
             m_c2 = c2;

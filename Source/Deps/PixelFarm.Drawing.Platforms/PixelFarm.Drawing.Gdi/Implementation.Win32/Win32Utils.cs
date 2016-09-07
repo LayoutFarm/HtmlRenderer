@@ -1,4 +1,4 @@
-﻿// 2015,2014 ,BSD, WinterDev 
+﻿//BSD, 2014-2016, WinterDev 
 
 // "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,
@@ -20,7 +20,7 @@ namespace Win32
     /// <summary>
     /// Utility for Win32 API.
     /// </summary>
-    static class Win32Utils_Gdi
+    static class Win32Utils
     {
         /// <summary>
         /// Const for BitBlt copy raster-operation code.

@@ -1,4 +1,4 @@
-//2014,2015 BSD,WinterDev   
+//BSD, 2014-2016, WinterDev
 //----------------------------------------------------------------------------
 // Anti-Grain Geometry - Version 2.4
 // Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
@@ -283,10 +283,14 @@ namespace PixelFarm.Agg
             {
                 VertexSnapIter snapIter = snap.GetVertexSnapIter();
                 VertexCmd cmd;
+#if DEBUG
                 int dbugVertexCount = 0;
+#endif
                 while ((cmd = snapIter.GetNextVertex(out x, out y)) != VertexCmd.Stop)
                 {
+#if DEBUG
                     dbugVertexCount++;
+#endif
                     AddVertex(cmd, x, y);
                 }
             }
@@ -355,6 +359,7 @@ namespace PixelFarm.Agg
                 }
 
                 scline.ResetSpans();
+                //-------------------------
                 CellAA[] cells;
                 int offset;
                 int num_cells;
@@ -367,7 +372,6 @@ namespace PixelFarm.Agg
                         fixed (CellAA* cur_cell_h = &cells[0])
                         {
                             CellAA* cur_cell_ptr = cur_cell_h + offset;
-                            int alpha;
                             int x = cur_cell_ptr->x;
                             int area = cur_cell_ptr->area;
                             cover += cur_cell_ptr->cover;
@@ -380,70 +384,36 @@ namespace PixelFarm.Agg
                                 {
                                     break;
                                 }
-
                                 area += cur_cell_ptr->area;
                                 cover += cur_cell_ptr->cover;
                             }
 
                             if (area != 0)
                             {
-                                alpha = CalculateAlpha((cover << (poly_subpix.SHIFT + 1)) - area);
+                                //-----------------------------------------------
+                                //single cell, for antialias look
+                                //-----------------------------------------------
+                                int alpha = CalculateAlpha((cover << (poly_subpix.SHIFT + 1)) - area);
                                 if (alpha != 0)
                                 {
                                     scline.AddCell(x, alpha);
                                 }
+
                                 x++;
                             }
 
                             if ((num_cells != 0) && (cur_cell_ptr->x > x))
                             {
-                                alpha = CalculateAlpha(cover << (poly_subpix.SHIFT + 1));
+                                //-----------------------------------------------
+                                //this is long span , continuous color, solid look
+                                //-----------------------------------------------
+                                int alpha = CalculateAlpha(cover << (poly_subpix.SHIFT + 1));
                                 if (alpha != 0)
                                 {
                                     scline.AddSpan(x, (cur_cell_ptr->x - x), alpha);
                                 }
                             }
                         }
-
-                        //CellAA cur_cell = cells[offset];
-                        //int x = cur_cell.x;
-                        //int area = cur_cell.area;
-                        //int alpha;
-
-                        //cover += cur_cell.cover;
-
-                        ////accumulate all cells with the same X
-                        //while (--num_cells != 0)
-                        //{
-                        //    offset++;
-                        //    cur_cell = cells[offset];
-                        //    if (cur_cell.x != x)
-                        //    {
-                        //        break;
-                        //    }
-
-                        //    area += cur_cell.area;
-                        //    cover += cur_cell.cover;
-                        //}
-
-                        //if (area != 0)
-                        //{
-                        //    alpha = CalculateAlpha((cover << (poly_subpix.SHIFT + 1)) - area);
-                        //    if (alpha != 0)
-                        //    {
-                        //        scline.AddCell(x, alpha);
-                        //    }
-                        //    x++;
-                        //}
-
-                        //if ((num_cells != 0) && (cur_cell.x > x))
-                        //{
-                        //    alpha = CalculateAlpha(cover << (poly_subpix.SHIFT + 1));
-                        //    if (alpha != 0)
-                        //    {
-                        //        scline.AddSpan(x, (cur_cell.x - x), alpha);
-                        //    }
-                        //} 
                     }
                 }
 

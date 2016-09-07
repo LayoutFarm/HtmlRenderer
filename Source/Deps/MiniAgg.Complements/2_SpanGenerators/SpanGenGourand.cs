@@ -1,4 +1,4 @@
-// 2015,2014 ,MIT, WinterDev 
+//MIT, 2014-2016, WinterDev 
 //----------------------------------------------------------------------------
 // Anti-Grain Geometry - Version 2.4
 // Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
@@ -34,7 +34,7 @@ namespace PixelFarm.Agg
         {
             public double x;
             public double y;
-            public ColorRGBA color;
+            public Drawing.Color color;
         }
 
         public SpanGenGourand()
@@ -42,9 +42,9 @@ namespace PixelFarm.Agg
             m_cmd[0] = VertexCmd.Stop;
         }
 
-        public SpanGenGourand(ColorRGBA c1,
-                     ColorRGBA c2,
-                     ColorRGBA c3,
+        public SpanGenGourand(Drawing.Color c1,
+                     Drawing.Color c2,
+                     Drawing.Color c3,
                      double x1, double y1,
                      double x2, double y2,
                      double x3, double y3,
@@ -54,7 +54,7 @@ namespace PixelFarm.Agg
             SetTriangle(x1, y1, x2, y2, x3, y3, d);
         }
 
-        public void SetColor(ColorRGBA c1, ColorRGBA c2, ColorRGBA c3)
+        public void SetColor(Drawing.Color c1, Drawing.Color c2, Drawing.Color c3)
         {
             m_coord_0.color = c1;
             m_coord_1.color = c2;

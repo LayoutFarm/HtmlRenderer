@@ -156,12 +156,12 @@ namespace LayoutFarm.Text
         }
         Size CalculateDrawingStringSize(char[] buffer, int length)
         {
-            FontInfo FontInfo = GetFontInfo();
+            PixelFarm.Drawing.Fonts.FontInfo FontInfo = GetFontInfo();
             return new Size(
                  FontInfo.GetStringWidth(buffer, length),
                  FontInfo.FontHeight);
         }
-        protected FontInfo GetFontInfo()
+        protected PixelFarm.Drawing.Fonts.FontInfo GetFontInfo()
         {
             if (!HasStyle)
             {

@@ -1,4 +1,4 @@
-//2014,2015 BSD,WinterDev   
+//BSD, 2014-2016, WinterDev
 //----------------------------------------------------------------------------
 // Anti-Grain Geometry - Version 2.4
 // Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
@@ -15,6 +15,7 @@
 //----------------------------------------------------------------------------
 
 using System;
+using PixelFarm.Drawing;
 namespace PixelFarm.Agg.Image
 {
     //==================================================pixfmt_amask_adaptor
@@ -72,7 +73,7 @@ namespace PixelFarm.Agg.Image
         //    linkedImage.BlendPixel(x, y, c, m_mask.pixel(x, y));
         //}
 
-        public override void CopyHL(int x, int y, int len, ColorRGBA c)
+        public override void CopyHL(int x, int y, int len, Color c)
         {
             throw new NotImplementedException();
             /*
@@ -88,7 +89,7 @@ namespace PixelFarm.Agg.Image
              */
         }
 
-        public override void BlendHL(int x1, int y, int x2, ColorRGBA c, byte cover)
+        public override void BlendHL(int x1, int y, int x2, Color c, byte cover)
         {
             int len = x2 - x1 + 1;
             if (cover == cover_full)
@@ -105,7 +106,7 @@ namespace PixelFarm.Agg.Image
             }
         }
 
-        public override void CopyVL(int x, int y, int len, ColorRGBA c)
+        public override void CopyVL(int x, int y, int len, Color c)
         {
             throw new NotImplementedException(); /*
             realloc_span((int)len);
@@ -120,7 +121,7 @@ namespace PixelFarm.Agg.Image
                                                   */
         }
 
-        public override void BlendVL(int x, int y1, int y2, ColorRGBA c, byte cover)
+        public override void BlendVL(int x, int y1, int y2, Color c, byte cover)
         {
             throw new NotImplementedException(); /*
             int len = y2 - y1 + 1;
@@ -137,14 +138,14 @@ namespace PixelFarm.Agg.Image
                                                   */
         }
 
-        public override void BlendSolidHSpan(int x, int y, int len, ColorRGBA color, byte[] covers, int coversIndex)
+        public override void BlendSolidHSpan(int x, int y, int len, Color color, byte[] covers, int coversIndex)
         {
             byte[] buffer = m_spans;
             m_mask.combine_hspan(x, y, covers, coversIndex, len);
             linkedImage.BlendSolidHSpan(x, y, len, color, covers, coversIndex);
         }
 
-        public override void BlendSolidVSpan(int x, int y, int len, ColorRGBA c, byte[] covers, int coversIndex)
+        public override void BlendSolidVSpan(int x, int y, int len, Color c, byte[] covers, int coversIndex)
         {
             throw new System.NotImplementedException();
 #if false
@@ -160,7 +161,7 @@ namespace PixelFarm.Agg.Image
 #endif
         }
 
-        public override void CopyColorHSpan(int x, int y, int len, ColorRGBA[] colors, int colorsIndex)
+        public override void CopyColorHSpan(int x, int y, int len, Color[] colors, int colorsIndex)
         {
             throw new System.NotImplementedException();
 #if false
@@ -176,7 +177,7 @@ namespace PixelFarm.Agg.Image
 #endif
         }
 
-        public override void CopyColorVSpan(int x, int y, int len, ColorRGBA[] colors, int colorsIndex)
+        public override void CopyColorVSpan(int x, int y, int len, Color[] colors, int colorsIndex)
         {
             throw new System.NotImplementedException();
 #if false
@@ -192,7 +193,7 @@ namespace PixelFarm.Agg.Image
 #endif
         }
 
-        public override void BlendColorHSpan(int x, int y, int len, ColorRGBA[] colors, int colorsIndex, byte[] covers, int coversIndex, bool firstCoverForAll)
+        public override void BlendColorHSpan(int x, int y, int len, Color[] colors, int colorsIndex, byte[] covers, int coversIndex, bool firstCoverForAll)
         {
             throw new System.NotImplementedException();
 #if false
@@ -216,7 +217,7 @@ namespace PixelFarm.Agg.Image
 #endif
         }
 
-        public override void BlendColorVSpan(int x, int y, int len, ColorRGBA[] colors, int colorsIndex, byte[] covers, int coversIndex, bool firstCoverForAll)
+        public override void BlendColorVSpan(int x, int y, int len, Color[] colors, int colorsIndex, byte[] covers, int coversIndex, bool firstCoverForAll)
         {
             throw new System.NotImplementedException();
 #if false

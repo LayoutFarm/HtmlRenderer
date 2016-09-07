@@ -654,7 +654,7 @@ namespace Tesselate
         }
 
 
-        bool IsEven(int n)
+        static bool IsEven(int n)
         {
             return (((n) & 1) == 0);
         }

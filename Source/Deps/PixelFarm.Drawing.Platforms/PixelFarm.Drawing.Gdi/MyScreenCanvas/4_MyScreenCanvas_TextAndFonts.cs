@@ -1,4 +1,4 @@
-﻿//2014,2015 BSD, WinterDev
+﻿//BSD, 2014-2016, WinterDev
 //ArthurHub  , Jose Manuel Menendez Poo
 
 // "Therefore those skilled at the unorthodox
@@ -23,7 +23,7 @@ namespace PixelFarm.Drawing.WinGdi
         Color mycurrentTextColor = Color.Black;
         //======================================
         //IFonts impl
-        PixelFarm.Drawing.FontInfo IFonts.GetFontInfo(string fontname, float fsize, FontStyle st)
+        PixelFarm.Drawing.Fonts.FontInfo IFonts.GetFontInfo(string fontname, float fsize, FontStyle st)
         {
             return this.platform.GetFont(fontname, fsize, st);
         }
@@ -232,7 +232,7 @@ namespace PixelFarm.Drawing.WinGdi
             {
                 ReleaseHdc();
                 this.currentTextFont = value;
-                MyFont myFont = value as MyFont;
+                WinGdiFont myFont = value as WinGdiFont;
                 IntPtr hdc = gx.GetHdc();
                 MyWin32.SelectObject(hdc, myFont.ToHfont());
                 gx.ReleaseHdc();

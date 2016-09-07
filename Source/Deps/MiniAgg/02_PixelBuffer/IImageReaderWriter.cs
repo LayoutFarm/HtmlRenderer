@@ -1,4 +1,4 @@
-//2014,2015 BSD,WinterDev   
+//BSD, 2014-2016, WinterDev
 //----------------------------------------------------------------------------
 // Anti-Grain Geometry - Version 2.4
 // Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
@@ -18,7 +18,7 @@
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
 
-
+using PixelFarm.Drawing;
 using PixelFarm.Agg.Image;
 namespace PixelFarm.Agg
 {
@@ -35,24 +35,24 @@ namespace PixelFarm.Agg
         IPixelBlender GetRecieveBlender();
         void SetRecieveBlender(IPixelBlender value);
         byte[] GetBuffer();
-        ColorRGBA GetPixel(int x, int y);
-        void SetPixel(int x, int y, ColorRGBA color);
+        Color GetPixel(int x, int y);
+        void SetPixel(int x, int y, Color color);
         //-------------------------------------------------------------------------------------------
-        void BlendHL(int x, int y, int x2, ColorRGBA sourceColor, byte cover); //**
-        void BlendVL(int x, int y1, int y2, ColorRGBA sourceColor, byte cover);
+        void BlendHL(int x, int y, int x2, Color sourceColor, byte cover); //**
+        void BlendVL(int x, int y1, int y2, Color sourceColor, byte cover);
         //-------------------------------------------------------------------------------------------
 
 
         void CopyFrom(IImageReaderWriter sourceImage, RectInt sourceImageRect, int destXOffset, int destYOffset); //not used
         // line stuff
-        void CopyHL(int x, int y, int len, ColorRGBA sourceColor);//not used
-        void CopyVL(int x, int y, int len, ColorRGBA sourceColor);//not used
+        void CopyHL(int x, int y, int len, Color sourceColor);//not used
+        void CopyVL(int x, int y, int len, Color sourceColor);//not used
         // color stuff
-        void CopyColorHSpan(int x, int y, int len, ColorRGBA[] colors, int colorIndex); //**
-        void CopyColorVSpan(int x, int y, int len, ColorRGBA[] colors, int colorIndex); // 
-        void BlendSolidHSpan(int x, int y, int len, ColorRGBA sourceColor, byte[] covers, int coversIndex);// 
-        void BlendSolidVSpan(int x, int y, int len, ColorRGBA sourceColor, byte[] covers, int coversIndex);// 
-        void BlendColorHSpan(int x, int y, int len, ColorRGBA[] colors, int colorsIndex, byte[] covers, int coversIndex, bool firstCoverForAll);// 
-        void BlendColorVSpan(int x, int y, int len, ColorRGBA[] colors, int colorsIndex, byte[] covers, int coversIndex, bool firstCoverForAll); //not used
+        void CopyColorHSpan(int x, int y, int len, Color[] colors, int colorIndex); //**
+        void CopyColorVSpan(int x, int y, int len, Color[] colors, int colorIndex); // 
+        void BlendSolidHSpan(int x, int y, int len, Color sourceColor, byte[] covers, int coversIndex);// 
+        void BlendSolidVSpan(int x, int y, int len, Color sourceColor, byte[] covers, int coversIndex);// 
+        void BlendColorHSpan(int x, int y, int len, Color[] colors, int colorsIndex, byte[] covers, int coversIndex, bool firstCoverForAll);// 
+        void BlendColorVSpan(int x, int y, int len, Color[] colors, int colorsIndex, byte[] covers, int coversIndex, bool firstCoverForAll); //not used
     }
 }

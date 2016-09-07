@@ -1,4 +1,4 @@
-﻿// 2015,2014 ,Apache2, WinterDev
+﻿//MIT, 2014-2016, WinterDev
 
 
 namespace PixelFarm.Drawing
@@ -12,8 +12,7 @@ namespace PixelFarm.Drawing
         public int debug_releaseCount = 0;
         public int debug_canvas_id = 0;
 #endif
-        //const int CANVAS_UNUSED = 1 << (1 - 1);
-        //const int CANVAS_DIMEN_CHANGED = 1 << (2 - 1);
+
         public Canvas()
         {
         }
@@ -37,9 +36,6 @@ namespace PixelFarm.Drawing
             set
             {
                 this.isContentReady = value;
-                //if (!value)
-                //{
-                //}
             }
         }
         //---------------------------------------------------------------------
