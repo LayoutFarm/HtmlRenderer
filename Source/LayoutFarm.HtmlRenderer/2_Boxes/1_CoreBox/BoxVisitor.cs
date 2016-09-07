@@ -1,4 +1,4 @@
-﻿// 2015,2014 ,BSD, WinterDev
+﻿//BSD, 2014-2016, WinterDev
 
 using System.Collections.Generic;
 namespace LayoutFarm.HtmlBoxes

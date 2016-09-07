@@ -1,4 +1,4 @@
-﻿// 2015,2014 ,MIT, WinterDev
+﻿//MIT, 2014-2016, WinterDev
 
 //---------------------------------------------
 //some code from CodeProject: 'Free Image Transformation'
@@ -324,7 +324,7 @@ namespace PixelFarm.Agg.Image
         static BicubicInterpolator2 myInterpolator = new BicubicInterpolator2();
         ActualImage GetTransformedBitmapNoInterpolation()
         {
-            var destCB = new ActualImage(rect.Width, rect.Height, PixelFormat.Rgba32);
+            var destCB = new ActualImage(rect.Width, rect.Height, PixelFormat.ARGB32);
             var destWriter = new MyImageReaderWriter(destCB);
             PointF ptInPlane = new PointF();
             int x1, x2, y1, y2;
@@ -366,7 +366,7 @@ namespace PixelFarm.Agg.Image
         {
             //4 points sampling
             //weight between four point
-            ActualImage destCB = new ActualImage(rect.Width, rect.Height, PixelFormat.Rgba32);
+            ActualImage destCB = new ActualImage(rect.Width, rect.Height, PixelFormat.ARGB32);
             MyImageReaderWriter destWriter = new MyImageReaderWriter(destCB);
             PointF ptInPlane = new PointF();
             int x1, x2, y1, y2;
@@ -418,15 +418,15 @@ namespace PixelFarm.Agg.Image
                         dx2y2 = dx2 * dy2;
                         //use 4 points
 
-                        ColorRGBA x1y1Color = srcCB.GetPixel(x1, y1);
-                        ColorRGBA x2y1Color = srcCB.GetPixel(x2, y1);
-                        ColorRGBA x1y2Color = srcCB.GetPixel(x1, y2);
-                        ColorRGBA x2y2Color = srcCB.GetPixel(x2, y2);
+                        Drawing.Color x1y1Color = srcCB.GetPixel(x1, y1);
+                        Drawing.Color x2y1Color = srcCB.GetPixel(x2, y1);
+                        Drawing.Color x1y2Color = srcCB.GetPixel(x1, y2);
+                        Drawing.Color x2y2Color = srcCB.GetPixel(x2, y2);
                         float a = (x1y1Color.alpha * dx1y1) + (x2y1Color.alpha * dx2y1) + (x1y2Color.alpha * dx1y2) + (x2y2Color.alpha * dx2y2);
                         float b = (x1y1Color.blue * dx1y1) + (x2y1Color.blue * dx2y1) + (x1y2Color.blue * dx1y2) + (x2y2Color.blue * dx2y2);
                         float g = (x1y1Color.green * dx1y1) + (x2y1Color.green * dx2y1) + (x1y2Color.green * dx1y2) + (x2y2Color.green * dx2y2);
                         float r = (x1y1Color.red * dx1y1) + (x2y1Color.red * dx2y1) + (x1y2Color.red * dx1y2) + (x2y2Color.red * dx2y2);
-                        destWriter.SetPixel(x, y, new ColorRGBA((byte)b, (byte)g, (byte)r, (byte)a));
+                        destWriter.SetPixel(x, y, new Drawing.Color((byte)a, (byte)b, (byte)g, (byte)r));
                         //destCB.SetColorPixel(x, y, new ColorRGBA((byte)b, (byte)g, (byte)r, (byte)a));
                     }
                 }
@@ -462,7 +462,7 @@ namespace PixelFarm.Agg.Image
             //    System.Drawing.Imaging.ImageLockMode.ReadWrite, outputbmp.PixelFormat);
             ////-----------------------------------------
 
-            ActualImage destCB = new ActualImage(rect.Width, rect.Height, PixelFormat.Rgba32);
+            ActualImage destCB = new ActualImage(rect.Width, rect.Height, PixelFormat.ARGB32);
             MyImageReaderWriter destWriter = new MyImageReaderWriter(destCB);
             //PointF ptInPlane = new PointF();
 
@@ -509,7 +509,7 @@ namespace PixelFarm.Agg.Image
                         //outputBuffer[targetPixelIndex + 3] = (byte)color.a;
                         //targetPixelIndex += 4;
 
-                        destWriter.SetPixel(x, y, new ColorRGBA(color.b, color.g, color.r, color.a));
+                        destWriter.SetPixel(x, y, new Drawing.Color(color.a, color.b, color.g, color.r)); //TODO:review here blue switch to red channel
                     }
                 }
                 //newline

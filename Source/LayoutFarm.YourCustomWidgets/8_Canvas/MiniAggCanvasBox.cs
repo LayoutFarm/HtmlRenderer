@@ -1,4 +1,4 @@
-﻿// 2015,2014 ,Apache2, WinterDev 
+﻿//Apache2, 2014-2016, WinterDev 
 
 using LayoutFarm.UI;
 namespace LayoutFarm.CustomWidgets
@@ -30,7 +30,7 @@ namespace LayoutFarm.CustomWidgets
                 canvas.HasSpecificWidth = this.HasSpecificWidth;
                 canvas.SetLocation(this.Left, this.Top);
                 canvas.Painter.StrokeWidth = 1;
-                canvas.Painter.StrokeColor = PixelFarm.Agg.ColorRGBA.Black;
+                canvas.Painter.StrokeColor = PixelFarm.Drawing.Color.Black;
                 this.canvasRenderElement = canvas;
                 canvas.SetController(this);
             }

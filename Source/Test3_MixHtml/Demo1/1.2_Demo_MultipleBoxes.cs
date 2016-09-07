@@ -1,4 +1,4 @@
-﻿// 2015,2014 ,Apache2, WinterDev
+﻿//Apache2, 2014-2016, WinterDev
 
 using System.Collections.Generic;
 using PixelFarm.Drawing;
@@ -96,7 +96,7 @@ namespace LayoutFarm
                 this.lastY = e.Y;
                 //temp fix here -> need converter
                 var p = this.Painter;
-                p.Clear(PixelFarm.Agg.ColorRGBA.White);
+                p.Clear(PixelFarm.Drawing.Color.White);
                 pointList.Add(new Point(lastX, lastY));
                 //clear and render again
                 int j = pointList.Count;

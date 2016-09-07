@@ -1,8 +1,9 @@
-﻿// 2015,2014 ,BSD, WinterDev
+﻿//BSD, 2014-2016, WinterDev
 //ArthurHub  , Jose Manuel Menendez Poo
 
 using System;
 using PixelFarm.Drawing;
+using PixelFarm.Drawing.Fonts;
 namespace LayoutFarm.HtmlBoxes
 {
     partial class CssBox

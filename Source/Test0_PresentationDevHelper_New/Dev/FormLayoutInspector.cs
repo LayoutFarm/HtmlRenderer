@@ -1,4 +1,4 @@
-﻿// 2015,2014 ,Apache2, WinterDev
+﻿//Apache2, 2014-2016, WinterDev
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -190,7 +190,7 @@ namespace LayoutFarm.Dev
             if (!pauseRecord)
             {
                 pauseRecord = true; vwport.IdebugOutputWin.dbug_VisualRootDrawMsg -= rootDrawMsgEventHandler;
-                this.Text = "Pause - LayoutFarm LayoutInspector 2015";
+                this.Text = "Pause - LayoutFarm LayoutInspector 2016";
 
                 StringBuilder stBuilder = new StringBuilder();
                 CollectList1Item(stBuilder);
@@ -201,7 +201,7 @@ namespace LayoutFarm.Dev
             {
                 pauseRecord = false;
                 vwport.IdebugOutputWin.dbug_VisualRootDrawMsg += rootDrawMsgEventHandler;
-                this.Text = "LayoutFarm LayoutInspector 2015";
+                this.Text = "LayoutFarm LayoutInspector 2016";
             }
         }
 #endif

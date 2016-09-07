@@ -1,4 +1,4 @@
-﻿// 2015,2014 ,MIT, WinterDev 
+﻿//MIT, 2014-2016, WinterDev 
 //----------------------------------------------------------------------------
 // Anti-Grain Geometry - Version 2.4
 // Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
@@ -22,9 +22,6 @@
 //
 //----------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using PixelFarm.VectorMath;
 namespace PixelFarm.Agg.VertexSource
 {
     //------------------------------------------------------------rounded_rect

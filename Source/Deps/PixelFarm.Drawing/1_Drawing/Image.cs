@@ -1,5 +1,6 @@
-﻿// 2015,2014, MIT, WinterDev
+﻿//MIT, 2014-2016, WinterDev
 
+using System;
 namespace PixelFarm.Drawing
 {
     public abstract class Image : System.IDisposable
@@ -21,11 +22,22 @@ namespace PixelFarm.Drawing
         int width;
         int height;
         System.IDisposable innerImage;
+        IntPtr naitveHImage;
         public Bitmap(int w, int h, System.IDisposable innerImage)
         {
             this.width = w;
             this.height = h;
             this.innerImage = innerImage;
+        }
+
+        public Bitmap(string filename)
+        {
+            //load bmp from filename
+            var img = new Imaging.NativeImage(filename);
+            this.width = img.Width;
+            this.height = img.Height;
+            this.innerImage = img;
+            naitveHImage = img.GetNativeImageHandle();
         }
         public override int Width
         {
@@ -54,6 +66,11 @@ namespace PixelFarm.Drawing
         public override int ReferenceY
         {
             get { return 0; }
+        }
+
+        public IntPtr GetNativeHImage()
+        {
+            return naitveHImage;
         }
     }
 

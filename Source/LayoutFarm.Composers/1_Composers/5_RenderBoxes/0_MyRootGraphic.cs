@@ -1,4 +1,4 @@
-﻿// 2015,2014 ,Apache2, WinterDev
+﻿//Apache2, 2014-2016, WinterDev
 
 using System;
 using System.Collections.Generic;
@@ -93,7 +93,7 @@ namespace LayoutFarm.UI
         {
             get { return graphicsPlatform; }
         }
-        public override FontInfo DefaultTextEditFontInfo
+        public override PixelFarm.Drawing.Fonts.FontInfo DefaultTextEditFontInfo
         {
             get
             {

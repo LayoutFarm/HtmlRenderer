@@ -1,4 +1,4 @@
-//2014,2015 BSD,WinterDev   
+//BSD, 2014-2016, WinterDev
 //----------------------------------------------------------------------------
 // Anti-Grain Geometry - Version 2.4
 // Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
@@ -48,7 +48,7 @@ namespace PixelFarm.Agg.Image
             }
         }
 
-        public override void GenerateColors(ColorRGBA[] outputColors, int startIndex, int x, int y, int len)
+        public override void GenerateColors(Drawing.Color[] outputColors, int startIndex, int x, int y, int len)
         {
             ISpanInterpolator spanInterpolator = Interpolator;
             spanInterpolator.Begin(x + dx, y + dy, len);
@@ -65,7 +65,7 @@ namespace PixelFarm.Agg.Image
                 {
                     do
                     {
-                        outputColors[startIndex++] = *(ColorRGBA*)&(pSource[bufferIndex]);
+                        outputColors[startIndex++] = *(Drawing.Color*)&(pSource[bufferIndex]);
                         bufferIndex += 4;
                     } while (--len != 0);
                 }
@@ -81,10 +81,10 @@ namespace PixelFarm.Agg.Image
         const int BASE_SCALE = (int)(1 << BASE_SHIFT);
         const int BASE_MASK = BASE_SCALE - 1;
         ImageReaderWriterBase srcRW;
-        ColorRGBA m_bgcolor;
+        Drawing.Color m_bgcolor;
         int bytesBetweenPixelInclusive;
         public ImgSpanGenRGBA_BilinearClip(IImageReaderWriter src,
-            ColorRGBA back_color,
+            Drawing.Color back_color,
             ISpanInterpolator inter)
             : base(inter)
         {
@@ -92,13 +92,13 @@ namespace PixelFarm.Agg.Image
             srcRW = (ImageReaderWriterBase)src;
             bytesBetweenPixelInclusive = srcRW.BytesBetweenPixelsInclusive;
         }
-        public ColorRGBA BackgroundColor
+        public Drawing.Color BackgroundColor
         {
             get { return this.m_bgcolor; }
             set { this.m_bgcolor = value; }
         }
 
-        public override void GenerateColors(ColorRGBA[] outputColors, int startIndex, int x, int y, int len)
+        public override void GenerateColors(Drawing.Color[] outputColors, int startIndex, int x, int y, int len)
         {
             ISpanInterpolator spanInterpolator = base.Interpolator;
             int bufferIndex;

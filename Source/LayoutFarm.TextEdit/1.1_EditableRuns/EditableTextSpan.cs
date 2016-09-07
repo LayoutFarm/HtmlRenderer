@@ -1,4 +1,4 @@
-﻿// 2015,2014 ,Apache2, WinterDev
+﻿//Apache2, 2014-2016, WinterDev
 
 using System;
 using System.Text;
@@ -156,12 +156,12 @@ namespace LayoutFarm.Text
         }
         Size CalculateDrawingStringSize(char[] buffer, int length)
         {
-            FontInfo FontInfo = GetFontInfo();
+            PixelFarm.Drawing.Fonts.FontInfo FontInfo = GetFontInfo();
             return new Size(
                  FontInfo.GetStringWidth(buffer, length),
                  FontInfo.FontHeight);
         }
-        protected FontInfo GetFontInfo()
+        protected PixelFarm.Drawing.Fonts.FontInfo GetFontInfo()
         {
             if (!HasStyle)
             {

@@ -1,4 +1,4 @@
-//2014,2015 BSD,WinterDev   
+//BSD, 2014-2016, WinterDev
 //----------------------------------------------------------------------------
 // Anti-Grain Geometry - Version 2.4
 // Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
@@ -31,6 +31,7 @@
 //----------------------------------------------------------------------------
 
 
+using System;
 namespace PixelFarm.Agg
 {
     //=============================================================scanline_p8
@@ -47,6 +48,7 @@ namespace PixelFarm.Agg
         public ScanlinePacked8()
         {
         }
+
         public override void ResetSpans(int min_x, int max_x)
         {
             int max_len = max_x - min_x + 3;
@@ -55,8 +57,9 @@ namespace PixelFarm.Agg
                 m_spans = new ScanlineSpan[max_len];
                 m_covers = new byte[max_len];
             }
+
             last_x = 0x7FFFFFF0;
-            m_cover_index = 0;
+            m_cover_index = 0; //make it ready for next add
             last_span_index = 0;
             m_spans[last_span_index].len = 0;
         }
@@ -65,36 +68,36 @@ namespace PixelFarm.Agg
             m_covers[m_cover_index] = (byte)cover;
             if (x == last_x + 1 && m_spans[last_span_index].len > 0)
             {
+                //append to last cell
                 m_spans[last_span_index].len++;
             }
             else
             {
+                //start new  
                 last_span_index++;
                 m_spans[last_span_index] = new ScanlineSpan((short)x, m_cover_index);
-                //m_spans[last_span_index].cover_index = m_cover_index;
-                //m_spans[last_span_index].x = (short)x;
-                //m_spans[last_span_index].len = 1;
             }
             last_x = x;
-            m_cover_index++;
+            m_cover_index++; //make it ready for next add
         }
-
         public override void AddSpan(int x, int len, int cover)
         {
+            int backupCover = cover;
             if (x == last_x + 1
                 && m_spans[last_span_index].len < 0
                 && cover == m_spans[last_span_index].cover_index)
             {
+                //just append data to latest span ***
                 m_spans[last_span_index].len -= (short)len;
             }
             else
             {
                 m_covers[m_cover_index] = (byte)cover;
                 last_span_index++;
-                m_spans[last_span_index] = new ScanlineSpan((short)x, (short)(-len), m_cover_index++);
-                //m_spans[last_span_index].cover_index = m_cover_index++;
-                //m_spans[last_span_index].x = (short)x;
-                //m_spans[last_span_index].len = (short)(-len);
+                //---------------------------------------------------
+                //start new  
+                m_spans[last_span_index] = new ScanlineSpan((short)x, (short)(-len), m_cover_index);
+                m_cover_index++; //make it ready for next add
             }
             last_x = x + len - 1;
         }
@@ -102,7 +105,7 @@ namespace PixelFarm.Agg
         {
             last_x = 0x7FFFFFF0;
             last_span_index = 0;
-            m_cover_index = 0;
+            m_cover_index = 0; //make it ready for next add
             m_spans[last_span_index].len = 0;
         }
     }

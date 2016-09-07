@@ -20,10 +20,7 @@
 #define PIXEL_FARM
 #define PIXEL_FARM_NET20
 
-using System;
-using System.Globalization;
-using System.Runtime.CompilerServices;
-using System.Text;
+
 using System.Diagnostics;
 #if SYSTEM_WINDOWS_VECTOR
 using VECTOR = System.Windows.Vector;

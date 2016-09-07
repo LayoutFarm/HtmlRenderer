@@ -155,7 +155,7 @@ namespace PixelFarm.Agg
         "M 147,338 L 142,341 L 143,345 L 141,354 L 147,343 L 147,338 L 147,338 L 147,338\n" +
         "M 157,342 L 156,349 L 150,356 L 157,353 L 163,346 L 162,342 L 157,342 L 157,342 L 157,342\n" +
         "M 99,265 L 96,284 L 92,299 L 73,339 L 73,333 L 87,300 L 99,265 L 99,265 L 99,265\n";
-        static public int LoadLionData(PathWriter path, ColorRGBA[] colors, int[] path_idx)
+        static public int LoadLionData(PathWriter path, PixelFarm.Drawing.Color[] colors, int[] path_idx)
         {
             // Parse the lion and then detect its bounding
             // box and arrange polygons orientations (make all polygons
@@ -172,7 +172,7 @@ namespace PixelFarm.Agg
                 {
                     // New color. Every new color creates new path in the path object.
                     path.CloseFigure();
-                    colors[npaths] = ColorRGBA.CreatRGB8Packed((int)newColor);
+                    colors[npaths] = PixelFarm.Drawing.Color.CreatRGB8Packed((int)newColor);
                     path_idx[npaths] = path.StartFigure();
                     npaths++;
                 }

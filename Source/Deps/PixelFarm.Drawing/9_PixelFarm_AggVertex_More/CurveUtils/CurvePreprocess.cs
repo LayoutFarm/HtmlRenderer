@@ -22,10 +22,7 @@
 #define PIXEL_FARM_NET20
 
 using System;
-using System.Globalization;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Text;
 #if SYSTEM_WINDOWS_VECTOR
 using VECTOR = System.Windows.Vector;
 using FLOAT = System.Double;

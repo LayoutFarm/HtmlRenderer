@@ -1,13 +1,16 @@
-﻿// 2015,2014 ,MIT, WinterDev   
+﻿//MIT, 2014-2016, WinterDev   
 
+using System;
+
+using PixelFarm.Drawing.Fonts;
 namespace PixelFarm.Drawing.WinGdi
 {
-    class MyFont : Font
+    class WinGdiFont : Font
     {
         System.Drawing.Font myFont;
         System.IntPtr hFont;
         FontInfo fontInfo;
-        public MyFont(System.Drawing.Font f)
+        public WinGdiFont(System.Drawing.Font f)
         {
             this.myFont = f;
             this.hFont = f.ToHfont();
@@ -29,14 +32,14 @@ namespace PixelFarm.Drawing.WinGdi
         {
             get { return this.myFont.Height; }
         }
-        public override System.IntPtr ToHfont()
+        public System.IntPtr ToHfont()
         {   /// <summary>
             /// Set a resource (e.g. a font) for the specified device context.
             /// WARNING: Calling Font.ToHfont() many times without releasing the font handle crashes the app.
             /// </summary>
             return this.hFont;
         }
-        public override float Size
+        public override float EmSize
         {
             get { return this.myFont.Size; }
         }
@@ -47,7 +50,10 @@ namespace PixelFarm.Drawing.WinGdi
                 return (FontStyle)this.myFont.Style;
             }
         }
-        public override void Dispose()
+        
+         
+
+        protected override void OnDispose()
         {
             if (myFont != null)
             {
@@ -56,9 +62,83 @@ namespace PixelFarm.Drawing.WinGdi
             }
         }
 
+        public override FontGlyph GetGlyphByIndex(uint glyphIndex)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override FontGlyph GetGlyph(char c)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void GetGlyphPos(char[] buffer, int start, int len, ProperGlyph[] properGlyphs)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override int GetAdvanceForCharacter(char c)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override int GetAdvanceForCharacter(char c, char next_c)
+        {
+            throw new NotImplementedException();
+        }
+
         public override object InnerFont
         {
             get { return this.myFont; }
         }
+
+        public override FontFace FontFace
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public override int EmSizeInPixels
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public override double AscentInPixels
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public override double DescentInPixels
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public override double XHeightInPixels
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public override double CapHeightInPixels
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+ 
     }
 }

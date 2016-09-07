@@ -1,4 +1,4 @@
-//2014,2015 BSD,WinterDev   
+//BSD, 2014-2016, WinterDev
 //----------------------------------------------------------------------------
 // Anti-Grain Geometry - Version 2.4
 // Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
@@ -22,6 +22,7 @@
 //
 //----------------------------------------------------------------------------
 
+using PixelFarm.Drawing;
 namespace PixelFarm.Agg.Image
 {
     public sealed class ClipProxyImage : ProxyImage
@@ -93,9 +94,9 @@ namespace PixelFarm.Agg.Image
             if (rc.Top > sourceRect.Top - sourceRect.Bottom) rc.Top = sourceRect.Top - sourceRect.Bottom;
             return rc;
         }
-        public void Clear(ColorRGBA color)
+        public void Clear(Color color)
         {
-            ColorRGBA c = color;
+            Color c = color;
             int w = this.Width;
             if (w != 0)
             {
@@ -114,12 +115,12 @@ namespace PixelFarm.Agg.Image
 
 
 
-        public override ColorRGBA GetPixel(int x, int y)
+        public override Color GetPixel(int x, int y)
         {
-            return InClipArea(x, y) ? base.GetPixel(x, y) : new ColorRGBA();
+            return InClipArea(x, y) ? base.GetPixel(x, y) : new Color();
         }
 
-        public override void CopyHL(int x1, int y, int x2, ColorRGBA c)
+        public override void CopyHL(int x1, int y, int x2, Color c)
         {
             if (x1 > x2) { int t = (int)x2; x2 = (int)x1; x1 = t; }
             if (y > YMax) return;
@@ -131,7 +132,7 @@ namespace PixelFarm.Agg.Image
             base.CopyHL(x1, y, (int)(x2 - x1 + 1), c);
         }
 
-        public override void CopyVL(int x, int y1, int y2, ColorRGBA c)
+        public override void CopyVL(int x, int y1, int y2, Color c)
         {
             if (y1 > y2) { int t = (int)y2; y2 = (int)y1; y1 = t; }
             if (x > XMax) return;
@@ -143,7 +144,7 @@ namespace PixelFarm.Agg.Image
             base.CopyVL(x, y1, (y2 - y1 + 1), c);
         }
 
-        public override void BlendHL(int x1, int y, int x2, ColorRGBA c, byte cover)
+        public override void BlendHL(int x1, int y, int x2, Color c, byte cover)
         {
             if (x1 > x2)
             {
@@ -166,7 +167,7 @@ namespace PixelFarm.Agg.Image
             base.BlendHL(x1, y, x2, c, cover);
         }
 
-        public override void BlendVL(int x, int y1, int y2, ColorRGBA c, byte cover)
+        public override void BlendVL(int x, int y1, int y2, Color c, byte cover)
         {
             if (y1 > y2) { int t = y2; y2 = y1; y1 = t; }
             if (x > XMax) return;
@@ -178,7 +179,7 @@ namespace PixelFarm.Agg.Image
             base.BlendVL(x, y1, y2, c, cover);
         }
 
-        public override void BlendSolidHSpan(int x, int y, int len, ColorRGBA c, byte[] covers, int coversIndex)
+        public override void BlendSolidHSpan(int x, int y, int len, Color c, byte[] covers, int coversIndex)
         {
 #if false
             FileStream file = new FileStream("pixels.txt", FileMode.Append, FileAccess.Write);
@@ -205,7 +206,7 @@ namespace PixelFarm.Agg.Image
             base.BlendSolidHSpan(x, y, len, c, covers, coversIndex);
         }
 
-        public override void BlendSolidVSpan(int x, int y, int len, ColorRGBA c, byte[] covers, int coversIndex)
+        public override void BlendSolidVSpan(int x, int y, int len, Color c, byte[] covers, int coversIndex)
         {
 #if false
             FileStream file = new FileStream("pixels.txt", FileMode.Append, FileAccess.Write);
@@ -232,7 +233,7 @@ namespace PixelFarm.Agg.Image
             base.BlendSolidVSpan(x, y, len, c, covers, coversIndex);
         }
 
-        public override void CopyColorHSpan(int x, int y, int len, ColorRGBA[] colors, int colorsIndex)
+        public override void CopyColorHSpan(int x, int y, int len, Color[] colors, int colorsIndex)
         {
             if (y > YMax) return;
             if (y < YMin) return;
@@ -252,7 +253,7 @@ namespace PixelFarm.Agg.Image
             base.CopyColorHSpan(x, y, len, colors, colorsIndex);
         }
 
-        public override void CopyColorVSpan(int x, int y, int len, ColorRGBA[] colors, int colorsIndex)
+        public override void CopyColorVSpan(int x, int y, int len, Color[] colors, int colorsIndex)
         {
             if (x > XMax) return;
             if (x < XMin) return;
@@ -272,7 +273,7 @@ namespace PixelFarm.Agg.Image
             base.CopyColorVSpan(x, y, len, colors, colorsIndex);
         }
 
-        public override void BlendColorHSpan(int x, int y, int in_len, ColorRGBA[] colors, int colorsIndex, byte[] covers, int coversIndex, bool firstCoverForAll)
+        public override void BlendColorHSpan(int x, int y, int in_len, Color[] colors, int colorsIndex, byte[] covers, int coversIndex, bool firstCoverForAll)
         {
             int len = (int)in_len;
             if (y > YMax)
@@ -297,12 +298,9 @@ namespace PixelFarm.Agg.Image
             base.BlendColorHSpan(x, y, len, colors, colorsIndex, covers, coversIndex, firstCoverForAll);
         }
 
-        //public void copy_from(IImage src)
-        //{
-        //    CopyFrom(src, new RectangleInt(0, 0, (int)src.Width, (int)src.Height), 0, 0);
-        //}
 
-        public override void SetPixel(int x, int y, ColorRGBA color)
+
+        public override void SetPixel(int x, int y, Color color)
         {
             if ((uint)x < Width && (uint)y < Height)
             {
@@ -327,7 +325,7 @@ namespace PixelFarm.Agg.Image
         }
 
 
-        public override void BlendColorVSpan(int x, int y, int len, ColorRGBA[] colors, int colorsIndex, byte[] covers, int coversIndex, bool firstCoverForAll)
+        public override void BlendColorVSpan(int x, int y, int len, Color[] colors, int colorsIndex, byte[] covers, int coversIndex, bool firstCoverForAll)
         {
             if (x > XMax) return;
             if (x < XMin) return;

@@ -1,4 +1,4 @@
-//2014,2015 BSD,WinterDev   
+//BSD, 2014-2016, WinterDev
 //----------------------------------------------------------------------------
 // Anti-Grain Geometry - Version 2.4
 // Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
@@ -28,7 +28,6 @@
 //#include "agg_basics.h"
 
 using System;
-using PixelFarm.Agg;
 using PixelFarm.VectorMath;
 namespace PixelFarm.Agg.Transform
 {
@@ -892,12 +891,9 @@ namespace PixelFarm.Agg.Transform
         {
             if (!isIdenHint)
             {
-                return is_equal_eps(sx, 1.0) &&
-                   is_equal_eps(shy, 0.0) &&
-                   is_equal_eps(shx, 0.0) &&
-                   is_equal_eps(sy, 1.0) &&
-                   is_equal_eps(tx, 0.0) &&
-                   is_equal_eps(ty, 0.0);
+                return is_equal_eps(sx, 1.0) && is_equal_eps(shy, 0.0) &&
+                   is_equal_eps(shx, 0.0) && is_equal_eps(sy, 1.0) &&
+                   is_equal_eps(tx, 0.0) && is_equal_eps(ty, 0.0);
             }
             else
             {

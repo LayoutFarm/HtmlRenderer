@@ -1,19 +1,20 @@
-//2014,2015 BSD,WinterDev   
+//BSD, 2014-2016, WinterDev
 
+using PixelFarm.Drawing;
 namespace PixelFarm.Agg
 {
     public class FloodFill
     {
         abstract class FillingRule
         {
-            protected ColorRGBA startColor;
-            protected ColorRGBA fillColor;
-            protected FillingRule(ColorRGBA fillColor)
+            protected Color startColor;
+            protected Color fillColor;
+            protected FillingRule(Color fillColor)
             {
                 this.fillColor = fillColor;
             }
 
-            public void SetStartColor(ColorRGBA startColor)
+            public void SetStartColor(Color startColor)
             {
                 this.startColor = startColor;
             }
@@ -30,7 +31,7 @@ namespace PixelFarm.Agg
 
         class ExactMatch : FillingRule
         {
-            public ExactMatch(ColorRGBA fillColor)
+            public ExactMatch(Color fillColor)
                 : base(fillColor)
             {
             }
@@ -46,7 +47,7 @@ namespace PixelFarm.Agg
         class ToleranceMatch : FillingRule
         {
             int tolerance0To255;
-            public ToleranceMatch(ColorRGBA fillColor, int tolerance0To255)
+            public ToleranceMatch(Color fillColor, int tolerance0To255)
                 : base(fillColor)
             {
                 this.tolerance0To255 = tolerance0To255;
@@ -79,12 +80,12 @@ namespace PixelFarm.Agg
         protected bool[] pixelsChecked;
         FillingRule fillRule;
         Queue<Range> ranges = new Queue<Range>(9);
-        public FloodFill(ColorRGBA fillColor)
+        public FloodFill(Color fillColor)
         {
             fillRule = new ExactMatch(fillColor);
         }
 
-        public FloodFill(ColorRGBA fillColor, int tolerance0To255)
+        public FloodFill(Color fillColor, int tolerance0To255)
         {
             if (tolerance0To255 > 0)
             {
@@ -116,7 +117,7 @@ namespace PixelFarm.Agg
             int imageHeight = destImage.Height;
             pixelsChecked = new bool[destImage.Width * destImage.Height];
             int startColorBufferOffset = destImage.GetBufferOffsetXY(x, y);
-            fillRule.SetStartColor(new ColorRGBA(destImage.GetBuffer()[startColorBufferOffset + 2], destImage.GetBuffer()[startColorBufferOffset + 1], destImage.GetBuffer()[startColorBufferOffset]));
+            fillRule.SetStartColor(Drawing.Color.FromArgb(destImage.GetBuffer()[startColorBufferOffset + 2], destImage.GetBuffer()[startColorBufferOffset + 1], destImage.GetBuffer()[startColorBufferOffset]));
             LinearFill(x, y);
             while (ranges.Count > 0)
             {

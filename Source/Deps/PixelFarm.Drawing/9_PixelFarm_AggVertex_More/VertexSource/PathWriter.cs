@@ -1,4 +1,4 @@
-//2014,2015 BSD,WinterDev   
+//BSD, 2014-2016, WinterDev
 //----------------------------------------------------------------------------
 // Anti-Grain Geometry - Version 2.4
 // Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
@@ -18,8 +18,6 @@
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
 using PixelFarm.VectorMath;
 namespace PixelFarm.Agg.VertexSource
 {
@@ -70,7 +68,6 @@ namespace PixelFarm.Agg.VertexSource
         Vector2 c4p3;
         SvgPathCommand latestSVGPathCmd;
         int figureCount = 0;
-        List<int> figureList;
         VertexStore myvxs = new VertexStore();
         public PathWriter()
         {
@@ -310,7 +307,7 @@ namespace PixelFarm.Agg.VertexSource
                                bool large_arc_flag,
                                bool sweep_flag,
                                double x, double y)
-    {
+        {
         if(m_vertices.total_vertices() && is_vertex(m_vertices.last_command()))
         {
             double epsilon = 1e-30;

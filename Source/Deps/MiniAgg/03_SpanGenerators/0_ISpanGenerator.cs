@@ -1,4 +1,4 @@
-﻿//2014,2015 BSD,WinterDev   
+﻿//BSD, 2014-2016, WinterDev
 
 //MatterHackers
 //----------------------------------------------------------------------------
@@ -25,7 +25,7 @@ namespace PixelFarm.Agg
     public interface ISpanGenerator
     {
         void Prepare();
-        void GenerateColors(ColorRGBA[] outputColors,
+        void GenerateColors(PixelFarm.Drawing.Color[] outputColors,
             int startIndex,
             int x, int y, int len);
     }

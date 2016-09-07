@@ -1,4 +1,4 @@
-//2014,2015 BSD,WinterDev   
+//BSD, 2014-2016, WinterDev
 //----------------------------------------------------------------------------
 // Anti-Grain Geometry - Version 2.4
 // Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
@@ -30,6 +30,7 @@
 //----------------------------------------------------------------------------
 
 using System;
+using PixelFarm.Drawing;
 namespace PixelFarm.Agg.Image
 {
     //==============================================================stack_blur
@@ -399,7 +400,7 @@ namespace PixelFarm.Agg.Image
                 {
                     int dest = srcBuffer[i];
                     img.SetPixel(x, y,
-                       new ColorRGBA(
+                         Color.FromArgb(
                            (byte)((dest >> 16) & 0xff),
                            (byte)((dest >> 8) & 0xff),
                            (byte)((dest) & 0xff)));
@@ -416,10 +417,10 @@ namespace PixelFarm.Agg.Image
     {
         public double r, g, b, a;
         public abstract RecursizeBlurCalculator CreateNew();
-        public abstract void FromPix(ColorRGBA c);
+        public abstract void FromPix(Color c);
         public abstract void Calc(double b1, double b2, double b3, double b4,
             RecursizeBlurCalculator c1, RecursizeBlurCalculator c2, RecursizeBlurCalculator c3, RecursizeBlurCalculator c4);
-        public abstract void ToPix(ref ColorRGBA c);
+        public abstract void ToPix(ref Color c);
     }
 
     //===========================================================recursive_blur
@@ -427,13 +428,13 @@ namespace PixelFarm.Agg.Image
     {
         ArrayList<RecursizeBlurCalculator> m_sum1;
         ArrayList<RecursizeBlurCalculator> m_sum2;
-        ArrayList<ColorRGBA> m_buf;
+        ArrayList<Color> m_buf;
         RecursizeBlurCalculator m_RecursizeBlurCalculatorFactory;
         public RecursiveBlur(RecursizeBlurCalculator recursizeBluerCalculatorFactory)
         {
             m_sum1 = new ArrayList<RecursizeBlurCalculator>();
             m_sum2 = new ArrayList<RecursizeBlurCalculator>();
-            m_buf = new ArrayList<ColorRGBA>();
+            m_buf = new ArrayList<Color>();
             m_RecursizeBlurCalculatorFactory = recursizeBluerCalculatorFactory;
         }
         public void BlurX(IImageReaderWriter img, double radius)
@@ -470,7 +471,7 @@ namespace PixelFarm.Agg.Image
             m_buf.Allocate(w);
             RecursizeBlurCalculator[] Sum1Array = m_sum1.Array;
             RecursizeBlurCalculator[] Sum2Array = m_sum2.Array;
-            ColorRGBA[] BufferArray = m_buf.Array;
+            Color[] BufferArray = m_buf.Array;
             for (int i = startCreatingAt; i < w; i++)
             {
                 Sum1Array[i] = m_RecursizeBlurCalculatorFactory.CreateNew();
@@ -529,7 +530,7 @@ namespace PixelFarm.Agg.Image
             return new RecursiveBlurCalcRGB();
         }
 
-        public override void FromPix(ColorRGBA c)
+        public override void FromPix(Color c)
         {
             r = c.red;
             g = c.green;
@@ -544,7 +545,7 @@ namespace PixelFarm.Agg.Image
             b = b1 * c1.b + b2 * c2.b + b3 * c3.b + b4 * c4.b;
         }
 
-        public override void ToPix(ref ColorRGBA c)
+        public override void ToPix(ref Color c)
         {
             c.red = (byte)AggBasics.uround(r);
             c.green = (byte)AggBasics.uround(g);
@@ -560,7 +561,7 @@ namespace PixelFarm.Agg.Image
             return new RecursiveBlueCalcRGBA();
         }
 
-        public override void FromPix(ColorRGBA c)
+        public override void FromPix(Color c)
         {
             r = c.red;
             g = c.green;
@@ -577,7 +578,7 @@ namespace PixelFarm.Agg.Image
             a = b1 * c1.a + b2 * c2.a + b3 * c3.a + b4 * c4.a;
         }
 
-        public override void ToPix(ref ColorRGBA c)
+        public override void ToPix(ref Color c)
         {
             c.red = (byte)AggBasics.uround(r);
             c.green = (byte)AggBasics.uround(g);
@@ -594,7 +595,7 @@ namespace PixelFarm.Agg.Image
             return new RecursiveBlurCalcGray();
         }
 
-        public override void FromPix(ColorRGBA c)
+        public override void FromPix(Color c)
         {
             r = c.red;
         }
@@ -605,7 +606,7 @@ namespace PixelFarm.Agg.Image
             r = b1 * c1.r + b2 * c2.r + b3 * c3.r + b4 * c4.r;
         }
 
-        public override void ToPix(ref ColorRGBA c)
+        public override void ToPix(ref Color c)
         {
             c.red = (byte)AggBasics.uround(r);
         }

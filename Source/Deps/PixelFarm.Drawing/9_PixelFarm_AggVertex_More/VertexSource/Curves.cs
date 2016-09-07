@@ -1,4 +1,4 @@
-//2014,2015 BSD,WinterDev   
+//BSD, 2014-2016, WinterDev
 //----------------------------------------------------------------------------
 // Anti-Grain Geometry - Version 2.4
 // Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
@@ -18,7 +18,6 @@
 using System;
 using System.Collections.Generic;
 using PixelFarm.VectorMath;
-using FlagsAndCommand = PixelFarm.Agg.VertexCmd;
 namespace PixelFarm.Agg.VertexSource
 {
     public static class Curves
@@ -301,23 +300,6 @@ namespace PixelFarm.Agg.VertexSource
                 }
             }
         }
-        //public IEnumerable<VertexData> GetVertexIter()
-        //{
-        //    int j = m_points.Count;
-        //    if (j > 0)
-        //    {
-        //        //first cmd 
-        //        //cmd0
-        //        yield return new VertexData(NxCmdAndFlags.MoveTo, m_points[0]);
-        //        //others
-        //        for (int i = 1; i < j; i++)
-        //        {
-        //            yield return new VertexData(NxCmdAndFlags.LineTo, m_points[i]);
-
-        //        }
-        //    }
-        //    yield return new VertexData(NxCmdAndFlags.Empty);
-        //}
 
         void AddBezier(double x1, double y1,
                     double x2, double y2,
@@ -702,40 +684,20 @@ namespace PixelFarm.Agg.VertexSource
         public IEnumerable<VertexData> GetVertexIter()
         {
             VertexData vertexData = new VertexData();
-            vertexData.command = FlagsAndCommand.MoveTo;
+            vertexData.command = VertexCmd.MoveTo;
             vertexData.position = m_points[0];
             yield return vertexData;
-            vertexData.command = FlagsAndCommand.LineTo;
+            vertexData.command = VertexCmd.LineTo;
             for (int i = 1; i < m_points.Count; i++)
             {
                 vertexData.position = m_points[i];
                 yield return vertexData;
             }
 
-            vertexData.command = FlagsAndCommand.Stop;
+            vertexData.command = VertexCmd.Stop;
             vertexData.position = new Vector2();
             yield return vertexData;
         }
-
-        //public void RewindZero()
-        //{
-        //    m_count = 0;
-        //}
-
-        //public ShapePath.FlagsAndCommand vertex(out double x, out double y)
-        //{
-        //    if (m_count >= m_points.Count)
-        //    {
-        //        x = 0;
-        //        y = 0;
-        //        return ShapePath.FlagsAndCommand.CommandStop;
-        //    }
-        //    Vector2 p = m_points[m_count++];
-        //    x = p.x;
-        //    y = p.y;
-        //    return (m_count == 1) ? ShapePath.FlagsAndCommand.CommandMoveTo : ShapePath.FlagsAndCommand.CommandLineTo;
-        //}
-
         void AddBezier(double x1, double y1,
                   double x2, double y2,
                   double x3, double y3,

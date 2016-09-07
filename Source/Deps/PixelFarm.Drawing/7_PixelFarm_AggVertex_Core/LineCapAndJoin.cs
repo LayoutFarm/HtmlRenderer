@@ -1,4 +1,4 @@
-﻿//2014,2015 BSD,WinterDev   
+﻿//BSD, 2014-2016, WinterDev
 //----------------------------------------------------------------------------
 // Anti-Grain Geometry - Version 2.4
 // Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
@@ -22,8 +22,6 @@
 //
 //----------------------------------------------------------------------------
 
-using System;
-using PixelFarm.VectorMath;
 namespace PixelFarm.Agg
 {
     public enum LineCap

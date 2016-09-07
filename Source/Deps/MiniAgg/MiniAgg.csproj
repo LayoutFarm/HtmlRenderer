@@ -39,14 +39,14 @@
   <ItemGroup>
     <Compile Include="00_Context\ImageGraphics2D_RenderImages.cs" />
     <Compile Include="01_Base\AggMemMx.cs" />
-    <Compile Include="02_PixelBuffer\ActualImage.cs" />
     <Compile Include="02_PixelBuffer\ChildImage.cs" />
     <Compile Include="02_PixelBuffer\ColorOrder.cs" />
+    <Compile Include="02_PixelBuffer\ColorRGBAf.cs" />
     <Compile Include="02_PixelBuffer\PixelBlenderGray.cs" />
     <Compile Include="02_PixelBuffer\ImageHelper.cs" />
-    <Compile Include="02_PixelBuffer\PixelFormat.cs" />
     <Compile Include="03_SpanGenerators\1_ImgSpanGen.cs" />
     <Compile Include="03_SpanGenerators\ISpanInterpolator.cs" />
+    <Compile Include="07_ISpanInterpolator\LineInterpolators.cs" />
     <Compile Include="07_ISpanInterpolator\SpanInterpolatorLinear.cs" />
     <Compile Include="07_ISpanInterpolator\SpanInterpolatorPerspectiveLerp.cs" />
     <Compile Include="07_Lines\2.2_LineInterpolators.cs" />
@@ -66,7 +66,6 @@
     <Compile Include="07_Lines\1.2_PatternFilter.cs" />
     <Compile Include="07_Lines\1.3_LineParameters.cs" />
     <Compile Include="04_Scanline\6_ClipLiangBarsky.cs" />
-    <Compile Include="01_Base\ColorRGBA.cs" />
     <Compile Include="03_SpanGenerators\IGammaFunction.cs" />
     <Compile Include="07_Lines\1.1_LinesAA.cs" />
     <Compile Include="04_Scanline\4.2_CellAARasterizer.cs" />

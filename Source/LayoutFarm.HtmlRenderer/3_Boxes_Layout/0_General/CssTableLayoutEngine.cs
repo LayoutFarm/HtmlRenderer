@@ -1,4 +1,4 @@
-// 2015,2014 ,BSD, WinterDev
+//BSD, 2014-2016, WinterDev
 //ArthurHub  , Jose Manuel Menendez Poo
 
 // "Therefore those skilled at the unorthodox
@@ -97,7 +97,7 @@ namespace LayoutFarm.HtmlBoxes
             //recursive
             if (box != null)
             {
-                float box_fontsize = box.ActualFont.Size;
+                float box_fontsize = box.ActualFont.EmSizeInPixels;
                 var ifonts = lay.SampleIFonts;
                 foreach (var childBox in box.GetChildBoxIter())
                 {

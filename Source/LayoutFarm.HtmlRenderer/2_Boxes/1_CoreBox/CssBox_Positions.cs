@@ -1,8 +1,9 @@
-﻿// 2015,2014 ,BSD, WinterDev
+﻿//BSD, 2014-2016, WinterDev
 //ArthurHub  , Jose Manuel Menendez Poo
 
 using System;
 using PixelFarm.Drawing;
+using PixelFarm.Drawing.Fonts;
 using LayoutFarm.Css;
 namespace LayoutFarm.HtmlBoxes
 {
@@ -171,7 +172,7 @@ namespace LayoutFarm.HtmlBoxes
             //1. fonts 
             if (this.ParentBox != null)
             {
-                ReEvaluateFont(iFonts, this.ParentBox.ActualFont.Size);
+                ReEvaluateFont(iFonts, this.ParentBox.ActualFont.EmSizeInPixels);
                 //2. actual word spacing
                 //this._actualWordSpacing = this.NoEms(this.InitSpec.LineHeight);
                 //3. font size 
@@ -179,7 +180,7 @@ namespace LayoutFarm.HtmlBoxes
             }
             else
             {
-                ReEvaluateFont(iFonts, containingBlock.ActualFont.Size);
+                ReEvaluateFont(iFonts, containingBlock.ActualFont.EmSizeInPixels);
                 //this._actualFont = this.Spec.GetFont(containingBlock.Spec);
             }
 

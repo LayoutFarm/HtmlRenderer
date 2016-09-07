@@ -3,7 +3,7 @@
 //MattersHackers
 //AGG 2.4
 
-
+using PixelFarm.Drawing;
 using PixelFarm.Agg.VertexSource;
 using PixelFarm.VectorMath;
 namespace PixelFarm.Agg
@@ -11,7 +11,7 @@ namespace PixelFarm.Agg
     public class SpriteShape
     {
         PathWriter path = new PathWriter();
-        ColorRGBA[] colors = new ColorRGBA[100];
+        Color[] colors = new Color[100];
         int[] pathIndexList = new int[100];
         int numPaths = 0;
         RectD boundingRect;
@@ -44,7 +44,7 @@ namespace PixelFarm.Agg
             }
         }
 
-        public ColorRGBA[] Colors
+        public Color[] Colors
         {
             get
             {
@@ -78,7 +78,7 @@ namespace PixelFarm.Agg
         public static void UnsafeDirectSetData(SpriteShape lion,
             int numPaths,
             PathWriter pathStore,
-            ColorRGBA[] colors,
+            Color[] colors,
             int[] pathIndice)
         {
             lion.path = pathStore;

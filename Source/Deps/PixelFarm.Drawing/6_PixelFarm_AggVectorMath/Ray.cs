@@ -37,8 +37,6 @@ either expressed or implied, of the FreeBSD Project.
 */
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 namespace PixelFarm.VectorMath
 {
     [Flags]

@@ -1,6 +1,6 @@
-﻿//2014,2015 BSD, WinterDev
+﻿//BSD, 2014-2016, WinterDev
 
-
+using PixelFarm.Drawing.Fonts;
 namespace PixelFarm.Drawing.WinGdi
 {
     class WinGdiPlatform : GraphicsPlatform
@@ -28,7 +28,7 @@ namespace PixelFarm.Drawing.WinGdi
 
         public override GraphicsPath CreateGraphicsPath()
         {
-            return new MyGraphicsPath();
+            return new WinGdiGraphicsPath();
         }
         public override FontInfo GetFont(string fontfaceName, float emsize, FontStyle fontStyle)
         {
@@ -60,7 +60,7 @@ namespace PixelFarm.Drawing.WinGdi
                         sampleBmp = new System.Drawing.Bitmap(2, 2);
                     }
 
-                    System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(sampleBmp);
+                    //System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(sampleBmp);
                     sampleIFonts = new MyScreenCanvas(this, 0, 0, 0, 0, 2, 2);
                 }
                 return this.sampleIFonts;
