@@ -10,10 +10,16 @@ namespace PixelFarm.Drawing.WinGdi
         System.Drawing.Font myFont;
         System.IntPtr hFont;
         FontInfo fontInfo;
+        const int POINTS_PER_INCH = 72;
+        const int PIXEL_PER_INCH = 96;
+        int emSizeInPixels;
         public WinGdiFont(System.Drawing.Font f)
         {
             this.myFont = f;
             this.hFont = f.ToHfont();
+
+            emSizeInPixels = (int)(((float)f.SizeInPoints / (float)POINTS_PER_INCH) * (float)PIXEL_PER_INCH);
+
         }
         public override FontInfo FontInfo
         {
@@ -33,7 +39,8 @@ namespace PixelFarm.Drawing.WinGdi
             get { return this.myFont.Height; }
         }
         public System.IntPtr ToHfont()
-        {   /// <summary>
+        {
+            /// <summary>
             /// Set a resource (e.g. a font) for the specified device context.
             /// WARNING: Calling Font.ToHfont() many times without releasing the font handle crashes the app.
             /// </summary>
@@ -50,9 +57,6 @@ namespace PixelFarm.Drawing.WinGdi
                 return (FontStyle)this.myFont.Style;
             }
         }
-        
-         
-
         protected override void OnDispose()
         {
             if (myFont != null)
@@ -104,7 +108,7 @@ namespace PixelFarm.Drawing.WinGdi
         {
             get
             {
-                throw new NotImplementedException();
+                return emSizeInPixels;
             }
         }
 
@@ -139,6 +143,6 @@ namespace PixelFarm.Drawing.WinGdi
                 throw new NotImplementedException();
             }
         }
- 
+
     }
 }

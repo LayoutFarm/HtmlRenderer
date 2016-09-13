@@ -23,10 +23,7 @@ namespace PixelFarm.Drawing.Fonts
             this.emSizeInPoints = emSizeInPoints;
             //--------------------------------------
             emSizeInPixels = (int)(((float)emSizeInPoints / (float)POINTS_PER_INCH) * (float)PIXEL_PER_INCH);
-            //currentEmScalling = (float)emSizeInPixels / (float)fontface.UnitsPerEm;
-
-            //-----------------
-            //implementation
+           
             gdiFont = new System.Drawing.Font(fontface.FaceName, emSizeInPoints);
         }
         public override int GetAdvanceForCharacter(char c)
@@ -59,7 +56,7 @@ namespace PixelFarm.Drawing.Fonts
         }
         public override int EmSizeInPixels
         {
-            get { throw new NotImplementedException(); }
+            get { return emSizeInPixels; }
         }
         public override FontGlyph GetGlyph(char c)
         {
