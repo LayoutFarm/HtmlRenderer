@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace LayoutFarm.Demo {
+namespace HtmlRenderer.Demo {
     using System;
     
     
