@@ -58,7 +58,11 @@ namespace LayoutFarm.HtmlBoxes
 #if DEBUG
         public void dbugPaint(PaintVisitor p, RectangleF r)
         {
-            //return; 
+            if (!PaintVisitor.dbugDrawWireFrame)
+            {
+                return;
+            }
+            //
             var htmlE = CssBox.UnsafeGetController(this);
             if (htmlE == null)
             {
