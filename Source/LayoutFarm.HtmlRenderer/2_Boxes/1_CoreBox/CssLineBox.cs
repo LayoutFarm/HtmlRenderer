@@ -529,12 +529,13 @@ namespace LayoutFarm.HtmlBoxes
                 innerCanvas.CurrentTextColor = enterColor;
             }
         }
-
 #if DEBUG
-
         internal void dbugPaintRuns(PaintVisitor p)
         {
-            //return;
+            if (!PaintVisitor.dbugDrawWireFrame)
+            {
+                return;
+            }
             //linebox  
             float x1 = 0;
             float y1 = 0;

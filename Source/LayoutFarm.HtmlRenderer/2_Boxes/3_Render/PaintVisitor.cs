@@ -230,8 +230,17 @@ namespace LayoutFarm.HtmlBoxes
 
         //-------------------------------------
 #if DEBUG
+        /// <summary>
+        /// turn on/off wire frame
+        /// </summary>
+        public static bool dbugDrawWireFrame = false;
         public void dbugDrawDiagonalBox(Color color, float x1, float y1, float x2, float y2)
         {
+            if (!dbugDrawWireFrame)
+            {
+                return;
+            }
+            //--
             var g = this.canvas;
             var prevColor = g.StrokeColor;
             g.StrokeColor = color;
@@ -242,6 +251,10 @@ namespace LayoutFarm.HtmlBoxes
         }
         public void dbugDrawDiagonalBox(Color color, RectangleF rect)
         {
+            if (!dbugDrawWireFrame)
+            {
+                return;
+            }
             var g = this.canvas;
             this.dbugDrawDiagonalBox(color, rect.Left, rect.Top, rect.Right, rect.Bottom);
         }
