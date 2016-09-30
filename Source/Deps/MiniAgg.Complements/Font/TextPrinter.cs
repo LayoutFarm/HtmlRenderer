@@ -21,6 +21,7 @@ namespace PixelFarm.Drawing.Fonts
     public class TextPrinter
     {
         Drawing.Font currentFont;
+        NativeFontStore fontStore = new NativeFontStore();
         public TextPrinter()
         {
         }
@@ -37,7 +38,8 @@ namespace PixelFarm.Drawing.Fonts
             //get kerning list 
 
             ProperGlyph[] properGlyphs = new ProperGlyph[buffsize];
-            currentFont.GetGlyphPos(buffer, 0, buffsize, properGlyphs);
+            ActualFont implFont = fontStore.GetResolvedNativeFont(currentFont);
+            implFont.GetGlyphPos(buffer, 0, buffsize, properGlyphs);
             //-----------------------------------------------------------
             VertexStore resultVxs = new VertexStore();
             double xpos = x;
@@ -49,8 +51,8 @@ namespace PixelFarm.Drawing.Fonts
                     break;
                 }
                 //-------------------------------------------------------------
-                FontGlyph glyph = this.currentFont.GetGlyphByIndex(codepoint);
-                var left = glyph.glyphMatrix.img_horiBearingX;
+                FontGlyph glyph = implFont.GetGlyphByIndex(codepoint);
+                //var left = glyph.glyphMatrix.img_horiBearingX;
                 //-------------------------------------------------------- 
                 VertexStore vxs1 = Agg.Transform.Affine.TranslateToVxs(
                     glyph.flattenVxs,
@@ -75,7 +77,8 @@ namespace PixelFarm.Drawing.Fonts
             //get kerning list 
 
             ProperGlyph[] properGlyphs = new ProperGlyph[buffsize];
-            currentFont.GetGlyphPos(buffer, 0, buffsize, properGlyphs);
+            ActualFont implFont = fontStore.GetResolvedNativeFont(currentFont);
+            implFont.GetGlyphPos(buffer, 0, buffsize, properGlyphs);
             double xpos = x;
             for (int i = 0; i < buffsize; ++i)
             {
@@ -85,8 +88,8 @@ namespace PixelFarm.Drawing.Fonts
                     break;
                 }
                 //-------------------------------------------------------------
-                FontGlyph glyph = this.currentFont.GetGlyphByIndex(codepoint);
-                var left = glyph.glyphMatrix.img_horiBearingX;
+                FontGlyph glyph = implFont.GetGlyphByIndex(codepoint);
+                //var left = glyph.glyphMatrix.img_horiBearingX;
                 //--------------------------------------------------------
                 //render with vector
                 //var mat = Agg.Transform.Affine.NewMatix(

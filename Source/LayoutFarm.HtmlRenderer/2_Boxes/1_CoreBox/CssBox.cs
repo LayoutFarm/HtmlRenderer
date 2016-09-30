@@ -468,7 +468,6 @@ namespace LayoutFarm.HtmlBoxes
             {
                 return;
             }
-
             //-------------------------------- 
             if (this.BackgroundImageBinder != null)
             {
@@ -478,15 +477,13 @@ namespace LayoutFarm.HtmlBoxes
                     lay.RequestImage(this.BackgroundImageBinder, this);
                 }
             }
-
             //-------------------------------- 
             if (this.RunCount > 0)
             {
                 //find word spacing  
                 float actualWordspacing = this._actualWordSpacing;
-                Font actualFont = this.ActualFont;
-                var fontInfo = actualFont.FontInfo;
-                float fontHeight = fontInfo.LineHeight;
+                Font actualFont = this.ResolvedFont;
+                float fontHeight = actualFont.Height;
                 var tmpRuns = this.Runs;
                 for (int i = tmpRuns.Count - 1; i >= 0; --i)
                 {

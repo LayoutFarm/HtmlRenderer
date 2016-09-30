@@ -51,6 +51,10 @@
     <Compile Include="MiniAgg.Complements\2_SpanGenerators\SpanGenGouraudRGBA.cs" />
     <Compile Include="MiniAgg.Complements\2_SpanGenerators\SpanGradient.cs" />
     <Compile Include="MiniAgg.Complements\2_SpanGenerators\SpanGradient_GradientValueCalculators.cs" />
+    <Compile Include="MiniAgg.Complements\4_Animation\ColorComponentStepup.cs" />
+    <Compile Include="MiniAgg.Complements\4_Animation\GfxProcessorModule.cs" />
+    <Compile Include="MiniAgg.Complements\4_Animation\ParallelTimeline.cs" />
+    <Compile Include="MiniAgg.Complements\4_Animation\Timelines.cs" />
     <Compile Include="MiniAgg.Complements\Filter\ImageFilters.cs" />
     <Compile Include="MiniAgg.Complements\Filter\PatternFilterBilnearColorRGBA.cs" />
     <Compile Include="MiniAgg.Complements\Filter\RecursiveBlur.cs" />
@@ -70,8 +74,6 @@
     <Compile Include="MiniAgg.Complements\x_notused\KDTree.cs" />
     <Compile Include="MiniAgg.Complements\x_notused\SpanSubDivAdapter.cs" />
     <Compile Include="MiniAgg.Complements\x_notused\x_ImageTgaIO.cs" />
-    <Compile Include="MiniAgg.HardwareGraphics\PixelFarm.Drawing.Hw\FontAtlas\SimpleFontAtlas.cs" />
-    <Compile Include="MiniAgg.HardwareGraphics\PixelFarm.Drawing.Hw\FontAtlas\TextureFont.cs" />
     <Compile Include="MiniAgg.HardwareGraphics\PixelFarm.Drawing.Hw\GLCanvas\CanvasGL2d.cs" />
     <Compile Include="MiniAgg.HardwareGraphics\PixelFarm.Drawing.Hw\GLCanvas\CanvasSmoothMode.cs" />
     <Compile Include="MiniAgg.HardwareGraphics\PixelFarm.Drawing.Hw\GLCanvas\CanvasToShaderSharedResource.cs" />
@@ -374,6 +376,7 @@
     <Compile Include="PixelFarm.Drawing.Platforms\PixelFarm.Drawing.Gdi\Implementation\WinGdiGraphicsPath.cs" />
     <Compile Include="PixelFarm.Drawing.Platforms\PixelFarm.Drawing.Gdi\MiniAggGraphics\BufferBitmapStore.cs" />
     <Compile Include="PixelFarm.Drawing.Platforms\PixelFarm.Drawing.Gdi\MiniAggGraphics\GdiPlusCanvasPainter.cs" />
+    <Compile Include="PixelFarm.Drawing.Platforms\PixelFarm.Drawing.Gdi\MiniAggGraphics\GdiPlusFontSystem.cs" />
     <Compile Include="PixelFarm.Drawing.Platforms\PixelFarm.Drawing.Gdi\MiniAggGraphics\GdiPlusRenderVx.cs" />
     <Compile Include="PixelFarm.Drawing.Platforms\PixelFarm.Drawing.Gdi\MiniAggGraphics\VxsHelper.cs" />
     <Compile Include="PixelFarm.Drawing.Platforms\PixelFarm.Drawing.Gdi\MyScreenCanvas\0_CanvasCollection.cs" />
@@ -410,13 +413,12 @@
     <Compile Include="PixelFarm.Drawing\1_Drawing\RenderVx.cs" />
     <Compile Include="PixelFarm.Drawing\3_Drawing_Fonts\FontFace.cs" />
     <Compile Include="PixelFarm.Drawing\3_Drawing_Fonts\FontGlyph.cs" />
+    <Compile Include="PixelFarm.Drawing\3_Drawing_Fonts\FontImpl.cs" />
     <Compile Include="PixelFarm.Drawing\3_Drawing_Fonts\Fonts.cs" />
+    <Compile Include="PixelFarm.Drawing\3_Drawing_Fonts\FontSet.cs" />
     <Compile Include="PixelFarm.Drawing\3_Drawing_Fonts\FontStyle.cs" />
-    <Compile Include="PixelFarm.Drawing\4_BasicRenderBox\4_Animation\ColorComponentStepup.cs" />
-    <Compile Include="PixelFarm.Drawing\4_BasicRenderBox\4_Animation\GfxProcessorModule.cs" />
-    <Compile Include="PixelFarm.Drawing\4_BasicRenderBox\4_Animation\ParallelTimeline.cs" />
-    <Compile Include="PixelFarm.Drawing\4_BasicRenderBox\4_Animation\Timelines.cs" />
-    <Compile Include="PixelFarm.Drawing\4_BasicRenderBox\IRenderElement.cs" />
+    <Compile Include="PixelFarm.Drawing\3_Drawing_Fonts\SimpleFontAtlas.cs" />
+    <Compile Include="PixelFarm.Drawing\3_Drawing_Fonts\TextureFont.cs" />
     <Compile Include="PixelFarm.Drawing\4_NativeMethods\Fonts\NativeBridgeFreeType.cs" />
     <Compile Include="PixelFarm.Drawing\4_NativeMethods\Fonts\NativeBridgeHB.cs" />
     <Compile Include="PixelFarm.Drawing\4_NativeMethods\Fonts\NativeFont.cs" />
@@ -484,6 +486,7 @@
     <Compile Include="PixelFarm.Drawing\9_PixelFarm_AggVertex_More\VertexSource\SimpleRect.cs" />
     <Compile Include="PixelFarm.Drawing\9_PixelFarm_AggVertex_More\VertexSource\VertexData.cs" />
     <Compile Include="PixelFarm.Drawing\9_PixelFarm_AggVertex_More\VertexSource\VertexStoreBuilder.cs" />
+    <Compile Include="PixelFarm.Drawing\BasicRenderBox\IRenderElement.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

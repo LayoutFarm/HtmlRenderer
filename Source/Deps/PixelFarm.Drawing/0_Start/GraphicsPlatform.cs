@@ -5,7 +5,8 @@ namespace PixelFarm.Drawing
 {
     public abstract class GraphicsPlatform
     {
-        public abstract FontInfo GetFont(string fontfaceName, float emsize, FontStyle st);
+        public abstract Font GetFont(string fontfaceName, float emsize, FontStyle st);
+        public abstract ActualFont GetActualFont(Font f);
         public abstract GraphicsPath CreateGraphicsPath();
         public abstract Canvas CreateCanvas(
             int left,
@@ -20,7 +21,7 @@ namespace PixelFarm.Drawing
             int height
          );
         public abstract IFonts SampleIFonts { get; }
-        public FontInfo TextEditFontInfo { get; set; }
+        public Font TextEditFontInfo { get; set; }
         public static string GenericSerifFontName
         {
             get;

@@ -41,6 +41,32 @@ namespace Win32
         public byte bmiColors_rgbReserved;
     }
 
+
+    /* Bitmap Header Definition */
+    [StructLayout(LayoutKind.Sequential)]
+    unsafe struct BITMAP
+    {
+        public int bmType;
+        public int bmWidth;
+        public int bmHeight;
+        public int bmWidthBytes;
+        public short bmPlanes;
+        public short bmBitsPixel;
+        public void* bmBits;
+    }
+    [StructLayout(LayoutKind.Sequential)]
+    struct RGBQUAD
+    {
+        public int bmType;
+        public int bmWidth;
+        public int bmHeight;
+        public int bmWidthBytes;
+        public short bmPlanes;
+        public short bmBitsPixel;
+        public IntPtr bmBits;
+    }
+
+
     static class MyWin32
     {
         [DllImport("kernel32.dll", ExactSpelling = true)]
@@ -87,6 +113,15 @@ namespace Win32
         public static extern int ReleaseDC(IntPtr hWnd, IntPtr hDc);
         [DllImport("gdi32.dll")]
         public static extern IntPtr CreateCompatibleDC(IntPtr hdc);
+        [DllImport("gdi32.dll")]
+        public static extern unsafe int GetObject(
+            IntPtr hgdiobj,
+            int cbBuffer,
+            void* lpvObject
+        );
+        [DllImport("gdi32.dll", SetLastError = true)]
+        internal static extern IntPtr GetStockObject(int index);
+
         [DllImport("gdi32.dll")]
         public static extern IntPtr CreateRectRgn(int left, int top, int right, int bottom);
         [DllImport("gdi32.dll")]
@@ -170,6 +205,27 @@ namespace Win32
         public static extern IntPtr CreateSolidBrush(int crColor);
         [DllImport("gdi32.dll")]
         public extern static int SetTextColor(IntPtr hdc, int newcolorRef);
+
+        [DllImport("gdi32.dll")]
+        public extern static IntPtr CreateFontIndirect(ref LOGFONT logFont);
+
+        public static unsafe void SetFontName(ref LOGFONT logFont, string fontName)
+        {
+            //font name not longer than 32 chars
+            char[] fontNameChars = fontName.ToCharArray();
+            int j = Math.Min(fontNameChars.Length, 31);
+            fixed (char* c = logFont.lfFaceName)
+            {
+                char* c1 = c;
+                for (int i = 0; i < j; ++i)
+                {
+                    *c1 = fontNameChars[i];
+                    c1++;
+                }
+            }
+
+        }
+
         public const int TA_LEFT = 0;
         public const int TA_RIGHT = 2;
         public const int TA_CENTER = 6;
@@ -288,6 +344,25 @@ namespace Win32
             public float abcfC;
         }
 
+
+        [StructLayout(LayoutKind.Sequential)]
+        public unsafe struct LOGFONT
+        {
+            public int lfHeight;
+            public int lfWidth;
+            public int lfEscapement;
+            public int lfOrientation;
+            public int lfWeight;
+            public byte lfItalic;
+            public byte lfUnderline;
+            public byte lfStrikeOut;
+            public byte lfCharSet;
+            public byte lfOutPrecision;
+            public byte lfClipPrecision;
+            public byte lfQuality;
+            public byte lfPitchAndFamily;
+            public fixed char lfFaceName[32];//[LF_FACESIZE = 32];
+        }
 
 
         /*       BOOL GetCharABCWidths(

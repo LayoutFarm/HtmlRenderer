@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E1E89B3B-B529-4B17-B7ED-4C70CC8475EB}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PixelFarm.Drawing.NativePlatform</RootNamespace>
+    <AssemblyName>PixelFarm.Drawing.NativePlatform</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="PixelFarm.Drawing.GLES2\0_Start\FontSystem.cs" />
+    <Compile Include="PixelFarm.Drawing.GLES2\0_Start\GLES2Platform.cs" />
+    <Compile Include="PixelFarm.Drawing.GLES2\Canvas\1_MyGLCanvas_Specific.cs" />
+    <Compile Include="PixelFarm.Drawing.GLES2\Canvas\2_MyGLCanvas_CoordinateAndClip.cs" />
+    <Compile Include="PixelFarm.Drawing.GLES2\Canvas\3_MyGLCanvas_DrawGraphics.cs" />
+    <Compile Include="PixelFarm.Drawing.GLES2\Canvas\4_MyGLCanvas_TextAndFonts.cs" />
+    <Compile Include="PixelFarm.Drawing.GLES2\Implementation\GLCanvasPainter.cs" />
+    <Compile Include="PixelFarm.Drawing.GLES2\Implementation\GLESBitmap.cs" />
+    <Compile Include="PixelFarm.Drawing.GLES2\Implementation\GraphicsPath.cs" />
+    <Compile Include="PixelFarm.Drawing.GLES2\Implementation\PensAndBrushes.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MiniAgg.Complements\MiniAgg.Complements.csproj">
+      <Project>{ae0df71e-9b14-4197-b55a-e1e0ce0683c7}</Project>
+      <Name>MiniAgg.Complements</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MiniAgg.HardwareGraphics\PixelFarm.Drawing.Hw\PixelFarm.Drawing.Hw.csproj">
+      <Project>{e0bc92c3-6936-4d8f-ae7f-54dde27de370}</Project>
+      <Name>PixelFarm.Drawing.Hw</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MiniAgg.HardwareGraphics\PixelFarm.MiniPlatforms\PixelFarm.MiniPlatforms.csproj">
+      <Project>{198d20b3-0dbd-4c8c-8f0d-0d0fd9c61d43}</Project>
+      <Name>PixelFarm.MiniPlatforms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MiniAgg\MiniAgg.csproj">
+      <Project>{4d5ce655-58fa-4523-8e46-738b941e9e47}</Project>
+      <Name>MiniAgg</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MiniTesselate\Tesselate.csproj">
+      <Project>{ae37de1f-22f7-49ee-8732-fc6bc8dc58d9}</Project>
+      <Name>Tesselate</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PixelFarm.Drawing\PixelFarm.Drawing.csproj">
+      <Project>{51d63482-5697-4b16-8401-506965624657}</Project>
+      <Name>PixelFarm.Drawing</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

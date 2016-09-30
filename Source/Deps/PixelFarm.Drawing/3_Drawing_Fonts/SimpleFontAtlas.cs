@@ -3,45 +3,75 @@
 
 using System;
 using System.Collections.Generic;
-using System.Xml;
+using System.Xml; 
+
 namespace PixelFarm.Drawing.Fonts
 {
     public class SimpleFontAtlas
     {
         GlyphImage totalGlyphImage;
-        Dictionary<char, Rectangle> charLocations = new Dictionary<char, Rectangle>();
+        Dictionary<int, TextureFontGlyphData> charLocations = new Dictionary<int, TextureFontGlyphData>();
 
         public int Width { get; set; }
         public int Height { get; set; }
-        public void AddGlyph(char c, Rectangle rect)
+
+        public void AddGlyph(int c, TextureFontGlyphData glyphData)
         {
-            charLocations.Add(c, rect);
+            charLocations.Add(c, glyphData);
         }
         public GlyphImage TotalGlyph
         {
             get { return totalGlyphImage; }
             set { totalGlyphImage = value; }
-
         }
-        public bool GetRect(char c, out Rectangle rect)
+        public bool GetRect(int c, out TextureFontGlyphData glyphdata)
         {
-            if (!charLocations.TryGetValue(c, out rect))
+            if (!charLocations.TryGetValue(c, out glyphdata))
             {
-                rect = Rectangle.Empty;
+                glyphdata = null;
                 return false;
             }
             return true;
         }
 
     }
+
+    public class TextureFontGlyphData
+    {
+        public float BorderX { get; set; }
+        public float BorderY { get; set; }
+        public float AdvanceX { get; set; }
+        public float AdvanceY { get; set; }
+        public float BBoxXMin { get; set; }
+        public float BBoxXMax { get; set; }
+        public float BBoxYMin { get; set; }
+        public float BBoxYMax { get; set; }
+        public float ImgWidth { get; set; }
+        public float ImgHeight { get; set; }
+        //-----
+        public float HAdvance { get; set; }
+        public float HBearingX { get; set; }
+        public float HBearingY { get; set; }
+        //-----
+        public float VAdvance { get; set; }
+        public float VBearingX { get; set; }
+        public float VBearingY { get; set; }
+
+
+        public Rectangle Rect
+        {
+            get;
+            set;
+        }
+
+    }
     public class SimpleFontAtlasBuilder
     {
-        Dictionary<char, GlyphData> glyphs = new Dictionary<char, GlyphData>();
+        Dictionary<int, GlyphData> glyphs = new Dictionary<int, GlyphData>();
         GlyphImage latestGenGlyphImage;
-        public void AddGlyph(char c, FontGlyph fontGlyph, GlyphImage glyphImage)
+        public void AddGlyph(int codePoint, char c, FontGlyph fontGlyph, GlyphImage glyphImage)
         {
-            var glyphData = new GlyphData(c, fontGlyph, glyphImage);
-            glyphs[c] = glyphData;
+            glyphs[codePoint] = new GlyphData(codePoint, c, fontGlyph, glyphImage);
         }
 
         public GlyphImage GetLatestGenGlyphImage()
@@ -144,7 +174,6 @@ namespace PixelFarm.Drawing.Fonts
             }
 
             {
-
                 //total img element
                 XmlElement totalImgElem = xmldoc.CreateElement("total_img");
                 totalImgElem.SetAttribute("w", latestGenGlyphImage.Width.ToString());
@@ -157,15 +186,28 @@ namespace PixelFarm.Drawing.Fonts
             {
                 XmlElement gElem = xmldoc.CreateElement("glyph");
                 //convert char to hex
-                string unicode = ("0x" + ((int)g.character).ToString("X")); //accept unicode char
+                string unicode = ("0x" + ((int)g.character).ToString("X"));//code point
                 Rectangle area = g.pxArea;
+                gElem.SetAttribute("c", g.codePoint.ToString());
                 gElem.SetAttribute("uc", unicode);//unicode char
                 gElem.SetAttribute("ltwh",
                     area.Left + " " + area.Top + " " + area.Width + " " + area.Height
                     );
-                gElem.SetAttribute("offset",
-                    g.glyphImage.OffsetX + " " + g.glyphImage.OffsetY
+                gElem.SetAttribute("borderXY",
+                    g.glyphImage.BorderXY + " " + g.glyphImage.BorderXY
                     );
+                var mat = g.fontGlyph.glyphMatrix;
+                gElem.SetAttribute("mat",
+                    mat.advanceX + " " + mat.advanceY + " " +
+                    mat.bboxXmin + " " + mat.bboxXmax + " " +
+                    mat.bboxYmin + " " + mat.bboxYmax + " " +
+                    mat.img_width + " " + mat.img_height + " " +
+                    mat.img_horiAdvance + " " + mat.img_horiBearingX + " " +
+                    mat.img_horiBearingY + " " +
+                    //-----------------------------
+                    mat.img_vertAdvance + " " +
+                    mat.img_vertBearingX + " " + mat.img_vertBearingY);
+
                 if (g.character > 50)
                 {
                     gElem.SetAttribute("example", g.character.ToString());
@@ -231,14 +273,48 @@ namespace PixelFarm.Drawing.Fonts
             {
                 //read
                 string unicodeHex = glyphElem.GetAttribute("uc");
+                int codepoint = int.Parse(glyphElem.GetAttribute("c"));
                 char c = (char)int.Parse(unicodeHex.Substring(2), System.Globalization.NumberStyles.HexNumber);
                 Rectangle area = ParseRect(glyphElem.GetAttribute("ltwh"));
+                var glyphData = new TextureFontGlyphData();
+                area.Y += area.Height;//*** 
+                glyphData.Rect = area;
+                float[] borderXY = ParseFloatArray(glyphElem.GetAttribute("borderXY"));
+                float[] matrix = ParseFloatArray(glyphElem.GetAttribute("mat"));
 
-                area.Y += area.Height;//***
+                glyphData.BorderX = borderXY[0];
+                glyphData.BorderY = borderXY[1];
 
-                simpleFontAtlas.AddGlyph(c, area);
+                glyphData.AdvanceX = matrix[0];
+                glyphData.AdvanceY = matrix[1];
+                glyphData.BBoxXMin = matrix[2];
+                glyphData.BBoxXMax = matrix[3];
+                glyphData.BBoxYMin = matrix[4];
+                glyphData.BBoxYMax = matrix[5];
+                glyphData.ImgWidth = matrix[6];
+                glyphData.ImgHeight = matrix[7];
+                glyphData.HAdvance = matrix[8];
+                glyphData.HBearingX = matrix[9];
+                glyphData.HBearingY = matrix[10];
+                glyphData.VAdvance = matrix[11];
+                glyphData.VBearingX = matrix[12];
+                glyphData.VBearingY = matrix[13];
+                //--------------- 
+                simpleFontAtlas.AddGlyph(codepoint, glyphData);
             }
             return simpleFontAtlas;
+        }
+
+        static float[] ParseFloatArray(string str)
+        {
+            string[] str_values = str.Split(' ');
+            int j = str_values.Length;
+            float[] f_values = new float[j];
+            for (int i = 0; i < j; ++i)
+            {
+                f_values[i] = float.Parse(str_values[i]);
+            }
+            return f_values;
         }
         static Rectangle ParseRect(string str)
         {
@@ -248,17 +324,20 @@ namespace PixelFarm.Drawing.Fonts
                 int.Parse(ltwh[1]),
                 int.Parse(ltwh[2]),
                 int.Parse(ltwh[3]));
-
         }
     }
+
+
     class GlyphData
     {
         public FontGlyph fontGlyph;
         public GlyphImage glyphImage;
         public Rectangle pxArea;
         public char character;
-        public GlyphData(char c, FontGlyph fontGlyph, GlyphImage glyphImage)
+        public int codePoint;
+        public GlyphData(int codePoint, char c, FontGlyph fontGlyph, GlyphImage glyphImage)
         {
+            this.codePoint = codePoint;
             this.character = c;
             this.fontGlyph = fontGlyph;
             this.glyphImage = glyphImage;

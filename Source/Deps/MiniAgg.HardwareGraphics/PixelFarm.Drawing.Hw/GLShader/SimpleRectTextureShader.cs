@@ -66,9 +66,103 @@ namespace PixelFarm.DrawingGL
             s_texture.SetValue(0);
             OnSetVarsBeforeRenderer();
             GL.DrawElements(BeginMode.TriangleStrip, 4, DrawElementsType.UnsignedShort, indices);
+        }
+        public void RenderSubImage(GLBitmap bmp, float srcLeft, float srcTop, float srcW, float srcH, float targetLeft, float targetTop, float scale)
+        {
+            SetCurrent();
+            CheckViewMatrix();
+            //-------------------------------------------------------------------------------------
+            // Bind the texture...
+            GL.ActiveTexture(TextureUnit.Texture0);
+            GL.BindTexture(TextureTarget.Texture2D, bmp.GetServerTextureId());
+            // Set the texture sampler to texture unit to 0     
+            s_texture.SetValue(0);
+            OnSetVarsBeforeRenderer();
 
+            float srcBottom = srcTop - srcH;
+            float srcRight = srcLeft + srcW;
+            float orgBmpW = bmp.Width;
+            float orgBmpH = bmp.Height;
+            unsafe
+            {
+                float* imgVertices = stackalloc float[5 * 4];
+                {
+                    imgVertices[0] = targetLeft; imgVertices[1] = targetTop; imgVertices[2] = 0; //coord 0
+                    imgVertices[3] = srcLeft / orgBmpW; imgVertices[4] = srcBottom / orgBmpH; //texture coord 0 
 
+                    //---------------------
+                    imgVertices[5] = targetLeft; imgVertices[6] = targetTop - (srcH * scale); imgVertices[7] = 0; //coord 1
+                    imgVertices[8] = srcLeft / orgBmpW; imgVertices[9] = srcTop / orgBmpH; //texture coord 1 
 
+                    //---------------------
+                    imgVertices[10] = targetLeft + (srcW * scale); imgVertices[11] = targetTop; imgVertices[12] = 0; //coord 2
+                    imgVertices[13] = srcRight / orgBmpW; imgVertices[14] = srcBottom / orgBmpH; //texture coord 2 
+
+                    //---------------------
+                    imgVertices[15] = targetLeft + (srcW * scale); imgVertices[16] = targetTop - (srcH * scale); imgVertices[17] = 0; //coord 3
+                    imgVertices[18] = srcRight / orgBmpW; imgVertices[19] = srcTop / orgBmpH; //texture coord 3 
+                };
+                a_position.UnsafeLoadMixedV3f(imgVertices, 5);
+                a_texCoord.UnsafeLoadMixedV2f(imgVertices + 3, 5);
+            }
+
+          
+            GL.DrawElements(BeginMode.TriangleStrip, 4, DrawElementsType.UnsignedShort, indices);
+        }
+        public void RenderSubImage(GLBitmap bmp, float[] srcDestList, float scale)
+        {
+            SetCurrent();
+            CheckViewMatrix();
+            //-------------------------------------------------------------------------------------
+            // Bind the texture...
+            GL.ActiveTexture(TextureUnit.Texture0);
+            GL.BindTexture(TextureTarget.Texture2D, bmp.GetServerTextureId());
+            // Set the texture sampler to texture unit to 0     
+            s_texture.SetValue(0);
+            OnSetVarsBeforeRenderer();
+
+            int j = srcDestList.Length;
+            for (int i = 0; i < j;)
+            {
+
+                float srcLeft = srcDestList[i];
+                float srcTop = srcDestList[i + 1];
+                float srcW = srcDestList[i + 2];
+                float srcH = srcDestList[i + 3];
+                float targetLeft = srcDestList[i + 4];
+                float targetTop = srcDestList[i + 5];
+
+                i += 6;
+                //-------------------------------
+                float srcBottom = srcTop - srcH;
+                float srcRight = srcLeft + srcW;
+                float orgBmpW = bmp.Width;
+                float orgBmpH = bmp.Height;
+                unsafe
+                {
+                    float* imgVertices = stackalloc float[5 * 4];
+                    {
+                        imgVertices[0] = targetLeft; imgVertices[1] = targetTop; imgVertices[2] = 0; //coord 0
+                        imgVertices[3] = srcLeft / orgBmpW; imgVertices[4] = srcBottom / orgBmpH; //texture coord 0 
+
+                        //---------------------
+                        imgVertices[5] = targetLeft; imgVertices[6] = targetTop - (srcH * scale); imgVertices[7] = 0; //coord 1
+                        imgVertices[8] = srcLeft / orgBmpW; imgVertices[9] = srcTop / orgBmpH; //texture coord 1 
+
+                        //---------------------
+                        imgVertices[10] = targetLeft + (srcW * scale); imgVertices[11] = targetTop; imgVertices[12] = 0; //coord 2
+                        imgVertices[13] = srcRight / orgBmpW; imgVertices[14] = srcBottom / orgBmpH; //texture coord 2 
+
+                        //---------------------
+                        imgVertices[15] = targetLeft + (srcW * scale); imgVertices[16] = targetTop - (srcH * scale); imgVertices[17] = 0; //coord 3
+                        imgVertices[18] = srcRight / orgBmpW; imgVertices[19] = srcTop / orgBmpH; //texture coord 3 
+                    };
+                    a_position.UnsafeLoadMixedV3f(imgVertices, 5);
+                    a_texCoord.UnsafeLoadMixedV2f(imgVertices + 3, 5);
+                }
+                GL.DrawElements(BeginMode.TriangleStrip, 4, DrawElementsType.UnsignedShort, indices);
+            } 
+         
         }
         public void Render(GLBitmap bmp, float left, float top, float w, float h)
         {

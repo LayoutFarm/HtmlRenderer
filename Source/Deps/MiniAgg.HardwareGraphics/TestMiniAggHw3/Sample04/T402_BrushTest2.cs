@@ -18,12 +18,13 @@ namespace OpenTkEssTest
         RenderVx glyph_vx;
         LinearGradientBrush linearGrBrush2;
         PixelFarm.Agg.VertexStoreSnap tempSnap1;
+        PixelFarm.Drawing.Fonts.SvgFontStore svgFontStore = new PixelFarm.Drawing.Fonts.SvgFontStore();
         protected override void OnInitGLProgram(object sender, EventArgs args)
         {
             int max = Math.Max(this.Width, this.Height);
             canvas2d = new CanvasGL2d(max, max);
             painter = new GLCanvasPainter(canvas2d, max, max);
-            var svgFont = PixelFarm.Drawing.Fonts.SvgFontStore.LoadFont("svg-LiberationSansFont", 300);
+            var svgFont = svgFontStore.LoadFont("svg-LiberationSansFont", 300);
             //PathWriter p01 = new PathWriter();
             //p01.MoveTo(0, 0);
             //p01.LineTo(50, 100);
@@ -36,7 +37,7 @@ namespace OpenTkEssTest
             //p01.Stop();
             //m_pathVxs = p01.Vxs;
 
-            var m_pathVxs = svgFont.GetGlyph('K').originalVxs;// typeFaceForLargeA.GetGlyphForCharacter('a');
+            var m_pathVxs = svgFontStore.GetResolvedFont(svgFont).GetGlyph('K').originalVxs;// typeFaceForLargeA.GetGlyphForCharacter('a');
             //m_pathVxs = MergeFontSubFigures(m_pathVxs);
 
             Affine shape_mtx = Affine.NewMatix(AffinePlan.Translate(150, 100));

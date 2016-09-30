@@ -22,7 +22,7 @@ namespace LayoutFarm
 
         public IFonts SampleIFonts { get { return this.P.SampleIFonts; } }
 
-        public abstract FontInfo DefaultTextEditFontInfo
+        public abstract Font DefaultTextEditFontInfo
         {
             get;
         }

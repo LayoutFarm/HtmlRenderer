@@ -45,6 +45,10 @@
     <Compile Include="PixelFarm.Drawing.Gdi\0_Start\Conv.cs" />
     <Compile Include="PixelFarm.Drawing.Gdi\0_Start\WinGdiPlatform.cs" />
     <Compile Include="PixelFarm.Drawing.Gdi\0_Start\WinGdiPortal.cs" />
+    <Compile Include="PixelFarm.Drawing.Gdi\Implementation.Win32\MyWin32.cs" />
+    <Compile Include="PixelFarm.Drawing.Gdi\Implementation.Win32\NativeTextWin32.cs" />
+    <Compile Include="PixelFarm.Drawing.Gdi\Implementation.Win32\Win32Utils.cs" />
+    <Compile Include="PixelFarm.Drawing.Gdi\Implementation.Win32\WindowsFormsBitmapBackBuffer.cs" />
     <Compile Include="PixelFarm.Drawing.Gdi\Implementation\BitmapHelper.cs" />
     <Compile Include="PixelFarm.Drawing.Gdi\FontGdiPath\GdiPathConverter.cs" />
     <Compile Include="PixelFarm.Drawing.Gdi\FontGdiPath\GdiPathFont.cs" />
@@ -54,12 +58,10 @@
     <Compile Include="PixelFarm.Drawing.Gdi\Implementation\FontStore.cs" />
     <Compile Include="PixelFarm.Drawing.Gdi\Implementation\WinGdiFontInfo.cs" />
     <Compile Include="PixelFarm.Drawing.Gdi\Implementation\WinGdiGraphicsPath.cs" />
-    <Compile Include="PixelFarm.Drawing.Gdi\Implementation.Win32\MyWin32.cs" />
-    <Compile Include="PixelFarm.Drawing.Gdi\Implementation.Win32\NativeTextWin32.cs" />
     <Compile Include="PixelFarm.Drawing.Gdi\Implementation\Region.cs" />
-    <Compile Include="PixelFarm.Drawing.Gdi\Implementation.Win32\Win32Utils.cs" />
     <Compile Include="PixelFarm.Drawing.Gdi\MiniAggGraphics\BufferBitmapStore.cs" />
     <Compile Include="PixelFarm.Drawing.Gdi\MiniAggGraphics\GdiPlusCanvasPainter.cs" />
+    <Compile Include="PixelFarm.Drawing.Gdi\MiniAggGraphics\GdiPlusFontSystem.cs" />
     <Compile Include="PixelFarm.Drawing.Gdi\MiniAggGraphics\GdiPlusRenderVx.cs" />
     <Compile Include="PixelFarm.Drawing.Gdi\MiniAggGraphics\VxsHelper.cs" />
     <Compile Include="PixelFarm.Drawing.Gdi\MyScreenCanvas\0_CanvasCollection.cs" />
@@ -72,7 +74,6 @@
     <Compile Include="PixelFarm.Drawing.Gdi\Canvas\2_MyGdiPlusCanvas_CoordinateAndClip.cs" />
     <Compile Include="PixelFarm.Drawing.Gdi\Canvas\3_MyGdiPlusCanvas_DrawGraphics.cs" />
     <Compile Include="PixelFarm.Drawing.Gdi\Canvas\4_MyGdiPlusCanvas_TextAndFonts.cs" />
-    <Compile Include="PixelFarm.Drawing.Gdi\Implementation.Win32\WindowsFormsBitmapBackBuffer.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\0_Start\GLES2Platform.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\Canvas\1_MyGLCanvas_Specific.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\Canvas\2_MyGLCanvas_CoordinateAndClip.cs" />

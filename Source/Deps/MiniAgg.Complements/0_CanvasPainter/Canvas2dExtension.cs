@@ -36,6 +36,8 @@ namespace PixelFarm.Agg
         static RoundedRect roundRect = new RoundedRect();
         static SimpleRect simpleRect = new SimpleRect();
         static Ellipse ellipse = new Ellipse();
+
+        static SvgFontStore svgFontStore = new SvgFontStore();
         public static void DrawString(this Graphics2D gx,
             string text,
             double x,
@@ -48,7 +50,7 @@ namespace PixelFarm.Agg
             Color backgroundColor = new Color())
         {
             ////use svg font 
-            var svgFont = SvgFontStore.LoadFont(SvgFontStore.DEFAULT_SVG_FONTNAME, (int)pointSize);
+            var svgFont = svgFontStore.LoadFont(SvgFontStore.DEFAULT_SVG_FONTNAME, (int)pointSize);
             stringPrinter.CurrentFont = svgFont;
             stringPrinter.DrawFromHintedCache = false;
             stringPrinter.LoadText(text);

@@ -5,7 +5,10 @@ using System;
 using System.Collections.Generic;
 namespace PixelFarm.Drawing.Fonts
 {
-    class NativeFont : Font
+    /// <summary>
+    /// cross platform font
+    /// </summary>
+    public class NativeFont : ActualFont
     {
         NativeFontFace ownerFace;
         int fontSizeInPixelUnit;
@@ -107,15 +110,6 @@ namespace PixelFarm.Drawing.Fonts
             throw new NotImplementedException();
         }
 
-
-        public override FontInfo FontInfo
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
         public override string Name
         {
             get
@@ -148,11 +142,32 @@ namespace PixelFarm.Drawing.Fonts
             }
         }
 
-        public override object InnerFont
+
+        //---------------------------------------------------------------------------
+        public static GlyphImage BuildMsdfFontImage(FontGlyph fontGlyph)
         {
-            get
+            return NativeFontGlyphBuilder.BuildMsdfFontImage(fontGlyph);
+        }
+       
+        public static void SwapColorComponentFromBigEndianToWinGdi(int[] bitbuffer)
+        {
+            unsafe
             {
-                throw new NotImplementedException();
+                int j = bitbuffer.Length;
+                fixed (int* p0 = &(bitbuffer[j - 1]))
+                {
+                    int* p = p0;
+                    for (int i = j - 1; i >= 0; --i)
+                    {
+                        int color = *p;
+                        int a = color >> 24;
+                        int b = (color >> 16) & 0xff;
+                        int g = (color >> 8) & 0xff;
+                        int r = color & 0xff;
+                        *p = (a << 24) | (r << 16) | (g << 8) | b;
+                        p--;
+                    }
+                }
             }
         }
     }

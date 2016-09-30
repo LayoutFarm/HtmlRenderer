@@ -8,10 +8,10 @@
 using System.Collections.Generic;
 namespace PixelFarm.Drawing.Fonts
 {
-    public static class SvgFontStore
+    public class SvgFontStore
     {
         public const string DEFAULT_SVG_FONTNAME = "svg-LiberationSansFont";
-        static Dictionary<string, SvgFontFace> fontFaces = new Dictionary<string, SvgFontFace>();
+        Dictionary<string, SvgFontFace> fontFaces = new Dictionary<string, SvgFontFace>();
         internal static void SetShapingEngine(SvgFontFace fontFace, string lang, HBDirection hb_direction, int hb_scriptcode)
         {
             ////string lang = "en";
@@ -29,24 +29,24 @@ namespace PixelFarm.Drawing.Fonts
             //    ref exportTypeInfo);
             //fontFace.HBFont = exportTypeInfo.hb_font;
         }
-
-        public static Drawing.Font LoadFont(string filename, int fontPointSize)
+        Dictionary<Font, SvgFont> registerSvgFonts = new Dictionary<Font, SvgFont>();
+        public Drawing.Font LoadFont(string facename, int fontPointSize)
         {
             //load font from specific file 
             SvgFontFace fontFace;
-            if (!fontFaces.TryGetValue(filename, out fontFace))
+            if (!fontFaces.TryGetValue(facename, out fontFace))
             {
                 //temp ....
                 //all svg font remap to DEFAULT_SVG_FONTNAME
                 //TODO: add more svg font
-                if (filename != DEFAULT_SVG_FONTNAME)
+                if (facename != DEFAULT_SVG_FONTNAME)
                 {
-                    filename = DEFAULT_SVG_FONTNAME;
+                    facename = DEFAULT_SVG_FONTNAME;
                 }
                 //----------------------------------------
-                if (filename == DEFAULT_SVG_FONTNAME)
+                if (facename == DEFAULT_SVG_FONTNAME)
                 {
-                    fontFaces.Add(filename, fontFace = SvgFontFace_LiberationSans.Instance);
+                    fontFaces.Add(facename, fontFace = SvgFontFace_LiberationSans.Instance);
                 }
                 else
                 {
@@ -54,16 +54,23 @@ namespace PixelFarm.Drawing.Fonts
 
                 }
             }
+
             if (fontFace == null)
             {
                 return null;
             }
 
-
-
-            return fontFace.GetFontAtSpecificSize(fontPointSize);
+            Font font = new Font(facename, fontPointSize);
+            SvgFont svgFont = fontFace.GetFontAtSpecificSize(fontPointSize);
+            registerSvgFonts.Add(font, svgFont);
+            return font;
         }
-
+        public OutlineFont GetResolvedFont(Font f)
+        {
+            SvgFont found;
+            registerSvgFonts.TryGetValue(f, out found);
+            return found;
+        }
 
         //---------------------------------------------------
         //helper function

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using OpenTK.Graphics.ES20;
 using Tesselate;
+
 namespace PixelFarm.DrawingGL
 {
     public class CanvasGL2d
@@ -31,6 +32,9 @@ namespace PixelFarm.DrawingGL
         MyMat4 orthoView;
         TessTool tessTool;
         FrameBuffer _currentFrameBuffer;//default = null, system provide frame buffer
+
+        PixelFarm.Drawing.Fonts.TextureFontStore textureFonts;
+
         public CanvasGL2d(int canvasW, int canvasH)
         {
             this.canvasW = canvasW;
@@ -51,8 +55,8 @@ namespace PixelFarm.DrawingGL
             blurShader = new BlurShader(shaderRes);
             glesTextureShader = new OpenGLESTextureShader(shaderRes);
             invertAlphaFragmentShader = new InvertAlphaLineSmoothShader(shaderRes); //used with stencil  ***
-                                                                                    // tessListener.Connect(tess,          
-                                                                                    //Tesselate.Tesselator.WindingRuleType.Odd, true);
+            // tessListener.Connect(tess,          
+            //Tesselate.Tesselator.WindingRuleType.Odd, true);
             conv3x3TextureShader = new Conv3x3TextureShader(shaderRes);
             msdfShader = new DrawingGL.MultiChannelSdf(shaderRes);
 
@@ -78,10 +82,16 @@ namespace PixelFarm.DrawingGL
             GL.Viewport(0, 0, canvasW, canvasH);
         }
 
+
         public void Dispose()
         {
         }
 
+        public PixelFarm.Drawing.Fonts.TextureFontStore TextureFontStore
+        {
+            get { return textureFonts; }
+            set { textureFonts = value; }
+        }
         public CanvasSmoothMode SmoothMode
         {
             get;
@@ -212,6 +222,28 @@ namespace PixelFarm.DrawingGL
             else
             {
                 msdfShader.RenderSubImage(bmp, r.Left, r.Top, r.Width, r.Height, targetLeft, targetTop);
+            }
+        }
+        public void DrawSubImageWithMsdf(GLBitmap bmp, ref PixelFarm.Drawing.Rectangle r, float targetLeft, float targetTop, float scale)
+        {
+            if (bmp.IsBigEndianPixel)
+            {
+                msdfShader.RenderSubImage(bmp, r.Left, r.Top, r.Width, r.Height, targetLeft, targetTop, scale);
+            }
+            else
+            {
+                msdfShader.RenderSubImage(bmp, r.Left, r.Top, r.Width, r.Height, targetLeft, targetTop, scale);
+            }
+        }
+        public void DrawSubImageWithMsdf(GLBitmap bmp, float[] coords, float scale)
+        {
+            if (bmp.IsBigEndianPixel)
+            {
+                msdfShader.RenderSubImage(bmp, coords, scale);
+            }
+            else
+            {
+                msdfShader.RenderSubImage(bmp, coords, scale);
             }
         }
         public void DrawImage(GLBitmap bmp,
@@ -390,7 +422,7 @@ namespace PixelFarm.DrawingGL
                         {
                             Figure fig = figures[b];
                             GL.ClearStencil(0); //set value for clearing stencil buffer 
-                                                //actual clear here
+                            //actual clear here
                             GL.Clear(ClearBufferMask.StencilBufferBit);
                             //-------------------
                             //disable rendering to color buffer

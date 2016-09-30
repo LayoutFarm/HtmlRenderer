@@ -151,7 +151,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Deps\PixelFarm.Drawing\PixelFarm.Drawing.csproj">
-      <Project>{51D63482-5697-4B16-8401-506965624657}</Project>
+      <Project>{51d63482-5697-4b16-8401-506965624657}</Project>
       <Name>PixelFarm.Drawing</Name>
     </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.CssBase\LayoutFarm.CssBase.csproj">

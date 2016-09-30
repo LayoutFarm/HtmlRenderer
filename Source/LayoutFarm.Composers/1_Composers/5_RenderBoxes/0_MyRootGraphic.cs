@@ -93,7 +93,7 @@ namespace LayoutFarm.UI
         {
             get { return graphicsPlatform; }
         }
-        public override PixelFarm.Drawing.Fonts.FontInfo DefaultTextEditFontInfo
+        public override Font DefaultTextEditFontInfo
         {
             get
             {

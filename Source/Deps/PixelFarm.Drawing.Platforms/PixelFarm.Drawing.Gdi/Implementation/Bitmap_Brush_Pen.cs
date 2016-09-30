@@ -5,31 +5,16 @@ using System;
 using PixelFarm.Drawing.Fonts;
 namespace PixelFarm.Drawing.WinGdi
 {
-    class WinGdiFont : Font
+    //*** this class need System.Drawing , because 
+    class WinGdiPlusFont : PlatformFont
     {
         System.Drawing.Font myFont;
         System.IntPtr hFont;
-        FontInfo fontInfo;
-        const int POINTS_PER_INCH = 72;
-        const int PIXEL_PER_INCH = 96;
-        int emSizeInPixels;
-        public WinGdiFont(System.Drawing.Font f)
+        public WinGdiPlusFont(System.Drawing.Font f)
         {
             this.myFont = f;
             this.hFont = f.ToHfont();
-
-            emSizeInPixels = (int)(((float)f.SizeInPoints / (float)POINTS_PER_INCH) * (float)PIXEL_PER_INCH);
-
         }
-        public override FontInfo FontInfo
-        {
-            get { return this.fontInfo; }
-        }
-        public void SetFontInfo(FontInfo fontInfo)
-        {
-            this.fontInfo = fontInfo;
-        }
-
         public override string Name
         {
             get { return this.myFont.Name; }
@@ -39,8 +24,7 @@ namespace PixelFarm.Drawing.WinGdi
             get { return this.myFont.Height; }
         }
         public System.IntPtr ToHfont()
-        {
-            /// <summary>
+        {   /// <summary>
             /// Set a resource (e.g. a font) for the specified device context.
             /// WARNING: Calling Font.ToHfont() many times without releasing the font handle crashes the app.
             /// </summary>
@@ -65,7 +49,6 @@ namespace PixelFarm.Drawing.WinGdi
                 myFont = null;
             }
         }
-
         public override FontGlyph GetGlyphByIndex(uint glyphIndex)
         {
             throw new NotImplementedException();
@@ -91,7 +74,7 @@ namespace PixelFarm.Drawing.WinGdi
             throw new NotImplementedException();
         }
 
-        public override object InnerFont
+        public System.Drawing.Font InnerFont
         {
             get { return this.myFont; }
         }
@@ -108,7 +91,7 @@ namespace PixelFarm.Drawing.WinGdi
         {
             get
             {
-                return emSizeInPixels;
+                throw new NotImplementedException();
             }
         }
 

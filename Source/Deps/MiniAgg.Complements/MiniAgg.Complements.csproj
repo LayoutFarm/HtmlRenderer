@@ -39,6 +39,10 @@
     <Compile Include="0_CanvasPainter\Canvas2dExtension.cs" />
     <Compile Include="0_CanvasPainter\dbugVertexSourceIO.cs" />
     <Compile Include="2_SpanGenerators\SpanGradient_GradientValueCalculators.cs" />
+    <Compile Include="4_Animation\ColorComponentStepup.cs" />
+    <Compile Include="4_Animation\GfxProcessorModule.cs" />
+    <Compile Include="4_Animation\ParallelTimeline.cs" />
+    <Compile Include="4_Animation\Timelines.cs" />
     <Compile Include="FontSvg\SvgFont.cs" />
     <Compile Include="FontSvg\SvgFontFace.cs" />
     <Compile Include="FontSvg\SvgFontFace_LiberationSans.cs" />

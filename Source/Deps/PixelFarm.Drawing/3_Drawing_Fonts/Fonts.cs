@@ -4,67 +4,96 @@ using System;
 using PixelFarm.Drawing.Fonts;
 namespace PixelFarm.Drawing
 {
-    public abstract class Font : IDisposable
-    {
-        public abstract FontInfo FontInfo { get; }
-        public abstract string Name { get; }
-        public abstract int Height { get; }
-        public abstract float EmSize { get; }
-        public abstract FontStyle Style { get; }
 
-        //TODO:platform specific font object,
-        //TODO: review here
-        public abstract object InnerFont { get; }
+    public sealed class Font : IDisposable
+    {
+
+        float emSizeInPixels;
+        /// <summary>
+        /// emsize in point
+        /// </summary>
+        float emSize;
+        //--------------------------
+        /// <summary>
+        /// font's face name
+        /// </summary>
+        public string Name { get; private set; }
+        public int Height { get; set; } //TODO: review here
+        public FontStyle Style { get; set; } //TODO: review here
+
+        /// <summary>
+        /// emheight in point unit
+        /// </summary>
+        public float EmSize
+        {
+            get { return emSize; }
+            private set
+            {
+                emSize = value;
+                emSizeInPixels = ConvEmSizeInPointsToPixels(value);
+            }
+        }
+        public float EmSizeInPixels
+        {
+            get
+            {
+                return emSizeInPixels;
+            }
+        }
+
+        static int s_POINTS_PER_INCH = 72; //default value
+        static int s_PIXELS_PER_INCH = 96; //default value
+
+
+        public static int PointsPerInch
+        {
+            get { return s_POINTS_PER_INCH; }
+            set { s_POINTS_PER_INCH = value; }
+        }
+        public static int PixelsPerInch
+        {
+            get { return s_PIXELS_PER_INCH; }
+            set { s_PIXELS_PER_INCH = value; }
+        }
+
+
+        //--------------------------
+        //font shaping info (for native font/shaping engine)
+        public HBDirection HBDirection { get; set; }
+        public int ScriptCode { get; set; }
+        public string Lang { get; set; }
+
+
         public void Dispose()
         {
-            OnDispose();
         }
-#if DEBUG
-        static int dbugTotalId = 0;
-        public readonly int dbugId = dbugTotalId++;
-        public Font()
+
+
+        public Font(string facename, float emSizeInPoints)
         {
-            //if (this.dbugId == 2)
-            //{ 
-            //}
-
+            HBDirection = Fonts.HBDirection.HB_DIRECTION_LTR;//default
+            ScriptCode = HBScriptCode.HB_SCRIPT_LATIN;//default 
+            Lang = "en";//default
+            Name = facename;
+            EmSize = emSizeInPoints;
         }
-#endif
-        protected abstract void OnDispose();
-        public abstract FontGlyph GetGlyphByIndex(uint glyphIndex);
-        public abstract FontGlyph GetGlyph(char c);
-        public abstract FontFace FontFace { get; }
-        public abstract void GetGlyphPos(char[] buffer, int start, int len, ProperGlyph[] properGlyphs);
-        public abstract int EmSizeInPixels { get; }
-
-        public abstract int GetAdvanceForCharacter(char c);
-        public abstract int GetAdvanceForCharacter(char c, char next_c);
-        public abstract double AscentInPixels { get; }
-        public abstract double DescentInPixels { get; }
-        public abstract double XHeightInPixels { get; }
-        public abstract double CapHeightInPixels { get; }
-
-        ~Font()
+        public static float ConvEmSizeInPointsToPixels(float emsizeInPoint)
         {
-            Dispose();
+            return (int)(((float)emsizeInPoint / (float)s_POINTS_PER_INCH) * (float)s_PIXELS_PER_INCH);
         }
+
     }
-
-
-
 
     public interface IFonts
     {
-        FontInfo GetFontInfo(string fontname, float fsize, FontStyle st);
+        Font GetFont(string fontname, float fsize, FontStyle st);
         float MeasureWhitespace(Font f);
         Size MeasureString(char[] str, int startAt, int len, Font font);
         Size MeasureString(char[] str, int startAt, int len, Font font, float maxWidth, out int charFit, out int charFitWidth);
+      
         void Dispose();
     }
 
 
-    public abstract class StringFormat
-    {
-        public abstract object InnerFormat { get; }
-    }
+
 }

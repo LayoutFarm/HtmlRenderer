@@ -36,8 +36,6 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FontAtlas\SimpleFontAtlas.cs" />
-    <Compile Include="FontAtlas\TextureFont.cs" />
     <Compile Include="GLCanvas\GLCanvasPainter.cs" />
     <Compile Include="GLShader\SignedDistanceFieldShader.cs" />
     <Compile Include="Texture\FrameBuffer.cs" />

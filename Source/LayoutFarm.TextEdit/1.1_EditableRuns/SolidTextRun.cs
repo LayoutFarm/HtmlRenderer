@@ -93,18 +93,20 @@ namespace LayoutFarm.Text
         }
         public override int GetCharWidth(int index)
         {
-            return this.Width;
-            //return GetCharacterWidth(mybuffer[index]);
+            // return this.Width;
+            return GetCharacterWidth(mybuffer[index]);
         }
         int GetCharacterWidth(char c)
         {
-            return GetFontInfo().GetCharWidth(c);
+            Font fontInfo = GetFontInfo();
+            ActualFont actualFont = this.Root.P.GetActualFont(GetFontInfo());
+            return actualFont.GetGlyph(c).horiz_adv_x >> 6; //devide by 64 
         }
         //------------------
         public override int GetRunWidth(int charOffset)
         {
-            return this.Width;
-            //return CalculateDrawingStringSize(mybuffer, charOffset).Width;
+            //return this.Width;
+            return CalculateDrawingStringSize(mybuffer, charOffset).Width;
         }
         public override string Text
         {
@@ -168,12 +170,11 @@ namespace LayoutFarm.Text
         }
         Size CalculateDrawingStringSize(char[] buffer, int length)
         {
-            FontInfo FontInfo = GetFontInfo();
-            return new Size(
-                 FontInfo.GetStringWidth(buffer, length),
-                 FontInfo.FontHeight);
+
+            return this.Root.P.SampleIFonts.MeasureString(buffer, 0,
+                length, GetFontInfo());
         }
-        protected FontInfo GetFontInfo()
+        protected Font GetFontInfo()
         {
             if (!HasStyle)
             {
@@ -188,11 +189,31 @@ namespace LayoutFarm.Text
                 }
                 else
                 {
+                    //TODO: review here
                     return this.Root.DefaultTextEditFontInfo;
                 }
             }
         }
-
+        //protected ActualFont GetActualFont()
+        //{
+        //    if (!HasStyle)
+        //    {
+        //        this.Root.
+        //        return this.Root.DefaultTextEditFontInfo;
+        //    }
+        //    else
+        //    {
+        //        TextSpanStyle spanStyle = this.SpanStyle;
+        //        if (spanStyle.FontInfo != null)
+        //        {
+        //            return spanStyle.FontInfo;
+        //        }
+        //        else
+        //        {
+        //            return this.Root.DefaultTextEditFontInfo;
+        //        }
+        //    }
+        //}
         public override EditableRun Copy(int startIndex, int length)
         {
             if (startIndex > -1 && length > 0)
@@ -210,7 +231,7 @@ namespace LayoutFarm.Text
         const int DIFF_FONT_DIFF_TEXT_COLOR = 3;
         static int EvaluateFontAndTextColor(Canvas canvas, TextSpanStyle spanStyle)
         {
-            var font = spanStyle.FontInfo.ResolvedFont;
+            var font = spanStyle.FontInfo;
             var color = spanStyle.FontColor;
             var currentTextFont = canvas.CurrentFont;
             var currentTextColor = canvas.CurrentTextColor;
@@ -261,7 +282,7 @@ namespace LayoutFarm.Text
                     case DIFF_FONT_SAME_TEXT_COLOR:
                         {
                             var prevFont = canvas.CurrentFont;
-                            canvas.CurrentFont = style.FontInfo.ResolvedFont;
+                            canvas.CurrentFont = style.FontInfo;
                             canvas.DrawText(this.mybuffer,
                                new Rectangle(0, 0, bWidth, bHeight),
                                style.ContentHAlign);
@@ -272,7 +293,7 @@ namespace LayoutFarm.Text
                         {
                             var prevFont = canvas.CurrentFont;
                             var prevColor = canvas.CurrentTextColor;
-                            canvas.CurrentFont = style.FontInfo.ResolvedFont;
+                            canvas.CurrentFont = style.FontInfo;
                             canvas.CurrentTextColor = style.FontColor;
                             canvas.DrawText(this.mybuffer,
                                new Rectangle(0, 0, bWidth, bHeight),

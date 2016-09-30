@@ -2,34 +2,37 @@
 using System.Collections.Generic;
 namespace PixelFarm.Drawing.Fonts
 {
-    public static class GdiPathFontStore
+    public class GdiPathFontStore
     {
-        static Dictionary<string, GdiPathFontFace> fontFaces = new Dictionary<string, GdiPathFontFace>();
-        public static Drawing.Font LoadFont(string filename, int fontPointSize)
+        Dictionary<string, GdiPathFontFace> fontFaces = new Dictionary<string, GdiPathFontFace>();
+        Dictionary<Font, GdiPathFont> registerFonts = new Dictionary<Font, GdiPathFont>();
+
+        public Font LoadFont(string fontName, float fontPointSize)
         {
             //load font from specific file 
             GdiPathFontFace fontFace;
-            if (!fontFaces.TryGetValue(filename, out fontFace))
+            if (!fontFaces.TryGetValue(fontName, out fontFace))
             {
                 //create new font face               
-                fontFace = new GdiPathFontFace(filename);
-                fontFaces.Add(filename, fontFace);
+                fontFace = new GdiPathFontFace(fontName);
+                fontFaces.Add(fontName, fontFace);
             }
             if (fontFace == null)
             {
                 return null;
             }
-            return fontFace.GetFontAtSpecificSize(fontPointSize);
-        }
 
-
-        //---------------------------------------------------
-        //helper function
-        public static int ConvertFromPointUnitToPixelUnit(float point)
+            Font font = new Drawing.Font(fontName, fontPointSize);
+            GdiPathFont gdiPathFont = fontFace.GetFontAtSpecificSize((int)fontPointSize);
+            registerFonts.Add(font, gdiPathFont);
+            return font;
+        } 
+        public OutlineFont GetResolvedFont(Font f)
         {
-            //from FreeType Documenetation
-            //pixel_size = (pointsize * (resolution/72);
-            return (int)(point * 96 / 72);
+            GdiPathFont found;
+            registerFonts.TryGetValue(f, out found);
+            return found;
         }
+       
     }
 }

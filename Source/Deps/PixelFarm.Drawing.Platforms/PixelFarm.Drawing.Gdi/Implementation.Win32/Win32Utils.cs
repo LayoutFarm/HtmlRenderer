@@ -40,7 +40,7 @@ namespace Win32
         /// <param name="height">the height of the memory HDC to create</param>
         /// <param name="dib">returns used bitmap memory section that must be released when done with memory HDC</param>
         /// <returns>memory HDC</returns>
-        public static IntPtr CreateMemoryHdc(IntPtr hdc, int width, int height, out IntPtr dib)
+        public static IntPtr CreateMemoryHdc(IntPtr hdc, int width, int height, out IntPtr dib,out IntPtr ppvBits)
         {
             // Create a memory DC so we can work off-screen
             IntPtr memoryHdc = CreateCompatibleDC(hdc);
@@ -52,8 +52,7 @@ namespace Win32
             info.biHeight = -height;
             info.biPlanes = 1;
             info.biBitCount = 32;
-            info.biCompression = 0; // BI_RGB
-            IntPtr ppvBits;
+            info.biCompression = 0; // BI_RGB 
             dib = CreateDIBSection(hdc, ref info, 0, out ppvBits, IntPtr.Zero, 0);
             SelectObject(memoryHdc, dib);
             return memoryHdc;

@@ -464,34 +464,47 @@ namespace PixelFarm.Drawing.Fonts
                 throw new NotSupportedException();
             }
             MyFtLib.ShapeNormalize(shape);
-            int borderXY = 5;
+            int borderXY = 0;
             int w = (int)Math.Ceiling(glyphBounds.Width) + (borderXY + borderXY);
             int h = (int)(Math.Ceiling(glyphBounds.Height)) + (borderXY + borderXY);
-            int[] output = new int[w * h];
+            if (w == 0)
+            {
+                w = 5;
+                h = 5;
+            }
+            int[] outputBuffer = new int[w * h];
             GlyphImage glyphImage = new GlyphImage(w, h);
             glyphImage.BorderXY = borderXY;
             glyphImage.OriginalGlyphBounds = glyphBounds;
             unsafe
             {
-                fixed (int* output_h = &output[0])
+                fixed (int* output_header = &outputBuffer[0])
                 {
                     float dx = 0;
                     float dy = 0;
                     if (s_left < 0)
                     {
-                        //must translate the left to
+                        //make it positive
                         dx = (float)-s_left;
+                    }
+                    else if (s_left > 0)
+                    {
+
                     }
                     if (s_bottom < 0)
                     {
+                        //make it positive
                         dy = (float)-s_bottom;
                     }
-                    glyphImage.OffsetX = dx + borderXY;
-                    glyphImage.OffsetY = dy + borderXY;
-                    MyFtLib.MyFtGenerateMsdf(shape, w, h, 4, 1, dx + borderXY, dy + borderXY, -1, 3, output_h);
+                    else if (s_bottom > 0)
+                    {
+
+                    }
+                    //this glyph image has border (for msdf to render correctly)
+                    MyFtLib.MyFtGenerateMsdf(shape, w, h, 4, 1, dx + borderXY, dy + borderXY, -1, 3, output_header);
                     MyFtLib.DeleteUnmanagedObj(shape);
                 }
-                glyphImage.SetImageBuffer(output, true);
+                glyphImage.SetImageBuffer(outputBuffer, true);
             }
             return glyphImage;
         }

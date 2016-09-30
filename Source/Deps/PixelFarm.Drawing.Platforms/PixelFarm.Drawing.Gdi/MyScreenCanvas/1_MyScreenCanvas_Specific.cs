@@ -58,8 +58,8 @@ namespace PixelFarm.Drawing.WinGdi
             CreateGraphicsFromNativeHdc(width, height);
             //-------------------------------------------------------
             currentClipRect = new System.Drawing.Rectangle(0, 0, width, height);
-            var fontInfo = platform.GetFont("tahoma", 10, FontStyle.Regular);
-            this.CurrentFont = defaultFont = fontInfo.ResolvedFont;
+            Font font = platform.GetFont("tahoma", 10, FontStyle.Regular);
+            this.CurrentFont = defaultFont = font;
             this.CurrentTextColor = Color.Black;
             internalPen = new System.Drawing.Pen(System.Drawing.Color.Black);
             internalSolidBrush = new System.Drawing.SolidBrush(System.Drawing.Color.Black);
@@ -270,7 +270,8 @@ namespace PixelFarm.Drawing.WinGdi
         void SetFont(Font font)
         {
             InitHdc();
-            Win32Utils.SelectObject(tempDc, FontStore.GetCachedHFont(font.InnerFont as System.Drawing.Font));
+            WinGdi.WinGdiPlusFont winFont = fontStore.GetResolvedFont(font);
+            Win32Utils.SelectObject(tempDc, winFont.ToHfont());
         }
 
         /// <summary>
@@ -293,13 +294,16 @@ namespace PixelFarm.Drawing.WinGdi
         static void DrawTransparentText(IntPtr hdc, string str, Font font, Point point, Size size, Color color)
         {
             IntPtr dib;
-            var memoryHdc = Win32Utils.CreateMemoryHdc(hdc, size.Width, size.Height, out dib);
+            IntPtr ppv;
+            var memoryHdc = Win32Utils.CreateMemoryHdc(hdc, size.Width, size.Height, out dib, out ppv);
             try
             {
                 // copy target background to memory HDC so when copied back it will have the proper background
                 Win32Utils.BitBlt(memoryHdc, 0, 0, size.Width, size.Height, hdc, point.X, point.Y, Win32Utils.BitBltCopy);
                 // Create and select font
-                Win32Utils.SelectObject(memoryHdc, FontStore.GetCachedHFont(font.InnerFont as System.Drawing.Font));
+                WinGdiPlusFont winfont = WinGdiFontStore.S_GetResolvedFont(font);
+
+                Win32Utils.SelectObject(memoryHdc, winfont.ToHfont());
                 Win32Utils.SetTextColor(memoryHdc, (color.B & 0xFF) << 16 | (color.G & 0xFF) << 8 | color.R);
                 // Draw text to memory HDC
                 NativeTextWin32.TextOut(memoryHdc, 0, 0, str, str.Length);

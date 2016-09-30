@@ -24,8 +24,6 @@ namespace PixelFarm.Drawing.Fonts
             get;
             internal set;
         }
-
-
         public int Width
         {
             get;
@@ -47,8 +45,7 @@ namespace PixelFarm.Drawing.Fonts
             get;
             internal set;
         }
-        public float OffsetX { get; set; }
-        public float OffsetY { get; set; }
+
         public int[] GetImageBuffer()
         {
             return pixelBuffer;
@@ -59,17 +56,23 @@ namespace PixelFarm.Drawing.Fonts
             this.IsBigEndian = isBigEndian;
         }
     }
-    public static class NativeFontStore
+
+
+    /// <summary>
+    /// to load and cache native font 
+    /// </summary>
+    public class NativeFontStore
     {
-        static Dictionary<string, NativeFontFace> fonts = new Dictionary<string, NativeFontFace>();
-        internal static void SetShapingEngine(NativeFontFace fontFace, string lang, HBDirection hb_direction, int hb_scriptcode)
+        Dictionary<string, NativeFontFace> fonts = new Dictionary<string, NativeFontFace>();
+        Dictionary<Font, NativeFont> registerFonts = new Dictionary<Font, NativeFont>();
+
+        public NativeFontStore()
         {
-            //string lang = "en";
-            //PixelFarm.Font2.NativeMyFontsLib.MyFtSetupShapingEngine(ftFaceHandle,
-            //    lang,
-            //    lang.Length,
-            //    HBDirection.HB_DIRECTION_LTR,
-            //    HBScriptCode.HB_SCRIPT_LATIN); 
+
+        }
+
+        static void SetShapingEngine(NativeFontFace fontFace, string lang, HBDirection hb_direction, int hb_scriptcode)
+        {
             ExportTypeFaceInfo exportTypeInfo = new ExportTypeFaceInfo();
             NativeMyFontsLib.MyFtSetupShapingEngine(fontFace.Handle,
                lang,
@@ -79,8 +82,13 @@ namespace PixelFarm.Drawing.Fonts
                ref exportTypeInfo);
             fontFace.HBFont = exportTypeInfo.hb_font;
         }
-
-        public static Font LoadFont(string filename, int fontPointSize)
+        public Font LoadFont(string fontName, string filename, float fontSizeInPoint)
+        {
+            Font font = new Font(fontName, fontSizeInPoint);
+            LoadFont(font, filename);
+            return font;
+        }
+        public void LoadFont(Font font, string filename)
         {
             //load font from specific file 
             NativeFontFace fontFace;
@@ -95,6 +103,7 @@ namespace PixelFarm.Drawing.Fonts
                 //---------------------------------------------------
                 //convert font point size to pixel size 
                 //---------------------------------------------------
+                //load font from memory
                 IntPtr faceHandle = NativeMyFontsLib.MyFtNewMemoryFace(unmanagedMem, filelen);
                 if (faceHandle != IntPtr.Zero)
                 {
@@ -105,15 +114,18 @@ namespace PixelFarm.Drawing.Fonts
                     //    0, //char_width in 1/64th of points, value 0 => same as height
                     //    16 * 64,//16 pt //char_height in 1*64 of ppoints
                     //    96,//horizontal device resolution (eg screen resolution 96 dpi)
-                    //    96);// vertical device resolution 
-
+                    //    96);// vertical device resolution  
                     //------------------- 
                     fontFace = new NativeFontFace(unmanagedMem, faceHandle);
+                    fontFace.LoadFromFilename = filename;
                     ExportTypeFaceInfo exportTypeInfo = new ExportTypeFaceInfo();
                     NativeMyFontsLib.MyFtGetFaceInfo(faceHandle, ref exportTypeInfo);
                     fontFace.HasKerning = exportTypeInfo.hasKerning;
                     //for shaping engine***
-                    SetShapingEngine(fontFace, "th", HBDirection.HB_DIRECTION_LTR, HBScriptCode.HB_SCRIPT_THAI);
+                    SetShapingEngine(fontFace,
+                        font.Lang,
+                        font.HBDirection,
+                        font.ScriptCode);
                     fonts.Add(filename, fontFace);
                 }
                 else
@@ -125,45 +137,15 @@ namespace PixelFarm.Drawing.Fonts
             //-------------------------------------------------
             //get font that specific size from found font face
             //-------------------------------------------------
+            NativeFont nativeFont = fontFace.GetFontAtPointSize(font.EmSize);
+            registerFonts.Add(font, nativeFont);
 
-            return fontFace.GetFontAtPointSize(fontPointSize);
         }
-
-
-        //---------------------------------------------------
-        //helper function
-        public static int ConvertFromPointUnitToPixelUnit(float point)
+        public NativeFont GetResolvedNativeFont(Font f)
         {
-            //from FreeType Documenetation
-            //pixel_size = (pointsize * (resolution/72);
-            return (int)(point * 96f / 72f);
-        }
-
-
-        public static GlyphImage BuildMsdfFontImage(FontGlyph fontGlyph)
-        {
-            return NativeFontGlyphBuilder.BuildMsdfFontImage(fontGlyph);
-        }
-        public static void SwapColorComponentFromBigEndianToWinGdi(int[] bitbuffer)
-        {
-            unsafe
-            {
-                int j = bitbuffer.Length;
-                fixed (int* p0 = &(bitbuffer[j - 1]))
-                {
-                    int* p = p0;
-                    for (int i = j - 1; i >= 0; --i)
-                    {
-                        int color = *p;
-                        int a = color >> 24;
-                        int b = (color >> 16) & 0xff;
-                        int g = (color >> 8) & 0xff;
-                        int r = color & 0xff;
-                        *p = (a << 24) | (r << 16) | (g << 8) | b;
-                        p--;
-                    }
-                }
-            }
+            NativeFont found;
+            registerFonts.TryGetValue(f, out found);
+            return found;
         }
     }
 }

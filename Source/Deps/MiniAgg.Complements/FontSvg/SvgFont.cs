@@ -3,20 +3,19 @@
 
 using System;
 using System.Collections.Generic;
-using PixelFarm.Agg.Transform;
-using PixelFarm.Drawing;
 using PixelFarm.Agg;
+using PixelFarm.Agg.Transform;
+
 namespace PixelFarm.Drawing.Fonts
 {
-    class SvgFont : Font
+    class SvgFont : OutlineFont
     {
         SvgFontFace fontface;
         int emSizeInPoints;
-        const int POINTS_PER_INCH = 72;
-        const int PIXEL_PER_INCH = 96;
         int emSizeInPixels;
         double currentEmScalling;
         Dictionary<char, FontGlyph> cachedGlyphs = new Dictionary<char, FontGlyph>();
+        Dictionary<uint, FontGlyph> cachedGlyphsByIndex = new Dictionary<uint, FontGlyph>();
         Affine scaleTx;
         PixelFarm.Agg.VertexSource.CurveFlattener curveFlattner = new PixelFarm.Agg.VertexSource.CurveFlattener();
         public SvgFont(SvgFontFace fontface, int emSizeInPoints)
@@ -24,7 +23,7 @@ namespace PixelFarm.Drawing.Fonts
             this.fontface = fontface;
             this.emSizeInPoints = emSizeInPoints;
             //------------------------------------
-            emSizeInPixels = (int)(((float)emSizeInPoints / (float)POINTS_PER_INCH) * (float)PIXEL_PER_INCH);
+            emSizeInPixels = (int)Font.ConvEmSizeInPointsToPixels(emSizeInPoints);
             currentEmScalling = (float)emSizeInPixels / (float)fontface.UnitsPerEm;
             scaleTx = Affine.NewMatix(AffinePlan.Scale(currentEmScalling));
         }
@@ -36,12 +35,11 @@ namespace PixelFarm.Drawing.Fonts
         public override FontGlyph GetGlyphByIndex(uint glyphIndex)
         {
             FontGlyph glyph;
-            //temp
-            char c = (char)glyphIndex;
-            if (!cachedGlyphs.TryGetValue(c, out glyph))
+            //temp 
+            if (!cachedGlyphsByIndex.TryGetValue(glyphIndex, out glyph))
             {
                 //create font glyph for this font size
-                FontGlyph originalGlyph = fontface.GetGlyphForCharacter(c);
+                FontGlyph originalGlyph = fontface.GetGlyphByIndex((int)glyphIndex);
                 VertexStore characterGlyph = scaleTx.TransformToVxs(originalGlyph.originalVxs);
                 glyph = new FontGlyph();
                 glyph.originalVxs = characterGlyph;
@@ -49,7 +47,7 @@ namespace PixelFarm.Drawing.Fonts
                 characterGlyph = curveFlattner.MakeVxs(characterGlyph);
                 glyph.flattenVxs = characterGlyph;
                 glyph.horiz_adv_x = originalGlyph.horiz_adv_x;
-                cachedGlyphs.Add(c, glyph);
+                cachedGlyphsByIndex.Add(glyphIndex, glyph);
             }
             return glyph;
         }
@@ -130,13 +128,13 @@ namespace PixelFarm.Drawing.Fonts
         }
 
 
-        public override FontInfo FontInfo
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        //public override FontSpec FontInfo
+        //{
+        //    get
+        //    {
+        //        throw new NotImplementedException();
+        //    }
+        //}
 
         public override string Name
         {
@@ -170,12 +168,6 @@ namespace PixelFarm.Drawing.Fonts
             }
         }
 
-        public override object InnerFont
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+
     }
 }

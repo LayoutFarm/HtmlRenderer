@@ -148,17 +148,17 @@ namespace LayoutFarm.HtmlBoxes
 
         public void ReEvaluateFont(IFonts iFonts, float parentFontSize)
         {
-            FontInfo fontInfo = this._myspec.GetFontInfo(iFonts, parentFontSize);
-            this._actualFont = fontInfo.ResolvedFont;
-            this._actualLineHeight = fontInfo.LineHeight;
-            this._actualEmHeight = fontInfo.LineHeight;
+            Font fontInfo = this._myspec.GetFont(iFonts, parentFontSize);
+            this._resolvedFont = fontInfo;
+            this._actualLineHeight = _resolvedFont.Height;
+            this._actualEmHeight = _resolvedFont.EmSize;
             if (_myspec.WordSpacing.IsNormalWordSpacing)
             {
-                this._actualWordSpacing = iFonts.MeasureWhitespace(_actualFont);
+                this._actualWordSpacing = iFonts.MeasureWhitespace(_resolvedFont);
             }
             else
             {
-                this._actualWordSpacing = iFonts.MeasureWhitespace(_actualFont)
+                this._actualWordSpacing = iFonts.MeasureWhitespace(_resolvedFont)
                     + CssValueParser.ConvertToPx(_myspec.WordSpacing, 1, this);
             }
         }
@@ -172,7 +172,7 @@ namespace LayoutFarm.HtmlBoxes
             //1. fonts 
             if (this.ParentBox != null)
             {
-                ReEvaluateFont(iFonts, this.ParentBox.ActualFont.EmSizeInPixels);
+                ReEvaluateFont(iFonts, this.ParentBox.ResolvedFont.EmSizeInPixels);
                 //2. actual word spacing
                 //this._actualWordSpacing = this.NoEms(this.InitSpec.LineHeight);
                 //3. font size 
@@ -180,7 +180,7 @@ namespace LayoutFarm.HtmlBoxes
             }
             else
             {
-                ReEvaluateFont(iFonts, containingBlock.ActualFont.EmSizeInPixels);
+                ReEvaluateFont(iFonts, containingBlock.ResolvedFont.EmSizeInPixels);
                 //this._actualFont = this.Spec.GetFont(containingBlock.Spec);
             }
 
@@ -308,11 +308,11 @@ namespace LayoutFarm.HtmlBoxes
 
             if (spec.WordSpacing.IsNormalWordSpacing)
             {
-                this._actualWordSpacing = iFonts.MeasureWhitespace(_actualFont);
+                this._actualWordSpacing = iFonts.MeasureWhitespace(_resolvedFont);
             }
             else
             {
-                this._actualWordSpacing = iFonts.MeasureWhitespace(_actualFont)
+                this._actualWordSpacing = iFonts.MeasureWhitespace(_resolvedFont)
                     + CssValueParser.ConvertToPx(spec.WordSpacing, 1, this);
             }
             //---------------------------------------------- 

@@ -52,8 +52,8 @@ namespace PixelFarm.Drawing.GLES2
             this.right = left + width;
             this.bottom = top + height;
             currentClipRect = new System.Drawing.Rectangle(0, 0, width, height);
-            var fontInfo = platform.GetFont("tahoma", 10, FontStyle.Regular);
-            this.CurrentFont = defaultFont = fontInfo.ResolvedFont;
+            Font font = platform.GetFont("tahoma", 10, FontStyle.Regular);
+            this.CurrentFont = defaultFont = font;
             this.CurrentTextColor = Color.Black;
             internalPen = new System.Drawing.Pen(System.Drawing.Color.Black);
             internalSolidBrush = new System.Drawing.SolidBrush(System.Drawing.Color.Black);

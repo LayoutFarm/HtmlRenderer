@@ -68,12 +68,14 @@ namespace OpenTkEssTest
             //painter.DrawString("hello!", 0, 20);
             //canvas2d.DrawImageWithSubPixelRenderingMsdf(msdf_bmp, 200, 500, 15f);
 
-            PixelFarm.Drawing.Rectangle r;
-            fontAtlas.GetRect('A', out r);
+            TextureFontGlyphData glyphData;
+            fontAtlas.GetRect('A', out glyphData);
+            PixelFarm.Drawing.Rectangle r = glyphData.Rect;
             //canvas2d.DrawSubImageWithMsdf(msdf_bmp, ref r, 100, 500);
             canvas2d.DrawSubImageWithMsdf(msdf_bmp, ref r, 100, 500);
-            PixelFarm.Drawing.Rectangle r2;
-            fontAtlas.GetRect('B', out r2);
+
+            fontAtlas.GetRect('B', out glyphData);
+            PixelFarm.Drawing.Rectangle r2 = glyphData.Rect;
             canvas2d.DrawSubImageWithMsdf(msdf_bmp, ref r2, 100 + r.Width - 10, 500);
 
             //full image

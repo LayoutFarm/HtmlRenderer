@@ -21,20 +21,28 @@ namespace PixelFarm.Drawing.WinGdi
     {
         Font currentTextFont = null;
         Color mycurrentTextColor = Color.Black;
-        //======================================
-        //IFonts impl
-        PixelFarm.Drawing.Fonts.FontInfo IFonts.GetFontInfo(string fontname, float fsize, FontStyle st)
+        WinGdiFontStore fontStore = new WinGdiFontStore();
+        Font IFonts.GetFont(string fontname, float fsize, FontStyle st)
         {
             return this.platform.GetFont(fontname, fsize, st);
         }
         float IFonts.MeasureWhitespace(PixelFarm.Drawing.Font f)
         {
-            return FontStore.MeasureWhitespace(this, f);
+            return fontStore.MeasureWhitespace(this, f);
         }
-        //======================================
-
+        public override float GetCharWidth(Font f, char c)
+        {
+            WinGdiPlusFont winFont = fontStore.GetResolvedFont(f);
+            return winFont.GetGlyph(c).horiz_adv_x >> 6;
+        }
+        public override Fonts.ActualFont GetActualFont(Font f)
+        {
+            return fontStore.GetResolvedFont(f);
+        }
         public Size MeasureString(char[] buff, int startAt, int len, Font font)
         {
+
+
             //if (_useGdiPlusTextRendering)
             //{
             //    ReleaseHdc();
@@ -232,7 +240,7 @@ namespace PixelFarm.Drawing.WinGdi
             {
                 ReleaseHdc();
                 this.currentTextFont = value;
-                WinGdiFont myFont = value as WinGdiFont;
+                WinGdiPlusFont myFont = fontStore.GetResolvedFont(value);
                 IntPtr hdc = gx.GetHdc();
                 MyWin32.SelectObject(hdc, myFont.ToHfont());
                 gx.ReleaseHdc();

@@ -97,7 +97,7 @@ namespace LayoutFarm.HtmlBoxes
             //recursive
             if (box != null)
             {
-                float box_fontsize = box.ActualFont.EmSizeInPixels;
+                float box_fontsize = box.ResolvedFont.EmSizeInPixels;
                 var ifonts = lay.SampleIFonts;
                 foreach (var childBox in box.GetChildBoxIter())
                 {

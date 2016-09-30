@@ -3,12 +3,18 @@ using PixelFarm.Drawing.Fonts;
 
 namespace PixelFarm.DrawingGL
 {
+    public abstract class PlatformFontPrinterBase
+    {
+        public abstract void DrawString(CanvasGL2d canvas, string text, float x, float y);
+    }
+
     class GLTextPrinter
     {
 
         Drawing.Font currentFont;
         CanvasGL2d canvas2d;
         ProperGlyph[] properGlyphs = null;
+        NativeFontStore nativeFontStore = new NativeFontStore();
         public GLTextPrinter(CanvasGL2d canvas2d)
         {
             this.canvas2d = canvas2d;
@@ -27,10 +33,12 @@ namespace PixelFarm.DrawingGL
             int j = buffer.Length;
             int buffsize = j * 2;
             //get kerning list
+            ActualFont fontImp = nativeFontStore.GetResolvedNativeFont(currentFont);
+
             if (properGlyphs == null)
             {
                 properGlyphs = new ProperGlyph[buffsize];
-                currentFont.GetGlyphPos(buffer, 0, buffsize, properGlyphs);
+                fontImp.GetGlyphPos(buffer, 0, buffsize, properGlyphs);
             }
 
             double xpos = x;
@@ -43,7 +51,7 @@ namespace PixelFarm.DrawingGL
                 }
 
                 //-------------------------------------------------------------
-                FontGlyph glyph = this.currentFont.GetGlyphByIndex(codepoint);
+                FontGlyph glyph = fontImp.GetGlyphByIndex(codepoint);
                 //glyph image32 
                 //-------------------------------------------------------------
                 GLBitmap bmp = new GLBitmap(new LazyAggBitmapBufferProvider(glyph.glyphImage32));

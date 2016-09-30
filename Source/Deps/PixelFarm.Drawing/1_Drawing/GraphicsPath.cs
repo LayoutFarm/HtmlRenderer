@@ -14,9 +14,9 @@ namespace PixelFarm.Drawing
         public abstract void AddEllipse(float x, float y, float w, float h);
         public abstract void AddRectangle(RectangleF r);
         public abstract object InnerPath { get; }
-        public abstract object InnerPath2 { get; set; }
+       
 
         public abstract void AddBezierCurve(PointF p1, PointF p2, PointF p3, PointF p4);
-        public abstract object GetPathData();
+        
     }
 }
