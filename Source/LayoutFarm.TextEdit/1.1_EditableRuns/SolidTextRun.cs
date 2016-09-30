@@ -98,8 +98,8 @@ namespace LayoutFarm.Text
         }
         int GetCharacterWidth(char c)
         {
-            Font fontInfo = GetFontInfo();
-            ActualFont actualFont = this.Root.P.GetActualFont(GetFontInfo());
+
+            ActualFont actualFont = this.Root.P.GetActualFont(GetFont());
             return actualFont.GetGlyph(c).horiz_adv_x >> 6; //devide by 64 
         }
         //------------------
@@ -172,9 +172,9 @@ namespace LayoutFarm.Text
         {
 
             return this.Root.P.SampleIFonts.MeasureString(buffer, 0,
-                length, GetFontInfo());
+                length, GetFont());
         }
-        protected Font GetFontInfo()
+        protected Font GetFont()
         {
             if (!HasStyle)
             {
