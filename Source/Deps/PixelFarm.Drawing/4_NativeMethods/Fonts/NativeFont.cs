@@ -81,13 +81,7 @@ namespace PixelFarm.Drawing.Fonts
         {
             get { throw new NotImplementedException(); }
         }
-        public override double CapHeightInPixels
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+
         public override double DescentInPixels
         {
             get { throw new NotImplementedException(); }
@@ -97,10 +91,17 @@ namespace PixelFarm.Drawing.Fonts
             get { throw new NotImplementedException(); }
         }
 
-        public override double XHeightInPixels
-        {
-            get { throw new NotImplementedException(); }
-        }
+        //public override double XHeightInPixels
+        //{
+        //    get { throw new NotImplementedException(); }
+        //}
+        //public override double CapHeightInPixels
+        //{
+        //    get
+        //    {
+        //        throw new NotImplementedException();
+        //    }
+        //}
         public override int GetAdvanceForCharacter(char c)
         {
             throw new NotImplementedException();
@@ -148,7 +149,7 @@ namespace PixelFarm.Drawing.Fonts
         {
             return NativeFontGlyphBuilder.BuildMsdfFontImage(fontGlyph);
         }
-       
+
         public static void SwapColorComponentFromBigEndianToWinGdi(int[] bitbuffer)
         {
             unsafe

@@ -111,21 +111,21 @@ namespace PixelFarm.Drawing.Fonts
             }
         }
 
-        public override double XHeightInPixels
-        {
-            get
-            {
-                return fontface.X_height * currentEmScalling;
-            }
-        }
+        //public override double XHeightInPixels
+        //{
+        //    get
+        //    {
+        //        return fontface.X_height * currentEmScalling;
+        //    }
+        //}
 
-        public override double CapHeightInPixels
-        {
-            get
-            {
-                return fontface.Cap_height * currentEmScalling;
-            }
-        }
+        //public override double CapHeightInPixels
+        //{
+        //    get
+        //    {
+        //        return fontface.Cap_height * currentEmScalling;
+        //    }
+        //}
 
 
         //public override FontSpec FontInfo

@@ -43,8 +43,8 @@ namespace PixelFarm.Drawing.Fonts
         public abstract int GetAdvanceForCharacter(char c, char next_c);
         public abstract double AscentInPixels { get; }
         public abstract double DescentInPixels { get; }
-        public abstract double XHeightInPixels { get; }
-        public abstract double CapHeightInPixels { get; }
+        //public abstract double XHeightInPixels { get; }
+        //public abstract double CapHeightInPixels { get; }
 
         ~ActualFont()
         {

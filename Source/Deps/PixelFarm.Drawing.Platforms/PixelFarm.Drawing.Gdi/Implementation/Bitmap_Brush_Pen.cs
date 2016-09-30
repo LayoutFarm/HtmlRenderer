@@ -111,21 +111,21 @@ namespace PixelFarm.Drawing.WinGdi
             }
         }
 
-        public override double XHeightInPixels
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        //public override double XHeightInPixels
+        //{
+        //    get
+        //    {
+        //        throw new NotImplementedException();
+        //    }
+        //}
 
-        public override double CapHeightInPixels
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        //public override double CapHeightInPixels
+        //{
+        //    get
+        //    {
+        //        throw new NotImplementedException();
+        //    }
+        //}
 
     }
 }

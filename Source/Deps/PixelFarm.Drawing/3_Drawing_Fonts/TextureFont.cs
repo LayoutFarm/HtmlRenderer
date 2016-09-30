@@ -46,13 +46,13 @@ namespace PixelFarm.Drawing.Fonts
             }
         }
 
-        public override double CapHeightInPixels
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        //public override double CapHeightInPixels
+        //{
+        //    get
+        //    {
+        //        throw new NotImplementedException();
+        //    }
+        //}
 
         public IDisposable GLBmp
         {
@@ -122,13 +122,13 @@ namespace PixelFarm.Drawing.Fonts
             }
         }
 
-        public override double XHeightInPixels
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        //public override double XHeightInPixels
+        //{
+        //    get
+        //    {
+        //        throw new NotImplementedException();
+        //    }
+        //}
 
         public override int GetAdvanceForCharacter(char c)
         {
