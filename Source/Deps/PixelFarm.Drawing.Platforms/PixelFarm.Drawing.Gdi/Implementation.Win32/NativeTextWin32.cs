@@ -33,10 +33,27 @@ namespace Win32
         [DllImport("gdi32.dll", EntryPoint = "GetTextExtentExPointW", CharSet = CharSet.Unicode)]
         public static unsafe extern bool UnsafeGetTextExtentExPoint(
             IntPtr hDc, char* str, int len, int nMaxExtent, int[] lpnFit, int[] alpDx, ref Size size);
+        /// <summary>
+        /// translates a string into an array of glyph indices. The function can be used to determine whether a glyph exists in a font.
+        /// This function attempts to identify a single-glyph representation for each character in the string pointed to by lpstr. 
+        /// While this is useful for certain low-level purposes (such as manipulating font files), higher-level applications that wish to map a string to glyphs will typically wish to use the Uniscribe functions.
+        /// </summary>
+        /// <param name="hdc"></param>
+        /// <param name="text"></param>
+        /// <param name="c">The length of both the length of the string pointed to by lpstr and the size (in WORDs) of the buffer pointed to by pgi.</param>
+        /// <param name="buffer">This buffer must be of dimension c. On successful return, contains an array of glyph indices corresponding to the characters in the string</param>
+        /// <param name="fl">(0 | GGI_MARK_NONEXISTING_GLYPHS) Specifies how glyphs should be handled if they are not supported. This parameter can be the following value.</param>
+        /// <returns>If the function succeeds, it returns the number of bytes (for the ANSI function) or WORDs (for the Unicode function) converted.</returns>
         [DllImport("gdi32.dll")]
         public static unsafe extern int GetGlyphIndices(IntPtr hdc, string text, int c, char* buffer, int fl);
+
         [DllImport("gdi32.dll")]
         public static unsafe extern bool GetCharABCWidths(IntPtr hdc, uint uFirstChar, uint uLastChar, void* lpabc);
+        [DllImport("gdi32.dll")]
+        public static unsafe extern int GetOutlineTextMetrics(IntPtr hdc, uint cbData, uint uLastChar, void* lp_outlineTextMatrix);
+
+        public const int GGI_MARK_NONEXISTING_GLYPHS = 0X0001;
+
         [StructLayout(LayoutKind.Sequential)]
         public struct FontABC
         {
@@ -50,6 +67,132 @@ namespace Win32
                     return abcA + (int)abcB + abcC;
                 }
             }
+        }
+
+
+        //    typedef struct _OUTLINETEXTMETRICW {
+        //UINT    otmSize;
+        //TEXTMETRICW otmTextMetrics;
+        //BYTE    otmFiller;
+        //PANOSE  otmPanoseNumber;
+        //UINT    otmfsSelection;
+        //UINT    otmfsType;
+        // int    otmsCharSlopeRise;
+        // int    otmsCharSlopeRun;
+        // int    otmItalicAngle;
+        //UINT    otmEMSquare;
+        // int    otmAscent;
+        // int    otmDescent;
+        //UINT    otmLineGap;
+        //UINT    otmsCapEmHeight;
+        //UINT    otmsXHeight;
+        //RECT    otmrcFontBox;
+        // int    otmMacAscent;
+        // int    otmMacDescent;
+        //UINT    otmMacLineGap;
+        //UINT    otmusMinimumPPEM;
+        //POINT   otmptSubscriptSize;
+        //POINT   otmptSubscriptOffset;
+        //POINT   otmptSuperscriptSize;
+        //POINT   otmptSuperscriptOffset;
+        //UINT    otmsStrikeoutSize;
+        // int    otmsStrikeoutPosition;
+        // int    otmsUnderscoreSize;
+        // int    otmsUnderscorePosition;
+        //PSTR    otmpFamilyName;
+        //PSTR    otmpFaceName;
+        //PSTR    otmpStyleName;
+        //PSTR    otmpFullName;
+        //}
+        [StructLayout(LayoutKind.Sequential)]
+        public struct RECT
+        {
+            public int left;
+            public int top;
+            public int right;
+            public int bottom;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct POINT
+        {
+            public int X;
+            public int Y;
+        }
+        [StructLayout(LayoutKind.Sequential)]
+        public struct PANOSE
+        {
+            byte bFamilyType;
+            byte bSerifStyle;
+            byte bWeight;
+            byte bProportion;
+            byte bContrast;
+            byte bStrokeVariation;
+            byte bArmStyle;
+            byte bLetterform;
+            byte bMidline;
+            byte bXHeight;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public unsafe struct _OUTLINETEXTMETRICW
+        {
+            uint otmSize;
+            TEXTMETRICW otmTextMetrics;
+            byte otmFiller;
+            PANOSE otmPanoseNumber;
+            uint otmfsSelection;
+            uint otmfsType;
+            int otmsCharSlopeRise;
+            int otmsCharSlopeRun;
+            int otmItalicAngle;
+            uint otmEMSquare;
+            int otmAscent;
+            int otmDescent;
+            uint otmLineGap;
+            uint otmsCapEmHeight;
+            uint otmsXHeight;
+            RECT otmrcFontBox;
+            int otmMacAscent;
+            int otmMacDescent;
+            uint otmMacLineGap;
+            uint otmusMinimumPPEM;
+            POINT otmptSubscriptSize;
+            POINT otmptSubscriptOffset;
+            POINT otmptSuperscriptSize;
+            POINT otmptSuperscriptOffset;
+            uint otmsStrikeoutSize;
+            int otmsStrikeoutPosition;
+            int otmsUnderscoreSize;
+            int otmsUnderscorePosition;
+            char* otmpFamilyName;
+            char* otmpFaceName;
+            char* otmpStyleName;
+            char* otmpFullName;
+        }
+        [StructLayout(LayoutKind.Sequential)]
+        public struct TEXTMETRICW
+        {
+            int tmHeight;
+            int tmAscent;
+            int tmDescent;
+            int tmInternalLeading;
+            int tmExternalLeading;
+            int tmAveCharWidth;
+            int tmMaxCharWidth;
+            int tmWeight;
+            int tmOverhang;
+            int tmDigitizedAspectX;
+            int tmDigitizedAspectY;
+            char tmFirstChar;
+            char tmLastChar;
+            char tmDefaultChar;
+            char tmBreakChar;
+            byte tmItalic;
+            byte tmUnderlined;
+            byte tmStruckOut;
+            byte tmPitchAndFamily;
+            byte tmCharSet;
         }
 
         [StructLayout(LayoutKind.Sequential)]

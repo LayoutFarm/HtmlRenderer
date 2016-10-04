@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 namespace PixelFarm.Drawing.Fonts
 {
+
     class NativeFontFace : FontFace
     {
         /// <summary>
@@ -26,10 +27,19 @@ namespace PixelFarm.Drawing.Fonts
         /// </summary>
         Dictionary<int, NativeFont> fonts = new Dictionary<int, NativeFont>();
         IntPtr hb_font;
+        ExportFace exportFace = new ExportFace();
         internal NativeFontFace(IntPtr unmanagedMem, IntPtr ftFaceHandle)
         {
             this.unmanagedMem = unmanagedMem;
             this.ftFaceHandle = ftFaceHandle;
+            //get face information             
+            unsafe
+            {
+                fixed (ExportFace* face_h = &this.exportFace)
+                {
+                    NativeMyFontsLib.MyFtGetFaceData(unmanagedMem, face_h);
+                }
+            }
         }
 
         ~NativeFontFace()
@@ -68,8 +78,30 @@ namespace PixelFarm.Drawing.Fonts
                 fonts = null;
             }
         }
-
-
+        /// <summary>
+        /// ascent in font unit
+        /// </summary>
+        public int Ascent
+        {
+            get
+            {
+                return exportFace.ascender;
+            }
+        }
+        /// <summary>
+        /// descent in font unit
+        /// </summary>
+        public int Descent
+        {
+            get
+            {
+                return exportFace.descender;
+            }
+        }
+        public int UnitPerEm
+        {
+            get { return exportFace.units_per_EM; }
+        }
         //---------------------------
         //for font shaping engine
         //--------------------------- 
@@ -100,7 +132,9 @@ namespace PixelFarm.Drawing.Fonts
         internal NativeFont GetFontAtPointSize(float fontPointSize)
         {
             //convert from point size to pixelsize ***              
-            return GetFontAtPixelSize((int)Font.ConvEmSizeInPointsToPixels(fontPointSize));
+            NativeFont nativeFont = GetFontAtPixelSize((int)Font.ConvEmSizeInPointsToPixels(fontPointSize));
+
+            return nativeFont;
         }
 
         internal FontGlyph ReloadGlyphFromIndex(uint glyphIndex, int pixelSize)

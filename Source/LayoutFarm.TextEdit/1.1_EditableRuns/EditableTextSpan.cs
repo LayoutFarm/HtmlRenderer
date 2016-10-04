@@ -89,9 +89,10 @@ namespace LayoutFarm.Text
         }
         int GetCharacterWidth(char c)
         {
-             
+
             PixelFarm.Drawing.Fonts.ActualFont actualFont = this.Root.P.GetActualFont(GetFont());
-            return actualFont.GetGlyph(c).horiz_adv_x >> 6; //devide by 64              
+            return (int)actualFont.GetAdvanceForCharacter(c);
+            //return actualFont.GetGlyph(c).horiz_adv_x >> 6; //devide by 64              /
         }
         //------------------
         public override int GetRunWidth(int charOffset)

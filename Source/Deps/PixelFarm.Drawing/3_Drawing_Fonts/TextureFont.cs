@@ -27,33 +27,41 @@ namespace PixelFarm.Drawing.Fonts
         SimpleFontAtlas fontAtlas;
         string name;
         IDisposable glBmp;
-        Font nativeFont;
+
+        NativeFont nativeFont;
         static NativeFontStore s_nativeFontStore = new NativeFontStore();
-        internal TextureFont(string name, SimpleFontAtlas fontAtlas)
+
+        internal TextureFont(string fontName, float fontSizeInPts, string fontfile, SimpleFontAtlas fontAtlas)
         {
             this.fontAtlas = fontAtlas;
-            this.name = name;
-            //string fontfile = @"D:\WImageTest\THSarabunNew\THSarabunNew.ttf";
-            string fontfile = @"C:\Windows\Fonts\Tahoma.ttf";
-            nativeFont = new Font("tahoma", 28);
-            s_nativeFontStore.LoadFont(nativeFont, fontfile);
+            this.name = fontName;
+            var font = new Font(fontName, fontSizeInPts);
+            s_nativeFontStore.LoadFont(font, fontfile);
+            nativeFont = s_nativeFontStore.GetResolvedNativeFont(font);
         }
-        public override double AscentInPixels
+        internal TextureFont(string fontName, float fontSizeInPts, SimpleFontAtlas fontAtlas)
+        {
+            //not support font 
+            this.fontAtlas = fontAtlas;
+            this.name = fontName;
+            var font = new Font(fontName, fontSizeInPts);
+            s_nativeFontStore.LoadFont(font);
+            nativeFont = s_nativeFontStore.GetResolvedNativeFont(font);
+        }
+        public override float AscentInPixels
         {
             get
             {
-                throw new NotImplementedException();
+                return nativeFont.AscentInPixels;
             }
         }
-
-        //public override double CapHeightInPixels
-        //{
-        //    get
-        //    {
-        //        throw new NotImplementedException();
-        //    }
-        //}
-
+        public override float DescentInPixels
+        {
+            get
+            {
+                return nativeFont.DescentInPixels;
+            }
+        }
         public IDisposable GLBmp
         {
             get { return glBmp; }
@@ -63,27 +71,19 @@ namespace PixelFarm.Drawing.Fonts
         {
             get { return fontAtlas; }
         }
-        public override double DescentInPixels
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
         public override float EmSize
         {
             get
             {
-                throw new NotImplementedException();
+                return nativeFont.EmSize;
             }
         }
 
-        public override int EmSizeInPixels
+        public override float EmSizeInPixels
         {
             get
             {
-                throw new NotImplementedException();
+                return nativeFont.EmSizeInPixels;
             }
         }
 
@@ -91,70 +91,32 @@ namespace PixelFarm.Drawing.Fonts
         {
             get
             {
-                throw new NotImplementedException();
+                return nativeFont.FontFace;
             }
         }
-
-
-        public override int Height
+        public override float GetAdvanceForCharacter(char c)
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            return nativeFont.GetAdvanceForCharacter(c);
         }
 
-
-
-        public override string Name
+        public override float GetAdvanceForCharacter(char c, char next_c)
         {
-            get
-            {
-                return this.name;
-            }
-        }
-
-        public override FontStyle Style
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        //public override double XHeightInPixels
-        //{
-        //    get
-        //    {
-        //        throw new NotImplementedException();
-        //    }
-        //}
-
-        public override int GetAdvanceForCharacter(char c)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override int GetAdvanceForCharacter(char c, char next_c)
-        {
-            throw new NotImplementedException();
+            return nativeFont.GetAdvanceForCharacter(c, next_c);
         }
 
         public override FontGlyph GetGlyph(char c)
         {
-            throw new NotImplementedException();
+            return nativeFont.GetGlyph(c);
         }
 
         public override FontGlyph GetGlyphByIndex(uint glyphIndex)
         {
-            throw new NotImplementedException();
-            //return nativeFont.ActualFont.GetGlyphByIndex(glyphIndex);
+            return nativeFont.GetGlyphByIndex(glyphIndex);
         }
 
         public override void GetGlyphPos(char[] buffer, int start, int len, ProperGlyph[] properGlyphs)
         {
-            throw new NotImplementedException();
-            //nativeFont.ActualFont.GetGlyphPos(buffer, start, len, properGlyphs);
+            nativeFont.GetGlyphPos(buffer, start, len, properGlyphs);
         }
 
         protected override void OnDispose()
@@ -174,8 +136,10 @@ namespace PixelFarm.Drawing.Fonts
         /// <param name="xmlFontInfo"></param>
         /// <param name="imgAtlas"></param>
         /// <returns></returns>
-        public static TextureFont CreateFont(string fontName, string xmlFontInfo, string imgAtlas)
+        public static TextureFont CreateFont(string fontName, float fontSizeInPoints, string xmlFontInfo, string imgAtlas)
         {
+            //for msdf font
+            //1 font atlas may support mutliple font size 
             SimpleFontAtlasBuilder atlasBuilder = new SimpleFontAtlasBuilder();
             SimpleFontAtlas fontAtlas = atlasBuilder.LoadFontInfo(xmlFontInfo);
             //2. load glyph image
@@ -187,7 +151,7 @@ namespace PixelFarm.Drawing.Fonts
                 glyImage.SetImageBuffer(buffer, true);
                 fontAtlas.TotalGlyph = glyImage;
             }
-            return new TextureFont(fontName, fontAtlas);
+            return new TextureFont(fontName, fontSizeInPoints, fontAtlas);
         }
     }
 }

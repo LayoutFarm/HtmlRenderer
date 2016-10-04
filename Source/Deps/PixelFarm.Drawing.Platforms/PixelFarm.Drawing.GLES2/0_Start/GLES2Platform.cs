@@ -1,7 +1,9 @@
 ﻿//BSD, 2014-2016, WinterDev
 
 using System;
+using System.Collections.Generic;
 using PixelFarm.DrawingGL;
+using PixelFarm.Drawing.Fonts;
 namespace PixelFarm.Drawing.GLES2
 {
     class GLES2Platform : GraphicsPlatform
@@ -64,5 +66,6 @@ namespace PixelFarm.Drawing.GLES2
         {
             throw new NotImplementedException();
         }
+        
     }
 }

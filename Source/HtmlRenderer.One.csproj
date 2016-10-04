@@ -473,6 +473,7 @@
     <Compile Include="Deps\PixelFarm.Drawing\3_Drawing_Fonts\Fonts.cs" />
     <Compile Include="Deps\PixelFarm.Drawing\3_Drawing_Fonts\FontSet.cs" />
     <Compile Include="Deps\PixelFarm.Drawing\3_Drawing_Fonts\FontStyle.cs" />
+    <Compile Include="Deps\PixelFarm.Drawing\3_Drawing_Fonts\InstallFonts.cs" />
     <Compile Include="Deps\PixelFarm.Drawing\3_Drawing_Fonts\SimpleFontAtlas.cs" />
     <Compile Include="Deps\PixelFarm.Drawing\3_Drawing_Fonts\TextureFont.cs" />
     <Compile Include="Deps\PixelFarm.Drawing\4_NativeMethods\Fonts\NativeBridgeFreeType.cs" />

@@ -1,28 +1,56 @@
 ﻿//MIT, 2014-2016, WinterDev   
 
 using System;
-
+using System.Collections.Generic;
 using PixelFarm.Drawing.Fonts;
 namespace PixelFarm.Drawing.WinGdi
 {
-    //*** this class need System.Drawing , because 
-    class WinGdiPlusFont : PlatformFont
+    //*** this class need System.Drawing  
+    class WinGdiPlusFont : ActualFont
     {
         System.Drawing.Font myFont;
         System.IntPtr hFont;
+        float emSize;
+        float emSizeInPixels;
+        float ascendInPixels;
+        float descentInPixels;
+
+        static BasicGdi32FontHelper basGdi32FontHelper = new BasicGdi32FontHelper();
+
+        int[] charWidths;
+        Win32.NativeTextWin32.FontABC[] charAbcWidths;
+        Dictionary<char, int> win32GlyphWidths = new Dictionary<char, int>();
+
+        FontGlyph[] fontGlyphs;
         public WinGdiPlusFont(System.Drawing.Font f)
         {
             this.myFont = f;
             this.hFont = f.ToHfont();
+
+            this.emSize = f.SizeInPoints;
+            this.emSizeInPixels = Font.ConvEmSizeInPointsToPixels(this.emSize);
+            //
+            //build font matrix
+            basGdi32FontHelper.MeasureCharWidths(hFont, out charWidths, out charAbcWidths);
+            int emHeightInDzUnit = f.FontFamily.GetEmHeight(f.Style);
+
+            this.ascendInPixels = Font.ConvEmSizeInPointsToPixels((f.FontFamily.GetCellAscent(f.Style) / emHeightInDzUnit));
+            this.descentInPixels = Font.ConvEmSizeInPointsToPixels((f.FontFamily.GetCellDescent(f.Style) / emHeightInDzUnit));
+
+            //--------------
+            //we build font glyph, this is just win32 glyph
+            //
+            int j = charAbcWidths.Length;
+            fontGlyphs = new FontGlyph[j];
+            for (int i = 0; i < j; ++i)
+            {
+                FontGlyph glyph = new FontGlyph();
+                glyph.horiz_adv_x = charWidths[i] << 6;
+                fontGlyphs[i] = glyph;
+            }
         }
-        public override string Name
-        {
-            get { return this.myFont.Name; }
-        }
-        public override int Height
-        {
-            get { return this.myFont.Height; }
-        }
+
+
         public System.IntPtr ToHfont()
         {   /// <summary>
             /// Set a resource (e.g. a font) for the specified device context.
@@ -32,14 +60,11 @@ namespace PixelFarm.Drawing.WinGdi
         }
         public override float EmSize
         {
-            get { return this.myFont.Size; }
+            get { return emSize; }
         }
-        public override FontStyle Style
+        public override float EmSizeInPixels
         {
-            get
-            {
-                return (FontStyle)this.myFont.Style;
-            }
+            get { return emSizeInPixels; }
         }
         protected override void OnDispose()
         {
@@ -51,25 +76,37 @@ namespace PixelFarm.Drawing.WinGdi
         }
         public override FontGlyph GetGlyphByIndex(uint glyphIndex)
         {
+
             throw new NotImplementedException();
         }
-
         public override FontGlyph GetGlyph(char c)
         {
+            //convert c to glyph index
+            //temp fix 
+
             throw new NotImplementedException();
         }
 
         public override void GetGlyphPos(char[] buffer, int start, int len, ProperGlyph[] properGlyphs)
         {
+            //get gyph pos
             throw new NotImplementedException();
         }
-
-        public override int GetAdvanceForCharacter(char c)
+        public override float GetAdvanceForCharacter(char c)
         {
-            throw new NotImplementedException();
+            //check if we have width got this char or not
+            //temp fix
+            //TODO: review here again ***
+            int foundW;
+            if (!win32GlyphWidths.TryGetValue(c, out foundW))
+            {
+                //not found                 
+                return win32GlyphWidths[c] = basGdi32FontHelper.MeasureStringWidth(this.ToHfont(), new char[] { c });
+            }
+            return foundW;
         }
 
-        public override int GetAdvanceForCharacter(char c, char next_c)
+        public override float GetAdvanceForCharacter(char c, char next_c)
         {
             throw new NotImplementedException();
         }
@@ -86,46 +123,23 @@ namespace PixelFarm.Drawing.WinGdi
                 throw new NotImplementedException();
             }
         }
-
-        public override int EmSizeInPixels
+        public override float AscentInPixels
         {
             get
             {
-                throw new NotImplementedException();
+                return ascendInPixels;
             }
         }
 
-        public override double AscentInPixels
+        public override float DescentInPixels
         {
             get
             {
-                throw new NotImplementedException();
+                return descentInPixels;
             }
         }
 
-        public override double DescentInPixels
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
 
-        //public override double XHeightInPixels
-        //{
-        //    get
-        //    {
-        //        throw new NotImplementedException();
-        //    }
-        //}
-
-        //public override double CapHeightInPixels
-        //{
-        //    get
-        //    {
-        //        throw new NotImplementedException();
-        //    }
-        //}
 
     }
 }

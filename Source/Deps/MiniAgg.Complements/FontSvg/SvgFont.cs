@@ -8,12 +8,12 @@ using PixelFarm.Agg.Transform;
 
 namespace PixelFarm.Drawing.Fonts
 {
-    class SvgFont : OutlineFont
+    class SvgFont : ActualFont
     {
         SvgFontFace fontface;
         int emSizeInPoints;
         int emSizeInPixels;
-        double currentEmScalling;
+        float currentEmScalling;
         Dictionary<char, FontGlyph> cachedGlyphs = new Dictionary<char, FontGlyph>();
         Dictionary<uint, FontGlyph> cachedGlyphsByIndex = new Dictionary<uint, FontGlyph>();
         Affine scaleTx;
@@ -31,7 +31,6 @@ namespace PixelFarm.Drawing.Fonts
         {
             get { return fontface; }
         }
-
         public override FontGlyph GetGlyphByIndex(uint glyphIndex)
         {
             FontGlyph glyph;
@@ -83,91 +82,41 @@ namespace PixelFarm.Drawing.Fonts
         protected override void OnDispose()
         {
         }
-        public override int EmSizeInPixels
+
+        public override float EmSize
+        {
+            get
+            {
+                return emSizeInPoints;
+            }
+        }
+        public override float EmSizeInPixels
         {
             get { return emSizeInPixels; }
         }
-        public override int GetAdvanceForCharacter(char c)
+        public override float GetAdvanceForCharacter(char c)
         {
             return this.GetGlyph(c).horiz_adv_x >> 6;//64
         }
-        public override int GetAdvanceForCharacter(char c, char next_c)
+        public override float GetAdvanceForCharacter(char c, char next_c)
         {
+            //TODO: review here 
+            //this should check kerning info 
             return this.GetGlyph(c).horiz_adv_x >> 6;//64
         }
-        public override double AscentInPixels
+        public override float AscentInPixels
         {
             get
             {
                 return fontface.Ascent * currentEmScalling;
             }
         }
-
-        public override double DescentInPixels
+        public override float DescentInPixels
         {
             get
             {
                 return fontface.Descent * currentEmScalling;
             }
         }
-
-        //public override double XHeightInPixels
-        //{
-        //    get
-        //    {
-        //        return fontface.X_height * currentEmScalling;
-        //    }
-        //}
-
-        //public override double CapHeightInPixels
-        //{
-        //    get
-        //    {
-        //        return fontface.Cap_height * currentEmScalling;
-        //    }
-        //}
-
-
-        //public override FontSpec FontInfo
-        //{
-        //    get
-        //    {
-        //        throw new NotImplementedException();
-        //    }
-        //}
-
-        public override string Name
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public override int Height
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public override float EmSize
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public override FontStyle Style
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-
     }
 }

@@ -100,7 +100,8 @@ namespace LayoutFarm.Text
         {
 
             ActualFont actualFont = this.Root.P.GetActualFont(GetFont());
-            return actualFont.GetGlyph(c).horiz_adv_x >> 6; //devide by 64 
+            return (int)actualFont.GetAdvanceForCharacter(c);
+             
         }
         //------------------
         public override int GetRunWidth(int charOffset)

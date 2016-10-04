@@ -9,14 +9,13 @@ namespace PixelFarm.Drawing.Fonts
     public abstract class ActualFont : IDisposable
     {
 
-        public abstract string Name { get; }
-        public abstract int Height { get; }
+
         /// <summary>
         /// emheight
         /// </summary>
         public abstract float EmSize { get; }
-        public abstract int EmSizeInPixels { get; }
-        public abstract FontStyle Style { get; }
+        //we support subpix rendering
+        public abstract float EmSizeInPixels { get; }
 
 
         public void Dispose()
@@ -32,19 +31,19 @@ namespace PixelFarm.Drawing.Fonts
         }
 #endif
         protected abstract void OnDispose();
+        //---------------------
         public abstract FontGlyph GetGlyphByIndex(uint glyphIndex);
         public abstract FontGlyph GetGlyph(char c);
         public abstract FontFace FontFace { get; }
+        //---------------------
         public abstract void GetGlyphPos(char[] buffer,
             int start,
             int len,
             ProperGlyph[] properGlyphs);
-        public abstract int GetAdvanceForCharacter(char c);
-        public abstract int GetAdvanceForCharacter(char c, char next_c);
-        public abstract double AscentInPixels { get; }
-        public abstract double DescentInPixels { get; }
-        //public abstract double XHeightInPixels { get; }
-        //public abstract double CapHeightInPixels { get; }
+        public abstract float GetAdvanceForCharacter(char c);
+        public abstract float GetAdvanceForCharacter(char c, char next_c);
+        public abstract float AscentInPixels { get; }
+        public abstract float DescentInPixels { get; }
 
         ~ActualFont()
         {
@@ -52,6 +51,6 @@ namespace PixelFarm.Drawing.Fonts
         }
     }
 
-    public abstract class PlatformFont : ActualFont { }
-    public abstract class OutlineFont : ActualFont { }
+
+
 }

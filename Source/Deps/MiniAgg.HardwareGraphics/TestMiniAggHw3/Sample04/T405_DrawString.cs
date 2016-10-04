@@ -24,11 +24,13 @@ namespace OpenTkEssTest
             TextureFontStore textureFonts = new TextureFontStore();
             //------------------------------------------------
             painter = new GLCanvasPainter(canvas2d, max, max);
-            textureFont = TextureFont.CreateFont("tahoma",
+            string fontName = "tahoma";
+            float fontSize = 24;
+            textureFont = TextureFont.CreateFont(fontName, fontSize,
                 "d:\\WImageTest\\a_total.xml",
                 "d:\\WImageTest\\a_total.png");
-            PixelFarm.Drawing.Font f = new PixelFarm.Drawing.Font("tahoma", 24);
-            textureFonts.RegisterFont(f, textureFont); 
+            PixelFarm.Drawing.Font f = new PixelFarm.Drawing.Font(fontName, fontSize);
+            textureFonts.RegisterFont(f, textureFont);
             canvas2d.TextureFontStore = textureFonts;
             painter.CurrentFont = f;
         }

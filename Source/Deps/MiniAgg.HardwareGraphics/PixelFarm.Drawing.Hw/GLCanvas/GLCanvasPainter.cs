@@ -185,13 +185,9 @@ namespace PixelFarm.DrawingGL
             }
             this.Draw(roundRect.MakeVxs());
         }
-
-        //font system for this canvas
-
-
+        //font system for this canvas 
         Font _latestFont;
         TextureFont _latestResolvedFont;
-
         TextureFont GetFont(Font f)
         {
             if (_latestFont == f)
@@ -202,33 +198,6 @@ namespace PixelFarm.DrawingGL
             return _latestResolvedFont = _canvas.TextureFontStore.GetResolvedFont(f);
 
         }
-
-        //public class TextureFonts
-        //{
-        //    Dictionary<Font, TextureFont> registerFonts = new Dictionary<Font, TextureFont>();
-        //    Font latestFont;
-        //    TextureFont latestResolvedFont;
-        //    public TextureFont GetTextureFont(Font f)
-        //    {
-        //        if (f == null)
-        //        {
-        //            throw new NotSupportedException();
-        //        }
-        //        if (f == latestFont)
-        //        {
-        //            return latestResolvedFont;
-        //        }
-        //        //----
-        //        //resolve this font from register fonts
-        //        //if not found then create new one 
-        //        latestFont = f;
-        //        TextureFont found;
-        //        registerFonts.TryGetValue(f, out found);
-        //        return latestResolvedFont = found;
-        //    }
-
-        //}
-
         public override void DrawString(string text, double x, double y)
         {
 

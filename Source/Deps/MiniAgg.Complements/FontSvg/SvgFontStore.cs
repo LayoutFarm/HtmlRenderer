@@ -65,7 +65,7 @@ namespace PixelFarm.Drawing.Fonts
             registerSvgFonts.Add(font, svgFont);
             return font;
         }
-        public OutlineFont GetResolvedFont(Font f)
+        public ActualFont GetResolvedFont(Font f)
         {
             SvgFont found;
             registerSvgFonts.TryGetValue(f, out found);

@@ -11,7 +11,10 @@ namespace PixelFarm.Drawing.Fonts
     public class NativeFont : ActualFont
     {
         NativeFontFace ownerFace;
+        float emSizeInPoints;
         int fontSizeInPixelUnit;
+        float fontFaceAscentInPx;
+        float fontFaceDescentInPx;
         /// <summary>
         /// glyph
         /// </summary>
@@ -22,6 +25,13 @@ namespace PixelFarm.Drawing.Fonts
             //store unmanage font file information
             this.ownerFace = ownerFace;
             this.fontSizeInPixelUnit = pixelSize;
+
+            int ascentEmSize = ownerFace.Ascent / ownerFace.UnitPerEm;
+            fontFaceAscentInPx = Font.ConvEmSizeInPointsToPixels(ascentEmSize);
+
+            int descentEmSize = ownerFace.Descent / ownerFace.UnitPerEm;
+            fontFaceDescentInPx = Font.ConvEmSizeInPointsToPixels(descentEmSize);
+
         }
         protected override void OnDispose()
         {
@@ -49,7 +59,10 @@ namespace PixelFarm.Drawing.Fonts
             }
             return found;
         }
-
+        internal void SetEmSizeInPoint(float emSizeInPoints)
+        {
+            this.emSizeInPoints = emSizeInPoints;
+        }
         /// <summary>
         /// owner font face
         /// </summary>
@@ -77,72 +90,26 @@ namespace PixelFarm.Drawing.Fonts
                 }
             }
         }
-        public override double AscentInPixels
+        public override float AscentInPixels
         {
-            get { throw new NotImplementedException(); }
+            get { return fontFaceAscentInPx; }
         }
 
-        public override double DescentInPixels
+        public override float DescentInPixels
         {
-            get { throw new NotImplementedException(); }
+            get { return fontFaceDescentInPx; }
         }
-        public override int EmSizeInPixels
+        public override float EmSize { get { return this.emSizeInPoints; } }
+        public override float EmSizeInPixels { get { return fontSizeInPixelUnit; } }
+        public override float GetAdvanceForCharacter(char c)
         {
-            get { throw new NotImplementedException(); }
+            return this.GetGlyph(c).horiz_adv_x >> 6;
         }
-
-        //public override double XHeightInPixels
-        //{
-        //    get { throw new NotImplementedException(); }
-        //}
-        //public override double CapHeightInPixels
-        //{
-        //    get
-        //    {
-        //        throw new NotImplementedException();
-        //    }
-        //}
-        public override int GetAdvanceForCharacter(char c)
+        public override float GetAdvanceForCharacter(char c, char next_c)
         {
-            throw new NotImplementedException();
+            //TODO: review here
+            return this.GetGlyph(c).horiz_adv_x >> 6;
         }
-        public override int GetAdvanceForCharacter(char c, char next_c)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override string Name
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public override int Height
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public override float EmSize
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public override FontStyle Style
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
 
         //---------------------------------------------------------------------------
         public static GlyphImage BuildMsdfFontImage(FontGlyph fontGlyph)

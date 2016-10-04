@@ -26,8 +26,8 @@ namespace PixelFarm.Drawing.Fonts
             GdiPathFont gdiPathFont = fontFace.GetFontAtSpecificSize((int)fontPointSize);
             registerFonts.Add(font, gdiPathFont);
             return font;
-        } 
-        public OutlineFont GetResolvedFont(Font f)
+        }
+        public ActualFont GetResolvedFont(Font f)
         {
             GdiPathFont found;
             registerFonts.TryGetValue(f, out found);

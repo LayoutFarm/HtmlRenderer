@@ -6,10 +6,11 @@ using System.Collections.Generic;
 using PixelFarm.Agg;
 namespace PixelFarm.Drawing.Fonts
 {
-    class GdiPathFont : OutlineFont
+    //this is experiment only***
+    class GdiPathFont : ActualFont
     {
         GdiPathFontFace fontface;
-        int emSizeInPoints; 
+        int emSizeInPoints;
         float emSizeInPixels;
 
         Agg.VertexSource.CurveFlattener curveFlattener = new Agg.VertexSource.CurveFlattener();
@@ -21,27 +22,24 @@ namespace PixelFarm.Drawing.Fonts
             this.emSizeInPoints = emSizeInPoints;
             //--------------------------------------
             emSizeInPixels = Font.ConvEmSizeInPointsToPixels(emSizeInPoints);
-            //(int)(((float)emSizeInPoints / (float)POINTS_PER_INCH) * (float)PIXEL_PER_INCH);
-            //currentEmScalling = (float)emSizeInPixels / (float)fontface.UnitsPerEm;
-
-            //-----------------
+            //--------------------------------------
             //implementation
             gdiFont = new System.Drawing.Font(fontface.FaceName, emSizeInPoints);
         }
-        public override int GetAdvanceForCharacter(char c)
+        public override float GetAdvanceForCharacter(char c)
         {
             throw new NotImplementedException();
         }
-        public override int GetAdvanceForCharacter(char c, char next_c)
+        public override float GetAdvanceForCharacter(char c, char next_c)
         {
             throw new NotImplementedException();
         }
-        public override double AscentInPixels
+        public override float AscentInPixels
         {
             get { throw new NotImplementedException(); }
         }
-       
-        public override double DescentInPixels
+
+        public override float DescentInPixels
         {
             get { throw new NotImplementedException(); }
         }
@@ -53,9 +51,9 @@ namespace PixelFarm.Drawing.Fonts
         {
             get { return this.fontface; }
         }
-        public override int EmSizeInPixels
+        public override float EmSizeInPixels
         {
-            get { throw new NotImplementedException(); }
+            get { return emSizeInPixels; }
         }
         public override FontGlyph GetGlyph(char c)
         {
@@ -82,43 +80,10 @@ namespace PixelFarm.Drawing.Fonts
         {
             throw new NotImplementedException();
         }
-        //public override double XHeightInPixels
-        //{
-        //    get { throw new NotImplementedException(); }
-        //}
-        //public override double CapHeightInPixels
-        //{
-        //    get { throw new NotImplementedException(); }
-        //}
+
         protected override void OnDispose()
         {
         }
-
-
-        //public override FontSpec FontInfo
-        //{
-        //    get
-        //    {
-        //        throw new NotImplementedException();
-        //    }
-        //}
-
-        public override string Name
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public override int Height
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
         public override float EmSize
         {
             get
@@ -126,15 +91,5 @@ namespace PixelFarm.Drawing.Fonts
                 throw new NotImplementedException();
             }
         }
-
-        public override FontStyle Style
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-
     }
 }

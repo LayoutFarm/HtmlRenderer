@@ -1,14 +1,26 @@
 ﻿//BSD, 2014-2016, WinterDev
 
 using System;
+using System.Collections.Generic;
 namespace PixelFarm.Drawing.Fonts
 {
 
     class FontSystem : IFonts
     {
         internal NativeFontStore fontStore = new NativeFontStore();
+
+        static FontSystem()
+        {
+
+            //do font indexing here
+            //
+
+
+        }
+
         public void Dispose()
         {
+
 
         }
         public Font GetFont(string fontname, float fsize, FontStyle st)

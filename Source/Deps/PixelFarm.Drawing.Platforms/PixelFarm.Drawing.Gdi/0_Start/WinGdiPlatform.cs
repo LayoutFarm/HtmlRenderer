@@ -1,11 +1,14 @@
 ﻿//BSD, 2014-2016, WinterDev
 
- 
+
 namespace PixelFarm.Drawing.WinGdi
 {
     class WinGdiPlatform : GraphicsPlatform
     {
-        static WinGdiFontStore fontStore = new WinGdiFontStore();
+        static WinGdiFontStore winGdiFontStore = new WinGdiFontStore();
+        static Fonts.NativeFontStore nativeFonts = new Fonts.NativeFontStore();
+
+
         System.Drawing.Bitmap sampleBmp;
         IFonts sampleIFonts;
         public WinGdiPlatform()
@@ -33,11 +36,11 @@ namespace PixelFarm.Drawing.WinGdi
         public override Font GetFont(string fontfaceName, float emsize, FontStyle fontStyle)
         {
             //System.Drawing.Font nativeFont = new System.Drawing.Font(fontfaceName, emsize,fonts);
-            return fontStore.GetCachedFont(fontfaceName, emsize, (System.Drawing.FontStyle)fontStyle);
+            return winGdiFontStore.GetCachedFont(fontfaceName, emsize, (System.Drawing.FontStyle)fontStyle);
         }
         public override Fonts.ActualFont GetActualFont(Font f)
         {
-            return fontStore.GetResolvedFont(f);
+            return winGdiFontStore.GetResolvedFont(f);
         }
         public override Canvas CreateCanvas(int left, int top, int width, int height)
         {
@@ -91,5 +94,6 @@ namespace PixelFarm.Drawing.WinGdi
                 bmpdata.Scan0, rawBuffer.Length);
             bitmap.UnlockBits(bmpdata);
         }
+         
     }
 }

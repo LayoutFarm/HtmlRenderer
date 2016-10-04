@@ -28,8 +28,8 @@ namespace PixelFarm.Drawing.Fonts
         static NativeModuleHolder nativeModuleHolder;
         static NativeMyFontsLib()
         {
-            //dynamic load dll
 
+            //dynamic load dll from current directory??
             string appBaseDir = AppDomain.CurrentDomain.BaseDirectory;
             LoadLib(appBaseDir + "\\" + myfontLib);
             //---------------
@@ -69,6 +69,10 @@ namespace PixelFarm.Drawing.Fonts
         public static extern int MyFtLoadChar(IntPtr faceHandle, int charcode, out GlyphMatrix ftOutline);
         [DllImport(myfontLib, CallingConvention = CallingConvention.Cdecl)]
         public static extern int MyFtLoadGlyph(IntPtr faceHandle, uint codepoint, out GlyphMatrix ftOutline);
+
+        [DllImport(myfontLib, CallingConvention = CallingConvention.Cdecl)]
+        //public static extern void MyFtGetFaceData(IntPtr faceHandle, ref ExportFace exportFace);
+        public static unsafe extern void MyFtGetFaceData(IntPtr faceHandle, ExportFace* exportFace);
         //============================================================================
         //HB shaping ....
         [DllImport(myfontLib, CharSet = CharSet.Ansi)]
@@ -88,10 +92,8 @@ namespace PixelFarm.Drawing.Fonts
             }
             if (!File.Exists(dllFilename))
             {
-                //extract to it 
-                //File.WriteAllBytes(dllFilename, global::project_resources.myfonts_dll.myft);
-                //UnsafeMethods.LoadLibrary(dllFilename);
-
+                //TODO review here
+                //load from specific folder 
             }
             isLoaded = true;
             return true;
@@ -100,7 +102,7 @@ namespace PixelFarm.Drawing.Fonts
 
         [DllImport(myfontLib)]
         public static extern void DeleteUnmanagedObj(IntPtr unmanagedObject);
-       
+
         class NativeModuleHolder : IDisposable
         {
             ~NativeModuleHolder()
@@ -113,7 +115,42 @@ namespace PixelFarm.Drawing.Fonts
             }
         }
     }
-     
+
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
+    unsafe struct ExportFace
+    {
+        public int ascender;
+        public int descender;
+        public int height;
+
+        public int max_advance_width;
+        public int max_advance_height;
+
+        public int underline_position;
+        public int underline_thickness;
+
+        public int num_faces;
+        public int face_index;
+
+        public int face_flags;
+        public int style_flags;
+
+        public int num_glyphs;
+
+        public char* family_name; //ascii
+        public char* style_name; //ascii
+
+        public FTBBox bbox;
+
+        public ushort units_per_EM;
+        
+    };
+    [StructLayout(LayoutKind.Sequential)]
+    struct FTBBox
+    {
+        public int xMin, yMin, xMax, yMax;
+    }
+
     public static class MyFtLib
     {
         const string MYFT = "myft.dll";
@@ -156,6 +193,9 @@ namespace PixelFarm.Drawing.Fonts
         [DllImport(MYFT)]
         public static extern int MyFtLibGetVersion();
     }
+
+
+
     public class MsdfParameters
     {
         public string fontName;
@@ -201,7 +241,7 @@ namespace PixelFarm.Drawing.Fonts
             if (fontName == null) { throw new Exception(); }
             args.Add("-font"); args.Add(fontName);
             args.Add("0x" + ((int)character).ToString("X")); //accept unicode char
-                                                             //3.
+            //3.
             if (outputFile == null)
             {
                 //use default
@@ -214,7 +254,7 @@ namespace PixelFarm.Drawing.Fonts
             args.Add("-pxrange"); args.Add(pixelRange.ToString());
             //6.
             args.Add("-autoframe");//default
-                                   //7.
+            //7.
             if (enableRenderTestFile)
             {
                 if (testRenderFileName == null)

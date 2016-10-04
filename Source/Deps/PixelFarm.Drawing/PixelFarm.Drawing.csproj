@@ -42,6 +42,7 @@
     <Compile Include="3_Drawing_Fonts\FontGlyph.cs" />
     <Compile Include="3_Drawing_Fonts\FontImpl.cs" />
     <Compile Include="3_Drawing_Fonts\FontSet.cs" />
+    <Compile Include="3_Drawing_Fonts\InstallFonts.cs" />
     <Compile Include="3_Drawing_Fonts\SimpleFontAtlas.cs" />
     <Compile Include="3_Drawing_Fonts\TextureFont.cs" />
     <Compile Include="4_NativeMethods\Images\NativeImage.cs" />

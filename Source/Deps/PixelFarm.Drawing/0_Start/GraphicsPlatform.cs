@@ -1,6 +1,7 @@
 ﻿//MIT, 2014-2016, WinterDev
-
+using System.Collections.Generic;
 using PixelFarm.Drawing.Fonts;
+
 namespace PixelFarm.Drawing
 {
     public abstract class GraphicsPlatform
@@ -27,7 +28,7 @@ namespace PixelFarm.Drawing
             get;
             set;
         }
-
         public abstract Bitmap CreatePlatformBitmap(int w, int h, byte[] rawBuffer, bool isBottomUp);
+        
     }
 }
