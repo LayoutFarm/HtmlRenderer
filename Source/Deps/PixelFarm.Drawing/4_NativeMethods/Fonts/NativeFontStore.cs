@@ -57,7 +57,21 @@ namespace PixelFarm.Drawing.Fonts
         }
     }
 
+    struct CharAndGlyphMap
+    {
+        public readonly uint glyphIndex;
+        public readonly char charcode;
+        public CharAndGlyphMap(uint glyphIndex, char charcode)
+        {
+            this.charcode = charcode;
+            this.glyphIndex = glyphIndex;
+        }
+        public override string ToString()
+        {
+            return glyphIndex + ":" + charcode.ToString() + "(" + ((int)charcode).ToString() + ")";
+        }
 
+    }
     /// <summary>
     /// to load and cache native font 
     /// </summary>
@@ -75,7 +89,7 @@ namespace PixelFarm.Drawing.Fonts
         static Dictionary<string, InstalledFont> grasItalic_Fonts = new Dictionary<string, InstalledFont>();
         //--------------------------------------------------
 
-        public NativeFontStore()
+        static NativeFontStore()
         {
             List<InstalledFont> installedFonts = InstalledFontCollection.ReadInstallFonts();
             //do 
@@ -199,11 +213,13 @@ namespace PixelFarm.Drawing.Fonts
 
                     } break;
             }
-
         }
         public void LoadFont(Font font, string filename)
         {
             //load font from specific file 
+            int major, minor, revision;
+            NativeMyFontsLib.MyFtLibGetFullVersion(out major, out minor, out revision);
+
             NativeFontFace fontFace;
             if (!fonts.TryGetValue(filename, out fontFace))
             {
@@ -241,6 +257,19 @@ namespace PixelFarm.Drawing.Fonts
                         font.HBDirection,
                         font.ScriptCode);
                     fonts.Add(filename, fontFace);
+                    //------------------- 
+                    //uint glyphIndex1;
+                    //int char1 = NativeMyFontsLib.MyFtGetFirstChar(faceHandle, out glyphIndex1);
+                    //List<CharAndGlyphMap> charMap = new List<CharAndGlyphMap>(); 
+                    //while (char1 != 0)
+                    //{
+                    //    char c = (char)char1;
+                    //    charMap.Add(new CharAndGlyphMap(glyphIndex1, c));
+                    //    char1 = NativeMyFontsLib.MyFtGetNextChar(faceHandle, char1, out glyphIndex1);
+                    //}
+                    //------------------- 
+
+                    //load glyph map
                 }
                 else
                 {

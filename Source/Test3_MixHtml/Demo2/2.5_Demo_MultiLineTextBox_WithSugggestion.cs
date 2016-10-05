@@ -14,7 +14,7 @@ namespace LayoutFarm
         Dictionary<char, List<string>> words = new Dictionary<char, List<string>>();
         protected override void OnStartDemo(SampleViewport viewport)
         {
-            textbox = new LayoutFarm.CustomWidgets.TextBox(400, 300, true);
+            textbox = new LayoutFarm.CustomWidgets.TextBox(400, 300, true);            
             textbox.SetLocation(20, 20);
             var textSplitter = new Composers.ContentTextSplitter();
             textbox.TextSplitter = textSplitter;

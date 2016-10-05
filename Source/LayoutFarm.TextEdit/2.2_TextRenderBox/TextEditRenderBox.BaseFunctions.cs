@@ -22,7 +22,7 @@ namespace LayoutFarm.Text
             bool isMultiLine)
             : base(rootgfx, width, height)
         {
-            GlobalCaretController.RegisterCaretBlink(rootgfx);
+            GlobalCaretController.RegisterCaretBlink(rootgfx);            
             myCaret = new CaretRenderElement(rootgfx, 2, 17);
             myCaret.TransparentForAllEvents = true;
             this.MayHasViewport = true;

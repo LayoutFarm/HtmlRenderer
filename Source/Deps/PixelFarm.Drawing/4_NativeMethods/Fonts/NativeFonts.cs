@@ -46,8 +46,11 @@ namespace PixelFarm.Drawing.Fonts
             //---------------
             nativeModuleHolder = new NativeModuleHolder();
         }
+
         [DllImport(myfontLib)]
         public static extern int MyFtLibGetVersion();
+        [DllImport(myfontLib, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void MyFtLibGetFullVersion(out int major, out int minor, out int revision);
         [DllImport(myfontLib)]
         public static extern int MyFtInitLib();
         [DllImport(myfontLib)]
@@ -69,10 +72,19 @@ namespace PixelFarm.Drawing.Fonts
         public static extern int MyFtLoadChar(IntPtr faceHandle, int charcode, out GlyphMatrix ftOutline);
         [DllImport(myfontLib, CallingConvention = CallingConvention.Cdecl)]
         public static extern int MyFtLoadGlyph(IntPtr faceHandle, uint codepoint, out GlyphMatrix ftOutline);
+        [DllImport(myfontLib, CallingConvention = CallingConvention.Cdecl)]
+        public static unsafe extern void MyFtGetFaceData(IntPtr faceHandle, ExportFace* exportFace);
+
+        //    MY_DLL_EXPORT int MyFtGetCharIndex(FT_Face myface, char charcode);
+        //MY_DLL_EXPORT long MyFtGetFirstChar(FT_Face myface,  unsigned int* glyphIndex);
+        //MY_DLL_EXPORT long MyFtGetNextChar(FT_Face myface,long charcode, unsigned int glyphIndex);
 
         [DllImport(myfontLib, CallingConvention = CallingConvention.Cdecl)]
-        //public static extern void MyFtGetFaceData(IntPtr faceHandle, ref ExportFace exportFace);
-        public static unsafe extern void MyFtGetFaceData(IntPtr faceHandle, ExportFace* exportFace);
+        public static extern int MyFtGetCharIndex(IntPtr faceHandle, char charcode);
+        [DllImport(myfontLib, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int MyFtGetFirstChar(IntPtr faceHandle, out uint glyIndex);
+        [DllImport(myfontLib, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int MyFtGetNextChar(IntPtr faceHandle, int charcode, out uint glyIndex);
         //============================================================================
         //HB shaping ....
         [DllImport(myfontLib, CharSet = CharSet.Ansi)]
@@ -143,7 +155,7 @@ namespace PixelFarm.Drawing.Fonts
         public FTBBox bbox;
 
         public ushort units_per_EM;
-        
+
     };
     [StructLayout(LayoutKind.Sequential)]
     struct FTBBox

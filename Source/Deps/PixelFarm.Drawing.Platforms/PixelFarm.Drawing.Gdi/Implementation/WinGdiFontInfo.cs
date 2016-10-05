@@ -2,6 +2,8 @@
 
 using System;
 using Win32;
+using System.Collections.Generic;
+
 using PixelFarm.Drawing.Fonts;
 namespace PixelFarm.Drawing.WinGdi
 {
@@ -29,26 +31,26 @@ namespace PixelFarm.Drawing.WinGdi
             hdc = g.GetHdc();
             isInit = true;
         }
+        const int MAX_CODEPOINT_NO = 255;
         public void MeasureCharWidths(IntPtr hFont, out int[] charWidths, out NativeTextWin32.FontABC[] abcSizes)
         {
             if (!isInit) Init();
             //only in ascii range
             //current version
-            charWidths = new int[256];
+            charWidths = new int[MAX_CODEPOINT_NO + 1]; // 
             MyWin32.SelectObject(hdc, hFont);
             unsafe
             {
-                abcSizes = new NativeTextWin32.FontABC[256];
+                //see: https://msdn.microsoft.com/en-us/library/ms404377(v=vs.110).aspx
+                //A code page contains 256 code points and is zero-based.
+                //In most code pages, code points 0 through 127 represent the ASCII character set,
+                //and code points 128 through 255 differ significantly between code pages
+                abcSizes = new NativeTextWin32.FontABC[MAX_CODEPOINT_NO + 1];
                 fixed (NativeTextWin32.FontABC* abc = abcSizes)
                 {
-                    NativeTextWin32.GetCharABCWidths(hdc, (uint)0, (uint)255, abc);
+                    NativeTextWin32.GetCharABCWidths(hdc, (uint)0, (uint)MAX_CODEPOINT_NO, abc);
                 }
-
-                for (int i = 0; i < 161; i++)
-                {
-                    charWidths[i] = abcSizes[i].Sum;
-                }
-                for (int i = 161; i < 255; i++)
+                for (int i = 0; i < (MAX_CODEPOINT_NO + 1); ++i)
                 {
                     charWidths[i] = abcSizes[i].Sum;
                 }
@@ -71,106 +73,4 @@ namespace PixelFarm.Drawing.WinGdi
             return size.Width;
         }
     }
-
-
-    //class WinGdiFontInfo : FontInfo
-    //{
-    //    Font resolvedFont;
-    //    public WinGdiFontInfo(Font resolvedFont)
-    //    {
-    //        this.resolvedFont = resolvedFont;
-    //    }
-    //    public override Font ResolvedFont
-    //    {
-    //        get { return resolvedFont; }
-    //    }
-    //}
-
-    //    class WinGdiFontInfo : FontInfo
-    //{
-    //    int[] charWidths;
-    //    NativeTextWin32.FontABC[] charAbcWidths;
-    //    IntPtr hFont;
-    //    BasicGdi32FontHelper gdiFontHelper;
-    //    Font resolvedFont;
-    //    public WinGdiFontInfo(Font f,
-    //        int lineHeight, float ascentPx,
-    //        float descentPx, float baseline,
-    //        BasicGdi32FontHelper gdiFontHelper)
-    //    {
-    //        this.LineHeight = lineHeight;
-    //        this.DescentPx = descentPx;
-    //        this.AscentPx = ascentPx;
-    //        this.BaseLine = baseline;
-    //        this.FontHeight = f.Height;
-    //        this.gdiFontHelper = gdiFontHelper;
-    //        System.Drawing.Font innerFont = ((System.Drawing.Font)(f.InnerFont));
-    //        hFont = innerFont.ToHfont();
-    //        gdiFontHelper.MeasureCharWidths(hFont, out charWidths, out charAbcWidths);
-    //        this.resolvedFont = f;
-    //    }
-
-    //    public override Font ResolvedFont
-    //    {
-    //        get { return resolvedFont; }
-    //    }
-
-    //    public override int GetCharWidth(char c)
-    //    {
-    //        int converted = (int)c;
-    //        if (converted > 160)
-    //        {
-    //            //Thai Ascii ?
-    //            converted -= 3424;
-    //        }
-    //        if (converted < 256 && converted > -1)
-    //        {
-    //            return charWidths[converted];
-    //        }
-    //        else
-    //        {
-    //            return 0;
-    //        }
-    //    }
-    //    public override FontABC GetCharABCWidth(char c)
-    //    {
-    //        int converted = (int)c;
-    //        if (converted > 160)
-    //        {
-    //            //Thai Ascii
-    //            converted -= 3424;
-    //        }
-    //        if (converted < 256 && converted > -1)
-    //        {
-    //            var abc = charAbcWidths[converted];
-    //            return new FontABC(abc.abcA, abc.abcB, abc.abcC);
-    //        }
-    //        else
-    //        {
-    //            return new FontABC();
-    //        }
-    //    }
-    //    public override int GetStringWidth(char[] buffer)
-    //    {
-    //        if (buffer == null)
-    //        {
-    //            return 0;
-    //        }
-    //        else
-    //        {
-    //            return gdiFontHelper.MeasureStringWidth(this.hFont, buffer);
-    //        }
-    //    }
-    //    public override int GetStringWidth(char[] buffer, int length)
-    //    {
-    //        if (buffer == null)
-    //        {
-    //            return 0;
-    //        }
-    //        else
-    //        {
-    //            return this.gdiFontHelper.MeasureStringWidth(this.hFont, buffer, length);
-    //        }
-    //    }
-    //}
 }

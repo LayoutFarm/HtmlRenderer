@@ -2,7 +2,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Text;
 using PixelFarm.Drawing.Fonts;
+
 namespace PixelFarm.Drawing.WinGdi
 {
     //*** this class need System.Drawing  
@@ -19,9 +21,10 @@ namespace PixelFarm.Drawing.WinGdi
 
         int[] charWidths;
         Win32.NativeTextWin32.FontABC[] charAbcWidths;
-        Dictionary<char, int> win32GlyphWidths = new Dictionary<char, int>();
-
         FontGlyph[] fontGlyphs;
+
+        //eg.
+        Encoding fontEncoding = Encoding.GetEncoding(874);
         public WinGdiPlusFont(System.Drawing.Font f)
         {
             this.myFont = f;
@@ -48,9 +51,8 @@ namespace PixelFarm.Drawing.WinGdi
                 glyph.horiz_adv_x = charWidths[i] << 6;
                 fontGlyphs[i] = glyph;
             }
+
         }
-
-
         public System.IntPtr ToHfont()
         {   /// <summary>
             /// Set a resource (e.g. a font) for the specified device context.
@@ -92,18 +94,18 @@ namespace PixelFarm.Drawing.WinGdi
             //get gyph pos
             throw new NotImplementedException();
         }
+
+        char[] singleCharArray = new char[1];
+        byte[] codePoints = new byte[2];
+
         public override float GetAdvanceForCharacter(char c)
         {
             //check if we have width got this char or not
             //temp fix
             //TODO: review here again ***
-            int foundW;
-            if (!win32GlyphWidths.TryGetValue(c, out foundW))
-            {
-                //not found                 
-                return win32GlyphWidths[c] = basGdi32FontHelper.MeasureStringWidth(this.ToHfont(), new char[] { c });
-            }
-            return foundW;
+            singleCharArray[0] = c;
+            fontEncoding.GetBytes(singleCharArray, 0, 1, codePoints, 0);
+            return charWidths[codePoints[0]];
         }
 
         public override float GetAdvanceForCharacter(char c, char next_c)

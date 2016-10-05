@@ -63,6 +63,38 @@ namespace Icu
             SEP_LIMIT = 200,
         }
 
+        class InMemoryIcuDataHolder : IDisposable
+        {
+            IntPtr unmanagedICUMemData;
+            public InMemoryIcuDataHolder()
+            {
+                byte[] inMemoryICUData = System.IO.File.ReadAllBytes(@"icudtl.dat");
+                unmanagedICUMemData = System.Runtime.InteropServices.Marshal.AllocHGlobal(inMemoryICUData.Length);
+                System.Runtime.InteropServices.Marshal.Copy(inMemoryICUData, 0, unmanagedICUMemData, inMemoryICUData.Length);
+            }
+            public void Use()
+            {
+                ErrorCode err;
+                NativeMethods.udata_setCommonData(unmanagedICUMemData, out err);
+            }
+            public void Dispose()
+            {
+                if (unmanagedICUMemData != IntPtr.Zero)
+                {
+                    System.Runtime.InteropServices.Marshal.FreeHGlobal(unmanagedICUMemData);
+                    unmanagedICUMemData = IntPtr.Zero;
+                }
+            }
+        }
+
+
+        static InMemoryIcuDataHolder inMemDataHolder;
+        static BreakIterator()
+        {
+            inMemDataHolder = new InMemoryIcuDataHolder();
+            inMemDataHolder.Use();
+        }
+
         /// <summary>
         /// Value indicating all text boundaries have been returned.
         /// </summary>
@@ -140,8 +172,13 @@ namespace Icu
                 fixed (char* head = &charBuffer[0])
                 {
                     IntPtr bi = NativeMethods.ubrk_open_unsafe(type, locale, head + start, len, out err);
-                    if (err != ErrorCode.NoErrors)
+                    if (err == ErrorCode.USING_DEFAULT_WARNING)
+                    {
+                    }
+                    else if (err != ErrorCode.NoErrors)
+                    {
                         throw new Exception("BreakIterator.Split() failed with code " + err);
+                    }
                     int cur = NativeMethods.ubrk_first(bi);
                     while (cur != DONE)
                     {

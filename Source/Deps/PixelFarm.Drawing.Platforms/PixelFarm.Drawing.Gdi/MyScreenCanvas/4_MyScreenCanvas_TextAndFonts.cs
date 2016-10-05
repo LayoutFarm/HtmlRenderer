@@ -42,6 +42,7 @@ namespace PixelFarm.Drawing.WinGdi
         public Size MeasureString(char[] buff, int startAt, int len, Font font)
         {
 
+
             //if (_useGdiPlusTextRendering)
             //{
             //    ReleaseHdc();
@@ -58,12 +59,6 @@ namespace PixelFarm.Drawing.WinGdi
             //}
             //else
             //{
-
-            if (buff.Length == 0)
-            {
-                return new Size();
-            }
-
             SetFont(font);
             PixelFarm.Drawing.Size size = new Size();
             unsafe
