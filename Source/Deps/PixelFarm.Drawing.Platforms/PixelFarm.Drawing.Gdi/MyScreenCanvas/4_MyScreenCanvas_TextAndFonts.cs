@@ -61,13 +61,17 @@ namespace PixelFarm.Drawing.WinGdi
             //{
             SetFont(font);
             PixelFarm.Drawing.Size size = new Size();
-            unsafe
+            if (buff.Length >0)
             {
-                fixed (char* startAddr = &buff[0])
+                unsafe
                 {
-                    NativeTextWin32.UnsafeGetTextExtentPoint32(tempDc, startAddr + startAt, len, ref size);
+                    fixed (char* startAddr = &buff[0])
+                    {
+                        NativeTextWin32.UnsafeGetTextExtentPoint32(tempDc, startAddr + startAt, len, ref size);
+                    }
                 }
             }
+            
             return size;
             //}
         }
@@ -93,6 +97,12 @@ namespace PixelFarm.Drawing.WinGdi
             //else
             //{
             SetFont(font);
+            if (buff.Length == 0)
+            {
+                charFit = 0;
+                charFitWidth = 0;
+                return Size.Empty;
+            }
             var size = new PixelFarm.Drawing.Size();
             unsafe
             {
