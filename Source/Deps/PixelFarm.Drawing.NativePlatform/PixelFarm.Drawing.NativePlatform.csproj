@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -39,10 +40,17 @@
     <Compile Include="PixelFarm.Drawing.GLES2\Canvas\2_MyGLCanvas_CoordinateAndClip.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\Canvas\3_MyGLCanvas_DrawGraphics.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\Canvas\4_MyGLCanvas_TextAndFonts.cs" />
+    <Compile Include="PixelFarm.Drawing.GLES2\Implementation.Win32\BasicGdi32FontHelper.cs" />
+    <Compile Include="PixelFarm.Drawing.GLES2\Implementation.Win32\MyWin32.cs" />
+    <Compile Include="PixelFarm.Drawing.GLES2\Implementation.Win32\NativeTextWin32.cs" />
+    <Compile Include="PixelFarm.Drawing.GLES2\Implementation.Win32\NativeWin32MemoryDc.cs" />
+    <Compile Include="PixelFarm.Drawing.GLES2\Implementation.Win32\Win32Utils.cs" />
+    <Compile Include="PixelFarm.Drawing.GLES2\Implementation.Win32\WinGdiFont.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\Implementation\GLCanvasPainter.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\Implementation\GLESBitmap.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\Implementation\GraphicsPath.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\Implementation\PensAndBrushes.cs" />
+    <Compile Include="PixelFarm.Drawing.GLES2\Implementation\WinGdiFontPrinter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -50,11 +58,11 @@
       <Project>{ae0df71e-9b14-4197-b55a-e1e0ce0683c7}</Project>
       <Name>MiniAgg.Complements</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MiniAgg.HardwareGraphics\PixelFarm.Drawing.Hw\PixelFarm.Drawing.Hw.csproj">
+    <ProjectReference Include="..\HardwareGraphics\PixelFarm.Drawing.Hw\PixelFarm.Drawing.Hw.csproj">
       <Project>{e0bc92c3-6936-4d8f-ae7f-54dde27de370}</Project>
       <Name>PixelFarm.Drawing.Hw</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MiniAgg.HardwareGraphics\PixelFarm.MiniPlatforms\PixelFarm.MiniPlatforms.csproj">
+    <ProjectReference Include="..\HardwareGraphics\PixelFarm.MiniPlatforms\PixelFarm.MiniPlatforms.csproj">
       <Project>{198d20b3-0dbd-4c8c-8f0d-0d0fd9c61d43}</Project>
       <Name>PixelFarm.MiniPlatforms</Name>
     </ProjectReference>

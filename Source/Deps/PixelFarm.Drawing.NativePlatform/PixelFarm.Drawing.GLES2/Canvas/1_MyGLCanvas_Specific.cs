@@ -4,6 +4,11 @@ using System;
 using System.Collections.Generic;
 using PixelFarm.DrawingGL;
 using PixelFarm.Drawing.Fonts;
+
+//TODO: review here, make this true cross platform
+using Win32; //on windows we need some native win32 funcs
+
+
 namespace PixelFarm.Drawing.GLES2
 {
 
@@ -16,14 +21,15 @@ namespace PixelFarm.Drawing.GLES2
         Stack<Rectangle> clipRectStack = new Stack<Rectangle>();
         //-------------------------------
         GLCanvasPainter painter1;
-      
+
 
         Rectangle currentClipRect;
         Color currentTextColor;
         InternalPen internalPen;
         InternalBrush internalBrush;
         //-------------------------------
-
+        //TODO: review here, 
+        NativeWin32MemoryDc win32MemDc;
         GraphicsPlatform platform;
         public MyGLCanvas(
             GraphicsPlatform platform,
@@ -45,8 +51,8 @@ namespace PixelFarm.Drawing.GLES2
             this.right = left + width;
             this.bottom = top + height;
             currentClipRect = new Rectangle(0, 0, width, height);
-
             Font font = platform.GetFont("tahoma", 10, FontStyle.Regular);
+            win32MemDc = new NativeWin32MemoryDc(10, 10);
 
             //this.CurrentFont = defaultFont = fontInfo.ResolvedFont;
             this.CurrentTextColor = Color.Black;
@@ -64,7 +70,7 @@ namespace PixelFarm.Drawing.GLES2
         {
             return "visible_clip?";
         }
-
+        
         public override void CloseCanvas()
         {
             if (isDisposed)
@@ -73,6 +79,8 @@ namespace PixelFarm.Drawing.GLES2
             }
 
             isDisposed = true;
+            win32MemDc.Dispose();
+            win32MemDc = null;
             ReleaseUnManagedResource();
         }
         /// <summary>

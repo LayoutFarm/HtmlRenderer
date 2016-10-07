@@ -15,6 +15,8 @@
 
 using System;
 using PixelFarm.Drawing.Fonts;
+using Win32;
+
 namespace PixelFarm.Drawing.GLES2
 {
     partial class MyGLCanvas
@@ -23,6 +25,9 @@ namespace PixelFarm.Drawing.GLES2
         Font currentTextFont = null;
         Color mycurrentTextColor = Color.Black;
         NativeFontStore nativeFontStore = new NativeFontStore();
+
+
+
         //======================================
         //IFonts impl
         Font IFonts.GetFont(string fontname, float fsize, FontStyle st)
@@ -31,8 +36,7 @@ namespace PixelFarm.Drawing.GLES2
         }
         float IFonts.MeasureWhitespace(PixelFarm.Drawing.Font f)
         {
-            //TODO: review here ***
-
+            //TODO: review here ***            
             NativeFont nativeFont = nativeFontStore.GetResolvedNativeFont(f);
             return nativeFont.GetGlyph(' ').horiz_adv_x;
         }
@@ -44,20 +48,38 @@ namespace PixelFarm.Drawing.GLES2
         //======================================
         public override ActualFont GetActualFont(Font f)
         {
-            return nativeFontStore.GetResolvedNativeFont(f); 
+            return nativeFontStore.GetResolvedNativeFont(f);
         }
         public Size MeasureString(char[] buff, int startAt, int len, Font font)
         {
-            throw new NotSupportedException();
-            //_characterRanges[0] = new System.Drawing.CharacterRange(0, len);
-            //_stringFormat.SetMeasurableCharacterRanges(_characterRanges);
-            //System.Drawing.Font font2 = (System.Drawing.Font)font.InnerFont;
-            //var size = gx.MeasureCharacterRanges(
-            //    new string(buff, startAt, len),
-            //    font2,
-            //    System.Drawing.RectangleF.Empty,
-            //    _stringFormat)[0].GetBounds(gx).Size;
-            //return new PixelFarm.Drawing.Size((int)Math.Round(size.Width), (int)Math.Round(size.Height));
+            //throw new NotSupportedException();
+            ////_characterRanges[0] = new System.Drawing.CharacterRange(0, len);
+            ////_stringFormat.SetMeasurableCharacterRanges(_characterRanges);
+            ////System.Drawing.Font font2 = (System.Drawing.Font)font.InnerFont;
+            ////var size = gx.MeasureCharacterRanges(
+            ////    new string(buff, startAt, len),
+            ////    font2,
+            ////    System.Drawing.RectangleF.Empty,
+            ////    _stringFormat)[0].GetBounds(gx).Size;
+            ////return new PixelFarm.Drawing.Size((int)Math.Round(size.Width), (int)Math.Round(size.Height));
+
+
+            this.currentTextFont = font;
+            //TODO: review, select current font to windc TOO!
+            var size = new PixelFarm.Drawing.Size();
+            unsafe
+            {
+                fixed (char* startAddr = &buff[0])
+                {
+                    NativeTextWin32.UnsafeGetTextExtentExPoint(
+                         win32MemDc.DC, startAddr + startAt, len,
+                        int.MaxValue, _charFit, _charFitWidth, ref size);
+                }
+            }
+
+            return size;
+
+
         }
         /// <summary>
         /// Measure the width and height of string <paramref name="str"/> when drawn on device context HDC
@@ -75,30 +97,24 @@ namespace PixelFarm.Drawing.GLES2
             Font font, float maxWidth,
             out int charFit, out int charFitWidth)
         {
-            throw new NotSupportedException();
-            //if (_useGdiPlusTextRendering)
-            //{
-            //    ReleaseHdc();
-            //    throw new NotSupportedException("Char fit string measuring is not supported for GDI+ text rendering");
-            //}
 
-            //this.currentTextFont = font;
-            //var tempDc = gx.GetHdc();
-            //var size = new PixelFarm.Drawing.Size();
-            //unsafe
-            //{
-            //    fixed (char* startAddr = &buff[0])
-            //    {
-            //        NativeTextWin32.UnsafeGetTextExtentExPoint(
-            //            tempDc, startAddr + startAt, len,
-            //            (int)Math.Round(maxWidth), _charFit, _charFitWidth, ref size);
-            //    }
-            //}
-            //gx.ReleaseHdc(tempDc);
-            //charFit = _charFit[0];
-            //charFitWidth = charFit > 0 ? _charFitWidth[charFit - 1] : 0;
-            //return size;
-            ////return size.ToSize();
+            this.currentTextFont = font;
+            //TODO: review, select current font to windc TOO!
+            var size = new PixelFarm.Drawing.Size();
+            unsafe
+            {
+                fixed (char* startAddr = &buff[0])
+                {
+
+                    NativeTextWin32.UnsafeGetTextExtentExPoint(
+                         win32MemDc.DC, startAddr + startAt, len,
+                        (int)Math.Round(maxWidth), _charFit, _charFitWidth, ref size);
+                }
+            }
+            charFit = _charFit[0];
+            charFitWidth = charFit > 0 ? _charFitWidth[charFit - 1] : 0;
+            return size;
+
 
         }
         //============================================== 
