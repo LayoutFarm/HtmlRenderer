@@ -26,33 +26,29 @@ namespace PixelFarm.Drawing.WinGdi
         Agg.VertexSource.RoundedRect roundRect;
         Agg.VertexSource.CurveFlattener curveFlattener;
 
-        WinGdiPlusFontSystem wingdiPlusFonts = new WinGdiPlusFontSystem();
         SmoothingMode _smoothingMode;
+        WinGdiPlusFontSystem winGdiPlusFonts = new WinGdiPlusFontSystem();
         public GdiPlusCanvasPainter(System.Drawing.Bitmap gfxBmp)
         {
             _width = 800;// gfxBmp.Width;
             _height = 600;// gfxBmp.Height;
             _gfxBmp = gfxBmp;
-            _bmpStore = new BufferBitmapStore(_width, _height);
+          
             _gfx = System.Drawing.Graphics.FromImage(_gfxBmp);
+            
             //credit:
             //http://stackoverflow.com/questions/1485745/flip-coordinates-when-drawing-to-control
             _gfx.ScaleTransform(1.0F, -1.0F);// Flip the Y-Axis
             _gfx.TranslateTransform(0.0F, -(float)Height);// Translate the drawing area accordingly            
-
-
-            string fontName = "tahoma";
-            int fontSizeInPoint = 10;
-
-            _latestWinGdiPlusFont = wingdiPlusFonts.GetWinGdiFont(new Font(fontName, fontSizeInPoint));
-
+ 
             _currentFillBrush = new System.Drawing.SolidBrush(System.Drawing.Color.Black);
             _currentPen = new System.Drawing.Pen(System.Drawing.Color.Black);
 
-
+            //
+            _bmpStore = new BufferBitmapStore(_width, _height);
         }
 
-       
+
         public override SmoothingMode SmoothingMode
         {
             get
@@ -62,7 +58,7 @@ namespace PixelFarm.Drawing.WinGdi
             set
             {
                 switch (_smoothingMode = value)
-                { 
+                {
                     case Drawing.SmoothingMode.AntiAlias:
                         _gfx.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
                         break;
@@ -110,6 +106,7 @@ namespace PixelFarm.Drawing.WinGdi
             set
             {
                 _currentFont = value;
+                _latestWinGdiPlusFont = winGdiPlusFonts.GetWinGdiFont(value);
             }
         }
         public override Color FillColor

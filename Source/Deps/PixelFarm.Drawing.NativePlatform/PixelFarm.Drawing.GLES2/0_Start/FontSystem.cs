@@ -12,12 +12,7 @@ namespace PixelFarm.Drawing.Fonts
         static FontSystem()
         {
 
-            //do font indexing here
-            //
-
-
         }
-
         public void Dispose()
         {
 

@@ -38,6 +38,7 @@
     <Compile Include="0_CanvasPainter\AggRenderVx.cs" />
     <Compile Include="0_CanvasPainter\Canvas2dExtension.cs" />
     <Compile Include="0_CanvasPainter\dbugVertexSourceIO.cs" />
+    <Compile Include="1_Base\ScanlineRasToDestBitmapRendererExtension.cs" />
     <Compile Include="2_SpanGenerators\SpanGradient_GradientValueCalculators.cs" />
     <Compile Include="4_Animation\ColorComponentStepup.cs" />
     <Compile Include="4_Animation\GfxProcessorModule.cs" />
@@ -50,7 +51,6 @@
     <Compile Include="Font\MyTypeFacePrinter.cs" />
     <Compile Include="Font\TextPrinter.cs" />
     <Compile Include="Image\FilterMan.cs" />
-    <Compile Include="0_CanvasPainter\ScanlineRasToDestBitmapRendererExtension.cs" />
     <Compile Include="x_notused\KDTree.cs" />
     <Compile Include="1_Base\PixelBlenderRGB.cs" />
     <Compile Include="1_Base\Queue.cs" />

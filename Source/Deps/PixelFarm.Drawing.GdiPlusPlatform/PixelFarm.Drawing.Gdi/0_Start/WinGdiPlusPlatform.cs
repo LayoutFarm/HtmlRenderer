@@ -46,12 +46,8 @@ namespace PixelFarm.Drawing.WinGdi
         }
         public override Canvas CreateCanvas(object platformCanvas, int left, int top, int width, int height)
         {
-            return new MyGdiPlusCanvas(this,
-                platformCanvas as System.Drawing.Graphics,
-                left,
-                top,
-                width,
-                height);
+            throw new System.NotSupportedException();
+
         }
         public override IFonts SampleIFonts
         {

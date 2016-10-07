@@ -91,9 +91,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildMergeProject", "BuildM
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test3_MixHtml.One", "Test3_MixHtml.One\Test3_MixHtml.One.csproj", "{8FF3BA9A-8E98-412D-83B8-D3981B32E54A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixelFarm.MiniPlatforms", "Deps\HardwareGraphics\PixelFarm.MiniPlatforms\PixelFarm.MiniPlatforms.csproj", "{198D20B3-0DBD-4C8C-8F0D-0D0FD9C61D43}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixelFarm.MiniPlatforms", "Deps\PixelFarm.MiniPlatforms\PixelFarm.MiniPlatforms.csproj", "{198D20B3-0DBD-4C8C-8F0D-0D0FD9C61D43}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixelFarm.Drawing.Hw", "Deps\HardwareGraphics\PixelFarm.Drawing.Hw\PixelFarm.Drawing.Hw.csproj", "{E0BC92C3-6936-4D8F-AE7F-54DDE27DE370}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixelFarm.Drawing.Hw", "Deps\PixelFarm.Drawing.Hw\PixelFarm.Drawing.Hw.csproj", "{E0BC92C3-6936-4D8F-AE7F-54DDE27DE370}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlRenderer.One", "HtmlRenderer.One.csproj", "{37A7A03B-A688-4EF4-83D1-D4B3346DB2D3}"
 EndProject

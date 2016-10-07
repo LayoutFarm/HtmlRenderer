@@ -58,14 +58,6 @@
       <Project>{ae0df71e-9b14-4197-b55a-e1e0ce0683c7}</Project>
       <Name>MiniAgg.Complements</Name>
     </ProjectReference>
-    <ProjectReference Include="..\HardwareGraphics\PixelFarm.Drawing.Hw\PixelFarm.Drawing.Hw.csproj">
-      <Project>{e0bc92c3-6936-4d8f-ae7f-54dde27de370}</Project>
-      <Name>PixelFarm.Drawing.Hw</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\HardwareGraphics\PixelFarm.MiniPlatforms\PixelFarm.MiniPlatforms.csproj">
-      <Project>{198d20b3-0dbd-4c8c-8f0d-0d0fd9c61d43}</Project>
-      <Name>PixelFarm.MiniPlatforms</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MiniAgg\MiniAgg.csproj">
       <Project>{4d5ce655-58fa-4523-8e46-738b941e9e47}</Project>
       <Name>MiniAgg</Name>
@@ -74,9 +66,17 @@
       <Project>{ae37de1f-22f7-49ee-8732-fc6bc8dc58d9}</Project>
       <Name>Tesselate</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PixelFarm.Drawing.Hw\PixelFarm.Drawing.Hw.csproj">
+      <Project>{E0BC92C3-6936-4D8F-AE7F-54DDE27DE370}</Project>
+      <Name>PixelFarm.Drawing.Hw</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PixelFarm.Drawing\PixelFarm.Drawing.csproj">
       <Project>{51d63482-5697-4b16-8401-506965624657}</Project>
       <Name>PixelFarm.Drawing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PixelFarm.MiniPlatforms\PixelFarm.MiniPlatforms.csproj">
+      <Project>{198D20B3-0DBD-4C8C-8F0D-0D0FD9C61D43}</Project>
+      <Name>PixelFarm.MiniPlatforms</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
