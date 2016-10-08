@@ -47,7 +47,7 @@ namespace LayoutFarm.HtmlBoxes
 
         internal IFonts SampleIFonts
         {
-            get { return this.gfxPlatform.SampleIFonts; }
+            get { return this.gfxPlatform.Fonts; }
         }
         protected override void OnPushDifferentContainingBlock(CssBox box)
         {
@@ -146,7 +146,7 @@ namespace LayoutFarm.HtmlBoxes
         internal float MeasureWhiteSpace(CssBox box)
         {
             //depends on Font of this box           
-            float w = this.SampleIFonts.MeasureWhitespace(box.ActualFont);
+            float w = this.SampleIFonts.MeasureWhitespace(box.ResolvedFont);
             if (!(box.WordSpacing.IsEmpty || box.WordSpacing.IsNormalWordSpacing))
             {
                 w += CssValueParser.ConvertToPxWithFontAdjust(box.WordSpacing, 0, box);

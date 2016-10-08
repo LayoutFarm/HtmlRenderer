@@ -6,6 +6,7 @@ using PixelFarm.Drawing.Fonts;
 using LayoutFarm.RenderBoxes;
 namespace LayoutFarm
 {
+    
     public abstract partial class RootGraphic : IRootGraphics
     {
         public delegate void PaintToOutputWindowDelegate();
@@ -19,10 +20,8 @@ namespace LayoutFarm
             this.Height = heigth;
         }
         public abstract GraphicsPlatform P { get; }
-
-        public IFonts SampleIFonts { get { return this.P.SampleIFonts; } }
-
-        public abstract FontInfo DefaultTextEditFontInfo
+ 
+        public abstract Font DefaultTextEditFontInfo
         {
             get;
         }
@@ -289,5 +288,8 @@ namespace LayoutFarm
         /// <param name="h"></param>
         /// <returns></returns>
         public abstract RootGraphic CreateNewOne(int w, int h);
+        //---------------------------------------------
+        public abstract PixelFarm.Drawing.Fonts.ActualFont GetActualFont(PixelFarm.Drawing.Font f);
+        //---------------------------------------------
     }
 }

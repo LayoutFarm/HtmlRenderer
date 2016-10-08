@@ -46,21 +46,5 @@ namespace PixelFarm.Drawing.Fonts
             }
         }
     }
-    public abstract class FontInfo
-    {
-        public float AscentPx { get; protected set; }
-        public float DescentPx { get; protected set; }
-        public float BaseLine { get; protected set; }
-        public int LineHeight { get; protected set; }
-        //--------------------------------------------------
-        public int FontHeight { get; protected set; }
-        public int FontSize { get; protected set; }
-        public abstract IntPtr HFont { get; }
-        public abstract int GetCharWidth(char c);
-        public abstract FontABC GetCharABCWidth(char c);
-        public abstract int GetStringWidth(char[] buffer);
-        public abstract int GetStringWidth(char[] buffer, int length);
-        public abstract Font ResolvedFont { get; }
-        public object PlatformSpecificFont { get; set; }
-    }
+    
 }

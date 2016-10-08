@@ -66,18 +66,19 @@ namespace LayoutFarm
 
             if (textbox.CurrentTextSpan != null)
             {
-                textbox.ReplaceCurrentTextRunContent(currentLocalText.Length,
-                    (string)listView.GetItem(listView.SelectedIndex).Tag);
-                //------------------------------------- 
-                //then hide suggestion list
-                listView.ClearItems();
-                listView.Visible = false;
-                //-------------------------------------- 
+                if (listView.SelectedIndex >= 0)
+                {
+                    textbox.ReplaceCurrentTextRunContent(currentLocalText.Length,
+                        (string)listView.GetItem(listView.SelectedIndex).Tag);
+                    //------------------------------------- 
+                    //then hide suggestion list
+                    listView.ClearItems();
+                    listView.Visible = false;
+                    //-------------------------------------- 
+                }
             }
-
             e.PreventDefault = true;
         }
-
 
         string GetString(char[] buffer, LayoutFarm.Composers.TextSplitBound bound)
         {
@@ -97,11 +98,11 @@ namespace LayoutFarm
                 return;
             }
             //-------------------------------------------------------------------------
-            //sample parse ...
+            //simple parse ...
             //In this example  all country name start with Captial letter so ...
             string currentTextSpanText = textbox.CurrentTextSpan.Text.ToUpper();
             //analyze content
-            var textBuffer = currentTextSpanText.ToCharArray();
+            char[] textBuffer = currentTextSpanText.ToCharArray();
             var results = new List<LayoutFarm.Composers.TextSplitBound>();
             results.AddRange(textbox.TextSplitter.ParseWordContent(textBuffer, 0, textBuffer.Length));
             //get last part of splited text

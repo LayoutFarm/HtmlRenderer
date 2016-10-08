@@ -420,28 +420,28 @@ namespace LayoutFarm.Demo
                 switch (src.ToLower())
                 {
                     case "htmlicon":
-                        image = LayoutFarm.Demo.Resource.html32;
+                        image = HtmlRenderer.Demo.Resource.html32;
                         break;
                     case "staricon":
-                        image = LayoutFarm.Demo.Resource.favorites32;
+                        image = HtmlRenderer.Demo.Resource.favorites32;
                         break;
                     case "fonticon":
-                        image = LayoutFarm.Demo.Resource.font32;
+                        image = HtmlRenderer.Demo.Resource.font32;
                         break;
                     case "commenticon":
-                        image = LayoutFarm.Demo.Resource.comment16;
+                        image = HtmlRenderer.Demo.Resource.comment16;
                         break;
                     case "imageicon":
-                        image = LayoutFarm.Demo.Resource.image32;
+                        image = HtmlRenderer.Demo.Resource.image32;
                         break;
                     case "methodicon":
-                        image = LayoutFarm.Demo.Resource.method16;
+                        image = HtmlRenderer.Demo.Resource.method16;
                         break;
                     case "propertyicon":
-                        image = LayoutFarm.Demo.Resource.property16;
+                        image = HtmlRenderer.Demo.Resource.property16;
                         break;
                     case "eventicon":
-                        image = LayoutFarm.Demo.Resource.Event16;
+                        image = HtmlRenderer.Demo.Resource.Event16;
                         break;
                 }
                 //----------------------------------

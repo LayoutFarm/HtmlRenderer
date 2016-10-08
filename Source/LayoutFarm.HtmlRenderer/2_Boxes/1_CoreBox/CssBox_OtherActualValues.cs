@@ -8,7 +8,7 @@ namespace LayoutFarm.HtmlBoxes
 {
     partial class CssBox
     {
-        Font _actualFont;
+        Font _resolvedFont;
         float _actualLineHeight;
         float _actualWordSpacing; //assign for whitespace run ?
         float _actualTextIndent;

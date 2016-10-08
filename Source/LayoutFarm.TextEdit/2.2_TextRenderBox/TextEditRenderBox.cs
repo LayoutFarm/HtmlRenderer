@@ -23,7 +23,7 @@ namespace LayoutFarm.Text
         protected override void DrawBoxContent(Canvas canvas, Rectangle updateArea)
         {
             var enterFont = canvas.CurrentFont;
-            canvas.CurrentFont = this.CurrentTextSpanStyle.FontInfo.ResolvedFont;
+            canvas.CurrentFont = this.CurrentTextSpanStyle.FontInfo;
             if (vscrollableSurface != null)
             {
                 vscrollableSurface.DrawToThisPage(canvas, updateArea);

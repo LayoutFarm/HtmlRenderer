@@ -13,7 +13,7 @@
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -247,7 +248,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HtmlRenderer.One.csproj">
-      <Project>{6f7e8b5f-b944-47aa-bbbf-e2917f0421a1}</Project>
+      <Project>{37a7a03b-a688-4ef4-83d1-d4b3346db2d3}</Project>
       <Name>HtmlRenderer.One</Name>
     </ProjectReference>
   </ItemGroup>

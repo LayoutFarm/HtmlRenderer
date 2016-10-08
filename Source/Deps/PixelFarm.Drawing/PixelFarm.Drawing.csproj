@@ -39,7 +39,9 @@
     <Compile Include="0_Start\ExtensionAttribute.cs" />
     <Compile Include="1_Drawing\RenderVx.cs" />
     <Compile Include="3_Drawing_Fonts\FontGlyph.cs" />
-    <Compile Include="4_NativeMethods\Images\NativeImage.cs" />
+    <Compile Include="3_Drawing_Fonts\ActualFont.cs" />
+    <Compile Include="3_Drawing_Fonts\FontKey.cs" />
+    <Compile Include="3_Drawing_Fonts\NativeBridgeHB.cs" />
     <Compile Include="5_PixelFarm_Agg\ActualImage.cs" />
     <Compile Include="5_PixelFarm_Agg\CanvasPainter.cs" />
     <Compile Include="3_Drawing_Fonts\FontFace.cs" />
@@ -64,23 +66,18 @@
     <Compile Include="1_Drawing\Brushes_Pens.cs" />
     <Compile Include="1_Drawing\Color.cs" />
     <Compile Include="1_Drawing\DashStyle.cs" />
-    <Compile Include="3_Drawing_Fonts\Fonts.cs" />
+    <Compile Include="1_Drawing\Fonts.cs" />
     <Compile Include="1_Drawing\GraphicsPath.cs" />
-    <Compile Include="3_Drawing_Fonts\FontStyle.cs" />
-    <Compile Include="1_Drawing\Image.cs" />
+    <Compile Include="1_Drawing\FontStyle.cs" />
+    <Compile Include="1_Drawing\Image_Bitmap.cs" />
     <Compile Include="1_Drawing\KnownColors.cs" />
     <Compile Include="1_Drawing\Rectangle.cs" />
     <Compile Include="1_Drawing\RectangleF.cs" />
     <Compile Include="1_Drawing\Region.cs" />
     <Compile Include="1_Drawing\BasicGeometries.cs" />
-    <Compile Include="4_BasicRenderBox\4_Animation\ColorComponentStepup.cs" />
-    <Compile Include="4_BasicRenderBox\4_Animation\GfxProcessorModule.cs" />
     <Compile Include="0_Start\GraphicsPlatform.cs" />
     <Compile Include="1_Drawing\Canvas.cs" />
     <Compile Include="1_Drawing\CustomRenderSurface.cs" />
-    <Compile Include="4_BasicRenderBox\4_Animation\Timelines.cs" />
-    <Compile Include="4_BasicRenderBox\4_Animation\ParallelTimeline.cs" />
-    <Compile Include="4_BasicRenderBox\IRenderElement.cs" />
     <Compile Include="7_PixelFarm_AggVertex_Core\0_VertexCommandAndOrientation.cs" />
     <Compile Include="7_PixelFarm_AggVertex_Core\1_VertexStore.cs" />
     <Compile Include="7_PixelFarm_AggVertex_Core\2_VertexStoreSnap.cs" />
@@ -123,13 +120,7 @@
     <Compile Include="9_PixelFarm_AggVertex_More\VertexSource\SimpleRect.cs" />
     <Compile Include="9_PixelFarm_AggVertex_More\VertexSource\VertexData.cs" />
     <Compile Include="9_PixelFarm_AggVertex_More\VertexSource\VertexStoreBuilder.cs" />
-    <Compile Include="4_NativeMethods\Fonts\NativeBridgeFreeType.cs" />
-    <Compile Include="4_NativeMethods\Fonts\NativeBridgeHB.cs" />
-    <Compile Include="4_NativeMethods\Fonts\NativeFont.cs" />
-    <Compile Include="4_NativeMethods\Fonts\NativeFontFace.cs" />
-    <Compile Include="4_NativeMethods\Fonts\NativeFontGlyphBuilder.cs" />
-    <Compile Include="4_NativeMethods\Fonts\NativeFonts.cs" />
-    <Compile Include="4_NativeMethods\Fonts\NativeFontStore.cs" />
+    <Compile Include="BasicRenderBox\IRenderElement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

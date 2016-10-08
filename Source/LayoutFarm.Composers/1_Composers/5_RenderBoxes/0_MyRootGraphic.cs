@@ -19,6 +19,7 @@ namespace LayoutFarm.UI
         readonly TopWindowEventRoot topWindowEventRoot;
         readonly RenderBoxBase topWindowRenderBox;
         UIPlatform uiPlatform;
+        Font _defaultTextEditFont;
         public MyRootGraphic(UIPlatform uiPlatform,
             GraphicsPlatform gfxPlatform,
             int width, int height)
@@ -27,6 +28,8 @@ namespace LayoutFarm.UI
             this.uiPlatform = uiPlatform;
             this.graphicsPlatform = gfxPlatform;
             this.graphicTimerTaskMan = new GraphicsTimerTaskManager(this, uiPlatform);
+            _defaultTextEditFont = new Font("tahoma", 10);
+
 #if DEBUG
             dbugCurrentGlobalVRoot = this;
             dbug_Init(null, null, null);
@@ -93,11 +96,11 @@ namespace LayoutFarm.UI
         {
             get { return graphicsPlatform; }
         }
-        public override PixelFarm.Drawing.Fonts.FontInfo DefaultTextEditFontInfo
+        public override Font DefaultTextEditFontInfo
         {
             get
             {
-                return graphicsPlatform.TextEditFontInfo;
+                return _defaultTextEditFont;
             }
         }
         public override void ClearRenderRequests()
@@ -345,5 +348,12 @@ namespace LayoutFarm.UI
         {
             get { return this.topWindowEventRoot; }
         }
+
+        public override PixelFarm.Drawing.Fonts.ActualFont GetActualFont(Font f)
+        {
+            throw new NotImplementedException();
+        }
     }
+
+    
 }

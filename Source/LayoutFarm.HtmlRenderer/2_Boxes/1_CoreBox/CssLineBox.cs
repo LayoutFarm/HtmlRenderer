@@ -313,8 +313,12 @@ namespace LayoutFarm.HtmlBoxes
             }
             if (maxRun != null)
             {
-                var fontInfo = maxRun.OwnerBox.ActualFont.FontInfo;
-                return fontInfo.BaseLine;
+                //lay.GraphicsPlatform.SampleIFonts
+                //var f = maxRun.OwnerBox.ResolvedFont;
+                //PixelFarm.Drawing.Fonts.ActualFont ff = f.ActualFont;
+                //return (float)(f.Height * ff.AscentInPixels / f.Height);
+
+                //return fontHeight* fontAscent / lineSpacing )
             }
             return 0;
             //int j = this._runs.Count;
@@ -499,7 +503,7 @@ namespace LayoutFarm.HtmlBoxes
                                 //change
                                 latestOwner = w.OwnerBox;
                                 //change font when change owner 
-                                p.InnerCanvas.CurrentFont = latestOwner.ActualFont;
+                                p.InnerCanvas.CurrentFont = latestOwner.ResolvedFont;
                                 p.InnerCanvas.CurrentTextColor = latestOwner.ActualColor;
                             }
 

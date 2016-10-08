@@ -108,7 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HtmlRenderer.One.csproj">
-      <Project>{6f7e8b5f-b944-47aa-bbbf-e2917f0421a1}</Project>
+      <Project>{37a7a03b-a688-4ef4-83d1-d4b3346db2d3}</Project>
       <Name>HtmlRenderer.One</Name>
     </ProjectReference>
   </ItemGroup>

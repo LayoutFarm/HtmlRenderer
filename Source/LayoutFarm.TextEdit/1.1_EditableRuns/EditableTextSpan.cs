@@ -89,7 +89,10 @@ namespace LayoutFarm.Text
         }
         int GetCharacterWidth(char c)
         {
-            return GetFontInfo().GetCharWidth(c);
+
+            PixelFarm.Drawing.Fonts.ActualFont actualFont = this.Root.GetActualFont(GetFont());
+            return (int)actualFont.GetAdvanceForCharacter(c);
+            //return actualFont.GetGlyph(c).horiz_adv_x >> 6; //devide by 64              /
         }
         //------------------
         public override int GetRunWidth(int charOffset)
@@ -156,12 +159,12 @@ namespace LayoutFarm.Text
         }
         Size CalculateDrawingStringSize(char[] buffer, int length)
         {
-            PixelFarm.Drawing.Fonts.FontInfo FontInfo = GetFontInfo();
-            return new Size(
-                 FontInfo.GetStringWidth(buffer, length),
-                 FontInfo.FontHeight);
+            PixelFarm.Drawing.Font fontInfo = GetFont();
+            return this.Root.P.Fonts.MeasureString(buffer, 0,
+                length, fontInfo);
+
         }
-        protected PixelFarm.Drawing.Fonts.FontInfo GetFontInfo()
+        protected PixelFarm.Drawing.Font GetFont()
         {
             if (!HasStyle)
             {
@@ -198,7 +201,7 @@ namespace LayoutFarm.Text
         const int DIFF_FONT_DIFF_TEXT_COLOR = 3;
         static int EvaluateFontAndTextColor(Canvas canvas, TextSpanStyle spanStyle)
         {
-            var font = spanStyle.FontInfo.ResolvedFont;
+            var font = spanStyle.FontInfo;
             var color = spanStyle.FontColor;
             var currentTextFont = canvas.CurrentFont;
             var currentTextColor = canvas.CurrentTextColor;
@@ -248,7 +251,7 @@ namespace LayoutFarm.Text
                     case DIFF_FONT_SAME_TEXT_COLOR:
                         {
                             var prevFont = canvas.CurrentFont;
-                            canvas.CurrentFont = style.FontInfo.ResolvedFont;
+                            canvas.CurrentFont = style.FontInfo;
                             canvas.DrawText(this.mybuffer,
                                new Rectangle(0, 0, bWidth, bHeight),
                                style.ContentHAlign);
@@ -259,7 +262,7 @@ namespace LayoutFarm.Text
                         {
                             var prevFont = canvas.CurrentFont;
                             var prevColor = canvas.CurrentTextColor;
-                            canvas.CurrentFont = style.FontInfo.ResolvedFont;
+                            canvas.CurrentFont = style.FontInfo;
                             canvas.CurrentTextColor = style.FontColor;
                             canvas.DrawText(this.mybuffer,
                                new Rectangle(0, 0, bWidth, bHeight),

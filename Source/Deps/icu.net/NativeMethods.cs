@@ -49,6 +49,10 @@ namespace Icu
 		internal const string ICU_I18N_LIB = "icuin56.dll";
 		internal const string ICU_COMMON_LIB = "icuuc56.dll";
 		internal const string ICU_VERSION_SUFFIX = "_56";
+#elif ICU_VER_57
+        internal const string ICU_I18N_LIB = "icuin57.dll";
+        internal const string ICU_COMMON_LIB = "icuuc57.dll";
+        internal const string ICU_VERSION_SUFFIX = "_57";
 #else
 #error We need to update the code for newer version of ICU after 56 (or older version before 4.8)
 #endif
@@ -181,6 +185,7 @@ namespace Icu
  * @param coll The UCollator to close.
  * @stable ICU 2.0
  */
+
 
         [DllImport(ICU_I18N_LIB, EntryPoint = "ucol_close" + ICU_VERSION_SUFFIX,
                    CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
@@ -1434,5 +1439,9 @@ ucol_nextSortKeyPart(SafeRuleBasedCollatorHandle collator,
                    CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern int uset_getItemCount(IntPtr set);
         #endregion Unicode set
+
+        [DllImport(ICU_COMMON_LIB, EntryPoint = "udata_setCommonData" + ICU_VERSION_SUFFIX,
+        CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        public static extern void udata_setCommonData(IntPtr data, out ErrorCode ec);
     }
 }

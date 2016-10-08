@@ -27,9 +27,7 @@ namespace PixelFarm.Agg
         protected ActualImage destActualImage;
         protected ScanlineRasterizer sclineRas;
         Affine currentTxMatrix = Affine.IdentityMatrix;
-        public Graphics2D()
-        {
-        }
+         
         //------------------------------------------------------------------------
 
         public abstract void SetClippingRect(RectInt rect);
@@ -81,9 +79,9 @@ namespace PixelFarm.Agg
             set;
         }
         //================
-        public static ImageGraphics2D CreateFromImage(ActualImage actualImage)
+        public static ImageGraphics2D CreateFromImage(ActualImage actualImage,PixelFarm.Drawing.GraphicsPlatform gfxPlatform)
         {
-            return new ImageGraphics2D(actualImage);
+            return new ImageGraphics2D(actualImage, gfxPlatform);
         }
         public abstract bool UseSubPixelRendering
         {

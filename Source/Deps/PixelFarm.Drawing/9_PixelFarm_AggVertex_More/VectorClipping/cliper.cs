@@ -417,7 +417,8 @@ namespace ClipperLib
 #else
         public IntPoint(cInt X, cInt Y)
         {
-            this.X = X; this.Y = Y;
+            this.X = X;
+            this.Y = Y;
         }
         public IntPoint(double x, double y)
         {
@@ -782,7 +783,7 @@ namespace ClipperLib
         private TEdge FindNextLocMin(TEdge E)
         {
             TEdge E2;
-            for (;;)
+            for (; ; )
             {
                 while (E.Bot != E.Prev.Bot || E.Curr == E.Top) E = E.Next;
                 if (E.Dx != horizontal && E.Prev.Dx != horizontal) break;
@@ -944,7 +945,7 @@ namespace ClipperLib
             TEdge eStart = edges[0];
             //2. Remove duplicate vertices, and (when closed) collinear edges ...
             TEdge E = eStart, eLoopStop = eStart;
-            for (;;)
+            for (; ; )
             {
                 if (E.Curr == E.Next.Curr)
                 {
@@ -1023,7 +1024,7 @@ namespace ClipperLib
             m_edges.Add(edges);
             bool clockwise;
             TEdge EMin = null;
-            for (;;)
+            for (; ; )
             {
                 E = FindNextLocMin(E);
                 if (E == EMin) break;
@@ -2773,7 +2774,7 @@ new ClipperException("Error: PolyTree struct is need for open path clipping.");
                 eLastHorz = eLastHorz.NextInLML;
             if (eLastHorz.NextInLML == null)
                 eMaxPair = GetMaximaPair(eLastHorz);
-            for (;;)
+            for (; ; )
             {
                 bool IsLastHorz = (horzEdge == eLastHorz);
                 TEdge e = GetNextInAEL(horzEdge, dir);
@@ -3384,7 +3385,7 @@ new ClipperException("ProcessHorizontal error");
             OutPt lastOK = null;
             outRec.BottomPt = null;
             OutPt pp = outRec.Pts;
-            for (;;)
+            for (; ; )
             {
                 if (pp.Prev == pp || pp.Prev == pp.Next)
                 {
@@ -3752,7 +3753,7 @@ new ClipperException("ProcessHorizontal error");
             //http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.88.5498&rep=rep1&type=pdf
             int result = 0;
             OutPt startOp = op;
-            for (;;)
+            for (; ; )
             {
                 double poly0x = op.Pt.X, poly0y = op.Pt.Y;
                 double poly1x = op.Next.Pt.X, poly1y = op.Next.Pt.Y;
@@ -3970,19 +3971,19 @@ new ClipperException("ProcessHorizontal error");
                             }
                             else
                                 if (Poly2ContainsPoly1(outrec.Pts, outrec2.Pts))
-                            {
-                                //OutRec1 is contained by OutRec2 ...
-                                outrec2.IsHole = outrec.IsHole;
-                                outrec.IsHole = !outrec2.IsHole;
-                                outrec2.FirstLeft = outrec.FirstLeft;
-                                outrec.FirstLeft = outrec2;
-                            }
-                            else
-                            {
-                                //the 2 polygons are separate ...
-                                outrec2.IsHole = outrec.IsHole;
-                                outrec2.FirstLeft = outrec.FirstLeft;
-                            }
+                                {
+                                    //OutRec1 is contained by OutRec2 ...
+                                    outrec2.IsHole = outrec.IsHole;
+                                    outrec.IsHole = !outrec2.IsHole;
+                                    outrec2.FirstLeft = outrec.FirstLeft;
+                                    outrec.FirstLeft = outrec2;
+                                }
+                                else
+                                {
+                                    //the 2 polygons are separate ...
+                                    outrec2.IsHole = outrec.IsHole;
+                                    outrec2.FirstLeft = outrec.FirstLeft;
+                                }
                             op2 = op; //ie get ready for the next iteration
                         }
                         op2 = op2.Next;
