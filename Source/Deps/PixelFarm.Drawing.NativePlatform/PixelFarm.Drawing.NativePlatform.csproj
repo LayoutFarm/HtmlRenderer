@@ -1,0 +1,181 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E1E89B3B-B529-4B17-B7ED-4C70CC8475EB}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PixelFarm.Drawing.NativePlatform</RootNamespace>
+    <AssemblyName>PixelFarm.Drawing.NativePlatform</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.XML" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\PixelFarm.Drawing.Hw\GLCanvas\CanvasGL2d.cs">
+      <Link>GLCanvas\CanvasGL2d.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.Drawing.Hw\GLCanvas\CanvasSmoothMode.cs">
+      <Link>GLCanvas\CanvasSmoothMode.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.Drawing.Hw\GLCanvas\CanvasToShaderSharedResource.cs">
+      <Link>GLCanvas\CanvasToShaderSharedResource.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.Drawing.Hw\GLCanvas\GLCanvasPainterBase.cs">
+      <Link>GLCanvas\GLCanvasPainterBase.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.Drawing.Hw\GLCanvas\GLGradientColorProvider.cs">
+      <Link>GLCanvas\GLGradientColorProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.Drawing.Hw\GLCanvas\GLTextPrinter.cs">
+      <Link>GLCanvas\GLTextPrinter.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.Drawing.Hw\GLCanvas\ImageFillStyle.cs">
+      <Link>GLCanvas\ImageFillStyle.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.Drawing.Hw\GLCanvas\InternalGraphicsPath.cs">
+      <Link>GLCanvas\InternalGraphicsPath.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.Drawing.Hw\GLCanvas\SvgArc.cs">
+      <Link>GLCanvas\SvgArc.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.Drawing.Hw\GLCanvas\TessListener.cs">
+      <Link>GLCanvas\TessListener.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.Drawing.Hw\GLCanvas\VertexPositionColor.cs">
+      <Link>GLCanvas\VertexPositionColor.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.Drawing.Hw\GLShader\BasicFillShader.cs">
+      <Link>GLShader\BasicFillShader.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.Drawing.Hw\GLShader\FilterEffectShaders.cs">
+      <Link>GLShader\FilterEffectShaders.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.Drawing.Hw\GLShader\InvertAlphaLineSmoothShader.cs">
+      <Link>GLShader\InvertAlphaLineSmoothShader.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.Drawing.Hw\GLShader\RectGradientShader.cs">
+      <Link>GLShader\RectGradientShader.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.Drawing.Hw\GLShader\ShaderBase.cs">
+      <Link>GLShader\ShaderBase.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.Drawing.Hw\GLShader\SignedDistanceFieldShader.cs">
+      <Link>GLShader\SignedDistanceFieldShader.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.Drawing.Hw\GLShader\SimpleRectTextureShader.cs">
+      <Link>GLShader\SimpleRectTextureShader.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.Drawing.Hw\GLShader\SmoothLineShader.cs">
+      <Link>GLShader\SmoothLineShader.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.Drawing.Hw\GLTexture\FrameBuffer.cs">
+      <Link>GLTexture\FrameBuffer.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.Drawing.Hw\GLTexture\GLBitmap.cs">
+      <Link>GLTexture\GLBitmap.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.Drawing.Hw\GLTexture\GLBitmapReference.cs">
+      <Link>GLTexture\GLBitmapReference.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.Drawing.Hw\GLTexture\LazyAggBitmapBufferProvider.cs">
+      <Link>GLTexture\LazyAggBitmapBufferProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.Drawing.Hw\GLTexture\SimpleFontAtlas.cs">
+      <Link>GLTexture\SimpleFontAtlas.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.Drawing.Hw\GLTexture\TextureAtlas.cs">
+      <Link>GLTexture\TextureAtlas.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.Drawing.Hw\NativeFonts\InstalledFont.cs">
+      <Link>NativeFonts\InstalledFont.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.Drawing.Hw\NativeFonts\InstalledFontCollection.cs">
+      <Link>NativeFonts\InstalledFontCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.Drawing.Hw\NativeFonts\NativeBridgeFreeType.cs">
+      <Link>NativeFonts\NativeBridgeFreeType.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.Drawing.Hw\NativeFonts\NativeFont.cs">
+      <Link>NativeFonts\NativeFont.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.Drawing.Hw\NativeFonts\NativeFontFace.cs">
+      <Link>NativeFonts\NativeFontFace.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.Drawing.Hw\NativeFonts\NativeFontGlyphBuilder.cs">
+      <Link>NativeFonts\NativeFontGlyphBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.Drawing.Hw\NativeFonts\NativeFonts.cs">
+      <Link>NativeFonts\NativeFonts.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.Drawing.Hw\NativeFonts\NativeFontStore.cs">
+      <Link>NativeFonts\NativeFontStore.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.Drawing.Hw\NativeFonts\TextureFont.cs">
+      <Link>NativeFonts\TextureFont.cs</Link>
+    </Compile>
+    <Compile Include="PixelFarm.Drawing.GLES2\0_Start\FontSystem.cs" />
+    <Compile Include="PixelFarm.Drawing.GLES2\0_Start\GLES2Platform.cs" />
+    <Compile Include="PixelFarm.Drawing.GLES2\Canvas\1_MyGLCanvas_Specific.cs" />
+    <Compile Include="PixelFarm.Drawing.GLES2\Canvas\2_MyGLCanvas_CoordinateAndClip.cs" />
+    <Compile Include="PixelFarm.Drawing.GLES2\Canvas\3_MyGLCanvas_DrawGraphics.cs" />
+    <Compile Include="PixelFarm.Drawing.GLES2\Canvas\4_MyGLCanvas_TextAndFonts.cs" />
+    <Compile Include="PixelFarm.Drawing.GLES2\Implementation.Win32\BasicGdi32FontHelper.cs" />
+    <Compile Include="PixelFarm.Drawing.GLES2\Implementation.Win32\MyWin32.cs" />
+    <Compile Include="PixelFarm.Drawing.GLES2\Implementation.Win32\NativeTextWin32.cs" />
+    <Compile Include="PixelFarm.Drawing.GLES2\Implementation.Win32\NativeWin32MemoryDc.cs" />
+    <Compile Include="PixelFarm.Drawing.GLES2\Implementation.Win32\Win32Utils.cs" />
+    <Compile Include="PixelFarm.Drawing.GLES2\Implementation.Win32\WinGdiFont.cs" />
+    <Compile Include="PixelFarm.Drawing.GLES2\Implementation\GLCanvasPainter.cs" />
+    <Compile Include="PixelFarm.Drawing.GLES2\Implementation\GLESBitmap.cs" />
+    <Compile Include="PixelFarm.Drawing.GLES2\Implementation\GraphicsPath.cs" />
+    <Compile Include="PixelFarm.Drawing.GLES2\Implementation\PensAndBrushes.cs" />
+    <Compile Include="PixelFarm.Drawing.GLES2\Implementation\WinGdiFontPrinter.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MiniTesselate\Tesselate.csproj">
+      <Project>{ae37de1f-22f7-49ee-8732-fc6bc8dc58d9}</Project>
+      <Name>Tesselate</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PixelFarm.Drawing\PixelFarm.Drawing.csproj">
+      <Project>{51d63482-5697-4b16-8401-506965624657}</Project>
+      <Name>PixelFarm.Drawing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PixelFarm.MiniPlatforms\PixelFarm.MiniPlatforms.csproj">
+      <Project>{198D20B3-0DBD-4C8C-8F0D-0D0FD9C61D43}</Project>
+      <Name>PixelFarm.MiniPlatforms</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -106,9 +106,7 @@ namespace LayoutFarm.CustomWidgets
 
                     //create textspan
                     //user can parse text line to smaller span
-                    //eg. split by whitespace
-
-
+                    //eg. split by whitespace 
 
                     if (this.TextSplitter != null)
                     {

@@ -47,8 +47,9 @@ namespace PixelFarm.Agg
         MyImageReaderWriter sharedImageWriterReader = new MyImageReaderWriter();
         CurveFlattener curveFlattener;
         TextPrinter textPrinter;
-        MyTypeFacePrinter stringPrinter = new MyTypeFacePrinter();
         int ellipseGenNSteps = 10;
+        SmoothingMode _smoothingMode;
+
         public AggCanvasPainter(ImageGraphics2D graphic2d)
         {
             this.gx = graphic2d;
@@ -56,14 +57,34 @@ namespace PixelFarm.Agg
             this.stroke = new Stroke(1);//default
             this.scline = graphic2d.ScanlinePacked8;
             this.sclineRasToBmp = graphic2d.ScanlineRasToDestBitmap;
-            this.textPrinter = new TextPrinter();
+            this.textPrinter = new TextPrinter(graphic2d.GfxPlatform);
         }
         public override void Clear(Color color)
         {
             gx.Clear(color);
         }
 
-
+        public override SmoothingMode SmoothingMode
+        {
+            get
+            {
+                return _smoothingMode;
+            }
+            set
+            {
+                switch (_smoothingMode = value)
+                {
+                    case Drawing.SmoothingMode.HighQuality:
+                    case Drawing.SmoothingMode.AntiAlias:
+                        gx.UseSubPixelRendering = true;
+                        break;
+                    case Drawing.SmoothingMode.HighSpeed:
+                    default:
+                        gx.UseSubPixelRendering = false;
+                        break;
+                }
+            }
+        }
         public override RectInt ClipBox
         {
             get { return this.gx.GetClippingRect(); }

@@ -134,7 +134,7 @@ namespace LayoutFarm.Demo
             };
             timer01.Enabled = true;
             //-------------------------------------------
-            _htmlInputEventAdapter = new HtmlInputEventAdapter(gfxPlatform.SampleIFonts);
+            _htmlInputEventAdapter = new HtmlInputEventAdapter(gfxPlatform);
             _htmlInputEventAdapter.Bind(htmlContainer);
             //-------------------------------------------
         }

@@ -21,15 +21,18 @@ namespace LayoutFarm.HtmlBoxes
         int _mousedownY;
         CssBox _mouseDownStartAt;
         //-----------------------------------------------
-
+        GraphicsPlatform platform;
         IFonts ifonts;
         bool _isBinded;
         int lastDomLayoutVersion;
         const int DOUBLE_CLICK_SENSE = 150;//ms 
         Stack<CssBoxHitChain> hitChainPools = new Stack<CssBoxHitChain>();
-        public HtmlInputEventAdapter(IFonts ifonts)
+       
+        
+        public HtmlInputEventAdapter(GraphicsPlatform platform)
         {
-            this.ifonts = ifonts;
+            this.platform = platform;
+            this.ifonts = platform.Fonts;
         }
         public void Bind(HtmlContainer htmlCont)
         {

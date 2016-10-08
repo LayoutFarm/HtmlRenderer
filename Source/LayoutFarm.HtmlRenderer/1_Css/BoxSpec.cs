@@ -51,7 +51,7 @@ namespace LayoutFarm.Css
         CssBoxShadowFeature _boxShadow = CssBoxShadowFeature.Default;
         CssFlexFeature _flexFeats = CssFlexFeature.Default;
         CssBoxSizing _boxSizing = CssBoxSizing.ContentBox;//default
-        FontInfo _actualFontInfo;
+
         Font _actualFont;
         CssDisplay _cssDisplay = CssDisplay.Inline;
         CssFloat _float = CssFloat.None;
@@ -647,14 +647,10 @@ namespace LayoutFarm.Css
                 return this._backgroundFeats.BackgroundColor;
             }
         }
-        internal FontInfo GetFontInfo(IFonts ifonts, float parentFontSize)
+        internal Font GetFont(IFonts ifonts, float parentFontSize)
         {
-            //---------------------------------------
-            if (_actualFontInfo != null)
-            {
-                return this._actualFontInfo;
-            }
-            //---------------------------------------
+
+            if (_actualFont != null) { return _actualFont; }
             bool relateToParent = false;
             string fontFam = this.FontFamily;
             if (string.IsNullOrEmpty(FontFamily))
@@ -757,14 +753,13 @@ namespace LayoutFarm.Css
                 fsize = FontDefaultConfig.DEFAULT_FONT_SIZE;
             }
 
-            FontInfo fontInfo = ifonts.GetFontInfo(fontFam, fsize, st);
+            Font font = new Font(fontFam, fsize, st);// ifonts.GetFont(fontFam, fsize, st);
             if (!relateToParent)
             {
                 //cahce value
-                this._actualFont = fontInfo.ResolvedFont;
-                this._actualFontInfo = fontInfo;
+                this._actualFont = font;
             }
-            return fontInfo;
+            return _actualFont;
         }
 
 

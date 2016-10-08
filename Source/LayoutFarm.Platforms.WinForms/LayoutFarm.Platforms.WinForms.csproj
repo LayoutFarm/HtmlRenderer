@@ -94,7 +94,7 @@
       <Project>{4D5CE655-58FA-4523-8E46-738B941E9E47}</Project>
       <Name>MiniAgg</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Deps\PixelFarm.Drawing.Platforms\PixelFarm.Drawing.Platforms.csproj">
+    <ProjectReference Include="..\Deps\PixelFarm.Drawing.GdiPlusPlatform\PixelFarm.Drawing.GdiPlusPlatform.csproj">
       <Project>{1AA171E3-523C-4DD5-A169-DE6322991FF5}</Project>
       <Name>PixelFarm.Drawing.Platforms</Name>
     </ProjectReference>
