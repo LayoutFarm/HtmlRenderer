@@ -63,7 +63,7 @@ namespace PixelFarm.Drawing.WinGdi
     {
         System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(2, 2);
         NativeWin32MemoryDc win32MemDc;
-        WinGdiFontStore fontStore = new WinGdiFontStore();
+        WinGdiPlusFontStore fontStore = new WinGdiPlusFontStore();
 
         //=====================================
         //static 
@@ -80,7 +80,7 @@ namespace PixelFarm.Drawing.WinGdi
         }
         void SetFont(Font font)
         {
-            WinGdiPlusFont winFont = fontStore.GetResolvedFont(font);
+            WinGdiPlusFont winFont = fontStore.ResolveFont(font);
             Win32Utils.SelectObject(win32MemDc.DC, winFont.ToHfont());
         }
         public PixelFarm.Drawing.Fonts.ActualFont ResolveActualFont(Font f)

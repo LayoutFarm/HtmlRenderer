@@ -270,8 +270,8 @@ namespace PixelFarm.Drawing.WinGdi
         void SetFont(Font font)
         {
             InitHdc();
-            WinGdi.WinGdiPlusFont winFont = fontStore.GetResolvedFont(font);
-            Win32Utils.SelectObject(tempDc, winFont.ToHfont());
+            WinGdiPlusFont myFont = (WinGdiPlusFont)this.platform.Fonts.ResolveActualFont(font);
+            Win32Utils.SelectObject(tempDc, myFont.ToHfont());
         }
 
         /// <summary>
@@ -284,37 +284,37 @@ namespace PixelFarm.Drawing.WinGdi
             Win32Utils.SetTextColor(tempDc, rgb);
         }
 
-        /// <summary>
-        /// Special draw logic to draw transparent text using GDI.<br/>
-        /// 1. Create in-memory DC<br/>
-        /// 2. Copy background to in-memory DC<br/>
-        /// 3. Draw the text to in-memory DC<br/>
-        /// 4. Copy the in-memory DC to the proper location with alpha blend<br/>
-        /// </summary>
-        static void DrawTransparentText(IntPtr hdc, string str, Font font, Point point, Size size, Color color)
-        {
-            IntPtr dib;
-            IntPtr ppv;
-            var memoryHdc = Win32Utils.CreateMemoryHdc(hdc, size.Width, size.Height, out dib, out ppv);
-            try
-            {
-                // copy target background to memory HDC so when copied back it will have the proper background
-                Win32Utils.BitBlt(memoryHdc, 0, 0, size.Width, size.Height, hdc, point.X, point.Y, Win32Utils.BitBltCopy);
-                // Create and select font
-                WinGdiPlusFont winfont = WinGdiFontStore.S_GetResolvedFont(font);
+        ///// <summary>
+        ///// Special draw logic to draw transparent text using GDI.<br/>
+        ///// 1. Create in-memory DC<br/>
+        ///// 2. Copy background to in-memory DC<br/>
+        ///// 3. Draw the text to in-memory DC<br/>
+        ///// 4. Copy the in-memory DC to the proper location with alpha blend<br/>
+        ///// </summary>
+        //static void DrawTransparentText(IntPtr hdc, string str, Font font, Point point, Size size, Color color)
+        //{
+        //    IntPtr dib;
+        //    IntPtr ppv;
+        //    var memoryHdc = Win32Utils.CreateMemoryHdc(hdc, size.Width, size.Height, out dib, out ppv);
+        //    try
+        //    {
+        //        // copy target background to memory HDC so when copied back it will have the proper background
+        //        Win32Utils.BitBlt(memoryHdc, 0, 0, size.Width, size.Height, hdc, point.X, point.Y, Win32Utils.BitBltCopy);
+        //        // Create and select font
+        //        WinGdiPlusFont winfont = WinGdiPlusFontStore.S_GetResolvedFont(font);
 
-                Win32Utils.SelectObject(memoryHdc, winfont.ToHfont());
-                Win32Utils.SetTextColor(memoryHdc, (color.B & 0xFF) << 16 | (color.G & 0xFF) << 8 | color.R);
-                // Draw text to memory HDC
-                NativeTextWin32.TextOut(memoryHdc, 0, 0, str, str.Length);
-                // copy from memory HDC to normal HDC with alpha blend so achieve the transparent text
-                Win32Utils.AlphaBlend(hdc, point.X, point.Y, size.Width, size.Height, memoryHdc, 0, 0, size.Width, size.Height, new BlendFunction(color.A));
-            }
-            finally
-            {
-                Win32Utils.ReleaseMemoryHdc(memoryHdc, dib);
-            }
-        }
+        //        Win32Utils.SelectObject(memoryHdc, winfont.ToHfont());
+        //        Win32Utils.SetTextColor(memoryHdc, (color.B & 0xFF) << 16 | (color.G & 0xFF) << 8 | color.R);
+        //        // Draw text to memory HDC
+        //        NativeTextWin32.TextOut(memoryHdc, 0, 0, str, str.Length);
+        //        // copy from memory HDC to normal HDC with alpha blend so achieve the transparent text
+        //        Win32Utils.AlphaBlend(hdc, point.X, point.Y, size.Width, size.Height, memoryHdc, 0, 0, size.Width, size.Height, new BlendFunction(color.A));
+        //    }
+        //    finally
+        //    {
+        //        Win32Utils.ReleaseMemoryHdc(memoryHdc, dib);
+        //    }
+        //}
 
 
 

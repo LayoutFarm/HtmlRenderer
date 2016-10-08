@@ -22,13 +22,7 @@ namespace PixelFarm.Drawing.WinGdi
 
         int[] charWidths;
         Win32.NativeTextWin32.FontABC[] charAbcWidths;
-
-        //IntPtr memHdc;
-        //IntPtr dib;
-        //IntPtr ppvBits;
         NativeWin32MemoryDc nativeWin32MemDc;
-
-        //
         IntPtr hfont;
         int bmpWidth = 200;
         int bmpHeight = 50;
@@ -103,7 +97,7 @@ namespace PixelFarm.Drawing.WinGdi
             //TODO: review here 
             Win32.Win32Utils.DeleteObject(hfont);
             hfont = IntPtr.Zero;
-            nativeWin32MemDc.Dispose();           
+            nativeWin32MemDc.Dispose();
         }
         public override FontGlyph GetGlyphByIndex(uint glyphIndex)
         {
@@ -164,9 +158,6 @@ namespace PixelFarm.Drawing.WinGdi
                 return descentInPixels;
             }
         }
-
-
-
     }
 
 

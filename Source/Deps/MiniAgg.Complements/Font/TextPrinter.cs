@@ -79,6 +79,7 @@ namespace PixelFarm.Drawing.Fonts
 
             ProperGlyph[] properGlyphs = new ProperGlyph[buffsize];
             ActualFont implFont = ifonts.ResolveActualFont(currentFont);
+
             implFont.GetGlyphPos(buffer, 0, buffsize, properGlyphs);
             double xpos = x;
             for (int i = 0; i < buffsize; ++i)
@@ -96,8 +97,7 @@ namespace PixelFarm.Drawing.Fonts
                 //var mat = Agg.Transform.Affine.NewMatix(
                 //Agg.Transform.AffinePlan.Scale(0.30),
                 //Agg.Transform.AffinePlan.Translate(xpos, y));
-                //var vxs1 = mat.TransformToVxs(glyph.flattenVxs);
-
+                //var vxs1 = mat.TransformToVxs(glyph.flattenVxs); 
                 VertexStore vxs1 = Agg.Transform.Affine.TranslateToVxs(
                     glyph.flattenVxs,
                     (float)(xpos),

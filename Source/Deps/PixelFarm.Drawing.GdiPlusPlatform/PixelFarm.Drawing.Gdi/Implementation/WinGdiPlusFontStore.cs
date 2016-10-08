@@ -15,10 +15,12 @@
 
 using System;
 using System.Collections.Generic;
+using PixelFarm.Drawing.Fonts;
+
 namespace PixelFarm.Drawing.WinGdi
 {
 
-    class WinGdiFontStore
+    class WinGdiPlusFontStore
     {
 
         /// <summary>
@@ -29,71 +31,31 @@ namespace PixelFarm.Drawing.WinGdi
         /// collection of all installed and added font families to check if font exists
         /// </summary>
         static readonly Dictionary<string, System.Drawing.FontFamily> _existingFontFamilies = new Dictionary<string, System.Drawing.FontFamily>(StringComparer.InvariantCultureIgnoreCase);
-        readonly Dictionary<System.Drawing.Font, Font> _fontInfoCache = new Dictionary<System.Drawing.Font, Font>();
-        readonly Dictionary<PixelFarm.Drawing.Fonts.FontKey, Font> _fontInfoCacheByFontKey = new Dictionary<PixelFarm.Drawing.Fonts.FontKey, Font>();
-        static Dictionary<Font, WinGdiPlusFont> resolvedWinGdiFont = new Dictionary<Font, WinGdiPlusFont>();
 
-        public WinGdiFontStore()
+
+        readonly Dictionary<FontKey, WinGdiPlusFont> resolvedWinGdiFont = new Dictionary<FontKey, WinGdiPlusFont>();
+
+        public WinGdiPlusFontStore()
         {
 
         }
-        /// <summary>
-        /// Get cached font instance for the given font properties.<br/>
-        /// Improve performance not to create same font multiple times.
-        /// </summary>
-        /// <returns>cached font instance</returns>
-        public Font GetCachedFont(string family, float size, System.Drawing.FontStyle style)
+        public WinGdiPlusFont ResolveFont(PixelFarm.Drawing.Font f)
         {
-            Font font = TryGetFont(family, size, style);
-            if (font == null)
+            //check if we have cache this font 
+            //if not then try create it
+            //1. create font key
+            FontKey fk = new FontKey(f.Name, f.EmSize, f.Style);
+            WinGdiPlusFont found;
+            if (!resolvedWinGdiFont.TryGetValue(fk, out found))
             {
-                //check if font exist
-                if (!_existingFontFamilies.ContainsKey(family))
-                {
-                    //if not then check from font map
-                    string mappedFamily;
-                    if (_fontsMapping.TryGetValue(family, out mappedFamily))
-                    {
-                        //if has map then try get from existing 
-                        font = TryGetFont(mappedFamily, size, style);
-                        if (font == null)
-                        {
-                            //if not found then
-                            //create and register
-                            font = CreateFont(mappedFamily, size, style);
-                        }
-                    }
-                }
-                if (font == null)
-                {
-                    //if still null
-                    font = CreateFont(family, size, style);
-                }
-            }
-            return font;
-        }
-        public Font GetCachedFont(System.Drawing.Font f)
-        {
-            Font found;
-            if (!_fontInfoCache.TryGetValue(f, out found))
-            {
-                //if not found then create it
-                return RegisterFont(f, new PixelFarm.Drawing.Fonts.FontKey(f.Name, f.Size, (PixelFarm.Drawing.FontStyle)f.Style));
+                //not found 
+                //then create it
+                CreateFont(f.Name, f.EmSize, (System.Drawing.FontStyle)f.Style);
             }
             return found;
-        }
-        /// <summary>
-        /// Get cached font if it exists in cache or null if it is not.
-        /// </summary>
-        Font TryGetFont(string family, float size, System.Drawing.FontStyle style)
-        {
-            Font found;
-            var fontKey = new PixelFarm.Drawing.Fonts.FontKey(family, size, (PixelFarm.Drawing.FontStyle)style);
-            _fontInfoCacheByFontKey.TryGetValue(fontKey, out found);
-            return found;
-        }
 
-        Font CreateFont(string family,
+        }
+        WinGdiPlusFont CreateFont(string family,
           float size, System.Drawing.FontStyle style)
         {
             System.Drawing.FontFamily fontFamily;
@@ -106,10 +68,11 @@ namespace PixelFarm.Drawing.WinGdi
             {
                 newFont = new System.Drawing.Font(family, size, style);
             }
+
             return RegisterFont(newFont, new PixelFarm.Drawing.Fonts.FontKey(family, size, (PixelFarm.Drawing.FontStyle)style));
         }
 
-        Font RegisterFont(System.Drawing.Font newFont, PixelFarm.Drawing.Fonts.FontKey fontKey)
+        WinGdiPlusFont RegisterFont(System.Drawing.Font newFont, PixelFarm.Drawing.Fonts.FontKey fontKey)
         {
             //from ...
             //1. http://msdn.microsoft.com/en-us/library/xwf9s90b%28v=vs.100%29.aspx
@@ -122,8 +85,9 @@ namespace PixelFarm.Drawing.WinGdi
 
             //-------------------
             //evaluate this font, collect font matrix in pixel mode
-            Font font;
-            if (!_fontInfoCache.TryGetValue(newFont, out font))
+
+            WinGdiPlusFont found;
+            if (!resolvedWinGdiFont.TryGetValue(fontKey, out found))
             {
                 System.Drawing.FontFamily ff = newFont.FontFamily;
                 int lineSpacing = ff.GetLineSpacing(newFont.Style);
@@ -136,8 +100,9 @@ namespace PixelFarm.Drawing.WinGdi
                 int fontAscent = newFont.FontFamily.GetCellAscent(newFont.Style);
                 float descent = newFont.FontFamily.GetCellDescent(newFont.Style);
 
-                font = new Font(newFont.Name, newFont.SizeInPoints);
-                resolvedWinGdiFont.Add(font, new WinGdiPlusFont(newFont));
+                found = new WinGdiPlusFont(newFont);
+                found.GdiPlusFontHeight = fontHeight;
+
                 //myFont,
                 //fontHeight,
                 //(fontAscent * fontSize / fontEmHeight),
@@ -147,34 +112,23 @@ namespace PixelFarm.Drawing.WinGdi
                 //myFont.SetFontInfo(fontInfo);
                 //lineSpacing * newFont.FontFamily.GetCellAscent(newFont.Style) / linespace); 
                 //1. info
-                _fontInfoCache.Add(newFont, font);
-                _fontInfoCacheByFontKey.Add(fontKey, font);
-                _fontsUnmanagedCache[newFont] = newFont.ToHfont();
-                //2. line cache
-                _fontHeightCache[newFont] = fontHeight;
-                return font;
+
+                //_fontsUnmanagedCache[newFont] = newFont.ToHfont();
+                ////2. line cache
+                //_fontHeightCache[newFont] = fontHeight;
             }
-            return font;
+            return found;
         }
 
 
         /// <summary>
-        /// cache of H fonts for managed fonts
-        /// </summary>
-        static readonly Dictionary<System.Drawing.Font, IntPtr> _fontsUnmanagedCache = new Dictionary<System.Drawing.Font, IntPtr>();
-        /// <summary>
-        /// cache of fonts height.<br/>
-        /// Not to call Font.GetHeight() each time it is required
-        /// </summary>
-        static readonly Dictionary<System.Drawing.Font, float> _fontHeightCache = new Dictionary<System.Drawing.Font, float>();
-        static readonly Dictionary<WinGdiPlusFont, float> _fontWsCache = new Dictionary<WinGdiPlusFont, float>();
-        /// <summary>
         /// Init the system installed fonts.
         /// </summary>
-        static WinGdiFontStore()
+        static WinGdiPlusFontStore()
         {
             _fontsMapping["monospace"] = "Courier New";
             _fontsMapping["Helvetica"] = "Arial";
+
             foreach (var family in System.Drawing.FontFamily.Families)
             {
                 if (_existingFontFamilies.ContainsKey(family.Name) == false)
@@ -183,23 +137,7 @@ namespace PixelFarm.Drawing.WinGdi
                 }
             }
         }
-        public WinGdiPlusFont ResolveFont(PixelFarm.Drawing.Font f)
-        {
-            //check if we have cache this font 
-            //if not then try create it
-            Font f1 = GetCachedFont(f.Name, f.EmSize, (System.Drawing.FontStyle)f.Style);
-            return GetResolvedFont(f1);
-        }
-        public WinGdiPlusFont GetResolvedFont(PixelFarm.Drawing.Font f)
-        {
-            return S_GetResolvedFont(f);
-        }
-        public static WinGdiPlusFont S_GetResolvedFont(PixelFarm.Drawing.Font f)
-        {
-            WinGdiPlusFont found;
-            resolvedWinGdiFont.TryGetValue(f, out found);
-            return found;
-        }
+     
 
         /// <summary>
         /// Gets the line spacing of the font
@@ -209,7 +147,7 @@ namespace PixelFarm.Drawing.WinGdi
         /// <remarks>
         /// Font metrics from http://msdn.microsoft.com/en-us/library/xwf9s90b(VS.71).aspx
         /// </remarks>
-        public static float GetLineSpacing(System.Drawing.Font font)
+        static float GetLineSpacing(System.Drawing.Font font)
         {
             return font.FontFamily.GetLineSpacing(font.Style) * font.Size / font.FontFamily.GetEmHeight(font.Style);
         }
@@ -220,7 +158,7 @@ namespace PixelFarm.Drawing.WinGdi
         /// </summary>
         /// <param name="family">the font to check</param>
         /// <returns>true - font exists by given family name, false - otherwise</returns>
-        public static bool IsFontExists(string family)
+        static bool IsFontExists(string family)
         {
             bool exists = _existingFontFamilies.ContainsKey(family);
             if (!exists)
@@ -235,38 +173,21 @@ namespace PixelFarm.Drawing.WinGdi
         }
 
         public float MeasureWhitespace(
-            PixelFarm.Drawing.IFonts gfx, PixelFarm.Drawing.Font f)
+           PixelFarm.Drawing.IFonts gfx, PixelFarm.Drawing.Font f)
         {
-            float ws;
+
             WinGdiPlusFont winFont;
-            if (!resolvedWinGdiFont.TryGetValue(f, out winFont))
+            if (!resolvedWinGdiFont.TryGetValue(f.FontKey, out winFont))
             {
                 throw new NotSupportedException();
             }
-
-            if (!_fontWsCache.TryGetValue(winFont, out ws))
+            if (!winFont.HasWhiteSpaceLength)
             {
-                ws = gfx.MeasureString(new char[] { ' ' }, 0, 1, f).Width;
-                _fontWsCache[winFont] = ws;
+                return winFont.WhitespaceLength = gfx.MeasureString(new char[] { ' ' }, 0, 1, f).Width;
             }
-            return ws;
+            return winFont.WhitespaceLength;
         }
 
-
-        /// <summary>
-        /// Get pointer to unmanaged Hfont object for the given managed font object.
-        /// </summary>
-        /// <param name="font">the font to get unmanaged font for</param>
-        /// <returns>Hfont pointer</returns>
-        public static IntPtr GetCachedHFont(System.Drawing.Font font)
-        {
-            IntPtr hFont;
-            if (!_fontsUnmanagedCache.TryGetValue(font, out hFont))
-            {
-                _fontsUnmanagedCache[font] = hFont = font.ToHfont();
-            }
-            return hFont;
-        }
         /// <summary>
         /// Adds a font family to be used.
         /// </summary>

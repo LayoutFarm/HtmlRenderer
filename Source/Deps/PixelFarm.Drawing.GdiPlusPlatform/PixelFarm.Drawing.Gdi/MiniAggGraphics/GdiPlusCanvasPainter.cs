@@ -27,9 +27,12 @@ namespace PixelFarm.Drawing.WinGdi
         Agg.VertexSource.CurveFlattener curveFlattener;
 
         SmoothingMode _smoothingMode;
-        WinGdiFontStore winGdiPlusFonts = new WinGdiFontStore();
-        public GdiPlusCanvasPainter(System.Drawing.Bitmap gfxBmp)
+        IFonts ifonts;
+        public GdiPlusCanvasPainter(GraphicsPlatform gfxPlatform, System.Drawing.Bitmap gfxBmp)
         {
+
+            this.ifonts = gfxPlatform.Fonts;
+
             _width = 800;// gfxBmp.Width;
             _height = 600;// gfxBmp.Height;
             _gfxBmp = gfxBmp;
@@ -106,7 +109,7 @@ namespace PixelFarm.Drawing.WinGdi
             set
             {
                 _currentFont = value;
-                _latestWinGdiPlusFont = winGdiPlusFonts.ResolveFont(value);
+                _latestWinGdiPlusFont = (WinGdiPlusFont)ifonts.ResolveActualFont(value);
             }
         }
         public override Color FillColor

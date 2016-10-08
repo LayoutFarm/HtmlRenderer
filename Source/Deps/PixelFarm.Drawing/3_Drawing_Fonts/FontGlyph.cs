@@ -35,6 +35,12 @@ namespace PixelFarm.Drawing.Fonts
         public int horiz_adv_x;
         public string glyphName;
         public int unicode;
+        /// <summary>
+        /// code point/glyph index?
+        /// </summary>
+        public int codePoint;
+        //----------------------------
+
     }
 
 

@@ -4,7 +4,7 @@ using System;
 using PixelFarm.Drawing.Fonts;
 namespace PixelFarm.Drawing
 {
-    
+
     /// <summary>
     /// font specification
     /// </summary>
@@ -17,6 +17,7 @@ namespace PixelFarm.Drawing
         /// emsize in point
         /// </summary>
         float emSize;
+        Fonts.FontKey fontKey;
         public Font(string facename, float emSizeInPoints, FontStyle style = FontStyle.Regular)
         {
             HBDirection = Fonts.HBDirection.HB_DIRECTION_LTR;//default
@@ -25,6 +26,11 @@ namespace PixelFarm.Drawing
             Name = facename;
             EmSize = emSizeInPoints;
             Style = style;
+            fontKey = new FontKey(facename, emSizeInPoints, style);
+        }
+        public FontKey FontKey
+        {
+            get { return this.fontKey; }
         }
 
         /// <summary>
@@ -75,7 +81,7 @@ namespace PixelFarm.Drawing
         public HBDirection HBDirection { get; set; }
         public int ScriptCode { get; set; }
         public string Lang { get; set; }
-         
+
 
         public static float ConvEmSizeInPointsToPixels(float emsizeInPoint)
         {
@@ -86,7 +92,7 @@ namespace PixelFarm.Drawing
 
     public interface IFonts
     {
-        
+
         float MeasureWhitespace(Font f);
         Size MeasureString(char[] str, int startAt, int len, Font font);
         Size MeasureString(char[] str, int startAt, int len, Font font, float maxWidth, out int charFit, out int charFitWidth);
