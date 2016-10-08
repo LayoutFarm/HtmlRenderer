@@ -1,7 +1,4 @@
-﻿//MIT, 2014-2016, WinterDev
-using System.Collections.Generic;
-using PixelFarm.Drawing.Fonts;
-
+﻿//MIT, 2014-2016, WinterDev 
 namespace PixelFarm.Drawing
 {
     public abstract class GraphicsPlatform

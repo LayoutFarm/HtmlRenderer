@@ -5,12 +5,12 @@ using System.IO;
 using System.Collections.Generic;
 using PixelFarm.Drawing.Fonts;
 using PixelFarm.DrawingGL;
-using Microsoft.Win32;
+
 using System.Text;
 namespace PixelFarm.Drawing.GLES2
 {
 
-    class GLES2Platform : GraphicsPlatform
+    public class GLES2Platform : GraphicsPlatform
     {
 
         FontSystem fontSystem = new FontSystem();

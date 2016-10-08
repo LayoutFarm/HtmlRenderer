@@ -42,8 +42,10 @@ namespace Mini
         Graphics bufferGfx;
         int width;
         int height;
-        public WindowsFormsBitmapBackBuffer()
+        PixelFarm.Drawing.GraphicsPlatform gfxPlatform;
+        public WindowsFormsBitmapBackBuffer(PixelFarm.Drawing.GraphicsPlatform gfxPlatform)
         {
+            this.gfxPlatform = gfxPlatform;
         }
 
         const int SRCCOPY = 0xcc0020;
@@ -121,7 +123,7 @@ namespace Mini
                         bufferBmp = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
                         actualImage = new ActualImage(width, height, PixelFarm.Agg.Image.PixelFormat.RGB24);
                         bufferGfx = Graphics.FromImage(bufferBmp);
-                        return Graphics2D.CreateFromImage(actualImage, PixelFarm.Drawing.WinGdi.WinGdiPortal.P);
+                        return Graphics2D.CreateFromImage(actualImage, gfxPlatform);
                     case 32:
 
                         bufferBmp = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppRgb);//***
@@ -131,7 +133,7 @@ namespace Mini
                         //32bppPArgb                         
                         actualImage = new ActualImage(width, height, PixelFormat.ARGB32);
                         bufferGfx = Graphics.FromImage(bufferBmp);
-                        return Graphics2D.CreateFromImage(actualImage, PixelFarm.Drawing.WinGdi.WinGdiPortal.P);
+                        return Graphics2D.CreateFromImage(actualImage, gfxPlatform);
                     case 128:
                     //windowsBitmap = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppRgb);
                     //backingImageBufferByte = null;
@@ -150,7 +152,7 @@ namespace Mini
             Graphics2D graphics2D;
             if (actualImage != null)
             {
-                graphics2D = Graphics2D.CreateFromImage(actualImage, PixelFarm.Drawing.WinGdi.WinGdiPortal.P);
+                graphics2D = Graphics2D.CreateFromImage(actualImage, gfxPlatform);
             }
             else
             {

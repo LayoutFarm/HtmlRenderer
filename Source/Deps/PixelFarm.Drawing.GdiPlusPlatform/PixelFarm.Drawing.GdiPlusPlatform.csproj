@@ -62,7 +62,6 @@
     </Compile>
     <Compile Include="PixelFarm.Drawing.Gdi\Canvas\Conv.cs" />
     <Compile Include="PixelFarm.Drawing.Gdi\0_Start\WinGdiPlusPlatform.cs" />
-    <Compile Include="PixelFarm.Drawing.Gdi\0_Start\WinGdiPortal.cs" />
     <Compile Include="PixelFarm.Drawing.Gdi\Implementation\WindowsFormsBitmapBackBuffer.cs" />
     <Compile Include="PixelFarm.Drawing.Gdi\Implementation\BitmapHelper.cs" />
     <Compile Include="PixelFarm.Drawing.Gdi\Implementation\WinGdiPlusFont.cs" />

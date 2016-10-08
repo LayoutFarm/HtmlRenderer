@@ -4,7 +4,7 @@ using Win32;
 
 namespace PixelFarm.Drawing.WinGdi
 {
-    class WinGdiPlusPlatform : GraphicsPlatform
+    public class WinGdiPlusPlatform : GraphicsPlatform
     {
 
         GdiPlusIFonts ifonts = new GdiPlusIFonts();
