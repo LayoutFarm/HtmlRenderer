@@ -8,6 +8,7 @@
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AssemblyName>PixelFarm.One</AssemblyName>
+    <ProjectGuid>{E71BD6D1-211F-4778-9632-77AB9B155BCB}</ProjectGuid>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -340,11 +341,15 @@
     <Compile Include="PixelFarm.MiniPlatforms.WindowsForms\Toolkit.cs" />
     <Compile Include="PixelFarm.MiniPlatforms.WindowsForms\UserGLControl\CarbonGLControl.cs" />
     <Compile Include="PixelFarm.MiniPlatforms.WindowsForms\UserGLControl\DummyGLControl.cs" />
-    <Compile Include="PixelFarm.MiniPlatforms.WindowsForms\UserGLControl\GLControl.cs" />
+    <Compile Include="PixelFarm.MiniPlatforms.WindowsForms\UserGLControl\GLControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="PixelFarm.MiniPlatforms.WindowsForms\UserGLControl\GLControl.Designer.cs" />
     <Compile Include="PixelFarm.MiniPlatforms.WindowsForms\UserGLControl\GLControlFactory.cs" />
     <Compile Include="PixelFarm.MiniPlatforms.WindowsForms\UserGLControl\IGLControl.cs" />
-    <Compile Include="PixelFarm.MiniPlatforms.WindowsForms\UserGLControl\MyGLControl.cs" />
+    <Compile Include="PixelFarm.MiniPlatforms.WindowsForms\UserGLControl\MyGLControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="PixelFarm.MiniPlatforms.WindowsForms\UserGLControl\MyGLControl.Designer.cs" />
     <Compile Include="PixelFarm.MiniPlatforms.WindowsForms\UserGLControl\WinGLControl.cs" />
     <Compile Include="PixelFarm.MiniPlatforms.WindowsForms\UserGLControl\X11GLControl.cs" />
