@@ -7,8 +7,7 @@ namespace PixelFarm.Drawing.Fonts
 
     class FontSystem : IFonts
     {
-        internal NativeFontStore fontStore = new NativeFontStore();
-
+        NativeFontStore fontStore = new NativeFontStore();
         static FontSystem()
         {
 
@@ -18,17 +17,14 @@ namespace PixelFarm.Drawing.Fonts
 
 
         }
-        public Font GetFont(string fontname, float fsize, FontStyle st)
+        public ActualFont ResolveActualFont(Font f)
         {
-            //find font and create it
-            //check if we have created this font 
-            Font f = new Font(fontname, fsize);
-            throw new NotSupportedException();
-            string filename = "";
-            fontStore.LoadFont(f, filename);
-            return f;
+            return fontStore.GetResolvedNativeFont(f);
         }
-
+        public ActualFont GetActualFont(Font f)
+        {
+            return fontStore.GetResolvedNativeFont(f);
+        }
         public Size MeasureString(char[] str, int startAt, int len, Font font)
         {
             //measure in horizontal alignment ***

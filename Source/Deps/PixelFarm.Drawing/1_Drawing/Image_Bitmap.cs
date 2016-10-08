@@ -17,28 +17,18 @@ namespace PixelFarm.Drawing
         public abstract int ReferenceX { get; }
         public abstract int ReferenceY { get; }
     }
+
     public sealed class Bitmap : Image
     {
         int width;
         int height;
-        System.IDisposable innerImage;
-        IntPtr naitveHImage;
+        System.IDisposable innerImage; 
         public Bitmap(int w, int h, System.IDisposable innerImage)
         {
             this.width = w;
             this.height = h;
             this.innerImage = innerImage;
-        }
-
-        public Bitmap(string filename)
-        {
-            //load bmp from filename
-            var img = new Imaging.NativeImage(filename);
-            this.width = img.Width;
-            this.height = img.Height;
-            this.innerImage = img;
-            naitveHImage = img.GetNativeImageHandle();
-        }
+        } 
         public override int Width
         {
             get { return this.width; }
@@ -66,12 +56,7 @@ namespace PixelFarm.Drawing
         public override int ReferenceY
         {
             get { return 0; }
-        }
-
-        public IntPtr GetNativeHImage()
-        {
-            return naitveHImage;
-        }
+        } 
     }
 
     public sealed class ReferenceBitmap : Image

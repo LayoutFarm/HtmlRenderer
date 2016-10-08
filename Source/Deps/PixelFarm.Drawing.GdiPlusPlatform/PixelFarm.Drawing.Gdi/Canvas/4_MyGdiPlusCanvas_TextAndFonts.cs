@@ -17,19 +17,19 @@ using System;
 using Win32;
 namespace PixelFarm.Drawing.WinGdi
 {
-    partial class MyScreenCanvas
+    partial class MyGdiPlusCanvas
     {
         Font currentTextFont = null;
         Color mycurrentTextColor = Color.Black;
         WinGdiFontStore fontStore = new WinGdiFontStore();
-        Font IFonts.GetFont(string fontname, float fsize, FontStyle st)
-        {
-            return this.platform.GetFont(fontname, fsize, st);
-        }
-        float IFonts.MeasureWhitespace(PixelFarm.Drawing.Font f)
-        {
-            return fontStore.MeasureWhitespace(this, f);
-        }
+        //Font IFonts.GetFont(string fontname, float fsize, FontStyle st)
+        //{
+        //    return new Font(fontname, fsize);
+        //}
+        //float IFonts.MeasureWhitespace(PixelFarm.Drawing.Font f)
+        //{
+        //    return fontStore.MeasureWhitespace(this, f);
+        //}
         public override float GetCharWidth(Font f, char c)
         {
             WinGdiPlusFont winFont = fontStore.GetResolvedFont(f);
@@ -61,7 +61,7 @@ namespace PixelFarm.Drawing.WinGdi
             //{
             SetFont(font);
             PixelFarm.Drawing.Size size = new Size();
-            if (buff.Length >0)
+            if (buff.Length > 0)
             {
                 unsafe
                 {
@@ -71,7 +71,7 @@ namespace PixelFarm.Drawing.WinGdi
                     }
                 }
             }
-            
+
             return size;
             //}
         }

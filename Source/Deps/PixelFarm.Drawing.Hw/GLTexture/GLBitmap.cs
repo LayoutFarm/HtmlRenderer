@@ -88,7 +88,7 @@ namespace PixelFarm.DrawingGL
         int height;
         byte[] rawBuffer;
         int[] rawIntBuffer;
-        PixelFarm.Drawing.Bitmap bmp;
+        PixelFarm.Drawing.Imaging.NativeImage bmp;
 
         LazyBitmapBufferProvider lazyProvider;
         bool isInvertImage = false;
@@ -111,7 +111,7 @@ namespace PixelFarm.DrawingGL
             this.rawIntBuffer = rawIntBuffer;
             this.isInvertImage = isInvertImage;
         }
-        public GLBitmap(PixelFarm.Drawing.Bitmap bmp, bool isInvertImage)
+        public GLBitmap(PixelFarm.Drawing.Imaging.NativeImage bmp, bool isInvertImage)
         {
             this.width = bmp.Width;
             this.height = bmp.Height;
@@ -194,7 +194,7 @@ namespace PixelFarm.DrawingGL
                     GL.TexImage2D(TextureTarget.Texture2D, 0,
                            PixelInternalFormat.Rgba, this.width, this.height, 0,
                            PixelFormat.Rgba, // 
-                           PixelType.UnsignedByte, bmp.GetNativeHImage());
+                           PixelType.UnsignedByte, bmp.GetNativeImageHandle());
                 }
                 else
                 {

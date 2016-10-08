@@ -27,13 +27,17 @@ namespace PixelFarm.Drawing.GLES2
         NativeFontStore nativeFontStore = new NativeFontStore();
 
 
-
+        public ActualFont ResolveActualFont(Font f)
+        {
+            //TODO: review here
+            return nativeFontStore.GetResolvedNativeFont(f);
+        }
         //======================================
         //IFonts impl
-        Font IFonts.GetFont(string fontname, float fsize, FontStyle st)
-        {
-            return this.platform.GetFont(fontname, fsize, st);
-        }
+        //Font IFonts.GetFont(string fontname, float fsize, FontStyle st)
+        //{
+        //    return new Font(fontname, fsize);
+        //}
         float IFonts.MeasureWhitespace(PixelFarm.Drawing.Font f)
         {
             //TODO: review here ***            

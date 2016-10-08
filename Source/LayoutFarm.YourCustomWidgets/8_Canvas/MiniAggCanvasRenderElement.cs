@@ -16,7 +16,7 @@ namespace LayoutFarm.CustomWidgets
             : base(rootgfx, width, height)
         {
             this.actualImage = new ActualImage(width, height, PixelFarm.Agg.Image.PixelFormat.ARGB32);
-            this.gfx2d = Graphics2D.CreateFromImage(actualImage);
+            this.gfx2d = Graphics2D.CreateFromImage(actualImage, rootgfx.P);
             //this.painter = new CanvasPainter(gfx2d);
             this.painter = new AggCanvasPainter((ImageGraphics2D)gfx2d);
             needUpdate = true;

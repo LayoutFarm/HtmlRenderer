@@ -90,7 +90,7 @@ namespace LayoutFarm.Text
         int GetCharacterWidth(char c)
         {
 
-            PixelFarm.Drawing.Fonts.ActualFont actualFont = this.Root.P.GetActualFont(GetFont());
+            PixelFarm.Drawing.Fonts.ActualFont actualFont = this.Root.GetActualFont(GetFont());
             return (int)actualFont.GetAdvanceForCharacter(c);
             //return actualFont.GetGlyph(c).horiz_adv_x >> 6; //devide by 64              /
         }
@@ -160,7 +160,7 @@ namespace LayoutFarm.Text
         Size CalculateDrawingStringSize(char[] buffer, int length)
         {
             PixelFarm.Drawing.Font fontInfo = GetFont();
-            return this.Root.P.SampleIFonts.MeasureString(buffer, 0,
+            return this.Root.P.Fonts.MeasureString(buffer, 0,
                 length, fontInfo);
 
         }

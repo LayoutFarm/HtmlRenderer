@@ -19,7 +19,8 @@ namespace LayoutFarm.HtmlBoxes
         CssRun endHitRun;
         int endHitRunCharIndex;
         Rectangle snapSelectionArea;
-        public SelectionRange(CssBoxHitChain startChain,
+        public SelectionRange(
+            CssBoxHitChain startChain,
             CssBoxHitChain endChain,
             IFonts ifonts)
         {

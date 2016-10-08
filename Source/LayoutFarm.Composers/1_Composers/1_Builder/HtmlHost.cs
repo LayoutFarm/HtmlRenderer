@@ -108,7 +108,7 @@ namespace LayoutFarm.HtmlBoxes
 
         public HtmlInputEventAdapter GetNewInputEventAdapter()
         {
-            return new HtmlInputEventAdapter(this.gfxplatform.SampleIFonts);
+            return new HtmlInputEventAdapter(this.gfxplatform);
         }
 
 

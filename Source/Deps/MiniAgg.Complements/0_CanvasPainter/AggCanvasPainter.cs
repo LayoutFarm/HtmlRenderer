@@ -47,7 +47,6 @@ namespace PixelFarm.Agg
         MyImageReaderWriter sharedImageWriterReader = new MyImageReaderWriter();
         CurveFlattener curveFlattener;
         TextPrinter textPrinter;
-        MyTypeFacePrinter stringPrinter = new MyTypeFacePrinter();
         int ellipseGenNSteps = 10;
         SmoothingMode _smoothingMode;
 
@@ -58,7 +57,7 @@ namespace PixelFarm.Agg
             this.stroke = new Stroke(1);//default
             this.scline = graphic2d.ScanlinePacked8;
             this.sclineRasToBmp = graphic2d.ScanlineRasToDestBitmap;
-            this.textPrinter = new TextPrinter();
+            this.textPrinter = new TextPrinter(graphic2d.GfxPlatform);
         }
         public override void Clear(Color color)
         {

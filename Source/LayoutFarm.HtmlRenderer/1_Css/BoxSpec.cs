@@ -649,8 +649,8 @@ namespace LayoutFarm.Css
         }
         internal Font GetFont(IFonts ifonts, float parentFontSize)
         {
-        
-            if(_actualFont!= null) { return _actualFont; }
+
+            if (_actualFont != null) { return _actualFont; }
             bool relateToParent = false;
             string fontFam = this.FontFamily;
             if (string.IsNullOrEmpty(FontFamily))
@@ -753,7 +753,7 @@ namespace LayoutFarm.Css
                 fsize = FontDefaultConfig.DEFAULT_FONT_SIZE;
             }
 
-            Font font = ifonts.GetFont(fontFam, fsize, st);
+            Font font = new Font(fontFam, fsize, st);// ifonts.GetFont(fontFam, fsize, st);
             if (!relateToParent)
             {
                 //cahce value

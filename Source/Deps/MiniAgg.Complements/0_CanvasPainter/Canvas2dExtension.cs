@@ -31,14 +31,14 @@ namespace PixelFarm.Agg
         //helper tools, run in render thread***
         //not thread safe ***
 
-        static MyTypeFacePrinter stringPrinter = new MyTypeFacePrinter();
+        static MyTypeFacePrinter stringPrinter;
         static Stroke stroke = new Stroke(1);
         static RoundedRect roundRect = new RoundedRect();
         static SimpleRect simpleRect = new SimpleRect();
         static Ellipse ellipse = new Ellipse();
 
         static SvgFontStore svgFontStore = new SvgFontStore();
-        public static void DrawString(this Graphics2D gx,
+        public static void DrawString(this ImageGraphics2D gx,
             string text,
             double x,
             double y,
@@ -51,6 +51,15 @@ namespace PixelFarm.Agg
         {
             ////use svg font 
             var svgFont = svgFontStore.LoadFont(SvgFontStore.DEFAULT_SVG_FONTNAME, (int)pointSize);
+
+            //TODO: review here
+            //stringPrinter on each platform may not interchangeable ***
+            if (stringPrinter == null)
+            {
+                stringPrinter = new MyTypeFacePrinter(gx.GfxPlatform);
+
+            }
+
             stringPrinter.CurrentFont = svgFont;
             stringPrinter.DrawFromHintedCache = false;
             stringPrinter.LoadText(text);

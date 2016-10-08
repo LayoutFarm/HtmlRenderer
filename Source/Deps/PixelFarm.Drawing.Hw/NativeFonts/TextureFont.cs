@@ -136,21 +136,15 @@ namespace PixelFarm.Drawing.Fonts
         /// <param name="xmlFontInfo"></param>
         /// <param name="imgAtlas"></param>
         /// <returns></returns>
-        public static TextureFont CreateFont(string fontName, float fontSizeInPoints, string xmlFontInfo, string imgAtlas)
+        public static TextureFont CreateFont(string fontName, float fontSizeInPoints, string xmlFontInfo, GlyphImage glyphImg)
         {
             //for msdf font
             //1 font atlas may support mutliple font size 
             SimpleFontAtlasBuilder atlasBuilder = new SimpleFontAtlasBuilder();
             SimpleFontAtlas fontAtlas = atlasBuilder.LoadFontInfo(xmlFontInfo);
-            //2. load glyph image
-            using (Bitmap bmp = new Bitmap(imgAtlas))
-            {
-                var glyImage = new GlyphImage(bmp.Width, bmp.Height);
-                var buffer = new int[bmp.Width * bmp.Height];
-                System.Runtime.InteropServices.Marshal.Copy(bmp.GetNativeHImage(), buffer, 0, buffer.Length);
-                glyImage.SetImageBuffer(buffer, true);
-                fontAtlas.TotalGlyph = glyImage;
-            }
+            fontAtlas.TotalGlyph = glyphImg;
+
+         
             return new TextureFont(fontName, fontSizeInPoints, fontAtlas);
         }
     }

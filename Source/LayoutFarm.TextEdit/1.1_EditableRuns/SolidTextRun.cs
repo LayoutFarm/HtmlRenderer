@@ -99,7 +99,7 @@ namespace LayoutFarm.Text
         int GetCharacterWidth(char c)
         {
 
-            ActualFont actualFont = this.Root.P.GetActualFont(GetFont());
+            ActualFont actualFont = this.Root.GetActualFont(GetFont());
             return (int)actualFont.GetAdvanceForCharacter(c);
              
         }
@@ -172,7 +172,7 @@ namespace LayoutFarm.Text
         Size CalculateDrawingStringSize(char[] buffer, int length)
         {
 
-            return this.Root.P.SampleIFonts.MeasureString(buffer, 0,
+            return this.Root.P.Fonts.MeasureString(buffer, 0,
                 length, GetFont());
         }
         protected Font GetFont()

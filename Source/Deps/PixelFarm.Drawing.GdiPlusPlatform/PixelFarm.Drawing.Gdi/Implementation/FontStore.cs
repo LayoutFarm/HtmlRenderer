@@ -57,7 +57,7 @@ namespace PixelFarm.Drawing.WinGdi
         /// <returns>cached font instance</returns>
         public Font GetCachedFont(string family, float size, System.Drawing.FontStyle style)
         {
-            var font = TryGetFont(family, size, style);
+            Font font = TryGetFont(family, size, style);
             if (font == null)
             {
                 //check if font exist
@@ -106,9 +106,6 @@ namespace PixelFarm.Drawing.WinGdi
             return found;
         }
 
-        /// <summary>
-        // create font (try using existing font family to support custom fonts)
-        /// </summary>
         Font CreateFont(string family,
           float size, System.Drawing.FontStyle style)
         {
@@ -198,6 +195,13 @@ namespace PixelFarm.Drawing.WinGdi
                     _existingFontFamilies.Add(family.Name, family);
                 }
             }
+        }
+        public WinGdiPlusFont ResolveFont(PixelFarm.Drawing.Font f)
+        {
+            //check if we have cache this font 
+            //if not then try create it
+            Font f1 = GetCachedFont(f.Name, f.EmSize, (System.Drawing.FontStyle)f.Style);
+            return GetResolvedFont(f1);             
         }
         public WinGdiPlusFont GetResolvedFont(PixelFarm.Drawing.Font f)
         {

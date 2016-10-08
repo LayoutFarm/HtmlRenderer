@@ -18,7 +18,7 @@ namespace PixelFarm.Drawing.GLES2
         {
         }
 
-        public override IFonts SampleIFonts
+        public override IFonts Fonts
         {
             get
             {
@@ -53,14 +53,5 @@ namespace PixelFarm.Drawing.GLES2
             Bitmap bmp = new Bitmap(w, h, innerBmp);
             return bmp;
         }
-        public override Font GetFont(string fontfaceName, float emsize, FontStyle st)
-        {   
-            return fontSystem.GetFont(fontfaceName, emsize, st);
-        }
-        public override ActualFont GetActualFont(Font f)
-        {
-            return fontSystem.fontStore.GetResolvedNativeFont(f);
-        }
-
     }
 }

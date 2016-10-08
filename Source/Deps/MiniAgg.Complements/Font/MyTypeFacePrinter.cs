@@ -30,9 +30,10 @@ namespace PixelFarm.Drawing.Fonts
         Vector2 totalSizeCach;
         string textToPrint;
         Font currentFont;
-        NativeFontStore fontStore = new NativeFontStore();
-        public MyTypeFacePrinter()
+        IFonts ifonts;
+        public MyTypeFacePrinter(GraphicsPlatform gx)
         {
+            this.ifonts = gx.Fonts;
             this.Baseline = Baseline.Text;
             this.Justification = Justification.Left;
         }
@@ -68,7 +69,7 @@ namespace PixelFarm.Drawing.Fonts
             {
 
                 Vector2 currentOffset = new Vector2(0, 0);
-                ActualFont font = fontStore.GetResolvedNativeFont(currentFont);
+                ActualFont font = ifonts.ResolveActualFont(currentFont);
                 currentOffset = GetBaseline(currentOffset);
                 string[] lines = text.Split('\n');
                 foreach (string line in lines)
@@ -145,13 +146,13 @@ namespace PixelFarm.Drawing.Fonts
                 case Baseline.BoundsTop:
                     {
 
-                        ActualFont font = fontStore.GetResolvedNativeFont(currentFont);
+                        ActualFont font = ifonts.ResolveActualFont(currentFont);
                         currentOffset.y = -font.AscentInPixels;
                     }
                     break;
                 case Baseline.BoundsCenter:
                     {
-                        ActualFont font = fontStore.GetResolvedNativeFont(currentFont);
+                        ActualFont font = ifonts.ResolveActualFont(currentFont);
                         currentOffset.y = -font.AscentInPixels / 2;
                     }
 
@@ -196,7 +197,7 @@ namespace PixelFarm.Drawing.Fonts
                 text = this.textToPrint;
             }
 
-            ActualFont implFont = fontStore.GetResolvedNativeFont(currentFont);
+            ActualFont implFont = ifonts.ResolveActualFont(currentFont);
 
             offset.x = 0;
             offset.y = implFont.EmSizeInPixels;

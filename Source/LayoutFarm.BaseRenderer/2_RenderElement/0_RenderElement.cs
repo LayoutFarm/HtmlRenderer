@@ -5,6 +5,7 @@ using PixelFarm.Drawing;
 using LayoutFarm.RenderBoxes;
 namespace LayoutFarm
 {
+    
     public abstract partial class RenderElement : IRenderElement
     {
         RootGraphic rootGfx;

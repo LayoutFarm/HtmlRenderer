@@ -15,7 +15,7 @@
 
 namespace PixelFarm.Drawing.WinGdi
 {
-    partial class MyScreenCanvas
+    partial class MyGdiPlusCanvas
     {
         int left;
         int top;

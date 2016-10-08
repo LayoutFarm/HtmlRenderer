@@ -38,7 +38,7 @@
   <ItemGroup>
     <Compile Include="GLCanvas\GLCanvasPainterBase.cs" />
     <Compile Include="GLShader\SignedDistanceFieldShader.cs" />
-    <Compile Include="Texture\FrameBuffer.cs" />
+    <Compile Include="GLTexture\FrameBuffer.cs" />
     <Compile Include="GLCanvas\InternalGraphicsPath.cs" />
     <Compile Include="GLCanvas\CanvasToShaderSharedResource.cs" />
     <Compile Include="GLCanvas\CanvasGL2d.cs" />
@@ -56,11 +56,19 @@
     <Compile Include="GLShader\ShaderBase.cs" />
     <Compile Include="GLShader\SimpleRectTextureShader.cs" />
     <Compile Include="GLShader\SmoothLineShader.cs" />
+    <Compile Include="GLTexture\SimpleFontAtlas.cs" />
+    <Compile Include="NativeFonts\NativeBridgeFreeType.cs" />
+    <Compile Include="NativeFonts\NativeFont.cs" />
+    <Compile Include="NativeFonts\NativeFontFace.cs" />
+    <Compile Include="NativeFonts\NativeFontGlyphBuilder.cs" />
+    <Compile Include="NativeFonts\NativeFonts.cs" />
+    <Compile Include="NativeFonts\NativeFontStore.cs" />
+    <Compile Include="NativeFonts\TextureFont.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Texture\GLBitmap.cs" />
-    <Compile Include="Texture\GLBitmapReference.cs" />
-    <Compile Include="Texture\LazyAggBitmapBufferProvider.cs" />
-    <Compile Include="Texture\TextureAtlas.cs" />
+    <Compile Include="GLTexture\GLBitmap.cs" />
+    <Compile Include="GLTexture\GLBitmapReference.cs" />
+    <Compile Include="GLTexture\LazyAggBitmapBufferProvider.cs" />
+    <Compile Include="GLTexture\TextureAtlas.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MiniTesselate\Tesselate.csproj">

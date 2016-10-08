@@ -4,21 +4,33 @@ using System;
 using PixelFarm.Drawing.Fonts;
 namespace PixelFarm.Drawing
 {
-
-    public sealed class Font : IDisposable
+    /// <summary>
+    /// font specification
+    /// </summary>
+    public sealed class Font
     {
+        //each platform/canvas has its own representation of this Font
 
         float emSizeInPixels;
         /// <summary>
         /// emsize in point
         /// </summary>
         float emSize;
-        //--------------------------
+        public Font(string facename, float emSizeInPoints, FontStyle style = FontStyle.Regular)
+        {
+            HBDirection = Fonts.HBDirection.HB_DIRECTION_LTR;//default
+            ScriptCode = HBScriptCode.HB_SCRIPT_LATIN;//default 
+            Lang = "en";//default
+            Name = facename;
+            EmSize = emSizeInPoints;
+            Style = style;
+        }
+
         /// <summary>
         /// font's face name
         /// </summary>
         public string Name { get; private set; }
-        public int Height { get; set; } //TODO: review here
+        public float Height { get; set; } //TODO: review here
         public FontStyle Style { get; set; } //TODO: review here
 
         /// <summary>
@@ -62,21 +74,8 @@ namespace PixelFarm.Drawing
         public HBDirection HBDirection { get; set; }
         public int ScriptCode { get; set; }
         public string Lang { get; set; }
+         
 
-
-        public void Dispose()
-        {
-        }
-
-
-        public Font(string facename, float emSizeInPoints)
-        {
-            HBDirection = Fonts.HBDirection.HB_DIRECTION_LTR;//default
-            ScriptCode = HBScriptCode.HB_SCRIPT_LATIN;//default 
-            Lang = "en";//default
-            Name = facename;
-            EmSize = emSizeInPoints;
-        }
         public static float ConvEmSizeInPointsToPixels(float emsizeInPoint)
         {
             return (int)(((float)emsizeInPoint / (float)s_POINTS_PER_INCH) * (float)s_PIXELS_PER_INCH);
@@ -86,11 +85,11 @@ namespace PixelFarm.Drawing
 
     public interface IFonts
     {
-        Font GetFont(string fontname, float fsize, FontStyle st);
+        
         float MeasureWhitespace(Font f);
         Size MeasureString(char[] str, int startAt, int len, Font font);
         Size MeasureString(char[] str, int startAt, int len, Font font, float maxWidth, out int charFit, out int charFitWidth);
-      
+        ActualFont ResolveActualFont(Font f);
         void Dispose();
     }
 

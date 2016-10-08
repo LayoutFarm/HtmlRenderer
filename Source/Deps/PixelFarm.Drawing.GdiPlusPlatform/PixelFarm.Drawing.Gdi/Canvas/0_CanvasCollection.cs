@@ -5,7 +5,7 @@ namespace PixelFarm.Drawing.WinGdi
 {
     class CanvasCollection
     {
-        List<MyScreenCanvas> cachePages;
+        List<MyGdiPlusCanvas> cachePages;
         int numOfCachePages;
         int eachPageWidth;
         int eachPageHeight;
@@ -21,7 +21,7 @@ namespace PixelFarm.Drawing.WinGdi
             {
                 eachPageHeight = 1;
             }
-            cachePages = new List<MyScreenCanvas>(numOfCachePages);
+            cachePages = new List<MyGdiPlusCanvas>(numOfCachePages);
             this.eachPageWidth = eachPageWidth;
             this.eachPageHeight = eachPageHeight;
             this.numOfCachePages = numOfCachePages;
@@ -52,12 +52,12 @@ namespace PixelFarm.Drawing.WinGdi
                 }
             }
         }
-        public MyScreenCanvas GetCanvasPage(int hPageNum, int vPageNum)
+        public MyGdiPlusCanvas GetCanvasPage(int hPageNum, int vPageNum)
         {
             int j = cachePages.Count;
             for (int i = j - 1; i > -1; i--)
             {
-                MyScreenCanvas page = cachePages[i];
+                MyGdiPlusCanvas page = cachePages[i];
                 if (page.IsPageNumber(hPageNum, vPageNum))
                 {
                     cachePages.RemoveAt(i);
@@ -72,7 +72,7 @@ namespace PixelFarm.Drawing.WinGdi
 
             if (j >= numOfCachePages)
             {
-                MyScreenCanvas page = cachePages[0];
+                MyGdiPlusCanvas page = cachePages[0];
                 cachePages.RemoveAt(0);
                 page.IsUnused = false;
                 if (page.DimensionInvalid)
@@ -90,7 +90,7 @@ namespace PixelFarm.Drawing.WinGdi
             }
             else
             {
-                return new MyScreenCanvas(gfxPlatform,
+                return new MyGdiPlusCanvas(gfxPlatform,
                     hPageNum,
                     vPageNum,
                     hPageNum * eachPageWidth,
@@ -99,14 +99,14 @@ namespace PixelFarm.Drawing.WinGdi
                     eachPageHeight);
             }
         }
-        public void ReleasePage(MyScreenCanvas page)
+        public void ReleasePage(MyGdiPlusCanvas page)
         {
             page.IsUnused = true;
             cachePages.Add(page);
         }
         public void Dispose()
         {
-            foreach (MyScreenCanvas canvas in cachePages)
+            foreach (MyGdiPlusCanvas canvas in cachePages)
             {
                 canvas.CloseCanvas();
             }

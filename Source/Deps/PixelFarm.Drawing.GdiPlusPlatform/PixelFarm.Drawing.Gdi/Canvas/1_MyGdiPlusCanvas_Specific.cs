@@ -18,7 +18,7 @@ using System.Collections.Generic;
 using Win32;
 namespace PixelFarm.Drawing.WinGdi
 {
-    partial class MyScreenCanvas : Canvas, IFonts, IDisposable
+    partial class MyGdiPlusCanvas : Canvas, IDisposable
     {
         int pageNumFlags;
         int pageFlags;
@@ -39,7 +39,7 @@ namespace PixelFarm.Drawing.WinGdi
         //-------------------------------
 
         GraphicsPlatform platform;
-        public MyScreenCanvas(GraphicsPlatform platform,
+        public MyGdiPlusCanvas(GraphicsPlatform platform,
             int horizontalPageNum,
             int verticalPageNum,
             int left, int top,
@@ -58,8 +58,8 @@ namespace PixelFarm.Drawing.WinGdi
             CreateGraphicsFromNativeHdc(width, height);
             //-------------------------------------------------------
             currentClipRect = new System.Drawing.Rectangle(0, 0, width, height);
-            Font font = platform.GetFont("tahoma", 10, FontStyle.Regular);
-            this.CurrentFont = defaultFont = font;
+
+            this.CurrentFont = defaultFont = new Font("tahoma", 14);
             this.CurrentTextColor = Color.Black;
             internalPen = new System.Drawing.Pen(System.Drawing.Color.Black);
             internalSolidBrush = new System.Drawing.SolidBrush(System.Drawing.Color.Black);
@@ -115,14 +115,14 @@ namespace PixelFarm.Drawing.WinGdi
             }
             this.CloseCanvas();
         }
-        void IFonts.Dispose()
-        {
-            if (isDisposed)
-            {
-                return;
-            }
-            this.CloseCanvas();
-        }
+        //void IFonts.Dispose()
+        //{
+        //    if (isDisposed)
+        //    {
+        //        return;
+        //    }
+        //    this.CloseCanvas();
+        //}
 
         void ClearPreviousStoredValues()
         {
@@ -335,7 +335,7 @@ namespace PixelFarm.Drawing.WinGdi
         static IntPtr defaultHFont;
         Font defaultFont;
         static System.Drawing.Font defaultGdiFont;
-        static MyScreenCanvas()
+        static MyGdiPlusCanvas()
         {
             _stringFormat = new System.Drawing.StringFormat(System.Drawing.StringFormat.GenericDefault);
             _stringFormat.FormatFlags = System.Drawing.StringFormatFlags.NoClip | System.Drawing.StringFormatFlags.MeasureTrailingSpaces;

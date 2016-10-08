@@ -13,13 +13,13 @@ namespace PixelFarm.Drawing
         public int debug_canvas_id = 0;
 #endif
 
-        public Canvas()
-        {
-        }
+
         public abstract void CloseCanvas();
+        /// <summary>
+        /// owner platform of this canvas
+        /// </summary>
         public abstract GraphicsPlatform Platform { get; }
         public abstract SmoothingMode SmoothingMode { get; set; }
-
         //---------------------------------------------------------------------
         public abstract float StrokeWidth { get; set; }
         public abstract Color StrokeColor { get; set; }

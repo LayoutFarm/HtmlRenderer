@@ -39,9 +39,11 @@ namespace PixelFarm.Agg
         int destHeight;
         RectInt clipBox;
         ImageInterpolationQuality imgInterpolationQuality = ImageInterpolationQuality.Bilinear;
-        public ImageGraphics2D(ActualImage destImage)
+        GraphicsPlatform gfxPlatform;
+        public ImageGraphics2D(ActualImage destImage, GraphicsPlatform gfxPlatform)
         {
             //create from actual image
+            this.gfxPlatform = gfxPlatform;
             this.destActualImage = destImage;
             this.destImageReaderWriter = new MyImageReaderWriter(destImage);
             this.sclineRas = new ScanlineRasterizer();
@@ -53,7 +55,10 @@ namespace PixelFarm.Agg
             this.sclinePack8 = new ScanlinePacked8();
             this.currentBlender = this.pixBlenderRGBA32 = new PixelBlenderBGRA();
         }
-
+        public GraphicsPlatform GfxPlatform
+        {
+            get { return this.gfxPlatform; }
+        }
         public override ScanlinePacked8 ScanlinePacked8
         {
             get { return this.sclinePack8; }

@@ -39,6 +39,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bitmap\NativeImage.cs" />
     <Compile Include="Glfw\Glfw3.cs" />
     <Compile Include="Glfw\Glfw3Delegates.cs" />
     <Compile Include="Glfw\Glfw3DelegateTypes.cs" />
