@@ -31,10 +31,11 @@ namespace PixelFarm.Drawing.Fonts
 
         static NativeFontStore()
         {
+
             List<InstalledFont> installedFonts = InstalledFontCollection.ReadInstallFonts();
+
             //do 
             int j = installedFonts.Count;
-
             for (int i = 0; i < j; ++i)
             {
                 InstalledFont f = installedFonts[i];

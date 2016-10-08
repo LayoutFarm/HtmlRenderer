@@ -40,8 +40,7 @@
     <Compile Include="1_Drawing\RenderVx.cs" />
     <Compile Include="3_Drawing_Fonts\FontGlyph.cs" />
     <Compile Include="3_Drawing_Fonts\ActualFont.cs" />
-    <Compile Include="3_Drawing_Fonts\FontSet.cs" />
-    <Compile Include="3_Drawing_Fonts\InstallFonts.cs" />
+    <Compile Include="3_Drawing_Fonts\FontKey.cs" />
     <Compile Include="3_Drawing_Fonts\NativeBridgeHB.cs" />
     <Compile Include="5_PixelFarm_Agg\ActualImage.cs" />
     <Compile Include="5_PixelFarm_Agg\CanvasPainter.cs" />
@@ -67,9 +66,9 @@
     <Compile Include="1_Drawing\Brushes_Pens.cs" />
     <Compile Include="1_Drawing\Color.cs" />
     <Compile Include="1_Drawing\DashStyle.cs" />
-    <Compile Include="3_Drawing_Fonts\Fonts.cs" />
+    <Compile Include="1_Drawing\Fonts.cs" />
     <Compile Include="1_Drawing\GraphicsPath.cs" />
-    <Compile Include="3_Drawing_Fonts\FontStyle.cs" />
+    <Compile Include="1_Drawing\FontStyle.cs" />
     <Compile Include="1_Drawing\Image_Bitmap.cs" />
     <Compile Include="1_Drawing\KnownColors.cs" />
     <Compile Include="1_Drawing\Rectangle.cs" />

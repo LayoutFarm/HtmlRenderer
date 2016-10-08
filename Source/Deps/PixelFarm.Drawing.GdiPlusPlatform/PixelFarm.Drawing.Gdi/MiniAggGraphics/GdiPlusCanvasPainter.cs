@@ -27,20 +27,20 @@ namespace PixelFarm.Drawing.WinGdi
         Agg.VertexSource.CurveFlattener curveFlattener;
 
         SmoothingMode _smoothingMode;
-        WinGdiPlusFontSystem winGdiPlusFonts = new WinGdiPlusFontSystem();
+        WinGdiFontStore winGdiPlusFonts = new WinGdiFontStore();
         public GdiPlusCanvasPainter(System.Drawing.Bitmap gfxBmp)
         {
             _width = 800;// gfxBmp.Width;
             _height = 600;// gfxBmp.Height;
             _gfxBmp = gfxBmp;
-          
+
             _gfx = System.Drawing.Graphics.FromImage(_gfxBmp);
-            
+
             //credit:
             //http://stackoverflow.com/questions/1485745/flip-coordinates-when-drawing-to-control
             _gfx.ScaleTransform(1.0F, -1.0F);// Flip the Y-Axis
             _gfx.TranslateTransform(0.0F, -(float)Height);// Translate the drawing area accordingly            
- 
+
             _currentFillBrush = new System.Drawing.SolidBrush(System.Drawing.Color.Black);
             _currentPen = new System.Drawing.Pen(System.Drawing.Color.Black);
 
@@ -106,7 +106,7 @@ namespace PixelFarm.Drawing.WinGdi
             set
             {
                 _currentFont = value;
-                _latestWinGdiPlusFont = winGdiPlusFonts.GetWinGdiFont(value);
+                _latestWinGdiPlusFont = winGdiPlusFonts.ResolveFont(value);
             }
         }
         public override Color FillColor

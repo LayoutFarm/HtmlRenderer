@@ -30,7 +30,7 @@ using System;
 namespace PixelFarm.Drawing
 {
     [Flags]
-    public enum FontStyle
+    public enum FontStyle : byte
     {
         Regular = 0,
         Bold = 1,

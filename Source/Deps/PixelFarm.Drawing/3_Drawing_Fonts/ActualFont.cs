@@ -3,13 +3,12 @@
 using System;
 namespace PixelFarm.Drawing.Fonts
 {
+
     /// <summary>
     /// specific fontface + size + style
     /// </summary>
     public abstract class ActualFont : IDisposable
     {
-
-
         /// <summary>
         /// emheight
         /// </summary>

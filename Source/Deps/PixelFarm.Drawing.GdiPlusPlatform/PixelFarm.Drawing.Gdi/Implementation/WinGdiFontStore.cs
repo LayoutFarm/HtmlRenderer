@@ -17,23 +17,10 @@ using System;
 using System.Collections.Generic;
 namespace PixelFarm.Drawing.WinGdi
 {
-    struct FontKey
-    {
-        public readonly string FontName;
-        public readonly float FontSize;
-        public readonly System.Drawing.FontStyle FontStyle;
-        public FontKey(string lowerFontName, float fontSize, System.Drawing.FontStyle fs)
-        {
-            this.FontName = lowerFontName;
-            this.FontSize = fontSize;
-            this.FontStyle = fs;
-        }
-    }
-
 
     class WinGdiFontStore
     {
-        // static PixelFarm.Drawing.WinGdi.BasicGdi32FontHelper gdiFontHelper = new PixelFarm.Drawing.WinGdi.BasicGdi32FontHelper();
+
         /// <summary>
         /// Allow to map not installed fonts to different
         /// </summary>
@@ -43,7 +30,7 @@ namespace PixelFarm.Drawing.WinGdi
         /// </summary>
         static readonly Dictionary<string, System.Drawing.FontFamily> _existingFontFamilies = new Dictionary<string, System.Drawing.FontFamily>(StringComparer.InvariantCultureIgnoreCase);
         readonly Dictionary<System.Drawing.Font, Font> _fontInfoCache = new Dictionary<System.Drawing.Font, Font>();
-        readonly Dictionary<FontKey, Font> _fontInfoCacheByFontKey = new Dictionary<FontKey, Font>();
+        readonly Dictionary<PixelFarm.Drawing.Fonts.FontKey, Font> _fontInfoCacheByFontKey = new Dictionary<PixelFarm.Drawing.Fonts.FontKey, Font>();
         static Dictionary<Font, WinGdiPlusFont> resolvedWinGdiFont = new Dictionary<Font, WinGdiPlusFont>();
 
         public WinGdiFontStore()
@@ -91,7 +78,7 @@ namespace PixelFarm.Drawing.WinGdi
             if (!_fontInfoCache.TryGetValue(f, out found))
             {
                 //if not found then create it
-                return RegisterFont(f, new FontKey(f.Name, f.Size, f.Style));
+                return RegisterFont(f, new PixelFarm.Drawing.Fonts.FontKey(f.Name, f.Size, (PixelFarm.Drawing.FontStyle)f.Style));
             }
             return found;
         }
@@ -101,7 +88,7 @@ namespace PixelFarm.Drawing.WinGdi
         Font TryGetFont(string family, float size, System.Drawing.FontStyle style)
         {
             Font found;
-            FontKey fontKey = new FontKey(family.ToLower(), size, style);
+            var fontKey = new PixelFarm.Drawing.Fonts.FontKey(family, size, (PixelFarm.Drawing.FontStyle)style);
             _fontInfoCacheByFontKey.TryGetValue(fontKey, out found);
             return found;
         }
@@ -119,10 +106,10 @@ namespace PixelFarm.Drawing.WinGdi
             {
                 newFont = new System.Drawing.Font(family, size, style);
             }
-            return RegisterFont(newFont, new FontKey(family, size, style));
+            return RegisterFont(newFont, new PixelFarm.Drawing.Fonts.FontKey(family, size, (PixelFarm.Drawing.FontStyle)style));
         }
 
-        Font RegisterFont(System.Drawing.Font newFont, FontKey fontKey)
+        Font RegisterFont(System.Drawing.Font newFont, PixelFarm.Drawing.Fonts.FontKey fontKey)
         {
             //from ...
             //1. http://msdn.microsoft.com/en-us/library/xwf9s90b%28v=vs.100%29.aspx
@@ -201,7 +188,7 @@ namespace PixelFarm.Drawing.WinGdi
             //check if we have cache this font 
             //if not then try create it
             Font f1 = GetCachedFont(f.Name, f.EmSize, (System.Drawing.FontStyle)f.Style);
-            return GetResolvedFont(f1);             
+            return GetResolvedFont(f1);
         }
         public WinGdiPlusFont GetResolvedFont(PixelFarm.Drawing.Font f)
         {

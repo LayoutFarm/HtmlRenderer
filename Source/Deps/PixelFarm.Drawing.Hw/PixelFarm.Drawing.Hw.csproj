@@ -57,6 +57,8 @@
     <Compile Include="GLShader\SimpleRectTextureShader.cs" />
     <Compile Include="GLShader\SmoothLineShader.cs" />
     <Compile Include="GLTexture\SimpleFontAtlas.cs" />
+    <Compile Include="NativeFonts\InstalledFont.cs" />
+    <Compile Include="NativeFonts\InstalledFontCollection.cs" />
     <Compile Include="NativeFonts\NativeBridgeFreeType.cs" />
     <Compile Include="NativeFonts\NativeFont.cs" />
     <Compile Include="NativeFonts\NativeFontFace.cs" />

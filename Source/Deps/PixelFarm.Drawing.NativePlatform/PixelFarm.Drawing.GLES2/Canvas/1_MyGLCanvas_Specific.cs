@@ -14,7 +14,7 @@ namespace PixelFarm.Drawing.GLES2
 
 
 
-    partial class MyGLCanvas : Canvas, IFonts, IDisposable
+    partial class MyGLCanvas : Canvas, IDisposable
     {
         CanvasGL2d canvasGL2;
         bool isDisposed;
@@ -52,7 +52,7 @@ namespace PixelFarm.Drawing.GLES2
             this.bottom = top + height;
             currentClipRect = new Rectangle(0, 0, width, height);
 
-            win32MemDc = new NativeWin32MemoryDc(10, 10); 
+            win32MemDc = new NativeWin32MemoryDc(10, 10);
             this.CurrentFont = new Font("tahoma", 10);
             this.CurrentTextColor = Color.Black;
 
@@ -93,15 +93,7 @@ namespace PixelFarm.Drawing.GLES2
             }
             this.CloseCanvas();
         }
-        void IFonts.Dispose()
-        {
-            if (isDisposed)
-            {
-                return;
-            }
-            this.CloseCanvas();
-        }
-
+        
         void ClearPreviousStoredValues()
         {
 

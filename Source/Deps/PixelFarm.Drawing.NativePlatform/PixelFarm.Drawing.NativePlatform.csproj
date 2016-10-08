@@ -110,6 +110,12 @@
     <Compile Include="..\PixelFarm.Drawing.Hw\GLTexture\TextureAtlas.cs">
       <Link>GLTexture\TextureAtlas.cs</Link>
     </Compile>
+    <Compile Include="..\PixelFarm.Drawing.Hw\NativeFonts\InstalledFont.cs">
+      <Link>NativeFonts\InstalledFont.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.Drawing.Hw\NativeFonts\InstalledFontCollection.cs">
+      <Link>NativeFonts\InstalledFontCollection.cs</Link>
+    </Compile>
     <Compile Include="..\PixelFarm.Drawing.Hw\NativeFonts\NativeBridgeFreeType.cs">
       <Link>NativeFonts\NativeBridgeFreeType.cs</Link>
     </Compile>
