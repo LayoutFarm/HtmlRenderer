@@ -75,7 +75,13 @@ namespace Icu
             public void Use()
             {
                 ErrorCode err;
-                NativeMethods.udata_setCommonData(unmanagedICUMemData, out err);
+                try
+                {
+                    NativeMethods.udata_setCommonData(unmanagedICUMemData, out err);
+                }
+                catch (Exception ex)
+                {
+                }
             }
             public void Dispose()
             {
