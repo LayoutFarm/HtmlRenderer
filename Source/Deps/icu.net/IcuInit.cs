@@ -6,16 +6,16 @@ using System.Text;
 using System.Runtime.InteropServices;
 namespace Icu
 {
-    public static class IcuInit
-    {
-        public static void LoadIcuLibrary(string libFolder)
-        {
-            //1. load icudt first
-            WinNativeMethods.LoadLibrary(libFolder + "\\icudt54.dll");
-            //2. then
-            WinNativeMethods.LoadLibrary(libFolder + "\\icuuc54.dll");
-        }
-    }
+    //public static class IcuInit
+    //{
+    //    public static void LoadIcuLibrary(string libFolder)
+    //    {
+    //        //1. load icudt first
+    //        WinNativeMethods.LoadLibrary(libFolder + "\\icudt54.dll");
+    //        //2. then
+    //        WinNativeMethods.LoadLibrary(libFolder + "\\icuuc54.dll");
+    //    }
+    //}
 
     static class WinNativeMethods
     {

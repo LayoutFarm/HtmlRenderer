@@ -115,9 +115,11 @@ namespace LayoutFarm.Css
         }
         CssMarginFeature CheckMarginVersion()
         {
+#if DEBUG
             if (this.__aa_dbugId == 9)
             {
             }
+#endif
             return this._marginFeats = this._marginFeats.GetMyOwnVersion(this);
         }
         CssPaddingFeature CheckPaddingVersion()

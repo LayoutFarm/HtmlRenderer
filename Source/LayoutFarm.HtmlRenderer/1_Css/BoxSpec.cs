@@ -317,10 +317,11 @@ namespace LayoutFarm.Css
             get { return this._marginFeats.Left; }
             set
             {
+#if DEBUG
                 if (this.__aa_dbugId == 9)
                 {
                 }
-
+#endif
                 if (Assignable()) CheckMarginVersion().Left = value;
             }
         }
