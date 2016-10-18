@@ -57,7 +57,12 @@ namespace PixelFarm.Agg
             this.stroke = new Stroke(1);//default
             this.scline = graphic2d.ScanlinePacked8;
             this.sclineRasToBmp = graphic2d.ScanlineRasToDestBitmap;
-            this.textPrinter = new TextPrinter(graphic2d.GfxPlatform);
+
+            //tmp1:
+            if (graphic2d.GfxPlatform != null)
+            {
+                this.textPrinter = new TextPrinter(graphic2d.GfxPlatform);
+            }
         }
         public override void Clear(Color color)
         {
@@ -279,6 +284,19 @@ namespace PixelFarm.Agg
         public Graphics2D Graphics
         {
             get { return this.gx; }
+        }
+        public float OriginX
+        {
+            get { return sclineRas.OffsetOriginX; }
+        }
+        public float OriginY
+        {
+            get { return sclineRas.OffsetOriginY; }
+        }
+        public void SetOrigin(float x, float y)
+        {
+            sclineRas.OffsetOriginX = x;
+            sclineRas.OffsetOriginY = y;
         }
         /// <summary>
         /// fill vertex store

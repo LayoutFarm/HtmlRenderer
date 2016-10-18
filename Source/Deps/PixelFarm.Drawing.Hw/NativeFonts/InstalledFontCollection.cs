@@ -1,4 +1,9 @@
-﻿using System;
+﻿
+//from http://stackoverflow.com/questions/3633000/net-enumerate-winforms-font-styles
+// https://www.microsoft.com/Typography/OTSpec/name.htm
+//MIT 2016, WinterDev
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;

@@ -96,7 +96,7 @@ namespace PixelFarm.Drawing.Fonts
             //outline version
             //------------------------------
             int npoints = outline.n_points;
-            List<PixelFarm.VectorMath.Vector2> points = new List<PixelFarm.VectorMath.Vector2>(npoints);
+
             int startContour = 0;
             int cpoint_index = 0;
             int todoContourCount = outline.n_contours;
@@ -117,6 +117,9 @@ namespace PixelFarm.Drawing.Fonts
                     byte vtag = outline.tags[cpoint_index];
                     bool has_dropout = (((vtag >> 2) & 0x1) != 0);
                     int dropoutMode = vtag >> 3;
+
+                    Console.WriteLine(vpoint.ToString() + " " + vtag);
+
                     if ((vtag & 0x1) != 0)
                     {
                         //on curve

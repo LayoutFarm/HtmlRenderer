@@ -19,10 +19,7 @@ namespace PixelFarm.Drawing.Fonts
         public bool hasKerning;
         public IntPtr hb_font;
     }
-    static class NativeDLL
-    {
-        public const string MyFtLibName = "myft.dll";
-    }
+
 
     static class NativeMyFontsLib
     {
@@ -53,8 +50,10 @@ namespace PixelFarm.Drawing.Fonts
 
         [DllImport(myfontLib)]
         public static extern int MyFtLibGetVersion();
+
         [DllImport(myfontLib, CallingConvention = CallingConvention.Cdecl)]
         public static extern void MyFtLibGetFullVersion(out int major, out int minor, out int revision);
+        
         [DllImport(myfontLib)]
         public static extern int MyFtInitLib();
         [DllImport(myfontLib)]
@@ -99,6 +98,9 @@ namespace PixelFarm.Drawing.Fonts
             char* text,
             int charCount,
             ProperGlyph* properGlyphs);
+        //============================================================================
+
+
         static bool isLoaded = false;
         static bool LoadLib(string dllFilename)
         {
@@ -131,6 +133,10 @@ namespace PixelFarm.Drawing.Fonts
             }
         }
     }
+
+
+
+
 
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
     unsafe struct ExportFace

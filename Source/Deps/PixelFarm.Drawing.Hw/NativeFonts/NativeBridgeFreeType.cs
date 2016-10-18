@@ -20,6 +20,10 @@ namespace PixelFarm.Drawing.Fonts
             this.x = x;
             this.y = y;
         }
+        public override string ToString()
+        {
+            return x + "," + y;
+        }
     }
 
     struct FtVec2

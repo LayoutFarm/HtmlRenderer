@@ -74,10 +74,8 @@ namespace PixelFarm.Agg
                 cell.y = y;
                 cell.cover = cover;
                 cell.area = area;
-#if DEBUG
                 cell.dbugLeft = left;
                 cell.dbugRight = right;
-#endif
                 return cell;
             }
 #if DEBUG

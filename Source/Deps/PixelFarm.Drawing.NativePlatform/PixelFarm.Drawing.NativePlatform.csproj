@@ -29,13 +29,15 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\PixelFarm.Drawing.Hw\0_Start\NativeDll.cs">
+      <Link>0_Start\NativeDll.cs</Link>
+    </Compile>
     <Compile Include="..\PixelFarm.Drawing.Hw\GLCanvas\CanvasGL2d.cs">
       <Link>GLCanvas\CanvasGL2d.cs</Link>
     </Compile>
@@ -138,6 +140,9 @@
     <Compile Include="..\PixelFarm.Drawing.Hw\NativeFonts\TextureFont.cs">
       <Link>NativeFonts\TextureFont.cs</Link>
     </Compile>
+    <Compile Include="..\PixelFarm.Drawing.Hw\NativeText\NativeTextBreaker.cs">
+      <Link>NativeText\NativeTextBreaker.cs</Link>
+    </Compile>
     <Compile Include="PixelFarm.Drawing.GLES2\0_Start\FontSystem.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\0_Start\GLES2Platform.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\Canvas\1_MyGLCanvas_Specific.cs" />
@@ -171,6 +176,7 @@
       <Name>PixelFarm.MiniPlatforms</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

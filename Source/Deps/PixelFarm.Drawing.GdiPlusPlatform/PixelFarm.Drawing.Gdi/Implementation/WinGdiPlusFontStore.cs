@@ -50,7 +50,7 @@ namespace PixelFarm.Drawing.WinGdi
             {
                 //not found 
                 //then create it
-                return found = CreateFont(f.Name, f.EmSize, (System.Drawing.FontStyle)f.Style);
+                CreateFont(f.Name, f.EmSize, (System.Drawing.FontStyle)f.Style);
             }
             return found;
 
@@ -137,7 +137,7 @@ namespace PixelFarm.Drawing.WinGdi
                 }
             }
         }
-
+     
 
         /// <summary>
         /// Gets the line spacing of the font

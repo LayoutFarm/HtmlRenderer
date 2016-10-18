@@ -189,6 +189,7 @@
     <Compile Include="PixelFarm.Drawing\3_Drawing_Fonts\FontGlyph.cs" />
     <Compile Include="PixelFarm.Drawing\3_Drawing_Fonts\FontKey.cs" />
     <Compile Include="PixelFarm.Drawing\3_Drawing_Fonts\NativeBridgeHB.cs" />
+    <Compile Include="PixelFarm.Drawing\4_Drawing_Text\TextBreaker.cs" />
     <Compile Include="PixelFarm.Drawing\5_PixelFarm_Agg\ActualImage.cs" />
     <Compile Include="PixelFarm.Drawing\5_PixelFarm_Agg\CanvasPainter.cs" />
     <Compile Include="PixelFarm.Drawing\5_PixelFarm_Agg\PixelFormat.cs" />
