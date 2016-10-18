@@ -107,7 +107,7 @@ namespace LayoutFarm.Dev
             int w = workingArea.Width;
             int h = workingArea.Height;
 
-
+           
             MyRootGraphic rootgfx = new MyRootGraphic(this.uiPlatformWinForm,
                 this.chkUseGLCanvas.Checked ? openGLPlatform : gdiPlatform,
                 w, h);

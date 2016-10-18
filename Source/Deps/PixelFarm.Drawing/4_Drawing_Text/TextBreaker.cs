@@ -14,6 +14,7 @@ namespace PixelFarm.Drawing.Text
     public delegate void OnBreak(SplitBound splitBound);
     public abstract class TextBreaker
     {
+       
         public abstract void DoBreak(char[] input, int start, int len, OnBreak onbreak);
         public TextBreakKind BreakKind
         {

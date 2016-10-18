@@ -6,7 +6,7 @@ using PixelFarm.Drawing.Fonts;
 using LayoutFarm.RenderBoxes;
 namespace LayoutFarm
 {
-    
+
     public abstract partial class RootGraphic : IRootGraphics
     {
         public delegate void PaintToOutputWindowDelegate();
@@ -20,7 +20,7 @@ namespace LayoutFarm
             this.Height = heigth;
         }
         public abstract GraphicsPlatform P { get; }
- 
+
         public abstract Font DefaultTextEditFontInfo
         {
             get;
@@ -289,7 +289,22 @@ namespace LayoutFarm
         /// <returns></returns>
         public abstract RootGraphic CreateNewOne(int w, int h);
         //---------------------------------------------
+
         public abstract PixelFarm.Drawing.Fonts.ActualFont GetActualFont(PixelFarm.Drawing.Font f);
-        //---------------------------------------------
+
+
+        static TextBreakGenDel s_textBreakGen;
+        public static PixelFarm.Drawing.Text.TextBreaker GetTextBreaker(string locale)
+        {
+            return s_textBreakGen(locale);
+        }
+        public static void SetTextBreakerGenerator(TextBreakGenDel textBreakGen)
+        {
+            s_textBreakGen = textBreakGen;
+        }
+
+        public delegate PixelFarm.Drawing.Text.TextBreaker TextBreakGenDel(string locale);
     }
+
+
 }

@@ -22,6 +22,9 @@ namespace PixelFarm.Drawing
         /// </summary>
         public abstract IFonts Fonts { get; }
         public abstract Bitmap CreatePlatformBitmap(int w, int h, byte[] rawBuffer, bool isBottomUp);
+
+
+
     }
-  
+
 }

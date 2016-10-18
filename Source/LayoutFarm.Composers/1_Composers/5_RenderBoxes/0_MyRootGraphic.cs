@@ -47,7 +47,7 @@ namespace LayoutFarm.UI
                     this.FlushAccumGraphics();
                 });
         }
-
+      
         public override RootGraphic CreateNewOne(int w, int h)
         {
             return new MyRootGraphic(this.uiPlatform, this.graphicsPlatform, w, h);
@@ -355,5 +355,5 @@ namespace LayoutFarm.UI
         }
     }
 
-    
+
 }

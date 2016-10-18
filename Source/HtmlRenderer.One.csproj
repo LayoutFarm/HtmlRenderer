@@ -8,7 +8,6 @@
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AssemblyName>HtmlRenderer.One</AssemblyName>
-    <ProjectGuid>{37A7A03B-A688-4EF4-83D1-D4B3346DB2D3}</ProjectGuid>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -18,7 +17,7 @@
     <Optimize>false</Optimize>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <DefineConstants>DEBUG; TRACE;ICU_VER_54;NET20</DefineConstants>
+    <DefineConstants>DEBUG; TRACE;NET20</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -27,7 +26,7 @@
     <OutputPath>bin\Release\</OutputPath>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
-    <DefineConstants>TRACE;ICU_VER_57;NET20</DefineConstants>
+    <DefineConstants> TRACE;NET20</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -65,33 +64,6 @@
     <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\3_MiniBridge\NativeV8JsInterOp.cs" />
     <Compile Include="Deps\Espresso\Net20\EspressoCore\..\..\EspressoCore\Extension.cs" />
     <Compile Include="Deps\Espresso\Net20\EspressoCore\0_Start\JsBridgeForNet20.cs" />
-    <Compile Include="Deps\icu.net\BreakIterator.cs" />
-    <Compile Include="Deps\icu.net\Character.cs" />
-    <Compile Include="Deps\icu.net\Collation\AlternateHandling.cs" />
-    <Compile Include="Deps\icu.net\Collation\CaseFirst.cs" />
-    <Compile Include="Deps\icu.net\Collation\CaseLevel.cs" />
-    <Compile Include="Deps\icu.net\Collation\CollationStrength.cs" />
-    <Compile Include="Deps\icu.net\Collation\Collator.cs" />
-    <Compile Include="Deps\icu.net\Collation\FrenchCollation.cs" />
-    <Compile Include="Deps\icu.net\Collation\HiraganaQuaternary.cs" />
-    <Compile Include="Deps\icu.net\Collation\NormalizationMode.cs" />
-    <Compile Include="Deps\icu.net\Collation\NumericCollation.cs" />
-    <Compile Include="Deps\icu.net\Collation\RuleBasedCollator.cs" />
-    <Compile Include="Deps\icu.net\Collation\UColAttributeValue.cs" />
-    <Compile Include="Deps\icu.net\Collation\UColBoundMode.cs" />
-    <Compile Include="Deps\icu.net\Collation\UColRuleOption.cs" />
-    <Compile Include="Deps\icu.net\ErrorCode.cs" />
-    <Compile Include="Deps\icu.net\Exception.cs" />
-    <Compile Include="Deps\icu.net\IcuInit.cs" />
-    <Compile Include="Deps\icu.net\IcuWrapper.cs" />
-    <Compile Include="Deps\icu.net\Locale.cs" />
-    <Compile Include="Deps\icu.net\NativeMethods.cs" />
-    <Compile Include="Deps\icu.net\Normalizer.cs" />
-    <Compile Include="Deps\icu.net\ParseError.cs" />
-    <Compile Include="Deps\icu.net\SyntaxErrorException.cs" />
-    <Compile Include="Deps\icu.net\UnicodeSet.cs" />
-    <Compile Include="Deps\icu.net\UnicodeString.cs" />
-    <Compile Include="Deps\icu.net\VersionInfo.cs" />
     <Compile Include="Deps\MiniAgg.Complements\0_CanvasPainter\AggCanvasPainter.cs" />
     <Compile Include="Deps\MiniAgg.Complements\0_CanvasPainter\AggRenderVx.cs" />
     <Compile Include="Deps\MiniAgg.Complements\0_CanvasPainter\Canvas2dExtension.cs" />
@@ -245,6 +217,7 @@
     <Compile Include="Deps\PixelFarm.Drawing\3_Drawing_Fonts\FontGlyph.cs" />
     <Compile Include="Deps\PixelFarm.Drawing\3_Drawing_Fonts\FontKey.cs" />
     <Compile Include="Deps\PixelFarm.Drawing\3_Drawing_Fonts\NativeBridgeHB.cs" />
+    <Compile Include="Deps\PixelFarm.Drawing\4_Drawing_Text\TextBreaker.cs" />
     <Compile Include="Deps\PixelFarm.Drawing\5_PixelFarm_Agg\ActualImage.cs" />
     <Compile Include="Deps\PixelFarm.Drawing\5_PixelFarm_Agg\CanvasPainter.cs" />
     <Compile Include="Deps\PixelFarm.Drawing\5_PixelFarm_Agg\PixelFormat.cs" />
@@ -397,15 +370,11 @@
     <Compile Include="Deps\PixelFarm.MiniPlatforms.WindowsForms\Toolkit.cs" />
     <Compile Include="Deps\PixelFarm.MiniPlatforms.WindowsForms\UserGLControl\CarbonGLControl.cs" />
     <Compile Include="Deps\PixelFarm.MiniPlatforms.WindowsForms\UserGLControl\DummyGLControl.cs" />
-    <Compile Include="Deps\PixelFarm.MiniPlatforms.WindowsForms\UserGLControl\GLControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="Deps\PixelFarm.MiniPlatforms.WindowsForms\UserGLControl\GLControl.cs" />
     <Compile Include="Deps\PixelFarm.MiniPlatforms.WindowsForms\UserGLControl\GLControl.Designer.cs" />
     <Compile Include="Deps\PixelFarm.MiniPlatforms.WindowsForms\UserGLControl\GLControlFactory.cs" />
     <Compile Include="Deps\PixelFarm.MiniPlatforms.WindowsForms\UserGLControl\IGLControl.cs" />
-    <Compile Include="Deps\PixelFarm.MiniPlatforms.WindowsForms\UserGLControl\MyGLControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="Deps\PixelFarm.MiniPlatforms.WindowsForms\UserGLControl\MyGLControl.cs" />
     <Compile Include="Deps\PixelFarm.MiniPlatforms.WindowsForms\UserGLControl\MyGLControl.Designer.cs" />
     <Compile Include="Deps\PixelFarm.MiniPlatforms.WindowsForms\UserGLControl\WinGLControl.cs" />
     <Compile Include="Deps\PixelFarm.MiniPlatforms.WindowsForms\UserGLControl\X11GLControl.cs" />
@@ -674,23 +643,17 @@
     <Compile Include="LayoutFarm.Platforms.WinForms\0_Start\CanvasViewport.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\0_Start\Conv.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\0_Start\dbugHelper.cs" />
-    <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\AbstractCompletionWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\AbstractCompletionWindow.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\AbstractCompletionWindow.Designer.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\InnerViewportKind.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\MyUITimer.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\TopWindowBridge.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\TopWindowBridge_dbug.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\UIPlatformWinForms.cs" />
-    <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\UISurfaceViewportControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\UISurfaceViewportControl.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\UISurfaceViewportControl.Designer.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\2_GdiPlus\0_MyWinGdiPortal.cs" />
-    <Compile Include="LayoutFarm.Platforms.WinForms\2_GdiPlus\1_CpuGdiPlusSurfaceView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="LayoutFarm.Platforms.WinForms\2_GdiPlus\1_CpuGdiPlusSurfaceView.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\2_GdiPlus\1_CpuGdiPlusSurfaceView.Designer.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\2_GdiPlus\2_GdiPlusCanvasViewport.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\2_GdiPlus\3_MyTopWindowBridgeGdiPlus.cs" />
@@ -847,9 +810,6 @@
     <Compile Include="LayoutFarm.YourCustomWidgets\7_WindowUI\UIFloatWindow.cs" />
     <Compile Include="LayoutFarm.YourCustomWidgets\8_Canvas\MiniAggCanvasBox.cs" />
     <Compile Include="LayoutFarm.YourCustomWidgets\8_Canvas\MiniAggCanvasRenderElement.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Deps\Espresso\Net20\Espresso.Interfaces\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
