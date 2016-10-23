@@ -34,6 +34,7 @@ namespace PixelFarm.DrawingGL
             _height = h;
             _rectInt = new RectInt(0, 0, w, h);
             arcTool = new Arc();
+            _currentFont = new Font("tahoma", 14);
 
         }
         public override RectInt ClipBox
