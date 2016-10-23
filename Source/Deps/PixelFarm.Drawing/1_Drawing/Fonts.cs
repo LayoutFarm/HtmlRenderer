@@ -18,15 +18,18 @@ namespace PixelFarm.Drawing
         /// </summary>
         float emSize;
         Fonts.FontKey fontKey;
-        public Font(string facename, float emSizeInPoints, FontStyle style = FontStyle.Regular)
+        public Font(string facename, float sizeInPoints, FontStyle style = FontStyle.Regular)
         {
             HBDirection = Fonts.HBDirection.HB_DIRECTION_LTR;//default
             ScriptCode = HBScriptCode.HB_SCRIPT_LATIN;//default 
             Lang = "en";//default
             Name = facename;
-            EmSize = emSizeInPoints;
+            EmSize = sizeInPoints;
             Style = style;
-            fontKey = new FontKey(facename, emSizeInPoints, style);
+            fontKey = new FontKey(facename, sizeInPoints, style);
+            //temp fix 
+            //we need font height*** 
+            this.Height = EmSizeInPixels + 5;
         }
         public FontKey FontKey
         {
@@ -37,7 +40,7 @@ namespace PixelFarm.Drawing
         /// font's face name
         /// </summary>
         public string Name { get; private set; }
-        public float Height { get; set; } //TODO: review here
+        public float Height { get; private set; } //TODO: review here
         public FontStyle Style { get; set; } //TODO: review here
 
         /// <summary>

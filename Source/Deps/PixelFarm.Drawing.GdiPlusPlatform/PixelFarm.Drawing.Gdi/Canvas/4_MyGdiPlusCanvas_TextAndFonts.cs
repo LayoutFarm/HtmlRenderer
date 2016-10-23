@@ -159,13 +159,15 @@ namespace PixelFarm.Drawing.WinGdi
 
         }
         public override void DrawText(char[] str, int startAt, int len, Rectangle logicalTextBox, int textAlignment)
-        {
+        { 
 #if DEBUG
+       
             dbugCounter.dbugDrawStringCount++;
 #endif
             var color = this.CurrentTextColor;
             if (color.A == 255)
             {
+                InitHdc();
                 var clipRect = Rectangle.Intersect(logicalTextBox,
                     new Rectangle(currentClipRect.Left,
                         currentClipRect.Top,
@@ -178,6 +180,7 @@ namespace PixelFarm.Drawing.WinGdi
                  clipRect.Right,
                  clipRect.Bottom);
                 MyWin32.SelectClipRgn(tempDc, hRgn);
+                 
                 unsafe
                 {
                     fixed (char* startAddr = &str[0])
@@ -200,6 +203,7 @@ namespace PixelFarm.Drawing.WinGdi
             {
                 //translucent / transparent text
                 InitHdc();
+                MyWin32.SetTextColor(tempDc, 0);
                 var intersectRect = Rectangle.Intersect(logicalTextBox,
                         new Rectangle(currentClipRect.Left,
                             currentClipRect.Top,

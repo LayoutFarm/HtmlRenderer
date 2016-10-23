@@ -1,6 +1,7 @@
 ﻿//BSD, 2014-2016, WinterDev 
 using System;
 using Win32;
+using System.Runtime.InteropServices;
 
 namespace PixelFarm.Drawing.WinGdi
 {
@@ -10,6 +11,8 @@ namespace PixelFarm.Drawing.WinGdi
         GdiPlusIFonts ifonts = new GdiPlusIFonts();
         public WinGdiPlusPlatform()
         {
+            PixelFarm.Agg.AggBuffMx.SetNaiveBufferImpl(new Win32AggBuffMx());
+
         }
         ~WinGdiPlusPlatform()
         {
@@ -76,6 +79,7 @@ namespace PixelFarm.Drawing.WinGdi
         }
         public float MeasureWhitespace(Font f)
         {
+            ResolveActualFont(f);
             return fontStore.MeasureWhitespace(this, f);
         }
         void SetFont(Font font)
@@ -178,5 +182,39 @@ namespace PixelFarm.Drawing.WinGdi
             win32MemDc.Dispose();
             win32MemDc = null;
         }
+    }
+
+
+    class Win32AggBuffMx : PixelFarm.Agg.AggBuffMx
+    {
+
+        protected override void InnerMemCopy(byte[] dest_buffer, int dest_startAt, byte[] src_buffer, int src_StartAt, int len)
+        {
+            unsafe
+            {
+                fixed (byte* head_dest = &dest_buffer[dest_startAt])
+                fixed (byte* head_src = &src_buffer[src_StartAt])
+                {
+                    memcpy(head_dest, head_src, len);
+                }
+            }
+        }
+        protected override void InnerMemSet(byte[] dest, int startAt, byte value, int count)
+        {
+            unsafe
+            {
+                fixed (byte* head = &dest[0])
+                {
+                    memset(head, 0, 100);
+                }
+            }
+        }
+        //this is platform specific ***
+        [DllImport("msvcrt.dll", EntryPoint = "memset", CallingConvention = CallingConvention.Cdecl)]
+        static unsafe extern void memset(byte* dest, byte c, int byteCount);
+        [DllImport("msvcrt.dll", EntryPoint = "memcpy", CallingConvention = CallingConvention.Cdecl)]
+        static unsafe extern void memcpy(byte* dest, byte* src, int byteCount);
+        [DllImport("msvcrt.dll", EntryPoint = "memcpy", CallingConvention = CallingConvention.Cdecl)]
+        static unsafe extern int memcmp(byte* dest, byte* src, int byteCount);
     }
 }

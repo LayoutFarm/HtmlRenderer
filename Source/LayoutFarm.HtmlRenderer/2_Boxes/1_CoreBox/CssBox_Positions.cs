@@ -149,6 +149,10 @@ namespace LayoutFarm.HtmlBoxes
         public void ReEvaluateFont(IFonts iFonts, float parentFontSize)
         {
             Font fontInfo = this._myspec.GetFont(iFonts, parentFontSize);
+            if (fontInfo == null)
+            {
+
+            }
             this._resolvedFont = fontInfo;
             this._actualLineHeight = _resolvedFont.Height;
             this._actualEmHeight = _resolvedFont.EmSize;

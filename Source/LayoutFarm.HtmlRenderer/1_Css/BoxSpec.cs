@@ -755,11 +755,13 @@ namespace LayoutFarm.Css
             }
 
             Font font = new Font(fontFam, fsize, st);// ifonts.GetFont(fontFam, fsize, st);
+            ifonts.ResolveActualFont(font);
             if (!relateToParent)
             {
                 //cahce value
                 this._actualFont = font;
-            }
+            } 
+            this._actualFont = font;
             return _actualFont;
         }
 
