@@ -36,6 +36,24 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\PixelFarm.Drawing.GdiPlusPlatform\PixelFarm.Drawing.Gdi\Implementation.Win32\BasicGdi32FontHelper.cs">
+      <Link>PixelFarm.Drawing.GLES2\Implementation.Win32\BasicGdi32FontHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.Drawing.GdiPlusPlatform\PixelFarm.Drawing.Gdi\Implementation.Win32\MyWin32.cs">
+      <Link>PixelFarm.Drawing.GLES2\Implementation.Win32\MyWin32.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.Drawing.GdiPlusPlatform\PixelFarm.Drawing.Gdi\Implementation.Win32\NativeTextWin32.cs">
+      <Link>PixelFarm.Drawing.GLES2\Implementation.Win32\NativeTextWin32.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.Drawing.GdiPlusPlatform\PixelFarm.Drawing.Gdi\Implementation.Win32\NativeWin32MemoryDc.cs">
+      <Link>PixelFarm.Drawing.GLES2\Implementation.Win32\NativeWin32MemoryDc.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.Drawing.GdiPlusPlatform\PixelFarm.Drawing.Gdi\Implementation.Win32\Win32Utils.cs">
+      <Link>PixelFarm.Drawing.GLES2\Implementation.Win32\Win32Utils.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.Drawing.GdiPlusPlatform\PixelFarm.Drawing.Gdi\Implementation.Win32\WinGdiFont.cs">
+      <Link>PixelFarm.Drawing.GLES2\Implementation.Win32\WinGdiFont.cs</Link>
+    </Compile>
     <Compile Include="0_Start\NativeDll.cs" />
     <Compile Include="DrawingGL\GLCanvas\CanvasGL2d.cs" />
     <Compile Include="DrawingGL\GLCanvas\CanvasSmoothMode.cs" />
@@ -78,12 +96,6 @@
     <Compile Include="PixelFarm.Drawing.GLES2\Canvas\2_MyGLCanvas_CoordinateAndClip.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\Canvas\3_MyGLCanvas_DrawGraphics.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\Canvas\4_MyGLCanvas_TextAndFonts.cs" />
-    <Compile Include="PixelFarm.Drawing.GLES2\Implementation.Win32\BasicGdi32FontHelper.cs" />
-    <Compile Include="PixelFarm.Drawing.GLES2\Implementation.Win32\MyWin32.cs" />
-    <Compile Include="PixelFarm.Drawing.GLES2\Implementation.Win32\NativeTextWin32.cs" />
-    <Compile Include="PixelFarm.Drawing.GLES2\Implementation.Win32\NativeWin32MemoryDc.cs" />
-    <Compile Include="PixelFarm.Drawing.GLES2\Implementation.Win32\Win32Utils.cs" />
-    <Compile Include="PixelFarm.Drawing.GLES2\Implementation.Win32\WinGdiFont.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\Implementation\GLCanvasPainter.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\Implementation\GLESBitmap.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\Implementation\GraphicsPath.cs" />
@@ -92,13 +104,25 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PixelFarm.Drawing.csproj">
-      <Project>{56751940-B896-4AC9-AC2B-ABC48A1B20D6}</Project>
-      <Name>PixelFarm.Drawing</Name>
+    <ProjectReference Include="..\MiniAgg.Complements\MiniAgg.Complements.csproj">
+      <Project>{AE0DF71E-9B14-4197-B55A-E1E0CE0683C7}</Project>
+      <Name>MiniAgg.Complements</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PixelFarm.MiniPlatforms\PixelFarm.MiniPlatforms.csproj">
+    <ProjectReference Include="..\MiniAgg\MiniAgg.csproj">
+      <Project>{4D5CE655-58FA-4523-8E46-738B941E9E47}</Project>
+      <Name>MiniAgg</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NOpenType\N20\PixelFarm.OpenType\PixelFarm.OpenType.csproj">
+      <Project>{29ED0DFE-373C-4E98-BD4B-43F8E5FB16F6}</Project>
+      <Name>PixelFarm.OpenType</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PixelFarm.Drawing.Core\PixelFarm.Drawing.Core.csproj">
+      <Project>{51D63482-5697-4B16-8401-506965624657}</Project>
+      <Name>PixelFarm.Drawing.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PixelFarm.NativeWindows\PixelFarm.NativeWindows.csproj">
       <Project>{198D20B3-0DBD-4C8C-8F0D-0D0FD9C61D43}</Project>
-      <Name>PixelFarm.MiniPlatforms</Name>
+      <Name>PixelFarm.NativeWindows</Name>
     </ProjectReference>
     <ProjectReference Include="..\Tesselate\Tesselate.csproj">
       <Project>{AE37DE1F-22F7-49EE-8732-FC6BC8DC58D9}</Project>
