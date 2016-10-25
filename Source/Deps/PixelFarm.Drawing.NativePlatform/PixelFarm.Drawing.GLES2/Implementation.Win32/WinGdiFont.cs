@@ -44,8 +44,8 @@ namespace PixelFarm.Drawing.WinGdi
             //create gdi font from font data
             this.emSize = f.SizeInPoints;
             this.emSizeInPixels = PixelFarm.Drawing.RequestFont.ConvEmSizeInPointsToPixels(this.emSize);
-            ////
-            ////build font matrix
+            //
+            //build font matrix
             basGdi32FontHelper.MeasureCharWidths(hfont, out charWidths, out charAbcWidths);
             //int emHeightInDzUnit = f.FontFamily.GetEmHeight(f.Style);
 
@@ -83,11 +83,11 @@ namespace PixelFarm.Drawing.WinGdi
             /// </summary>
             return this.hfont;
         }
-        public override float EmSize
+        public override float SizeInPoints
         {
             get { return emSize; }
         }
-        public override float EmSizeInPixels
+        public override float SizeInPixels
         {
             get { return emSizeInPixels; }
         }

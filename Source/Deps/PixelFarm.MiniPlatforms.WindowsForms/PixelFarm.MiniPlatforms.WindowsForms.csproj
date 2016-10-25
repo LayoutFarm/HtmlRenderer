@@ -151,18 +151,18 @@
     <Compile Include="WindowState.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PixelFarm.MiniPlatforms\PixelFarm.MiniPlatforms.csproj">
-      <Project>{198d20b3-0dbd-4c8c-8f0d-0d0fd9c61d43}</Project>
-      <Name>PixelFarm.MiniPlatforms</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="UserGLControl\MyGLControl.resx">
       <DependentUpon>MyGLControl.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PixelFarm.MiniPlatforms\PixelFarm.MiniPlatforms.csproj">
+      <Project>{198D20B3-0DBD-4C8C-8F0D-0D0FD9C61D43}</Project>
+      <Name>PixelFarm.MiniPlatforms</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

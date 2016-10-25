@@ -86,21 +86,13 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Deps\MiniAgg.Complements\MiniAgg.Complements.csproj">
-      <Project>{AE0DF71E-9B14-4197-B55A-E1E0CE0683C7}</Project>
-      <Name>MiniAgg.Complements</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Deps\MiniAgg\MiniAgg.csproj">
-      <Project>{4D5CE655-58FA-4523-8E46-738B941E9E47}</Project>
-      <Name>MiniAgg</Name>
+    <ProjectReference Include="..\Deps\PixelFarm.Drawing.Core\PixelFarm.Drawing.Core.csproj">
+      <Project>{51D63482-5697-4B16-8401-506965624657}</Project>
+      <Name>PixelFarm.Drawing.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Deps\PixelFarm.Drawing.GdiPlusPlatform\PixelFarm.Drawing.GdiPlusPlatform.csproj">
       <Project>{1AA171E3-523C-4DD5-A169-DE6322991FF5}</Project>
-      <Name>PixelFarm.Drawing.Platforms</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Deps\PixelFarm.Drawing\PixelFarm.Drawing.csproj">
-      <Project>{51D63482-5697-4B16-8401-506965624657}</Project>
-      <Name>PixelFarm.Drawing</Name>
+      <Name>PixelFarm.Drawing.GdiPlusPlatform</Name>
     </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.BaseRenderer\LayoutFarm.BaseRenderer.csproj">
       <Project>{20048075-A2F3-4B97-B3C6-BEA794429741}</Project>

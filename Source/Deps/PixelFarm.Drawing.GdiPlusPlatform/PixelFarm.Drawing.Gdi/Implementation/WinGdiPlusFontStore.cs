@@ -56,10 +56,10 @@ namespace PixelFarm.Drawing.WinGdi
                 //not found 
                 //then create it
                 currentFont = CreateFont(f.Name, f.SizeInPoints, (System.Drawing.FontStyle)f.Style);
-                 
+
             }
             f.ActualFont = currentFont;
-            return currentFont;             
+            return currentFont;
 
         }
         WinGdiPlusFont CreateFont(string family,

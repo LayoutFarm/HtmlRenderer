@@ -51,7 +51,6 @@ namespace PixelFarm.Agg
         {
             ////use svg font 
             var svgFont = svgFontStore.LoadFont(SvgFontStore.DEFAULT_SVG_FONTNAME, (int)pointSize);
-
             //TODO: review here
             //stringPrinter on each platform may not interchangeable ***
             if (stringPrinter == null)
@@ -60,7 +59,7 @@ namespace PixelFarm.Agg
 
             }
 
-            stringPrinter.CurrentFont = svgFont;
+            stringPrinter.CurrentActualFont = svgFont;
             stringPrinter.DrawFromHintedCache = false;
             stringPrinter.LoadText(text);
             VertexStore vxs = stringPrinter.MakeVxs();

@@ -96,11 +96,11 @@ namespace PixelFarm.Drawing.WinGdi
        
         
         
-        public override float EmSize
+        public override float SizeInPoints
         {
             get { return emSize; }
         }
-        public override float EmSizeInPixels
+        public override float SizeInPixels
         {
             get { return emSizeInPixels; }
         }

@@ -159,7 +159,7 @@ namespace LayoutFarm.HtmlBoxes
 
             }
             this._resolvedFont = fontInfo;
-            this._actualLineHeight = _resolvedFont.ActualFont.EmSizeInPixels;
+            this._actualLineHeight = _resolvedFont.ActualFont.SizeInPixels;
             this._actualEmHeight = _resolvedFont.SizeInPoints;
             if (_myspec.WordSpacing.IsNormalWordSpacing)
             {
@@ -181,7 +181,7 @@ namespace LayoutFarm.HtmlBoxes
             //1. fonts 
             if (this.ParentBox != null)
             {
-                ReEvaluateFont(iFonts, this.ParentBox.ResolvedFont.EmSizeInPixels);
+                ReEvaluateFont(iFonts, this.ParentBox.ResolvedFont.ActualFont.SizeInPixels);
                 //2. actual word spacing
                 //this._actualWordSpacing = this.NoEms(this.InitSpec.LineHeight);
                 //3. font size 
@@ -189,7 +189,7 @@ namespace LayoutFarm.HtmlBoxes
             }
             else
             {
-                ReEvaluateFont(iFonts, containingBlock.ResolvedFont.EmSizeInPixels);
+                ReEvaluateFont(iFonts, containingBlock.ResolvedFont.ActualFont.SizeInPixels);
                 //this._actualFont = this.Spec.GetFont(containingBlock.Spec);
             }
 

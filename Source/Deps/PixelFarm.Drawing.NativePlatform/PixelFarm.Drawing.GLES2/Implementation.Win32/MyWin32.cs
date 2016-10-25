@@ -344,7 +344,9 @@ namespace Win32
             public float abcfC;
         }
 
-
+        /// <summary>
+        /// request font 
+        /// </summary>
         [StructLayout(LayoutKind.Sequential)]
         public unsafe struct LOGFONT
         {

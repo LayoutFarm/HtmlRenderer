@@ -9,15 +9,15 @@ namespace PixelFarm.Drawing.Fonts
     /// </summary>
     public class TextureFontStore
     {
-        Dictionary<RequestFont, TextureFont> registerFonts = new Dictionary<RequestFont, TextureFont>();
+        Dictionary<FontKey, TextureFont> registerFonts = new Dictionary<FontKey, TextureFont>();
         public void RegisterFont(RequestFont f, TextureFont textureFont)
         {
-            registerFonts.Add(f, textureFont);
+            registerFonts.Add(f.FontKey, textureFont);
         }
         public TextureFont GetResolvedFont(RequestFont f)
         {
             TextureFont found;
-            registerFonts.TryGetValue(f, out found);
+            registerFonts.TryGetValue(f.FontKey, out found);
             return found;
         }
     }
@@ -71,19 +71,19 @@ namespace PixelFarm.Drawing.Fonts
         {
             get { return fontAtlas; }
         }
-        public override float EmSize
+        public override float SizeInPoints
         {
             get
             {
-                return nativeFont.EmSize;
+                return nativeFont.SizeInPoints;
             }
         }
 
-        public override float EmSizeInPixels
+        public override float SizeInPixels
         {
             get
             {
-                return nativeFont.EmSizeInPixels;
+                return nativeFont.SizeInPixels;
             }
         }
 
@@ -144,7 +144,7 @@ namespace PixelFarm.Drawing.Fonts
             SimpleFontAtlas fontAtlas = atlasBuilder.LoadFontInfo(xmlFontInfo);
             fontAtlas.TotalGlyph = glyphImg;
 
-         
+
             return new TextureFont(fontName, fontSizeInPoints, fontAtlas);
         }
     }
