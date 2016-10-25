@@ -18,7 +18,7 @@ namespace PixelFarm.Drawing.Fonts
     public class NativeFontStore
     {
         Dictionary<string, NativeFontFace> fonts = new Dictionary<string, NativeFontFace>();
-        Dictionary<RequestFont, NativeFont> registerFonts = new Dictionary<RequestFont, NativeFont>();
+        Dictionary<FontKey, NativeFont> registerFonts = new Dictionary<FontKey, NativeFont>();
         //--------------------------------------------------
 
         static Dictionary<string, InstalledFont> regular_Fonts = new Dictionary<string, InstalledFont>();
@@ -222,14 +222,13 @@ namespace PixelFarm.Drawing.Fonts
             //get font that specific size from found font face
             //-------------------------------------------------
             NativeFont nativeFont = fontFace.GetFontAtPointSize(font.SizeInPoints);
-            registerFonts.Add(font, nativeFont);
+            registerFonts.Add(font.FontKey, nativeFont);
 
         }
         public NativeFont GetResolvedNativeFont(RequestFont f)
         {
             NativeFont found;
-            registerFonts.TryGetValue(f, out found);
-            f.ActualFont = found;
+            registerFonts.TryGetValue(f.FontKey, out found);
             return found;
         }
     }

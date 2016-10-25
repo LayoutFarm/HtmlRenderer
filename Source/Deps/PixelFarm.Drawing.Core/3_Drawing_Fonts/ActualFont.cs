@@ -9,10 +9,10 @@ namespace PixelFarm.Drawing.Fonts
     /// </summary>
     public abstract class ActualFont : IDisposable
     {
-         
-        public abstract float EmSize { get; }
-        //we support subpix rendering
-        public abstract float EmSizeInPixels { get; }
+
+        public abstract float SizeInPoints { get; }
+
+        public abstract float SizeInPixels { get; }
 
 
         public void Dispose()
@@ -32,7 +32,7 @@ namespace PixelFarm.Drawing.Fonts
         public abstract FontGlyph GetGlyphByIndex(uint glyphIndex);
         public abstract FontGlyph GetGlyph(char c);
         public abstract FontFace FontFace { get; }
-        
+
         //---------------------
         public abstract void GetGlyphPos(char[] buffer,
             int start,

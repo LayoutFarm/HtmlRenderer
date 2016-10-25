@@ -31,6 +31,7 @@ namespace PixelFarm.Drawing.Fonts
         string textToPrint;
         RequestFont currentFont;
         IFonts ifonts;
+        PixelFarm.Drawing.Fonts.ActualFont actualFont;
         public MyTypeFacePrinter(GraphicsPlatform gx)
         {
             this.ifonts = gx.Fonts;
@@ -43,6 +44,14 @@ namespace PixelFarm.Drawing.Fonts
             set
             {
                 this.currentFont = value;
+            }
+        }
+        public PixelFarm.Drawing.Fonts.ActualFont CurrentActualFont
+        {
+            get { return this.actualFont; }
+            set
+            {
+                this.actualFont = value;
             }
         }
         public Justification Justification { get; set; }
@@ -110,7 +119,7 @@ namespace PixelFarm.Drawing.Fonts
 
                     // before we go onto the next line we need to move down a line
                     currentOffset.x = 0;
-                    currentOffset.y -= font.EmSizeInPixels;
+                    currentOffset.y -= font.SizeInPixels;
                 }
             }
             yield return new VertexData(VertexCmd.Stop);
@@ -200,7 +209,7 @@ namespace PixelFarm.Drawing.Fonts
             ActualFont implFont = ifonts.ResolveActualFont(currentFont);
 
             offset.x = 0;
-            offset.y = implFont.EmSizeInPixels;
+            offset.y = implFont.SizeInPixels;
             double currentLineX = 0;
             for (int i = characterToMeasureStartIndexInclusive; i < characterToMeasureEndIndexInclusive; i++)
             {
@@ -211,7 +220,7 @@ namespace PixelFarm.Drawing.Fonts
                         i++;
                     }
                     currentLineX = 0;
-                    offset.y += implFont.EmSizeInPixels;
+                    offset.y += implFont.SizeInPixels;
                 }
                 else
                 {
@@ -236,7 +245,7 @@ namespace PixelFarm.Drawing.Fonts
                 if (text[characterToMeasureEndIndexInclusive] == '\n')
                 {
                     currentLineX = 0;
-                    offset.y += implFont.EmSizeInPixels;
+                    offset.y += implFont.SizeInPixels;
                 }
                 else
                 {

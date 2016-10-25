@@ -221,9 +221,7 @@ namespace PixelFarm.Drawing.Fonts
             }
 
             String dString = GetStringValue(svgGlyphData, "d");
-            //if (newGlyph.glyphName == "a")
-            //{
-            //}
+          
             int parseIndex = 0;
             int polyStartVertexSourceIndex = 0;
             Vector2 lastXY = new Vector2(0, 0);
@@ -235,10 +233,7 @@ namespace PixelFarm.Drawing.Fonts
             {
                 return newGlyph;
             }
-
-
-
-
+             
             while (parseIndex < dString.Length)
             {
                 char command = dString[parseIndex];

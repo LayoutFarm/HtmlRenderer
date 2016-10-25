@@ -21,6 +21,7 @@ namespace PixelFarm.Drawing.Fonts
     public class TextPrinter
     {
         Drawing.RequestFont currentFont;
+        Drawing.Fonts.ActualFont actualFont;
         IFonts ifonts;
         public TextPrinter(GraphicsPlatform gfxPlatform)
         {
@@ -31,7 +32,11 @@ namespace PixelFarm.Drawing.Fonts
             get { return this.currentFont; }
             set { this.currentFont = value; }
         }
-
+        public Drawing.Fonts.ActualFont CurrentActualFont
+        {
+            get { return this.actualFont; }
+            set { this.actualFont = value; }
+        }
         public VertexStore CreateVxs(char[] buffer, double x = 0, double y = 0)
         {
             int j = buffer.Length;

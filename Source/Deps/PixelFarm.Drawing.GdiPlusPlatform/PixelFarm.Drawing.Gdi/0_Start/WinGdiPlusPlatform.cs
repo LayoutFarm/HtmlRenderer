@@ -79,7 +79,6 @@ namespace PixelFarm.Drawing.WinGdi
         }
         public float MeasureWhitespace(RequestFont f)
         {
-            ResolveActualFont(f);
             return fontStore.MeasureWhitespace(this, f);
         }
         void SetFont(RequestFont font)

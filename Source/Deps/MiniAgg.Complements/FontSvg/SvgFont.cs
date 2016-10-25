@@ -83,14 +83,14 @@ namespace PixelFarm.Drawing.Fonts
         {
         }
 
-        public override float EmSize
+        public override float SizeInPoints
         {
             get
             {
                 return emSizeInPoints;
             }
         }
-        public override float EmSizeInPixels
+        public override float SizeInPixels
         {
             get { return emSizeInPixels; }
         }

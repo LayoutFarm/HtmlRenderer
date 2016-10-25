@@ -36,7 +36,7 @@ namespace PixelFarm.Agg
         ScanlineRasterizer sclineRas;
         ScanlineRasToDestBitmapRenderer sclineRasToBmp;
         FilterMan filterMan = new FilterMan();
-        PixelFarm.Drawing.RequestFont currentFont;
+        RequestFont currentFont;
         //-------------
         //tools
         //-------------

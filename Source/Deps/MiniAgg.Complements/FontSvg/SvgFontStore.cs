@@ -29,8 +29,9 @@ namespace PixelFarm.Drawing.Fonts
             //    ref exportTypeInfo);
             //fontFace.HBFont = exportTypeInfo.hb_font;
         }
-        Dictionary<RequestFont, SvgFont> registerSvgFonts = new Dictionary<RequestFont, SvgFont>();
-        public Drawing.RequestFont LoadFont(string facename, int fontPointSize)
+
+        Dictionary<string, SvgFont> registerSvgFonts = new Dictionary<string, SvgFont>();
+        public ActualFont LoadFont(string facename, int fontPointSize)
         {
             //load font from specific file 
             SvgFontFace fontFace;
@@ -60,15 +61,15 @@ namespace PixelFarm.Drawing.Fonts
                 return null;
             }
 
-            RequestFont font = new RequestFont(facename, fontPointSize);
+
             SvgFont svgFont = fontFace.GetFontAtSpecificSize(fontPointSize);
-            registerSvgFonts.Add(font, svgFont);
-            return font;
+            registerSvgFonts.Add(facename, svgFont);
+            return svgFont;
         }
         public ActualFont GetResolvedFont(RequestFont f)
         {
             SvgFont found;
-            registerSvgFonts.TryGetValue(f, out found);
+            registerSvgFonts.TryGetValue(f.Name, out found);
             return found;
         }
 
