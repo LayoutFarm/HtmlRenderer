@@ -93,7 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PixelFarm.Drawing.csproj">
-      <Project>{56751940-B896-4AC9-AC2B-ABC48A1B20D6}</Project>
+      <Project>{6F47D371-C941-4060-8D60-DCD80E397412}</Project>
       <Name>PixelFarm.Drawing</Name>
     </ProjectReference>
     <ProjectReference Include="..\PixelFarm.MiniPlatforms\PixelFarm.MiniPlatforms.csproj">
