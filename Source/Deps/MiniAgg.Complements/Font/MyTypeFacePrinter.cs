@@ -29,7 +29,7 @@ namespace PixelFarm.Drawing.Fonts
     {
         Vector2 totalSizeCach;
         string textToPrint;
-        Font currentFont;
+        RequestFont currentFont;
         IFonts ifonts;
         public MyTypeFacePrinter(GraphicsPlatform gx)
         {
@@ -37,7 +37,7 @@ namespace PixelFarm.Drawing.Fonts
             this.Baseline = Baseline.Text;
             this.Justification = Justification.Left;
         }
-        public PixelFarm.Drawing.Font CurrentFont
+        public PixelFarm.Drawing.RequestFont CurrentFont
         {
             get { return this.currentFont; }
             set

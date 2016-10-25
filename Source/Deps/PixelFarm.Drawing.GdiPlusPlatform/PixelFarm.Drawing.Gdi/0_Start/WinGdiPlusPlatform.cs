@@ -77,21 +77,21 @@ namespace PixelFarm.Drawing.WinGdi
         {
             win32MemDc = new NativeWin32MemoryDc(2, 2);
         }
-        public float MeasureWhitespace(Font f)
+        public float MeasureWhitespace(RequestFont f)
         {
             ResolveActualFont(f);
             return fontStore.MeasureWhitespace(this, f);
         }
-        void SetFont(Font font)
+        void SetFont(RequestFont font)
         {
             WinGdiPlusFont winFont = fontStore.ResolveFont(font);
             Win32Utils.SelectObject(win32MemDc.DC, winFont.ToHfont());
         }
-        public PixelFarm.Drawing.Fonts.ActualFont ResolveActualFont(Font f)
+        public PixelFarm.Drawing.Fonts.ActualFont ResolveActualFont(RequestFont f)
         {
             return fontStore.ResolveFont(f);
         }
-        public Size MeasureString(char[] buff, int startAt, int len, Font font)
+        public Size MeasureString(char[] buff, int startAt, int len, RequestFont font)
         {
             //if (_useGdiPlusTextRendering)
             //{
@@ -137,7 +137,7 @@ namespace PixelFarm.Drawing.WinGdi
         /// <param name="charFit">the number of characters that will fit under <see cref="maxWidth"/> restriction</param>
         /// <param name="charFitWidth"></param>
         /// <returns>the size of the string</returns>
-        public Size MeasureString(char[] buff, int startAt, int len, Font font, float maxWidth, out int charFit, out int charFitWidth)
+        public Size MeasureString(char[] buff, int startAt, int len, RequestFont font, float maxWidth, out int charFit, out int charFitWidth)
         {
             //if (_useGdiPlusTextRendering)
             //{

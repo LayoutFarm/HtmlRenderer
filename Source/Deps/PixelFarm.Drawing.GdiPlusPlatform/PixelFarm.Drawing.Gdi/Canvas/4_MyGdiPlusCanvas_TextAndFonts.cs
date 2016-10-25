@@ -19,18 +19,18 @@ namespace PixelFarm.Drawing.WinGdi
 {
     partial class MyGdiPlusCanvas
     {
-        Font currentTextFont = null;
+        RequestFont currentTextFont = null;
         Color mycurrentTextColor = Color.Black;
-        public override float GetCharWidth(Font f, char c)
+        public override float GetCharWidth(RequestFont f, char c)
         {
             WinGdiPlusFont winFont = (WinGdiPlusFont)this.platform.Fonts.ResolveActualFont(f);
             return winFont.GetGlyph(c).horiz_adv_x >> 6;
         }
-        public override Fonts.ActualFont GetActualFont(Font f)
+        public override Fonts.ActualFont GetActualFont(RequestFont f)
         {
             return this.platform.Fonts.ResolveActualFont(f);
         }
-        public Size MeasureString(char[] buff, int startAt, int len, Font font)
+        public Size MeasureString(char[] buff, int startAt, int len, RequestFont font)
         {
 
 
@@ -78,7 +78,7 @@ namespace PixelFarm.Drawing.WinGdi
         /// <param name="charFit">the number of characters that will fit under <see cref="maxWidth"/> restriction</param>
         /// <param name="charFitWidth"></param>
         /// <returns>the size of the string</returns>
-        public Size MeasureString(char[] buff, int startAt, int len, Font font, float maxWidth, out int charFit, out int charFitWidth)
+        public Size MeasureString(char[] buff, int startAt, int len, RequestFont font, float maxWidth, out int charFit, out int charFitWidth)
         {
             //if (_useGdiPlusTextRendering)
             //{
@@ -235,7 +235,7 @@ namespace PixelFarm.Drawing.WinGdi
             }
         }
         //====================================================
-        public override Font CurrentFont
+        public override RequestFont CurrentFont
         {
             get
             {

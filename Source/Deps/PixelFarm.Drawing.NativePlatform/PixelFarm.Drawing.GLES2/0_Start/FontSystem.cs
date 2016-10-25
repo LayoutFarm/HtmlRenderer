@@ -17,15 +17,15 @@ namespace PixelFarm.Drawing.Fonts
 
 
         }
-        public ActualFont ResolveActualFont(Font f)
+        public ActualFont ResolveActualFont(RequestFont f)
         {
             return fontStore.GetResolvedNativeFont(f);
         }
-        public ActualFont GetActualFont(Font f)
+        public ActualFont GetActualFont(RequestFont f)
         {
             return fontStore.GetResolvedNativeFont(f);
         }
-        public Size MeasureString(char[] str, int startAt, int len, Font font)
+        public Size MeasureString(char[] str, int startAt, int len, RequestFont font)
         {
             //measure in horizontal alignment ***
             //use native method to measure string
@@ -52,7 +52,7 @@ namespace PixelFarm.Drawing.Fonts
             return new Size((int)total_width, (int)total_height);
 
         }
-        public Size MeasureString(char[] str, int startAt, int len, Font font, float maxWidth, out int charFit, out int charFitWidth)
+        public Size MeasureString(char[] str, int startAt, int len, RequestFont font, float maxWidth, out int charFit, out int charFitWidth)
         {
             ProperGlyph[] properGlyphs = new ProperGlyph[len * 2];
             ActualFont fontImpl = fontStore.GetResolvedNativeFont(font);
@@ -88,7 +88,7 @@ namespace PixelFarm.Drawing.Fonts
             charFit = j - 1;
             return new Size((int)total_width, (int)total_height);
         }
-        public float MeasureWhitespace(Font f)
+        public float MeasureWhitespace(RequestFont f)
         {
             ActualFont fontImpl = fontStore.GetResolvedNativeFont(f);
             FontGlyph whitespaceGlyph = fontImpl.GetGlyph(' ');

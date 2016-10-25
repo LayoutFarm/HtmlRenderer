@@ -153,7 +153,7 @@ namespace LayoutFarm.HtmlBoxes
             }
             return w;
         }
-        internal float MeasureStringWidth(char[] buffer, int startIndex, int len, Font f)
+        internal float MeasureStringWidth(char[] buffer, int startIndex, int len, RequestFont f)
         {
             return this.SampleIFonts.MeasureString(buffer, startIndex, len, f).Width;
         }

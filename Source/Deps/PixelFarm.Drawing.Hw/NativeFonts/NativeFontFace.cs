@@ -132,7 +132,7 @@ namespace PixelFarm.Drawing.Fonts
         internal NativeFont GetFontAtPointSize(float fontPointSize)
         {
             //convert from point size to pixelsize ***              
-            NativeFont nativeFont = GetFontAtPixelSize((int)Font.ConvEmSizeInPointsToPixels(fontPointSize));
+            NativeFont nativeFont = GetFontAtPixelSize((int)RequestFont.ConvEmSizeInPointsToPixels(fontPointSize));
 
             return nativeFont;
         }

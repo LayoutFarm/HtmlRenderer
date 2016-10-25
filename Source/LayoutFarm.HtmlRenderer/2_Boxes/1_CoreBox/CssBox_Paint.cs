@@ -409,11 +409,11 @@ namespace LayoutFarm.HtmlBoxes
                         //float desc = FontsUtils.GetDescentPx(ActualFont);
                         //y = (float)Math.Round(rectangle.Top + h - desc + 0.5); 
 
-                        Font afont = ResolvedFont;
+                        RequestFont afont = ResolvedFont;
                         PixelFarm.Drawing.Fonts.ActualFont ff = g.GetActualFont(ResolvedFont);
 
                         //PixelFarm.Drawing.Fonts.ActualFont ff = afont.ActualFont;
-                        var h = afont.Height;
+                        var h = ff.EmSizeInPixels;
                         float desc = (float)ff.DescentInPixels;// fontInfo.DescentPx;
                         y = (float)Math.Round(rectangle.Top + h - desc);
                     }

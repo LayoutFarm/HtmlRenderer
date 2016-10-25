@@ -9,12 +9,12 @@ namespace PixelFarm.Drawing.Fonts
     /// </summary>
     public class TextureFontStore
     {
-        Dictionary<Font, TextureFont> registerFonts = new Dictionary<Font, TextureFont>();
-        public void RegisterFont(Font f, TextureFont textureFont)
+        Dictionary<RequestFont, TextureFont> registerFonts = new Dictionary<RequestFont, TextureFont>();
+        public void RegisterFont(RequestFont f, TextureFont textureFont)
         {
             registerFonts.Add(f, textureFont);
         }
-        public TextureFont GetResolvedFont(Font f)
+        public TextureFont GetResolvedFont(RequestFont f)
         {
             TextureFont found;
             registerFonts.TryGetValue(f, out found);
@@ -35,7 +35,7 @@ namespace PixelFarm.Drawing.Fonts
         {
             this.fontAtlas = fontAtlas;
             this.name = fontName;
-            var font = new Font(fontName, fontSizeInPts);
+            var font = new RequestFont(fontName, fontSizeInPts);
             s_nativeFontStore.LoadFont(font, fontfile);
             nativeFont = s_nativeFontStore.GetResolvedNativeFont(font);
         }
@@ -44,7 +44,7 @@ namespace PixelFarm.Drawing.Fonts
             //not support font 
             this.fontAtlas = fontAtlas;
             this.name = fontName;
-            var font = new Font(fontName, fontSizeInPts);
+            var font = new RequestFont(fontName, fontSizeInPts);
             s_nativeFontStore.LoadFont(font);
             nativeFont = s_nativeFontStore.GetResolvedNativeFont(font);
         }

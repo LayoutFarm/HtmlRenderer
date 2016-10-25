@@ -36,7 +36,7 @@ namespace PixelFarm.Agg
         ScanlineRasterizer sclineRas;
         ScanlineRasToDestBitmapRenderer sclineRasToBmp;
         FilterMan filterMan = new FilterMan();
-        PixelFarm.Drawing.Font currentFont;
+        PixelFarm.Drawing.RequestFont currentFont;
         //-------------
         //tools
         //-------------
@@ -261,7 +261,7 @@ namespace PixelFarm.Agg
             this.Draw(roundRect.MakeVxs());
         }
 
-        public override Drawing.Font CurrentFont
+        public override Drawing.RequestFont CurrentFont
         {
             get
             {

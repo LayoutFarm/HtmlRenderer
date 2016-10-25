@@ -59,7 +59,7 @@ namespace PixelFarm.Drawing.WinGdi
             //-------------------------------------------------------
             currentClipRect = new System.Drawing.Rectangle(0, 0, width, height);
 
-            this.CurrentFont = defaultFont = new Font("tahoma", 14);
+            this.CurrentFont = defaultFont = new RequestFont("tahoma", 14);
             this.CurrentTextColor = Color.Black;
             internalPen = new System.Drawing.Pen(System.Drawing.Color.Black);
             internalSolidBrush = new System.Drawing.SolidBrush(System.Drawing.Color.Black);
@@ -267,7 +267,7 @@ namespace PixelFarm.Drawing.WinGdi
         /// Set a resource (e.g. a font) for the specified device context.
         /// WARNING: Calling Font.ToHfont() many times without releasing the font handle crashes the app.
         /// </summary>
-        void SetFont(Font font)
+        void SetFont(RequestFont font)
         {
             InitHdc();
             WinGdiPlusFont myFont = (WinGdiPlusFont)this.platform.Fonts.ResolveActualFont(font);
@@ -333,7 +333,7 @@ namespace PixelFarm.Drawing.WinGdi
         const int CANVAS_UNUSED = 1 << (1 - 1);
         const int CANVAS_DIMEN_CHANGED = 1 << (2 - 1);
         static IntPtr defaultHFont;
-        Font defaultFont;
+        RequestFont defaultFont;
         static System.Drawing.Font defaultGdiFont;
         static MyGdiPlusCanvas()
         {

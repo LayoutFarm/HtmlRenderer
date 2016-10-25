@@ -77,7 +77,7 @@ namespace PixelFarm.Agg
         public abstract void FillRoundRectangle(double left, double bottom, double right, double top, double radius);
         public abstract void DrawRoundRect(double left, double bottom, double right, double top, double radius);
         //-------------------------------------------------------
-        public abstract Font CurrentFont { get; set; }
+        public abstract RequestFont CurrentFont { get; set; }
 
         public abstract void DrawString(
            string text,

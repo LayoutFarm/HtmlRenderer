@@ -52,7 +52,7 @@ namespace LayoutFarm.Css
         CssFlexFeature _flexFeats = CssFlexFeature.Default;
         CssBoxSizing _boxSizing = CssBoxSizing.ContentBox;//default
 
-        Font _actualFont;
+        RequestFont _actualFont;
         CssDisplay _cssDisplay = CssDisplay.Inline;
         CssFloat _float = CssFloat.None;
         //==========================================================
@@ -648,7 +648,7 @@ namespace LayoutFarm.Css
                 return this._backgroundFeats.BackgroundColor;
             }
         }
-        internal Font GetFont(IFonts ifonts, float parentFontSize)
+        internal RequestFont GetFont(IFonts ifonts, float parentFontSize)
         {
 
             if (_actualFont != null) { return _actualFont; }
@@ -754,7 +754,7 @@ namespace LayoutFarm.Css
                 fsize = FontDefaultConfig.DEFAULT_FONT_SIZE;
             }
 
-            Font font = new Font(fontFam, fsize, st);// ifonts.GetFont(fontFam, fsize, st);
+            RequestFont font = new RequestFont(fontFam, fsize, st);// ifonts.GetFont(fontFam, fsize, st);
             ifonts.ResolveActualFont(font);
             if (!relateToParent)
             {

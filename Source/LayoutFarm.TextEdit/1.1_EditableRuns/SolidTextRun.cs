@@ -175,7 +175,7 @@ namespace LayoutFarm.Text
             return this.Root.P.Fonts.MeasureString(buffer, 0,
                 length, GetFont());
         }
-        protected Font GetFont()
+        protected RequestFont GetFont()
         {
             if (!HasStyle)
             {

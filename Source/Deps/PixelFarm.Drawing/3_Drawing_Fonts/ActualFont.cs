@@ -9,9 +9,7 @@ namespace PixelFarm.Drawing.Fonts
     /// </summary>
     public abstract class ActualFont : IDisposable
     {
-        /// <summary>
-        /// emheight
-        /// </summary>
+         
         public abstract float EmSize { get; }
         //we support subpix rendering
         public abstract float EmSizeInPixels { get; }

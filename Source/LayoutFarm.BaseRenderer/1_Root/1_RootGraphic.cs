@@ -21,7 +21,7 @@ namespace LayoutFarm
         }
         public abstract GraphicsPlatform P { get; }
 
-        public abstract Font DefaultTextEditFontInfo
+        public abstract RequestFont DefaultTextEditFontInfo
         {
             get;
         }
@@ -290,7 +290,7 @@ namespace LayoutFarm
         public abstract RootGraphic CreateNewOne(int w, int h);
         //---------------------------------------------
 
-        public abstract PixelFarm.Drawing.Fonts.ActualFont GetActualFont(PixelFarm.Drawing.Font f);
+        public abstract PixelFarm.Drawing.Fonts.ActualFont GetActualFont(PixelFarm.Drawing.RequestFont f);
 
 
         static TextBreakGenDel s_textBreakGen;

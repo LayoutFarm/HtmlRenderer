@@ -27,10 +27,10 @@ namespace PixelFarm.Drawing.Fonts
             this.fontSizeInPixelUnit = pixelSize;
 
             int ascentEmSize = ownerFace.Ascent / ownerFace.UnitPerEm;
-            fontFaceAscentInPx = Font.ConvEmSizeInPointsToPixels(ascentEmSize);
+            fontFaceAscentInPx = RequestFont.ConvEmSizeInPointsToPixels(ascentEmSize);
 
             int descentEmSize = ownerFace.Descent / ownerFace.UnitPerEm;
-            fontFaceDescentInPx = Font.ConvEmSizeInPointsToPixels(descentEmSize);
+            fontFaceDescentInPx = RequestFont.ConvEmSizeInPointsToPixels(descentEmSize);
 
         }
         protected override void OnDispose()

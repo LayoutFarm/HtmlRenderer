@@ -32,14 +32,14 @@ namespace PixelFarm.Drawing.WinGdi
             this.hFont = f.ToHfont();
 
             this.emSize = f.SizeInPoints;
-            this.emSizeInPixels = Font.ConvEmSizeInPointsToPixels(this.emSize);
+            this.emSizeInPixels = RequestFont.ConvEmSizeInPointsToPixels(this.emSize);
             //
             //build font matrix
             basGdi32FontHelper.MeasureCharWidths(hFont, out charWidths, out charAbcWidths);
             int emHeightInDzUnit = f.FontFamily.GetEmHeight(f.Style);
 
-            this.ascendInPixels = Font.ConvEmSizeInPointsToPixels((f.FontFamily.GetCellAscent(f.Style) / emHeightInDzUnit));
-            this.descentInPixels = Font.ConvEmSizeInPointsToPixels((f.FontFamily.GetCellDescent(f.Style) / emHeightInDzUnit));
+            this.ascendInPixels = RequestFont.ConvEmSizeInPointsToPixels((f.FontFamily.GetCellAscent(f.Style) / emHeightInDzUnit));
+            this.descentInPixels = RequestFont.ConvEmSizeInPointsToPixels((f.FontFamily.GetCellDescent(f.Style) / emHeightInDzUnit));
 
             //--------------
             //we build font glyph, this is just win32 glyph

@@ -21,7 +21,7 @@ namespace PixelFarm.Drawing.WinGdi
         double _strokeWidth;
         bool _useSubPixelRendering;
         BufferBitmapStore _bmpStore;
-        Font _currentFont;
+        RequestFont _currentFont;
         //vector generators
         Agg.VertexSource.RoundedRect roundRect;
         Agg.VertexSource.CurveFlattener curveFlattener;
@@ -99,7 +99,7 @@ namespace PixelFarm.Drawing.WinGdi
             }
         }
 
-        public override Font CurrentFont
+        public override RequestFont CurrentFont
         {
             get
             {

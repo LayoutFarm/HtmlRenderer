@@ -11,7 +11,7 @@ namespace PixelFarm.DrawingGL
     class GLTextPrinter
     {
 
-        Drawing.Font currentFont;
+        Drawing.RequestFont currentFont;
         CanvasGL2d canvas2d;
         ProperGlyph[] properGlyphs = null;
         NativeFontStore nativeFontStore = new NativeFontStore();
@@ -19,7 +19,7 @@ namespace PixelFarm.DrawingGL
         {
             this.canvas2d = canvas2d;
         }
-        public Drawing.Font CurrentFont
+        public Drawing.RequestFont CurrentFont
         {
             get { return this.currentFont; }
             set { this.currentFont = value; }

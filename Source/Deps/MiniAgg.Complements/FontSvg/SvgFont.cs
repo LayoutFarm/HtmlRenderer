@@ -23,7 +23,7 @@ namespace PixelFarm.Drawing.Fonts
             this.fontface = fontface;
             this.emSizeInPoints = emSizeInPoints;
             //------------------------------------
-            emSizeInPixels = (int)Font.ConvEmSizeInPointsToPixels(emSizeInPoints);
+            emSizeInPixels = (int)RequestFont.ConvEmSizeInPointsToPixels(emSizeInPoints);
             currentEmScalling = (float)emSizeInPixels / (float)fontface.UnitsPerEm;
             scaleTx = Affine.NewMatix(AffinePlan.Scale(currentEmScalling));
         }

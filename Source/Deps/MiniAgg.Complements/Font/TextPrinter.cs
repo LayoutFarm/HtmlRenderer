@@ -20,13 +20,13 @@ namespace PixelFarm.Drawing.Fonts
 
     public class TextPrinter
     {
-        Drawing.Font currentFont;
+        Drawing.RequestFont currentFont;
         IFonts ifonts;
         public TextPrinter(GraphicsPlatform gfxPlatform)
         {
             this.ifonts = gfxPlatform.Fonts;
         }
-        public Drawing.Font CurrentFont
+        public Drawing.RequestFont CurrentFont
         {
             get { return this.currentFont; }
             set { this.currentFont = value; }

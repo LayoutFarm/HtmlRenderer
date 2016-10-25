@@ -29,8 +29,8 @@ namespace PixelFarm.Drawing.WinGdi
 
         //eg.
         Encoding fontEncoding = Encoding.GetEncoding(874);
-        PixelFarm.Drawing.Font f;
-        public WinGdiFont(PixelFarm.Drawing.Font f)
+        PixelFarm.Drawing.RequestFont f;
+        public WinGdiFont(PixelFarm.Drawing.RequestFont f)
         {
 
             this.f = f;
@@ -38,12 +38,12 @@ namespace PixelFarm.Drawing.WinGdi
             bmpHeight = 10;
             nativeWin32MemDc = new NativeWin32MemoryDc(bmpWidth, bmpHeight);
             //this will create 
-            InitFont(f.Name, (int)f.EmSize);
+            InitFont(f.Name, (int)f.SizeInPoints);
             nativeWin32MemDc.SetTextColor(0);
             //------------------------------------------------------------------
             //create gdi font from font data
-            this.emSize = f.EmSize;
-            this.emSizeInPixels = PixelFarm.Drawing.Font.ConvEmSizeInPointsToPixels(this.emSize);
+            this.emSize = f.SizeInPoints;
+            this.emSizeInPixels = PixelFarm.Drawing.RequestFont.ConvEmSizeInPointsToPixels(this.emSize);
             ////
             ////build font matrix
             basGdi32FontHelper.MeasureCharWidths(hfont, out charWidths, out charAbcWidths);
@@ -163,10 +163,10 @@ namespace PixelFarm.Drawing.WinGdi
 
     class WinGdiFontSystem
     {
-        Font latestFont;
+        RequestFont latestFont;
         WinGdiFont latestWinFont;
-        Dictionary<Font, WinGdiFont> registerFonts = new Dictionary<Font, WinGdiFont>();
-        public WinGdiFont GetWinGdiFont(Font f)
+        Dictionary<RequestFont, WinGdiFont> registerFonts = new Dictionary<RequestFont, WinGdiFont>();
+        public WinGdiFont GetWinGdiFont(RequestFont f)
         {
             if (f == null)
             {

@@ -22,25 +22,25 @@ namespace PixelFarm.Drawing.GLES2
     partial class MyGLCanvas
     {
 
-        Font currentTextFont = null;
+        RequestFont currentTextFont = null;
         Color mycurrentTextColor = Color.Black;
         NativeFontStore nativeFontStore = new NativeFontStore();
-        public ActualFont ResolveActualFont(Font f)
+        public ActualFont ResolveActualFont(RequestFont f)
         {
             //TODO: review here
             return nativeFontStore.GetResolvedNativeFont(f);
         }
-        public override float GetCharWidth(Font f, char c)
+        public override float GetCharWidth(RequestFont f, char c)
         {
             NativeFont font = nativeFontStore.GetResolvedNativeFont(f);
             return font.GetGlyph(c).horiz_adv_x >> 6;
         }
         //======================================
-        public override ActualFont GetActualFont(Font f)
+        public override ActualFont GetActualFont(RequestFont f)
         {
             return nativeFontStore.GetResolvedNativeFont(f);
         }
-        public Size MeasureString(char[] buff, int startAt, int len, Font font)
+        public Size MeasureString(char[] buff, int startAt, int len, RequestFont font)
         {
             //throw new NotSupportedException();
             ////_characterRanges[0] = new System.Drawing.CharacterRange(0, len);
@@ -84,7 +84,7 @@ namespace PixelFarm.Drawing.GLES2
         /// <param name="charFitWidth"></param>
         /// <returns>the size of the string</returns>
         public Size MeasureString(char[] buff, int startAt, int len,
-            Font font, float maxWidth,
+            RequestFont font, float maxWidth,
             out int charFit, out int charFitWidth)
         {
 
@@ -109,7 +109,7 @@ namespace PixelFarm.Drawing.GLES2
         }
         //============================================== 
 
-        public override Font CurrentFont
+        public override RequestFont CurrentFont
         {
             get
             {

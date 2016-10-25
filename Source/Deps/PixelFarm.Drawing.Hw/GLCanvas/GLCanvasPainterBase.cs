@@ -22,7 +22,7 @@ namespace PixelFarm.DrawingGL
         RoundedRect roundRect;
         Arc arcTool;
         Ellipse ellipse = new Ellipse();
-        Font _currentFont;
+        RequestFont _currentFont;
         Stroke _aggStroke = new Stroke(1);
 
         static TextureFontStore textureFontBuilder = new TextureFontStore();
@@ -34,7 +34,7 @@ namespace PixelFarm.DrawingGL
             _height = h;
             _rectInt = new RectInt(0, 0, w, h);
             arcTool = new Arc();
-            _currentFont = new Font("tahoma", 14);
+            _currentFont = new RequestFont("tahoma", 14);
 
         }
         public override RectInt ClipBox
@@ -70,7 +70,7 @@ namespace PixelFarm.DrawingGL
 
             }
         }
-        public override Font CurrentFont
+        public override RequestFont CurrentFont
         {
             get
             {
@@ -207,9 +207,9 @@ namespace PixelFarm.DrawingGL
             this.Draw(roundRect.MakeVxs());
         }
         //font system for this canvas 
-        Font _latestFont;
+        RequestFont _latestFont;
         TextureFont _latestResolvedFont;
-        TextureFont GetFont(Font f)
+        TextureFont GetFont(RequestFont f)
         {
             if (_latestFont == f)
             {

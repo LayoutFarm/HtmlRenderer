@@ -28,8 +28,8 @@ namespace PixelFarm.Drawing
         public abstract void ResetInvalidateArea();
         public abstract void Invalidate(Rectangle rect);
         public abstract Rectangle InvalidateArea { get; }
-        public abstract float GetCharWidth(Font f, char c);
-        public abstract PixelFarm.Drawing.Fonts.ActualFont GetActualFont(Font f);
+        public abstract float GetCharWidth(RequestFont f, char c);
+        public abstract PixelFarm.Drawing.Fonts.ActualFont GetActualFont(RequestFont f);
 
         public bool IsContentReady
         {
@@ -70,7 +70,7 @@ namespace PixelFarm.Drawing
 
         //------------------------------------------------------- 
         //text ,font, strings 
-        public abstract Font CurrentFont { get; set; }
+        public abstract RequestFont CurrentFont { get; set; }
         public abstract Color CurrentTextColor { get; set; }
 
         public abstract void DrawText(char[] buffer, int x, int y);

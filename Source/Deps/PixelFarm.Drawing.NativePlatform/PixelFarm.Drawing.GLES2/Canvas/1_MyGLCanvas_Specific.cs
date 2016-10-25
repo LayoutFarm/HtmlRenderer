@@ -53,7 +53,7 @@ namespace PixelFarm.Drawing.GLES2
             currentClipRect = new Rectangle(0, 0, width, height);
 
             win32MemDc = new NativeWin32MemoryDc(10, 10);
-            this.CurrentFont = new Font("tahoma", 10);
+            this.CurrentFont = new RequestFont("tahoma", 10);
             this.CurrentTextColor = Color.Black;
 
             internalPen = new InternalPen(Color.Black);
