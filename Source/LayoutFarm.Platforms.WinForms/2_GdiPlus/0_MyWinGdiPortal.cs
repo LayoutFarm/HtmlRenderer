@@ -6,6 +6,7 @@ namespace LayoutFarm.UI.GdiPlus
     public static class MyWinGdiPortal
     {
         static PixelFarm.Drawing.WinGdi.WinGdiPlusPlatform _winGdiPlatform;
+        
         static bool isInit;
         public static GraphicsPlatform Start()
         {

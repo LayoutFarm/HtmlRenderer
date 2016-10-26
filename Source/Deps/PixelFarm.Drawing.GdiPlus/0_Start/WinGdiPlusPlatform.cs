@@ -18,14 +18,11 @@ namespace PixelFarm.Drawing.WinGdi
         {
 
         }
-        public override Canvas CreateCanvas(int left, int top, int width, int height)
+        public override Canvas CreateCanvas(int left, int top, int width, int height, CanvasInitParameters canvasInitPars)
         {
             return new MyGdiPlusCanvas(this, 0, 0, left, top, width, height);
         }
-        public override Canvas CreateCanvas(object platformCanvas, int left, int top, int width, int height)
-        {
-            throw new System.NotSupportedException();
-        }
+        
         public override GraphicsPath CreateGraphicsPath()
         {
             return new WinGdiGraphicsPath();

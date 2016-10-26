@@ -12,12 +12,13 @@ namespace LayoutFarm.CustomWidgets
         bool needUpdate;
         ActualImage actualImage;
         Bitmap bmp;
+
         public MiniAggCanvasRenderElement(RootGraphic rootgfx, int width, int height)
             : base(rootgfx, width, height)
         {
+             
             this.actualImage = new ActualImage(width, height, PixelFarm.Agg.Image.PixelFormat.ARGB32);
-            this.gfx2d = Graphics2D.CreateFromImage(actualImage, rootgfx.P);
-            //this.painter = new CanvasPainter(gfx2d);
+            this.gfx2d = Graphics2D.CreateFromImage(actualImage, rootgfx.P);           
             this.painter = new AggCanvasPainter((ImageGraphics2D)gfx2d);
             needUpdate = true;
             this.BackColor = Color.White;
@@ -97,21 +98,7 @@ namespace LayoutFarm.CustomWidgets
             this.needUpdate = true;
             this.InvalidateGraphics();
         }
-        //static void CopyFromAggActualImageToGdiPlusBitmap(ActualImage aggActualImage, System.Drawing.Bitmap bitmap)
-        //{
-        //    //platform specific
-        //    var bmpdata = bitmap.LockBits(new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height),
-        //         System.Drawing.Imaging.ImageLockMode.ReadOnly,
-        //         System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-
-        //    var aggBuffer = aggActualImage.GetBuffer();
-        //    System.Runtime.InteropServices.Marshal.Copy(aggBuffer, 0,
-        //        bmpdata.Scan0, aggBuffer.Length);
-
-        //    bitmap.UnlockBits(bmpdata);
-        //}
-
-
+     
 
     }
 }

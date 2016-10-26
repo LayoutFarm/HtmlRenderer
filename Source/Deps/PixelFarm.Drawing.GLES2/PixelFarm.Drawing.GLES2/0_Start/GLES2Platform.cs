@@ -25,21 +25,13 @@ namespace PixelFarm.Drawing.GLES2
                 return fontSystem;
             }
         }
-        public override Canvas CreateCanvas(int left, int top, int width, int height)
+        public override Canvas CreateCanvas(int left, int top, int width, int height, CanvasInitParameters reqPars)
         {
             int max = Math.Max(width, height);
             CanvasGL2d canvas2d = new CanvasGL2d(max, max);
             MyGLCanvas myCanvas = new MyGLCanvas(this, canvas2d, 0, 0, width, height);
             return myCanvas;
         }
-        public override Canvas CreateCanvas(object platformCanvas, int left, int top, int width, int height)
-        {
-            int max = Math.Max(width, height);
-            CanvasGL2d canvas2d = new CanvasGL2d(max, max);
-            MyGLCanvas myCanvas = new MyGLCanvas(this, canvas2d, 0, 0, width, height);
-            return myCanvas;
-        }
-
         public override GraphicsPath CreateGraphicsPath()
         {
             return new GLES2GraphicsPath();

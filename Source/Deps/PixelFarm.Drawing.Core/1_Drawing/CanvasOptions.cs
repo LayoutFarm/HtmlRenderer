@@ -44,4 +44,10 @@ namespace PixelFarm.Drawing
         LeftTop,
         LeftBottom,
     }
+    public enum CanvasBackEnd
+    {
+        Software,
+        Hardware,
+        HardwareWithSoftwareFallback
+    }
 }

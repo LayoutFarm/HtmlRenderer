@@ -65,16 +65,16 @@ namespace Mini
             //prepare buffer dc ****
             IntPtr bufferDc = bufferGfx.GetHdc();
             IntPtr hBitmap = bufferBmp.GetHbitmap();
-            IntPtr hOldObject = SelectObject(bufferDc, hBitmap);
+            IntPtr hOldObject = Win32.MyWin32.SelectObject(bufferDc, hBitmap);
             //------------------------------------------------
             //target dc
             IntPtr displayHdc = dest.GetHdc();
             //copy from buffer dc to target display dc 
-            int result = BitBlt(displayHdc, 0, 0,
+            bool result = Win32.MyWin32.BitBlt(displayHdc, 0, 0,
                  bufferBmp.Width,
                  bufferBmp.Height,
                 bufferDc, 0, 0, SRCCOPY);
-            SelectObject(bufferDc, hOldObject);
+            Win32.MyWin32.SelectObject(bufferDc, hOldObject);
             //DeleteObject(hBitmap); 
             bufferGfx.ReleaseHdc(bufferDc);
             dest.ReleaseHdc(displayHdc);
@@ -96,18 +96,19 @@ namespace Mini
             //prepare buffer dc ****
             IntPtr bufferDc = bufferGfx.GetHdc();
             IntPtr hBitmap = bufferBmp.GetHbitmap();
-            IntPtr hOldObject = SelectObject(bufferDc, hBitmap);
+            IntPtr hOldObject = Win32.MyWin32.SelectObject(bufferDc, hBitmap);
             //------------------------------------------------
             //target dc
             IntPtr displayHdc = dest.GetHdc();
             //copy from buffer dc to target display dc 
-            int result = BitBlt(displayHdc, 0, 0,
+            bool result = Win32.MyWin32.BitBlt(displayHdc, 0, 0,
                  bufferBmp.Width,
                  bufferBmp.Height,
                  bufferDc, 0, 0, SRCCOPY);
             //------------------------------------------------
-            SelectObject(bufferDc, hOldObject);
-            DeleteObject(hBitmap);//if not delete then mem leak***
+            Win32.MyWin32.SelectObject(bufferDc, hOldObject);
+
+            Win32.MyWin32.DeleteObject(hBitmap);
             bufferGfx.ReleaseHdc(bufferDc);
             dest.ReleaseHdc(displayHdc);
         }
@@ -163,22 +164,6 @@ namespace Mini
             return graphics2D;
         }
         //-------------
-
-        [System.Runtime.InteropServices.DllImport("gdi32.dll")]
-        public static extern bool DeleteObject(IntPtr hObject);
-        [System.Runtime.InteropServices.DllImportAttribute("gdi32.dll")]
-        public static extern System.IntPtr SelectObject(System.IntPtr hdc, System.IntPtr h);
-        [System.Runtime.InteropServices.DllImportAttribute("gdi32.dll")]
-        private static extern int BitBlt(
-            IntPtr hdcDest,     // handle to destination DC (device context)
-            int nXDest,         // x-coord of destination upper-left corner
-            int nYDest,         // y-coord of destination upper-left corner
-            int nWidth,         // width of destination rectangle
-            int nHeight,        // height of destination rectangle
-            IntPtr hdcSrc,      // handle to source DC
-            int nXSrc,          // x-coordinate of source upper-left corner
-            int nYSrc,          // y-coordinate of source upper-left corner
-            System.Int32 dwRop  // raster operation code
-            );
+ 
     }
 }
