@@ -177,6 +177,7 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         internal void ReEvaluateComputedValues(IFonts iFonts, CssBox containingBlock)
         {
+            
             //depend on parent
             //1. fonts 
             if (this.ParentBox != null)

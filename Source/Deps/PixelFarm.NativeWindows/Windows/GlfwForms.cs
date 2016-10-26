@@ -187,7 +187,7 @@ namespace PixelFarm.Forms
             Glfw.SetKeyCallback(glWindowPtr, s_windowKeyCb);
             Glfw.SetCharCallback(glWindowPtr, s_windowCharCb);
 
-            //-------------------
+            ////-------------------
             existingForms.Add(glWindowPtr, f);
             exitingFormList.Add(f);
             return f;
@@ -438,16 +438,17 @@ namespace PixelFarm.Forms
         {
             Glfw.MakeContextCurrent(this._nativeGlFwWindowPtr);
         }
+        OpenTK.Graphics.GraphicsContext glfwContext;
         public void CreateOpenGLEsContext()
         {
 
             //make open gl es current context 
             GlfwWindowPtr currentContext = Glfw.GetCurrentContext();
             var contextHandler = new OpenTK.ContextHandle(currentContext.inner_ptr);
-            var context = OpenTK.Graphics.GraphicsContext.CreateDummyContext(contextHandler);
-            bool isCurrent = context.IsCurrent;
-            PixelFarm.GlfwWinInfo winInfo = new PixelFarm.GlfwWinInfo(currentContext.inner_ptr);
-            context.MakeCurrent(winInfo);
+            glfwContext = OpenTK.Graphics.GraphicsContext.CreateDummyContext(contextHandler);
+            bool isCurrent = glfwContext.IsCurrent;
+            PixelFarm.GlfwWinInfo winInfo = new PixelFarm.GlfwWinInfo(_nativeGlFwWindowPtr.inner_ptr);
+            glfwContext.MakeCurrent(winInfo);
 
         }
         public void SetDrawFrameDelegate(SimpleAction drawFrameDel)

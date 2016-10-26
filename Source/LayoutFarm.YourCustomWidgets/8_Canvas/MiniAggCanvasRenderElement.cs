@@ -16,9 +16,9 @@ namespace LayoutFarm.CustomWidgets
         public MiniAggCanvasRenderElement(RootGraphic rootgfx, int width, int height)
             : base(rootgfx, width, height)
         {
-             
+
             this.actualImage = new ActualImage(width, height, PixelFarm.Agg.Image.PixelFormat.ARGB32);
-            this.gfx2d = Graphics2D.CreateFromImage(actualImage, rootgfx.P);           
+            this.gfx2d = Graphics2D.CreateFromImage(actualImage, rootgfx.P);
             this.painter = new AggCanvasPainter((ImageGraphics2D)gfx2d);
             needUpdate = true;
             this.BackColor = Color.White;
@@ -44,7 +44,8 @@ namespace LayoutFarm.CustomWidgets
                     bmp.Dispose();
                 }
 
-                this.bmp = canvas.Platform.CreatePlatformBitmap(this.Width, this.Height, this.actualImage.GetBuffer(), false);
+                this.bmp = new Bitmap(this.Width, this.Height, this.actualImage.GetBuffer(), false);
+                // canvas.Platform.CreatePlatformBitmap(this.Width, this.Height, this.actualImage.GetBuffer(), false);
                 needUpdate = false;
             }
             //canvas.FillRectangle(this.BackColor, 0, 0, this.Width, this.Height);
@@ -98,7 +99,7 @@ namespace LayoutFarm.CustomWidgets
             this.needUpdate = true;
             this.InvalidateGraphics();
         }
-     
+
 
     }
 }

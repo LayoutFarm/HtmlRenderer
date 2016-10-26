@@ -7,8 +7,8 @@
     <ProjectGuid>{4CF14DCE-F731-4060-B92B-F1ACFDF9803D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PixelFarm.MiniPlatforms.WindowsForms</RootNamespace>
-    <AssemblyName>PixelFarm.MiniPlatforms.WindowsForms</AssemblyName>
+    <RootNamespace>PixelFarm.OpenTKWinFroms</RootNamespace>
+    <AssemblyName>PixelFarm.OpenTKWinFroms</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

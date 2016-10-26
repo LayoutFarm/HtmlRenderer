@@ -141,7 +141,7 @@ namespace LayoutFarm
             //  |       |
             //  SW-----SE
 
-            var path = p.CreateGraphicsPath();
+            var path = new GraphicsPath();
             nwRadius *= 2;
             neRadius *= 2;
             seRadius *= 2;

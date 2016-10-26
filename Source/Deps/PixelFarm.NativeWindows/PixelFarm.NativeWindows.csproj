@@ -7,8 +7,8 @@
     <ProjectGuid>{198D20B3-0DBD-4C8C-8F0D-0D0FD9C61D43}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PixelFarm.MiniPlatforms</RootNamespace>
-    <AssemblyName>PixelFarm.MiniPlatforms</AssemblyName>
+    <RootNamespace>PixelFarm.NativeWindows</RootNamespace>
+    <AssemblyName>PixelFarm.NativeWindows</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -61,6 +61,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

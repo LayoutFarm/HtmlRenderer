@@ -14,6 +14,7 @@
 // "The Art of War"
 
 using System;
+using System.Collections.Generic;
 using Win32;
 namespace PixelFarm.Drawing.WinGdi
 {
@@ -223,7 +224,7 @@ namespace PixelFarm.Drawing.WinGdi
                 }
                 //loop draw
                 var inner = image.InnerImage as System.Drawing.Image;
-                for (int i = 0; i < j;)
+                for (int i = 0; i < j; )
                 {
                     gx.DrawImage(inner,
                         destAndSrcPairs[i].ToRectF(),
@@ -260,8 +261,8 @@ namespace PixelFarm.Drawing.WinGdi
             //solid color
             var prevColor = internalSolidBrush.Color;
             internalSolidBrush.Color = ConvColor(color);
-            gx.FillPath(internalSolidBrush,
-                gfxPath.InnerPath as System.Drawing.Drawing2D.GraphicsPath);
+            System.Drawing.Drawing2D.GraphicsPath innerPath = ResolveGraphicsPath(gfxPath);
+            gx.FillPath(internalSolidBrush, innerPath); 
             internalSolidBrush.Color = prevColor;
         }
         /// <summary>
@@ -278,8 +279,10 @@ namespace PixelFarm.Drawing.WinGdi
                         SolidBrush solidBrush = (SolidBrush)brush;
                         var prevColor = internalSolidBrush.Color;
                         internalSolidBrush.Color = ConvColor(solidBrush.Color);
-                        gx.FillPath(internalSolidBrush,
-                            path.InnerPath as System.Drawing.Drawing2D.GraphicsPath);
+                        //
+                        System.Drawing.Drawing2D.GraphicsPath innerPath = ResolveGraphicsPath(path);
+                        gx.FillPath(internalSolidBrush, innerPath);
+                        //
                         internalSolidBrush.Color = prevColor;
                     }
                     break;
@@ -288,8 +291,10 @@ namespace PixelFarm.Drawing.WinGdi
                         LinearGradientBrush solidBrush = (LinearGradientBrush)brush;
                         var prevColor = internalSolidBrush.Color;
                         internalSolidBrush.Color = ConvColor(solidBrush.Color);
-                        gx.FillPath(internalSolidBrush,
-                            path.InnerPath as System.Drawing.Drawing2D.GraphicsPath);
+                        //
+                        System.Drawing.Drawing2D.GraphicsPath innerPath = ResolveGraphicsPath(path);
+                        gx.FillPath(internalSolidBrush, innerPath);
+                        //
                         internalSolidBrush.Color = prevColor;
                     }
                     break;
@@ -299,7 +304,87 @@ namespace PixelFarm.Drawing.WinGdi
                     break;
             }
         }
+        static System.Drawing.Drawing2D.GraphicsPath ResolveGraphicsPath(GraphicsPath path)
+        {
+            //convert from graphics path to internal presentation
+            System.Drawing.Drawing2D.GraphicsPath innerPath = path.InnerPath as System.Drawing.Drawing2D.GraphicsPath;
+            if (innerPath != null)
+            {
+                return innerPath;
+            }
+            //--------
+            innerPath = new System.Drawing.Drawing2D.GraphicsPath();
+            path.InnerPath = innerPath;
+            List<float> points;
+            List<PathCommand> cmds;
+            GraphicsPath.GetPathData(path, out points, out cmds);
+            int j = cmds.Count;
+            int p_index = 0;
+            for (int i = 0; i < j; ++i)
+            {
+                PathCommand cmd = cmds[i];
+                switch (cmd)
+                {
+                    default:
+                        throw new NotSupportedException();
+                    case PathCommand.Arc:
+                        innerPath.AddArc(
+                            points[p_index],
+                            points[p_index + 1],
+                            points[p_index + 2],
+                            points[p_index + 3],
+                            points[p_index + 4],
+                            points[p_index + 5]);
+                        p_index += 6;
+                        break;
+                    case PathCommand.Bezier:
+                        innerPath.AddBezier(
+                            points[p_index],
+                            points[p_index + 1],
+                            points[p_index + 2],
+                            points[p_index + 3],
+                            points[p_index + 4],
+                            points[p_index + 5],
+                            points[p_index + 6],
+                            points[p_index + 7]);
+                        p_index += 8;
+                        break;
+                    case PathCommand.CloseFigure:
+                        innerPath.CloseFigure();
+                        break;
+                    case PathCommand.Ellipse:
+                        innerPath.AddEllipse(
+                            points[p_index],
+                            points[p_index + 1],
+                            points[p_index + 2],
+                            points[p_index + 3]);
+                        p_index += 4;
+                        break;
+                    case PathCommand.Line:
+                        innerPath.AddLine(
+                            points[p_index],
+                            points[p_index + 1],
+                            points[p_index + 2],
+                            points[p_index + 3]);
+                        p_index += 4;
+                        break;
+                    case PathCommand.Rect:
+                        innerPath.AddRectangle(
+                           new System.Drawing.RectangleF(
+                          points[p_index],
+                          points[p_index + 1],
+                          points[p_index + 2],
+                          points[p_index + 3]));
+                        p_index += 4;
+                        break;
+                    case PathCommand.StartFigure:
+                        break;
+                }
+            }
 
+
+            return innerPath;
+        }
         public override void FillPolygon(Brush brush, PointF[] points)
         {
             ReleaseHdc();

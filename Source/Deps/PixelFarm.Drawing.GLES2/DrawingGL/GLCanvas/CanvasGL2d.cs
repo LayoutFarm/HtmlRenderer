@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using OpenTK.Graphics.ES20;
 using Tesselate;
-
+using PixelFarm.DrawingGL;
 namespace PixelFarm.DrawingGL
 {
     public sealed class CanvasGL2d
@@ -47,8 +47,10 @@ namespace PixelFarm.DrawingGL
             shaderRes = new CanvasToShaderSharedResource();
             shaderRes.OrthoView = orthoView;
             //-----------------------------------------------------------------------
-            smoothLineShader = new SmoothLineShader(shaderRes);
+             
+
             basicFillShader = new BasicFillShader(shaderRes);
+            smoothLineShader = new SmoothLineShader(shaderRes);
             rectFillShader = new RectFillShader(shaderRes);
             gdiImgTextureShader = new GdiImageTextureShader(shaderRes);
             gdiImgTextureWithWhiteTransparentShader = new GdiImageTextureWithWhiteTransparentShader(shaderRes);
@@ -514,6 +516,7 @@ namespace PixelFarm.DrawingGL
                     break;
             }
         }
+      
         public void DrawGfxPath(Drawing.Color color, InternalGraphicsPath igpth)
         {
             switch (SmoothMode)
