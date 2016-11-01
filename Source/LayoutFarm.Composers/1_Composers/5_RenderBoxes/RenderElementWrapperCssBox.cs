@@ -98,7 +98,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
     {
         CssExternalRun externalRun;
         public WrapperInlineCssBox(object controller, Css.BoxSpec boxSpec,
-            IRootGraphics rootgfx, RenderElement re)
+            RootGraphic rootgfx, RenderElement re)
             : base(controller, boxSpec, re.Root, CssDisplay.Inline)
         {
             int w = re.Width;
