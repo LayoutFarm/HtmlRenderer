@@ -11,10 +11,7 @@ namespace PixelFarm.Drawing.Fonts
     {
 
         public abstract float SizeInPoints { get; }
-
-        public abstract float SizeInPixels { get; }
-
-
+        public abstract float SizeInPixels { get; } 
         public void Dispose()
         {
             OnDispose();
@@ -32,14 +29,10 @@ namespace PixelFarm.Drawing.Fonts
         public abstract FontGlyph GetGlyphByIndex(uint glyphIndex);
         public abstract FontGlyph GetGlyph(char c);
         public abstract FontFace FontFace { get; }
-
-        //---------------------
-        public abstract void GetGlyphPos(char[] buffer,
-            int start,
-            int len,
-            ProperGlyph[] properGlyphs);
-        public abstract float GetAdvanceForCharacter(char c);
-        public abstract float GetAdvanceForCharacter(char c, char next_c);
+        public abstract FontStyle FontStyle { get; }
+        public abstract string FontName { get; }
+       
+       
         public abstract float AscentInPixels { get; }
         public abstract float DescentInPixels { get; }
 
@@ -47,6 +40,7 @@ namespace PixelFarm.Drawing.Fonts
         {
             Dispose();
         }
+        //---------------------
     }
 
 

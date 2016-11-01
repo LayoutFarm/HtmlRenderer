@@ -7,7 +7,7 @@ namespace LayoutFarm.HtmlBoxes
     public class CssBoxListItem : CssBox
     {
         CssBox _listItemBulletBox;
-        public CssBoxListItem(Css.BoxSpec spec, IRootGraphics rootgfx)
+        public CssBoxListItem(Css.BoxSpec spec, RootGraphic rootgfx)
             : base(spec, rootgfx)
         {
         }

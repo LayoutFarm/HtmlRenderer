@@ -10,11 +10,8 @@ namespace PixelFarm.Drawing
     /// </summary>
     public sealed class RequestFont
     {
-
         //each platform/canvas has its own representation of this Font
         //actual font will be resolved by the platform.
-
-        
         /// <summary>
         /// font size in points unit
         /// </summary>
@@ -53,18 +50,57 @@ namespace PixelFarm.Drawing
             private set
             {
                 sizeInPoints = value;
-                
             }
         }
-       
+        public float DescentInPixels
+        {
+            get
+            {
+
+                if (_actualFont != null)
+                {
+                    return (float)_actualFont.DescentInPixels;
+                }
+                else
+                {
+                    throw new NotSupportedException();
+                }
+            }
+        }
+
+        public float AscentInPixels
+        {
+            get
+            {
+
+                if (_actualFont != null)
+                {
+                    return (float)_actualFont.AscentInPixels;
+                }
+                else
+                {
+                    throw new NotSupportedException();
+                }
+            }
+        }
 
         static int s_POINTS_PER_INCH = 72; //default value
         static int s_PIXELS_PER_INCH = 96; //default value
 
-        public ActualFont ActualFont
+
+        public float SizeInPixels
         {
-            get;
-            set;
+            get
+            {
+                if (_actualFont != null)
+                {
+                    return (float)_actualFont.SizeInPixels;
+                }
+                else
+                {
+                    throw new NotSupportedException();
+                }
+            }
         }
         //--------------------------
         //font shaping info (for native font/shaping engine)
@@ -76,18 +112,15 @@ namespace PixelFarm.Drawing
             return (int)(((float)emsizeInPoint / (float)s_POINTS_PER_INCH) * (float)s_PIXELS_PER_INCH);
         }
 
+        //-------------
+        ActualFont _actualFont;
+        public static void SetCacheActualFont(RequestFont r, ActualFont f)
+        {
+            r._actualFont = f;
+        }
+        public static ActualFont GetCacheActualFont(RequestFont r)
+        {
+            return r._actualFont;
+        }
     }
-
-    public interface IFonts
-    {
-
-        float MeasureWhitespace(RequestFont f);
-        Size MeasureString(char[] str, int startAt, int len, RequestFont font);
-        Size MeasureString(char[] str, int startAt, int len, RequestFont font, float maxWidth, out int charFit, out int charFitWidth);
-        ActualFont ResolveActualFont(RequestFont f);
-        void Dispose();
-    }
-
-
-
 }

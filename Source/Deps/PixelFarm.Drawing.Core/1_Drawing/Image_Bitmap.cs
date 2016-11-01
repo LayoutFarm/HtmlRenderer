@@ -22,13 +22,21 @@ namespace PixelFarm.Drawing
     {
         int width;
         int height;
-        System.IDisposable innerImage; 
+        System.IDisposable innerImage;
+        byte[] rawImageBuffer;
+        public Bitmap(int w, int h, byte[] rawImageBuffer, bool isInvertedImg = false)
+        {
+            this.width = w;
+            this.height = h;
+            this.rawImageBuffer = rawImageBuffer;
+        }
+
         public Bitmap(int w, int h, System.IDisposable innerImage)
         {
             this.width = w;
             this.height = h;
             this.innerImage = innerImage;
-        } 
+        }
         public override int Width
         {
             get { return this.width; }
@@ -56,7 +64,11 @@ namespace PixelFarm.Drawing
         public override int ReferenceY
         {
             get { return 0; }
-        } 
+        }
+        public byte[] GetRawImageBuffer()
+        {
+            return rawImageBuffer;
+        }
     }
 
     public sealed class ReferenceBitmap : Image

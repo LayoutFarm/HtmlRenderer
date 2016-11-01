@@ -52,7 +52,7 @@ namespace LayoutFarm.Css
         CssFlexFeature _flexFeats = CssFlexFeature.Default;
         CssBoxSizing _boxSizing = CssBoxSizing.ContentBox;//default
 
-        RequestFont _actualFont;
+        RequestFont _reqFont;
         CssDisplay _cssDisplay = CssDisplay.Inline;
         CssFloat _float = CssFloat.None;
         //==========================================================
@@ -648,10 +648,13 @@ namespace LayoutFarm.Css
                 return this._backgroundFeats.BackgroundColor;
             }
         }
-        internal RequestFont GetFont(IFonts ifonts, float parentFontSize)
+        internal RequestFont GetFont(float parentFontSize)
         {
 
-            if (_actualFont != null) { return _actualFont; }
+            if (_reqFont != null)
+            {
+                return _reqFont;
+            }
             bool relateToParent = false;
             string fontFam = this.FontFamily;
             if (string.IsNullOrEmpty(FontFamily))
@@ -754,17 +757,11 @@ namespace LayoutFarm.Css
                 fsize = FontDefaultConfig.DEFAULT_FONT_SIZE;
             }
 
-            RequestFont font = new RequestFont(fontFam, fsize, st);// ifonts.GetFont(fontFam, fsize, st);
-            ifonts.ResolveActualFont(font);
-            if (!relateToParent)
-            {
-                //cahce value
-                this._actualFont = font;
-            } 
-            this._actualFont = font;
-            return _actualFont;
-        }
-
+            _reqFont = new RequestFont(fontFam, fsize, st); 
+            //resolve
+            ActualFontResolver.Resolver.Resolve(_reqFont);
+            return _reqFont;
+        } 
 
         //----------------------------------------------------------------------
         public bool HasBoxShadow

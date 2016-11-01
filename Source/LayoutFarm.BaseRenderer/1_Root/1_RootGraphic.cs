@@ -6,8 +6,16 @@ using PixelFarm.Drawing.Fonts;
 using LayoutFarm.RenderBoxes;
 namespace LayoutFarm
 {
+    public interface IRenderElement
+    {
+        void DrawToThisCanvas(Canvas canvas, Rectangle updateArea);
+#if DEBUG
+        void dbugShowRenderPart(Canvas canvas, Rectangle r);
+#endif
+    }
 
-    public abstract partial class RootGraphic : IRootGraphics
+   
+    public abstract partial class RootGraphic  
     {
         public delegate void PaintToOutputWindowDelegate();
         protected PaintToOutputWindowDelegate paintToOutputWindowHandler;
@@ -42,7 +50,7 @@ namespace LayoutFarm
         public abstract void CloseWinRoot();
         //-------------------------------------------------------------------------
 
-
+        
         public abstract void ClearRenderRequests();
         public abstract void AddToLayoutQueue(RenderElement renderElement);
         public abstract void AddToElementUpdateQueue(object requestBy);
@@ -290,8 +298,7 @@ namespace LayoutFarm
         public abstract RootGraphic CreateNewOne(int w, int h);
         //---------------------------------------------
 
-        public abstract PixelFarm.Drawing.Fonts.ActualFont GetActualFont(PixelFarm.Drawing.RequestFont f);
-
+         
 
         static TextBreakGenDel s_textBreakGen;
         public static PixelFarm.Drawing.Text.TextBreaker GetTextBreaker(string locale)
@@ -306,5 +313,6 @@ namespace LayoutFarm
         public delegate PixelFarm.Drawing.Text.TextBreaker TextBreakGenDel(string locale);
     }
 
+   
 
 }

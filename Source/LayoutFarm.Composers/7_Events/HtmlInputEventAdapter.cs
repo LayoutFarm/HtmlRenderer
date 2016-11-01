@@ -32,7 +32,7 @@ namespace LayoutFarm.HtmlBoxes
         public HtmlInputEventAdapter(GraphicsPlatform platform)
         {
             this.platform = platform;
-            this.ifonts = platform.Fonts;
+            this.ifonts = TextServices.IFonts;
         }
         public void Bind(HtmlContainer htmlCont)
         {

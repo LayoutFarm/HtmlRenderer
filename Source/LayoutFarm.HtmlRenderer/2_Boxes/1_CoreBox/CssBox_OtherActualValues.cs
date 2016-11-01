@@ -12,7 +12,7 @@ namespace LayoutFarm.HtmlBoxes
         float _actualLineHeight;
         float _actualWordSpacing; //assign for whitespace run ?
         float _actualTextIndent;
-        float _actualEmHeight;
+         
         float _actualBorderSpacingHorizontal;
         float _actualBorderSpacingVertical;
         CssDisplayOutside _displayOutside;

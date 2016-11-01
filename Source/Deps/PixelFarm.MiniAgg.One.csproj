@@ -36,6 +36,7 @@
     <Compile Include="MiniAgg.Complements\0_CanvasPainter\AggRenderVx.cs" />
     <Compile Include="MiniAgg.Complements\0_CanvasPainter\Canvas2dExtension.cs" />
     <Compile Include="MiniAgg.Complements\0_CanvasPainter\dbugVertexSourceIO.cs" />
+    <Compile Include="MiniAgg.Complements\0_CanvasPainter\TextPrinter.cs" />
     <Compile Include="MiniAgg.Complements\1_Base\BorderDouble.cs" />
     <Compile Include="MiniAgg.Complements\1_Base\ClipProxyImage.cs" />
     <Compile Include="MiniAgg.Complements\1_Base\GammaFuntions.cs" />
@@ -55,12 +56,6 @@
     <Compile Include="MiniAgg.Complements\Filter\PatternFilterBilnearColorRGBA.cs" />
     <Compile Include="MiniAgg.Complements\Filter\RecursiveBlur.cs" />
     <Compile Include="MiniAgg.Complements\Filter\StackBlur.cs" />
-    <Compile Include="MiniAgg.Complements\FontSvg\SvgFont.cs" />
-    <Compile Include="MiniAgg.Complements\FontSvg\SvgFontFace.cs" />
-    <Compile Include="MiniAgg.Complements\FontSvg\SvgFontFace_LiberationSans.cs" />
-    <Compile Include="MiniAgg.Complements\FontSvg\SvgFontStore.cs" />
-    <Compile Include="MiniAgg.Complements\Font\MyTypeFacePrinter.cs" />
-    <Compile Include="MiniAgg.Complements\Font\TextPrinter.cs" />
     <Compile Include="MiniAgg.Complements\Image\AlphaMask.cs" />
     <Compile Include="MiniAgg.Complements\Image\AlphaMaskAdaptor.cs" />
     <Compile Include="MiniAgg.Complements\Image\FilterMan.cs" />
@@ -151,6 +146,7 @@
     <Compile Include="PixelFarm.Drawing.Core\3_Drawing_Fonts\FontKey.cs" />
     <Compile Include="PixelFarm.Drawing.Core\3_Drawing_Fonts\NativeBridgeHB.cs" />
     <Compile Include="PixelFarm.Drawing.Core\4_Drawing_Text\TextBreaker.cs" />
+    <Compile Include="PixelFarm.Drawing.Core\4_Drawing_Text\TextShapingAndLayoutService.cs" />
     <Compile Include="PixelFarm.Drawing.Core\5_PixelFarm_Agg\ActualImage.cs" />
     <Compile Include="PixelFarm.Drawing.Core\5_PixelFarm_Agg\CanvasPainter.cs" />
     <Compile Include="PixelFarm.Drawing.Core\5_PixelFarm_Agg\PixelFormat.cs" />

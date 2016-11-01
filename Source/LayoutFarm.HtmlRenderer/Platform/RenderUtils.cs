@@ -134,14 +134,14 @@ namespace LayoutFarm
         /// <param name="seRadius">Radius of the south east corner</param>
         /// <param name="swRadius">Radius of the south west corner</param>
         /// <returns>GraphicsPath with the lines of the rounded rectangle ready to be painted</returns>
-        public static GraphicsPath GetRoundRect(GraphicsPlatform p, RectangleF rect, float nwRadius, float neRadius, float seRadius, float swRadius)
+        public static GraphicsPath GetRoundRect(RectangleF rect, float nwRadius, float neRadius, float seRadius, float swRadius)
         {
             //  NW-----NE
             //  |       |
             //  |       |
             //  SW-----SE
 
-            var path = p.CreateGraphicsPath();
+            var path = new GraphicsPath();
             nwRadius *= 2;
             neRadius *= 2;
             seRadius *= 2;

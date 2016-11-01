@@ -47,7 +47,7 @@ namespace LayoutFarm.HtmlBoxes
 
         internal IFonts SampleIFonts
         {
-            get { return this.gfxPlatform.Fonts; }
+            get { return TextServices.IFonts; }
         }
         protected override void OnPushDifferentContainingBlock(CssBox box)
         {
