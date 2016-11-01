@@ -90,16 +90,7 @@ namespace PixelFarm.Drawing.Fonts
             get { return style; }
         }
 
-        public override float GetAdvanceForCharacter(char c)
-        {
-            return typeFace.GetAdvanceWidth(c);
-        }
-        public override float GetAdvanceForCharacter(char c, char next_c)
-        {
-            //TODO: review kerning here 
-            //and do scaleing here
-            return typeFace.GetAdvanceWidth(c);
-        }
+        
         public override FontGlyph GetGlyph(char c)
         {
             return GetGlyphByIndex((uint)typeFace.LookupIndex(c));

@@ -98,15 +98,8 @@ namespace PixelFarm.Drawing.Fonts
         }
         public override float SizeInPoints { get { return this.emSizeInPoints; } }
         public override float SizeInPixels { get { return fontSizeInPixelUnit; } }
-        public override float GetAdvanceForCharacter(char c)
-        {
-            return this.GetGlyph(c).horiz_adv_x >> 6;
-        }
-        public override float GetAdvanceForCharacter(char c, char next_c)
-        {
-            //TODO: review here
-            return this.GetGlyph(c).horiz_adv_x >> 6;
-        }
+     
+      
 
 
     }

@@ -32,8 +32,7 @@ namespace PixelFarm.Drawing.Fonts
         public abstract FontStyle FontStyle { get; }
         public abstract string FontName { get; }
        
-        public abstract float GetAdvanceForCharacter(char c);
-        public abstract float GetAdvanceForCharacter(char c, char next_c);
+       
         public abstract float AscentInPixels { get; }
         public abstract float DescentInPixels { get; }
 

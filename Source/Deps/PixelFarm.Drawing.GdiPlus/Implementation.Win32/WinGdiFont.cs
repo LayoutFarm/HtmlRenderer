@@ -124,23 +124,20 @@ namespace PixelFarm.Drawing.WinGdi
         //    throw new NotImplementedException();
         //}
 
-        char[] singleCharArray = new char[1];
-        byte[] codePoints = new byte[2];
+        //char[] singleCharArray = new char[1];
+        //byte[] codePoints = new byte[2];
 
-        public override float GetAdvanceForCharacter(char c)
-        {
-            //check if we have width got this char or not
-            //temp fix
-            //TODO: review here again ***
-            singleCharArray[0] = c;
-            fontEncoding.GetBytes(singleCharArray, 0, 1, codePoints, 0);
-            return charWidths[codePoints[0]];
-        }
+        //public override float GetAdvanceForCharacter(char c)
+        //{
+        //    //check if we have width got this char or not
+        //    //temp fix
+        //    //TODO: review here again ***
+        //    singleCharArray[0] = c;
+        //    fontEncoding.GetBytes(singleCharArray, 0, 1, codePoints, 0);
+        //    return charWidths[codePoints[0]];
+        //}
 
-        public override float GetAdvanceForCharacter(char c, char next_c)
-        {
-            throw new NotImplementedException();
-        }
+      
 
 
 
