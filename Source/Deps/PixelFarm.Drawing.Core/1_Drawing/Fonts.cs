@@ -52,15 +52,55 @@ namespace PixelFarm.Drawing
                 sizeInPoints = value;
             }
         }
+        public float DescentInPixels
+        {
+            get
+            {
 
+                if (_actualFont != null)
+                {
+                    return (float)_actualFont.DescentInPixels;
+                }
+                else
+                {
+                    throw new NotSupportedException();
+                }
+            }
+        }
+
+        public float AscentInPixels
+        {
+            get
+            {
+
+                if (_actualFont != null)
+                {
+                    return (float)_actualFont.AscentInPixels;
+                }
+                else
+                {
+                    throw new NotSupportedException();
+                }
+            }
+        }
 
         static int s_POINTS_PER_INCH = 72; //default value
         static int s_PIXELS_PER_INCH = 96; //default value
 
-        public ActualFont ActualFont
+
+        public float SizeInPixels
         {
-            get;
-            set;
+            get
+            {
+                if (_actualFont != null)
+                {
+                    return (float)_actualFont.SizeInPixels;
+                }
+                else
+                {
+                    throw new NotSupportedException();
+                }
+            }
         }
         //--------------------------
         //font shaping info (for native font/shaping engine)
@@ -72,11 +112,15 @@ namespace PixelFarm.Drawing
             return (int)(((float)emsizeInPoint / (float)s_POINTS_PER_INCH) * (float)s_PIXELS_PER_INCH);
         }
 
-        public static RequestFont CreateFromActualFont(ActualFont f)
+        //-------------
+        ActualFont _actualFont;
+        public static void SetCacheActualFont(RequestFont r, ActualFont f)
         {
-            //TODO: review 
-            RequestFont reqFont = new RequestFont(f.FontName, f.SizeInPoints, FontStyle.Regular);
-            return reqFont;
+            r._actualFont = f;
         }
-    } 
+        public static ActualFont GetCacheActualFont(RequestFont r)
+        {
+            return r._actualFont;
+        }
+    }
 }

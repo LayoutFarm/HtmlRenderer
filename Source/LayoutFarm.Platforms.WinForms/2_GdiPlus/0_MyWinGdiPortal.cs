@@ -22,6 +22,8 @@ namespace LayoutFarm.UI.GdiPlus
             //text services:
             //
             TextServices.IFonts = new GdiPlusIFonts();
+            ActualFontResolver.Resolver = new GdiFontResolver();
+
             return _winGdiPlatform = new PixelFarm.Drawing.WinGdi.WinGdiPlusPlatform();
         }
         public static void End()
@@ -44,14 +46,22 @@ namespace LayoutFarm.UI.GdiPlus
         {
             return WinGdiTextService.MeasureString(buff, startAt, len, font);
         }
-        public Size MeasureString(char[] buff, int startAt, int len, RequestFont font, float maxWidth, out int charFit, out int charFitWidth)
+        public Size MeasureString(char[] buff, int startAt, int len, RequestFont font,
+            float maxWidth, 
+            out int charFit, 
+            out int charFitWidth)
         {
-            throw new System.NotSupportedException();
+            return WinGdiTextService.MeasureString(buff, startAt, len, font, maxWidth, out charFit, out charFitWidth);
         }
         public void Dispose()
         {
-
-
+        }
+    }
+    class GdiFontResolver : LayoutFarm.IActualFontResolver
+    {
+        public PixelFarm.Drawing.Fonts.ActualFont Resolve(RequestFont font)
+        {
+            return WinGdiTextService.GetWinGdiFont(font);
         }
     }
 

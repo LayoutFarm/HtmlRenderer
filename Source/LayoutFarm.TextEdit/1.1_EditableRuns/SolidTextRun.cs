@@ -96,12 +96,11 @@ namespace LayoutFarm.Text
             // return this.Width;
             return GetCharacterWidth(mybuffer[index]);
         }
+        char[] singleChars = new char[1];
         int GetCharacterWidth(char c)
         {
-
-            ActualFont actualFont = this.Root.GetActualFont(GetFont());
-            return (int)actualFont.GetAdvanceForCharacter(c);
-             
+            singleChars[0] = c;
+            return (int)TextServices.IFonts.MeasureString(singleChars, 0, 1, GetFont()).Width;
         }
         //------------------
         public override int GetRunWidth(int charOffset)

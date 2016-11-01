@@ -47,7 +47,8 @@ namespace LayoutFarm.UI
                     this.FlushAccumGraphics();
                 });
         }
-      
+
+       
         public override RootGraphic CreateNewOne(int w, int h)
         {
             return new MyRootGraphic(this.uiPlatform, this.graphicsPlatform, w, h);
@@ -349,10 +350,7 @@ namespace LayoutFarm.UI
             get { return this.topWindowEventRoot; }
         }
 
-        public override PixelFarm.Drawing.Fonts.ActualFont GetActualFont(RequestFont f)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 
 

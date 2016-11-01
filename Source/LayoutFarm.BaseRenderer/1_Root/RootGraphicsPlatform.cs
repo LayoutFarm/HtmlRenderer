@@ -10,6 +10,7 @@ namespace LayoutFarm
     {
         static GraphicsPlatform s_selectedGfxPlatform;
         static object initLock = new object();
+
         static bool SetCurrentPlatform(GraphicsPlatform actualImpl)
         {
             //must init once
@@ -22,8 +23,8 @@ namespace LayoutFarm
                 }
             }
             return false;
-        }
-
+        } 
     }
+   
 
 }

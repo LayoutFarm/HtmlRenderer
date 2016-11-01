@@ -40,7 +40,7 @@ namespace PixelFarm.Drawing.Fonts
         public ActualFont ResolveForTextureFont(RequestFont font)
         {
             //check if we have texture font fot this font 
-            TextureFont t = font.ActualFont as TextureFont;
+            TextureFont t = RequestFont.GetCacheActualFont(font) as TextureFont;
             if (t != null)
             {
                 return t;
@@ -71,7 +71,9 @@ namespace PixelFarm.Drawing.Fonts
             }
             if (textureFontface != null)
             {
-                return font.ActualFont = t = (TextureFont)(textureFontface.GetFontAtPointsSize(font.SizeInPoints));
+                t = (TextureFont)(textureFontface.GetFontAtPointsSize(font.SizeInPoints));
+                RequestFont.SetCacheActualFont(font, t);
+                return t;                 
             }
             else
             {

@@ -483,7 +483,7 @@ namespace LayoutFarm.HtmlBoxes
                 //find word spacing  
                 float actualWordspacing = this._actualWordSpacing;
                 RequestFont actualFont = this.ResolvedFont;
-                float fontHeight = actualFont.ActualFont.SizeInPixels;
+                float fontHeight = actualFont.SizeInPixels;
                 var tmpRuns = this.Runs;
                 for (int i = tmpRuns.Count - 1; i >= 0; --i)
                 {

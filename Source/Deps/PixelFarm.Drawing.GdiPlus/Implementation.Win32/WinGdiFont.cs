@@ -194,6 +194,7 @@ namespace PixelFarm.Drawing.WinGdi
                 found = new WinGdiFont(f);
             }
             latestFont = f;
+            RequestFont.SetCacheActualFont(f, latestWinFont);
             return latestWinFont = found;
         }
     }
@@ -214,7 +215,6 @@ namespace PixelFarm.Drawing.WinGdi
         }
         public static float MeasureWhitespace(RequestFont f)
         {
-
             return whitespaceSize = MeasureString(new char[] { ' ' }, 0, 1, f).Width;
         }
         static void SetFont(RequestFont font)
@@ -301,6 +301,10 @@ namespace PixelFarm.Drawing.WinGdi
         }
         //==============================================
 
+        public static ActualFont GetWinGdiFont(RequestFont f)
+        {
+            return WinGdiFontSystem.GetWinGdiFont(f);
+        }
 
 
     }

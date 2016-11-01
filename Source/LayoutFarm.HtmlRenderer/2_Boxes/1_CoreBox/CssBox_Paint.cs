@@ -410,11 +410,11 @@ namespace LayoutFarm.HtmlBoxes
                         //y = (float)Math.Round(rectangle.Top + h - desc + 0.5); 
 
                         RequestFont afont = ResolvedFont;
-                        PixelFarm.Drawing.Fonts.ActualFont ff = afont.ActualFont;
+                        
                             
                         //PixelFarm.Drawing.Fonts.ActualFont ff = afont.ActualFont;
-                        var h = ff.SizeInPixels;
-                        float desc = (float)ff.DescentInPixels;// fontInfo.DescentPx;
+                        var h = afont.SizeInPixels;
+                        float desc = (float)afont.DescentInPixels;// fontInfo.DescentPx;
                         y = (float)Math.Round(rectangle.Top + h - desc);
                     }
                     break;

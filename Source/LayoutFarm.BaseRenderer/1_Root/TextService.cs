@@ -15,7 +15,16 @@ namespace LayoutFarm
         void Dispose();
     }
 
+    public interface IActualFontResolver
+    {
+        PixelFarm.Drawing.Fonts.ActualFont Resolve(RequestFont font);
+    }
 
+    public static class ActualFontResolver
+    {
+        public static IActualFontResolver Resolver { get; set; }
+
+    }
     public static class TextServices
     {
         //implement ifonts  
