@@ -47,12 +47,6 @@ namespace PixelFarm.Drawing.WinGdi
             }
         }
 
-        public override GraphicsPlatform Platform
-        {
-            get { return this.platform; }
-        }
-
-
         public override void RenderTo(IntPtr destHdc, int sourceX, int sourceY, Rectangle destArea)
         {
             IntPtr gxdc = gx.GetHdc();
@@ -262,7 +256,7 @@ namespace PixelFarm.Drawing.WinGdi
             var prevColor = internalSolidBrush.Color;
             internalSolidBrush.Color = ConvColor(color);
             System.Drawing.Drawing2D.GraphicsPath innerPath = ResolveGraphicsPath(gfxPath);
-            gx.FillPath(internalSolidBrush, innerPath); 
+            gx.FillPath(internalSolidBrush, innerPath);
             internalSolidBrush.Color = prevColor;
         }
         /// <summary>

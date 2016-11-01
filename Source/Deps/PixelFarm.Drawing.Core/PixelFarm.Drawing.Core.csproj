@@ -43,6 +43,7 @@
     <Compile Include="3_Drawing_Fonts\FontKey.cs" />
     <Compile Include="3_Drawing_Fonts\NativeBridgeHB.cs" />
     <Compile Include="4_Drawing_Text\TextBreaker.cs" />
+    <Compile Include="4_Drawing_Text\TextShapingAndLayoutService.cs" />
     <Compile Include="5_PixelFarm_Agg\ActualImage.cs" />
     <Compile Include="5_PixelFarm_Agg\CanvasPainter.cs" />
     <Compile Include="3_Drawing_Fonts\FontFace.cs" />
@@ -121,7 +122,6 @@
     <Compile Include="9_PixelFarm_AggVertex_More\VertexSource\SimpleRect.cs" />
     <Compile Include="9_PixelFarm_AggVertex_More\VertexSource\VertexData.cs" />
     <Compile Include="9_PixelFarm_AggVertex_More\VertexSource\VertexStoreBuilder.cs" />
-    <Compile Include="BasicRenderBox\IRenderElement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

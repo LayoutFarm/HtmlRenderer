@@ -6,6 +6,17 @@ using PixelFarm.Drawing.Fonts;
 using LayoutFarm.RenderBoxes;
 namespace LayoutFarm
 {
+    public interface IRenderElement
+    {
+        void DrawToThisCanvas(Canvas canvas, Rectangle updateArea);
+#if DEBUG
+        void dbugShowRenderPart(Canvas canvas, Rectangle r);
+#endif
+    }
+
+    public interface IRootGraphics
+    {
+    }
 
     public abstract partial class RootGraphic : IRootGraphics
     {
@@ -306,5 +317,6 @@ namespace LayoutFarm
         public delegate PixelFarm.Drawing.Text.TextBreaker TextBreakGenDel(string locale);
     }
 
+   
 
 }

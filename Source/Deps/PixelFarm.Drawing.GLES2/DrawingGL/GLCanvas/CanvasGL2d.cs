@@ -4,9 +4,10 @@ using System;
 using System.Collections.Generic;
 using OpenTK.Graphics.ES20;
 using Tesselate;
-using PixelFarm.DrawingGL;
+
 namespace PixelFarm.DrawingGL
 {
+
     public sealed class CanvasGL2d
     {
         SmoothLineShader smoothLineShader;
@@ -31,12 +32,17 @@ namespace PixelFarm.DrawingGL
         int canvasH;
         MyMat4 orthoView;
         TessTool tessTool;
-        FrameBuffer _currentFrameBuffer;//default = null, system provide frame buffer
-
-        PixelFarm.Drawing.Fonts.TextureFontStore textureFonts;
+        FrameBuffer _currentFrameBuffer;//default = null, system provide frame buffer 
+      //  TextureFontStore textureFonts;
+ 
 
         public CanvasGL2d(int canvasW, int canvasH)
         {
+
+            //-------------
+            PixelFarm.Drawing.GLES2.GLES2Platform.Init();
+            //-------------
+
             this.canvasW = canvasW;
             this.canvasH = canvasH;
             ////setup viewport size
@@ -47,7 +53,7 @@ namespace PixelFarm.DrawingGL
             shaderRes = new CanvasToShaderSharedResource();
             shaderRes.OrthoView = orthoView;
             //-----------------------------------------------------------------------
-             
+
 
             basicFillShader = new BasicFillShader(shaderRes);
             smoothLineShader = new SmoothLineShader(shaderRes);
@@ -89,11 +95,11 @@ namespace PixelFarm.DrawingGL
         {
         }
 
-        public PixelFarm.Drawing.Fonts.TextureFontStore TextureFontStore
-        {
-            get { return textureFonts; }
-            set { textureFonts = value; }
-        }
+        //internal TextureFontStore TextureFontStore
+        //{
+        //    get { return textureFonts; }
+        //    set { textureFonts = value; }
+        //}
         public CanvasSmoothMode SmoothMode
         {
             get;
@@ -516,7 +522,7 @@ namespace PixelFarm.DrawingGL
                     break;
             }
         }
-      
+
         public void DrawGfxPath(Drawing.Color color, InternalGraphicsPath igpth)
         {
             switch (SmoothMode)

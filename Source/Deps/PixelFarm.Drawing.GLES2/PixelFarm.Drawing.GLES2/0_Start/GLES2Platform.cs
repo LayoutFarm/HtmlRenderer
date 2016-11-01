@@ -11,24 +11,40 @@ namespace PixelFarm.Drawing.GLES2
 {
 
     public class GLES2Platform : GraphicsPlatform
-    {   
-        FontSystem fontSystem = new FontSystem();
+    {
+
         public GLES2Platform()
         {
+
         }
-        public override IFonts Fonts
+
+        public override Canvas CreateCanvas(int left,
+            int top, int width, int height,
+            CanvasInitParameters reqPars = new CanvasInitParameters())
         {
-            get
-            {
-                return fontSystem;
-            }
-        }
-        public override Canvas CreateCanvas(int left, int top, int width, int height, CanvasInitParameters reqPars = new CanvasInitParameters())
-        {
-            int max = Math.Max(width, height);
-            CanvasGL2d canvas2d = new CanvasGL2d(max, max);
-            MyGLCanvas myCanvas = new MyGLCanvas(this, canvas2d, 0, 0, width, height);
+            MyGLCanvas myCanvas = new MyGLCanvas(new CanvasGL2d(width, height), 0, 0, width, height);
             return myCanvas;
+        }
+
+        public static void AddTextureFont(string fontName, string xmlGlyphPos, string glypBitmap)
+        {
+            GLES2PlatformFontMx.AddTextureFontInfo(fontName, xmlGlyphPos, glypBitmap);
+        }
+
+        static bool s_isInit;
+        internal static void Init()
+        {
+            if (s_isInit)
+            {
+                return;
+            }
+            s_isInit = true;
+            if (!GLES2PlatformFontMx.DidLoadFonts)
+            {
+                GLES2PlatformFontMx.LoadInstalledFont(
+                    new PixelFarm.Drawing.Win32.InstallFontsProviderWin32());
+            }
+
         }
 
     }

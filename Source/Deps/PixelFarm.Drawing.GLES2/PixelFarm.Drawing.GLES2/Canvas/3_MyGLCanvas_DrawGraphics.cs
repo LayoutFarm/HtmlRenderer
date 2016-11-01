@@ -44,11 +44,7 @@ namespace PixelFarm.Drawing.GLES2
                 painter1.StrokeWidth = this.strokeWidth = value;
             }
         }
-
-        public override GraphicsPlatform Platform
-        {
-            get { return this.platform; }
-        }
+         
         public override void RenderTo(IntPtr destHdc, int sourceX, int sourceY, Rectangle destArea)
         {
             throw new NotSupportedException();

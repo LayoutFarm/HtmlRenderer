@@ -33,10 +33,7 @@ namespace LayoutFarm.HtmlBoxes
             this.clipStacks.Clear();
             this.latestClip = new Rectangle(0, 0, CssBoxConstConfig.BOX_MAX_RIGHT, CssBoxConstConfig.BOX_MAX_BOTTOM);
         }
-        public GraphicsPlatform GraphicsPlatform
-        {
-            get { return this.canvas.Platform; }
-        }
+        
         public void SetViewportSize(float width, float height)
         {
             this.viewportWidth = width;

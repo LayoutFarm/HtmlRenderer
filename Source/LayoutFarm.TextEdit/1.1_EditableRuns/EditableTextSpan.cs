@@ -160,7 +160,7 @@ namespace LayoutFarm.Text
         Size CalculateDrawingStringSize(char[] buffer, int length)
         {
             PixelFarm.Drawing.RequestFont fontInfo = GetFont();
-            return this.Root.P.Fonts.MeasureString(buffer, 0,
+            return TextServices.IFonts.MeasureString(buffer, 0,
                 length, fontInfo);
 
         }

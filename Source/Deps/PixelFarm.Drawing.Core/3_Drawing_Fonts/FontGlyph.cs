@@ -39,8 +39,6 @@ namespace PixelFarm.Drawing.Fonts
         /// code point/glyph index?
         /// </summary>
         public int codePoint;
-        //----------------------------
-
     }
 
 
@@ -109,13 +107,11 @@ namespace PixelFarm.Drawing.Fonts
             get;
             private set;
         }
-
         public int BorderXY
         {
             get;
             set;
         }
-
         public int[] GetImageBuffer()
         {
             return pixelBuffer;

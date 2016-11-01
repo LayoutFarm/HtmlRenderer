@@ -4,35 +4,25 @@ using System;
 using System.Collections.Generic;
 using PixelFarm.DrawingGL;
 using PixelFarm.Drawing.Fonts;
-
-//TODO: review here, make this true cross platform
-using Win32; //on windows we need some native win32 funcs
-
-
+ 
 namespace PixelFarm.Drawing.GLES2
 {
 
 
 
-    partial class MyGLCanvas : Canvas, IDisposable
+    public partial class MyGLCanvas : Canvas, IDisposable
     {
         CanvasGL2d canvasGL2;
         bool isDisposed;
         Stack<Rectangle> clipRectStack = new Stack<Rectangle>();
         //-------------------------------
         GLCanvasPainter painter1;
-
-
         Rectangle currentClipRect;
         Color currentTextColor;
         InternalPen internalPen;
         InternalBrush internalBrush;
-        //-------------------------------
-        //TODO: review here, 
-        NativeWin32MemoryDc win32MemDc;
-        GraphicsPlatform platform;
-        public MyGLCanvas(
-            GraphicsPlatform platform,
+        
+        internal MyGLCanvas(
             CanvasGL2d canvasGL2d,
             int left, int top,
             int width,
@@ -41,18 +31,15 @@ namespace PixelFarm.Drawing.GLES2
             this.canvasGL2 = canvasGL2d;
             painter1 = new GLCanvasPainter(canvasGL2d, width, height);
 
-            //platform specific Win32
-            //1.
-            this.platform = platform;
-            //this.targetGfx = this.gx = targetGfx;
-            //2. dimension
+
+
             this.left = left;
             this.top = top;
             this.right = left + width;
             this.bottom = top + height;
             currentClipRect = new Rectangle(0, 0, width, height);
 
-            win32MemDc = new NativeWin32MemoryDc(10, 10);
+            
             this.CurrentFont = new RequestFont("tahoma", 10);
             this.CurrentTextColor = Color.Black;
 
@@ -78,8 +65,8 @@ namespace PixelFarm.Drawing.GLES2
             }
 
             isDisposed = true;
-            win32MemDc.Dispose();
-            win32MemDc = null;
+            //win32MemDc.Dispose();
+            //win32MemDc = null;
             ReleaseUnManagedResource();
         }
         /// <summary>
@@ -93,7 +80,7 @@ namespace PixelFarm.Drawing.GLES2
             }
             this.CloseCanvas();
         }
-        
+
         void ClearPreviousStoredValues()
         {
 

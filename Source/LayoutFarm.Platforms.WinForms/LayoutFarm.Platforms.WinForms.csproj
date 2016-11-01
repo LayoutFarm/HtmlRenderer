@@ -43,9 +43,11 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="0_Start\0_CanvasCollection.cs" />
     <Compile Include="0_Start\CanvasViewport.cs" />
     <Compile Include="0_Start\Conv.cs" />
     <Compile Include="0_Start\dbugHelper.cs" />
+    <Compile Include="0_Start\QuadPages.cs" />
     <Compile Include="1_LayoutFarm.UI\AbstractCompletionWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -103,6 +105,7 @@
       <Name>LayoutFarm.ClientPlatforms</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

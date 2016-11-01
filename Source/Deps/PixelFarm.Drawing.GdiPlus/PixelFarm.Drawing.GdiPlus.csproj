@@ -50,22 +50,17 @@
     <Compile Include="Implementation.Win32\NativeWin32MemoryDc.cs" />
     <Compile Include="Implementation.Win32\Win32Utils.cs" />
     <Compile Include="Implementation.Win32\WinGdiFont.cs" />
-    <Compile Include="Implementation\GdiPathConverter.cs" />
     <Compile Include="Implementation\WindowsFormsBitmapBackBuffer.cs" />
     <Compile Include="Implementation\BitmapHelper.cs" />
-    <Compile Include="Implementation\WinGdiPlusFont.cs" />
-    <Compile Include="Implementation\WinGdiPlusFontStore.cs" />
     <Compile Include="Implementation\Region.cs" />
     <Compile Include="MiniAggGraphics\BufferBitmapStore.cs" />
     <Compile Include="MiniAggGraphics\GdiPlusCanvasPainter.cs" />
     <Compile Include="MiniAggGraphics\GdiPlusRenderVx.cs" />
     <Compile Include="MiniAggGraphics\VxsHelper.cs" />
-    <Compile Include="Canvas\0_CanvasCollection.cs" />
     <Compile Include="Canvas\1_MyGdiPlusCanvas_Specific.cs" />
     <Compile Include="Canvas\2_MyGdiPlusCanvas_CoordinateAndClip.cs" />
     <Compile Include="Canvas\3_MyGdiPlusCanvas_DrawGraphics.cs" />
     <Compile Include="Canvas\4_MyGdiPlusCanvas_TextAndFonts.cs" />
-    <Compile Include="Canvas\QuadPages.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -95,6 +90,10 @@
     <ProjectReference Include="..\MiniAgg\MiniAgg.csproj">
       <Project>{4D5CE655-58FA-4523-8E46-738B941E9E47}</Project>
       <Name>MiniAgg</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PixelFarm.DataProvider\PixelFarm.DataProvider.csproj">
+      <Project>{1178D339-33C4-47FC-9807-869367BE803A}</Project>
+      <Name>PixelFarm.DataProvider</Name>
     </ProjectReference>
     <ProjectReference Include="..\PixelFarm.Drawing.Core\PixelFarm.Drawing.Core.csproj">
       <Project>{51D63482-5697-4B16-8401-506965624657}</Project>

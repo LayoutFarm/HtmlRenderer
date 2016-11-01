@@ -7,6 +7,8 @@ using PixelFarm.Agg;
 using PixelFarm.Agg.Transform;
 using PixelFarm.Agg.VertexSource;
 using PixelFarm.Drawing.Fonts;
+using PixelFarm.Drawing.Text;
+
 
 namespace PixelFarm.DrawingGL
 {
@@ -25,7 +27,7 @@ namespace PixelFarm.DrawingGL
         RequestFont _currentFont;
         Stroke _aggStroke = new Stroke(1);
 
-        static TextureFontStore textureFontBuilder = new TextureFontStore();
+
         SmoothingMode _smoothingMode; //smoothing mode of this  painter
         public GLCanvasPainterBase(CanvasGL2d canvas, int w, int h)
         {
@@ -34,9 +36,10 @@ namespace PixelFarm.DrawingGL
             _height = h;
             _rectInt = new RectInt(0, 0, w, h);
             arcTool = new Arc();
-            _currentFont = new RequestFont("tahoma", 14);
+            CurrentFont = new RequestFont("tahoma", 14);
 
         }
+
         public override RectInt ClipBox
         {
             get
@@ -70,19 +73,18 @@ namespace PixelFarm.DrawingGL
 
             }
         }
-        public override RequestFont CurrentFont
-        {
-            get
-            {
-                return _currentFont;
-            }
-            set
-            {
-                _currentFont = value;
-                //resolve texture font
-
-            }
-        }
+        //public override RequestFont CurrentFont
+        //{
+        //    get
+        //    {
+        //        return _currentFont;
+        //    }
+        //    set
+        //    {
+        //        _currentFont = value;
+        //        //resolve texture font 
+        //    }
+        //}
         public override Color FillColor
         {
             get
@@ -206,18 +208,23 @@ namespace PixelFarm.DrawingGL
             }
             this.Draw(roundRect.MakeVxs());
         }
-        //font system for this canvas 
-        RequestFont _latestFont;
-        TextureFont _latestResolvedFont;
-        TextureFont GetFont(RequestFont f)
-        {
-            if (_latestFont == f)
-            {
-                return _latestResolvedFont;
-            }
-            _latestFont = f;
-            return _latestResolvedFont = _canvas.TextureFontStore.GetResolvedFont(f);
+        ////font system for this canvas 
+        //RequestFont _latestFont;
+        //TextureFont _latestResolvedFont;
+        //TextureFont GetFont(RequestFont f)
+        //{
+        //    if (_latestFont == f)
+        //    {
+        //        return _latestResolvedFont;
+        //    }
+        //    _latestFont = f;
+        //    return _latestResolvedFont = _canvas.TextureFontStore.GetResolvedFont(f);
 
+        //}
+        TextureFont _currentTextureFont;
+        internal void SetCurrentTextureFont(TextureFont textureFont)
+        {
+            _currentTextureFont = textureFont;
         }
         public override void DrawString(string text, double x, double y)
         {
@@ -228,10 +235,10 @@ namespace PixelFarm.DrawingGL
             //get kerning list 
 
             //get actual font for this canvas 
-            TextureFont currentFont = GetFont(this._currentFont);
+            TextureFont currentFont = _currentTextureFont;
             SimpleFontAtlas fontAtlas = currentFont.FontAtlas;
             ProperGlyph[] properGlyphs = new ProperGlyph[buffsize];
-            currentFont.GetGlyphPos(chars, 0, buffsize, properGlyphs);
+            TextShapingService.GetGlyphPos(currentFont, chars, 0, buffsize, properGlyphs);
             GLBitmap glBmp = (GLBitmap)currentFont.GLBmp;
             if (glBmp == null)
             {
@@ -262,13 +269,15 @@ namespace PixelFarm.DrawingGL
                 {
                     break;
                 }
-                if (codepoint == 1173 && i > 1)
-                {
-                    //check prev code point 
-                    codepoint = 1168;
-                }
+                //--------------------------------
+                //if (codepoint == 1173 && i > 1)
+                //{
+                //    //check prev code point 
+                //    codepoint = 1168;
+                //}
+                //--------------------------------
                 TextureFontGlyphData glyphData;
-                if (!fontAtlas.GetRect((int)codepoint, out glyphData))
+                if (!fontAtlas.GetRectByCodePoint((int)codepoint, out glyphData))
                 {
                     //Rectangle r = glyphData.Rect;
                     //float x_min = glyphData.BBoxXMin / 64;
@@ -301,12 +310,16 @@ namespace PixelFarm.DrawingGL
                 coords.Add(r.Height);
                 //-------------------------
                 coords.Add(adjustX + c_x + left);
-                coords.Add(baseline + ((int)((glyphData.ImgHeight + glyph.glyphMatrix.bboxYmin) * scale) >> 6));
-                int w = (int)(glyph.glyphMatrix.advanceX * scale) >> 6;
+                //coords.Add(baseline + ((int)((glyphData.ImgHeight + glyph.glyphMatrix.bboxYmin) * scale) >> 6));
+                coords.Add(baseline + ((int)((glyphData.ImgHeight + glyphData.BBoxYMin) * scale) >> 6));
+                //int w = (int)(glyph.glyphMatrix.advanceX * scale) >> 6;
+                int w = (int)(glyph.horiz_adv_x * scale) >> 6;
                 c_x += w;
             }
             _canvas.DrawSubImageWithMsdf(glBmp, coords.ToArray(), scale);
         }
+
+
         //public override void DrawString(string text, double x, double y)
         //{
 

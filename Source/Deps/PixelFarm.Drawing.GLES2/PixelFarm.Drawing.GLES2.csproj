@@ -33,7 +33,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\PixelFarm.Drawing.GdiPlus\Implementation.Win32\BasicGdi32FontHelper.cs">
@@ -54,8 +53,6 @@
     <Compile Include="..\PixelFarm.Drawing.GdiPlus\Implementation.Win32\WinGdiFont.cs">
       <Link>PixelFarm.Drawing.GLES2\Implementation.Win32\WinGdiFont.cs</Link>
     </Compile>
-    <Compile Include="0_Start\NativeDll.cs" />
-    <Compile Include="Bitmap\NativeImage.cs" />
     <Compile Include="DrawingGL\GLCanvas\CanvasGL2d.cs" />
     <Compile Include="DrawingGL\GLCanvas\CanvasSmoothMode.cs" />
     <Compile Include="DrawingGL\GLCanvas\CanvasToShaderSharedResource.cs" />
@@ -79,30 +76,26 @@
     <Compile Include="DrawingGL\GLTexture\GLBitmap.cs" />
     <Compile Include="DrawingGL\GLTexture\GLBitmapReference.cs" />
     <Compile Include="DrawingGL\GLTexture\LazyAggBitmapBufferProvider.cs" />
-    <Compile Include="DrawingGL\GLTexture\SimpleFontAtlas.cs" />
     <Compile Include="DrawingGL\GLTexture\TextureAtlas.cs" />
-    <Compile Include="NativeFonts\InstalledFont.cs" />
-    <Compile Include="NativeFonts\InstalledFontCollection.cs" />
-    <Compile Include="NativeFonts\NativeBridgeFreeType.cs" />
-    <Compile Include="NativeFonts\NativeFont.cs" />
-    <Compile Include="NativeFonts\NativeFontFace.cs" />
-    <Compile Include="NativeFonts\NativeFontGlyphBuilder.cs" />
-    <Compile Include="NativeFonts\NativeFonts.cs" />
-    <Compile Include="NativeFonts\NativeFontStore.cs" />
-    <Compile Include="NativeFonts\TextureFont.cs" />
-    <Compile Include="NativeText\NativeTextBreaker.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\0_Start\FontSystem.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\0_Start\GLES2Platform.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\Canvas\1_MyGLCanvas_Specific.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\Canvas\2_MyGLCanvas_CoordinateAndClip.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\Canvas\3_MyGLCanvas_DrawGraphics.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\Canvas\4_MyGLCanvas_TextAndFonts.cs" />
+    <Compile Include="PixelFarm.Drawing.GLES2\Canvas\GLES2PlatformFontMx.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\Implementation\GLCanvasPainter.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\Implementation\PensAndBrushes.cs" />
+    <Compile Include="PixelFarm.Drawing.GLES2\Implementation\TextureFontStore.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\Implementation\WinGdiFontPrinter.cs" />
+    <Compile Include="PixelFarm.Drawing.GLES2\TextureFonts\TextureFont.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\PixelFarm.DataProvider\PixelFarm.DataProvider.csproj">
+      <Project>{1178D339-33C4-47FC-9807-869367BE803A}</Project>
+      <Name>PixelFarm.DataProvider</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PixelFarm.Drawing.Core\PixelFarm.Drawing.Core.csproj">
       <Project>{51D63482-5697-4B16-8401-506965624657}</Project>
       <Name>PixelFarm.Drawing.Core</Name>

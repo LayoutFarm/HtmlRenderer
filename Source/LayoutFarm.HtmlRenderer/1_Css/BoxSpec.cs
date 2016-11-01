@@ -754,14 +754,14 @@ namespace LayoutFarm.Css
                 fsize = FontDefaultConfig.DEFAULT_FONT_SIZE;
             }
 
-            RequestFont font = new RequestFont(fontFam, fsize, st);// ifonts.GetFont(fontFam, fsize, st);
-            ifonts.ResolveActualFont(font);
-            if (!relateToParent)
-            {
-                //cahce value
-                this._actualFont = font;
-            } 
-            this._actualFont = font;
+            _actualFont = new RequestFont(fontFam, fsize, st);// ifonts.GetFont(fontFam, fsize, st);
+            //ifonts.ResolveActualFont(font);
+            //if (!relateToParent)
+            //{
+            //    //cahce value
+            //    this._actualFont = font;
+            //} 
+            //this._actualFont = font;
             return _actualFont;
         }
 

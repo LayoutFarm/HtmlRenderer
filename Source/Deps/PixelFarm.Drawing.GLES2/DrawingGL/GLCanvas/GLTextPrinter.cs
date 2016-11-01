@@ -1,6 +1,6 @@
 ﻿//MIT 2014-2016, WinterDev
 using PixelFarm.Drawing.Fonts;
-
+using PixelFarm.Drawing.Text;
 namespace PixelFarm.DrawingGL
 {
     public abstract class PlatformFontPrinterBase
@@ -38,7 +38,7 @@ namespace PixelFarm.DrawingGL
             if (properGlyphs == null)
             {
                 properGlyphs = new ProperGlyph[buffsize];
-                fontImp.GetGlyphPos(buffer, 0, buffsize, properGlyphs);
+                TextShapingService.GetGlyphPos(fontImp, buffer, 0, buffsize, properGlyphs);
             }
 
             double xpos = x;

@@ -8,7 +8,6 @@
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AssemblyName>PixelFarm.One</AssemblyName>
-    <ProjectGuid>{E71BD6D1-211F-4778-9632-77AB9B155BCB}</ProjectGuid>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -40,6 +39,7 @@
     <Compile Include="MiniAgg.Complements\0_CanvasPainter\AggRenderVx.cs" />
     <Compile Include="MiniAgg.Complements\0_CanvasPainter\Canvas2dExtension.cs" />
     <Compile Include="MiniAgg.Complements\0_CanvasPainter\dbugVertexSourceIO.cs" />
+    <Compile Include="MiniAgg.Complements\0_CanvasPainter\TextPrinter.cs" />
     <Compile Include="MiniAgg.Complements\1_Base\BorderDouble.cs" />
     <Compile Include="MiniAgg.Complements\1_Base\ClipProxyImage.cs" />
     <Compile Include="MiniAgg.Complements\1_Base\GammaFuntions.cs" />
@@ -59,12 +59,6 @@
     <Compile Include="MiniAgg.Complements\Filter\PatternFilterBilnearColorRGBA.cs" />
     <Compile Include="MiniAgg.Complements\Filter\RecursiveBlur.cs" />
     <Compile Include="MiniAgg.Complements\Filter\StackBlur.cs" />
-    <Compile Include="MiniAgg.Complements\FontSvg\SvgFont.cs" />
-    <Compile Include="MiniAgg.Complements\FontSvg\SvgFontFace.cs" />
-    <Compile Include="MiniAgg.Complements\FontSvg\SvgFontFace_LiberationSans.cs" />
-    <Compile Include="MiniAgg.Complements\FontSvg\SvgFontStore.cs" />
-    <Compile Include="MiniAgg.Complements\Font\MyTypeFacePrinter.cs" />
-    <Compile Include="MiniAgg.Complements\Font\TextPrinter.cs" />
     <Compile Include="MiniAgg.Complements\Image\AlphaMask.cs" />
     <Compile Include="MiniAgg.Complements\Image\AlphaMaskAdaptor.cs" />
     <Compile Include="MiniAgg.Complements\Image\FilterMan.cs" />
@@ -167,6 +161,7 @@
     <Compile Include="NOpenType\N20\PixelFarm.OpenType\..\..\NetCore\PixelFarm.OpenType\Tables.TrueType\Gasp.cs" />
     <Compile Include="NOpenType\N20\PixelFarm.OpenType\..\..\NetCore\PixelFarm.OpenType\Tables.TrueType\Glyf.cs" />
     <Compile Include="NOpenType\N20\PixelFarm.OpenType\..\..\NetCore\PixelFarm.OpenType\Tables.TrueType\GlyphLocations.cs" />
+    <Compile Include="NOpenType\N20\PixelFarm.OpenType\..\..\NetCore\PixelFarm.OpenType\Tables.Variations\AVar.cs" />
     <Compile Include="NOpenType\N20\PixelFarm.OpenType\..\..\NetCore\PixelFarm.OpenType\Tables.Variations\FVar.cs" />
     <Compile Include="NOpenType\N20\PixelFarm.OpenType\..\..\NetCore\PixelFarm.OpenType\Tables.Variations\GVar.cs" />
     <Compile Include="NOpenType\N20\PixelFarm.OpenType\..\..\NetCore\PixelFarm.OpenType\Tables.Variations\HVar.cs" />
@@ -186,6 +181,23 @@
     <Compile Include="NOpenType\N20\PixelFarm.OpenType\..\..\NetCore\PixelFarm.OpenType\Tables\TableHeader.cs" />
     <Compile Include="NOpenType\N20\PixelFarm.OpenType\..\..\NetCore\PixelFarm.OpenType\Tables\Utils.cs" />
     <Compile Include="NOpenType\N20\PixelFarm.OpenType\..\..\NetCore\PixelFarm.OpenType\Typeface.cs" />
+    <Compile Include="PixelFarm.DataProvider\Bitmap\NativeImage.cs" />
+    <Compile Include="PixelFarm.DataProvider\InstalledFontCollection.cs" />
+    <Compile Include="PixelFarm.DataProvider\NativeDll.cs" />
+    <Compile Include="PixelFarm.DataProvider\NativeFonts\FontLoaderImpls.cs" />
+    <Compile Include="PixelFarm.DataProvider\NativeFonts\NativeBridgeFreeType.cs" />
+    <Compile Include="PixelFarm.DataProvider\NativeFonts\NativeFont.cs" />
+    <Compile Include="PixelFarm.DataProvider\NativeFonts\NativeFontFace.cs" />
+    <Compile Include="PixelFarm.DataProvider\NativeFonts\NativeFontGlyphBuilder.cs" />
+    <Compile Include="PixelFarm.DataProvider\NativeFonts\NativeFonts.cs" />
+    <Compile Include="PixelFarm.DataProvider\NativeFonts\SimpleFontAtlas.cs" />
+    <Compile Include="PixelFarm.DataProvider\NativeText\HarfBuzzShapingService.cs" />
+    <Compile Include="PixelFarm.DataProvider\NativeText\NativeTextBreaker.cs" />
+    <Compile Include="PixelFarm.DataProvider\NOpenTypeFonts\GlyphBuilder.cs" />
+    <Compile Include="PixelFarm.DataProvider\NOpenTypeFonts\ManagedShapingService.cs" />
+    <Compile Include="PixelFarm.DataProvider\NOpenTypeFonts\NOpenTypeFont.cs" />
+    <Compile Include="PixelFarm.DataProvider\Providers.cs" />
+    <Compile Include="PixelFarm.DataProvider\Win32Impl.cs" />
     <Compile Include="PixelFarm.Drawing.Core\0_Start\ExtensionAttribute.cs" />
     <Compile Include="PixelFarm.Drawing.Core\0_Start\GraphicsPlatform.cs" />
     <Compile Include="PixelFarm.Drawing.Core\1_Drawing\BasicGeometries.cs" />
@@ -212,6 +224,7 @@
     <Compile Include="PixelFarm.Drawing.Core\3_Drawing_Fonts\FontKey.cs" />
     <Compile Include="PixelFarm.Drawing.Core\3_Drawing_Fonts\NativeBridgeHB.cs" />
     <Compile Include="PixelFarm.Drawing.Core\4_Drawing_Text\TextBreaker.cs" />
+    <Compile Include="PixelFarm.Drawing.Core\4_Drawing_Text\TextShapingAndLayoutService.cs" />
     <Compile Include="PixelFarm.Drawing.Core\5_PixelFarm_Agg\ActualImage.cs" />
     <Compile Include="PixelFarm.Drawing.Core\5_PixelFarm_Agg\CanvasPainter.cs" />
     <Compile Include="PixelFarm.Drawing.Core\5_PixelFarm_Agg\PixelFormat.cs" />
@@ -271,15 +284,12 @@
     <Compile Include="PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\SimpleRect.cs" />
     <Compile Include="PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\VertexData.cs" />
     <Compile Include="PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\VertexStoreBuilder.cs" />
-    <Compile Include="PixelFarm.Drawing.Core\BasicRenderBox\IRenderElement.cs" />
     <Compile Include="PixelFarm.Drawing.GdiPlus\0_Start\WinGdiPlusPlatform.cs" />
-    <Compile Include="PixelFarm.Drawing.GdiPlus\Canvas\0_CanvasCollection.cs" />
     <Compile Include="PixelFarm.Drawing.GdiPlus\Canvas\1_MyGdiPlusCanvas_Specific.cs" />
     <Compile Include="PixelFarm.Drawing.GdiPlus\Canvas\2_MyGdiPlusCanvas_CoordinateAndClip.cs" />
     <Compile Include="PixelFarm.Drawing.GdiPlus\Canvas\3_MyGdiPlusCanvas_DrawGraphics.cs" />
     <Compile Include="PixelFarm.Drawing.GdiPlus\Canvas\4_MyGdiPlusCanvas_TextAndFonts.cs" />
     <Compile Include="PixelFarm.Drawing.GdiPlus\Canvas\Conv.cs" />
-    <Compile Include="PixelFarm.Drawing.GdiPlus\Canvas\QuadPages.cs" />
     <Compile Include="PixelFarm.Drawing.GdiPlus\Implementation.Win32\BasicGdi32FontHelper.cs" />
     <Compile Include="PixelFarm.Drawing.GdiPlus\Implementation.Win32\MyWin32.cs" />
     <Compile Include="PixelFarm.Drawing.GdiPlus\Implementation.Win32\NativeTextWin32.cs" />
@@ -287,11 +297,8 @@
     <Compile Include="PixelFarm.Drawing.GdiPlus\Implementation.Win32\Win32Utils.cs" />
     <Compile Include="PixelFarm.Drawing.GdiPlus\Implementation.Win32\WinGdiFont.cs" />
     <Compile Include="PixelFarm.Drawing.GdiPlus\Implementation\BitmapHelper.cs" />
-    <Compile Include="PixelFarm.Drawing.GdiPlus\Implementation\GdiPathConverter.cs" />
     <Compile Include="PixelFarm.Drawing.GdiPlus\Implementation\Region.cs" />
     <Compile Include="PixelFarm.Drawing.GdiPlus\Implementation\WindowsFormsBitmapBackBuffer.cs" />
-    <Compile Include="PixelFarm.Drawing.GdiPlus\Implementation\WinGdiPlusFont.cs" />
-    <Compile Include="PixelFarm.Drawing.GdiPlus\Implementation\WinGdiPlusFontStore.cs" />
     <Compile Include="PixelFarm.Drawing.GdiPlus\MiniAggGraphics\BufferBitmapStore.cs" />
     <Compile Include="PixelFarm.Drawing.GdiPlus\MiniAggGraphics\GdiPlusCanvasPainter.cs" />
     <Compile Include="PixelFarm.Drawing.GdiPlus\MiniAggGraphics\GdiPlusRenderVx.cs" />
@@ -304,8 +311,6 @@
     <Compile Include="PixelFarm.Drawing.GLES2\..\PixelFarm.Drawing.GdiPlus\Implementation.Win32\NativeWin32MemoryDc.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\..\PixelFarm.Drawing.GdiPlus\Implementation.Win32\Win32Utils.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\..\PixelFarm.Drawing.GdiPlus\Implementation.Win32\WinGdiFont.cs" />
-    <Compile Include="PixelFarm.Drawing.GLES2\0_Start\NativeDll.cs" />
-    <Compile Include="PixelFarm.Drawing.GLES2\Bitmap\NativeImage.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\DrawingGL\GLCanvas\CanvasGL2d.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\DrawingGL\GLCanvas\CanvasSmoothMode.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\DrawingGL\GLCanvas\CanvasToShaderSharedResource.cs" />
@@ -329,27 +334,19 @@
     <Compile Include="PixelFarm.Drawing.GLES2\DrawingGL\GLTexture\GLBitmap.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\DrawingGL\GLTexture\GLBitmapReference.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\DrawingGL\GLTexture\LazyAggBitmapBufferProvider.cs" />
-    <Compile Include="PixelFarm.Drawing.GLES2\DrawingGL\GLTexture\SimpleFontAtlas.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\DrawingGL\GLTexture\TextureAtlas.cs" />
-    <Compile Include="PixelFarm.Drawing.GLES2\NativeFonts\InstalledFont.cs" />
-    <Compile Include="PixelFarm.Drawing.GLES2\NativeFonts\InstalledFontCollection.cs" />
-    <Compile Include="PixelFarm.Drawing.GLES2\NativeFonts\NativeBridgeFreeType.cs" />
-    <Compile Include="PixelFarm.Drawing.GLES2\NativeFonts\NativeFont.cs" />
-    <Compile Include="PixelFarm.Drawing.GLES2\NativeFonts\NativeFontFace.cs" />
-    <Compile Include="PixelFarm.Drawing.GLES2\NativeFonts\NativeFontGlyphBuilder.cs" />
-    <Compile Include="PixelFarm.Drawing.GLES2\NativeFonts\NativeFonts.cs" />
-    <Compile Include="PixelFarm.Drawing.GLES2\NativeFonts\NativeFontStore.cs" />
-    <Compile Include="PixelFarm.Drawing.GLES2\NativeFonts\TextureFont.cs" />
-    <Compile Include="PixelFarm.Drawing.GLES2\NativeText\NativeTextBreaker.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\PixelFarm.Drawing.GLES2\0_Start\FontSystem.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\PixelFarm.Drawing.GLES2\0_Start\GLES2Platform.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\PixelFarm.Drawing.GLES2\Canvas\1_MyGLCanvas_Specific.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\PixelFarm.Drawing.GLES2\Canvas\2_MyGLCanvas_CoordinateAndClip.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\PixelFarm.Drawing.GLES2\Canvas\3_MyGLCanvas_DrawGraphics.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\PixelFarm.Drawing.GLES2\Canvas\4_MyGLCanvas_TextAndFonts.cs" />
+    <Compile Include="PixelFarm.Drawing.GLES2\PixelFarm.Drawing.GLES2\Canvas\GLES2PlatformFontMx.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\PixelFarm.Drawing.GLES2\Implementation\GLCanvasPainter.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\PixelFarm.Drawing.GLES2\Implementation\PensAndBrushes.cs" />
+    <Compile Include="PixelFarm.Drawing.GLES2\PixelFarm.Drawing.GLES2\Implementation\TextureFontStore.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\PixelFarm.Drawing.GLES2\Implementation\WinGdiFontPrinter.cs" />
+    <Compile Include="PixelFarm.Drawing.GLES2\PixelFarm.Drawing.GLES2\TextureFonts\TextureFont.cs" />
     <Compile Include="PixelFarm.MiniOpenTK\OpenTK\AutoGeneratedAttribute.cs" />
     <Compile Include="PixelFarm.MiniOpenTK\OpenTK\BindingsBase.cs" />
     <Compile Include="PixelFarm.MiniOpenTK\OpenTK\BlittableValueType.cs" />
@@ -528,15 +525,11 @@
     <Compile Include="PixelFarm.OpenTKWinForms\Toolkit.cs" />
     <Compile Include="PixelFarm.OpenTKWinForms\UserGLControl\CarbonGLControl.cs" />
     <Compile Include="PixelFarm.OpenTKWinForms\UserGLControl\DummyGLControl.cs" />
-    <Compile Include="PixelFarm.OpenTKWinForms\UserGLControl\GLControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="PixelFarm.OpenTKWinForms\UserGLControl\GLControl.cs" />
     <Compile Include="PixelFarm.OpenTKWinForms\UserGLControl\GLControl.Designer.cs" />
     <Compile Include="PixelFarm.OpenTKWinForms\UserGLControl\GLControlFactory.cs" />
     <Compile Include="PixelFarm.OpenTKWinForms\UserGLControl\IGLControl.cs" />
-    <Compile Include="PixelFarm.OpenTKWinForms\UserGLControl\MyGLControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="PixelFarm.OpenTKWinForms\UserGLControl\MyGLControl.cs" />
     <Compile Include="PixelFarm.OpenTKWinForms\UserGLControl\MyGLControl.Designer.cs" />
     <Compile Include="PixelFarm.OpenTKWinForms\UserGLControl\WinGLControl.cs" />
     <Compile Include="PixelFarm.OpenTKWinForms\UserGLControl\X11GLControl.cs" />
@@ -550,9 +543,6 @@
     <Compile Include="Tesselate\HalfEdge.cs" />
     <Compile Include="Tesselate\Mesh.cs" />
     <Compile Include="Tesselate\Tesselator.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="NOpenType\N20\PixelFarm.OpenType\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

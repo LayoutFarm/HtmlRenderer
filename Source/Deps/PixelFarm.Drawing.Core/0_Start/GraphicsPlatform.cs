@@ -1,7 +1,10 @@
 ﻿//MIT, 2014-2016, WinterDev 
 using System;
+using System.Collections.Generic;
+
 namespace PixelFarm.Drawing
 {
+
     public abstract class GraphicsPlatform
     {
 
@@ -10,16 +13,28 @@ namespace PixelFarm.Drawing
             int top,
             int width,
             int height,
-            CanvasInitParameters canvasInitPars= new CanvasInitParameters());
+            CanvasInitParameters canvasInitPars = new CanvasInitParameters());
 
-       
-        /// <summary>
-        /// font management system for this graphics platform
-        /// </summary>
-        public abstract IFonts Fonts { get; }
-        //public abstract Bitmap CreatePlatformBitmap(int w, int h, byte[] rawBuffer, bool isBottomUp);
 
+      
+        //----------------------------------------------------------------------
+        //set provider delegates before use it from comment graphics platform
+        //----------------------------------------------------------------------
+
+
+        //----------------------
+        //2. image buffer provider from filename
+        static ImageBufferProviderDelegate s_imgBufferProviderDel;
+        public static void SetImageBufferProviderDelegate(ImageBufferProviderDelegate imgBufferProviderDel)
+        {
+            s_imgBufferProviderDel = imgBufferProviderDel;
+        }
     }
+
+   
+
+    public delegate byte[] ImageBufferProviderDelegate(string filename);
+
     public struct CanvasInitParameters
     {
         public object externalCanvas;

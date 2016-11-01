@@ -111,7 +111,7 @@ namespace OpenTK.Graphics.ES20
                         }
                     }
                     sb.Remove(sb.Length - 2, 2); // Remove the last comma
-                    throw new GraphicsErrorException(sb.ToString());
+                    //throw new GraphicsErrorException(sb.ToString());
                 }
             }
         }

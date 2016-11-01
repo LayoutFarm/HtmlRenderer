@@ -18,7 +18,7 @@ using System.Collections.Generic;
 using Win32;
 namespace PixelFarm.Drawing.WinGdi
 {
-    partial class MyGdiPlusCanvas : Canvas, IDisposable
+    public partial class MyGdiPlusCanvas : Canvas, IDisposable
     {
         int pageNumFlags;
         int pageFlags;
@@ -38,17 +38,15 @@ namespace PixelFarm.Drawing.WinGdi
         System.Drawing.Rectangle currentClipRect;
         //-------------------------------
 
-        GraphicsPlatform platform;
-        public MyGdiPlusCanvas(GraphicsPlatform platform,
+
+        internal MyGdiPlusCanvas(
             int horizontalPageNum,
             int verticalPageNum,
             int left, int top,
             int width,
             int height)
         {
-            //platform specific Win32
-            //1.
-            this.platform = platform;
+
             this.pageNumFlags = (horizontalPageNum << 8) | verticalPageNum;
             //2. dimension
             this.left = left;
@@ -270,7 +268,8 @@ namespace PixelFarm.Drawing.WinGdi
         void SetFont(RequestFont font)
         {
             InitHdc();
-            WinGdiPlusFont myFont = (WinGdiPlusFont)this.platform.Fonts.ResolveActualFont(font);
+            //request fron need to resolve to gdi+ font***
+            WinGdiFont myFont = WinGdiFontSystem.GetWinGdiFont(font);
             Win32Utils.SelectObject(tempDc, myFont.ToHfont());
         }
 
@@ -363,10 +362,7 @@ namespace PixelFarm.Drawing.WinGdi
 
         //debug
 #if DEBUG
-        static class dbugCounter
-        {
-            public static int dbugDrawStringCount;
-        }
+        public static int dbugDrawStringCount;
 
 
         public override void dbug_DrawRuler(int x)
@@ -408,4 +404,8 @@ namespace PixelFarm.Drawing.WinGdi
         //    return true;
         //}
     }
+
+
+
+
 }
