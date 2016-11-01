@@ -116,7 +116,9 @@ namespace LayoutFarm.Ease
 
         public static Canvas CreatePrintCanvas(System.Drawing.Graphics g, int w, int h)
         {
-            return gdiPlatform.CreateCanvas(g, 0, 0, w, h);
+            CanvasInitParameters canvasInit = new CanvasInitParameters();
+            canvasInit.externalCanvas = g;
+            return gdiPlatform.CreateCanvas(0, 0, w, h, canvasInit);
         }
     }
 }

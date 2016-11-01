@@ -3,6 +3,7 @@
 using System.Collections.Generic;
 using LayoutFarm.Css;
 using LayoutFarm.HtmlBoxes;
+using PixelFarm.Drawing.Text;
 namespace LayoutFarm.Composers
 {
     public struct TextSplitBound
@@ -21,8 +22,10 @@ namespace LayoutFarm.Composers
         //configure icu's locale here 
         string icuLocal = "th-TH";
         Stack<List<CssRun>> myRunPool = new Stack<List<CssRun>>(3);
+
         public ContentTextSplitter()
         {
+
         }
         enum WordParsingState
         {
@@ -52,16 +55,26 @@ namespace LayoutFarm.Composers
         {
             if (needICUSplitter)
             {
-                //use icu splitter 
-                //copy text buffer to icu *** 
-                var parts = Icu.BreakIterator.GetSplitBoundIter(Icu.BreakIterator.UBreakIteratorType.WORD,
-                    icuLocal, textBuffer, startIndex, appendLength);
-                //iterate new split
-                foreach (var bound in parts)
+                var textBreaker = RootGraphic.GetTextBreaker(icuLocal);
+                textBreaker.DoBreak(textBuffer, startIndex, appendLength, bounds =>
                 {
+                    //iterate new split
+
                     runlist.Add(
-                        CssTextRun.CreateTextRun(startIndex + bound.startIndex, bound.length));
-                }
+                        CssTextRun.CreateTextRun(startIndex + bounds.startIndex, bounds.length));
+
+
+                });
+                ////use icu splitter 
+                ////copy text buffer to icu *** 
+                //var parts = Icu.BreakIterator.GetSplitBoundIter(Icu.BreakIterator.UBreakIteratorType.WORD,
+                //    icuLocal, textBuffer, startIndex, appendLength);
+                ////iterate new split
+                //foreach (var bound in parts)
+                //{
+                //    runlist.Add(
+                //        CssTextRun.CreateTextRun(startIndex + bound.startIndex, bound.length));
+                //}
 
                 needICUSplitter = false;//reset
             }
@@ -72,9 +85,17 @@ namespace LayoutFarm.Composers
         }
         public IEnumerable<TextSplitBound> ParseWordContent(char[] textBuffer, int startIndex, int appendLength)
         {
+
             int s_index = startIndex;
-            foreach (var splitBound in Icu.BreakIterator.GetSplitBoundIter(Icu.BreakIterator.UBreakIteratorType.WORD,
-                   icuLocal, textBuffer, startIndex, appendLength))
+            var textBreaker = RootGraphic.GetTextBreaker(icuLocal);
+            List<SplitBound> runlist = new List<SplitBound>();
+            textBreaker.DoBreak(textBuffer, startIndex, appendLength, bounds =>
+            {
+                //iterate new split
+                runlist.Add(bounds);
+            });
+
+            foreach (var splitBound in runlist)
             {
                 //need consecutive bound
                 if (splitBound.startIndex != s_index)

@@ -37,7 +37,7 @@ namespace LayoutFarm.Svg
             {
                 List<SvgPathSeg> segs = this.segments;
                 int segcount = segs.Count;
-                GraphicsPath gpath = this.myCachedPath = args.graphicsPlatform.CreateGraphicsPath();
+                GraphicsPath gpath = this.myCachedPath = new GraphicsPath();
                 float lastMoveX = 0;
                 float lastMoveY = 0;
                 PointF lastPoint = new PointF();

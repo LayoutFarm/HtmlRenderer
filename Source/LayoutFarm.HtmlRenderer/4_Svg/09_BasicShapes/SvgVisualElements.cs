@@ -133,7 +133,7 @@ namespace LayoutFarm.Svg
         }
         static GraphicsPath CreateRectGraphicPath(GraphicsPlatform gfxPlatform, float x, float y, float w, float h)
         {
-            var _path = gfxPlatform.CreateGraphicsPath();
+            var _path = new GraphicsPath();
             _path.StartFigure();
             _path.AddRectangle(new RectangleF(x, y, w, h));
             _path.CloseFigure();
@@ -141,7 +141,7 @@ namespace LayoutFarm.Svg
         }
         static GraphicsPath CreateRoundRectGraphicPath(GraphicsPlatform gfxPlatform, float x, float y, float w, float h, float c_rx, float c_ry)
         {
-            var _path = gfxPlatform.CreateGraphicsPath();
+            var _path = new GraphicsPath();
             var arcBounds = new RectangleF();
             var lineStart = new PointF();
             var lineEnd = new PointF();
@@ -261,7 +261,7 @@ namespace LayoutFarm.Svg
             //create new path
             if (this.IsPathValid) { return; }
             ClearCachePath();
-            myCachedPath = args.graphicsPlatform.CreateGraphicsPath();
+            myCachedPath = new GraphicsPath();
             myCachedPath.StartFigure();
             myCachedPath.AddEllipse(this.ActualX - this.ActualRadius, this.ActualY - this.ActualRadius, 2 * this.ActualRadius, 2 * ActualRadius);
             myCachedPath.CloseFigure();
@@ -333,7 +333,7 @@ namespace LayoutFarm.Svg
             //path may note need
             if (this.IsPathValid) { return; }
             ClearCachePath();
-            this.myCachedPath = args.graphicsPlatform.CreateGraphicsPath();
+            this.myCachedPath = new GraphicsPath();
             myCachedPath.StartFigure();
             myCachedPath.AddEllipse(this.ActualX - this.ActualRadiusX, this.ActualY - this.ActualRadiusY, 2 * this.ActualRadiusX, 2 * this.ActualRadiusY);
             myCachedPath.CloseFigure();
@@ -378,7 +378,7 @@ namespace LayoutFarm.Svg
             this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, ref args);
             if (this.IsPathValid) { return; }
             ClearCachePath();
-            this.myCachedPath = args.graphicsPlatform.CreateGraphicsPath();
+            this.myCachedPath = new GraphicsPath();
             this.myCachedPath.StartFigure();
             PointF[] plist = this.pointList;
             int lim = plist.Length - 1;
@@ -438,7 +438,7 @@ namespace LayoutFarm.Svg
             this.pointList = spec.Points.ToArray();
             if (this.IsPathValid) { return; }
             ClearCachePath();
-            this.myCachedPath = args.graphicsPlatform.CreateGraphicsPath();
+            this.myCachedPath = new GraphicsPath();
             PointF[] plist = this.pointList;
             int lim = plist.Length - 1;
             for (int i = 0; i < lim; ++i)

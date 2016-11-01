@@ -27,7 +27,7 @@ namespace TestGraphicPackage2
             //find sample folder 
             string execFromFolder = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
 #if DEBUG
-            string checkFolder = "\\Source\\Test3_MixHtml\\bin\\Debug";
+            string checkFolder = "\\Source\\Test3_MixHtml.One\\bin\\Debug";
 #else
             string checkFolder = "\\Source\\Test3_MixHtml\\bin\\Release";
 #endif

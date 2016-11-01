@@ -148,10 +148,12 @@ namespace LayoutFarm.HtmlBoxes
 
         public void ReEvaluateFont(IFonts iFonts, float parentFontSize)
         {
-            Font fontInfo = this._myspec.GetFont(iFonts, parentFontSize);
+            RequestFont fontInfo = this._myspec.GetFont(parentFontSize);
+            
             this._resolvedFont = fontInfo;
-            this._actualLineHeight = _resolvedFont.Height;
-            this._actualEmHeight = _resolvedFont.EmSize;
+
+            this._actualLineHeight = fontInfo.SizeInPixels;
+         
             if (_myspec.WordSpacing.IsNormalWordSpacing)
             {
                 this._actualWordSpacing = iFonts.MeasureWhitespace(_resolvedFont);
@@ -168,11 +170,12 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         internal void ReEvaluateComputedValues(IFonts iFonts, CssBox containingBlock)
         {
+
             //depend on parent
             //1. fonts 
             if (this.ParentBox != null)
             {
-                ReEvaluateFont(iFonts, this.ParentBox.ResolvedFont.EmSizeInPixels);
+                ReEvaluateFont(iFonts, this.ParentBox.ResolvedFont.SizeInPixels);
                 //2. actual word spacing
                 //this._actualWordSpacing = this.NoEms(this.InitSpec.LineHeight);
                 //3. font size 
@@ -180,7 +183,7 @@ namespace LayoutFarm.HtmlBoxes
             }
             else
             {
-                ReEvaluateFont(iFonts, containingBlock.ResolvedFont.EmSizeInPixels);
+                ReEvaluateFont(iFonts, containingBlock.ResolvedFont.SizeInPixels);
                 //this._actualFont = this.Spec.GetFont(containingBlock.Spec);
             }
 

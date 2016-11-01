@@ -6,8 +6,16 @@ using PixelFarm.Drawing.Fonts;
 using LayoutFarm.RenderBoxes;
 namespace LayoutFarm
 {
-    
-    public abstract partial class RootGraphic : IRootGraphics
+    public interface IRenderElement
+    {
+        void DrawToThisCanvas(Canvas canvas, Rectangle updateArea);
+#if DEBUG
+        void dbugShowRenderPart(Canvas canvas, Rectangle r);
+#endif
+    }
+
+   
+    public abstract partial class RootGraphic  
     {
         public delegate void PaintToOutputWindowDelegate();
         protected PaintToOutputWindowDelegate paintToOutputWindowHandler;
@@ -20,8 +28,8 @@ namespace LayoutFarm
             this.Height = heigth;
         }
         public abstract GraphicsPlatform P { get; }
- 
-        public abstract Font DefaultTextEditFontInfo
+
+        public abstract RequestFont DefaultTextEditFontInfo
         {
             get;
         }
@@ -42,7 +50,7 @@ namespace LayoutFarm
         public abstract void CloseWinRoot();
         //-------------------------------------------------------------------------
 
-
+        
         public abstract void ClearRenderRequests();
         public abstract void AddToLayoutQueue(RenderElement renderElement);
         public abstract void AddToElementUpdateQueue(object requestBy);
@@ -289,7 +297,22 @@ namespace LayoutFarm
         /// <returns></returns>
         public abstract RootGraphic CreateNewOne(int w, int h);
         //---------------------------------------------
-        public abstract PixelFarm.Drawing.Fonts.ActualFont GetActualFont(PixelFarm.Drawing.Font f);
-        //---------------------------------------------
+
+         
+
+        static TextBreakGenDel s_textBreakGen;
+        public static PixelFarm.Drawing.Text.TextBreaker GetTextBreaker(string locale)
+        {
+            return s_textBreakGen(locale);
+        }
+        public static void SetTextBreakerGenerator(TextBreakGenDel textBreakGen)
+        {
+            s_textBreakGen = textBreakGen;
+        }
+
+        public delegate PixelFarm.Drawing.Text.TextBreaker TextBreakGenDel(string locale);
     }
+
+   
+
 }

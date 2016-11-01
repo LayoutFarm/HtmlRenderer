@@ -10,7 +10,7 @@ namespace LayoutFarm.Text
             get;
             set;
         }
-        public Font FontInfo;
+        public RequestFont FontInfo;
         public byte ContentHAlign;
         public static readonly TextSpanStyle Empty = new TextSpanStyle();
         public bool IsEmpty()

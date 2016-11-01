@@ -278,7 +278,8 @@ namespace LayoutFarm.HtmlBoxes
                 case CssSide.Top:
                     if (b.ActualCornerNW > 0 || b.ActualCornerNE > 0)
                     {
-                        path = p.GraphicsPlatform.CreateGraphicsPath();
+
+                        path = new GraphicsPath(); 
                         if (b.ActualCornerNW > 0)
                             path.AddArc(r.Left + b.ActualBorderLeftWidth / 2, r.Top + b.ActualBorderTopWidth / 2, b.ActualCornerNW * 2, b.ActualCornerNW * 2, 180f, 90f);
                         else
@@ -292,7 +293,7 @@ namespace LayoutFarm.HtmlBoxes
                 case CssSide.Bottom:
                     if (b.ActualCornerSW > 0 || b.ActualCornerSE > 0)
                     {
-                        path = p.GraphicsPlatform.CreateGraphicsPath();
+                        path = new GraphicsPath(); 
                         if (b.ActualCornerSE > 0)
                             path.AddArc(r.Right - b.ActualCornerNE * 2 - b.ActualBorderRightWidth / 2, r.Bottom - b.ActualCornerSE * 2 - b.ActualBorderBottomWidth / 2, b.ActualCornerSE * 2, b.ActualCornerSE * 2, 0f, 90f);
                         else
@@ -306,7 +307,7 @@ namespace LayoutFarm.HtmlBoxes
                 case CssSide.Right:
                     if (b.ActualCornerNE > 0 || b.ActualCornerSE > 0)
                     {
-                        path = p.GraphicsPlatform.CreateGraphicsPath();
+                        path = new GraphicsPath(); 
                         if (b.ActualCornerNE > 0 && b.BorderTopStyle >= CssBorderStyle.Visible)
                         {
                             path.AddArc(r.Right - b.ActualCornerNE * 2 - b.ActualBorderRightWidth / 2, r.Top + b.ActualBorderTopWidth / 2, b.ActualCornerNE * 2, b.ActualCornerNE * 2, 270f, 90f);
@@ -330,7 +331,7 @@ namespace LayoutFarm.HtmlBoxes
                 case CssSide.Left:
                     if (b.ActualCornerNW > 0 || b.ActualCornerSW > 0)
                     {
-                        path = p.GraphicsPlatform.CreateGraphicsPath();
+                        path = new GraphicsPath(); 
                         if (b.ActualCornerSW > 0 && b.BorderTopStyle >= CssBorderStyle.Visible)//(b.BorderTopStyle == CssConstants.None || b.BorderTopStyle == CssConstants.Hidden))
                         {
                             path.AddArc(r.Left + b.ActualBorderLeftWidth / 2, r.Bottom - b.ActualCornerSW * 2 - b.ActualBorderBottomWidth / 2, b.ActualCornerSW * 2, b.ActualCornerSW * 2, 90f, 90f);

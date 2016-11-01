@@ -363,7 +363,7 @@ namespace LayoutFarm.HtmlBoxes
                     bool hasSomeRoundCorner = this.HasSomeRoundCorner;
                     if (hasSomeRoundCorner)
                     {
-                        roundrect = RenderUtils.GetRoundRect(p.GraphicsPlatform, rect, ActualCornerNW, ActualCornerNE, ActualCornerSE, ActualCornerSW);
+                        roundrect = RenderUtils.GetRoundRect( rect, ActualCornerNW, ActualCornerNE, ActualCornerSE, ActualCornerSW);
                     }
 
                     if (!p.AvoidGeometryAntialias && hasSomeRoundCorner)
@@ -409,12 +409,12 @@ namespace LayoutFarm.HtmlBoxes
                         //float desc = FontsUtils.GetDescentPx(ActualFont);
                         //y = (float)Math.Round(rectangle.Top + h - desc + 0.5); 
 
-                        Font afont = ResolvedFont;
-                        PixelFarm.Drawing.Fonts.ActualFont ff = g.GetActualFont(ResolvedFont);
-
+                        RequestFont afont = ResolvedFont;
+                        
+                            
                         //PixelFarm.Drawing.Fonts.ActualFont ff = afont.ActualFont;
-                        var h = afont.Height;
-                        float desc = (float)ff.DescentInPixels;// fontInfo.DescentPx;
+                        var h = afont.SizeInPixels;
+                        float desc = (float)afont.DescentInPixels;// fontInfo.DescentPx;
                         y = (float)Math.Round(rectangle.Top + h - desc);
                     }
                     break;

@@ -15,5 +15,10 @@ namespace LayoutFarm.WebDom.Parser
         {
             get { return this.actualSnapshot; }
         }
+
+        public static string GetInternalText(TextSource textsource)
+        {
+            return new string(TextSnapshot.UnsafeGetInternalBuffer(textsource.actualSnapshot));
+        }
     }
 }
