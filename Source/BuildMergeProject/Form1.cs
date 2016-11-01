@@ -16,7 +16,8 @@ namespace BuildMergeProject
             mergePro.MergeAndSave(@"D:\projects\HTML-Renderer\Source\HtmlRenderer.One.csproj",
                "HtmlRenderer.One",
                "v2.0",
-               ";ICU_VER_54;NET20",
+               //"ICU_VER_54;NET20",
+               ";NET20",
                new string[] {
                   "System",
                   "System.Drawing",
@@ -29,7 +30,7 @@ namespace BuildMergeProject
             MergeProject mergePro = new MergeProject();
             mergePro.LoadSubProject(@"D:\projects\HTML-Renderer\Source\Deps\PixelFarm.One.csproj");//this is auto-gen project too
             //base modules
-            mergePro.LoadSubProject(@"D:\projects\HTML-Renderer\Source\Deps\icu.net\icu.net.csproj");
+
             mergePro.LoadSubProject(@"D:\projects\HTML-Renderer\Source\LayoutFarm.ClientPlatforms\LayoutFarm.ClientPlatforms.csproj");
             mergePro.LoadSubProject(@"D:\projects\HTML-Renderer\Source\LayoutFarm.CssBase\LayoutFarm.CssBase.csproj");
             mergePro.LoadSubProject(@"D:\projects\HTML-Renderer\Source\LayoutFarm.WebLexer\LayoutFarm.WebLexer.csproj");

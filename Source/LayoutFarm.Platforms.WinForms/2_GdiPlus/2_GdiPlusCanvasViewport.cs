@@ -14,7 +14,7 @@ namespace LayoutFarm.UI.GdiPlus
             Size viewportSize, int cachedPageNum)
             : base(rootgfx, viewportSize, cachedPageNum)
         {
-            quadPages = new QuadPages(rootgfx.P, cachedPageNum, viewportSize.Width, viewportSize.Height * 2);
+            quadPages = new QuadPages( cachedPageNum, viewportSize.Width, viewportSize.Height * 2);
             this.CalculateCanvasPages();
         }
         ~GdiPlusCanvasViewport()
@@ -73,14 +73,16 @@ namespace LayoutFarm.UI.GdiPlus
 #endif
             if (this.FullMode)
             {
-                quadPages.RenderToOutputWindowFullMode(rootGraphics.TopWindowRenderBox, hdc,
+                quadPages.RenderToOutputWindowFullMode(
+                    rootGraphics.TopWindowRenderBox, hdc,
                     this.ViewportX, this.ViewportY, this.ViewportWidth, this.ViewportHeight);
             }
             else
             {
                 //temp to full mode
                 //quadPages.RenderToOutputWindowFullMode(rootGraphics.TopWindowRenderBox, hdc, this.ViewportX, this.ViewportY, this.ViewportWidth, this.ViewportHeight);
-                quadPages.RenderToOutputWindowPartialMode(rootGraphics.TopWindowRenderBox, hdc,
+                quadPages.RenderToOutputWindowPartialMode(
+                   rootGraphics.TopWindowRenderBox, hdc,
                    this.ViewportX, this.ViewportY, this.ViewportWidth, this.ViewportHeight);
             }
             this.rootGraphics.IsInRenderPhase = false;

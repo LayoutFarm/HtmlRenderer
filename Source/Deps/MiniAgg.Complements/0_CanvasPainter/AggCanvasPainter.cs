@@ -36,7 +36,7 @@ namespace PixelFarm.Agg
         ScanlineRasterizer sclineRas;
         ScanlineRasToDestBitmapRenderer sclineRasToBmp;
         FilterMan filterMan = new FilterMan();
-        PixelFarm.Drawing.Font currentFont;
+        RequestFont currentFont;
         //-------------
         //tools
         //-------------
@@ -46,7 +46,7 @@ namespace PixelFarm.Agg
         RoundedRect roundRect = null;
         MyImageReaderWriter sharedImageWriterReader = new MyImageReaderWriter();
         CurveFlattener curveFlattener;
-        TextPrinter textPrinter;
+        AggTextPrinter textPrinter;
         int ellipseGenNSteps = 10;
         SmoothingMode _smoothingMode;
 
@@ -57,13 +57,29 @@ namespace PixelFarm.Agg
             this.stroke = new Stroke(1);//default
             this.scline = graphic2d.ScanlinePacked8;
             this.sclineRasToBmp = graphic2d.ScanlineRasToDestBitmap;
-            this.textPrinter = new TextPrinter(graphic2d.GfxPlatform);
+        }
+        public AggTextPrinter TextPrinter
+        {
+            get { return textPrinter; }
+            set { textPrinter = value; }
         }
         public override void Clear(Color color)
         {
             gx.Clear(color);
         }
-
+        public float OriginX
+        {
+            get { return sclineRas.OffsetOriginX; }
+        }
+        public float OriginY
+        {
+            get { return sclineRas.OffsetOriginY; }
+        }
+        public void SetOrigin(float x, float y)
+        {
+            sclineRas.OffsetOriginX = x;
+            sclineRas.OffsetOriginY = y;
+        }
         public override SmoothingMode SmoothingMode
         {
             get
@@ -256,7 +272,7 @@ namespace PixelFarm.Agg
             this.Draw(roundRect.MakeVxs());
         }
 
-        public override Drawing.Font CurrentFont
+        public override Drawing.RequestFont CurrentFont
         {
             get
             {
@@ -265,21 +281,27 @@ namespace PixelFarm.Agg
             set
             {
                 this.currentFont = value;
-                textPrinter.CurrentFont = value;
+                //this request font must resolve to actual font
+                //within canvas *** 
+                //TODO: review drawing string  with agg here 
             }
         }
+
         public override void DrawString(
            string text,
            double x,
            double y)
         {
-            textPrinter.Print(this, text.ToString(), x, y);
+            //TODO: review drawing string  with agg here 
+
+            //textPrinter.Print(this, text.ToString(), x, y);
         }
         //-------------------------------------------------------
         public Graphics2D Graphics
         {
             get { return this.gx; }
         }
+        
         /// <summary>
         /// fill vertex store
         /// </summary>

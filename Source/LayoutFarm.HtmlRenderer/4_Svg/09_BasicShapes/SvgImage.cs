@@ -152,7 +152,7 @@ namespace LayoutFarm.Svg
         }
         static GraphicsPath CreateRectGraphicPath(GraphicsPlatform gfxPlatform, float x, float y, float w, float h)
         {
-            var _path = gfxPlatform.CreateGraphicsPath();
+            var _path = new GraphicsPath();
             _path.StartFigure();
             _path.AddRectangle(new RectangleF(x, y, w, h));
             _path.CloseFigure();

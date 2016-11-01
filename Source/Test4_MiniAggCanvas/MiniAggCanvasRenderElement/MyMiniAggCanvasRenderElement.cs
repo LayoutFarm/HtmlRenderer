@@ -61,7 +61,7 @@ namespace LayoutFarm.CustomWidgets
 
                 //---------------------------------
                 var buffer = actualImage.GetBuffer();
-                this.bmp = canvas.Platform.CreatePlatformBitmap(this.Width, this.Height, this.actualImage.GetBuffer(), true);
+                this.bmp = new Bitmap(this.Width, this.Height, this.actualImage.GetBuffer(), true);
                 needUpdate = false;
             }
             canvas.DrawImage(this.bmp, new RectangleF(0, 0, this.Width, this.Height));

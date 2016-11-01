@@ -87,12 +87,14 @@ namespace LayoutFarm.Text
         {
             return GetCharacterWidth(mybuffer[index]);
         }
+        char[] singleChars = new char[1];
         int GetCharacterWidth(char c)
         {
-
-            PixelFarm.Drawing.Fonts.ActualFont actualFont = this.Root.GetActualFont(GetFont());
-            return (int)actualFont.GetAdvanceForCharacter(c);
-            //return actualFont.GetGlyph(c).horiz_adv_x >> 6; //devide by 64              /
+            //TODO: review here
+            //this not correct
+            //use advanced width instead
+            singleChars[0] = c;
+            return (int)TextServices.IFonts.MeasureString(singleChars, 0, 1, GetFont()).Width;                         
         }
         //------------------
         public override int GetRunWidth(int charOffset)
@@ -159,12 +161,12 @@ namespace LayoutFarm.Text
         }
         Size CalculateDrawingStringSize(char[] buffer, int length)
         {
-            PixelFarm.Drawing.Font fontInfo = GetFont();
-            return this.Root.P.Fonts.MeasureString(buffer, 0,
+            PixelFarm.Drawing.RequestFont fontInfo = GetFont();
+            return TextServices.IFonts.MeasureString(buffer, 0,
                 length, fontInfo);
 
         }
-        protected PixelFarm.Drawing.Font GetFont()
+        protected PixelFarm.Drawing.RequestFont GetFont()
         {
             if (!HasStyle)
             {
