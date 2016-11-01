@@ -41,6 +41,22 @@ namespace PixelFarm.Drawing.Fonts
         {
             get { return this.glyphPathBuilder; }
         }
+        public override float GetScale(float pointSize)
+        {
+            return ntypeface.CalculateScale(pointSize);
+        }
+        public override int AscentInDzUnit
+        {
+            get { return ntypeface.Ascender; }
+        }
+        public override int DescentInDzUnit
+        {
+            get { return ntypeface.Descender; }
+        }
+        public override int LineGapInDzUnit
+        {
+            get { return ntypeface.LineGap; }
+        }
 
     }
     class NOpenTypeActualFont : ActualFont
@@ -90,7 +106,7 @@ namespace PixelFarm.Drawing.Fonts
             get { return style; }
         }
 
-        
+
         public override FontGlyph GetGlyph(char c)
         {
             return GetGlyphByIndex((uint)typeFace.LookupIndex(c));

@@ -27,6 +27,7 @@ namespace PixelFarm.Drawing.Fonts
         }
         static int RegisterFontName(string fontName)
         {
+            fontName = fontName.ToUpper();
             int found;
             if (!registerFontNames.TryGetValue(fontName, out found))
             {

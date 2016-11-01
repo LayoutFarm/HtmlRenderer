@@ -23,6 +23,10 @@ namespace PixelFarm.Drawing.Fonts
         public abstract ActualFont GetFontAtPointsSize(float pointSize);
         public abstract string Name { get; }
         public abstract string FontPath { get; }
+        public abstract float GetScale(float pointSize);
+        public abstract int AscentInDzUnit { get; }
+        public abstract int DescentInDzUnit { get; }
+        public abstract int LineGapInDzUnit { get; }
     }
 
     /// <summary>

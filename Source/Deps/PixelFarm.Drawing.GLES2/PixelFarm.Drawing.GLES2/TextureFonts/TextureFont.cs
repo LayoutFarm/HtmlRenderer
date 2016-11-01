@@ -7,10 +7,10 @@ namespace PixelFarm.Drawing.Fonts
 
     class TextureFontFace : FontFace
     {
-        GlyphImage glyphImg;
+       
         SimpleFontAtlasBuilder atlasBuilder;
         SimpleFontAtlas fontAtlas;
-        string fontName;
+
         FontFace nOpenTypeFontFace;
         public TextureFontFace(string fontName, string xmlFontInfo, GlyphImage glyphImg)
         {
@@ -19,8 +19,7 @@ namespace PixelFarm.Drawing.Fonts
             atlasBuilder = new SimpleFontAtlasBuilder();
             fontAtlas = atlasBuilder.LoadFontInfo(xmlFontInfo);
             fontAtlas.TotalGlyph = glyphImg;
-
-            //----------
+             
             InstalledFont installedFont = GLES2PlatformFontMx.GetInstalledFont(fontName, InstalledFontStyle.Regular);
             nOpenTypeFontFace = NOpenTypeFontLoader.LoadFont(installedFont.FontPath,
                 GLES2PlatformFontMx.defaultLang,
@@ -28,11 +27,26 @@ namespace PixelFarm.Drawing.Fonts
                 GLES2PlatformFontMx.defaultScriptCode);
             //----------
         }
+        public override float GetScale(float pointSize)
+        {
+            return nOpenTypeFontFace.GetScale(pointSize);
+        }
         public override string FontPath
         {
             get { return nOpenTypeFontFace.Name; }
         }
-        
+        public override int AscentInDzUnit
+        {
+            get { return nOpenTypeFontFace.AscentInDzUnit; }
+        }
+        public override int DescentInDzUnit
+        {
+            get { return nOpenTypeFontFace.DescentInDzUnit; }
+        }
+        public override int LineGapInDzUnit
+        {
+            get { return nOpenTypeFontFace.LineGapInDzUnit; }
+        }
         public FontFace InnerFontFace
         {
             get { return nOpenTypeFontFace; }
@@ -48,7 +62,7 @@ namespace PixelFarm.Drawing.Fonts
         }
         public override string Name
         {
-            get { return fontName; }
+            get { return nOpenTypeFontFace.Name; }
         }
         public SimpleFontAtlas FontAtlas
         {
@@ -124,8 +138,8 @@ namespace PixelFarm.Drawing.Fonts
                 return actualFont.FontFace;
             }
         }
-      
-      
+
+
 
         public override FontGlyph GetGlyph(char c)
         {
