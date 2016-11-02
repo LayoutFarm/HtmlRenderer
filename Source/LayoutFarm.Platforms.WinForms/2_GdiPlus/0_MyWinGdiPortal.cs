@@ -4,7 +4,7 @@ using PixelFarm.Drawing;
 using Win32;
 using PixelFarm.Drawing.WinGdi;
 using PixelFarm.Drawing.Fonts;
-
+using PixelFarm.Drawing.Text;
 namespace LayoutFarm.UI.GdiPlus
 {
     public static class MyWinGdiPortal
@@ -26,6 +26,18 @@ namespace LayoutFarm.UI.GdiPlus
             //
             TextServices.IFonts = new GdiPlusIFonts();
             ActualFontResolver.Resolver = new GdiFontResolver();
+
+            //set if we use pixelfarm's native myft.dll
+            //or use managed text break
+            //-------------------------------------
+            //if we use ICU text breaker
+            //1. load icu data
+            NativeTextBreaker.SetICUDataFile(@"d:\WImageTest\icudt57l\icudt57l.dat");
+            //2. set
+            RootGraphic.SetTextBreakerGenerator(locale => new NativeTextBreaker(TextBreakKind.Word, locale));
+            //-------------------------------------
+
+
 
             WinGdiPlusPlatform.SetFontNotFoundHandler(
                 (fontCollection, fontName, style) =>
