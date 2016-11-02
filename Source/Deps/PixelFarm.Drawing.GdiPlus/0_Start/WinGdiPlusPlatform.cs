@@ -3,19 +3,27 @@ using System;
 using Win32;
 using System.Runtime.InteropServices;
 using PixelFarm.Drawing.Text;
+using PixelFarm.Drawing.Fonts;
 namespace PixelFarm.Drawing.WinGdi
 {
     public class WinGdiPlusPlatform : GraphicsPlatform
     {
-        HarfBuzzShapingService hbShapingService = new HarfBuzzShapingService();
-
-        public WinGdiPlusPlatform()
+        static HarfBuzzShapingService hbShapingService = new HarfBuzzShapingService();
+        static InstalledFontCollection s_installFontCollection = new InstalledFontCollection();
+        static WinGdiPlusPlatform()
         {
+            var installFontsWin32 = new PixelFarm.Drawing.Win32.InstallFontsProviderWin32();
+            s_installFontCollection.LoadInstalledFont(installFontsWin32.GetInstalledFontIter());
+            WinGdiFontFace.SetInstalledFontCollection(s_installFontCollection);
 
-            //1. set agg
             PixelFarm.Agg.AggBuffMx.SetNaiveBufferImpl(new Win32AggBuffMx());
             //2. set default shaping service
             hbShapingService.SetAsCurrentImplementation();
+        }
+        public WinGdiPlusPlatform()
+        {
+
+
         }
 
         public override Canvas CreateCanvas(int left, int top, int width, int height, CanvasInitParameters canvasInitPars = new CanvasInitParameters())
@@ -32,6 +40,10 @@ namespace PixelFarm.Drawing.WinGdi
             System.Runtime.InteropServices.Marshal.Copy(rawBuffer, 0,
                 bmpdata.Scan0, rawBuffer.Length);
             bitmap.UnlockBits(bmpdata);
+        }
+        public static void SetFontNotFoundHandler(FontNotFoundHandler fontNotFoundHandler)
+        {
+            s_installFontCollection.SetFontNotFoundHandler(fontNotFoundHandler);
         }
     }
 

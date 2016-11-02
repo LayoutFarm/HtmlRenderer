@@ -34,6 +34,7 @@ namespace LayoutFarm.Demo
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             var platform = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.Start();
+            
             Application.Run(new DevForm(platform));
             LayoutFarm.UI.GdiPlus.MyWinGdiPortal.End();
             //            Application.Run(new PerfForm());

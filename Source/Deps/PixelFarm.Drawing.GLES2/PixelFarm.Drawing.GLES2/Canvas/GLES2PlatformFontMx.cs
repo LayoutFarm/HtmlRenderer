@@ -73,7 +73,7 @@ namespace PixelFarm.Drawing.Fonts
             {
                 t = (TextureFont)(textureFontface.GetFontAtPointsSize(font.SizeInPoints));
                 RequestFont.SetCacheActualFont(font, t);
-                return t;                 
+                return t;
             }
             else
             {
@@ -126,6 +126,10 @@ namespace PixelFarm.Drawing.Fonts
             s_didLoadFonts = true;
             installFonts = new InstalledFontCollection();
             installFonts.LoadInstalledFont(provider.GetInstalledFontIter());
+           
+            //--------
+
+            WinGdi.WinGdiFontFace.SetInstalledFontCollection(installFonts);
         }
         public static bool DidLoadFonts
         {

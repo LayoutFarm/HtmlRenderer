@@ -43,6 +43,8 @@ namespace PixelFarm.Drawing.Fonts
         Italic = 1 << 2,
     }
 
+    public delegate InstalledFont FontNotFoundHandler(InstalledFontCollection fontCollection, string fontName, InstalledFontStyle style);
+
     public class InstalledFontCollection
     {
 
@@ -54,6 +56,17 @@ namespace PixelFarm.Drawing.Fonts
         Dictionary<string, InstalledFont> grasItalic_Fonts = new Dictionary<string, InstalledFont>();
 
         List<InstalledFont> installedFonts;
+
+        FontNotFoundHandler fontNotFoundHandler;
+
+        public InstalledFontCollection()
+        {
+
+        }
+        public void SetFontNotFoundHandler(FontNotFoundHandler handler)
+        {
+            fontNotFoundHandler = handler;
+        }
         public void LoadInstalledFont(IEnumerable<string> getFontFileIter)
         {
             installedFonts = ReadPreviewFontData(getFontFileIter);
@@ -144,17 +157,20 @@ namespace PixelFarm.Drawing.Fonts
                         //we skip gras style ?
                         if (!regular_Fonts.TryGetValue(fontName.ToUpper(), out found))
                         {
-                            //if not found this font 
-                            //the choose other ?
-                            throw new NotSupportedException();
+
+                            if (fontNotFoundHandler != null)
+                            {
+                                return fontNotFoundHandler(
+                                    this,
+                                    fontName,
+                                    style);
+                            }
+                            return null;
                         }
                         return found;
                     }
             }
         }
-
-
-
         public static List<InstalledFont> ReadPreviewFontData(IEnumerable<string> getFontFileIter)
         {
             //-------------------------------------------------

@@ -237,12 +237,17 @@ namespace LayoutFarm.WebDom.Parser
                                 }
                                 break;
                             //----------------------------------------------------
+                               
                             //element combinator operators
                             case CssTokenName.Comma:
                                 {
                                     this._currentRuleSet.PrepareExpression(CssCombinatorOperator.List);
                                 }
                                 break;
+                            case CssTokenName.Star:
+                                {
+                                }break;
+
                             case CssTokenName.RAngle:
                                 {
                                 }

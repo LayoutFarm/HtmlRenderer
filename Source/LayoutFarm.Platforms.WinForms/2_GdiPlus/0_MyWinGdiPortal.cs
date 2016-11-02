@@ -3,14 +3,17 @@
 using PixelFarm.Drawing;
 using Win32;
 using PixelFarm.Drawing.WinGdi;
-
+using PixelFarm.Drawing.Fonts;
+using PixelFarm.Drawing.Text;
 namespace LayoutFarm.UI.GdiPlus
 {
     public static class MyWinGdiPortal
     {
         static PixelFarm.Drawing.WinGdi.WinGdiPlusPlatform _winGdiPlatform;
-
         static bool isInit;
+
+
+
         public static GraphicsPlatform Start()
         {
             if (isInit)
@@ -24,7 +27,44 @@ namespace LayoutFarm.UI.GdiPlus
             TextServices.IFonts = new GdiPlusIFonts();
             ActualFontResolver.Resolver = new GdiFontResolver();
 
-            return _winGdiPlatform = new PixelFarm.Drawing.WinGdi.WinGdiPlusPlatform();
+            //set if we use pixelfarm's native myft.dll
+            //or use managed text break
+            //-------------------------------------
+            //if we use ICU text breaker
+            //1. load icu data
+            NativeTextBreaker.SetICUDataFile(@"d:\WImageTest\icudt57l\icudt57l.dat");
+            //2. set
+            RootGraphic.SetTextBreakerGenerator(locale => new NativeTextBreaker(TextBreakKind.Word, locale));
+            //-------------------------------------
+
+
+
+            WinGdiPlusPlatform.SetFontNotFoundHandler(
+                (fontCollection, fontName, style) =>
+                {
+                    //TODO: implement font not found mapping here
+                    //_fontsMapping["monospace"] = "Courier New";
+                    //_fontsMapping["Helvetica"] = "Arial";
+                    fontName = fontName.ToUpper();
+                    switch (fontName)
+                    {
+                        case "MONOSPACE":
+                            return fontCollection.GetFont("Courier New", style);
+                        case "HELVETICA":
+                            return fontCollection.GetFont("Arial", style);
+                        case "TAHOMA":
+                            //default font must found
+                            //if not throw err 
+                            //this prevent infinit loop
+                            throw new System.NotSupportedException();
+                        default:
+                            return fontCollection.GetFont("tahoma", style);
+                    }
+
+                });
+            _winGdiPlatform = new PixelFarm.Drawing.WinGdi.WinGdiPlusPlatform();
+
+            return _winGdiPlatform;
         }
         public static void End()
         {
@@ -47,8 +87,8 @@ namespace LayoutFarm.UI.GdiPlus
             return WinGdiTextService.MeasureString(buff, startAt, len, font);
         }
         public Size MeasureString(char[] buff, int startAt, int len, RequestFont font,
-            float maxWidth, 
-            out int charFit, 
+            float maxWidth,
+            out int charFit,
             out int charFitWidth)
         {
             return WinGdiTextService.MeasureString(buff, startAt, len, font, maxWidth, out charFit, out charFitWidth);
