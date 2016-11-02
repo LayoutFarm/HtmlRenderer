@@ -14,13 +14,8 @@ namespace PixelFarm.Drawing.WinGdi
         FontFace nopenTypeFontFace;
         FontStyle style;
         //we use NOpenType 
-        static InstalledFontCollection installedFonts;
-        static WinGdiFontFace()
-        {
-            installedFonts = new InstalledFontCollection();
-            var win32Provider = new PixelFarm.Drawing.Win32.InstallFontsProviderWin32();
-            installedFonts.LoadInstalledFont(win32Provider.GetInstalledFontIter());
-        }
+        static InstalledFontCollection s_installedFonts;
+        
         public WinGdiFontFace(string fontName, FontStyle style)
         {
             this.style = style;
@@ -38,14 +33,24 @@ namespace PixelFarm.Drawing.WinGdi
                     installedStyle = InstalledFontStyle.Italic;
                     break;
             }
-            InstalledFont foundInstalledFont = installedFonts.GetFont(fontName, installedStyle);
 
+            InstalledFont foundInstalledFont = s_installedFonts.GetFont(fontName, installedStyle);
+            //TODO: review 
             this.nopenTypeFontFace = NOpenTypeFontLoader.LoadFont(foundInstalledFont.FontPath, "en", HBDirection.HB_DIRECTION_LTR);
+        }
 
+        internal static void SetInstalledFontCollection(InstalledFontCollection installedFonts)
+        {
+            //set once
+            if (s_installedFonts != null)
+            {
+                throw new NotSupportedException();
+            }
+            s_installedFonts = installedFonts; 
         }
         protected override void OnDispose()
         {
-            installedFonts = null;
+            s_installedFonts = null;
         }
         public override string FontPath
         {
@@ -100,7 +105,7 @@ namespace PixelFarm.Drawing.WinGdi
         //eg.
         Encoding fontEncoding = Encoding.GetEncoding(874);
         FontStyle fontStyle;
-        
+
         static WinGdiFont()
         {
             //share dc for measure font size only

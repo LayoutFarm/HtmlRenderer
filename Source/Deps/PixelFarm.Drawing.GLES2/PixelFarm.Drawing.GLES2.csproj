@@ -77,7 +77,6 @@
     <Compile Include="DrawingGL\GLTexture\GLBitmapReference.cs" />
     <Compile Include="DrawingGL\GLTexture\LazyAggBitmapBufferProvider.cs" />
     <Compile Include="DrawingGL\GLTexture\TextureAtlas.cs" />
-    <Compile Include="PixelFarm.Drawing.GLES2\0_Start\FontSystem.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\0_Start\GLES2Platform.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\Canvas\1_MyGLCanvas_Specific.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\Canvas\2_MyGLCanvas_CoordinateAndClip.cs" />

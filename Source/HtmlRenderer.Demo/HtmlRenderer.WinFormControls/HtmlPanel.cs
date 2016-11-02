@@ -88,6 +88,7 @@ namespace LayoutFarm.Demo
             SetStyle(ControlStyles.ResizeRedraw, true);
             SetStyle(ControlStyles.SupportsTransparentBackColor, true);
             this.gfxPlatform = p;
+            
             this.renderCanvas = gfxPlatform.CreateCanvas(0, 0,
                 this.canvasW = w, this.canvasH = h);
         }
