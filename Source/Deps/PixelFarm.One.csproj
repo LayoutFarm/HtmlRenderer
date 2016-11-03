@@ -420,6 +420,7 @@
     <Compile Include="PixelFarm.MiniOpenTK\OpenTK\Platform\INativeWindow.cs" />
     <Compile Include="PixelFarm.MiniOpenTK\OpenTK\Platform\IPlatformFactory.cs" />
     <Compile Include="PixelFarm.MiniOpenTK\OpenTK\Serialization\XmlIgnoreAttribute.cs" />
+    <Compile Include="PixelFarm.NativeWindows\..\TypeMirror\SimpleReflectionHelper.cs" />
     <Compile Include="PixelFarm.NativeWindows\0_Init\GLPlatforms.cs" />
     <Compile Include="PixelFarm.NativeWindows\Glfw\Glfw3.cs" />
     <Compile Include="PixelFarm.NativeWindows\Glfw\Glfw3Delegates.cs" />
@@ -434,6 +435,7 @@
     <Compile Include="PixelFarm.NativeWindows\Properties\Settings.Designer.cs" />
     <Compile Include="PixelFarm.NativeWindows\Windows\GlfwForms.cs" />
     <Compile Include="PixelFarm.NativeWindows\Windows\WindowForms.cs" />
+    <Compile Include="PixelFarm.OpenTKWinForms\..\TypeMirror\SimpleReflectionHelper.cs" />
     <Compile Include="PixelFarm.OpenTKWinForms\Configuration.cs" />
     <Compile Include="PixelFarm.OpenTKWinForms\Exceptions.cs" />
     <Compile Include="PixelFarm.OpenTKWinForms\FrameEventArgs.cs" />
@@ -548,6 +550,7 @@
     <Compile Include="Tesselate\HalfEdge.cs" />
     <Compile Include="Tesselate\Mesh.cs" />
     <Compile Include="Tesselate\Tesselator.cs" />
+    <Compile Include="TypeMirror\SimpleReflectionHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="NOpenType\N20\PixelFarm.OpenType\" />

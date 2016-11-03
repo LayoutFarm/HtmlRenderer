@@ -19,7 +19,9 @@ namespace OpenTK.Input
     public sealed class KeyboardDevice : IInputDevice
     {
         //private IKeyboard keyboard;
-        private bool[] keys = new bool[Enum.GetValues(typeof(Key)).Length];
+
+        static int allKeyValueCount = 0;
+        private bool[] keys = new bool[allKeyValueCount];
         private string description;
         private int numKeys, numFKeys, numLeds;
         private IntPtr devID;
@@ -27,8 +29,12 @@ namespace OpenTK.Input
         private KeyboardKeyEventArgs args = new KeyboardKeyEventArgs();
         #region --- Constructors ---
 
-        internal KeyboardDevice() { }
-
+       
+        static KeyboardDevice()
+        {
+            allKeyValueCount = TypeMirror.SimpleReflectionHelper.GetEnumValues<Key>().Count;
+        }
+      
         #endregion
 
         #region --- IKeyboard members ---
