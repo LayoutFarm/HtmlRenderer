@@ -10,7 +10,8 @@ namespace TestGraphicPackage
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            var platform = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.Start();
+            var startPars = new LayoutFarm.UI.GdiPlus.MyWinGdiPortalSetupParameters();
+            var platform = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.Start(startPars);
             Application.Run(new Form1(platform));
             LayoutFarm.UI.GdiPlus.MyWinGdiPortal.End();
         }

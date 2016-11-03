@@ -1,24 +1,86 @@
 ﻿// 2015,2014 ,MIT, WinterDev
-
+using System.Collections.Generic;
 using System.Windows.Forms;
 using PixelFarm.Drawing;
 using LayoutFarm.UI;
 namespace LayoutFarm.Ease
 {
+    public class EaseHostInitReport
+    {
+        public List<string> reports = new List<string>();
+        public void AddErrReport(string msg)
+        {
+            reports.Add(msg);
+        }
+        public bool HasSomeError
+        {
+            get { return reports.Count > 0; }
+        }
+    }
     public static class EaseHost
     {
-        static readonly PixelFarm.Drawing.GraphicsPlatform gdiPlatform = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.Start();
-        static readonly PixelFarm.Drawing.GraphicsPlatform openGLPlatform = null;//temp remove LayoutFarm.UI.OpenGL.MyOpenGLPortal.Start();
+        static PixelFarm.Drawing.GraphicsPlatform gdiPlatform;
+        static PixelFarm.Drawing.GraphicsPlatform openGLPlatform = null;//temp remove LayoutFarm.UI.OpenGL.MyOpenGLPortal.Start();
         static UIPlatform uiPlatformWinForm;
         static bool useOpenGL = false;
         static bool isStarted = false;
         static object startLock = new object();
+        //-----------------------------------------
+        /// <summary>
+        /// lib espr file
+        /// </summary>
+        public static string LibEspr
+        {
+            get;
+            set;
+        }
+        /// <summary>
+        /// load lib espr or not
+        /// </summary>
+        public static bool LoadLibEspr
+        {
+            get;
+            set;
+        }
+        /// <summary>
+        /// data file for ICU
+        /// </summary>
+        public static string IcuDataFile
+        {
+            get;
+            set;
+        }
+        public static EaseHostInitReport Check()
+        {
+            var initReport = new EaseHostInitReport();
+            //report error
+            //1. check icu data dir 
+
+
+            //2. check lib espr 
+
+
+            return initReport;
+        }
+        public static void Init()
+        {
+            //init host system
+            if (LoadLibEspr)
+            {
+                Espresso.JsBridge.LoadV8(LibEspr);
+            }
+        }
+        //-----------------------------------------
+
         public static void StartGraphicsHost()
         {
             lock (startLock)
             {
                 if (isStarted) return;
-                var platform = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.Start();
+
+                var startParams = new LayoutFarm.UI.GdiPlus.MyWinGdiPortalSetupParameters();
+                startParams.IcuDataFile = IcuDataFile;
+                gdiPlatform = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.Start(startParams);
                 uiPlatformWinForm = new LayoutFarm.UI.UIPlatformWinForm();
                 UI.UIPlatform.CurrentUIPlatform = uiPlatformWinForm;
                 //--------------------

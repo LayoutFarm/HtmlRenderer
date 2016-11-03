@@ -7,14 +7,22 @@ using PixelFarm.Drawing.Fonts;
 using PixelFarm.Drawing.Text;
 namespace LayoutFarm.UI.GdiPlus
 {
+    public class MyWinGdiPortalSetupParameters
+    {
+        public string IcuDataFile { get; set; }
+        public RootGraphic.TextBreakGenDel TextBreakGenerator { get; set; }
+        public IFonts TextServiceInstance { get; set; }
+        public IActualFontResolver ActualFontResolver { get; set; }
+    }
+
+
     public static class MyWinGdiPortal
     {
         static PixelFarm.Drawing.WinGdi.WinGdiPlusPlatform _winGdiPlatform;
         static bool isInit;
 
 
-
-        public static GraphicsPlatform Start()
+        public static GraphicsPlatform Start(MyWinGdiPortalSetupParameters initParams )
         {
             if (isInit)
             {
@@ -22,19 +30,25 @@ namespace LayoutFarm.UI.GdiPlus
             }
             isInit = true;
 
-            //text services:
-            //
-            TextServices.IFonts = new GdiPlusIFonts();
-            ActualFontResolver.Resolver = new GdiFontResolver();
-
+            //text services:            
+            TextServices.IFonts = initParams.TextServiceInstance ?? new GdiPlusIFonts();
+            ActualFontResolver.Resolver = initParams.ActualFontResolver ?? new GdiFontResolver();
             //set if we use pixelfarm's native myft.dll
             //or use managed text break
             //-------------------------------------
             //if we use ICU text breaker
             //1. load icu data
-            NativeTextBreaker.SetICUDataFile(@"d:\WImageTest\icudt57l\icudt57l.dat");
+            if (initParams.IcuDataFile != null)
+            {
+                //check icu file is exist 
+                //TODO: review  file/resource load mechanism again ***
+                NativeTextBreaker.SetICUDataFile(initParams.IcuDataFile);
+            }
             //2. set
-            RootGraphic.SetTextBreakerGenerator(locale => new NativeTextBreaker(TextBreakKind.Word, locale));
+            RootGraphic.SetTextBreakerGenerator(
+                initParams.TextBreakGenerator ??
+                (locale => new NativeTextBreaker(TextBreakKind.Word, locale))
+                );
             //-------------------------------------
 
 

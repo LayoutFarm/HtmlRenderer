@@ -12,10 +12,21 @@ namespace Test5_Ease
         [STAThread]
         static void Main()
         {
+            EaseHost.LibEspr = @"D:\projects\HTML-Renderer\Source\Deps\ess_natives\libespr.dll";
+            EaseHost.LoadLibEspr = true;
+            EaseHost.IcuDataFile = @"D:\WImageTest\icudt57l\icudt57l.dat";
+            EaseHostInitReport report = EaseHost.Check();
+            if (report.HasSomeError)
+            {
+                throw new NotSupportedException();
+            }
+            EaseHost.Init();
+             
+            //----------------------------------------------------------------------------
             EaseHost.StartGraphicsHost();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Espresso.JsBridge.LoadV8(@"D:\projects\HTML-Renderer\Source\Deps\Espresso\natives\libespr.dll");
+
             Application.Run(new Form1());
         }
     }
