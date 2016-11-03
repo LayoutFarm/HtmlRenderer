@@ -491,12 +491,29 @@ namespace HtmlKit
     public static class HtmlAttributeIdExtensions
     {
         static readonly Dictionary<string, HtmlAttributeId> AttributeNameToId;
+        static readonly Dictionary<HtmlAttributeId, string> s_attrIdsToStrings;
         static HtmlAttributeIdExtensions()
         {
-            var values = (HtmlAttributeId[])Enum.GetValues(typeof(HtmlAttributeId));
-            AttributeNameToId = new Dictionary<string, HtmlAttributeId>(values.Length - 1, StringComparer.OrdinalIgnoreCase);
-            for (int i = 1; i < values.Length; i++)
-                AttributeNameToId.Add(values[i].ToAttributeName(), values[i]);
+            AttributeNameToId = TypeMirror.SimpleReflectionHelper.GetEnumFields<HtmlAttributeId>(fieldInfo =>
+            {
+
+#if PORTABLE
+			    throw new NotSupportedException();
+#else
+
+                var attrs = fieldInfo.GetCustomAttributes(typeof(HtmlAttributeNameAttribute), false);
+#endif
+
+                if (attrs != null && attrs.Length == 1)
+                    return ((HtmlAttributeNameAttribute)attrs[0]).Name;
+                return fieldInfo.Name.ToLowerInvariant();
+            });
+            //-
+            s_attrIdsToStrings = new Dictionary<HtmlAttributeId, string>(AttributeNameToId.Count);
+            foreach (var kp in AttributeNameToId)
+            {
+                s_attrIdsToStrings[kp.Value] = kp.Key;
+            }
         }
 
         /// <summary>
@@ -509,18 +526,7 @@ namespace HtmlKit
         /// <param name="value">The enum value.</param>
         public static string ToAttributeName(this HtmlAttributeId value)
         {
-            var name = value.ToString();
-#if PORTABLE
-			var field = typeof (HtmlAttributeId).GetTypeInfo ().GetDeclaredField (name);
-			var attrs = field.GetCustomAttributes (typeof (HtmlAttributeNameAttribute), false).ToArray ();
-#else
-            var field = typeof(HtmlAttributeId).GetField(name);
-            var attrs = field.GetCustomAttributes(typeof(HtmlAttributeNameAttribute), false);
-#endif
-
-            if (attrs != null && attrs.Length == 1)
-                return ((HtmlAttributeNameAttribute)attrs[0]).Name;
-            return name.ToLowerInvariant();
+            return s_attrIdsToStrings[value];
         }
 
         /// <summary>

@@ -40,6 +40,9 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\TypeMirror\SimpleReflectionHelper.cs">
+      <Link>0_Init\SimpleReflectionHelper.cs</Link>
+    </Compile>
     <Compile Include="Glfw\Glfw3.cs" />
     <Compile Include="Glfw\Glfw3Delegates.cs" />
     <Compile Include="Glfw\Glfw3DelegateTypes.cs" />

@@ -32,12 +32,7 @@ namespace Pencil.Gaming
         private static Key[] allKeys;
         static KeyboardState()
         {
-            Array allKeysa = Enum.GetValues(typeof(Key));
-            allKeys = new Key[allKeysa.Length];
-            for (int i = 0; i < allKeysa.Length; ++i)
-            {
-                allKeys[i] = (Key)allKeysa.GetValue(i);
-            }
+            allKeys = (TypeMirror.SimpleReflectionHelper.GetEnumValues<Key>()).ToArray(); 
         }
 
         private KeyboardState()

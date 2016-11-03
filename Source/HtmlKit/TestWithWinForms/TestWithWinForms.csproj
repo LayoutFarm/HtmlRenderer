@@ -73,10 +73,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HtmlBuilder\HtmlBuilder.csproj">
-      <Project>{3d561b6c-c738-4a33-a392-5630ca9a0aa7}</Project>
-      <Name>HtmlBuilder</Name>
-    </ProjectReference>
     <ProjectReference Include="..\HtmlKit_Net20\HtmlKit_Net20.csproj">
       <Project>{8406c949-82db-4a84-9f4a-7245c70c5e51}</Project>
       <Name>HtmlKit_Net20</Name>

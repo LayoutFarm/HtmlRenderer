@@ -39,17 +39,26 @@ namespace OpenTK.Input
     /// </summary>
     public sealed class MouseDevice : IInputDevice
     {
+        static int allMouseButtonValueCount = 0;
+
         #region --- Fields ---
 
         string description;
         IntPtr id;
         int numButtons, numWheels;
-        readonly bool[] button_state = new bool[Enum.GetValues(typeof(MouseButton)).Length];
+        readonly bool[] button_state = new bool[allMouseButtonValueCount];
         float wheel, last_wheel;
         Point pos = new Point(), last_pos = new Point();
         MouseMoveEventArgs move_args = new MouseMoveEventArgs();
         MouseButtonEventArgs button_args = new MouseButtonEventArgs();
         MouseWheelEventArgs wheel_args = new MouseWheelEventArgs();
+
+        static MouseDevice()
+        {
+            allMouseButtonValueCount = TypeMirror.SimpleReflectionHelper.GetEnumValues<MouseButton>().Count;
+
+        }
+
 #if COMPAT_REV1519
         int wheel_last_accessed = 0;
         Point pos_last_accessed = new Point();

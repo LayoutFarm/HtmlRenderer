@@ -449,6 +449,7 @@
     <Compile Include="Deps\PixelFarm.MiniOpenTK\OpenTK\Platform\INativeWindow.cs" />
     <Compile Include="Deps\PixelFarm.MiniOpenTK\OpenTK\Platform\IPlatformFactory.cs" />
     <Compile Include="Deps\PixelFarm.MiniOpenTK\OpenTK\Serialization\XmlIgnoreAttribute.cs" />
+    <Compile Include="Deps\PixelFarm.NativeWindows\..\TypeMirror\SimpleReflectionHelper.cs" />
     <Compile Include="Deps\PixelFarm.NativeWindows\0_Init\GLPlatforms.cs" />
     <Compile Include="Deps\PixelFarm.NativeWindows\Glfw\Glfw3.cs" />
     <Compile Include="Deps\PixelFarm.NativeWindows\Glfw\Glfw3Delegates.cs" />
@@ -463,6 +464,7 @@
     <Compile Include="Deps\PixelFarm.NativeWindows\Properties\Settings.Designer.cs" />
     <Compile Include="Deps\PixelFarm.NativeWindows\Windows\GlfwForms.cs" />
     <Compile Include="Deps\PixelFarm.NativeWindows\Windows\WindowForms.cs" />
+    <Compile Include="Deps\PixelFarm.OpenTKWinForms\..\TypeMirror\SimpleReflectionHelper.cs" />
     <Compile Include="Deps\PixelFarm.OpenTKWinForms\Configuration.cs" />
     <Compile Include="Deps\PixelFarm.OpenTKWinForms\Exceptions.cs" />
     <Compile Include="Deps\PixelFarm.OpenTKWinForms\FrameEventArgs.cs" />
@@ -577,6 +579,7 @@
     <Compile Include="Deps\Tesselate\HalfEdge.cs" />
     <Compile Include="Deps\Tesselate\Mesh.cs" />
     <Compile Include="Deps\Tesselate\Tesselator.cs" />
+    <Compile Include="Deps\TypeMirror\SimpleReflectionHelper.cs" />
     <Compile Include="LayoutFarm.BaseRenderer\0_Start\dbugCoreConst.cs" />
     <Compile Include="LayoutFarm.BaseRenderer\1_Root\1_RootGraphic.cs" />
     <Compile Include="LayoutFarm.BaseRenderer\1_Root\1_RootGraphic_p1_dbug.cs" />

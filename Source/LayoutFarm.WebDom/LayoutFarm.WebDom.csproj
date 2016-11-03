@@ -33,6 +33,9 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\Deps\TypeMirror\SimpleReflectionHelper.cs">
+      <Link>5_HtmlKit\SimpleReflectionHelper.cs</Link>
+    </Compile>
     <Compile Include="0_WebDom.Parser\HtmlKitParser.cs" />
     <Compile Include="0_WebDom.Parser\MyHtmlParser.cs" />
     <Compile Include="0_WebDom.Parser\TextSource.cs" />

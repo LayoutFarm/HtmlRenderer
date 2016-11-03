@@ -605,13 +605,39 @@ namespace HtmlKit
     /// </remarks>
     public static class HtmlTagIdExtensions
     {
-        static readonly Dictionary<string, HtmlTagId> TagNameToId;
+        static readonly Dictionary<string, HtmlTagId> s_TagNameToId;
+        static readonly Dictionary<HtmlTagId, string> tagsToNames;
         static HtmlTagIdExtensions()
         {
-            var values = (HtmlTagId[])Enum.GetValues(typeof(HtmlTagId));
-            TagNameToId = new Dictionary<string, HtmlTagId>(values.Length - 1, StringComparer.OrdinalIgnoreCase);
-            for (int i = 0; i < values.Length - 1; i++)
-                TagNameToId.Add(values[i].ToHtmlTagName(), values[i]);
+            s_TagNameToId = TypeMirror.SimpleReflectionHelper.GetEnumFields<HtmlTagId>(fieldInfo =>
+            {
+                //extract proper html field name
+                HtmlTagId value = (HtmlTagId)fieldInfo.GetValue(null);
+
+#if PORTABLE
+			    throw new NotSuppportedException();
+#else
+
+                var attrs = fieldInfo.GetCustomAttributes(typeof(HtmlTagNameAttribute), false);
+#endif
+                if (attrs != null && attrs.Length == 1)
+                    return ((HtmlTagNameAttribute)attrs[0]).Name;
+                return fieldInfo.Name.ToLowerInvariant();
+
+            });
+            //----
+            tagsToNames = new Dictionary<HtmlTagId, string>(s_TagNameToId.Count);
+            foreach (var kp in s_TagNameToId)
+            {
+                if (kp.Value == HtmlTagId.Comment)
+                {
+                    tagsToNames[HtmlTagId.Comment] = "!";
+                }
+                else
+                {
+                    tagsToNames[kp.Value] = kp.Key;
+                }
+            }
         }
 
         /// <summary>
@@ -624,20 +650,7 @@ namespace HtmlKit
         /// <param name="value">The enum value.</param>
         public static string ToHtmlTagName(this HtmlTagId value)
         {
-            if (value == HtmlTagId.Comment)
-                return "!";
-            var name = value.ToString();
-#if PORTABLE
-			var field = typeof (HtmlTagId).GetTypeInfo ().GetDeclaredField (name);
-			var attrs = field.GetCustomAttributes (typeof (HtmlTagNameAttribute), false).ToArray ();
-#else
-            var field = typeof(HtmlTagId).GetField(name);
-            var attrs = field.GetCustomAttributes(typeof(HtmlTagNameAttribute), false);
-#endif
-
-            if (attrs != null && attrs.Length == 1)
-                return ((HtmlTagNameAttribute)attrs[0]).Name;
-            return name.ToLowerInvariant();
+            return tagsToNames[value];
         }
 
         /// <summary>
@@ -655,7 +668,7 @@ namespace HtmlKit
                 return HtmlTagId.Unknown;
             if (name[0] == '!')
                 return HtmlTagId.Comment;
-            if (!TagNameToId.TryGetValue(name, out value))
+            if (!s_TagNameToId.TryGetValue(name, out value))
                 return HtmlTagId.Unknown;
             return value;
         }

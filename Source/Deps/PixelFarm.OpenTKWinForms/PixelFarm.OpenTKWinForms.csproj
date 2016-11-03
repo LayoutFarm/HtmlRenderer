@@ -37,6 +37,9 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\TypeMirror\SimpleReflectionHelper.cs">
+      <Link>0_Init\SimpleReflectionHelper.cs</Link>
+    </Compile>
     <Compile Include="Configuration.cs" />
     <Compile Include="Exceptions.cs" />
     <Compile Include="FrameEventArgs.cs" />

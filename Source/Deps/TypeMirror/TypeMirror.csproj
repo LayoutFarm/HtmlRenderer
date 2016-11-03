@@ -1,14 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8406C949-82DB-4A84-9F4A-7245C70C5E51}</ProjectGuid>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{68F1DAF6-2B35-476E-B2F8-5EADBC823935}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>HtmlKit_Net20</RootNamespace>
-    <AssemblyName>HtmlKit_Net20</AssemblyName>
+    <RootNamespace>TypeMirror</RootNamespace>
+    <AssemblyName>TypeMirror</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,28 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\..\Deps\TypeMirror\SimpleReflectionHelper.cs">
-      <Link>SimpleReflectionHelper.cs</Link>
-    </Compile>
-    <Compile Include="ForNet20.cs" />
-    <Compile Include="HtmlAttribute.cs" />
-    <Compile Include="HtmlAttributeCollection.cs" />
-    <Compile Include="HtmlAttributeId.cs" />
-    <Compile Include="HtmlEntityDecoder.cs" />
-    <Compile Include="HtmlEntityDecoder.g.cs">
-      <DependentUpon>HtmlEntityDecoder.cs</DependentUpon>
-    </Compile>
-    <Compile Include="HtmlNamespace.cs" />
-    <Compile Include="HtmlTagId.cs" />
-    <Compile Include="HtmlToken.cs" />
-    <Compile Include="HtmlTokenizer.cs" />
-    <Compile Include="HtmlTokenizerState.cs" />
-    <Compile Include="HtmlTokenizer_ReadNextToken.cs" />
-    <Compile Include="HtmlTokenKind.cs" />
-    <Compile Include="HtmlUtils.cs" />
-    <Compile Include="HtmlWriter.cs" />
-    <Compile Include="HtmlWriterState.cs" />
-    <Compile Include="ICharArray.cs" />
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="SimpleReflectionHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

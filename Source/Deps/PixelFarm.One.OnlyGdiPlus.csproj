@@ -183,6 +183,7 @@
     <Compile Include="NOpenType\N20\PixelFarm.OpenType\..\..\NetCore\PixelFarm.OpenType\Typeface.cs" />
     <Compile Include="PixelFarm.DataProvider\Bitmap\NativeImage.cs" />
     <Compile Include="PixelFarm.DataProvider\InstalledFontCollection.cs" />
+    <Compile Include="PixelFarm.DataProvider\ManagedTextBreaker\ManagedTextBreaker.cs" />
     <Compile Include="PixelFarm.DataProvider\NativeDll.cs" />
     <Compile Include="PixelFarm.DataProvider\NativeFonts\FontLoaderImpls.cs" />
     <Compile Include="PixelFarm.DataProvider\NativeFonts\NativeBridgeFreeType.cs" />
