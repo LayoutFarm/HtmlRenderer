@@ -38,6 +38,28 @@ namespace OpenTK.Platform.X11
             int major, int minor, GraphicsContextFlags flags)
             : base(DesktopBackend.OpenGL)
         {
+            LongInit(mode, window, shared, direct, major, minor, flags);
+        }
+
+        public X11GLContext(ContextHandle handle, IWindowInfo window, IGraphicsContext shared, bool direct,
+            int major, int minor, GraphicsContextFlags flags)
+            : base(DesktopBackend.OpenGL)
+        {
+            if (handle == ContextHandle.Zero)
+                throw new ArgumentException("handle");
+            if (window == null)
+                throw new ArgumentNullException("window");
+            Handle = handle;
+            currentWindow = (X11WindowInfo)window;
+            Display = currentWindow.Display;
+        }
+
+        void LongInit(GraphicsMode mode, IWindowInfo window, IGraphicsContext shared, bool direct,
+            int major, int minor, GraphicsContextFlags flags)
+        {
+            //fixed PEVerify error 
+            //move long code from ctor to here            
+
             if (mode == null)
                 throw new ArgumentNullException("mode");
             if (window == null)
@@ -166,19 +188,6 @@ namespace OpenTK.Platform.X11
                 if (!Glx.IsDirect(Display, Handle.Handle))
                     Debug.Print("Warning: Context is not direct.");
             }
-        }
-
-        public X11GLContext(ContextHandle handle, IWindowInfo window, IGraphicsContext shared, bool direct,
-            int major, int minor, GraphicsContextFlags flags)
-            : base(DesktopBackend.OpenGL)
-        {
-            if (handle == ContextHandle.Zero)
-                throw new ArgumentException("handle");
-            if (window == null)
-                throw new ArgumentNullException("window");
-            Handle = handle;
-            currentWindow = (X11WindowInfo)window;
-            Display = currentWindow.Display;
         }
 
         #endregion

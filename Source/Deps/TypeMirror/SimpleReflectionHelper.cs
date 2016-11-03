@@ -28,7 +28,6 @@ namespace TypeMirror
                 object value = f.GetValue(null);
                 if (value is T)
                 {
-
                     if (fieldNameEvaluationHandler != null)
                     {
                         results.Add(fieldNameEvaluationHandler(f), (T)value);
