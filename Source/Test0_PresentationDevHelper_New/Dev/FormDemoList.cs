@@ -6,10 +6,16 @@ namespace LayoutFarm.Dev
 {
     public partial class FormDemoList : Form
     {
-        static readonly PixelFarm.Drawing.GraphicsPlatform gdiPlatform = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.Start();
-        static readonly PixelFarm.Drawing.GraphicsPlatform openGLPlatform = null;
-
         UIPlatform uiPlatformWinForm;
+        static readonly PixelFarm.Drawing.GraphicsPlatform gdiPlatform = null;
+        static readonly PixelFarm.Drawing.GraphicsPlatform openGLPlatform = null;
+        static FormDemoList()
+        {
+
+            var startPars = new LayoutFarm.UI.GdiPlus.MyWinGdiPortalSetupParameters();
+            gdiPlatform = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.Start(startPars);
+        }
+
 
         public FormDemoList()
         {
@@ -107,7 +113,7 @@ namespace LayoutFarm.Dev
             int w = workingArea.Width;
             int h = workingArea.Height;
 
-           
+
             MyRootGraphic rootgfx = new MyRootGraphic(this.uiPlatformWinForm,
                 this.chkUseGLCanvas.Checked ? openGLPlatform : gdiPlatform,
                 w, h);
