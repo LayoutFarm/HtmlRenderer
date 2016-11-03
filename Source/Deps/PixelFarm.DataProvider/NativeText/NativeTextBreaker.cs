@@ -130,6 +130,7 @@ namespace PixelFarm.Drawing.Text
             NativeTextBreakerLib.MyFtLibGetFullVersion(out major, out minor, out revision);
             if (dataHolder == null)
             {
+                //dataHolder = new InMemoryIcuDataHolder(@"d:\WImageTest\icudt57l\icudt57l.dat");
                 dataHolder = new InMemoryIcuDataHolder(icudatafile);
                 dataHolder.Use();
             }

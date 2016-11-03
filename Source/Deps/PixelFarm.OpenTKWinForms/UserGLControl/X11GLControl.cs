@@ -59,7 +59,20 @@ namespace OpenTK
         IntPtr display;
         #endregion
 
+        bool initPass;
         internal X11GLControl(GraphicsMode mode, Control control)
+        {
+            try
+            {
+                Init1(mode, control);
+                initPass = true;
+            }
+            catch (Exception ex)
+            {
+                initPass = false;
+            }
+        }
+        void Init1(GraphicsMode mode, Control control)
         {
             if (mode == null)
                 throw new ArgumentNullException("mode");
@@ -88,7 +101,6 @@ namespace OpenTK
             SetStaticFieldValue(xplatui, "CustomColormap", XCreateColormap(display, rootWindow, info.Visual, 0));
             window_info = Utilities.CreateX11WindowInfo(display, screen, control.Handle, rootWindow, infoPtr);
         }
-
         #region IGLControl Members
 
         public IGraphicsContext CreateContext(int major, int minor, GraphicsContextFlags flags)
