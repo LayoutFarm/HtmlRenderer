@@ -26,7 +26,7 @@ such as
 
 4) add svg/canvas support (not complete)
 
-5) abstract canvas backend (GDI+, OpenGL) also not complete for Linux (for the canvas backend, I used it from another project -> https://github.com/prepare/agg-sharp)
+5) abstract canvas backend (GDI+, OpenGL) also not complete for Linux (for the canvas backend, I used it from another project ->https://github.com/prepare/PixelFarm-dev)
 
 6) Javascript (v8) binding (https://github.com/prepare/Espresso)
 
