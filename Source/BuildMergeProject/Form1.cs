@@ -34,21 +34,21 @@ namespace BuildMergeProject
             mergePro.LoadSubProject(DEV_DIR + @"Deps\PixelFarm.One.csproj");//this is auto-gen project too
             //base modules
             mergePro.LoadSubProject(DEV_DIR + @"LayoutFarm.ClientPlatforms\LayoutFarm.ClientPlatforms.csproj");
-            mergePro.LoadSubProject(DEV_DIR + @"Source\LayoutFarm.CssBase\LayoutFarm.CssBase.csproj");
-            mergePro.LoadSubProject(DEV_DIR + @"Source\LayoutFarm.WebLexer\LayoutFarm.WebLexer.csproj");
+            mergePro.LoadSubProject(DEV_DIR + @"LayoutFarm.CssBase\LayoutFarm.CssBase.csproj");
+            mergePro.LoadSubProject(DEV_DIR + @"LayoutFarm.WebLexer\LayoutFarm.WebLexer.csproj");
             //layout and renderer module
-            mergePro.LoadSubProject(DEV_DIR + @"Source\LayoutFarm.BaseRenderer\LayoutFarm.BaseRenderer.csproj");
-            mergePro.LoadSubProject(DEV_DIR + @"Source\LayoutFarm.HtmlRenderer\LayoutFarm.HtmlRenderer.csproj");
+            mergePro.LoadSubProject(DEV_DIR + @"LayoutFarm.BaseRenderer\LayoutFarm.BaseRenderer.csproj");
+            mergePro.LoadSubProject(DEV_DIR + @"LayoutFarm.HtmlRenderer\LayoutFarm.HtmlRenderer.csproj");
             //integrated module
-            mergePro.LoadSubProject(DEV_DIR + @"Source\LayoutFarm.Composers\LayoutFarm.Composers.csproj");
-            mergePro.LoadSubProject(DEV_DIR + @"Source\LayoutFarm.TextEdit\LayoutFarm.TextEdit.csproj");
-            mergePro.LoadSubProject(DEV_DIR + @"Source\LayoutFarm.WebDom\LayoutFarm.WebDom.csproj");
-            mergePro.LoadSubProject(DEV_DIR + @"Source\LayoutFarm.YourCustomWidgets\LayoutFarm.YourCustomWidgets.csproj");
+            mergePro.LoadSubProject(DEV_DIR + @"LayoutFarm.Composers\LayoutFarm.Composers.csproj");
+            mergePro.LoadSubProject(DEV_DIR + @"LayoutFarm.TextEdit\LayoutFarm.TextEdit.csproj");
+            mergePro.LoadSubProject(DEV_DIR + @"LayoutFarm.WebDom\LayoutFarm.WebDom.csproj");
+            mergePro.LoadSubProject(DEV_DIR + @"LayoutFarm.YourCustomWidgets\LayoutFarm.YourCustomWidgets.csproj");
             //platforms.Windows
-            mergePro.LoadSubProject(DEV_DIR + @"Source\LayoutFarm.Platforms.WinForms\LayoutFarm.Platforms.WinForms.csproj");
+            mergePro.LoadSubProject(DEV_DIR + @"LayoutFarm.Platforms.WinForms\LayoutFarm.Platforms.WinForms.csproj");
             //js engine
-            mergePro.LoadSubProject(DEV_DIR + @"Source\Deps\Espresso\Net20\Espresso.Interfaces\Espresso.Interfaces.csproj");
-            mergePro.LoadSubProject(DEV_DIR + @"Source\Deps\Espresso\Net20\EspressoCore\EspressoCore.csproj");
+            mergePro.LoadSubProject(DEV_DIR + @"Deps\Espresso\Net20\Espresso.Interfaces\Espresso.Interfaces.csproj");
+            mergePro.LoadSubProject(DEV_DIR + @"Deps\Espresso\Net20\EspressoCore\EspressoCore.csproj");
             return mergePro;
         }
         private void cmdCopyNativeResources_Click(object sender, EventArgs e)
