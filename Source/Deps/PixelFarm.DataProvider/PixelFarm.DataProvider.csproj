@@ -38,6 +38,7 @@
   <ItemGroup>
     <Compile Include="Bitmap\NativeImage.cs" />
     <Compile Include="InstalledFontCollection.cs" />
+    <Compile Include="ManagedTextBreaker\ManagedTextBreaker.cs" />
     <Compile Include="NativeDll.cs" />
     <Compile Include="NativeFonts\NativeBridgeFreeType.cs" />
     <Compile Include="NativeFonts\NativeFont.cs" />
@@ -65,6 +66,7 @@
       <Name>PixelFarm.Drawing.Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

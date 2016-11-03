@@ -87,7 +87,7 @@ namespace PixelFarm.Drawing.Text
                 }
             }
         }
-        
+
         const int DONE = -1;
         static bool AddToken(UBreakIteratorType type, int status)
         {
@@ -236,6 +236,17 @@ namespace PixelFarm.Drawing.Text
 
             string str = "ABCD EFGH IJKL\0";
             var textBreaker = new NativeTextBreaker(TextBreakKind.Word, "en-US");
+            List<SplitBound> tokens = new List<SplitBound>();
+            textBreaker.DoBreak(str, splitBound =>
+            {
+                tokens.Add(splitBound);
+            });
+
+        }
+        public static void Test2()
+        {
+            string str = "ABCD EFGH IJKL\0";
+            var textBreaker = new ManagedTextBreaker(TextBreakKind.Word, "en-US");
             List<SplitBound> tokens = new List<SplitBound>();
             textBreaker.DoBreak(str, splitBound =>
             {

@@ -30,6 +30,7 @@
         {
             this.cmdBuildHtmlRenderOne = new System.Windows.Forms.Button();
             this.cmdBuild_HtmlRendererOnePortable = new System.Windows.Forms.Button();
+            this.cmdCopyNativeResources = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // cmdBuildHtmlRenderOne
@@ -51,11 +52,22 @@
             this.cmdBuild_HtmlRendererOnePortable.Text = "BuildMerge HtmlRenderer.One Portable";
             this.cmdBuild_HtmlRendererOnePortable.UseVisualStyleBackColor = true;
             // 
+            // cmdCopyNativeResources
+            // 
+            this.cmdCopyNativeResources.Location = new System.Drawing.Point(25, 109);
+            this.cmdCopyNativeResources.Name = "cmdCopyNativeResources";
+            this.cmdCopyNativeResources.Size = new System.Drawing.Size(203, 63);
+            this.cmdCopyNativeResources.TabIndex = 2;
+            this.cmdCopyNativeResources.Text = "CopyNativeResources";
+            this.cmdCopyNativeResources.UseVisualStyleBackColor = true;
+            this.cmdCopyNativeResources.Click += new System.EventHandler(this.cmdCopyNativeResources_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(727, 161);
+            this.ClientSize = new System.Drawing.Size(569, 434);
+            this.Controls.Add(this.cmdCopyNativeResources);
             this.Controls.Add(this.cmdBuild_HtmlRendererOnePortable);
             this.Controls.Add(this.cmdBuildHtmlRenderOne);
             this.Name = "Form1";
@@ -68,6 +80,7 @@
 
         private System.Windows.Forms.Button cmdBuildHtmlRenderOne;
         private System.Windows.Forms.Button cmdBuild_HtmlRendererOnePortable;
+        private System.Windows.Forms.Button cmdCopyNativeResources;
     }
 }
 

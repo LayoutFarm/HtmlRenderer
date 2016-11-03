@@ -65,6 +65,8 @@ namespace PixelFarm.Drawing.WinGdi
                 c.G,
                 c.B));
         }
+
+
         public override void DrawPath(GraphicsPath gfxPath)
         {
             gx.DrawPath(internalPen, gfxPath.InnerPath as System.Drawing.Drawing2D.GraphicsPath);
