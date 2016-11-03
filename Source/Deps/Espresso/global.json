@@ -1,0 +1,6 @@
+{
+    "projects":[       
+        "EspressoCore",
+		"TestEspressoCore",
+    ]
+}
