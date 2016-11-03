@@ -818,6 +818,7 @@
     <Compile Include="LayoutFarm.TextEdit\2.2_TextRenderBox\TextEditRenderBox.cs" />
     <Compile Include="LayoutFarm.TextEdit\2.2_TextRenderBox\TextEditRenderBox.TextSurfaceFuntions.cs" />
     <Compile Include="LayoutFarm.TextEdit\2.2_TextRenderBox\VisualPaintEventArgs.cs" />
+    <Compile Include="LayoutFarm.WebDom\..\Deps\TypeMirror\SimpleReflectionHelper.cs" />
     <Compile Include="LayoutFarm.WebDom\0_WebDom.Parser\CssParser.cs" />
     <Compile Include="LayoutFarm.WebDom\0_WebDom.Parser\CssParserHelper.cs" />
     <Compile Include="LayoutFarm.WebDom\0_WebDom.Parser\CssValueParser.cs" />

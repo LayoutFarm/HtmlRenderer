@@ -66,6 +66,9 @@
       <Link>Dev\FormPrint.designer.cs</Link>
       <DependentUpon>FormPrint.cs</DependentUpon>
     </Compile>
+    <Compile Include="..\Test0_PresentationDevHelper_New\Dev\SampleViewport.cs">
+      <Link>Dev\SampleViewport.cs</Link>
+    </Compile>
     <Compile Include="AggSprite\BasicSprite.cs" />
     <Compile Include="AggSprite\LionDataStore.cs" />
     <Compile Include="AggSprite\LionSprite.cs" />
@@ -108,7 +111,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HtmlRenderer.One.csproj">
-      <Project>{37a7a03b-a688-4ef4-83d1-d4b3346db2d3}</Project>
+      <Project>{37A7A03B-A688-4EF4-83D1-D4B3346DB2D3}</Project>
       <Name>HtmlRenderer.One</Name>
     </ProjectReference>
   </ItemGroup>
