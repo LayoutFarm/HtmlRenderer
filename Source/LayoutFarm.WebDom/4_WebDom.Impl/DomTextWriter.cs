@@ -1,4 +1,4 @@
-﻿// 2015 MIT,WinterDev
+﻿//MIT, 2015-2016, WinterDev  
 //ArthurHub  , Jose Manuel Menendez Poo
 
 using System;

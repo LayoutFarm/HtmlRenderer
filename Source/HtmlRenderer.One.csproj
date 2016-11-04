@@ -520,14 +520,18 @@
     <Compile Include="LayoutFarm.Platforms.WinForms\0_Start\Conv.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\0_Start\dbugHelper.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\0_Start\QuadPages.cs" />
-    <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\AbstractCompletionWindow.cs" />
+    <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\AbstractCompletionWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\AbstractCompletionWindow.Designer.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\InnerViewportKind.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\MyUITimer.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\TopWindowBridge.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\TopWindowBridge_dbug.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\UIPlatformWinForms.cs" />
-    <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\UISurfaceViewportControl.cs" />
+    <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\UISurfaceViewportControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\UISurfaceViewportControl.Designer.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\2_GdiPlus\0_MyWinGdiPortal.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\2_GdiPlus\1_CpuGdiPlusSurfaceView.cs">

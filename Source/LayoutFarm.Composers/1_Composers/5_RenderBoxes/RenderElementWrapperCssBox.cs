@@ -1,4 +1,4 @@
-﻿//2014,2015,2015 Apache2, WinterDev 
+﻿//Apache2, 2014-2016, WinterDev 
 
 using System;
 using System.Collections.Generic;

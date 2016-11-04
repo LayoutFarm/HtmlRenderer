@@ -1,4 +1,4 @@
-﻿//BSD  2015,2014 ,WinterDev
+﻿//BSD, 2014-2016, WinterDev  
 
 using System.IO;
 namespace LayoutFarm.WebLexer
