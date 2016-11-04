@@ -207,7 +207,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
         {
             return false;
         }
-        public override void CustomRecomputedValue(CssBox containingBlock, GraphicsPlatform gfxPlatform)
+        public override void CustomRecomputedValue(CssBox containingBlock)
         {
             var ibox = CssBox.UnsafeGetController(this) as IBoxElement;
             if (ibox != null)

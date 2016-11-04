@@ -942,7 +942,7 @@ namespace LayoutFarm.HtmlBoxes
 
         //-----------
         //if this is custom box then must implement these methods
-        public virtual void CustomRecomputedValue(CssBox containingBlock, GraphicsPlatform gfxPlatform)
+        public virtual void CustomRecomputedValue(CssBox containingBlock)
         {
             throw new NotImplementedException();
         }

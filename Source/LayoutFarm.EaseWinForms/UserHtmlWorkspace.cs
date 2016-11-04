@@ -68,14 +68,6 @@ namespace LayoutFarm
         int width;
         int height;
 
-        byte[] rawImageBuffer;
-        public DemoBitmap(int w, int h, byte[] rawImageBuffer, bool isInvertedImg = false)
-        {
-            this.width = w;
-            this.height = h;
-            this.rawImageBuffer = rawImageBuffer;
-        }
-
         public DemoBitmap(int w, int h, System.Drawing.Bitmap innerImage)
         {
             this.width = w;
@@ -106,10 +98,7 @@ namespace LayoutFarm
         {
             get { return 0; }
         }
-        public byte[] GetRawImageBuffer()
-        {
-            return rawImageBuffer;
-        }
+
 
         public static DemoBitmap CreateFromGdiPlusBitmap(System.Drawing.Bitmap bmp)
         {

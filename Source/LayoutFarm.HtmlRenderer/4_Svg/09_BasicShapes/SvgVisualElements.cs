@@ -111,8 +111,7 @@ namespace LayoutFarm.Svg
             ClearCachePath();
             if (this.ActualCornerX == 0 && this.ActualCornerY == 0)
             {
-                this.myCachedPath = CreateRectGraphicPath(
-                    args.graphicsPlatform,
+                this.myCachedPath = CreateRectGraphicPath( 
                     this.ActualX,
                     this.ActualY,
                     this.ActualWidth,
@@ -120,8 +119,7 @@ namespace LayoutFarm.Svg
             }
             else
             {
-                this.myCachedPath = CreateRoundRectGraphicPath(
-                    args.graphicsPlatform,
+                this.myCachedPath = CreateRoundRectGraphicPath( 
                     this.ActualX,
                     this.ActualY,
                     this.ActualWidth,
@@ -131,7 +129,7 @@ namespace LayoutFarm.Svg
             }
             ValidatePath();
         }
-        static GraphicsPath CreateRectGraphicPath(GraphicsPlatform gfxPlatform, float x, float y, float w, float h)
+        static GraphicsPath CreateRectGraphicPath(float x, float y, float w, float h)
         {
             var _path = new GraphicsPath();
             _path.StartFigure();
@@ -139,7 +137,7 @@ namespace LayoutFarm.Svg
             _path.CloseFigure();
             return _path;
         }
-        static GraphicsPath CreateRoundRectGraphicPath(GraphicsPlatform gfxPlatform, float x, float y, float w, float h, float c_rx, float c_ry)
+        static GraphicsPath CreateRoundRectGraphicPath(float x, float y, float w, float h, float c_rx, float c_ry)
         {
             var _path = new GraphicsPath();
             var arcBounds = new RectangleF();
