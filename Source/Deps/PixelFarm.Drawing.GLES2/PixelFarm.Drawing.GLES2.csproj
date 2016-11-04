@@ -47,9 +47,6 @@
     <Compile Include="..\PixelFarm.Drawing.GdiPlus\Implementation.Win32\NativeWin32MemoryDc.cs">
       <Link>PixelFarm.Drawing.GLES2\Implementation.Win32\NativeWin32MemoryDc.cs</Link>
     </Compile>
-    <Compile Include="..\PixelFarm.Drawing.GdiPlus\Implementation.Win32\Win32Utils.cs">
-      <Link>PixelFarm.Drawing.GLES2\Implementation.Win32\Win32Utils.cs</Link>
-    </Compile>
     <Compile Include="..\PixelFarm.Drawing.GdiPlus\Implementation.Win32\WinGdiFont.cs">
       <Link>PixelFarm.Drawing.GLES2\Implementation.Win32\WinGdiFont.cs</Link>
     </Compile>

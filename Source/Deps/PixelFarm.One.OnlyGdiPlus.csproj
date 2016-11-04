@@ -295,7 +295,6 @@
     <Compile Include="PixelFarm.Drawing.GdiPlus\Implementation.Win32\MyWin32.cs" />
     <Compile Include="PixelFarm.Drawing.GdiPlus\Implementation.Win32\NativeTextWin32.cs" />
     <Compile Include="PixelFarm.Drawing.GdiPlus\Implementation.Win32\NativeWin32MemoryDc.cs" />
-    <Compile Include="PixelFarm.Drawing.GdiPlus\Implementation.Win32\Win32Utils.cs" />
     <Compile Include="PixelFarm.Drawing.GdiPlus\Implementation.Win32\WinGdiFont.cs" />
     <Compile Include="PixelFarm.Drawing.GdiPlus\Implementation\BitmapHelper.cs" />
     <Compile Include="PixelFarm.Drawing.GdiPlus\Implementation\Region.cs" />
@@ -306,6 +305,7 @@
     <Compile Include="PixelFarm.Drawing.GdiPlus\MiniAggGraphics\VxsHelper.cs" />
     <Compile Include="PixelFarm.Drawing.GdiPlus\Properties\Resources.Designer.cs" />
     <Compile Include="PixelFarm.Drawing.GdiPlus\Properties\Settings.Designer.cs" />
+    <Compile Include="TypeMirror\SimpleReflectionHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

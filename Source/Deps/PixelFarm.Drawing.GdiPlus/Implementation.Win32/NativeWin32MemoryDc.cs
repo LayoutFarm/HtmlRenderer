@@ -19,7 +19,7 @@ namespace Win32
             this._width = w;
             this._height = h;
 
-            memHdc = Win32.Win32Utils.CreateMemoryHdc(
+            memHdc = MyWin32.CreateMemoryHdc(
                 IntPtr.Zero,
                 w,
                 h,
@@ -44,11 +44,12 @@ namespace Win32
             {
                 return;
             }
-            Win32.Win32Utils.ReleaseMemoryHdc(memHdc, dib); 
+            MyWin32.ReleaseMemoryHdc(memHdc, dib);
             dib = IntPtr.Zero;
             memHdc = IntPtr.Zero;
             isDisposed = true;
         }
+
     }
 
 }
