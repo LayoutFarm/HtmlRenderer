@@ -190,7 +190,7 @@ namespace PixelFarm.Drawing.WinGdi
         {
 
             //TODO: review here 
-            Win32Utils.DeleteObject(hfont);
+            MyWin32.DeleteObject(hfont);
             hfont = IntPtr.Zero;
 
         }
@@ -303,7 +303,7 @@ namespace PixelFarm.Drawing.WinGdi
         static void SetFont(RequestFont font)
         {
             WinGdiFont winFont = WinGdiFontSystem.GetWinGdiFont(font);
-            Win32Utils.SelectObject(win32MemDc.DC, winFont.ToHfont());
+            MyWin32.SelectObject(win32MemDc.DC, winFont.ToHfont());             
         }
         public static Size MeasureString(char[] buff, int startAt, int len, RequestFont font)
         {

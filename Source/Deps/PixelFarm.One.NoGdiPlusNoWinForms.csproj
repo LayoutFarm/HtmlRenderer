@@ -181,6 +181,7 @@
     <Compile Include="NOpenType\N20\PixelFarm.OpenType\..\..\NetCore\PixelFarm.OpenType\Typeface.cs" />
     <Compile Include="PixelFarm.DataProvider\Bitmap\NativeImage.cs" />
     <Compile Include="PixelFarm.DataProvider\InstalledFontCollection.cs" />
+    <Compile Include="PixelFarm.DataProvider\ManagedTextBreaker\ManagedTextBreaker.cs" />
     <Compile Include="PixelFarm.DataProvider\NativeDll.cs" />
     <Compile Include="PixelFarm.DataProvider\NativeFonts\FontLoaderImpls.cs" />
     <Compile Include="PixelFarm.DataProvider\NativeFonts\NativeBridgeFreeType.cs" />
@@ -286,7 +287,6 @@
     <Compile Include="PixelFarm.Drawing.GLES2\..\PixelFarm.Drawing.GdiPlus\Implementation.Win32\MyWin32.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\..\PixelFarm.Drawing.GdiPlus\Implementation.Win32\NativeTextWin32.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\..\PixelFarm.Drawing.GdiPlus\Implementation.Win32\NativeWin32MemoryDc.cs" />
-    <Compile Include="PixelFarm.Drawing.GLES2\..\PixelFarm.Drawing.GdiPlus\Implementation.Win32\Win32Utils.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\..\PixelFarm.Drawing.GdiPlus\Implementation.Win32\WinGdiFont.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\DrawingGL\GLCanvas\CanvasGL2d.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\DrawingGL\GLCanvas\CanvasSmoothMode.cs" />
@@ -312,7 +312,6 @@
     <Compile Include="PixelFarm.Drawing.GLES2\DrawingGL\GLTexture\GLBitmapReference.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\DrawingGL\GLTexture\LazyAggBitmapBufferProvider.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\DrawingGL\GLTexture\TextureAtlas.cs" />
-    <Compile Include="PixelFarm.Drawing.GLES2\PixelFarm.Drawing.GLES2\0_Start\FontSystem.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\PixelFarm.Drawing.GLES2\0_Start\GLES2Platform.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\PixelFarm.Drawing.GLES2\Canvas\1_MyGLCanvas_Specific.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\PixelFarm.Drawing.GLES2\Canvas\2_MyGLCanvas_CoordinateAndClip.cs" />
@@ -396,6 +395,7 @@
     <Compile Include="PixelFarm.MiniOpenTK\OpenTK\Platform\INativeWindow.cs" />
     <Compile Include="PixelFarm.MiniOpenTK\OpenTK\Platform\IPlatformFactory.cs" />
     <Compile Include="PixelFarm.MiniOpenTK\OpenTK\Serialization\XmlIgnoreAttribute.cs" />
+    <Compile Include="PixelFarm.NativeWindows\..\TypeMirror\SimpleReflectionHelper.cs" />
     <Compile Include="PixelFarm.NativeWindows\0_Init\GLPlatforms.cs" />
     <Compile Include="PixelFarm.NativeWindows\Glfw\Glfw3.cs" />
     <Compile Include="PixelFarm.NativeWindows\Glfw\Glfw3Delegates.cs" />
@@ -418,6 +418,7 @@
     <Compile Include="Tesselate\HalfEdge.cs" />
     <Compile Include="Tesselate\Mesh.cs" />
     <Compile Include="Tesselate\Tesselator.cs" />
+    <Compile Include="TypeMirror\SimpleReflectionHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
