@@ -33,16 +33,10 @@ namespace PixelFarm.DrawingGL
         MyMat4 orthoView;
         TessTool tessTool;
         FrameBuffer _currentFrameBuffer;//default = null, system provide frame buffer 
-        //  TextureFontStore textureFonts;
 
 
-        public CanvasGL2d(int canvasW, int canvasH)
+        internal CanvasGL2d(int canvasW, int canvasH)
         {
-
-            //-------------
-            PixelFarm.Drawing.GLES2.GLES2Platform.Init();
-            //-------------
-
             this.canvasW = canvasW;
             this.canvasH = canvasH;
             ////setup viewport size

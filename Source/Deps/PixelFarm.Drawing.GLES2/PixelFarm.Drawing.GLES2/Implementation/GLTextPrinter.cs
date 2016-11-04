@@ -3,11 +3,7 @@ using PixelFarm.Drawing.Fonts;
 using PixelFarm.Drawing.Text;
 namespace PixelFarm.DrawingGL
 {
-    public abstract class PlatformFontPrinterBase
-    {
-        public abstract void DrawString(CanvasGL2d canvas, string text, float x, float y);
-    }
-
+   
     class GLTextPrinter
     {
 
