@@ -65,10 +65,7 @@ namespace LayoutFarm.UI
             }
         }
 
-        public GraphicsPlatform P
-        {
-            get { return this.rootgfx.P; }
-        }
+     
         void InitializeComponent()
         {
             this.SuspendLayout();

@@ -29,10 +29,7 @@ namespace LayoutFarm
         {
             this.vw.AddContent(renderElement);
         }
-        public GraphicsPlatform P
-        {
-            get { return this.vw.P; }
-        }
+      
         public LayoutFarm.UI.UISurfaceViewportControl ViewportControl
         {
             get { return this.vw; }

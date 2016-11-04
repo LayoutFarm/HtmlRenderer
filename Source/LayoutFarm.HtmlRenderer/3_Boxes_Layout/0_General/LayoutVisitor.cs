@@ -15,11 +15,10 @@ namespace LayoutFarm.HtmlBoxes
         List<PartialBoxStrip> readyListStrip = new List<PartialBoxStrip>();
         FloatingContextStack floatingContextStack = new FloatingContextStack();
         static int totalLayoutIdEpisode = 0;
-        int episodeId = 1;
-        GraphicsPlatform gfxPlatform;
-        public LayoutVisitor(GraphicsPlatform gfxPlatform)
+        int episodeId = 1;         
+        public LayoutVisitor()
         {
-            this.gfxPlatform = gfxPlatform;
+          
         }
         public void Bind(HtmlContainer htmlCont)
         {
@@ -40,11 +39,7 @@ namespace LayoutFarm.HtmlBoxes
             readyListStrip.Clear();
             totalMarginLeftAndRight = 0;
         }
-        public GraphicsPlatform GraphicsPlatform
-        {
-            get { return this.gfxPlatform; }
-        }
-
+       
         internal IFonts SampleIFonts
         {
             get { return TextServices.IFonts; }

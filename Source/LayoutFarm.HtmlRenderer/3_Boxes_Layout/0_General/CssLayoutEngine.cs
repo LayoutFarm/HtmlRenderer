@@ -836,7 +836,7 @@ namespace LayoutFarm.HtmlBoxes
                         {
                             //has custom layout method
                             box.ReEvaluateComputedValues(lay.SampleIFonts, lay.LatestContainingBlock);
-                            box.CustomRecomputedValue(lay.LatestContainingBlock, lay.GraphicsPlatform);
+                            box.CustomRecomputedValue(lay.LatestContainingBlock);
                         }
                         else
                         {

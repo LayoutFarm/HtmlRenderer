@@ -9,7 +9,7 @@ namespace LayoutFarm
             EventHandler<ContentManagers.ImageRequestEventArgs> imageReqHandler,
             EventHandler<ContentManagers.TextRequestEventArgs> textReq)
         {
-            HtmlBoxes.HtmlHost htmlhost = new HtmlBoxes.HtmlHost(sampleViewport.P);
+            HtmlBoxes.HtmlHost htmlhost = new HtmlBoxes.HtmlHost();
             htmlhost.SetRootGraphics(sampleViewport.Root);
             htmlhost.RegisterCssBoxGenerator(new LayoutFarm.CustomWidgets.MyCustomCssBoxGenerator(htmlhost));
             htmlhost.AttachEssentailHandlers(imageReqHandler, textReq);
