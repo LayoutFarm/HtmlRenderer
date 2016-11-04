@@ -22,7 +22,7 @@
 using System;
 using PixelFarm.Drawing;
 using PixelFarm.Drawing.Fonts;
-using PixelFarm.Agg.Image;
+using PixelFarm.Agg.Imaging;
 using PixelFarm.Agg.VertexSource;
 namespace PixelFarm.Agg
 {

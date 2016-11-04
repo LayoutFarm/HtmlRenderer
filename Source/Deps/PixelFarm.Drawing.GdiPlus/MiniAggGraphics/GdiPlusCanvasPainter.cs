@@ -229,7 +229,7 @@ namespace PixelFarm.Drawing.WinGdi
                     index_start += a_width;
                     src += (a_stride + a_lineOffset);
                 }
-                PixelFarm.Agg.Image.StackBlurARGB.FastBlur32ARGB(src_buffer, destBuffer, a_width, a_height, r);
+                PixelFarm.Agg.Imaging.StackBlurARGB.FastBlur32ARGB(src_buffer, destBuffer, a_width, a_height, r);
                 //then copy back to bmp
                 index_start = 0;
                 src = (byte*)scan0;
@@ -294,7 +294,7 @@ namespace PixelFarm.Drawing.WinGdi
             //copy data to bitmap
             //bgra  
             var bmp = new System.Drawing.Bitmap(w, h, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-            byte[] acutalBuffer = actualImage.GetBuffer();
+            byte[] acutalBuffer = ActualImage.GetBuffer(actualImage);
             var bmpData = bmp.LockBits(new System.Drawing.Rectangle(0, 0, w, h), System.Drawing.Imaging.ImageLockMode.ReadOnly, bmp.PixelFormat);
             System.Runtime.InteropServices.Marshal.Copy(acutalBuffer, 0, bmpData.Scan0, acutalBuffer.Length);
             bmp.UnlockBits(bmpData);
@@ -311,7 +311,7 @@ namespace PixelFarm.Drawing.WinGdi
             int h = actualImage.Height;
             switch (actualImage.PixelFormat)
             {
-                case Agg.Image.PixelFormat.ARGB32:
+                case Agg.Imaging.PixelFormat.ARGB32:
                     {
                         //copy data from acutal buffer to internal representation bitmap
                         using (var bmp = CreateBmpBRGA(actualImage))
@@ -320,11 +320,11 @@ namespace PixelFarm.Drawing.WinGdi
                         }
                     }
                     break;
-                case Agg.Image.PixelFormat.RGB24:
+                case Agg.Imaging.PixelFormat.RGB24:
                     {
                     }
                     break;
-                case Agg.Image.PixelFormat.GrayScale8:
+                case Agg.Imaging.PixelFormat.GrayScale8:
                     {
                     }
                     break;

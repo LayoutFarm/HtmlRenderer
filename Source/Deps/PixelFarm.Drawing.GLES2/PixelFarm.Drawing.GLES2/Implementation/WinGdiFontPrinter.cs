@@ -81,11 +81,11 @@ namespace PixelFarm.DrawingGL
             bmpWidth = win32Size.Width;
             bmpHeight = win32Size.Height;
 
-            var actualImg = new Agg.ActualImage(bmpWidth, bmpHeight, Agg.Image.PixelFormat.ARGB32);
+            var actualImg = new Agg.ActualImage(bmpWidth, bmpHeight, Agg.Imaging.PixelFormat.ARGB32);
             //------------------------------------------------------
             //copy bmp from specific bmp area 
             //and convert to GLBmp   
-            byte[] buffer = actualImg.GetBuffer();
+            byte[] buffer = PixelFarm.Agg.ActualImage.GetBuffer(actualImg); 
             unsafe
             {
                 byte* header = (byte*)memdc.PPVBits;

@@ -11,7 +11,7 @@ namespace PixelFarm.Drawing.Fonts
     {
 
         public abstract float SizeInPoints { get; }
-        public abstract float SizeInPixels { get; } 
+        public abstract float SizeInPixels { get; }
         public void Dispose()
         {
             OnDispose();
@@ -31,8 +31,8 @@ namespace PixelFarm.Drawing.Fonts
         public abstract FontFace FontFace { get; }
         public abstract FontStyle FontStyle { get; }
         public abstract string FontName { get; }
-       
-       
+
+
         public abstract float AscentInPixels { get; }
         public abstract float DescentInPixels { get; }
 
@@ -41,6 +41,15 @@ namespace PixelFarm.Drawing.Fonts
             Dispose();
         }
         //---------------------
+
+        protected static ActualFont GetCacheActualFont(RequestFont r)
+        {
+            return RequestFont.GetCacheActualFont(r);
+        }
+        protected static void SetCacheActualFont(RequestFont r, ActualFont a)
+        {
+            RequestFont.SetCacheActualFont(r, a);
+        }
     }
 
 

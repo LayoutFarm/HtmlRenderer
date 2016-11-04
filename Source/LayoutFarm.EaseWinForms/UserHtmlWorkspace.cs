@@ -49,7 +49,7 @@ namespace LayoutFarm
             }
             //load
             System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(absolutePath);
-            e.SetResultImage(new Bitmap(bmp.Width, bmp.Height, bmp));
+            e.SetResultImage(DemoBitmap.CreateFromGdiPlusBitmap(bmp));
         }
         void contentMx_LoadStyleSheet(object sender, LayoutFarm.ContentManagers.TextRequestEventArgs e)
         {
@@ -62,4 +62,59 @@ namespace LayoutFarm
             e.TextContent = System.IO.File.ReadAllText(absolutePath);
         }
     }
+
+    sealed class DemoBitmap : Image
+    {
+        int width;
+        int height;
+
+        byte[] rawImageBuffer;
+        public DemoBitmap(int w, int h, byte[] rawImageBuffer, bool isInvertedImg = false)
+        {
+            this.width = w;
+            this.height = h;
+            this.rawImageBuffer = rawImageBuffer;
+        }
+
+        public DemoBitmap(int w, int h, System.Drawing.Bitmap innerImage)
+        {
+            this.width = w;
+            this.height = h;
+            SetCacheInnerImage(this, innerImage);
+        }
+        public override int Width
+        {
+            get { return this.width; }
+        }
+        public override int Height
+        {
+            get { return this.height; }
+        }
+
+        public override void Dispose()
+        {
+        }
+        public override bool IsReferenceImage
+        {
+            get { return false; }
+        }
+        public override int ReferenceX
+        {
+            get { return 0; }
+        }
+        public override int ReferenceY
+        {
+            get { return 0; }
+        }
+        public byte[] GetRawImageBuffer()
+        {
+            return rawImageBuffer;
+        }
+
+        public static DemoBitmap CreateFromGdiPlusBitmap(System.Drawing.Bitmap bmp)
+        {
+            return new DemoBitmap(bmp.Width, bmp.Height, bmp);
+        }
+    }
+
 }

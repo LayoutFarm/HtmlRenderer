@@ -21,13 +21,13 @@
 
 using System;
 using PixelFarm.Drawing;
-using PixelFarm.Agg.Image;
+using PixelFarm.Agg.Imaging;
 using PixelFarm.Agg.Transform;
 namespace PixelFarm.Agg
 {
     public sealed partial class ImageGraphics2D : Graphics2D
     {
-        ImageReaderWriterBase destImageReaderWriter;
+        MyImageReaderWriter destImageReaderWriter;
         ScanlinePacked8 sclinePack8;
         VertexStore myTmpImgRectVxs = new VertexStore();
         ScanlineRasToDestBitmapRenderer sclineRasToBmp;
@@ -39,13 +39,16 @@ namespace PixelFarm.Agg
         int destHeight;
         RectInt clipBox;
         ImageInterpolationQuality imgInterpolationQuality = ImageInterpolationQuality.Bilinear;
-        GraphicsPlatform gfxPlatform;
-        public ImageGraphics2D(ActualImage destImage, GraphicsPlatform gfxPlatform)
+
+        ActualImage destImage;
+        public ImageGraphics2D(ActualImage destImage)
         {
             //create from actual image
-            this.gfxPlatform = gfxPlatform;
+            this.destImage = destImage;
+
             this.destActualImage = destImage;
-            this.destImageReaderWriter = new MyImageReaderWriter(destImage);
+            this.destImageReaderWriter = new MyImageReaderWriter();
+            destImageReaderWriter.ReloadImage(destImage);
             this.sclineRas = new ScanlineRasterizer();
             this.sclineRasToBmp = new ScanlineRasToDestBitmapRenderer();
             this.destWidth = destImage.Width;
@@ -55,10 +58,7 @@ namespace PixelFarm.Agg
             this.sclinePack8 = new ScanlinePacked8();
             this.currentBlender = this.pixBlenderRGBA32 = new PixelBlenderBGRA();
         }
-        public GraphicsPlatform GfxPlatform
-        {
-            get { return this.gfxPlatform; }
-        }
+
         public override ScanlinePacked8 ScanlinePacked8
         {
             get { return this.sclinePack8; }

@@ -49,7 +49,7 @@
     <Compile Include="Implementation.Win32\NativeTextWin32.cs" />
     <Compile Include="Implementation.Win32\NativeWin32MemoryDc.cs" />
     <Compile Include="Implementation.Win32\WinGdiFont.cs" />
-    <Compile Include="Implementation\WindowsFormsBitmapBackBuffer.cs" />
+    <Compile Include="Implementation\GdiPlusBitmapBackBuffer.cs" />
     <Compile Include="Implementation\BitmapHelper.cs" />
     <Compile Include="Implementation\Region.cs" />
     <Compile Include="MiniAggGraphics\BufferBitmapStore.cs" />

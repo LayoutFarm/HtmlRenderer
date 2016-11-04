@@ -109,10 +109,8 @@ namespace LayoutFarm.DzBoardSample
         }
         static ImageBinder LoadImage(string filename)
         {
-            System.Drawing.Bitmap gdiBmp = new System.Drawing.Bitmap(filename);
-            Bitmap bmp = new Bitmap(gdiBmp.Width, gdiBmp.Height, gdiBmp);
             ImageBinder binder = new ClientImageBinder(filename);
-            binder.SetImage(bmp);
+            binder.SetImage(DemoBase.LoadBitmap(filename));
             binder.State = ImageBinderState.Loaded;
             return binder;
         }
@@ -124,9 +122,8 @@ namespace LayoutFarm.DzBoardSample
             {
                 return;
             }
-            //load
-            System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(absolutePath);
-            e.SetResultImage(new Bitmap(bmp.Width, bmp.Height, bmp));
+            //load             
+            e.SetResultImage(DemoBase.LoadBitmap(absolutePath));
         }
         void contentMx_LoadStyleSheet(object sender, LayoutFarm.ContentManagers.TextRequestEventArgs e)
         {

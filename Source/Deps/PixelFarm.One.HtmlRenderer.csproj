@@ -297,8 +297,8 @@
     <Compile Include="PixelFarm.Drawing.GdiPlus\Implementation.Win32\NativeWin32MemoryDc.cs" />
     <Compile Include="PixelFarm.Drawing.GdiPlus\Implementation.Win32\WinGdiFont.cs" />
     <Compile Include="PixelFarm.Drawing.GdiPlus\Implementation\BitmapHelper.cs" />
+    <Compile Include="PixelFarm.Drawing.GdiPlus\Implementation\GdiPlusBitmapBackBuffer.cs" />
     <Compile Include="PixelFarm.Drawing.GdiPlus\Implementation\Region.cs" />
-    <Compile Include="PixelFarm.Drawing.GdiPlus\Implementation\WindowsFormsBitmapBackBuffer.cs" />
     <Compile Include="PixelFarm.Drawing.GdiPlus\MiniAggGraphics\BufferBitmapStore.cs" />
     <Compile Include="PixelFarm.Drawing.GdiPlus\MiniAggGraphics\GdiPlusCanvasPainter.cs" />
     <Compile Include="PixelFarm.Drawing.GdiPlus\MiniAggGraphics\GdiPlusRenderVx.cs" />

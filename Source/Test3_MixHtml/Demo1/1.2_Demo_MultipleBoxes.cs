@@ -21,7 +21,8 @@ namespace LayoutFarm
             //--------------------
             //image box
             //load bitmap with gdi+           
-            ImageBinder imgBinder = LoadImage("../../Demo/favorites32.png");
+            ImageBinder imgBinder = new ClientImageBinder(null);
+            imgBinder.SetImage(LoadBitmap("../../Demo/favorites32.png"));
             var imgBox = new CustomWidgets.ImageBox(imgBinder.Image.Width, imgBinder.Image.Height);
             imgBox.ImageBinder = imgBinder;
             viewport.AddContent(imgBox);
@@ -127,20 +128,20 @@ namespace LayoutFarm
                 LayoutFarm.CustomWidgets.ResImageList.SetImageList(imgdic);
             }
         }
-        static Bitmap LoadBitmap(string filename)
-        {
-            System.Drawing.Bitmap gdiBmp = new System.Drawing.Bitmap(filename);
-            Bitmap bmp = new Bitmap(gdiBmp.Width, gdiBmp.Height, gdiBmp);
-            return bmp;
-        }
-        static ImageBinder LoadImage(string filename)
-        {
-            System.Drawing.Bitmap gdiBmp = new System.Drawing.Bitmap(filename);
-            Bitmap bmp = new Bitmap(gdiBmp.Width, gdiBmp.Height, gdiBmp);
-            ImageBinder binder = new ClientImageBinder(null);
-            binder.SetImage(bmp);
-            binder.State = ImageBinderState.Loaded;
-            return binder;
-        }
+        //static Bitmap LoadBitmap(string filename)
+        //{
+        //    System.Drawing.Bitmap gdiBmp = new System.Drawing.Bitmap(filename);
+        //    Bitmap bmp = new Bitmap(gdiBmp.Width, gdiBmp.Height, gdiBmp);
+        //    return bmp;
+        //}
+        //static ImageBinder LoadImage(string filename)
+        //{
+        //    System.Drawing.Bitmap gdiBmp = new System.Drawing.Bitmap(filename);
+        //    Bitmap bmp = new Bitmap(gdiBmp.Width, gdiBmp.Height, gdiBmp);
+        //    ImageBinder binder = new ClientImageBinder(null);
+        //    binder.SetImage(bmp);
+        //    binder.State = ImageBinderState.Loaded;
+        //    return binder;
+        //}
     }
 }

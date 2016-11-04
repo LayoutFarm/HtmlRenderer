@@ -7,7 +7,7 @@ namespace PixelFarm.Drawing.Fonts
 
     class TextureFontFace : FontFace
     {
-       
+
         SimpleFontAtlasBuilder atlasBuilder;
         SimpleFontAtlas fontAtlas;
 
@@ -19,7 +19,7 @@ namespace PixelFarm.Drawing.Fonts
             atlasBuilder = new SimpleFontAtlasBuilder();
             fontAtlas = atlasBuilder.LoadFontInfo(xmlFontInfo);
             fontAtlas.TotalGlyph = glyphImg;
-             
+
             InstalledFont installedFont = GLES2PlatformFontMx.GetInstalledFont(fontName, InstalledFontStyle.Regular);
             nOpenTypeFontFace = NOpenTypeFontLoader.LoadFont(installedFont.FontPath,
                 GLES2PlatformFontMx.defaultLang,
@@ -150,12 +150,6 @@ namespace PixelFarm.Drawing.Fonts
         {
             return actualFont.GetGlyphByIndex(glyphIndex);
         }
-
-        //public override void GetGlyphPos(char[] buffer, int start, int len, ProperGlyph[] properGlyphs)
-        //{
-        //    nativeFont.GetGlyphPos(buffer, start, len, properGlyphs);
-        //}
-
         protected override void OnDispose()
         {
             if (glBmp != null)
@@ -165,5 +159,13 @@ namespace PixelFarm.Drawing.Fonts
             }
         }
 
+        public void AssignToRequestFont(RequestFont r)
+        {
+            SetCacheActualFont(r, this);
+        }
+        public static TextureFont GetCacheFontAsTextureFont(RequestFont r)
+        {
+            return GetCacheActualFont(r) as TextureFont;
+        }
     }
 }

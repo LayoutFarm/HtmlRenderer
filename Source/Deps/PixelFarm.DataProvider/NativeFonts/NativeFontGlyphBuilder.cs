@@ -50,8 +50,8 @@ namespace PixelFarm.Drawing.Fonts
             fontGlyph.glyImgBuffer8 = buff;
             //convert to 32bpp
             //make gray value as alpha channel color value
-            ActualImage actualImage = new ActualImage(w, h, Agg.Image.PixelFormat.ARGB32);
-            byte[] newBmp32Buffer = actualImage.GetBuffer();
+            ActualImage actualImage = new ActualImage(w, h, Agg.Imaging.PixelFormat.ARGB32);
+            byte[] newBmp32Buffer = ActualImage.GetBuffer(actualImage);
             int src_p = 0;
             int target_p = 0;
             for (int r = 0; r < h; ++r)

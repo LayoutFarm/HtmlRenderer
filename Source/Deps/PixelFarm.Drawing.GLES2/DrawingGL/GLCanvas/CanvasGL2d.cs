@@ -33,8 +33,8 @@ namespace PixelFarm.DrawingGL
         MyMat4 orthoView;
         TessTool tessTool;
         FrameBuffer _currentFrameBuffer;//default = null, system provide frame buffer 
-      //  TextureFontStore textureFonts;
- 
+        //  TextureFontStore textureFonts;
+
 
         public CanvasGL2d(int canvasW, int canvasH)
         {
@@ -505,7 +505,7 @@ namespace PixelFarm.DrawingGL
                                             //draw texture image ***
                                             PixelFarm.Drawing.TextureBrush tbrush = (PixelFarm.Drawing.TextureBrush)brush;
                                             GLImage img = tbrush.TextureImage as GLImage;
-                                            GLBitmap bmpTexture = (GLBitmap)img.InnerImage;
+                                            GLBitmap bmpTexture = PixelFarm.Drawing.Image.GetCacheInnerImage(img) as GLBitmap;
                                             //TODO: review here 
                                             //where text start?
                                             this.DrawImage(bmpTexture, 0, 300);

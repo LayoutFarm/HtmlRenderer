@@ -32,20 +32,19 @@ either expressed or implied, of the FreeBSD Project.
 using System;
 using System.Drawing;
 using PixelFarm.Agg;
-using PixelFarm.Agg.Image;
+using PixelFarm.Agg.Imaging;
 namespace Mini
 {
-    public class WindowsFormsBitmapBackBuffer
+    public class GdiPlusBitmapBackBuffer
     {
         ActualImage actualImage;
         Bitmap bufferBmp;
         Graphics bufferGfx;
         int width;
         int height;
-        PixelFarm.Drawing.GraphicsPlatform gfxPlatform;
-        public WindowsFormsBitmapBackBuffer(PixelFarm.Drawing.GraphicsPlatform gfxPlatform)
+
+        public GdiPlusBitmapBackBuffer()
         {
-            this.gfxPlatform = gfxPlatform;
         }
 
         const int SRCCOPY = 0xcc0020;
@@ -122,9 +121,9 @@ namespace Mini
                 {
                     case 24:
                         bufferBmp = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
-                        actualImage = new ActualImage(width, height, PixelFarm.Agg.Image.PixelFormat.RGB24);
+                        actualImage = new ActualImage(width, height, PixelFarm.Agg.Imaging.PixelFormat.RGB24);
                         bufferGfx = Graphics.FromImage(bufferBmp);
-                        return Graphics2D.CreateFromImage(actualImage, gfxPlatform);
+                        return Graphics2D.CreateFromImage(actualImage);
                     case 32:
 
                         bufferBmp = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppRgb);//***
@@ -134,7 +133,7 @@ namespace Mini
                         //32bppPArgb                         
                         actualImage = new ActualImage(width, height, PixelFormat.ARGB32);
                         bufferGfx = Graphics.FromImage(bufferBmp);
-                        return Graphics2D.CreateFromImage(actualImage, gfxPlatform);
+                        return Graphics2D.CreateFromImage(actualImage);
                     case 128:
                     //windowsBitmap = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppRgb);
                     //backingImageBufferByte = null;
@@ -153,7 +152,7 @@ namespace Mini
             Graphics2D graphics2D;
             if (actualImage != null)
             {
-                graphics2D = Graphics2D.CreateFromImage(actualImage, gfxPlatform);
+                graphics2D = Graphics2D.CreateFromImage(actualImage);
             }
             else
             {
@@ -164,6 +163,6 @@ namespace Mini
             return graphics2D;
         }
         //-------------
- 
+
     }
 }
