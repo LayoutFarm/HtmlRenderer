@@ -19,7 +19,13 @@ namespace LayoutFarm
             menuItem.AddSubMenuItem(menuItem2);
             viewport.AddContent(menuItem);
         }
-
+        static ImageBinder LoadImageBinder(string filename)
+        {
+            ImageBinder binder = new ClientImageBinder(filename);
+            binder.SetImage(DemoBase.LoadBitmap(filename));
+            binder.State = ImageBinderState.Loaded;
+            return binder;
+        }
         LayoutFarm.CustomWidgets.ComboBox CreateComboBox(int x, int y)
         {
             var comboBox = new CustomWidgets.ComboBox(400, 20);
@@ -35,7 +41,7 @@ namespace LayoutFarm
             //load bitmap with gdi+                
             if (arrowBmp == null)
             {
-                arrowBmp = LoadImage("../../Demo/arrow_open.png");
+                arrowBmp = LoadImageBinder("../../Demo/arrow_open.png");
             }
             LayoutFarm.CustomWidgets.ImageBox imgBox = new CustomWidgets.ImageBox(arrowBmp.Image.Width, arrowBmp.Image.Height);
             imgBox.ImageBinder = arrowBmp;
@@ -68,6 +74,7 @@ namespace LayoutFarm
             landPart.AddChild(imgBox);
             return comboBox;
         }
+      
         LayoutFarm.CustomWidgets.MenuItem CreateMenuItem(int x, int y)
         {
             var mnuItem = new CustomWidgets.MenuItem(150, 20);
@@ -80,10 +87,11 @@ namespace LayoutFarm
             //--------------------------------------
             //add small px to land part
             //image
-            //load bitmap with gdi+                
+            //load bitmap with gdi+        
+            
             if (arrowBmp == null)
             {
-                arrowBmp = LoadImage("../../Demo/arrow_open.png");
+                arrowBmp = LoadImageBinder("../../Demo/arrow_open.png");
             }
             LayoutFarm.CustomWidgets.ImageBox imgBox = new CustomWidgets.ImageBox(arrowBmp.ImageWidth, arrowBmp.ImageHeight);
             imgBox.ImageBinder = arrowBmp;
@@ -124,14 +132,6 @@ namespace LayoutFarm
             return mnuItem;
         }
 
-        static ImageBinder LoadImage(string filename)
-        {
-            System.Drawing.Bitmap gdiBmp = new System.Drawing.Bitmap(filename);
-            Bitmap bmp = new Bitmap(gdiBmp.Width, gdiBmp.Height, gdiBmp);
-            ImageBinder binder = new ClientImageBinder(null);
-            binder.SetImage(bmp);
-            binder.State = ImageBinderState.Loaded;
-            return binder;
-        }
+      
     }
 }

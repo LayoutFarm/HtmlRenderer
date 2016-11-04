@@ -96,8 +96,8 @@ namespace LayoutFarm.HtmlBoxes
                     break;
                 case ImageBinderState.Loaded:
                     {
-                        Bitmap img;
-                        if ((img = (Bitmap)_imgRun.ImageBinder.Image) != null)
+                        Image img;
+                        if ((img = (Image)_imgRun.ImageBinder.Image) != null)
                         {
                             if (_imgRun.ImageRectangle == Rectangle.Empty)
                             {

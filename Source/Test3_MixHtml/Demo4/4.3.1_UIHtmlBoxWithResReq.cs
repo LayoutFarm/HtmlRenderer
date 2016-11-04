@@ -23,9 +23,8 @@ namespace LayoutFarm
                             return;
                         }
 
-                        //load create and load bitmap
-                        System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(absolutePath);
-                        e.ImageBinder.SetImage(new Bitmap(bmp.Width, bmp.Height, bmp));
+                        //load create and load bitmap                         
+                        e.ImageBinder.SetImage(LoadBitmap(absolutePath));
                     },
                     //2. stylesheet request
                     (s, e) =>

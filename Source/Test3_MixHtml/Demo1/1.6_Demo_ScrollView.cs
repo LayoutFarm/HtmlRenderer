@@ -132,11 +132,6 @@ namespace LayoutFarm
             }
             panel.PerformContentLayout();
         }
-        static Bitmap LoadBitmap(string filename)
-        {
-            System.Drawing.Bitmap gdiBmp = new System.Drawing.Bitmap(filename);
-            Bitmap bmp = new Bitmap(gdiBmp.Width, gdiBmp.Height, gdiBmp);
-            return bmp;
-        }
+        
     }
 }

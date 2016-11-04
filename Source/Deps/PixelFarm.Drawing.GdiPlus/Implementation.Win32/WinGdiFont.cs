@@ -15,7 +15,7 @@ namespace PixelFarm.Drawing.WinGdi
         FontStyle style;
         //we use NOpenType 
         static InstalledFontCollection s_installedFonts;
-        
+
         public WinGdiFontFace(string fontName, FontStyle style)
         {
             this.style = style;
@@ -46,7 +46,7 @@ namespace PixelFarm.Drawing.WinGdi
             {
                 throw new NotSupportedException();
             }
-            s_installedFonts = installedFonts; 
+            s_installedFonts = installedFonts;
         }
         protected override void OnDispose()
         {
@@ -226,6 +226,14 @@ namespace PixelFarm.Drawing.WinGdi
                 return descentInPixels;
             }
         }
+        public void AssignToRequestFont(RequestFont r)
+        {
+            SetCacheActualFont(r, this);
+        }
+        public static WinGdiFont GetCacheFontAsWinGdiFont(RequestFont r)
+        {
+            return GetCacheActualFont(r) as WinGdiFont;
+        }
     }
 
 
@@ -247,7 +255,7 @@ namespace PixelFarm.Drawing.WinGdi
             {
                 return latestWinFont;
             }
-            WinGdiFont actualFontInside = RequestFont.GetCacheActualFont(f) as WinGdiFont;
+            WinGdiFont actualFontInside = WinGdiFont.GetCacheFontAsWinGdiFont(f);
             if (actualFontInside != null)
             {
                 return actualFontInside;
@@ -274,7 +282,7 @@ namespace PixelFarm.Drawing.WinGdi
                 registerFonts.Add(key, found);//cache here
             }
             latestFont = f;
-            RequestFont.SetCacheActualFont(f, found);
+            found.AssignToRequestFont(f);
             return latestWinFont = found;
         }
     }
@@ -303,7 +311,7 @@ namespace PixelFarm.Drawing.WinGdi
         static void SetFont(RequestFont font)
         {
             WinGdiFont winFont = WinGdiFontSystem.GetWinGdiFont(font);
-            MyWin32.SelectObject(win32MemDc.DC, winFont.ToHfont());             
+            MyWin32.SelectObject(win32MemDc.DC, winFont.ToHfont());
         }
         public static Size MeasureString(char[] buff, int startAt, int len, RequestFont font)
         {
@@ -388,6 +396,7 @@ namespace PixelFarm.Drawing.WinGdi
         {
             return WinGdiFontSystem.GetWinGdiFont(f);
         }
+
 
 
     }

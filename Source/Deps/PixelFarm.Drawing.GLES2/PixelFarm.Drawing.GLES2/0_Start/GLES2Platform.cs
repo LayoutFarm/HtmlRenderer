@@ -22,8 +22,7 @@ namespace PixelFarm.Drawing.GLES2
             int top, int width, int height,
             CanvasInitParameters reqPars = new CanvasInitParameters())
         {
-            MyGLCanvas myCanvas = new MyGLCanvas(new CanvasGL2d(width, height), 0, 0, width, height);
-            return myCanvas;
+            return new MyGLCanvas(CreateCanvasGL2d(width, height), 0, 0, width, height);             
         }
 
         public static void AddTextureFont(string fontName, string xmlGlyphPos, string glypBitmap)
@@ -31,8 +30,13 @@ namespace PixelFarm.Drawing.GLES2
             GLES2PlatformFontMx.AddTextureFontInfo(fontName, xmlGlyphPos, glypBitmap);
         }
 
+        public static CanvasGL2d CreateCanvasGL2d(int w, int h)
+        {
+            Init();
+            return new CanvasGL2d(w, h);
+        }
         static bool s_isInit;
-        internal static void Init()
+        static void Init()
         {
             if (s_isInit)
             {

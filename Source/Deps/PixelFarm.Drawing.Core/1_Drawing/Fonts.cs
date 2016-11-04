@@ -114,11 +114,11 @@ namespace PixelFarm.Drawing
 
         //-------------
         ActualFont _actualFont;
-        public static void SetCacheActualFont(RequestFont r, ActualFont f)
+        internal static void SetCacheActualFont(RequestFont r, ActualFont f)
         {
             r._actualFont = f;
         }
-        public static ActualFont GetCacheActualFont(RequestFont r)
+        internal static ActualFont GetCacheActualFont(RequestFont r)
         {
             return r._actualFont;
         }

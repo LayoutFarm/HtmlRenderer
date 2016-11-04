@@ -50,30 +50,82 @@
     <Compile Include="..\PixelFarm.Drawing.GdiPlus\Implementation.Win32\WinGdiFont.cs">
       <Link>PixelFarm.Drawing.GLES2\Implementation.Win32\WinGdiFont.cs</Link>
     </Compile>
-    <Compile Include="DrawingGL\GLCanvas\CanvasGL2d.cs" />
-    <Compile Include="DrawingGL\GLCanvas\CanvasSmoothMode.cs" />
-    <Compile Include="DrawingGL\GLCanvas\CanvasToShaderSharedResource.cs" />
-    <Compile Include="DrawingGL\GLCanvas\GLCanvasPainterBase.cs" />
-    <Compile Include="DrawingGL\GLCanvas\GLGradientColorProvider.cs" />
-    <Compile Include="DrawingGL\GLCanvas\GLTextPrinter.cs" />
-    <Compile Include="DrawingGL\GLCanvas\ImageFillStyle.cs" />
-    <Compile Include="DrawingGL\GLCanvas\InternalGraphicsPath.cs" />
-    <Compile Include="DrawingGL\GLCanvas\SvgArc.cs" />
-    <Compile Include="DrawingGL\GLCanvas\TessListener.cs" />
-    <Compile Include="DrawingGL\GLCanvas\VertexPositionColor.cs" />
-    <Compile Include="DrawingGL\GLShader\BasicFillShader.cs" />
-    <Compile Include="DrawingGL\GLShader\FilterEffectShaders.cs" />
-    <Compile Include="DrawingGL\GLShader\InvertAlphaLineSmoothShader.cs" />
-    <Compile Include="DrawingGL\GLShader\RectGradientShader.cs" />
-    <Compile Include="DrawingGL\GLShader\ShaderBase.cs" />
-    <Compile Include="DrawingGL\GLShader\SignedDistanceFieldShader.cs" />
-    <Compile Include="DrawingGL\GLShader\SimpleRectTextureShader.cs" />
-    <Compile Include="DrawingGL\GLShader\SmoothLineShader.cs" />
-    <Compile Include="DrawingGL\GLTexture\FrameBuffer.cs" />
-    <Compile Include="DrawingGL\GLTexture\GLBitmap.cs" />
-    <Compile Include="DrawingGL\GLTexture\GLBitmapReference.cs" />
-    <Compile Include="DrawingGL\GLTexture\LazyAggBitmapBufferProvider.cs" />
-    <Compile Include="DrawingGL\GLTexture\TextureAtlas.cs" />
+    <Compile Include="..\PixelFarm.DrawingGL\DrawingGL\GLCanvas\CanvasGL2d.cs">
+      <Link>DrawingGL\GLCanvas\CanvasGL2d.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.DrawingGL\DrawingGL\GLCanvas\CanvasSmoothMode.cs">
+      <Link>DrawingGL\GLCanvas\CanvasSmoothMode.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.DrawingGL\DrawingGL\GLCanvas\CanvasToShaderSharedResource.cs">
+      <Link>DrawingGL\GLCanvas\CanvasToShaderSharedResource.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.DrawingGL\DrawingGL\GLCanvas\GLCanvasPainterBase.cs">
+      <Link>DrawingGL\GLCanvas\GLCanvasPainterBase.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.DrawingGL\DrawingGL\GLCanvas\GLGradientColorProvider.cs">
+      <Link>DrawingGL\GLCanvas\GLGradientColorProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.DrawingGL\DrawingGL\GLCanvas\ImageFillStyle.cs">
+      <Link>DrawingGL\GLCanvas\ImageFillStyle.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.DrawingGL\DrawingGL\GLCanvas\InternalGraphicsPath.cs">
+      <Link>DrawingGL\GLCanvas\InternalGraphicsPath.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.DrawingGL\DrawingGL\GLCanvas\SvgArc.cs">
+      <Link>DrawingGL\GLCanvas\SvgArc.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.DrawingGL\DrawingGL\GLCanvas\TessListener.cs">
+      <Link>DrawingGL\GLCanvas\TessListener.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.DrawingGL\DrawingGL\GLCanvas\TextureFontStore.cs">
+      <Link>DrawingGL\GLCanvas\TextureFontStore.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.DrawingGL\DrawingGL\GLCanvas\VertexPositionColor.cs">
+      <Link>DrawingGL\GLCanvas\VertexPositionColor.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.DrawingGL\DrawingGL\GLShader\BasicFillShader.cs">
+      <Link>DrawingGL\GLShader\BasicFillShader.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.DrawingGL\DrawingGL\GLShader\FilterEffectShaders.cs">
+      <Link>DrawingGL\GLShader\FilterEffectShaders.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.DrawingGL\DrawingGL\GLShader\InvertAlphaLineSmoothShader.cs">
+      <Link>DrawingGL\GLShader\InvertAlphaLineSmoothShader.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.DrawingGL\DrawingGL\GLShader\RectGradientShader.cs">
+      <Link>DrawingGL\GLShader\RectGradientShader.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.DrawingGL\DrawingGL\GLShader\ShaderBase.cs">
+      <Link>DrawingGL\GLShader\ShaderBase.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.DrawingGL\DrawingGL\GLShader\SignedDistanceFieldShader.cs">
+      <Link>DrawingGL\GLShader\SignedDistanceFieldShader.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.DrawingGL\DrawingGL\GLShader\SimpleRectTextureShader.cs">
+      <Link>DrawingGL\GLShader\SimpleRectTextureShader.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.DrawingGL\DrawingGL\GLShader\SmoothLineShader.cs">
+      <Link>DrawingGL\GLShader\SmoothLineShader.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.DrawingGL\DrawingGL\GLTexture\FrameBuffer.cs">
+      <Link>DrawingGL\GLTexture\FrameBuffer.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.DrawingGL\DrawingGL\GLTexture\GLBitmap.cs">
+      <Link>DrawingGL\GLTexture\GLBitmap.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.DrawingGL\DrawingGL\GLTexture\GLBitmapReference.cs">
+      <Link>DrawingGL\GLTexture\GLBitmapReference.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.DrawingGL\DrawingGL\GLTexture\LazyAggBitmapBufferProvider.cs">
+      <Link>DrawingGL\GLTexture\LazyAggBitmapBufferProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.DrawingGL\DrawingGL\GLTexture\TextureAtlas.cs">
+      <Link>DrawingGL\GLTexture\TextureAtlas.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.DrawingGL\DrawingGL\TextureFonts\TextureFont.cs">
+      <Link>DrawingGL\TextureFonts\TextureFont.cs</Link>
+    </Compile>
+    <Compile Include="PixelFarm.Drawing.GLES2\Implementation\GLTextPrinter.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\0_Start\GLES2Platform.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\Canvas\1_MyGLCanvas_Specific.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\Canvas\2_MyGLCanvas_CoordinateAndClip.cs" />
@@ -84,7 +136,6 @@
     <Compile Include="PixelFarm.Drawing.GLES2\Implementation\PensAndBrushes.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\Implementation\TextureFontStore.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\Implementation\WinGdiFontPrinter.cs" />
-    <Compile Include="PixelFarm.Drawing.GLES2\TextureFonts\TextureFont.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

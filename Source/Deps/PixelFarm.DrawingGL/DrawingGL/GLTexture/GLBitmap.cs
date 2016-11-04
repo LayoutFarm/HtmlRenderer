@@ -29,19 +29,7 @@ namespace PixelFarm.DrawingGL
             }
         }
 
-        public override IDisposable InnerImage
-        {
-            get
-            {
-                return this.glBitmap;
-            }
-
-            set
-            {
-                this.glBitmap = (GLBitmap)value;
-            }
-        }
-
+        
         public override bool IsReferenceImage
         {
             get
@@ -78,6 +66,8 @@ namespace PixelFarm.DrawingGL
         {
             //nothing
         }
+
+       
     }
 
 

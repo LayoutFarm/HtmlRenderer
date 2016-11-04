@@ -2,30 +2,26 @@
 //----------------------------------- 
 using System;
 using System.Collections.Generic;
-namespace PixelFarm.Drawing.Fonts
+using PixelFarm.Drawing;
+using PixelFarm.Drawing.Fonts;
+namespace PixelFarm.DrawingGL
 {
 
     class TextureFontFace : FontFace
     {
-       
+
         SimpleFontAtlasBuilder atlasBuilder;
         SimpleFontAtlas fontAtlas;
 
         FontFace nOpenTypeFontFace;
-        public TextureFontFace(string fontName, string xmlFontInfo, GlyphImage glyphImg)
+        public TextureFontFace(FontFace nOpenTypeFontFace, string xmlFontInfo, GlyphImage glyphImg)
         {
             //for msdf font
             //1 font atlas may support mutliple font size 
             atlasBuilder = new SimpleFontAtlasBuilder();
             fontAtlas = atlasBuilder.LoadFontInfo(xmlFontInfo);
             fontAtlas.TotalGlyph = glyphImg;
-             
-            InstalledFont installedFont = GLES2PlatformFontMx.GetInstalledFont(fontName, InstalledFontStyle.Regular);
-            nOpenTypeFontFace = NOpenTypeFontLoader.LoadFont(installedFont.FontPath,
-                GLES2PlatformFontMx.defaultLang,
-                GLES2PlatformFontMx.defaultHbDirection,
-                GLES2PlatformFontMx.defaultScriptCode);
-            //----------
+            this.nOpenTypeFontFace = nOpenTypeFontFace; 
         }
         public override float GetScale(float pointSize)
         {
@@ -150,12 +146,6 @@ namespace PixelFarm.Drawing.Fonts
         {
             return actualFont.GetGlyphByIndex(glyphIndex);
         }
-
-        //public override void GetGlyphPos(char[] buffer, int start, int len, ProperGlyph[] properGlyphs)
-        //{
-        //    nativeFont.GetGlyphPos(buffer, start, len, properGlyphs);
-        //}
-
         protected override void OnDispose()
         {
             if (glBmp != null)
@@ -165,5 +155,13 @@ namespace PixelFarm.Drawing.Fonts
             }
         }
 
+        public void AssignToRequestFont(RequestFont r)
+        {
+            SetCacheActualFont(r, this);
+        }
+        public static TextureFont GetCacheFontAsTextureFont(RequestFont r)
+        {
+            return GetCacheActualFont(r) as TextureFont;
+        }
     }
 }

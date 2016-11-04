@@ -13,7 +13,10 @@ namespace LayoutFarm
             treeView.BackColor = KnownColors.FromKnownColor(KnownColor.LightGray);
             viewport.AddContent(treeView);
             //prepare node icon
-            ImageBinder nodeOpen = LoadImage("../../Demo/arrow_open.png");
+
+            ImageBinder nodeOpen = new ClientImageBinder(null);
+            nodeOpen.SetImage(LoadBitmap("../../Demo/arrow_open.png"));
+
             //add 
             for (int i = 0; i < 10; ++i)
             {
@@ -43,20 +46,20 @@ namespace LayoutFarm
                 }
             }
         }
-        static Bitmap LoadBitmap(string filename)
-        {
-            System.Drawing.Bitmap gdiBmp = new System.Drawing.Bitmap(filename);
-            Bitmap bmp = new Bitmap(gdiBmp.Width, gdiBmp.Height, gdiBmp);
-            return bmp;
-        }
-        static ImageBinder LoadImage(string filename)
-        {
-            System.Drawing.Bitmap gdiBmp = new System.Drawing.Bitmap(filename);
-            Bitmap bmp = new Bitmap(gdiBmp.Width, gdiBmp.Height, gdiBmp);
-            ImageBinder binder = new ClientImageBinder(null);
-            binder.SetImage(bmp);
-            binder.State = ImageBinderState.Loaded;
-            return binder;
-        }
+        //static Bitmap LoadBitmap(string filename)
+        //{
+        //    System.Drawing.Bitmap gdiBmp = new System.Drawing.Bitmap(filename);
+        //    Bitmap bmp = new Bitmap(gdiBmp.Width, gdiBmp.Height, gdiBmp);
+        //    return bmp;
+        //}
+        //static ImageBinder LoadImage(string filename)
+        //{
+        //    System.Drawing.Bitmap gdiBmp = new System.Drawing.Bitmap(filename);
+        //    Bitmap bmp = new Bitmap(gdiBmp.Width, gdiBmp.Height, gdiBmp);
+        //    ImageBinder binder = new ClientImageBinder(null);
+        //    binder.SetImage(bmp);
+        //    binder.State = ImageBinderState.Loaded;
+        //    return binder;
+        //}
     }
 }

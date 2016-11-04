@@ -12,12 +12,12 @@ namespace LayoutFarm.CustomWidgets
         bool needUpdate;
         List<BasicSprite> sprites = new List<BasicSprite>();
         ActualImage actualImage;
-        Bitmap bmp;
+
         public MyMiniAggCanvasRenderElement(RootGraphic rootgfx, int width, int height)
             : base(rootgfx, width, height)
         {
-            this.actualImage = new ActualImage(width, height, PixelFarm.Agg.Image.PixelFormat.ARGB32);
-            this.gfx2d = Graphics2D.CreateFromImage(actualImage, rootgfx.P);
+            this.actualImage = new ActualImage(width, height, PixelFarm.Agg.Imaging.PixelFormat.ARGB32);
+            this.gfx2d = Graphics2D.CreateFromImage(actualImage);
             needUpdate = true;
         }
         public override void ClearAllChildren()
@@ -59,12 +59,10 @@ namespace LayoutFarm.CustomWidgets
                     sprites[i].OnDraw(gfx2d);
                 }
 
-                //---------------------------------
-                var buffer = actualImage.GetBuffer();
-                this.bmp = new Bitmap(this.Width, this.Height, this.actualImage.GetBuffer(), true);
+                //this.bmp = new Bitmap(this.Width, this.Height, this.actualImage.GetBuffer(), true);
                 needUpdate = false;
             }
-            canvas.DrawImage(this.bmp, new RectangleF(0, 0, this.Width, this.Height));
+            canvas.DrawImage(actualImage, new RectangleF(0, 0, this.Width, this.Height));
             //---------------------
             //copy data from actual image to canvas 
 
@@ -81,11 +79,11 @@ namespace LayoutFarm.CustomWidgets
             //TODO: review this again 
             //about resource mx
             //------------------------- 
-            if (bmp != null)
-            {
-                bmp.Dispose();
-                bmp = null;
-            }
+            //if (bmp != null)
+            //{
+            //    bmp.Dispose();
+            //    bmp = null;
+            //}
             //if (currentGdiPlusBmp != null)
             //{
             //    currentGdiPlusBmp.Dispose();

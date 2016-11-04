@@ -32,7 +32,7 @@ namespace LayoutFarm.Demo
         /// <summary>
         /// Cache for resource images
         /// </summary>
-        private readonly Dictionary<string, Image> _imageCache = new Dictionary<string, Image>(StringComparer.OrdinalIgnoreCase);
+        private readonly Dictionary<string, Bitmap> _imageCache = new Dictionary<string, Bitmap>(StringComparer.OrdinalIgnoreCase);
         /// <summary>
         /// the private font used for the demo
         /// </summary>
@@ -397,10 +397,10 @@ namespace LayoutFarm.Demo
         /// </summary>
         void HandleImageRequest(object sender, ImageRequestEventArgs e)
         {
-            var img = TryLoadResourceImage(e.ImagSource);
+            PixelFarm.Drawing.Image img = TryLoadResourceImage(e.ImagSource);
             if (img != null)
             {
-                e.SetResultImage(new PixelFarm.Drawing.Bitmap(img.Width, img.Height, img));
+                e.SetResultImage(img);
             }
             else
             {
@@ -412,9 +412,9 @@ namespace LayoutFarm.Demo
         /// <summary>
         /// Get image by resource key.
         /// </summary>
-        Image TryLoadResourceImage(string src)
+        PixelFarm.Drawing.Image TryLoadResourceImage(string src)
         {
-            Image image;
+            System.Drawing.Bitmap image;
             if (!_imageCache.TryGetValue(src, out image))
             {
                 switch (src.ToLower())
@@ -463,7 +463,7 @@ namespace LayoutFarm.Demo
                 }
                 //----------------------------------
             }
-            return image;
+            return DemoBase.LoadBitmap(image);
         }
 
         ///// <summary>

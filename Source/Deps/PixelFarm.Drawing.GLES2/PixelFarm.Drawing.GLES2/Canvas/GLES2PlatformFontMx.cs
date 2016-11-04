@@ -40,7 +40,7 @@ namespace PixelFarm.Drawing.Fonts
         public ActualFont ResolveForTextureFont(RequestFont font)
         {
             //check if we have texture font fot this font 
-            TextureFont t = RequestFont.GetCacheActualFont(font) as TextureFont;
+            TextureFont t = TextureFont.GetCacheFontAsTextureFont(font);
             if (t != null)
             {
                 return t;
@@ -65,14 +65,22 @@ namespace PixelFarm.Drawing.Fonts
                     System.Runtime.InteropServices.Marshal.Copy(nativeImg.GetNativeImageHandle(), buffer, 0, buffer.Length);
                     glyphImage.SetImageBuffer(buffer, true);
                 }
-                textureFontface = new TextureFontFace(font.Name, lateFontInfo.FontMapFile, glyphImage);
+
+                InstalledFont installedFont = GLES2PlatformFontMx.GetInstalledFont(font.Name, InstalledFontStyle.Regular);
+                FontFace nOpenTypeFontFace = NOpenTypeFontLoader.LoadFont(installedFont.FontPath,
+                      GLES2PlatformFontMx.defaultLang,
+                      GLES2PlatformFontMx.defaultHbDirection,
+                      GLES2PlatformFontMx.defaultScriptCode);
+                 
+
+                textureFontface = new TextureFontFace(nOpenTypeFontFace, lateFontInfo.FontMapFile, glyphImage);
                 lateFontInfo.Fontface = textureFontface;
                 return textureFontface.GetFontAtPointsSize(font.SizeInPoints);
             }
             if (textureFontface != null)
             {
                 t = (TextureFont)(textureFontface.GetFontAtPointsSize(font.SizeInPoints));
-                RequestFont.SetCacheActualFont(font, t);
+                t.AssignToRequestFont(font);
                 return t;
             }
             else
@@ -126,7 +134,7 @@ namespace PixelFarm.Drawing.Fonts
             s_didLoadFonts = true;
             installFonts = new InstalledFontCollection();
             installFonts.LoadInstalledFont(provider.GetInstalledFontIter());
-           
+
             //--------
 
             WinGdi.WinGdiFontFace.SetInstalledFontCollection(installFonts);
