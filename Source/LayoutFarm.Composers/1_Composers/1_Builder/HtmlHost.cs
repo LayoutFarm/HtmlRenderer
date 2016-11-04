@@ -16,20 +16,20 @@ namespace LayoutFarm.HtmlBoxes
         HtmlContainerUpdateHandler htmlContainerUpdateHandler;
         EventHandler<ImageRequestEventArgs> requestImage;
         EventHandler<TextRequestEventArgs> requestStyleSheet;
-        GraphicsPlatform gfxplatform;
+
         HtmlDocument commonHtmlDoc;
         RootGraphic rootgfx;
         Queue<LayoutFarm.HtmlBoxes.LayoutVisitor> htmlLayoutVisitorStock = new Queue<LayoutVisitor>();
         LayoutFarm.Composers.RenderTreeBuilder renderTreeBuilder;
-        private HtmlHost(GraphicsPlatform gfxplatform, WebDom.CssActiveSheet activeSheet)
+        private HtmlHost(WebDom.CssActiveSheet activeSheet)
         {
-            this.gfxplatform = gfxplatform;
+
             this.BaseStylesheet = activeSheet;
             this.commonHtmlDoc = new HtmlDocument();
             this.commonHtmlDoc.CssActiveSheet = activeSheet;
         }
-        public HtmlHost(GraphicsPlatform gfxplatform)
-            : this(gfxplatform,
+        public HtmlHost()
+            : this(
               LayoutFarm.WebDom.Parser.CssParserHelper.ParseStyleSheet(null,
               LayoutFarm.Composers.CssDefaults.DefaultCssData,
              true))
@@ -61,7 +61,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             this.htmlContainerUpdateHandler = htmlContainerUpdateHandler;
         }
-        public GraphicsPlatform GfxPlatform { get { return this.gfxplatform; } }
+
         public WebDom.CssActiveSheet BaseStylesheet { get; private set; }
 
 
@@ -91,7 +91,7 @@ namespace LayoutFarm.HtmlBoxes
             LayoutFarm.HtmlBoxes.LayoutVisitor lay = null;
             if (htmlLayoutVisitorStock.Count == 0)
             {
-                lay = new LayoutVisitor(this.gfxplatform);
+                lay = new LayoutVisitor();
             }
             else
             {
@@ -108,7 +108,7 @@ namespace LayoutFarm.HtmlBoxes
 
         public HtmlInputEventAdapter GetNewInputEventAdapter()
         {
-            return new HtmlInputEventAdapter(this.gfxplatform);
+            return new HtmlInputEventAdapter();
         }
 
 

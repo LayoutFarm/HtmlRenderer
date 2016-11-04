@@ -114,7 +114,7 @@ namespace LayoutFarm.Demo
                 myHtmlContainer_NeedUpdateDom,
                 OnRefresh,
                 null);
-            htmlLayoutVisitor = new LayoutVisitor(this.gfxPlatform);
+            htmlLayoutVisitor = new LayoutVisitor();
             htmlLayoutVisitor.Bind(htmlContainer);
             //------------------------------------------------------- 
             timer01.Interval = 20;//20ms?
@@ -135,7 +135,7 @@ namespace LayoutFarm.Demo
             };
             timer01.Enabled = true;
             //-------------------------------------------
-            _htmlInputEventAdapter = new HtmlInputEventAdapter(gfxPlatform);
+            _htmlInputEventAdapter = new HtmlInputEventAdapter();
             _htmlInputEventAdapter.Bind(htmlContainer);
             //-------------------------------------------
         }

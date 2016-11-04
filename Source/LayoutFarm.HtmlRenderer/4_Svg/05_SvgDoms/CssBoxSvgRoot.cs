@@ -13,12 +13,12 @@ namespace LayoutFarm.HtmlBoxes
             this.SvgSpec = svgElem;
             ChangeDisplayType(this, Css.CssDisplay.Block);
         }
-        public override void CustomRecomputedValue(CssBox containingBlock, GraphicsPlatform gfxPlatform)
+        public override void CustomRecomputedValue(CssBox containingBlock)
         {
             var svgElement = this.SvgSpec;
             //recompute value if need  
             var cnode = svgElement.GetFirstNode();
-            ReEvaluateArgs reEvalArgs = new ReEvaluateArgs(gfxPlatform,
+            ReEvaluateArgs reEvalArgs = new ReEvaluateArgs(
                 containingBlock.VisualWidth,
                 100,
                 containingBlock.GetEmHeight());

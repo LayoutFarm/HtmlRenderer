@@ -58,8 +58,7 @@ namespace LayoutFarm.Svg
             this.ActualWidth = ConvertToPx(myspec.Width, ref args);
             this.ActualHeight = ConvertToPx(myspec.Height, ref args);
             this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, ref args);
-            this._path = CreateRectGraphicPath(
-                    args.graphicsPlatform,
+            this._path = CreateRectGraphicPath( 
                     this.ActualX,
                     this.ActualY,
                     this.ActualWidth,
@@ -150,7 +149,7 @@ namespace LayoutFarm.Svg
                 p.DrawPath(_path, strokeColor, ActualStrokeWidth);
             }
         }
-        static GraphicsPath CreateRectGraphicPath(GraphicsPlatform gfxPlatform, float x, float y, float w, float h)
+        static GraphicsPath CreateRectGraphicPath(float x, float y, float w, float h)
         {
             var _path = new GraphicsPath();
             _path.StartFigure();
