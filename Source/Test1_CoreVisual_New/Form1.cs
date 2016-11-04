@@ -36,8 +36,7 @@ namespace TestGraphicPackage
             int w = 800;
             int h = 600;
             MyRootGraphic rootgfx = new MyRootGraphic(
-                this.uiPlatformWinForm,
-                this.gfxPlatform,
+                this.uiPlatformWinForm, 
                 w,
                 h);
             Form formCanvas = FormCanvasHelper.CreateNewFormCanvas(rootgfx,
@@ -59,8 +58,8 @@ namespace TestGraphicPackage
             simpleForm.Controls.Add(viewport);
             int w = 800;
             int h = 600;
-            var rootgfx = new MyRootGraphic(this.uiPlatformWinForm,
-                this.gfxPlatform, w, h);
+            var rootgfx = new MyRootGraphic(this.uiPlatformWinForm, 
+                w, h);
             viewport.InitRootGraphics(rootgfx, rootgfx.TopWinEventPortal,
                 InnerViewportKind.GdiPlus);
             viewport.PaintMe();

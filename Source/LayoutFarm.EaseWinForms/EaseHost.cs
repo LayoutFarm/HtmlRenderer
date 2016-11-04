@@ -91,8 +91,7 @@ namespace LayoutFarm.Ease
 
         public static EaseViewport CreateViewportControl(Form hostForm, int w, int h)
         {
-            var rootgfx = new MyRootGraphic(uiPlatformWinForm,
-                useOpenGL ? openGLPlatform : gdiPlatform,
+            var rootgfx = new MyRootGraphic(uiPlatformWinForm, 
                 w, h);
             LayoutFarm.UI.UISurfaceViewportControl viewport;
             CreateNewFormCanvas(hostForm, rootgfx,
@@ -109,8 +108,7 @@ namespace LayoutFarm.Ease
         {
             int w = 800;
             int h = 600;
-            var rootgfx = new MyRootGraphic(uiPlatformWinForm,
-                useOpenGL ? openGLPlatform : gdiPlatform,
+            var rootgfx = new MyRootGraphic(uiPlatformWinForm, 
                 w, h);
             var topRenderBox = rootgfx.TopWindowRenderBox;
             formCanvas = FormCanvasHelper.CreateNewFormCanvas(rootgfx,

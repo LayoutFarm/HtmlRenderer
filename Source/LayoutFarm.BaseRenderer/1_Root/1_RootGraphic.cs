@@ -27,7 +27,7 @@ namespace LayoutFarm
             this.Width = width;
             this.Height = heigth;
         }
-        public abstract GraphicsPlatform P { get; }
+        
 
         public abstract RequestFont DefaultTextEditFontInfo
         {
