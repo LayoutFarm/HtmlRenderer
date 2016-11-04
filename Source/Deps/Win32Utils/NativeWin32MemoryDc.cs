@@ -14,7 +14,7 @@ namespace Win32
         IntPtr dib;
         IntPtr ppvBits;
         bool isDisposed;
-        public NativeWin32MemoryDc(int w, int h)
+        public NativeWin32MemoryDc(int w, int h, bool invertImage = false)
         {
             this._width = w;
             this._height = h;
@@ -22,7 +22,7 @@ namespace Win32
             memHdc = MyWin32.CreateMemoryHdc(
                 IntPtr.Zero,
                 w,
-                h,
+                invertImage ? -h : h, //***
                 out dib,
                 out ppvBits);
         }

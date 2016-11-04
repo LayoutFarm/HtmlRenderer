@@ -205,7 +205,7 @@ namespace PixelFarm.Drawing.WinGdi
                         image.Height,
                         System.Drawing.Imaging.PixelFormat.Format32bppArgb);
                     //
-                    PixelFarm.Agg.Imaging.BitmapHelper.CopyToWindowsBitmapSameSize((PixelFarm.Agg.ActualImage)image, bmp);
+                    PixelFarm.Agg.Imaging.BitmapHelper.CopyToGdiPlusBitmapSameSize((PixelFarm.Agg.ActualImage)image, bmp);
                     //
                     Image.SetCacheInnerImage(image, bmp);
                     return bmp;
