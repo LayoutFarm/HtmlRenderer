@@ -95,7 +95,7 @@ namespace PixelFarm.Drawing.WinGdi
         WinGdiFontFace fontFace;
 
         static BasicGdi32FontHelper basGdi32FontHelper = new BasicGdi32FontHelper();
-        static NativeWin32MemoryDc nativeWin32MemDc;
+         
 
         int[] charWidths;
         NativeTextWin32.FontABC[] charAbcWidths;
@@ -106,12 +106,7 @@ namespace PixelFarm.Drawing.WinGdi
         Encoding fontEncoding = Encoding.GetEncoding(874);
         FontStyle fontStyle;
 
-        static WinGdiFont()
-        {
-            //share dc for measure font size only
-            nativeWin32MemDc = new NativeWin32MemoryDc(20, 20);
-            nativeWin32MemDc.SetTextColor(0);
-        }
+       
         public WinGdiFont(WinGdiFontFace fontFace, float sizeInPoints, FontStyle style)
         {
 
@@ -167,7 +162,7 @@ namespace PixelFarm.Drawing.WinGdi
             logFont.lfCharSet = 1;//default
             logFont.lfQuality = 0;//default
             IntPtr hfont = MyWin32.CreateFontIndirect(ref logFont);
-            MyWin32.SelectObject(nativeWin32MemDc.DC, hfont);
+            //MyWin32.SelectObject(nativeWin32MemDc.DC, hfont);
             return hfont;
         }
 

@@ -1,4 +1,4 @@
-﻿//2014,2015, WinterDev
+﻿//Apache2, 2014-2016, WinterDev
 //MS-PL, Apache2 some parts derived from github.com/vvvv/svg 
 
 using PixelFarm.Drawing;

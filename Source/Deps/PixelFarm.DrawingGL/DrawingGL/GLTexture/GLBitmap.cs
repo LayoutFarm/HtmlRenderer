@@ -4,7 +4,7 @@ using System;
 using OpenTK.Graphics.ES20;
 namespace PixelFarm.DrawingGL
 {
-    public abstract class LazyBitmapBufferProvider
+   public abstract class LazyBitmapBufferProvider
     {
         public abstract IntPtr GetRawBufferHead();
         public abstract void ReleaseBufferHead();
@@ -29,7 +29,7 @@ namespace PixelFarm.DrawingGL
             }
         }
 
-        
+
         public override bool IsReferenceImage
         {
             get
@@ -65,9 +65,7 @@ namespace PixelFarm.DrawingGL
         public override void Dispose()
         {
             //nothing
-        }
-
-       
+        } 
     }
 
 

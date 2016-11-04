@@ -1,4 +1,4 @@
-﻿//MIT ,2015,WinterDev
+﻿//MIT, 2015-2016, WinterDev
 
 using System;
 using PixelFarm.Drawing;

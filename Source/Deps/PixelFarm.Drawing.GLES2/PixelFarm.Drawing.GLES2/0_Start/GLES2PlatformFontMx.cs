@@ -28,11 +28,42 @@ namespace PixelFarm.Drawing.Fonts
         //    //check if 
         //    throw new NotSupportedException();
         //}
+        /////////////////////////////////////////
+        //
 
-        ////---------
-        //static GdiPlusPlatformFontMx s_gdiPlusFontMx = new GdiPlusPlatformFontMx();
-        //public static GdiPlusPlatformFontMx Default { get { return s_gdiPlusFontMx; } }
+        static InstalledFontCollection installFonts;
+        internal static string defaultLang = "en";
+        internal static HBDirection defaultHbDirection = HBDirection.HB_DIRECTION_LTR;
+        internal static int defaultScriptCode = 0;
+        static bool s_didLoadFonts;
+        public static void LoadInstalledFont(IInstalledFontProvider provider)
+        {
+            if (s_didLoadFonts)
+            {
+                return;
+            }
+            s_didLoadFonts = true;
+            installFonts = new InstalledFontCollection();
+            installFonts.LoadInstalledFont(provider.GetInstalledFontIter());
 
+            //--------
+            //TODO: review here
+            //this is platform specific code
+            WinGdi.WinGdiFontFace.SetInstalledFontCollection(installFonts);
+        }
+        public static bool DidLoadFonts
+        {
+            get
+            {
+                return s_didLoadFonts;
+            }
+        }
+        public static InstalledFont GetInstalledFont(string fontName, InstalledFontStyle style)
+        {
+            return installFonts.GetFont(fontName, style);
+        }
+        /////////////////////////////////////////
+        //
         public ActualFont ResolveForGdiFont(RequestFont font)
         {
             return null;
@@ -71,7 +102,7 @@ namespace PixelFarm.Drawing.Fonts
                       GLES2PlatformFontMx.defaultLang,
                       GLES2PlatformFontMx.defaultHbDirection,
                       GLES2PlatformFontMx.defaultScriptCode);
-                 
+
 
                 textureFontface = new TextureFontFace(nOpenTypeFontFace, lateFontInfo.FontMapFile, glyphImage);
                 lateFontInfo.Fontface = textureFontface;
@@ -119,37 +150,7 @@ namespace PixelFarm.Drawing.Fonts
             public TextureFontFace Fontface { get; set; }
         }
 
-
-        static InstalledFontCollection installFonts;
-        internal static string defaultLang = "en";
-        internal static HBDirection defaultHbDirection = HBDirection.HB_DIRECTION_LTR;
-        internal static int defaultScriptCode = 0;
-        static bool s_didLoadFonts;
-        public static void LoadInstalledFont(IInstalledFontProvider provider)
-        {
-            if (s_didLoadFonts)
-            {
-                return;
-            }
-            s_didLoadFonts = true;
-            installFonts = new InstalledFontCollection();
-            installFonts.LoadInstalledFont(provider.GetInstalledFontIter());
-
-            //--------
-
-            WinGdi.WinGdiFontFace.SetInstalledFontCollection(installFonts);
-        }
-        public static bool DidLoadFonts
-        {
-            get
-            {
-                return s_didLoadFonts;
-            }
-        }
-        public static InstalledFont GetInstalledFont(string fontName, InstalledFontStyle style)
-        {
-            return installFonts.GetFont(fontName, style);
-        }
+        
 
     }
 

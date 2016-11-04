@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using PixelFarm.Drawing.Fonts;
 namespace Win32
 {
-    class BasicGdi32FontHelper
+    class BasicGdi32FontHelper : IDisposable
     {
 
         NativeWin32MemoryDc nativeWinDc;
@@ -14,10 +14,15 @@ namespace Win32
         {
             Init();
         }
-        ~BasicGdi32FontHelper()
-        { 
-            nativeWinDc.Dispose(); 
+        public void Dispose()
+        {
+            if (nativeWinDc != null)
+            {
+                nativeWinDc.Dispose();
+                nativeWinDc = null;
+            }
         }
+         
         void Init()
         {
             //bmp = new System.Drawing.Bitmap(2, 2);

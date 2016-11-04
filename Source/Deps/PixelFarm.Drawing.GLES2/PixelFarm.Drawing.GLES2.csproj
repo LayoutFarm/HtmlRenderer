@@ -35,20 +35,8 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\PixelFarm.Drawing.GdiPlus\Implementation.Win32\BasicGdi32FontHelper.cs">
-      <Link>PixelFarm.Drawing.GLES2\Implementation.Win32\BasicGdi32FontHelper.cs</Link>
-    </Compile>
-    <Compile Include="..\PixelFarm.Drawing.GdiPlus\Implementation.Win32\MyWin32.cs">
-      <Link>PixelFarm.Drawing.GLES2\Implementation.Win32\MyWin32.cs</Link>
-    </Compile>
-    <Compile Include="..\PixelFarm.Drawing.GdiPlus\Implementation.Win32\NativeTextWin32.cs">
-      <Link>PixelFarm.Drawing.GLES2\Implementation.Win32\NativeTextWin32.cs</Link>
-    </Compile>
-    <Compile Include="..\PixelFarm.Drawing.GdiPlus\Implementation.Win32\NativeWin32MemoryDc.cs">
-      <Link>PixelFarm.Drawing.GLES2\Implementation.Win32\NativeWin32MemoryDc.cs</Link>
-    </Compile>
-    <Compile Include="..\PixelFarm.Drawing.GdiPlus\Implementation.Win32\WinGdiFont.cs">
-      <Link>PixelFarm.Drawing.GLES2\Implementation.Win32\WinGdiFont.cs</Link>
+    <Compile Include="..\PixelFarm.Drawing.GdiPlus\Implementation\WinGdiFont.cs">
+      <Link>PixelFarm.Drawing.GLES2\Implementation\WinGdiFont.cs</Link>
     </Compile>
     <Compile Include="..\PixelFarm.DrawingGL\DrawingGL\GLCanvas\CanvasGL2d.cs">
       <Link>DrawingGL\GLCanvas\CanvasGL2d.cs</Link>
@@ -125,13 +113,25 @@
     <Compile Include="..\PixelFarm.DrawingGL\DrawingGL\TextureFonts\TextureFont.cs">
       <Link>DrawingGL\TextureFonts\TextureFont.cs</Link>
     </Compile>
+    <Compile Include="..\Win32Utils\BasicGdi32FontHelper.cs">
+      <Link>Win32Utils\BasicGdi32FontHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\Win32Utils\MyWin32.cs">
+      <Link>Win32Utils\MyWin32.cs</Link>
+    </Compile>
+    <Compile Include="..\Win32Utils\NativeTextWin32.cs">
+      <Link>Win32Utils\NativeTextWin32.cs</Link>
+    </Compile>
+    <Compile Include="..\Win32Utils\NativeWin32MemoryDc.cs">
+      <Link>Win32Utils\NativeWin32MemoryDc.cs</Link>
+    </Compile>
     <Compile Include="PixelFarm.Drawing.GLES2\Implementation\GLTextPrinter.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\0_Start\GLES2Platform.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\Canvas\1_MyGLCanvas_Specific.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\Canvas\2_MyGLCanvas_CoordinateAndClip.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\Canvas\3_MyGLCanvas_DrawGraphics.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\Canvas\4_MyGLCanvas_TextAndFonts.cs" />
-    <Compile Include="PixelFarm.Drawing.GLES2\Canvas\GLES2PlatformFontMx.cs" />
+    <Compile Include="PixelFarm.Drawing.GLES2\0_Start\GLES2PlatformFontMx.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\Implementation\GLCanvasPainter.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\Implementation\PensAndBrushes.cs" />
     <Compile Include="PixelFarm.Drawing.GLES2\Implementation\TextureFontStore.cs" />

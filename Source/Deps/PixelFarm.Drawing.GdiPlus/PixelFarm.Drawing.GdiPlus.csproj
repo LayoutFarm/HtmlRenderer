@@ -42,13 +42,21 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Win32Utils\BasicGdi32FontHelper.cs">
+      <Link>Win32Utils\BasicGdi32FontHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\Win32Utils\MyWin32.cs">
+      <Link>Win32Utils\MyWin32.cs</Link>
+    </Compile>
+    <Compile Include="..\Win32Utils\NativeTextWin32.cs">
+      <Link>Win32Utils\NativeTextWin32.cs</Link>
+    </Compile>
+    <Compile Include="..\Win32Utils\NativeWin32MemoryDc.cs">
+      <Link>Win32Utils\NativeWin32MemoryDc.cs</Link>
+    </Compile>
     <Compile Include="Canvas\Conv.cs" />
     <Compile Include="0_Start\WinGdiPlusPlatform.cs" />
-    <Compile Include="Implementation.Win32\BasicGdi32FontHelper.cs" />
-    <Compile Include="Implementation.Win32\MyWin32.cs" />
-    <Compile Include="Implementation.Win32\NativeTextWin32.cs" />
-    <Compile Include="Implementation.Win32\NativeWin32MemoryDc.cs" />
-    <Compile Include="Implementation.Win32\WinGdiFont.cs" />
+    <Compile Include="Implementation\WinGdiFont.cs" />
     <Compile Include="Implementation\GdiPlusBitmapBackBuffer.cs" />
     <Compile Include="Implementation\BitmapHelper.cs" />
     <Compile Include="Implementation\Region.cs" />
@@ -99,6 +107,7 @@
       <Name>PixelFarm.Drawing.Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

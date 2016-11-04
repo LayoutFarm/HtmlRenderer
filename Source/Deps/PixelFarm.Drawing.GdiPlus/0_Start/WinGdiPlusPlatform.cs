@@ -31,16 +31,6 @@ namespace PixelFarm.Drawing.WinGdi
             return new MyGdiPlusCanvas(0, 0, left, top, width, height);
         }
 
-        static void CopyFromAggActualImageToGdiPlusBitmap(byte[] rawBuffer, System.Drawing.Bitmap bitmap)
-        {
-            //platform specific
-            var bmpdata = bitmap.LockBits(new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height),
-                 System.Drawing.Imaging.ImageLockMode.ReadOnly,
-                 System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-            System.Runtime.InteropServices.Marshal.Copy(rawBuffer, 0,
-                bmpdata.Scan0, rawBuffer.Length);
-            bitmap.UnlockBits(bmpdata);
-        }
         public static void SetFontNotFoundHandler(FontNotFoundHandler fontNotFoundHandler)
         {
             s_installFontCollection.SetFontNotFoundHandler(fontNotFoundHandler);

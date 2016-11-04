@@ -1,4 +1,4 @@
-﻿//2015 MIT, WinterDev  
+﻿//MIT, 2015-2016, WinterDev  
 
 using LayoutFarm.Scripting;
 namespace LayoutFarm.WebDom.Impl
