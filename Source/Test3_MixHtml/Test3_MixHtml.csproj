@@ -90,6 +90,7 @@
     <Compile Include="Demo7\DzBoxSerializer.cs" />
     <Compile Include="Demo7\GraphicShapeElements.cs" />
     <Compile Include="Demo7\MenuBoardModule.cs" />
+    <Compile Include="ExampleFolderConfig.cs" />
     <Compile Include="HtmlHostCreatorHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

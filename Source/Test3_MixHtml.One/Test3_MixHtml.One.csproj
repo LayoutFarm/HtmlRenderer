@@ -219,6 +219,7 @@
     <Compile Include="..\Test3_MixHtml\SampleViewportExtension.cs">
       <Link>SampleViewportExtension.cs</Link>
     </Compile>
+    <Compile Include="ExampleFolderConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="..\Test0_PresentationDevHelper_New\Dev\FormDemoList.resx">
       <Link>Dev\FormDemoList.resx</Link>
