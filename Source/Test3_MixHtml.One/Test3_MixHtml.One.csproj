@@ -66,6 +66,9 @@
     <Compile Include="..\Test0_PresentationDevHelper_New\Dev\FormPrint.Designer.cs">
       <Link>Dev\FormPrint.Designer.cs</Link>
     </Compile>
+    <Compile Include="..\Test0_PresentationDevHelper_New\Dev\SampleViewport.cs">
+      <Link>Dev\SampleViewport.cs</Link>
+    </Compile>
     <Compile Include="..\Test3_MixHtml\Demo1\1.1_Demo_SingleButton.cs">
       <Link>Demo1\1.1_Demo_SingleButton.cs</Link>
     </Compile>

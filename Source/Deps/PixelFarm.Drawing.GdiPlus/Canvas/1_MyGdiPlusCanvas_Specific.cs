@@ -242,7 +242,7 @@ namespace PixelFarm.Drawing.WinGdi
             {
                 //var clip = _g.Clip.GetHrgn(_g);
                 tempDc = gx.GetHdc();
-                Win32Utils.SetBkMode(tempDc, 1);
+                MyWin32.SetBkMode(tempDc, 1);
                 //Win32Utils.SelectClipRgn(_hdc, clip);
                 //Win32Utils.DeleteObject(clip);
             }
@@ -255,7 +255,7 @@ namespace PixelFarm.Drawing.WinGdi
         {
             if (tempDc != IntPtr.Zero)
             {
-                Win32Utils.SelectClipRgn(tempDc, IntPtr.Zero);
+                MyWin32.SelectClipRgn(tempDc, IntPtr.Zero);
                 gx.ReleaseHdc(tempDc);
                 tempDc = IntPtr.Zero;
             }
@@ -270,7 +270,7 @@ namespace PixelFarm.Drawing.WinGdi
             InitHdc();
             //request fron need to resolve to gdi+ font***
             WinGdiFont myFont = WinGdiFontSystem.GetWinGdiFont(font);
-            Win32Utils.SelectObject(tempDc, myFont.ToHfont());
+            MyWin32.SelectObject(tempDc, myFont.ToHfont());
         }
 
         /// <summary>
@@ -280,7 +280,7 @@ namespace PixelFarm.Drawing.WinGdi
         {
             InitHdc();
             int rgb = (color.B & 0xFF) << 16 | (color.G & 0xFF) << 8 | color.R;
-            Win32Utils.SetTextColor(tempDc, rgb);
+            MyWin32.SetTextColor(tempDc, rgb);
         }
 
         ///// <summary>
