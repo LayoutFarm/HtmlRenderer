@@ -70,7 +70,8 @@ namespace PixelFarm.Drawing.WinGdi
 
         public override void DrawPath(GraphicsPath gfxPath)
         {
-            gx.DrawPath(internalPen, gfxPath.InnerPath as System.Drawing.Drawing2D.GraphicsPath);
+         
+            gx.DrawPath(internalPen, ResolveGraphicsPath(gfxPath));
         }
         public override void FillRectangle(Brush brush, float left, float top, float width, float height)
         {
