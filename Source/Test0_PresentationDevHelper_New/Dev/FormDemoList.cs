@@ -114,8 +114,7 @@ namespace LayoutFarm.Dev
             int h = workingArea.Height;
 
 
-            MyRootGraphic rootgfx = new MyRootGraphic(this.uiPlatformWinForm,
-                this.chkUseGLCanvas.Checked ? openGLPlatform : gdiPlatform,
+            MyRootGraphic rootgfx = new MyRootGraphic(this.uiPlatformWinForm, 
                 w, h);
 
             formCanvas = FormCanvasHelper.CreateNewFormCanvas(rootgfx,

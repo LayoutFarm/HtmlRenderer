@@ -134,7 +134,14 @@ namespace PixelFarm.DrawingGL
                 return actualFont.FontFace;
             }
         }
-
+        public override float LineGapInPixels
+        {
+            get { return actualFont.LineGapInPixels; }
+        }
+        public override float RecommendedLineSpacingInPixels
+        {
+            get { return actualFont.RecommendedLineSpacingInPixels; }
+        }
 
 
         public override FontGlyph GetGlyph(char c)

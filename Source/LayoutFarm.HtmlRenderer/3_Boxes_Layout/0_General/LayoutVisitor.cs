@@ -152,7 +152,10 @@ namespace LayoutFarm.HtmlBoxes
         {
             return this.SampleIFonts.MeasureString(buffer, startIndex, len, f).Width;
         }
-
+        internal Size MeasureStringSize(char[] buffer, int startIndex, int len, RequestFont f)
+        {
+            return this.SampleIFonts.MeasureString(buffer, startIndex, len, f);
+        }
         //---------------------------------------------------------------
         internal Dictionary<CssBox, PartialBoxStrip> GetReadyStripDic()
         {

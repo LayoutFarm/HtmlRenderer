@@ -503,6 +503,7 @@ namespace LayoutFarm.HtmlBoxes
                                 //change
                                 latestOwner = w.OwnerBox;
                                 //change font when change owner 
+
                                 p.InnerCanvas.CurrentFont = latestOwner.ResolvedFont;
                                 p.InnerCanvas.CurrentTextColor = latestOwner.ActualColor;
                             }

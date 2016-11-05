@@ -83,7 +83,21 @@ namespace PixelFarm.Drawing
                 }
             }
         }
+        public float LineGapInPixels
+        {
+            get
+            {
 
+                if (_actualFont != null)
+                {
+                    return (float)_actualFont.LineGapInPixels;
+                }
+                else
+                {
+                    throw new NotSupportedException();
+                }
+            }
+        }
         static int s_POINTS_PER_INCH = 72; //default value
         static int s_PIXELS_PER_INCH = 96; //default value
 
