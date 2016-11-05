@@ -232,6 +232,34 @@ namespace Win32
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode)] //need -> unicode
         public extern static IntPtr CreateFontIndirect(ref LOGFONT logFont);
 
+
+        const int s_POINTS_PER_INCH = 72;
+        static float ConvEmSizeInPointsToPixels(float emsizeInPoint, float pixels_per_inch)
+        {
+            return (int)(((float)emsizeInPoint / (float)s_POINTS_PER_INCH) * pixels_per_inch);
+        }
+        public static IntPtr CreateFontHelper(string fontName, float emHeight, bool bold, bool italic, float pixels_per_inch = 96)
+        {
+            //see: MSDN, LOGFONT structure
+            //https://msdn.microsoft.com/en-us/library/windows/desktop/dd145037(v=vs.85).aspx
+            MyWin32.LOGFONT logFont = new MyWin32.LOGFONT();
+            MyWin32.SetFontName(ref logFont, fontName);
+            logFont.lfHeight = -(int)ConvEmSizeInPointsToPixels(emHeight, pixels_per_inch);//minus **
+            logFont.lfCharSet = 1;//default
+            logFont.lfQuality = 0;//default
+            //
+            MyWin32.LOGFONT_FontWeight weight =
+                bold ?
+                MyWin32.LOGFONT_FontWeight.FW_BOLD :
+                MyWin32.LOGFONT_FontWeight.FW_REGULAR;
+            logFont.lfWeight = (int)weight;
+            //
+            logFont.lfItalic = (byte)(italic ? 1 : 0);
+            return MyWin32.CreateFontIndirect(ref logFont);
+        }
+
+
+
         public static unsafe void SetFontName(ref LOGFONT logFont, string fontName)
         {
             //font name not longer than 32 chars

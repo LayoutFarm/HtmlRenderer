@@ -173,10 +173,7 @@ namespace PixelFarm.Drawing.WinGdi
             logFont.lfWeight = (int)weight;
             //
             logFont.lfItalic = (byte)(((style & FontStyle.Italic) == FontStyle.Italic) ? 1 : 0);
-
-            IntPtr hfont = MyWin32.CreateFontIndirect(ref logFont);
-            //MyWin32.SelectObject(nativeWin32MemDc.DC, hfont);
-            return hfont;
+            return MyWin32.CreateFontIndirect(ref logFont);
         }
 
 
