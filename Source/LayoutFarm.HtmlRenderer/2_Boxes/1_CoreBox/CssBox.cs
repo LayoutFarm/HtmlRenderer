@@ -483,7 +483,13 @@ namespace LayoutFarm.HtmlBoxes
                 //find word spacing  
                 float actualWordspacing = this._actualWordSpacing;
                 RequestFont actualFont = this.ResolvedFont;
-                float fontHeight = actualFont.AscentInPixels - actualFont.DescentInPixels + 2;// actualFont.SizeInPixels;
+
+
+                float fontHeight = (actualFont.AscentInPixels - actualFont.DescentInPixels + actualFont.LineGapInPixels);
+                fontHeight += 4;
+
+
+
                 var tmpRuns = this.Runs;
                 for (int i = tmpRuns.Count - 1; i >= 0; --i)
                 {
@@ -495,11 +501,17 @@ namespace LayoutFarm.HtmlBoxes
                         case CssRunKind.Text:
                             {
                                 CssTextRun textRun = (CssTextRun)run;
-                                run.Width = lay.MeasureStringWidth(
-                                    CssBox.UnsafeGetTextBuffer(this),
+                                //run.Width = lay.MeasureStringWidth(
+                                //    CssBox.UnsafeGetTextBuffer(this),
+                                //    textRun.TextStartIndex,
+                                //    textRun.TextLength,
+                                //    actualFont);
+                                Size ss = lay.MeasureStringSize(CssBox.UnsafeGetTextBuffer(this),
                                     textRun.TextStartIndex,
                                     textRun.TextLength,
                                     actualFont);
+                                run.SetSize(ss.Width, ss.Height);
+
                             }
                             break;
                         case CssRunKind.SingleSpace:

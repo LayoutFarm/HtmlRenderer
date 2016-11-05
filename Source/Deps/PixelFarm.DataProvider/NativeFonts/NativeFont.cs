@@ -15,6 +15,7 @@ namespace PixelFarm.Drawing.Fonts
         int fontSizeInPixelUnit;
         float fontFaceAscentInPx;
         float fontFaceDescentInPx;
+        float lineGapInPx;
         string fontName;
         FontStyle fontStyle;
         /// <summary>
@@ -35,6 +36,10 @@ namespace PixelFarm.Drawing.Fonts
 
             int descentEmSize = ownerFace.Descent / ownerFace.UnitPerEm;
             fontFaceDescentInPx = RequestFont.ConvEmSizeInPointsToPixels(descentEmSize);
+
+
+            int lineGap = ownerFace.LineGapInDzUnit / ownerFace.UnitPerEm;
+            lineGapInPx = RequestFont.ConvEmSizeInPointsToPixels(lineGap);
         }
 
         public override string FontName
@@ -86,7 +91,7 @@ namespace PixelFarm.Drawing.Fonts
         {
             get { return this.ownerFace; }
         }
-      
+
         public override float AscentInPixels
         {
             get { return fontFaceAscentInPx; }
@@ -98,8 +103,15 @@ namespace PixelFarm.Drawing.Fonts
         }
         public override float SizeInPoints { get { return this.emSizeInPoints; } }
         public override float SizeInPixels { get { return fontSizeInPixelUnit; } }
-     
-      
+        public override float LineGapInPixels
+        {
+            get { return lineGapInPx; }
+        }
+        public override float RecommendedLineSpacingInPixels
+        {
+            get { return AscentInPixels - DescentInPixels + LineGapInPixels; }
+        }
+
 
 
     }

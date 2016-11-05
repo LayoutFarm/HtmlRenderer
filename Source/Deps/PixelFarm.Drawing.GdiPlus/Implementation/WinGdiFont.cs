@@ -92,6 +92,8 @@ namespace PixelFarm.Drawing.WinGdi
         float emSizeInPixels;
         float ascendInPixels;
         float descentInPixels;
+        float linegapInPixels;
+
         WinGdiFontFace fontFace;
 
         static BasicGdi32FontHelper basGdi32FontHelper = new BasicGdi32FontHelper();
@@ -124,6 +126,7 @@ namespace PixelFarm.Drawing.WinGdi
             float scale = fontFace.GetScale(sizeInPoints);
             ascendInPixels = fontFace.AscentInDzUnit * scale;
             descentInPixels = fontFace.DescentInDzUnit * scale;
+            linegapInPixels = fontFace.LineGapInDzUnit * scale;
 
             //------------------------------------------------------------------
 
@@ -224,7 +227,14 @@ namespace PixelFarm.Drawing.WinGdi
                 return ascendInPixels;
             }
         }
-
+        public override float LineGapInPixels
+        {
+            get { return linegapInPixels; }
+        }
+        public override float RecommendedLineSpacingInPixels
+        {
+            get { return AscentInPixels - DescentInPixels + LineGapInPixels; }
+        }
         public override float DescentInPixels
         {
             get
