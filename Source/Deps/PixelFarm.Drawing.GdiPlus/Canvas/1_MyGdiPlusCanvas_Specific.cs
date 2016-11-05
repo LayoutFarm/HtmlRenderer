@@ -65,7 +65,8 @@ namespace PixelFarm.Drawing.WinGdi
 
             CreateGraphicsFromNativeHdc(width, height);
             this.gx = System.Drawing.Graphics.FromHdc(win32MemDc.DC);
-            //-------------------------------------------------------         
+            //-------------------------------------------------------     
+            //managed object
             internalPen = new System.Drawing.Pen(System.Drawing.Color.Black);
             internalSolidBrush = new System.Drawing.SolidBrush(System.Drawing.Color.Black);
 
