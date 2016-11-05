@@ -65,24 +65,14 @@ namespace PixelFarm.Drawing.WinGdi
                 c.R,
                 c.G,
                 c.B));
-        }
-
-
+        } 
         public override void DrawPath(GraphicsPath gfxPath)
         {
-         
-            gx.DrawPath(internalPen, ResolveGraphicsPath(gfxPath));
+            gx.DrawPath(internalPen, ResolveGraphicsPath(gfxPath)); 
         }
         public override void FillRectangle(Brush brush, float left, float top, float width, float height)
         {
-            //    static System.Drawing.Brush ConvBrush(Brush b)
-            //{
-            //    return b.InnerBrush as System.Drawing.Brush;
-            //}
-            //    switch (brush.BrushNature)
-            //    {
-            //    }
-
+            
             switch (brush.BrushKind)
             {
                 case BrushKind.Solid:

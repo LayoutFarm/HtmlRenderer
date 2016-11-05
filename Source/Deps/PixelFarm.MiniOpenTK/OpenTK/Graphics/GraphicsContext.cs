@@ -10,6 +10,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Diagnostics;
+
+using System.Threading;
+
 using OpenTK.Platform;
 namespace OpenTK.Graphics
 {
@@ -34,7 +37,7 @@ namespace OpenTK.Graphics
         readonly static Dictionary<ContextHandle, WeakReference> available_contexts = new Dictionary<ContextHandle, WeakReference>();
         #endregion
 
-        #region --- Constructors ---
+
 
         // Necessary to allow creation of dummy GraphicsContexts (see CreateDummyContext static method).
         GraphicsContext(ContextHandle handle)
@@ -132,6 +135,10 @@ namespace OpenTK.Graphics
             }
         }
 
+
+
+
+
         /// <summary>
         /// Constructs a new GraphicsContext from a pre-existing context created outside of OpenTK.
         /// </summary>
@@ -180,9 +187,9 @@ namespace OpenTK.Graphics
             }
         }
 
-        #endregion
 
-        #region Private Members
+
+
 
         static IGraphicsContext FindSharedContext()
         {
@@ -203,11 +210,6 @@ namespace OpenTK.Graphics
             return null;
         }
 
-        #endregion
-
-        #region --- Static Members ---
-
-        #region public static GraphicsContext CreateDummyContext()
 
         /// <summary>
         /// Creates a dummy GraphicsContext to allow OpenTK to work with contexts created by external libraries.
@@ -240,10 +242,6 @@ namespace OpenTK.Graphics
             return new GraphicsContext(handle);
         }
 
-        #endregion
-
-        #region public static void Assert()
-
         /// <summary>
         /// Checks if a GraphicsContext exists in the calling thread and throws a GraphicsContextMissingException if it doesn't.
         /// </summary>
@@ -254,10 +252,61 @@ namespace OpenTK.Graphics
                 throw new GraphicsContextMissingException();
         }
 
-        #endregion
 
-        #region public static IGraphicsContext CurrentContext
 
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //TODO: review here, this is our custom OpenGLContext
+        //eg, used with glfw
+        GraphicsContext(OpenTK.Platform.External.ExternalGraphicsContext externalGraphicsContext)
+        {
+            implementation = externalGraphicsContext;
+            lock (SyncRoot)
+            {
+                IsExternal = true;
+                //if (handle == ContextHandle.Zero)
+                //{
+                //    implementation = new OpenTK.Platform.Dummy.DummyGLContext(handle);
+                //}
+                //else if (available_contexts.ContainsKey(handle))
+                //{
+                //    throw new GraphicsContextException("Context already exists.");
+                //}
+                //else
+                //{
+                //    switch ((flags & GraphicsContextFlags.Embedded) == GraphicsContextFlags.Embedded)
+                //    {
+                //        case false: implementation = Factory.Default.CreateGLContext(handle, window, shareContext, direct_rendering, major, minor, flags); break;
+                //        case true: implementation = Factory.Embedded.CreateGLContext(handle, window, shareContext, direct_rendering, major, minor, flags); break;
+                //    }
+                //}
+
+                available_contexts.Add((implementation as IGraphicsContextInternal).Context, new WeakReference(this));
+                (this as IGraphicsContextInternal).LoadAll();
+
+
+                GetCurrentContextDelegate temp = externalGraphicsContext.CreateCurrentContextDel();
+                if (temp != null)
+                {
+                    GetCurrentContext = temp;
+                }
+
+
+            }
+        }
+
+        /// <summary>
+        /// TODO: for used with glfw context
+        /// </summary>
+        /// <param name="handle"></param>
+        /// <returns></returns>
+        public static GraphicsContext CreateExternalContext(Platform.External.ExternalGraphicsContext externalGfxContext)
+        {
+            return new GraphicsContext(externalGfxContext);
+        }
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //---------------------------
+        //TODO: review here ****
+        //---------------------------
         public delegate ContextHandle GetCurrentContextDelegate();
         internal static GetCurrentContextDelegate GetCurrentContext = delegate
         {
@@ -274,9 +323,11 @@ namespace OpenTK.Graphics
                     return (context as IGraphicsContextInternal).Context;
                 }
             }
-
             return ContextHandle.Zero;
         };
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //--------------------------------------------------------------------------------------
+
         /// <summary>
         /// Gets the GraphicsContext that is current in the calling thread.
         /// </summary>
@@ -294,16 +345,17 @@ namespace OpenTK.Graphics
                     {
                         ContextHandle handle = GetCurrentContext();
                         if (handle.Handle != IntPtr.Zero)
-                            return (GraphicsContext)available_contexts[handle].Target;
+                        {
+
+                            object target = available_contexts[handle].Target;
+                            return (GraphicsContext)target;
+                            //return (GraphicsContext)available_contexts[handle].Target;
+                        }                         
                     }
                     return null;
                 }
             }
         }
-
-        #endregion
-
-        #region public static bool ShareContexts
 
         /// <summary>Gets or sets a System.Boolean, indicating whether GraphicsContext resources are shared</summary>
         /// <remarks>
@@ -313,9 +365,6 @@ namespace OpenTK.Graphics
         /// </remarks>
         public static bool ShareContexts { get { return share_contexts; } set { share_contexts = value; } }
 
-        #endregion
-
-        #region public static bool DirectRendering
 
         /// <summary>Gets or sets a System.Boolean, indicating whether GraphicsContexts will perform direct rendering.</summary>
         /// <remarks>
@@ -334,11 +383,6 @@ namespace OpenTK.Graphics
             set { direct_rendering = value; }
         }
 
-        #endregion
-
-        #endregion
-
-        #region --- IGraphicsContext Members ---
 
         /// <summary>
         /// Gets or sets a System.Boolean, indicating whether automatic error checking should be performed.
@@ -445,9 +489,6 @@ namespace OpenTK.Graphics
             implementation.LoadAll();
         }
 
-        #endregion
-
-        #region --- IGraphicsContextInternal Members ---
 
         /// <summary>
         /// Gets the platform-specific implementation of this IGraphicsContext.
@@ -486,9 +527,6 @@ namespace OpenTK.Graphics
             return (implementation as IGraphicsContextInternal).GetAddress(function);
         }
 
-        #endregion
-
-        #region --- IDisposable Members ---
 
         /// <summary>
         /// Disposes of the GraphicsContext.
@@ -518,6 +556,6 @@ namespace OpenTK.Graphics
             }
         }
 
-        #endregion
+
     }
 }
