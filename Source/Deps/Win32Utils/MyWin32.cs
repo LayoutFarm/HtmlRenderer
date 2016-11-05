@@ -247,7 +247,25 @@ namespace Win32
                 }
             }
         }
-
+        //LOGFONT's  font weight
+        public enum LOGFONT_FontWeight
+        {
+            FW_DONTCARE = 0,
+            FW_THIN = 100,
+            FW_EXTRALIGHT = 200,
+            FW_ULTRALIGHT = 200,
+            FW_LIGHT = 300,
+            FW_NORMAL = 400,
+            FW_REGULAR = 400,
+            FW_MEDIUM = 500,
+            FW_SEMIBOLD = 600,
+            FW_DEMIBOLD = 600,
+            FW_BOLD = 700,
+            FW_EXTRABOLD = 800,
+            FW_ULTRABOLD = 800,
+            FW_HEAVY = 900,
+            FW_BLACK = 900,
+        }
         public const int TA_LEFT = 0;
         public const int TA_RIGHT = 2;
         public const int TA_CENTER = 6;

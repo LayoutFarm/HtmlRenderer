@@ -34,8 +34,8 @@ namespace PixelFarm.Drawing
     {
         Regular = 0,
         Bold = 1,
-        Italic = 2,
-        Underline = 4,
-        Strikeout = 8
+        Italic = 1 << 1,
+        Underline = 1 << 2,
+        Strikeout = 1 << 3
     }
 }

@@ -9,7 +9,7 @@ namespace LayoutFarm.HtmlBoxes
     partial class CssBox
     {
         RequestFont _resolvedFont;
-        float _actualLineHeight;
+      
         float _actualWordSpacing; //assign for whitespace run ?
         float _actualTextIndent;
          
@@ -17,16 +17,7 @@ namespace LayoutFarm.HtmlBoxes
         float _actualBorderSpacingVertical;
         CssDisplayOutside _displayOutside;
         CssDisplayInside _displayInside;
-        /// <summary>
-        /// Gets the line height
-        /// </summary>
-        float ActualLineHeight
-        {
-            get
-            {
-                return _actualLineHeight;
-            }
-        }
+        
         public CssDisplay CssDisplay
         {
             get

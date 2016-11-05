@@ -35,7 +35,8 @@ namespace PixelFarm.Drawing.Fonts
 
         public abstract float AscentInPixels { get; }
         public abstract float DescentInPixels { get; }
-
+        public abstract float LineGapInPixels { get; }
+        public abstract float RecommendedLineSpacingInPixels { get; }
         ~ActualFont()
         {
             Dispose();

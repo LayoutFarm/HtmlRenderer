@@ -152,8 +152,7 @@ namespace LayoutFarm.HtmlBoxes
 
             this._resolvedFont = fontInfo;
 
-            this._actualLineHeight = (int)(fontInfo.AscentInPixels - fontInfo.DescentInPixels + 2); // fontInfo.SizeInPixels;
-
+           
             if (_myspec.WordSpacing.IsNormalWordSpacing)
             {
                 this._actualWordSpacing = iFonts.MeasureWhitespace(_resolvedFont);

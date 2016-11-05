@@ -141,7 +141,6 @@ namespace LayoutFarm.HtmlBoxes
                 this._x = value;
             }
         }
-
         /// <summary>
         /// Top of the rectangle
         /// </summary>
@@ -187,7 +186,7 @@ namespace LayoutFarm.HtmlBoxes
         public float Height
         {
             get { return this._height; }
-            set { this._height = value; }
+           set { this._height = value; }
         }
 
         /// <summary>
