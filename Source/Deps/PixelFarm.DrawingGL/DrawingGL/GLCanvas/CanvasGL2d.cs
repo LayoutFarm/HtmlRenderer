@@ -370,7 +370,6 @@ namespace PixelFarm.DrawingGL
             DrawGfxPath(color, glRenderVx.gxpth);
         }
         //-------------------------------------------------------------------------------
-        //InternalGraphicsPath
         public void FillGfxPath(Drawing.Color color, InternalGraphicsPath igpth)
         {
             switch (SmoothMode)
@@ -498,8 +497,7 @@ namespace PixelFarm.DrawingGL
                                         {
                                             //draw texture image ***
                                             PixelFarm.Drawing.TextureBrush tbrush = (PixelFarm.Drawing.TextureBrush)brush;
-                                            GLImage img = tbrush.TextureImage as GLImage;
-                                            GLBitmap bmpTexture = PixelFarm.Drawing.Image.GetCacheInnerImage(img) as GLBitmap;
+                                            GLBitmap bmpTexture = PixelFarm.Drawing.Image.GetCacheInnerImage(tbrush.TextureImage) as GLBitmap;
                                             //TODO: review here 
                                             //where text start?
                                             this.DrawImage(bmpTexture, 0, 300);

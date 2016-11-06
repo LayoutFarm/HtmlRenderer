@@ -1,5 +1,6 @@
 ﻿//BSD, 2014-2016, WinterDev
 
+using System.Collections.Generic;
 namespace PixelFarm.Agg
 {
     //----------------------------------------
@@ -50,4 +51,30 @@ namespace PixelFarm.Agg
             return new VertexSnapIter(this);
         }
     }
+
+    /// <summary>
+    /// for vertex store pool mx
+    /// </summary>
+    public class VertexStorePool
+    {
+        Stack<VertexStore> _stack = new Stack<VertexStore>();
+        public VertexStore GetFreeVxs()
+        {
+            if (_stack.Count > 0)
+            {
+                return _stack.Pop();
+            }
+            else
+            {
+                return new VertexStore();
+            }
+        }
+        public void Release(ref VertexStore vxs)
+        {
+            vxs.Clear();
+            _stack.Push(vxs);
+            vxs = null;
+        }
+    }
+
 }

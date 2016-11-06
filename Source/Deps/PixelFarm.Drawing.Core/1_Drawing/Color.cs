@@ -149,11 +149,7 @@ namespace PixelFarm.Drawing
         public static readonly Color OrangeRed = new Color(0xFF, 0xFF, 0x45, 0x00);//0xFF FF 45 00
         public static readonly Color DeepPink = new Color(0xFF, 0xFF, 0x14, 0x93);
         public static readonly Color Magenta = new Color(0xFF, 0xFF, 0, 0xFF);
-        public static Color FromName(string name)
-        {
-            var color = KnownColors.FromKnownColor(name);
-            return new Color(color.A, color.R, color.G, color.B);
-        }
+        
         public override int GetHashCode()
         {
             return base.GetHashCode();

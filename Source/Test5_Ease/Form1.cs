@@ -113,7 +113,7 @@ namespace Test5_Ease
             {
                 var g = s2.Graphics;
                 var easeCanvas = EaseHost.CreatePrintCanvas(g, 800, 600);
-                this.easeViewport.Print(easeCanvas);
+                this.easeViewport.Print((PixelFarm.Drawing.WinGdi.MyGdiPlusCanvas)easeCanvas);
             };
             printdoc.Print();
         }

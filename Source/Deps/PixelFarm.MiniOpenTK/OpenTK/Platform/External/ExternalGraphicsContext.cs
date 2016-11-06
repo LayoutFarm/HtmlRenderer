@@ -1,4 +1,5 @@
-﻿#region License
+﻿//MIT, 2016, WinterDev
+#region License
 //
 // The Open Toolkit Library License
 //
@@ -27,23 +28,36 @@
 
 using System;
 using OpenTK.Graphics;
-namespace OpenTK.Platform
-{
-    // Provides the foundation for all desktop IGraphicsContext implementations.
-    public abstract class DesktopGraphicsContext : GraphicsContextBase
+namespace OpenTK.Platform.External
+{   
+    
+    ////////////////////////////////////////////////////////////////////
+    //this is our extension
+    //-
+    public abstract class ExternalGraphicsContext : GraphicsContextBase
     {
         DesktopBackend desktopBackEnd;
-        public DesktopGraphicsContext(DesktopBackend desktopBackEnd)
+
+        static bool hasLoadGLFuncs = false;
+
+
+        public ExternalGraphicsContext(DesktopBackend desktopBackEnd)
         {
             this.desktopBackEnd = desktopBackEnd;
         }
+        public abstract Graphics.GraphicsContext.GetCurrentContextDelegate CreateCurrentContextDel();        
+        
         public override void LoadAll()
         {
             switch (desktopBackEnd)
             {
                 case DesktopBackend.ES20:
                     {
-                        new OpenTK.Graphics.ES20.GL().LoadEntryPoints();
+                        if (!hasLoadGLFuncs)
+                        {
+                            hasLoadGLFuncs = true;
+                            new OpenTK.Graphics.ES20.GL().LoadEntryPoints();
+                        }
                     }
                     break;
                 default:
@@ -52,5 +66,5 @@ namespace OpenTK.Platform
                     }
             }
         }
-    } 
+    }
 }

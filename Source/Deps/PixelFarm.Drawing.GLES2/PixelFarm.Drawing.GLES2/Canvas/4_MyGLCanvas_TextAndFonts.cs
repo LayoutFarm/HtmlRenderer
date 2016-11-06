@@ -26,12 +26,12 @@ namespace PixelFarm.Drawing.GLES2
         Color mycurrentTextColor = Color.Black;
 
 
-        public override float GetCharWidth(RequestFont f, char c)
-        {
-            return GLES2PlatformFontMx.Default.ResolveForGdiFont(f).GetGlyph(c).horiz_adv_x >> 6;
-            //NativeFont font = nativeFontStore.GetResolvedNativeFont(f);
-            //return font.GetGlyph(c).horiz_adv_x >> 6;
-        }
+        //public override float GetCharWidth(RequestFont f, char c)
+        //{
+        //    return GLES2PlatformFontMx.Default.ResolveForGdiFont(f).GetGlyph(c).horiz_adv_x >> 6;
+        //    //NativeFont font = nativeFontStore.GetResolvedNativeFont(f);
+        //    //return font.GetGlyph(c).horiz_adv_x >> 6;
+        //}
 
    
         //============================================== 

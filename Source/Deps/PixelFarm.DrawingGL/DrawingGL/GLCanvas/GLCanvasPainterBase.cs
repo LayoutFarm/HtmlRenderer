@@ -20,11 +20,10 @@ namespace PixelFarm.DrawingGL
         Color _fillColor;
         Color _strokeColor;
         RectInt _rectInt;
-        CurveFlattener curveFlattener;
+
         RoundedRect roundRect;
         Arc arcTool;
         Ellipse ellipse = new Ellipse();
-        RequestFont _currentFont;
         Stroke _aggStroke = new Stroke(1);
 
 
@@ -73,18 +72,7 @@ namespace PixelFarm.DrawingGL
 
             }
         }
-        //public override RequestFont CurrentFont
-        //{
-        //    get
-        //    {
-        //        return _currentFont;
-        //    }
-        //    set
-        //    {
-        //        _currentFont = value;
-        //        //resolve texture font 
-        //    }
-        //}
+
         public override Color FillColor
         {
             get
@@ -161,6 +149,10 @@ namespace PixelFarm.DrawingGL
         public override void DoFilterBlurStack(RectInt area, int r)
         {
         }
+        /// <summary>
+        /// we do NOT store vxs
+        /// </summary>
+        /// <param name="vxs"></param>
         public override void Draw(VertexStore vxs)
         {
             _canvas.DrawGfxPath(this._strokeColor,
@@ -169,15 +161,18 @@ namespace PixelFarm.DrawingGL
 
         public override void DrawBezierCurve(float startX, float startY, float endX, float endY, float controlX1, float controlY1, float controlX2, float controlY2)
         {
-            VertexStore vxs = new VertexStore();
-            BezierCurve.CreateBezierVxs4(vxs,
+            var v1 = GetFreeVxs();
+            BezierCurve.CreateBezierVxs4(v1,
                 new PixelFarm.VectorMath.Vector2(startX, startY),
                 new PixelFarm.VectorMath.Vector2(endX, endY),
                 new PixelFarm.VectorMath.Vector2(controlX1, controlY1),
                 new PixelFarm.VectorMath.Vector2(controlY2, controlY2));
             _aggStroke.Width = this.StrokeWidth;
-            vxs = _aggStroke.MakeVxs(vxs);
-            _canvas.DrawGfxPath(_canvas.StrokeColor, InternalGraphicsPath.CreateGraphicsPath(new VertexStoreSnap(vxs)));
+
+            var v2 = GetFreeVxs();
+            _canvas.DrawGfxPath(_canvas.StrokeColor, InternalGraphicsPath.CreateGraphicsPath(new VertexStoreSnap(_aggStroke.MakeVxs(v1, v2))));
+            ReleaseVxs(ref v2);
+            ReleaseVxs(ref v1);
         }
 
         public override void DrawImage(ActualImage actualImage, params AffinePlan[] affinePlans)
@@ -206,21 +201,11 @@ namespace PixelFarm.DrawingGL
                 roundRect.SetRadius(radius);
                 roundRect.NormalizeRadius();
             }
-            this.Draw(roundRect.MakeVxs());
+            var v1 = GetFreeVxs();
+            this.Draw(roundRect.MakeVxs(v1));
+            ReleaseVxs(ref v1);
         }
-        ////font system for this canvas 
-        //RequestFont _latestFont;
-        //TextureFont _latestResolvedFont;
-        //TextureFont GetFont(RequestFont f)
-        //{
-        //    if (_latestFont == f)
-        //    {
-        //        return _latestResolvedFont;
-        //    }
-        //    _latestFont = f;
-        //    return _latestResolvedFont = _canvas.TextureFontStore.GetResolvedFont(f);
 
-        //}
         TextureFont _currentTextureFont;
         internal void SetCurrentTextureFont(TextureFont textureFont)
         {
@@ -486,16 +471,23 @@ namespace PixelFarm.DrawingGL
             roundRect.SetRect(x, y, x + w, y + h);
             roundRect.SetRadius(rx, ry);
             //create round rect vxs
-            var vxs = roundRect.MakeVxs();
+
+            var vxs = roundRect.MakeVxs(GetFreeVxs());
             _canvas.FillGfxPath(_fillColor, InternalGraphicsPath.CreateGraphicsPath(new VertexStoreSnap(vxs)));
+            ReleaseVxs(ref vxs);
         }
         public void DrawRoundRect(float x, float y, float w, float h, float rx, float ry)
         {
             roundRect.SetRect(x, y, x + w, y + h);
             roundRect.SetRadius(rx, ry);
             _aggStroke.Width = this.StrokeWidth;
-            var vxs = _aggStroke.MakeVxs(roundRect.MakeVxs());
-            _canvas.DrawGfxPath(_strokeColor, InternalGraphicsPath.CreateGraphicsPath(new VertexStoreSnap(vxs)));
+
+            var v1 = GetFreeVxs();
+            var v2 = GetFreeVxs();
+            _aggStroke.MakeVxs(roundRect.MakeVxs(v1), v2);
+            _canvas.DrawGfxPath(_strokeColor, InternalGraphicsPath.CreateGraphicsPath(new VertexStoreSnap(v2)));
+            ReleaseVxs(ref v2);
+            ReleaseVxs(ref v1);
         }
 
         public override void DrawEllipse(double left, double bottom, double right, double top)
@@ -505,8 +497,9 @@ namespace PixelFarm.DrawingGL
             double rx = Math.Abs(right - x);
             double ry = Math.Abs(top - y);
             ellipse.Reset(x, y, rx, ry);
-            VertexStore vxs = ellipse.MakeVxs();
+            VertexStore vxs = ellipse.MakeVxs(GetFreeVxs());
             _canvas.DrawGfxPath(_strokeColor, InternalGraphicsPath.CreateGraphicsPath(new VertexStoreSnap(vxs)));
+            ReleaseVxs(ref vxs);
         }
         public override void FillEllipse(double left, double bottom, double right, double top)
         {
@@ -515,9 +508,10 @@ namespace PixelFarm.DrawingGL
             double rx = Math.Abs(right - x);
             double ry = Math.Abs(top - y);
             ellipse.Reset(x, y, rx, ry);
-            var vxs = ellipse.MakeVxs();
+            var v1 = GetFreeVxs();
+            ellipse.MakeVxs(v1);
             //other mode
-            int n = vxs.Count;
+            int n = v1.Count;
             //make triangular fan*** 
 
             float[] coords = new float[(n * 2) + 4];
@@ -529,7 +523,7 @@ namespace PixelFarm.DrawingGL
             coords[nn++] = (float)x;
             coords[nn++] = (float)y;
             npoints++;
-            var cmd = vxs.GetVertex(i, out vx, out vy);
+            var cmd = v1.GetVertex(i, out vx, out vy);
             while (i < n)
             {
                 switch (cmd)
@@ -558,7 +552,7 @@ namespace PixelFarm.DrawingGL
                         break;
                 }
                 i++;
-                cmd = vxs.GetVertex(i, out vx, out vy);
+                cmd = v1.GetVertex(i, out vx, out vy);
             }
 
 
@@ -568,6 +562,7 @@ namespace PixelFarm.DrawingGL
             npoints++;
             //----------------------------------------------
             _canvas.FillTriangleFan(_fillColor, coords, npoints);
+            ReleaseVxs(ref v1);
         }
         public override void FillRectangle(double left, double bottom, double right, double top)
         {
@@ -632,17 +627,12 @@ namespace PixelFarm.DrawingGL
                 roundRect.SetRadius(radius);
                 roundRect.NormalizeRadius();
             }
-            this.Fill(roundRect.MakeVxs());
+            var v1 = GetFreeVxs();
+            this.Fill(roundRect.MakeVxs(v1));
+            ReleaseVxs(ref v1);
         }
 
-        public override VertexStore FlattenCurves(VertexStore srcVxs)
-        {
-            if (curveFlattener == null)
-            {
-                curveFlattener = new Agg.VertexSource.CurveFlattener();
-            }
-            return curveFlattener.MakeVxs(srcVxs);
-        }
+
 
         public override void Line(double x1, double y1, double x2, double y2)
         {
@@ -656,6 +646,8 @@ namespace PixelFarm.DrawingGL
         }
         public override void PaintSeries(VertexStore vxs, Color[] colors, int[] pathIndexs, int numPath)
         {
+            //TODO: review here.
+            //
             for (int i = 0; i < numPath; ++i)
             {
                 _canvas.FillGfxPath(colors[i], InternalGraphicsPath.CreateGraphicsPath(new VertexStoreSnap(vxs, pathIndexs[i])));
@@ -683,10 +675,12 @@ namespace PixelFarm.DrawingGL
         //-----------------------------------------------------------------------------------------------------------------
         public override RenderVx CreateRenderVx(VertexStoreSnap snap)
         {
+            //store internal gfx path inside render vx
             return new GLRenderVx(InternalGraphicsPath.CreateGraphicsPath(snap));
         }
         public RenderVx CreatePolygonRenderVx(float[] xycoords)
         {
+            //store internal gfx path inside render vx
             return new GLRenderVx(InternalGraphicsPath.CreatePolygonGraphicsPath(xycoords));
         }
 
@@ -699,6 +693,16 @@ namespace PixelFarm.DrawingGL
             public bool scaleUp;
         }
 
+        VertexStorePool _vxsPool = new VertexStorePool();
+        VertexStore GetFreeVxs()
+        {
+            return _vxsPool.GetFreeVxs();
+        }
+        void ReleaseVxs(ref VertexStore vxs)
+        {
+            _vxsPool.Release(ref vxs);
+        }
+        //---------------------------------------------------------------------
         public void DrawArc(float fromX, float fromY, float endX, float endY,
          float xaxisRotationAngleDec, float rx, float ry,
          SvgArcSize arcSize, SvgArcSweep arcSweep)
@@ -717,7 +721,8 @@ namespace PixelFarm.DrawingGL
             arcTool.Init(centerFormArc.cx, centerFormArc.cy, rx, ry,
                 centerFormArc.radStartAngle,
                 (centerFormArc.radStartAngle + centerFormArc.radSweepDiff));
-            VertexStore vxs = new VertexStore();
+
+            VertexStore v1 = GetFreeVxs();
             bool stopLoop = false;
             foreach (VertexData vertexData in arcTool.GetVertexIter())
             {
@@ -727,7 +732,7 @@ namespace PixelFarm.DrawingGL
                         stopLoop = true;
                         break;
                     default:
-                        vxs.AddVertex(vertexData.x, vertexData.y, vertexData.command);
+                        v1.AddVertex(vertexData.x, vertexData.y, vertexData.command);
                         //yield return vertexData;
                         break;
                 }
@@ -735,14 +740,13 @@ namespace PixelFarm.DrawingGL
                 if (stopLoop) { break; }
             }
 
-
             double scaleRatio = 1;
             if (centerFormArc.scaleUp)
             {
-                int vxs_count = vxs.Count;
+                int vxs_count = v1.Count;
                 double px0, py0, px_last, py_last;
-                vxs.GetVertex(0, out px0, out py0);
-                vxs.GetVertex(vxs_count - 1, out px_last, out py_last);
+                v1.GetVertex(0, out px0, out py0);
+                v1.GetVertex(vxs_count - 1, out px_last, out py_last);
                 double distance1 = Math.Sqrt((px_last - px0) * (px_last - px0) + (py_last - py0) * (py_last - py0));
                 double distance2 = Math.Sqrt((endX - fromX) * (endX - fromX) + (endY - fromY) * (endY - fromY));
                 if (distance1 < distance2)
@@ -764,7 +768,10 @@ namespace PixelFarm.DrawingGL
                             new PixelFarm.Agg.Transform.AffinePlan(PixelFarm.Agg.Transform.AffineMatrixCommand.Scale, scaleRatio, scaleRatio),
                             new PixelFarm.Agg.Transform.AffinePlan(PixelFarm.Agg.Transform.AffineMatrixCommand.Rotate, DegToRad(xaxisRotationAngleDec)),
                             new PixelFarm.Agg.Transform.AffinePlan(PixelFarm.Agg.Transform.AffineMatrixCommand.Translate, centerFormArc.cx, centerFormArc.cy));
-                    vxs = mat.TransformToVxs(vxs);
+                    var v2 = GetFreeVxs();
+                    mat.TransformToVxs(v1, v2);
+                    ReleaseVxs(ref v1);
+                    v1 = v2;
                 }
                 else
                 {
@@ -773,7 +780,10 @@ namespace PixelFarm.DrawingGL
                             new PixelFarm.Agg.Transform.AffinePlan(PixelFarm.Agg.Transform.AffineMatrixCommand.Translate, -centerFormArc.cx, -centerFormArc.cy),
                             new PixelFarm.Agg.Transform.AffinePlan(PixelFarm.Agg.Transform.AffineMatrixCommand.Rotate, DegToRad(xaxisRotationAngleDec)),
                             new PixelFarm.Agg.Transform.AffinePlan(PixelFarm.Agg.Transform.AffineMatrixCommand.Translate, centerFormArc.cx, centerFormArc.cy));
-                    vxs = mat.TransformToVxs(vxs);
+                    var v2 = GetFreeVxs();
+                    mat.TransformToVxs(v1, v2);
+                    ReleaseVxs(ref v1);
+                    v1 = v2;
                 }
             }
             else
@@ -785,12 +795,22 @@ namespace PixelFarm.DrawingGL
                             new PixelFarm.Agg.Transform.AffinePlan(PixelFarm.Agg.Transform.AffineMatrixCommand.Translate, -centerFormArc.cx, -centerFormArc.cy),
                             new PixelFarm.Agg.Transform.AffinePlan(PixelFarm.Agg.Transform.AffineMatrixCommand.Scale, scaleRatio, scaleRatio),
                             new PixelFarm.Agg.Transform.AffinePlan(PixelFarm.Agg.Transform.AffineMatrixCommand.Translate, centerFormArc.cx, centerFormArc.cy));
-                    vxs = mat.TransformToVxs(vxs);
+                    var v2 = GetFreeVxs();
+                    mat.TransformToVxs(v1, v2);
+                    ReleaseVxs(ref v1);
+                    v1 = v2;
                 }
             }
+
             _aggStroke.Width = this.StrokeWidth;
-            vxs = _aggStroke.MakeVxs(vxs);
-            _canvas.DrawGfxPath(_canvas.StrokeColor, InternalGraphicsPath.CreateGraphicsPath(new VertexStoreSnap(vxs)));
+
+
+            var v3 = _aggStroke.MakeVxs(v1, GetFreeVxs());
+            _canvas.DrawGfxPath(_canvas.StrokeColor, InternalGraphicsPath.CreateGraphicsPath(new VertexStoreSnap(v3)));
+
+            ReleaseVxs(ref v3);
+            ReleaseVxs(ref v1);
+
         }
         static double DegToRad(double degree)
         {

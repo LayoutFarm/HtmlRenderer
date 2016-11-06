@@ -76,6 +76,7 @@
     <Compile Include="1.3_Layer\1_EditableTextFlowLayer_CORE_Collection.cs" />
     <Compile Include="1.3_Layer\1_EditableTextFlowLayer_Relocator_Feeder.cs" />
     <Compile Include="2.1_MultiLineController\DocumentActions.cs" />
+    <Compile Include="2.2_TextRenderBox\CustomRenderSurface.cs" />
     <Compile Include="2.2_TextRenderBox\GlobalCaretController.cs" />
     <Compile Include="2.2_TextRenderBox\RenderSurfaceScrollRelation.cs" />
     <Compile Include="2.2_TextRenderBox\TextEditRenderBox.cs" />

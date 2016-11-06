@@ -203,13 +203,13 @@ namespace PixelFarm.Agg.VertexSource
             yield return new VertexData(VertexCmd.Stop);
         }
 
-        public VertexStore MakeVxs()
+        public VertexStore MakeVxs(VertexStore vxs)
         {
-            return VertexStoreBuilder.CreateVxs(this.GetVertexIter());
+            return VertexStoreBuilder.CreateVxs(this.GetVertexIter(), vxs);
         }
-        public VertexStoreSnap MakeVertexSnap()
+        public VertexStoreSnap MakeVertexSnap(VertexStore vxs)
         {
-            return new VertexStoreSnap(this.MakeVxs());
+            return new VertexStoreSnap(this.MakeVxs(vxs));
         }
     }
 }

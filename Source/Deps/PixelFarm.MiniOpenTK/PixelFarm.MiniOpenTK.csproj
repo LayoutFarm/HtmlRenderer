@@ -102,6 +102,7 @@
     <Compile Include="OpenTK\Platform\DesktopGraphicsContext.cs" />
     <Compile Include="OpenTK\Platform\Dummy\DummyGLContext.cs" />
     <Compile Include="OpenTK\Platform\Dummy\DummyWindowInfo.cs" />
+    <Compile Include="OpenTK\Platform\External\ExternalGraphicsContext.cs" />
     <Compile Include="OpenTK\Platform\Factory.cs" />
     <Compile Include="OpenTK\Platform\IDisplayDeviceDriver.cs" />
     <Compile Include="OpenTK\Platform\INativeWindow.cs" />

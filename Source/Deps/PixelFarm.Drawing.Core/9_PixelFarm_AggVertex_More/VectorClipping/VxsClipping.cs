@@ -25,6 +25,7 @@ namespace PixelFarm.Agg.VertexSource
             List<List<IntPoint>> intersectedPolys = new List<List<IntPoint>>();
             clipper.Execute(clipType, intersectedPolys);
             List<VertexStore> resultList = new List<VertexStore>();
+
             PathWriter output = new PathWriter();
             if (separateIntoSmallSubPaths)
             {
@@ -50,7 +51,7 @@ namespace PixelFarm.Agg.VertexSource
                         resultList.Add(output.Vxs);
                         //---
                         //clear 
-                        output.ClearAndStartNewVxs();
+                        output.ClearAndStartNewVxs(new VertexStore());
                     }
                 }
             }

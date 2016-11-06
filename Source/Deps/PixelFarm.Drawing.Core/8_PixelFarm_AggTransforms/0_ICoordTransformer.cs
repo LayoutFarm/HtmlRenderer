@@ -24,4 +24,12 @@ namespace PixelFarm.Agg.Transform
     {
         void Transform(ref double x, ref double y);
     }
+    public static class ITransformExtension
+    {
+        public static void TransformToVertexSnap(this Affine affine, VertexStore src, VertexStore output)
+        {
+            affine.TransformToVxs(src, output); 
+        }
+
+    }
 }
