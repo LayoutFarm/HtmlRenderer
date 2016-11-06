@@ -1,4 +1,7 @@
-﻿using System;
+﻿//MIT, 2015-2016, WinterDev
+//This shows html control host + js scripting
+//------------------------------------------------
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 using LayoutFarm.Ease;
@@ -9,47 +12,47 @@ namespace Test5_Ease
 {
     public partial class Form1 : Form
     {
+        //1. html viewport: connect HtmlRenderer Control to our WinForm
         EaseViewport easeViewport;
+        //2. sample js output console
         MyWebConsole myWbConsole;
+        //3. js engine
         JsEngine myengine;
+        //4. root js context
         JsContext myCtx;
         public Form1()
         {
             InitializeComponent();
             //1. create viewport
             easeViewport = EaseHost.CreateViewportControl(this, 800, 600);
-            //2. add
-            this.panel1.Controls.Add(easeViewport.ViewportControl);
-            //this.Controls.Add(easeViewport.ViewportControl);
+            //2. add physical html control to target that you want
+            //eg. this example add physical html control viewport to the panel1
+            this.panel1.Controls.Add(easeViewport.PhysicalViewportControl);
+            //3. notify when form load
             this.Load += new EventHandler(Form1_Load);
+            //4. create html output console
             this.myWbConsole = new MyWebConsole(this.textBox1);
         }
         void Form1_Load(object sender, EventArgs e)
         {
-            //load sample html text
+            //1. notify viewport that the host is ready
             easeViewport.Ready();
-            string filename = @"..\..\..\HtmlRenderer.Demo\Samples\ClassicSamples\00.Intro.htm";
-            //read text file
-            //var fileContent = System.IO.File.ReadAllText(filename);
-            //start with about blank
-            //easeViewport.LoadHtml(filename, fileContent); 
-            easeViewport.LoadHtml(filename, "<html><body></body></html");
+            //2. load blank html
+            easeViewport.LoadHtmlString("", "<html><body></body></html");
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            //test load html text 
-            string filename = @"..\..\..\HtmlRenderer.Demo\Samples\ClassicSamples\00.Intro.htm";
-            //read html text file
-            var fileContent = "<html><body><div>Hello !</div></body></html>";
-            easeViewport.LoadHtml(filename, fileContent);
+            //1.init html
+            var html = "<html><body><div>Hello !</div></body></html>";
+            easeViewport.LoadHtmlString("", html);
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            string filename = @"..\..\..\HtmlRenderer.Demo\Samples\ClassicSamples\00.Intro.htm";
-            //1. blank html
-            var fileContent = "<html><body><div id=\"a\">AAA</div></body></html>";
-            easeViewport.LoadHtml(filename, fileContent);
+
+            //1.init html
+            var html = "<html><body><div id=\"a\">AAA</div></body></html>";
+            easeViewport.LoadHtmlString("", html);
             //2. access dom 
 
             WebDocument webdoc = easeViewport.GetHtmlDom();
@@ -73,10 +76,10 @@ namespace Test5_Ease
 
         private void button3_Click(object sender, EventArgs e)
         {
-            string filename = @"..\..\..\HtmlRenderer.Demo\Samples\ClassicSamples\00.Intro.htm";
-            //1. blank html
-            var fileContent = "<html><body><div id=\"a\">A</div><div id=\"b\" style=\"background-color:blue\">B<span id=\"s1\">span content</span></div></body></html>";
-            easeViewport.LoadHtml(filename, fileContent);
+
+            //1.init html
+            var html = "<html><body><div id=\"a\">A</div><div id=\"b\" style=\"background-color:blue\">B<span id=\"s1\">span content</span></div></body></html>";
+            easeViewport.LoadHtmlString("", html);
             //2. access dom  
             WebDocument webdoc = easeViewport.GetHtmlDom();
             //3. get element by id 
@@ -121,10 +124,10 @@ namespace Test5_Ease
 
         private void button5_Click(object sender, EventArgs e)
         {
-            string filename = @"..\..\..\HtmlRenderer.Demo\Samples\ClassicSamples\00.Intro.htm";
-            //1. blank html
+
+            //1. init html
             var fileContent = "<html><body><div id=\"a\">A</div><div id=\"b\" style=\"background-color:blue\">B</div></body></html>";
-            easeViewport.LoadHtml(filename, fileContent);
+            easeViewport.LoadHtmlString("", fileContent);
             //----------------------------------------------------------------
             //after load html page 
 
@@ -189,10 +192,10 @@ namespace Test5_Ease
 
         private void button6_Click(object sender, EventArgs e)
         {
-            string filename = @"..\..\..\HtmlRenderer.Demo\Samples\ClassicSamples\00.Intro.htm";
-            //1. blank html
+
+            //1. init html
             var fileContent = "<html><body><div id=\"a\">A</div><div id=\"b\" style=\"background-color:blue\">B</div><div id=\"c\">c_node</div></body></html>";
-            easeViewport.LoadHtml(filename, fileContent);
+            easeViewport.LoadHtmlString("", fileContent);
             //----------------------------------------------------------------
             //after load html page 
 
@@ -274,10 +277,10 @@ namespace Test5_Ease
 
         private void button7_Click(object sender, EventArgs e)
         {
-            string filename = @"..\..\..\HtmlRenderer.Demo\Samples\ClassicSamples\00.Intro.htm";
-            //1. blank html
-            var fileContent = "<html><script>function doc_ready(){console.log('doc_ready');}</script><body onload=\"doc_ready()\"><div id=\"a\">A</div><div id=\"b\" style=\"background-color:blue\">B</div><div id=\"c\">c_node</div></body></html>";
-            easeViewport.LoadHtml(filename, fileContent);
+
+            //1. init html
+            var initHtml = "<html><script>function doc_ready(){console.log('doc_ready');}</script><body onload=\"doc_ready()\"><div id=\"a\">A</div><div id=\"b\" style=\"background-color:blue\">B</div><div id=\"c\">c_node</div></body></html>";
+            easeViewport.LoadHtmlString("", initHtml);
             //----------------------------------------------------------------
             //after load html page 
 
