@@ -139,7 +139,7 @@ namespace CodeGenerator {
 						node.Value = value;
 					}
 
-					maxEntityLength = Math.Max (maxEntityLength, name.Length);
+					maxEntityLength = Math.Max (maxEntityLength, name.Length + 1);
 
 					if (!json.Read () || json.TokenType != JsonToken.EndObject)
 						break;

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+	<metadata minClientVersion="2.8.6">
+		<id>HtmlKit</id>
+		<version>1.0.0</version>
+		<title>HtmlKit</title>
+		<authors>Jeffrey Stedfast</authors>
+		<owners>Jeffrey Stedfast</owners>
+		<licenseUrl>http://opensource.org/licenses/MIT</licenseUrl>
+		<projectUrl>http://github.com/jstedfast/HtmlKit</projectUrl>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<description>HtmlKit is a cross-platform .NET framework for parsing HTML.</description>
+		<summary>HtmlKit is a cross-platform .NET framework for parsing HTML.</summary>
+		<releaseNotes>
+</releaseNotes>
+		<copyright>Xamarin Inc.</copyright>
+		<language>en-US</language>
+		<tags>html parser</tags>
+		<frameworkAssemblies>
+		</frameworkAssemblies>
+	<dependencies>
+	</dependencies>
+	</metadata>
+	<files>
+		<file src="HtmlKit\bin\Release\HtmlKit.dll" target="lib\portable-net45+win8+wp8\HtmlKit.dll" />
+		<file src="HtmlKit\bin\Release\HtmlKit.xml" target="lib\portable-net45+win8+wp8\HtmlKit.xml" />
+	</files>
+</package>
