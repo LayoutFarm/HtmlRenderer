@@ -52,6 +52,11 @@ namespace PixelFarm.Drawing.WinGdi
             }
             return brush_path;
         }
+        /// <summary>
+        /// we do NOT store vxsSnap
+        /// </summary>
+        /// <param name="vxsSnap"></param>
+        /// <returns></returns>
         public static System.Drawing.Drawing2D.GraphicsPath CreateGraphicsPath(VertexStoreSnap vxsSnap)
         {
             VertexSnapIter vxsIter = vxsSnap.GetVertexSnapIter();

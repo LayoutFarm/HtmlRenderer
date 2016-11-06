@@ -18,6 +18,7 @@
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
 
+#define UNSAFE_VER
 
 namespace PixelFarm.Agg
 {
@@ -26,7 +27,7 @@ namespace PixelFarm.Agg
         int m_num_vertices;
         int m_allocated_vertices;
         double[] m_coord_xy;
-        VertexCmd[] m_cmds;
+        byte[] m_cmds;
 #if DEBUG
         static int dbugTotal = 0;
         public readonly int dbugId = dbugGetNewId();
@@ -47,6 +48,9 @@ namespace PixelFarm.Agg
 
         internal bool HasMoreThanOnePart { get; set; }
 
+        /// <summary>
+        /// num of vertex
+        /// </summary>
         public int Count
         {
             get { return m_num_vertices; }
@@ -77,7 +81,7 @@ namespace PixelFarm.Agg
             int i = index << 1;
             x = m_coord_xy[i];
             y = m_coord_xy[i + 1];
-            return m_cmds[index];
+            return (VertexCmd)m_cmds[index];
         }
         public void GetVertexXY(int index, out double x, out double y)
         {
@@ -87,7 +91,7 @@ namespace PixelFarm.Agg
         }
         public VertexCmd GetCommand(int index)
         {
-            return m_cmds[index];
+            return (VertexCmd)m_cmds[index];
         }
         //--------------------------------------------------
         //mutable properties
@@ -103,7 +107,7 @@ namespace PixelFarm.Agg
             }
             m_coord_xy[m_num_vertices << 1] = x;
             m_coord_xy[(m_num_vertices << 1) + 1] = y;
-            m_cmds[m_num_vertices] = cmd;
+            m_cmds[m_num_vertices] = (byte)cmd;
             m_num_vertices++;
         }
         //--------------------------------------------------
@@ -148,9 +152,8 @@ namespace PixelFarm.Agg
         }
         internal void ReplaceCommand(int index, VertexCmd CommandAndFlags)
         {
-            m_cmds[index] = CommandAndFlags;
+            m_cmds[index] = (byte)CommandAndFlags;
         }
-
         internal void SwapVertices(int v1, int v2)
         {
             double x_tmp = m_coord_xy[v1 << 1];
@@ -159,10 +162,12 @@ namespace PixelFarm.Agg
             m_coord_xy[(v1 << 1) + 1] = m_coord_xy[(v2 << 1) + 1];//y
             m_coord_xy[v2 << 1] = x_tmp;
             m_coord_xy[(v2 << 1) + 1] = y_tmp;
-            VertexCmd cmd = m_cmds[v1];
+            byte cmd = m_cmds[v1];
             m_cmds[v1] = m_cmds[v2];
             m_cmds[v2] = cmd;
         }
+
+
         void AllocIfRequired(int indexToAdd)
         {
             if (indexToAdd < m_allocated_vertices)
@@ -170,26 +175,66 @@ namespace PixelFarm.Agg
                 return;
             }
 
+#if DEBUG
+            int nrounds = 0;
+#endif
             while (indexToAdd >= m_allocated_vertices)
             {
-                int newSize = m_allocated_vertices + 256;
+#if DEBUG
+
+                if (nrounds > 0)
+                {
+                }
+                nrounds++;
+#endif
+
+                //newsize is LARGER than original  ****
+                int newSize = ((indexToAdd + 257) / 256) * 256; //calculate new size in single round
+                //int newSize = m_allocated_vertices + 256; //original
+                //-------------------------------------- 
                 double[] new_xy = new double[newSize << 1];
-                VertexCmd[] newCmd = new VertexCmd[newSize];
+                byte[] newCmd = new byte[newSize];
+
                 if (m_coord_xy != null)
                 {
                     //copy old buffer to new buffer 
                     int actualLen = m_num_vertices << 1;
-                    for (int i = actualLen - 1; i >= 0; )
+                    //-----------------------------
+                    //TODO: review faster copy
+                    //----------------------------- 
+                    unsafe
                     {
-                        new_xy[i] = m_coord_xy[i];
-                        i--;
-                        new_xy[i] = m_coord_xy[i];
-                        i--;
+                        //unsafed version?
+                        fixed (double* srcH = &m_coord_xy[0])
+                        {
+                            System.Runtime.InteropServices.Marshal.Copy(
+                                (System.IntPtr)srcH,
+                                new_xy, //dest
+                                0,
+                                actualLen);
+                        }
+                        fixed (byte* srcH = &m_cmds[0])
+                        {
+                            System.Runtime.InteropServices.Marshal.Copy(
+                                (System.IntPtr)srcH,
+                                newCmd, //dest
+                                0,
+                                m_num_vertices);
+                        }
                     }
-                    for (int i = m_num_vertices - 1; i >= 0; --i)
-                    {
-                        newCmd[i] = m_cmds[i];
-                    }
+                    //------------------------------------
+                    //line by line version
+                    //for (int i = actualLen - 1; i >= 0; )
+                    //{
+                    //    new_xy[i] = m_coord_xy[i];
+                    //    i--;
+                    //    new_xy[i] = m_coord_xy[i];
+                    //    i--;
+                    //}
+                    //for (int i = m_num_vertices - 1; i >= 0; --i)
+                    //{
+                    //    newCmd[i] = m_cmds[i];
+                    //}
                 }
                 m_coord_xy = new_xy;
                 m_cmds = newCmd;
@@ -219,7 +264,7 @@ namespace PixelFarm.Agg
             int m_allocated_vertices,
             int m_num_vertices,
             double[] m_coord_xy,
-            VertexCmd[] m_CommandAndFlags)
+            byte[] m_CommandAndFlags)
         {
             vstore.m_num_vertices = m_num_vertices;
             vstore.m_allocated_vertices = m_allocated_vertices;
@@ -231,7 +276,7 @@ namespace PixelFarm.Agg
             out int m_allocated_vertices,
             out int m_num_vertices,
             out double[] m_coord_xy,
-            out VertexCmd[] m_CommandAndFlags)
+            out byte[] m_CommandAndFlags)
         {
             m_num_vertices = vstore.m_num_vertices;
             m_allocated_vertices = vstore.m_allocated_vertices;
@@ -249,7 +294,7 @@ namespace PixelFarm.Agg
             int cmds_len = src.m_cmds.Length;
 
             this.m_coord_xy = new double[coord_len];
-            this.m_cmds = new VertexCmd[cmds_len];
+            this.m_cmds = new byte[cmds_len];
 
             System.Array.Copy(
                  src.m_coord_xy,
@@ -263,7 +308,7 @@ namespace PixelFarm.Agg
                  0,
                  this.m_cmds,
                  0,
-                 cmds_len); 
+                 cmds_len);
         }
 
         /// <summary>
@@ -277,4 +322,9 @@ namespace PixelFarm.Agg
 
         }
     }
+
+
+
+    
+
 }

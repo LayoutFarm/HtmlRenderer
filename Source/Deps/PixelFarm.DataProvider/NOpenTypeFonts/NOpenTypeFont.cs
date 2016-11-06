@@ -171,7 +171,8 @@ namespace PixelFarm.Drawing.Fonts
             //not found
             //then build it
             ownerFace.VxsBuilder.BuildFromGlyphIndex((ushort)codepoint, this.sizeInPoints);
-            found = ownerFace.VxsBuilder.GetVxs();
+   
+            found = ownerFace.VxsBuilder.GetVxs(new VertexStore());
             glyphVxs.Add(codepoint, found);
             return found;
         }

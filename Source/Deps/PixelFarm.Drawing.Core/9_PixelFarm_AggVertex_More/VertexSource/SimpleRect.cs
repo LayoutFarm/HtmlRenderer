@@ -56,9 +56,9 @@ namespace PixelFarm.Agg.VertexSource
             if (bottom > top) { bounds.Bottom = top; bounds.Top = bottom; }
         }
 
-        public VertexStore MakeVxs()
+        public VertexStore MakeVxs(VertexStore output)
         {
-            PathWriter m_LinesToDraw = new PathWriter();
+            PathWriter m_LinesToDraw = new PathWriter(output);
             m_LinesToDraw.Clear();
             m_LinesToDraw.MoveTo(bounds.Left, bounds.Bottom);
             m_LinesToDraw.LineTo(bounds.Right, bounds.Bottom);
@@ -67,9 +67,9 @@ namespace PixelFarm.Agg.VertexSource
             m_LinesToDraw.CloseFigure();
             return m_LinesToDraw.Vxs;
         }
-        public VertexStoreSnap MakeVertexSnap()
+        public VertexStoreSnap MakeVertexSnap(VertexStore output)
         {
-            return new VertexStoreSnap(this.MakeVxs());
+            return new VertexStoreSnap(this.MakeVxs(output));
         }
     }
 }

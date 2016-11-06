@@ -258,12 +258,12 @@ namespace PixelFarm.Drawing.Fonts
                 todoContourCount--;
             }
         }
-        internal static VertexStore FlattenVxs(VertexStore input)
+        internal static void FlattenVxs(VertexStore input, VertexStore output)
         {
-            return curveFlattener.MakeVxs(input);
+            curveFlattener.MakeVxs(input, output);
         }
 
-       
+
 
         const double FT_RESIZE = 64; //essential to be floating point
         internal unsafe static GlyphImage BuildMsdfFontImage(FontGlyph fontGlyph)
