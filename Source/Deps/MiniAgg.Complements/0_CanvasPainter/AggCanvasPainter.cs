@@ -45,7 +45,7 @@ namespace PixelFarm.Agg
         PathWriter lines = new PathWriter();
         RoundedRect roundRect = null;
         MyImageReaderWriter sharedImageWriterReader = new MyImageReaderWriter();
-       
+
         AggTextPrinter textPrinter;
         int ellipseGenNSteps = 10;
         SmoothingMode _smoothingMode;
@@ -57,6 +57,10 @@ namespace PixelFarm.Agg
             this.stroke = new Stroke(1);//default
             this.scline = graphic2d.ScanlinePacked8;
             this.sclineRasToBmp = graphic2d.ScanlineRasToDestBitmap;
+        }
+        public Graphics2D Graphics
+        {
+            get { return this.gx; }
         }
         public AggTextPrinter TextPrinter
         {
@@ -292,18 +296,13 @@ namespace PixelFarm.Agg
            double x,
            double y)
         {
-            //TODO: review drawing string  with agg here 
-
+            //TODO: review drawing string  with agg here  
             //textPrinter.Print(this, text.ToString(), x, y);
         }
-        ////-------------------------------------------------------
-        //public Graphics2D Graphics
-        //{
-        //    get { return this.gx; }
-        //}
-        
+
+
         /// <summary>
-        /// fill vertex store
+        /// fill vertex store, we do NOT store snap
         /// </summary>
         /// <param name="vxs"></param>
         /// <param name="c"></param>
@@ -312,6 +311,10 @@ namespace PixelFarm.Agg
             sclineRas.AddPath(snap);
             sclineRasToBmp.RenderWithColor(this.gx.DestImage, sclineRas, scline, fillColor);
         }
+        /// <summary>
+        /// fill vxs, we do NOT store vxs
+        /// </summary>
+        /// <param name="vxs"></param>
         public override void Fill(VertexStore vxs)
         {
             sclineRas.AddPath(vxs);
@@ -389,20 +392,21 @@ namespace PixelFarm.Agg
                 new PixelFarm.VectorMath.Vector2(controlX2, controlY2));
             vxs = this.stroke.MakeVxs(vxs);
             sclineRas.Reset();
-            sclineRas.AddPath(vxs);
-            //sclineRasToBmp.DrawWithColor(sclineRas, sclinePack8, this.fillColor);
+            sclineRas.AddPath(vxs);             
             sclineRasToBmp.RenderWithColor(this.gx.DestImage, sclineRas, scline, this.strokeColor);
         }
-         
+
         public override int Width
         {
             get
             {
+                //TODO: review here
                 return 800;
             }
         }
         public override int Height
         {
+            //TODO: review here
             get { return 600; }
         }
         public override RenderVx CreateRenderVx(VertexStoreSnap snap)

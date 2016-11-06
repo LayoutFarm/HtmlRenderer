@@ -60,7 +60,8 @@ namespace PixelFarm.Drawing.WinGdi
             double prevMoveToX = 0;
             double prevMoveToY = 0;
             var brush_path = new System.Drawing.Drawing2D.GraphicsPath(FillMode.Winding);//*** winding for overlapped path  
-            for (;;)
+
+            for (; ; )
             {
                 double x, y;
                 VertexCmd cmd = vxsIter.GetNextVertex(out x, out y);
@@ -94,17 +95,22 @@ namespace PixelFarm.Drawing.WinGdi
         EXIT_LOOP:
             return brush_path;
         }
+
         public static void FillVxsSnap(Graphics g, VertexStoreSnap vxsSnap, Color c)
         {
-            System.Drawing.Drawing2D.GraphicsPath p = CreateGraphicsPath(vxsSnap);
-            _br.Color = ToDrawingColor(c);
-            g.FillPath(_br, p);
+            using (System.Drawing.Drawing2D.GraphicsPath p = CreateGraphicsPath(vxsSnap))
+            {
+                _br.Color = ToDrawingColor(c);
+                g.FillPath(_br, p);
+            }
         }
         public static void DrawVxsSnap(Graphics g, VertexStoreSnap vxsSnap, Color c)
         {
-            System.Drawing.Drawing2D.GraphicsPath p = CreateGraphicsPath(vxsSnap);
-            _pen.Color = ToDrawingColor(c);
-            g.DrawPath(_pen, p);
+            using (System.Drawing.Drawing2D.GraphicsPath p = CreateGraphicsPath(vxsSnap))
+            {
+                _pen.Color = ToDrawingColor(c);
+                g.DrawPath(_pen, p);
+            }
         }
         public static void FillPath(Graphics g, System.Drawing.Drawing2D.GraphicsPath p, Color c)
         {
