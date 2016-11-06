@@ -6,6 +6,7 @@ namespace LayoutFarm.Ease
 {
     public class EaseViewport
     {
+
         UserHtmlWorkspace userWorkspace = new UserHtmlWorkspace();
         LayoutFarm.UI.UISurfaceViewportControl viewportControl;
         SampleViewport sampleViewport;
@@ -14,23 +15,37 @@ namespace LayoutFarm.Ease
             this.viewportControl = viewportControl;
             this.sampleViewport = new SampleViewport(viewportControl);
         }
+        /// <summary>
+        /// example logical viewport
+        /// </summary>
         public SampleViewport SampleViewPort
         {
             get { return this.sampleViewport; }
         }
 
-
-        public Control ViewportControl
+        /// <summary>
+        /// viewport's window control ( LayoutFarm.UI.UISurfaceViewportControl) 
+        /// </summary>
+        public Control PhysicalViewportControl
         {
             get { return this.viewportControl; }
         }
+        /// <summary>
+        /// notify that the host is ready
+        /// </summary>
         public void Ready()
         {
-            userWorkspace.OnStartDemo(sampleViewport);
+            userWorkspace.OnViewportReady(sampleViewport);
         }
-        public void LoadHtml(string originalFileName, string htmlText)
+        public string RootDir { get; set; }
+        /// <summary>
+        /// load html string
+        /// </summary>
+        /// <param name="rootdir">root dir for solve other resource</param>
+        /// <param name="htmlText">raw html text</param>
+        public void LoadHtmlString(string rootdir, string htmlText)
         {
-            userWorkspace.LoadHtml(originalFileName, htmlText);
+            userWorkspace.LoadHtml(rootdir, htmlText);
             viewportControl.PaintMeFullMode();
         }
         public WebDocument GetHtmlDom()
