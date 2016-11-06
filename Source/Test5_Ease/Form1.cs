@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using LayoutFarm.Ease;
 using LayoutFarm.WebDom;
 using LayoutFarm.WebDom.Extension;
+using LayoutFarm.Scripting;
 using Espresso;
 namespace Test5_Ease
 {
@@ -131,8 +132,7 @@ namespace Test5_Ease
             //----------------------------------------------------------------
             //after load html page 
 
-            //test javascript ...
-            //JsBridge.LoadV8("..\\..\\dll\\VRoomJsNative.dll");
+            //test javascript ... 
 
 #if DEBUG
             JsBridge.dbugTestCallbacks();
@@ -187,9 +187,6 @@ namespace Test5_Ease
         }
 
 
-
-
-
         private void button6_Click(object sender, EventArgs e)
         {
 
@@ -200,7 +197,7 @@ namespace Test5_Ease
             //after load html page 
 
             //load v8 if ready
-            //JsBridge.LoadV8("..\\..\\dll\\VRoomJsNative.dll");
+
 #if DEBUG
             JsBridge.dbugTestCallbacks();
 #endif
@@ -285,7 +282,7 @@ namespace Test5_Ease
             //after load html page 
 
             //load v8 if ready
-            // JsBridge.LoadV8("..\\..\\dll\\VRoomJsNative.dll");
+
 #if DEBUG
             JsBridge.dbugTestCallbacks();
 #endif
@@ -334,6 +331,51 @@ namespace Test5_Ease
             object testResult = myCtx.Execute(simplejs);
             stwatch.Stop();
             Console.WriteLine("met1 template:" + stwatch.ElapsedMilliseconds.ToString());
+        }
+
+        MyTestHtmlAppModule myAppModule;
+        private void cmdTestSampleAppModule_Click(object sender, EventArgs e)
+        {
+            //1. create our custom app module
+            myAppModule = new MyTestHtmlAppModule();
+            //1. init html 
+            easeViewport.LoadHtmlString(myAppModule.RootDir, myAppModule.GetInitPage());
+            //----------------------------------------------------------------
+            //after load html page 
+            //2.  assign dom 
+            myAppModule.HtmlDoc = easeViewport.GetHtmlDom() as LayoutFarm.WebDom.IHtmlDocument;
+            //3. assign  js console 
+            myAppModule.Console = myWbConsole;
+            //4. init js engine
+            myAppModule.InitJsEngine();
+            //---------------------------------------------------------------- 
+            //5. test access/ modify/ interact dom with js
+            string simplejs = @"
+                    (function(){
+                        console.log('hello world!');
+                        var domNodeA = document.getElementById('a');
+                        var domNodeB = document.getElementById('b');
+                        var domNodeC = document.getElementById('c');
+
+                        var newText1 = document.createTextNode('... says hello world!');
+                        domNodeA.appendChild(newText1);
+
+                        for(var i=0;i<10;++i){
+                            var newText2= document.createTextNode(i.toString());
+                            domNodeA.appendChild(newText2);       
+                        } 
+
+                        var newDivNode= document.createElement('div');
+                        newDivNode.appendChild(document.createTextNode('new div'));
+                        newDivNode.attachEventListener('mousedown',function(){console.log('new div');});
+                        domNodeB.appendChild(newDivNode);    
+                        
+                        domNodeC.innerHTML='<div> from inner html <span> from span</span> </div>';
+                        console.log(domNodeC.innerHTML);
+                    })();
+                ";
+            object testResult = myAppModule.ExecuteJs(simplejs);
+
         }
     }
 }
