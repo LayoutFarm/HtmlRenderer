@@ -36,6 +36,46 @@
     <Compile Include="..\Deps\TypeMirror\SimpleReflectionHelper.cs">
       <Link>5_HtmlKit\SimpleReflectionHelper.cs</Link>
     </Compile>
+    <Compile Include="..\HtmlKit\HtmlKit\HtmlAttribute.cs">
+      <Link>5_HtmlKit\HtmlAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\HtmlKit\HtmlKit\HtmlAttributeCollection.cs">
+      <Link>5_HtmlKit\HtmlAttributeCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\HtmlKit\HtmlKit\HtmlEntityDecoder.cs">
+      <Link>5_HtmlKit\HtmlEntityDecoder.cs</Link>
+    </Compile>
+    <Compile Include="..\HtmlKit\HtmlKit\HtmlEntityDecoder.g.cs">
+      <Link>5_HtmlKit\HtmlEntityDecoder.g.cs</Link>
+      <DependentUpon>HtmlEntityDecoder.g</DependentUpon>
+    </Compile>
+    <Compile Include="..\HtmlKit\HtmlKit\HtmlNamespace.cs">
+      <Link>5_HtmlKit\HtmlNamespace.cs</Link>
+    </Compile>
+    <Compile Include="..\HtmlKit\HtmlKit\HtmlToken.cs">
+      <Link>5_HtmlKit\HtmlToken.cs</Link>
+    </Compile>
+    <Compile Include="..\HtmlKit\HtmlKit\HtmlTokenizer.cs">
+      <Link>5_HtmlKit\HtmlTokenizer.cs</Link>
+    </Compile>
+    <Compile Include="..\HtmlKit\HtmlKit\HtmlTokenizerState.cs">
+      <Link>5_HtmlKit\HtmlTokenizerState.cs</Link>
+    </Compile>
+    <Compile Include="..\HtmlKit\HtmlKit\HtmlTokenKind.cs">
+      <Link>5_HtmlKit\HtmlTokenKind.cs</Link>
+    </Compile>
+    <Compile Include="..\HtmlKit\HtmlKit\HtmlUtils.cs">
+      <Link>5_HtmlKit\HtmlUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\HtmlKit\HtmlKit\HtmlWriter.cs">
+      <Link>5_HtmlKit\HtmlWriter.cs</Link>
+    </Compile>
+    <Compile Include="..\HtmlKit\HtmlKit\HtmlWriterState.cs">
+      <Link>5_HtmlKit\HtmlWriterState.cs</Link>
+    </Compile>
+    <Compile Include="..\HtmlKit\HtmlKit\ICharArray.cs">
+      <Link>5_HtmlKit\ICharArray.cs</Link>
+    </Compile>
     <Compile Include="0_WebDom.Parser\HtmlKitParser.cs" />
     <Compile Include="0_WebDom.Parser\MyHtmlParser.cs" />
     <Compile Include="0_WebDom.Parser\TextSource.cs" />
@@ -65,25 +105,8 @@
     <Compile Include="4_WebDom.Impl\HtmlShadowDocument.cs" />
     <Compile Include="4_WebDom.Impl\HtmlTextNode.cs" />
     <Compile Include="4_WebDom.Impl\SpecialHtmlElements.cs" />
-    <Compile Include="5_HtmlKit\ForNet20.cs" />
-    <Compile Include="5_HtmlKit\HtmlAttribute.cs" />
-    <Compile Include="5_HtmlKit\HtmlAttributeCollection.cs" />
     <Compile Include="5_HtmlKit\HtmlAttributeId.cs" />
-    <Compile Include="5_HtmlKit\HtmlEntityDecoder.cs" />
-    <Compile Include="5_HtmlKit\HtmlEntityDecoder.g.cs">
-      <DependentUpon>HtmlEntityDecoder.cs</DependentUpon>
-    </Compile>
-    <Compile Include="5_HtmlKit\HtmlNamespace.cs" />
     <Compile Include="5_HtmlKit\HtmlTagId.cs" />
-    <Compile Include="5_HtmlKit\HtmlToken.cs" />
-    <Compile Include="5_HtmlKit\HtmlTokenizer.cs" />
-    <Compile Include="5_HtmlKit\HtmlTokenizerState.cs" />
-    <Compile Include="5_HtmlKit\HtmlTokenizer_ReadNextToken.cs" />
-    <Compile Include="5_HtmlKit\HtmlTokenKind.cs" />
-    <Compile Include="5_HtmlKit\HtmlUtils.cs" />
-    <Compile Include="5_HtmlKit\HtmlWriter.cs" />
-    <Compile Include="5_HtmlKit\HtmlWriterState.cs" />
-    <Compile Include="5_HtmlKit\ICharArray.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="2_WebDom\DomElement.cs" />
     <Compile Include="2_WebDom\DomElement_EventListener.cs" />
