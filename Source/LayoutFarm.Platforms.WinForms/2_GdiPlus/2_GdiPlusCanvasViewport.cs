@@ -17,6 +17,7 @@ namespace LayoutFarm.UI.GdiPlus
             quadPages = new QuadPages( cachedPageNum, viewportSize.Width, viewportSize.Height * 2);
             this.CalculateCanvasPages();
         }
+
         ~GdiPlusCanvasViewport()
         {
             if (quadPages != null)
@@ -108,7 +109,7 @@ namespace LayoutFarm.UI.GdiPlus
         }
 
 
-        public void PaintMe(Canvas mycanvas)
+        public void PaintMe(MyGdiPlusCanvas mycanvas)
         {
             if (this.IsClosed) { return; }
             //------------------------------------ 

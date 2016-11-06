@@ -37,7 +37,7 @@ namespace LayoutFarm.Ease
         {
             return userWorkspace.GetHtmlDom();
         }
-        public void Print(PixelFarm.Drawing.Canvas canvas)
+        public void Print(PixelFarm.Drawing.WinGdi.MyGdiPlusCanvas canvas)
         {
             viewportControl.PrintMe(canvas);
         }

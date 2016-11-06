@@ -41,7 +41,7 @@ namespace LayoutFarm.UI
             this.PaintToOutputWindow();
         }
         public abstract void PaintToOutputWindow();
-        public abstract void PaintToCanvas(Canvas canvas);
+  
         public void UpdateCanvasViewportSize(int w, int h)
         {
             this.canvasViewport.UpdateCanvasViewportSize(w, h);

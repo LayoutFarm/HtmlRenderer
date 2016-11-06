@@ -18,8 +18,7 @@
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
 
-using System;
-using PixelFarm.Agg.Imaging;
+using System; 
 namespace PixelFarm.Agg
 {
     public sealed class ActualImage : PixelFarm.Drawing.Image

@@ -24,7 +24,7 @@ namespace PixelFarm.Drawing.WinGdi
         int canvasOriginX = 0;
         int canvasOriginY = 0;
         Rectangle invalidateArea;
-        CanvasOrientation orientation;
+        
         bool isEmptyInvalidateArea;
         //--------------------------------------------------------------------
         public override void SetCanvasOrigin(int x, int y)
@@ -39,17 +39,7 @@ namespace PixelFarm.Drawing.WinGdi
             this.canvasOriginX = x;
             this.canvasOriginY = y;
         }
-        public override CanvasOrientation Orientation
-        {
-            get
-            {
-                return this.orientation;
-            }
-            set
-            {
-                this.orientation = value;
-            }
-        }
+        
         public override int CanvasOriginX
         {
             get { return this.canvasOriginX; }

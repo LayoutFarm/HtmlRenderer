@@ -19,7 +19,7 @@
 //----------------------------------------------------------------------------
 
 
-namespace PixelFarm.Agg.Imaging
+namespace PixelFarm.Agg
 {
     public enum PixelFormat
     {

@@ -98,8 +98,7 @@ namespace PixelFarm.Drawing
         public abstract void dbug_DrawRuler(int x);
         public abstract void dbug_DrawCrossRect(Color color, Rectangle rect);
 #endif
-        //-------------------------------------------------------  
-        public abstract CanvasOrientation Orientation { get; set; }
+        
         public void OffsetCanvasOrigin(int dx, int dy)
         {
             this.SetCanvasOrigin(this.CanvasOriginX + dx, this.CanvasOriginY + dy);

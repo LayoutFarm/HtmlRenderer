@@ -81,7 +81,7 @@ namespace PixelFarm.DrawingGL
             bmpWidth = win32Size.Width;
             bmpHeight = win32Size.Height;
 
-            var actualImg = new Agg.ActualImage(bmpWidth, bmpHeight, Agg.Imaging.PixelFormat.ARGB32);
+            var actualImg = new Agg.ActualImage(bmpWidth, bmpHeight, Agg.PixelFormat.ARGB32);
             //------------------------------------------------------
             //copy bmp from specific bmp area 
             //and convert to GLBmp   
