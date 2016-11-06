@@ -45,7 +45,7 @@ namespace PixelFarm.Agg
         PathWriter lines = new PathWriter();
         RoundedRect roundRect = null;
         MyImageReaderWriter sharedImageWriterReader = new MyImageReaderWriter();
-        CurveFlattener curveFlattener;
+       
         AggTextPrinter textPrinter;
         int ellipseGenNSteps = 10;
         SmoothingMode _smoothingMode;
@@ -296,11 +296,11 @@ namespace PixelFarm.Agg
 
             //textPrinter.Print(this, text.ToString(), x, y);
         }
-        //-------------------------------------------------------
-        public Graphics2D Graphics
-        {
-            get { return this.gx; }
-        }
+        ////-------------------------------------------------------
+        //public Graphics2D Graphics
+        //{
+        //    get { return this.gx; }
+        //}
         
         /// <summary>
         /// fill vertex store
@@ -393,13 +393,7 @@ namespace PixelFarm.Agg
             //sclineRasToBmp.DrawWithColor(sclineRas, sclinePack8, this.fillColor);
             sclineRasToBmp.RenderWithColor(this.gx.DestImage, sclineRas, scline, this.strokeColor);
         }
-        //---------------- 
-        public override VertexStore FlattenCurves(VertexStore srcVxs)
-        {
-            if (curveFlattener == null) { curveFlattener = new CurveFlattener(); }
-            return curveFlattener.MakeVxs(srcVxs);
-        }
-        //---------------- 
+         
         public override int Width
         {
             get

@@ -25,7 +25,7 @@ namespace PixelFarm.Drawing.WinGdi
         WinGdiFont _winGdiFont;
 
         Agg.VertexSource.RoundedRect roundRect;
-        Agg.VertexSource.CurveFlattener curveFlattener;
+         
 
         SmoothingMode _smoothingMode;
 
@@ -434,14 +434,7 @@ namespace PixelFarm.Drawing.WinGdi
             this.Fill(roundRect.MakeVxs());
         }
 
-        public override VertexStore FlattenCurves(VertexStore srcVxs)
-        {
-            if (curveFlattener == null)
-            {
-                curveFlattener = new Agg.VertexSource.CurveFlattener();
-            }
-            return curveFlattener.MakeVxs(srcVxs);
-        }
+      
 
         public override void Line(double x1, double y1, double x2, double y2)
         {

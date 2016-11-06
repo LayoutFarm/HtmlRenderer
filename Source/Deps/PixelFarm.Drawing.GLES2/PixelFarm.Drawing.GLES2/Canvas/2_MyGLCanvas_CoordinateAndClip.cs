@@ -25,7 +25,7 @@ namespace PixelFarm.Drawing.GLES2
         int canvasOriginX = 0;
         int canvasOriginY = 0;
         Rectangle invalidateArea;
-       
+
         bool isEmptyInvalidateArea;
         //--------------------------------------------------------------------
         public override void SetCanvasOrigin(int x, int y)
@@ -40,7 +40,7 @@ namespace PixelFarm.Drawing.GLES2
             this.canvasOriginX = x;
             this.canvasOriginY = y;
         }
-      
+
         public override int CanvasOriginX
         {
             get { return this.canvasOriginX; }
@@ -48,7 +48,7 @@ namespace PixelFarm.Drawing.GLES2
         public override int CanvasOriginY
         {
             get { return this.canvasOriginY; }
-        } 
+        }
         public override void SetClipRect(Rectangle rect, CombineMode combineMode = CombineMode.Replace)
         {
             throw new NotSupportedException();
@@ -58,10 +58,10 @@ namespace PixelFarm.Drawing.GLES2
             //        rect.Width, rect.Height),
             //        (System.Drawing.Drawing2D.CombineMode)combineMode);
         }
-        public override bool IntersectsWith(Rectangle clientRect)
-        {
-            return clientRect.IntersectsWith(left, top, right, bottom);
-        }
+        //public override bool IntersectsWith(Rectangle clientRect)
+        //{
+        //    return clientRect.IntersectsWith(left, top, right, bottom);
+        //}
 
         public override bool PushClipAreaRect(int width, int height, ref Rectangle updateArea)
         {
@@ -178,5 +178,6 @@ namespace PixelFarm.Drawing.GLES2
             //need to draw again
             this.IsContentReady = false;
         }
+        public bool IsContentReady { get; set; }
     }
 }

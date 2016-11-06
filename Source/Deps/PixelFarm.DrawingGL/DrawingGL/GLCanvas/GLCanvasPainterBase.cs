@@ -20,11 +20,10 @@ namespace PixelFarm.DrawingGL
         Color _fillColor;
         Color _strokeColor;
         RectInt _rectInt;
-        CurveFlattener curveFlattener;
+       
         RoundedRect roundRect;
         Arc arcTool;
-        Ellipse ellipse = new Ellipse();
-        RequestFont _currentFont;
+        Ellipse ellipse = new Ellipse(); 
         Stroke _aggStroke = new Stroke(1);
 
 
@@ -612,14 +611,7 @@ namespace PixelFarm.DrawingGL
             this.Fill(roundRect.MakeVxs());
         }
 
-        public override VertexStore FlattenCurves(VertexStore srcVxs)
-        {
-            if (curveFlattener == null)
-            {
-                curveFlattener = new Agg.VertexSource.CurveFlattener();
-            }
-            return curveFlattener.MakeVxs(srcVxs);
-        }
+       
 
         public override void Line(double x1, double y1, double x2, double y2)
         {

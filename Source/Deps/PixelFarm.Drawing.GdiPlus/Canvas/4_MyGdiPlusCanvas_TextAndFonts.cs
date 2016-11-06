@@ -21,11 +21,11 @@ namespace PixelFarm.Drawing.WinGdi
     {
         RequestFont currentTextFont = null;
         Color mycurrentTextColor = Color.Black;
-        public override float GetCharWidth(RequestFont f, char c)
-        {
-            WinGdiFont winFont = WinGdiFontSystem.GetWinGdiFont(f);
-            return winFont.GetGlyph(c).horiz_adv_x >> 6;
-        }
+        //public override float GetCharWidth(RequestFont f, char c)
+        //{
+        //    WinGdiFont winFont = WinGdiFontSystem.GetWinGdiFont(f);
+        //    return winFont.GetGlyph(c).horiz_adv_x >> 6;
+        //}
         public override void DrawText(char[] buffer, int x, int y)
         {
 

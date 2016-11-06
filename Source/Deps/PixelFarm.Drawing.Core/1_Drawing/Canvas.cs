@@ -5,37 +5,33 @@ namespace PixelFarm.Drawing
 {
     public abstract class Canvas
     {
-        bool isContentReady;
+
 #if DEBUG
         public static int dbug_canvasCount = 0;
         public int debug_resetCount = 0;
         public int debug_releaseCount = 0;
         public int debug_canvas_id = 0;
+        public abstract void dbug_DrawRuler(int x);
+        public abstract void dbug_DrawCrossRect(Color color, Rectangle rect);
 #endif
 
-
         public abstract void CloseCanvas();
-       
+
+        ////////////////////////////////////////////////////////////////////////////
+        //drawing properties
         public abstract SmoothingMode SmoothingMode { get; set; }
-        //---------------------------------------------------------------------
         public abstract float StrokeWidth { get; set; }
         public abstract Color StrokeColor { get; set; }
 
+
+        ////////////////////////////////////////////////////////////////////////////
         //states
         public abstract void ResetInvalidateArea();
         public abstract void Invalidate(Rectangle rect);
         public abstract Rectangle InvalidateArea { get; }
-        public abstract float GetCharWidth(RequestFont f, char c);
-       
-        public bool IsContentReady
-        {
-            get { return isContentReady; }
-            set
-            {
-                this.isContentReady = value;
-            }
-        }
-        //---------------------------------------------------------------------
+
+
+        ////////////////////////////////////////////////////////////////////////////
         // canvas dimension, canvas origin
         public abstract int Top { get; }
         public abstract int Left { get; }
@@ -49,10 +45,20 @@ namespace PixelFarm.Drawing
         public abstract int CanvasOriginX { get; }
         public abstract int CanvasOriginY { get; }
         public abstract void SetCanvasOrigin(int x, int y);
-        public abstract bool IntersectsWith(Rectangle clientRect);
+        public void OffsetCanvasOrigin(int dx, int dy)
+        {
+            this.SetCanvasOrigin(this.CanvasOriginX + dx, this.CanvasOriginY + dy);
+        }
+        public void OffsetCanvasOriginX(int dx)
+        {
+            this.OffsetCanvasOrigin(dx, 0);
+        }
+        public void OffsetCanvasOriginY(int dy)
+        {
+            this.OffsetCanvasOrigin(0, dy);
+        }
         //---------------------------------------------------------------------
         //clip area
-
         public abstract bool PushClipAreaRect(int width, int height, ref Rectangle updateArea);
         public abstract void PopClipAreaRect();
         public abstract void SetClipRect(Rectangle clip, CombineMode combineMode = CombineMode.Replace);
@@ -63,16 +69,6 @@ namespace PixelFarm.Drawing
         //public abstract void CopyFrom(Canvas sourceCanvas, int logicalSrcX, int logicalSrcY, Rectangle destArea);
         public abstract void RenderTo(System.IntPtr destHdc, int sourceX, int sourceY, Rectangle destArea);
         //------------------------------------------------------- 
-
-        //------------------------------------------------------- 
-        //text ,font, strings 
-        public abstract RequestFont CurrentFont { get; set; }
-        public abstract Color CurrentTextColor { get; set; }
-
-        public abstract void DrawText(char[] buffer, int x, int y);
-        public abstract void DrawText(char[] buffer, Rectangle logicalTextBox, int textAlignment);
-        public abstract void DrawText(char[] buffer, int startAt, int len, Rectangle logicalTextBox, int textAlignment);
-        //-------------------------------------------------------
 
         //lines         
         public abstract void DrawLine(float x1, float y1, float x2, float y2);
@@ -94,32 +90,13 @@ namespace PixelFarm.Drawing
         public abstract void DrawImage(Image image, RectangleF dest);
         public abstract void DrawImages(Image image, RectangleF[] destAndSrcPairs);
         //---------------------------------------------------------------------------
-#if DEBUG
-        public abstract void dbug_DrawRuler(int x);
-        public abstract void dbug_DrawCrossRect(Color color, Rectangle rect);
-#endif
-        
-        public void OffsetCanvasOrigin(int dx, int dy)
-        {
-            this.SetCanvasOrigin(this.CanvasOriginX + dx, this.CanvasOriginY + dy);
-        }
-        public void OffsetCanvasOriginX(int dx)
-        {
-            this.OffsetCanvasOrigin(dx, 0);
-        }
-        public void OffsetCanvasOriginY(int dy)
-        {
-            this.OffsetCanvasOrigin(0, dy);
-        }
-        //-------------------------------------------------------  
-        public void Dispose()
-        {
-        }
-        //for debug
-        public int Note1
-        {
-            get;
-            set;
-        }
+        //text ,font, strings 
+        //TODO: review these funcs
+        public abstract RequestFont CurrentFont { get; set; }
+        public abstract Color CurrentTextColor { get; set; }
+        public abstract void DrawText(char[] buffer, int x, int y);
+        public abstract void DrawText(char[] buffer, Rectangle logicalTextBox, int textAlignment);
+        public abstract void DrawText(char[] buffer, int startAt, int len, Rectangle logicalTextBox, int textAlignment);
+        //-------------------------------------------------------
     }
 }

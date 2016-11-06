@@ -24,12 +24,12 @@ namespace PixelFarm.Drawing.WinGdi
         int canvasOriginX = 0;
         int canvasOriginY = 0;
         Rectangle invalidateArea;
-        
+
         bool isEmptyInvalidateArea;
         //--------------------------------------------------------------------
         public override void SetCanvasOrigin(int x, int y)
         {
-             
+
             //----------- 
             int total_dx = x - canvasOriginX;
             int total_dy = y - canvasOriginY;
@@ -39,7 +39,7 @@ namespace PixelFarm.Drawing.WinGdi
             this.canvasOriginX = x;
             this.canvasOriginY = y;
         }
-        
+
         public override int CanvasOriginX
         {
             get { return this.canvasOriginX; }
@@ -57,14 +57,14 @@ namespace PixelFarm.Drawing.WinGdi
         /// <param name="combineMode">Member of the <see cref="T:System.Drawing.Drawing2D.CombineMode"/> enumeration that specifies the combining operation to use. </param>
         public override void SetClipRect(Rectangle rect, CombineMode combineMode = CombineMode.Replace)
         {
-             
+
             gx.SetClip(
                this.currentClipRect = new System.Drawing.Rectangle(
                     rect.X, rect.Y,
                     rect.Width, rect.Height),
                     (System.Drawing.Drawing2D.CombineMode)combineMode);
         }
-        public override bool IntersectsWith(Rectangle clientRect)
+        public bool IntersectsWith(Rectangle clientRect)
         {
             return clientRect.IntersectsWith(left, top, right, bottom);
         }
@@ -93,7 +93,7 @@ namespace PixelFarm.Drawing.WinGdi
         {
             if (clipRectStack.Count > 0)
             {
-                 
+
                 currentClipRect = clipRectStack.Pop();
                 gx.SetClip(currentClipRect);
             }
@@ -189,5 +189,6 @@ namespace PixelFarm.Drawing.WinGdi
             //need to draw again
             this.IsContentReady = false;
         }
+        public bool IsContentReady { get; set; }
     }
 }
