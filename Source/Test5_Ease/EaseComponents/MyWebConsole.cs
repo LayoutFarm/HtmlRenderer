@@ -1,8 +1,7 @@
 ﻿//MIT, 2015-2016, WinterDev
 
-using System.Windows.Forms;
-using LayoutFarm.Scripting;
-namespace Test5_Ease
+using System.Windows.Forms; 
+namespace LayoutFarm.Scripting
 {
     /// <summary>
     /// simple 

@@ -37,6 +37,7 @@
             this.button6 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button7 = new System.Windows.Forms.Button();
+            this.cmdTestSampleAppModule = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // panel1
@@ -90,7 +91,7 @@
             // 
             this.button5.Location = new System.Drawing.Point(12, 154);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(112, 35);
+            this.button5.Size = new System.Drawing.Size(132, 35);
             this.button5.TabIndex = 6;
             this.button5.Text = "TestV8Js_2";
             this.button5.UseVisualStyleBackColor = true;
@@ -100,7 +101,7 @@
             // 
             this.button6.Location = new System.Drawing.Point(13, 195);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(112, 35);
+            this.button6.Size = new System.Drawing.Size(132, 35);
             this.button6.TabIndex = 7;
             this.button6.Text = "TestV8Js_3";
             this.button6.UseVisualStyleBackColor = true;
@@ -118,17 +119,28 @@
             // 
             this.button7.Location = new System.Drawing.Point(12, 236);
             this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(112, 35);
+            this.button7.Size = new System.Drawing.Size(132, 35);
             this.button7.TabIndex = 9;
             this.button7.Text = "TestV8Js_4";
             this.button7.UseVisualStyleBackColor = true;
             this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
+            // cmdTestSampleAppModule
+            // 
+            this.cmdTestSampleAppModule.Location = new System.Drawing.Point(13, 277);
+            this.cmdTestSampleAppModule.Name = "cmdTestSampleAppModule";
+            this.cmdTestSampleAppModule.Size = new System.Drawing.Size(131, 35);
+            this.cmdTestSampleAppModule.TabIndex = 10;
+            this.cmdTestSampleAppModule.Text = "TestSampleAppModule";
+            this.cmdTestSampleAppModule.UseVisualStyleBackColor = true;
+            this.cmdTestSampleAppModule.Click += new System.EventHandler(this.cmdTestSampleAppModule_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(960, 561);
+            this.Controls.Add(this.cmdTestSampleAppModule);
             this.Controls.Add(this.button7);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button6);
@@ -156,6 +168,7 @@
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button cmdTestSampleAppModule;
     }
 }
 

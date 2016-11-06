@@ -9,7 +9,7 @@ namespace LayoutFarm
         HtmlBox htmlBox;
         string htmltext;
         string documentRootPath;
-        public virtual void OnStartDemo(SampleViewport viewport)
+        public virtual void OnViewportReady(SampleViewport viewport)
         {
             //html box
             var contentMx = new LayoutFarm.ContentManagers.ImageContentManager();
@@ -31,7 +31,7 @@ namespace LayoutFarm
         }
         public void LoadHtml(string documentRootPath, string htmltext)
         {
-            this.documentRootPath = System.IO.Path.GetDirectoryName(documentRootPath);
+            this.documentRootPath = documentRootPath;
             this.htmltext = htmltext;
             htmlBox.LoadHtmlString(htmltext);
         }
