@@ -54,7 +54,7 @@ namespace Test5_Ease
     {
         public override string GetInitPage()
         {
-            return "<html><script>function doc_ready(){console.log('doc_ready');}</script><body onload=\"doc_ready()\"><div id=\"a\">A</div><div id=\"b\" style=\"background-color:blue\">B</div><div id=\"c\">c_node</div></body></html>";
+            return "<html><script>function doc_ready(){console.log('doc_ready');}</script><body onload=\"doc_ready()\"><div id=\"a\">A</div><div id=\"b\" style=\"background-color:yellow\">B</div><div id=\"c\">c_node</div></body></html>";
         }
     }
 
