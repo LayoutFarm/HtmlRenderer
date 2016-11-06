@@ -38,7 +38,7 @@ namespace Test5_Ease
             //1. notify viewport that the host is ready
             easeViewport.Ready();
             //2. load blank html
-            easeViewport.LoadHtmlString("", "<html><body></body></html");
+            easeViewport.LoadHtmlString("", "<html><body></body></html>");
         }
         private void button1_Click(object sender, EventArgs e)
         {
