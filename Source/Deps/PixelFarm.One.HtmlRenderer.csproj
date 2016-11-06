@@ -213,7 +213,6 @@
     <Compile Include="PixelFarm.Drawing.Core\1_Drawing\FontStyle.cs" />
     <Compile Include="PixelFarm.Drawing.Core\1_Drawing\GraphicsPath.cs" />
     <Compile Include="PixelFarm.Drawing.Core\1_Drawing\Image_Bitmap.cs" />
-    <Compile Include="PixelFarm.Drawing.Core\1_Drawing\KnownColors.cs" />
     <Compile Include="PixelFarm.Drawing.Core\1_Drawing\Rectangle.cs" />
     <Compile Include="PixelFarm.Drawing.Core\1_Drawing\RectangleF.cs" />
     <Compile Include="PixelFarm.Drawing.Core\1_Drawing\Region.cs" />

@@ -33,9 +33,6 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="0_Start\ExtensionAttribute.cs" />
     <Compile Include="1_Drawing\RenderVx.cs" />
     <Compile Include="3_Drawing_Fonts\FontGlyph.cs" />
@@ -72,7 +69,6 @@
     <Compile Include="1_Drawing\GraphicsPath.cs" />
     <Compile Include="1_Drawing\FontStyle.cs" />
     <Compile Include="1_Drawing\Image_Bitmap.cs" />
-    <Compile Include="1_Drawing\KnownColors.cs" />
     <Compile Include="1_Drawing\Rectangle.cs" />
     <Compile Include="1_Drawing\RectangleF.cs" />
     <Compile Include="1_Drawing\Region.cs" />
@@ -123,7 +119,9 @@
     <Compile Include="9_PixelFarm_AggVertex_More\VertexSource\VertexStoreBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

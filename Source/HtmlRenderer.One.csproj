@@ -242,7 +242,6 @@
     <Compile Include="Deps\PixelFarm.Drawing.Core\1_Drawing\FontStyle.cs" />
     <Compile Include="Deps\PixelFarm.Drawing.Core\1_Drawing\GraphicsPath.cs" />
     <Compile Include="Deps\PixelFarm.Drawing.Core\1_Drawing\Image_Bitmap.cs" />
-    <Compile Include="Deps\PixelFarm.Drawing.Core\1_Drawing\KnownColors.cs" />
     <Compile Include="Deps\PixelFarm.Drawing.Core\1_Drawing\Rectangle.cs" />
     <Compile Include="Deps\PixelFarm.Drawing.Core\1_Drawing\RectangleF.cs" />
     <Compile Include="Deps\PixelFarm.Drawing.Core\1_Drawing\Region.cs" />
@@ -369,6 +368,7 @@
     <Compile Include="LayoutFarm.BaseRenderer\6_debug\dbugVisualInvalidationTracer.cs" />
     <Compile Include="LayoutFarm.BaseRenderer\6_debug\dbugVisualLayoutTracer.cs" />
     <Compile Include="LayoutFarm.BaseRenderer\6_debug\IdbugOutputWindow.cs" />
+    <Compile Include="LayoutFarm.BaseRenderer\Utils\KnownColors.cs" />
     <Compile Include="LayoutFarm.ClientPlatforms\Common\Clipboard.cs" />
     <Compile Include="LayoutFarm.ClientPlatforms\Common\IPlatformWindowBox.cs" />
     <Compile Include="LayoutFarm.ClientPlatforms\Common\Keys.cs" />

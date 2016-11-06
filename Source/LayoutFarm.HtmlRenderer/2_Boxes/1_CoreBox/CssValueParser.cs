@@ -292,7 +292,7 @@ namespace LayoutFarm.HtmlBoxes
         /// <returns>true - valid color, false - otherwise</returns>
         private static bool GetColorByName(string str, int idx, int length, out Color color)
         {
-            color = Color.FromName(str.Substring(idx, length));
+            color = KnownColors.FromKnownColor(str.Substring(idx, length)); 
             return color.A > 0;
         }
 
