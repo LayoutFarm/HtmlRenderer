@@ -73,18 +73,7 @@ namespace PixelFarm.DrawingGL
 
             }
         }
-        //public override RequestFont CurrentFont
-        //{
-        //    get
-        //    {
-        //        return _currentFont;
-        //    }
-        //    set
-        //    {
-        //        _currentFont = value;
-        //        //resolve texture font 
-        //    }
-        //}
+
         public override Color FillColor
         {
             get
@@ -208,19 +197,7 @@ namespace PixelFarm.DrawingGL
             }
             this.Draw(roundRect.MakeVxs());
         }
-        ////font system for this canvas 
-        //RequestFont _latestFont;
-        //TextureFont _latestResolvedFont;
-        //TextureFont GetFont(RequestFont f)
-        //{
-        //    if (_latestFont == f)
-        //    {
-        //        return _latestResolvedFont;
-        //    }
-        //    _latestFont = f;
-        //    return _latestResolvedFont = _canvas.TextureFontStore.GetResolvedFont(f);
-
-        //}
+         
         TextureFont _currentTextureFont;
         internal void SetCurrentTextureFont(TextureFont textureFont)
         {

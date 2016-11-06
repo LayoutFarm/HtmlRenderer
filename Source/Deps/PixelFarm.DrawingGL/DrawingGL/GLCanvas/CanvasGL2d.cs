@@ -497,9 +497,8 @@ namespace PixelFarm.DrawingGL
                                     case Drawing.BrushKind.Texture:
                                         {
                                             //draw texture image ***
-                                            PixelFarm.Drawing.TextureBrush tbrush = (PixelFarm.Drawing.TextureBrush)brush;
-                                            GLImage img = tbrush.TextureImage as GLImage;
-                                            GLBitmap bmpTexture = PixelFarm.Drawing.Image.GetCacheInnerImage(img) as GLBitmap;
+                                            PixelFarm.Drawing.TextureBrush tbrush = (PixelFarm.Drawing.TextureBrush)brush; 
+                                            GLBitmap bmpTexture = PixelFarm.Drawing.Image.GetCacheInnerImage(tbrush.TextureImage) as GLBitmap;
                                             //TODO: review here 
                                             //where text start?
                                             this.DrawImage(bmpTexture, 0, 300);

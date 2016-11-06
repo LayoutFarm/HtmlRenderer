@@ -8,6 +8,7 @@
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AssemblyName>PixelFarm.One</AssemblyName>
+    <ProjectGuid>{E71BD6D1-211F-4778-9632-77AB9B155BCB}</ProjectGuid>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -527,11 +528,15 @@
     <Compile Include="PixelFarm.OpenTKWinForms\Toolkit.cs" />
     <Compile Include="PixelFarm.OpenTKWinForms\UserGLControl\CarbonGLControl.cs" />
     <Compile Include="PixelFarm.OpenTKWinForms\UserGLControl\DummyGLControl.cs" />
-    <Compile Include="PixelFarm.OpenTKWinForms\UserGLControl\GLControl.cs" />
+    <Compile Include="PixelFarm.OpenTKWinForms\UserGLControl\GLControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="PixelFarm.OpenTKWinForms\UserGLControl\GLControl.Designer.cs" />
     <Compile Include="PixelFarm.OpenTKWinForms\UserGLControl\GLControlFactory.cs" />
     <Compile Include="PixelFarm.OpenTKWinForms\UserGLControl\IGLControl.cs" />
-    <Compile Include="PixelFarm.OpenTKWinForms\UserGLControl\MyGLControl.cs" />
+    <Compile Include="PixelFarm.OpenTKWinForms\UserGLControl\MyGLControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="PixelFarm.OpenTKWinForms\UserGLControl\MyGLControl.Designer.cs" />
     <Compile Include="PixelFarm.OpenTKWinForms\UserGLControl\WinGLControl.cs" />
     <Compile Include="PixelFarm.OpenTKWinForms\UserGLControl\X11GLControl.cs" />
@@ -550,6 +555,9 @@
     <Compile Include="Win32Utils\MyWin32.cs" />
     <Compile Include="Win32Utils\NativeTextWin32.cs" />
     <Compile Include="Win32Utils\NativeWin32MemoryDc.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="NOpenType\N20\PixelFarm.OpenType\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
