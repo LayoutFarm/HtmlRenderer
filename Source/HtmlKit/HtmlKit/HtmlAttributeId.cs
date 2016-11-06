@@ -24,11 +24,7 @@
 // THE SOFTWARE.
 //
 
-using System;
-#if !NET20
-using System.Linq;
-using System.Reflection;
-#endif
+using System; 
 using System.Collections.Generic;
 
 namespace HtmlKit {
