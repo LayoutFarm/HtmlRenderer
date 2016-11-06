@@ -8,7 +8,6 @@
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AssemblyName>HtmlRenderer.One</AssemblyName>
-    <ProjectGuid>{37A7A03B-A688-4EF4-83D1-D4B3346DB2D3}</ProjectGuid>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -523,23 +522,17 @@
     <Compile Include="LayoutFarm.Platforms.WinForms\0_Start\Conv.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\0_Start\dbugHelper.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\0_Start\QuadPages.cs" />
-    <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\AbstractCompletionWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\AbstractCompletionWindow.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\AbstractCompletionWindow.Designer.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\InnerViewportKind.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\MyUITimer.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\TopWindowBridge.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\TopWindowBridge_dbug.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\UIPlatformWinForms.cs" />
-    <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\UISurfaceViewportControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\UISurfaceViewportControl.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\UISurfaceViewportControl.Designer.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\2_GdiPlus\0_MyWinGdiPortal.cs" />
-    <Compile Include="LayoutFarm.Platforms.WinForms\2_GdiPlus\1_CpuGdiPlusSurfaceView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="LayoutFarm.Platforms.WinForms\2_GdiPlus\1_CpuGdiPlusSurfaceView.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\2_GdiPlus\1_CpuGdiPlusSurfaceView.Designer.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\2_GdiPlus\2_GdiPlusCanvasViewport.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\2_GdiPlus\3_MyTopWindowBridgeGdiPlus.cs" />
@@ -582,6 +575,19 @@
     <Compile Include="LayoutFarm.TextEdit\2.2_TextRenderBox\TextEditRenderBox.TextSurfaceFuntions.cs" />
     <Compile Include="LayoutFarm.TextEdit\2.2_TextRenderBox\VisualPaintEventArgs.cs" />
     <Compile Include="LayoutFarm.WebDom\..\Deps\TypeMirror\SimpleReflectionHelper.cs" />
+    <Compile Include="LayoutFarm.WebDom\..\HtmlKit\HtmlKit\HtmlAttribute.cs" />
+    <Compile Include="LayoutFarm.WebDom\..\HtmlKit\HtmlKit\HtmlAttributeCollection.cs" />
+    <Compile Include="LayoutFarm.WebDom\..\HtmlKit\HtmlKit\HtmlEntityDecoder.cs" />
+    <Compile Include="LayoutFarm.WebDom\..\HtmlKit\HtmlKit\HtmlEntityDecoder.g.cs" />
+    <Compile Include="LayoutFarm.WebDom\..\HtmlKit\HtmlKit\HtmlNamespace.cs" />
+    <Compile Include="LayoutFarm.WebDom\..\HtmlKit\HtmlKit\HtmlToken.cs" />
+    <Compile Include="LayoutFarm.WebDom\..\HtmlKit\HtmlKit\HtmlTokenizer.cs" />
+    <Compile Include="LayoutFarm.WebDom\..\HtmlKit\HtmlKit\HtmlTokenizerState.cs" />
+    <Compile Include="LayoutFarm.WebDom\..\HtmlKit\HtmlKit\HtmlTokenKind.cs" />
+    <Compile Include="LayoutFarm.WebDom\..\HtmlKit\HtmlKit\HtmlUtils.cs" />
+    <Compile Include="LayoutFarm.WebDom\..\HtmlKit\HtmlKit\HtmlWriter.cs" />
+    <Compile Include="LayoutFarm.WebDom\..\HtmlKit\HtmlKit\HtmlWriterState.cs" />
+    <Compile Include="LayoutFarm.WebDom\..\HtmlKit\HtmlKit\ICharArray.cs" />
     <Compile Include="LayoutFarm.WebDom\0_WebDom.Parser\CssParser.cs" />
     <Compile Include="LayoutFarm.WebDom\0_WebDom.Parser\CssParserHelper.cs" />
     <Compile Include="LayoutFarm.WebDom\0_WebDom.Parser\CssValueParser.cs" />
@@ -619,23 +625,8 @@
     <Compile Include="LayoutFarm.WebDom\4_WebDom.Impl\HtmlShadowDocument.cs" />
     <Compile Include="LayoutFarm.WebDom\4_WebDom.Impl\HtmlTextNode.cs" />
     <Compile Include="LayoutFarm.WebDom\4_WebDom.Impl\SpecialHtmlElements.cs" />
-    <Compile Include="LayoutFarm.WebDom\5_HtmlKit\ForNet20.cs" />
-    <Compile Include="LayoutFarm.WebDom\5_HtmlKit\HtmlAttribute.cs" />
-    <Compile Include="LayoutFarm.WebDom\5_HtmlKit\HtmlAttributeCollection.cs" />
     <Compile Include="LayoutFarm.WebDom\5_HtmlKit\HtmlAttributeId.cs" />
-    <Compile Include="LayoutFarm.WebDom\5_HtmlKit\HtmlEntityDecoder.cs" />
-    <Compile Include="LayoutFarm.WebDom\5_HtmlKit\HtmlEntityDecoder.g.cs" />
-    <Compile Include="LayoutFarm.WebDom\5_HtmlKit\HtmlNamespace.cs" />
     <Compile Include="LayoutFarm.WebDom\5_HtmlKit\HtmlTagId.cs" />
-    <Compile Include="LayoutFarm.WebDom\5_HtmlKit\HtmlToken.cs" />
-    <Compile Include="LayoutFarm.WebDom\5_HtmlKit\HtmlTokenizer.cs" />
-    <Compile Include="LayoutFarm.WebDom\5_HtmlKit\HtmlTokenizerState.cs" />
-    <Compile Include="LayoutFarm.WebDom\5_HtmlKit\HtmlTokenizer_ReadNextToken.cs" />
-    <Compile Include="LayoutFarm.WebDom\5_HtmlKit\HtmlTokenKind.cs" />
-    <Compile Include="LayoutFarm.WebDom\5_HtmlKit\HtmlUtils.cs" />
-    <Compile Include="LayoutFarm.WebDom\5_HtmlKit\HtmlWriter.cs" />
-    <Compile Include="LayoutFarm.WebDom\5_HtmlKit\HtmlWriterState.cs" />
-    <Compile Include="LayoutFarm.WebDom\5_HtmlKit\ICharArray.cs" />
     <Compile Include="LayoutFarm.WebLexer\MyLexer\CssLexer.cs" />
     <Compile Include="LayoutFarm.WebLexer\MyLexer\dbugLexerReport.cs" />
     <Compile Include="LayoutFarm.WebLexer\MyLexer\HtmlLexer.cs" />
@@ -697,10 +688,6 @@
     <Compile Include="LayoutFarm.YourCustomWidgets\7_WindowUI\UIFloatWindow.cs" />
     <Compile Include="LayoutFarm.YourCustomWidgets\8_Canvas\MiniAggCanvasBox.cs" />
     <Compile Include="LayoutFarm.YourCustomWidgets\8_Canvas\MiniAggCanvasRenderElement.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Deps\Espresso\Net20\Espresso.Interfaces\" />
-    <Folder Include="Deps\NOpenType\N20\PixelFarm.OpenType\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

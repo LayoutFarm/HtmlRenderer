@@ -74,7 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HtmlKit_Net20\HtmlKit_Net20.csproj">
-      <Project>{517eaaff-7cee-4558-b7f3-be30957aae69}</Project>
+      <Project>{517EAAFF-7CEE-4558-B7F3-BE30957AAE69}</Project>
       <Name>HtmlKit_Net20</Name>
     </ProjectReference>
   </ItemGroup>
