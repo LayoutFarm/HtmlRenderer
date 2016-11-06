@@ -1,14 +1,13 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{26E1463A-5962-481E-B247-8CFBEFD2A87C}</ProjectGuid>
+    <ProjectGuid>{67422E85-C759-43D1-883C-D15EBD69A594}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>UnitTests</RootNamespace>
     <AssemblyName>UnitTests</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile />
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -29,30 +28,53 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\related_projects\NUnit-2.6.4\nunit_bin\nunit.framework.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HtmlAttributeTests.cs" />
     <Compile Include="HtmlTokenizerTests.cs" />
+    <Compile Include="HtmlEntityDecoderTests.cs" />
+    <Compile Include="HtmlWriterTests.cs" />
+    <Compile Include="HtmlUtilsTests.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <None Include="packages.config" />
     <None Include="TestData\html\blocked.html" />
     <None Include="TestData\html\blocked.tokens" />
+    <None Include="TestData\html\cdata.html" />
+    <None Include="TestData\html\cdata.tokens" />
+    <None Include="TestData\html\HtmlEntities.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\html\papercut.html" />
+    <None Include="TestData\html\papercut.tokens" />
+    <None Include="TestData\html\papercut-4.4.html" />
+    <None Include="TestData\html\papercut-4.4.tokens" />
+    <None Include="TestData\html\plaintext.html" />
+    <None Include="TestData\html\plaintext.tokens" />
+    <None Include="TestData\html\script-data.html" />
+    <None Include="TestData\html\script-data.tokens" />
     <None Include="TestData\html\test.html" />
     <None Include="TestData\html\test.tokens" />
     <None Include="TestData\html\xamarin3.html" />
     <None Include="TestData\html\xamarin3.tokens" />
     <None Include="TestData\html\xamarin3.xhtml" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HtmlKit_Net20\HtmlKit_Net20.csproj">
-      <Project>{517eaaff-7cee-4558-b7f3-be30957aae69}</Project>
-      <Name>HtmlKit_Net20</Name>
+    <ProjectReference Include="..\HtmlKit\HtmlKit.csproj">
+      <Project>{065C4D91-32E7-442D-8884-CEA2BC3DF4E9}</Project>
+      <Name>HtmlKit</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="TestData\" />
+    <Folder Include="TestData\html\" />
   </ItemGroup>
 </Project>

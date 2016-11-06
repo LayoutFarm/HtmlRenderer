@@ -22,7 +22,8 @@ such as
 
 2) decoupling, dependency analysis
 
-3) optimizing the html,css parser (moving to Html5/Css3!) -> https://github.com/jstedfast/HtmlKit , (with plan for AngleSharp too)
+3) optimizing the html,css parser. 
+   see: HtmlKit v1.0(https://github.com/jstedfast/HtmlKit)    
 
 4) add svg/canvas support (not complete)
 
