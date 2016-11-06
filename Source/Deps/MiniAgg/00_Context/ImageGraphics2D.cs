@@ -20,6 +20,7 @@
 //----------------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 using PixelFarm.Drawing;
 using PixelFarm.Agg.Imaging;
 using PixelFarm.Agg.Transform;
@@ -29,7 +30,7 @@ namespace PixelFarm.Agg
     {
         MyImageReaderWriter destImageReaderWriter;
         ScanlinePacked8 sclinePack8;
-        VertexStore myTmpImgRectVxs = new VertexStore();
+
         ScanlineRasToDestBitmapRenderer sclineRasToBmp;
         PixelBlenderBGRA pixBlenderRGBA32;
         IPixelBlender currentBlender;
@@ -95,23 +96,15 @@ namespace PixelFarm.Agg
             get { return this.ImageInterpolationQuality; }
             set { this.imgInterpolationQuality = value; }
         }
+
+        VertexStorePool _vxsPool = new VertexStorePool();
         VertexStore GetFreeVxs()
         {
-            if (myTmpImgRectVxs != null)
-            {
-                VertexStore tmp = this.myTmpImgRectVxs;
-                this.myTmpImgRectVxs = null;
-                return tmp;
-            }
-            else
-            {
-                return new VertexStore(4);
-            }
+            return _vxsPool.GetFreeVxs();
         }
-        void ReleaseVxs(VertexStore vxs)
+        void ReleaseVxs(ref VertexStore vxs)
         {
-            this.myTmpImgRectVxs = vxs;
-            vxs.Clear();
+            _vxsPool.Release(ref vxs);
         }
         public override void Clear(Color color)
         {
@@ -223,6 +216,12 @@ namespace PixelFarm.Agg
             }
         }
 
+
+        /// <summary>
+        /// we do NOT store vxs/vxsSnap
+        /// </summary>
+        /// <param name="vxsSnap"></param>
+        /// <param name="color"></param>
         public override void Render(VertexStoreSnap vxsSnap, Drawing.Color color)
         {
             //reset rasterizer before render each vertextSnap 
@@ -231,7 +230,14 @@ namespace PixelFarm.Agg
             Affine transform = this.CurrentTransformMatrix;
             if (!transform.IsIdentity())
             {
-                sclineRas.AddPath(transform.TransformToVxs(vxsSnap));
+
+                var v1 = transform.TransformToVxs(vxsSnap, GetFreeVxs());
+                sclineRas.AddPath(v1);
+                ReleaseVxs(ref v1);
+                //-------------------------
+                //since sclineRas do NOT store vxs
+                //then we can reuse the vxs***
+                //-------------------------
             }
             else
             {

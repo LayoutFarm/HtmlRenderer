@@ -25,9 +25,10 @@ namespace PixelFarm.Agg
     {
 
         Drawing.Fonts.ActualFont actualFont;
+        VertexStorePool vxsPool;
         public AggTextPrinter()
         {
-
+            vxsPool = new VertexStorePool();
         }
         public Drawing.Fonts.ActualFont CurrentActualFont
         {
@@ -65,11 +66,14 @@ namespace PixelFarm.Agg
                 //Agg.Transform.AffinePlan.Scale(0.30),
                 //Agg.Transform.AffinePlan.Translate(xpos, y));
                 //var vxs1 = mat.TransformToVxs(glyph.flattenVxs); 
+
                 VertexStore vxs1 = Agg.Transform.Affine.TranslateToVxs(
                     glyph.flattenVxs,
                     (float)(xpos),
-                    (float)(y));
+                    (float)(y),
+                    vxsPool.GetFreeVxs());
                 painter.Fill(vxs1);
+                vxsPool.Release(ref vxs1);
                 //--------------------------------------------------------
                 ////render with bitmap
                 //if (glyph.glyphImage32 != null)

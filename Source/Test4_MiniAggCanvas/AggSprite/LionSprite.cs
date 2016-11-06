@@ -34,6 +34,7 @@ namespace PixelFarm.Agg
         public override bool Move(int mouseX, int mouseY)
         {
             bool result = base.Move(mouseX, mouseY);
+
             myvxs = null;
             return result;
         }
@@ -48,8 +49,8 @@ namespace PixelFarm.Agg
                         AffinePlan.Skew(skewX / 1000.0, skewY / 1000.0),
                         AffinePlan.Translate(Width / 2, Height / 2)
                 );
-                //create vertextStore again from origiinal path
-                myvxs = transform.TransformToVxs(lionShape.Path.Vxs);
+                //create vertextStore again from origiinal path 
+                myvxs = transform.TransformToVxs(lionShape.Path.Vxs, new VertexStore());
             }
             //---------------------------------------------------------------------------------------------
             {

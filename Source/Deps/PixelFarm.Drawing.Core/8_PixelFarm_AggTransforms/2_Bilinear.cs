@@ -142,15 +142,10 @@ namespace PixelFarm.Agg.Transform
         }
         //-------------------------------------------------------------------------
 
-        public VertexStoreSnap TransformToVertexSnap(VertexStore src)
-        {
-            return new VertexStoreSnap(TransformToVxs(src));
-        }
 
-        public VertexStore TransformToVxs(VertexStore src)
+        public VertexStore TransformToVxs(VertexStore src, VertexStore vxs)
         {
             int count = src.Count;
-            var vxs = new VertexStore();
             VertexCmd cmd;
             double x, y;
             for (int i = 0; i < count; ++i)

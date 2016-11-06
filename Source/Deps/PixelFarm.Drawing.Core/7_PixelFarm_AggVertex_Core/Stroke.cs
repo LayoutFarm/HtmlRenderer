@@ -78,10 +78,9 @@ namespace PixelFarm.Agg
             get { return strokeGen.Shorten; }
             set { strokeGen.Shorten = value; }
         }
-        public VertexStore MakeVxs(VertexStore sourceVxs)
+        public VertexStore MakeVxs(VertexStore sourceVxs, VertexStore vxs)
         {
             StrokeGenerator strkgen = strokeGen;
-            VertexStore vxs = new VertexStore();
             int j = sourceVxs.Count;
             double x, y;
             strkgen.RemoveAll();
@@ -133,15 +132,9 @@ namespace PixelFarm.Agg
             strkgen.WriteTo(vxs);
             strkgen.RemoveAll();
             vxs.HasMoreThanOnePart = hasMoreThanOnePart;
+
             return vxs;
         }
     }
-    public static class StrokeHelp
-    {
-        public static VertexStore MakeVxs(VertexStore vxs, double w)
-        {
-            Stroke stroke = new Stroke(w);
-            return stroke.MakeVxs(vxs);
-        }
-    }
+     
 }

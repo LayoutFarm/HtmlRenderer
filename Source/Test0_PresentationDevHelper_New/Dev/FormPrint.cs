@@ -27,7 +27,7 @@ namespace LayoutFarm.Dev
                 var canvasInit = new PixelFarm.Drawing.CanvasInitParameters();
                 canvasInit.externalCanvas = g;
                 var canvas = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.P.CreateCanvas(0, 0, 800, 600, canvasInit);
-                vwport.PrintMe(canvas);
+                vwport.PrintMe((PixelFarm.Drawing.WinGdi.MyGdiPlusCanvas)canvas);
                 bmp.Save("d:\\WImageTest\\testhtml.bmp");
             }
 
@@ -42,7 +42,7 @@ namespace LayoutFarm.Dev
                 var canvasInit = new PixelFarm.Drawing.CanvasInitParameters();
                 canvasInit.externalCanvas = g;
                 var canvas = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.P.CreateCanvas(0, 0, 800, 600, canvasInit);
-                vwport.PrintMe(canvas);
+                vwport.PrintMe((PixelFarm.Drawing.WinGdi.MyGdiPlusCanvas)canvas);
             };
             printdoc.Print();
         }

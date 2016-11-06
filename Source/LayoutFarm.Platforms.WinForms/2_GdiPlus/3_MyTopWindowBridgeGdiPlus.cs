@@ -43,12 +43,12 @@ namespace LayoutFarm.UI.GdiPlus
         }
         public override void PaintToOutputWindow()
         {
-          
+
             IntPtr hdc = Win32.MyWin32.GetDC(this.windowControl.Handle);
             this.gdiPlusViewport.PaintMe(hdc);
             Win32.MyWin32.ReleaseDC(this.windowControl.Handle, hdc);
         }
-        public override void PaintToCanvas(Canvas canvas)
+        public void PrintToCanvas(PixelFarm.Drawing.WinGdi.MyGdiPlusCanvas canvas)
         {
             this.gdiPlusViewport.PaintMe(canvas);
         }

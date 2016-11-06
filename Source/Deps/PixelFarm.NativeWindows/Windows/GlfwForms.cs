@@ -227,7 +227,7 @@ namespace PixelFarm.Forms
         string _windowTitle = "";
         GlfwWindowPtr _nativeGlFwWindowPtr;
         IntPtr _nativePlatformHwnd;
-
+        PixelFarm.GlfwWinInfo _winInfo;
         internal GlFwForm(GlfwWindowPtr glWindowPtr, int w, int h)
         {
 
@@ -235,6 +235,8 @@ namespace PixelFarm.Forms
             base.Height = h;
             _nativeGlFwWindowPtr = glWindowPtr;
             _nativePlatformHwnd = Glfw.GetNativePlatformWinHwnd(glWindowPtr);
+            _winInfo = new PixelFarm.GlfwWinInfo(_nativeGlFwWindowPtr);
+
         }
         public GlfwWindowPtr GlfwWindowPtr
         {
@@ -438,18 +440,9 @@ namespace PixelFarm.Forms
         {
             Glfw.MakeContextCurrent(this._nativeGlFwWindowPtr);
         }
-        OpenTK.Graphics.GraphicsContext glfwContext;
-        public void CreateOpenGLEsContext()
+        public void Activate()
         {
-
-            //make open gl es current context 
-            GlfwWindowPtr currentContext = Glfw.GetCurrentContext();
-            var contextHandler = new OpenTK.ContextHandle(currentContext.inner_ptr);
-            glfwContext = OpenTK.Graphics.GraphicsContext.CreateDummyContext(contextHandler);
-            bool isCurrent = glfwContext.IsCurrent;
-            PixelFarm.GlfwWinInfo winInfo = new PixelFarm.GlfwWinInfo(_nativeGlFwWindowPtr.inner_ptr);
-            glfwContext.MakeCurrent(winInfo);
-
+            GLFWPlatforms.MakeCurrentWindow(this._winInfo);
         }
         public void SetDrawFrameDelegate(SimpleAction drawFrameDel)
         {

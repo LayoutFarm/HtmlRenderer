@@ -4,7 +4,7 @@ using System;
 using OpenTK.Graphics.ES20;
 namespace PixelFarm.DrawingGL
 {
-   public abstract class LazyBitmapBufferProvider
+    public abstract class LazyBitmapBufferProvider
     {
         public abstract IntPtr GetRawBufferHead();
         public abstract void ReleaseBufferHead();
@@ -13,63 +13,7 @@ namespace PixelFarm.DrawingGL
         public abstract bool IsInvert { get; }
     }
 
-
-    public class GLImage : PixelFarm.Drawing.Image
-    {
-        GLBitmap glBitmap;
-        public GLImage(GLBitmap glBitmap)
-        {
-            this.glBitmap = glBitmap;
-        }
-        public override int Height
-        {
-            get
-            {
-                return glBitmap.Height;
-            }
-        }
-
-
-        public override bool IsReferenceImage
-        {
-            get
-            {
-                return false;
-            }
-        }
-
-        public override int ReferenceX
-        {
-            get
-            {
-                return 0;
-            }
-        }
-
-        public override int ReferenceY
-        {
-            get
-            {
-                return 0;
-            }
-        }
-
-        public override int Width
-        {
-            get
-            {
-                return this.glBitmap.Width;
-            }
-        }
-
-        public override void Dispose()
-        {
-            //nothing
-        } 
-    }
-
-
-    public class GLBitmap : IDisposable
+    public class GLBitmap : PixelFarm.Drawing.Image 
     {
         int textureId;
         int width;
@@ -126,15 +70,27 @@ namespace PixelFarm.DrawingGL
             get { return this.isInvertImage; }
         }
         public int TextureId { get { return textureId; } }
-        public int Width
+        public override int Width
         {
             get { return this.width; }
         }
-        public int Height
+        public override int Height
         {
             get { return this.height; }
         }
 
+        public override bool IsReferenceImage
+        {
+            get { return false; }
+        }
+        public override int ReferenceX
+        {
+            get { return 0; }
+        }
+        public override int ReferenceY
+        {
+            get { return 0; }
+        }
 
         //---------------------------------
         //only after gl context is created
@@ -200,8 +156,8 @@ namespace PixelFarm.DrawingGL
 
             return this.textureId;
         }
-
-        public void Dispose()
+         
+        public override void Dispose()
         {
             GL.DeleteTextures(1, ref textureId);
         }

@@ -225,9 +225,9 @@ namespace PixelFarm.Agg
             {
                 myvxs.ReplaceCommand(i, myvxs.GetCommand(i + 1));
             }
-
             // Assign starting command to the ending command
             myvxs.ReplaceCommand(end, tmp_PathAndFlags);
+
             // Reverse the polygon
             while (end > start)
             {

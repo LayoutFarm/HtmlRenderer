@@ -1,6 +1,7 @@
 ﻿//2016 MIT, WinterDev
 
 using System;
+using System.Collections.Generic;
 using PixelFarm.Agg;
 using PixelFarm.Agg.Transform;
 
@@ -25,7 +26,7 @@ namespace PixelFarm.Drawing.WinGdi
         WinGdiFont _winGdiFont;
 
         Agg.VertexSource.RoundedRect roundRect;
-        Agg.VertexSource.CurveFlattener curveFlattener;
+
 
         SmoothingMode _smoothingMode;
 
@@ -110,7 +111,7 @@ namespace PixelFarm.Drawing.WinGdi
             set
             {
                 _currentFont = value;
-                _winGdiFont = WinGdiFontSystem.GetWinGdiFont(value);                 
+                _winGdiFont = WinGdiFontSystem.GetWinGdiFont(value);
             }
         }
         public override Color FillColor
@@ -311,7 +312,7 @@ namespace PixelFarm.Drawing.WinGdi
             int h = actualImage.Height;
             switch (actualImage.PixelFormat)
             {
-                case Agg.Imaging.PixelFormat.ARGB32:
+                case Agg.PixelFormat.ARGB32:
                     {
                         //copy data from acutal buffer to internal representation bitmap
                         using (var bmp = CreateBmpBRGA(actualImage))
@@ -320,11 +321,11 @@ namespace PixelFarm.Drawing.WinGdi
                         }
                     }
                     break;
-                case Agg.Imaging.PixelFormat.RGB24:
+                case Agg.PixelFormat.RGB24:
                     {
                     }
                     break;
-                case Agg.Imaging.PixelFormat.GrayScale8:
+                case Agg.PixelFormat.GrayScale8:
                     {
                     }
                     break;
@@ -352,19 +353,22 @@ namespace PixelFarm.Drawing.WinGdi
             _gfx.ScaleTransform(1.0F, -1.0F);// Flip the Y-Axis
             _gfx.TranslateTransform(0.0F, -(float)Height);// Translate the drawing area accordingly                
         }
-
+        /// <summary>
+        /// we do NOT store snap/vxs
+        /// </summary>
+        /// <param name="vxs"></param>
         public override void Fill(VertexStore vxs)
         {
             VxsHelper.FillVxsSnap(_gfx, new VertexStoreSnap(vxs), _fillColor);
         }
-
+        /// <summary>
+        /// we do NOT store snap/vxs
+        /// </summary>
+        /// <param name="snap"></param>
         public override void Fill(VertexStoreSnap snap)
         {
             VxsHelper.FillVxsSnap(_gfx, snap, _fillColor);
         }
-
-
-
         public override void FillCircle(double x, double y, double radius)
         {
             _gfx.FillEllipse(_currentFillBrush, (float)x, (float)y, (float)(radius + radius), (float)(radius + radius));
@@ -403,6 +407,16 @@ namespace PixelFarm.Drawing.WinGdi
             _gfx.FillRectangle(_currentFillBrush, new System.Drawing.RectangleF((float)left, (float)(bottom - height), (float)width, (float)height));
         }
 
+        VertexStorePool _vxsPool = new VertexStorePool();
+        VertexStore GetFreeVxs()
+        {
+
+            return _vxsPool.GetFreeVxs();
+        }
+        void ReleaseVxs(ref VertexStore vxs)
+        {
+            _vxsPool.Release(ref vxs);
+        }
         public override void DrawRoundRect(double left, double bottom, double right, double top, double radius)
         {
             if (roundRect == null)
@@ -416,7 +430,10 @@ namespace PixelFarm.Drawing.WinGdi
                 roundRect.SetRadius(radius);
                 roundRect.NormalizeRadius();
             }
-            this.Draw(roundRect.MakeVxs());
+
+            var v1 = GetFreeVxs();
+            this.Draw(roundRect.MakeVxs(v1));
+            ReleaseVxs(ref v1);
         }
         public override void FillRoundRectangle(double left, double bottom, double right, double top, double radius)
         {
@@ -431,17 +448,12 @@ namespace PixelFarm.Drawing.WinGdi
                 roundRect.SetRadius(radius);
                 roundRect.NormalizeRadius();
             }
-            this.Fill(roundRect.MakeVxs());
+            var v1 = GetFreeVxs();
+            this.Fill(roundRect.MakeVxs(v1));
+            ReleaseVxs(ref v1);
         }
 
-        public override VertexStore FlattenCurves(VertexStore srcVxs)
-        {
-            if (curveFlattener == null)
-            {
-                curveFlattener = new Agg.VertexSource.CurveFlattener();
-            }
-            return curveFlattener.MakeVxs(srcVxs);
-        }
+
 
         public override void Line(double x1, double y1, double x2, double y2)
         {

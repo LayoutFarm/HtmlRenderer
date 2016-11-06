@@ -905,68 +905,85 @@ namespace PixelFarm.Agg.Transform
         {
             return Math.Abs(v1 - v2) <= (EPSILON);
         }
-        public VertexStoreSnap TransformToVertexSnap(VertexStore src)
+        /// <summary>
+        /// we do NOT store vxs, return original outputVxs
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="outputVxs"></param>
+        public VertexStore TransformToVxs(VertexStore src, VertexStore outputVxs)
         {
-            return new VertexStoreSnap(this.TransformToVxs(src));
+            int count = src.Count;
+            VertexCmd cmd;
+            double x, y;
+            for (int i = 0; i < count; ++i)
+            {
+                cmd = src.GetVertex(i, out x, out y);
+                this.Transform(ref x, ref y);
+                outputVxs.AddVertex(x, y, cmd);
+            }
+            return outputVxs;
+        }
+        /// <summary>
+        /// we do NOT store vxs, return original outputVxs
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="outputVxs"></param>
+        /// <returns></returns>
+        public VertexStore TransformToVxs(VertexStoreSnap src, VertexStore outputVxs)
+        {
+            var snapIter = src.GetVertexSnapIter();
+            VertexCmd cmd;
+            double x, y;
+            while ((cmd = snapIter.GetNextVertex(out x, out y)) != VertexCmd.Stop)
+            {
+                this.Transform(ref x, ref y);
+                outputVxs.AddVertex(x, y, cmd);
+            }
+            return outputVxs;
+        }
+        /// <summary>
+        ///we do NOT store vxs, return original outputVxs
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dx"></param>
+        /// <param name="dy"></param>
+        /// <param name="outputVxs"></param>
+        /// <returns></returns>
+        public static VertexStore TranslateToVxs(VertexStore src, double dx, double dy, VertexStore outputVxs)
+        {
+            int count = src.Count;
+            VertexCmd cmd;
+            double x, y;
+            for (int i = 0; i < count; ++i)
+            {
+                cmd = src.GetVertex(i, out x, out y);
+                x += dx;
+                y += dy;
+                outputVxs.AddVertex(x, y, cmd);
+            }
+            return outputVxs;
         }
 
-        public VertexStore TransformToVxs(VertexStore src)
-        {
-            int count = src.Count;
-            VertexStore vxs = new VertexStore(count);
-            VertexCmd cmd;
-            double x, y;
-            for (int i = 0; i < count; ++i)
-            {
-                cmd = src.GetVertex(i, out x, out y);
-                this.Transform(ref x, ref y);
-                vxs.AddVertex(x, y, cmd);
-            }
-            return vxs;
-        }
-        public VertexStore TransformToVxs(VertexStoreSnap src)
-        {
-            var vxs = new VertexStore();
-            var snapIter = src.GetVertexSnapIter();
-            VertexCmd cmd;
-            double x, y;
-            while ((cmd = snapIter.GetNextVertex(out x, out y)) != VertexCmd.Stop)
-            {
-                this.Transform(ref x, ref y);
-                vxs.AddVertex(x, y, cmd);
-            }
-            return vxs;
-        }
-        //----------------------------------------------------------------------------------------------
-        public static VertexStore TranslateToVxs(VertexStore src, double dx, double dy)
-        {
-            int count = src.Count;
-            VertexStore vxs = new VertexStore(count);
-            VertexCmd cmd;
-            double x, y;
-            for (int i = 0; i < count; ++i)
-            {
-                cmd = src.GetVertex(i, out x, out y);
-                x += dx;
-                y += dy;
-                vxs.AddVertex(x, y, cmd);
-            }
-            return vxs;
-        }
-        public static VertexStore TranslateTransformToVxs(VertexStoreSnap src, double dx, double dy)
-        {
-            var vxs = new VertexStore();
-            var snapIter = src.GetVertexSnapIter();
-            VertexCmd cmd;
-            double x, y;
-            while ((cmd = snapIter.GetNextVertex(out x, out y)) != VertexCmd.Stop)
-            {
-                x += dx;
-                y += dy;
-                vxs.AddVertex(x, y, cmd);
-            }
-            return vxs;
-        }
+
+
+
+
+        //public static VertexStore TranslateTransformToVxs(VertexStoreSnap src, double dx, double dy, VertexStore vxs)
+        //{
+        //    var snapIter = src.GetVertexSnapIter();
+        //    VertexCmd cmd;
+        //    double x, y;
+        //    while ((cmd = snapIter.GetNextVertex(out x, out y)) != VertexCmd.Stop)
+        //    {
+        //        x += dx;
+        //        y += dy;
+        //        vxs.AddVertex(x, y, cmd);
+        //    }
+        //    return vxs;
+        //}
+
+
+
 
         // Check to see if two matrices are equal
         //public bool is_equal(Affine m, double epsilon)
@@ -1021,4 +1038,6 @@ namespace PixelFarm.Agg.Transform
         //    y = Math.Sqrt(shy * shy + sy * sy);
         //}
     }
+
+
 }

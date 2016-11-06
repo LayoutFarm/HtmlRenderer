@@ -113,9 +113,8 @@ namespace PixelFarm.Agg.VertexSource
             P3
         }
 
-        public VertexStore MakeVxs(VertexStoreSnap vsnap)
+        public void MakeVxs(VertexStoreSnap vsnap, VertexStore vxs)
         {
-            VertexStore vxs = new VertexStore();
             m_curve3.Reset();
             m_curve4.Reset();
             var snapIter = vsnap.GetVertexSnapIter();
@@ -275,11 +274,12 @@ namespace PixelFarm.Agg.VertexSource
                         break;
                 }
             } while (cmd != VertexCmd.Stop);
-            return vxs;
+
         }
-        public VertexStore MakeVxs(VertexStore srcVxs)
+        public VertexStore MakeVxs(VertexStore srcVxs, VertexStore outputVxs)
         {
-            return MakeVxs(new VertexStoreSnap(srcVxs));
+            MakeVxs(new VertexStoreSnap(srcVxs), outputVxs);
+            return outputVxs;
         }
     }
 }

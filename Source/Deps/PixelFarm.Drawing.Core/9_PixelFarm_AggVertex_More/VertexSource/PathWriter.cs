@@ -68,11 +68,15 @@ namespace PixelFarm.Agg.VertexSource
         Vector2 c4p3;
         SvgPathCommand latestSVGPathCmd;
         int figureCount = 0;
-        VertexStore myvxs = new VertexStore();
+        VertexStore myvxs;
         public PathWriter()
         {
+            myvxs = new VertexStore();
         }
-
+        public PathWriter(VertexStore externalVxs)
+        {
+            myvxs = externalVxs;
+        }
         public int Count
         {
             get { return myvxs.Count; }
@@ -86,9 +90,10 @@ namespace PixelFarm.Agg.VertexSource
             latestSVGPathCmd = SvgPathCommand.MoveTo;
             figureCount = 0;
         }
-        public void ClearAndStartNewVxs()
+        public void ClearAndStartNewVxs(VertexStore newVxsOutput)
         {
-            myvxs = new VertexStore();
+
+            myvxs = newVxsOutput;
             Clear();
         }
         //-------------------------------------------------------------------
@@ -459,7 +464,7 @@ namespace PixelFarm.Agg.VertexSource
             int m_allocated_vertices,
             int m_num_vertices,
             double[] m_coord_xy,
-            VertexCmd[] m_CommandAndFlags)
+            byte[] m_CommandAndFlags)
         {
             VertexStore.UnsafeDirectSetData(
                 pathStore.Vxs,
@@ -473,7 +478,7 @@ namespace PixelFarm.Agg.VertexSource
             out int m_allocated_vertices,
             out int m_num_vertices,
             out double[] m_coord_xy,
-            out VertexCmd[] m_CommandAndFlags)
+            out byte[] m_CommandAndFlags)
         {
             VertexStore.UnsafeDirectGetData(
                 pathStore.Vxs,

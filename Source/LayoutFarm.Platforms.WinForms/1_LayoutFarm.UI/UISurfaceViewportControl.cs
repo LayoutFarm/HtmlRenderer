@@ -65,7 +65,7 @@ namespace LayoutFarm.UI
             }
         }
 
-     
+
         void InitializeComponent()
         {
             this.SuspendLayout();
@@ -87,9 +87,14 @@ namespace LayoutFarm.UI
         {
             this.winBridge.PaintToOutputWindowFullMode();
         }
-        public void PrintMe(Canvas targetCanvas)
+        public void PrintMe(PixelFarm.Drawing.WinGdi.MyGdiPlusCanvas targetCanvas)
         {
-            this.winBridge.PaintToCanvas(targetCanvas);
+            //paint to external canvas    
+            var winBridge = (GdiPlus.MyTopWindowBridgeGdiPlus)this.winBridge;
+            if (winBridge != null)
+            {
+                winBridge.PrintToCanvas(targetCanvas);
+            }
         }
 #if DEBUG
         public IdbugOutputWindow IdebugOutputWin

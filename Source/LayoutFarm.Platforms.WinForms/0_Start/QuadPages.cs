@@ -6,10 +6,10 @@ namespace PixelFarm.Drawing.WinGdi
 {
     class QuadPages
     {
-        internal MyGdiPlusCanvas pageA;
-        internal MyGdiPlusCanvas pageB;
-        internal MyGdiPlusCanvas pageC;
-        internal MyGdiPlusCanvas pageD;
+        MyGdiPlusCanvas pageA;
+        MyGdiPlusCanvas pageB;
+        MyGdiPlusCanvas pageC;
+        MyGdiPlusCanvas pageD;
         CanvasCollection physicalCanvasCollection;
         public QuadPages(
             int cachedPageNum,

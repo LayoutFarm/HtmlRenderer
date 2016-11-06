@@ -23,9 +23,9 @@ namespace PixelFarm.Agg
 {
     public static class VertexStoreBuilder
     {
-        public static VertexStore CreateVxs(IEnumerable<VertexData> iter)
+        public static VertexStore CreateVxs(IEnumerable<VertexData> iter, VertexStore vxs)
         {
-            VertexStore vxs = new VertexStore(2);
+             
             foreach (VertexData v in iter)
             {
                 vxs.AddVertex(v.x, v.y, v.command);
