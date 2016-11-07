@@ -49,7 +49,7 @@
     <Compile Include="1_Composers\4_Diagnostic\HtmlGenerationStyle.cs" />
     <Compile Include="1_Composers\4_Diagnostic\HtmlRenderErrorType.cs" />
     <Compile Include="1_Composers\1_Builder\BulletNumberFormatter.cs" />
-    <Compile Include="1_Composers\1_Builder\ContentTextSplitter.cs" />
+    <Compile Include="1_Composers\1_Builder\HtmlContentTextSplitter.cs" />
     <Compile Include="1_Composers\2_Css\SpecSetter.cs" />
     <Compile Include="1_Composers\1_Builder\SpecialBoxCreator.cs" />
     <Compile Include="1_Composers\5_RenderBoxes\TopWindowRenderBox.cs" />
