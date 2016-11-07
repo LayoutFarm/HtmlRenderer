@@ -283,7 +283,6 @@
     <Compile Include="PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\SimpleRect.cs" />
     <Compile Include="PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\VertexData.cs" />
     <Compile Include="PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\VertexStoreBuilder.cs" />
-    <Compile Include="PixelFarm.Drawing.GdiPlus\..\Win32Utils\BasicGdi32FontHelper.cs" />
     <Compile Include="PixelFarm.Drawing.GdiPlus\..\Win32Utils\MyWin32.cs" />
     <Compile Include="PixelFarm.Drawing.GdiPlus\..\Win32Utils\NativeTextWin32.cs" />
     <Compile Include="PixelFarm.Drawing.GdiPlus\..\Win32Utils\NativeWin32MemoryDc.cs" />
@@ -304,7 +303,6 @@
     <Compile Include="PixelFarm.Drawing.GdiPlus\Properties\Resources.Designer.cs" />
     <Compile Include="PixelFarm.Drawing.GdiPlus\Properties\Settings.Designer.cs" />
     <Compile Include="TypeMirror\SimpleReflectionHelper.cs" />
-    <Compile Include="Win32Utils\BasicGdi32FontHelper.cs" />
     <Compile Include="Win32Utils\MyWin32.cs" />
     <Compile Include="Win32Utils\NativeTextWin32.cs" />
     <Compile Include="Win32Utils\NativeWin32MemoryDc.cs" />

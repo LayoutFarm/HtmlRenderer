@@ -558,7 +558,7 @@ namespace LayoutFarm.Text
                         int thisTextRunPixelLength = currentTextRun.Width;
                         if (rPixelOffset + thisTextRunPixelLength > value)
                         {
-                            VisualLocationInfo foundLocation = EditableRun.InnerGetCharacterFromPixelOffset(currentTextRun, value - rPixelOffset);
+                            EditableRunCharLocation foundLocation = EditableRun.InnerGetCharacterFromPixelOffset(currentTextRun, value - rPixelOffset);
                             if (foundLocation.charIndex == -1)
                             {
                                 if (!(MoveToPreviousTextRun()))
@@ -584,7 +584,7 @@ namespace LayoutFarm.Text
                     {
                         if (value >= rPixelOffset)
                         {
-                            VisualLocationInfo foundLocation = EditableRun.InnerGetCharacterFromPixelOffset(currentTextRun, value - rPixelOffset);
+                            EditableRunCharLocation foundLocation = EditableRun.InnerGetCharacterFromPixelOffset(currentTextRun, value - rPixelOffset);
                             if (foundLocation.charIndex == -1)
                             {
                                 if (!MoveToPreviousTextRun())

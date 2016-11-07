@@ -43,9 +43,6 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Deps\Win32Utils\BasicGdi32FontHelper.cs">
-      <Link>Win32Utils\BasicGdi32FontHelper.cs</Link>
-    </Compile>
     <Compile Include="..\Deps\Win32Utils\MyWin32.cs">
       <Link>Win32Utils\MyWin32.cs</Link>
     </Compile>

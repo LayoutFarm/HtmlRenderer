@@ -313,7 +313,6 @@
     <Compile Include="Deps\PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\SimpleRect.cs" />
     <Compile Include="Deps\PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\VertexData.cs" />
     <Compile Include="Deps\PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\VertexStoreBuilder.cs" />
-    <Compile Include="Deps\PixelFarm.Drawing.GdiPlus\..\Win32Utils\BasicGdi32FontHelper.cs" />
     <Compile Include="Deps\PixelFarm.Drawing.GdiPlus\..\Win32Utils\MyWin32.cs" />
     <Compile Include="Deps\PixelFarm.Drawing.GdiPlus\..\Win32Utils\NativeTextWin32.cs" />
     <Compile Include="Deps\PixelFarm.Drawing.GdiPlus\..\Win32Utils\NativeWin32MemoryDc.cs" />
@@ -334,7 +333,6 @@
     <Compile Include="Deps\PixelFarm.Drawing.GdiPlus\Properties\Resources.Designer.cs" />
     <Compile Include="Deps\PixelFarm.Drawing.GdiPlus\Properties\Settings.Designer.cs" />
     <Compile Include="Deps\TypeMirror\SimpleReflectionHelper.cs" />
-    <Compile Include="Deps\Win32Utils\BasicGdi32FontHelper.cs" />
     <Compile Include="Deps\Win32Utils\MyWin32.cs" />
     <Compile Include="Deps\Win32Utils\NativeTextWin32.cs" />
     <Compile Include="Deps\Win32Utils\NativeWin32MemoryDc.cs" />
@@ -514,7 +512,6 @@
     <Compile Include="LayoutFarm.HtmlRenderer\6_Diagnostics\dbug.cs" />
     <Compile Include="LayoutFarm.HtmlRenderer\Platform\FontDefaultConfig.cs" />
     <Compile Include="LayoutFarm.HtmlRenderer\Platform\RenderUtils.cs" />
-    <Compile Include="LayoutFarm.Platforms.WinForms\..\Deps\Win32Utils\BasicGdi32FontHelper.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\..\Deps\Win32Utils\MyWin32.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\..\Deps\Win32Utils\NativeTextWin32.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\..\Deps\Win32Utils\NativeWin32MemoryDc.cs" />
@@ -550,10 +547,10 @@
     <Compile Include="LayoutFarm.Platforms.WinForms\3_OpenGL\3_MyTopWindowBridgeOpenGL.cs" />
     <Compile Include="LayoutFarm.TextEdit\1.1_EditableRuns\dbugMultiTextManRecorder.cs" />
     <Compile Include="LayoutFarm.TextEdit\1.1_EditableRuns\EditableRun.cs" />
+    <Compile Include="LayoutFarm.TextEdit\1.1_EditableRuns\EditableRunCharLocation.cs" />
     <Compile Include="LayoutFarm.TextEdit\1.1_EditableRuns\EditableTextSpan.cs" />
     <Compile Include="LayoutFarm.TextEdit\1.1_EditableRuns\SolidTextRun.cs" />
     <Compile Include="LayoutFarm.TextEdit\1.1_EditableRuns\TextSpanSytle.cs" />
-    <Compile Include="LayoutFarm.TextEdit\1.1_EditableRuns\VisualLocationInfo.cs" />
     <Compile Include="LayoutFarm.TextEdit\1.1_EditableRuns\VisualPointInfo.cs" />
     <Compile Include="LayoutFarm.TextEdit\1.1_EditableRuns\VisualSelectionRange.cs" />
     <Compile Include="LayoutFarm.TextEdit\1.2_Lines\0_EditableTextLine.cs" />

@@ -83,7 +83,7 @@ namespace LayoutFarm.Text
 
         internal abstract EditableRun Remove(int startIndex, int length, bool withFreeRun);
         //public abstract int GetSingleCharWidth(int index);
-        public abstract VisualLocationInfo GetCharacterFromPixelOffset(int pixelOffset);
+        public abstract EditableRunCharLocation GetCharacterFromPixelOffset(int pixelOffset);
         public abstract EditableRun LeftCopy(int index);
         public abstract void InsertAfter(int index, char c);
         public static EditableRun InnerRemove(EditableRun tt, int startIndex, int length, bool withFreeRun)
@@ -94,7 +94,7 @@ namespace LayoutFarm.Text
         {
             return tt.Remove(startIndex, tt.CharacterCount - (startIndex), withFreeRun);
         }
-        public static VisualLocationInfo InnerGetCharacterFromPixelOffset(EditableRun tt, int pixelOffset)
+        public static EditableRunCharLocation InnerGetCharacterFromPixelOffset(EditableRun tt, int pixelOffset)
         {
             return tt.GetCharacterFromPixelOffset(pixelOffset);
         }

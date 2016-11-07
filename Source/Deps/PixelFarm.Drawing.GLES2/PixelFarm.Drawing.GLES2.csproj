@@ -113,9 +113,6 @@
     <Compile Include="..\PixelFarm.DrawingGL\DrawingGL\TextureFonts\TextureFont.cs">
       <Link>DrawingGL\TextureFonts\TextureFont.cs</Link>
     </Compile>
-    <Compile Include="..\Win32Utils\BasicGdi32FontHelper.cs">
-      <Link>Win32Utils\BasicGdi32FontHelper.cs</Link>
-    </Compile>
     <Compile Include="..\Win32Utils\MyWin32.cs">
       <Link>Win32Utils\MyWin32.cs</Link>
     </Compile>

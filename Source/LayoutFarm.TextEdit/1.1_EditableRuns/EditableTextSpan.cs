@@ -9,6 +9,7 @@ namespace LayoutFarm.Text
     {
         TextSpanStyle spanStyle;
         char[] mybuffer;
+        int[] glyphPositions = null;
         public EditableTextRun(RootGraphic gfx, char[] copyBuffer, TextSpanStyle style)
             : base(gfx)
         {   //check line break? 
@@ -87,15 +88,15 @@ namespace LayoutFarm.Text
         //{
         //    return GetCharacterWidth(mybuffer[index]);
         //}
-        char[] singleChars = new char[1];
-        int GetCharacterWidth(char c)
-        {
-            //TODO: review here
-            //this not correct
-            //use advanced width instead
-            singleChars[0] = c;
-            return (int)TextServices.IFonts.MeasureString(singleChars, 0, 1, GetFont()).Width;
-        }
+        //char[] singleChars = new char[1];
+        //int GetCharacterWidth(char c)
+        //{
+        //    //TODO: review here
+        //    //this not correct
+        //    //use advanced width instead
+        //    singleChars[0] = c;
+        //    return (int)TextServices.IFonts.MeasureString(singleChars, 0, 1, GetFont()).Width;
+        //}
         //------------------
         public override int GetRunWidth(int charOffset)
         {
@@ -106,19 +107,35 @@ namespace LayoutFarm.Text
             get { return new string(mybuffer); }
         }
 
-        internal static readonly char[] emptyline = new char[] { 'I' };
+        static readonly char[] emptyline = new char[] { 'I' };
+
         public override void UpdateRunWidth()
         {
             Size size;
             if (IsLineBreak)
             {
                 size = CalculateDrawingStringSize(emptyline, 1);
+                glyphPositions = new int[0];
             }
             else
             {
-                size = CalculateDrawingStringSize(this.mybuffer, mybuffer.Length);
+                //TODO: review here again
+                int len = mybuffer.Length;
+                size = CalculateDrawingStringSize(this.mybuffer, len);
+
+                //when we update run width we should store
+                //cache of each char x-advance?
+                //or calculate it every time ?
+
+                //TODO: review this,
+                //if we have enough length, -> we don't need to alloc every time. 
+                glyphPositions = new int[len];
+                TextServices.IFonts.CalculateGlyphAdvancePos(mybuffer, 0, len, GetFont(), glyphPositions);
             }
+            //---------
             this.SetSize(size.Width, size.Height);
+
+            //---------
             MarkHasValidCalculateSize();
         }
         public override char GetChar(int index)
@@ -294,37 +311,54 @@ namespace LayoutFarm.Text
         }
 
 
-        public override VisualLocationInfo GetCharacterFromPixelOffset(int pixelOffset)
+        public override EditableRunCharLocation GetCharacterFromPixelOffset(int pixelOffset)
         {
             if (pixelOffset < Width)
             {
-                char[] myBuffer = this.mybuffer;
-                int j = myBuffer.Length;
-                int accWidth = 0; for (int i = 0; i < j; i++)
+
+                int j = glyphPositions.Length;
+                int accWidth = 0;
+                for (int i = 0; i < j; i++)
                 {
-                    char c = myBuffer[i];
-                    int charW = GetCharacterWidth(c);
+                    int charW = glyphPositions[i];                     
                     if (accWidth + charW > pixelOffset)
                     {
                         if (pixelOffset - accWidth > 3)
                         {
-                            return new VisualLocationInfo(accWidth + charW, i);
+                            return new EditableRunCharLocation(accWidth + charW, i);
                         }
                         else
                         {
-                            return new VisualLocationInfo(accWidth, i - 1);
+                            return new EditableRunCharLocation(accWidth, i - 1);
                         }
                     }
                     else
                     {
                         accWidth += charW;
                     }
+                    //char c = myBuffer[i];
+                    //int charW = GetCharacterWidth(c);
+                    //if (accWidth + charW > pixelOffset)
+                    //{
+                    //    if (pixelOffset - accWidth > 3)
+                    //    {
+                    //        return new EditableRunCharLocation(accWidth + charW, i);
+                    //    }
+                    //    else
+                    //    {
+                    //        return new EditableRunCharLocation(accWidth, i - 1);
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    accWidth += charW;
+                    //}
                 }
-                return new VisualLocationInfo(accWidth, j - 1);
+                return new EditableRunCharLocation(accWidth, j - 1);
             }
             else
             {
-                return new VisualLocationInfo(0, -1);
+                return new EditableRunCharLocation(0, -1);
             }
         }
         //-------------------------------------------
