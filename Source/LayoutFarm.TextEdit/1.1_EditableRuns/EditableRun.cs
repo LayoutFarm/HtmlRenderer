@@ -8,27 +8,32 @@ namespace LayoutFarm.Text
     public abstract class EditableRun : RenderElement
     {
         EditableTextLine ownerTextLine;
-        LinkedListNode<EditableRun> _internalLinkedNode;
+        LinkedListNode<EditableRun> _editableRunInternalLinkedNode;
         public EditableRun(RootGraphic gfx)
             : base(gfx, 10, 10)
         {
         }
         public bool IsLineBreak { get; set; }
         public abstract EditableRun Clone();
-        internal LinkedListNode<EditableRun> internalLinkedNode
+        internal LinkedListNode<EditableRun> LinkedNodeForEditableRun
         {
-            get { return this._internalLinkedNode; }
+            get { return this._editableRunInternalLinkedNode; }
         }
         internal void SetInternalLinkedNode(LinkedListNode<EditableRun> linkedNode, EditableTextLine ownerTextLine)
         {
             this.ownerTextLine = ownerTextLine;
-            this._internalLinkedNode = linkedNode;
+            this._editableRunInternalLinkedNode = linkedNode;
             EditableRun.SetParentLink(this, ownerTextLine);
         }
 
         public abstract bool IsInsertable { get; }
         public abstract TextSpanStyle SpanStyle { get; }
         public abstract void SetStyle(TextSpanStyle spanStyle);
+        /// <summary>
+        /// get run width from start (left**) to charOffset
+        /// </summary>
+        /// <param name="charOffset"></param>
+        /// <returns></returns>
         public abstract int GetRunWidth(int charOffset);
         public abstract string Text { get; }
         public abstract void UpdateRunWidth();
@@ -50,11 +55,11 @@ namespace LayoutFarm.Text
         {
             get
             {
-                if (this.internalLinkedNode != null)
+                if (this.LinkedNodeForEditableRun != null)
                 {
-                    if (internalLinkedNode.Next != null)
+                    if (LinkedNodeForEditableRun.Next != null)
                     {
-                        return internalLinkedNode.Next.Value;
+                        return LinkedNodeForEditableRun.Next.Value;
                     }
                 }
                 return null;
@@ -64,11 +69,11 @@ namespace LayoutFarm.Text
         {
             get
             {
-                if (this.internalLinkedNode != null)
+                if (this.LinkedNodeForEditableRun != null)
                 {
-                    if (internalLinkedNode.Previous != null)
+                    if (LinkedNodeForEditableRun.Previous != null)
                     {
-                        return internalLinkedNode.Previous.Value;
+                        return LinkedNodeForEditableRun.Previous.Value;
                     }
                 }
                 return null;
@@ -77,7 +82,7 @@ namespace LayoutFarm.Text
 
 
         internal abstract EditableRun Remove(int startIndex, int length, bool withFreeRun);
-        public abstract int GetCharWidth(int index);
+        //public abstract int GetSingleCharWidth(int index);
         public abstract VisualLocationInfo GetCharacterFromPixelOffset(int pixelOffset);
         public abstract EditableRun LeftCopy(int index);
         public abstract void InsertAfter(int index, char c);

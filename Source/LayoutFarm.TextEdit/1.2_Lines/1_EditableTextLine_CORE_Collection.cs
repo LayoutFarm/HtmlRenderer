@@ -19,7 +19,7 @@ namespace LayoutFarm.Text
 
         static LinkedListNode<EditableRun> GetLineLinkedNode(EditableRun ve)
         {
-            return ve.internalLinkedNode;
+            return ve.LinkedNodeForEditableRun;
         }
         void AddNormalRunBefore(EditableRun beforeVisualElement, EditableRun v)
         {

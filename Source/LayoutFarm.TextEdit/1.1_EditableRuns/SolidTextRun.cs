@@ -91,11 +91,11 @@ namespace LayoutFarm.Text
                 throw new Exception("string must be null or zero length");
             }
         }
-        public override int GetCharWidth(int index)
-        {
-            // return this.Width;
-            return GetCharacterWidth(mybuffer[index]);
-        }
+        //public override int GetSingleCharWidth(int index)
+        //{
+        //    // return this.Width;
+        //    return GetCharacterWidth(mybuffer[index]);
+        //}
         char[] singleChars = new char[1];
         int GetCharacterWidth(char c)
         {
