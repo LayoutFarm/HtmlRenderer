@@ -16,7 +16,7 @@ namespace LayoutFarm
         {
             textbox = new LayoutFarm.CustomWidgets.TextBox(400, 300, true);
             textbox.SetLocation(20, 20);
-            var textSplitter = new Composers.ContentTextSplitter();
+            var textSplitter = new LayoutFarm.CustomWidgets.ContentTextSplitter();
             textbox.TextSplitter = textSplitter;
             listView = new CustomWidgets.ListView(300, 200);
             listView.SetLocation(0, 40);

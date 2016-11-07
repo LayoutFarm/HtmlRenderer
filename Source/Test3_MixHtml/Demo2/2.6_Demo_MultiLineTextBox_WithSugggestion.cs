@@ -18,7 +18,7 @@ namespace LayoutFarm
         {
             textbox = new LayoutFarm.CustomWidgets.TextBox(400, 300, true);
             textbox.SetLocation(20, 20);
-            var textSplitter = new Composers.ContentTextSplitter();
+            var textSplitter = new CustomWidgets.ContentTextSplitter();
             textbox.TextSplitter = textSplitter;
             sgBox = new SuggestionWindowMx(300, 200);
             sgBox.Hide();
