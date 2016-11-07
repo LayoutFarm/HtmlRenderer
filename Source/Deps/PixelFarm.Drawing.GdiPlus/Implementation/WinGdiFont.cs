@@ -414,7 +414,10 @@ namespace PixelFarm.Drawing.WinGdi
             //}
         }
         //==============================================
+        public static void CalculateGlyphAdvancePos(char[] str, int startAt, int len, RequestFont font, int[] glyphXAdvances)
+        {
 
+        }
         public static ActualFont GetWinGdiFont(RequestFont f)
         {
             return WinGdiFontSystem.GetWinGdiFont(f);

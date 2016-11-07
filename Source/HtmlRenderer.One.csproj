@@ -550,10 +550,10 @@
     <Compile Include="LayoutFarm.Platforms.WinForms\3_OpenGL\3_MyTopWindowBridgeOpenGL.cs" />
     <Compile Include="LayoutFarm.TextEdit\1.1_EditableRuns\dbugMultiTextManRecorder.cs" />
     <Compile Include="LayoutFarm.TextEdit\1.1_EditableRuns\EditableRun.cs" />
+    <Compile Include="LayoutFarm.TextEdit\1.1_EditableRuns\EditableRunCharLocation.cs" />
     <Compile Include="LayoutFarm.TextEdit\1.1_EditableRuns\EditableTextSpan.cs" />
     <Compile Include="LayoutFarm.TextEdit\1.1_EditableRuns\SolidTextRun.cs" />
     <Compile Include="LayoutFarm.TextEdit\1.1_EditableRuns\TextSpanSytle.cs" />
-    <Compile Include="LayoutFarm.TextEdit\1.1_EditableRuns\VisualLocationInfo.cs" />
     <Compile Include="LayoutFarm.TextEdit\1.1_EditableRuns\VisualPointInfo.cs" />
     <Compile Include="LayoutFarm.TextEdit\1.1_EditableRuns\VisualSelectionRange.cs" />
     <Compile Include="LayoutFarm.TextEdit\1.2_Lines\0_EditableTextLine.cs" />

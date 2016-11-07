@@ -96,12 +96,12 @@ namespace LayoutFarm.Text
         //    // return this.Width;
         //    return GetCharacterWidth(mybuffer[index]);
         //}
-        char[] singleChars = new char[1];
-        int GetCharacterWidth(char c)
-        {
-            singleChars[0] = c;
-            return (int)TextServices.IFonts.MeasureString(singleChars, 0, 1, GetFont()).Width;
-        }
+        //char[] singleChars = new char[1];
+        //int GetCharacterWidth(char c)
+        //{
+        //    singleChars[0] = c;
+        //    return (int)TextServices.IFonts.MeasureString(singleChars, 0, 1, GetFont()).Width;
+        //}
         //------------------
         public override int GetRunWidth(int charOffset)
         {
@@ -323,11 +323,11 @@ namespace LayoutFarm.Text
         }
 
 
-        public override VisualLocationInfo GetCharacterFromPixelOffset(int pixelOffset)
+        public override EditableRunCharLocation GetCharacterFromPixelOffset(int pixelOffset)
         {
             if (pixelOffset < Width)
             {
-                return new VisualLocationInfo(0, -1);
+                return new EditableRunCharLocation(0, -1);
                 //char[] myBuffer = this.mybuffer;
                 //int j = myBuffer.Length;
                 //int accWidth = 0; for (int i = 0; i < j; i++)
@@ -355,7 +355,7 @@ namespace LayoutFarm.Text
             }
             else
             {
-                return new VisualLocationInfo(0, -1);
+                return new EditableRunCharLocation(0, -1);
             }
         }
         //-------------------------------------------

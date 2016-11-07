@@ -14,7 +14,7 @@ namespace LayoutFarm
         Dictionary<char, List<string>> words = new Dictionary<char, List<string>>();
         protected override void OnStartDemo(SampleViewport viewport)
         {
-            textbox = new LayoutFarm.CustomWidgets.TextBox(400, 300, true);            
+            textbox = new LayoutFarm.CustomWidgets.TextBox(400, 300, true);
             textbox.SetLocation(20, 20);
             var textSplitter = new Composers.ContentTextSplitter();
             textbox.TextSplitter = textSplitter;
@@ -79,7 +79,7 @@ namespace LayoutFarm
             }
             e.PreventDefault = true;
         }
-        string GetString(char[] buffer, LayoutFarm.Composers.TextSplitBound bound)
+        static string GetString(char[] buffer, LayoutFarm.Composers.TextSplitBound bound)
         {
             char[] substr = new char[bound.length];
             Array.Copy(buffer, bound.startIndex, substr, 0, bound.length);
