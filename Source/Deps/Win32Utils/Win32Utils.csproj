@@ -32,7 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="BasicGdi32FontHelper.cs" />
     <Compile Include="MyWin32.cs" />
     <Compile Include="NativeTextWin32.cs" />
     <Compile Include="NativeWin32MemoryDc.cs" />

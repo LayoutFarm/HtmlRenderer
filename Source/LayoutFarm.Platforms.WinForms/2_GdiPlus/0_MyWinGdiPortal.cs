@@ -50,7 +50,9 @@ namespace LayoutFarm.UI.GdiPlus
                 (locale => new NativeTextBreaker(TextBreakKind.Word, locale))
                 );
             //-------------------------------------
-
+            //config encoding
+            WinGdiPlusPlatform.SetFontEncoding(System.Text.Encoding.GetEncoding(874));
+            //-------------------------------------
             WinGdiPlusPlatform.SetFontNotFoundHandler(
                 (fontCollection, fontName, style) =>
                 {
