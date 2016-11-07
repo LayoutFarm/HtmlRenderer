@@ -23,7 +23,6 @@ namespace LayoutFarm.Text
         public abstract void SetStyle(TextSpanStyle spanStyle);
         public abstract char GetChar(int index);
         public abstract EditableRunCharLocation GetCharacterFromPixelOffset(int pixelOffset);
-
         /// <summary>
         /// get run width from start (left**) to charOffset
         /// </summary>
@@ -33,7 +32,7 @@ namespace LayoutFarm.Text
 
         ///////////////////////////////////////////////////////////////
         //edit funcs
-        public abstract void InsertAfter(int index, char c);
+        internal abstract void InsertAfter(int index, char c);
         internal abstract EditableRun Remove(int startIndex, int length, bool withFreeRun);
         internal static EditableRun InnerRemove(EditableRun tt, int startIndex, int length, bool withFreeRun)
         {

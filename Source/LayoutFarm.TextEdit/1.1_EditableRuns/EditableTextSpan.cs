@@ -380,7 +380,7 @@ namespace LayoutFarm.Text
                 return null;
             }
         }
-        public override void InsertAfter(int index, char c)
+        internal override void InsertAfter(int index, char c)
         {
             int oldLexLength = mybuffer.Length;
             char[] newBuff = new char[oldLexLength + 1];
