@@ -11,6 +11,9 @@ namespace TestGraphicPackage2
         [STAThread]
         static void Main()
         {
+
+            ExampleFolderConfig.InitIcuData();
+            //-----------------------
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             //temp
