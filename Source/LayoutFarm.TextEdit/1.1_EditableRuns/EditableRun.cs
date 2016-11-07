@@ -14,8 +14,8 @@ namespace LayoutFarm.Text
         {
 
         }
-        public bool IsLineBreak { get; set; }
-        public abstract bool IsInsertable { get; }
+        internal bool IsLineBreak { get; set; }
+        internal abstract bool IsInsertable { get; }
         public abstract string Text { get; }
         public abstract int CharacterCount { get; }
         public abstract TextSpanStyle SpanStyle { get; }
@@ -46,7 +46,7 @@ namespace LayoutFarm.Text
         {
             return tt.GetCharacterFromPixelOffset(pixelOffset);
         }
-        public abstract void UpdateRunWidth();
+        internal abstract void UpdateRunWidth();
         ///////////////////////////////////////////////////////////////  
         public abstract EditableRun Clone();
         public abstract EditableRun LeftCopy(int index);

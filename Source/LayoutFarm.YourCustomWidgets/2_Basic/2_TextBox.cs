@@ -118,6 +118,8 @@ namespace LayoutFarm.CustomWidgets
                             var length = splitBound.length;
                             var splitBuffer = new char[length];
                             Array.Copy(buffer, startIndex, splitBuffer, 0, length);
+                            //TODO: review
+                            
                             var textspan = textEditRenderElement.CreateFreezeTextRun(splitBuffer);
                             textEditRenderElement.AddTextRun(textspan);
                         }

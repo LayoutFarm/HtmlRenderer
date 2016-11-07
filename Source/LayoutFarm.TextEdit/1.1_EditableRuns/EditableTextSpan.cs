@@ -84,20 +84,7 @@ namespace LayoutFarm.Text
                 throw new Exception("string must be null or zero length");
             }
         }
-        //public override int GetSingleCharWidth(int index)
-        //{
-        //    return GetCharacterWidth(mybuffer[index]);
-        //}
-        //char[] singleChars = new char[1];
-        //int GetCharacterWidth(char c)
-        //{
-        //    //TODO: review here
-        //    //this not correct
-        //    //use advanced width instead
-        //    singleChars[0] = c;
-        //    return (int)TextServices.IFonts.MeasureString(singleChars, 0, 1, GetFont()).Width;
-        //}
-        //------------------
+
         public override int GetRunWidth(int charOffset)
         {
             return CalculateDrawingStringSize(mybuffer, charOffset).Width;
@@ -109,7 +96,7 @@ namespace LayoutFarm.Text
 
         static readonly char[] emptyline = new char[] { 'I' };
 
-        public override void UpdateRunWidth()
+        internal override void UpdateRunWidth()
         {
             Size size;
             if (IsLineBreak)
@@ -320,7 +307,7 @@ namespace LayoutFarm.Text
                 int accWidth = 0;
                 for (int i = 0; i < j; i++)
                 {
-                    int charW = glyphPositions[i];                     
+                    int charW = glyphPositions[i];
                     if (accWidth + charW > pixelOffset)
                     {
                         if (pixelOffset - accWidth > 3)
@@ -362,7 +349,7 @@ namespace LayoutFarm.Text
             }
         }
         //-------------------------------------------
-        public override bool IsInsertable
+        internal override bool IsInsertable
         {
             get
             {
