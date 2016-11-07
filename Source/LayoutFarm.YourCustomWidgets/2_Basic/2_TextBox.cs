@@ -118,7 +118,13 @@ namespace LayoutFarm.CustomWidgets
                             var length = splitBound.length;
                             var splitBuffer = new char[length];
                             Array.Copy(buffer, startIndex, splitBuffer, 0, length);
-                            var textspan = textEditRenderElement.CreateFreezeTextRun(splitBuffer);
+
+                            //TODO: review
+                            //this just test ***  that text box can hold freeze text run
+                            //var textspan = textEditRenderElement.CreateFreezeTextRun(splitBuffer);
+                            //-----------------------------------
+                            //but for general 
+                            var textspan = textEditRenderElement.CreateEditableTextRun(splitBuffer);
                             textEditRenderElement.AddTextRun(textspan);
                         }
                     }

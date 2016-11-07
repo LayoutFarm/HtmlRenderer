@@ -91,17 +91,17 @@ namespace LayoutFarm.Text
                 throw new Exception("string must be null or zero length");
             }
         }
-        public override int GetCharWidth(int index)
-        {
-            // return this.Width;
-            return GetCharacterWidth(mybuffer[index]);
-        }
-        char[] singleChars = new char[1];
-        int GetCharacterWidth(char c)
-        {
-            singleChars[0] = c;
-            return (int)TextServices.IFonts.MeasureString(singleChars, 0, 1, GetFont()).Width;
-        }
+        //public override int GetSingleCharWidth(int index)
+        //{
+        //    // return this.Width;
+        //    return GetCharacterWidth(mybuffer[index]);
+        //}
+        //char[] singleChars = new char[1];
+        //int GetCharacterWidth(char c)
+        //{
+        //    singleChars[0] = c;
+        //    return (int)TextServices.IFonts.MeasureString(singleChars, 0, 1, GetFont()).Width;
+        //}
         //------------------
         public override int GetRunWidth(int charOffset)
         {
@@ -114,7 +114,7 @@ namespace LayoutFarm.Text
         }
 
         internal static readonly char[] emptyline = new char[] { 'I' };
-        public override void UpdateRunWidth()
+        internal override void UpdateRunWidth()
         {
             Size size;
             if (IsLineBreak)
@@ -323,11 +323,11 @@ namespace LayoutFarm.Text
         }
 
 
-        public override VisualLocationInfo GetCharacterFromPixelOffset(int pixelOffset)
+        public override EditableRunCharLocation GetCharacterFromPixelOffset(int pixelOffset)
         {
             if (pixelOffset < Width)
             {
-                return new VisualLocationInfo(0, -1);
+                return new EditableRunCharLocation(0, -1);
                 //char[] myBuffer = this.mybuffer;
                 //int j = myBuffer.Length;
                 //int accWidth = 0; for (int i = 0; i < j; i++)
@@ -355,11 +355,11 @@ namespace LayoutFarm.Text
             }
             else
             {
-                return new VisualLocationInfo(0, -1);
+                return new EditableRunCharLocation(0, -1);
             }
         }
         //-------------------------------------------
-        public override bool IsInsertable
+        internal override bool IsInsertable
         {
             get
             {
@@ -377,8 +377,10 @@ namespace LayoutFarm.Text
                 return null;
             }
         }
-        public override void InsertAfter(int index, char c)
+        internal override void InsertAfter(int index, char c)
         {
+            //TODO: review here
+            //solid text run should not be editable
             int oldLexLength = mybuffer.Length;
             char[] newBuff = new char[oldLexLength + 1];
             if (index > -1 && index < mybuffer.Length - 1)

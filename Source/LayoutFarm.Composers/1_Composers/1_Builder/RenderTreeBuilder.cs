@@ -27,12 +27,13 @@ namespace LayoutFarm.Composers
     public class RenderTreeBuilder
     {
         WebDom.Parser.CssParser miniCssParser = new CssParser();
-        ContentTextSplitter contentTextSplitter = new ContentTextSplitter();
+        HtmlContentTextSplitter contentTextSplitter;
         internal event ContentManagers.RequestStyleSheetEventHandler RequestStyleSheet;
         HtmlHost htmlHost;
         internal RenderTreeBuilder(HtmlHost htmlHost)
         {
             this.htmlHost = htmlHost;
+            this.contentTextSplitter = new HtmlContentTextSplitter();
         }
         string RaiseRequestStyleSheet(string hrefSource)
         {
@@ -149,9 +150,9 @@ namespace LayoutFarm.Composers
 
                             var parentSpec = parentElement.Spec;
                             char[] originalBuffer = textnode.GetOriginalBuffer();
-                            List<CssRun> runlist;
+                            List<CssRun> runlist = new List<CssRun>();
                             bool hasSomeCharacter;
-                            contentTextSplitter.ParseWordContent(originalBuffer, parentSpec, isblockContext, out runlist, out hasSomeCharacter);
+                            contentTextSplitter.ParseWordContent(originalBuffer, parentSpec, isblockContext, runlist, out hasSomeCharacter);
                             textnode.SetSplitParts(runlist, hasSomeCharacter);
                         }
                         break;

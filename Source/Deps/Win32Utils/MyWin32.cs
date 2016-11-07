@@ -247,6 +247,7 @@ namespace Win32
             logFont.lfHeight = -(int)ConvEmSizeInPointsToPixels(emHeight, pixels_per_inch);//minus **
             logFont.lfCharSet = 1;//default
             logFont.lfQuality = 0;//default
+            
             //
             MyWin32.LOGFONT_FontWeight weight =
                 bold ?

@@ -87,6 +87,7 @@
     <Compile Include="7_WindowUI\UIFloatWindow.cs" />
     <Compile Include="8_Canvas\MiniAggCanvasBox.cs" />
     <Compile Include="8_Canvas\MiniAggCanvasRenderElement.cs" />
+    <Compile Include="9_TextContentSplitter\ContentTextSplitter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="5_HtmlBox\MyCustomCssBoxGenerator.cs" />
     <Compile Include="5_HtmlBox\HtmlHostContentManager.cs" />

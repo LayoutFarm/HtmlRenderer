@@ -61,7 +61,7 @@
     <Compile Include="1.1_EditableRuns\EditableTextSpan.cs" />
     <Compile Include="1.1_EditableRuns\EditableRun.cs" />
     <Compile Include="1.1_EditableRuns\TextSpanSytle.cs" />
-    <Compile Include="1.1_EditableRuns\VisualLocationInfo.cs" />
+    <Compile Include="1.1_EditableRuns\EditableRunCharLocation.cs" />
     <Compile Include="1.1_EditableRuns\VisualPointInfo.cs" />
     <Compile Include="1.1_EditableRuns\VisualSelectionRange.cs" />
     <Compile Include="1.2_Lines\0_EditableTextLine.cs" />

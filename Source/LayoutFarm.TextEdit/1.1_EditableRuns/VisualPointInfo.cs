@@ -5,7 +5,10 @@ namespace LayoutFarm.Text
     public abstract class VisualPointInfo
     {
         int lineCharIndex;
-        EditableRun onVisualElement; int onTextRunCharOffset; int caretXPos; int onTextRunPixelOffset;
+        EditableRun onVisualElement;
+        int onTextRunCharOffset;
+        int caretXPos;
+        int onTextRunPixelOffset;
         public VisualPointInfo(int lineCharIndex)
         {
             this.lineCharIndex = lineCharIndex;

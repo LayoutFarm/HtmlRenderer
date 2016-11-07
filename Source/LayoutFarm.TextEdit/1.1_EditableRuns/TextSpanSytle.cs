@@ -5,11 +5,7 @@ namespace LayoutFarm.Text
 {
     public struct TextSpanStyle
     {
-        public Color FontColor
-        {
-            get;
-            set;
-        }
+        public Color FontColor;
         public RequestFont FontInfo;
         public byte ContentHAlign;
         public static readonly TextSpanStyle Empty = new TextSpanStyle();
