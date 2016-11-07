@@ -83,10 +83,10 @@ namespace LayoutFarm.Text
                 throw new Exception("string must be null or zero length");
             }
         }
-        public override int GetCharWidth(int index)
-        {
-            return GetCharacterWidth(mybuffer[index]);
-        }
+        //public override int GetSingleCharWidth(int index)
+        //{
+        //    return GetCharacterWidth(mybuffer[index]);
+        //}
         char[] singleChars = new char[1];
         int GetCharacterWidth(char c)
         {
@@ -94,7 +94,7 @@ namespace LayoutFarm.Text
             //this not correct
             //use advanced width instead
             singleChars[0] = c;
-            return (int)TextServices.IFonts.MeasureString(singleChars, 0, 1, GetFont()).Width;                         
+            return (int)TextServices.IFonts.MeasureString(singleChars, 0, 1, GetFont()).Width;
         }
         //------------------
         public override int GetRunWidth(int charOffset)

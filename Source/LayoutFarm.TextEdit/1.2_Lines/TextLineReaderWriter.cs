@@ -283,7 +283,13 @@ namespace LayoutFarm.Text
         EditableRun currentTextRun;
         int charIndex = -1;
         int caretXPos = 0;
+        /// <summary>
+        /// character offset of this run, start from start line, this value is reset for every current run
+        /// </summary>
         int rCharOffset = 0;
+        /// <summary>
+        /// pixel offset of this run, start from the begin of this line, this value is reset for every current run
+        /// </summary>
         int rPixelOffset = 0;
         public TextLineReader(EditableTextFlowLayer flowlayer)
         {
@@ -346,7 +352,8 @@ namespace LayoutFarm.Text
 #endif
             if (currentTextRun.PrevTextRun != null)
             {
-                currentTextRun = currentTextRun.PrevTextRun; rCharOffset -= currentTextRun.CharacterCount;
+                currentTextRun = currentTextRun.PrevTextRun;
+                rCharOffset -= currentTextRun.CharacterCount;
                 rPixelOffset -= currentTextRun.Width;
                 charIndex = rCharOffset + currentTextRun.CharacterCount - 1;
                 caretXPos = rPixelOffset + currentTextRun.Width;
@@ -372,7 +379,7 @@ namespace LayoutFarm.Text
                 rPixelOffset += currentTextRun.Width;
                 currentTextRun = nextTextRun;
                 charIndex = rCharOffset;
-                caretXPos = rPixelOffset + currentTextRun.GetCharWidth(0);
+                caretXPos = rPixelOffset + currentTextRun.GetRunWidth(0);
                 return true;
             }
             return false;
@@ -424,6 +431,9 @@ namespace LayoutFarm.Text
                 }
             }
         }
+        /// <summary>
+        /// next char width in this line
+        /// </summary>
         public int NextCharWidth
         {
             get
@@ -436,10 +446,14 @@ namespace LayoutFarm.Text
                     }
                     if (charIndex == rCharOffset + currentTextRun.CharacterCount - 1)
                     {
+                        //-----
+                        //this is on the last of current run
+                        //if we have next run, just get run of next width
+                        //-----
                         EditableRun nextRun = currentTextRun.NextTextRun;
                         if (nextRun != null)
                         {
-                            return nextRun.GetCharWidth(0);
+                            return nextRun.GetRunWidth(0);
                         }
                         else
                         {
@@ -448,7 +462,8 @@ namespace LayoutFarm.Text
                     }
                     else
                     {
-                        return currentTextRun.GetCharWidth(charIndex - rCharOffset + 1);
+                        return currentTextRun.GetRunWidth(charIndex - rCharOffset + 1) -
+                            currentTextRun.GetRunWidth(charIndex - rCharOffset);
                     }
                 }
                 else
@@ -631,38 +646,43 @@ namespace LayoutFarm.Text
                             {
                                 return;
                             }
-                        case 1:
-                            {
-                                if (charIndex + 1 >= rCharOffset + currentTextRun.CharacterCount)
-                                {
-                                    MoveToNextTextRun();
-                                }
-                                else
-                                {
-                                    charIndex++;
-                                    caretXPos += currentTextRun.GetCharWidth(charIndex - rCharOffset);
-                                }
-                            }
-                            break;
-                        case -1:
-                            {
-                                if (charIndex - 1 < rCharOffset)
-                                {
-                                    MoveToPreviousTextRun();
-                                }
-                                else
-                                {
-                                    if (charIndex > -1)
-                                    {
-                                        caretXPos -= currentTextRun.GetCharWidth(charIndex - rCharOffset);
-                                        charIndex--;
-                                    }
-                                }
-                            }
-                            break;
+
+                        //TODO: review here again*** 
+                        //temp comment out
+
+                        //case 1:
+                        //    {
+                        //        if (charIndex + 1 >= rCharOffset + currentTextRun.CharacterCount)
+                        //        {
+                        //            MoveToNextTextRun();
+                        //        }
+                        //        else
+                        //        {
+                        //            charIndex++;
+                        //            //move caret right side for single char
+                        //            caretXPos += currentTextRun.GetSingleCharWidth(charIndex - rCharOffset);
+                        //        }
+                        //    }
+                        //    break;
+                        //case -1:
+                        //    {
+                        //        if (charIndex - 1 < rCharOffset)
+                        //        {
+                        //            MoveToPreviousTextRun();
+                        //        }
+                        //        else
+                        //        {
+                        //            if (charIndex > -1)
+                        //            {  //move caret left side for single char
+                        //                caretXPos -= currentTextRun.GetSingleCharWidth(charIndex - rCharOffset);
+                        //                charIndex--;
+                        //            }
+                        //        }
+                        //    }
+                        //    break;
                         default:
                             {
-                                if (diff > 1)
+                                if (diff > 0)
                                 {
                                     do
                                     {
