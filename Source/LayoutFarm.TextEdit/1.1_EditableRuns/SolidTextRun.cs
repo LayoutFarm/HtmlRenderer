@@ -114,7 +114,7 @@ namespace LayoutFarm.Text
         }
 
         internal static readonly char[] emptyline = new char[] { 'I' };
-        public override void UpdateRunWidth()
+        internal override void UpdateRunWidth()
         {
             Size size;
             if (IsLineBreak)
@@ -359,7 +359,7 @@ namespace LayoutFarm.Text
             }
         }
         //-------------------------------------------
-        public override bool IsInsertable
+        internal override bool IsInsertable
         {
             get
             {
@@ -377,8 +377,10 @@ namespace LayoutFarm.Text
                 return null;
             }
         }
-        public override void InsertAfter(int index, char c)
+        internal override void InsertAfter(int index, char c)
         {
+            //TODO: review here
+            //solid text run should not be editable
             int oldLexLength = mybuffer.Length;
             char[] newBuff = new char[oldLexLength + 1];
             if (index > -1 && index < mybuffer.Length - 1)
