@@ -50,7 +50,9 @@ namespace LayoutFarm.UI.GdiPlus
                 (locale => new NativeTextBreaker(TextBreakKind.Word, locale))
                 );
             //-------------------------------------
-
+            //config encoding
+            WinGdiPlusPlatform.SetFontEncoding(System.Text.Encoding.GetEncoding(874));
+            //-------------------------------------
             WinGdiPlusPlatform.SetFontNotFoundHandler(
                 (fontCollection, fontName, style) =>
                 {
@@ -104,6 +106,10 @@ namespace LayoutFarm.UI.GdiPlus
             out int charFitWidth)
         {
             return WinGdiTextService.MeasureString(buff, startAt, len, font, maxWidth, out charFit, out charFitWidth);
+        }
+        public void CalculateGlyphAdvancePos(char[] str, int startAt, int len, RequestFont font, int[] glyphXAdvances)
+        {
+            WinGdiTextService.CalculateGlyphAdvancePos(str, startAt, len, font, glyphXAdvances);
         }
         public void Dispose()
         {

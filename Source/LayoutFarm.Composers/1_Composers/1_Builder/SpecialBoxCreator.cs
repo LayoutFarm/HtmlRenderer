@@ -95,7 +95,7 @@ namespace LayoutFarm.HtmlBoxes
         static readonly char[] discItem = new[] { '•' };
         static readonly char[] circleItem = new[] { 'o' };
         static readonly char[] squareItem = new[] { '♠' };
-        static Composers.ContentTextSplitter splitter = new Composers.ContentTextSplitter();
+        static Composers.HtmlContentTextSplitter splitter = new Composers.HtmlContentTextSplitter();
         public static CssBox CreateListItemBox(CssBox parent, HtmlElement childElement)
         {
             var spec = childElement.Spec;
@@ -147,9 +147,9 @@ namespace LayoutFarm.HtmlBoxes
                 }
                 //--------------------------------------------------------------- 
                 CssBox.UnsafeSetTextBuffer(itemBulletBox, text_content);
-                List<CssRun> runlist;
+                List<CssRun> runlist = new List<CssRun>();
                 bool hasSomeCharacter;
-                splitter.ParseWordContent(text_content, spec, itemBulletBox.IsBlock, out runlist, out hasSomeCharacter);
+                splitter.ParseWordContent(text_content, spec, itemBulletBox.IsBlock, runlist, out hasSomeCharacter);
                 RunListHelper.AddRunList(itemBulletBox, spec, runlist, text_content, false);
             }
             return newBox;

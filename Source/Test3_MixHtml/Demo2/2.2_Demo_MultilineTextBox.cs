@@ -1,5 +1,5 @@
 ﻿//Apache2, 2014-2016, WinterDev
-
+using LayoutFarm.CustomWidgets;
 namespace LayoutFarm
 {
     [DemoNote("2.2 MultiLineTextBox")]
@@ -15,7 +15,7 @@ namespace LayoutFarm
             var textbox2 = new LayoutFarm.CustomWidgets.TextBox(400, 500, true);
             textbox2.SetLocation(20, 120);
             viewport.AddContent(textbox2);
-            var textSplitter = new Composers.ContentTextSplitter();
+            var textSplitter = new ContentTextSplitter();
             textbox2.TextSplitter = textSplitter;
             textbox2.Text = "Hello World!";
         }

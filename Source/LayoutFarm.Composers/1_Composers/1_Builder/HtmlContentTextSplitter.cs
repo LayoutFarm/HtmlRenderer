@@ -6,24 +6,19 @@ using LayoutFarm.HtmlBoxes;
 using PixelFarm.Drawing.Text;
 namespace LayoutFarm.Composers
 {
-    public struct TextSplitBound
-    {
-        public readonly int startIndex;
-        public readonly int length;
-        public TextSplitBound(int startIndex, int length)
-        {
-            this.startIndex = startIndex;
-            this.length = length;
-        }
-    }
 
-    public class ContentTextSplitter
-    {
-        //configure icu's locale here 
-        string icuLocal = "th-TH";
-        Stack<List<CssRun>> myRunPool = new Stack<List<CssRun>>(3);
 
-        public ContentTextSplitter()
+    /// <summary>
+    /// parse html text content, 
+    /// not include some consecutive text 
+    /// that need more special parser
+    /// </summary>
+    class HtmlContentTextSplitter
+    {
+
+
+
+        public HtmlContentTextSplitter()
         {
 
         }
@@ -33,89 +28,35 @@ namespace LayoutFarm.Composers
             Whitespace,
             CharacterCollecting
         }
+        public TextBreaker TextBreaker { get; set; }
 
-        List<CssRun> GetStockRunList()
-        {
-            if (myRunPool.Count > 0)
-            {
-                return myRunPool.Pop();
-            }
-            else
-            {
-                return new List<CssRun>(10);
-            }
-        }
-        void StoreBackNotUse(List<CssRun> tmpRuns)
-        {
-            tmpRuns.Clear();
-            myRunPool.Push(tmpRuns);
-        }
 
-        void AddToRunList(char[] textBuffer, List<CssRun> runlist, int startIndex, int appendLength, ref bool needICUSplitter)
+        void CreateTextRuns(char[] textBuffer, List<CssRun> runlist, int startIndex, int appendLength)
         {
-            if (needICUSplitter)
+
+            //this may produce more than 1 css text run
+            if (TextBreaker != null)
             {
-                var textBreaker = RootGraphic.GetTextBreaker(icuLocal);
-                textBreaker.DoBreak(textBuffer, startIndex, appendLength, bounds =>
+                //use text break to parse more
+                TextBreaker.DoBreak(textBuffer, startIndex, appendLength, bounds =>
                 {
-                    //iterate new split
-
+                    //iterate new split 
                     runlist.Add(
                         CssTextRun.CreateTextRun(startIndex + bounds.startIndex, bounds.length));
-
-
                 });
-                ////use icu splitter 
-                ////copy text buffer to icu *** 
-                //var parts = Icu.BreakIterator.GetSplitBoundIter(Icu.BreakIterator.UBreakIteratorType.WORD,
-                //    icuLocal, textBuffer, startIndex, appendLength);
-                ////iterate new split
-                //foreach (var bound in parts)
-                //{
-                //    runlist.Add(
-                //        CssTextRun.CreateTextRun(startIndex + bound.startIndex, bound.length));
-                //}
-
-                needICUSplitter = false;//reset
             }
             else
             {
                 runlist.Add(CssTextRun.CreateTextRun(startIndex, appendLength));
             }
-        }
-        public IEnumerable<TextSplitBound> ParseWordContent(char[] textBuffer, int startIndex, int appendLength)
-        {
 
-            int s_index = startIndex;
-            var textBreaker = RootGraphic.GetTextBreaker(icuLocal);
-            List<SplitBound> runlist = new List<SplitBound>();
-            textBreaker.DoBreak(textBuffer, startIndex, appendLength, bounds =>
-            {
-                //iterate new split
-                runlist.Add(bounds);
-            });
-
-            foreach (var splitBound in runlist)
-            {
-                //need consecutive bound
-                if (splitBound.startIndex != s_index)
-                {
-                    yield return new TextSplitBound(s_index, splitBound.startIndex - s_index);
-                    s_index = splitBound.startIndex;
-                }
-                s_index += splitBound.length;
-                yield return new TextSplitBound(splitBound.startIndex, splitBound.length);
-            }
-            if (s_index < textBuffer.Length)
-            {
-                yield return new TextSplitBound(s_index, textBuffer.Length - s_index);
-            }
         }
+
         internal void ParseWordContent(
             char[] textBuffer,
             BoxSpec spec,
             bool isBlock,
-            out List<CssRun> runlistOutput,
+            List<CssRun> runlistOutput,
             out bool hasSomeCharacter)
         {
             bool preserverLine = false;
@@ -137,7 +78,7 @@ namespace LayoutFarm.Composers
             //---------------------------------------
             //1. check if has some text 
             //--------------------------------------
-            List<CssRun> runlist = GetStockRunList();
+
             hasSomeCharacter = false;
             //--------------------------------------
             //just parse and preserve all whitespace
@@ -149,7 +90,9 @@ namespace LayoutFarm.Composers
             int appendLength = 0;
             //--------------------------------------  
 
-            bool needICUSplitter = false;
+            //some text
+            bool needFinerTextParser = false;
+
             for (int i = 0; i < buffLength; ++i)
             {
                 char c0 = textBuffer[i];
@@ -169,7 +112,7 @@ namespace LayoutFarm.Composers
                                 {
                                     if (preserverLine)
                                     {
-                                        runlist.Add(CssTextRun.CreateLineBreak());
+                                        runlistOutput.Add(CssTextRun.CreateLineBreak());
                                         appendLength = 0; //clear append length 
                                         continue;
                                     }
@@ -185,12 +128,12 @@ namespace LayoutFarm.Composers
                                 startIndex = i;
                                 appendLength = 1;
                                 //add single token
-                                runlist.Add(CssTextRun.CreateTextRun(startIndex, appendLength));
+                                runlistOutput.Add(CssTextRun.CreateTextRun(startIndex, appendLength));
                             }
                             else
                             {
                                 //character  
-                                if (c0 > '~') { needICUSplitter = true; }
+                                if (c0 > '~') { needFinerTextParser = true; }
 
                                 parsingState = WordParsingState.CharacterCollecting;
                                 startIndex = i;
@@ -206,7 +149,7 @@ namespace LayoutFarm.Composers
                                 {
                                     if (preserverLine)
                                     {
-                                        runlist.Add(CssTextRun.CreateLineBreak());
+                                        runlistOutput.Add(CssTextRun.CreateLineBreak());
                                         appendLength = 0; //clear append length 
                                         continue;
                                     }
@@ -220,18 +163,18 @@ namespace LayoutFarm.Composers
                             }
                             else
                             {
-                                runlist.Add(CssTextRun.CreateWhitespace(preserveWhiteSpace ? appendLength : 1));
+                                runlistOutput.Add(CssTextRun.CreateWhitespace(preserveWhiteSpace ? appendLength : 1));
                                 if (char.IsPunctuation(c0))
                                 {
                                     parsingState = WordParsingState.Init;
                                     startIndex = i;
                                     appendLength = 1;
                                     //add single token
-                                    runlist.Add(CssTextRun.CreateTextRun(startIndex, appendLength));
+                                    runlistOutput.Add(CssTextRun.CreateTextRun(startIndex, appendLength));
                                 }
                                 else
                                 {
-                                    if (c0 > '~') { needICUSplitter = true; }
+                                    if (c0 > '~') { needFinerTextParser = true; }
 
                                     parsingState = WordParsingState.CharacterCollecting;
                                     startIndex = i;//start collect
@@ -246,13 +189,15 @@ namespace LayoutFarm.Composers
                             if ((isWhiteSpace = char.IsWhiteSpace(c0)) || char.IsPunctuation(c0))
                             {
                                 //flush collecting token  
-                                if (needICUSplitter)
+                                if (needFinerTextParser && TextBreaker != null)
                                 {
-                                    AddToRunList(textBuffer, runlist, startIndex, appendLength, ref needICUSplitter);
+
+                                    CreateTextRuns(textBuffer, runlistOutput, startIndex, appendLength);
+                                    needFinerTextParser = false;//reset                                     
                                 }
                                 else
                                 {
-                                    runlist.Add(CssTextRun.CreateTextRun(startIndex, appendLength));
+                                    runlistOutput.Add(CssTextRun.CreateTextRun(startIndex, appendLength));
                                 }
 
                                 hasSomeCharacter = true;
@@ -264,7 +209,7 @@ namespace LayoutFarm.Composers
                                     {
                                         if (preserverLine)
                                         {
-                                            runlist.Add(CssTextRun.CreateLineBreak());
+                                            runlistOutput.Add(CssTextRun.CreateLineBreak());
                                             appendLength = 0; //clear append length 
                                             continue;
                                         }
@@ -274,13 +219,13 @@ namespace LayoutFarm.Composers
                                 else
                                 {
                                     parsingState = WordParsingState.Init;
-                                    runlist.Add(CssTextRun.CreateTextRun(startIndex, appendLength));
+                                    runlistOutput.Add(CssTextRun.CreateTextRun(startIndex, appendLength));
                                 }
                                 //---------------------------------------- 
                             }
                             else
                             {
-                                if (c0 > '~') { needICUSplitter = true; }
+                                if (c0 > '~') { needFinerTextParser = true; }
 
                                 if (appendLength == 0)
                                 {
@@ -303,26 +248,27 @@ namespace LayoutFarm.Composers
                             //last with whitespace
                             if (preserveWhiteSpace)
                             {
-                                runlist.Add(CssTextRun.CreateWhitespace(appendLength));
+                                runlistOutput.Add(CssTextRun.CreateWhitespace(appendLength));
                             }
                             else
                             {
-                                if (!isblock || (runlist.Count > 0))
+                                if (!isblock || (runlistOutput.Count > 0))
                                 {
-                                    runlist.Add(CssTextRun.CreateWhitespace(1));
+                                    runlistOutput.Add(CssTextRun.CreateWhitespace(1));
                                 }
                             }
                         }
                         break;
                     case WordParsingState.CharacterCollecting:
                         {
-                            if (needICUSplitter)
+                            if (needFinerTextParser && TextBreaker != null)
                             {
-                                AddToRunList(textBuffer, runlist, startIndex, appendLength, ref needICUSplitter);
+                                CreateTextRuns(textBuffer, runlistOutput, startIndex, appendLength);
+                                needFinerTextParser = false;//reset
                             }
                             else
                             {
-                                runlist.Add(CssTextRun.CreateTextRun(startIndex, appendLength));
+                                runlistOutput.Add(CssTextRun.CreateTextRun(startIndex, appendLength));
                             }
 
                             hasSomeCharacter = true;
@@ -330,16 +276,21 @@ namespace LayoutFarm.Composers
                         break;
                 }
             }
-
-            if (runlist.Count > 0)
-            {
-                runlistOutput = runlist;
-            }
-            else
-            {
-                StoreBackNotUse(runlist);
-                runlistOutput = null;
-            }
         }
     }
+
+
+    public struct TextSplitBound
+    {
+        public readonly int startIndex;
+        public readonly int length;
+        public TextSplitBound(int startIndex, int length)
+        {
+            this.startIndex = startIndex;
+            this.length = length;
+        }
+    }
+
+
+   
 }

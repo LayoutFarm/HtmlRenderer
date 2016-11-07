@@ -766,7 +766,7 @@ namespace LayoutFarm.Text
                 int thisTextRunWidth = t.Width;
                 if (accTextRunWidth + thisTextRunWidth > caretX)
                 {
-                    VisualLocationInfo localPointInfo = t.GetCharacterFromPixelOffset(caretX - thisTextRunWidth);
+                    EditableRunCharLocation localPointInfo = t.GetCharacterFromPixelOffset(caretX - thisTextRunWidth);
                     EditableVisualPointInfo pointInfo =
                         new EditableVisualPointInfo(this, accTextRunCharCount + localPointInfo.charIndex);
                     pointInfo.SetAdditionVisualInfo(t, accTextRunCharCount, caretX, accTextRunWidth);

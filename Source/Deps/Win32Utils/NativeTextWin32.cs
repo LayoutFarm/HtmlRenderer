@@ -8,9 +8,7 @@ namespace Win32
     class NativeTextWin32
     {
 
-        const string GDI32 = "gdi32.dll";
-
-
+        const string GDI32 = "gdi32.dll"; 
         [DllImport(GDI32, CharSet = CharSet.Unicode)]
         public static extern bool TextOut(IntPtr hdc, int nXStart, int nYStart,
             [MarshalAs(UnmanagedType.LPWStr)]string charBuffer, int cbstring);
@@ -48,8 +46,8 @@ namespace Win32
         /// <param name="buffer">This buffer must be of dimension c. On successful return, contains an array of glyph indices corresponding to the characters in the string</param>
         /// <param name="fl">(0 | GGI_MARK_NONEXISTING_GLYPHS) Specifies how glyphs should be handled if they are not supported. This parameter can be the following value.</param>
         /// <returns>If the function succeeds, it returns the number of bytes (for the ANSI function) or WORDs (for the Unicode function) converted.</returns>
-        [DllImport(GDI32)]
-        public static unsafe extern int GetGlyphIndices(IntPtr hdc, string text, int c, char* buffer, int fl);
+        [DllImport(GDI32, CharSet = CharSet.Unicode)]
+        public static extern unsafe int GetGlyphIndices(IntPtr hdc, char* text, int c, ushort* glyIndexBuffer, int fl);
 
         [DllImport(GDI32)]
         public static unsafe extern int GetCharABCWidths(IntPtr hdc, uint uFirstChar, uint uLastChar, void* lpabc);
@@ -89,21 +87,21 @@ namespace Win32
         }
         [DllImport(GDI32, CharSet = CharSet.Unicode)]
         public static unsafe extern int
-            GetCharacterPlacement(IntPtr hdc, string str, int nCount,
-            int nMaxExtent, void* lpResults, int dwFlags);
+            GetCharacterPlacement(IntPtr hdc, char* str, int nCount,
+            int nMaxExtent, ref GCP_RESULTS lpResults, int dwFlags);
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
         public unsafe struct GCP_RESULTS
         {
-            int lStructSize;
-            char* lpOutString;
-            uint* lpOrder;
-            int* lpDx;
-            int* lpCaretPos;
-            char* lpClass;
-            char* lpGlyphs;
-            uint nGlyphs;
-            int nMaxFit;
+            public int lStructSize;
+            public char* lpOutString;
+            public uint* lpOrder;
+            public int* lpDx;
+            public int* lpCaretPos;
+            public char* lpClass;
+            public char* lpGlyphs;
+            public uint nGlyphs;
+            public int nMaxFit;
         }
         //            DWORD GetCharacterPlacement(
         //  _In_    HDC           hdc,

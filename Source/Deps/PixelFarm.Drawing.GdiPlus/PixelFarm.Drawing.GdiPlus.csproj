@@ -42,9 +42,6 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Win32Utils\BasicGdi32FontHelper.cs">
-      <Link>Win32Utils\BasicGdi32FontHelper.cs</Link>
-    </Compile>
     <Compile Include="..\Win32Utils\MyWin32.cs">
       <Link>Win32Utils\MyWin32.cs</Link>
     </Compile>
