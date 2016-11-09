@@ -1,20 +1,53 @@
 ﻿//MIT, 2015-2016, WinterDev
 
 using System;
+using System.Reflection;
 using Espresso;
 namespace LayoutFarm.Scripting
 {
     class MyJsTypeDefinitionBuilder : JsTypeDefinitionBuilder
     {
         //we can customize how to build jstype on specific type 
-        Type typeOfJsTypeAttr = typeof(JsTypeAttribute);
-        Type typeOfJsMethodAttr = typeof(JsMethodAttribute);
-        Type typeOfJsPropertyAttr = typeof(JsPropertyAttribute);
+        static Type typeOfJsTypeAttr = typeof(JsTypeAttribute);
+        static Type typeOfJsMethodAttr = typeof(JsMethodAttribute);
+        static Type typeOfJsPropertyAttr = typeof(JsPropertyAttribute);
         public MyJsTypeDefinitionBuilder()
         {
             //use built in attr
         }
 
+        static JsMethodAttribute FindJsMethodAttribute(MethodInfo met)
+        {
+            var customAttrs = met.GetCustomAttributes(typeOfJsMethodAttr, false);
+            if (customAttrs != null && customAttrs.Length > 0)
+            {
+                for (int i = customAttrs.Length - 1; i >= 0; --i)
+                {
+                    var attr = customAttrs[i] as JsMethodAttribute;
+                    if (attr != null)
+                    {
+                        return attr;
+                    }
+                }
+            }
+            return null;
+        }
+        static JsPropertyAttribute FindJsPropertyAttribute(PropertyInfo propertyInfo)
+        {
+            var customAttrs = propertyInfo.GetCustomAttributes(typeOfJsMethodAttr, false);
+            if (customAttrs != null && customAttrs.Length > 0)
+            {
+                for (int i = customAttrs.Length - 1; i >= 0; --i)
+                {
+                    var attr = customAttrs[i] as JsPropertyAttribute;
+                    if (attr != null)
+                    {
+                        return attr;
+                    }
+                }
+            }
+            return null;
+        }
         JsTypeDefinition BuildTypeDefinition(Type t, JsTypeDefinition typedefinition)
         {
             var methods = t.GetMethods(System.Reflection.BindingFlags.Instance |
@@ -25,11 +58,10 @@ namespace LayoutFarm.Scripting
                 {
                     continue;
                 }
-                var customAttrs = met.GetCustomAttributes(typeOfJsMethodAttr, false);
-                if (customAttrs != null && customAttrs.Length > 0)
+                JsMethodAttribute foundJsMetAttr = FindJsMethodAttribute(met);
+                if (foundJsMetAttr != null)
                 {
-                    var attr = customAttrs[0] as JsMethodAttribute;
-                    typedefinition.AddMember(new JsMethodDefinition(attr.Name ?? GetProperMemberName(met), met));
+                    typedefinition.AddMember(new JsMethodDefinition(foundJsMetAttr.Name ?? GetProperMemberName(met), met));
                 }
                 else
                 {
@@ -40,16 +72,16 @@ namespace LayoutFarm.Scripting
                 | System.Reflection.BindingFlags.Public);
             foreach (var property in properties)
             {
-                var customAttrs = property.GetCustomAttributes(typeOfJsPropertyAttr, false);
-                if (customAttrs != null && customAttrs.Length > 0)
+                JsPropertyAttribute foundJsPropAttr = FindJsPropertyAttribute(property);
+                if (foundJsPropAttr != null)
                 {
-                    var attr = customAttrs[0] as JsPropertyAttribute;
-                    typedefinition.AddMember(new JsPropertyDefinition(attr.Name ?? GetProperMemberName(property), property));
+                    typedefinition.AddMember(new JsPropertyDefinition(foundJsPropAttr.Name ?? GetProperMemberName(property), property));
                 }
                 else
                 {
                     typedefinition.AddMember(new JsPropertyDefinition(property.Name ?? GetProperMemberName(property), property));
                 }
+
             }
             return typedefinition;
         }
@@ -70,38 +102,8 @@ namespace LayoutFarm.Scripting
                 BuildTypeDefinition(jsWebInterfaces[jsWebInterfaces.Length - 1], typedefinition);
                 return typedefinition;
             }
-            //-----------
-            //find member that has JsPropertyAttribute or JsMethodAttribute
+            return BuildTypeDefinition(t, typedefinition);
 
-            //only instance /public method /prop***
-            var methods = t.GetMethods(System.Reflection.BindingFlags.Instance |
-                System.Reflection.BindingFlags.Public);
-            foreach (var met in methods)
-            {
-                if (met.IsSpecialName)
-                {
-                    continue;
-                }
-                var customAttrs = met.GetCustomAttributes(typeOfJsMethodAttr, false);
-                if (customAttrs != null && customAttrs.Length > 0)
-                {
-                    var attr = customAttrs[0] as JsMethodAttribute;
-                    typedefinition.AddMember(new JsMethodDefinition(attr.Name ?? GetProperMemberName(met), met));
-                }
-            }
-            var properties = t.GetProperties(System.Reflection.BindingFlags.Instance
-                | System.Reflection.BindingFlags.Public);
-            foreach (var property in properties)
-            {
-                var customAttrs = property.GetCustomAttributes(typeOfJsPropertyAttr, false);
-                if (customAttrs != null && customAttrs.Length > 0)
-                {
-                    var attr = customAttrs[0] as JsPropertyAttribute;
-                    typedefinition.AddMember(new JsPropertyDefinition(attr.Name ?? GetProperMemberName(property), property));
-                }
-            }
-
-            return typedefinition;
         }
         static string GetProperMemberName(System.Reflection.MemberInfo mbInfo)
         {
