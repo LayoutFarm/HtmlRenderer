@@ -27,7 +27,7 @@
 
 using System;
 using System.Collections;
-using System.Collections.Generic; 
+using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using Espresso.Extension;
@@ -36,7 +36,7 @@ namespace Espresso
 {
 
     public partial class JsContext : IDisposable
-    { 
+    {
 
         readonly int _id;
         readonly JsEngine _engine;
@@ -1314,21 +1314,9 @@ namespace Espresso
         public JsTypeDefinition GetJsTypeDefinition<T>(T t)
             where T : class
         {
-            Type type = typeof(T);
-            JsTypeDefinition found;
-            if (this.mappingJsTypeDefinition.TryGetValue(type, out found))
-                return found;
-
-            //if not found
-            //just create it
-            found = this.jsTypeDefBuilder.BuildTypeDefinition(type);
-            this.mappingJsTypeDefinition.Add(type, found);
-            this.RegisterTypeDefinition(found);
-
-            return found;
+            return GetJsTypeDefinition2(typeof(T));
         }
-
-
+         
         public JsTypeDefinition GetJsTypeDefinition2(Type type)
         {
 
