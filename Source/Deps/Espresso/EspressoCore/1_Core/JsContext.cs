@@ -1,4 +1,4 @@
-﻿//2015 MIT, WinterDev
+﻿//MIT, 2015-2016, WinterDev, EngineKit, brezza92
 
 // This file is part of the VroomJs library.
 //
@@ -27,7 +27,7 @@
 
 using System;
 using System.Collections;
-using System.Collections.Generic;
+using System.Collections.Generic; 
 using System.Reflection;
 using System.Runtime.InteropServices;
 using Espresso.Extension;
@@ -36,7 +36,7 @@ namespace Espresso
 {
 
     public partial class JsContext : IDisposable
-    {
+    { 
 
         readonly int _id;
         readonly JsEngine _engine;
@@ -1305,29 +1305,22 @@ namespace Espresso
         public void SetVariableAutoWrap<T>(string name, T result)
              where T : class
         {
-            var jsTypeDef = this.GetJsTypeDefinition<T>(result);
+            Type actualType = result.GetType();
+            var jsTypeDef = this.GetJsTypeDefinition(actualType);
             var proxy = this.CreateWrapper(result, jsTypeDef);
             this.SetVariable(name, proxy);
-        }
-        //------------------------------------------------------------------
-
-        public JsTypeDefinition GetJsTypeDefinition<T>(T t)
-            where T : class
-        {
-            return GetJsTypeDefinition2(typeof(T));
-        }
-         
-        public JsTypeDefinition GetJsTypeDefinition2(Type type)
+        } 
+        public JsTypeDefinition GetJsTypeDefinition(Type actualType)
         {
 
             JsTypeDefinition found;
-            if (this.mappingJsTypeDefinition.TryGetValue(type, out found))
+            if (this.mappingJsTypeDefinition.TryGetValue(actualType, out found))
                 return found;
 
             //if not found
             //just create it
-            found = this.jsTypeDefBuilder.BuildTypeDefinition(type);
-            this.mappingJsTypeDefinition.Add(type, found);
+            found = this.jsTypeDefBuilder.BuildTypeDefinition(actualType);
+            this.mappingJsTypeDefinition.Add(actualType, found);
             this.RegisterTypeDefinition(found);
 
             return found;

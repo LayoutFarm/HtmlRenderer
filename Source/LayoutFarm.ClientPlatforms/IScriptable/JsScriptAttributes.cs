@@ -3,7 +3,7 @@
 using System;
 namespace LayoutFarm.Scripting
 {
-    [AttributeUsage(AttributeTargets.Class)]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface)]
     public sealed class JsTypeAttribute : Attribute
     {
         public JsTypeAttribute()

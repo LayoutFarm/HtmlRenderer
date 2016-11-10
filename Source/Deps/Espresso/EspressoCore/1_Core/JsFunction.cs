@@ -1,4 +1,4 @@
-﻿//2015 MIT, WinterDev
+﻿//MIT, 2015-2016, WinterDev, EngineKit, brezza92
 //2013 MIT, Federico Di Gregorio <fog@initd.org>
 
 using System;

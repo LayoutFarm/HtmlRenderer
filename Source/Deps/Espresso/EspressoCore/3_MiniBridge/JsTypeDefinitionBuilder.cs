@@ -1,4 +1,4 @@
-﻿//MIT, 2015-2016, WinterDev
+﻿//MIT, 2015-2016, WinterDev, EngineKit, brezza92
 
 using System;
 using System.Collections.Generic;
