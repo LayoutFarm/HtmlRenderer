@@ -40,4 +40,22 @@ namespace LayoutFarm.Scripting
         }
         public string Name { get; private set; }
     }
+
+
+    namespace Internal
+    {
+        //this for internal used only
+        public class JsExtendedMapAttribute : Attribute
+        {
+            public JsExtendedMapAttribute(int scriptMemberId)
+            {
+                this.MemberId = scriptMemberId;
+            }
+            public int MemberId
+            {
+                get;
+                private set;
+            }
+        }
+    }
 }

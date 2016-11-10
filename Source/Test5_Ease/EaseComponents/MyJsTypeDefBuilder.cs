@@ -87,6 +87,10 @@ namespace LayoutFarm.Scripting
         }
         protected override JsTypeDefinition OnBuildRequest(Type t)
         {
+            //********************
+            //this is sample only
+            //you can rewrite this yourself
+            //********************
             JsTypeDefinition typedefinition = new JsTypeDefinition(t.Name);
             if (t.IsInterface)
             {
