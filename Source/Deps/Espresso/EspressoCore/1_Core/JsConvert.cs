@@ -322,7 +322,7 @@ namespace Espresso
             // reference counting.  
             //check 
 
-            var jsTypeDefinition = _context.GetJsTypeDefinition2(type);
+            var jsTypeDefinition = _context.GetJsTypeDefinition(type);
             INativeRef prox2 = _context.CreateWrapper(obj, jsTypeDefinition);
             //int keepAliveId2 = _context.KeepAliveAdd(prox2);
             return new JsValue { Type = JsValueType.JsTypeWrap, Ptr = prox2.UnmanagedPtr, Index = prox2.ManagedIndex };
@@ -410,7 +410,7 @@ namespace Espresso
             // reference counting.  
             //check 
 
-            var jsTypeDefinition = _context.GetJsTypeDefinition2(type);
+            var jsTypeDefinition = _context.GetJsTypeDefinition(type);
             INativeRef prox2 = _context.CreateWrapper(obj, jsTypeDefinition);
             //int keepAliveId2 = _context.KeepAliveAdd(prox2);
             return new JsValue { Type = JsValueType.JsTypeWrap, Ptr = prox2.UnmanagedPtr, Index = prox2.ManagedIndex };

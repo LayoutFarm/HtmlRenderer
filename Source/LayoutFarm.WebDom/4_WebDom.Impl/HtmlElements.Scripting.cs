@@ -5,17 +5,16 @@ namespace LayoutFarm.WebDom.Impl
 {
     partial class HtmlElement : IHtmlElement
     {
-        [JsMethod]
+
         void IHtmlElement.setAttribute(string attrName, string value)
         {
             this.SetAttribute(attrName, value);
         }
-        [JsMethod]
+
         void IHtmlElement.appendChild(INode childNode)
         {
             this.AddChild((DomNode)childNode);
         }
-        [JsMethod]
         void IHtmlElement.attachEventListener(string eventName, HtmlEventHandler handler)
         {
             //todo : reimplement event mapping here
@@ -40,26 +39,26 @@ namespace LayoutFarm.WebDom.Impl
             {
             }
         }
-        [JsMethod]
+
         void IHtmlElement.detachEventListener(string eventName, HtmlEventHandler handler)
         {
         }
-        [JsMethod]
+
         void IHtmlElement.removeChild(DomNode domNode)
         {
             this.RemoveChild(domNode);
         }
-        [JsMethod]
+
         void IHtmlElement.getGlobalLocation(out int x, out int y)
         {
             this.GetGlobalLocation(out x, out y);
         }
-        [JsMethod]
+
         void IHtmlElement.clear()
         {
             this.ClearAllElements();
         }
-        [JsProperty]
+
         string IHtmlElement.innerHTML
         {
             get
@@ -71,7 +70,7 @@ namespace LayoutFarm.WebDom.Impl
                 this.SetInnerHtml(value);
             }
         }
-        [JsProperty]
+
         string IHtmlElement.id
         {
             get { return this.AttrElementId; }
