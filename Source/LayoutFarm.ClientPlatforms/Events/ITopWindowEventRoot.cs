@@ -8,10 +8,10 @@ namespace LayoutFarm.UI
         MouseCursorStyle MouseCursorStyle { get; }
 
 
-        void RootMouseDown(int x, int y, int button);
-        void RootMouseUp(int x, int y, int button);
+        void RootMouseDown(int x, int y, UIMouseButtons button);
+        void RootMouseUp(int x, int y, UIMouseButtons button);
         void RootMouseWheel(int delta);
-        void RootMouseMove(int x, int y, int button);
+        void RootMouseMove(int x, int y, UIMouseButtons button);
         void RootGotFocus();
         void RootLostFocus();
         void RootKeyPress(char c);

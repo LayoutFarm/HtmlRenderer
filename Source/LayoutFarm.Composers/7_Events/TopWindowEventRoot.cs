@@ -70,14 +70,14 @@ namespace LayoutFarm
         {
             get { return this.mouseCursorStyle; }
         }
-        void ITopWindowEventRoot.RootMouseDown(int x, int y, int button)
+        void ITopWindowEventRoot.RootMouseDown(int x, int y, UIMouseButtons button)
         {
             this.prevLogicalMouseX = x;
             this.prevLogicalMouseY = y;
             this.isMouseDown = true;
             this.isDragging = false;
             UIMouseEventArgs e = GetFreeMouseEvent();
-            SetUIMouseEventArgsInfo(e, x, y, 0, button);
+            SetUIMouseEventArgsInfo(e, x, y, button, 0);
             e.PreviousMouseDown = this.latestMouseDown;
             iTopBoxEventPortal.PortalMouseDown(e);
             this.currentMouseActiveElement = this.latestMouseDown = e.CurrentContextElement;
@@ -105,14 +105,14 @@ namespace LayoutFarm
             this.mouseCursorStyle = e.MouseCursorStyle;
             ReleaseMouseEvent(e);
         }
-        void ITopWindowEventRoot.RootMouseUp(int x, int y, int button)
+        void ITopWindowEventRoot.RootMouseUp(int x, int y, UIMouseButtons button)
         {
             int xdiff = x - prevLogicalMouseX;
             int ydiff = y - prevLogicalMouseY;
             this.prevLogicalMouseX = x;
             this.prevLogicalMouseY = y;
             UIMouseEventArgs e = GetFreeMouseEvent();
-            SetUIMouseEventArgsInfo(e, x, y, 0, button);
+            SetUIMouseEventArgsInfo(e, x, y, button, 0);
             e.SetDiff(xdiff, ydiff);
             //----------------------------------
             e.IsDragging = isDragging;
@@ -155,7 +155,7 @@ namespace LayoutFarm
             this.mouseCursorStyle = e.MouseCursorStyle;
             ReleaseMouseEvent(e);
         }
-        void ITopWindowEventRoot.RootMouseMove(int x, int y, int button)
+        void ITopWindowEventRoot.RootMouseMove(int x, int y, UIMouseButtons button)
         {
             int xdiff = x - prevLogicalMouseX;
             int ydiff = y - prevLogicalMouseY;
@@ -171,7 +171,7 @@ namespace LayoutFarm
             hoverMonitoringTask.Reset();
             hoverMonitoringTask.Enabled = true;
             UIMouseEventArgs e = GetFreeMouseEvent();
-            SetUIMouseEventArgsInfo(e, x, y, 0, button);
+            SetUIMouseEventArgsInfo(e, x, y, button, 0);
             e.SetDiff(xdiff, ydiff);
             //-------------------------------------------------------
             e.IsDragging = this.isDragging = this.isMouseDown;
@@ -314,7 +314,7 @@ namespace LayoutFarm
             keyEventArgs.SetEventInfo(keydata, lastKeydownWithShift, lastKeydownWithAlt, lastKeydownWithControl);
         }
 
-        void SetUIMouseEventArgsInfo(UIMouseEventArgs mouseEventArg, int x, int y, int button, int delta)
+        void SetUIMouseEventArgsInfo(UIMouseEventArgs mouseEventArg, int x, int y, UIMouseButtons button, int delta)
         {
             mouseEventArg.SetEventInfo(
                 x, y,
