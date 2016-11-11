@@ -46,7 +46,8 @@ namespace PixelFarm.Drawing.WinGdi
             int verticalPageNum,
             int left, int top,
             int width,
-            int height)
+            int height,
+            RequestFont initFont)
         {
 
 
@@ -64,8 +65,13 @@ namespace PixelFarm.Drawing.WinGdi
             currentClipRect = new System.Drawing.Rectangle(0, 0, width, height);
 
             CreateGraphicsFromNativeHdc(width, height);
-            this.gx = System.Drawing.Graphics.FromHdc(win32MemDc.DC);
-            //-------------------------------------------------------     
+
+            //--------------
+            //set default font and default text color
+            this.CurrentFont = initFont;
+            this.CurrentTextColor = Color.Black;
+            //--------------
+            this.gx = System.Drawing.Graphics.FromHdc(win32MemDc.DC);             
             //managed object
             internalPen = new System.Drawing.Pen(System.Drawing.Color.Black);
             internalSolidBrush = new System.Drawing.SolidBrush(System.Drawing.Color.Black);
@@ -77,15 +83,8 @@ namespace PixelFarm.Drawing.WinGdi
             win32MemDc = new NativeWin32MemoryDc(width, height, true);
             win32MemDc.PatBlt(NativeWin32MemoryDc.PatBltColor.White);
             win32MemDc.SetBackTransparent(true);
-            win32MemDc.SetClipRect(0, 0, width, height);
-
-            this.originalHdc = win32MemDc.DC;
-            //--------------
-            //set default font and default text color
-            this.CurrentFont = new RequestFont("tahoma", 14);
-            this.CurrentTextColor = Color.Black;
-            //--------------
-
+            win32MemDc.SetClipRect(0, 0, width, height); 
+            this.originalHdc = win32MemDc.DC; 
         }
 #if DEBUG
         public override string ToString()
