@@ -16,15 +16,15 @@ namespace LayoutFarm.CustomWidgets
     {
         //configure icu's locale here 
         string icuLocal = "th-TH";
+        TextBreaker textBreaker;
         public ContentTextSplitter()
         {
-
+            this.textBreaker = RootGraphic.GetTextBreaker(icuLocal);
         }
         public IEnumerable<TextSplitBound> ParseWordContent(char[] textBuffer, int startIndex, int appendLength)
         {
 
             int s_index = startIndex;
-            TextBreaker textBreaker = RootGraphic.GetTextBreaker(icuLocal);
             List<SplitBound> runlist = new List<SplitBound>();
             textBreaker.DoBreak(textBuffer, startIndex, appendLength, bounds =>
             {

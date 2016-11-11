@@ -1,4 +1,5 @@
 ﻿//MIT, 2015-2016, WinterDev   
+using LayoutFarm.Scripting;
 
 namespace LayoutFarm.WebDom
 {
@@ -6,6 +7,7 @@ namespace LayoutFarm.WebDom
     {
     }
 
+    [JsType]
     public interface IHtmlDocument
     {
         //TODO: 
@@ -18,6 +20,7 @@ namespace LayoutFarm.WebDom
         IHtmlDocument createDocumentFragment();
         IHtmlElement createShadowRootElement();
     }
+    [JsType]
     public interface IHtmlElement : INode
     {
         void setAttribute(string attrName, string value);
@@ -31,6 +34,7 @@ namespace LayoutFarm.WebDom
         void removeChild(DomNode childNode);
         void getGlobalLocation(out int x, out int y);
     }
+     [JsType]
     public interface ITextNode : INode
     {
     }

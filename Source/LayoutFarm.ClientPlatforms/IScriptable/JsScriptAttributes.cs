@@ -3,8 +3,8 @@
 using System;
 namespace LayoutFarm.Scripting
 {
-    [AttributeUsage(AttributeTargets.Class)]
-    public class JsTypeAttribute : Attribute
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface)]
+    public sealed class JsTypeAttribute : Attribute
     {
         public JsTypeAttribute()
         {
@@ -16,7 +16,7 @@ namespace LayoutFarm.Scripting
         public string Name { get; private set; }
     }
     [AttributeUsage(AttributeTargets.Method)]
-    public class JsMethodAttribute : Attribute
+    public sealed class JsMethodAttribute : Attribute
     {
         public JsMethodAttribute()
         {
@@ -29,7 +29,7 @@ namespace LayoutFarm.Scripting
     }
 
     [AttributeUsage(AttributeTargets.Property)]
-    public class JsPropertyAttribute : Attribute
+    public sealed class JsPropertyAttribute : Attribute
     {
         public JsPropertyAttribute()
         {
@@ -39,5 +39,35 @@ namespace LayoutFarm.Scripting
             this.Name = name;
         }
         public string Name { get; private set; }
+    }
+
+
+    namespace Internal
+    {
+        //this for internal used only
+        public class JsExtendedMapAttribute : Attribute
+        {
+            public JsExtendedMapAttribute(int scriptMemberId)
+            {
+                this.MemberId = scriptMemberId;
+            }
+            public int MemberId
+            {
+                get;
+                private set;
+            }
+        }
+        public class JsExtendedDataAttribute : Attribute
+        {
+            public JsExtendedDataAttribute(byte[] data)
+            {
+                this.Data = data;
+            }
+            public byte[] Data
+            {
+                get;
+                private set;
+            }
+        }
     }
 }
