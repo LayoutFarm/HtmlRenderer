@@ -50,6 +50,7 @@ namespace LayoutFarm.CustomWidgets
         {
             if (imageBinder.State == ImageBinderState.Loaded)
             {
+                this.SetDesiredSize(this.imageBinder.ImageWidth, this.imageBinder.ImageHeight);
                 this.SetSize(this.imageBinder.ImageWidth, this.imageBinder.ImageHeight);
                 this.ParentUI.InvalidateLayout();
             }
