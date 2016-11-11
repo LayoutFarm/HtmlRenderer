@@ -15,8 +15,8 @@ namespace LayoutFarm
             {
                 e.SetResultImage(LoadBitmap(e.ImagSource));
             };
-            //AddScrollView1(viewport, 0, 0);
-            AddScrollView2(viewport, 250, 0);
+            AddScrollView1(viewport, 0, 0);
+            //AddScrollView2(viewport, 250, 0);
         }
         void LazyImageLoad(ImageBinder binder)
         {
@@ -59,6 +59,8 @@ namespace LayoutFarm
             for (int i = 0; i < 10; ++i)
             {
                 var box1 = new LayoutFarm.CustomWidgets.SimpleBox(400, 30);
+                box1.HasSpecificWidth = true;
+                box1.HasSpecificHeight = true;
                 box1.BackColor = Color.OrangeRed;
                 box1.SetLocation(i * 20, i * 40);
                 panel.AddChild(box1);
