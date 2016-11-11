@@ -17,53 +17,14 @@ namespace LayoutFarm.Scripting
             //use built in attr
         }
 
-        static JsMethodAttribute FindJsMethodAttribute(MethodInfo met)
+        static T FindSingleCustomAttr<T>(MemberInfo mbinfo)
+            where T : Attribute
         {
-            var customAttrs = met.GetCustomAttributes(typeOfJsMethodAttr, false);
+            var customAttrs = mbinfo.GetCustomAttributes(typeof(T), false);
             if (customAttrs != null && customAttrs.Length > 0)
             {
-                for (int i = customAttrs.Length - 1; i >= 0; --i)
-                {
-                    var attr = customAttrs[i] as JsMethodAttribute;
-                    if (attr != null)
-                    {
-                        return attr;
-                    }
-                }
-            }
-            return null;
-        }
-        static JsPropertyAttribute FindJsPropertyAttribute(PropertyInfo propertyInfo)
-        {
-            var customAttrs = propertyInfo.GetCustomAttributes(typeOfJsMethodAttr, false);
-            if (customAttrs != null && customAttrs.Length > 0)
-            {
-                for (int i = customAttrs.Length - 1; i >= 0; --i)
-                {
-                    var attr = customAttrs[i] as JsPropertyAttribute;
-                    if (attr != null)
-                    {
-                        return attr;
-                    }
-                }
-            }
-            return null;
-        }
-
-        static JsTypeAttribute FindJsTypeAttribute(Type type)
-        {
-
-            var customAttrs = type.GetCustomAttributes(typeOfJsTypeAttr, false);
-            if (customAttrs != null && customAttrs.Length > 0)
-            {
-                for (int i = customAttrs.Length - 1; i >= 0; --i)
-                {
-                    var attr = customAttrs[i] as JsTypeAttribute;
-                    if (attr != null)
-                    {
-                        return attr;
-                    }
-                }
+                //only 1 
+                return (T)customAttrs[0];
             }
             return null;
         }
@@ -100,7 +61,7 @@ namespace LayoutFarm.Scripting
             //this is sample only ***           
             //------------------------------
 
-            JsTypeAttribute foundJsTypeAttr = FindJsTypeAttribute(source);
+            JsTypeAttribute foundJsTypeAttr = FindSingleCustomAttr<JsTypeAttribute>(source);
             Type[] interfaces = source.GetInterfaces();
             Dictionary<string, JsPropertyDefinition> declarProps = new Dictionary<string, JsPropertyDefinition>();
 
@@ -108,7 +69,7 @@ namespace LayoutFarm.Scripting
             {
                 Type i_interface = interfaces[i];
                 //check if an interface has Js...attribute or not
-                JsTypeAttribute foundJsTypeAttr2 = FindJsTypeAttribute(i_interface);
+                JsTypeAttribute foundJsTypeAttr2 = FindSingleCustomAttr<JsTypeAttribute>(i_interface);
                 if (foundJsTypeAttr2 != null)
                 {
                     InterfaceMapping interfaceMapping = source.GetInterfaceMap(i_interface);
@@ -153,7 +114,7 @@ namespace LayoutFarm.Scripting
                             }
                             else
                             {
-                                JsMethodAttribute foundJsMetAttr = FindJsMethodAttribute(target_met);
+                                JsMethodAttribute foundJsMetAttr = FindSingleCustomAttr<JsMethodAttribute>(target_met);
                                 string metName;
                                 if (foundJsMetAttr != null)
                                 {
@@ -189,7 +150,7 @@ namespace LayoutFarm.Scripting
                 {
                     continue;
                 }
-                JsMethodAttribute foundJsMetAttr = FindJsMethodAttribute(met);
+                JsMethodAttribute foundJsMetAttr = FindSingleCustomAttr<JsMethodAttribute>(met);
                 if (foundJsMetAttr != null)
                 {
                     targetTypeDef.AddMember(new JsMethodDefinition(foundJsMetAttr.Name ?? GetProperMemberName(met), met));
@@ -202,16 +163,16 @@ namespace LayoutFarm.Scripting
                 | System.Reflection.BindingFlags.Public);
             foreach (var property in properties)
             {
-                JsPropertyAttribute foundJsPropAttr = FindJsPropertyAttribute(property);
+                JsPropertyAttribute foundJsPropAttr = FindSingleCustomAttr<JsPropertyAttribute>(property);
                 if (foundJsPropAttr != null)
                 {
                     targetTypeDef.AddMember(new JsPropertyDefinition(foundJsPropAttr.Name ?? GetProperMemberName(property), property));
                 }
                 //in this version, 
                 //if not found js attr, -> not expose it
-            } 
+            }
         }
-         
+
         static string GetProperMemberName(System.Reflection.MemberInfo mbInfo)
         {
             int dotpos = mbInfo.Name.LastIndexOf('.');
