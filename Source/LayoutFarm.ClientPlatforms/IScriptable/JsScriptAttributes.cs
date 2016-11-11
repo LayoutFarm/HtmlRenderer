@@ -57,5 +57,17 @@ namespace LayoutFarm.Scripting
                 private set;
             }
         }
+        public class JsExtendedDataAttribute : Attribute
+        {
+            public JsExtendedDataAttribute(byte[] data)
+            {
+                this.Data = data;
+            }
+            public byte[] Data
+            {
+                get;
+                private set;
+            }
+        }
     }
 }
