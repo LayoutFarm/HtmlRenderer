@@ -41,7 +41,7 @@ namespace LayoutFarm.UI
             this.PaintToOutputWindow();
         }
         public abstract void PaintToOutputWindow();
-  
+
         public void UpdateCanvasViewportSize(int w, int h)
         {
             this.canvasViewport.UpdateCanvasViewportSize(w, h);
@@ -169,7 +169,7 @@ namespace LayoutFarm.UI
             this.topWinEventRoot.RootMouseDown(
                 e.X + this.canvasViewport.ViewportX,
                 e.Y + this.canvasViewport.ViewportY,
-                (int)e.Button);
+                GetMouseButton(e.Button));
             if (currentCursorStyle != this.topWinEventRoot.MouseCursorStyle)
             {
                 ChangeCursorStyle(this.currentCursorStyle = this.topWinEventRoot.MouseCursorStyle);
@@ -192,12 +192,26 @@ namespace LayoutFarm.UI
             this.topWinEventRoot.RootMouseMove(
                     e.X + this.canvasViewport.ViewportX,
                     e.Y + this.canvasViewport.ViewportY,
-                    (int)e.Button);
+                    GetMouseButton(e.Button));
             if (currentCursorStyle != this.topWinEventRoot.MouseCursorStyle)
             {
                 ChangeCursorStyle(this.currentCursorStyle = this.topWinEventRoot.MouseCursorStyle);
             }
             PrepareRenderAndFlushAccumGraphics();
+        }
+        static UIMouseButtons GetMouseButton(System.Windows.Forms.MouseButtons button)
+        {
+            switch (button)
+            {
+                case MouseButtons.Left:
+                    return UIMouseButtons.Left;
+                case MouseButtons.Right:
+                    return UIMouseButtons.Right;
+                case MouseButtons.Middle:
+                    return UIMouseButtons.Middle;
+                default:
+                    return UIMouseButtons.Left;
+            }
         }
         public void HandleMouseUp(MouseEventArgs e)
         {
@@ -205,7 +219,7 @@ namespace LayoutFarm.UI
             topWinEventRoot.RootMouseUp(
                      e.X + this.canvasViewport.ViewportX,
                      e.Y + this.canvasViewport.ViewportY,
-                    (int)e.Button);
+                    GetMouseButton(e.Button));
             if (currentCursorStyle != this.topWinEventRoot.MouseCursorStyle)
             {
                 ChangeCursorStyle(this.currentCursorStyle = this.topWinEventRoot.MouseCursorStyle);
