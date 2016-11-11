@@ -369,21 +369,47 @@ namespace LayoutFarm.CustomWidgets
                 //2. 
                 float physicalScrollLength = this.Width - (this.minmax_boxHeight + this.minmax_boxHeight);
                 //3. 
-                double ratio1 = physicalScrollLength / contentLength;
+                //double ratio1 = physicalScrollLength / contentLength;
+                //if (contentLength < physicalScrollLength)
+                //{
+                //    int nsteps = (int)Math.Round(contentLength / smallChange);
+                //    //small change value reflect thumbbox size
+                //    // thumbBoxLength = (int)(ratio1 * this.SmallChange);
+                //    int eachStepLength = (int)(physicalScrollLength / (float)(nsteps + 2));
+                //    scrollBoxLength = eachStepLength * 2;
+                //    //float physicalSmallEach = (physicalScrollLength / contentLength) * smallChange;
+                //    //this.onePixelFor = contentLength / (physicalScrollLength);
+                //    this.onePixelFor = contentLength / (physicalScrollLength - scrollBoxLength);
+                //}
+                //else
+                //{
+                //    scrollBoxLength = (int)(ratio1 * this.SmallChange);
+                //    //thumbbox should not smaller than minimum limit 
+                //    if (scrollBoxLength < SCROLL_BOX_SIZE_LIMIT)
+                //    {
+                //        scrollBoxLength = SCROLL_BOX_SIZE_LIMIT;
+                //        this.onePixelFor = contentLength / (physicalScrollLength - scrollBoxLength);
+                //    }
+                //    else
+                //    {
+                //        float physicalSmallEach = (physicalScrollLength / contentLength) * smallChange;
+                //        this.onePixelFor = contentLength / (physicalScrollLength - physicalSmallEach);
+                //    }
+                //}
+                //3.  
                 if (contentLength < physicalScrollLength)
                 {
                     int nsteps = (int)Math.Round(contentLength / smallChange);
-                    //small change value reflect thumbbox size
-                    // thumbBoxLength = (int)(ratio1 * this.SmallChange);
+                    //small change value reflect thumbbox size 
                     int eachStepLength = (int)(physicalScrollLength / (float)(nsteps + 2));
                     scrollBoxLength = eachStepLength * 2;
-                    //float physicalSmallEach = (physicalScrollLength / contentLength) * smallChange;
-                    //this.onePixelFor = contentLength / (physicalScrollLength);
                     this.onePixelFor = contentLength / (physicalScrollLength - scrollBoxLength);
                 }
                 else
                 {
-                    scrollBoxLength = (int)(ratio1 * this.SmallChange);
+                    scrollBoxLength = (int)((physicalScrollLength * physicalScrollLength) / contentLength);
+                    //small change value reflect thumbbox size
+                    // scrollBoxLength = (int)(ratio1 * this.SmallChange);
                     //thumbbox should not smaller than minimum limit 
                     if (scrollBoxLength < SCROLL_BOX_SIZE_LIMIT)
                     {
@@ -392,8 +418,9 @@ namespace LayoutFarm.CustomWidgets
                     }
                     else
                     {
-                        float physicalSmallEach = (physicalScrollLength / contentLength) * smallChange;
-                        this.onePixelFor = contentLength / (physicalScrollLength - physicalSmallEach);
+                        //float physicalSmallEach = (physicalScrollLength / contentLength) * smallChange;
+                        //this.onePixelFor = contentLength / (physicalScrollLength - physicalSmallEach);
+                        this.onePixelFor = contentLength / (physicalScrollLength - scrollBoxLength);
                     }
                 }
             }
@@ -626,7 +653,7 @@ namespace LayoutFarm.CustomWidgets
                 if (scrollBoxLength < sc.ScrollBoxSizeLimit)
                 {
                     scrollBoxLength = sc.ScrollBoxSizeLimit;
-                    onePixelFor = (double)contentLength / (double)(physicalScrollLength - (scrollBoxLength));
+                    onePixelFor = (double)contentLength / (double)(physicalScrollLength - scrollBoxLength);
                 }
                 else
                 {
@@ -673,7 +700,10 @@ namespace LayoutFarm.CustomWidgets
                 {
                     onePixelFor = (double)contentLength / (double)physicalScrollLength;
                 }
-                sc.MaxValue = contentLength - scrollableSurface.ViewportWidth;
+                //sc.MaxValue = contentLength - scrollableSurface.ViewportWidth;
+                sc.MaxValue = (contentLength > scrollableSurface.ViewportWidth) ?
+                    contentLength - scrollableSurface.ViewportWidth :
+                    0;
             });
             //--------------------------------------------------------------------------------------
             //1st evaluate  
