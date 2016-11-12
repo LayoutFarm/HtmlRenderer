@@ -34,12 +34,37 @@ namespace LayoutFarm.CustomWidgets
         {
             uiList = new UICollection(this);
             //panel for listview items
-            this.panel = new SimpleBox(width, height);
-            this.panel.ContentLayoutKind = BoxContentLayoutKind.VerticalStack;
-            panel.BackColor = Color.LightGray;
+            //
+            var simpleBox = new SimpleBox(width, height);
+            simpleBox.ContentLayoutKind = BoxContentLayoutKind.VerticalStack;
+            simpleBox.BackColor = Color.LightGray;
+            simpleBox.MouseDown += panel_MouseDown;
+            simpleBox.MouseDoubleClick += panel_MouseDoubleClick;
+            simpleBox.AcceptKeyboardFocus = true;
+            simpleBox.KeyDown += simpleBox_KeyDown;
+
+
+            this.panel = simpleBox;
             uiList.AddUI(panel);
-            this.panel.MouseDown += panel_MouseDown;
-            this.panel.MouseDoubleClick += panel_MouseDoubleClick;
+        }
+
+        void simpleBox_KeyDown(object sender, UIKeyEventArgs e)
+        {
+            if (e.KeyCode == UIKeys.Down)
+            {
+                e.CancelBubbling = true;
+                SelectedIndex++;
+            }
+            else if (e.KeyCode == UIKeys.Up)
+            {
+                e.CancelBubbling = true;
+                SelectedIndex--;
+            }
+            else
+            {
+
+            }
+
         }
         void panel_MouseDoubleClick(object sender, UIMouseEventArgs e)
         {
@@ -181,6 +206,11 @@ namespace LayoutFarm.CustomWidgets
             {
                 if (value < this.ItemCount)
                 {
+                    if (value < 0)
+                    {
+                        value = -1;
+                    }
+                    //-----------------------------
                     if (this.selectedIndex != value)
                     {
                         //1. current item
@@ -206,7 +236,7 @@ namespace LayoutFarm.CustomWidgets
                 }
                 else
                 {
-                    throw new Exception("out of range");
+                    //do nothing 
                 }
             }
         }
