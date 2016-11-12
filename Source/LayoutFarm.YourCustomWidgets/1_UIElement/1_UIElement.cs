@@ -4,7 +4,6 @@ namespace LayoutFarm.UI
 {
     public abstract partial class UIElement : IEventListener
     {
-        int oneBitNativeEventFlags;
 
 #if DEBUG
         public bool dbugBreakMe;
@@ -38,10 +37,7 @@ namespace LayoutFarm.UI
         {
             get { return false; }
         }
-        protected void RegisterNativeEvent(int eventFlags)
-        {
-            this.oneBitNativeEventFlags |= eventFlags;
-        }
+
         //-------------------------------------------------------
         protected virtual void OnShown()
         {
