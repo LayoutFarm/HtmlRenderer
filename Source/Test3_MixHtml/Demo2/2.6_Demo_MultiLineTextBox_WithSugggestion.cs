@@ -430,12 +430,17 @@ Zimbabwe");
             listView = new CustomWidgets.ListView(w, h);
             floatWindow.AddChild(listView);
             listView.ListItemMouseDown += listView_ListItemMouseDown;
+            listView.ListItemDoubleClick += listView_ListItemDoubleClick;
+        }
+        void listView_ListItemDoubleClick(object sender, CustomWidgets.ListItem src)
+        {
+            this.Hide();
         }
         void listView_ListItemMouseDown(object sender, CustomWidgets.ListItem src)
         {
             //test, hide suggestion box on select
             //some item is selected
-            this.Hide();
+            //this.Hide();
         }
         public void ClearItems()
         {

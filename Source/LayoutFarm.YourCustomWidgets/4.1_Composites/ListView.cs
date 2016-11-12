@@ -23,9 +23,11 @@ namespace LayoutFarm.CustomWidgets
         UICollection uiList;
         List<ListItem> items = new List<ListItem>();
         int selectedIndex = -1;//default = no selection
+        ListItem selectedItem = null;
         SimpleBox panel;
 
         public event ListItemEventHandler ListItemMouseDown;
+        public event ListItemEventHandler ListItemDoubleClick;
 
         public ListView(int width, int height)
             : base(width, height)
@@ -37,6 +39,16 @@ namespace LayoutFarm.CustomWidgets
             panel.BackColor = Color.LightGray;
             uiList.AddUI(panel);
             this.panel.MouseDown += panel_MouseDown;
+            this.panel.MouseDoubleClick += panel_MouseDoubleClick;
+        }
+        void panel_MouseDoubleClick(object sender, UIMouseEventArgs e)
+        {
+            //raise event mouse double click
+            var src = e.SourceHitElement as ListItem;
+            if (src != null && ListItemDoubleClick != null)
+            {
+                ListItemDoubleClick(this, src);
+            }
         }
         void panel_MouseDown(object sender, UIMouseEventArgs e)
         {
@@ -44,6 +56,22 @@ namespace LayoutFarm.CustomWidgets
             var src = e.SourceHitElement as ListItem;
             if (src != null)
             {
+                //make this as current selected list item
+                //find index ?
+                //TODO: review, for faster find list item index method
+                int found = -1;
+                for (int i = items.Count - 1; i >= 0; --i)
+                {
+                    if (items[i] == src)
+                    {
+                        found = i;
+                        break;
+                    }
+                }
+                if (found > -1)
+                {
+                    SelectedIndex = found;
+                }
                 if (ListItemMouseDown != null)
                 {
                     ListItemMouseDown(this, src);
@@ -158,7 +186,7 @@ namespace LayoutFarm.CustomWidgets
                         //1. current item
                         if (selectedIndex > -1)
                         {
-                            //switch back
+                            //switch back    
                             GetItem(this.selectedIndex).BackColor = Color.LightGray;
                         }
 
@@ -166,11 +194,13 @@ namespace LayoutFarm.CustomWidgets
                         if (value == -1)
                         {
                             //no selection
+                            this.selectedItem = null;
                         }
                         else
                         {
                             //highlight selection item
-                            GetItem(this.SelectedIndex).BackColor = Color.Yellow;
+                            this.selectedItem = GetItem(value);
+                            selectedItem.BackColor = Color.Yellow;
                         }
                     }
                 }

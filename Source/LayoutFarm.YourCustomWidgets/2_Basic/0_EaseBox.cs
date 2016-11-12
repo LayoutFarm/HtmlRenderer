@@ -20,9 +20,11 @@ namespace LayoutFarm.CustomWidgets
         int desiredHeight;
         int desiredWidth;
         UICollection uiList;
+
         public event EventHandler<UIMouseEventArgs> MouseDown;
         public event EventHandler<UIMouseEventArgs> MouseMove;
         public event EventHandler<UIMouseEventArgs> MouseUp;
+        public event EventHandler<UIMouseEventArgs> MouseDoubleClick;
         public event EventHandler<UIMouseEventArgs> MouseLeave;
         public event EventHandler<UIMouseEventArgs> MouseDrag;
         public event EventHandler<UIMouseEventArgs> LostMouseFocus;
@@ -108,7 +110,17 @@ namespace LayoutFarm.CustomWidgets
             get;
             set;
         }
-
+        protected override void OnDoubleClick(UIMouseEventArgs e)
+        {
+            if (this.MouseDoubleClick != null)
+            {
+                MouseDoubleClick(this, e);
+            }
+            if (this.AcceptKeyboardFocus)
+            {
+                this.Focus();
+            }
+        }
         protected override void OnMouseDown(UIMouseEventArgs e)
         {
             if (this.MouseDown != null)

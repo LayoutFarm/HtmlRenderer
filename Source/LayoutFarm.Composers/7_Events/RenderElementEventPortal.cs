@@ -373,18 +373,35 @@ namespace LayoutFarm.UI
                 {
                     if (e.IsAlsoDoubleClick)
                     {
-                        ForEachEventListenerBubbleUp(e, hitPointChain, (listener) =>
+                        ForEachEventListenerBubbleUp(e, hitPointChain, listener =>
                         {
                             listener.ListenMouseDoubleClick(e);
-                            return true;
+                            //------------------------------------------------------- 
+                            bool cancelMouseBubbling = e.CancelBubbling;
+                            if (!cancelMouseBubbling && listener.BypassAllMouseEvents)
+                            {
+                                return false;
+                            }
+                            else
+                            {
+                                return true;
+                            }
                         });
                     }
                     else
                     {
-                        ForEachEventListenerBubbleUp(e, hitPointChain, (listener) =>
+                        ForEachEventListenerBubbleUp(e, hitPointChain, listener =>
                         {
                             listener.ListenMouseClick(e);
-                            return true;
+                            bool cancelMouseBubbling = e.CancelBubbling;
+                            if (!cancelMouseBubbling && listener.BypassAllMouseEvents)
+                            {
+                                return false;
+                            }
+                            else
+                            {
+                                return true;
+                            }
                         });
                     }
                 }
