@@ -21,6 +21,7 @@ namespace LayoutFarm
             var textSplitter = new CustomWidgets.ContentTextSplitter();
             textbox.TextSplitter = textSplitter;
             sgBox = new SuggestionWindowMx(300, 200);
+            sgBox.UserConfirmSelectedItem += new EventHandler(sgBox_UserConfirmSelectedItem);
             sgBox.Hide();
             //------------------------------------
             //create special text surface listener
@@ -37,6 +38,8 @@ namespace LayoutFarm
             //------------------------------------ 
             BuildSampleCountryList();
         }
+
+      
         void textSurfaceListener_PreviewArrowKeyDown(object sender, Text.TextDomEventArgs e)
         {
             //update selection in list box 
@@ -81,6 +84,21 @@ namespace LayoutFarm
             }
             e.PreventDefault = true;
         }
+        void sgBox_UserConfirmSelectedItem(object sender, EventArgs e)
+        {
+            if (textbox.CurrentTextSpan != null)
+            {
+                textbox.ReplaceCurrentTextRunContent(currentLocalText.Length,
+                    (string)sgBox.GetItem(sgBox.SelectedIndex).Tag);
+                //------------------------------------- 
+                //then hide suggestion list
+                sgBox.ClearItems();
+                sgBox.Hide();
+                //-------------------------------------- 
+            }
+
+        }
+
         string GetString(char[] buffer, LayoutFarm.Composers.TextSplitBound bound)
         {
             char[] substr = new char[bound.length];
@@ -424,6 +442,9 @@ Zimbabwe");
     {
         LayoutFarm.CustomWidgets.ListView listView;
         LayoutFarm.CustomWidgets.UIFloatWindow floatWindow;
+
+        public event EventHandler UserConfirmSelectedItem;
+
         public SuggestionWindowMx(int w, int h)
         {
             floatWindow = new CustomWidgets.UIFloatWindow(w, h);
@@ -434,7 +455,10 @@ Zimbabwe");
         }
         void listView_ListItemDoubleClick(object sender, CustomWidgets.ListItem src)
         {
-            this.Hide();
+            if (UserConfirmSelectedItem != null)
+            {
+                UserConfirmSelectedItem(this, EventArgs.Empty);
+            }
         }
         void listView_ListItemMouseDown(object sender, CustomWidgets.ListItem src)
         {
