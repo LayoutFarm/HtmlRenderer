@@ -8,8 +8,14 @@ using PixelFarm.Drawing;
 using LayoutFarm.UI;
 namespace LayoutFarm.CustomWidgets
 {
+
+
     public class ListView : UIBox
     {
+
+
+        public delegate void ListItemEventHandler(object sender, ListItem src);
+
         //composite          
         CustomRenderBox primElement;//background
         Color backColor = Color.LightGray;
@@ -18,6 +24,9 @@ namespace LayoutFarm.CustomWidgets
         List<ListItem> items = new List<ListItem>();
         int selectedIndex = -1;//default = no selection
         SimpleBox panel;
+
+        public event ListItemEventHandler ListItemMouseDown;
+
         public ListView(int width, int height)
             : base(width, height)
         {
@@ -27,6 +36,19 @@ namespace LayoutFarm.CustomWidgets
             this.panel.ContentLayoutKind = BoxContentLayoutKind.VerticalStack;
             panel.BackColor = Color.LightGray;
             uiList.AddUI(panel);
+            this.panel.MouseDown += panel_MouseDown;
+        }
+        void panel_MouseDown(object sender, UIMouseEventArgs e)
+        {
+            //check what item is selected
+            var src = e.SourceHitElement as ListItem;
+            if (src != null)
+            {
+                if (ListItemMouseDown != null)
+                {
+                    ListItemMouseDown(this, src);
+                }
+            }
         }
         protected override bool HasReadyRenderElement
         {
@@ -216,6 +238,8 @@ namespace LayoutFarm.CustomWidgets
         public ListItem(int width, int height)
             : base(width, height)
         {
+            //this.RegisterNativeEvent(1 << UIEventIdentifier.NE_MOUSE_DOWN);
+            this.TransparentAllMouseEvents = true;
         }
         public override RenderElement CurrentPrimaryRenderElement
         {
@@ -233,8 +257,11 @@ namespace LayoutFarm.CustomWidgets
                 var element = new CustomContainerRenderBox(rootgfx, this.Width, this.Height);
                 element.SetLocation(this.Left, this.Top);
                 element.BackColor = this.backColor;
+                element.SetController(this);
+
                 listItemText = new CustomTextRun(rootgfx, 200, this.Height);
                 element.AddChild(listItemText);
+                listItemText.TransparentForAllEvents = true;
                 if (this.itemText != null)
                 {
                     listItemText.Text = this.itemText;
@@ -268,9 +295,7 @@ namespace LayoutFarm.CustomWidgets
                 }
             }
         }
-        //----------------- 
-
-
+        //-----------------  
 
         public override void Walk(UIVisitor visitor)
         {

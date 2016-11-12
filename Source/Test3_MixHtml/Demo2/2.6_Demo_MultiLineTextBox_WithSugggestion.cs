@@ -429,6 +429,13 @@ Zimbabwe");
             floatWindow = new CustomWidgets.UIFloatWindow(w, h);
             listView = new CustomWidgets.ListView(w, h);
             floatWindow.AddChild(listView);
+            listView.ListItemMouseDown += listView_ListItemMouseDown;
+        }
+        void listView_ListItemMouseDown(object sender, CustomWidgets.ListItem src)
+        {
+            //test, hide suggestion box on select
+            //some item is selected
+            this.Hide();
         }
         public void ClearItems()
         {

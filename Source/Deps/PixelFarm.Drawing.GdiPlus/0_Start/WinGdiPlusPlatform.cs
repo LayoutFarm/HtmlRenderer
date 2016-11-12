@@ -32,7 +32,11 @@ namespace PixelFarm.Drawing.WinGdi
 
         public override Canvas CreateCanvas(int left, int top, int width, int height, CanvasInitParameters canvasInitPars = new CanvasInitParameters())
         {
-            return new MyGdiPlusCanvas(0, 0, left, top, width, height, new RequestFont("tahoma", 10));
+            
+            return new MyGdiPlusCanvas(0, 0,
+                left, top,
+                width, height,
+                new RequestFont("tahoma", 10));//init font
         }
 
         public static void SetFontEncoding(System.Text.Encoding encoding)

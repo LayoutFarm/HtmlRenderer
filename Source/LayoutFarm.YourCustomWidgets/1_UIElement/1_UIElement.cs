@@ -5,7 +5,7 @@ namespace LayoutFarm.UI
     public abstract partial class UIElement : IEventListener
     {
         int oneBitNativeEventFlags;
-        UIElement parentElement;
+
 #if DEBUG
         public bool dbugBreakMe;
 #endif
@@ -13,14 +13,7 @@ namespace LayoutFarm.UI
         {
         }
 
-
         public abstract RenderElement GetPrimaryRenderElement(RootGraphic rootgfx);
-        protected void RegisterNativeEvent(int eventFlags)
-        {
-            this.oneBitNativeEventFlags |= eventFlags;
-        }
-
-
         public bool TransparentAllMouseEvents
         {
             get;
@@ -31,30 +24,23 @@ namespace LayoutFarm.UI
             get;
             set;
         }
-
+        public UIElement ParentUI { get; set; }
         public abstract RenderElement CurrentPrimaryRenderElement
         {
             get;
-        }
-        internal static RenderElement GetCurrentPrimaryRenderElement(UIElement box)
-        {
-            return box.CurrentPrimaryRenderElement;
         }
         protected abstract bool HasReadyRenderElement
         {
             get;
         }
         public abstract void InvalidateGraphics();
-        public UIElement ParentUI
-        {
-            get { return this.parentElement; }
-            set { this.parentElement = value; }
-        }
-
-
         public virtual bool NeedContentLayout
         {
             get { return false; }
+        }
+        protected void RegisterNativeEvent(int eventFlags)
+        {
+            this.oneBitNativeEventFlags |= eventFlags;
         }
         //-------------------------------------------------------
         protected virtual void OnShown()
