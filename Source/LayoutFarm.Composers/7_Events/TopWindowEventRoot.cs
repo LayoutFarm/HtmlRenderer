@@ -120,7 +120,7 @@ namespace LayoutFarm
             DateTime snapMouseUpTime = DateTime.Now;
             TimeSpan timediff = snapMouseUpTime - lastTimeMouseUp;
 
-            this.lastTimeMouseUp = snapMouseUpTime;
+           
             if (this.isDragging)
             {
                 if (draggingElement != null)
@@ -151,6 +151,7 @@ namespace LayoutFarm
                 e.IsAlsoDoubleClick = timediff.Milliseconds < dblClickSense;  
                 iTopBoxEventPortal.PortalMouseUp(e);
             }
+            this.lastTimeMouseUp = snapMouseUpTime;
 
             this.localMouseDownX = this.localMouseDownY = 0;
             this.mouseCursorStyle = e.MouseCursorStyle;
