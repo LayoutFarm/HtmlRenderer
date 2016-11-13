@@ -22,6 +22,7 @@ namespace LayoutFarm
             textbox.TextSplitter = textSplitter;
             sgBox = new SuggestionWindowMx(300, 200);
             sgBox.UserConfirmSelectedItem += new EventHandler(sgBox_UserConfirmSelectedItem);
+            sgBox.ListItemKeyboardEvent += new EventHandler<UIKeyEventArgs>(sgBox_ListItemKeyboardEvent);
             sgBox.Hide();
             //------------------------------------
             //create special text surface listener
@@ -37,6 +38,38 @@ namespace LayoutFarm
             viewport.AddContent(sgBox.GetPrimaryUI());
             //------------------------------------ 
             BuildSampleCountryList();
+        }
+
+        void sgBox_ListItemKeyboardEvent(object sender, UIKeyEventArgs e)
+        {
+            //keyboard event occurs on list item in suggestion box
+            //
+            switch (e.UIEventName)
+            {
+                case UIEventName.KeyDown:
+                    {
+                        switch (e.KeyCode)
+                        {
+                            case UIKeys.Down:
+                                sgBox.SelectedIndex++;
+                                e.CancelBubbling = true;
+                                break;
+                            case UIKeys.Up:
+                                sgBox.SelectedIndex--;
+                                e.CancelBubbling = true;
+                                break;
+                            case UIKeys.Enter:
+                                //use select some item
+                                sgBox_UserConfirmSelectedItem(null, EventArgs.Empty);
+                                e.CancelBubbling = true;
+                                break;
+                            default:
+                                textbox.Focus();
+                                break;
+                        }
+                    }
+                    break;
+            }
         }
 
 
@@ -72,16 +105,7 @@ namespace LayoutFarm
             {
                 return;
             }
-            if (textbox.CurrentTextSpan != null)
-            {
-                textbox.ReplaceCurrentTextRunContent(currentLocalText.Length,
-                    (string)sgBox.GetItem(sgBox.SelectedIndex).Tag);
-                //------------------------------------- 
-                //then hide suggestion list
-                sgBox.ClearItems();
-                sgBox.Hide();
-                //-------------------------------------- 
-            }
+            sgBox_UserConfirmSelectedItem(null, EventArgs.Empty);
             e.PreventDefault = true;
         }
         void sgBox_UserConfirmSelectedItem(object sender, EventArgs e)
@@ -444,6 +468,7 @@ Zimbabwe");
         LayoutFarm.CustomWidgets.UIFloatWindow floatWindow;
 
         public event EventHandler UserConfirmSelectedItem;
+        public event EventHandler<UIKeyEventArgs> ListItemKeyboardEvent;
 
         public SuggestionWindowMx(int w, int h)
         {
@@ -456,23 +481,9 @@ Zimbabwe");
 
         void listView_ListItemKeyboardEvent(object sender, UIKeyEventArgs e)
         {
-            switch (e.UIEventName)
+            if (ListItemKeyboardEvent != null)
             {
-                case UIEventName.KeyDown:
-                    {
-                        switch (e.KeyCode)
-                        {
-                            case UIKeys.Down:
-                                listView.SelectedIndex++;
-                                e.CancelBubbling = true;
-                                break;
-                            case UIKeys.Up:
-                                listView.SelectedIndex--;
-                                e.CancelBubbling = true;
-                                break;
-                        }
-                    }
-                    break;
+                ListItemKeyboardEvent(this, e);
             }
         }
         void listView_ListItemMouseEvent(object sender, UIMouseEventArgs e)
