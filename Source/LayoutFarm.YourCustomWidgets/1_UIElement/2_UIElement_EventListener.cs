@@ -41,6 +41,7 @@ namespace LayoutFarm.UI
         }
         void IEventListener.ListenMouseDoubleClick(UIMouseEventArgs e)
         {
+            OnDoubleClick(e);
         }
         void IEventListener.ListenMouseWheel(UIMouseEventArgs e)
         {

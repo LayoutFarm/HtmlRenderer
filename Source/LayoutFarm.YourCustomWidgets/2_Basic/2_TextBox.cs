@@ -187,11 +187,7 @@ namespace LayoutFarm.CustomWidgets
                 }
                 tbox.BackgroundColor = this.backgroundColor;
                 tbox.SetController(this);
-                RegisterNativeEvent(
-                  1 << UIEventIdentifier.NE_MOUSE_DOWN
-                  | 1 << UIEventIdentifier.NE_LOST_FOCUS
-                  | 1 << UIEventIdentifier.NE_SIZE_CHANGED
-                  );
+                
                 if (this.textSurfaceListener != null)
                 {
                     tbox.TextSurfaceListener = textSurfaceListener;

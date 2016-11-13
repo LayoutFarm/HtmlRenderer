@@ -8,8 +8,15 @@ using PixelFarm.Drawing;
 using LayoutFarm.UI;
 namespace LayoutFarm.CustomWidgets
 {
+
+
     public class ListView : UIBox
     {
+
+
+        public delegate void ListItemMouseHandler(object sender, UIMouseEventArgs e);
+        public delegate void ListItemKeyboardHandler(object sender, UIKeyEventArgs e);
+
         //composite          
         CustomRenderBox primElement;//background
         Color backColor = Color.LightGray;
@@ -17,16 +24,103 @@ namespace LayoutFarm.CustomWidgets
         UICollection uiList;
         List<ListItem> items = new List<ListItem>();
         int selectedIndex = -1;//default = no selection
+        ListItem selectedItem = null;
         SimpleBox panel;
+
+        public event ListItemMouseHandler ListItemMouseEvent;
+        public event ListItemKeyboardHandler ListItemKeyboardEvent;
+
         public ListView(int width, int height)
             : base(width, height)
         {
             uiList = new UICollection(this);
             //panel for listview items
-            this.panel = new SimpleBox(width, height);
-            this.panel.ContentLayoutKind = BoxContentLayoutKind.VerticalStack;
-            panel.BackColor = Color.LightGray;
+            //
+            var simpleBox = new SimpleBox(width, height);
+            simpleBox.ContentLayoutKind = BoxContentLayoutKind.VerticalStack;
+            simpleBox.BackColor = Color.LightGray;
+            simpleBox.MouseDown += panel_MouseDown;
+            simpleBox.MouseDoubleClick += panel_MouseDoubleClick;
+            simpleBox.AcceptKeyboardFocus = true;
+            simpleBox.KeyDown += simpleBox_KeyDown;
+
+
+            this.panel = simpleBox;
             uiList.AddUI(panel);
+        }
+
+        void simpleBox_KeyDown(object sender, UIKeyEventArgs e)
+        {
+            if (selectedItem != null && ListItemKeyboardEvent != null)
+            {
+                e.UIEventName = UIEventName.KeyDown;
+                ListItemKeyboardEvent(this, e);
+            }
+            //switch (e.KeyCode)
+            //{
+            //    case UIKeys.Down:
+            //        {
+            //            e.CancelBubbling = true;
+            //            SelectedIndex++;
+            //        } break;
+            //    case UIKeys.Up:
+            //        {
+            //            e.CancelBubbling = true;
+            //            SelectedIndex--;
+            //        } break;
+            //    case UIKeys.Enter:
+            //        {
+            //            //accept selected item?
+
+            //            if (selectedItem != null && ListItemKeyboardEvent != null)
+            //            {
+            //                ListItemKeyboardEvent(this, e);
+            //            }
+            //        }
+            //        break;
+            //    case UIKeys.Escape:
+            //        //
+            //        break;
+            //}
+        }
+        void panel_MouseDoubleClick(object sender, UIMouseEventArgs e)
+        {
+            //raise event mouse double click
+            var src = e.SourceHitElement as ListItem;
+            if (src != null && ListItemMouseEvent != null)
+            {
+                e.UIEventName = UIEventName.DblClick;
+                ListItemMouseEvent(this, e);
+            }
+        }
+        void panel_MouseDown(object sender, UIMouseEventArgs e)
+        {
+            //check what item is selected
+            var src = e.SourceHitElement as ListItem;
+            if (src != null)
+            {
+                //make this as current selected list item
+                //find index ?
+                //TODO: review, for faster find list item index method
+                int found = -1;
+                for (int i = items.Count - 1; i >= 0; --i)
+                {
+                    if (items[i] == src)
+                    {
+                        found = i;
+                        break;
+                    }
+                }
+                if (found > -1)
+                {
+                    SelectedIndex = found;
+                }
+                if (ListItemMouseEvent != null)
+                {
+                    e.UIEventName = UIEventName.MouseDown;
+                    ListItemMouseEvent(this, e);
+                }
+            }
         }
         protected override bool HasReadyRenderElement
         {
@@ -131,12 +225,17 @@ namespace LayoutFarm.CustomWidgets
             {
                 if (value < this.ItemCount)
                 {
+                    if (value < 0)
+                    {
+                        value = -1;
+                    }
+                    //-----------------------------
                     if (this.selectedIndex != value)
                     {
                         //1. current item
                         if (selectedIndex > -1)
                         {
-                            //switch back
+                            //switch back    
                             GetItem(this.selectedIndex).BackColor = Color.LightGray;
                         }
 
@@ -144,17 +243,19 @@ namespace LayoutFarm.CustomWidgets
                         if (value == -1)
                         {
                             //no selection
+                            this.selectedItem = null;
                         }
                         else
                         {
                             //highlight selection item
-                            GetItem(this.SelectedIndex).BackColor = Color.Yellow;
+                            this.selectedItem = GetItem(value);
+                            selectedItem.BackColor = Color.Yellow;
                         }
                     }
                 }
                 else
                 {
-                    throw new Exception("out of range");
+                    //do nothing 
                 }
             }
         }
@@ -216,6 +317,8 @@ namespace LayoutFarm.CustomWidgets
         public ListItem(int width, int height)
             : base(width, height)
         {
+            //this.RegisterNativeEvent(1 << UIEventIdentifier.NE_MOUSE_DOWN);
+            this.TransparentAllMouseEvents = true;
         }
         public override RenderElement CurrentPrimaryRenderElement
         {
@@ -233,8 +336,11 @@ namespace LayoutFarm.CustomWidgets
                 var element = new CustomContainerRenderBox(rootgfx, this.Width, this.Height);
                 element.SetLocation(this.Left, this.Top);
                 element.BackColor = this.backColor;
+                element.SetController(this);
+
                 listItemText = new CustomTextRun(rootgfx, 200, this.Height);
                 element.AddChild(listItemText);
+                listItemText.TransparentForAllEvents = true;
                 if (this.itemText != null)
                 {
                     listItemText.Text = this.itemText;
@@ -268,9 +374,7 @@ namespace LayoutFarm.CustomWidgets
                 }
             }
         }
-        //----------------- 
-
-
+        //-----------------  
 
         public override void Walk(UIVisitor visitor)
         {

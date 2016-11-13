@@ -230,8 +230,7 @@ namespace LayoutFarm.UI
 
         void IPlatformWindowBox.SetLocation(int x, int y)
         {
-            var me = this as IPlatformWindowBox;
-            if (me.UseRelativeLocationToParent)
+            if (this.UseRelativeLocationToParent)
             {
                 //1. find parent form/control 
                 var parentLoca = form.LinkedParentForm.Location;

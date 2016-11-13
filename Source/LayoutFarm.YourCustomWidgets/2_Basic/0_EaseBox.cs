@@ -20,13 +20,19 @@ namespace LayoutFarm.CustomWidgets
         int desiredHeight;
         int desiredWidth;
         UICollection uiList;
+
         public event EventHandler<UIMouseEventArgs> MouseDown;
         public event EventHandler<UIMouseEventArgs> MouseMove;
         public event EventHandler<UIMouseEventArgs> MouseUp;
+        public event EventHandler<UIMouseEventArgs> MouseDoubleClick;
         public event EventHandler<UIMouseEventArgs> MouseLeave;
         public event EventHandler<UIMouseEventArgs> MouseDrag;
         public event EventHandler<UIMouseEventArgs> LostMouseFocus;
         public event EventHandler<UIGuestTalkEventArgs> DragOver;
+        //--------------------------------------------------------
+
+        public event EventHandler<UIKeyEventArgs> KeyDown;
+
         public EaseBox(int width, int height)
             : base(width, height)
         {
@@ -54,6 +60,7 @@ namespace LayoutFarm.CustomWidgets
                 }
             }
         }
+
         protected void SetPrimaryRenderElement(CustomRenderBox primElement)
         {
             this.primElement = primElement;
@@ -108,7 +115,17 @@ namespace LayoutFarm.CustomWidgets
             get;
             set;
         }
-
+        protected override void OnDoubleClick(UIMouseEventArgs e)
+        {
+            if (this.MouseDoubleClick != null)
+            {
+                MouseDoubleClick(this, e);
+            }
+            if (this.AcceptKeyboardFocus)
+            {
+                this.Focus();
+            }
+        }
         protected override void OnMouseDown(UIMouseEventArgs e)
         {
             if (this.MouseDown != null)
@@ -232,7 +249,36 @@ namespace LayoutFarm.CustomWidgets
                 this.InvalidateGraphics();
             }
         }
-
+        //-------------------
+        protected override bool OnProcessDialogKey(UIKeyEventArgs e)
+        {
+            if (KeyDown != null)
+            {
+                KeyDown(this, e);
+            }
+            //return true if you want to stop event bubble to other 
+            if (e.CancelBubbling)
+            {
+                return true;
+            }
+            else
+            {
+                return base.OnProcessDialogKey(e);
+            }
+        }
+        protected override void OnKeyDown(UIKeyEventArgs e)
+        {
+            base.OnKeyDown(e);
+        }
+        protected override void OnKeyPress(UIKeyEventArgs e)
+        {
+            base.OnKeyPress(e);
+        }
+        protected override void OnKeyUp(UIKeyEventArgs e)
+        {
+            base.OnKeyUp(e);
+        }
+        //-------------------
         public override int DesiredWidth
         {
             get

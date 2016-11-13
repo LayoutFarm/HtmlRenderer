@@ -42,7 +42,6 @@
     <Compile Include="Events\IEventPortal.cs" />
     <Compile Include="Events\ScrollSurfaceRequestEventArgs.cs" />
     <Compile Include="Events\UIEventArgs.cs" />
-    <Compile Include="Events\UIEventIdentifier.cs" />
     <Compile Include="Events\UIEventNames.cs" />
     <Compile Include="Common\Keys.cs" />
     <Compile Include="IScriptable\JsScriptAttributes.cs" />

@@ -379,7 +379,6 @@
     <Compile Include="LayoutFarm.ClientPlatforms\Events\ITopWindowEventRoot.cs" />
     <Compile Include="LayoutFarm.ClientPlatforms\Events\ScrollSurfaceRequestEventArgs.cs" />
     <Compile Include="LayoutFarm.ClientPlatforms\Events\UIEventArgs.cs" />
-    <Compile Include="LayoutFarm.ClientPlatforms\Events\UIEventIdentifier.cs" />
     <Compile Include="LayoutFarm.ClientPlatforms\Events\UIEventNames.cs" />
     <Compile Include="LayoutFarm.ClientPlatforms\IScriptable\JsScriptAttributes.cs" />
     <Compile Include="LayoutFarm.Composers\1_Composers\1_Builder\BulletNumberFormatter.cs" />
