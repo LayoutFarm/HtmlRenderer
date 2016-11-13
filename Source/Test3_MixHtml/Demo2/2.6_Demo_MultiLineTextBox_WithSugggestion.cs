@@ -39,7 +39,7 @@ namespace LayoutFarm
             BuildSampleCountryList();
         }
 
-      
+
         void textSurfaceListener_PreviewArrowKeyDown(object sender, Text.TextDomEventArgs e)
         {
             //update selection in list box 
@@ -450,22 +450,44 @@ Zimbabwe");
             floatWindow = new CustomWidgets.UIFloatWindow(w, h);
             listView = new CustomWidgets.ListView(w, h);
             floatWindow.AddChild(listView);
-            listView.ListItemMouseDown += listView_ListItemMouseDown;
-            listView.ListItemDoubleClick += listView_ListItemDoubleClick;
+            listView.ListItemMouseEvent += new CustomWidgets.ListView.ListItemMouseHandler(listView_ListItemMouseEvent);
+            listView.ListItemKeyboardEvent += new CustomWidgets.ListView.ListItemKeyboardHandler(listView_ListItemKeyboardEvent);
         }
-        void listView_ListItemDoubleClick(object sender, CustomWidgets.ListItem src)
+
+        void listView_ListItemKeyboardEvent(object sender, UIKeyEventArgs e)
         {
-            if (UserConfirmSelectedItem != null)
+            switch (e.UIEventName)
             {
-                UserConfirmSelectedItem(this, EventArgs.Empty);
+                case UIEventName.KeyDown:
+                    {
+                        switch (e.KeyCode)
+                        {
+                            case UIKeys.Down:
+                                listView.SelectedIndex++;
+                                e.CancelBubbling = true;
+                                break;
+                            case UIKeys.Up:
+                                listView.SelectedIndex--;
+                                e.CancelBubbling = true;
+                                break;
+                        }
+                    }
+                    break;
             }
         }
-        void listView_ListItemMouseDown(object sender, CustomWidgets.ListItem src)
+        void listView_ListItemMouseEvent(object sender, UIMouseEventArgs e)
         {
-            //test, hide suggestion box on select
-            //some item is selected
-            //this.Hide();
+            switch (e.UIEventName)
+            {
+                case UIEventName.DblClick:
+                    if (UserConfirmSelectedItem != null)
+                    {
+                        UserConfirmSelectedItem(this, EventArgs.Empty);
+                    }
+                    break;
+            }
         }
+
         public void ClearItems()
         {
             this.listView.ClearItems();

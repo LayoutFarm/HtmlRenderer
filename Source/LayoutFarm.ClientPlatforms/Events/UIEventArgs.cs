@@ -66,6 +66,7 @@ namespace LayoutFarm.UI
                 return (UIKeys)this.KeyData & UIKeys.KeyCode;
             }
         }
+       
     }
     public abstract class UIEventArgs : EventArgs
     {
@@ -163,6 +164,11 @@ namespace LayoutFarm.UI
         {
             get { return this.IsCanceled; }
             set { this.IsCanceled = value; }
+        }
+        public UIEventName UIEventName
+        {
+            get;
+            set;
         }
     }
 

@@ -14,7 +14,8 @@ namespace LayoutFarm.CustomWidgets
     {
 
 
-        public delegate void ListItemEventHandler(object sender, ListItem src);
+        public delegate void ListItemMouseHandler(object sender, UIMouseEventArgs e);
+        public delegate void ListItemKeyboardHandler(object sender, UIKeyEventArgs e);
 
         //composite          
         CustomRenderBox primElement;//background
@@ -26,8 +27,8 @@ namespace LayoutFarm.CustomWidgets
         ListItem selectedItem = null;
         SimpleBox panel;
 
-        public event ListItemEventHandler ListItemMouseDown;
-        public event ListItemEventHandler ListItemDoubleClick;
+        public event ListItemMouseHandler ListItemMouseEvent;
+        public event ListItemKeyboardHandler ListItemKeyboardEvent;
 
         public ListView(int width, int height)
             : base(width, height)
@@ -50,29 +51,46 @@ namespace LayoutFarm.CustomWidgets
 
         void simpleBox_KeyDown(object sender, UIKeyEventArgs e)
         {
-            if (e.KeyCode == UIKeys.Down)
+            if (selectedItem != null && ListItemKeyboardEvent != null)
             {
-                e.CancelBubbling = true;
-                SelectedIndex++;
+                e.UIEventName = UIEventName.KeyDown;
+                ListItemKeyboardEvent(this, e);
             }
-            else if (e.KeyCode == UIKeys.Up)
-            {
-                e.CancelBubbling = true;
-                SelectedIndex--;
-            }
-            else
-            {
+            //switch (e.KeyCode)
+            //{
+            //    case UIKeys.Down:
+            //        {
+            //            e.CancelBubbling = true;
+            //            SelectedIndex++;
+            //        } break;
+            //    case UIKeys.Up:
+            //        {
+            //            e.CancelBubbling = true;
+            //            SelectedIndex--;
+            //        } break;
+            //    case UIKeys.Enter:
+            //        {
+            //            //accept selected item?
 
-            }
-
+            //            if (selectedItem != null && ListItemKeyboardEvent != null)
+            //            {
+            //                ListItemKeyboardEvent(this, e);
+            //            }
+            //        }
+            //        break;
+            //    case UIKeys.Escape:
+            //        //
+            //        break;
+            //}
         }
         void panel_MouseDoubleClick(object sender, UIMouseEventArgs e)
         {
             //raise event mouse double click
             var src = e.SourceHitElement as ListItem;
-            if (src != null && ListItemDoubleClick != null)
+            if (src != null && ListItemMouseEvent != null)
             {
-                ListItemDoubleClick(this, src);
+                e.UIEventName = UIEventName.DblClick;
+                ListItemMouseEvent(this, e);
             }
         }
         void panel_MouseDown(object sender, UIMouseEventArgs e)
@@ -97,9 +115,10 @@ namespace LayoutFarm.CustomWidgets
                 {
                     SelectedIndex = found;
                 }
-                if (ListItemMouseDown != null)
+                if (ListItemMouseEvent != null)
                 {
-                    ListItemMouseDown(this, src);
+                    e.UIEventName = UIEventName.MouseDown;
+                    ListItemMouseEvent(this, e);
                 }
             }
         }
