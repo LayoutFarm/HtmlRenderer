@@ -21,6 +21,8 @@ namespace LayoutFarm
             var textSplitter = new CustomWidgets.ContentTextSplitter();
             textbox.TextSplitter = textSplitter;
             sgBox = new SuggestionWindowMx(300, 200);
+            sgBox.UserConfirmSelectedItem += new EventHandler(sgBox_UserConfirmSelectedItem);
+            sgBox.ListItemKeyboardEvent += new EventHandler<UIKeyEventArgs>(sgBox_ListItemKeyboardEvent);
             sgBox.Hide();
             //------------------------------------
             //create special text surface listener
@@ -37,6 +39,40 @@ namespace LayoutFarm
             //------------------------------------ 
             BuildSampleCountryList();
         }
+
+        void sgBox_ListItemKeyboardEvent(object sender, UIKeyEventArgs e)
+        {
+            //keyboard event occurs on list item in suggestion box
+            //
+            switch (e.UIEventName)
+            {
+                case UIEventName.KeyDown:
+                    {
+                        switch (e.KeyCode)
+                        {
+                            case UIKeys.Down:
+                                sgBox.SelectedIndex++;
+                                e.CancelBubbling = true;
+                                break;
+                            case UIKeys.Up:
+                                sgBox.SelectedIndex--;
+                                e.CancelBubbling = true;
+                                break;
+                            case UIKeys.Enter:
+                                //use select some item
+                                sgBox_UserConfirmSelectedItem(null, EventArgs.Empty);
+                                e.CancelBubbling = true;
+                                break;
+                            default:
+                                textbox.Focus();
+                                break;
+                        }
+                    }
+                    break;
+            }
+        }
+
+
         void textSurfaceListener_PreviewArrowKeyDown(object sender, Text.TextDomEventArgs e)
         {
             //update selection in list box 
@@ -69,6 +105,11 @@ namespace LayoutFarm
             {
                 return;
             }
+            sgBox_UserConfirmSelectedItem(null, EventArgs.Empty);
+            e.PreventDefault = true;
+        }
+        void sgBox_UserConfirmSelectedItem(object sender, EventArgs e)
+        {
             if (textbox.CurrentTextSpan != null)
             {
                 textbox.ReplaceCurrentTextRunContent(currentLocalText.Length,
@@ -79,8 +120,9 @@ namespace LayoutFarm
                 sgBox.Hide();
                 //-------------------------------------- 
             }
-            e.PreventDefault = true;
+
         }
+
         string GetString(char[] buffer, LayoutFarm.Composers.TextSplitBound bound)
         {
             char[] substr = new char[bound.length];
@@ -424,12 +466,39 @@ Zimbabwe");
     {
         LayoutFarm.CustomWidgets.ListView listView;
         LayoutFarm.CustomWidgets.UIFloatWindow floatWindow;
+
+        public event EventHandler UserConfirmSelectedItem;
+        public event EventHandler<UIKeyEventArgs> ListItemKeyboardEvent;
+
         public SuggestionWindowMx(int w, int h)
         {
             floatWindow = new CustomWidgets.UIFloatWindow(w, h);
             listView = new CustomWidgets.ListView(w, h);
             floatWindow.AddChild(listView);
+            listView.ListItemMouseEvent += new CustomWidgets.ListView.ListItemMouseHandler(listView_ListItemMouseEvent);
+            listView.ListItemKeyboardEvent += new CustomWidgets.ListView.ListItemKeyboardHandler(listView_ListItemKeyboardEvent);
         }
+
+        void listView_ListItemKeyboardEvent(object sender, UIKeyEventArgs e)
+        {
+            if (ListItemKeyboardEvent != null)
+            {
+                ListItemKeyboardEvent(this, e);
+            }
+        }
+        void listView_ListItemMouseEvent(object sender, UIMouseEventArgs e)
+        {
+            switch (e.UIEventName)
+            {
+                case UIEventName.DblClick:
+                    if (UserConfirmSelectedItem != null)
+                    {
+                        UserConfirmSelectedItem(this, EventArgs.Empty);
+                    }
+                    break;
+            }
+        }
+
         public void ClearItems()
         {
             this.listView.ClearItems();

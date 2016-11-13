@@ -10,6 +10,7 @@ namespace PixelFarm.Drawing.WinGdi
     {
         static HarfBuzzShapingService hbShapingService = new HarfBuzzShapingService();
         static InstalledFontCollection s_installFontCollection = new InstalledFontCollection();
+
         static WinGdiPlusPlatform()
         {
             var installFontsWin32 = new PixelFarm.Drawing.Win32.InstallFontsProviderWin32();
@@ -21,16 +22,21 @@ namespace PixelFarm.Drawing.WinGdi
             hbShapingService.SetAsCurrentImplementation();
             //3. set default encoing
             WinGdiTextService.SetDefaultEncoding(System.Text.Encoding.ASCII);
+            //4. default canvas font
+
         }
         public WinGdiPlusPlatform()
         {
-
 
         }
 
         public override Canvas CreateCanvas(int left, int top, int width, int height, CanvasInitParameters canvasInitPars = new CanvasInitParameters())
         {
-            return new MyGdiPlusCanvas(0, 0, left, top, width, height);
+            
+            return new MyGdiPlusCanvas(0, 0,
+                left, top,
+                width, height,
+                new RequestFont("tahoma", 10));//init font
         }
 
         public static void SetFontEncoding(System.Text.Encoding encoding)

@@ -227,14 +227,8 @@ namespace LayoutFarm.UI
                             prevMouseDownElement = null;//clear
                         }
                         //------------------------------------------------------- 
-                        if (!cancelMouseBubbling && currentMouseDown.BypassAllMouseEvents)
-                        {
-                            return false;
-                        }
-                        else
-                        {
-                            return true;
-                        }
+                        return e.CancelBubbling || !listener.BypassAllMouseEvents;
+
                     });
                 }
 
@@ -366,6 +360,7 @@ namespace LayoutFarm.UI
                     {
                         listener.ListenMouseUp(e);
                         return true;
+
                     });
                 }
                 //---------------------------------------------------------------
@@ -373,18 +368,21 @@ namespace LayoutFarm.UI
                 {
                     if (e.IsAlsoDoubleClick)
                     {
-                        ForEachEventListenerBubbleUp(e, hitPointChain, (listener) =>
+                        ForEachEventListenerBubbleUp(e, hitPointChain, listener =>
                         {
                             listener.ListenMouseDoubleClick(e);
-                            return true;
+                            //------------------------------------------------------- 
+                            //retrun true to stop this loop (no further bubble up)
+                            //return false to bubble this to upper control       
+                            return e.CancelBubbling || !listener.BypassAllMouseEvents;
                         });
                     }
                     else
                     {
-                        ForEachEventListenerBubbleUp(e, hitPointChain, (listener) =>
+                        ForEachEventListenerBubbleUp(e, hitPointChain, listener =>
                         {
                             listener.ListenMouseClick(e);
-                            return true;
+                            return e.CancelBubbling || !listener.BypassAllMouseEvents;
                         });
                     }
                 }
