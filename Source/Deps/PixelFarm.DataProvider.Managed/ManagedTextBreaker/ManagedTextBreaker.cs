@@ -95,20 +95,20 @@ namespace PixelFarm.Drawing.Text
 
 
         const int DONE = -1;
-        static bool AddToken(UBreakIteratorType type, int status)
-        {
-            switch (type)
-            {
-                case UBreakIteratorType.CHARACTER:
-                    return true;
-                case UBreakIteratorType.LINE:
-                case UBreakIteratorType.SENTENCE:
-                    return true;
-                case UBreakIteratorType.WORD:
-                    return status < (int)UWordBreak.NONE || status >= (int)UWordBreak.NONE_LIMIT;
-            }
-            return false;
-        }
+        //static bool AddToken(UBreakIteratorType type, int status)
+        //{
+        //    switch (type)
+        //    {
+        //        case UBreakIteratorType.CHARACTER:
+        //            return true;
+        //        case UBreakIteratorType.LINE:
+        //        case UBreakIteratorType.SENTENCE:
+        //            return true;
+        //        case UBreakIteratorType.WORD:
+        //            return status < (int)UWordBreak.NONE || status >= (int)UWordBreak.NONE_LIMIT;
+        //    }
+        //    return false;
+        //}
 
         ////this is text breaker impl with ICU lib
         //static InMemoryIcuDataHolder dataHolder;

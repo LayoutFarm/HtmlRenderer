@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("PixelFarm.DataProvider")]
+[assembly: AssemblyTitle("PixelFarm.DataProvider.Managed")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("PixelFarm.DataProvider")]
+[assembly: AssemblyProduct("PixelFarm.DataProvider.Managed")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("2318150b-6bd5-4f38-80f2-c2abe588022f")]
+[assembly: Guid("f2c10ab8-48bc-476f-b65c-a35aa9c4e3f4")]
 
 // Version information for an assembly consists of the following four values:
 //

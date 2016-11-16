@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{1178D339-33C4-47FC-9807-869367BE803A}</ProjectGuid>
+    <ProjectGuid>{025E536D-53A6-4C5F-AED5-E21960C70763}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PixelFarm.DataProvider</RootNamespace>
-    <AssemblyName>PixelFarm.DataProvider</AssemblyName>
+    <RootNamespace>PixelFarm.DataProvider.Managed</RootNamespace>
+    <AssemblyName>PixelFarm.DataProvider.Managed</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -21,7 +21,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,32 +29,21 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.XML" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bitmap\NativeImage.cs" />
     <Compile Include="InstalledFontCollection.cs" />
     <Compile Include="ManagedTextBreaker\ManagedTextBreaker.cs" />
-    <Compile Include="NativeDll.cs" />
-    <Compile Include="NativeFonts\NativeBridgeFreeType.cs" />
-    <Compile Include="NativeFonts\NativeFont.cs" />
-    <Compile Include="NativeFonts\NativeFontFace.cs" />
-    <Compile Include="NativeFonts\NativeFontGlyphBuilder.cs" />
-    <Compile Include="NativeFonts\NativeFonts.cs" />
-    <Compile Include="NativeFonts\FontLoaderImpls.cs" />
-    <Compile Include="NativeFonts\SimpleFontAtlas.cs" />
-    <Compile Include="NativeText\HarfBuzzShapingService.cs" />
-    <Compile Include="NativeText\NativeTextBreaker.cs" />
     <Compile Include="NOpenTypeFonts\GlyphBuilder.cs" />
     <Compile Include="NOpenTypeFonts\ManagedShapingService.cs" />
     <Compile Include="NOpenTypeFonts\NOpenTypeFont.cs" />
+    <Compile Include="NOpenTypeFonts\NOpenTypeFontLoader.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers.cs" />
     <Compile Include="Win32Impl.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NOpenType\N20\PixelFarm.OpenType\PixelFarm.OpenType.csproj">
@@ -67,7 +55,6 @@
       <Name>PixelFarm.Drawing.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -159,7 +159,7 @@ namespace PixelFarm.Drawing.WinGdi
             logFont.lfHeight = -(int)PixelFarm.Drawing.RequestFont.ConvEmSizeInPointsToPixels(emHeight);//minus **
             logFont.lfCharSet = 1;//default
             logFont.lfQuality = 0;//default
-
+            
             MyWin32.LOGFONT_FontWeight weight =
                 ((style & FontStyle.Bold) == FontStyle.Bold) ?
                 MyWin32.LOGFONT_FontWeight.FW_BOLD :
@@ -172,10 +172,7 @@ namespace PixelFarm.Drawing.WinGdi
 
 
         public System.IntPtr ToHfont()
-        {   /// <summary>
-            /// Set a resource (e.g. a font) for the specified device context.
-            /// WARNING: Calling Font.ToHfont() many times without releasing the font handle crashes the app.
-            /// </summary>
+        {   
             return this.hfont;
         }
         public override float SizeInPoints

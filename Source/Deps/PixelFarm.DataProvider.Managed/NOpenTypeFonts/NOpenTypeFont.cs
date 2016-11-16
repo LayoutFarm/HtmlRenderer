@@ -7,6 +7,8 @@ using System.IO;
 using PixelFarm.Agg;
 namespace PixelFarm.Drawing.Fonts
 {
+
+
     class NOpenTypeFontFace : FontFace
     {
         Typeface ntypeface;
@@ -171,7 +173,7 @@ namespace PixelFarm.Drawing.Fonts
             //not found
             //then build it
             ownerFace.VxsBuilder.BuildFromGlyphIndex((ushort)codepoint, this.sizeInPoints);
-   
+
             found = ownerFace.VxsBuilder.GetVxs(new VertexStore());
             glyphVxs.Add(codepoint, found);
             return found;
