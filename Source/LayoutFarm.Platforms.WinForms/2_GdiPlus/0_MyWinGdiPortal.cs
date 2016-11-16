@@ -42,13 +42,13 @@ namespace LayoutFarm.UI.GdiPlus
             {
                 //check icu file is exist 
                 //TODO: review  file/resource load mechanism again ***
-                //NativeTextBreaker.SetICUDataFile(initParams.IcuDataFile);
+                 NativeTextBreaker.SetICUDataFile(initParams.IcuDataFile);
             }
             //2. text breaker
-            //RootGraphic.SetTextBreakerGenerator(
-            //    initParams.TextBreakGenerator ??
-            //    (locale => new NativeTextBreaker(TextBreakKind.Word, locale))
-            //    );
+            RootGraphic.SetTextBreakerGenerator(
+                initParams.TextBreakGenerator ??
+                (locale => new NativeTextBreaker(TextBreakKind.Word, locale))
+                );
 
             //-------------------------------------
             //config encoding
