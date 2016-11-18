@@ -37,6 +37,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bitmap\NativeImage.cs" />
+    <Compile Include="HarfBuzzShapingService.cs" />
     <Compile Include="NativeDll.cs" />
     <Compile Include="NativeFonts\FontLoaderImpls.cs" />
     <Compile Include="NativeFonts\NativeBridgeFreeType.cs" />
@@ -45,8 +46,6 @@
     <Compile Include="NativeFonts\NativeFontGlyphBuilder.cs" />
     <Compile Include="NativeFonts\NativeFonts.cs" />
     <Compile Include="NativeFonts\SimpleFontAtlas.cs" />
-    <Compile Include="NativeText\HarfBuzzShapingService.cs" />
-    <Compile Include="NativeText\NativeTextBreaker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
