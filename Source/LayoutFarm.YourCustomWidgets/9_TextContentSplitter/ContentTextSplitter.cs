@@ -14,39 +14,54 @@ namespace LayoutFarm.CustomWidgets
 
     public class ContentTextSplitter
     {
-        //configure icu's locale here 
-        string icuLocal = "th-TH";
-        TextBreaker textBreaker;
+
+        ITextBreaker textBreaker;
+        List<int> breakAtList = new List<int>();
         public ContentTextSplitter()
         {
-            this.textBreaker = RootGraphic.GetTextBreaker(icuLocal);
+            this.textBreaker = LayoutFarm.Composers.Default.TextBreaker;
+        }
+        public ITextBreaker TextBreaker
+        {
+            get { return this.textBreaker; }
+            set { this.textBreaker = value; }
         }
         public IEnumerable<TextSplitBound> ParseWordContent(char[] textBuffer, int startIndex, int appendLength)
         {
 
             int s_index = startIndex;
-            List<SplitBound> runlist = new List<SplitBound>();
-            textBreaker.DoBreak(textBuffer, startIndex, appendLength, bounds =>
-            {
-                //iterate new split
-                runlist.Add(bounds);
-            });
+            textBreaker.DoBreak(textBuffer, startIndex, appendLength, breakAtList);
 
-            foreach (var splitBound in runlist)
+            int j = breakAtList.Count;
+            int pos = 0;
+            for (int i = 0; i < j; ++i)
             {
-                //need consecutive bound
-                if (splitBound.startIndex != s_index)
-                {
-                    yield return new TextSplitBound(s_index, splitBound.startIndex - s_index);
-                    s_index = splitBound.startIndex;
-                }
-                s_index += splitBound.length;
-                yield return new TextSplitBound(splitBound.startIndex, splitBound.length);
+                int sepAt = breakAtList[i];
+                int len = sepAt - pos;
+                yield return new TextSplitBound(s_index, len);
+                s_index = startIndex + sepAt;
+                pos = sepAt;
             }
+            breakAtList.Clear();
             if (s_index < textBuffer.Length)
             {
                 yield return new TextSplitBound(s_index, textBuffer.Length - s_index);
             }
+            //foreach (var splitBound in runlist)
+            //{
+            //    //need consecutive bound
+            //    if (splitBound.startIndex != s_index)
+            //    {
+            //        yield return new TextSplitBound(s_index, splitBound.startIndex - s_index);
+            //        s_index = splitBound.startIndex;
+            //    }
+            //    s_index += splitBound.length;
+            //    yield return new TextSplitBound(splitBound.startIndex, splitBound.length);
+            //}
+            //if (s_index < textBuffer.Length)
+            //{
+            //    yield return new TextSplitBound(s_index, textBuffer.Length - s_index);
+            //}
         }
     }
 }

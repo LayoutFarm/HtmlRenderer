@@ -4,9 +4,14 @@ using System.Collections.Generic;
 using LayoutFarm.Css;
 using LayoutFarm.HtmlBoxes;
 using PixelFarm.Drawing.Text;
+
 namespace LayoutFarm.Composers
 {
 
+    public interface ITextBreaker
+    {
+        void DoBreak(char[] inputBuffer, int startIndex, int len, List<int> breakAtList);
+    }
 
     /// <summary>
     /// parse html text content, 
@@ -15,9 +20,7 @@ namespace LayoutFarm.Composers
     /// </summary>
     class HtmlContentTextSplitter
     {
-
-
-
+        List<int> breakAtList = new List<int>();
         public HtmlContentTextSplitter()
         {
 
@@ -28,7 +31,7 @@ namespace LayoutFarm.Composers
             Whitespace,
             CharacterCollecting
         }
-        public TextBreaker TextBreaker { get; set; }
+        public ITextBreaker TextBreaker { get; set; }
 
 
         void CreateTextRuns(char[] textBuffer, List<CssRun> runlist, int startIndex, int appendLength)
@@ -38,12 +41,24 @@ namespace LayoutFarm.Composers
             if (TextBreaker != null)
             {
                 //use text break to parse more
-                TextBreaker.DoBreak(textBuffer, startIndex, appendLength, bounds =>
+                breakAtList.Clear();
+                TextBreaker.DoBreak(textBuffer, startIndex, appendLength, breakAtList);
+                int j = breakAtList.Count;
+                int pos = startIndex;
+                for (int i = 0; i < j; ++i)
                 {
-                    //iterate new split 
+                    int sepAt = breakAtList[i];
                     runlist.Add(
-                        CssTextRun.CreateTextRun(startIndex + bounds.startIndex, bounds.length));
-                });
+                        CssTextRun.CreateTextRun(pos, sepAt - pos));
+                    pos = sepAt;
+                }
+                breakAtList.Clear();
+                //TextBreaker.DoBreak(textBuffer, startIndex, appendLength, bounds =>
+                //{
+                //    //iterate new split 
+                //    runlist.Add(
+                //        CssTextRun.CreateTextRun(startIndex + bounds.startIndex, bounds.length));
+                //});
             }
             else
             {
@@ -292,5 +307,5 @@ namespace LayoutFarm.Composers
     }
 
 
-   
+
 }

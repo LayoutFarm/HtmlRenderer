@@ -13,13 +13,19 @@ namespace TestGraphicPackage2
         {
 
             ExampleFolderConfig.InitIcuData();
-            //-----------------------
+            //-------------------------------
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             //temp
             //TODO: fix this , 
+            //LayoutFarm.Composers.Default.TextBreaker = new LayoutFarm.Composers.MyManagedTextBreaker();
+            LayoutFarm.Composers.Default.TextBreaker = new LayoutFarm.Composers.MyNativeTextBreaker();
             var startPars = new LayoutFarm.UI.GdiPlus.MyWinGdiPortalSetupParameters();
             var platform = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.Start(startPars);
+            //-------------------------------
+
+
+
             formDemoList = new LayoutFarm.Dev.FormDemoList();
             formDemoList.LoadDemoList(typeof(Program));
             LoadHtmlSamples(formDemoList.SamplesTreeView);
@@ -79,5 +85,6 @@ namespace TestGraphicPackage2
             }
         }
     }
+
 
 }

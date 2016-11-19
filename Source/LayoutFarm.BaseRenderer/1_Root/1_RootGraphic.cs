@@ -14,8 +14,8 @@ namespace LayoutFarm
 #endif
     }
 
-   
-    public abstract partial class RootGraphic  
+
+    public abstract partial class RootGraphic
     {
         public delegate void PaintToOutputWindowDelegate();
         protected PaintToOutputWindowDelegate paintToOutputWindowHandler;
@@ -27,7 +27,7 @@ namespace LayoutFarm
             this.Width = width;
             this.Height = heigth;
         }
-        
+
 
         public abstract RequestFont DefaultTextEditFontInfo
         {
@@ -50,7 +50,7 @@ namespace LayoutFarm
         public abstract void CloseWinRoot();
         //-------------------------------------------------------------------------
 
-        
+
         public abstract void ClearRenderRequests();
         public abstract void AddToLayoutQueue(RenderElement renderElement);
         public abstract void AddToElementUpdateQueue(object requestBy);
@@ -298,21 +298,21 @@ namespace LayoutFarm
         public abstract RootGraphic CreateNewOne(int w, int h);
         //---------------------------------------------
 
-         
 
-        static TextBreakGenDel s_textBreakGen;
-        public static PixelFarm.Drawing.Text.TextBreaker GetTextBreaker(string locale)
-        {
-            return s_textBreakGen(locale);
-        }
-        public static void SetTextBreakerGenerator(TextBreakGenDel textBreakGen)
-        {
-            s_textBreakGen = textBreakGen;
-        }
 
-        public delegate PixelFarm.Drawing.Text.TextBreaker TextBreakGenDel(string locale);
+        //static TextBreakGenDel s_textBreakGen;
+        //public static PixelFarm.Drawing.Text.TextBreaker GetTextBreaker(string locale)
+        //{
+        //    return s_textBreakGen(locale);
+        //}
+        //public static void SetTextBreakerGenerator(TextBreakGenDel textBreakGen)
+        //{
+        //    s_textBreakGen = textBreakGen;
+        //}
+
+        //public delegate PixelFarm.Drawing.Text.TextBreaker TextBreakGenDel(string locale);
     }
 
-   
+
 
 }

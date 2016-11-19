@@ -8,13 +8,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace LayoutFarm.TextBreaker 
+namespace LayoutFarm.TextBreaker
 {
     public class CustomBreaker
     {
         //default for latin breaking engine
         EngBreakingEngine engBreakingEngine = new EngBreakingEngine();
-
         //current lang breaking engine
         BreakingEngine breakingEngine;
         List<BreakingEngine> otherEngines = new List<BreakingEngine>();
@@ -63,7 +62,7 @@ namespace LayoutFarm.TextBreaker
             BreakingEngine currentEngine = SelectEngine(c);
             breakingEngine = currentEngine;
             //----------------------------------------
-            
+
             //----------------------------------------
             //select breaking engine
             bool continueParse = true;
@@ -109,6 +108,10 @@ namespace LayoutFarm.TextBreaker
         public bool CanBeStartChar(char c)
         {
             return breakingEngine.CanBeStartChar(c);
+        }
+        public void LoadBreakAtList(List<int> outputList)
+        {
+            outputList.AddRange(visitor.GetBreakList());
         }
         public IEnumerable<BreakSpan> GetBreakSpanIter()
         {

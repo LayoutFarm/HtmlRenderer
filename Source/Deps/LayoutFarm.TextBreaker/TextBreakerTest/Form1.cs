@@ -36,31 +36,13 @@ namespace TextBreakerTest
             // LayoutFarm.TextBreaker.ICU.DictionaryData.LoadData("../../../icu58/brkitr/thaidict.dict");
         }
 
-        ThaiDictionaryBreakingEngine thaiDicBreakingEngine;
-        LaoDictionaryBreakingEngine laoDicBreakingEngine;
+     
         private void cmdCustomBuild_Click(object sender, EventArgs e)
         {
-            CustomBreaker breaker1 = new CustomBreaker();
-            //test read dict data line
-            //1. load dic
-            if (thaiDicBreakingEngine == null)
-            {
-                var customDic = new CustomDic();
-                thaiDicBreakingEngine = new ThaiDictionaryBreakingEngine();
-                thaiDicBreakingEngine.SetDictionaryData(customDic);
-                customDic.SetCharRange(thaiDicBreakingEngine.FirstUnicodeChar, thaiDicBreakingEngine.LastUnicodeChar);
-                customDic.LoadFromTextfile("../../../icu58/brkitr_src/dictionaries/thaidict.txt");
-                breaker1.AddBreakingEngine(thaiDicBreakingEngine);
-            }
-            if (laoDicBreakingEngine == null)
-            {
-                var customDic = new CustomDic();
-                laoDicBreakingEngine = new LaoDictionaryBreakingEngine();
-                laoDicBreakingEngine.SetDictionaryData(customDic);
-                customDic.SetCharRange(laoDicBreakingEngine.FirstUnicodeChar, laoDicBreakingEngine.LastUnicodeChar);
-                customDic.LoadFromTextfile("../../../icu58/brkitr_src/dictionaries/laodict.txt");
-                breaker1.AddBreakingEngine(laoDicBreakingEngine);
-            }
+
+            CustomBreakerBuilder.DataDir = "../../../icu58/brkitr_src/dictionaries";
+            CustomBreaker breaker1 = CustomBreakerBuilder.NewCustomBreaker();
+         
             //2. create dictionary based breaking engine 
             // 
             char[] test = this.textBox1.Text.ToCharArray();

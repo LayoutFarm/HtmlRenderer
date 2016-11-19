@@ -36,6 +36,7 @@
   <ItemGroup>
     <Compile Include="BreakEngine.cs" />
     <Compile Include="CustomBreaker.cs" />
+    <Compile Include="CustomBreakerBuilder.cs" />
     <Compile Include="CustomDict.cs" />
     <Compile Include="BreakingEngine.cs" />
     <Compile Include="EngBreakingEngine.cs" />
