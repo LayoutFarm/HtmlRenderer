@@ -183,7 +183,6 @@
     <Compile Include="NOpenType\N20\PixelFarm.OpenType\..\..\NetCore\PixelFarm.OpenType\Tables\Utils.cs" />
     <Compile Include="NOpenType\N20\PixelFarm.OpenType\..\..\NetCore\PixelFarm.OpenType\Typeface.cs" />
     <Compile Include="PixelFarm.DataProvider.Managed\InstalledFontCollection.cs" />
-    <Compile Include="PixelFarm.DataProvider.Managed\ManagedTextBreaker\ManagedTextBreaker.cs" />
     <Compile Include="PixelFarm.DataProvider.Managed\NOpenTypeFonts\GlyphBuilder.cs" />
     <Compile Include="PixelFarm.DataProvider.Managed\NOpenTypeFonts\ManagedShapingService.cs" />
     <Compile Include="PixelFarm.DataProvider.Managed\NOpenTypeFonts\NOpenTypeFont.cs" />
@@ -191,6 +190,7 @@
     <Compile Include="PixelFarm.DataProvider.Managed\Providers.cs" />
     <Compile Include="PixelFarm.DataProvider.Managed\Win32Impl.cs" />
     <Compile Include="PixelFarm.DataProvider.Native\Bitmap\NativeImage.cs" />
+    <Compile Include="PixelFarm.DataProvider.Native\HarfBuzzShapingService.cs" />
     <Compile Include="PixelFarm.DataProvider.Native\NativeDll.cs" />
     <Compile Include="PixelFarm.DataProvider.Native\NativeFonts\FontLoaderImpls.cs" />
     <Compile Include="PixelFarm.DataProvider.Native\NativeFonts\NativeBridgeFreeType.cs" />
@@ -199,8 +199,6 @@
     <Compile Include="PixelFarm.DataProvider.Native\NativeFonts\NativeFontGlyphBuilder.cs" />
     <Compile Include="PixelFarm.DataProvider.Native\NativeFonts\NativeFonts.cs" />
     <Compile Include="PixelFarm.DataProvider.Native\NativeFonts\SimpleFontAtlas.cs" />
-    <Compile Include="PixelFarm.DataProvider.Native\NativeText\HarfBuzzShapingService.cs" />
-    <Compile Include="PixelFarm.DataProvider.Native\NativeText\NativeTextBreaker.cs" />
     <Compile Include="PixelFarm.Drawing.Core\0_Start\ExtensionAttribute.cs" />
     <Compile Include="PixelFarm.Drawing.Core\0_Start\GraphicsPlatform.cs" />
     <Compile Include="PixelFarm.Drawing.Core\1_Drawing\BasicGeometries.cs" />
@@ -224,7 +222,6 @@
     <Compile Include="PixelFarm.Drawing.Core\3_Drawing_Fonts\FontGlyph.cs" />
     <Compile Include="PixelFarm.Drawing.Core\3_Drawing_Fonts\FontKey.cs" />
     <Compile Include="PixelFarm.Drawing.Core\3_Drawing_Fonts\NativeBridgeHB.cs" />
-    <Compile Include="PixelFarm.Drawing.Core\4_Drawing_Text\TextBreaker.cs" />
     <Compile Include="PixelFarm.Drawing.Core\4_Drawing_Text\TextShapingAndLayoutService.cs" />
     <Compile Include="PixelFarm.Drawing.Core\5_PixelFarm_Agg\ActualImage.cs" />
     <Compile Include="PixelFarm.Drawing.Core\5_PixelFarm_Agg\CanvasPainter.cs" />

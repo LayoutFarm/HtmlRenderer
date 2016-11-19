@@ -36,7 +36,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="InstalledFontCollection.cs" />
-    <Compile Include="ManagedTextBreaker\ManagedTextBreaker.cs" />
     <Compile Include="NOpenTypeFonts\GlyphBuilder.cs" />
     <Compile Include="NOpenTypeFonts\ManagedShapingService.cs" />
     <Compile Include="NOpenTypeFonts\NOpenTypeFont.cs" />

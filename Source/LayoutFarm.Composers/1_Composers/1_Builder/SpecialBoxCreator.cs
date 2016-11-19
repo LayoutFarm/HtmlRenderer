@@ -95,7 +95,13 @@ namespace LayoutFarm.HtmlBoxes
         static readonly char[] discItem = new[] { '•' };
         static readonly char[] circleItem = new[] { 'o' };
         static readonly char[] squareItem = new[] { '♠' };
-        static Composers.HtmlContentTextSplitter splitter = new Composers.HtmlContentTextSplitter();
+        static Composers.HtmlContentTextSplitter splitter;
+        static ListItemBoxCreator()
+        {
+            splitter = new Composers.HtmlContentTextSplitter();
+            
+        }
+
         public static CssBox CreateListItemBox(CssBox parent, HtmlElement childElement)
         {
             var spec = childElement.Spec;

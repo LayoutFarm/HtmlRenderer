@@ -5,14 +5,15 @@ using Win32;
 using PixelFarm.Drawing.WinGdi;
 using PixelFarm.Drawing.Fonts;
 using PixelFarm.Drawing.Text;
+
 namespace LayoutFarm.UI.GdiPlus
 {
     public class MyWinGdiPortalSetupParameters
     {
-        public string IcuDataFile { get; set; }
-        public RootGraphic.TextBreakGenDel TextBreakGenerator { get; set; }
+        public string IcuDataFile { get; set; } 
         public IFonts TextServiceInstance { get; set; }
         public IActualFontResolver ActualFontResolver { get; set; }
+        
     }
 
 
@@ -38,17 +39,17 @@ namespace LayoutFarm.UI.GdiPlus
             //-------------------------------------
             //if we use ICU text breaker
             //1. load icu data
-            if (initParams.IcuDataFile != null)
-            {
-                //check icu file is exist 
-                //TODO: review  file/resource load mechanism again ***
-                 NativeTextBreaker.SetICUDataFile(initParams.IcuDataFile);
-            }
-            //2. text breaker
-            RootGraphic.SetTextBreakerGenerator(
-                initParams.TextBreakGenerator ??
-                (locale => new NativeTextBreaker(TextBreakKind.Word, locale))
-                );
+            //if (initParams.IcuDataFile != null)
+            //{
+            //    //check icu file is exist 
+            //    //TODO: review  file/resource load mechanism again ***
+            //     NativeTextBreaker.SetICUDataFile(initParams.IcuDataFile);
+            //}
+            ////2. text breaker
+            //RootGraphic.SetTextBreakerGenerator(
+            //    initParams.TextBreakGenerator ??
+            //    (locale => new NativeTextBreaker(TextBreakKind.Word, locale))
+            //    );
 
             //-------------------------------------
             //config encoding

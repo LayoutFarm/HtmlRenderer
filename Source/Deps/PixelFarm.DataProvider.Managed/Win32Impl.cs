@@ -41,6 +41,7 @@ namespace PixelFarm.Drawing.Win32
     public class ImageProviderWin32 : IImageProvider
     {
     
+        //use mananged loader?
         public byte[] LoadImageBufferFromFile(string filename)
         {
             //read data  

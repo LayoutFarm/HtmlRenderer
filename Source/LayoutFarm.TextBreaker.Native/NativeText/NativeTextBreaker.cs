@@ -245,13 +245,13 @@ namespace PixelFarm.Drawing.Text
         }
         public static void Test2()
         {
-            string str = "ABCD EFGH IJKL\0";
-            var textBreaker = new ManagedTextBreaker(TextBreakKind.Word, "en-US");
-            List<SplitBound> tokens = new List<SplitBound>();
-            textBreaker.DoBreak(str, splitBound =>
-            {
-                tokens.Add(splitBound);
-            });
+            //string str = "ABCD EFGH IJKL\0";
+            //var textBreaker = new ManagedTextBreaker(TextBreakKind.Word, "en-US");
+            //List<SplitBound> tokens = new List<SplitBound>();
+            //textBreaker.DoBreak(str, splitBound =>
+            //{
+            //    tokens.Add(splitBound);
+            //});
 
         }
     }
