@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace LayoutFarm.TextBreaker 
+namespace LayoutFarm.TextBreaker
 {
     public class EngBreakingEngine : BreakingEngine
     {
@@ -199,6 +199,7 @@ namespace LayoutFarm.TextBreaker
                 //some remaining data
                 breakBounds.length = (start + len) - breakBounds.startIndex;
                 onbreak(breakBounds);
+                visitor.State = VisitorState.End;
             }
         }
     }
