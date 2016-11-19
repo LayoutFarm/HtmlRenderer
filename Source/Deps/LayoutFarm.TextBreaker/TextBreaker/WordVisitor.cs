@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace LayoutFarm.TextBreaker 
+namespace LayoutFarm.TextBreaker
 {
     public enum VisitorState
     {
@@ -41,6 +41,8 @@ namespace LayoutFarm.TextBreaker
             this.bufferLen = buffer.Length;
             this.startIndex = currentIndex = index;
             this.currentChar = buffer[currentIndex];
+            breakAtList.Clear();
+            latestBreakAt = -1;
         }
         public VisitorState State
         {
@@ -65,7 +67,7 @@ namespace LayoutFarm.TextBreaker
             }
             return false;
         }
-       
+
         public bool IsEnd
         {
             get { return currentIndex >= bufferLen - 1; }
@@ -102,7 +104,7 @@ namespace LayoutFarm.TextBreaker
             return ownerBreak.CanBeStartChar(c);
         }
         public List<int> GetBreakList()
-        {            
+        {
             return breakAtList;
         }
         internal List<CandidateWord> GetTempCandidateWords()
