@@ -3,8 +3,8 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using LayoutFarm.TextBreaker;
-using PixelFarm.Drawing.Text;
+using LayoutFarm.TextBreak.ICU;
+ 
 
 namespace LayoutFarm.Composers
 {
@@ -13,7 +13,7 @@ namespace LayoutFarm.Composers
         NativeTextBreaker myTextBreaker;
         public MyNativeTextBreaker()
         {
-            myTextBreaker = new NativeTextBreaker(PixelFarm.Drawing.Text.TextBreakKind.Word, "en-US");
+            myTextBreaker = new NativeTextBreaker(LayoutFarm.TextBreak.ICU.TextBreakKind.Word, "en-US");
         }
         public void DoBreak(char[] inputBuffer, int startIndex, int len, List<int> breakAtList)
         {

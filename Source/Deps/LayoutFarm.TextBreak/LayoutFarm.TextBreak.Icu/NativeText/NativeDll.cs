@@ -1,6 +1,6 @@
 ﻿//MIT, 2014-2016, WinterDev
 
-namespace PixelFarm.Drawing.Text
+namespace LayoutFarm.TextBreak.ICU
 {
     static class NativeDLL
     {
