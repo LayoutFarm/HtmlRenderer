@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using LayoutFarm.TextBreaker;
+using LayoutFarm.TextBreak;
 using PixelFarm.Drawing.Text;
 
 namespace LayoutFarm.Composers

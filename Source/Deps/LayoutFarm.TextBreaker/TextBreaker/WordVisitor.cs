@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace LayoutFarm.TextBreaker
+namespace LayoutFarm.TextBreak
 {
     public enum VisitorState
     {

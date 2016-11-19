@@ -100,13 +100,13 @@
     <Compile Include="SampleViewportExtension.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Deps\LayoutFarm.TextBreaker\LayoutFarm.TextBreaker.Native\LayoutFarm.TextBreaker.Native.csproj">
+    <ProjectReference Include="..\Deps\LayoutFarm.TextBreaker\LayoutFarm.TextBreaker.Native\LayoutFarm.TextBreak.Icu.csproj">
       <Project>{777178CA-C706-406F-856D-62CC40AC63E4}</Project>
-      <Name>LayoutFarm.TextBreaker.Native</Name>
+      <Name>LayoutFarm.TextBreak.Icu</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Deps\LayoutFarm.TextBreaker\TextBreaker\LayoutFarm.TextBreaker.csproj">
+    <ProjectReference Include="..\Deps\LayoutFarm.TextBreaker\TextBreaker\LayoutFarm.TextBreak.csproj">
       <Project>{09EC5531-D272-40DB-87A4-B2D353846CC2}</Project>
-      <Name>LayoutFarm.TextBreaker</Name>
+      <Name>LayoutFarm.TextBreak</Name>
     </ProjectReference>
     <ProjectReference Include="..\Deps\PixelFarm.DataProvider.Managed\PixelFarm.DataProvider.Managed.csproj">
       <Project>{025E536D-53A6-4C5F-AED5-E21960C70763}</Project>

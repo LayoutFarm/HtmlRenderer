@@ -10,7 +10,7 @@ namespace TestGraphicPackage2
     {
         static ExampleFolderConfig()
         { 
-            LayoutFarm.TextBreaker.CustomBreakerBuilder.DataDir = @"D:\projects\HTML-Renderer\Source\Deps\LayoutFarm.TextBreaker\icu58\brkitr_src\dictionaries"; 
+            LayoutFarm.TextBreak.CustomBreakerBuilder.DataDir = @"D:\projects\HTML-Renderer\Source\Deps\LayoutFarm.TextBreaker\icu58\brkitr_src\dictionaries"; 
         }
         public static void InitIcuData()
         {

@@ -2,7 +2,7 @@
 
 using System;
 using System.Collections.Generic;
-namespace PixelFarm.Drawing.Text
+namespace LayoutFarm.TextBreak.ICU
 {
 
     public enum TextBreakKind

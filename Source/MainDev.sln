@@ -87,9 +87,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixelFarm.DataProvider.Mana
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixelFarm.DataProvider.Native", "Deps\PixelFarm.DataProvider.Native\PixelFarm.DataProvider.Native.csproj", "{821C2F8B-45E4-4242-970D-AE64780970B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.TextBreaker", "Deps\LayoutFarm.TextBreaker\TextBreaker\LayoutFarm.TextBreaker.csproj", "{09EC5531-D272-40DB-87A4-B2D353846CC2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.TextBreak", "Deps\LayoutFarm.TextBreaker\TextBreaker\LayoutFarm.TextBreak.csproj", "{09EC5531-D272-40DB-87A4-B2D353846CC2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.TextBreaker.Native", "Deps\LayoutFarm.TextBreaker\LayoutFarm.TextBreaker.Native\LayoutFarm.TextBreaker.Native.csproj", "{777178CA-C706-406F-856D-62CC40AC63E4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.TextBreak.Icu", "Deps\LayoutFarm.TextBreaker\LayoutFarm.TextBreaker.Native\LayoutFarm.TextBreak.Icu.csproj", "{777178CA-C706-406F-856D-62CC40AC63E4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

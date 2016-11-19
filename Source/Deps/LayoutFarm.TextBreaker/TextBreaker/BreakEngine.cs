@@ -1,7 +1,7 @@
 ﻿//MIT, 2016, WinterDev
 //some code from ICU project with BSD license
 
-namespace LayoutFarm.TextBreaker
+namespace LayoutFarm.TextBreak
 {
     public enum TextBreakKind
     {
