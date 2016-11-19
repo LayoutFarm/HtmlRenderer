@@ -28,23 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.cmdBreak = new System.Windows.Forms.Button();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.cmdReadDict = new System.Windows.Forms.Button();
             this.cmdCustomBuild = new System.Windows.Forms.Button();
             this.cmdIcuTest = new System.Windows.Forms.Button();
             this.SuspendLayout();
-            // 
-            // cmdBreak
-            // 
-            this.cmdBreak.Location = new System.Drawing.Point(13, 44);
-            this.cmdBreak.Name = "cmdBreak";
-            this.cmdBreak.Size = new System.Drawing.Size(130, 35);
-            this.cmdBreak.TabIndex = 0;
-            this.cmdBreak.Text = "Break";
-            this.cmdBreak.UseVisualStyleBackColor = true;
-            this.cmdBreak.Click += new System.EventHandler(this.button1_Click);
             // 
             // listBox1
             // 
@@ -102,7 +91,6 @@
             this.Controls.Add(this.cmdReadDict);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.listBox1);
-            this.Controls.Add(this.cmdBreak);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -113,7 +101,6 @@
 
         #endregion
 
-        private System.Windows.Forms.Button cmdBreak;
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button cmdReadDict;
