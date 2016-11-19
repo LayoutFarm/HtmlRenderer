@@ -93,14 +93,28 @@
     <Compile Include="Demo7\MenuBoardModule.cs" />
     <Compile Include="ExampleFolderConfig.cs" />
     <Compile Include="HtmlHostCreatorHelper.cs" />
+    <Compile Include="ManagedTextBreaker.cs" />
+    <Compile Include="NativeTextBreaker.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SampleViewportExtension.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Deps\PixelFarm.DataProvider\PixelFarm.DataProvider.csproj">
-      <Project>{1178D339-33C4-47FC-9807-869367BE803A}</Project>
-      <Name>PixelFarm.DataProvider</Name>
+    <ProjectReference Include="..\Deps\LayoutFarm.TextBreaker\LayoutFarm.TextBreaker.Native\LayoutFarm.TextBreaker.Native.csproj">
+      <Project>{777178CA-C706-406F-856D-62CC40AC63E4}</Project>
+      <Name>LayoutFarm.TextBreaker.Native</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Deps\LayoutFarm.TextBreaker\TextBreaker\LayoutFarm.TextBreaker.csproj">
+      <Project>{09EC5531-D272-40DB-87A4-B2D353846CC2}</Project>
+      <Name>LayoutFarm.TextBreaker</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Deps\PixelFarm.DataProvider.Managed\PixelFarm.DataProvider.Managed.csproj">
+      <Project>{025E536D-53A6-4C5F-AED5-E21960C70763}</Project>
+      <Name>PixelFarm.DataProvider.Managed</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Deps\PixelFarm.DataProvider.Native\PixelFarm.DataProvider.Native.csproj">
+      <Project>{821C2F8B-45E4-4242-970D-AE64780970B2}</Project>
+      <Name>PixelFarm.DataProvider.Native</Name>
     </ProjectReference>
     <ProjectReference Include="..\Deps\PixelFarm.Drawing.Core\PixelFarm.Drawing.Core.csproj">
       <Project>{51D63482-5697-4B16-8401-506965624657}</Project>
