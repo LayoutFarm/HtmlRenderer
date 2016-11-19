@@ -43,7 +43,6 @@
     <Compile Include="LaoDictionaryBreakingEngine.cs" />
     <Compile Include="ThaiDictionaryBreakingEngine.cs" />
     <Compile Include="WordVisitor.cs" />
-    <Compile Include="EnBreakEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
