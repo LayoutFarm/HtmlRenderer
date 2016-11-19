@@ -9,13 +9,13 @@ namespace TestGraphicPackage2
     static class ExampleFolderConfig
     {
         static ExampleFolderConfig()
-        { 
-            LayoutFarm.TextBreak.CustomBreakerBuilder.DataDir = @"D:\projects\HTML-Renderer\Source\Deps\LayoutFarm.TextBreaker\icu58\brkitr_src\dictionaries"; 
+        {
+            LayoutFarm.TextBreak.CustomBreakerBuilder.DataDir = @"D:\projects\HTML-Renderer\Source\Deps\LayoutFarm.TextBreaker\icu58\brkitr_src\dictionaries";
         }
         public static void InitIcuData()
         {
             string icu_dataFile = @"D:\WImageTest\icudt57l\icudt57l.dat";
-            PixelFarm.Drawing.Text.NativeTextBreaker.SetICUDataFile(icu_dataFile);
+            LayoutFarm.TextBreak.ICU.NativeTextBreaker.SetICUDataFile(icu_dataFile);
         }
         public static string GetCheckFolder()
         {

@@ -257,11 +257,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Deps\LayoutFarm.TextBreaker\LayoutFarm.TextBreaker.Native\LayoutFarm.TextBreak.Icu.csproj">
+    <ProjectReference Include="..\Deps\LayoutFarm.TextBreak\LayoutFarm.TextBreak.Icu\LayoutFarm.TextBreak.Icu.csproj">
       <Project>{777178CA-C706-406F-856D-62CC40AC63E4}</Project>
       <Name>LayoutFarm.TextBreak.Icu</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Deps\LayoutFarm.TextBreaker\TextBreaker\LayoutFarm.TextBreak.csproj">
+    <ProjectReference Include="..\Deps\LayoutFarm.TextBreak\TextBreak\LayoutFarm.TextBreak.csproj">
       <Project>{09EC5531-D272-40DB-87A4-B2D353846CC2}</Project>
       <Name>LayoutFarm.TextBreak</Name>
     </ProjectReference>

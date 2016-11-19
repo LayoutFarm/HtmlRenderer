@@ -10,7 +10,8 @@ namespace TestGraphicPackage2
         public static void InitIcuData()
         {
             string icu_dataFile = @"D:\WImageTest\icudt57l\icudt57l.dat";
-            PixelFarm.Drawing.Text.NativeTextBreaker.SetICUDataFile(icu_dataFile);
+            LayoutFarm.TextBreak.ICU.NativeTextBreaker.SetICUDataFile(icu_dataFile);
+
         }
         public static string GetCheckFolder()
         {
