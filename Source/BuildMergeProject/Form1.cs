@@ -32,7 +32,8 @@ namespace BuildMergeProject
         {
             MergeProject mergePro = new MergeProject();
             mergePro.LoadSubProject(DEV_DIR + @"Deps\PixelFarm.One.HtmlRenderer.csproj");//this is auto-gen project too
-           
+            mergePro.LoadSubProject(DEV_DIR + @"Deps\PixelFarm.DataProvider.Native\PixelFarm.DataProvider.Native.csproj");//this is auto-gen project too
+
             //------------------------------------------------------------------------------------------------
             //base modules
             mergePro.LoadSubProject(DEV_DIR + @"LayoutFarm.ClientPlatforms\LayoutFarm.ClientPlatforms.csproj");

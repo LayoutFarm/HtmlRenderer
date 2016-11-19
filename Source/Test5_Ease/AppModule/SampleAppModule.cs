@@ -1,5 +1,6 @@
 ﻿//MIT, 2015-2016, WinterDev
 
+using System.Text;
 using LayoutFarm.Scripting;
 using Espresso;
 
@@ -32,7 +33,7 @@ namespace Test5_Ease
         {
             get;
             set;
-        } 
+        }
         internal void InitJsEngine()
         {
             if (myengine == null)
@@ -54,7 +55,19 @@ namespace Test5_Ease
     {
         public override string GetInitPage()
         {
-            return "<html><script>function doc_ready(){console.log('doc_ready');}</script><body onload=\"doc_ready()\"><div id=\"a\">A</div><div id=\"b\" style=\"background-color:yellow\">B</div><div id=\"c\">c_node</div></body></html>";
+            //return "<html><script>function doc_ready(){console.log('doc_ready');}</script><body onload=\"doc_ready()\"><div id=\"a\">A</div><div id=\"b\" style=\"background-color:yellow\">B</div><div id=\"c\">c_node</div></body></html>";
+            StringBuilder stbuilder = new StringBuilder();
+            stbuilder.Append(
+                "<html><script>function doc_ready(){console.log('doc_ready');}</script>" +
+                "<body onload=\"doc_ready()\">" +
+                "<div id=\"a\" style=\"height:80px\">A</div>" +
+                "<div id=\"b\" style=\"background-color:yellow\">B</div><div id=\"c\">c_node</div>" +
+                "</body></html>"
+                );
+
+            return stbuilder.ToString();
+
+
         }
     }
 

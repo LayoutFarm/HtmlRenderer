@@ -213,6 +213,12 @@
     <Compile Include="..\Test3_MixHtml\HtmlHostCreatorHelper.cs">
       <Link>HtmlHostCreatorHelper.cs</Link>
     </Compile>
+    <Compile Include="..\Test3_MixHtml\ManagedTextBreaker.cs">
+      <Link>ManagedTextBreaker.cs</Link>
+    </Compile>
+    <Compile Include="..\Test3_MixHtml\NativeTextBreaker.cs">
+      <Link>NativeTextBreaker.cs</Link>
+    </Compile>
     <Compile Include="..\Test3_MixHtml\Program.cs">
       <Link>Program.cs</Link>
     </Compile>
@@ -251,6 +257,14 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Deps\LayoutFarm.TextBreaker\LayoutFarm.TextBreaker.Native\LayoutFarm.TextBreaker.Native.csproj">
+      <Project>{777178CA-C706-406F-856D-62CC40AC63E4}</Project>
+      <Name>LayoutFarm.TextBreaker.Native</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Deps\LayoutFarm.TextBreaker\TextBreaker\LayoutFarm.TextBreaker.csproj">
+      <Project>{09EC5531-D272-40DB-87A4-B2D353846CC2}</Project>
+      <Name>LayoutFarm.TextBreaker</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HtmlRenderer.One.csproj">
       <Project>{37a7a03b-a688-4ef4-83d1-d4b3346db2d3}</Project>
       <Name>HtmlRenderer.One</Name>
