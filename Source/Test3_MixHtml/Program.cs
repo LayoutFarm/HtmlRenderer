@@ -18,8 +18,8 @@ namespace TestGraphicPackage2
             Application.SetCompatibleTextRenderingDefault(false);
             //temp
             //TODO: fix this , 
-            //LayoutFarm.Composers.Default.TextBreaker = new LayoutFarm.Composers.MyManagedTextBreaker();
-            LayoutFarm.Composers.Default.TextBreaker = new LayoutFarm.Composers.MyNativeTextBreaker();
+            LayoutFarm.Composers.Default.TextBreaker = new LayoutFarm.Composers.MyManagedTextBreaker();
+            //LayoutFarm.Composers.Default.TextBreaker = new LayoutFarm.Composers.MyNativeTextBreaker();
             var startPars = new LayoutFarm.UI.GdiPlus.MyWinGdiPortalSetupParameters();
             var platform = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.Start(startPars);
             //-------------------------------
