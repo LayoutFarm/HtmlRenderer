@@ -42,7 +42,7 @@ namespace LayoutFarm.TextBreak
             this.startIndex = currentIndex = index;
             this.currentChar = buffer[currentIndex];
             breakAtList.Clear();
-            latestBreakAt = -1;
+            latestBreakAt = 0;
         }
         public VisitorState State
         {
