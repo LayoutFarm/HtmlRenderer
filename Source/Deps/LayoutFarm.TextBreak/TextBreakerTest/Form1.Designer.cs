@@ -31,8 +31,9 @@
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.cmdReadDict = new System.Windows.Forms.Button();
-            this.cmdCustomBuild = new System.Windows.Forms.Button();
+            this.cmdManagedBreaker = new System.Windows.Forms.Button();
             this.cmdIcuTest = new System.Windows.Forms.Button();
+            this.cmdPerformace1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // listBox1
@@ -61,33 +62,44 @@
             this.cmdReadDict.UseVisualStyleBackColor = true;
             this.cmdReadDict.Click += new System.EventHandler(this.cmdReadDict_Click);
             // 
-            // cmdCustomBuild
+            // cmdManagedBreaker
             // 
-            this.cmdCustomBuild.Location = new System.Drawing.Point(283, 44);
-            this.cmdCustomBuild.Name = "cmdCustomBuild";
-            this.cmdCustomBuild.Size = new System.Drawing.Size(130, 35);
-            this.cmdCustomBuild.TabIndex = 4;
-            this.cmdCustomBuild.Text = "CustomBuild";
-            this.cmdCustomBuild.UseVisualStyleBackColor = true;
-            this.cmdCustomBuild.Click += new System.EventHandler(this.cmdCustomBuild_Click);
+            this.cmdManagedBreaker.Location = new System.Drawing.Point(283, 44);
+            this.cmdManagedBreaker.Name = "cmdManagedBreaker";
+            this.cmdManagedBreaker.Size = new System.Drawing.Size(130, 35);
+            this.cmdManagedBreaker.TabIndex = 4;
+            this.cmdManagedBreaker.Text = "Managed";
+            this.cmdManagedBreaker.UseVisualStyleBackColor = true;
+            this.cmdManagedBreaker.Click += new System.EventHandler(this.cmdManaged_Click);
             // 
             // cmdIcuTest
             // 
-            this.cmdIcuTest.Location = new System.Drawing.Point(432, 44);
+            this.cmdIcuTest.Location = new System.Drawing.Point(283, 85);
             this.cmdIcuTest.Name = "cmdIcuTest";
             this.cmdIcuTest.Size = new System.Drawing.Size(130, 35);
             this.cmdIcuTest.TabIndex = 5;
-            this.cmdIcuTest.Text = "IcuTest";
+            this.cmdIcuTest.Text = "Icu";
             this.cmdIcuTest.UseVisualStyleBackColor = true;
             this.cmdIcuTest.Click += new System.EventHandler(this.cmdIcuTest_Click);
+            // 
+            // cmdPerformace1
+            // 
+            this.cmdPerformace1.Location = new System.Drawing.Point(431, 85);
+            this.cmdPerformace1.Name = "cmdPerformace1";
+            this.cmdPerformace1.Size = new System.Drawing.Size(130, 35);
+            this.cmdPerformace1.TabIndex = 6;
+            this.cmdPerformace1.Text = "Compare Perf";
+            this.cmdPerformace1.UseVisualStyleBackColor = true;
+            this.cmdPerformace1.Click += new System.EventHandler(this.cmdPerformace1_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(675, 507);
+            this.Controls.Add(this.cmdPerformace1);
             this.Controls.Add(this.cmdIcuTest);
-            this.Controls.Add(this.cmdCustomBuild);
+            this.Controls.Add(this.cmdManagedBreaker);
             this.Controls.Add(this.cmdReadDict);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.listBox1);
@@ -104,8 +116,9 @@
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button cmdReadDict;
-        private System.Windows.Forms.Button cmdCustomBuild;
+        private System.Windows.Forms.Button cmdManagedBreaker;
         private System.Windows.Forms.Button cmdIcuTest;
+        private System.Windows.Forms.Button cmdPerformace1;
     }
 }
 

@@ -40,14 +40,18 @@ namespace LayoutFarm.TextBreak
             else
             {
                 //find other engine
-                foreach (BreakingEngine engine in otherEngines)
+                for (int i = otherEngines.Count - 1; i >= 0; --i)
                 {
+                    //not the current engine 
+                    //and can handle the character
+                    BreakingEngine engine = otherEngines[i];
                     if (engine != breakingEngine
                         && engine.CanHandle(c))
                     {
                         return engine;
                     }
                 }
+                
                 return engBreakingEngine;
             }
         }
@@ -59,9 +63,7 @@ namespace LayoutFarm.TextBreak
             visitor.LoadText(charBuff, 0);
             //----------------------------------------
             char c = charBuff[startAt];
-            BreakingEngine currentEngine = SelectEngine(c);
-            breakingEngine = currentEngine;
-            //----------------------------------------
+            BreakingEngine currentEngine = breakingEngine = SelectEngine(c);
 
             //----------------------------------------
             //select breaking engine
