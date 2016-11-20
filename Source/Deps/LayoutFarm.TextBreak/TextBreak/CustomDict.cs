@@ -16,9 +16,10 @@ namespace LayoutFarm.TextBreak
     public class CustomDic
     {
         TextBuffer textBuffer;
-        Dictionary<char, WordGroup> wordGroups = new Dictionary<char, WordGroup>();
-        internal TextBuffer TextBuffer { get { return textBuffer; } }
+        WordGroup[] wordGroups;
         char firstChar, lastChar;
+
+        internal TextBuffer TextBuffer { get { return textBuffer; } }
         public void SetCharRange(char firstChar, char lastChar)
         {
             this.firstChar = firstChar;
@@ -28,12 +29,18 @@ namespace LayoutFarm.TextBreak
         public char LastChar { get { return lastChar; } }
         public void LoadFromTextfile(string filename)
         {
-            //once only
+            //once only            
             if (textBuffer != null)
             {
                 return;
             }
+            if (firstChar == '\0' || lastChar == '\0')
+            {
+                throw new NotSupportedException();
+            }
+
             //---------------
+            Dictionary<char, WordGroup> wordGroups = new Dictionary<char, WordGroup>();
             using (FileStream fs = new FileStream(filename, FileMode.Open))
             using (StreamReader reader = new StreamReader(fs))
             {
@@ -79,34 +86,50 @@ namespace LayoutFarm.TextBreak
             }
             //------------------------------------------------------------------
             textBuffer.Freeze();
+            //------------------------------------------------------------------
+            this.wordGroups = new WordGroup[this.lastChar - this.firstChar + 1];
+            foreach (var kp in wordGroups)
+            {
+                int index = TransformCharToIndex(kp.Key);
+                this.wordGroups[index] = kp.Value;
+            }
+
             //do index
             DoIndex();
         }
-
+        int TransformCharToIndex(char c)
+        {
+            return c - this.firstChar;
+        }
         void DoIndex()
         {
-            foreach (WordGroup wordGroup in wordGroups.Values)
+            for (int i = wordGroups.Length - 1; i >= 0; --i)
             {
-                wordGroup.DoIndex(this.textBuffer, this);
-            } 
+                WordGroup wordGroup = wordGroups[i];
+                if (wordGroup != null)
+                {
+                    wordGroup.DoIndex(this.textBuffer, this);
+                }
+            }
         }
-
-
         public void GetWordList(char startWithChar, List<string> output)
         {
-            WordGroup found;
-            if (wordGroups.TryGetValue(startWithChar, out found))
+            if (startWithChar >= firstChar && startWithChar <= lastChar)
             {
-                //iterate and collect into 
-                found.CollectAllWords(this.textBuffer, output);
+                //in range 
+                WordGroup found = this.wordGroups[TransformCharToIndex(startWithChar)];
+                if (found != null)
+                {//iterate and collect into 
+                    found.CollectAllWords(this.textBuffer, output);
+                }
             }
         }
         internal WordGroup GetWordGroupForFirstChar(char c)
         {
-            WordGroup wordGroup;
-            if (wordGroups.TryGetValue(c, out wordGroup))
+            if (c >= firstChar && c <= lastChar)
             {
-                return wordGroup;
+                //in range
+                return this.wordGroups[TransformCharToIndex(c)];
             }
             return null;
         }
@@ -153,7 +176,6 @@ namespace LayoutFarm.TextBreak
     {
         List<char> _tmpCharList;
         int position;
-        bool isFrozen;
         char[] charBuffer;
         public TextBuffer(int initCapacity)
         {
@@ -217,8 +239,7 @@ namespace LayoutFarm.TextBreak
     public class WordGroup
     {
         List<WordSpan> unIndexWordSpans = new List<WordSpan>();
-        //  Dictionary<char, WordGroup> wordGroups;
-        WordGroup[] wordGroups2;
+        WordGroup[] subGroups;
         WordSpan prefixSpan;
 #if DEBUG
         static int debugTotalId;
@@ -247,9 +268,9 @@ namespace LayoutFarm.TextBreak
             {
                 output.Add(GetPrefix(textBuffer));
             }
-            if (wordGroups2 != null)
+            if (subGroups != null)
             {
-                foreach (WordGroup wordGroup in wordGroups2)
+                foreach (WordGroup wordGroup in subGroups)
                 {
                     if (wordGroup != null)
                     {
@@ -293,10 +314,10 @@ namespace LayoutFarm.TextBreak
                 return;
             }
 
-            if (wordGroups2 == null)
+            if (subGroups == null)
             {
                 //wordGroups = new Dictionary<char, WordGroup>();
-                wordGroups2 = new WordGroup[owner.LastChar - owner.FirstChar + 1];
+                subGroups = new WordGroup[owner.LastChar - owner.FirstChar + 1];
             }
             //--------------------------------
             int j = unIndexWordSpans.Count;
@@ -311,12 +332,12 @@ namespace LayoutFarm.TextBreak
                     char c = sp.GetChar(doSepAt, textBuffer);
 
                     int c_index = c - owner.FirstChar;
-                    WordGroup found = wordGroups2[c_index];
+                    WordGroup found = subGroups[c_index];
                     if (found == null)
                     {
                         //not found
                         found = new WordGroup(new WordSpan(sp.startAt, (byte)(doSepAt + 1)));
-                        wordGroups2[c_index] = found;
+                        subGroups[c_index] = found;
                     }
 
                     //WordGroup found;
@@ -349,12 +370,22 @@ namespace LayoutFarm.TextBreak
             //do sup index
             //foreach (WordGroup subgroup in this.wordGroups.Values)
             bool hasSomeSubGroup = false;
-            foreach (WordGroup subgroup in this.wordGroups2)
+            foreach (WordGroup subgroup in this.subGroups)
             {
                 if (subgroup != null)
                 {
                     hasSomeSubGroup = true;
-                    if (subgroup.UnIndexMemberCount > 10)
+
+                    //****
+                    //performance factor here,****
+                    //in this current version 
+                    //if we not call DoIndex(),
+                    //this subgroup need linear search-> so it slow                   
+                    //so we call DoIndex until member count in the group <=3
+                    //then it search faster, 
+                    //but dictionary-building time may increase.
+
+                    if (subgroup.UnIndexMemberCount > 2)
                     {
                         subgroup.DoIndex(textBuffer, owner);
                     }
@@ -371,7 +402,7 @@ namespace LayoutFarm.TextBreak
             if (!hasSomeSubGroup)
             {
                 //clear
-                wordGroups2 = null;
+                subGroups = null;
             }
         }
         void DoIndexOfSmallAmount(TextBuffer textBuffer)
@@ -395,13 +426,22 @@ namespace LayoutFarm.TextBreak
         {
             //recursive
             char c = visitor.Char;
+            if (!visitor.CanHandle(c))
+            {
+                //if can' t handle this character
+                //then stop
+                int index = visitor.CurrentIndex;
+                visitor.AddWordBreakAt(index);
+                visitor.SetCurrentIndex(index);
+
+                visitor.State = VisitorState.OutOfRangeChar;
+                return;
+            }
             visitor.FoundWord = false;
-            if (wordGroups2 != null)
+            if (subGroups != null)
             {
                 int c_index = c - visitor.CurrentCustomDic.FirstChar;
-                WordGroup foundSubGroup = wordGroups2[c_index];
-                // WordGroup foundSubGroup;
-                //if (wordGroups.TryGetValue(c, out foundSubGroup))
+                WordGroup foundSubGroup = subGroups[c_index];
                 if (foundSubGroup != null)
                 {
                     //found next group
@@ -410,6 +450,10 @@ namespace LayoutFarm.TextBreak
                         int index = visitor.CurrentIndex;
                         visitor.SetCurrentIndex(index + 1);
                         foundSubGroup.FindBreak(visitor);
+                        if (visitor.State == VisitorState.OutOfRangeChar)
+                        {
+                            return;
+                        }
                         if (!visitor.FoundWord)
                         {
                             //not found in deeper level
@@ -421,7 +465,6 @@ namespace LayoutFarm.TextBreak
 
                         if (foundSubGroup.PrefixIsWord)
                         {
-
                             int savedIndex = visitor.CurrentIndex;
                             int newBreakAt = visitor.LatestBreakAt + this.PrefixLen;
                             visitor.SetCurrentIndex(newBreakAt);

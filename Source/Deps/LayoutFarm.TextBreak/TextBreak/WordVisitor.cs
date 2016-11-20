@@ -84,7 +84,6 @@ namespace LayoutFarm.TextBreak
 #endif
             this.latestBreakAt = index;
             breakAtList.Add(index);
-
             this.FoundWord = true;
         }
         public int LatestBreakAt
@@ -102,6 +101,11 @@ namespace LayoutFarm.TextBreak
         public bool CanbeStartChar(char c)
         {
             return ownerBreak.CanBeStartChar(c);
+        }
+        public bool CanHandle(char c)
+        {
+            CustomDic dic = CurrentCustomDic;
+            return c >= dic.FirstChar && c <= dic.LastChar;
         }
         public List<int> GetBreakList()
         {

@@ -48,8 +48,8 @@ namespace LayoutFarm.TextBreak
                     return;
                 }
                 //----------------------
-                WordGroup state = GetWordGroupForFirstChar(c); // _customDic.GetWordGroupForFirstChar(c);
-                if (state == null)
+                WordGroup wordgroup = GetWordGroupForFirstChar(c); 
+                if (wordgroup == null)
                 {
                     //continue next char
                     ++i;
@@ -60,7 +60,11 @@ namespace LayoutFarm.TextBreak
                     //use this to find a proper word
                     int prevIndex = i;
                     visitor.SetCurrentIndex(i + 1);
-                    state.FindBreak(visitor);
+                    wordgroup.FindBreak(visitor);
+                    if (visitor.State == VisitorState.OutOfRangeChar)
+                    {
+                        return;
+                    }
                     i = visitor.LatestBreakAt;
                     if (prevIndex == i)
                     {
