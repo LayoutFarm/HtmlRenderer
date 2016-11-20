@@ -15,7 +15,7 @@ namespace TextBreakerTest
         {
             InitializeComponent();
         }
-       
+      
         private void cmdReadDict_Click(object sender, EventArgs e)
         {
 
