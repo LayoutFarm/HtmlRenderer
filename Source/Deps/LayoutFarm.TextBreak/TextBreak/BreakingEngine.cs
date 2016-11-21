@@ -133,7 +133,7 @@ namespace LayoutFarm.TextBreak
                                             //no next word, no candidate
                                             //skip this 
                                             visitor.AddWordBreakAt(visitor.LatestBreakAt + 1);
-                                            visitor.SetCurrentIndex(visitor.LatestBreakAt); 
+                                            visitor.SetCurrentIndex(visitor.LatestBreakAt);
                                         }
 
                                     }
@@ -150,6 +150,11 @@ namespace LayoutFarm.TextBreak
                                     int candi1 = candidate.Pop();
                                     //try
                                     visitor.SetCurrentIndex(visitor.LatestBreakAt + candi1);
+                                    if (visitor.State == VisitorState.End)
+                                    {
+                                        visitor.AddWordBreakAt(visitor.CurrentIndex);
+                                        return;
+                                    }
                                     //check if we can use this candidate
                                     char next_char = visitor.Char;
                                     if (!CanHandle(next_char))
@@ -174,7 +179,7 @@ namespace LayoutFarm.TextBreak
                                     //no next word, no candidate
                                     //skip this 
                                     visitor.AddWordBreakAt(visitor.LatestBreakAt + 1);
-                                    visitor.SetCurrentIndex(visitor.LatestBreakAt); 
+                                    visitor.SetCurrentIndex(visitor.LatestBreakAt);
                                 }
 
                             }
