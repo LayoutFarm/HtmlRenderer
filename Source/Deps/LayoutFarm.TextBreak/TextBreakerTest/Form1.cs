@@ -29,15 +29,17 @@ namespace TextBreakerTest
         {
             InitIcuLib();
             //thai
-            currentLocale = "th-TH";
-            string test1 = "ผู้ใหญ่หาผ้าใหม่ให้สะใภ้ใช้คล้องคอ ใฝ่ใจเอาใส่ห่อมิหลงใหลใครขอดูจะใคร่ลงเรือใบดูน้ำใสและปลาปูสิ่งใดอยู่ในตู้มิใช่อยู่ใต้ตั่งเตียงบ้าใบถือใยบัวหูตามัวมาให้เคียงเล่าเท่าอย่าละเลี่ยงยี่สิบม้วนจำจงดี";
+            //currentLocale = "th-TH";
+            string test1 = "ผู้ใหญ่บหาผ้าใหม่ให้สะใภ้ใช้คล้องคอใฝ่ใจเอาใส่ห่อมิหลงใหลใครขอดูจะใคร่ลงเรือใบดูน้ำใสและปลาปูสิ่งใดอยู่ในตู้มิใช่อยู่ใต้ตั่งเตียงบ้าใบถือใยบัวหูตามัวมาให้เคียงเล่าเท่าอย่าละเลี่ยงยี่สิบม้วนจำจงดี";
+            //string test1 = "ขาย อ";
             //string test1 = "แป้นพิมลาว";            
+            //string test1 = "ผ้าใหม่";
             //----------------
             //
             //lao
             //currentLocale = "lo-LA";
             //string test1 = "ແປ້ນພິມລາວ";
-
+            //string test1 = "ສາທາລະນະລັດ ປະຊາທິປະໄຕ ປະຊາຊົນລາວ";
             //----------------
             this.textBox1.Text = test1;
 
@@ -89,6 +91,7 @@ namespace TextBreakerTest
                 string s = new string(test, span.startAt, span.len);
                 this.listBox1.Items.Add(span.startAt + " " + s);
             }
+ 
         }
 
 
@@ -96,15 +99,17 @@ namespace TextBreakerTest
 
         private void cmdPerformace1_Click(object sender, EventArgs e)
         {
+            //do this performance test in release mode
+            
+
             int ntimes = 10000;
             System.Diagnostics.Stopwatch stopWatch = new System.Diagnostics.Stopwatch();
-            System.GC.Collect();//clear
-
+            
+            System.GC.Collect();//clear 
             stopWatch.Start();
             ParseWithManaged(ntimes);
             stopWatch.Stop();
             long ms1 = stopWatch.ElapsedMilliseconds;
-
             //----------------------------
             //Icu
             System.GC.Collect();//clear
@@ -114,6 +119,8 @@ namespace TextBreakerTest
             stopWatch.Stop();
             long ms2 = stopWatch.ElapsedMilliseconds;
             //----------------------------
+            Console.WriteLine(ms1.ToString());
+            Console.WriteLine(ms2.ToString());
         }
         void ParseWithManaged(int ntimes)
         {
@@ -121,7 +128,7 @@ namespace TextBreakerTest
             //-------------------
             CustomBreakerBuilder.DataDir = "../../../icu58/brkitr_src/dictionaries";
             CustomBreaker breaker1 = CustomBreakerBuilder.NewCustomBreaker();
-            char[] test = this.textBox1.Text.ToCharArray(); 
+            char[] test = this.textBox1.Text.ToCharArray();
             //-------------
             for (int i = ntimes - 1; i >= 0; --i)
             {
@@ -134,7 +141,7 @@ namespace TextBreakerTest
         }
         void ParseWithIcu(int ntimes)
         {
-           
+
             //-------------------
             if (nativeTextBreak == null)
             {
@@ -154,3 +161,4 @@ namespace TextBreakerTest
 
     }
 }
+

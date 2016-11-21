@@ -29,7 +29,7 @@ namespace LayoutFarm.TextBreak
         char currentChar;
         int latestBreakAt;
 
-        List<CandidateWord> tempCandidateWords = new List<CandidateWord>();
+        Stack<int> tempCandidateBreaks = new Stack<int>();
 
         public WordVisitor(CustomBreaker ownerBreak)
         {
@@ -72,10 +72,11 @@ namespace LayoutFarm.TextBreak
         {
             get { return currentIndex >= bufferLen - 1; }
         }
-        internal bool FoundWord;
+
 
         public void AddWordBreakAt(int index)
         {
+
 #if DEBUG
             if (index == latestBreakAt)
             {
@@ -84,7 +85,6 @@ namespace LayoutFarm.TextBreak
 #endif
             this.latestBreakAt = index;
             breakAtList.Add(index);
-            this.FoundWord = true;
         }
         public int LatestBreakAt
         {
@@ -96,6 +96,10 @@ namespace LayoutFarm.TextBreak
             if (index < buffer.Length)
             {
                 this.currentChar = buffer[index];
+            }
+            else
+            {
+                this.State = VisitorState.End;
             }
         }
         public bool CanbeStartChar(char c)
@@ -111,11 +115,11 @@ namespace LayoutFarm.TextBreak
         {
             return breakAtList;
         }
-        internal List<CandidateWord> GetTempCandidateWords()
-        {
-            return this.tempCandidateWords;
-        }
 
+        internal Stack<int> GetTempCandidateBreaks()
+        {
+            return this.tempCandidateBreaks;
+        }
         internal CustomDic CurrentCustomDic
         {
             get;

@@ -28,8 +28,8 @@ namespace LayoutFarm.CustomWidgets
         }
         public IEnumerable<TextSplitBound> ParseWordContent(char[] textBuffer, int startIndex, int appendLength)
         {
-            
-            int s_index = startIndex; 
+
+            int s_index = startIndex;
             textBreaker.DoBreak(textBuffer, startIndex, appendLength, breakAtList);
 
             int j = breakAtList.Count;
@@ -42,7 +42,7 @@ namespace LayoutFarm.CustomWidgets
                 s_index = startIndex + sepAt;
                 pos = sepAt;
             }
-           
+
             if (s_index < textBuffer.Length)
             {
                 yield return new TextSplitBound(s_index, textBuffer.Length - s_index);

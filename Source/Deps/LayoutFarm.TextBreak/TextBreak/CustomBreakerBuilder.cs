@@ -25,7 +25,7 @@ namespace LayoutFarm.TextBreak
                 thaiDicBreakingEngine.SetDictionaryData(customDic);//add customdic to the breaker
                 customDic.SetCharRange(thaiDicBreakingEngine.FirstUnicodeChar, thaiDicBreakingEngine.LastUnicodeChar);
                 customDic.LoadFromTextfile(DataDir + "/thaidict.txt");
-
+                //customDic.LoadFromTextfile(DataDir + "/thaidict_testonly.txt");
             }
             if (laoDicBreakingEngine == null)
             {

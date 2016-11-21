@@ -80,11 +80,9 @@ namespace LayoutFarm
             e.PreventDefault = true;
         }
 
-        string GetString(char[] buffer, LayoutFarm.Composers.TextSplitBound bound)
-        {
-            char[] substr = new char[bound.length];
-            Array.Copy(buffer, bound.startIndex, substr, 0, bound.length);
-            return new string(substr);
+        static string GetString(char[] buffer, LayoutFarm.Composers.TextSplitBound bound)
+        {   
+            return new string(buffer, bound.startIndex, bound.length);
         }
         string currentLocalText = null;
         void UpdateSuggestionList()
