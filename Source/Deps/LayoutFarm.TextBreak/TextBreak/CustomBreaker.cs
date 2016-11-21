@@ -45,13 +45,12 @@ namespace LayoutFarm.TextBreak
                     //not the current engine 
                     //and can handle the character
                     BreakingEngine engine = otherEngines[i];
-                    if (engine != breakingEngine
-                        && engine.CanHandle(c))
+                    if (engine != breakingEngine && engine.CanHandle(c))
                     {
                         return engine;
                     }
                 }
-                
+
                 return engBreakingEngine;
             }
         }
@@ -61,14 +60,11 @@ namespace LayoutFarm.TextBreak
             int j = charBuff.Length;
             textLength = j;
             visitor.LoadText(charBuff, 0);
-            //----------------------------------------
-            char c = charBuff[startAt];
-            BreakingEngine currentEngine = breakingEngine = SelectEngine(c);
-
+            //---------------------------------------- 
+            BreakingEngine currentEngine = breakingEngine = SelectEngine(charBuff[startAt]);
             //----------------------------------------
             //select breaking engine
-            bool continueParse = true;
-            while (continueParse)
+            for (; ; )
             {
                 //----------------------------------------
                 currentEngine.BreakWord(visitor, charBuff, startAt, charBuff.Length - startAt);
@@ -77,16 +73,13 @@ namespace LayoutFarm.TextBreak
                     default: throw new NotSupportedException();
 
                     case VisitorState.End:
-                        {
-                            //ok
-                            continueParse = false;
-                        }
-                        break;
+                        //ok
+                        return;
                     case VisitorState.OutOfRangeChar:
                         {
                             //find proper breaking engine for current char
-                            c = visitor.Char;
-                            BreakingEngine anotherEngine = SelectEngine(c);
+
+                            BreakingEngine anotherEngine = SelectEngine(visitor.Char);
                             if (anotherEngine == currentEngine)
                             {
                                 throw new NotSupportedException();

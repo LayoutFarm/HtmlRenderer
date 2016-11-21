@@ -8,7 +8,7 @@ namespace LayoutFarm
 {
     [DemoNote("2.5 MultiLineText_WithSuggestion")]
     class Demo_MultiLineText_WithSuggestion : DemoBase
-    {
+    {   
         LayoutFarm.CustomWidgets.TextBox textbox;
         LayoutFarm.CustomWidgets.ListView listView;
         Dictionary<char, List<string>> words = new Dictionary<char, List<string>>();
@@ -80,10 +80,8 @@ namespace LayoutFarm
             e.PreventDefault = true;
         }
         static string GetString(char[] buffer, LayoutFarm.Composers.TextSplitBound bound)
-        {
-            char[] substr = new char[bound.length];
-            Array.Copy(buffer, bound.startIndex, substr, 0, bound.length);
-            return new string(substr);
+        {   
+            return new string(buffer, bound.startIndex, bound.length);
         }
         string currentLocalText = null;
         void UpdateSuggestionList()

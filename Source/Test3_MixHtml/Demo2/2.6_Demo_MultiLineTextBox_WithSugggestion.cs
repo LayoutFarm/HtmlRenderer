@@ -123,11 +123,10 @@ namespace LayoutFarm
 
         }
 
-        string GetString(char[] buffer, LayoutFarm.Composers.TextSplitBound bound)
+        static string GetString(char[] buffer, LayoutFarm.Composers.TextSplitBound bound)
         {
-            char[] substr = new char[bound.length];
-            Array.Copy(buffer, bound.startIndex, substr, 0, bound.length);
-            return new string(substr);
+
+            return new string(buffer, bound.startIndex, bound.length);
         }
         string currentLocalText = null;
         void UpdateSuggestionList()
