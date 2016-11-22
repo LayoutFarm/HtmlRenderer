@@ -30,10 +30,11 @@ namespace LayoutFarm.TextBreak
         public override void BreakWord(WordVisitor visitor, char[] charBuff, int startAt, int len)
         {
             visitor.State = VisitorState.Parsing;
-            visitor.CurrentCustomDic = this.CurrentCustomDic;
+
             char c_first = this.FirstUnicodeChar;
             char c_last = this.LastUnicodeChar;
             int endAt = startAt + len;
+
             Stack<int> candidate = visitor.GetTempCandidateBreaks();
 
             for (int i = startAt; i < endAt; )
@@ -56,6 +57,7 @@ namespace LayoutFarm.TextBreak
                     //continue next char
                     ++i;
                     visitor.AddWordBreakAt(i);
+                    visitor.SetCurrentIndex(visitor.LatestBreakAt);
                 }
                 else
                 {
@@ -68,7 +70,9 @@ namespace LayoutFarm.TextBreak
                     //---------------------
                     WordGroup c_wordgroup = wordgroup;
                     candidate.Clear();
+
                     int candidateLen = 1;
+
                     if (c_wordgroup.PrefixIsWord)
                     {
                         candidate.Push(candidateLen);
@@ -83,10 +87,21 @@ namespace LayoutFarm.TextBreak
                         //then move next
                         candidateLen++;
                         visitor.SetCurrentIndex(i + 1);
-                        WordGroup next = c_wordgroup.GetSubGroup(visitor);
+
+                        WordGroup next = GetSubGroup(visitor, c_wordgroup);
                         //for debug
                         //string prefix = (next == null) ? "" : next.GetPrefix(CurrentCustomDic.TextBuffer);  
-                        if (next == null)
+                        if (next != null)
+                        {
+
+                            if (next.PrefixIsWord)
+                            {
+                                candidate.Push(candidateLen);
+                            }
+                            c_wordgroup = next;
+                            i = visitor.CurrentIndex;
+                        }
+                        else
                         {
                             continueRead = false;
                             //no deeper group
@@ -95,7 +110,7 @@ namespace LayoutFarm.TextBreak
                             {
                                 int p1 = visitor.CurrentIndex;
                                 //p2: suggest position
-                                int p2 = c_wordgroup.FindInUnIndexMember(visitor);
+                                int p2 = FindInWordSpans(visitor, c_wordgroup);
                                 if (p2 - p1 > 0)
                                 {
                                     visitor.AddWordBreakAt(p2);
@@ -132,13 +147,11 @@ namespace LayoutFarm.TextBreak
                                         {
                                             //no next word, no candidate
                                             //skip this 
-                                            visitor.AddWordBreakAt(visitor.LatestBreakAt + 1);
+                                            visitor.AddWordBreakAt(visitor.CurrentIndex);
                                             visitor.SetCurrentIndex(visitor.LatestBreakAt);
-                                        }
-
+                                        } 
                                     }
-                                }
-
+                                } 
                             }
                             else
                             {
@@ -176,24 +189,18 @@ namespace LayoutFarm.TextBreak
                                 }
                                 if (!foundCandidate)
                                 {
-                                    //no next word, no candidate
-                                    //skip this 
-                                    visitor.AddWordBreakAt(visitor.LatestBreakAt + 1);
-                                    visitor.SetCurrentIndex(visitor.LatestBreakAt);
+                                    if (candidateLen > 0)
+                                    {
+                                        //use that candidate len
+                                        visitor.AddWordBreakAt(visitor.CurrentIndex);
+                                        visitor.SetCurrentIndex(visitor.LatestBreakAt);
+                                    } 
                                 }
 
                             }
                             i = visitor.CurrentIndex;
                         }
-                        else
-                        {
-                            if (next.PrefixIsWord)
-                            {
-                                candidate.Push(candidateLen);
-                            }
-                            c_wordgroup = next;
-                            i = visitor.CurrentIndex;
-                        }
+
                     }
                 }
             }
@@ -203,6 +210,125 @@ namespace LayoutFarm.TextBreak
                 //the last one 
                 visitor.State = VisitorState.End;
             }
+        }
+        internal WordGroup GetSubGroup(WordVisitor visitor, WordGroup wordGroup)
+        {
+
+            char c = visitor.Char;
+            if (!CanHandle(c))
+            {
+                //can't handle
+                //then no furtur sub group
+                visitor.State = VisitorState.OutOfRangeChar;
+                return null;
+            }
+            //-----------------
+            //can handle 
+            WordGroup[] subGroups = wordGroup.GetSubGroups();
+            if (subGroups != null)
+            {
+                return subGroups[c - this.FirstUnicodeChar];
+            }
+            return null;
+        }
+
+        int FindInWordSpans(WordVisitor visitor, WordGroup wordGroup)
+        {
+            WordSpan[] wordSpans = wordGroup.GetWordSpans();
+            if (wordSpans == null)
+            {
+                throw new NotSupportedException();
+            }
+
+            //at this wordgroup
+            //no subground anymore
+            //so we should find the word one by one
+            //start at prefix
+            //and select the one that 
+
+            int readLen = visitor.CurrentIndex - visitor.LatestBreakAt;
+            int nwords = wordSpans.Length;
+            //only 1 that match 
+
+            TextBuffer currentTextBuffer = CurrentCustomDic.TextBuffer;
+
+            //we sort unindex string ***
+            //so we find from longest one( last) to begin 
+            for (int i = nwords - 1; i >= 0; --i)
+            {
+                //loop test on each word
+                WordSpan w = wordSpans[i];
+#if DEBUG
+                //string dbugstr = w.GetString(currentTextBuffer);
+#endif
+
+                int savedIndex = visitor.CurrentIndex;
+                char c = visitor.Char;
+                int wordLen = w.len;
+                int matchCharCount = 0;
+                if (wordLen > readLen)
+                {
+                    for (int p = readLen; p < wordLen; ++p)
+                    {
+                        char c2 = w.GetChar(p, currentTextBuffer);
+                        if (c2 == c)
+                        {
+                            matchCharCount++;
+                            //match 
+                            //read next
+                            if (!visitor.IsEnd)
+                            {
+                                visitor.SetCurrentIndex(visitor.CurrentIndex + 1);
+                                c = visitor.Char;
+                            }
+                            else
+                            {
+                                //no more data in visitor
+
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
+                //reset
+                if (readLen + matchCharCount == wordLen)
+                {
+                    int newBreakAt = visitor.LatestBreakAt + wordLen;
+                    visitor.SetCurrentIndex(newBreakAt);
+                    //-------------------------------------------- 
+                    if (visitor.State == VisitorState.End)
+                    {
+                        return newBreakAt;
+                    }
+                    //check next char can be the char of new word or not
+                    //this depends on each lang 
+                    char canBeStartChar = visitor.Char;
+                    if (CanHandle(canBeStartChar))
+                    {
+                        if (CanBeStartChar(canBeStartChar))
+                        {
+                            return newBreakAt;
+                        }
+                        else
+                        {
+                            //back to savedIndex
+                            visitor.SetCurrentIndex(savedIndex);
+                            return savedIndex;
+                        }
+                    }
+                    else
+                    {
+                        visitor.State = VisitorState.OutOfRangeChar;
+                        return newBreakAt;
+                    }
+                }
+                visitor.SetCurrentIndex(savedIndex);
+            }
+            return 0;
         }
     }
 

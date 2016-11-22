@@ -34,7 +34,8 @@ namespace TextBreakerTest
             //string test1 = "ขาย อ";
             //string test1 = "แป้นพิมลาว";            
             //string test1 = "ผ้าใหม่";
-            string test1 = "ประ";
+            //string test1 = "ประ";
+            string test1 = "ผู";
             //----------------
             //
             //lao
@@ -94,10 +95,6 @@ namespace TextBreakerTest
             }
 
         }
-
-
-        //
-
         private void cmdPerformace1_Click(object sender, EventArgs e)
         {
             //do this performance test in release mode

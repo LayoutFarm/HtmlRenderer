@@ -104,10 +104,7 @@ namespace LayoutFarm.TextBreak
         {
             return breakingEngine.CanBeStartChar(c);
         }
-        public void LoadBreakAtList(List<int> outputList)
-        {
-            outputList.AddRange(visitor.GetBreakList());
-        }
+      
         public IEnumerable<BreakSpan> GetBreakSpanIter()
         {
             List<int> breakAtList = visitor.GetBreakList();

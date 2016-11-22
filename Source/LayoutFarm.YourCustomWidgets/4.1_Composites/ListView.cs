@@ -295,6 +295,16 @@ namespace LayoutFarm.CustomWidgets
                 this.panel.SetViewport(x, y);
             }
         }
+        public void ScrollToSelectedIndex()
+        {
+            if (this.selectedIndex > -1)
+            {
+                //find the item height
+                int topPos = selectedItem.Top;
+                SetViewport(this.viewportX, topPos);
+            }
+        }
+
         //----------------------------------------------------
 
         public event EventHandler<UIMouseEventArgs> MouseDown;
