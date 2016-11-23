@@ -147,11 +147,26 @@ namespace LayoutFarm.TextBreak
                                         {
                                             //no next word, no candidate
                                             //skip this 
-                                            visitor.AddWordBreakAt(visitor.CurrentIndex);
-                                            visitor.SetCurrentIndex(visitor.LatestBreakAt);
-                                        } 
+                                            char next_char = visitor.Char;
+                                            if (CanBeStartChar(next_char))
+                                            {
+                                                //use this
+                                                //use this candidate if possible
+                                                visitor.AddWordBreakAt(visitor.CurrentIndex);
+                                                foundCandidate = true;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                //TODO: review here
+                                                visitor.SetCurrentIndex(visitor.LatestBreakAt + 1);
+                                                visitor.AddWordBreakAt(visitor.CurrentIndex);
+                                                visitor.SetCurrentIndex(visitor.LatestBreakAt);
+                                            }
+
+                                        }
                                     }
-                                } 
+                                }
                             }
                             else
                             {
@@ -194,7 +209,7 @@ namespace LayoutFarm.TextBreak
                                         //use that candidate len
                                         visitor.AddWordBreakAt(visitor.CurrentIndex);
                                         visitor.SetCurrentIndex(visitor.LatestBreakAt);
-                                    } 
+                                    }
                                 }
 
                             }

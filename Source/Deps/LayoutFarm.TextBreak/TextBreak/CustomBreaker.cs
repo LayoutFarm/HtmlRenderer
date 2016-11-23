@@ -94,12 +94,15 @@ namespace LayoutFarm.TextBreak
                 }
             }
         }
-
+       
         public void BreakWords(string inputstr)
         {
             BreakWords(inputstr.ToCharArray(), 0);
         }
-
+        public void LoadBreakAtList(List<int> outputList)
+        {
+            outputList.AddRange(visitor.GetBreakList());
+        }
         public bool CanBeStartChar(char c)
         {
             return breakingEngine.CanBeStartChar(c);
