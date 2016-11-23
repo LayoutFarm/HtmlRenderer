@@ -219,7 +219,7 @@ namespace PixelFarm.Agg
                 fixed (int* first = &yTableArray[0])
                 {
                     //go last
-                    int* cur = first + height;
+                    int* cur = first + height - 1;
                     for (int i = height - 1; i >= 0; )
                     {
                         //--------------------
@@ -232,7 +232,7 @@ namespace PixelFarm.Agg
                 fixed (int* first = &xTableArray[0])
                 {
                     //go last
-                    int* cur = first + width;
+                    int* cur = first + width - 1;
                     //even
                     for (int i = width - 1; i >= 0; )
                     {
@@ -626,7 +626,7 @@ namespace PixelFarm.Agg
         public MyImageReaderWriter()
         {
         }
-       
+
         public void ReloadImage(ActualImage actualImage)
         {
             if (this.actualImage == actualImage)
@@ -653,7 +653,7 @@ namespace PixelFarm.Agg
                           actualImage.Height,
                           actualImage.BitDepth,
                           ActualImage.GetBuffer(actualImage),
-                          pixelBlenderGray ?? (pixelBlenderGray = new PixelBlenderGray(1)));                         
+                          pixelBlenderGray ?? (pixelBlenderGray = new PixelBlenderGray(1)));
                     }
                     break;
                 case PixelFormat.RGB24:
