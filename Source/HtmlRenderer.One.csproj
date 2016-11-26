@@ -8,6 +8,7 @@
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AssemblyName>HtmlRenderer.One</AssemblyName>
+    <ProjectGuid>{37A7A03B-A688-4EF4-83D1-D4B3346DB2D3}</ProjectGuid>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -80,10 +81,6 @@
     <Compile Include="Deps\MiniAgg.Complements\2_SpanGenerators\SpanGenGouraudRGBA.cs" />
     <Compile Include="Deps\MiniAgg.Complements\2_SpanGenerators\SpanGradient.cs" />
     <Compile Include="Deps\MiniAgg.Complements\2_SpanGenerators\SpanGradient_GradientValueCalculators.cs" />
-    <Compile Include="Deps\MiniAgg.Complements\4_Animation\ColorComponentStepup.cs" />
-    <Compile Include="Deps\MiniAgg.Complements\4_Animation\GfxProcessorModule.cs" />
-    <Compile Include="Deps\MiniAgg.Complements\4_Animation\ParallelTimeline.cs" />
-    <Compile Include="Deps\MiniAgg.Complements\4_Animation\Timelines.cs" />
     <Compile Include="Deps\MiniAgg.Complements\Filter\ImageFilters.cs" />
     <Compile Include="Deps\MiniAgg.Complements\Filter\PatternFilterBilnearColorRGBA.cs" />
     <Compile Include="Deps\MiniAgg.Complements\Filter\RecursiveBlur.cs" />
@@ -93,15 +90,9 @@
     <Compile Include="Deps\MiniAgg.Complements\Image\FilterMan.cs" />
     <Compile Include="Deps\MiniAgg.Complements\Image\FloodFiller.cs" />
     <Compile Include="Deps\MiniAgg.Complements\Image\Transposer.cs" />
-    <Compile Include="Deps\MiniAgg.Complements\x_notused\ImageClipProxyFloat.cs" />
-    <Compile Include="Deps\MiniAgg.Complements\x_notused\KDTree.cs" />
-    <Compile Include="Deps\MiniAgg.Complements\x_notused\SpanSubDivAdapter.cs" />
-    <Compile Include="Deps\MiniAgg.Complements\x_notused\x_ImageTgaIO.cs" />
     <Compile Include="Deps\MiniAgg\00_Context\Graphics2D.cs" />
     <Compile Include="Deps\MiniAgg\00_Context\ImageGraphics2D.cs" />
     <Compile Include="Deps\MiniAgg\00_Context\ImageGraphics2D_RenderImages.cs" />
-    <Compile Include="Deps\MiniAgg\01_Base\AggMemMx.cs" />
-    <Compile Include="Deps\MiniAgg\01_Base\NativeBufferMx.cs" />
     <Compile Include="Deps\MiniAgg\02_PixelBuffer\ChildImage.cs" />
     <Compile Include="Deps\MiniAgg\02_PixelBuffer\ColorOrder.cs" />
     <Compile Include="Deps\MiniAgg\02_PixelBuffer\ColorRGBAf.cs" />
@@ -149,9 +140,6 @@
     <Compile Include="Deps\MiniAgg\08_ImageResampling\ImageFreeTransform.cs" />
     <Compile Include="Deps\MiniAgg\08_ImageResampling\ImageInterpolationQuality.cs" />
     <Compile Include="Deps\MiniAgg\08_ImageResampling\ImageTransform.cs" />
-    <Compile Include="Deps\MiniAgg\x_notused\x_ImageHelper2.cs" />
-    <Compile Include="Deps\MiniAgg\x_notused\x_ImageSpan.cs" />
-    <Compile Include="Deps\MiniAgg\x_notused\x_PixelBlenderFloat.cs" />
     <Compile Include="Deps\NOpenType\N20\PixelFarm.OpenType\..\..\NetCore\PixelFarm.OpenType\Bounds.cs" />
     <Compile Include="Deps\NOpenType\N20\PixelFarm.OpenType\..\..\NetCore\PixelFarm.OpenType\CharacterMap.cs" />
     <Compile Include="Deps\NOpenType\N20\PixelFarm.OpenType\..\..\NetCore\PixelFarm.OpenType\FontCollection\InstalledFont.cs" />
@@ -310,6 +298,8 @@
     <Compile Include="Deps\PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\SimpleRect.cs" />
     <Compile Include="Deps\PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\VertexData.cs" />
     <Compile Include="Deps\PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\VertexStoreBuilder.cs" />
+    <Compile Include="Deps\PixelFarm.Drawing.Core\MiniAggGraphics.Buffer\AggMemMx.cs" />
+    <Compile Include="Deps\PixelFarm.Drawing.Core\MiniAggGraphics.Buffer\NativeBufferMx.cs" />
     <Compile Include="Deps\PixelFarm.Drawing.GdiPlus\..\Win32Utils\MyWin32.cs" />
     <Compile Include="Deps\PixelFarm.Drawing.GdiPlus\..\Win32Utils\NativeTextWin32.cs" />
     <Compile Include="Deps\PixelFarm.Drawing.GdiPlus\..\Win32Utils\NativeWin32MemoryDc.cs" />
@@ -517,17 +507,23 @@
     <Compile Include="LayoutFarm.Platforms.WinForms\0_Start\Conv.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\0_Start\dbugHelper.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\0_Start\QuadPages.cs" />
-    <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\AbstractCompletionWindow.cs" />
+    <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\AbstractCompletionWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\AbstractCompletionWindow.Designer.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\InnerViewportKind.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\MyUITimer.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\TopWindowBridge.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\TopWindowBridge_dbug.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\UIPlatformWinForms.cs" />
-    <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\UISurfaceViewportControl.cs" />
+    <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\UISurfaceViewportControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\UISurfaceViewportControl.Designer.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\2_GdiPlus\0_MyWinGdiPortal.cs" />
-    <Compile Include="LayoutFarm.Platforms.WinForms\2_GdiPlus\1_CpuGdiPlusSurfaceView.cs" />
+    <Compile Include="LayoutFarm.Platforms.WinForms\2_GdiPlus\1_CpuGdiPlusSurfaceView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="LayoutFarm.Platforms.WinForms\2_GdiPlus\1_CpuGdiPlusSurfaceView.Designer.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\2_GdiPlus\2_GdiPlusCanvasViewport.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\2_GdiPlus\3_MyTopWindowBridgeGdiPlus.cs" />
@@ -684,6 +680,10 @@
     <Compile Include="LayoutFarm.YourCustomWidgets\8_Canvas\MiniAggCanvasBox.cs" />
     <Compile Include="LayoutFarm.YourCustomWidgets\8_Canvas\MiniAggCanvasRenderElement.cs" />
     <Compile Include="LayoutFarm.YourCustomWidgets\9_TextContentSplitter\ContentTextSplitter.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Deps\Espresso\Net20\Espresso.Interfaces\" />
+    <Folder Include="Deps\NOpenType\N20\PixelFarm.OpenType\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
