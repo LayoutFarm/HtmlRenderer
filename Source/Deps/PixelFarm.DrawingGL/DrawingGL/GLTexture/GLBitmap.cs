@@ -13,7 +13,7 @@ namespace PixelFarm.DrawingGL
         public abstract bool IsInvert { get; }
     }
 
-    public class GLBitmap : PixelFarm.Drawing.Image 
+    public class GLBitmap : PixelFarm.Drawing.Image
     {
         int textureId;
         int width;
@@ -21,7 +21,7 @@ namespace PixelFarm.DrawingGL
         byte[] rawBuffer;
         int[] rawIntBuffer;
         PixelFarm.Drawing.Imaging.NativeImage bmp;
-
+        IntPtr nativeImgMem;
         LazyBitmapBufferProvider lazyProvider;
         bool isInvertImage = false;
         static readonly bool isLittleEndian;
@@ -49,6 +49,12 @@ namespace PixelFarm.DrawingGL
             this.height = bmp.Height;
             this.bmp = bmp;
             this.isInvertImage = isInvertImage;
+        }
+        public GLBitmap(int w, int h, IntPtr nativeImgMem)
+        {
+            this.width = w;
+            this.height = h;
+            this.nativeImgMem = nativeImgMem;
         }
         internal GLBitmap(LazyBitmapBufferProvider lazyProvider)
         {
@@ -103,7 +109,14 @@ namespace PixelFarm.DrawingGL
                 GL.GenTextures(1, out this.textureId);
                 //bind
                 GL.BindTexture(TextureTarget.Texture2D, this.textureId);
-                if (this.rawBuffer != null)
+                if (nativeImgMem != IntPtr.Zero)
+                {
+                    GL.TexImage2D(TextureTarget.Texture2D, 0,
+                          PixelInternalFormat.Rgba, this.width, this.height, 0,
+                          PixelFormat.Rgba, // 
+                          PixelType.UnsignedByte, nativeImgMem);
+                }
+                else if (this.rawBuffer != null)
                 {
                     unsafe
                     {
@@ -156,7 +169,7 @@ namespace PixelFarm.DrawingGL
 
             return this.textureId;
         }
-         
+
         public override void Dispose()
         {
             GL.DeleteTextures(1, ref textureId);
