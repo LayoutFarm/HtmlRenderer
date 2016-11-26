@@ -51,6 +51,7 @@ namespace LayoutFarm.CustomWidgets
                 if (textEditRenderElement != null)
                 {
                     textEditRenderElement.CurrentTextSpanStyle = value;
+                     
                 }
             }
         }
@@ -62,6 +63,10 @@ namespace LayoutFarm.CustomWidgets
         public Point CaretPosition
         {
             get { return this.textEditRenderElement.CurrentCaretPos; }
+        }
+        public int CurrentLineCharIndex
+        {
+            get { return this.textEditRenderElement.CurrentLineCharIndex; }
         }
         public string Text
         {

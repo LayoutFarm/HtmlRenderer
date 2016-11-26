@@ -44,7 +44,6 @@ namespace LayoutFarm.CustomWidgets
             simpleBox.AcceptKeyboardFocus = true;
             simpleBox.KeyDown += simpleBox_KeyDown;
 
-
             this.panel = simpleBox;
             uiList.AddUI(panel);
         }
@@ -295,6 +294,31 @@ namespace LayoutFarm.CustomWidgets
                 this.panel.SetViewport(x, y);
             }
         }
+        public void ScrollToSelectedItem()
+        {
+            //EnsureSelectedItemVisible();
+            if (this.selectedIndex > -1)
+            {
+                //find the item height
+                int topPos = selectedItem.Top;
+                SetViewport(this.viewportX, topPos);
+            }
+        }
+        public void EnsureSelectedItemVisible()
+        {
+            if (selectedIndex > -1)
+            {
+                //check if selected item is visible
+                //if not bring them into view
+                int topPos = selectedItem.Top;
+                if (this.viewportY + ViewportHeight < topPos)
+                {
+                    SetViewport(this.viewportX, topPos - (ViewportHeight / 2));
+                }
+            }
+
+        }
+
         //----------------------------------------------------
 
         public event EventHandler<UIMouseEventArgs> MouseDown;

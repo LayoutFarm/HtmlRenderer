@@ -185,8 +185,7 @@ namespace PixelFarm.Forms
             Glfw.SetMouseButtonCallback(glWindowPtr, s_windowMouseButtonCb);
             Glfw.SetScrollCallback(glWindowPtr, s_scrollCb);
             Glfw.SetKeyCallback(glWindowPtr, s_windowKeyCb);
-            Glfw.SetCharCallback(glWindowPtr, s_windowCharCb);
-
+            Glfw.SetCharCallback(glWindowPtr, s_windowCharCb);            
             ////-------------------
             existingForms.Add(glWindowPtr, f);
             exitingFormList.Add(f);

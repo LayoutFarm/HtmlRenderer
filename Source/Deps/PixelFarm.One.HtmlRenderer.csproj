@@ -51,10 +51,6 @@
     <Compile Include="MiniAgg.Complements\2_SpanGenerators\SpanGenGouraudRGBA.cs" />
     <Compile Include="MiniAgg.Complements\2_SpanGenerators\SpanGradient.cs" />
     <Compile Include="MiniAgg.Complements\2_SpanGenerators\SpanGradient_GradientValueCalculators.cs" />
-    <Compile Include="MiniAgg.Complements\4_Animation\ColorComponentStepup.cs" />
-    <Compile Include="MiniAgg.Complements\4_Animation\GfxProcessorModule.cs" />
-    <Compile Include="MiniAgg.Complements\4_Animation\ParallelTimeline.cs" />
-    <Compile Include="MiniAgg.Complements\4_Animation\Timelines.cs" />
     <Compile Include="MiniAgg.Complements\Filter\ImageFilters.cs" />
     <Compile Include="MiniAgg.Complements\Filter\PatternFilterBilnearColorRGBA.cs" />
     <Compile Include="MiniAgg.Complements\Filter\RecursiveBlur.cs" />
@@ -64,15 +60,9 @@
     <Compile Include="MiniAgg.Complements\Image\FilterMan.cs" />
     <Compile Include="MiniAgg.Complements\Image\FloodFiller.cs" />
     <Compile Include="MiniAgg.Complements\Image\Transposer.cs" />
-    <Compile Include="MiniAgg.Complements\x_notused\ImageClipProxyFloat.cs" />
-    <Compile Include="MiniAgg.Complements\x_notused\KDTree.cs" />
-    <Compile Include="MiniAgg.Complements\x_notused\SpanSubDivAdapter.cs" />
-    <Compile Include="MiniAgg.Complements\x_notused\x_ImageTgaIO.cs" />
     <Compile Include="MiniAgg\00_Context\Graphics2D.cs" />
     <Compile Include="MiniAgg\00_Context\ImageGraphics2D.cs" />
     <Compile Include="MiniAgg\00_Context\ImageGraphics2D_RenderImages.cs" />
-    <Compile Include="MiniAgg\01_Base\AggMemMx.cs" />
-    <Compile Include="MiniAgg\01_Base\NativeBufferMx.cs" />
     <Compile Include="MiniAgg\02_PixelBuffer\ChildImage.cs" />
     <Compile Include="MiniAgg\02_PixelBuffer\ColorOrder.cs" />
     <Compile Include="MiniAgg\02_PixelBuffer\ColorRGBAf.cs" />
@@ -120,9 +110,6 @@
     <Compile Include="MiniAgg\08_ImageResampling\ImageFreeTransform.cs" />
     <Compile Include="MiniAgg\08_ImageResampling\ImageInterpolationQuality.cs" />
     <Compile Include="MiniAgg\08_ImageResampling\ImageTransform.cs" />
-    <Compile Include="MiniAgg\x_notused\x_ImageHelper2.cs" />
-    <Compile Include="MiniAgg\x_notused\x_ImageSpan.cs" />
-    <Compile Include="MiniAgg\x_notused\x_PixelBlenderFloat.cs" />
     <Compile Include="NOpenType\N20\PixelFarm.OpenType\..\..\NetCore\PixelFarm.OpenType\Bounds.cs" />
     <Compile Include="NOpenType\N20\PixelFarm.OpenType\..\..\NetCore\PixelFarm.OpenType\CharacterMap.cs" />
     <Compile Include="NOpenType\N20\PixelFarm.OpenType\..\..\NetCore\PixelFarm.OpenType\FontCollection\InstalledFont.cs" />
@@ -271,6 +258,8 @@
     <Compile Include="PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\SimpleRect.cs" />
     <Compile Include="PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\VertexData.cs" />
     <Compile Include="PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\VertexStoreBuilder.cs" />
+    <Compile Include="PixelFarm.Drawing.Core\MiniAggGraphics.Buffer\AggMemMx.cs" />
+    <Compile Include="PixelFarm.Drawing.Core\MiniAggGraphics.Buffer\NativeBufferMx.cs" />
     <Compile Include="PixelFarm.Drawing.GdiPlus\..\Win32Utils\MyWin32.cs" />
     <Compile Include="PixelFarm.Drawing.GdiPlus\..\Win32Utils\NativeTextWin32.cs" />
     <Compile Include="PixelFarm.Drawing.GdiPlus\..\Win32Utils\NativeWin32MemoryDc.cs" />

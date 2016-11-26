@@ -471,14 +471,14 @@ namespace LayoutFarm.TextBreak
     public class WordGroup
     {
         readonly WordGroup[] subGroups;
-        readonly WordSpan[] wordSpanList;
+        readonly WordSpan[] wordSpans;
         readonly WordSpan prefixSpan;
         readonly bool prefixIsWord;
         internal WordGroup(WordSpan prefixSpan, WordGroup[] subGroups, WordSpan[] wordSpanList, bool isPrefixIsWord)
         {
             this.prefixSpan = prefixSpan;
             this.subGroups = subGroups;
-            this.wordSpanList = wordSpanList;
+            this.wordSpans = wordSpanList;
             this.prefixIsWord = isPrefixIsWord;
         }
 
@@ -506,9 +506,9 @@ namespace LayoutFarm.TextBreak
                     }
                 }
             }
-            if (wordSpanList != null)
+            if (wordSpans != null)
             {
-                foreach (var span in wordSpanList)
+                foreach (var span in wordSpans)
                 {
                     output.Add(span.GetString(textBuffer));
                 }
@@ -522,127 +522,17 @@ namespace LayoutFarm.TextBreak
             get
             {
 
-                if (wordSpanList == null) return 0;
-                return wordSpanList.Length;
+                if (wordSpans == null) return 0;
+                return wordSpans.Length;
             }
         }
 
-        internal WordGroup GetSubGroup(WordVisitor visitor)
-        {
-            char c = visitor.Char;
-            if (!visitor.CanHandle(c))
-            {
-                //can't handle
-                //then no furtur sub group
-                visitor.State = VisitorState.OutOfRangeChar;
-                return null;
-            }
-            //-----------------
-            //can handle 
-            if (subGroups != null)
-            {
-                return subGroups[c - visitor.CurrentCustomDic.FirstChar];
-            }
-            return null;
-        }
+       
 
-        internal int FindInUnIndexMember(WordVisitor visitor)
-        {
-            if (wordSpanList == null)
-            {
-                throw new NotSupportedException();
-            }
+        internal WordSpan[] GetWordSpans() { return wordSpans; }
+        internal WordGroup[] GetSubGroups() { return subGroups; }
 
-            //at this wordgroup
-            //no subground anymore
-            //so we should find the word one by one
-            //start at prefix
-            //and select the one that 
-
-            int readLen = visitor.CurrentIndex - visitor.LatestBreakAt;
-            int nwords = wordSpanList.Length;
-            //only 1 that match 
-
-            TextBuffer currentTextBuffer = visitor.CurrentCustomDic.TextBuffer;
-
-            //we sort unindex string ***
-            //so we find from longest one( last) to begin 
-            for (int i = nwords - 1; i >= 0; --i)
-            {
-                //loop test on each word
-                WordSpan w = wordSpanList[i];
-#if DEBUG
-                //string dbugstr = w.GetString(currentTextBuffer);
-#endif
-
-                int savedIndex = visitor.CurrentIndex;
-                char c = visitor.Char;
-                int wordLen = w.len;
-                int matchCharCount = 0;
-                if (wordLen > readLen)
-                {
-                    for (int p = readLen; p < wordLen; ++p)
-                    {
-                        char c2 = w.GetChar(p, currentTextBuffer);
-                        if (c2 == c)
-                        {
-                            matchCharCount++;
-                            //match 
-                            //read next
-                            if (!visitor.IsEnd)
-                            {
-                                visitor.SetCurrentIndex(visitor.CurrentIndex + 1);
-                                c = visitor.Char;
-                            }
-                            else
-                            {
-                                //no more data in visitor
-
-                                break;
-                            }
-                        }
-                        else
-                        {
-                            break;
-                        }
-                    }
-                }
-                //reset
-                if (readLen + matchCharCount == wordLen)
-                {
-                    int newBreakAt = visitor.LatestBreakAt + wordLen;
-                    visitor.SetCurrentIndex(newBreakAt);
-                    //-------------------------------------------- 
-                    if (visitor.State == VisitorState.End)
-                    {
-                        return newBreakAt;
-                    }
-                    //check next char can be the char of new word or not
-                    //this depends on each lang 
-                    char canBeStartChar = visitor.Char;
-                    if (visitor.CanHandle(canBeStartChar))
-                    {
-                        if (visitor.CanbeStartChar(canBeStartChar))
-                        {
-                            return newBreakAt;
-                        }
-                        else
-                        {
-                            //back to savedIndex
-                            visitor.SetCurrentIndex(savedIndex);
-                            return savedIndex;
-                        }
-                    }
-                    else
-                    {
-                        visitor.State = VisitorState.OutOfRangeChar;
-                        return newBreakAt;
-                    }
-                }
-                visitor.SetCurrentIndex(savedIndex);
-            }
-            return 0;
-        }
+     
 
 #if DEBUG
         public override string ToString()

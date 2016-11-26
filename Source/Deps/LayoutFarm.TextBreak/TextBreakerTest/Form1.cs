@@ -30,10 +30,12 @@ namespace TextBreakerTest
             InitIcuLib();
             //thai
             //currentLocale = "th-TH";
-            string test1 = "ผู้ใหญ่บหาผ้าใหม่ให้สะใภ้ใช้คล้องคอใฝ่ใจเอาใส่ห่อมิหลงใหลใครขอดูจะใคร่ลงเรือใบดูน้ำใสและปลาปูสิ่งใดอยู่ในตู้มิใช่อยู่ใต้ตั่งเตียงบ้าใบถือใยบัวหูตามัวมาให้เคียงเล่าเท่าอย่าละเลี่ยงยี่สิบม้วนจำจงดี";
-            //string test1 = "ขาย อ";
+            //string test1 = "ผู้ใหญ่บหาผ้าใหม่ให้สะใภ้ใช้คล้องคอใฝ่ใจเอาใส่ห่อมิหลงใหลใครขอดูจะใคร่ลงเรือใบดูน้ำใสและปลาปูสิ่งใดอยู่ในตู้มิใช่อยู่ใต้ตั่งเตียงบ้าใบถือใยบัวหูตามัวมาให้เคียงเล่าเท่าอย่าละเลี่ยงยี่สิบม้วนจำจงดี";
+            string test1 = "ขาย =";
             //string test1 = "แป้นพิมลาว";            
             //string test1 = "ผ้าใหม่";
+            //string test1 = "ประ";
+            
             //----------------
             //
             //lao
@@ -91,20 +93,16 @@ namespace TextBreakerTest
                 string s = new string(test, span.startAt, span.len);
                 this.listBox1.Items.Add(span.startAt + " " + s);
             }
- 
+
         }
-
-
-        //
-
         private void cmdPerformace1_Click(object sender, EventArgs e)
         {
             //do this performance test in release mode
-            
+
 
             int ntimes = 10000;
             System.Diagnostics.Stopwatch stopWatch = new System.Diagnostics.Stopwatch();
-            
+
             System.GC.Collect();//clear 
             stopWatch.Start();
             ParseWithManaged(ntimes);
