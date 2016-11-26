@@ -7,8 +7,6 @@ namespace PixelFarm.Agg.Imaging
 {
     public static class BitmapHelper
     {
-
-
         /// <summary>
         /// copy from actual image direct to hBmpScan0
         /// </summary>

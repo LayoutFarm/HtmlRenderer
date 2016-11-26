@@ -1,4 +1,4 @@
-﻿//2016 MIT, WinterDev
+﻿//MIT, 2016, WinterDev
 
 using System;
 using System.Collections.Generic;
@@ -192,59 +192,59 @@ namespace PixelFarm.Drawing.WinGdi
         {
             //since area is Windows coord
             //so we need to invert it 
-            System.Drawing.Bitmap backupBmp = this._gfxBmp;
-            int bmpW = backupBmp.Width;
-            int bmpH = backupBmp.Height;
-            System.Drawing.Imaging.BitmapData bmpdata = backupBmp.LockBits(
-                new System.Drawing.Rectangle(0, 0, bmpW, bmpH),
-                System.Drawing.Imaging.ImageLockMode.ReadWrite,
-                 backupBmp.PixelFormat);
-            //copy sub buffer to int32 array
-            //this version bmpdata must be 32 argb 
-            int a_top = area.Top;
-            int a_bottom = area.Bottom;
-            int a_width = area.Width;
-            int a_stride = bmpdata.Stride;
-            int a_height = Math.Abs(area.Height);
-            int[] src_buffer = new int[(a_stride / 4) * a_height];
-            int[] destBuffer = new int[src_buffer.Length];
-            int a_lineOffset = area.Left * 4;
-            unsafe
-            {
-                IntPtr scan0 = bmpdata.Scan0;
-                byte* src = (byte*)scan0;
-                if (a_top > a_bottom)
-                {
-                    int tmp_a_bottom = a_top;
-                    a_top = a_bottom;
-                    a_bottom = tmp_a_bottom;
-                }
+            //System.Drawing.Bitmap backupBmp = this._gfxBmp;
+            //int bmpW = backupBmp.Width;
+            //int bmpH = backupBmp.Height;
+            //System.Drawing.Imaging.BitmapData bmpdata = backupBmp.LockBits(
+            //    new System.Drawing.Rectangle(0, 0, bmpW, bmpH),
+            //    System.Drawing.Imaging.ImageLockMode.ReadWrite,
+            //     backupBmp.PixelFormat);
+            ////copy sub buffer to int32 array
+            ////this version bmpdata must be 32 argb 
+            //int a_top = area.Top;
+            //int a_bottom = area.Bottom;
+            //int a_width = area.Width;
+            //int a_stride = bmpdata.Stride;
+            //int a_height = Math.Abs(area.Height);
+            //int[] src_buffer = new int[(a_stride / 4) * a_height];
+            //int[] destBuffer = new int[src_buffer.Length];
+            //int a_lineOffset = area.Left * 4;
+            //unsafe
+            //{
+            //    IntPtr scan0 = bmpdata.Scan0;
+            //    byte* src = (byte*)scan0;
+            //    if (a_top > a_bottom)
+            //    {
+            //        int tmp_a_bottom = a_top;
+            //        a_top = a_bottom;
+            //        a_bottom = tmp_a_bottom;
+            //    }
 
-                //skip  to start line
-                src += ((a_stride * a_top) + a_lineOffset);
-                int index_start = 0;
-                for (int y = a_top; y < a_bottom; ++y)
-                {
-                    //then copy to int32 buffer 
-                    System.Runtime.InteropServices.Marshal.Copy(new IntPtr(src), src_buffer, index_start, a_width);
-                    index_start += a_width;
-                    src += (a_stride + a_lineOffset);
-                }
-                PixelFarm.Agg.Imaging.StackBlurARGB.FastBlur32ARGB(src_buffer, destBuffer, a_width, a_height, r);
-                //then copy back to bmp
-                index_start = 0;
-                src = (byte*)scan0;
-                src += ((a_stride * a_top) + a_lineOffset);
-                for (int y = a_top; y < a_bottom; ++y)
-                {
-                    //then copy to int32 buffer 
-                    System.Runtime.InteropServices.Marshal.Copy(destBuffer, index_start, new IntPtr(src), a_width);
-                    index_start += a_width;
-                    src += (a_stride + a_lineOffset);
-                }
-            }
-            //--------------------------------
-            backupBmp.UnlockBits(bmpdata);
+            //    //skip  to start line
+            //    src += ((a_stride * a_top) + a_lineOffset);
+            //    int index_start = 0;
+            //    for (int y = a_top; y < a_bottom; ++y)
+            //    {
+            //        //then copy to int32 buffer 
+            //        System.Runtime.InteropServices.Marshal.Copy(new IntPtr(src), src_buffer, index_start, a_width);
+            //        index_start += a_width;
+            //        src += (a_stride + a_lineOffset);
+            //    }
+            //    PixelFarm.Agg.Imaging.StackBlurARGB.FastBlur32ARGB(src_buffer, destBuffer, a_width, a_height, r);
+            //    //then copy back to bmp
+            //    index_start = 0;
+            //    src = (byte*)scan0;
+            //    src += ((a_stride * a_top) + a_lineOffset);
+            //    for (int y = a_top; y < a_bottom; ++y)
+            //    {
+            //        //then copy to int32 buffer 
+            //        System.Runtime.InteropServices.Marshal.Copy(destBuffer, index_start, new IntPtr(src), a_width);
+            //        index_start += a_width;
+            //        src += (a_stride + a_lineOffset);
+            //    }
+            //}
+            ////--------------------------------
+            //backupBmp.UnlockBits(bmpdata);
         }
         public override void Draw(VertexStore vxs)
         {

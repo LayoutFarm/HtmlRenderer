@@ -29,7 +29,7 @@ of the authors and should not be interpreted as representing official policies,
 either expressed or implied, of the FreeBSD Project.
 */
 
-using System;  
+using System;
 namespace PixelFarm.Agg.Imaging
 {
 
@@ -52,7 +52,7 @@ namespace PixelFarm.Agg.Imaging
                 nativeWin32Dc.Dispose();
                 nativeWin32Dc = null;
             }
-        } 
+        }
 
 
         const int SRCCOPY = 0xcc0020;
@@ -66,48 +66,68 @@ namespace PixelFarm.Agg.Imaging
             BitmapHelper.CopyToWindowsBitmapSameSize(
                 this.actualImage,   //src from actual img buffer
                 nativeWin32Dc.PPVBits);//dest to buffer bmp     
-           
+
             bool result = Win32.MyWin32.BitBlt(displayHdc, 0, 0,
                  width,
                  height,
                  nativeWin32Dc.DC, 0, 0, SRCCOPY);
-            
         }
-
-        public ImageGraphics2D Initialize(int width, int height, int bitDepth)
+        public void Initialize(int width, int height, int bitDepth, ActualImage actualImage)
         {
             if (width > 0 && height > 0)
             {
                 this.width = width;
                 this.height = height;
-                if (bitDepth != 32)
-                {
-                    throw new NotImplementedException("Don't support this bit depth yet.");
-                }
-                else
-                {
-                    actualImage = new ActualImage(width, height, PixelFormat.ARGB32);
-                    nativeWin32Dc = new Win32.NativeWin32MemoryDc(width, height, true);
-                    return Graphics2D.CreateFromImage(actualImage);
-                }
+
+                //if (bitDepth != 32)
+                //{
+                //    throw new NotImplementedException("Don't support this bit depth yet.");
+                //}
+                //else
+                //{
+                //    actualImage = new ActualImage(width, height, PixelFormat.ARGB32);
+                this.actualImage = actualImage;
+                nativeWin32Dc = new Win32.NativeWin32MemoryDc(width, height, true);
+                //    return Graphics2D.CreateFromImage(actualImage);
+                //}
+                return;
             }
             throw new NotSupportedException();
         }
+        //public ImageGraphics2D Initialize(int width, int height, int bitDepth)
+        //{
+        //    if (width > 0 && height > 0)
+        //    {
+        //        this.width = width;
+        //        this.height = height;
+        //        if (bitDepth != 32)
+        //        {
+        //            throw new NotImplementedException("Don't support this bit depth yet.");
+        //        }
+        //        else
+        //        {
+        //            actualImage = new ActualImage(width, height, PixelFormat.ARGB32);
+        //            nativeWin32Dc = new Win32.NativeWin32MemoryDc(width, height, true);
+        //            return Graphics2D.CreateFromImage(actualImage);
+        //        }
+        //    }
+        //    throw new NotSupportedException();
+        //}
 
-        public Graphics2D CreateNewGraphic2D()
-        {
-            Graphics2D graphics2D;
-            if (actualImage != null)
-            {
-                graphics2D = Graphics2D.CreateFromImage(actualImage);
-            }
-            else
-            {
-                throw new NotSupportedException();
-            }
+        //public Graphics2D CreateNewGraphic2D()
+        //{
+        //    Graphics2D graphics2D;
+        //    if (actualImage != null)
+        //    {
+        //        graphics2D = Graphics2D.CreateFromImage(actualImage);
+        //    }
+        //    else
+        //    {
+        //        throw new NotSupportedException();
+        //    }
 
-            return graphics2D;
-        }
+        //    return graphics2D;
+        //}
         //-------------
         ///// <summary>
         ///// update actual image data to windowsBitmap
