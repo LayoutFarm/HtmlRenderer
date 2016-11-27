@@ -5,8 +5,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
 
 namespace LayoutFarm.TextBreak
 {
@@ -30,7 +28,7 @@ namespace LayoutFarm.TextBreak
         int latestBreakAt;
 
         Stack<int> tempCandidateBreaks = new Stack<int>();
-      
+
 
         public WordVisitor(CustomBreaker ownerBreak)
         {
@@ -68,7 +66,7 @@ namespace LayoutFarm.TextBreak
 
         public void AddWordBreakAt(int index)
         {
-         
+
 #if DEBUG
             if (index == latestBreakAt)
             {
@@ -91,7 +89,7 @@ namespace LayoutFarm.TextBreak
             }
             else
             {
-                 
+
                 this.State = VisitorState.End;
             }
         }
@@ -105,7 +103,7 @@ namespace LayoutFarm.TextBreak
         {
             return this.tempCandidateBreaks;
         }
-       
+
 
     }
 

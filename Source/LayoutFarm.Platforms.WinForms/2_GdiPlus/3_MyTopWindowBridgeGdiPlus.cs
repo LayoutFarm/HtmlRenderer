@@ -1,9 +1,6 @@
 ﻿//Apache2, 2014-2016, WinterDev
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
+using System; 
 using System.Windows.Forms;
 using PixelFarm.Drawing;
 namespace LayoutFarm.UI.GdiPlus

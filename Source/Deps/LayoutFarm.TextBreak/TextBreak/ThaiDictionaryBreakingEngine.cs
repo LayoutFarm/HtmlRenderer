@@ -3,10 +3,7 @@
 // © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html#License
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
+ 
 
 namespace LayoutFarm.TextBreak
 {

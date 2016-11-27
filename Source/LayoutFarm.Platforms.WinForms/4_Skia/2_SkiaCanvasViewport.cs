@@ -1,8 +1,7 @@
 ﻿//Apache2, 2014-2016, WinterDev
 
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Collections.Generic; 
 using PixelFarm.Drawing;
 using PixelFarm.Drawing.WinGdi;
 

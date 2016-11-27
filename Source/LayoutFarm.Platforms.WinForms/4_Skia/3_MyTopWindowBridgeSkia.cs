@@ -1,9 +1,6 @@
 ﻿//Apache2, 2014-2016, WinterDev
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
 using System.Windows.Forms;
 using PixelFarm.Drawing;
 namespace LayoutFarm.UI.Skia
@@ -22,7 +19,7 @@ namespace LayoutFarm.UI.Skia
             this.windowControl = windowControl;
             this.SetBaseCanvasViewport(this.canvasViewport = new SkiaCanvasViewport(this.RootGfx,
                 this.Size.ToSize(), 4));
- 
+
             this.RootGfx.SetPaintDelegates(
                     this.canvasViewport.CanvasInvlidateArea,
                     this.PaintToOutputWindow);
