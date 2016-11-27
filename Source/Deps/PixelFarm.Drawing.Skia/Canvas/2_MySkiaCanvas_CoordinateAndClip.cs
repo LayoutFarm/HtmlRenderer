@@ -46,9 +46,9 @@ namespace PixelFarm.Drawing.Skia
         /// <param name="combineMode">Member of the <see cref="T:System.Drawing.Drawing2D.CombineMode"/> enumeration that specifies the combining operation to use. </param>
         public override void SetClipRect(Rectangle rect, CombineMode combineMode = CombineMode.Replace)
         {
-            skCanvas.ClipRect(this.currentClipRect = new SkiaSharp.SKRect(
-                rect.Left, rect.Top,
-                rect.Right, rect.Bottom));
+            //skCanvas.ClipRect(this.currentClipRect = new SkiaSharp.SKRect(
+            //    rect.Left, rect.Top,
+            //    rect.Right, rect.Bottom));
 
             //gx.SetClip(
             //   this.currentClipRect = new System.Drawing.Rectangle(
@@ -83,7 +83,7 @@ namespace PixelFarm.Drawing.Skia
                 updateArea = Conv.ToRect(intersectResult);
                 //gx.SetClip(intersectResult);
 
-                skCanvas.ClipRect(intersectResult);
+                //skCanvas.ClipRect(intersectResult);
                 return true;
             }
         }
@@ -93,7 +93,7 @@ namespace PixelFarm.Drawing.Skia
             {
                 currentClipRect = clipRectStack.Pop();
                 // gx.SetClip(currentClipRect); 
-                skCanvas.ClipRect(currentClipRect);
+                //skCanvas.ClipRect(currentClipRect);
             }
         }
 
