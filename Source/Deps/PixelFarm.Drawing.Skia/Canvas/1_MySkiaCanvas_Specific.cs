@@ -18,8 +18,9 @@ namespace PixelFarm.Drawing.Skia
         SKBitmap skBitmap;
         SKPaint fill;
         SKPaint stroke;
-        SKPaint textStroke;
-        internal MySkiaCanvas(
+        SKPaint textFill;
+
+        public MySkiaCanvas(
             int horizontalPageNum,
             int verticalPageNum,
             int left, int top,
@@ -46,6 +47,11 @@ namespace PixelFarm.Drawing.Skia
 
             this.StrokeWidth = 1;
         }
+        public SKBitmap BackBmp
+        {
+            get { return this.skBitmap; }
+        }
+
         void CreateGraphicsFromNativeHdc(int width, int height)
         {
 
@@ -57,8 +63,12 @@ namespace PixelFarm.Drawing.Skia
             //
             fill = new SKPaint();
             fill.IsStroke = false;
+            //
+            textFill = new SKPaint();
+            textFill.IsAntialias = true;
+            //---------------------------------------            
+             
             //---------------------------------------
-
             this.CurrentFont = new RequestFont("tahoma", 14);
             this.CurrentTextColor = Color.Black;
             //---------------------------------------

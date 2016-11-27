@@ -22,7 +22,7 @@ namespace PixelFarm.Drawing.Skia
             int total_dx = x - canvasOriginX;
             int total_dy = y - canvasOriginY;
 
-            skCanvas.Scale(x, y);
+            skCanvas.Translate(total_dx, total_dy);
             //clip rect move to another direction***
             this.currentClipRect.Offset(-total_dx, -total_dy);
             this.canvasOriginX = x;
@@ -81,9 +81,7 @@ namespace PixelFarm.Drawing.Skia
             else
             {
                 updateArea = Conv.ToRect(intersectResult);
-                //gx.SetClip(intersectResult);
-
-                skCanvas.ClipRect(intersectResult);
+                //skCanvas.ClipRect(intersectResult);
                 return true;
             }
         }
@@ -92,8 +90,7 @@ namespace PixelFarm.Drawing.Skia
             if (clipRectStack.Count > 0)
             {
                 currentClipRect = clipRectStack.Pop();
-                // gx.SetClip(currentClipRect); 
-                skCanvas.ClipRect(currentClipRect);
+                //skCanvas.ClipRect(currentClipRect);
             }
         }
 

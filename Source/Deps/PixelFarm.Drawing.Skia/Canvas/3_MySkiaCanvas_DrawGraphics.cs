@@ -220,7 +220,7 @@ namespace PixelFarm.Drawing.Skia
                     //MySkBmp bmp = new MySkBmp(image.Width,
                     //   image.Height);
                     //
-                    PixelFarm.Agg.Imaging.BitmapHelper.CopyToGdiPlusBitmapSameSize((PixelFarm.Agg.ActualImage)image, internalBmp);
+                    BitmapHelper.CopyToGdiPlusBitmapSameSize((PixelFarm.Agg.ActualImage)image, internalBmp);
                     //
                     Image.SetCacheInnerImage(image, internalBmp);
                     return internalBmp;

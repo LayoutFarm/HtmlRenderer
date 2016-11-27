@@ -14,6 +14,11 @@ namespace LayoutFarm.Dev
 
             var startPars = new LayoutFarm.UI.GdiPlus.MyWinGdiPortalSetupParameters();
             gdiPlatform = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.Start(startPars);
+
+            //-------------
+
+
+            //-------------
         }
 
 
@@ -21,6 +26,13 @@ namespace LayoutFarm.Dev
         {
             InitializeComponent();
             this.Load += new EventHandler(Form1_Load);
+            //------
+            this.cmbPlatformSelector.Items.Add(InnerViewportKind.GdiPlus);
+            this.cmbPlatformSelector.Items.Add(InnerViewportKind.Skia);
+            this.cmbPlatformSelector.Items.Add(InnerViewportKind.GL);            
+            this.cmbPlatformSelector.SelectedIndex = 0;//set default
+            //------
+            //default
             this.uiPlatformWinForm = new LayoutFarm.UI.UIPlatformWinForm();
             UI.UIPlatform.CurrentUIPlatform = uiPlatformWinForm;
 
@@ -114,13 +126,18 @@ namespace LayoutFarm.Dev
             int h = workingArea.Height;
 
 
-            MyRootGraphic rootgfx = new MyRootGraphic(this.uiPlatformWinForm, 
+            MyRootGraphic rootgfx = new MyRootGraphic(this.uiPlatformWinForm,
                 w, h);
 
-            formCanvas = FormCanvasHelper.CreateNewFormCanvas(rootgfx,
-                this.chkUseGLCanvas.Checked ? InnerViewportKind.GL : InnerViewportKind.GdiPlus,
-                out viewport);
+            //formCanvas = FormCanvasHelper.CreateNewFormCanvas(rootgfx,
+            //    this.chkUseGLCanvas.Checked ? InnerViewportKind.GL : InnerViewportKind.GdiPlus,
+            //    out viewport);
 
+            InnerViewportKind innerViewportKind = (InnerViewportKind)cmbPlatformSelector.SelectedItem;
+
+            formCanvas = FormCanvasHelper.CreateNewFormCanvas(rootgfx,
+              innerViewportKind,
+              out viewport);
             formCanvas.Text = "FormCanvas 1";
 
             viewport.PaintMe();

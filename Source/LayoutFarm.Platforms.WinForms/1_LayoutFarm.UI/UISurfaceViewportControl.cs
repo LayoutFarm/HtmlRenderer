@@ -43,11 +43,20 @@ namespace LayoutFarm.UI
                         ////view.Dock = DockStyle.Fill;
                         //this.Controls.Add(view);
                         ////--------------------------------------- 
-                        //view.Bind(bridge);
-
-                        //this.winBridge = bridge;
-
-
+                        //view.Bind(bridge); 
+                        //this.winBridge = bridge; 
+                    }
+                    break;
+                case InnerViewportKind.Skia:
+                    {
+                        //skiasharp ***
+                        var bridge = new Skia.MyTopWindowBridgeSkia(rootgfx, topWinEventRoot);
+                        var view = new SkiaSharp.Views.Desktop.SKControl();
+                        view.Dock = DockStyle.Fill;
+                        this.Controls.Add(view);
+                        //--------------------------------------- 
+                        view.Bind(bridge);
+                        this.winBridge = bridge;
                     }
                     break;
                 case InnerViewportKind.GdiPlus:

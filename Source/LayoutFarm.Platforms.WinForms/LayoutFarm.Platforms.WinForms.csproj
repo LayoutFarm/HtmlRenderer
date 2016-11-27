@@ -23,7 +23,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;__DESKTOP__</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -90,6 +90,11 @@
     <Compile Include="3_OpenGL\3_MyTopWindowBridgeOpenGL.cs" />
     <Compile Include="3_OpenGL\2_OpenGLCanvasViewport.cs" />
     <Compile Include="3_OpenGL\0_MyOpenGLPortal.cs" />
+    <Compile Include="4_Skia\2_SkiaCanvasViewport.cs" />
+    <Compile Include="4_Skia\3_MyTopWindowBridgeSkia.cs" />
+    <Compile Include="4_Skia\SKControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -107,6 +112,14 @@
     <ProjectReference Include="..\Deps\PixelFarm.Drawing.GdiPlus\PixelFarm.Drawing.GdiPlus.csproj">
       <Project>{1AA171E3-523C-4DD5-A169-DE6322991FF5}</Project>
       <Name>PixelFarm.Drawing.GdiPlus</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Deps\PixelFarm.Drawing.Skia\PixelFarm.Drawing.Skia.csproj">
+      <Project>{9450c9fb-5a70-4e47-bec3-b0a98a9c7d15}</Project>
+      <Name>PixelFarm.Drawing.Skia</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Deps\PixelFarm.SkiaSharp\PixelFarm.SkiaSharp.csproj">
+      <Project>{fb828375-3017-44d8-8357-59207224906d}</Project>
+      <Name>PixelFarm.SkiaSharp</Name>
     </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.BaseRenderer\LayoutFarm.BaseRenderer.csproj">
       <Project>{20048075-A2F3-4B97-B3C6-BEA794429741}</Project>
