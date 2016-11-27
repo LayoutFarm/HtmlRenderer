@@ -107,6 +107,15 @@ namespace PixelFarm.Drawing.Skia
             set
             {
                 this.currentTextFont = value;
+                //resolve font
+#if DEBUG
+#endif
+
+                SKTypeface typeFace = SkiaGraphicsPlatform.GetInstalledFont(value.Name);
+                if (typeFace != null)
+                {
+                    textFill.Typeface = typeFace;
+                }
                 //textFill.TextSize = value.SizeInPoints;                 
             }
         }
