@@ -74,8 +74,8 @@ namespace PixelFarm.Drawing.Skia
                 //gx.SetClip(clipRect);
                 //gx.DrawString(str, logicalTextBox);
                 skCanvas.DrawText(new string(str, startAt, len),
-                   logicalTextBox.X + canvasOriginX,
-                   logicalTextBox.Y + canvasOriginY,
+                   logicalTextBox.X,
+                   logicalTextBox.Y,
                    textFill);
                 //gx.ClearClip();
 
