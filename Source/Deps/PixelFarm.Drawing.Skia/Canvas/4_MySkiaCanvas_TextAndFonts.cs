@@ -7,23 +7,33 @@ namespace PixelFarm.Drawing.Skia
         RequestFont currentTextFont = null;
         Color mycurrentTextColor = Color.Black;
 
+
         public override void DrawText(char[] buffer, int x, int y)
         {
             SKRect clipRect = currentClipRect;
             clipRect.Offset(canvasOriginX, canvasOriginY);
+            //1.
             //skCanvas.ClipRect(clipRect);
+            //2.
             skCanvas.DrawText(new string(buffer), x, y, textFill);
+            ////3.
+            //ClearCurrentClipRect();
         }
         public override void DrawText(char[] buffer, Rectangle logicalTextBox, int textAlignment)
         {
             SKRect clipRect = currentClipRect;
+            //1.
             clipRect.Offset(canvasOriginX, canvasOriginY);
+            //2.
             //skCanvas.ClipRect(clipRect);
+            //3.
             //TODO: review here
             skCanvas.DrawText(new string(buffer),
                 logicalTextBox.X,
-                logicalTextBox.Y,
+                logicalTextBox.Bottom,
                 textFill);
+            //4. 
+            //ClearCurrentClipRect();
         }
         public override void DrawText(char[] str, int startAt, int len, Rectangle logicalTextBox, int textAlignment)
         {
@@ -43,13 +53,15 @@ namespace PixelFarm.Drawing.Skia
                         (int)currentClipRect.Height));
                 //2. offset to canvas origin 
                 clipRect.Offset(canvasOriginX, canvasOriginY);
-                //3. set rect rgn 
-                //gx.SetClip(clipRect);
+                //3. set rect rgn  
+                // skCanvas.ClipRect(new SKRect(clipRect.Left, clipRect.Top, clipRect.Right, clipRect.Bottom));
+                //4.
                 skCanvas.DrawText(new string(str, startAt, len),
                     logicalTextBox.X,
-                    logicalTextBox.Y,
+                    logicalTextBox.Bottom,
                     textFill);
-                //gx.ClearClip();
+                //5. clear 
+                //ClearCurrentClipRect();
 #if DEBUG
                 //NativeTextWin32.dbugDrawTextOrigin(tempDc,
                 //        logicalTextBox.X + canvasOriginX,
@@ -68,16 +80,15 @@ namespace PixelFarm.Drawing.Skia
                         (int)currentClipRect.Height));
                 //2. offset to canvas origin 
                 clipRect.Offset(canvasOriginX, canvasOriginY);
-                //3. set rect rgn
-
-                // clipRect.Offset(canvasOriginX, canvasOriginY);
-                //gx.SetClip(clipRect);
-                //gx.DrawString(str, logicalTextBox);
+                //3. set rect rgn  
+                skCanvas.ClipRect(new SKRect(clipRect.Left, clipRect.Top, clipRect.Right, clipRect.Bottom));
+                //4.
                 skCanvas.DrawText(new string(str, startAt, len),
-                   logicalTextBox.X,
-                   logicalTextBox.Y,
-                   textFill);
-                //gx.ClearClip();
+                    logicalTextBox.X,
+                    logicalTextBox.Bottom,
+                    textFill);
+                //5. clear 
+                //ClearCurrentClipRect();
 
 #if DEBUG
                 //NativeTextWin32.dbugDrawTextOrigin(tempDc,
