@@ -33,7 +33,7 @@ namespace SkiaSharp.Views.Desktop
             }
         }
 
-        public event EventHandler<SKPaintSurfaceEventArgs> PaintSurface;
+        //public event EventHandler<SKPaintSurfaceEventArgs> PaintSurface;
 
         protected override void OnPaint(PaintEventArgs e)
         {
@@ -69,11 +69,11 @@ namespace SkiaSharp.Views.Desktop
             //e.Graphics.DrawImage(bitmap, 0, 0);
         }
 
-        protected virtual void OnPaintSurface(SKPaintSurfaceEventArgs e)
-        {
-            // invoke the event
-            PaintSurface?.Invoke(this, e);
-        }
+        //protected virtual void OnPaintSurface(SKPaintSurfaceEventArgs e)
+        //{
+        //    // invoke the event
+        //    PaintSurface?.Invoke(this, e);
+        //}
 
         protected override void Dispose(bool disposing)
         {
