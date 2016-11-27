@@ -83,6 +83,7 @@ namespace PixelFarm.Drawing.Skia
                 //3. set rect rgn  
                 skCanvas.ClipRect(new SKRect(clipRect.Left, clipRect.Top, clipRect.Right, clipRect.Bottom));
                 //4.
+                 
                 skCanvas.DrawText(new string(str, startAt, len),
                     logicalTextBox.X,
                     logicalTextBox.Bottom,
@@ -115,8 +116,11 @@ namespace PixelFarm.Drawing.Skia
                 if (typeFace != null)
                 {
                     textFill.Typeface = typeFace;
+                    textFill.TextSize = value.SizeInPixels;
+                    textFill.IsAutohinted = true;
+                    textFill.LcdRenderText = true;
                 }
-                //textFill.TextSize = value.SizeInPoints;                 
+                
             }
         }
         public override Color CurrentTextColor
