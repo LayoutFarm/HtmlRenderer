@@ -488,7 +488,7 @@ namespace PixelFarm.Drawing.Skia
         }
         public override void SetClipBox(int x1, int y1, int x2, int y2)
         {
-            //_skCanvas.ClipRect(new SKRect(x1, y1, x2, y2));
+            _skCanvas.ClipRect(new SKRect(x1, y1, x2, y2));
         }
         public override RenderVx CreateRenderVx(VertexStoreSnap snap)
         {
