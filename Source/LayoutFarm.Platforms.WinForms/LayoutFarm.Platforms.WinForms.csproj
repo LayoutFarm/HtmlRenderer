@@ -95,8 +95,6 @@
     <Compile Include="4_Skia\SKControl.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="4_Skia\SKPaintGLSurfaceEventArgs.cs" />
-    <Compile Include="4_Skia\SKPaintSurfaceEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

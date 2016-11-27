@@ -20,9 +20,9 @@
             this.chkShowLayoutInspector = new System.Windows.Forms.CheckBox();
             this.lstHtmlTestFiles = new System.Windows.Forms.ListBox();
             this.lstDemoList = new System.Windows.Forms.ListBox();
-            this.chkUseGLCanvas = new System.Windows.Forms.CheckBox();
             this._samplesTreeView = new System.Windows.Forms.TreeView();
             this.chkShowFormPrint = new System.Windows.Forms.CheckBox();
+            this.cmbPlatformSelector = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // chkShowLayoutInspector
@@ -51,16 +51,6 @@
             this.lstDemoList.Size = new System.Drawing.Size(388, 472);
             this.lstDemoList.TabIndex = 15;
             // 
-            // chkUseGLCanvas
-            // 
-            this.chkUseGLCanvas.AutoSize = true;
-            this.chkUseGLCanvas.Location = new System.Drawing.Point(300, 20);
-            this.chkUseGLCanvas.Name = "chkUseGLCanvas";
-            this.chkUseGLCanvas.Size = new System.Drawing.Size(101, 17);
-            this.chkUseGLCanvas.TabIndex = 16;
-            this.chkUseGLCanvas.Text = "Use GL Canvas";
-            this.chkUseGLCanvas.UseVisualStyleBackColor = true;
-            // 
             // _samplesTreeView
             // 
             this._samplesTreeView.Location = new System.Drawing.Point(432, 43);
@@ -79,14 +69,23 @@
             this.chkShowFormPrint.UseVisualStyleBackColor = true;
             this.chkShowFormPrint.CheckedChanged += new System.EventHandler(this.chkShowFormPrint_CheckedChanged);
             // 
+            // cmbPlatformSelector
+            // 
+            this.cmbPlatformSelector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbPlatformSelector.FormattingEnabled = true;
+            this.cmbPlatformSelector.Location = new System.Drawing.Point(316, 5);
+            this.cmbPlatformSelector.Name = "cmbPlatformSelector";
+            this.cmbPlatformSelector.Size = new System.Drawing.Size(265, 21);
+            this.cmbPlatformSelector.TabIndex = 19;
+            // 
             // FormDemoList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(858, 529);
+            this.Controls.Add(this.cmbPlatformSelector);
             this.Controls.Add(this.chkShowFormPrint);
             this.Controls.Add(this._samplesTreeView);
-            this.Controls.Add(this.chkUseGLCanvas);
             this.Controls.Add(this.lstDemoList);
             this.Controls.Add(this.lstHtmlTestFiles);
             this.Controls.Add(this.chkShowLayoutInspector);
@@ -102,9 +101,9 @@
         private System.Windows.Forms.CheckBox chkShowLayoutInspector;
         private System.Windows.Forms.ListBox lstHtmlTestFiles;
         private System.Windows.Forms.ListBox lstDemoList;
-        private System.Windows.Forms.CheckBox chkUseGLCanvas;
         private System.Windows.Forms.TreeView _samplesTreeView;
         private System.Windows.Forms.CheckBox chkShowFormPrint;
+        private System.Windows.Forms.ComboBox cmbPlatformSelector;
     }
 }
 

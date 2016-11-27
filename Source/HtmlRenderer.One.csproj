@@ -587,8 +587,6 @@
     <Compile Include="LayoutFarm.Platforms.WinForms\4_Skia\SKControl.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="LayoutFarm.Platforms.WinForms\4_Skia\SKPaintGLSurfaceEventArgs.cs" />
-    <Compile Include="LayoutFarm.Platforms.WinForms\4_Skia\SKPaintSurfaceEventArgs.cs" />
     <Compile Include="LayoutFarm.TextEdit\1.1_EditableRuns\dbugMultiTextManRecorder.cs" />
     <Compile Include="LayoutFarm.TextEdit\1.1_EditableRuns\EditableRun.cs" />
     <Compile Include="LayoutFarm.TextEdit\1.1_EditableRuns\EditableRunCharLocation.cs" />
