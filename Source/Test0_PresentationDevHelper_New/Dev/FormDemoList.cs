@@ -117,10 +117,12 @@ namespace LayoutFarm.Dev
             MyRootGraphic rootgfx = new MyRootGraphic(this.uiPlatformWinForm, 
                 w, h);
 
+            //formCanvas = FormCanvasHelper.CreateNewFormCanvas(rootgfx,
+            //    this.chkUseGLCanvas.Checked ? InnerViewportKind.GL : InnerViewportKind.GdiPlus,
+            //    out viewport);
             formCanvas = FormCanvasHelper.CreateNewFormCanvas(rootgfx,
-                this.chkUseGLCanvas.Checked ? InnerViewportKind.GL : InnerViewportKind.GdiPlus,
-                out viewport);
-
+              this.chkUseGLCanvas.Checked ? InnerViewportKind.GL : InnerViewportKind.Skia,
+              out viewport);
             formCanvas.Text = "FormCanvas 1";
 
             viewport.PaintMe();
