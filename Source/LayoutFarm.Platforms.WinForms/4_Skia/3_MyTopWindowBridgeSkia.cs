@@ -13,7 +13,7 @@ namespace LayoutFarm.UI.Skia
             : base(root, topWinEventRoot)
         {
         }
-        internal void BindWindowControl(Control windowControl)
+        public override void BindWindowControl(Control windowControl)
         {
             //bind to anycontrol GDI control  
             this.windowControl = windowControl;
@@ -33,7 +33,7 @@ namespace LayoutFarm.UI.Skia
         {
             get { return this.windowControl.Size; }
         }
-        public void InvalidateRootArea(Rectangle r)
+        public override void InvalidateRootArea(Rectangle r)
         {
             Rectangle rect = r;
             this.RootGfx.InvalidateGraphicArea(
@@ -47,10 +47,10 @@ namespace LayoutFarm.UI.Skia
             this.canvasViewport.PaintMe(hdc);
             Win32.MyWin32.ReleaseDC(this.windowControl.Handle, hdc);
         }
-        public void PrintToCanvas(PixelFarm.Drawing.WinGdi.MyGdiPlusCanvas canvas)
-        {
-            this.canvasViewport.PaintMe(canvas);
-        }
+        //public void PrintToCanvas(PixelFarm.Drawing.WinGdi.MyGdiPlusCanvas canvas)
+        //{
+        //    this.canvasViewport.PaintMe(canvas);
+        //}
         protected override void ChangeCursorStyle(MouseCursorStyle cursorStyle)
         {
             switch (cursorStyle)
