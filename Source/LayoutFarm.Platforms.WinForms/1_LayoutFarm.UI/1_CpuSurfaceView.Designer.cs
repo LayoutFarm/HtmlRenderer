@@ -1,6 +1,6 @@
-﻿namespace LayoutFarm.UI.GdiPlus
+﻿namespace LayoutFarm.UI
 {
-    partial class CpuGdiPlusSurfaceView
+    partial class CpuSurfaceView
     {
 
         private System.ComponentModel.IContainer components = null;

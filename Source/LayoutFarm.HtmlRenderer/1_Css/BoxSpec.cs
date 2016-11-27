@@ -14,8 +14,7 @@
 // "The Art of War"
 
 using System;
-using PixelFarm.Drawing;
-using PixelFarm.Drawing.Fonts;
+using PixelFarm.Drawing; 
 namespace LayoutFarm.Css
 {
     public sealed partial class BoxSpec

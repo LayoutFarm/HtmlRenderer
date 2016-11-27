@@ -1,9 +1,6 @@
 ﻿//Apache2, 2014-2016, WinterDev
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
 using System.Windows.Forms;
 using PixelFarm.Drawing;
 namespace LayoutFarm.UI.Skia
@@ -16,13 +13,13 @@ namespace LayoutFarm.UI.Skia
             : base(root, topWinEventRoot)
         {
         }
-        internal void BindWindowControl(Control windowControl)
+        public override void BindWindowControl(Control windowControl)
         {
             //bind to anycontrol GDI control  
             this.windowControl = windowControl;
             this.SetBaseCanvasViewport(this.canvasViewport = new SkiaCanvasViewport(this.RootGfx,
                 this.Size.ToSize(), 4));
- 
+
             this.RootGfx.SetPaintDelegates(
                     this.canvasViewport.CanvasInvlidateArea,
                     this.PaintToOutputWindow);
@@ -36,7 +33,7 @@ namespace LayoutFarm.UI.Skia
         {
             get { return this.windowControl.Size; }
         }
-        public void InvalidateRootArea(Rectangle r)
+        public override void InvalidateRootArea(Rectangle r)
         {
             Rectangle rect = r;
             this.RootGfx.InvalidateGraphicArea(
@@ -50,10 +47,10 @@ namespace LayoutFarm.UI.Skia
             this.canvasViewport.PaintMe(hdc);
             Win32.MyWin32.ReleaseDC(this.windowControl.Handle, hdc);
         }
-        public void PrintToCanvas(PixelFarm.Drawing.WinGdi.MyGdiPlusCanvas canvas)
-        {
-            this.canvasViewport.PaintMe(canvas);
-        }
+        //public void PrintToCanvas(PixelFarm.Drawing.WinGdi.MyGdiPlusCanvas canvas)
+        //{
+        //    this.canvasViewport.PaintMe(canvas);
+        //}
         protected override void ChangeCursorStyle(MouseCursorStyle cursorStyle)
         {
             switch (cursorStyle)

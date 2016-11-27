@@ -4,9 +4,7 @@
 // License & terms of use: http://www.unicode.org/copyright.html#License
 
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
+using System.Collections.Generic; 
 
 namespace LayoutFarm.TextBreak
 {

@@ -1,8 +1,7 @@
 ﻿//Apache2, 2014-2016, WinterDev
 
 using System;
-using PixelFarm.Drawing;
-using PixelFarm.Drawing.Fonts;
+using PixelFarm.Drawing; 
 using LayoutFarm.RenderBoxes;
 namespace LayoutFarm
 {
