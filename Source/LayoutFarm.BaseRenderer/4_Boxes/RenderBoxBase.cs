@@ -202,11 +202,18 @@ namespace LayoutFarm
         {
             if (this.defaultLayer != null)
             {
+#if DEBUG
+                if (!debugBreaK1)
+                {
+                    debugBreaK1 = true;
+                }
+#endif
                 defaultLayer.DrawChildContent(canvas, updateArea);
             }
         }
 
 #if DEBUG
+        public static bool debugBreaK1;
         //-----------------------------------------------------------------
         public void dbugForceTopDownReArrangeContent()
         {

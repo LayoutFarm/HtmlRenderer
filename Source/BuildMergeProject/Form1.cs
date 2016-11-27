@@ -19,8 +19,8 @@ namespace BuildMergeProject
             mergePro.MergeAndSave(DEV_DIR + "HtmlRenderer.One.csproj",
                "HtmlRenderer.One",
                "v2.0",
-                //"ICU_VER_54;NET20",
-               ";NET20",
+               //"ICU_VER_54;NET20",
+               ";NET20, __DESKTOP__",
                new string[] {
                   "System",
                   "System.Drawing",
@@ -33,7 +33,9 @@ namespace BuildMergeProject
             MergeProject mergePro = new MergeProject();
             mergePro.LoadSubProject(DEV_DIR + @"Deps\PixelFarm.One.HtmlRenderer.csproj");//this is auto-gen project too
             mergePro.LoadSubProject(DEV_DIR + @"Deps\PixelFarm.DataProvider.Native\PixelFarm.DataProvider.Native.csproj");//this is auto-gen project too
-
+            mergePro.LoadSubProject(DEV_DIR + @"Deps\PixelFarm.SkiaSharp\PixelFarm.SkiaSharp.csproj");
+            mergePro.LoadSubProject(DEV_DIR + @"Deps\PixelFarm.Drawing.Skia\PixelFarm.Drawing.Skia.csproj");
+            mergePro.LoadSubProject(DEV_DIR + @"Deps\Tesselate\Tesselate.csproj");
             //------------------------------------------------------------------------------------------------
             //base modules
             mergePro.LoadSubProject(DEV_DIR + @"LayoutFarm.ClientPlatforms\LayoutFarm.ClientPlatforms.csproj");
@@ -49,6 +51,7 @@ namespace BuildMergeProject
             mergePro.LoadSubProject(DEV_DIR + @"LayoutFarm.YourCustomWidgets\LayoutFarm.YourCustomWidgets.csproj");
             //platforms.Windows
             mergePro.LoadSubProject(DEV_DIR + @"LayoutFarm.Platforms.WinForms\LayoutFarm.Platforms.WinForms.csproj");
+
             //js engine
             mergePro.LoadSubProject(DEV_DIR + @"Deps\Espresso\Net20\Espresso.Interfaces\Espresso.Interfaces.csproj");
             mergePro.LoadSubProject(DEV_DIR + @"Deps\Espresso\Net20\EspressoCore\EspressoCore.csproj");

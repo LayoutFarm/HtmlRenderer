@@ -22,7 +22,7 @@ namespace PixelFarm.Drawing.Skia
             int total_dx = x - canvasOriginX;
             int total_dy = y - canvasOriginY;
 
-            skCanvas.Scale(x, y);
+            skCanvas.Translate(total_dx, total_dy);
             //clip rect move to another direction***
             this.currentClipRect.Offset(-total_dx, -total_dy);
             this.canvasOriginX = x;
