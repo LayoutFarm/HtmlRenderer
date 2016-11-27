@@ -51,7 +51,7 @@ namespace LayoutFarm.UI
                     {
                         //skiasharp ***
                         var bridge = new Skia.MyTopWindowBridgeSkia(rootgfx, topWinEventRoot);
-                        var view = new SkiaSharp.Views.Desktop.SKControl();
+                        var view = new LayoutFarm.UI.Skia.SKControl();
                         view.Dock = DockStyle.Fill;
                         this.Controls.Add(view);
                         //--------------------------------------- 
