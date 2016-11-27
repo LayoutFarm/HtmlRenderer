@@ -1,9 +1,7 @@
 ﻿//Apache2, 2014-2016, WinterDev
 
-using System;
-using PixelFarm.Drawing;
-using PixelFarm.Drawing.Fonts;
-using LayoutFarm.RenderBoxes;
+ 
+using PixelFarm.Drawing; 
 namespace LayoutFarm
 {
     public static class RootGfxPlatform

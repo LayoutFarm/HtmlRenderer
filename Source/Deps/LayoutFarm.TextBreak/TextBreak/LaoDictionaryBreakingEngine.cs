@@ -3,15 +3,9 @@
 // © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html#License
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
 
-namespace LayoutFarm.TextBreak 
+namespace LayoutFarm.TextBreak
 {
-
-
     public class LaoDictionaryBreakingEngine : DictionaryBreakingEngine
     {
         CustomDic _customDic;
@@ -46,14 +40,14 @@ namespace LayoutFarm.TextBreak
         const char s_lastChar = (char)0x0EFF;
         static LaoDictionaryBreakingEngine()
         {
-            char[] laoCantStartWithChars = new char[] { 
+            char[] laoCantStartWithChars = new char[] {
                 (char)0x0EB0, //
                 (char)0x0EB1, //
                 (char)0x0EB2,
                 (char)0x0EB3,
-                (char)0x0EB4, 
-                (char)0x0EB5, 
-                (char)0x0EB6, 
+                (char)0x0EB4,
+                (char)0x0EB5,
+                (char)0x0EB6,
                 (char)0x0EB7,
                 (char)0x0EB8,
                 (char)0x0EB9,
@@ -79,9 +73,9 @@ namespace LayoutFarm.TextBreak
             {
                 int shiftedIndex = laoCantStartWithChars[i] - s_firstChar;
                 //some char can't be start char
-                canbeStartChars[shiftedIndex] = false; 
+                canbeStartChars[shiftedIndex] = false;
             }
-            
+
         }
     }
 
