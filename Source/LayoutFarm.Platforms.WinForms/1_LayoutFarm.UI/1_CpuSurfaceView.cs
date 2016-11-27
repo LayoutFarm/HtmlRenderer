@@ -1,22 +1,20 @@
-﻿//Apache2, 2014-2016, WinterDev
-
+﻿//Apache2, 2014-2016, WinterDev 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
 using System.Windows.Forms;
-using PixelFarm.Drawing;
-namespace LayoutFarm.UI.GdiPlus
+namespace LayoutFarm.UI
 {
-    partial class CpuGdiPlusSurfaceView : UserControl
+
+    partial class CpuSurfaceView : UserControl
     {
-        MyTopWindowBridgeGdiPlus winBridge;
-        public CpuGdiPlusSurfaceView()
+        //this ui support gdi+ and skia on WinForms
+
+        TopWindowBridge winBridge;
+        public CpuSurfaceView()
         {
             InitializeComponent();
             this.MouseWheel += new MouseEventHandler(CpuGdiPlusSurfaceView_MouseWheel);
         }
-        public void Bind(MyTopWindowBridgeGdiPlus winBridge)
+        public void Bind(TopWindowBridge winBridge)
         {
             //1. 
             this.winBridge = winBridge;

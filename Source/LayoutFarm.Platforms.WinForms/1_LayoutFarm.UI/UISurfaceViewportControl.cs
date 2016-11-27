@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using PixelFarm.Drawing;
 namespace LayoutFarm.UI
 {
     public partial class UISurfaceViewportControl : UserControl
@@ -51,7 +50,7 @@ namespace LayoutFarm.UI
                     {
                         //skiasharp ***
                         var bridge = new Skia.MyTopWindowBridgeSkia(rootgfx, topWinEventRoot);
-                        var view = new SkiaSharp.Views.Desktop.SKControl();
+                        var view = new CpuSurfaceView();
                         view.Dock = DockStyle.Fill;
                         this.Controls.Add(view);
                         //--------------------------------------- 
@@ -63,7 +62,7 @@ namespace LayoutFarm.UI
                 default:
                     {
                         var bridge = new GdiPlus.MyTopWindowBridgeGdiPlus(rootgfx, topWinEventRoot);
-                        var view = new GdiPlus.CpuGdiPlusSurfaceView();
+                        var view = new CpuSurfaceView();
                         view.Dock = DockStyle.Fill;
                         this.Controls.Add(view);
                         //--------------------------------------- 

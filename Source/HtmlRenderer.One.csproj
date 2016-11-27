@@ -557,9 +557,11 @@
     <Compile Include="LayoutFarm.Platforms.WinForms\0_Start\Conv.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\0_Start\dbugHelper.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\0_Start\QuadPages.cs" />
-    <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\AbstractCompletionWindow.cs">
-      <SubType>Form</SubType>
+    <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\1_CpuSurfaceView.cs">
+      <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\1_CpuSurfaceView.Designer.cs" />
+    <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\AbstractCompletionWindow.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\AbstractCompletionWindow.Designer.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\InnerViewportKind.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\MyUITimer.cs" />
@@ -571,10 +573,6 @@
     </Compile>
     <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\UISurfaceViewportControl.Designer.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\2_GdiPlus\0_MyWinGdiPortal.cs" />
-    <Compile Include="LayoutFarm.Platforms.WinForms\2_GdiPlus\1_CpuGdiPlusSurfaceView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="LayoutFarm.Platforms.WinForms\2_GdiPlus\1_CpuGdiPlusSurfaceView.Designer.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\2_GdiPlus\2_GdiPlusCanvasViewport.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\2_GdiPlus\3_MyTopWindowBridgeGdiPlus.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\3_OpenGL\0_MyOpenGLPortal.cs" />
@@ -584,9 +582,6 @@
     <Compile Include="LayoutFarm.Platforms.WinForms\3_OpenGL\3_MyTopWindowBridgeOpenGL.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\4_Skia\2_SkiaCanvasViewport.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\4_Skia\3_MyTopWindowBridgeSkia.cs" />
-    <Compile Include="LayoutFarm.Platforms.WinForms\4_Skia\SKControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="LayoutFarm.TextEdit\1.1_EditableRuns\dbugMultiTextManRecorder.cs" />
     <Compile Include="LayoutFarm.TextEdit\1.1_EditableRuns\EditableRun.cs" />
     <Compile Include="LayoutFarm.TextEdit\1.1_EditableRuns\EditableRunCharLocation.cs" />

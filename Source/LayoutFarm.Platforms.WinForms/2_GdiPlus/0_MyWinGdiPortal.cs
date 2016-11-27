@@ -1,10 +1,7 @@
 ﻿//Apache2, 2014-2016, WinterDev
 
-using PixelFarm.Drawing;
-using Win32;
-using PixelFarm.Drawing.WinGdi;
-using PixelFarm.Drawing.Fonts;
-using PixelFarm.Drawing.Text;
+using PixelFarm.Drawing; 
+using PixelFarm.Drawing.WinGdi; 
 
 namespace LayoutFarm.UI.GdiPlus
 {

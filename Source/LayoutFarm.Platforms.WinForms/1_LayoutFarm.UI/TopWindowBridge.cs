@@ -20,6 +20,8 @@ namespace LayoutFarm.UI
             this.topWinEventRoot = topWinEventRoot;
             this.rootGraphic = rootGraphic;
         }
+        public abstract void BindWindowControl(Control windowControl);
+        public abstract void InvalidateRootArea(Rectangle r);
         public RootGraphic RootGfx
         {
             get { return this.rootGraphic; }
