@@ -115,8 +115,9 @@ namespace PixelFarm.Drawing.Skia
                 if (typeFace != null)
                 {
                     textFill.Typeface = typeFace;
+                    textFill.TextSize = value.SizeInPixels;
                 }
-                //textFill.TextSize = value.SizeInPoints;                 
+                
             }
         }
         public override Color CurrentTextColor
