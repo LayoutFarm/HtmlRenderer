@@ -46,9 +46,11 @@ namespace LayoutFarm.UI
                         //this.winBridge = bridge; 
                     }
                     break;
+#if __SKIA__
                 case InnerViewportKind.Skia:
                     {
                         //skiasharp ***
+
                         var bridge = new Skia.MyTopWindowBridgeSkia(rootgfx, topWinEventRoot);
                         var view = new CpuSurfaceView();
                         view.Dock = DockStyle.Fill;
@@ -56,8 +58,10 @@ namespace LayoutFarm.UI
                         //--------------------------------------- 
                         view.Bind(bridge);
                         this.winBridge = bridge;
+
                     }
                     break;
+#endif
                 case InnerViewportKind.GdiPlus:
                 default:
                     {

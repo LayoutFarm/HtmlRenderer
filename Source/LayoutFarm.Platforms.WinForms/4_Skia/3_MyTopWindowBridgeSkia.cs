@@ -3,6 +3,7 @@
 using System;
 using System.Windows.Forms;
 using PixelFarm.Drawing;
+#if __SKIA__
 namespace LayoutFarm.UI.Skia
 {
     class MyTopWindowBridgeSkia : TopWindowBridge
@@ -74,3 +75,5 @@ namespace LayoutFarm.UI.Skia
         }
     }
 }
+
+#endif
