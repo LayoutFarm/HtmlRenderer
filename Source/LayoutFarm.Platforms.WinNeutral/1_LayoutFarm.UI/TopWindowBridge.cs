@@ -241,11 +241,11 @@ namespace LayoutFarm.UI
         }
         public void HandleKeyDown(int keyValue)
         {
-#if DEBUG
-            dbugTopwin.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
-            dbugTopwin.dbugVisualRoot.dbug_PushLayoutTraceMessage("KEYDOWN " + (LayoutFarm.UI.UIKeys)e.KeyCode);
-            dbugTopwin.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
-#endif
+//#if DEBUG
+//            dbugTopwin.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
+//            dbugTopwin.dbugVisualRoot.dbug_PushLayoutTraceMessage("KEYDOWN " + (LayoutFarm.UI.UIKeys)e.KeyCode);
+//            dbugTopwin.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
+//#endif
             canvasViewport.FullMode = false;
             this.topWinEventRoot.RootKeyDown(keyValue);
             PrepareRenderAndFlushAccumGraphics();

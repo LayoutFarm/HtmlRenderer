@@ -1,17 +1,57 @@
 ﻿//Apache2, 2014-2016, WinterDev
 
-using PixelFarm.Drawing; 
-using PixelFarm.Drawing.WinGdi; 
+using PixelFarm.Drawing;
+using PixelFarm.Drawing.WinGdi;
+using PixelFarm.Drawing.Fonts;
 
+//temp fix 
+namespace PixelFarm.Drawing.WinGdi
+{
+    public class WinGdiPlusPlatform : GraphicsPlatform
+    {
+        static InstalledFontCollection s_installFontCollection = new InstalledFontCollection();
+        static WinGdiPlusPlatform()
+        {
+            var installFontsWin32 = new PixelFarm.Drawing.Win32.InstallFontsProviderWin32();
+            s_installFontCollection.LoadInstalledFont(installFontsWin32.GetInstalledFontIter());
+
+            throw new System.NotImplementedException();
+            //WinGdiFontFace.SetInstalledFontCollection(s_installFontCollection);
+            //PixelFarm.Agg.AggBuffMx.SetNaiveBufferImpl(new Win32AggBuffMx());
+            //3. set default encoing
+            WinGdiTextService.SetDefaultEncoding(System.Text.Encoding.ASCII);
+        }
+        public WinGdiPlusPlatform()
+        {
+
+        }
+        public override Canvas CreateCanvas(int left, int top, int width, int height, CanvasInitParameters canvasInitPars = new CanvasInitParameters())
+        {
+            throw new System.NotSupportedException();
+        }
+
+        public static void SetFontEncoding(System.Text.Encoding encoding)
+        {
+            WinGdiTextService.SetDefaultEncoding(encoding);
+        }
+        public static void SetFontNotFoundHandler(FontNotFoundHandler fontNotFoundHandler)
+        {
+            s_installFontCollection.SetFontNotFoundHandler(fontNotFoundHandler);
+        }
+    }
+
+}
 namespace LayoutFarm.UI.GdiPlus
 {
     public class MyWinGdiPortalSetupParameters
     {
-        public string IcuDataFile { get; set; } 
+        public string IcuDataFile { get; set; }
         public IFonts TextServiceInstance { get; set; }
         public IActualFontResolver ActualFontResolver { get; set; }
-        
+
     }
+
+    //temp fix
 
 
     public static class MyWinGdiPortal

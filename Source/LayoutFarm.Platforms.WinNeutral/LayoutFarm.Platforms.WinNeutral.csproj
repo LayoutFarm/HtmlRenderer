@@ -67,9 +67,6 @@
     <Compile Include="1_LayoutFarm.UI\TopWindowBridge_dbug.cs" />
     <Compile Include="1_LayoutFarm.UI\UIPlatformWinForms.cs" />
     <Compile Include="1_LayoutFarm.UI\UISurfaceViewportControl.cs" />
-    <Compile Include="1_LayoutFarm.UI\UISurfaceViewportControl.Designer.cs">
-      <DependentUpon>UISurfaceViewportControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="2_GdiPlus\0_MyWinGdiPortal.cs" />
     <Compile Include="2_GdiPlus\2_GdiPlusCanvasViewport.cs" />
     <Compile Include="2_GdiPlus\3_MyTopWindowBridgeGdiPlus.cs" />
@@ -104,10 +101,6 @@
     <ProjectReference Include="..\Deps\PixelFarm.Drawing.Skia\PixelFarm.Drawing.Skia.csproj">
       <Project>{9450c9fb-5a70-4e47-bec3-b0a98a9c7d15}</Project>
       <Name>PixelFarm.Drawing.Skia</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Deps\PixelFarm.DrawingGL\PixelFarm.DrawingGL.csproj">
-      <Project>{e1702214-6c76-46fa-a1df-31645ca704c6}</Project>
-      <Name>PixelFarm.DrawingGL</Name>
     </ProjectReference>
     <ProjectReference Include="..\Deps\PixelFarm.MiniOpenTK\PixelFarm.MiniOpenTK.csproj">
       <Project>{7c154e68-1709-4d5d-ab76-833febe4b3b2}</Project>

@@ -6,11 +6,18 @@ namespace LayoutFarm.UI
     class MyUITimer : UITimer
     {
         //platform specific
-        System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
+
+        System.Timers.Timer timer = new System.Timers.Timer();
         public MyUITimer()
         {
-            timer.Tick += new EventHandler(timer_Tick);
+            timer.Elapsed += Timer_Elapsed;
         }
+
+        private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            this.RaiseTick();
+        }
+
         void timer_Tick(object sender, EventArgs e)
         {
             this.RaiseTick();
@@ -19,7 +26,7 @@ namespace LayoutFarm.UI
         {
             get
             {
-                return this.timer.Interval;
+                return (int)this.timer.Interval;
             }
             set
             {
