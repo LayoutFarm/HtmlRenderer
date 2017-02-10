@@ -1,4 +1,4 @@
-﻿//MS-PL, Apache2, 2014-2016, WinterDev
+﻿//MS-PL, Apache2, 2014-2017, WinterDev
 
 using PixelFarm.Drawing;
 using System.Collections.Generic;

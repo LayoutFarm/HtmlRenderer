@@ -1,4 +1,4 @@
-﻿//MIT, 2016, WinterDev
+﻿//MIT, 2016-2017, WinterDev
 
 using PixelFarm.Agg;
 namespace PixelFarm.Drawing.Skia

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿//MIT, 2016-2017, WinterDev
+using System.Collections.Generic;
 
 namespace PixelFarm.DrawingGL
 {

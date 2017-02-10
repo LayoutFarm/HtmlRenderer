@@ -1,4 +1,4 @@
-﻿//Apache2 2014,WinterDev
+﻿//Apache2, 2014-2017, WinterDev
 //some code frmo vvv-svg project
 
 

@@ -1,4 +1,4 @@
-﻿//BSD, 2014-2016, WinterDev 
+﻿//BSD, 2014-2017, WinterDev 
  
 using System.Runtime.InteropServices; 
 using PixelFarm.Drawing.Fonts;

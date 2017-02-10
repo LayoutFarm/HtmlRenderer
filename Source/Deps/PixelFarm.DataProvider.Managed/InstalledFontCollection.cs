@@ -1,4 +1,4 @@
-﻿//MIT 2016, WinterDev
+﻿//MIT, 2016-2017, WinterDev
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,7 +9,7 @@ namespace PixelFarm.Drawing.Fonts
 
     //from http://stackoverflow.com/questions/3633000/net-enumerate-winforms-font-styles
     // https://www.microsoft.com/Typography/OTSpec/name.htm
-    //MIT 2016, WinterDev
+    //MIT, 2016-2017, WinterDev
 
     public class InstalledFont
     {

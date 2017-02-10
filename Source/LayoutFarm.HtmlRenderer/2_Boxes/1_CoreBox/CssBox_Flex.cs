@@ -1,4 +1,4 @@
-﻿//MIT, 2015-2016, WinterDev
+﻿//MIT, 2015-2017, WinterDev
 
 namespace LayoutFarm.HtmlBoxes
 {
