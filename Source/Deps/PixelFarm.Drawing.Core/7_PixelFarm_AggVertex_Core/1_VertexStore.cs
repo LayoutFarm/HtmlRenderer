@@ -1,4 +1,4 @@
-﻿//BSD, 2014-2016, WinterDev
+﻿//BSD, 2014-2017, WinterDev
 //----------------------------------------------------------------------------
 // Anti-Grain Geometry - Version 2.4
 // Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
@@ -98,6 +98,7 @@ namespace PixelFarm.Agg
         public void Clear()
         {
             m_num_vertices = 0;
+            System.Array.Clear(m_cmds, 0, m_cmds.Length); 
         }
         public void AddVertex(double x, double y, VertexCmd cmd)
         {

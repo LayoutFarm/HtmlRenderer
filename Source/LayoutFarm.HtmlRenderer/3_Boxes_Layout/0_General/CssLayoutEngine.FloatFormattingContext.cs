@@ -1,4 +1,4 @@
-﻿//BSD, 2015-2016, WinterDev
+﻿//BSD, 2015-2017, WinterDev
 
 using System;
 using System.Collections.Generic;

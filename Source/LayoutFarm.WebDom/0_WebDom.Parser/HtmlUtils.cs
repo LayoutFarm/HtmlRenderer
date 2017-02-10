@@ -1,4 +1,4 @@
-﻿//BSD, 2014-2016, WinterDev 
+﻿//BSD, 2014-2017, WinterDev 
 //ArthurHub  , Jose Manuel Menendez Poo
 
 // "Therefore those skilled at the unorthodox
@@ -27,7 +27,7 @@ namespace LayoutFarm.WebDom.Parser
         static readonly Dictionary<WellknownName, byte> canbeOmittedTags = new Dictionary<WellknownName, byte>();
         static HtmlTagMatching()
         {
-            //html5 (//BSD, 2014-2016, WinterDev-04-24) void elements
+            //html5 (//BSD, 2014-2017, WinterDev-04-24) void elements
             //void elements: no endtag, no content ***
             noContentTags.Add(WebDom.WellknownName.Area, 0);
             noContentTags.Add(WebDom.WellknownName.Base, 0);

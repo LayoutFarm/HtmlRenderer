@@ -1,4 +1,4 @@
-﻿//MIT 2014-2016, WinterDev
+﻿//MIT, 2014-2017, WinterDev
 using PixelFarm.Drawing.Fonts;
 using PixelFarm.Drawing.Text;
 namespace PixelFarm.DrawingGL

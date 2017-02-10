@@ -1,4 +1,4 @@
-﻿//MIT 2014-2016, WinterDev
+﻿//MIT, 2014-2017, WinterDev
 //credit : https://www.opengl.org/wiki/Framebuffer_Object_Examples
 //credit : http://learningwebgl.com/lessons/lesson16/index.html
 
