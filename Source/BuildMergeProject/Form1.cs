@@ -33,8 +33,8 @@ namespace BuildMergeProject
             MergeProject mergePro = new MergeProject();
             mergePro.LoadSubProject(DEV_DIR + @"Deps\PixelFarm.One.HtmlRenderer.csproj");//this is auto-gen project too
             mergePro.LoadSubProject(DEV_DIR + @"Deps\PixelFarm.DataProvider.Native\PixelFarm.DataProvider.Native.csproj");//this is auto-gen project too
-            mergePro.LoadSubProject(DEV_DIR + @"Deps\PixelFarm.SkiaSharp\PixelFarm.SkiaSharp.csproj");
-            mergePro.LoadSubProject(DEV_DIR + @"Deps\PixelFarm.Drawing.Skia\PixelFarm.Drawing.Skia.csproj");
+            //mergePro.LoadSubProject(DEV_DIR + @"Deps\PixelFarm.SkiaSharp\PixelFarm.SkiaSharp.csproj");
+            //mergePro.LoadSubProject(DEV_DIR + @"Deps\PixelFarm.Drawing.Skia\PixelFarm.Drawing.Skia.csproj");
             mergePro.LoadSubProject(DEV_DIR + @"Deps\Tesselate\Tesselate.csproj");
             //------------------------------------------------------------------------------------------------
             //base modules

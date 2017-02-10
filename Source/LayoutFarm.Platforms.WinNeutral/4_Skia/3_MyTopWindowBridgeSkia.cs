@@ -1,9 +1,8 @@
 ﻿//Apache2, 2014-2016, WinterDev
 
 using System;
-using System.Windows.Forms;
+using PixelFarm.Forms;
 using PixelFarm.Drawing;
-#if __SKIA__
 namespace LayoutFarm.UI.Skia
 {
     class MyTopWindowBridgeSkia : TopWindowBridge
@@ -19,7 +18,7 @@ namespace LayoutFarm.UI.Skia
             //bind to anycontrol GDI control  
             this.windowControl = windowControl;
             this.SetBaseCanvasViewport(this.canvasViewport = new SkiaCanvasViewport(this.RootGfx,
-                this.Size.ToSize(), 4));
+                new Size(windowControl.Width, windowControl.Height), 4));
 
             this.RootGfx.SetPaintDelegates(
                     this.canvasViewport.CanvasInvlidateArea,
@@ -30,10 +29,7 @@ namespace LayoutFarm.UI.Skia
 #endif
             this.EvaluateScrollbar();
         }
-        System.Drawing.Size Size
-        {
-            get { return this.windowControl.Size; }
-        }
+
         public override void InvalidateRootArea(Rectangle r)
         {
             Rectangle rect = r;
@@ -54,26 +50,25 @@ namespace LayoutFarm.UI.Skia
         //}
         protected override void ChangeCursorStyle(MouseCursorStyle cursorStyle)
         {
-            switch (cursorStyle)
-            {
-                case MouseCursorStyle.Pointer:
-                    {
-                        windowControl.Cursor = Cursors.Hand;
-                    }
-                    break;
-                case MouseCursorStyle.IBeam:
-                    {
-                        windowControl.Cursor = Cursors.IBeam;
-                    }
-                    break;
-                default:
-                    {
-                        windowControl.Cursor = Cursors.Default;
-                    }
-                    break;
-            }
+            //implement change cursor style 
+            //switch (cursorStyle)
+            //{
+            //    case MouseCursorStyle.Pointer:
+            //        {
+            //            windowControl.Cursor = Cursors.Hand;
+            //        }
+            //        break;
+            //    case MouseCursorStyle.IBeam:
+            //        {
+            //            windowControl.Cursor = Cursors.IBeam;
+            //        }
+            //        break;
+            //    default:
+            //        {
+            //            windowControl.Cursor = Cursors.Default;
+            //        }
+            //        break;
+            //}
         }
     }
 }
-
-#endif
