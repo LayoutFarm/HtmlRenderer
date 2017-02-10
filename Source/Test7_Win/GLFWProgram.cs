@@ -9,6 +9,13 @@ using PixelFarm.Forms;
 using OpenTK.Graphics.ES20;
 using SkiaSharp;
 
+using LayoutFarm.CustomWidgets;
+using LayoutFarm.UI;
+using LayoutFarm.Composers;
+using LayoutFarm.WebDom.Extension;
+using LayoutFarm.HtmlBoxes;
+using LayoutFarm;
+
 namespace TestGlfw
 {
     class MyNativeRGBA32BitsImage : IDisposable
@@ -186,8 +193,27 @@ namespace TestGlfw
             FormRenderUpdateEventArgs formRenderUpdateEventArgs = new FormRenderUpdateEventArgs();
             formRenderUpdateEventArgs.form = form1;
 
+            var surfaceViewportControl = new LayoutFarm.UI.WinNeutral.UISurfaceViewportControl();
+
+            SampleViewport viewport = new LayoutFarm.SampleViewport(surfaceViewportControl);
+            HtmlHost htmlHost;
+            htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(viewport, null, null);
+            ////==================================================
+            //html box
+            {
+                HtmlBox lightHtmlBox = new HtmlBox(htmlHost, 800, 50);
+                lightHtmlBox.SetLocation(50, 450);
+                viewport.AddContent(lightHtmlBox);
+                //light box can't load full html
+                //all light boxs of the same lightbox host share resource with the host
+                string html = @"<div>OK1</div><div>OK2</div>";
+                //if you want to use full html-> use HtmlBox instead  
+                lightHtmlBox.LoadHtmlFragmentString(html);
+            }
+
             form1.SetDrawFrameDelegate(() =>
             {
+                //render each frame
                 if (needUpdateContent)
                 {
                     UpdateViewContent(formRenderUpdateEventArgs);

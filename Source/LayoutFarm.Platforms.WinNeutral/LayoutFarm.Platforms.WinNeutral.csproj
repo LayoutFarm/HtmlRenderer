@@ -56,9 +56,6 @@
     <Compile Include="1_Base\Forms.cs" />
     <Compile Include="1_LayoutFarm.UI\1_CpuSurfaceView.cs" />
     <Compile Include="1_LayoutFarm.UI\AbstractCompletionWindow.cs" />
-    <Compile Include="1_LayoutFarm.UI\AbstractCompletionWindow.Designer.cs">
-      <DependentUpon>AbstractCompletionWindow.cs</DependentUpon>
-    </Compile>
     <Compile Include="1_LayoutFarm.UI\InnerViewportKind.cs" />
     <Compile Include="1_LayoutFarm.UI\MyUITimer.cs" />
     <Compile Include="1_LayoutFarm.UI\TopWindowBridge.cs" />
