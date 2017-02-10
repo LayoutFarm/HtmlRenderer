@@ -26,7 +26,7 @@ namespace PixelFarm.Agg
     public static class CO
     {
 
-#if true
+#if WIN
         /// <summary>
         /// order b
         /// </summary>

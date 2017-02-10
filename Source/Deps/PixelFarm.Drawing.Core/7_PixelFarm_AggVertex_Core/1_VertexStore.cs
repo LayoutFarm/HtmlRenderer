@@ -98,6 +98,7 @@ namespace PixelFarm.Agg
         public void Clear()
         {
             m_num_vertices = 0;
+            System.Array.Clear(m_cmds, 0, m_cmds.Length); 
         }
         public void AddVertex(double x, double y, VertexCmd cmd)
         {

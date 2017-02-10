@@ -112,7 +112,7 @@ namespace PixelFarm.Drawing
                 }
                 else
                 {
-                    return ConvEmSizeInPointsToPixels(this.SizeInPoints);                     
+                    return ConvEmSizeInPointsToPixels(SizeInPoints);                     
                 }
             }
         }
