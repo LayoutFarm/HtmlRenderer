@@ -1,32 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{4602B28B-EEEC-4A69-854C-B00B8B616837}</ProjectGuid>
+    <ProjectGuid>{2854A4F1-0110-4B47-B773-9A5FD462755E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LayoutFarm.Platforms.WinForms</RootNamespace>
-    <AssemblyName>LayoutFarm.Platforms.WinForms</AssemblyName>
+    <RootNamespace>LayoutFarm.Platforms.WinNeutral</RootNamespace>
+    <AssemblyName>LayoutFarm.Platforms.WinNeutral</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <UpgradeBackupLocation>
-    </UpgradeBackupLocation>
-    <OldToolsVersion>3.5</OldToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;__DESKTOP__, __SKIA__</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;__DESKTOP__, GL</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -35,21 +30,21 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Deps\Win32Utils\MyWin32.cs">
+    <Compile Include="..\deps\win32utils\MyWin32.cs">
       <Link>Win32Utils\MyWin32.cs</Link>
     </Compile>
-    <Compile Include="..\Deps\Win32Utils\NativeTextWin32.cs">
+    <Compile Include="..\deps\win32utils\NativeTextWin32.cs">
       <Link>Win32Utils\NativeTextWin32.cs</Link>
     </Compile>
-    <Compile Include="..\Deps\Win32Utils\NativeWin32MemoryDc.cs">
+    <Compile Include="..\deps\win32utils\NativeWin32MemoryDc.cs">
       <Link>Win32Utils\NativeWin32MemoryDc.cs</Link>
     </Compile>
     <Compile Include="0_Start\0_CanvasCollection.cs" />
@@ -57,77 +52,75 @@
     <Compile Include="0_Start\Conv.cs" />
     <Compile Include="0_Start\dbugHelper.cs" />
     <Compile Include="0_Start\QuadPages.cs" />
-    <Compile Include="1_LayoutFarm.UI\AbstractCompletionWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="1_Base\ES2Utils2.cs" />
+    <Compile Include="1_Base\Forms.cs" />
+    <Compile Include="1_LayoutFarm.UI\1_CpuSurfaceView.cs" />
+    <Compile Include="1_LayoutFarm.UI\AbstractCompletionWindow.cs" />
     <Compile Include="1_LayoutFarm.UI\AbstractCompletionWindow.Designer.cs">
       <DependentUpon>AbstractCompletionWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="2_GdiPlus\2_GdiPlusCanvasViewport.cs" />
+    <Compile Include="1_LayoutFarm.UI\InnerViewportKind.cs" />
+    <Compile Include="1_LayoutFarm.UI\MyUITimer.cs" />
+    <Compile Include="1_LayoutFarm.UI\TopWindowBridge.cs" />
+    <Compile Include="1_LayoutFarm.UI\TopWindowBridge_dbug.cs" />
+    <Compile Include="1_LayoutFarm.UI\UIPlatformWinForms.cs" />
+    <Compile Include="1_LayoutFarm.UI\UISurfaceViewportControl.cs" />
     <Compile Include="2_GdiPlus\0_MyWinGdiPortal.cs" />
+    <Compile Include="2_GdiPlus\2_GdiPlusCanvasViewport.cs" />
+    <Compile Include="2_GdiPlus\3_MyTopWindowBridgeGdiPlus.cs" />
+    <Compile Include="3_OpenGL\0_MyOpenGLPortal.cs" />
     <Compile Include="3_OpenGL\1_GpuOpenGLSurfaceView.cs" />
     <Compile Include="3_OpenGL\1_GpuOpenGLSurfaceView.Designer.cs">
       <DependentUpon>1_GpuOpenGLSurfaceView.cs</DependentUpon>
     </Compile>
-    <Compile Include="1_LayoutFarm.UI\1_CpuSurfaceView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="1_LayoutFarm.UI\1_CpuSurfaceView.Designer.cs">
-      <DependentUpon>1_CpuSurfaceView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="1_LayoutFarm.UI\InnerViewportKind.cs" />
-    <Compile Include="1_LayoutFarm.UI\MyUITimer.cs" />
-    <Compile Include="1_LayoutFarm.UI\UIPlatformWinForms.cs" />
-    <Compile Include="1_LayoutFarm.UI\UISurfaceViewportControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="1_LayoutFarm.UI\UISurfaceViewportControl.Designer.cs">
-      <DependentUpon>UISurfaceViewportControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="1_LayoutFarm.UI\TopWindowBridge.cs" />
-    <Compile Include="1_LayoutFarm.UI\TopWindowBridge_dbug.cs" />
-    <Compile Include="2_GdiPlus\3_MyTopWindowBridgeGdiPlus.cs" />
-    <Compile Include="3_OpenGL\3_MyTopWindowBridgeOpenGL.cs" />
     <Compile Include="3_OpenGL\2_OpenGLCanvasViewport.cs" />
-    <Compile Include="3_OpenGL\0_MyOpenGLPortal.cs" />
+    <Compile Include="3_OpenGL\3_MyTopWindowBridgeOpenGL.cs" />
     <Compile Include="4_Skia\2_SkiaCanvasViewport.cs" />
     <Compile Include="4_Skia\3_MyTopWindowBridgeSkia.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Deps\PixelFarm.DataProvider.Managed\PixelFarm.DataProvider.Managed.csproj">
-      <Project>{025E536D-53A6-4C5F-AED5-E21960C70763}</Project>
+      <Project>{025e536d-53a6-4c5f-aed5-e21960c70763}</Project>
       <Name>PixelFarm.DataProvider.Managed</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Deps\PixelFarm.DataProvider.Native\PixelFarm.DataProvider.Native.csproj">
+      <Project>{821c2f8b-45e4-4242-970d-ae64780970b2}</Project>
+      <Name>PixelFarm.DataProvider.Native</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Deps\PixelFarm.Drawing.Core\PixelFarm.Drawing.Core.csproj">
-      <Project>{51D63482-5697-4B16-8401-506965624657}</Project>
+      <Project>{51d63482-5697-4b16-8401-506965624657}</Project>
       <Name>PixelFarm.Drawing.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Deps\PixelFarm.Drawing.GdiPlus\PixelFarm.Drawing.GdiPlus.csproj">
-      <Project>{1AA171E3-523C-4DD5-A169-DE6322991FF5}</Project>
-      <Name>PixelFarm.Drawing.GdiPlus</Name>
+    <ProjectReference Include="..\Deps\PixelFarm.Drawing.GLES2\PixelFarm.Drawing.GLES2.csproj">
+      <Project>{e1e89b3b-b529-4b17-b7ed-4c70cc8475eb}</Project>
+      <Name>PixelFarm.Drawing.GLES2</Name>
     </ProjectReference>
     <ProjectReference Include="..\Deps\PixelFarm.Drawing.Skia\PixelFarm.Drawing.Skia.csproj">
       <Project>{9450c9fb-5a70-4e47-bec3-b0a98a9c7d15}</Project>
       <Name>PixelFarm.Drawing.Skia</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Deps\PixelFarm.MiniOpenTK\PixelFarm.MiniOpenTK.csproj">
+      <Project>{7c154e68-1709-4d5d-ab76-833febe4b3b2}</Project>
+      <Name>PixelFarm.MiniOpenTK</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Deps\PixelFarm.NativeWindows\PixelFarm.NativeWindows.csproj">
+      <Project>{198d20b3-0dbd-4c8c-8f0d-0d0fd9c61d43}</Project>
+      <Name>PixelFarm.NativeWindows</Name>
     </ProjectReference>
     <ProjectReference Include="..\Deps\PixelFarm.SkiaSharp\PixelFarm.SkiaSharp.csproj">
       <Project>{fb828375-3017-44d8-8357-59207224906d}</Project>
       <Name>PixelFarm.SkiaSharp</Name>
     </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.BaseRenderer\LayoutFarm.BaseRenderer.csproj">
-      <Project>{20048075-A2F3-4B97-B3C6-BEA794429741}</Project>
+      <Project>{20048075-a2f3-4b97-b3c6-bea794429741}</Project>
       <Name>LayoutFarm.BaseRenderer</Name>
     </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.ClientPlatforms\LayoutFarm.ClientPlatforms.csproj">
-      <Project>{61369865-95B7-49F2-B012-67B4A2427A8B}</Project>
+      <Project>{61369865-95b7-49f2-b012-67b4a2427a8b}</Project>
       <Name>LayoutFarm.ClientPlatforms</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
