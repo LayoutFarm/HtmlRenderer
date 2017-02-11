@@ -206,8 +206,8 @@ namespace TestGlfw
             var surfaceViewportControl = new LayoutFarm.UI.WinNeutral.UISurfaceViewportControl();
 
             surfaceViewportControl.InitRootGraphics(rootgfx, rootgfx.TopWinEventPortal, InnerViewportKind.GL);
-            var myCanvasGL = PixelFarm.Drawing.GLES2.GLES2Platform.CreateCanvas2(0, 0, 800, 600, canvasGL2d);
-            surfaceViewportControl.SetupCanvas(myCanvasGL);
+            //var myCanvasGL = PixelFarm.Drawing.GLES2.GLES2Platform.CreateCanvas2(0, 0, 800, 600, canvasGL2d);
+            //surfaceViewportControl.SetupCanvas(myCanvasGL);
 
             //lion fill sample
             OpenTkEssTest.T108_LionFill lionFill = new OpenTkEssTest.T108_LionFill();

@@ -56,8 +56,7 @@ namespace OpenTkEssTest
             canvas2d.SmoothMode = CanvasSmoothMode.Smooth;
             canvas2d.StrokeColor = PixelFarm.Drawing.Color.Blue;
             canvas2d.ClearColorBuffer();
-            //-------------------------------
-
+            //------------------------------- 
             int j = lionShape.NumPaths;
             int[] pathList = lionShape.PathIndexList;
             Color[] colors = lionShape.Colors;
@@ -68,6 +67,9 @@ namespace OpenTkEssTest
                 painter.Fill(new VertexStoreSnap(myvxs, pathList[i]));
             }
 
+            painter.FillColor = Color.Red;
+            painter.StrokeWidth = 1;
+            painter.FillRectangle(10, 10, 50, 50);
             //-------------------------------
             SwapBuffer();
         }
