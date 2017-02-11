@@ -38,13 +38,13 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\deps\win32utils\MyWin32.cs">
+    <Compile Include="..\Deps\Win32Utils\MyWin32.cs">
       <Link>Win32Utils\MyWin32.cs</Link>
     </Compile>
-    <Compile Include="..\deps\win32utils\NativeTextWin32.cs">
+    <Compile Include="..\Deps\Win32Utils\NativeTextWin32.cs">
       <Link>Win32Utils\NativeTextWin32.cs</Link>
     </Compile>
-    <Compile Include="..\deps\win32utils\NativeWin32MemoryDc.cs">
+    <Compile Include="..\Deps\Win32Utils\NativeWin32MemoryDc.cs">
       <Link>Win32Utils\NativeWin32MemoryDc.cs</Link>
     </Compile>
     <Compile Include="0_Start\0_CanvasCollection.cs" />

@@ -22,19 +22,26 @@ namespace LayoutFarm.UI.OpenGL
         {
 
         }
+        public override void InvalidateRootArea(Rectangle r)
+        {
+             
+        }
+        public override void BindWindowControl(Control windowControl)
+        {
+            this.BindGLControl((GpuOpenGLSurfaceView)windowControl);
+            
+        }
         /// <summary>
         /// bind to gl control
         /// </summary>
         /// <param name="myGLControl"></param>
-        public void BindGLControl(GpuOpenGLSurfaceView myGLControl)
+        void BindGLControl(GpuOpenGLSurfaceView myGLControl)
         {
             this.windowControl = myGLControl;
             SetBaseCanvasViewport(this.openGLViewport = new OpenGLCanvasViewport(this.RootGfx, this.windowControl.Size.ToSize(), 4));
             RootGfx.SetPaintDelegates(
                 (r) => { }, //still do nothing
                 this.PaintToOutputWindow);
-
-
             openGLViewport.NotifyWindowControlBinding();
 
 #if DEBUG
@@ -64,10 +71,10 @@ namespace LayoutFarm.UI.OpenGL
 
             }
         }
-        public override void PaintToCanvas(Canvas canvas)
-        {
-            throw new NotImplementedException();
-        }
+        //public override void PaintToCanvas(Canvas canvas)
+        //{
+        //    throw new NotImplementedException();
+        //}
         public override void PaintToOutputWindow()
         {
             if (!isInitGLControl)

@@ -8,18 +8,22 @@ namespace LayoutFarm.UI.OpenGL
         public static GraphicsPlatform Start()
         {
 
-            PixelFarm.DrawingGL.CanvasOptions.DefaultOrientation = CanvasOrientation.LeftTop;
-
-            PixelFarm.Drawing.DrawingGL.CanvasGLPortal.Start();
-            return PixelFarm.Drawing.DrawingGL.CanvasGLPortal.P;
+            return null;
+            //PixelFarm.DrawingGL.CanvasOptions.DefaultOrientation = CanvasOrientation.LeftTop;
+            //PixelFarm.Drawing.DrawingGL.CanvasGLPortal.Start();
+            //return PixelFarm.Drawing.DrawingGL.CanvasGLPortal.P;
         }
         public static void End()
         {
-            PixelFarm.Drawing.DrawingGL.CanvasGLPortal.End();
+            //PixelFarm.Drawing.DrawingGL.CanvasGLPortal.End();
         }
         public static GraphicsPlatform P
         {
-            get { return PixelFarm.Drawing.DrawingGL.CanvasGLPortal.P; }
+            get
+            {
+                return null;
+                  //PixelFarm.Drawing.DrawingGL.CanvasGLPortal.P;
+            }
         }
     }
 

@@ -23,7 +23,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;__DESKTOP__, __SKIA__</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;__DESKTOP__, __SKIA__, GL_ENABLE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -65,7 +65,9 @@
     </Compile>
     <Compile Include="2_GdiPlus\2_GdiPlusCanvasViewport.cs" />
     <Compile Include="2_GdiPlus\0_MyWinGdiPortal.cs" />
-    <Compile Include="3_OpenGL\1_GpuOpenGLSurfaceView.cs" />
+    <Compile Include="3_OpenGL\1_GpuOpenGLSurfaceView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="3_OpenGL\1_GpuOpenGLSurfaceView.Designer.cs">
       <DependentUpon>1_GpuOpenGLSurfaceView.cs</DependentUpon>
     </Compile>
@@ -110,9 +112,21 @@
       <Project>{1AA171E3-523C-4DD5-A169-DE6322991FF5}</Project>
       <Name>PixelFarm.Drawing.GdiPlus</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Deps\PixelFarm.Drawing.GLES2\PixelFarm.Drawing.GLES2.csproj">
+      <Project>{e1e89b3b-b529-4b17-b7ed-4c70cc8475eb}</Project>
+      <Name>PixelFarm.Drawing.GLES2</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Deps\PixelFarm.Drawing.Skia\PixelFarm.Drawing.Skia.csproj">
       <Project>{9450c9fb-5a70-4e47-bec3-b0a98a9c7d15}</Project>
       <Name>PixelFarm.Drawing.Skia</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Deps\PixelFarm.MiniOpenTK\PixelFarm.MiniOpenTK.csproj">
+      <Project>{7c154e68-1709-4d5d-ab76-833febe4b3b2}</Project>
+      <Name>PixelFarm.MiniOpenTK</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Deps\PixelFarm.OpenTKWinForms\PixelFarm.OpenTKWinForms.csproj">
+      <Project>{4cf14dce-f731-4060-b92b-f1acfdf9803d}</Project>
+      <Name>PixelFarm.OpenTKWinForms</Name>
     </ProjectReference>
     <ProjectReference Include="..\Deps\PixelFarm.SkiaSharp\PixelFarm.SkiaSharp.csproj">
       <Project>{fb828375-3017-44d8-8357-59207224906d}</Project>
