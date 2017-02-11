@@ -1,26 +1,27 @@
-﻿////Apache2, 2014-2017, WinterDev
+﻿//Apache2, 2014-2017, WinterDev
+#if GL_ENABLE
+using PixelFarm.Drawing;
+namespace LayoutFarm.UI.OpenGL
+{
+    public static class MyOpenGLPortal
+    {
+        public static GraphicsPlatform Start()
+        {
 
-//using PixelFarm.Drawing;
-//namespace LayoutFarm.UI.OpenGL
-//{
-//    public static class MyOpenGLPortal
-//    {
-//        public static GraphicsPlatform Start()
-//        {
+            PixelFarm.DrawingGL.CanvasOptions.DefaultOrientation = CanvasOrientation.LeftTop;
 
-//            PixelFarm.DrawingGL.CanvasOptions.DefaultOrientation = CanvasOrientation.LeftTop;
+            PixelFarm.Drawing.DrawingGL.CanvasGLPortal.Start();
+            return PixelFarm.Drawing.DrawingGL.CanvasGLPortal.P;
+        }
+        public static void End()
+        {
+            PixelFarm.Drawing.DrawingGL.CanvasGLPortal.End();
+        }
+        public static GraphicsPlatform P
+        {
+            get { return PixelFarm.Drawing.DrawingGL.CanvasGLPortal.P; }
+        }
+    }
 
-//            PixelFarm.Drawing.DrawingGL.CanvasGLPortal.Start();
-//            return PixelFarm.Drawing.DrawingGL.CanvasGLPortal.P;
-//        }
-//        public static void End()
-//        {
-//            PixelFarm.Drawing.DrawingGL.CanvasGLPortal.End();
-//        }
-//        public static GraphicsPlatform P
-//        {
-//            get { return PixelFarm.Drawing.DrawingGL.CanvasGLPortal.P; }
-//        }
-//    }
-
-//}
+}
+#endif
