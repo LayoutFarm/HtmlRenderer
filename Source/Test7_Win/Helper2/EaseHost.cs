@@ -1,6 +1,5 @@
 ﻿//MIT, 2014-2017, WinterDev
 using System.Collections.Generic;
-using LayoutFarm.UI.WinNeutral;
 using PixelFarm.Drawing;
 using LayoutFarm.UI;
 namespace LayoutFarm.Ease
@@ -20,7 +19,6 @@ namespace LayoutFarm.Ease
     public static class EaseHost
     {
         static PixelFarm.Drawing.GraphicsPlatform gdiPlatform;
-        static PixelFarm.Drawing.GraphicsPlatform openGLPlatform = null;//temp remove LayoutFarm.UI.OpenGL.MyOpenGLPortal.Start();
         static UIPlatform uiPlatformWinForm;
         static bool useOpenGL = false;
         static bool isStarted = false;
@@ -70,22 +68,23 @@ namespace LayoutFarm.Ease
 
         public static void StartGraphicsHost()
         {
-            //lock (startLock)
-            //{
-            //    if (isStarted) return;
+            lock (startLock)
+            {
+                if (isStarted) return;
 
-            //    var startParams = new LayoutFarm.UI.GdiPlus.MyWinGdiPortalSetupParameters();
-            //    startParams.IcuDataFile = IcuDataFile;
-            //    gdiPlatform = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.Start(startParams);
-            //    uiPlatformWinForm = new LayoutFarm.UI.UIPlatformWinForm();
-            //    UI.UIPlatform.CurrentUIPlatform = uiPlatformWinForm;
-            //    //--------------------
-            //    isStarted = true;
-            //    //--------------------
-            //}
+                var startParams = new LayoutFarm.UI.OpenGL.MyWinGdiPortalSetupParameters();
+                startParams.IcuDataFile = IcuDataFile;
+                gdiPlatform = LayoutFarm.UI.OpenGL.MyOpenGLPortal.Start(startParams);
+
+                uiPlatformWinForm = new LayoutFarm.UI.UIPlatformWinForm();
+                UI.UIPlatform.CurrentUIPlatform = uiPlatformWinForm;
+                //--------------------
+                isStarted = true;
+                //--------------------
+            }
         }
 
-        public static EaseViewport CreateViewportControl(LayoutFarm.UI.WinNeutral.Form hostForm, int w, int h)
+        public static EaseViewport CreateViewportControl(PixelFarm.Forms.Form hostForm, int w, int h)
         {
             var rootgfx = new MyRootGraphic(uiPlatformWinForm,
                 w, h);
@@ -100,7 +99,7 @@ namespace LayoutFarm.Ease
 
         static void CreateReadyForm(
            out LayoutFarm.UI.WinNeutral.UISurfaceViewportControl viewport,
-           out LayoutFarm.UI.WinNeutral.Form formCanvas)
+           out PixelFarm.Forms.Form formCanvas)
         {
             int w = 800;
             int h = 600;
@@ -117,7 +116,7 @@ namespace LayoutFarm.Ease
         }
 
         static void CreateNewFormCanvas(
-          LayoutFarm.UI.WinNeutral.Form form1,
+          PixelFarm.Forms.Form form1,
           MyRootGraphic myRootGfx,
           InnerViewportKind internalViewportKind,
           out LayoutFarm.UI.WinNeutral.UISurfaceViewportControl canvasViewport)
@@ -147,7 +146,7 @@ namespace LayoutFarm.Ease
             //    }
             //};
         }
-        static void MakeFormCanvas(LayoutFarm.UI.WinNeutral.Form form1, LayoutFarm.UI.WinNeutral.UISurfaceViewportControl surfaceViewportControl)
+        static void MakeFormCanvas(PixelFarm.Forms.Form form1, LayoutFarm.UI.WinNeutral.UISurfaceViewportControl surfaceViewportControl)
         {
             //form1.FormClosing += (s, e) =>
             //{

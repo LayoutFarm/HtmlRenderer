@@ -44,7 +44,7 @@ namespace PixelFarm.Drawing.GLES2
                 painter1.StrokeWidth = this.strokeWidth = value;
             }
         }
-         
+
         public override void RenderTo(IntPtr destHdc, int sourceX, int sourceY, Rectangle destArea)
         {
             throw new NotSupportedException();
@@ -126,14 +126,17 @@ namespace PixelFarm.Drawing.GLES2
         public override void DrawRectangle(Color color, float left, float top, float width, float height)
         {
             painter1.StrokeColor = color;
-            throw new NotSupportedException();
+            painter1.Rectangle(left, top + height, left + width, top);
+            //throw new NotSupportedException();
             //internalPen.Color = ConvColor(color);
             //gx.DrawRectangle(internalPen, left, top, width, height);
         }
 
         public override void DrawLine(float x1, float y1, float x2, float y2)
         {
-            throw new NotSupportedException();
+
+            painter1.Line(x1, y1, x2, y2);
+            //throw new NotSupportedException();
             //gx.DrawLine(internalPen, x1, y1, x2, y2);
         }
 
@@ -149,6 +152,7 @@ namespace PixelFarm.Drawing.GLES2
         {
             get
             {
+
                 throw new NotSupportedException();
                 //return (SmoothingMode)(gx.SmoothingMode);
             }

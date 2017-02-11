@@ -15,12 +15,15 @@ namespace LayoutFarm.UI.OpenGL
             : base(root, viewportSize, cachedPageNum)
         {
         }
+        public void SetCanvas(Canvas canvas)
+        {
+            this.canvas = canvas;
+        }
         protected override void OnClosing()
         {
             isClosed = true;
             if (canvas != null)
             {
-
                 canvas.CloseCanvas();
                 canvas = null;
             }
@@ -38,7 +41,7 @@ namespace LayoutFarm.UI.OpenGL
 #if DEBUG
         void dbugTest01()
         {
-           // canvas.Orientation = CanvasOrientation.LeftTop;
+            // canvas.Orientation = CanvasOrientation.LeftTop;
             canvas.ClearSurface(Color.White);
 
             canvas.FillRectangle(Color.Red, 50, 50, 100, 100);
@@ -89,7 +92,7 @@ namespace LayoutFarm.UI.OpenGL
             if (isClosed) return;
             //---------------------------------------------
 
-           // canvas.Orientation = CanvasOrientation.LeftTop;
+            // canvas.Orientation = CanvasOrientation.LeftTop;
             //Test01(); 
             //return;
             //Test01();
@@ -141,21 +144,26 @@ namespace LayoutFarm.UI.OpenGL
 #endif
         }
 
+
+        static object s_sync1 = new object();
+        //TODO: review here
         static void UpdateAllArea(Canvas mycanvas, IRenderElement topWindowRenderBox)
         {
 
-            mycanvas.OffsetCanvasOrigin(-mycanvas.Left, -mycanvas.Top);
-            Rectangle rect = mycanvas.Rect;
-            //mycanvas.FillRectangle(Color.Blue, 50, 50, 100, 100);
-            topWindowRenderBox.DrawToThisCanvas(mycanvas, rect);
+            lock (s_sync1)
+            {
+                mycanvas.OffsetCanvasOrigin(-mycanvas.Left, -mycanvas.Top);
+                Rectangle rect = mycanvas.Rect;
+                //mycanvas.FillRectangle(Color.Blue, 50, 50, 100, 100);
+                topWindowRenderBox.DrawToThisCanvas(mycanvas, rect);
 
 #if DEBUG
-            topWindowRenderBox.dbugShowRenderPart(mycanvas, rect);
+                topWindowRenderBox.dbugShowRenderPart(mycanvas, rect);
 
 #endif
-
-           // mycanvas.IsContentReady = true;
-            mycanvas.OffsetCanvasOrigin(mycanvas.Left, mycanvas.Top);
+                // mycanvas.IsContentReady = true;
+                mycanvas.OffsetCanvasOrigin(mycanvas.Left, mycanvas.Top);
+            }
         }
     }
 

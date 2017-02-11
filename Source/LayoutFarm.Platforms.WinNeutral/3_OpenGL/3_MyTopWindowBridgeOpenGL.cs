@@ -1,91 +1,104 @@
-﻿////Apache2, 2014-2017, WinterDev
- 
-//using System;
-//using System.Collections.Generic;
-//using System.ComponentModel;
-//using System.Text;
-////using System.Windows.Forms;
-//using PixelFarm.Drawing;
+﻿//Apache2, 2014-2017, WinterDev
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Text;
+using PixelFarm.Drawing;
+using PixelFarm.Forms;
+using LayoutFarm.UI.WinNeutral;
+
+namespace LayoutFarm.UI.OpenGL
+{
+
+    class MyTopWindowBridgeOpenGL : TopWindowBridge
+    {
+
+        bool isInitGLControl;
+        OpenGLCanvasViewport openGLViewport;
+        UISurfaceViewportControl windowControl;
+        public MyTopWindowBridgeOpenGL(RootGraphic root, ITopWindowEventRoot topWinEventRoot)
+            : base(root, topWinEventRoot)
+        {
+
+        }
+        public void SetupCanvas(Canvas canvas)
+        {
+            
+            openGLViewport.SetCanvas(canvas);
+        }
+        public override void BindWindowControl(Control windowControl)
+        {
+            this.windowControl = (UISurfaceViewportControl)windowControl;
+            SetBaseCanvasViewport(this.openGLViewport = new OpenGLCanvasViewport(
+                this.RootGfx,
+                new Size(windowControl.Width, windowControl.Height), 4));
+
+            RootGfx.SetPaintDelegates(
+                (r) => { }, //still do nothing
+                this.PaintToOutputWindow);
 
 
-//namespace LayoutFarm.UI.OpenGL
-//{
-//    class MyTopWindowBridgeOpenGL : TopWindowBridge
-//    {
+            openGLViewport.NotifyWindowControlBinding();
 
-//        bool isInitGLControl;
-//        //GpuOpenGLSurfaceView windowControl;
-//        OpenGLCanvasViewport openGLViewport;
+#if DEBUG
+            this.openGLViewport.dbugOutputWindow = this;
+#endif
+            this.EvaluateScrollbar();
+        }
 
-//        public MyTopWindowBridgeOpenGL(RootGraphic root, ITopWindowEventRoot topWinEventRoot)
-//            : base(root, topWinEventRoot)
-//        {
+        protected override void OnClosing()
+        {
+            //make current before clear GL resource
+            this.windowControl.MakeCurrent();
+        }
+        internal override void OnHostControlLoaded()
+        {
 
-//        }
-//        /// <summary>
-//        /// bind to gl control
-//        /// </summary>
-//        /// <param name="myGLControl"></param>
-//        public void BindGLControl(GpuOpenGLSurfaceView myGLControl)
-//        {
-//            this.windowControl = myGLControl;
-//            SetBaseCanvasViewport(this.openGLViewport = new OpenGLCanvasViewport(this.RootGfx, this.windowControl.Size.ToSize(), 4));
-//            RootGfx.SetPaintDelegates(
-//                (r) => { }, //still do nothing
-//                this.PaintToOutputWindow);
+            if (!isInitGLControl)
+            {
+                //init gl after this control is loaded
+                //set myGLControl detail
+                //1.
+                //TODO: review here again 
+                windowControl.InitSetup2d(new Rectangle(0, 0, 800, 600));// Screen.PrimaryScreen.Bounds);
+                isInitGLControl = true;
+                //2.
+                windowControl.ClearColor = new OpenTK.Graphics.Color4(1f, 1f, 1f, 1f);
+                //3.
 
+            }
+        }
+        //public override void PaintToCanvas(Canvas canvas)
+        //{
+        //    throw new NotImplementedException();
+        //}
+        object syncobj = new object();
+        public override void PaintToOutputWindow()
+        {
+            //if (!isInitGLControl)
+            //{
+            //    return;
+            //}
+            //var innumber = dbugCount;
+            //dbugCount++;
+            //Console.WriteLine(">" + innumber);
+            lock (syncobj)
+            {
+                windowControl.MakeCurrent();
+                this.openGLViewport.PaintMe();
+                windowControl.SwapBuffers();
+            }
+            //Console.WriteLine("<" + innumber); 
+        }
+        protected override void ChangeCursorStyle(MouseCursorStyle cursorStyle)
+        {
 
-//            openGLViewport.NotifyWindowControlBinding();
+        }
 
-//#if DEBUG
-//            this.openGLViewport.dbugOutputWindow = this;
-//#endif
-//            this.EvaluateScrollbar();
-//        }
-//        protected override void OnClosing()
-//        {
-//            //make current before clear GL resource
-//            this.windowControl.MakeCurrent();
+        public override void InvalidateRootArea(Rectangle r)
+        {
 
-//        }
-//        internal override void OnHostControlLoaded()
-//        {
-
-//            if (!isInitGLControl)
-//            {
-//                //init gl after this control is loaded
-//                //set myGLControl detail
-//                //1.
-//                windowControl.InitSetup2d(Screen.PrimaryScreen.Bounds);
-//                isInitGLControl = true;
-//                //2.
-//                windowControl.ClearColor = new OpenTK.Graphics.Color4(1f, 1f, 1f, 1f);
-//                //3.
-
-//            }
-//        }
-//        //public override void PaintToCanvas(Canvas canvas)
-//        //{
-//        //    throw new NotImplementedException();
-//        //}
-//        public override void PaintToOutputWindow()
-//        {
-//            if (!isInitGLControl)
-//            {
-//                return;
-//            }
-//            //var innumber = dbugCount;
-//            //dbugCount++;
-//            //Console.WriteLine(">" + innumber);
-//            windowControl.MakeCurrent();
-//            this.openGLViewport.PaintMe();
-//            windowControl.SwapBuffers();
-//            //Console.WriteLine("<" + innumber); 
-//        }
-//        protected override void ChangeCursorStyle(MouseCursorStyle cursorStyle)
-//        {
-
-//        }
-//    }
-//}
- 
+        }
+    }
+}

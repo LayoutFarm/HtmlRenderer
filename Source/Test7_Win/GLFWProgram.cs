@@ -104,11 +104,13 @@ namespace TestGlfw
                 var aggImage = new PixelFarm.Agg.ActualImage((int)lionBounds.Width, (int)lionBounds.Height, PixelFarm.Agg.PixelFormat.ARGB32);
                 var imgGfx2d = new PixelFarm.Agg.ImageGraphics2D(aggImage);
                 var aggPainter = new PixelFarm.Agg.AggCanvasPainter(imgGfx2d);
-
                 DrawLion(aggPainter, lionShape, lionShape.Path.Vxs);
+                //-------------
+
+
+
                 //convert affImage to texture 
                 glBmp = LoadTexture(aggImage);
-
             }
         }
         static PixelFarm.DrawingGL.GLBitmap LoadTexture(PixelFarm.Agg.ActualImage actualImg)
@@ -195,20 +197,25 @@ namespace TestGlfw
 
             LayoutFarm.Ease.EaseHost.StartGraphicsHost();
 
-            var rootgfx = new MyRootGraphic(LayoutFarm.UI.UIPlatform.CurrentUIPlatform,
-               ww_w, ww_h);
+            var rootgfx = new MyRootGraphic(
+                LayoutFarm.UI.UIPlatform.CurrentUIPlatform,
+                ww_w, ww_h);
 
 
             var surfaceViewportControl = new LayoutFarm.UI.WinNeutral.UISurfaceViewportControl();
 
             surfaceViewportControl.InitRootGraphics(rootgfx, rootgfx.TopWinEventPortal, InnerViewportKind.GL);
+            var myCanvasGL = PixelFarm.Drawing.GLES2.GLES2Platform.CreateCanvas2(0, 0, 800, 600, canvasGL2d);
+            surfaceViewportControl.SetupCanvas(myCanvasGL);
+
             SampleViewport viewport = new LayoutFarm.SampleViewport(surfaceViewportControl);
             HtmlHost htmlHost;
             htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(viewport, null, null);
             ////==================================================
             //html box
+            HtmlBox lightHtmlBox = new HtmlBox(htmlHost, 800, 50);
             {
-                HtmlBox lightHtmlBox = new HtmlBox(htmlHost, 800, 50);
+           
                 lightHtmlBox.SetLocation(50, 450);
                 viewport.AddContent(lightHtmlBox);
                 //light box can't load full html
@@ -225,8 +232,11 @@ namespace TestGlfw
                 {
                     UpdateViewContent(formRenderUpdateEventArgs);
                 }
-                canvasGL2d.Clear(Color.Blue);
-                canvasGL2d.DrawImage(glBmp, 0, 600);
+                canvasGL2d.Clear(Color.White);
+                //canvasGL2d.DrawRect(0, 0, 200, 200);
+                //canvasGL2d.DrawImage(glBmp, 0, 600);
+                lightHtmlBox.CurrentPrimaryRenderElement.DrawToThisCanvas(myCanvasGL, new Rectangle(0, 0, 800, 600));
+                //surfaceViewportControl.PaintMe(canvasGL2d);
             });
 
 

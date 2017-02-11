@@ -17,7 +17,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;__DESKTOP__, GL</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;__DESKTOP__, GL, GL_ENABLE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -53,7 +53,6 @@
     <Compile Include="0_Start\dbugHelper.cs" />
     <Compile Include="0_Start\QuadPages.cs" />
     <Compile Include="1_Base\ES2Utils2.cs" />
-    <Compile Include="1_Base\Forms.cs" />
     <Compile Include="1_LayoutFarm.UI\1_CpuSurfaceView.cs" />
     <Compile Include="1_LayoutFarm.UI\AbstractCompletionWindow.cs" />
     <Compile Include="1_LayoutFarm.UI\InnerViewportKind.cs" />
@@ -62,9 +61,6 @@
     <Compile Include="1_LayoutFarm.UI\TopWindowBridge_dbug.cs" />
     <Compile Include="1_LayoutFarm.UI\UIPlatformWinForms.cs" />
     <Compile Include="1_LayoutFarm.UI\UISurfaceViewportControl.cs" />
-    <Compile Include="2_GdiPlus\0_MyWinGdiPortal.cs" />
-    <Compile Include="2_GdiPlus\2_GdiPlusCanvasViewport.cs" />
-    <Compile Include="2_GdiPlus\3_MyTopWindowBridgeGdiPlus.cs" />
     <Compile Include="3_OpenGL\0_MyOpenGLPortal.cs" />
     <Compile Include="3_OpenGL\1_GpuOpenGLSurfaceView.cs" />
     <Compile Include="3_OpenGL\1_GpuOpenGLSurfaceView.Designer.cs">
