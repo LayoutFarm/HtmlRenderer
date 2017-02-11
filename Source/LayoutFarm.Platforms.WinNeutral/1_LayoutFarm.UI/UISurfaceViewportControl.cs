@@ -6,7 +6,7 @@ using PixelFarm.Forms;
 
 namespace LayoutFarm.UI.WinNeutral
 {
-  
+
     public partial class UISurfaceViewportControl : Control
     {
         TopWindowBridge winBridge;
@@ -16,7 +16,8 @@ namespace LayoutFarm.UI.WinNeutral
         List<Form> subForms = new List<Form>();
         int width;
         int height;
-
+        int left;
+        int top;
 
         public UISurfaceViewportControl()
         {
@@ -31,7 +32,17 @@ namespace LayoutFarm.UI.WinNeutral
                 this.height = value.Height;
             }
         }
-
+        public PixelFarm.Drawing.Rectangle Bounds
+        {
+            get { return new PixelFarm.Drawing.Rectangle(left, top, width, height); }
+            set
+            {
+                this.left = value.Left;
+                this.top = value.Top;
+                this.width = value.Width;
+                this.height = value.Height;
+            }
+        }
         public void InitRootGraphics(
             RootGraphic rootgfx,
             ITopWindowEventRoot topWinEventRoot,
@@ -45,11 +56,8 @@ namespace LayoutFarm.UI.WinNeutral
             {
                 case InnerViewportKind.GL:
                     {
-                        //temp not suppport 
-
-                        throw new NotSupportedException();
+                        ////temp not suppport
                         //PixelFarm.Drawing.DrawingGL.CanvasGLPortal.Start();
-
                         //var bridge = new OpenGL.MyTopWindowBridgeOpenGL(rootgfx, topWinEventRoot);
                         //var view = new OpenGL.GpuOpenGLSurfaceView();
                         //view.Width = 800;
@@ -57,25 +65,27 @@ namespace LayoutFarm.UI.WinNeutral
                         ////view.Dock = DockStyle.Fill;
                         //this.Controls.Add(view);
                         ////--------------------------------------- 
-                        //view.Bind(bridge); 
-                        //this.winBridge = bridge; 
+                        //view.Bind(bridge);
+                        //this.winBridge = bridge;
                     }
                     break;
                 case InnerViewportKind.Skia:
                     {
-                        ////skiasharp ***
-                        //var bridge = new Skia.MyTopWindowBridgeSkia(rootgfx, topWinEventRoot);
+
+                        //skiasharp ***
+                        var bridge = new Skia.MyTopWindowBridgeSkia(rootgfx, topWinEventRoot);
                         //var view = new CpuSurfaceView();
                         //view.Dock = DockStyle.Fill;
                         //this.Controls.Add(view);
                         ////--------------------------------------- 
                         //view.Bind(bridge);
-                        //this.winBridge = bridge;
+                        this.winBridge = bridge;
                     }
                     break;
                 case InnerViewportKind.GdiPlus:
                 default:
                     {
+                        throw new NotSupportedException();
                         //var bridge = new GdiPlus.MyTopWindowBridgeGdiPlus(rootgfx, topWinEventRoot);
                         //var view = new CpuSurfaceView();
                         //view.Dock = DockStyle.Fill;

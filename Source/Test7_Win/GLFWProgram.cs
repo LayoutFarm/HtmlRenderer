@@ -193,8 +193,15 @@ namespace TestGlfw
             FormRenderUpdateEventArgs formRenderUpdateEventArgs = new FormRenderUpdateEventArgs();
             formRenderUpdateEventArgs.form = form1;
 
+            LayoutFarm.Ease.EaseHost.StartGraphicsHost();
+
+            var rootgfx = new MyRootGraphic(LayoutFarm.UI.UIPlatform.CurrentUIPlatform,
+               ww_w, ww_h);
+
+
             var surfaceViewportControl = new LayoutFarm.UI.WinNeutral.UISurfaceViewportControl();
 
+            surfaceViewportControl.InitRootGraphics(rootgfx, rootgfx.TopWinEventPortal, InnerViewportKind.GL);
             SampleViewport viewport = new LayoutFarm.SampleViewport(surfaceViewportControl);
             HtmlHost htmlHost;
             htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(viewport, null, null);

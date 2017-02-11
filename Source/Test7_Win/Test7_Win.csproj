@@ -39,10 +39,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GLFWProgram.cs" />
+    <Compile Include="Helper2\EaseDomElement.cs" />
+    <Compile Include="Helper2\EaseHost.cs" />
+    <Compile Include="Helper2\EaseViewport.cs" />
     <Compile Include="Helper\HtmlHostCreatorHelper.cs" />
+    <Compile Include="Helper2\UserHtmlWorkspace.cs" />
+    <Compile Include="Helper\FormCanvasHelper.cs" />
     <Compile Include="Helper\SampleViewport.cs" />
     <Compile Include="Helper\SampleViewportExtension.cs" />
-    <Compile Include="Helper\WindowForms.cs" />
     <Compile Include="LionDataStore.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

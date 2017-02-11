@@ -1,7 +1,7 @@
 ﻿////Apache2, 2014-2017, WinterDev
 
 //using System;
-//using System.Collections.Generic; 
+//using System.Collections.Generic;
 //using PixelFarm.Drawing;
 //using PixelFarm.Drawing.WinGdi;
 //namespace LayoutFarm.UI.GdiPlus
@@ -13,7 +13,7 @@
 //            Size viewportSize, int cachedPageNum)
 //            : base(rootgfx, viewportSize, cachedPageNum)
 //        {
-//            quadPages = new QuadPages( cachedPageNum, viewportSize.Width, viewportSize.Height * 2);
+//            quadPages = new QuadPages(cachedPageNum, viewportSize.Width, viewportSize.Height * 2);
 //            this.CalculateCanvasPages();
 //        }
 

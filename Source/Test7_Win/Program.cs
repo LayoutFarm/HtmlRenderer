@@ -12,7 +12,7 @@ namespace TestGlfw
         [STAThread]
         static void Main()
         {
-            //dbugTestStbImages();
+             
             GLFWProgram2.Start();
         }
 

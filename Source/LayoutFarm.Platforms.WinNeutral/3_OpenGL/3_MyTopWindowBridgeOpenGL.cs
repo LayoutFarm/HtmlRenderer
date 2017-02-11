@@ -1,9 +1,10 @@
 ﻿////Apache2, 2014-2017, WinterDev
+ 
 //using System;
 //using System.Collections.Generic;
 //using System.ComponentModel;
 //using System.Text;
-//using System.Windows.Forms;
+////using System.Windows.Forms;
 //using PixelFarm.Drawing;
 
 
@@ -13,7 +14,7 @@
 //    {
 
 //        bool isInitGLControl;
-//        GpuOpenGLSurfaceView windowControl;
+//        //GpuOpenGLSurfaceView windowControl;
 //        OpenGLCanvasViewport openGLViewport;
 
 //        public MyTopWindowBridgeOpenGL(RootGraphic root, ITopWindowEventRoot topWinEventRoot)
@@ -63,10 +64,10 @@
 
 //            }
 //        }
-//        public override void PaintToCanvas(Canvas canvas)
-//        {
-//            throw new NotImplementedException();
-//        }
+//        //public override void PaintToCanvas(Canvas canvas)
+//        //{
+//        //    throw new NotImplementedException();
+//        //}
 //        public override void PaintToOutputWindow()
 //        {
 //            if (!isInitGLControl)
@@ -87,3 +88,4 @@
 //        }
 //    }
 //}
+ 
