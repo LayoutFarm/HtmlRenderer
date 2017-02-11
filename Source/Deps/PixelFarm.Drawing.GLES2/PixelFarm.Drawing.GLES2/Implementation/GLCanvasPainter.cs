@@ -1,5 +1,6 @@
 ﻿//MIT, 2016-2017, WinterDev
 
+using System;
 using PixelFarm.Agg;
 using PixelFarm.Drawing;
 using PixelFarm.Drawing.Fonts;
@@ -15,6 +16,7 @@ namespace PixelFarm.DrawingGL
         {
             _win32GdiPrinter = new WinGdiFontPrinter(w, h);
         }
+
         public override RequestFont CurrentFont
         {
             get

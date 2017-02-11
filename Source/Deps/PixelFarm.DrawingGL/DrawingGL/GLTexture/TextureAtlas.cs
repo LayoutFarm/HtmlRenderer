@@ -1,10 +1,7 @@
-﻿//MIT, 2016-2017, WinterDev
+﻿//MIT, 2014-2017, WinterDev
 using System.Collections.Generic;
-
 namespace PixelFarm.DrawingGL
 {
-
-
     public enum TextureAtlasAllocResult
     {
         Ok,

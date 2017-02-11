@@ -1,6 +1,8 @@
 ﻿//BSD, 2014-2017, WinterDev 
- 
-using System.Runtime.InteropServices; 
+using System;
+using Win32;
+using System.Runtime.InteropServices;
+using PixelFarm.Drawing.Text;
 using PixelFarm.Drawing.Fonts;
 namespace PixelFarm.Drawing.WinGdi
 {

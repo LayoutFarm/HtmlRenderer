@@ -156,7 +156,8 @@ namespace PixelFarm.Drawing.Fonts
             //1.  
             FontGlyph fontGlyph = new FontGlyph();
             fontGlyph.flattenVxs = GetGlyphVxs(glyphIndex);
-            fontGlyph.horiz_adv_x = typeFace.GetAdvanceWidthFromGlyphIndex((int)glyphIndex);
+            fontGlyph.horiz_adv_x = typeFace.GetHAdvanceWidthFromGlyphIndex((int)glyphIndex);
+            
             return fontGlyph;
         }
         protected override void OnDispose()
@@ -174,6 +175,7 @@ namespace PixelFarm.Drawing.Fonts
             //then build it
             ownerFace.VxsBuilder.BuildFromGlyphIndex((ushort)codepoint, this.sizeInPoints);
 
+            
             found = ownerFace.VxsBuilder.GetVxs(new VertexStore());
             glyphVxs.Add(codepoint, found);
             return found;
