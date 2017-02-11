@@ -6,7 +6,7 @@ using System.Text;
 namespace Win32
 {
     [StructLayout(LayoutKind.Sequential)]
-    struct BlendFunction
+    public struct BlendFunction
     {
         public byte BlendOp;
         public byte BlendFlags;
@@ -22,7 +22,7 @@ namespace Win32
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    struct BitMapInfo
+    public struct BitMapInfo
     {
         public int biSize;
         public int biWidth;
@@ -67,7 +67,7 @@ namespace Win32
     }
 
 
-    static class MyWin32
+    public static class MyWin32
     {
         [DllImport("kernel32.dll", ExactSpelling = true)]
         public static extern IntPtr GlobalAlloc(int flags, int size);
@@ -247,7 +247,7 @@ namespace Win32
             logFont.lfHeight = -(int)ConvEmSizeInPointsToPixels(emHeight, pixels_per_inch);//minus **
             logFont.lfCharSet = 1;//default
             logFont.lfQuality = 0;//default
-            
+
             //
             MyWin32.LOGFONT_FontWeight weight =
                 bold ?

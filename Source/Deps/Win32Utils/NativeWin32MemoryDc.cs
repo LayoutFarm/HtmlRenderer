@@ -1,12 +1,11 @@
 ﻿//BSD, 2014-2017, WinterDev  
 
 using System;
-using System.Runtime.InteropServices;
 
 namespace Win32
 {
 
-    class NativeWin32MemoryDc : IDisposable
+    public class NativeWin32MemoryDc : IDisposable
     {
         int _width;
         int _height;

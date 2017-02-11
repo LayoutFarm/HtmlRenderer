@@ -36,6 +36,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\win32utils\MyWin32.cs">
+      <Link>Win32Utils\MyWin32.cs</Link>
+    </Compile>
+    <Compile Include="..\win32utils\NativeTextWin32.cs">
+      <Link>Win32Utils\NativeTextWin32.cs</Link>
+    </Compile>
+    <Compile Include="..\win32utils\NativeWin32MemoryDc.cs">
+      <Link>Win32Utils\NativeWin32MemoryDc.cs</Link>
+    </Compile>
     <Compile Include="InstalledFontCollection.cs" />
     <Compile Include="NOpenTypeFonts\GlyphAnalysis.cs" />
     <Compile Include="NOpenTypeFonts\GlyphBuilder.cs" />
@@ -46,6 +55,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers.cs" />
     <Compile Include="Win32Impl.cs" />
+    <Compile Include="WinGdiFont.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PixelFarm.Drawing.Core\PixelFarm.Drawing.Core.csproj">

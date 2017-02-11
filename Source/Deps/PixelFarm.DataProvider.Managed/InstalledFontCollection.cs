@@ -87,28 +87,34 @@ namespace PixelFarm.Drawing.Fonts
                     case "Regular":
                         {
                             regular_Fonts.Add(f.FontName.ToUpper(), f);
-                        } break;
+                        }
+                        break;
                     case "Italic":
                     case "Italique":
                         {
                             italic_Fonts.Add(f.FontName.ToUpper(), f);
-                        } break;
+                        }
+                        break;
                     case "Bold":
                         {
                             bold_Fonts.Add(f.FontName.ToUpper(), f);
-                        } break;
+                        }
+                        break;
                     case "Bold Italic":
                         {
                             boldItalic_Fonts.Add(f.FontName.ToUpper(), f);
-                        } break;
+                        }
+                        break;
                     case "Gras":
                         {
                             gras_Fonts.Add(f.FontName.ToUpper(), f);
-                        } break;
+                        }
+                        break;
                     case "Gras Italique":
                         {
                             grasItalic_Fonts.Add(f.FontName.ToUpper(), f);
-                        } break;
+                        }
+                        break;
                     default:
                         throw new NotSupportedException();
                 }
