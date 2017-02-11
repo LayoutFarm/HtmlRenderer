@@ -149,6 +149,7 @@
     <Compile Include="Deps\PixelFarm.DataProvider.Managed\NOpenTypeFonts\NOpenTypeFontLoader.cs" />
     <Compile Include="Deps\PixelFarm.DataProvider.Managed\Providers.cs" />
     <Compile Include="Deps\PixelFarm.DataProvider.Managed\Win32Impl.cs" />
+    <Compile Include="Deps\PixelFarm.DataProvider.Managed\WinGdiFont.cs" />
     <Compile Include="Deps\PixelFarm.DataProvider.Native\Bitmap\NativeImage.cs" />
     <Compile Include="Deps\PixelFarm.DataProvider.Native\HarfBuzzShapingService.cs" />
     <Compile Include="Deps\PixelFarm.DataProvider.Native\NativeDll.cs" />
@@ -256,7 +257,6 @@
     <Compile Include="Deps\PixelFarm.Drawing.GdiPlus\Implementation\BitmapHelper.cs" />
     <Compile Include="Deps\PixelFarm.Drawing.GdiPlus\Implementation\GdiPlusBitmapBackBuffer.cs" />
     <Compile Include="Deps\PixelFarm.Drawing.GdiPlus\Implementation\Region.cs" />
-    <Compile Include="Deps\PixelFarm.Drawing.GdiPlus\Implementation\WinGdiFont.cs" />
     <Compile Include="Deps\PixelFarm.Drawing.GdiPlus\MiniAggGraphics\BufferBitmapStore.cs" />
     <Compile Include="Deps\PixelFarm.Drawing.GdiPlus\MiniAggGraphics\GdiPlusCanvasPainter.cs" />
     <Compile Include="Deps\PixelFarm.Drawing.GdiPlus\MiniAggGraphics\GdiPlusRenderVx.cs" />
@@ -729,6 +729,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Deps\Espresso\Net20\Espresso.Interfaces\" />
+    <Folder Include="Deps\PixelFarm.DataProvider.Managed\Win32Utils\" />
     <Folder Include="Deps\Typography\OpenType\N20\PixelFarm.OpenType\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
