@@ -171,7 +171,7 @@ namespace PixelFarm.Drawing.WinGdi
                 _useSubPixelRendering = value;
             }
         }
-
+        
         public override int Width
         {
             get

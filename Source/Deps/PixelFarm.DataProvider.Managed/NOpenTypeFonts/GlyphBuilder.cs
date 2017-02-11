@@ -1,4 +1,4 @@
-﻿//MIT, 2016,  WinterDev
+﻿//MIT, 2016-2017, WinterDev
 using System;
 using System.Collections.Generic;
 using NOpenType;
@@ -9,17 +9,27 @@ namespace PixelFarm.Agg
     //this is PixelFarm version ***
     //render with MiniAgg
 
-    public class GlyphPathBuilderVxs : NOpenType.GlyphPathBuilderBase
+
+
+    public class GlyphPathBuilderVxs : GlyphPathBuilderBase
     {
-        PixelFarm.Agg.VertexSource.PathWriter ps = new PixelFarm.Agg.VertexSource.PathWriter();
+        PathWriter ps = new PathWriter();
+        List<GlyphContour> contours;
+        GlyphContourBuilder cntBuilder;
+
         public GlyphPathBuilderVxs(Typeface typeface)
             : base(typeface)
         {
 
         }
+
         protected override void OnBeginRead(int countourCount)
         {
             ps.Clear();
+            //-----------------------------------
+            contours = new List<GlyphContour>();
+            //start with blank contour
+            cntBuilder = new GlyphContourBuilder();
         }
         protected override void OnEndRead()
         {
@@ -27,22 +37,32 @@ namespace PixelFarm.Agg
         }
         protected override void OnCloseFigure()
         {
+            cntBuilder.CloseFigure();
+            GlyphContour cntContour = cntBuilder.CurrentContour;
+            cntContour.allPoints = cntBuilder.GetAllPoints();
+            cntBuilder.Reset();
+            contours.Add(cntContour);
             ps.CloseFigure();
         }
-        protected override void OnCurve3(short p2x, short p2y, short x, short y)
+        protected override void OnCurve3(float p2x, float p2y, float x, float y)
         {
+            cntBuilder.Curve3(p2x, p2y, x, y);
             ps.Curve3(p2x, p2y, x, y);
         }
-        protected override void OnCurve4(short p2x, short p2y, short p3x, short p3y, short x, short y)
+        protected override void OnCurve4(float p2x, float p2y, float p3x, float p3y, float x, float y)
         {
+            cntBuilder.Curve4(p2x, p2y, p3x, p3y, x, y);
             ps.Curve4(p2x, p2y, p3x, p3y, x, y);
+
         }
-        protected override void OnLineTo(short x, short y)
+        protected override void OnLineTo(float x, float y)
         {
+            cntBuilder.LineTo(x, y);
             ps.LineTo(x, y);
         }
-        protected override void OnMoveTo(short x, short y)
+        protected override void OnMoveTo(float x, float y)
         {
+            cntBuilder.MoveTo(x, y);
             ps.MoveTo(x, y);
         }
 
@@ -50,30 +70,43 @@ namespace PixelFarm.Agg
         /// get processed/scaled vxs
         /// </summary>
         /// <returns></returns>
-        public VertexStore GetVxs(VertexStore vxs)
+        public VertexStore GetVxs(VertexStore vxs1)
         {
-            float scale = TypeFace.CalculateScale(SizeInPoints);// (float)(SizeInPoints * Resolution) / (pointsPerInch * TypeFaceUnitPerEm);
-            var mat = PixelFarm.Agg.Transform.Affine.NewMatix(
-                //scale
-             new PixelFarm.Agg.Transform.AffinePlan(
-                 PixelFarm.Agg.Transform.AffineMatrixCommand.Scale, scale, scale),
-                //translate
-             new PixelFarm.Agg.Transform.AffinePlan(
-                 PixelFarm.Agg.Transform.AffineMatrixCommand.Translate, 1, 1)
-                 );
 
-           
-            var v1 = mat.TransformToVxs(ps.Vxs, s_vxsPool.GetFreeVxs());
-            curveFlattener.MakeVxs(v1, vxs);
-            s_vxsPool.Release(ref v1);
-            return vxs;
+            if (PassHintInterpreterModule)
+            {
+                return curveFlattener.MakeVxs(ps.Vxs, vxs1);
+            }
+            else
+            {
+                //TODO: review here
+                //release vxs2 back
+                VertexStore vxs2 = new VertexStore();
+                float scale = TypeFace.CalculateScale(SizeInPoints);
+                var mat = PixelFarm.Agg.Transform.Affine.NewMatix(
+                    new PixelFarm.Agg.Transform.AffinePlan(
+                        PixelFarm.Agg.Transform.AffineMatrixCommand.Scale, scale, scale));
+                //transform -> flatten ->output
+
+                curveFlattener.MakeVxs(mat.TransformToVxs(ps.Vxs, vxs2), vxs1);
+                return vxs1;
+
+            }
+        }
+
+        public float GetPixelScale()
+        {
+            return TypeFace.CalculateScale(SizeInPoints);
         }
         public VertexStore GetUnscaledVxs()
         {
             return VertexStore.CreateCopy(ps.Vxs);
         }
 
-        static VertexStorePool s_vxsPool = new VertexStorePool();
+        public List<GlyphContour> GetContours()
+        {
+            return contours;
+        }
         static CurveFlattener curveFlattener = new CurveFlattener();
     }
 

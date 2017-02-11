@@ -164,6 +164,36 @@ namespace PixelFarm.Forms
                 return false;
             }
         }
+
+        internal static void InitGlFwForm(GlFwForm f)
+        {
+            //create pointer
+
+            GlfwWindowPtr glWindowPtr = Glfw.CreateWindow(f.Width, f.Height,
+                f.Title,
+                new GlfwMonitorPtr(),//default monitor
+                new GlfwWindowPtr()); //default top window 
+             
+            f.InitGlFwForm(glWindowPtr, f.Width, f.Height);
+            //-------------------
+            //setup events for glfw window
+            Glfw.SetWindowCloseCallback(glWindowPtr, s_windowCloseCb);
+            Glfw.SetWindowFocusCallback(glWindowPtr, s_windowFocusCb);
+            Glfw.SetWindowIconifyCallback(glWindowPtr, s_windowIconifyCb);
+            Glfw.SetWindowPosCallback(glWindowPtr, s_windowPosCb);
+            Glfw.SetWindowRefreshCallback(glWindowPtr, s_windowRefreshCb);
+            Glfw.SetWindowSizeCallback(glWindowPtr, s_windowSizeCb);
+            Glfw.SetCursorPosCallback(glWindowPtr, s_windowCursorPosCb);
+            Glfw.SetCursorEnterCallback(glWindowPtr, s_windowCursorEnterCb);
+            Glfw.SetMouseButtonCallback(glWindowPtr, s_windowMouseButtonCb);
+            Glfw.SetScrollCallback(glWindowPtr, s_scrollCb);
+            Glfw.SetKeyCallback(glWindowPtr, s_windowKeyCb);
+            Glfw.SetCharCallback(glWindowPtr, s_windowCharCb);
+            ////-------------------
+            existingForms.Add(glWindowPtr, f);
+            exitingFormList.Add(f);
+
+        }
         public static GlFwForm CreateGlfwForm(int w, int h, string title)
         {
             GlfwWindowPtr glWindowPtr = Glfw.CreateWindow(w, h,
@@ -171,6 +201,7 @@ namespace PixelFarm.Forms
                 new GlfwMonitorPtr(),//default monitor
                 new GlfwWindowPtr()); //default top window 
             GlFwForm f = new GlFwForm(glWindowPtr, w, h);
+
             f.Text = title;
             //-------------------
             //setup events for glfw window
@@ -191,7 +222,10 @@ namespace PixelFarm.Forms
             exitingFormList.Add(f);
             return f;
         }
+        internal static void InitGlfwForm(GlFwForm blankForm)
+        {
 
+        }
 
         public static bool ShouldClose()
         {
@@ -233,13 +267,15 @@ namespace PixelFarm.Forms
         }
         internal GlFwForm(GlfwWindowPtr glWindowPtr, int w, int h)
         {
-
+            InitGlFwForm(glWindowPtr, w, h);
+        }
+        internal void InitGlFwForm(GlfwWindowPtr glWindowPtr, int w, int h)
+        {
             base.Width = w;
             base.Height = h;
             _nativeGlFwWindowPtr = glWindowPtr;
             _nativePlatformHwnd = Glfw.GetNativePlatformWinHwnd(glWindowPtr);
             _winInfo = new PixelFarm.GlfwWinInfo(_nativeGlFwWindowPtr);
-
         }
         public GlfwWindowPtr GlfwWindowPtr
         {
@@ -289,7 +325,6 @@ namespace PixelFarm.Forms
         }
         protected virtual void OnKeyUp(Key key, int scanCode, KeyModifiers mods)
         {
-
         }
         protected virtual void OnKeyDown(Key key, int scanCode, KeyModifiers mods)
         {
@@ -306,66 +341,32 @@ namespace PixelFarm.Forms
         internal void InvokeOnScroll(double xoffset, double yoffset)
         {
             //TODO: implement detail methods
-            OnScroll(xoffset, yoffset);
-        }
-        protected virtual void OnScroll(double xoffset, double yoffset)
-        {
         }
         internal void SetIconifyState(bool iconify)
         {
             OnIconify(iconify);
         }
-        protected virtual void OnMove(int x, int y) { }
         internal void InvokeOnMove(int x, int y)
         {
             //on pos changed
             //TODO: implement detail methods
-            OnMove(x, y);
         }
         internal void InvokeOnSizeChanged(int w, int h)
         {
             //on pos changed
             //TODO: implement detail methods
-            OnSizeChanged(w, h);
         }
-        protected virtual void OnSizeChanged(int w, int h) { }
         internal void InvokeOnRefresh()
         {
             //TODO: implement detail methods
-            OnRefresh();
-        }
-        protected virtual void OnRefresh()
-        {
         }
         internal void InvokeCursorPos(double x, double y)
         {
             //TODO: implement detail methods
-            OnMouseMove(x, y);
-        }
-        protected virtual void OnMouseMove(double x, double y)
-        {
-
         }
         internal void InvokeMouseButton(MouseButton btn, KeyAction action)
         {
             //TODO: implement detail methods
-            switch (action)
-            {
-                case KeyAction.Press:
-                    OnMouseDown();
-                    break;
-                case KeyAction.Release:
-                    OnMouseUp();
-                    break;
-                default:
-                    throw new NotSupportedException();
-            }
-        }
-        protected virtual void OnMouseDown()
-        {
-        }
-        protected virtual void OnMouseUp()
-        {
         }
         internal void SetCursorEnterState(bool enter)
         {
@@ -392,6 +393,7 @@ namespace PixelFarm.Forms
         }
         protected virtual void OnIconify(bool iconify)
         {
+
         }
         protected virtual void OnFocus()
         {

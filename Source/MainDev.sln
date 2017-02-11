@@ -77,7 +77,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniAgg.Complements", "Deps
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixelFarm.Drawing.GdiPlus", "Deps\PixelFarm.Drawing.GdiPlus\PixelFarm.Drawing.GdiPlus.csproj", "{1AA171E3-523C-4DD5-A169-DE6322991FF5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixelFarm.OpenType", "Deps\NOpenType\N20\PixelFarm.OpenType\PixelFarm.OpenType.csproj", "{29ED0DFE-373C-4E98-BD4B-43F8E5FB16F6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixelFarm.OpenType", "Deps\Typography\OpenType\N20\PixelFarm.OpenType\PixelFarm.OpenType.csproj", "{29ED0DFE-373C-4E98-BD4B-43F8E5FB16F6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypeMirror", "Deps\TypeMirror\TypeMirror.csproj", "{68F1DAF6-2B35-476E-B2F8-5EADBC823935}"
 EndProject
@@ -116,6 +116,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test6_WinNeutral", "Test6_WinNeutral\Test6_WinNeutral.csproj", "{461D6EC9-6CB3-4BEB-88E2-679DF8016229}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test7_Win", "Test7_Win\Test7_Win.csproj", "{B3047240-20CB-48FE-A6FB-2BBA559C402C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixelFarm.Triangulation", "Deps\PixelFarm.Triangulation\PixelFarm.Triangulation.csproj", "{C5E5802D-6A45-4FE9-BAE7-5F0AE91D72C1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -908,6 +910,24 @@ Global
 		{B3047240-20CB-48FE-A6FB-2BBA559C402C}.Release64|Mixed Platforms.Build.0 = Release|Any CPU
 		{B3047240-20CB-48FE-A6FB-2BBA559C402C}.Release64|x86.ActiveCfg = Release|Any CPU
 		{B3047240-20CB-48FE-A6FB-2BBA559C402C}.Release64|x86.Build.0 = Release|Any CPU
+		{C5E5802D-6A45-4FE9-BAE7-5F0AE91D72C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5E5802D-6A45-4FE9-BAE7-5F0AE91D72C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5E5802D-6A45-4FE9-BAE7-5F0AE91D72C1}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{C5E5802D-6A45-4FE9-BAE7-5F0AE91D72C1}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{C5E5802D-6A45-4FE9-BAE7-5F0AE91D72C1}.Debug|x86.ActiveCfg = Debug|x86
+		{C5E5802D-6A45-4FE9-BAE7-5F0AE91D72C1}.Debug|x86.Build.0 = Debug|x86
+		{C5E5802D-6A45-4FE9-BAE7-5F0AE91D72C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5E5802D-6A45-4FE9-BAE7-5F0AE91D72C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5E5802D-6A45-4FE9-BAE7-5F0AE91D72C1}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{C5E5802D-6A45-4FE9-BAE7-5F0AE91D72C1}.Release|Mixed Platforms.Build.0 = Release|x86
+		{C5E5802D-6A45-4FE9-BAE7-5F0AE91D72C1}.Release|x86.ActiveCfg = Release|x86
+		{C5E5802D-6A45-4FE9-BAE7-5F0AE91D72C1}.Release|x86.Build.0 = Release|x86
+		{C5E5802D-6A45-4FE9-BAE7-5F0AE91D72C1}.Release64|Any CPU.ActiveCfg = Release|Any CPU
+		{C5E5802D-6A45-4FE9-BAE7-5F0AE91D72C1}.Release64|Any CPU.Build.0 = Release|Any CPU
+		{C5E5802D-6A45-4FE9-BAE7-5F0AE91D72C1}.Release64|Mixed Platforms.ActiveCfg = Release|x86
+		{C5E5802D-6A45-4FE9-BAE7-5F0AE91D72C1}.Release64|Mixed Platforms.Build.0 = Release|x86
+		{C5E5802D-6A45-4FE9-BAE7-5F0AE91D72C1}.Release64|x86.ActiveCfg = Release|x86
+		{C5E5802D-6A45-4FE9-BAE7-5F0AE91D72C1}.Release64|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -960,5 +980,6 @@ Global
 		{E1E89B3B-B529-4B17-B7ED-4C70CC8475EB} = {305A00BF-62AC-40B9-BEF1-B2CF4FE7F4B3}
 		{461D6EC9-6CB3-4BEB-88E2-679DF8016229} = {2A93AC8D-AAEE-4CC7-8BD7-3C77164161D5}
 		{B3047240-20CB-48FE-A6FB-2BBA559C402C} = {2A93AC8D-AAEE-4CC7-8BD7-3C77164161D5}
+		{C5E5802D-6A45-4FE9-BAE7-5F0AE91D72C1} = {305A00BF-62AC-40B9-BEF1-B2CF4FE7F4B3}
 	EndGlobalSection
 EndGlobal

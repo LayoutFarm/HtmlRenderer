@@ -11,7 +11,6 @@ namespace LayoutFarm.UI
         TopWindowBridge winBridge;
         public MyGlfwForm()
         {
-
             //this.MouseWheel += new MouseEventHandler(CpuGdiPlusSurfaceView_MouseWheel);
         }
         public void Bind(TopWindowBridge winBridge)
@@ -34,7 +33,7 @@ namespace LayoutFarm.UI
             }
             base.OnSizeChanged(e);
         }
-         
+
         //protected override void OnMouseEnter(EventArgs e)
         //{
         //    this.winBridge.HandleMouseEnterToViewport();

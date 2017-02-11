@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -36,7 +37,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="InstalledFontCollection.cs" />
+    <Compile Include="NOpenTypeFonts\GlyphAnalysis.cs" />
     <Compile Include="NOpenTypeFonts\GlyphBuilder.cs" />
+    <Compile Include="NOpenTypeFonts\GlyphFitOutline.cs" />
     <Compile Include="NOpenTypeFonts\ManagedShapingService.cs" />
     <Compile Include="NOpenTypeFonts\NOpenTypeFont.cs" />
     <Compile Include="NOpenTypeFonts\NOpenTypeFontLoader.cs" />
@@ -45,13 +48,17 @@
     <Compile Include="Win32Impl.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NOpenType\N20\PixelFarm.OpenType\PixelFarm.OpenType.csproj">
-      <Project>{29ED0DFE-373C-4E98-BD4B-43F8E5FB16F6}</Project>
-      <Name>PixelFarm.OpenType</Name>
-    </ProjectReference>
     <ProjectReference Include="..\PixelFarm.Drawing.Core\PixelFarm.Drawing.Core.csproj">
       <Project>{51D63482-5697-4B16-8401-506965624657}</Project>
       <Name>PixelFarm.Drawing.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PixelFarm.Triangulation\PixelFarm.Triangulation.csproj">
+      <Project>{c5e5802d-6a45-4fe9-bae7-5f0ae91d72c1}</Project>
+      <Name>PixelFarm.Triangulation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Typography\OpenType\N20\PixelFarm.OpenType\PixelFarm.OpenType.csproj">
+      <Project>{29ed0dfe-373c-4e98-bd4b-43f8e5fb16f6}</Project>
+      <Name>PixelFarm.OpenType</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
