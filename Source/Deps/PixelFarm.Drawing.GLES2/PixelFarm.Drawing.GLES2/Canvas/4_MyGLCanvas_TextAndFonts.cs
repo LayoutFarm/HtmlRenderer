@@ -83,8 +83,8 @@ namespace PixelFarm.Drawing.GLES2
         }
         public override void DrawText(char[] str, int startAt, int len, Rectangle logicalTextBox, int textAlignment)
         {
-            painter1.FillRectangle(50, 50, 100, 100, Color.Red);
-            painter1.Clear(Color.Blue);
+            //painter1.FillRectangle(50, 50, 100, 100, Color.Red);
+            
             //painter1.FillColor = Color.Blue;
             //painter1.FillRectangle(0, 0, 20, 20);
             ////var intersectRect = Rectangle.Intersect(logicalTextBox,

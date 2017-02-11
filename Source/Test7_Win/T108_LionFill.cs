@@ -1,22 +1,41 @@
 ﻿//MIT, 2014-2016,WinterDev
 
 using System;
-using PixelFarm.Drawing; 
+using PixelFarm.Drawing;
 using PixelFarm.DrawingGL;
 using PixelFarm.Agg;
 namespace OpenTkEssTest
 {
-    
+
     public class T108_LionFill : SampleBase
     {
         CanvasGL2d canvas2d;
         SpriteShape lionShape;
         VertexStore lionVxs;
         GLCanvasPainter painter;
+        public T108_LionFill()
+        {
+
+        }
+
         protected override void OnInitGLProgram(object sender, EventArgs args)
         {
             int max = Math.Max(this.Width, this.Height);
             canvas2d = CreateCanvasGL2d(max, max);
+            lionShape = new SpriteShape();
+            lionShape.ParseLion();
+            //flip this lion vertically before use with openGL
+            PixelFarm.Agg.Transform.Affine aff = PixelFarm.Agg.Transform.Affine.NewMatix(
+                 PixelFarm.Agg.Transform.AffinePlan.Scale(1, -1),
+                 PixelFarm.Agg.Transform.AffinePlan.Translate(0, 600));
+            lionVxs = new VertexStore();
+            aff.TransformToVxs(lionShape.Path.Vxs, lionVxs);
+            painter = new GLCanvasPainter(canvas2d, max, max);
+        }
+        public void Init2(CanvasGL2d canvas2d)
+        {
+            int max = 800;
+            this.canvas2d = canvas2d;
             lionShape = new SpriteShape();
             lionShape.ParseLion();
             //flip this lion vertically before use with openGL

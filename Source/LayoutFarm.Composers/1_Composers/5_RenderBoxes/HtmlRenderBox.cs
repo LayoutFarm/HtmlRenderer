@@ -10,6 +10,7 @@ namespace LayoutFarm.HtmlBoxes
     {
         MyHtmlContainer myHtmlCont;
         CssBox cssBox;
+
         public HtmlRenderBox(RootGraphic rootgfx,
             int width, int height)
             : base(rootgfx, width, height)
@@ -24,14 +25,22 @@ namespace LayoutFarm.HtmlBoxes
         {
             this.myHtmlCont = htmlCont;
             this.cssBox = box;
+
         }
         public override void ClearAllChildren()
         {
         }
         protected override void DrawBoxContent(Canvas canvas, Rectangle updateArea)
         {
+            //TODO: review here, 
+            //
+            if (myHtmlCont == null)
+            {
+                return;
+            }
+
             myHtmlCont.CheckDocUpdate();
-            var painter = PainterStock.GetSharedPainter(this.myHtmlCont, canvas);
+            PaintVisitor painter = PainterStock.GetSharedPainter(this.myHtmlCont, canvas);
             painter.SetViewportSize(this.Width, this.Height);
 #if DEBUG
             painter.dbugDrawDiagonalBox(Color.Blue, this.X, this.Y, this.Width, this.Height);

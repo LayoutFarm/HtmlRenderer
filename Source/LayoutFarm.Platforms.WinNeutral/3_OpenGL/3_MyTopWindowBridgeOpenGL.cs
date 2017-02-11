@@ -83,6 +83,7 @@ namespace LayoutFarm.UI.OpenGL
             //var innumber = dbugCount;
             //dbugCount++;
             //Console.WriteLine(">" + innumber);
+            //TODO: review here
             lock (syncobj)
             {
                 windowControl.MakeCurrent();
