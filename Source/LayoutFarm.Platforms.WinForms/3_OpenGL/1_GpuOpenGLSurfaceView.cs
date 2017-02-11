@@ -10,6 +10,7 @@ using System.Windows.Forms;
 
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
+using OpenTK.Graphics.ES20;
 
 namespace LayoutFarm.UI.OpenGL
 {
@@ -17,9 +18,8 @@ namespace LayoutFarm.UI.OpenGL
     partial class GpuOpenGLSurfaceView : GLControl
     {
         MyTopWindowBridgeOpenGL winBridge;
-        OpenTK.Graphics.Color4 clearColor;
-
-        //EventHandler glPaintHandler;
+        OpenTK.Graphics.Color4 clearColor; 
+        EventHandler glPaintHandler;
         public GpuOpenGLSurfaceView()
         {
             OpenTK.Graphics.GraphicsMode gfxmode = new OpenTK.Graphics.GraphicsMode(
@@ -39,7 +39,7 @@ namespace LayoutFarm.UI.OpenGL
         {
             //1. 
             this.winBridge = winBridge;
-            this.winBridge.BindGLControl(this);
+            this.winBridge.BindWindowControl(this);
 
         }
 
@@ -61,24 +61,26 @@ namespace LayoutFarm.UI.OpenGL
                 }
             }
         }
+        public void SetGLPaintHandler(EventHandler glPaintHandler)
+        {
+            this.glPaintHandler = glPaintHandler;
+        }
         protected override void OnPaint(PaintEventArgs e)
         {
             //------------------------------------------
             if (!this.DesignMode)
             {
-                //MakeCurrent();
-                ////winBridge.PaintMe();
-                //////---------
-                //////auto clear color ?
+                MakeCurrent();
+                //winBridge.PaintMe();
+                ////---------
+                ////auto clear color ?
                 //GL.ClearColor(1f, 1f, 1f, 1f);
                 //GL.Clear(ClearBufferMask.ColorBufferBit);
-                ////if (glPaintHandler != null)
-                ////{
-                ////    glPaintHandler(this, e);
-                ////}
-                //SwapBuffers();
-
-
+                if (glPaintHandler != null)
+                {
+                    glPaintHandler(this, e);
+                }
+                SwapBuffers();
             }
             else
             {
@@ -89,24 +91,24 @@ namespace LayoutFarm.UI.OpenGL
         public void InitSetup2d(Rectangle screenBound)
         {
 
-            int properW = Math.Min(this.Width, this.Height);
+            //int properW = Math.Min(this.Width, this.Height);
 
-            //init
-            GL.Enable(EnableCap.Blend);
-            GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+            ////init
+            //GL.Enable(EnableCap.Blend);
+            //GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
 
-            //---------------------------------
-            //-1 temp fix split scanline in some screen
-            GL.Viewport(0, 0, properW, properW - 1);
-            //---------------------------------
+            ////---------------------------------
+            ////-1 temp fix split scanline in some screen
+            //GL.Viewport(0, 0, properW, properW - 1);
+            ////---------------------------------
 
-            GL.MatrixMode(MatrixMode.Projection);
-            GL.LoadIdentity();
-            //origin on left-bottom
-            GL.Ortho(0, properW, 0, properW, 0.0, 100);
-            //GL.Ortho(0, properW, properW, 0, 0.0, 100);
-            GL.MatrixMode(MatrixMode.Modelview);
-            GL.LoadIdentity();
+            //GL.MatrixMode(MatrixMode.Projection);
+            //GL.LoadIdentity();
+            ////origin on left-bottom
+            //GL.Ortho(0, properW, 0, properW, 0.0, 100);
+            ////GL.Ortho(0, properW, properW, 0, 0.0, 100);
+            //GL.MatrixMode(MatrixMode.Modelview);
+            //GL.LoadIdentity();
         }
 
         //-----------------------------

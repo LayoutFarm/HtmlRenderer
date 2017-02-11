@@ -119,6 +119,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test7_Win", "Test7_Win\Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixelFarm.Triangulation", "Deps\PixelFarm.Triangulation\PixelFarm.Triangulation.csproj", "{C5E5802D-6A45-4FE9-BAE7-5F0AE91D72C1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixelFarm.OpenTKWinForms", "Deps\PixelFarm.OpenTKWinForms\PixelFarm.OpenTKWinForms.csproj", "{4CF14DCE-F731-4060-B92B-F1ACFDF9803D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -928,6 +930,24 @@ Global
 		{C5E5802D-6A45-4FE9-BAE7-5F0AE91D72C1}.Release64|Mixed Platforms.Build.0 = Release|x86
 		{C5E5802D-6A45-4FE9-BAE7-5F0AE91D72C1}.Release64|x86.ActiveCfg = Release|x86
 		{C5E5802D-6A45-4FE9-BAE7-5F0AE91D72C1}.Release64|x86.Build.0 = Release|x86
+		{4CF14DCE-F731-4060-B92B-F1ACFDF9803D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CF14DCE-F731-4060-B92B-F1ACFDF9803D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CF14DCE-F731-4060-B92B-F1ACFDF9803D}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{4CF14DCE-F731-4060-B92B-F1ACFDF9803D}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{4CF14DCE-F731-4060-B92B-F1ACFDF9803D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4CF14DCE-F731-4060-B92B-F1ACFDF9803D}.Debug|x86.Build.0 = Debug|Any CPU
+		{4CF14DCE-F731-4060-B92B-F1ACFDF9803D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CF14DCE-F731-4060-B92B-F1ACFDF9803D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CF14DCE-F731-4060-B92B-F1ACFDF9803D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{4CF14DCE-F731-4060-B92B-F1ACFDF9803D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{4CF14DCE-F731-4060-B92B-F1ACFDF9803D}.Release|x86.ActiveCfg = Release|Any CPU
+		{4CF14DCE-F731-4060-B92B-F1ACFDF9803D}.Release|x86.Build.0 = Release|Any CPU
+		{4CF14DCE-F731-4060-B92B-F1ACFDF9803D}.Release64|Any CPU.ActiveCfg = Release|Any CPU
+		{4CF14DCE-F731-4060-B92B-F1ACFDF9803D}.Release64|Any CPU.Build.0 = Release|Any CPU
+		{4CF14DCE-F731-4060-B92B-F1ACFDF9803D}.Release64|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{4CF14DCE-F731-4060-B92B-F1ACFDF9803D}.Release64|Mixed Platforms.Build.0 = Release|Any CPU
+		{4CF14DCE-F731-4060-B92B-F1ACFDF9803D}.Release64|x86.ActiveCfg = Release|Any CPU
+		{4CF14DCE-F731-4060-B92B-F1ACFDF9803D}.Release64|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -981,5 +1001,6 @@ Global
 		{461D6EC9-6CB3-4BEB-88E2-679DF8016229} = {2A93AC8D-AAEE-4CC7-8BD7-3C77164161D5}
 		{B3047240-20CB-48FE-A6FB-2BBA559C402C} = {2A93AC8D-AAEE-4CC7-8BD7-3C77164161D5}
 		{C5E5802D-6A45-4FE9-BAE7-5F0AE91D72C1} = {305A00BF-62AC-40B9-BEF1-B2CF4FE7F4B3}
+		{4CF14DCE-F731-4060-B92B-F1ACFDF9803D} = {305A00BF-62AC-40B9-BEF1-B2CF4FE7F4B3}
 	EndGlobalSection
 EndGlobal

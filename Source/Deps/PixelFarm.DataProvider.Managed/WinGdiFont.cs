@@ -3,13 +3,12 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using PixelFarm.Drawing;
 using PixelFarm.Drawing.Fonts;
 using Win32;
 
 namespace PixelFarm.Drawing.WinGdi
 {
-    class WinGdiFontFace : FontFace
+    public class WinGdiFontFace : FontFace
     {
         FontFace nopenTypeFontFace;
         FontStyle style;
@@ -39,7 +38,7 @@ namespace PixelFarm.Drawing.WinGdi
             this.nopenTypeFontFace = NOpenTypeFontLoader.LoadFont(foundInstalledFont.FontPath, "en", HBDirection.HB_DIRECTION_LTR);
         }
 
-        internal static void SetInstalledFontCollection(InstalledFontCollection installedFonts)
+        public static void SetInstalledFontCollection(InstalledFontCollection installedFonts)
         {
             //set once
             if (s_installedFonts != null)
@@ -83,7 +82,7 @@ namespace PixelFarm.Drawing.WinGdi
         }
     }
 
-    class WinGdiFont : ActualFont
+    public class WinGdiFont : ActualFont
     {
         /// <summary>
         /// font 'em' height?
@@ -159,7 +158,7 @@ namespace PixelFarm.Drawing.WinGdi
             logFont.lfHeight = -(int)PixelFarm.Drawing.RequestFont.ConvEmSizeInPointsToPixels(emHeight);//minus **
             logFont.lfCharSet = 1;//default
             logFont.lfQuality = 0;//default
-            
+
             MyWin32.LOGFONT_FontWeight weight =
                 ((style & FontStyle.Bold) == FontStyle.Bold) ?
                 MyWin32.LOGFONT_FontWeight.FW_BOLD :
@@ -172,7 +171,7 @@ namespace PixelFarm.Drawing.WinGdi
 
 
         public System.IntPtr ToHfont()
-        {   
+        {
             return this.hfont;
         }
         public override float SizeInPoints
@@ -258,7 +257,7 @@ namespace PixelFarm.Drawing.WinGdi
             this.FontStyle = fontKey.FontStyle;
         }
     }
-    class WinGdiFontSystem
+    public class WinGdiFontSystem
     {
 
         static RequestFont latestFont;

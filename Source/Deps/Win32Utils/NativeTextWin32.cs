@@ -5,10 +5,10 @@ using System.Runtime.InteropServices;
 using PixelFarm.Drawing;
 namespace Win32
 {
-    class NativeTextWin32
+    public class NativeTextWin32
     {
 
-        const string GDI32 = "gdi32.dll"; 
+        const string GDI32 = "gdi32.dll";
         [DllImport(GDI32, CharSet = CharSet.Unicode)]
         public static extern bool TextOut(IntPtr hdc, int nXStart, int nYStart,
             [MarshalAs(UnmanagedType.LPWStr)]string charBuffer, int cbstring);
