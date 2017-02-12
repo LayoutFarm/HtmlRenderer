@@ -1,7 +1,6 @@
 ﻿//Apache2, 2014-2017, WinterDev
-using System;
+
 using System.Collections.Generic;
-using System.Text;
 using PixelFarm.Drawing;
 
 namespace LayoutFarm.UI.OpenGL
@@ -145,23 +144,23 @@ namespace LayoutFarm.UI.OpenGL
         }
 
 
-       
+
         static void UpdateAllArea(Canvas mycanvas, IRenderElement topWindowRenderBox)
         {
 
-           
-                mycanvas.OffsetCanvasOrigin(-mycanvas.Left, -mycanvas.Top);
-                Rectangle rect = mycanvas.Rect;
-                //mycanvas.FillRectangle(Color.Blue, 50, 50, 100, 100);
-                topWindowRenderBox.DrawToThisCanvas(mycanvas, rect);
+
+            mycanvas.OffsetCanvasOrigin(-mycanvas.Left, -mycanvas.Top);
+            Rectangle rect = mycanvas.Rect;
+            //mycanvas.FillRectangle(Color.Blue, 50, 50, 100, 100);
+            topWindowRenderBox.DrawToThisCanvas(mycanvas, rect);
 
 #if DEBUG
-                topWindowRenderBox.dbugShowRenderPart(mycanvas, rect);
+            topWindowRenderBox.dbugShowRenderPart(mycanvas, rect);
 
 #endif
-                //mycanvas.IsContentReady = true;
-                mycanvas.OffsetCanvasOrigin(mycanvas.Left, mycanvas.Top);
-           
+            //mycanvas.IsContentReady = true;
+            mycanvas.OffsetCanvasOrigin(mycanvas.Left, mycanvas.Top);
+
         }
     }
 
