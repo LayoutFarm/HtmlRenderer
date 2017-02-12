@@ -84,7 +84,7 @@ namespace PixelFarm.Drawing.GLES2
         public override void DrawText(char[] str, int startAt, int len, Rectangle logicalTextBox, int textAlignment)
         {
             //TODO: review here
-            painter1.FillRectangle(50, 50, 100, 100, Color.Red);
+            painter1.FillRectangle(0, 0, 20, 20, Color.Red);
 
             //painter1.FillColor = Color.Blue;
             //painter1.FillRectangle(0, 0, 20, 20);
