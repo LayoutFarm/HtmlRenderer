@@ -1,6 +1,5 @@
 ﻿//MIT, 2014-2017, WinterDev
 
-using PixelFarm.Drawing;
 using LayoutFarm.Composers;
 namespace LayoutFarm.Ease
 {

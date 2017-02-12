@@ -173,7 +173,7 @@ namespace PixelFarm.Forms
                 f.Title,
                 new GlfwMonitorPtr(),//default monitor
                 new GlfwWindowPtr()); //default top window 
-             
+
             f.InitGlFwForm(glWindowPtr, f.Width, f.Height);
             //-------------------
             //setup events for glfw window
@@ -222,7 +222,7 @@ namespace PixelFarm.Forms
             exitingFormList.Add(f);
             return f;
         }
-       
+
 
         public static bool ShouldClose()
         {
@@ -251,6 +251,13 @@ namespace PixelFarm.Forms
 
         }
     }
+
+    public class FormRenderUpdateEventArgs : EventArgs
+    {
+        public GlFwForm form;
+    }
+
+
     public class GlFwForm : Form
     {
         SimpleAction drawFrameDel;

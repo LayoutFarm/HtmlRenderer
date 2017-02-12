@@ -1,4 +1,5 @@
-﻿using System;
+﻿//BSD, 2014-2017, WinterDev
+using System;
 namespace OpenTkEssTest
 {
     public abstract class SampleBase

@@ -34,6 +34,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LionDataStore.cs" />
+    <Compile Include="MyNativeRGBA32BitsImage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SampleBase.cs" />
     <Compile Include="SpriteShape.cs" />

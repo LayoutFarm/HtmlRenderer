@@ -41,6 +41,9 @@
     <Compile Include="..\Test0_WinNeutral\LionDataStore.cs">
       <Link>Shared\LionDataStore.cs</Link>
     </Compile>
+    <Compile Include="..\Test0_WinNeutral\MyNativeRGBA32BitsImage.cs">
+      <Link>Shared\MyNativeRGBA32BitsImage.cs</Link>
+    </Compile>
     <Compile Include="..\Test0_WinNeutral\SampleBase.cs">
       <Link>Shared\SampleBase.cs</Link>
     </Compile>
@@ -51,7 +54,6 @@
       <Link>Shared\T108_LionFill.cs</Link>
     </Compile>
     <Compile Include="GLFWProgram.cs" />
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

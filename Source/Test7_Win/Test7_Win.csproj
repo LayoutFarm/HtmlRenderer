@@ -41,6 +41,9 @@
     <Compile Include="..\test0_winneutral\LionDataStore.cs">
       <Link>Shared\LionDataStore.cs</Link>
     </Compile>
+    <Compile Include="..\Test0_WinNeutral\MyNativeRGBA32BitsImage.cs">
+      <Link>Shared\MyNativeRGBA32BitsImage.cs</Link>
+    </Compile>
     <Compile Include="..\test0_winneutral\SampleBase.cs">
       <Link>Shared\SampleBase.cs</Link>
     </Compile>
@@ -59,7 +62,6 @@
     <Compile Include="Helper\FormCanvasHelper.cs" />
     <Compile Include="Helper\SampleViewport.cs" />
     <Compile Include="Helper\SampleViewportExtension.cs" />
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
