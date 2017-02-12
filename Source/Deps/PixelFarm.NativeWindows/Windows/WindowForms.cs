@@ -61,13 +61,13 @@ namespace PixelFarm.Forms
         public event EventHandler<FormClosingEventArgs> FormClosing;
         public event EventHandler<FormClosedEventArgs> FormClosed;
 
-        public static new Form CreateFromNativeWindowHwnd(IntPtr hwnd)
-        {
-            Form newControl = new Form(hwnd);
-            newControl.TopLevelControl = newControl;
-            return newControl;
-        }
-        
+        //public static new Form CreateFromNativeWindowHwnd(IntPtr hwnd)
+        //{
+        //    Form newControl = new Form(hwnd);
+        //    newControl.TopLevelControl = newControl;
+        //    return newControl;
+        //}
+
     }
 
 
@@ -105,14 +105,17 @@ namespace PixelFarm.Forms
         int _width;
         int _height;
         IntPtr _nativeHandle;
+        ControlCollection _controls;
         public Control()
         {
-
+            _controls = new ControlCollection(this);
         }
-        internal Control(IntPtr nativeHwnd)
+        internal static void SetNativeHandle(Control c, IntPtr nativeHandle)
         {
-            this._nativeHandle = nativeHwnd;
+            c._nativeHandle = nativeHandle;
+            c.OnHandleCreated(EventArgs.Empty);
         }
+
         protected bool DesignMode { get; set; }
         protected virtual void OnHandleCreated(EventArgs e)
         {
@@ -128,8 +131,7 @@ namespace PixelFarm.Forms
         }
         public ControlCollection Controls
         {
-            get;
-            set;
+            get { return _controls; }
         }
         public void Focus()
         {
@@ -174,16 +176,17 @@ namespace PixelFarm.Forms
             set;
         }
         public Control Parent { get; set; }
-        public static Control CreateFromNativeWindowHwnd(IntPtr hwnd)
-        {
-            Control newControl = new Control(hwnd);
-            return newControl;
-        }
+
         protected virtual void OnLoad(EventArgs e)
         {
         }
 
-
+        public static Control CreateFromNativeWindowHwnd(IntPtr hwnd)
+        {
+            Control newControl = new Control();
+            Control.SetNativeHandle(newControl, hwnd);
+            return newControl;
+        }
     }
     public class FormClosingEventArgs : EventArgs
     {

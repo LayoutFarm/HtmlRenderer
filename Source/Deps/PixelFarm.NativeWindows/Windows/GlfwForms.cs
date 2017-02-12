@@ -35,7 +35,7 @@ namespace PixelFarm.Forms
                 {
                     //user can cancel window close here here
                     bool userCancel = false;
-                    found.InvokeOnClosing(ref userCancel);
+                    GlFwForm.InvokeOnClosing(found, ref userCancel);
                     if (userCancel)
                     {
                         return;
@@ -64,7 +64,7 @@ namespace PixelFarm.Forms
                 GlFwForm found;
                 if (GetGlfwForm(wnd, out found))
                 {
-                    found.SetIconifyState(iconify);
+                    GlFwForm.SetIconifyState(found, iconify);
                 }
             };
 
@@ -268,7 +268,6 @@ namespace PixelFarm.Forms
         double _latestMouseX;
         double _latestMouseY;
 
-
         public GlFwForm()
         {
 
@@ -381,9 +380,9 @@ namespace PixelFarm.Forms
         {
             //TODO: implement detail methods
         }
-        internal void SetIconifyState(bool iconify)
+        internal static void SetIconifyState(GlFwForm f, bool iconify)
         {
-            OnIconify(iconify);
+            f.OnIconify(iconify);
         }
         internal static void InvokeOnMove(GlFwForm f, int x, int y)
         {
@@ -401,7 +400,10 @@ namespace PixelFarm.Forms
         {
             //TODO: implement detail methods
         }
-
+        internal static void InvokeOnClosing(GlFwForm f, ref bool cancel)
+        {
+            f.OnClosing(ref cancel);
+        }
         internal static void SetCursorEnterState(GlFwForm f, bool enter)
         {
             if (enter)
@@ -421,10 +423,7 @@ namespace PixelFarm.Forms
         {
 
         }
-        internal void InvokeOnClosing(ref bool cancel)
-        {
-            OnClosing(ref cancel);
-        }
+
         protected virtual void OnIconify(bool iconify)
         {
 
