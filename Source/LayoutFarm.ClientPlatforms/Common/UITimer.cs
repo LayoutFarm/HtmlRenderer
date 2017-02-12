@@ -11,6 +11,7 @@ namespace LayoutFarm.UI
 
         protected void RaiseTick()
         {
+            return;
             if (Tick != null)
             {
                 Tick(this, EventArgs.Empty);

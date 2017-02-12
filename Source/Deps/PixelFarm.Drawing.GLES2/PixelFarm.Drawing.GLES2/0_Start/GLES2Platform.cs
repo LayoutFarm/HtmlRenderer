@@ -1,12 +1,8 @@
 ﻿//BSD, 2014-2017, WinterDev
 
-using System;
-using System.IO;
-using System.Collections.Generic;
 using PixelFarm.Drawing.Fonts;
 using PixelFarm.DrawingGL;
 
-using System.Text;
 namespace PixelFarm.Drawing.GLES2
 {
 
@@ -22,9 +18,16 @@ namespace PixelFarm.Drawing.GLES2
             int top, int width, int height,
             CanvasInitParameters reqPars = new CanvasInitParameters())
         {
-            return new MyGLCanvas(CreateCanvasGL2d(width, height), 0, 0, width, height);             
+            return new MyGLCanvas(CreateCanvasGL2d(width, height), 0, 0, width, height);
         }
-
+        public static Canvas CreateCanvas2(int left,
+            int top, int width, int height,
+            CanvasGL2d canvas,
+            GLCanvasPainter painter1,
+            CanvasInitParameters reqPars = new CanvasInitParameters())
+        {
+            return new MyGLCanvas(canvas, painter1, 0, 0, width, height);
+        }
         public static void AddTextureFont(string fontName, string xmlGlyphPos, string glypBitmap)
         {
             GLES2PlatformFontMx.AddTextureFontInfo(fontName, xmlGlyphPos, glypBitmap);

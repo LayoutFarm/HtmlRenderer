@@ -30,7 +30,11 @@ namespace PixelFarm.DrawingGL
         int canvasOriginY = 0;
         int canvasW;
         int canvasH;
+
         MyMat4 orthoView;
+        MyMat4 flipVerticalView;
+        MyMat4 orthoAndFlip; 
+
         TessTool tessTool;
         FrameBuffer _currentFrameBuffer;//default = null, system provide frame buffer 
 
@@ -43,12 +47,12 @@ namespace PixelFarm.DrawingGL
             int max = Math.Max(canvasW, canvasH);
             ////square viewport 
             orthoView = MyMat4.ortho(0, max, 0, max, 0, 1);
+            flipVerticalView = MyMat4.scale(1, -1) * MyMat4.translate(new OpenTK.Vector3(0, -max, 0));
+            orthoAndFlip = orthoView * flipVerticalView;
             //-----------------------------------------------------------------------
             shaderRes = new CanvasToShaderSharedResource();
             shaderRes.OrthoView = orthoView;
-            //-----------------------------------------------------------------------
-
-
+            //----------------------------------------------------------------------- 
             basicFillShader = new BasicFillShader(shaderRes);
             smoothLineShader = new SmoothLineShader(shaderRes);
             rectFillShader = new RectFillShader(shaderRes);
@@ -84,16 +88,21 @@ namespace PixelFarm.DrawingGL
             GL.Viewport(0, 0, canvasW, canvasH);
         }
 
-
+        public void FlipY(bool flip)
+        {
+            if (flip)
+            {
+                shaderRes.OrthoView = orthoAndFlip;
+            }
+            else
+            {
+                shaderRes.OrthoView = orthoView;
+            }
+        }
         public void Dispose()
         {
         }
 
-        //internal TextureFontStore TextureFontStore
-        //{
-        //    get { return textureFonts; }
-        //    set { textureFonts = value; }
-        //}
         public CanvasSmoothMode SmoothMode
         {
             get;
@@ -142,6 +151,10 @@ namespace PixelFarm.DrawingGL
             GL.Clear(ClearBufferMask.ColorBufferBit |
                 ClearBufferMask.DepthBufferBit |
                 ClearBufferMask.StencilBufferBit);
+        }
+        public void SetFlipVerticalY(bool flipY)
+        {
+
         }
         public void ClearColorBuffer()
         {

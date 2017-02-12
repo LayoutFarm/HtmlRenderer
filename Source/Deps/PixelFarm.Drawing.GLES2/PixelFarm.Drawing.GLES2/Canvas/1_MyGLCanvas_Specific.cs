@@ -1,10 +1,8 @@
-﻿//BSD, 2014-2017, WinterDev 
-
+﻿//BSD, 2014-2017, WinterDev  
 using System;
 using System.Collections.Generic;
 using PixelFarm.DrawingGL;
-using PixelFarm.Drawing.Fonts;
- 
+
 namespace PixelFarm.Drawing.GLES2
 {
 
@@ -21,7 +19,7 @@ namespace PixelFarm.Drawing.GLES2
         Color currentTextColor;
         InternalPen internalPen;
         InternalBrush internalBrush;
-        
+
         internal MyGLCanvas(
             CanvasGL2d canvasGL2d,
             int left, int top,
@@ -39,7 +37,36 @@ namespace PixelFarm.Drawing.GLES2
             this.bottom = top + height;
             currentClipRect = new Rectangle(0, 0, width, height);
 
-            
+
+            this.CurrentFont = new RequestFont("tahoma", 10);
+            this.CurrentTextColor = Color.Black;
+
+            internalPen = new InternalPen(Color.Black);
+            internalBrush = new InternalBrush(Color.Black);
+#if DEBUG
+            debug_canvas_id = dbug_canvasCount + 1;
+            dbug_canvasCount += 1;
+#endif
+            this.StrokeWidth = 1;
+        }
+        internal MyGLCanvas(
+           CanvasGL2d canvasGL2d,
+           GLCanvasPainter painter,
+           int left, int top,
+           int width,
+           int height)
+        {
+            this.canvasGL2 = canvasGL2d;
+            this.painter1 = painter;
+
+
+            this.left = left;
+            this.top = top;
+            this.right = left + width;
+            this.bottom = top + height;
+            currentClipRect = new Rectangle(0, 0, width, height);
+
+
             this.CurrentFont = new RequestFont("tahoma", 10);
             this.CurrentTextColor = Color.Black;
 

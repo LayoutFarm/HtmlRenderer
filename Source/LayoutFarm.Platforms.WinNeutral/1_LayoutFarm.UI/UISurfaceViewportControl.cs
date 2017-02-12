@@ -43,6 +43,26 @@ namespace LayoutFarm.UI.WinNeutral
                 this.height = value.Height;
             }
         }
+        public void SwapBuffers()
+        {
+        }
+        public void MakeCurrent()
+        {
+        }
+        public void InitSetup2d(PixelFarm.Drawing.Rectangle rect)
+        {
+
+        }
+        public OpenTK.Graphics.Color4 ClearColor
+        {
+            get;
+            set;
+        }
+        public void SetupCanvas(PixelFarm.Drawing.Canvas canvas)
+        {
+            bridge.SetupCanvas(canvas);
+        }
+        OpenGL.MyTopWindowBridgeOpenGL bridge;
         public void InitRootGraphics(
             RootGraphic rootgfx,
             ITopWindowEventRoot topWinEventRoot,
@@ -56,9 +76,11 @@ namespace LayoutFarm.UI.WinNeutral
             {
                 case InnerViewportKind.GL:
                     {
+
                         ////temp not suppport
                         //PixelFarm.Drawing.DrawingGL.CanvasGLPortal.Start();
-                        //var bridge = new OpenGL.MyTopWindowBridgeOpenGL(rootgfx, topWinEventRoot);
+                        bridge = new OpenGL.MyTopWindowBridgeOpenGL(rootgfx, topWinEventRoot);
+                        bridge.BindWindowControl(this);
                         //var view = new OpenGL.GpuOpenGLSurfaceView();
                         //view.Width = 800;
                         //view.Height = 600;
@@ -66,7 +88,7 @@ namespace LayoutFarm.UI.WinNeutral
                         //this.Controls.Add(view);
                         ////--------------------------------------- 
                         //view.Bind(bridge);
-                        //this.winBridge = bridge;
+                        this.winBridge = bridge;
                     }
                     break;
                 case InnerViewportKind.Skia:
@@ -112,9 +134,14 @@ namespace LayoutFarm.UI.WinNeutral
         {
             this.winBridge.OnHostControlLoaded();
         }
+        public void PaintMe(PixelFarm.DrawingGL.CanvasGL2d canvasGL2d)
+        {
+            canvasGL2d.DrawLine(0, 0, 100, 100);
+            //this.winBridge.PaintToOutputWindow();
+        }
         public void PaintMe()
         {
-            this.winBridge.PaintToOutputWindow();
+            //this.winBridge.PaintToOutputWindow();
         }
         public void PaintMeFullMode()
         {

@@ -15,12 +15,15 @@ namespace LayoutFarm.UI.OpenGL
             : base(root, viewportSize, cachedPageNum)
         {
         }
+        public void SetCanvas(Canvas canvas)
+        {
+            this.canvas = canvas;
+        }
         protected override void OnClosing()
         {
             isClosed = true;
             if (canvas != null)
             {
-
                 canvas.CloseCanvas();
                 canvas = null;
             }
@@ -38,19 +41,19 @@ namespace LayoutFarm.UI.OpenGL
 #if DEBUG
         void dbugTest01()
         {
-           // canvas.Orientation = CanvasOrientation.LeftTop;
-            canvas.ClearSurface(Color.White);
+            //// canvas.Orientation = CanvasOrientation.LeftTop;
+            //canvas.ClearSurface(Color.White);
 
-            canvas.FillRectangle(Color.Red, 50, 50, 100, 100);
+            //canvas.FillRectangle(Color.Red, 50, 50, 100, 100);
 
-            dbugGLOffsetCanvasOrigin(50, 50);
-            //simulate draw content 
-            canvas.FillRectangle(Color.Gray, 10, 10, 80, 80);
-            dbugGLOffsetCanvasOrigin(-50, -50);
+            //dbugGLOffsetCanvasOrigin(50, 50);
+            ////simulate draw content 
+            //canvas.FillRectangle(Color.Gray, 10, 10, 80, 80);
+            //dbugGLOffsetCanvasOrigin(-50, -50);
         }
         void dbugGLSetCanvasOrigin(int x, int y)
         {
-            canvas.SetCanvasOrigin(x, y);
+            //canvas.SetCanvasOrigin(x, y);
             //int properW = Math.Min(canvas.Width, canvas.Height);
             ////int max = 600;
             ////init             
@@ -79,7 +82,7 @@ namespace LayoutFarm.UI.OpenGL
         }
         void dbugGLOffsetCanvasOrigin(int dx, int dy)
         {
-            dbugGLSetCanvasOrigin(canvas.CanvasOriginX + dx, canvas.CanvasOriginY + dy);
+            //dbugGLSetCanvasOrigin(canvas.CanvasOriginX + dx, canvas.CanvasOriginY + dy);
         }
 #endif
         //-------
@@ -89,7 +92,7 @@ namespace LayoutFarm.UI.OpenGL
             if (isClosed) return;
             //---------------------------------------------
 
-           // canvas.Orientation = CanvasOrientation.LeftTop;
+            // canvas.Orientation = CanvasOrientation.LeftTop;
             //Test01(); 
             //return;
             //Test01();
@@ -141,21 +144,24 @@ namespace LayoutFarm.UI.OpenGL
 #endif
         }
 
+
+       
         static void UpdateAllArea(Canvas mycanvas, IRenderElement topWindowRenderBox)
         {
 
-            mycanvas.OffsetCanvasOrigin(-mycanvas.Left, -mycanvas.Top);
-            Rectangle rect = mycanvas.Rect;
-            //mycanvas.FillRectangle(Color.Blue, 50, 50, 100, 100);
-            topWindowRenderBox.DrawToThisCanvas(mycanvas, rect);
+           
+                mycanvas.OffsetCanvasOrigin(-mycanvas.Left, -mycanvas.Top);
+                Rectangle rect = mycanvas.Rect;
+                //mycanvas.FillRectangle(Color.Blue, 50, 50, 100, 100);
+                topWindowRenderBox.DrawToThisCanvas(mycanvas, rect);
 
 #if DEBUG
-            topWindowRenderBox.dbugShowRenderPart(mycanvas, rect);
+                topWindowRenderBox.dbugShowRenderPart(mycanvas, rect);
 
 #endif
-
-           // mycanvas.IsContentReady = true;
-            mycanvas.OffsetCanvasOrigin(mycanvas.Left, mycanvas.Top);
+                //mycanvas.IsContentReady = true;
+                mycanvas.OffsetCanvasOrigin(mycanvas.Left, mycanvas.Top);
+           
         }
     }
 

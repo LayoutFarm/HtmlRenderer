@@ -41,6 +41,7 @@ namespace PixelFarm.Forms
         {
             this._handle = hwnd;
         }
+        public void Hide() { }
         public override IntPtr Handle
         {
             get
@@ -122,6 +123,7 @@ namespace PixelFarm.Forms
             get;
             set;
         }
+        public void Focus() { }
         public virtual int Width
         {
             get { return this._width; }
@@ -161,8 +163,11 @@ namespace PixelFarm.Forms
         public Control Parent { get; set; }
         public static Control CreateFromNativeWindowHwnd(IntPtr hwnd)
         {
-            Control newControl = new Control(hwnd);             
+            Control newControl = new Control(hwnd);
             return newControl;
+        }
+        protected virtual void OnLoad(EventArgs e)
+        {             
         }
     }
     public class FormClosingEventArgs : EventArgs

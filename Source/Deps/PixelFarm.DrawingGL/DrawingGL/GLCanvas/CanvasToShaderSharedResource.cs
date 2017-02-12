@@ -8,18 +8,19 @@ namespace PixelFarm.DrawingGL
     class CanvasToShaderSharedResource
     {
         internal float _strokeWidth = 1;
-        Drawing.Color _strokeColor;
-        internal float _fillColor;
+        Drawing.Color _strokeColor;         
         OpenTK.Graphics.ES20.MyMat4 _orthoView;
         internal ShaderBase _currentShader;
         int _orthoViewVersion = 0;
+
         internal OpenTK.Graphics.ES20.MyMat4 OrthoView
         {
             get { return _orthoView; }
             set
             {
+
                 _orthoView = value;
-                _orthoViewVersion++;
+                unchecked { _orthoViewVersion++; }
             }
         }
         public int OrthoViewVersion
