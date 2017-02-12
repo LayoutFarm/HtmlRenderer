@@ -65,8 +65,9 @@ namespace PixelFarm.Drawing.GLES2
 
         public override bool PushClipAreaRect(int width, int height, ref Rectangle updateArea)
         {
+            //TODO: review here
             return true;
-           // throw new NotSupportedException();
+            // throw new NotSupportedException();
 
             //this.clipRectStack.Push(currentClipRect);
             //System.Drawing.Rectangle intersectResult =
@@ -87,7 +88,7 @@ namespace PixelFarm.Drawing.GLES2
             //}
         }
         public override void PopClipAreaRect()
-        { 
+        {
             if (clipRectStack.Count > 0)
             {
                 currentClipRect = clipRectStack.Pop();
