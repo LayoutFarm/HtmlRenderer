@@ -31,8 +31,7 @@ namespace TestGlfw
 
 
         static bool needUpdateContent = false;
-        static MyNativeRGBA32BitsImage myImg;
-        static int textureId;
+        static MyNativeRGBA32BitsImage myImg; 
         static GLBitmap glBmp;
 
         static void UpdateViewContent(FormRenderUpdateEventArgs formRenderUpdateEventArgs)

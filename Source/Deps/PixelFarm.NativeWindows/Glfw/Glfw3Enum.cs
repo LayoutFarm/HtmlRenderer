@@ -33,7 +33,7 @@ namespace Pencil.Gaming
         Super = 1 << 3  //8
     }
 
-    public enum KeyAction
+    public enum KeyActionKind
     {
         Release = 0,
         Press,

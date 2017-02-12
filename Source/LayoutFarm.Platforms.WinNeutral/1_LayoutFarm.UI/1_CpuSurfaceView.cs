@@ -1,7 +1,6 @@
 ﻿//Apache2, 2014-2017, WinterDev
 using System;
 using PixelFarm.Forms;
-//using LayoutFarm.UI.WinNeutral;
 namespace LayoutFarm.UI
 {
 
@@ -34,71 +33,67 @@ namespace LayoutFarm.UI
             base.OnSizeChanged(e);
         }
 
-        //protected override void OnMouseEnter(EventArgs e)
-        //{
-        //    this.winBridge.HandleMouseEnterToViewport();
-        //    base.OnMouseEnter(e);
-        //}
-        //protected override void OnMouseLeave(EventArgs e)
-        //{
-        //    this.winBridge.HandleMouseLeaveFromViewport();
-        //    base.OnMouseLeave(e);
-        //}
-        ////-----------------------------------------------------------------------------
-        //protected override void OnGotFocus(EventArgs e)
-        //{
-        //    this.winBridge.HandleGotFocus(e);
-        //    base.OnGotFocus(e);
-        //}
-        //protected override void OnLostFocus(EventArgs e)
-        //{
-        //    this.winBridge.HandleGotFocus(e);
-        //    base.OnLostFocus(e);
-        //}
+        protected virtual void OnMouseEnter(EventArgs e)
+        {
+            winBridge.HandleMouseEnterToViewport();
 
-        //protected override void OnMouseDown(UIMouseEventArgs e)
-        //{
-        //    this.winBridge.HandleMouseDown(e);
-        //    base.OnMouseDown(e);
-        //}
-        //protected override void OnMouseMove(UIMouseEventArgs e)
-        //{
-        //    this.winBridge.HandleMouseMove(e);
-        //    base.OnMouseMove(e);
-        //}
-        //protected override void OnMouseUp(UIMouseEventArgs e)
-        //{
-        //    this.winBridge.HandleMouseUp(e);
-        //    base.OnMouseUp(e);
-        //}
-        //protected override void OnPaint(PaintEventArgs e)
+        }
+        protected virtual void OnMouseLeave(EventArgs e)
+        {
+            winBridge.HandleMouseLeaveFromViewport();
+
+        }
+        //-----------------------------------------------------------------------------
+        protected virtual void OnGotFocus(EventArgs e)
+        {
+            winBridge.HandleGotFocus(e);
+        }
+        protected virtual void OnLostFocus(EventArgs e)
+        {
+            winBridge.HandleGotFocus(e);
+        }
+
+        protected virtual void OnMouseDown(UIMouseEventArgs e)
+        {
+            winBridge.HandleMouseDown(e.X, e.Y, e.Button);
+        }
+        
+        protected virtual void OnMouseMove(UIMouseEventArgs e)
+        {
+            winBridge.HandleMouseMove(e.X, e.Y, e.Button);
+
+        }
+        protected virtual void OnMouseUp(UIMouseEventArgs e)
+        {
+            winBridge.HandleMouseUp(e.X, e.Y, e.Button);
+
+        }
+        //protected virtual void OnPaint(PaintEventArgs e)
         //{
         //    this.winBridge.InvalidateRootArea(
         //        e.ClipRectangle.ToRect());
         //    this.winBridge.PaintToOutputWindow();
-        //    base.OnPaint(e);
         //}
-
-        //protected override void OnMouseWheel(MouseEventArgs e)
+        //protected virtual void OnMouseWheel(MouseEventArgs e)
         //{
         //    this.winBridge.HandleMouseWheel(e);
         //    //not call to base class
         //}
-        //protected override void OnKeyDown(KeyEventArgs e)
+        //protected virtual void OnKeyDown(KeyEventArgs e)
         //{
         //    this.winBridge.HandleKeyDown(e);
-        //    base.OnKeyDown(e);
+
         //}
-        //protected override void OnKeyUp(KeyEventArgs e)
+        //protected virtual void OnKeyUp(KeyEventArgs e)
         //{
         //    this.winBridge.HandleKeyUp(e);
         //    base.OnKeyUp(e);
         //}
-        //protected override void OnKeyPress(KeyPressEventArgs e)
+        //protected virtual void OnKeyPress(KeyPressEventArgs e)
         //{
         //    this.winBridge.HandleKeyPress(e);
         //}
-        //protected override bool ProcessDialogKey(Keys keyData)
+        //protected virtual bool ProcessDialogKey(Keys keyData)
         //{
         //    if (this.winBridge.HandleProcessDialogKey(keyData))
         //    {
