@@ -47,12 +47,8 @@
     <Compile Include="..\Deps\Win32Utils\NativeWin32MemoryDc.cs">
       <Link>Win32Utils\NativeWin32MemoryDc.cs</Link>
     </Compile>
-    <Compile Include="0_Start\0_CanvasCollection.cs" />
     <Compile Include="0_Start\CanvasViewport.cs" />
-    <Compile Include="0_Start\Conv.cs" />
     <Compile Include="0_Start\dbugHelper.cs" />
-    <Compile Include="0_Start\QuadPages.cs" />
-    <Compile Include="1_Base\ES2Utils2.cs" />
     <Compile Include="1_LayoutFarm.UI\MyGlfwForm.cs" />
     <Compile Include="1_LayoutFarm.UI\AbstractCompletionWindow.cs" />
     <Compile Include="1_LayoutFarm.UI\InnerViewportKind.cs" />
