@@ -201,8 +201,6 @@ namespace TestGlfw
                 LayoutFarm.UI.UIPlatform.CurrentUIPlatform,
                 ww_w, ww_h);
 
-
-
             var surfaceViewportControl = new LayoutFarm.UI.WinNeutral.UISurfaceViewportControl();
 
             surfaceViewportControl.InitRootGraphics(rootgfx, rootgfx.TopWinEventPortal, InnerViewportKind.GL);
@@ -243,11 +241,21 @@ namespace TestGlfw
                 canvasGL2d.Clear(Color.White);
 
                 //canvasGL2d.DrawRect(0, 0, 200, 200);
-                //canvasGL2d.DrawImage(glBmp, 0, 600);
+                ////canvasGL2d.DrawImage(glBmp, 0, 600);
+                //int tmp_x = lightHtmlBox.Left;
+                //int tmp_y = lightHtmlBox.Top;
+                //myCanvasGL.SetCanvasOrigin(tmp_x, tmp_y);
+
+                canvasGL2d.SmoothMode = CanvasSmoothMode.No;
+                //---------
+                //flip y axis for html box (and other UI)
+                canvasGL2d.FlipY(true);
                 lightHtmlBox.CurrentPrimaryRenderElement.DrawToThisCanvas(
                     myCanvasGL, new Rectangle(0, 0, 800, 600));
-
-                //lionFill.Render();
+                canvasGL2d.FlipY(false);
+                //myCanvasGL.SetCanvasOrigin(tmp_x, -tmp_y);
+                //lion use canvas coordinate system
+                lionFill.TestRender();
 
                 //surfaceViewportControl.PaintMe(canvasGL2d);
             });

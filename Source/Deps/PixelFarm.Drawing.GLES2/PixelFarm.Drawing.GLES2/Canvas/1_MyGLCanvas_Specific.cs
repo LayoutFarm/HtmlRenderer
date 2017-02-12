@@ -1,9 +1,7 @@
-﻿//BSD, 2014-2017, WinterDev 
-
+﻿//BSD, 2014-2017, WinterDev  
 using System;
 using System.Collections.Generic;
 using PixelFarm.DrawingGL;
-using PixelFarm.Drawing.Fonts;
 
 namespace PixelFarm.Drawing.GLES2
 {

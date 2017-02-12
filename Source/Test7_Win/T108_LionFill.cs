@@ -52,6 +52,27 @@ namespace OpenTkEssTest
         {
             canvas2d.Dispose();
         }
+        public void TestRender()
+        {
+            canvas2d.SmoothMode = CanvasSmoothMode.Smooth;
+            canvas2d.StrokeColor = PixelFarm.Drawing.Color.Blue;
+            //------------------------------- 
+            int j = lionShape.NumPaths;
+            int[] pathList = lionShape.PathIndexList;
+            Color[] colors = lionShape.Colors;
+            VertexStore myvxs = lionVxs;
+            for (int i = 0; i < j; ++i)
+            {
+                painter.FillColor = colors[i];
+                painter.Fill(new VertexStoreSnap(myvxs, pathList[i]));
+            }
+
+            painter.FillColor = Color.Red;
+            painter.StrokeWidth = 1;
+            painter.FillRectangle(10, 10, 50, 50);
+            //-------------------------------
+            SwapBuffer();
+        }
         protected override void OnGLRender(object sender, EventArgs args)
         {
             canvas2d.SmoothMode = CanvasSmoothMode.Smooth;

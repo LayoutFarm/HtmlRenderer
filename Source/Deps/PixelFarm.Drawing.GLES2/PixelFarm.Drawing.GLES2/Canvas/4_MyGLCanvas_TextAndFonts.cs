@@ -12,11 +12,7 @@
 // 
 // - Sun Tsu,
 // "The Art of War"
-
-using System;
-using PixelFarm.Drawing.Fonts;
-using Win32;
-
+ 
 namespace PixelFarm.Drawing.GLES2
 {
     partial class MyGLCanvas
