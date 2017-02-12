@@ -201,35 +201,37 @@ namespace TestGlfw
                 LayoutFarm.UI.UIPlatform.CurrentUIPlatform,
                 ww_w, ww_h);
 
-            
+
 
             var surfaceViewportControl = new LayoutFarm.UI.WinNeutral.UISurfaceViewportControl();
 
             surfaceViewportControl.InitRootGraphics(rootgfx, rootgfx.TopWinEventPortal, InnerViewportKind.GL);
-            //var myCanvasGL = PixelFarm.Drawing.GLES2.GLES2Platform.CreateCanvas2(0, 0, 800, 600, canvasGL2d);
-            //surfaceViewportControl.SetupCanvas(myCanvasGL);
+
 
             //lion fill sample
             OpenTkEssTest.T108_LionFill lionFill = new OpenTkEssTest.T108_LionFill();
             lionFill.Init2(canvasGL2d);
+            GLCanvasPainter painter1 = lionFill.Painter;
 
+            var myCanvasGL = PixelFarm.Drawing.GLES2.GLES2Platform.CreateCanvas2(0, 0, 800, 600, canvasGL2d, painter1);
+            surfaceViewportControl.SetupCanvas(myCanvasGL);
 
-            //SampleViewport viewport = new LayoutFarm.SampleViewport(surfaceViewportControl);
-            //HtmlHost htmlHost;
-            //htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(viewport, null, null);
-            //////==================================================
-            ////html box
-            //HtmlBox lightHtmlBox = new HtmlBox(htmlHost, 800, 50);
-            //{
-           
-            //    lightHtmlBox.SetLocation(50, 450);
-            //    viewport.AddContent(lightHtmlBox);
-            //    //light box can't load full html
-            //    //all light boxs of the same lightbox host share resource with the host
-            //    string html = @"<div>OK1</div><div>OK2</div>";
-            //    //if you want to use full html-> use HtmlBox instead  
-            //    lightHtmlBox.LoadHtmlString(html);
-            //}
+            SampleViewport viewport = new LayoutFarm.SampleViewport(surfaceViewportControl);
+            HtmlHost htmlHost;
+            htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(viewport, null, null);
+            ////==================================================
+            //html box
+            HtmlBox lightHtmlBox = new HtmlBox(htmlHost, 800, 50);
+            {
+
+                lightHtmlBox.SetLocation(50, 450);
+                viewport.AddContent(lightHtmlBox);
+                //light box can't load full html
+                //all light boxs of the same lightbox host share resource with the host
+                string html = @"<div>OK1</div><div>OK2</div>";
+                //if you want to use full html-> use HtmlBox instead  
+                lightHtmlBox.LoadHtmlString(html);
+            }
 
             form1.SetDrawFrameDelegate(() =>
             {
@@ -239,10 +241,13 @@ namespace TestGlfw
                     UpdateViewContent(formRenderUpdateEventArgs);
                 }
                 canvasGL2d.Clear(Color.White);
-                lionFill.Render();
+
                 //canvasGL2d.DrawRect(0, 0, 200, 200);
                 //canvasGL2d.DrawImage(glBmp, 0, 600);
-                // lightHtmlBox.CurrentPrimaryRenderElement.DrawToThisCanvas(myCanvasGL, new Rectangle(0, 0, 800, 600));
+                lightHtmlBox.CurrentPrimaryRenderElement.DrawToThisCanvas(myCanvasGL, new Rectangle(0, 0, 800, 600));
+
+                //lionFill.Render();
+
                 //surfaceViewportControl.PaintMe(canvasGL2d);
             });
 

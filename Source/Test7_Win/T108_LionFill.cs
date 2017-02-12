@@ -45,8 +45,9 @@ namespace OpenTkEssTest
             lionVxs = new VertexStore();
             aff.TransformToVxs(lionShape.Path.Vxs, lionVxs);
             painter = new GLCanvasPainter(canvas2d, max, max);
-
         }
+        public GLCanvasPainter Painter { get { return this.painter; } }
+
         protected override void DemoClosing()
         {
             canvas2d.Dispose();

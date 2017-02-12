@@ -41,19 +41,19 @@ namespace LayoutFarm.UI.OpenGL
 #if DEBUG
         void dbugTest01()
         {
-            // canvas.Orientation = CanvasOrientation.LeftTop;
-            canvas.ClearSurface(Color.White);
+            //// canvas.Orientation = CanvasOrientation.LeftTop;
+            //canvas.ClearSurface(Color.White);
 
-            canvas.FillRectangle(Color.Red, 50, 50, 100, 100);
+            //canvas.FillRectangle(Color.Red, 50, 50, 100, 100);
 
-            dbugGLOffsetCanvasOrigin(50, 50);
-            //simulate draw content 
-            canvas.FillRectangle(Color.Gray, 10, 10, 80, 80);
-            dbugGLOffsetCanvasOrigin(-50, -50);
+            //dbugGLOffsetCanvasOrigin(50, 50);
+            ////simulate draw content 
+            //canvas.FillRectangle(Color.Gray, 10, 10, 80, 80);
+            //dbugGLOffsetCanvasOrigin(-50, -50);
         }
         void dbugGLSetCanvasOrigin(int x, int y)
         {
-            canvas.SetCanvasOrigin(x, y);
+            //canvas.SetCanvasOrigin(x, y);
             //int properW = Math.Min(canvas.Width, canvas.Height);
             ////int max = 600;
             ////init             
@@ -82,7 +82,7 @@ namespace LayoutFarm.UI.OpenGL
         }
         void dbugGLOffsetCanvasOrigin(int dx, int dy)
         {
-            dbugGLSetCanvasOrigin(canvas.CanvasOriginX + dx, canvas.CanvasOriginY + dy);
+            //dbugGLSetCanvasOrigin(canvas.CanvasOriginX + dx, canvas.CanvasOriginY + dy);
         }
 #endif
         //-------
@@ -145,8 +145,9 @@ namespace LayoutFarm.UI.OpenGL
         }
 
 
-        static object s_sync1 = new object();
         //TODO: review here
+        static object s_sync1 = new object();
+
         static void UpdateAllArea(Canvas mycanvas, IRenderElement topWindowRenderBox)
         {
 
@@ -161,7 +162,7 @@ namespace LayoutFarm.UI.OpenGL
                 topWindowRenderBox.dbugShowRenderPart(mycanvas, rect);
 
 #endif
-                // mycanvas.IsContentReady = true;
+                //mycanvas.IsContentReady = true;
                 mycanvas.OffsetCanvasOrigin(mycanvas.Left, mycanvas.Top);
             }
         }
