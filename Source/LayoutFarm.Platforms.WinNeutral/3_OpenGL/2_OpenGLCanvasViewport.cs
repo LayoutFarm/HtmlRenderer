@@ -145,14 +145,11 @@ namespace LayoutFarm.UI.OpenGL
         }
 
 
-        //TODO: review here
-        static object s_sync1 = new object();
-
+       
         static void UpdateAllArea(Canvas mycanvas, IRenderElement topWindowRenderBox)
         {
 
-            lock (s_sync1)
-            {
+           
                 mycanvas.OffsetCanvasOrigin(-mycanvas.Left, -mycanvas.Top);
                 Rectangle rect = mycanvas.Rect;
                 //mycanvas.FillRectangle(Color.Blue, 50, 50, 100, 100);
@@ -164,7 +161,7 @@ namespace LayoutFarm.UI.OpenGL
 #endif
                 //mycanvas.IsContentReady = true;
                 mycanvas.OffsetCanvasOrigin(mycanvas.Left, mycanvas.Top);
-            }
+           
         }
     }
 

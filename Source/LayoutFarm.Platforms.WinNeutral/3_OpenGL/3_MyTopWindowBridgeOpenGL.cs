@@ -73,7 +73,7 @@ namespace LayoutFarm.UI.OpenGL
         //{
         //    throw new NotImplementedException();
         //}
-        object syncobj = new object();
+     
         public override void PaintToOutputWindow()
         {
             //if (!isInitGLControl)
@@ -84,12 +84,11 @@ namespace LayoutFarm.UI.OpenGL
             //dbugCount++;
             //Console.WriteLine(">" + innumber);
             //TODO: review here
-            lock (syncobj)
-            {
+           
                 windowControl.MakeCurrent();
                 this.openGLViewport.PaintMe();
                 windowControl.SwapBuffers();
-            }
+            
             //Console.WriteLine("<" + innumber); 
         }
         protected override void ChangeCursorStyle(MouseCursorStyle cursorStyle)

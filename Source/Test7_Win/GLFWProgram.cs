@@ -244,7 +244,8 @@ namespace TestGlfw
 
                 //canvasGL2d.DrawRect(0, 0, 200, 200);
                 //canvasGL2d.DrawImage(glBmp, 0, 600);
-                lightHtmlBox.CurrentPrimaryRenderElement.DrawToThisCanvas(myCanvasGL, new Rectangle(0, 0, 800, 600));
+                lightHtmlBox.CurrentPrimaryRenderElement.DrawToThisCanvas(
+                    myCanvasGL, new Rectangle(0, 0, 800, 600));
 
                 //lionFill.Render();
 
