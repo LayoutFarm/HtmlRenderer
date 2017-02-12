@@ -1,9 +1,7 @@
 ﻿//BSD, 2014-2017, WinterDev 
 
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Runtime.InteropServices;
+using System.Collections.Generic; 
 
 using PixelFarm.DrawingGL;
 

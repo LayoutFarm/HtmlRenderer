@@ -1,7 +1,7 @@
 ﻿//Apache2, 2014-2017, WinterDev
 using LayoutFarm.UI.WinNeutral;
-using PixelFarm.Drawing; 
-
+using PixelFarm.Drawing;
+using PixelFarm.Forms;
 namespace LayoutFarm.UI
 {
     public static class FormCanvasHelper

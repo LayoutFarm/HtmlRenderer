@@ -19,7 +19,7 @@ namespace PixelFarm.DrawingGL
             set
             {
                 _orthoView = value;
-                _orthoViewVersion++;
+                unchecked { _orthoViewVersion++; }
             }
         }
         public int OrthoViewVersion

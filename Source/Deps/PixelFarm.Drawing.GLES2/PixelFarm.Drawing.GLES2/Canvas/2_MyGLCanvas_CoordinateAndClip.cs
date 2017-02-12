@@ -12,8 +12,8 @@
 // 
 // - Sun Tsu,
 // "The Art of War"
-using System;
 
+using System;
 namespace PixelFarm.Drawing.GLES2
 {
     partial class MyGLCanvas
@@ -65,7 +65,9 @@ namespace PixelFarm.Drawing.GLES2
 
         public override bool PushClipAreaRect(int width, int height, ref Rectangle updateArea)
         {
-            throw new NotSupportedException();
+            //TODO: review here
+            return true;
+            // throw new NotSupportedException();
 
             //this.clipRectStack.Push(currentClipRect);
             //System.Drawing.Rectangle intersectResult =
@@ -87,12 +89,12 @@ namespace PixelFarm.Drawing.GLES2
         }
         public override void PopClipAreaRect()
         {
-            throw new NotSupportedException();
-            //if (clipRectStack.Count > 0)
-            //{
-            //    currentClipRect = clipRectStack.Pop();
-            //    gx.SetClip(currentClipRect);
-            //}
+            if (clipRectStack.Count > 0)
+            {
+                currentClipRect = clipRectStack.Pop();
+                painter1.SetClipBox(currentClipRect.Left, currentClipRect.Top, currentClipRect.Right, currentClipRect.Bottom);
+                //gx.SetClip(currentClipRect);
+            }
         }
         public override Rectangle CurrentClipRect
         {

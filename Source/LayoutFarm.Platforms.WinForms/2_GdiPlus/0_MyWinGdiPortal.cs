@@ -5,14 +5,7 @@ using PixelFarm.Drawing.WinGdi;
 
 namespace LayoutFarm.UI.GdiPlus
 {
-    public class MyWinGdiPortalSetupParameters
-    {
-        public string IcuDataFile { get; set; } 
-        public IFonts TextServiceInstance { get; set; }
-        public IActualFontResolver ActualFontResolver { get; set; }
-        
-    }
-
+    
 
     public static class MyWinGdiPortal
     {
@@ -87,6 +80,13 @@ namespace LayoutFarm.UI.GdiPlus
         {
             get { return _winGdiPlatform; }
         }
+    }
+
+    public class MyWinGdiPortalSetupParameters
+    {
+        public string IcuDataFile { get; set; }
+        public IFonts TextServiceInstance { get; set; }
+        public IActualFontResolver ActualFontResolver { get; set; }
     }
 
     class GdiPlusIFonts : LayoutFarm.IFonts

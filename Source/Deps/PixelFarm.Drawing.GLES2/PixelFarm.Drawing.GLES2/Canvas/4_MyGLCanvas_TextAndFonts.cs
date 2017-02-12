@@ -33,7 +33,7 @@ namespace PixelFarm.Drawing.GLES2
         //    //return font.GetGlyph(c).horiz_adv_x >> 6;
         //}
 
-   
+
         //============================================== 
 
         public override RequestFont CurrentFont
@@ -83,6 +83,11 @@ namespace PixelFarm.Drawing.GLES2
         }
         public override void DrawText(char[] str, int startAt, int len, Rectangle logicalTextBox, int textAlignment)
         {
+            //TODO: review here
+            painter1.FillRectangle(0, 0, 20, 20, Color.Red);
+
+            //painter1.FillColor = Color.Blue;
+            //painter1.FillRectangle(0, 0, 20, 20);
             ////var intersectRect = Rectangle.Intersect(logicalTextBox,
             ////    new Rectangle(currentClipRect.Left,
             ////        currentClipRect.Top,
