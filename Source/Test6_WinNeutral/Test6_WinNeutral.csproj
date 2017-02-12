@@ -38,13 +38,21 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Test0_WinNeutral\LionDataStore.cs">
+      <Link>Shared\LionDataStore.cs</Link>
+    </Compile>
+    <Compile Include="..\Test0_WinNeutral\SampleBase.cs">
+      <Link>Shared\SampleBase.cs</Link>
+    </Compile>
+    <Compile Include="..\Test0_WinNeutral\SpriteShape.cs">
+      <Link>Shared\SpriteShape.cs</Link>
+    </Compile>
+    <Compile Include="..\Test0_WinNeutral\T108_LionFill.cs">
+      <Link>Shared\T108_LionFill.cs</Link>
+    </Compile>
     <Compile Include="GLFWProgram.cs" />
-    <Compile Include="LionDataStore.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SampleBase.cs" />
-    <Compile Include="SpriteShape.cs" />
-    <Compile Include="T108_LionFill.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Deps\MiniAgg.Complements\MiniAgg.Complements.csproj">

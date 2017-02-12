@@ -50,6 +50,7 @@ namespace TestGlfw
     {
         public GlFwForm form;
     }
+
     class GLFWProgram2
     {
         static bool needUpdateContent = false;
