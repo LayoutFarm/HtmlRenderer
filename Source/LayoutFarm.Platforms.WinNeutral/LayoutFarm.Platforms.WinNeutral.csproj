@@ -47,13 +47,9 @@
     <Compile Include="..\Deps\Win32Utils\NativeWin32MemoryDc.cs">
       <Link>Win32Utils\NativeWin32MemoryDc.cs</Link>
     </Compile>
-    <Compile Include="0_Start\0_CanvasCollection.cs" />
     <Compile Include="0_Start\CanvasViewport.cs" />
-    <Compile Include="0_Start\Conv.cs" />
     <Compile Include="0_Start\dbugHelper.cs" />
-    <Compile Include="0_Start\QuadPages.cs" />
-    <Compile Include="1_Base\ES2Utils2.cs" />
-    <Compile Include="1_LayoutFarm.UI\1_CpuSurfaceView.cs" />
+    <Compile Include="1_LayoutFarm.UI\MyGlfwForm.cs" />
     <Compile Include="1_LayoutFarm.UI\AbstractCompletionWindow.cs" />
     <Compile Include="1_LayoutFarm.UI\InnerViewportKind.cs" />
     <Compile Include="1_LayoutFarm.UI\MyUITimer.cs" />
@@ -62,10 +58,6 @@
     <Compile Include="1_LayoutFarm.UI\UIPlatformWinForms.cs" />
     <Compile Include="1_LayoutFarm.UI\UISurfaceViewportControl.cs" />
     <Compile Include="3_OpenGL\0_MyOpenGLPortal.cs" />
-    <Compile Include="3_OpenGL\1_GpuOpenGLSurfaceView.cs" />
-    <Compile Include="3_OpenGL\1_GpuOpenGLSurfaceView.Designer.cs">
-      <DependentUpon>1_GpuOpenGLSurfaceView.cs</DependentUpon>
-    </Compile>
     <Compile Include="3_OpenGL\2_OpenGLCanvasViewport.cs" />
     <Compile Include="3_OpenGL\3_MyTopWindowBridgeOpenGL.cs" />
     <Compile Include="4_Skia\2_SkiaCanvasViewport.cs" />

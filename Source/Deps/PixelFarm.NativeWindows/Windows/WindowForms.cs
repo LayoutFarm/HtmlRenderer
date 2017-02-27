@@ -1,5 +1,8 @@
 ﻿//MIT, 2016-2017, WinterDev
 using System;
+using System.Collections.Generic;
+using Pencil.Gaming;
+
 namespace PixelFarm.Forms
 {
     public static class Application
@@ -58,17 +61,13 @@ namespace PixelFarm.Forms
         public event EventHandler<FormClosingEventArgs> FormClosing;
         public event EventHandler<FormClosedEventArgs> FormClosed;
 
-        public static new Form CreateFromNativeWindowHwnd(IntPtr hwnd)
-        {
-            Form newControl = new Form(hwnd);
-            newControl.TopLevelControl = newControl;
-            return newControl;
-        }
-        public string Title
-        {
-            get;
-            set;
-        }
+        //public static new Form CreateFromNativeWindowHwnd(IntPtr hwnd)
+        //{
+        //    Form newControl = new Form(hwnd);
+        //    newControl.TopLevelControl = newControl;
+        //    return newControl;
+        //}
+
     }
 
 
@@ -76,19 +75,28 @@ namespace PixelFarm.Forms
     public class ControlCollection
     {
         Control owner;
+        List<Control> children = new List<Control>();
         internal ControlCollection(Control owner)
         {
             this.owner = owner;
         }
         public void Add(Control c)
         {
-        }
-        public void Remove(Control c)
-        {
+            if (owner == c)
+            {
+                throw new NotSupportedException();
+            }
+            //
+            children.Add(c);
 
+        }
+        public bool Remove(Control c)
+        {
+            return children.Remove(c);
         }
         public void Clear()
         {
+            children.Clear();
         }
     }
 
@@ -97,14 +105,17 @@ namespace PixelFarm.Forms
         int _width;
         int _height;
         IntPtr _nativeHandle;
+        ControlCollection _controls;
         public Control()
         {
-
+            _controls = new ControlCollection(this);
         }
-        internal Control(IntPtr nativeHwnd)
+        internal static void SetNativeHandle(Control c, IntPtr nativeHandle)
         {
-            this._nativeHandle = nativeHwnd;
+            c._nativeHandle = nativeHandle;
+            c.OnHandleCreated(EventArgs.Empty);
         }
+
         protected bool DesignMode { get; set; }
         protected virtual void OnHandleCreated(EventArgs e)
         {
@@ -120,16 +131,19 @@ namespace PixelFarm.Forms
         }
         public ControlCollection Controls
         {
-            get;
-            set;
+            get { return _controls; }
         }
-        public void Focus() { }
+        public void Focus()
+        {
+            //TODO: implement this
+        }
         public virtual int Width
         {
             get { return this._width; }
             set
             {
                 this._width = value;
+                //TODO: implement this
             }
         }
         public virtual int Height
@@ -138,6 +152,7 @@ namespace PixelFarm.Forms
             set
             {
                 this._height = value;
+                //TODO: implement this
             }
         }
         public bool IsHandleCreated { get; set; }
@@ -161,13 +176,16 @@ namespace PixelFarm.Forms
             set;
         }
         public Control Parent { get; set; }
+
+        protected virtual void OnLoad(EventArgs e)
+        {
+        }
+
         public static Control CreateFromNativeWindowHwnd(IntPtr hwnd)
         {
-            Control newControl = new Control(hwnd);
+            Control newControl = new Control();
+            Control.SetNativeHandle(newControl, hwnd);
             return newControl;
-        }
-        protected virtual void OnLoad(EventArgs e)
-        {             
         }
     }
     public class FormClosingEventArgs : EventArgs

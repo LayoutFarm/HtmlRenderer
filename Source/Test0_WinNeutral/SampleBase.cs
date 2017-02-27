@@ -1,4 +1,5 @@
-﻿using System;
+﻿//BSD, 2014-2017, WinterDev
+using System;
 namespace OpenTkEssTest
 {
     public abstract class SampleBase
@@ -23,8 +24,10 @@ namespace OpenTkEssTest
         public int Width { get; set; }
         public int Height { get; set; }
 
-        protected void SwapBuffer() { }
-        public PixelFarm.DrawingGL.CanvasGL2d CreateCanvasGL2d(int w,int h)
+        protected void SwapBuffer()
+        {
+        }
+        public PixelFarm.DrawingGL.CanvasGL2d CreateCanvasGL2d(int w, int h)
         {
             return PixelFarm.Drawing.GLES2.GLES2Platform.CreateCanvasGL2d(w, h);
         }

@@ -18,7 +18,7 @@ namespace LayoutFarm.Ease
     }
     public static class EaseHost
     {
-        static PixelFarm.Drawing.GraphicsPlatform gdiPlatform;
+        static GraphicsPlatform gdiPlatform;
         static UIPlatform uiPlatformWinForm;
         static bool useOpenGL = false;
         static bool isStarted = false;
