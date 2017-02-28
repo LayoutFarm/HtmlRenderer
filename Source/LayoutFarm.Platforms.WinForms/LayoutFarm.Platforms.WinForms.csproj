@@ -104,7 +104,6 @@
     <Compile Include="1_LayoutFarm.UI\TopWindowBridgeWinForm_dbug.cs" />
     <Compile Include="2_GdiPlus\3_MyTopWindowBridgeGdiPlus.cs" />
     <Compile Include="3_OpenGL\3_MyTopWindowBridgeOpenGL.cs" />
-    <Compile Include="3_OpenGL\x0_MyOpenGLPortal.cs" />
     <Compile Include="4_Skia\2_SkiaCanvasViewport.cs" />
     <Compile Include="4_Skia\3_MyTopWindowBridgeSkia.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
