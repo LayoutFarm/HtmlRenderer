@@ -70,40 +70,40 @@
     <Compile Include="..\LayoutFarm.PlatformBase\OpenGLCanvasViewport.cs">
       <Link>3_OpenGL\OpenGLCanvasViewport.cs</Link>
     </Compile>
-    <Compile Include="2_GdiPlus\Conv.cs" />
-    <Compile Include="2_GdiPlus\0_CanvasCollection.cs" />
-    <Compile Include="2_GdiPlus\QuadPages.cs" />
-    <Compile Include="1_LayoutFarm.UI\AbstractCompletionWindow.cs">
+    <Compile Include="3_GdiPlus\Conv.cs" />
+    <Compile Include="3_GdiPlus\CanvasCollection.cs" />
+    <Compile Include="3_GdiPlus\QuadPages.cs" />
+    <Compile Include="2_SurfaceViewForGdiPlus_and_Skia\AbstractCompletionWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="1_LayoutFarm.UI\AbstractCompletionWindow.Designer.cs">
+    <Compile Include="2_SurfaceViewForGdiPlus_and_Skia\AbstractCompletionWindow.Designer.cs">
       <DependentUpon>AbstractCompletionWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="2_GdiPlus\2_GdiPlusCanvasViewport.cs" />
-    <Compile Include="2_GdiPlus\0_MyWinGdiPortal.cs" />
-    <Compile Include="3_OpenGL\1_GpuOpenGLSurfaceView.cs">
+    <Compile Include="3_GdiPlus\1_GdiPlusCanvasViewport.cs" />
+    <Compile Include="3_GdiPlus\0_MyWinGdiPortal.cs" />
+    <Compile Include="1_GLES2\1_GpuOpenGLSurfaceView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="3_OpenGL\1_GpuOpenGLSurfaceView.Designer.cs">
+    <Compile Include="1_GLES2\1_GpuOpenGLSurfaceView.Designer.cs">
       <DependentUpon>1_GpuOpenGLSurfaceView.cs</DependentUpon>
     </Compile>
-    <Compile Include="1_LayoutFarm.UI\1_CpuSurfaceView.cs">
+    <Compile Include="2_SurfaceViewForGdiPlus_and_Skia\1_CpuSurfaceView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="1_LayoutFarm.UI\1_CpuSurfaceView.Designer.cs">
+    <Compile Include="2_SurfaceViewForGdiPlus_and_Skia\1_CpuSurfaceView.Designer.cs">
       <DependentUpon>1_CpuSurfaceView.cs</DependentUpon>
     </Compile>
-    <Compile Include="1_LayoutFarm.UI\UIPlatformWinForms.cs" />
-    <Compile Include="1_LayoutFarm.UI\UISurfaceViewportControl.cs">
+    <Compile Include="1_Bridge_WinForm\UIPlatformWinForms.cs" />
+    <Compile Include="0_UISurfaceViewPortControls\UISurfaceViewportControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="1_LayoutFarm.UI\UISurfaceViewportControl.Designer.cs">
+    <Compile Include="0_UISurfaceViewPortControls\UISurfaceViewportControl.Designer.cs">
       <DependentUpon>UISurfaceViewportControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="1_LayoutFarm.UI\TopWindowBridgeWinForm.cs" />
-    <Compile Include="1_LayoutFarm.UI\TopWindowBridgeWinForm_dbug.cs" />
-    <Compile Include="2_GdiPlus\3_MyTopWindowBridgeGdiPlus.cs" />
-    <Compile Include="3_OpenGL\3_MyTopWindowBridgeOpenGL.cs" />
+    <Compile Include="1_Bridge_WinForm\TopWindowBridgeWinForm.cs" />
+    <Compile Include="1_Bridge_WinForm\TopWindowBridgeWinForm_dbug.cs" />
+    <Compile Include="3_GdiPlus\3_MyTopWindowBridgeGdiPlus.cs" />
+    <Compile Include="1_GLES2\3_MyTopWindowBridgeOpenGL.cs" />
     <Compile Include="4_Skia\2_SkiaCanvasViewport.cs" />
     <Compile Include="4_Skia\3_MyTopWindowBridgeSkia.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

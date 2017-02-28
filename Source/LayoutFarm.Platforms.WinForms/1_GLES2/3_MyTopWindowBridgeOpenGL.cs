@@ -8,6 +8,7 @@ namespace LayoutFarm.UI.OpenGL
 {
     class MyTopWindowBridgeOpenGL : TopWindowBridgeWinForm
     {
+        
 
         bool isInitGLControl;
         GpuOpenGLSurfaceView windowControl;
