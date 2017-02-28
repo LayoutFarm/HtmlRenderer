@@ -124,9 +124,9 @@
       <Project>{61369865-95B7-49F2-B012-67B4A2427A8B}</Project>
       <Name>LayoutFarm.ClientPlatforms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.Composers\LayoutFarm.Composers.csproj">
-      <Project>{1AF17E34-4C2D-4657-B993-E0608C555111}</Project>
-      <Name>LayoutFarm.Composers</Name>
+    <ProjectReference Include="..\LayoutFarm.HtmlComposer\LayoutFarm.HtmlComposer.csproj">
+      <Project>{1af17e34-4c2d-4657-b993-e0608c555111}</Project>
+      <Name>LayoutFarm.HtmlComposer</Name>
     </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.HtmlRenderer\LayoutFarm.HtmlRenderer.csproj">
       <Project>{9D2A40BC-FA95-454D-AEF5-4DD9344BFDC3}</Project>

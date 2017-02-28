@@ -113,13 +113,13 @@
       <Project>{61369865-95b7-49f2-b012-67b4a2427a8b}</Project>
       <Name>LayoutFarm.ClientPlatforms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.Composers\LayoutFarm.Composers.csproj">
-      <Project>{1af17e34-4c2d-4657-b993-e0608c555111}</Project>
-      <Name>LayoutFarm.Composers</Name>
-    </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.CssBase\LayoutFarm.CssBase.csproj">
       <Project>{5164ec24-95c4-4333-bd4e-70ee625cceb4}</Project>
       <Name>LayoutFarm.CssBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.HtmlComposer\LayoutFarm.HtmlComposer.csproj">
+      <Project>{1af17e34-4c2d-4657-b993-e0608c555111}</Project>
+      <Name>LayoutFarm.HtmlComposer</Name>
     </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.HtmlRenderer\LayoutFarm.HtmlRenderer.csproj">
       <Project>{9d2a40bc-fa95-454d-aef5-4dd9344bfdc3}</Project>

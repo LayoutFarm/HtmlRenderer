@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlRenderer.Demo", "HtmlRe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.HtmlRenderer", "LayoutFarm.HtmlRenderer\LayoutFarm.HtmlRenderer.csproj", "{9D2A40BC-FA95-454D-AEF5-4DD9344BFDC3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.Composers", "LayoutFarm.Composers\LayoutFarm.Composers.csproj", "{1AF17E34-4C2D-4657-B993-E0608C555111}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.HtmlComposer", "LayoutFarm.HtmlComposer\LayoutFarm.HtmlComposer.csproj", "{1AF17E34-4C2D-4657-B993-E0608C555111}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.Platforms.WinForms", "LayoutFarm.Platforms.WinForms\LayoutFarm.Platforms.WinForms.csproj", "{4602B28B-EEEC-4A69-854C-B00B8B616837}"
 EndProject

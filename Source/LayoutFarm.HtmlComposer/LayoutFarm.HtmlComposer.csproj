@@ -8,8 +8,8 @@
     <ProjectGuid>{1AF17E34-4C2D-4657-B993-E0608C555111}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LayoutFarm.Composers</RootNamespace>
-    <AssemblyName>LayoutFarm.Composers</AssemblyName>
+    <RootNamespace>LayoutFarm.HtmlComposer</RootNamespace>
+    <AssemblyName>LayoutFarm.HtmlComposer</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
