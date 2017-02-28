@@ -11,9 +11,13 @@ namespace PixelFarm.Drawing.Skia
 
         static SkiaGraphicsPlatform()
         {
+
+
             //TODO: review here again about font provider ***
-            var installFontsWin32 = new PixelFarm.Drawing.Win32.InstallFontsProviderWin32();
-            s_installFontCollection.LoadInstalledFont(installFontsWin32.GetInstalledFontIter());
+            //var installFontsWin32 = new PixelFarm.Drawing.Win32.InstallFontsProviderWin32();
+            //s_installFontCollection.LoadInstalledFont(installFontsWin32.GetInstalledFontIter());
+            throw new System.NotSupportedException(); 
+
         }
         public SkiaGraphicsPlatform()
         {

@@ -41,29 +41,29 @@ namespace LayoutFarm.UI.OpenGL
             //config encoding
             WinGdiPlusPlatform.SetFontEncoding(System.Text.Encoding.GetEncoding(874));
             //-------------------------------------
-            WinGdiPlusPlatform.SetFontNotFoundHandler(
-                (fontCollection, fontName, style) =>
-                {
-                    //TODO: implement font not found mapping here
-                    //_fontsMapping["monospace"] = "Courier New";
-                    //_fontsMapping["Helvetica"] = "Arial";
-                    fontName = fontName.ToUpper();
-                    switch (fontName)
-                    {
-                        case "MONOSPACE":
-                            return fontCollection.GetFont("Courier New", style);
-                        case "HELVETICA":
-                            return fontCollection.GetFont("Arial", style);
-                        case "TAHOMA":
-                            //default font must found
-                            //if not throw err 
-                            //this prevent infinit loop
-                            throw new System.NotSupportedException();
-                        default:
-                            return fontCollection.GetFont("tahoma", style);
-                    }
+            //WinGdiPlusPlatform.SetFontNotFoundHandler(
+            //    (fontCollection, fontName, style) =>
+            //    {
+            //        //TODO: implement font not found mapping here
+            //        //_fontsMapping["monospace"] = "Courier New";
+            //        //_fontsMapping["Helvetica"] = "Arial";
+            //        fontName = fontName.ToUpper();
+            //        switch (fontName)
+            //        {
+            //            case "MONOSPACE":
+            //                return fontCollection.GetFont("Courier New", style);
+            //            case "HELVETICA":
+            //                return fontCollection.GetFont("Arial", style);
+            //            case "TAHOMA":
+            //                //default font must found
+            //                //if not throw err 
+            //                //this prevent infinit loop
+            //                throw new System.NotSupportedException();
+            //            default:
+            //                return fontCollection.GetFont("tahoma", style);
+            //        }
 
-                });
+            //    });
             _winGdiPlatform = new PixelFarm.Drawing.WinGdi.WinGdiPlusPlatform();
 
             return _winGdiPlatform;

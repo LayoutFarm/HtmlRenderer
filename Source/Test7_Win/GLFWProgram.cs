@@ -219,10 +219,10 @@ namespace TestGlfw
                 canvasGL2d.SmoothMode = CanvasSmoothMode.No;
                 //---------
                 //flip y axis for html box (and other UI)
-                canvasGL2d.FlipY(true);
+                canvasGL2d.FlipY = true;
                 lightHtmlBox.CurrentPrimaryRenderElement.DrawToThisCanvas(
                     myCanvasGL, new Rectangle(0, 0, 800, 600));
-                canvasGL2d.FlipY(false);
+                canvasGL2d.FlipY = false;
                 //myCanvasGL.SetCanvasOrigin(tmp_x, -tmp_y);
                 //lion use canvas coordinate system
                 lionFill.TestRender();

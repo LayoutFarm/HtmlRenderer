@@ -5,7 +5,7 @@ using System;
 namespace Win32
 {
 
-    public class NativeWin32MemoryDc : IDisposable
+    class NativeWin32MemoryDc : IDisposable
     {
         int _width;
         int _height;

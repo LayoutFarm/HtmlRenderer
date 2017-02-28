@@ -2,12 +2,11 @@
 #if GL_ENABLE
 using System;
 using PixelFarm.Drawing;
-using PixelFarm.Drawing.WinGdi;
 using PixelFarm.Drawing.Fonts;
 namespace LayoutFarm.UI.OpenGL
 {
     class OpenGLGfxPlatform : GraphicsPlatform
-    {   
+    {
         public override Canvas CreateCanvas(int left, int top, int width,
             int height,
             CanvasInitParameters canvasInitPars = default(CanvasInitParameters))
@@ -16,7 +15,7 @@ namespace LayoutFarm.UI.OpenGL
         }
         public static void SetFontEncoding(System.Text.Encoding encoding)
         {
-            WinGdiTextService.SetDefaultEncoding(encoding);
+            //WinGdiTextService.SetDefaultEncoding(encoding);
         }
         public static void SetFontNotFoundHandler(FontNotFoundHandler fontNotFoundHandler)
         {
@@ -109,22 +108,26 @@ namespace LayoutFarm.UI.OpenGL
     {
         public float MeasureWhitespace(RequestFont f)
         {
-            return WinGdiTextService.MeasureWhitespace(f);
+            throw new NotSupportedException();
+            //return WinGdiTextService.MeasureWhitespace(f);
         }
         public Size MeasureString(char[] buff, int startAt, int len, RequestFont font)
         {
-            return WinGdiTextService.MeasureString(buff, startAt, len, font);
+            throw new NotSupportedException();
+            //return WinGdiTextService.MeasureString(buff, startAt, len, font);
         }
         public Size MeasureString(char[] buff, int startAt, int len, RequestFont font,
             float maxWidth,
             out int charFit,
             out int charFitWidth)
         {
-            return WinGdiTextService.MeasureString(buff, startAt, len, font, maxWidth, out charFit, out charFitWidth);
+            throw new NotSupportedException();
+            // return WinGdiTextService.MeasureString(buff, startAt, len, font, maxWidth, out charFit, out charFitWidth);
         }
         public void CalculateGlyphAdvancePos(char[] str, int startAt, int len, RequestFont font, int[] glyphXAdvances)
         {
-            WinGdiTextService.CalculateGlyphAdvancePos(str, startAt, len, font, glyphXAdvances);
+            throw new NotSupportedException();
+            //WinGdiTextService.CalculateGlyphAdvancePos(str, startAt, len, font, glyphXAdvances);
         }
         public void Dispose()
         {
@@ -134,7 +137,8 @@ namespace LayoutFarm.UI.OpenGL
     {
         public PixelFarm.Drawing.Fonts.ActualFont Resolve(RequestFont font)
         {
-            return WinGdiTextService.GetWinGdiFont(font);
+            throw new NotSupportedException();
+            //return WinGdiTextService.GetWinGdiFont(font);
         }
     }
 
