@@ -23,7 +23,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.BaseRenderer", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3_LayoutAndRenderModules", "3_LayoutAndRenderModules", "{9B34DBD5-4DF5-4098-BD8E-9396CDEC769A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0_Demo", "0_Demo", "{C3BA1377-B139-4BD6-A0D1-F486FB6E29BE}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0_DevTest1", "0_DevTest1", "{C3BA1377-B139-4BD6-A0D1-F486FB6E29BE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5_Platforms.Windows", "5_Platforms.Windows", "{BF639FC7-246F-4F5A-9051-39CE0AD4B544}"
 EndProject
@@ -105,7 +105,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixelFarm.DrawingGL", "Deps
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixelFarm.Drawing.GLES2", "Deps\PixelFarm.Drawing.GLES2\PixelFarm.Drawing.GLES2.csproj", "{E1E89B3B-B529-4B17-B7ED-4C70CC8475EB}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0_Demo2_WinNeutral", "0_Demo2_WinNeutral", "{2A93AC8D-AAEE-4CC7-8BD7-3C77164161D5}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0_DevTest2_WinNeutral", "0_DevTest2_WinNeutral", "{2A93AC8D-AAEE-4CC7-8BD7-3C77164161D5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test6_WinNeutral", "Test6_WinNeutral\Test6_WinNeutral.csproj", "{461D6EC9-6CB3-4BEB-88E2-679DF8016229}"
 EndProject
