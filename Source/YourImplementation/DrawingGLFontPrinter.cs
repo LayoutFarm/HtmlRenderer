@@ -1,5 +1,5 @@
 ﻿//MIT, 2016-2017, WinterDev
-
+#if GL_ENABLE
 using System;
 using PixelFarm.Agg;
 using PixelFarm.Drawing;
@@ -657,3 +657,4 @@ namespace PixelFarm.DrawingGL
     }
 
 }
+#endif
