@@ -27,7 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0_DevTest1", "0_DevTest1", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.2_HtmlBase", "3.2_HtmlBase", "{3BA8D292-2DD5-49D2-8D77-AB7113B6E007}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4_Yours", "4_Yours", "{9C0C4A5D-D6B8-4C16-AA49-585AA37302E1}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4.2_YourWidgets", "4.2_YourWidgets", "{9C0C4A5D-D6B8-4C16-AA49-585AA37302E1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.ClientPlatforms", "LayoutFarm.ClientPlatforms\LayoutFarm.ClientPlatforms.csproj", "{61369865-95B7-49F2-B012-67B4A2427A8B}"
 EndProject
@@ -127,7 +127,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.1_LayoutFarm_BaseRenderer
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.2_LayoutFarm_BaseModules", "2.2_LayoutFarm_BaseModules", "{9D865C7A-B369-410A-BE7B-D0FE365ED63F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.3_LayoutFarm_WindowSystem", "2.3_LayoutFarm_WindowSystem", "{C77EF736-42C8-4CF8-AF74-B4D100678CE9}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4.1_Your_WindowSystem", "4.1_Your_WindowSystem", "{C77EF736-42C8-4CF8-AF74-B4D100678CE9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
