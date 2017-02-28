@@ -55,6 +55,9 @@
     <Compile Include="..\LayoutFarm.PlatformBase\CanvasViewport.cs">
       <Link>Shared\CanvasViewport.cs</Link>
     </Compile>
+    <Compile Include="..\LayoutFarm.PlatformBase\dbugHelper.cs">
+      <Link>0_Shared\dbugHelper.cs</Link>
+    </Compile>
     <Compile Include="..\LayoutFarm.PlatformBase\InnerViewportKind.cs">
       <Link>Shared\InnerViewportKind.cs</Link>
     </Compile>
@@ -63,7 +66,6 @@
     </Compile>
     <Compile Include="2_GdiPlus\Conv.cs" />
     <Compile Include="2_GdiPlus\0_CanvasCollection.cs" />
-    <Compile Include="0_Start\dbugHelper.cs" />
     <Compile Include="2_GdiPlus\QuadPages.cs" />
     <Compile Include="1_LayoutFarm.UI\AbstractCompletionWindow.cs">
       <SubType>Form</SubType>
@@ -92,8 +94,8 @@
     <Compile Include="1_LayoutFarm.UI\UISurfaceViewportControl.Designer.cs">
       <DependentUpon>UISurfaceViewportControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="1_LayoutFarm.UI\TopWindowBridge.cs" />
-    <Compile Include="1_LayoutFarm.UI\TopWindowBridge_dbug.cs" />
+    <Compile Include="1_LayoutFarm.UI\TopWindowBridgeWinForm.cs" />
+    <Compile Include="1_LayoutFarm.UI\TopWindowBridgeWinForm_dbug.cs" />
     <Compile Include="2_GdiPlus\3_MyTopWindowBridgeGdiPlus.cs" />
     <Compile Include="3_OpenGL\3_MyTopWindowBridgeOpenGL.cs" />
     <Compile Include="3_OpenGL\2_OpenGLCanvasViewport.cs" />

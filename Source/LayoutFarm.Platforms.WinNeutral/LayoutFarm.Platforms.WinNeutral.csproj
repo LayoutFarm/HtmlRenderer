@@ -41,18 +41,20 @@
     <Compile Include="..\LayoutFarm.PlatformBase\CanvasViewport.cs">
       <Link>Shared\CanvasViewport.cs</Link>
     </Compile>
+    <Compile Include="..\LayoutFarm.PlatformBase\dbugHelper.cs">
+      <Link>0_Shared\dbugHelper.cs</Link>
+    </Compile>
     <Compile Include="..\LayoutFarm.PlatformBase\InnerViewportKind.cs">
       <Link>Shared\InnerViewportKind.cs</Link>
     </Compile>
     <Compile Include="..\LayoutFarm.PlatformBase\MyUITimer.cs">
       <Link>Shared\MyUITimer.cs</Link>
     </Compile>
-    <Compile Include="0_Start\dbugHelper.cs" />
     <Compile Include="1_LayoutFarm.UI\MyGlfwForm.cs" />
     <Compile Include="1_LayoutFarm.UI\AbstractCompletionWindow.cs" />
-    <Compile Include="1_LayoutFarm.UI\TopWindowBridge.cs" />
-    <Compile Include="1_LayoutFarm.UI\TopWindowBridge_dbug.cs" />
-    <Compile Include="1_LayoutFarm.UI\UIPlatformWinForms.cs" />
+    <Compile Include="1_LayoutFarm.UI\TopWindowBridgeWinNeutral.cs" />
+    <Compile Include="1_LayoutFarm.UI\TopWindowBridgeWinNeutral_dbug.cs" />
+    <Compile Include="1_LayoutFarm.UI\UIPlatformWinNeutral.cs" />
     <Compile Include="1_LayoutFarm.UI\UISurfaceViewportControl.cs" />
     <Compile Include="3_OpenGL\0_MyOpenGLPortal.cs" />
     <Compile Include="3_OpenGL\2_OpenGLCanvasViewport.cs" />

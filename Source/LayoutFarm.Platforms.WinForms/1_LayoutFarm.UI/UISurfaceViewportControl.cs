@@ -22,7 +22,9 @@ namespace LayoutFarm.UI
             ITopWindowEventRoot topWinEventRoot,
             InnerViewportKind innerViewportKind)
         {
-            //1.
+
+            //create a proper bridge****
+
             this.rootgfx = rootgfx;
             this.topWinEventRoot = topWinEventRoot;
             this.innerViewportKind = innerViewportKind;

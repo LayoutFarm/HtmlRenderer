@@ -34,6 +34,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CanvasViewport.cs" />
+    <Compile Include="dbugHelper.cs" />
     <Compile Include="InnerViewportKind.cs" />
     <Compile Include="MyUITimer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
