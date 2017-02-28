@@ -39,19 +39,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\LayoutFarm.PlatformBase\CanvasViewport.cs">
-      <Link>Shared\CanvasViewport.cs</Link>
+      <Link>0_Shared\CanvasViewport.cs</Link>
     </Compile>
     <Compile Include="..\LayoutFarm.PlatformBase\dbugHelper.cs">
       <Link>0_Shared\dbugHelper.cs</Link>
     </Compile>
     <Compile Include="..\LayoutFarm.PlatformBase\InnerViewportKind.cs">
-      <Link>Shared\InnerViewportKind.cs</Link>
+      <Link>0_Shared\InnerViewportKind.cs</Link>
     </Compile>
     <Compile Include="..\LayoutFarm.PlatformBase\MyOpenGLPortal.cs">
       <Link>3_OpenGL\MyOpenGLPortal.cs</Link>
     </Compile>
     <Compile Include="..\LayoutFarm.PlatformBase\MyUITimer.cs">
-      <Link>Shared\MyUITimer.cs</Link>
+      <Link>0_Shared\MyUITimer.cs</Link>
     </Compile>
     <Compile Include="..\LayoutFarm.PlatformBase\OpenGLCanvasViewport.cs">
       <Link>3_OpenGL\OpenGLCanvasViewport.cs</Link>

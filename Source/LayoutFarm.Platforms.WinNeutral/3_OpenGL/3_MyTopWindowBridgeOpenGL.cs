@@ -1,6 +1,6 @@
 ﻿//Apache2, 2014-2017, WinterDev
 
- 
+
 using PixelFarm.Drawing;
 using PixelFarm.Forms;
 using LayoutFarm.UI.WinNeutral;
@@ -21,7 +21,7 @@ namespace LayoutFarm.UI.OpenGL
         }
         public void SetupCanvas(Canvas canvas)
         {
-            
+
             openGLViewport.SetCanvas(canvas);
         }
         public override void BindWindowControl(Control windowControl)
@@ -32,9 +32,11 @@ namespace LayoutFarm.UI.OpenGL
                 new Size(windowControl.Width, windowControl.Height), 4));
 
             RootGfx.SetPaintDelegates(
-                (r) => { }, //still do nothing
-                this.PaintToOutputWindow);
+                (r) =>
+                {
 
+                }, //still do nothing
+                this.PaintToOutputWindow); 
 
             openGLViewport.NotifyWindowControlBinding();
 
@@ -70,7 +72,7 @@ namespace LayoutFarm.UI.OpenGL
         //{
         //    throw new NotImplementedException();
         //}
-     
+
         public override void PaintToOutputWindow()
         {
             //if (!isInitGLControl)
@@ -81,11 +83,11 @@ namespace LayoutFarm.UI.OpenGL
             //dbugCount++;
             //Console.WriteLine(">" + innumber);
             //TODO: review here
-           
-                windowControl.MakeCurrent();
-                this.openGLViewport.PaintMe();
-                windowControl.SwapBuffers();
-            
+
+            windowControl.MakeCurrent();
+            this.openGLViewport.PaintMe();
+            windowControl.SwapBuffers();
+
             //Console.WriteLine("<" + innumber); 
         }
         protected override void ChangeCursorStyle(MouseCursorStyle cursorStyle)
