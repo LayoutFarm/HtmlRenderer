@@ -6,7 +6,7 @@ namespace LayoutFarm.Dev
 {
     public partial class FormDemoList : Form
     {
-        UIPlatform uiPlatformWinForm;
+        //UIPlatform uiPlatformWinForm;
         //static readonly PixelFarm.Drawing.GraphicsPlatform gdiPlatform = null;
         //static readonly PixelFarm.Drawing.GraphicsPlatform openGLPlatform = null;
         //static FormDemoList()
@@ -14,7 +14,7 @@ namespace LayoutFarm.Dev
 
         //    var startPars = new LayoutFarm.UI.GdiPlus.MyWinGdiPortalSetupParameters();
         //    gdiPlatform = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.Start(startPars);
- 
+
         //}
 
 
@@ -25,12 +25,12 @@ namespace LayoutFarm.Dev
             //------
             this.cmbPlatformSelector.Items.Add(InnerViewportKind.GdiPlus);
             this.cmbPlatformSelector.Items.Add(InnerViewportKind.Skia);
-            this.cmbPlatformSelector.Items.Add(InnerViewportKind.GL);            
+            this.cmbPlatformSelector.Items.Add(InnerViewportKind.GL);
             this.cmbPlatformSelector.SelectedIndex = 0;//set default
-            //------
-            //default
-            this.uiPlatformWinForm = new LayoutFarm.UI.UIPlatformWinForm();
-            UI.UIPlatform.CurrentUIPlatform = uiPlatformWinForm;
+            ////------
+            ////default
+            //this.uiPlatformWinForm = new LayoutFarm.UI.UIPlatformWinForm();
+            //UI.UIPlatform.CurrentUIPlatform = uiPlatformWinForm;
 
         }
         public TreeView SamplesTreeView
@@ -39,7 +39,6 @@ namespace LayoutFarm.Dev
         }
         void Form1_Load(object sender, EventArgs e)
         {
-
             this.lstDemoList.DoubleClick += new EventHandler(lstDemoList_DoubleClick);
         }
 
@@ -51,7 +50,7 @@ namespace LayoutFarm.Dev
             //------------------------------------------------------------ 
             DemoBase selectedDemo = (DemoBase)Activator.CreateInstance(selectedDemoInfo.DemoType);
             RunDemo(selectedDemo);
-
+            //------------------------------------------------------------ 
             //LayoutFarm.UI.UISurfaceViewportControl viewport; 
             //Form formCanvas;
             //CreateReadyForm(
@@ -117,23 +116,18 @@ namespace LayoutFarm.Dev
             out LayoutFarm.UI.UISurfaceViewportControl viewport,
             out Form formCanvas)
         {
-            var workingArea = Screen.PrimaryScreen.WorkingArea;
-            int w = workingArea.Width;
-            int h = workingArea.Height;
 
-
-            MyRootGraphic rootgfx = new MyRootGraphic(this.uiPlatformWinForm,
-                w, h);
-
-            //formCanvas = FormCanvasHelper.CreateNewFormCanvas(rootgfx,
-            //    this.chkUseGLCanvas.Checked ? InnerViewportKind.GL : InnerViewportKind.GdiPlus,
-            //    out viewport);
-
+            //1. select view port kind
             InnerViewportKind innerViewportKind = (InnerViewportKind)cmbPlatformSelector.SelectedItem;
 
-            formCanvas = FormCanvasHelper.CreateNewFormCanvas(rootgfx,
+            var workingArea = Screen.PrimaryScreen.WorkingArea;
+
+            formCanvas = FormCanvasHelper.CreateNewFormCanvas(
+              workingArea.Width,
+              workingArea.Height,
               innerViewportKind,
               out viewport);
+
             formCanvas.Text = "FormCanvas 1";
 
             viewport.PaintMe();
