@@ -93,17 +93,13 @@
     <Compile Include="5_HtmlBox\HtmlHostContentManager.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Deps\MiniAgg.Complements\MiniAgg.Complements.csproj">
-      <Project>{AE0DF71E-9B14-4197-B55A-E1E0CE0683C7}</Project>
-      <Name>MiniAgg.Complements</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Deps\MiniAgg\MiniAgg.csproj">
-      <Project>{4D5CE655-58FA-4523-8E46-738B941E9E47}</Project>
-      <Name>MiniAgg</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Deps\PixelFarm.Drawing.Core\PixelFarm.Drawing.Core.csproj">
       <Project>{51D63482-5697-4B16-8401-506965624657}</Project>
       <Name>PixelFarm.Drawing.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Deps\PixelFarm.Drawing.MiniAgg.csproj">
+      <Project>{99a570d0-492a-453d-8b97-7f40489c10e0}</Project>
+      <Name>PixelFarm.Drawing.MiniAgg</Name>
     </ProjectReference>
     <ProjectReference Include="..\Deps\PixelFarm.DrawingCanvas\PixelFarm.DrawingCanvas.csproj">
       <Project>{0cc424d5-20ac-4849-993d-3a720dbae94f}</Project>

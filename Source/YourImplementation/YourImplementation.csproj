@@ -34,13 +34,13 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\pixelfarm\win32utils\MyWin32.cs">
+    <Compile Include="..\Deps\Win32Utils\MyWin32.cs">
       <Link>Win32Utils\MyWin32.cs</Link>
     </Compile>
-    <Compile Include="..\..\pixelfarm\win32utils\NativeTextWin32.cs">
+    <Compile Include="..\Deps\Win32Utils\NativeTextWin32.cs">
       <Link>Win32Utils\NativeTextWin32.cs</Link>
     </Compile>
-    <Compile Include="..\..\pixelfarm\win32utils\NativeWin32MemoryDc.cs">
+    <Compile Include="..\Deps\Win32Utils\NativeWin32MemoryDc.cs">
       <Link>Win32Utils\NativeWin32MemoryDc.cs</Link>
     </Compile>
     <Compile Include="Bootstrap\BootStrapOpenGLES2.cs" />
@@ -59,7 +59,7 @@
       <Project>{e1e89b3b-b529-4b17-b7ed-4c70cc8475eb}</Project>
       <Name>PixelFarm.Drawing.GLES2</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\PixelFarm\PixelFarm.Drawing.MiniAgg.csproj">
+    <ProjectReference Include="..\Deps\PixelFarm.Drawing.MiniAgg.csproj">
       <Project>{99a570d0-492a-453d-8b97-7f40489c10e0}</Project>
       <Name>PixelFarm.Drawing.MiniAgg</Name>
     </ProjectReference>
