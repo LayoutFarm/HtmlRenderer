@@ -205,6 +205,7 @@
     <Compile Include="PixelFarm.DrawingCanvas\1_Canvas\CanvasOptions.cs" />
     <Compile Include="PixelFarm.DrawingCanvas\1_Canvas\CanvasPainter.cs" />
     <Compile Include="PixelFarm.DrawingCanvas\1_Canvas\CanvasPaintToOutputDelegate.cs" />
+    <Compile Include="PixelFarm.DrawingCanvas\1_Canvas\KnownColors.cs" />
     <Compile Include="PixelFarm.DrawingCanvas\2_Drawing\FontStyle.cs" />
     <Compile Include="PixelFarm.DrawingCanvas\2_Drawing\RequestFont.cs" />
     <Compile Include="PixelFarm.DrawingCanvas\3_Drawing_Fonts\ActualFont.cs" />

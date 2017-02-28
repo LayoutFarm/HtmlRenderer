@@ -44,7 +44,7 @@ namespace BuildMergeProject
             mergePro.LoadSubProject(DEV_DIR + @"LayoutFarm.BaseRenderer\LayoutFarm.BaseRenderer.csproj");
             mergePro.LoadSubProject(DEV_DIR + @"LayoutFarm.HtmlRenderer\LayoutFarm.HtmlRenderer.csproj");
             //integrated module
-            mergePro.LoadSubProject(DEV_DIR + @"LayoutFarm.HtmlComposers\LayoutFarm.HtmlComposers.csproj");
+            mergePro.LoadSubProject(DEV_DIR + @"LayoutFarm.HtmlComposer\LayoutFarm.HtmlComposer.csproj");
             mergePro.LoadSubProject(DEV_DIR + @"LayoutFarm.TextEdit\LayoutFarm.TextEdit.csproj");
             mergePro.LoadSubProject(DEV_DIR + @"LayoutFarm.WebDom\LayoutFarm.WebDom.csproj");
             mergePro.LoadSubProject(DEV_DIR + @"LayoutFarm.YourCustomWidgets\LayoutFarm.YourCustomWidgets.csproj");
