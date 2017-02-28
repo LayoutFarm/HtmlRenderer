@@ -40,7 +40,10 @@ namespace PixelFarm.Drawing.WinGdi
         System.Drawing.Rectangle currentClipRect;
         //-------------------------------
 
-
+        public MyGdiPlusCanvas(int left, int top, int width, int height)
+            : this(0, 0, left, top, width, height)
+        {
+        }
         internal MyGdiPlusCanvas(
             int horizontalPageNum,
             int verticalPageNum,

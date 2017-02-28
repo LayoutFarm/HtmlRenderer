@@ -4,6 +4,8 @@
 using System;
 using System.Collections.Generic;
 using PixelFarm.Drawing;
+using LayoutFarm.UI;
+
 namespace LayoutFarm.ContentManagers
 {
     public class ImageRequestEventArgs : EventArgs
@@ -30,21 +32,20 @@ namespace LayoutFarm.ContentManagers
         LinkedList<ImageBinder> inputList = new LinkedList<ImageBinder>();
         LinkedList<ImageBinder> outputList = new LinkedList<ImageBinder>();
         ImageCacheSystem imageCacheLevel0 = new ImageCacheSystem();
-        LayoutFarm.UI.UITimer timImageLoadMonitor;
+        UITimer timImageLoadMonitor;
         bool hasSomeInputHint;
         bool hasSomeOutputHint;
         object outputListSync = new object();
         object inputListSync = new object();
         bool working = false;
-        public ImageContentManager()
+        public ImageContentManager(UIPlatform platform)
         {
-            timImageLoadMonitor = UI.UIPlatform.CurrentUIPlatform.CreateUITimer();
+            timImageLoadMonitor = platform.CreateUITimer();
             //TODO: review here****
             timImageLoadMonitor.Interval = 50;//30 ms check state             
             timImageLoadMonitor.Tick += TimImageLoadMonitor_Tick;
             timImageLoadMonitor.Enabled = true;
         }
-
         private void TimImageLoadMonitor_Tick(object sender, EventArgs e)
         {
             lock (inputListSync)

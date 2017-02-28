@@ -1,23 +1,21 @@
 ﻿//Apache2, 2014-2017, WinterDev
 
-using PixelFarm.Drawing; 
-using PixelFarm.Drawing.WinGdi; 
+using PixelFarm.Drawing;
+using PixelFarm.Drawing.WinGdi;
 
 namespace LayoutFarm.UI.GdiPlus
 {
-    
+
 
     public static class MyWinGdiPortal
     {
-        static PixelFarm.Drawing.WinGdi.WinGdiPlusPlatform _winGdiPlatform;
+
         static bool isInit;
-
-
-        public static GraphicsPlatform Start(MyWinGdiPortalSetupParameters initParams)
+        static void Start(MyWinGdiPortalSetupParameters initParams)
         {
             if (isInit)
             {
-                return _winGdiPlatform;
+
             }
             isInit = true;
 
@@ -72,18 +70,12 @@ namespace LayoutFarm.UI.GdiPlus
 
 
 
-            _winGdiPlatform = new PixelFarm.Drawing.WinGdi.WinGdiPlusPlatform();
+            //_winGdiPlatform = new PixelFarm.Drawing.WinGdi.WinGdiPlusPlatform();
 
-            return _winGdiPlatform;
+            //return _winGdiPlatform;
         }
-        //public static void End()
-        //{
 
-        //}
-        public static GraphicsPlatform P
-        {
-            get { return _winGdiPlatform; }
-        }
+
     }
 
     public class MyWinGdiPortalSetupParameters

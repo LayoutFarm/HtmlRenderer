@@ -14,18 +14,17 @@ namespace LayoutFarm.UI
         List<ToNotifySizeChangedEvent> tobeNotifySizeChangedList = new List<ToNotifySizeChangedEvent>();
         List<RenderElementRequest> renderRequestList = new List<RenderElementRequest>();
         GraphicsTimerTaskManager graphicTimerTaskMan;
-        
+
         static object normalUpdateTask = new object();
         readonly TopWindowEventRoot topWindowEventRoot;
         readonly RenderBoxBase topWindowRenderBox;
         UIPlatform uiPlatform;
         RequestFont _defaultTextEditFont;
-        public MyRootGraphic(UIPlatform uiPlatform, 
+        public MyRootGraphic(UIPlatform uiPlatform,
             int width, int height)
             : base(width, height)
         {
-            this.uiPlatform = uiPlatform;
-            
+            this.uiPlatform = uiPlatform; 
             this.graphicTimerTaskMan = new GraphicsTimerTaskManager(this, uiPlatform);
             _defaultTextEditFont = new RequestFont("tahoma", 10);
 
@@ -47,10 +46,10 @@ namespace LayoutFarm.UI
                 });
         }
 
-       
+
         public override RootGraphic CreateNewOne(int w, int h)
         {
-            return new MyRootGraphic(this.uiPlatform,  w, h);
+            return new MyRootGraphic(this.uiPlatform, w, h);
         }
         public ITopWindowEventRoot TopWinEventPortal
         {
@@ -92,7 +91,7 @@ namespace LayoutFarm.UI
         void ClearNotificationSizeChangeList()
         {
         }
-        
+
         public override RequestFont DefaultTextEditFontInfo
         {
             get
@@ -346,7 +345,7 @@ namespace LayoutFarm.UI
             get { return this.topWindowEventRoot; }
         }
 
-        
+
     }
 
 
