@@ -14,7 +14,7 @@
 // "The Art of War"
 
 using System;
-using PixelFarm.Drawing; 
+using PixelFarm.Drawing;
 namespace LayoutFarm.Css
 {
     public sealed partial class BoxSpec
@@ -756,11 +756,14 @@ namespace LayoutFarm.Css
                 fsize = FontDefaultConfig.DEFAULT_FONT_SIZE;
             }
 
-            _reqFont = new RequestFont(fontFam, fsize, st); 
+            _reqFont = new RequestFont(fontFam, fsize, st);
             //resolve
-            ActualFontResolver.Resolver.Resolve(_reqFont);
+            //TODO: review here again
+            //review font resolve here...
+            //throw new NotFiniteNumberException();
+            //ActualFontResolver.Resolver.Resolve(_reqFont);
             return _reqFont;
-        } 
+        }
 
         //----------------------------------------------------------------------
         public bool HasBoxShadow

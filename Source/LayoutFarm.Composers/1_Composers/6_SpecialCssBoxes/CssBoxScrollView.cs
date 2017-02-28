@@ -16,7 +16,7 @@ namespace LayoutFarm.HtmlBoxes
         ScrollBar hscbar;
         CssBox innerBox;
         public CssScrollView(Css.BoxSpec boxSpec,
-            RootGraphic rootgfx)
+            IRootGraphics rootgfx)
             : base(boxSpec, rootgfx)
         {
         }

@@ -91,7 +91,8 @@ namespace LayoutFarm.HtmlBoxes
             LayoutFarm.HtmlBoxes.LayoutVisitor lay = null;
             if (htmlLayoutVisitorStock.Count == 0)
             {
-                lay = new LayoutVisitor();
+
+                lay = new LayoutVisitor(null);
             }
             else
             {

@@ -114,7 +114,8 @@ namespace LayoutFarm.Demo
                 myHtmlContainer_NeedUpdateDom,
                 OnRefresh,
                 null);
-            htmlLayoutVisitor = new LayoutVisitor();
+            //------------------------------------------------------- 
+            htmlLayoutVisitor = new LayoutVisitor(null);
             htmlLayoutVisitor.Bind(htmlContainer);
             //------------------------------------------------------- 
             timer01.Interval = 20;//20ms?

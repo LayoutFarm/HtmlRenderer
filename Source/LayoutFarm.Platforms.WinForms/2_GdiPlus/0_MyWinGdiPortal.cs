@@ -93,7 +93,7 @@ namespace LayoutFarm.UI.GdiPlus
         public IActualFontResolver ActualFontResolver { get; set; }
     }
 
-    class GdiPlusIFonts : LayoutFarm.IFonts
+    class GdiPlusIFonts : IFonts
     {
         public float MeasureWhitespace(RequestFont f)
         {

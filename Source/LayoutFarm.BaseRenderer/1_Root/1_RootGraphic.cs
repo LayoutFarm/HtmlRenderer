@@ -1,7 +1,7 @@
 ﻿//Apache2, 2014-2017, WinterDev
 
 using System;
-using PixelFarm.Drawing; 
+using PixelFarm.Drawing;
 using LayoutFarm.RenderBoxes;
 namespace LayoutFarm
 {
@@ -14,7 +14,7 @@ namespace LayoutFarm
     }
 
 
-    public abstract partial class RootGraphic
+    public abstract partial class RootGraphic : IRootGraphics
     {
         public delegate void PaintToOutputWindowDelegate();
         protected PaintToOutputWindowDelegate paintToOutputWindowHandler;

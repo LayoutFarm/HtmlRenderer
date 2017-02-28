@@ -7,18 +7,7 @@ using PixelFarm.Drawing;
 namespace LayoutFarm
 {
 
-    public interface IFonts
-    {
-        float MeasureWhitespace(RequestFont f);
-        Size MeasureString(char[] str, int startAt, int len, RequestFont font);
-        Size MeasureString(char[] str, int startAt, int len, RequestFont font,
-            float maxWidth, out int charFit,
-            out int charFitWidth);
-        void CalculateGlyphAdvancePos(char[] str, int startAt, int len, RequestFont font, int[] glyphXAdvances);
-
-        void Dispose();
-    }
-
+  
     public interface IActualFontResolver
     {
         PixelFarm.Drawing.Fonts.ActualFont Resolve(RequestFont font);
