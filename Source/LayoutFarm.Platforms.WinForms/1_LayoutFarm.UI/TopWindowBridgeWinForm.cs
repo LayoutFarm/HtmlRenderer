@@ -5,7 +5,10 @@ using System.Windows.Forms;
 using PixelFarm.Drawing;
 namespace LayoutFarm.UI
 {
-    abstract partial class TopWindowBridge
+    /// <summary>
+    /// this class is specific bridge for WinForms
+    /// </summary>
+    abstract partial class TopWindowBridgeWinForm
     {
         RootGraphic rootGraphic;
         ITopWindowEventRoot topWinEventRoot;
@@ -15,7 +18,7 @@ namespace LayoutFarm.UI
         public event EventHandler<ScrollSurfaceRequestEventArgs> HScrollRequest;
         public event EventHandler<UIScrollEventArgs> VScrollChanged;
         public event EventHandler<UIScrollEventArgs> HScrollChanged;
-        public TopWindowBridge(RootGraphic rootGraphic, ITopWindowEventRoot topWinEventRoot)
+        public TopWindowBridgeWinForm(RootGraphic rootGraphic, ITopWindowEventRoot topWinEventRoot)
         {
             this.topWinEventRoot = topWinEventRoot;
             this.rootGraphic = rootGraphic;

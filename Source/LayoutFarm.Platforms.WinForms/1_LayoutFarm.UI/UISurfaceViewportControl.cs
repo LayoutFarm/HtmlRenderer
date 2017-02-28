@@ -7,7 +7,7 @@ namespace LayoutFarm.UI
 {
     public partial class UISurfaceViewportControl : UserControl
     {
-        TopWindowBridge winBridge;
+        TopWindowBridgeWinForm winBridge;
         RootGraphic rootgfx;
         ITopWindowEventRoot topWinEventRoot;
         InnerViewportKind innerViewportKind;

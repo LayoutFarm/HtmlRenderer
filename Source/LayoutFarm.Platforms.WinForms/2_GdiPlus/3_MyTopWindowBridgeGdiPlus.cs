@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using PixelFarm.Drawing;
 namespace LayoutFarm.UI.GdiPlus
 {
-    class MyTopWindowBridgeGdiPlus : TopWindowBridge
+    class MyTopWindowBridgeGdiPlus : TopWindowBridgeWinForm
     {
         Control windowControl;
         GdiPlusCanvasViewport gdiPlusViewport;

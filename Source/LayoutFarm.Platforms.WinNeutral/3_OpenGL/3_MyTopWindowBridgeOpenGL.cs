@@ -8,7 +8,7 @@ using LayoutFarm.UI.WinNeutral;
 namespace LayoutFarm.UI.OpenGL
 {
 
-    class MyTopWindowBridgeOpenGL : TopWindowBridge
+    class MyTopWindowBridgeOpenGL : TopWindowBridgeWinNeutral
     {
 
         bool isInitGLControl;

@@ -6,7 +6,7 @@ using PixelFarm.Drawing;
 
 namespace LayoutFarm.UI.OpenGL
 {
-    class MyTopWindowBridgeOpenGL : TopWindowBridge
+    class MyTopWindowBridgeOpenGL : TopWindowBridgeWinForm
     {
 
         bool isInitGLControl;

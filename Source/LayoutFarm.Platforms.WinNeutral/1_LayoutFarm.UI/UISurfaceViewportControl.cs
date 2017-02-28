@@ -9,7 +9,7 @@ namespace LayoutFarm.UI.WinNeutral
 
     public partial class UISurfaceViewportControl : Control
     {
-        TopWindowBridge winBridge;
+        TopWindowBridgeWinNeutral winBridge;
         RootGraphic rootgfx;
         ITopWindowEventRoot topWinEventRoot;
         InnerViewportKind innerViewportKind;

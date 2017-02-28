@@ -5,7 +5,7 @@ using PixelFarm.Forms;
 using PixelFarm.Drawing;
 namespace LayoutFarm.UI.Skia
 {
-    class MyTopWindowBridgeSkia : TopWindowBridge
+    class MyTopWindowBridgeSkia : TopWindowBridgeWinNeutral
     {
         Control windowControl;
         SkiaCanvasViewport canvasViewport;

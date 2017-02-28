@@ -5,7 +5,7 @@ using PixelFarm.Drawing;
 using PixelFarm.Forms;
 namespace LayoutFarm.UI
 {
-    abstract partial class TopWindowBridge
+    abstract partial class TopWindowBridgeWinNeutral
     {
         RootGraphic rootGraphic;
         ITopWindowEventRoot topWinEventRoot;
@@ -15,7 +15,7 @@ namespace LayoutFarm.UI
         public event EventHandler<ScrollSurfaceRequestEventArgs> HScrollRequest;
         public event EventHandler<UIScrollEventArgs> VScrollChanged;
         public event EventHandler<UIScrollEventArgs> HScrollChanged;
-        public TopWindowBridge(RootGraphic rootGraphic, ITopWindowEventRoot topWinEventRoot)
+        public TopWindowBridgeWinNeutral(RootGraphic rootGraphic, ITopWindowEventRoot topWinEventRoot)
         {
             this.topWinEventRoot = topWinEventRoot;
             this.rootGraphic = rootGraphic;

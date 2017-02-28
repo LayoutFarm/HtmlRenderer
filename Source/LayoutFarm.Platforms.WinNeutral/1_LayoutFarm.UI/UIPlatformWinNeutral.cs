@@ -2,9 +2,9 @@
 
 namespace LayoutFarm.UI
 {
-    public class UIPlatformWinForm : UIPlatform
+    public class UIPlatformWinNeutral : UIPlatform
     {
-        public UIPlatformWinForm()
+        public UIPlatformWinNeutral()
         {
             LayoutFarm.UI.Clipboard.SetUIPlatform(this);
         }

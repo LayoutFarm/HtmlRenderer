@@ -8,13 +8,13 @@ namespace LayoutFarm.UI
     {
         //this ui support gdi+ and skia on WinForms
 
-        TopWindowBridge winBridge;
+        TopWindowBridgeWinForm winBridge;
         public CpuSurfaceView()
         {
             InitializeComponent();
             this.MouseWheel += new MouseEventHandler(CpuGdiPlusSurfaceView_MouseWheel);
         }
-        public void Bind(TopWindowBridge winBridge)
+        public void Bind(TopWindowBridgeWinForm winBridge)
         {
             //1. 
             this.winBridge = winBridge;
