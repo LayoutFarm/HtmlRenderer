@@ -1,7 +1,7 @@
 ﻿//Apache2, 2014-2017, WinterDev
 
 using System;
-//using System.Windows.Forms;
+using System.Windows.Forms;
 using PixelFarm.Drawing;
 namespace LayoutFarm.UI
 {
