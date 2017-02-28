@@ -38,21 +38,18 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Deps\Win32Utils\MyWin32.cs">
-      <Link>Win32Utils\MyWin32.cs</Link>
+    <Compile Include="..\LayoutFarm.PlatformBase\CanvasViewport.cs">
+      <Link>Shared\CanvasViewport.cs</Link>
     </Compile>
-    <Compile Include="..\Deps\Win32Utils\NativeTextWin32.cs">
-      <Link>Win32Utils\NativeTextWin32.cs</Link>
+    <Compile Include="..\LayoutFarm.PlatformBase\InnerViewportKind.cs">
+      <Link>Shared\InnerViewportKind.cs</Link>
     </Compile>
-    <Compile Include="..\Deps\Win32Utils\NativeWin32MemoryDc.cs">
-      <Link>Win32Utils\NativeWin32MemoryDc.cs</Link>
+    <Compile Include="..\LayoutFarm.PlatformBase\MyUITimer.cs">
+      <Link>Shared\MyUITimer.cs</Link>
     </Compile>
-    <Compile Include="0_Start\CanvasViewport.cs" />
     <Compile Include="0_Start\dbugHelper.cs" />
     <Compile Include="1_LayoutFarm.UI\MyGlfwForm.cs" />
     <Compile Include="1_LayoutFarm.UI\AbstractCompletionWindow.cs" />
-    <Compile Include="1_LayoutFarm.UI\InnerViewportKind.cs" />
-    <Compile Include="1_LayoutFarm.UI\MyUITimer.cs" />
     <Compile Include="1_LayoutFarm.UI\TopWindowBridge.cs" />
     <Compile Include="1_LayoutFarm.UI\TopWindowBridge_dbug.cs" />
     <Compile Include="1_LayoutFarm.UI\UIPlatformWinForms.cs" />

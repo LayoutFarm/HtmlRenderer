@@ -1,10 +1,9 @@
 ﻿//MIT, 2016-2017, WinterDev
-
+#if GL_ENABLE
 using System;
 using PixelFarm.Agg;
 using PixelFarm.Drawing;
-using PixelFarm.Drawing.Fonts;
-using PixelFarm.Drawing.Text;
+using PixelFarm.Drawing.Fonts; 
 using Typography.TextLayout;
 
 using System.Collections.Generic;
@@ -658,3 +657,4 @@ namespace PixelFarm.DrawingGL
     }
 
 }
+#endif

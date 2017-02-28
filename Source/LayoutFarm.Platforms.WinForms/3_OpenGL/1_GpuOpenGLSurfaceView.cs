@@ -1,117 +1,23 @@
 ﻿#if GL_ENABLE
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-
-using System.Text;
 using System.Windows.Forms;
-
-
-using OpenTK;
-using OpenTK.Graphics.OpenGL;
-using OpenTK.Graphics.ES20;
-
 namespace LayoutFarm.UI.OpenGL
 {
     //app specific
-    partial class GpuOpenGLSurfaceView : GLControl
+    partial class GpuOpenGLSurfaceView : OpenTK.MyGLControl
     {
         MyTopWindowBridgeOpenGL winBridge;
-        OpenTK.Graphics.Color4 clearColor; 
-        EventHandler glPaintHandler;
         public GpuOpenGLSurfaceView()
         {
-            OpenTK.Graphics.GraphicsMode gfxmode = new OpenTK.Graphics.GraphicsMode(
-             DisplayDevice.Default.BitsPerPixel,//default 32 bits color
-             16,//depth buffer => 16
-             8,  //stencil buffer => 8 (  //if want to use stencil buffer then set stencil buffer too! )
-             0,//number of sample of FSAA
-             0,  //accum buffer
-             2, // n buffer, 2=> double buffer
-             false);//sterio
-            ChildCtorOnlyResetGraphicMode(gfxmode);
-
-            //-----------
-            this.InitializeComponent();
         }
+
         public void Bind(MyTopWindowBridgeOpenGL winBridge)
         {
             //1. 
             this.winBridge = winBridge;
             this.winBridge.BindWindowControl(this);
-
         }
 
-        public OpenTK.Graphics.Color4 ClearColor
-        {
-            get { return clearColor; }
-            set
-            {
-                clearColor = value;
-
-                if (!this.DesignMode)
-                {
-                    MakeCurrent();
-                    GL.ClearColor(
-                        (float)clearColor.R / 255f,
-                        (float)clearColor.G / 255f,
-                        (float)clearColor.B / 255f,
-                        (float)clearColor.A / 255f);
-                }
-            }
-        }
-        public void SetGLPaintHandler(EventHandler glPaintHandler)
-        {
-            this.glPaintHandler = glPaintHandler;
-        }
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            //------------------------------------------
-            if (!this.DesignMode)
-            {
-                MakeCurrent();
-                //winBridge.PaintMe();
-                ////---------
-                ////auto clear color ?
-                //GL.ClearColor(1f, 1f, 1f, 1f);
-                //GL.Clear(ClearBufferMask.ColorBufferBit);
-                if (glPaintHandler != null)
-                {
-                    glPaintHandler(this, e);
-                }
-                SwapBuffers();
-            }
-            else
-            {
-                base.OnPaint(e);
-            }
-        }
-
-        public void InitSetup2d(Rectangle screenBound)
-        {
-
-            //int properW = Math.Min(this.Width, this.Height);
-
-            ////init
-            //GL.Enable(EnableCap.Blend);
-            //GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
-
-            ////---------------------------------
-            ////-1 temp fix split scanline in some screen
-            //GL.Viewport(0, 0, properW, properW - 1);
-            ////---------------------------------
-
-            //GL.MatrixMode(MatrixMode.Projection);
-            //GL.LoadIdentity();
-            ////origin on left-bottom
-            //GL.Ortho(0, properW, 0, properW, 0.0, 100);
-            ////GL.Ortho(0, properW, properW, 0, 0.0, 100);
-            //GL.MatrixMode(MatrixMode.Modelview);
-            //GL.LoadIdentity();
-        }
-
-        //-----------------------------
         protected override void OnSizeChanged(EventArgs e)
         {
             if (this.winBridge != null)

@@ -1,9 +1,5 @@
 ﻿//Apache2, 2014-2017, WinterDev
-#if GL_ENABLE
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
+#if GL_ENABLE 
 using System.Windows.Forms;
 using PixelFarm.Drawing;
 
@@ -24,12 +20,12 @@ namespace LayoutFarm.UI.OpenGL
         }
         public override void InvalidateRootArea(Rectangle r)
         {
-             
+
         }
         public override void BindWindowControl(Control windowControl)
         {
             this.BindGLControl((GpuOpenGLSurfaceView)windowControl);
-            
+
         }
         /// <summary>
         /// bind to gl control
@@ -63,7 +59,8 @@ namespace LayoutFarm.UI.OpenGL
                 //init gl after this control is loaded
                 //set myGLControl detail
                 //1.
-                windowControl.InitSetup2d(Screen.PrimaryScreen.Bounds);
+                var bounds = Screen.PrimaryScreen.Bounds;
+                windowControl.InitSetup2d(bounds.X, bounds.Y, bounds.Width, bounds.Height);
                 isInitGLControl = true;
                 //2.
                 windowControl.ClearColor = new OpenTK.Graphics.Color4(1f, 1f, 1f, 1f);
