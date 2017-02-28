@@ -47,8 +47,14 @@
     <Compile Include="..\LayoutFarm.PlatformBase\InnerViewportKind.cs">
       <Link>Shared\InnerViewportKind.cs</Link>
     </Compile>
+    <Compile Include="..\LayoutFarm.PlatformBase\MyOpenGLPortal.cs">
+      <Link>3_OpenGL\MyOpenGLPortal.cs</Link>
+    </Compile>
     <Compile Include="..\LayoutFarm.PlatformBase\MyUITimer.cs">
       <Link>Shared\MyUITimer.cs</Link>
+    </Compile>
+    <Compile Include="..\LayoutFarm.PlatformBase\OpenGLCanvasViewport.cs">
+      <Link>3_OpenGL\OpenGLCanvasViewport.cs</Link>
     </Compile>
     <Compile Include="1_LayoutFarm.UI\MyGlfwForm.cs" />
     <Compile Include="1_LayoutFarm.UI\AbstractCompletionWindow.cs" />
@@ -56,8 +62,6 @@
     <Compile Include="1_LayoutFarm.UI\TopWindowBridgeWinNeutral_dbug.cs" />
     <Compile Include="1_LayoutFarm.UI\UIPlatformWinNeutral.cs" />
     <Compile Include="1_LayoutFarm.UI\UISurfaceViewportControl.cs" />
-    <Compile Include="3_OpenGL\0_MyOpenGLPortal.cs" />
-    <Compile Include="3_OpenGL\2_OpenGLCanvasViewport.cs" />
     <Compile Include="3_OpenGL\3_MyTopWindowBridgeOpenGL.cs" />
     <Compile Include="4_Skia\2_SkiaCanvasViewport.cs" />
     <Compile Include="4_Skia\3_MyTopWindowBridgeSkia.cs" />

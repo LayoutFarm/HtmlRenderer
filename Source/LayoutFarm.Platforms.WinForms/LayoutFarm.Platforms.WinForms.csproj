@@ -53,16 +53,22 @@
       <Link>Win32Utils\NativeWin32MemoryDc.cs</Link>
     </Compile>
     <Compile Include="..\LayoutFarm.PlatformBase\CanvasViewport.cs">
-      <Link>Shared\CanvasViewport.cs</Link>
+      <Link>0_Shared\CanvasViewport.cs</Link>
     </Compile>
     <Compile Include="..\LayoutFarm.PlatformBase\dbugHelper.cs">
       <Link>0_Shared\dbugHelper.cs</Link>
     </Compile>
     <Compile Include="..\LayoutFarm.PlatformBase\InnerViewportKind.cs">
-      <Link>Shared\InnerViewportKind.cs</Link>
+      <Link>0_Shared\InnerViewportKind.cs</Link>
+    </Compile>
+    <Compile Include="..\LayoutFarm.PlatformBase\MyOpenGLPortal.cs">
+      <Link>3_OpenGL\MyOpenGLPortal.cs</Link>
     </Compile>
     <Compile Include="..\LayoutFarm.PlatformBase\MyUITimer.cs">
-      <Link>Shared\MyUITimer.cs</Link>
+      <Link>0_Shared\MyUITimer.cs</Link>
+    </Compile>
+    <Compile Include="..\LayoutFarm.PlatformBase\OpenGLCanvasViewport.cs">
+      <Link>3_OpenGL\OpenGLCanvasViewport.cs</Link>
     </Compile>
     <Compile Include="2_GdiPlus\Conv.cs" />
     <Compile Include="2_GdiPlus\0_CanvasCollection.cs" />
@@ -98,8 +104,7 @@
     <Compile Include="1_LayoutFarm.UI\TopWindowBridgeWinForm_dbug.cs" />
     <Compile Include="2_GdiPlus\3_MyTopWindowBridgeGdiPlus.cs" />
     <Compile Include="3_OpenGL\3_MyTopWindowBridgeOpenGL.cs" />
-    <Compile Include="3_OpenGL\2_OpenGLCanvasViewport.cs" />
-    <Compile Include="3_OpenGL\0_MyOpenGLPortal.cs" />
+    <Compile Include="3_OpenGL\x0_MyOpenGLPortal.cs" />
     <Compile Include="4_Skia\2_SkiaCanvasViewport.cs" />
     <Compile Include="4_Skia\3_MyTopWindowBridgeSkia.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -139,6 +144,10 @@
     <ProjectReference Include="..\Deps\PixelFarm.SkiaSharp\PixelFarm.SkiaSharp.csproj">
       <Project>{fb828375-3017-44d8-8357-59207224906d}</Project>
       <Name>PixelFarm.SkiaSharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Deps\PixelFarm.Typography\PixelFarm.Typography.csproj">
+      <Project>{540a2ea6-dae3-4625-8951-b2c3118603a4}</Project>
+      <Name>PixelFarm.Typography</Name>
     </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.BaseRenderer\LayoutFarm.BaseRenderer.csproj">
       <Project>{20048075-A2F3-4B97-B3C6-BEA794429741}</Project>

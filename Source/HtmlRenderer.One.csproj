@@ -569,7 +569,9 @@
     <Compile Include="LayoutFarm.Platforms.WinForms\..\LayoutFarm.PlatformBase\CanvasViewport.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\..\LayoutFarm.PlatformBase\dbugHelper.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\..\LayoutFarm.PlatformBase\InnerViewportKind.cs" />
+    <Compile Include="LayoutFarm.Platforms.WinForms\..\LayoutFarm.PlatformBase\MyOpenGLPortal.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\..\LayoutFarm.PlatformBase\MyUITimer.cs" />
+    <Compile Include="LayoutFarm.Platforms.WinForms\..\LayoutFarm.PlatformBase\OpenGLCanvasViewport.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\1_CpuSurfaceView.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\1_CpuSurfaceView.Designer.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\1_LayoutFarm.UI\AbstractCompletionWindow.cs" />
@@ -585,11 +587,10 @@
     <Compile Include="LayoutFarm.Platforms.WinForms\2_GdiPlus\3_MyTopWindowBridgeGdiPlus.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\2_GdiPlus\Conv.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\2_GdiPlus\QuadPages.cs" />
-    <Compile Include="LayoutFarm.Platforms.WinForms\3_OpenGL\0_MyOpenGLPortal.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\3_OpenGL\1_GpuOpenGLSurfaceView.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\3_OpenGL\1_GpuOpenGLSurfaceView.Designer.cs" />
-    <Compile Include="LayoutFarm.Platforms.WinForms\3_OpenGL\2_OpenGLCanvasViewport.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\3_OpenGL\3_MyTopWindowBridgeOpenGL.cs" />
+    <Compile Include="LayoutFarm.Platforms.WinForms\3_OpenGL\x0_MyOpenGLPortal.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\4_Skia\2_SkiaCanvasViewport.cs" />
     <Compile Include="LayoutFarm.Platforms.WinForms\4_Skia\3_MyTopWindowBridgeSkia.cs" />
     <Compile Include="LayoutFarm.TextEdit\1.1_EditableRuns\dbugMultiTextManRecorder.cs" />
