@@ -43,6 +43,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="1_Canvas\KnownColors.cs" />
     <Compile Include="3_Drawing_Fonts\ActualFont.cs" />
     <Compile Include="3_Drawing_Fonts\FontFace.cs" />
     <Compile Include="3_Drawing_Fonts\FontGlyph.cs" />

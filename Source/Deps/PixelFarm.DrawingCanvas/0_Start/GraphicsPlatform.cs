@@ -2,6 +2,7 @@
 
 namespace PixelFarm.Drawing
 {
+    public interface IRootGraphics { }
 
     public abstract class GraphicsPlatform
     { 
