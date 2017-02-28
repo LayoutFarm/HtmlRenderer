@@ -3,8 +3,7 @@
 using System;
 using PixelFarm.Agg;
 using PixelFarm.Drawing;
-using PixelFarm.Drawing.Fonts;
-using PixelFarm.Drawing.Text;
+using PixelFarm.Drawing.Fonts; 
 using Typography.TextLayout;
 
 using System.Collections.Generic;
