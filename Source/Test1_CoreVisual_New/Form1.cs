@@ -9,13 +9,13 @@ namespace TestGraphicPackage
     public partial class Form1 : Form
     {
         UIPlatform uiPlatformWinForm;
-        PixelFarm.Drawing.GraphicsPlatform gfxPlatform;
-        public Form1(PixelFarm.Drawing.GraphicsPlatform p)
+        //PixelFarm.Drawing.GraphicsPlatform gfxPlatform;
+        public Form1()
         {
             InitializeComponent();
             this.uiPlatformWinForm = new LayoutFarm.UI.UIPlatformWinForm();
             LayoutFarm.UI.UIPlatform.CurrentUIPlatform = uiPlatformWinForm;
-            this.gfxPlatform = p;
+            //this.gfxPlatform = p;
         }
 
         static void ShowFormLayoutInspector(LayoutFarm.UI.UISurfaceViewportControl viewport)

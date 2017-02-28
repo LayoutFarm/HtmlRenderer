@@ -76,10 +76,10 @@ namespace LayoutFarm.UI.GdiPlus
 
             return _winGdiPlatform;
         }
-        public static void End()
-        {
+        //public static void End()
+        //{
 
-        }
+        //}
         public static GraphicsPlatform P
         {
             get { return _winGdiPlatform; }

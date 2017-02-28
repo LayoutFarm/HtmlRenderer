@@ -7,19 +7,15 @@ namespace LayoutFarm.Dev
     public partial class FormDemoList : Form
     {
         UIPlatform uiPlatformWinForm;
-        static readonly PixelFarm.Drawing.GraphicsPlatform gdiPlatform = null;
-        static readonly PixelFarm.Drawing.GraphicsPlatform openGLPlatform = null;
-        static FormDemoList()
-        {
+        //static readonly PixelFarm.Drawing.GraphicsPlatform gdiPlatform = null;
+        //static readonly PixelFarm.Drawing.GraphicsPlatform openGLPlatform = null;
+        //static FormDemoList()
+        //{
 
-            var startPars = new LayoutFarm.UI.GdiPlus.MyWinGdiPortalSetupParameters();
-            gdiPlatform = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.Start(startPars);
-
-            //-------------
-
-
-            //-------------
-        }
+        //    var startPars = new LayoutFarm.UI.GdiPlus.MyWinGdiPortalSetupParameters();
+        //    gdiPlatform = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.Start(startPars);
+ 
+        //}
 
 
         public FormDemoList()

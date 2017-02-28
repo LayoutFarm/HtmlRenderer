@@ -58,11 +58,11 @@
     </Compile>
     <Compile Include="1_LayoutFarm.UI\MyGlfwForm.cs" />
     <Compile Include="1_LayoutFarm.UI\AbstractCompletionWindow.cs" />
-    <Compile Include="1_LayoutFarm.UI\TopWindowBridgeWinNeutral.cs" />
-    <Compile Include="1_LayoutFarm.UI\TopWindowBridgeWinNeutral_dbug.cs" />
-    <Compile Include="1_LayoutFarm.UI\UIPlatformWinNeutral.cs" />
-    <Compile Include="1_LayoutFarm.UI\UISurfaceViewportControl.cs" />
-    <Compile Include="3_OpenGL\3_MyTopWindowBridgeOpenGL.cs" />
+    <Compile Include="1_Bridge_WinNeutral\TopWindowBridgeWinNeutral.cs" />
+    <Compile Include="1_Bridge_WinNeutral\TopWindowBridgeWinNeutral_dbug.cs" />
+    <Compile Include="1_Bridge_WinNeutral\UIPlatformWinNeutral.cs" />
+    <Compile Include="0_UISurfaceViewport\UISurfaceViewportControl.cs" />
+    <Compile Include="2_GLES2\3_MyTopWindowBridgeOpenGL.cs" />
     <Compile Include="4_Skia\2_SkiaCanvasViewport.cs" />
     <Compile Include="4_Skia\3_MyTopWindowBridgeSkia.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

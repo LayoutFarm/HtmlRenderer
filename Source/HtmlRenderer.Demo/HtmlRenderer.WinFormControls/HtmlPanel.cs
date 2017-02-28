@@ -81,16 +81,21 @@ namespace LayoutFarm.Demo
         /// <summary>
         /// Creates a new HtmlPanel and sets a basic css for it's styling.
         /// </summary>
-        public HtmlPanel(PixelFarm.Drawing.GraphicsPlatform p, int w, int h)
+        public HtmlPanel()
         {
             AutoScroll = true;
             BackColor = SystemColors.Window;
             SetStyle(ControlStyles.ResizeRedraw, true);
             SetStyle(ControlStyles.SupportsTransparentBackColor, true);
-            this.gfxPlatform = p;
+            //this.gfxPlatform = p;
             
-            this.renderCanvas = gfxPlatform.CreateCanvas(0, 0,
-                this.canvasW = w, this.canvasH = h);
+            //this.renderCanvas = gfxPlatform.CreateCanvas(0, 0,
+            //    this.canvasW = w, this.canvasH = h);
+        }
+        protected override void OnHandleCreated(EventArgs e)
+        {
+            //create actual render canvas
+            base.OnHandleCreated(e);
         }
         public HtmlHost HtmlHost
         {
