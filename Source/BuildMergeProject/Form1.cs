@@ -20,7 +20,7 @@ namespace BuildMergeProject
                "HtmlRenderer.One",
                "v2.0",
                //"ICU_VER_54;NET20",
-               ";NET20, __DESKTOP__"+ ",NET20,PIXEL_FARM,PIXEL_FARM_NET20",//additional define constant,
+               ";NET20, __DESKTOP__"+ ",NET20,PIXEL_FARM,PIXEL_FARM_NET20,__SKIA__, GL_ENABLE",//additional define constant,
                new string[] {
                   "System",
                   "System.Drawing",
@@ -34,7 +34,7 @@ namespace BuildMergeProject
             mergePro.LoadSubProject(DEV_DIR + @"Deps\PixelFarm.One.HtmlRenderer.csproj");//this is auto-gen project too             
             //mergePro.LoadSubProject(DEV_DIR + @"Deps\PixelFarm.SkiaSharp\PixelFarm.SkiaSharp.csproj");
             //mergePro.LoadSubProject(DEV_DIR + @"Deps\PixelFarm.Drawing.Skia\PixelFarm.Drawing.Skia.csproj");
-            mergePro.LoadSubProject(DEV_DIR + @"Deps\Tesselate\Tesselate.csproj");
+            //mergePro.LoadSubProject(DEV_DIR + @"Deps\Tesselate\Tesselate.csproj");
             //------------------------------------------------------------------------------------------------
             //base modules
             mergePro.LoadSubProject(DEV_DIR + @"LayoutFarm.ClientPlatforms\LayoutFarm.ClientPlatforms.csproj");
@@ -49,6 +49,7 @@ namespace BuildMergeProject
             mergePro.LoadSubProject(DEV_DIR + @"LayoutFarm.WebDom\LayoutFarm.WebDom.csproj");
             mergePro.LoadSubProject(DEV_DIR + @"LayoutFarm.YourCustomWidgets\LayoutFarm.YourCustomWidgets.csproj");
             //platforms.Windows
+            mergePro.LoadSubProject(DEV_DIR + @"LayoutFarm.PlatformBase\LayoutFarm.PlatformBase.csproj");
             mergePro.LoadSubProject(DEV_DIR + @"LayoutFarm.Platforms.WinForms\LayoutFarm.Platforms.WinForms.csproj");
 
             //js engine

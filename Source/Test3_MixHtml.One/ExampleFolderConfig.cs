@@ -9,8 +9,8 @@ namespace TestGraphicPackage2
     {
         public static void InitIcuData()
         {
-            string icu_dataFile = @"D:\WImageTest\icudt57l\icudt57l.dat";
-            LayoutFarm.TextBreak.ICU.NativeTextBreaker.SetICUDataFile(icu_dataFile);
+            //string icu_dataFile = @"D:\WImageTest\icudt57l\icudt57l.dat";
+            //LayoutFarm.TextBreak.ICU.NativeTextBreaker.SetICUDataFile(icu_dataFile);
 
         }
         public static string GetCheckFolder()

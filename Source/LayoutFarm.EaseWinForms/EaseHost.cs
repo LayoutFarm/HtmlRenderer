@@ -19,9 +19,9 @@ namespace LayoutFarm.Ease
     }
     public static class EaseHost
     {
-        static PixelFarm.Drawing.GraphicsPlatform gdiPlatform;
-        static PixelFarm.Drawing.GraphicsPlatform openGLPlatform = null;//temp remove LayoutFarm.UI.OpenGL.MyOpenGLPortal.Start();
-        static UIPlatform uiPlatformWinForm;
+        //static PixelFarm.Drawing.GraphicsPlatform gdiPlatform;
+        //static PixelFarm.Drawing.GraphicsPlatform openGLPlatform = null;//temp remove LayoutFarm.UI.OpenGL.MyOpenGLPortal.Start();
+        //static UIPlatform uiPlatformWinForm;
         static bool useOpenGL = false;
         static bool isStarted = false;
         static object startLock = new object();
@@ -78,11 +78,11 @@ namespace LayoutFarm.Ease
             {
                 if (isStarted) return;
 
-                var startParams = new LayoutFarm.UI.GdiPlus.MyWinGdiPortalSetupParameters();
-                startParams.IcuDataFile = IcuDataFile;
-                gdiPlatform = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.Start(startParams);
-                uiPlatformWinForm = new LayoutFarm.UI.UIPlatformWinForm();
-                UI.UIPlatform.CurrentUIPlatform = uiPlatformWinForm;
+                //var startParams = new LayoutFarm.UI.GdiPlus.MyWinGdiPortalSetupParameters();
+                //startParams.IcuDataFile = IcuDataFile;
+                //gdiPlatform = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.Start(startParams);
+                //uiPlatformWinForm = new LayoutFarm.UI.UIPlatformWinForm();
+                //UI.UIPlatform.CurrentUIPlatform = uiPlatformWinForm;
                 //--------------------
                 isStarted = true;
                 //--------------------
@@ -91,7 +91,9 @@ namespace LayoutFarm.Ease
 
         public static EaseViewport CreateViewportControl(Form hostForm, int w, int h)
         {
-            var rootgfx = new MyRootGraphic(uiPlatformWinForm, 
+            var rootgfx = new MyRootGraphic(
+                LayoutFarm.UI.UIPlatformWinForm.platform,
+                LayoutFarm.UI.UIPlatformWinForm.platform.GetIFonts(),
                 w, h);
             LayoutFarm.UI.UISurfaceViewportControl viewport;
             CreateNewFormCanvas(hostForm, rootgfx,
@@ -108,10 +110,13 @@ namespace LayoutFarm.Ease
         {
             int w = 800;
             int h = 600;
-            var rootgfx = new MyRootGraphic(uiPlatformWinForm, 
+            var rootgfx = new MyRootGraphic(
+                LayoutFarm.UI.UIPlatformWinForm.platform,
+                LayoutFarm.UI.UIPlatformWinForm.platform.GetIFonts(),
                 w, h);
-            var topRenderBox = rootgfx.TopWindowRenderBox;
-            formCanvas = FormCanvasHelper.CreateNewFormCanvas(rootgfx,
+            
+            formCanvas = FormCanvasHelper.CreateNewFormCanvas(
+                w,h,
                 useOpenGL ? InnerViewportKind.GL : InnerViewportKind.GdiPlus,
                 out viewport);
             formCanvas.Text = "FormCanvas 1";
@@ -176,9 +181,10 @@ namespace LayoutFarm.Ease
 
         public static Canvas CreatePrintCanvas(System.Drawing.Graphics g, int w, int h)
         {
-            CanvasInitParameters canvasInit = new CanvasInitParameters();
-            canvasInit.externalCanvas = g;
-            return gdiPlatform.CreateCanvas(0, 0, w, h, canvasInit);
+            throw new System.NotSupportedException();
+            //CanvasInitParameters canvasInit = new CanvasInitParameters();
+            //canvasInit.externalCanvas = g;
+            //return gdiPlatform.CreateCanvas(0, 0, w, h, canvasInit);
         }
     }
 }

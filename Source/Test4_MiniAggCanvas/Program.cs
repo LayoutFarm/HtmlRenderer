@@ -15,12 +15,12 @@ namespace Test4_AggCanvasBox
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             //temp
-            var startPars = new LayoutFarm.UI.GdiPlus.MyWinGdiPortalSetupParameters();
-            var platform = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.Start(startPars);
+            //var startPars = new LayoutFarm.UI.GdiPlus.MyWinGdiPortalSetupParameters();
+            //var platform = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.Start(startPars);
             formDemoList = new LayoutFarm.Dev.FormDemoList();
             formDemoList.LoadDemoList(typeof(Program));
             Application.Run(formDemoList);
-            LayoutFarm.UI.GdiPlus.MyWinGdiPortal.End();
+            //LayoutFarm.UI.GdiPlus.MyWinGdiPortal.End();
         }
     }
 }
