@@ -24,7 +24,7 @@ namespace LayoutFarm.Ease
         //static UIPlatform uiPlatformWinForm;
         static bool useOpenGL = false;
         static bool isStarted = false;
-        static object startLock = new object();
+         
         //-----------------------------------------
         /// <summary>
         /// lib espr file
@@ -72,23 +72,7 @@ namespace LayoutFarm.Ease
         }
         //-----------------------------------------
 
-        public static void StartGraphicsHost()
-        {
-            lock (startLock)
-            {
-                if (isStarted) return;
-
-                //var startParams = new LayoutFarm.UI.GdiPlus.MyWinGdiPortalSetupParameters();
-                //startParams.IcuDataFile = IcuDataFile;
-                //gdiPlatform = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.Start(startParams);
-                //uiPlatformWinForm = new LayoutFarm.UI.UIPlatformWinForm();
-                //UI.UIPlatform.CurrentUIPlatform = uiPlatformWinForm;
-                //--------------------
-                isStarted = true;
-                //--------------------
-            }
-        }
-
+         
         public static EaseViewport CreateViewportControl(Form hostForm, int w, int h)
         {
             var rootgfx = new MyRootGraphic(

@@ -23,7 +23,7 @@ namespace Test5_Ease
             EaseHost.Init();
              
             //----------------------------------------------------------------------------
-            EaseHost.StartGraphicsHost();
+            
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
