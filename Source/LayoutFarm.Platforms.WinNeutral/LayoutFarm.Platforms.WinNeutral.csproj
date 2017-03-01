@@ -78,7 +78,6 @@
       <Link>5_Shared\WindowFontLoader.cs</Link>
     </Compile>
     <Compile Include="0_Platform\DrawingGLFontPrinter.cs" />
-    <Compile Include="1_LayoutFarm.UI\MyGlfwForm.cs" />
     <Compile Include="1_LayoutFarm.UI\AbstractCompletionWindow.cs" />
     <Compile Include="1_Bridge_WinNeutral\TopWindowBridgeWinNeutral.cs" />
     <Compile Include="1_Bridge_WinNeutral\TopWindowBridgeWinNeutral_dbug.cs" />
