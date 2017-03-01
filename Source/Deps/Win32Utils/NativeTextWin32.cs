@@ -499,10 +499,10 @@ namespace PixelFarm.Drawing.WinGdi
         public static void SetFontLoader(IFontLoader fontLoader)
         {
 
-            //set once
+            //just warning  
             if (s_fontLoader != null)
             {
-                throw new NotSupportedException();
+                // throw new NotSupportedException();
             }
             s_fontLoader = fontLoader;
         }
