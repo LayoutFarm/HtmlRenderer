@@ -17,11 +17,11 @@ namespace LayoutFarm.UI.OpenGL
         {
             //WinGdiTextService.SetDefaultEncoding(encoding);
         }
-        public static void SetFontNotFoundHandler(FontNotFoundHandler fontNotFoundHandler)
-        {
-            s_installFontCollection.SetFontNotFoundHandler(fontNotFoundHandler);
-        }
-        static InstalledFontCollection s_installFontCollection = new InstalledFontCollection();
+        //public static void SetFontNotFoundHandler(FontNotFoundHandler fontNotFoundHandler)
+        //{
+        //    s_installFontCollection.SetFontNotFoundHandler(fontNotFoundHandler);
+        //}
+        //static InstalledFontCollection s_installFontCollection = new InstalledFontCollection();
     }
     //public static class MyOpenGLPortal
     //{

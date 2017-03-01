@@ -7,7 +7,7 @@ namespace YourImplementation
 {
     public static class BootStrapWinGdi
     {
-        public static readonly IFontLoader myFontLoader = new WindowsFontLoader();
+        public static readonly IFontLoader myFontLoader = WindowsFontLoader.Default;
     } 
 
 }
