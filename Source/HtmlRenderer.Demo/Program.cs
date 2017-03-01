@@ -31,8 +31,7 @@ namespace LayoutFarm.Demo
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new DevForm());
-            //Application.Run(new PerfForm());
-
+            //Application.Run(new PerfForm()); 
             //PerfForm.Run();
         }
 

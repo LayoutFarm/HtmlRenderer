@@ -1,5 +1,5 @@
 ﻿//MIT, 2017, WinterDev
-using System;
+ 
 using PixelFarm.Drawing;
 using PixelFarm.Drawing.Fonts;
 

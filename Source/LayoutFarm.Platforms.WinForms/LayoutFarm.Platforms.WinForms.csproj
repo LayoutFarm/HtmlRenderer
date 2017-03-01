@@ -73,6 +73,9 @@
     <Compile Include="..\LayoutFarm.PlatformBase\PlatformBootStrap\BootStrapOpenGLES2.cs">
       <Link>0_Platform\BootStrapOpenGLES2.cs</Link>
     </Compile>
+    <Compile Include="..\LayoutFarm.PlatformBase\PlatformBootStrap\BootStrapSkia.cs">
+      <Link>0_Platform\BootStrapSkia.cs</Link>
+    </Compile>
     <Compile Include="..\LayoutFarm.PlatformBase\PlatformBootStrap\BootStrapWinGdi.cs">
       <Link>0_Platform\BootStrapWinGdi.cs</Link>
     </Compile>
