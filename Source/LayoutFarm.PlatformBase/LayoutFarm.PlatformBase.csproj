@@ -39,6 +39,8 @@
     <Compile Include="dbugHelper.cs" />
     <Compile Include="InnerViewportKind.cs" />
     <Compile Include="MyUITimer.cs" />
+    <Compile Include="PlatformBootStrap\BootStrapOpenGLES2.cs" />
+    <Compile Include="PlatformBootStrap\BootStrapWinGdi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Windows\InstallFontsProviderWin32.cs" />
     <Compile Include="Windows\WindowFontLoader.cs" />

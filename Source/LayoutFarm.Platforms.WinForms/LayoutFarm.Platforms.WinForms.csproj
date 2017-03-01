@@ -70,13 +70,18 @@
     <Compile Include="..\LayoutFarm.PlatformBase\OpenGLCanvasViewport.cs">
       <Link>3_OpenGL\OpenGLCanvasViewport.cs</Link>
     </Compile>
+    <Compile Include="..\LayoutFarm.PlatformBase\PlatformBootStrap\BootStrapOpenGLES2.cs">
+      <Link>0_Platform\BootStrapOpenGLES2.cs</Link>
+    </Compile>
+    <Compile Include="..\LayoutFarm.PlatformBase\PlatformBootStrap\BootStrapWinGdi.cs">
+      <Link>0_Platform\BootStrapWinGdi.cs</Link>
+    </Compile>
     <Compile Include="..\LayoutFarm.PlatformBase\Windows\InstallFontsProviderWin32.cs">
       <Link>5_Shared\InstallFontsProviderWin32.cs</Link>
     </Compile>
     <Compile Include="..\LayoutFarm.PlatformBase\Windows\WindowFontLoader.cs">
       <Link>5_Shared\WindowFontLoader.cs</Link>
     </Compile>
-    <Compile Include="0_Platform\BootStrapWinGdi.cs" />
     <Compile Include="0_Platform\DrawingGLFontPrinter.cs" />
     <Compile Include="4_GdiPlus\Conv.cs" />
     <Compile Include="4_GdiPlus\CanvasCollection.cs" />

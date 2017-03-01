@@ -7,6 +7,8 @@ namespace LayoutFarm.UI
         private UIPlatformWinNeutral()
         {
             LayoutFarm.UI.Clipboard.SetUIPlatform(this);
+            PixelFarm.Drawing.GLES2.GLES2Platform.SetFontLoader(YourImplementation.BootStrapOpenGLES2.myFontLoader);
+
         }
         public override UITimer CreateUITimer()
         {

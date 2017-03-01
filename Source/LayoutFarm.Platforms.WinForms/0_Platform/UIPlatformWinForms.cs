@@ -6,9 +6,10 @@ namespace LayoutFarm.UI
     {
         private UIPlatformWinForm()
         {
-
+            //set up winform platform 
             LayoutFarm.UI.Clipboard.SetUIPlatform(this);
-
+            PixelFarm.Drawing.WinGdi.WinGdiPlusPlatform.SetFontLoader(YourImplementation.BootStrapWinGdi.myFontLoader);
+            PixelFarm.Drawing.GLES2.GLES2Platform.SetFontLoader(YourImplementation.BootStrapOpenGLES2.myFontLoader);
         }
         public override UITimer CreateUITimer()
         {
@@ -25,7 +26,7 @@ namespace LayoutFarm.UI
         public override void SetClipboardData(string textData)
         {
             System.Windows.Forms.Clipboard.SetText(textData);
-        } 
+        }
         public readonly static UIPlatformWinForm platform = new UIPlatformWinForm();
 
     }
