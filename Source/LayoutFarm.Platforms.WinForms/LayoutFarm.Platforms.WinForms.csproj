@@ -61,9 +61,6 @@
     <Compile Include="..\LayoutFarm.PlatformBase\InnerViewportKind.cs">
       <Link>0_Shared\InnerViewportKind.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.PlatformBase\MyOpenGLPortal.cs">
-      <Link>3_OpenGL\MyOpenGLPortal.cs</Link>
-    </Compile>
     <Compile Include="..\LayoutFarm.PlatformBase\MyUITimer.cs">
       <Link>0_Shared\MyUITimer.cs</Link>
     </Compile>
@@ -79,6 +76,9 @@
     <Compile Include="..\LayoutFarm.PlatformBase\PlatformBootStrap\BootStrapWinGdi.cs">
       <Link>0_Platform\BootStrapWinGdi.cs</Link>
     </Compile>
+    <Compile Include="..\LayoutFarm.PlatformBase\SkiaCanvasViewport.cs">
+      <Link>4_Skia\SkiaCanvasViewport.cs</Link>
+    </Compile>
     <Compile Include="..\LayoutFarm.PlatformBase\Windows\InstallFontsProviderWin32.cs">
       <Link>5_Shared\InstallFontsProviderWin32.cs</Link>
     </Compile>
@@ -86,6 +86,10 @@
       <Link>5_Shared\WindowFontLoader.cs</Link>
     </Compile>
     <Compile Include="0_Platform\DrawingGLFontPrinter.cs" />
+    <Compile Include="1_UISurfaceViewport\UISurfaceViewportControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="1_UISurfaceViewport\UISurfaceViewportControl.Designer.cs" />
     <Compile Include="4_GdiPlus\Conv.cs" />
     <Compile Include="4_GdiPlus\CanvasCollection.cs" />
     <Compile Include="4_GdiPlus\QuadPages.cs" />
@@ -96,7 +100,6 @@
       <DependentUpon>AbstractCompletionWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="4_GdiPlus\1_GdiPlusCanvasViewport.cs" />
-    <Compile Include="4_GdiPlus\0_MyWinGdiPortal.cs" />
     <Compile Include="2_GLES2\1_GpuOpenGLSurfaceView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -110,17 +113,10 @@
       <DependentUpon>1_CpuSurfaceView.cs</DependentUpon>
     </Compile>
     <Compile Include="0_Platform\UIPlatformWinForms.cs" />
-    <Compile Include="1_UISurfaceViewPortControls\UISurfaceViewportControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="1_UISurfaceViewPortControls\UISurfaceViewportControl.Designer.cs">
-      <DependentUpon>UISurfaceViewportControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="2_Bridge_WinForm\TopWindowBridgeWinForm.cs" />
     <Compile Include="2_Bridge_WinForm\TopWindowBridgeWinForm_dbug.cs" />
     <Compile Include="4_GdiPlus\3_MyTopWindowBridgeGdiPlus.cs" />
     <Compile Include="2_GLES2\3_MyTopWindowBridgeOpenGL.cs" />
-    <Compile Include="4_Skia\2_SkiaCanvasViewport.cs" />
     <Compile Include="4_Skia\3_MyTopWindowBridgeSkia.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

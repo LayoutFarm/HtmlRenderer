@@ -46,7 +46,7 @@ namespace PixelFarm.Drawing.WinGdi
                 fixed (byte* head_dest = &dest_buffer[dest_startAt])
                 fixed (byte* head_src = &src_buffer[src_StartAt])
                 {
-                    memcpy(head_dest, head_src, len);
+                    Win32.MyWin32.memcpy(head_dest, head_src, len);
                 }
             }
         }
@@ -56,17 +56,11 @@ namespace PixelFarm.Drawing.WinGdi
             {
                 fixed (byte* head = &dest[0])
                 {
-                    memset(head, 0, 100);
+                    Win32.MyWin32.memset(head, 0, 100);
                 }
             }
         }
-        //this is platform specific ***
-        [DllImport("msvcrt.dll", EntryPoint = "memset", CallingConvention = CallingConvention.Cdecl)]
-        static unsafe extern void memset(byte* dest, byte c, int byteCount);
-        [DllImport("msvcrt.dll", EntryPoint = "memcpy", CallingConvention = CallingConvention.Cdecl)]
-        static unsafe extern void memcpy(byte* dest, byte* src, int byteCount);
-        [DllImport("msvcrt.dll", EntryPoint = "memcpy", CallingConvention = CallingConvention.Cdecl)]
-        static unsafe extern int memcmp(byte* dest, byte* src, int byteCount);
+        
     }
 
 

@@ -4,6 +4,8 @@
 using PixelFarm.Drawing;
 using PixelFarm.Forms;
 using LayoutFarm.UI.WinNeutral;
+using PixelFarm.Drawing.GLES2;
+using PixelFarm.DrawingGL;
 
 namespace LayoutFarm.UI.OpenGL
 {
@@ -14,6 +16,8 @@ namespace LayoutFarm.UI.OpenGL
         bool isInitGLControl;
         OpenGLCanvasViewport openGLViewport;
         UISurfaceViewportControl windowControl;
+        CanvasGL2d canvas2d;
+
         public MyTopWindowBridgeOpenGL(RootGraphic root, ITopWindowEventRoot topWinEventRoot)
             : base(root, topWinEventRoot)
         {
@@ -23,6 +27,22 @@ namespace LayoutFarm.UI.OpenGL
         {
 
             openGLViewport.SetCanvas(canvas);
+        }
+        void HandleGLPaint(object sender, System.EventArgs e)
+        {
+            canvas2d.SmoothMode = CanvasSmoothMode.Smooth;
+            canvas2d.StrokeColor = PixelFarm.Drawing.Color.Black;
+            canvas2d.ClearColorBuffer();
+            //example
+            //canvasPainter.FillColor = PixelFarm.Drawing.Color.Black;
+            //canvasPainter.FillRectLBWH(20, 20, 150, 150);
+            ////load bmp image 
+            ////------------------------------------------------------------------------- 
+            //if (exampleBase != null)
+            //{
+            //    exampleBase.Draw(canvasPainter);
+            //}
+            //miniGLControl.SwapBuffers();
         }
         public override void BindWindowControl(Control windowControl)
         {
@@ -36,10 +56,43 @@ namespace LayoutFarm.UI.OpenGL
                 {
 
                 }, //still do nothing
-                this.PaintToOutputWindow); 
+                this.PaintToOutputWindow);
 
-            openGLViewport.NotifyWindowControlBinding();
+            ////--------------------
+            ////---------------------------------------
+            //myGLControl.SetGLPaintHandler(HandleGLPaint);
+            //hh1 = miniGLControl.Handle;
+            //miniGLControl.MakeCurrent();
+            //int max = Math.Max(this.Width, this.Height);
+            //canvas2d = PixelFarm.Drawing.GLES2.GLES2Platform.CreateCanvasGL2d(max, max);
+            //canvasPainter = new GLCanvasPainter(canvas2d, max, max);
+            ////create text printer for opengl 
+            ////----------------------
+            ////1. win gdi based
+            ////var printer = new WinGdiFontPrinter(canvas2d, w, h);
+            ////canvasPainter.TextPrinter = printer;
+            ////----------------------
+            ////2. raw vxs
+            ////var printer = new PixelFarm.Drawing.Fonts.VxsTextPrinter(canvasPainter);
+            ////canvasPainter.TextPrinter = printer;
+            ////----------------------
+            ////3. agg texture based font texture
+            ////var printer = new AggFontPrinter(canvasPainter, w, h);
+            ////canvasPainter.TextPrinter = printer;
+            ////----------------------
+            ////4. texture atlas based font texture
 
+            ////------------
+            ////resolve request font
+
+
+            //var printer = new GLBmpGlyphTextPrinter(canvasPainter, YourImplementation.BootStrapWinGdi.myFontLoader);
+            //canvasPainter.TextPrinter = printer;
+
+
+
+            ////--------------------
+            //openGLViewport.NotifyWindowControlBinding();
 #if DEBUG
             this.openGLViewport.dbugOutputWindow = this;
 #endif

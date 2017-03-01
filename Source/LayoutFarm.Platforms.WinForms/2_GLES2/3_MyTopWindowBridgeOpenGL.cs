@@ -8,7 +8,7 @@ namespace LayoutFarm.UI.OpenGL
 {
     class MyTopWindowBridgeOpenGL : TopWindowBridgeWinForm
     {
-        
+
 
         bool isInitGLControl;
         GpuOpenGLSurfaceView windowControl;
@@ -19,6 +19,10 @@ namespace LayoutFarm.UI.OpenGL
         {
 
         }
+        public void SetCanvas(Canvas canvas)
+        {
+            this.openGLViewport.SetCanvas(canvas);
+        }
         public override void InvalidateRootArea(Rectangle r)
         {
 
@@ -28,6 +32,7 @@ namespace LayoutFarm.UI.OpenGL
             this.BindGLControl((GpuOpenGLSurfaceView)windowControl);
 
         }
+
         /// <summary>
         /// bind to gl control
         /// </summary>
@@ -37,7 +42,9 @@ namespace LayoutFarm.UI.OpenGL
             this.windowControl = myGLControl;
             SetBaseCanvasViewport(this.openGLViewport = new OpenGLCanvasViewport(this.RootGfx, this.windowControl.Size.ToSize(), 4));
             RootGfx.SetPaintDelegates(
-                (r) => { }, //still do nothing
+                (r) => {
+
+                }, //still do nothing
                 this.PaintToOutputWindow);
             openGLViewport.NotifyWindowControlBinding();
 

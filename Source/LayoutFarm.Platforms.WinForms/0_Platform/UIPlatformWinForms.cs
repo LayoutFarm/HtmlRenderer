@@ -10,7 +10,10 @@ namespace LayoutFarm.UI
             LayoutFarm.UI.Clipboard.SetUIPlatform(this);
             //gdi+
             PixelFarm.Drawing.WinGdi.WinGdiPlusPlatform.SetFontLoader(YourImplementation.BootStrapWinGdi.myFontLoader);
+            PixelFarm.Drawing.WinGdi.WinGdiFontFace.SetFontLoader(YourImplementation.BootStrapWinGdi.myFontLoader);
+
             //gles2
+            OpenTK.Toolkit.Init();
             PixelFarm.Drawing.GLES2.GLES2Platform.SetFontLoader(YourImplementation.BootStrapOpenGLES2.myFontLoader);
             //skia 
             if (!YourImplementation.BootStrapSkia.IsNativeLibAvailable())
@@ -41,7 +44,8 @@ namespace LayoutFarm.UI
             System.Windows.Forms.Clipboard.SetText(textData);
         }
 
-        LayoutFarm.UI.GdiPlus.GdiPlusIFonts _gdiPlusIFonts = new GdiPlus.GdiPlusIFonts();
+
+        PixelFarm.Drawing.WinGdi.Gdi32IFonts _gdiPlusIFonts = new PixelFarm.Drawing.WinGdi.Gdi32IFonts();
         public PixelFarm.Drawing.IFonts GetIFonts()
         {
             return this._gdiPlusIFonts;

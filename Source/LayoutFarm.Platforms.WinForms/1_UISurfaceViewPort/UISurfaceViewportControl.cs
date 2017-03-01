@@ -3,6 +3,8 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using PixelFarm.DrawingGL;
+
 namespace LayoutFarm.UI
 {
     public partial class UISurfaceViewportControl : UserControl
@@ -28,6 +30,30 @@ namespace LayoutFarm.UI
                 return winPlatform;
             }
         }
+
+        IntPtr hh1;
+        OpenGL.GpuOpenGLSurfaceView openGLSurfaceView;
+        CanvasGL2d canvas2d;
+        GLCanvasPainter canvasPainter;
+
+        void HandleGLPaint(object sender, System.EventArgs e)
+        {
+            //canvas2d.SmoothMode = CanvasSmoothMode.Smooth;
+            //canvas2d.StrokeColor = PixelFarm.Drawing.Color.Black;
+            //canvas2d.ClearColorBuffer();
+            ////example
+            //canvasPainter.FillColor = PixelFarm.Drawing.Color.Black;
+            //canvasPainter.FillRectLBWH(20, 20, 150, 150);
+            ////load bmp image 
+            //////------------------------------------------------------------------------- 
+            ////if (exampleBase != null)
+            ////{
+            ////    exampleBase.Draw(canvasPainter);
+            ////}
+            ////draw data 
+
+            //openGLSurfaceView.SwapBuffers();
+        }
         public void InitRootGraphics(
             RootGraphic rootgfx,
             ITopWindowEventRoot topWinEventRoot,
@@ -49,13 +75,48 @@ namespace LayoutFarm.UI
 
                         var bridge = new OpenGL.MyTopWindowBridgeOpenGL(rootgfx, topWinEventRoot);
                         var view = new OpenGL.GpuOpenGLSurfaceView();
+
                         view.Width = 800;
                         view.Height = 600;
+                        openGLSurfaceView = view;
                         //view.Dock = DockStyle.Fill;
                         this.Controls.Add(view);
                         //--------------------------------------- 
                         view.Bind(bridge);
                         this.winBridge = bridge;
+                        //--------------------------------------- 
+                        view.SetGLPaintHandler(HandleGLPaint);
+                        hh1 = view.Handle; //force real window handle creation
+                        view.MakeCurrent();
+                        int max = Math.Max(this.Width, this.Height);
+                        canvas2d = PixelFarm.Drawing.GLES2.GLES2Platform.CreateCanvasGL2d(max, max);
+                        canvasPainter = new GLCanvasPainter(canvas2d, max, max);
+                        //canvasPainter.SmoothingMode = PixelFarm.Drawing.SmoothingMode.HighQuality;
+                        
+                        //----------------------
+                        //1. win gdi based
+                        //var printer = new WinGdiFontPrinter(canvas2d, view.Width, view.Height);
+                        //canvasPainter.TextPrinter = printer;
+                        //----------------------
+                        //2. raw vxs
+                        //var printer = new PixelFarm.Drawing.Fonts.VxsTextPrinter(canvasPainter);
+                        //canvasPainter.TextPrinter = printer;
+                        //----------------------
+                        //3. agg texture based font texture
+                        var printer = new AggFontPrinter(canvasPainter, 400, 50);
+                        canvasPainter.TextPrinter = printer;
+
+                        //var printer = new GLBmpGlyphTextPrinter(canvasPainter, YourImplementation.BootStrapWinGdi.myFontLoader);
+                        //canvasPainter.TextPrinter = printer;
+
+                        //-
+                        var myGLCanvas1 = new PixelFarm.Drawing.GLES2.MyGLCanvas(canvasPainter, 0, 0, view.Width, view.Height);
+                        
+                        bridge.SetCanvas(myGLCanvas1);
+
+
+
+
                     }
                     break;
 #if __SKIA__

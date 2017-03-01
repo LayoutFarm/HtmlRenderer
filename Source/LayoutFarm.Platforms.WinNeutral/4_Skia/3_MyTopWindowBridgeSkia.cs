@@ -8,7 +8,7 @@ namespace LayoutFarm.UI.Skia
     class MyTopWindowBridgeSkia : TopWindowBridgeWinNeutral
     {
         Control windowControl;
-        SkiaCanvasViewport canvasViewport;
+       SkiaCanvasViewport canvasViewport;
         public MyTopWindowBridgeSkia(RootGraphic root, ITopWindowEventRoot topWinEventRoot)
             : base(root, topWinEventRoot)
         {

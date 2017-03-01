@@ -33,7 +33,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MyOpenGLPortal.cs" />
+    <Compile Include="SkiaCanvasViewport.cs" />
     <Compile Include="OpenGLCanvasViewport.cs" />
     <Compile Include="CanvasViewport.cs" />
     <Compile Include="dbugHelper.cs" />
@@ -66,6 +66,10 @@
     <ProjectReference Include="..\Deps\PixelFarm.Typography\PixelFarm.Typography.csproj">
       <Project>{540a2ea6-dae3-4625-8951-b2c3118603a4}</Project>
       <Name>PixelFarm.Typography</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Deps\Typography\Typography.OpenFont\N20\Typography.OpenFont\Typography.OpenFont.csproj">
+      <Project>{29ed0dfe-373c-4e98-bd4b-43f8e5fb16f6}</Project>
+      <Name>Typography.OpenFont</Name>
     </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.BaseRenderer\LayoutFarm.BaseRenderer.csproj">
       <Project>{20048075-a2f3-4b97-b3c6-bea794429741}</Project>

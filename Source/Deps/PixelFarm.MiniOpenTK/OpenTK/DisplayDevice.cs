@@ -281,7 +281,13 @@ namespace OpenTK
         #region public static DisplayDevice Default
 
         /// <summary>Gets the default (primary) display of this system.</summary>
-        public static DisplayDevice Default { get { return primary_display; } }
+        public static DisplayDevice Default
+        {
+            get
+            {
+                return primary_display;
+            }
+        }
 
         #endregion
 

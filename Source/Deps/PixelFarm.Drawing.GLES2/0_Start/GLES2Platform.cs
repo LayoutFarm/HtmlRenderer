@@ -12,8 +12,7 @@ namespace PixelFarm.Drawing.GLES2
         public GLES2Platform()
         {
 
-        }
-
+        } 
         public override Canvas CreateCanvas(int left,
             int top, int width, int height,
             CanvasInitParameters reqPars = new CanvasInitParameters())

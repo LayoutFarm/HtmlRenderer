@@ -31,6 +31,7 @@ namespace OpenTkEssTest
             lionVxs = new VertexStore();
             aff.TransformToVxs(lionShape.Path.Vxs, lionVxs);
             painter = new GLCanvasPainter(canvas2d, max, max);
+            SetPrinter(painter);
         }
         public void Init2(CanvasGL2d canvas2d)
         {
@@ -45,6 +46,7 @@ namespace OpenTkEssTest
             lionVxs = new VertexStore();
             aff.TransformToVxs(lionShape.Path.Vxs, lionVxs);
             painter = new GLCanvasPainter(canvas2d, max, max);
+            SetPrinter(painter);
         }
         public GLCanvasPainter Painter { get { return this.painter; } }
 

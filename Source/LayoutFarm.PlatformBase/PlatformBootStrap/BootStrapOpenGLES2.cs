@@ -9,7 +9,7 @@ namespace YourImplementation
 
     public static class BootStrapOpenGLES2
     {
-        public static readonly IFontLoader myFontLoader = new WindowsFontLoader();
+        public static readonly IFontLoader myFontLoader = WindowsFontLoader.Default;
     }
 
 

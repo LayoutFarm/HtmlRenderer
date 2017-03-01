@@ -16,8 +16,11 @@
 using System;
 namespace PixelFarm.Drawing.GLES2
 {
+
     partial class MyGLCanvas
     {
+        class MyGLCanvasException : Exception { }
+
         float strokeWidth = 1f;
         Color fillSolidColor = Color.Transparent;
         Color strokeColor = Color.Black;
@@ -47,7 +50,7 @@ namespace PixelFarm.Drawing.GLES2
 
         public override void RenderTo(IntPtr destHdc, int sourceX, int sourceY, Rectangle destArea)
         {
-            throw new NotSupportedException();
+            throw new MyGLCanvasException();
             //IntPtr gxdc = gx.GetHdc();
             //MyWin32.SetViewportOrgEx(gxdc, CanvasOrgX, CanvasOrgY, IntPtr.Zero);
             //MyWin32.BitBlt(destHdc, destArea.X, destArea.Y,
@@ -58,63 +61,46 @@ namespace PixelFarm.Drawing.GLES2
         public override void ClearSurface(PixelFarm.Drawing.Color c)
         {
             painter1.Clear(c);
-            //gx.Clear(System.Drawing.Color.FromArgb(
-            //    c.A,
-            //    c.R,
-            //    c.G,
-            //    c.B));
         }
         public override void DrawPath(GraphicsPath gfxPath)
         {
-
-
-            throw new NotSupportedException();
+            throw new MyGLCanvasException();
             //gx.DrawPath(internalPen, gfxPath.InnerPath as System.Drawing.Drawing2D.GraphicsPath);
         }
         public override void FillRectangle(Brush brush, float left, float top, float width, float height)
         {
-            throw new NotSupportedException();
-            //switch (brush.BrushKind)
-            //{
-            //    case BrushKind.Solid:
-            //        {
-            //            //use default solid brush
-            //            SolidBrush solidBrush = (SolidBrush)brush;
-            //            var prevColor = internalSolidBrush.Color;
-            //            internalSolidBrush.Color = ConvColor(solidBrush.Color);
-            //            gx.FillRectangle(internalSolidBrush, left, top, width, height);
-            //            internalSolidBrush.Color = prevColor;
-            //        }
-            //        break;
-            //    case BrushKind.LinearGradient:
-            //        {
-            //            //draw with gradient
-            //            LinearGradientBrush linearBrush = (LinearGradientBrush)brush;
-            //            var colors = linearBrush.GetColors();
-            //            var points = linearBrush.GetStopPoints();
-            //            using (var linearGradBrush = new System.Drawing.Drawing2D.LinearGradientBrush(
-            //                 points[0].ToPointF(),
-            //                 points[1].ToPointF(),
-            //                 ConvColor(colors[0]),
-            //                 ConvColor(colors[1])))
-            //            {
-            //                gx.FillRectangle(linearGradBrush, left, top, width, height);
-            //            }
-            //        }
-            //        break;
-            //    case BrushKind.GeometryGradient:
-            //        {
-            //        }
-            //        break;
-            //    case BrushKind.CircularGraident:
-            //        {
-            //        }
-            //        break;
-            //    case BrushKind.Texture:
-            //        {
-            //        }
-            //        break;
-            //}
+
+            switch (brush.BrushKind)
+            {
+                case BrushKind.Solid:
+                    {
+                        //use default solid brush
+                        SolidBrush solidBrush = (SolidBrush)brush;
+                        var prevColor = painter1.FillColor;
+                        painter1.FillColor = solidBrush.Color;
+                        painter1.FillRectangle(left, top + height, left + width, top);
+                        painter1.FillColor = prevColor;
+                        //internalSolidBrush.Color = prevColor;
+                    }
+                    break;
+                case BrushKind.LinearGradient:
+                    {
+                        throw new MyGLCanvasException();
+                    }
+                    break;
+                case BrushKind.GeometryGradient:
+                    {
+                    }
+                    break;
+                case BrushKind.CircularGraident:
+                    {
+                    }
+                    break;
+                case BrushKind.Texture:
+                    {
+                    }
+                    break;
+            }
         }
         public override void FillRectangle(Color color, float left, float top, float width, float height)
         {
@@ -127,17 +113,12 @@ namespace PixelFarm.Drawing.GLES2
         {
             painter1.StrokeColor = color;
             painter1.Rectangle(left, top + height, left + width, top);
-            //throw new NotSupportedException();
-            //internalPen.Color = ConvColor(color);
-            //gx.DrawRectangle(internalPen, left, top, width, height);
         }
 
         public override void DrawLine(float x1, float y1, float x2, float y2)
         {
 
             painter1.Line(x1, y1, x2, y2);
-            //throw new NotSupportedException();
-            //gx.DrawLine(internalPen, x1, y1, x2, y2);
         }
 
 
@@ -152,14 +133,11 @@ namespace PixelFarm.Drawing.GLES2
         {
             get
             {
-
-                throw new NotSupportedException();
-                //return (SmoothingMode)(gx.SmoothingMode);
+                return painter1.SmoothingMode;
             }
             set
             {
-                throw new NotSupportedException();
-                //gx.SmoothingMode = (System.Drawing.Drawing2D.SmoothingMode)value;
+                painter1.SmoothingMode = value;
             }
         }
         /// <summary>
@@ -171,7 +149,9 @@ namespace PixelFarm.Drawing.GLES2
         /// <exception cref="T:System.ArgumentNullException"><paramref name="image"/> is null.</exception>
         public override void DrawImage(Image image, RectangleF destRect, RectangleF srcRect)
         {
-            throw new NotSupportedException();
+            //TODO: review here 
+            //painter1.DrawImage(image, destRect.X, destRect.Y);
+            throw new MyGLCanvasException();
             //gx.DrawImage(image.InnerImage as System.Drawing.Image,
             //    destRect.ToRectF(),
             //    srcRect.ToRectF(),
@@ -179,7 +159,7 @@ namespace PixelFarm.Drawing.GLES2
         }
         public override void DrawImages(Image image, RectangleF[] destAndSrcPairs)
         {
-            throw new NotSupportedException();
+            throw new MyGLCanvasException();
             //int j = destAndSrcPairs.Length;
             //if (j > 1)
             //{
@@ -206,7 +186,7 @@ namespace PixelFarm.Drawing.GLES2
         /// <param name="image"><see cref="T:System.Drawing.Image"/> to draw. </param><param name="destRect"><see cref="T:System.Drawing.Rectangle"/> structure that specifies the location and size of the drawn image. </param><exception cref="T:System.ArgumentNullException"><paramref name="image"/> is null.</exception><PermissionSet><IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/></PermissionSet>
         public override void DrawImage(Image image, RectangleF destRect)
         {
-            throw new NotSupportedException();
+            throw new MyGLCanvasException();
             //if (image.IsReferenceImage)
             //{
             //    gx.DrawImage(image.InnerImage as System.Drawing.Image,
@@ -223,7 +203,7 @@ namespace PixelFarm.Drawing.GLES2
         }
         public override void FillPath(Color color, GraphicsPath gfxPath)
         {
-            throw new NotSupportedException();
+            throw new MyGLCanvasException();
             //solid color
             //var prevColor = internalSolidBrush.Color;
             //internalSolidBrush.Color = ConvColor(color);
@@ -237,7 +217,7 @@ namespace PixelFarm.Drawing.GLES2
         /// <param name="brush"><see cref="T:System.Drawing.Brush"/> that determines the characteristics of the fill. </param><param name="path"><see cref="T:System.Drawing.Drawing2D.GraphicsPath"/> that represents the path to fill. </param><exception cref="T:System.ArgumentNullException"><paramref name="brush"/> is null.-or-<paramref name="path"/> is null.</exception><PermissionSet><IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/></PermissionSet>
         public override void FillPath(Brush brush, GraphicsPath path)
         {
-            throw new NotSupportedException();
+            throw new MyGLCanvasException();
             //switch (brush.BrushKind)
             //{
             //    case BrushKind.Solid:
@@ -269,14 +249,14 @@ namespace PixelFarm.Drawing.GLES2
 
         public override void FillPolygon(Brush brush, PointF[] points)
         {
-            throw new NotSupportedException();
+            throw new MyGLCanvasException();
             //var pps = ConvPointFArray(points);
             ////use internal solid color            
             //gx.FillPolygon(brush.InnerBrush as System.Drawing.Brush, pps);
         }
         public override void FillPolygon(Color color, PointF[] points)
         {
-            throw new NotSupportedException();
+            throw new MyGLCanvasException();
             //var pps = ConvPointFArray(points);
             //internalSolidBrush.Color = ConvColor(color);
             //gx.FillPolygon(this.internalSolidBrush, pps);
