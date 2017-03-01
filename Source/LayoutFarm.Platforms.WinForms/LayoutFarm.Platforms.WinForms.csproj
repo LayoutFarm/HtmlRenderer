@@ -86,6 +86,10 @@
       <Link>5_Shared\WindowFontLoader.cs</Link>
     </Compile>
     <Compile Include="0_Platform\DrawingGLFontPrinter.cs" />
+    <Compile Include="1_UISurfaceViewport\UISurfaceViewportControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="1_UISurfaceViewport\UISurfaceViewportControl.Designer.cs" />
     <Compile Include="4_GdiPlus\Conv.cs" />
     <Compile Include="4_GdiPlus\CanvasCollection.cs" />
     <Compile Include="4_GdiPlus\QuadPages.cs" />
@@ -109,12 +113,6 @@
       <DependentUpon>1_CpuSurfaceView.cs</DependentUpon>
     </Compile>
     <Compile Include="0_Platform\UIPlatformWinForms.cs" />
-    <Compile Include="1_UISurfaceViewPortControls\UISurfaceViewportControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="1_UISurfaceViewPortControls\UISurfaceViewportControl.Designer.cs">
-      <DependentUpon>UISurfaceViewportControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="2_Bridge_WinForm\TopWindowBridgeWinForm.cs" />
     <Compile Include="2_Bridge_WinForm\TopWindowBridgeWinForm_dbug.cs" />
     <Compile Include="4_GdiPlus\3_MyTopWindowBridgeGdiPlus.cs" />
