@@ -379,6 +379,31 @@ namespace PixelFarm.Drawing.WinGdi
         }
     }
 
+    class GdiPlusIFonts : IFonts
+    {
+        public float MeasureWhitespace(RequestFont f)
+        {
+            return WinGdiTextService.MeasureWhitespace(f);
+        }
+        public Size MeasureString(char[] buff, int startAt, int len, RequestFont font)
+        {
+            return WinGdiTextService.MeasureString(buff, startAt, len, font);
+        }
+        public Size MeasureString(char[] buff, int startAt, int len, RequestFont font,
+            float maxWidth,
+            out int charFit,
+            out int charFitWidth)
+        {
+            return WinGdiTextService.MeasureString(buff, startAt, len, font, maxWidth, out charFit, out charFitWidth);
+        }
+        public void CalculateGlyphAdvancePos(char[] str, int startAt, int len, RequestFont font, int[] glyphXAdvances)
+        {
+            WinGdiTextService.CalculateGlyphAdvancePos(str, startAt, len, font, glyphXAdvances);
+        }
+        public void Dispose()
+        {
+        }
+    }
 
     struct FontFaceKey
     {

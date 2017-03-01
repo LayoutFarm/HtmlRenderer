@@ -178,39 +178,7 @@
 ////        public IFonts TextServiceInstance { get; set; }
 ////        public IActualFontResolver ActualFontResolver { get; set; }
 ////    }
-
-////    class GdiPlusIFonts : LayoutFarm.IFonts
-////    {
-////        public float MeasureWhitespace(RequestFont f)
-////        {
-////            return WinGdiTextService.MeasureWhitespace(f);
-////        }
-////        public Size MeasureString(char[] buff, int startAt, int len, RequestFont font)
-////        {
-////            return WinGdiTextService.MeasureString(buff, startAt, len, font);
-////        }
-////        public Size MeasureString(char[] buff, int startAt, int len, RequestFont font,
-////            float maxWidth,
-////            out int charFit,
-////            out int charFitWidth)
-////        {
-////            return WinGdiTextService.MeasureString(buff, startAt, len, font, maxWidth, out charFit, out charFitWidth);
-////        }
-////        public void CalculateGlyphAdvancePos(char[] str, int startAt, int len, RequestFont font, int[] glyphXAdvances)
-////        {
-////            WinGdiTextService.CalculateGlyphAdvancePos(str, startAt, len, font, glyphXAdvances);
-////        }
-////        public void Dispose()
-////        {
-////        }
-////    }
-////    class GdiFontResolver : LayoutFarm.IActualFontResolver
-////    {
-////        public PixelFarm.Drawing.Fonts.ActualFont Resolve(RequestFont font)
-////        {
-////            return WinGdiTextService.GetWinGdiFont(font);
-////        }
-////    }
+ 
 
 ////}
 ////#endif
