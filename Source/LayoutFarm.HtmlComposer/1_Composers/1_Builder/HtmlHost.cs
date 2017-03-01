@@ -36,9 +36,9 @@ namespace LayoutFarm.HtmlBoxes
         {
             //use default style sheet
         }
-
         public void SetRootGraphics(RootGraphic rootgfx)
         {
+
             this.rootgfx = rootgfx;
         }
         public RootGraphic RootGfx { get { return this.rootgfx; } }
@@ -86,13 +86,13 @@ namespace LayoutFarm.HtmlBoxes
             sharedDocument.CssActiveSheet = this.commonHtmlDoc.CssActiveSheet;
             return sharedDocument;
         }
-        public LayoutFarm.HtmlBoxes.LayoutVisitor GetSharedHtmlLayoutVisitor(HtmlContainer htmlCont)
+        public LayoutVisitor GetSharedHtmlLayoutVisitor(HtmlContainer htmlCont)
         {
-            LayoutFarm.HtmlBoxes.LayoutVisitor lay = null;
+            LayoutVisitor lay = null;
             if (htmlLayoutVisitorStock.Count == 0)
             {
-
-                lay = new LayoutVisitor(null);
+                RootGraphic rootgfx = (RootGraphic)htmlCont.RootCssBox.RootGfx;
+                lay = new LayoutVisitor(rootgfx.IFonts);
             }
             else
             {
@@ -101,7 +101,7 @@ namespace LayoutFarm.HtmlBoxes
             lay.Bind(htmlCont);
             return lay;
         }
-        public void ReleaseHtmlLayoutVisitor(LayoutFarm.HtmlBoxes.LayoutVisitor lay)
+        public void ReleaseHtmlLayoutVisitor(LayoutVisitor lay)
         {
             lay.UnBind();
             this.htmlLayoutVisitorStock.Enqueue(lay);

@@ -13,7 +13,10 @@ namespace LayoutFarm.UI
             out LayoutFarm.UI.UISurfaceViewportControl canvasViewport)
         {
 
-            MyRootGraphic myRootGfx = new MyRootGraphic(LayoutFarm.UI.UIPlatformWinForm.platform, w, h);
+            MyRootGraphic myRootGfx = new MyRootGraphic(
+                LayoutFarm.UI.UIPlatformWinForm.platform,
+                LayoutFarm.UI.UIPlatformWinForm.platform.GetIFonts(),
+                w, h);
 
             Form form1 = new Form();
             var innerViewport = canvasViewport = new LayoutFarm.UI.UISurfaceViewportControl();

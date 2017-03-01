@@ -53,7 +53,9 @@ namespace TestGraphicPackage
             simpleForm.Controls.Add(viewport);
             int w = 800;
             int h = 600;
-            var rootgfx = new MyRootGraphic(LayoutFarm.UI.UIPlatformWinForm.platform,
+            var rootgfx = new MyRootGraphic(
+                LayoutFarm.UI.UIPlatformWinForm.platform,
+                LayoutFarm.UI.UIPlatformWinForm.platform.GetIFonts(),
                 w, h);
             viewport.InitRootGraphics(rootgfx, rootgfx.TopWinEventPortal,
                 InnerViewportKind.GdiPlus);

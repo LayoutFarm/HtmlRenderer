@@ -27,6 +27,12 @@ namespace LayoutFarm.UI
         {
             System.Windows.Forms.Clipboard.SetText(textData);
         }
+
+        LayoutFarm.UI.GdiPlus.GdiPlusIFonts _gdiPlusIFonts = new GdiPlus.GdiPlusIFonts();
+        public PixelFarm.Drawing.IFonts GetIFonts()
+        {
+            return this._gdiPlusIFonts;
+        }
         public readonly static UIPlatformWinForm platform = new UIPlatformWinForm();
 
     }

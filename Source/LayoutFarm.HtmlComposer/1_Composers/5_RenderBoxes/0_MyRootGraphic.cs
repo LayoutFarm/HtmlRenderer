@@ -18,13 +18,18 @@ namespace LayoutFarm.UI
         static object normalUpdateTask = new object();
         readonly TopWindowEventRoot topWindowEventRoot;
         readonly RenderBoxBase topWindowRenderBox;
+
         UIPlatform uiPlatform;
-        RequestFont _defaultTextEditFont;
-        public MyRootGraphic(UIPlatform uiPlatform,
+        RequestFont _defaultTextEditFont; //TODO: review here
+        IFonts _ifonts;
+        public MyRootGraphic(
+            UIPlatform uiPlatform,
+            IFonts ifonts,
             int width, int height)
             : base(width, height)
         {
-            this.uiPlatform = uiPlatform; 
+            this.uiPlatform = uiPlatform;
+            this._ifonts = ifonts;
             this.graphicTimerTaskMan = new GraphicsTimerTaskManager(this, uiPlatform);
             _defaultTextEditFont = new RequestFont("tahoma", 10);
 
@@ -45,11 +50,20 @@ namespace LayoutFarm.UI
                     this.FlushAccumGraphics();
                 });
         }
-
-
+        public override IFonts IFonts
+        {
+            get
+            {
+                return this._ifonts;
+            }
+        }
+        public void ChangeIFonts(IFonts ifonts)
+        {
+            this._ifonts = ifonts;
+        }
         public override RootGraphic CreateNewOne(int w, int h)
         {
-            return new MyRootGraphic(this.uiPlatform, w, h);
+            return new MyRootGraphic(this.uiPlatform, this._ifonts, w, h);
         }
         public ITopWindowEventRoot TopWinEventPortal
         {

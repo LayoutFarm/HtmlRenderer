@@ -75,9 +75,8 @@ namespace LayoutFarm.Demo
         Timer timer01 = new Timer();
         LayoutFarm.HtmlBoxes.LayoutVisitor htmlLayoutVisitor;
         PixelFarm.Drawing.Canvas renderCanvas;
-        PixelFarm.Drawing.GraphicsPlatform gfxPlatform;
-        int canvasW;
-        int canvasH;
+        
+
         /// <summary>
         /// Creates a new HtmlPanel and sets a basic css for it's styling.
         /// </summary>
@@ -88,7 +87,7 @@ namespace LayoutFarm.Demo
             SetStyle(ControlStyles.ResizeRedraw, true);
             SetStyle(ControlStyles.SupportsTransparentBackColor, true);
             //this.gfxPlatform = p;
-            
+
             //this.renderCanvas = gfxPlatform.CreateCanvas(0, 0,
             //    this.canvasW = w, this.canvasH = h);
         }
@@ -120,7 +119,7 @@ namespace LayoutFarm.Demo
                 OnRefresh,
                 null);
             //------------------------------------------------------- 
-            htmlLayoutVisitor = new LayoutVisitor(null);
+            htmlLayoutVisitor = new LayoutVisitor(htmlhost.RootGfx.IFonts);
             htmlLayoutVisitor.Bind(htmlContainer);
             //------------------------------------------------------- 
             timer01.Interval = 20;//20ms?

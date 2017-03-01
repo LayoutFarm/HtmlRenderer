@@ -167,7 +167,10 @@ namespace TestGlfw
 
             LayoutFarm.Ease.EaseHost.StartGraphicsHost();
 
-            var rootgfx = new MyRootGraphic(LayoutFarm.UI.UIPlatformWinNeutral.platform, ww_w, ww_h);
+            var rootgfx = new MyRootGraphic(
+                LayoutFarm.UI.UIPlatformWinNeutral.platform,
+                LayoutFarm.UI.UIPlatformWinNeutral.platform.GetIFonts(),
+                ww_w, ww_h);
 
             var surfaceViewportControl = new LayoutFarm.UI.WinNeutral.UISurfaceViewportControl();
 

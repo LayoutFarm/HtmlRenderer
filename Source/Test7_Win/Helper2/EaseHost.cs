@@ -72,9 +72,9 @@ namespace LayoutFarm.Ease
             {
                 if (isStarted) return;
 
-                var startParams = new LayoutFarm.UI.OpenGL.MyWinGdiPortalSetupParameters();
-                startParams.IcuDataFile = IcuDataFile;
-                gdiPlatform = LayoutFarm.UI.OpenGL.MyOpenGLPortal.Start(startParams);
+                //var startParams = new LayoutFarm.UI.OpenGL.MyWinGdiPortalSetupParameters();
+                //startParams.IcuDataFile = IcuDataFile;
+                //gdiPlatform = LayoutFarm.UI.OpenGL.MyOpenGLPortal.Start(startParams);
 
                 //uiPlatformWinForm = new LayoutFarm.UI.UIPlatformWinNeutral();
                 //UI.UIPlatform.CurrentUIPlatform = uiPlatformWinForm;
@@ -102,7 +102,10 @@ namespace LayoutFarm.Ease
         {
             int w = 800;
             int h = 600;
-            var rootgfx = new MyRootGraphic(LayoutFarm.UI.UIPlatformWinNeutral.platform, w, h);
+            var rootgfx = new MyRootGraphic(
+                LayoutFarm.UI.UIPlatformWinNeutral.platform,
+                LayoutFarm.UI.UIPlatformWinNeutral.platform.GetIFonts(),
+                w, h);
             var topRenderBox = rootgfx.TopWindowRenderBox;
             formCanvas = FormCanvasHelper.CreateNewFormCanvas(rootgfx,
                 useOpenGL ? InnerViewportKind.GL : InnerViewportKind.GdiPlus,
@@ -120,7 +123,10 @@ namespace LayoutFarm.Ease
           out LayoutFarm.UI.WinNeutral.UISurfaceViewportControl canvasViewport)
         {
 
-            var rootgfx = new MyRootGraphic(LayoutFarm.UI.UIPlatformWinNeutral.platform, w, h);
+            var rootgfx = new MyRootGraphic(
+                LayoutFarm.UI.UIPlatformWinNeutral.platform,
+                LayoutFarm.UI.UIPlatformWinNeutral.platform.GetIFonts(),
+                w, h);
             var innerViewport = canvasViewport = new LayoutFarm.UI.WinNeutral.UISurfaceViewportControl();
             //temp fix
             Rectangle screenClientAreaRect = new Rectangle(0, 0, 800, 600); // Conv.ToRect(Screen.PrimaryScreen.WorkingArea);

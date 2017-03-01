@@ -18,14 +18,5 @@ namespace LayoutFarm
         public static IActualFontResolver Resolver { get; set; }
 
     }
-    public static class TextServices
-    {
-        //implement ifonts  
-        public static IFonts IFonts
-        {
-            get;
-            set;
-        }
-    }
-
+    
 }

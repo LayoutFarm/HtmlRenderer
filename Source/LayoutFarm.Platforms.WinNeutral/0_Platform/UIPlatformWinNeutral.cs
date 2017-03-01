@@ -26,7 +26,10 @@ namespace LayoutFarm.UI
         {
             throw new System.NotSupportedException();
         }
-
+        public PixelFarm.Drawing.IFonts GetIFonts()
+        {
+            throw new System.NotSupportedException();
+        }
         public static readonly UIPlatformWinNeutral platform = new UIPlatformWinNeutral();
     }
 }

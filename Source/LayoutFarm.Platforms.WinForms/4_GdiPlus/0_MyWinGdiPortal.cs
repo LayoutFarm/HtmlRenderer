@@ -1,12 +1,13 @@
 ﻿//Apache2, 2014-2017, WinterDev
 
+using System;
 using PixelFarm.Drawing;
 using PixelFarm.Drawing.WinGdi;
 
 namespace LayoutFarm.UI.GdiPlus
 {
 
-
+    
     public static class MyWinGdiPortal
     {
 
@@ -20,7 +21,7 @@ namespace LayoutFarm.UI.GdiPlus
             isInit = true;
 
             //text services:            
-            TextServices.IFonts = initParams.TextServiceInstance ?? new GdiPlusIFonts();
+            //TextServices.IFonts = initParams.TextServiceInstance ?? new GdiPlusIFonts();
             ActualFontResolver.Resolver = initParams.ActualFontResolver ?? new GdiFontResolver();
             //set if we use pixelfarm's native myft.dll
             //or use managed text break

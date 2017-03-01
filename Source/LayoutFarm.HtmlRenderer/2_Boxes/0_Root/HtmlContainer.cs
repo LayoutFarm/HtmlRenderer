@@ -39,6 +39,9 @@ namespace LayoutFarm.HtmlBoxes
         public abstract void ClearPreviousSelection();
         public abstract void SetSelection(SelectionRange selRange);
         public abstract void CopySelection(System.Text.StringBuilder stbuilder);
+        public HtmlContainer()
+        {
+        }
 #if DEBUG
         public static int dbugCount02 = 0;
 #endif
@@ -60,6 +63,7 @@ namespace LayoutFarm.HtmlBoxes
                 }
             }
         }
+     
         public bool HasRootBox { get { return this._rootBox != null; } }
 
         /// <summary>
