@@ -69,6 +69,15 @@ namespace Win32
 
     static class MyWin32
     {
+        //this is platform specific ***
+        [DllImport("msvcrt.dll", EntryPoint = "memset", CallingConvention = CallingConvention.Cdecl)]
+        public static unsafe extern void memset(byte* dest, byte c, int byteCount);
+        [DllImport("msvcrt.dll", EntryPoint = "memcpy", CallingConvention = CallingConvention.Cdecl)]
+        public static unsafe extern void memcpy(byte* dest, byte* src, int byteCount);
+        [DllImport("msvcrt.dll", EntryPoint = "memcpy", CallingConvention = CallingConvention.Cdecl)]
+        public static unsafe extern int memcmp(byte* dest, byte* src, int byteCount);
+        //----------
+
         [DllImport("kernel32.dll", ExactSpelling = true)]
         public static extern IntPtr GlobalAlloc(int flags, int size);
         [DllImport("kernel32.dll", ExactSpelling = true)]

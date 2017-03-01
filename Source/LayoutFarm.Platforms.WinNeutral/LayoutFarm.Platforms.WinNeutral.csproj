@@ -17,7 +17,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;__DESKTOP__, GL, GL_ENABLE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;__DESKTOP__, GL,__SKIA__, GL_ENABLE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -68,6 +68,9 @@
     <Compile Include="..\LayoutFarm.PlatformBase\PlatformBootStrap\BootStrapSkia.cs">
       <Link>0_Platform\BootStrapSkia.cs</Link>
     </Compile>
+    <Compile Include="..\LayoutFarm.PlatformBase\SkiaCanvasViewport.cs">
+      <Link>4_Skia\SkiaCanvasViewport.cs</Link>
+    </Compile>
     <Compile Include="..\LayoutFarm.PlatformBase\Windows\InstallFontsProviderWin32.cs">
       <Link>5_Shared\InstallFontsProviderWin32.cs</Link>
     </Compile>
@@ -82,7 +85,6 @@
     <Compile Include="0_Platform\UIPlatformWinNeutral.cs" />
     <Compile Include="0_UISurfaceViewport\UISurfaceViewportControl.cs" />
     <Compile Include="2_GLES2\3_MyTopWindowBridgeOpenGL.cs" />
-    <Compile Include="4_Skia\2_SkiaCanvasViewport.cs" />
     <Compile Include="4_Skia\3_MyTopWindowBridgeSkia.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
