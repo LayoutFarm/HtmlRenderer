@@ -19,6 +19,8 @@ using PixelFarm.Drawing;
 using LayoutFarm.Css;
 namespace LayoutFarm.HtmlBoxes
 {
+   
+
     /// <summary>
     /// Represents a CSS Box of text or replaced elements.
     /// </summary>
@@ -33,14 +35,14 @@ namespace LayoutFarm.HtmlBoxes
     {
         readonly Css.BoxSpec _myspec;
         object _controller;
-        RootGraphic rootgfx;
+        IRootGraphics rootgfx;
 #if DEBUG
         public int dbugMark1;
         public readonly int __aa_dbugId = dbugTotalId++;
         static int dbugTotalId;
         public int dbugMark2;
 #endif
-        public CssBox(BoxSpec spec, RootGraphic rootgfx)
+        public CssBox(BoxSpec spec, IRootGraphics rootgfx)
         {
             this.rootgfx = rootgfx;
             this._aa_boxes = new CssBoxCollection();
@@ -60,7 +62,7 @@ namespace LayoutFarm.HtmlBoxes
             EvaluateSpec(spec);
             ChangeDisplayType(this, _myspec.CssDisplay);
         }
-        public CssBox(BoxSpec spec, RootGraphic rootgfx, CssDisplay displayType)
+        public CssBox(BoxSpec spec, IRootGraphics rootgfx, CssDisplay displayType)
         {
             this.rootgfx = rootgfx;
             this._aa_boxes = new CssBoxCollection();
@@ -87,7 +89,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             this._controller = controller;
         }
-        public RootGraphic RootGfx
+        public IRootGraphics RootGfx
         {
             get { return this.rootgfx; }
         }

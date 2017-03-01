@@ -2,15 +2,17 @@
 
 using LayoutFarm.UI.WinNeutral;
 using LayoutFarm.WebDom;
+using PixelFarm.Forms;
+
 namespace LayoutFarm.Ease
 {
     public class EaseViewport
     {
 
         UserHtmlWorkspace userWorkspace = new UserHtmlWorkspace();
-        LayoutFarm.UI.WinNeutral.UISurfaceViewportControl viewportControl;
+        UISurfaceViewportControl viewportControl;
         SampleViewport sampleViewport;
-        internal EaseViewport(LayoutFarm.UI.WinNeutral.UISurfaceViewportControl viewportControl)
+        internal EaseViewport(UISurfaceViewportControl viewportControl)
         {
             this.viewportControl = viewportControl;
             this.sampleViewport = new SampleViewport(viewportControl);
@@ -56,7 +58,7 @@ namespace LayoutFarm.Ease
         //{
         //    viewportControl.PrintMe(canvas);
         //}
-        public LayoutFarm.UI.WinNeutral.UISurfaceViewportControl UISurfaceViewport
+        public UISurfaceViewportControl UISurfaceViewport
         {
             get { return this.viewportControl; }
         }

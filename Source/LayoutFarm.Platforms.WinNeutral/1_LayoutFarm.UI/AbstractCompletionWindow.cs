@@ -1,6 +1,6 @@
 ﻿//MIT
-//Mike Kruger, ICSharpCode,
-using LayoutFarm.UI.WinNeutral;
+//Mike Kruger, ICSharpCode, 
+using PixelFarm.Forms;
 namespace LayoutFarm.UI
 {
     partial class AbstractCompletionWindow : Form

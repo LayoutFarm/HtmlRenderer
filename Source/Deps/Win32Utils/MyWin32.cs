@@ -6,7 +6,7 @@ using System.Text;
 namespace Win32
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct BlendFunction
+    struct BlendFunction
     {
         public byte BlendOp;
         public byte BlendFlags;
@@ -22,7 +22,7 @@ namespace Win32
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct BitMapInfo
+    struct BitMapInfo
     {
         public int biSize;
         public int biWidth;
@@ -67,8 +67,17 @@ namespace Win32
     }
 
 
-    public static class MyWin32
+    static class MyWin32
     {
+        //this is platform specific ***
+        [DllImport("msvcrt.dll", EntryPoint = "memset", CallingConvention = CallingConvention.Cdecl)]
+        public static unsafe extern void memset(byte* dest, byte c, int byteCount);
+        [DllImport("msvcrt.dll", EntryPoint = "memcpy", CallingConvention = CallingConvention.Cdecl)]
+        public static unsafe extern void memcpy(byte* dest, byte* src, int byteCount);
+        [DllImport("msvcrt.dll", EntryPoint = "memcpy", CallingConvention = CallingConvention.Cdecl)]
+        public static unsafe extern int memcmp(byte* dest, byte* src, int byteCount);
+        //----------
+
         [DllImport("kernel32.dll", ExactSpelling = true)]
         public static extern IntPtr GlobalAlloc(int flags, int size);
         [DllImport("kernel32.dll", ExactSpelling = true)]

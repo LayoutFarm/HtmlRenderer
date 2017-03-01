@@ -22,28 +22,28 @@ namespace PixelFarm.Drawing.WinGdi
             for (int i = 0; i < vcount; ++i)
             {
                 double x, y;
-                PixelFarm.Agg.VertexCmd cmd = vxs.GetVertex(i, out x, out y);
+                VertexCmd cmd = vxs.GetVertex(i, out x, out y);
                 switch (cmd)
                 {
-                    case PixelFarm.Agg.VertexCmd.MoveTo:
+                    case VertexCmd.MoveTo:
                         prevMoveToX = prevX = x;
                         prevMoveToY = prevY = y;
                         brush_path.StartFigure();
                         break;
-                    case PixelFarm.Agg.VertexCmd.LineTo:
+                    case VertexCmd.LineTo:
                         brush_path.AddLine((float)prevX, (float)prevY, (float)x, (float)y);
                         prevX = x;
                         prevY = y;
                         break;
-                    case PixelFarm.Agg.VertexCmd.CloseAndEndFigure:
+                    case VertexCmd.Close:
+                    case VertexCmd.CloseAndEndFigure:
                         brush_path.AddLine((float)prevX, (float)prevY, (float)prevMoveToX, (float)prevMoveToY);
                         prevMoveToX = prevX = x;
                         prevMoveToY = prevY = y;
                         brush_path.CloseFigure();
                         break;
-                    case PixelFarm.Agg.VertexCmd.EndFigure:
-                        break;
-                    case PixelFarm.Agg.VertexCmd.Stop:
+
+                    case VertexCmd.NoMore:
                         i = vcount + 1;//exit from loop
                         break;
                     default:
@@ -66,7 +66,7 @@ namespace PixelFarm.Drawing.WinGdi
             double prevMoveToY = 0;
             var brush_path = new System.Drawing.Drawing2D.GraphicsPath(FillMode.Winding);//*** winding for overlapped path  
 
-            for (; ; )
+            for (;;)
             {
                 double x, y;
                 VertexCmd cmd = vxsIter.GetNextVertex(out x, out y);
@@ -82,22 +82,22 @@ namespace PixelFarm.Drawing.WinGdi
                         prevX = x;
                         prevY = y;
                         break;
-                    case PixelFarm.Agg.VertexCmd.CloseAndEndFigure:
+                    case PixelFarm.Agg.VertexCmd.Close:
+                    case VertexCmd.CloseAndEndFigure:
                         //from current point                         
                         brush_path.AddLine((float)prevX, (float)prevY, (float)prevMoveToX, (float)prevMoveToY);
                         prevX = prevMoveToX;
                         prevY = prevMoveToY;
                         brush_path.CloseFigure();
                         break;
-                    case PixelFarm.Agg.VertexCmd.EndFigure:
-                        goto EXIT_LOOP;
-                    case PixelFarm.Agg.VertexCmd.Stop:
+
+                    case PixelFarm.Agg.VertexCmd.NoMore:
                         goto EXIT_LOOP;
                     default:
                         throw new NotSupportedException();
                 }
             }
-        EXIT_LOOP:
+            EXIT_LOOP:
             return brush_path;
         }
 

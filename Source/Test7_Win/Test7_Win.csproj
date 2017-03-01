@@ -38,6 +38,21 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\test0_winneutral\LionDataStore.cs">
+      <Link>Shared\LionDataStore.cs</Link>
+    </Compile>
+    <Compile Include="..\Test0_WinNeutral\MyNativeRGBA32BitsImage.cs">
+      <Link>Shared\MyNativeRGBA32BitsImage.cs</Link>
+    </Compile>
+    <Compile Include="..\test0_winneutral\SampleBase.cs">
+      <Link>Shared\SampleBase.cs</Link>
+    </Compile>
+    <Compile Include="..\test0_winneutral\SpriteShape.cs">
+      <Link>Shared\SpriteShape.cs</Link>
+    </Compile>
+    <Compile Include="..\test0_winneutral\T108_LionFill.cs">
+      <Link>Shared\T108_LionFill.cs</Link>
+    </Compile>
     <Compile Include="GLFWProgram.cs" />
     <Compile Include="Helper2\EaseDomElement.cs" />
     <Compile Include="Helper2\EaseHost.cs" />
@@ -47,12 +62,7 @@
     <Compile Include="Helper\FormCanvasHelper.cs" />
     <Compile Include="Helper\SampleViewport.cs" />
     <Compile Include="Helper\SampleViewportExtension.cs" />
-    <Compile Include="LionDataStore.cs" />
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SampleBase.cs" />
-    <Compile Include="SpriteShape.cs" />
-    <Compile Include="T108_LionFill.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Deps\LayoutFarm.TextBreak\LayoutFarm.TextBreak.Icu\LayoutFarm.TextBreak.Icu.csproj">
@@ -63,22 +73,6 @@
       <Project>{09ec5531-d272-40db-87a4-b2d353846cc2}</Project>
       <Name>LayoutFarm.TextBreak</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Deps\MiniAgg.Complements\MiniAgg.Complements.csproj">
-      <Project>{ae0df71e-9b14-4197-b55a-e1e0ce0683c7}</Project>
-      <Name>MiniAgg.Complements</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Deps\MiniAgg\MiniAgg.csproj">
-      <Project>{4d5ce655-58fa-4523-8e46-738b941e9e47}</Project>
-      <Name>MiniAgg</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Deps\PixelFarm.DataProvider.Managed\PixelFarm.DataProvider.Managed.csproj">
-      <Project>{025e536d-53a6-4c5f-aed5-e21960c70763}</Project>
-      <Name>PixelFarm.DataProvider.Managed</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Deps\PixelFarm.DataProvider.Native\PixelFarm.DataProvider.Native.csproj">
-      <Project>{821c2f8b-45e4-4242-970d-ae64780970b2}</Project>
-      <Name>PixelFarm.DataProvider.Native</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Deps\PixelFarm.Drawing.Core\PixelFarm.Drawing.Core.csproj">
       <Project>{51d63482-5697-4b16-8401-506965624657}</Project>
       <Name>PixelFarm.Drawing.Core</Name>
@@ -87,9 +81,17 @@
       <Project>{e1e89b3b-b529-4b17-b7ed-4c70cc8475eb}</Project>
       <Name>PixelFarm.Drawing.GLES2</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Deps\PixelFarm.Drawing.MiniAgg.csproj">
+      <Project>{99a570d0-492a-453d-8b97-7f40489c10e0}</Project>
+      <Name>PixelFarm.Drawing.MiniAgg</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Deps\PixelFarm.Drawing.Skia\PixelFarm.Drawing.Skia.csproj">
       <Project>{9450c9fb-5a70-4e47-bec3-b0a98a9c7d15}</Project>
       <Name>PixelFarm.Drawing.Skia</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Deps\PixelFarm.DrawingCanvas\PixelFarm.DrawingCanvas.csproj">
+      <Project>{0cc424d5-20ac-4849-993d-3a720dbae94f}</Project>
+      <Name>PixelFarm.DrawingCanvas</Name>
     </ProjectReference>
     <ProjectReference Include="..\Deps\PixelFarm.MiniOpenTK\PixelFarm.MiniOpenTK.csproj">
       <Project>{7c154e68-1709-4d5d-ab76-833febe4b3b2}</Project>
@@ -111,13 +113,13 @@
       <Project>{61369865-95b7-49f2-b012-67b4a2427a8b}</Project>
       <Name>LayoutFarm.ClientPlatforms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.Composers\LayoutFarm.Composers.csproj">
-      <Project>{1af17e34-4c2d-4657-b993-e0608c555111}</Project>
-      <Name>LayoutFarm.Composers</Name>
-    </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.CssBase\LayoutFarm.CssBase.csproj">
       <Project>{5164ec24-95c4-4333-bd4e-70ee625cceb4}</Project>
       <Name>LayoutFarm.CssBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.HtmlComposer\LayoutFarm.HtmlComposer.csproj">
+      <Project>{1af17e34-4c2d-4657-b993-e0608c555111}</Project>
+      <Name>LayoutFarm.HtmlComposer</Name>
     </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.HtmlRenderer\LayoutFarm.HtmlRenderer.csproj">
       <Project>{9d2a40bc-fa95-454d-aef5-4dd9344bfdc3}</Project>

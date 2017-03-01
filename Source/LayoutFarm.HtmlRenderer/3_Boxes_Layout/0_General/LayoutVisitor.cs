@@ -15,10 +15,11 @@ namespace LayoutFarm.HtmlBoxes
         List<PartialBoxStrip> readyListStrip = new List<PartialBoxStrip>();
         FloatingContextStack floatingContextStack = new FloatingContextStack();
         static int totalLayoutIdEpisode = 0;
-        int episodeId = 1;         
-        public LayoutVisitor()
+        int episodeId = 1;
+        IFonts fontService;
+        public LayoutVisitor(IFonts fontService)
         {
-          
+            this.fontService = fontService;
         }
         public void Bind(HtmlContainer htmlCont)
         {
@@ -39,10 +40,10 @@ namespace LayoutFarm.HtmlBoxes
             readyListStrip.Clear();
             totalMarginLeftAndRight = 0;
         }
-       
+
         internal IFonts SampleIFonts
         {
-            get { return TextServices.IFonts; }
+            get { return this.fontService; }
         }
         protected override void OnPushDifferentContainingBlock(CssBox box)
         {

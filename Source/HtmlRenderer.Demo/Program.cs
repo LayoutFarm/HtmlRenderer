@@ -13,9 +13,6 @@
 // "The Art of War"
 
 using System;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Drawing.Printing;
 using System.Windows.Forms;
 namespace LayoutFarm.Demo
 {
@@ -33,14 +30,9 @@ namespace LayoutFarm.Demo
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            var startPars = new LayoutFarm.UI.GdiPlus.MyWinGdiPortalSetupParameters();
-            var platform = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.Start(startPars);
-            
-            Application.Run(new DevForm(platform));
-            LayoutFarm.UI.GdiPlus.MyWinGdiPortal.End();
-            //            Application.Run(new PerfForm());
-
-            //            PerfForm.Run();
+            Application.Run(new DevForm());
+            //Application.Run(new PerfForm()); 
+            //PerfForm.Run();
         }
 
         //private static void TestImage1()

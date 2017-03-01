@@ -52,47 +52,71 @@
     <Compile Include="..\Deps\Win32Utils\NativeWin32MemoryDc.cs">
       <Link>Win32Utils\NativeWin32MemoryDc.cs</Link>
     </Compile>
-    <Compile Include="0_Start\0_CanvasCollection.cs" />
-    <Compile Include="0_Start\CanvasViewport.cs" />
-    <Compile Include="0_Start\Conv.cs" />
-    <Compile Include="0_Start\dbugHelper.cs" />
-    <Compile Include="0_Start\QuadPages.cs" />
-    <Compile Include="1_LayoutFarm.UI\AbstractCompletionWindow.cs">
+    <Compile Include="..\LayoutFarm.PlatformBase\CanvasViewport.cs">
+      <Link>0_Shared\CanvasViewport.cs</Link>
+    </Compile>
+    <Compile Include="..\LayoutFarm.PlatformBase\dbugHelper.cs">
+      <Link>0_Shared\dbugHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\LayoutFarm.PlatformBase\InnerViewportKind.cs">
+      <Link>0_Shared\InnerViewportKind.cs</Link>
+    </Compile>
+    <Compile Include="..\LayoutFarm.PlatformBase\MyUITimer.cs">
+      <Link>0_Shared\MyUITimer.cs</Link>
+    </Compile>
+    <Compile Include="..\LayoutFarm.PlatformBase\OpenGLCanvasViewport.cs">
+      <Link>3_OpenGL\OpenGLCanvasViewport.cs</Link>
+    </Compile>
+    <Compile Include="..\LayoutFarm.PlatformBase\PlatformBootStrap\BootStrapOpenGLES2.cs">
+      <Link>0_Platform\BootStrapOpenGLES2.cs</Link>
+    </Compile>
+    <Compile Include="..\LayoutFarm.PlatformBase\PlatformBootStrap\BootStrapSkia.cs">
+      <Link>0_Platform\BootStrapSkia.cs</Link>
+    </Compile>
+    <Compile Include="..\LayoutFarm.PlatformBase\PlatformBootStrap\BootStrapWinGdi.cs">
+      <Link>0_Platform\BootStrapWinGdi.cs</Link>
+    </Compile>
+    <Compile Include="..\LayoutFarm.PlatformBase\SkiaCanvasViewport.cs">
+      <Link>4_Skia\SkiaCanvasViewport.cs</Link>
+    </Compile>
+    <Compile Include="..\LayoutFarm.PlatformBase\Windows\InstallFontsProviderWin32.cs">
+      <Link>5_Shared\InstallFontsProviderWin32.cs</Link>
+    </Compile>
+    <Compile Include="..\LayoutFarm.PlatformBase\Windows\WindowFontLoader.cs">
+      <Link>5_Shared\WindowFontLoader.cs</Link>
+    </Compile>
+    <Compile Include="0_Platform\DrawingGLFontPrinter.cs" />
+    <Compile Include="1_UISurfaceViewport\UISurfaceViewportControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="1_UISurfaceViewport\UISurfaceViewportControl.Designer.cs" />
+    <Compile Include="4_GdiPlus\Conv.cs" />
+    <Compile Include="4_GdiPlus\CanvasCollection.cs" />
+    <Compile Include="4_GdiPlus\QuadPages.cs" />
+    <Compile Include="3_SurfaceViewForGdiPlus_and_Skia\AbstractCompletionWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="1_LayoutFarm.UI\AbstractCompletionWindow.Designer.cs">
+    <Compile Include="3_SurfaceViewForGdiPlus_and_Skia\AbstractCompletionWindow.Designer.cs">
       <DependentUpon>AbstractCompletionWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="2_GdiPlus\2_GdiPlusCanvasViewport.cs" />
-    <Compile Include="2_GdiPlus\0_MyWinGdiPortal.cs" />
-    <Compile Include="3_OpenGL\1_GpuOpenGLSurfaceView.cs">
+    <Compile Include="4_GdiPlus\1_GdiPlusCanvasViewport.cs" />
+    <Compile Include="2_GLES2\1_GpuOpenGLSurfaceView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="3_OpenGL\1_GpuOpenGLSurfaceView.Designer.cs">
+    <Compile Include="2_GLES2\1_GpuOpenGLSurfaceView.Designer.cs">
       <DependentUpon>1_GpuOpenGLSurfaceView.cs</DependentUpon>
     </Compile>
-    <Compile Include="1_LayoutFarm.UI\1_CpuSurfaceView.cs">
+    <Compile Include="3_SurfaceViewForGdiPlus_and_Skia\1_CpuSurfaceView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="1_LayoutFarm.UI\1_CpuSurfaceView.Designer.cs">
+    <Compile Include="3_SurfaceViewForGdiPlus_and_Skia\1_CpuSurfaceView.Designer.cs">
       <DependentUpon>1_CpuSurfaceView.cs</DependentUpon>
     </Compile>
-    <Compile Include="1_LayoutFarm.UI\InnerViewportKind.cs" />
-    <Compile Include="1_LayoutFarm.UI\MyUITimer.cs" />
-    <Compile Include="1_LayoutFarm.UI\UIPlatformWinForms.cs" />
-    <Compile Include="1_LayoutFarm.UI\UISurfaceViewportControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="1_LayoutFarm.UI\UISurfaceViewportControl.Designer.cs">
-      <DependentUpon>UISurfaceViewportControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="1_LayoutFarm.UI\TopWindowBridge.cs" />
-    <Compile Include="1_LayoutFarm.UI\TopWindowBridge_dbug.cs" />
-    <Compile Include="2_GdiPlus\3_MyTopWindowBridgeGdiPlus.cs" />
-    <Compile Include="3_OpenGL\3_MyTopWindowBridgeOpenGL.cs" />
-    <Compile Include="3_OpenGL\2_OpenGLCanvasViewport.cs" />
-    <Compile Include="3_OpenGL\0_MyOpenGLPortal.cs" />
-    <Compile Include="4_Skia\2_SkiaCanvasViewport.cs" />
+    <Compile Include="0_Platform\UIPlatformWinForms.cs" />
+    <Compile Include="2_Bridge_WinForm\TopWindowBridgeWinForm.cs" />
+    <Compile Include="2_Bridge_WinForm\TopWindowBridgeWinForm_dbug.cs" />
+    <Compile Include="4_GdiPlus\3_MyTopWindowBridgeGdiPlus.cs" />
+    <Compile Include="2_GLES2\3_MyTopWindowBridgeOpenGL.cs" />
     <Compile Include="4_Skia\3_MyTopWindowBridgeSkia.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -100,10 +124,6 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Deps\PixelFarm.DataProvider.Managed\PixelFarm.DataProvider.Managed.csproj">
-      <Project>{025E536D-53A6-4C5F-AED5-E21960C70763}</Project>
-      <Name>PixelFarm.DataProvider.Managed</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Deps\PixelFarm.Drawing.Core\PixelFarm.Drawing.Core.csproj">
       <Project>{51D63482-5697-4B16-8401-506965624657}</Project>
       <Name>PixelFarm.Drawing.Core</Name>
@@ -116,9 +136,17 @@
       <Project>{e1e89b3b-b529-4b17-b7ed-4c70cc8475eb}</Project>
       <Name>PixelFarm.Drawing.GLES2</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Deps\PixelFarm.Drawing.MiniAgg.csproj">
+      <Project>{99a570d0-492a-453d-8b97-7f40489c10e0}</Project>
+      <Name>PixelFarm.Drawing.MiniAgg</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Deps\PixelFarm.Drawing.Skia\PixelFarm.Drawing.Skia.csproj">
       <Project>{9450c9fb-5a70-4e47-bec3-b0a98a9c7d15}</Project>
       <Name>PixelFarm.Drawing.Skia</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Deps\PixelFarm.DrawingCanvas\PixelFarm.DrawingCanvas.csproj">
+      <Project>{0cc424d5-20ac-4849-993d-3a720dbae94f}</Project>
+      <Name>PixelFarm.DrawingCanvas</Name>
     </ProjectReference>
     <ProjectReference Include="..\Deps\PixelFarm.MiniOpenTK\PixelFarm.MiniOpenTK.csproj">
       <Project>{7c154e68-1709-4d5d-ab76-833febe4b3b2}</Project>
@@ -132,8 +160,24 @@
       <Project>{fb828375-3017-44d8-8357-59207224906d}</Project>
       <Name>PixelFarm.SkiaSharp</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Deps\PixelFarm.Typography\PixelFarm.Typography.csproj">
+      <Project>{540a2ea6-dae3-4625-8951-b2c3118603a4}</Project>
+      <Name>PixelFarm.Typography</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Deps\Typography\Typography.GlyphLayout\Typography.GlyphLayout.csproj">
+      <Project>{c48f2c17-3c32-4f27-a96c-60a9d86df9cf}</Project>
+      <Name>Typography.GlyphLayout</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Deps\Typography\Typography.OpenFont\N20\Typography.OpenFont\Typography.OpenFont.csproj">
+      <Project>{29ed0dfe-373c-4e98-bd4b-43f8e5fb16f6}</Project>
+      <Name>Typography.OpenFont</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Deps\Typography\Typography.Rendering\Typography.Rendering.csproj">
+      <Project>{e4a1c3c3-1c1c-4e11-a2e6-a1fafd6652c7}</Project>
+      <Name>Typography.Rendering</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.BaseRenderer\LayoutFarm.BaseRenderer.csproj">
-      <Project>{20048075-A2F3-4B97-B3C6-BEA794429741}</Project>
+      <Project>{20048075-a2f3-4b97-b3c6-bea794429741}</Project>
       <Name>LayoutFarm.BaseRenderer</Name>
     </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.ClientPlatforms\LayoutFarm.ClientPlatforms.csproj">

@@ -1,6 +1,5 @@
 ﻿//Apache2, 2014-2017, WinterDev
-using System;
-using PixelFarm.Drawing;
+ 
 using LayoutFarm.UI.WinNeutral;
 
 namespace LayoutFarm
@@ -10,13 +9,20 @@ namespace LayoutFarm
         UISurfaceViewportControl vw;
         int primaryScreenWorkingAreaW;
         int primaryScreenWorkingAreaH;
+
         public SampleViewport(UISurfaceViewportControl vw)
         {
             this.vw = vw;
             //  var workingArea = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea;
             this.primaryScreenWorkingAreaW = 800;// workingArea.Width;
-            this.primaryScreenWorkingAreaH = 600;// orkingArea.Height;
-
+            this.primaryScreenWorkingAreaH = 600;// orkingArea.Height; 
+        }
+        public LayoutFarm.UI.UIPlatform Platform
+        {
+            get
+            {
+                return this.vw.Platform;
+            }
         }
         public int PrimaryScreenWidth
         {

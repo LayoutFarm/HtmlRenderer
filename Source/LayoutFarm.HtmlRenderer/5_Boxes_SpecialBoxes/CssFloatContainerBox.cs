@@ -6,7 +6,7 @@ namespace LayoutFarm.HtmlBoxes
 {
     class CssFloatContainerBox : CssBox
     {
-        public CssFloatContainerBox(Css.BoxSpec boxSpec, RootGraphic rootgfx, Css.CssDisplay display)
+        public CssFloatContainerBox(Css.BoxSpec boxSpec, IRootGraphics rootgfx, Css.CssDisplay display)
             : base(boxSpec, rootgfx, display)
         {
         }

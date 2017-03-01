@@ -1,7 +1,7 @@
 ﻿//Apache2, 2014-2017, WinterDev
 using LayoutFarm.UI.WinNeutral;
-using PixelFarm.Drawing; 
-
+using PixelFarm.Drawing;
+using PixelFarm.Forms;
 namespace LayoutFarm.UI
 {
     public static class FormCanvasHelper
@@ -10,17 +10,17 @@ namespace LayoutFarm.UI
         public static Form CreateNewFormCanvas(
             MyRootGraphic myRootGfx,
             InnerViewportKind internalViewportKind,
-            out LayoutFarm.UI.WinNeutral.UISurfaceViewportControl canvasViewport)
+            out UISurfaceViewportControl canvasViewport)
         {
 
 
             Form form1 = new Form();
-            var innerViewport = canvasViewport = new LayoutFarm.UI.WinNeutral.UISurfaceViewportControl();
+            var innerViewport = canvasViewport = new UISurfaceViewportControl();
             Rectangle screenClientAreaRect = new Rectangle(0, 0, 800, 600); //Conv.ToRect(Screen.PrimaryScreen.WorkingArea);
 
             canvasViewport.InitRootGraphics(myRootGfx, myRootGfx.TopWinEventPortal, internalViewportKind);
             canvasViewport.Bounds =
-                new PixelFarm.Drawing.Rectangle(0, 0,
+                new Rectangle(0, 0,
                     screenClientAreaRect.Width,
                     screenClientAreaRect.Height);
             //---------------------- 

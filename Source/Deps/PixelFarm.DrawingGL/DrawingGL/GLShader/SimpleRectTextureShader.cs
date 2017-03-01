@@ -73,7 +73,7 @@ namespace PixelFarm.DrawingGL
                 targetTop
             }, 1);
         }
-        
+
         public void RenderSubImage(GLBitmap bmp, float srcLeft, float srcTop, float srcW, float srcH, float targetLeft, float targetTop, float scale)
         {
             //SetCurrent();
@@ -135,7 +135,7 @@ namespace PixelFarm.DrawingGL
             OnSetVarsBeforeRenderer();
 
             int j = srcDestList.Length;
-            for (int i = 0; i < j; )
+            for (int i = 0; i < j;)
             {
 
                 float srcLeft = srcDestList[i];
@@ -181,25 +181,54 @@ namespace PixelFarm.DrawingGL
         {
             unsafe
             {
-                float* imgVertices = stackalloc float[5 * 4];
+
+                if (bmp.IsInvert)
                 {
-                    imgVertices[0] = left; imgVertices[1] = top; imgVertices[2] = 0; //coord 0
-                    imgVertices[3] = 0; imgVertices[4] = 0; //texture coord 0 
+                     
+                    float* imgVertices = stackalloc float[5 * 4];
+                    {
+                        imgVertices[0] = left; imgVertices[1] = top; imgVertices[2] = 0; //coord 0
+                        imgVertices[3] = 0; imgVertices[4] = 0; //texture coord 0 
 
-                    //---------------------
-                    imgVertices[5] = left; imgVertices[6] = top - h; imgVertices[7] = 0; //coord 1
-                    imgVertices[8] = 0; imgVertices[9] = 1; //texture coord 1 
+                        //---------------------
+                        imgVertices[5] = left; imgVertices[6] = top - h; imgVertices[7] = 0; //coord 1
+                        imgVertices[8] = 0; imgVertices[9] = 1; //texture coord 1 
 
-                    //---------------------
-                    imgVertices[10] = left + w; imgVertices[11] = top; imgVertices[12] = 0; //coord 2
-                    imgVertices[13] = 1; imgVertices[14] = 0; //texture coord 2 
+                        //---------------------
+                        imgVertices[10] = left + w; imgVertices[11] = top; imgVertices[12] = 0; //coord 2
+                        imgVertices[13] = 1; imgVertices[14] = 0; //texture coord 2 
 
-                    //---------------------
-                    imgVertices[15] = left + w; imgVertices[16] = top - h; imgVertices[17] = 0; //coord 3
-                    imgVertices[18] = 1; imgVertices[19] = 1; //texture coord 3 
-                };
-                a_position.UnsafeLoadMixedV3f(imgVertices, 5);
-                a_texCoord.UnsafeLoadMixedV2f(imgVertices + 3, 5);
+                        //---------------------
+                        imgVertices[15] = left + w; imgVertices[16] = top - h; imgVertices[17] = 0; //coord 3
+                        imgVertices[18] = 1; imgVertices[19] = 1; //texture coord 3 
+                    };
+
+                    a_position.UnsafeLoadMixedV3f(imgVertices, 5);
+                    a_texCoord.UnsafeLoadMixedV2f(imgVertices + 3, 5);
+                }
+                else
+                {
+                    float* imgVertices = stackalloc float[5 * 4];
+                    {
+                        imgVertices[0] = left; imgVertices[1] = top; imgVertices[2] = 0; //coord 0
+                        imgVertices[3] = 0; imgVertices[4] = 0; //texture coord 0 
+
+                        //---------------------
+                        imgVertices[5] = left; imgVertices[6] = top - h; imgVertices[7] = 0; //coord 1
+                        imgVertices[8] = 0; imgVertices[9] = 1; //texture coord 1 
+
+                        //---------------------
+                        imgVertices[10] = left + w; imgVertices[11] = top; imgVertices[12] = 0; //coord 2
+                        imgVertices[13] = 1; imgVertices[14] = 0; //texture coord 2 
+
+                        //---------------------
+                        imgVertices[15] = left + w; imgVertices[16] = top - h; imgVertices[17] = 0; //coord 3
+                        imgVertices[18] = 1; imgVertices[19] = 1; //texture coord 3 
+                    };
+
+                    a_position.UnsafeLoadMixedV3f(imgVertices, 5);
+                    a_texCoord.UnsafeLoadMixedV2f(imgVertices + 3, 5);
+                }
             }
 
             SetCurrent();

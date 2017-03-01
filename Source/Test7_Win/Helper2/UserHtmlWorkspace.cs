@@ -1,6 +1,5 @@
 ﻿//Apache2, 2014-2017, WinterDev
 
-using PixelFarm.Drawing;
 using LayoutFarm.CustomWidgets;
 namespace LayoutFarm
 {
@@ -12,7 +11,7 @@ namespace LayoutFarm
         public virtual void OnViewportReady(SampleViewport viewport)
         {
             //html box
-            var contentMx = new LayoutFarm.ContentManagers.ImageContentManager();
+            var contentMx = new LayoutFarm.ContentManagers.ImageContentManager(viewport.Platform);
             contentMx.ImageLoadingRequest += contentMx_ImageLoadingRequest;
             var host = HtmlHostCreatorHelper.CreateHtmlHost(viewport,
                 (s, e) => contentMx.AddRequestImage(e.ImageBinder),

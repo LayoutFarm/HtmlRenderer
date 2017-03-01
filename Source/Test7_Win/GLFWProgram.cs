@@ -11,57 +11,27 @@ using SkiaSharp;
 
 using LayoutFarm.CustomWidgets;
 using LayoutFarm.UI;
-using LayoutFarm.Composers;
-using LayoutFarm.WebDom.Extension;
 using LayoutFarm.HtmlBoxes;
 using LayoutFarm;
 
 namespace TestGlfw
 {
-    class MyNativeRGBA32BitsImage : IDisposable
-    {
-        int width;
-        int height;
-        int bitDepth;
-        int stride;
-        IntPtr unmanagedMem;
-        public MyNativeRGBA32BitsImage(int width, int height)
-        {
-            //width and height must >0 
-            this.width = width;
-            this.height = height;
-            this.bitDepth = 32;
-            this.stride = width * (32 / 8);
-            unmanagedMem = System.Runtime.InteropServices.Marshal.AllocHGlobal(stride * height);
-            //this.pixelBuffer = new byte[stride * height];
-        }
-        public IntPtr Scan0
-        {
-            get { return this.unmanagedMem; }
-        }
-        public int Stride
-        {
-            get { return this.stride; }
-        }
-        public void Dispose()
-        {
-            if (unmanagedMem != IntPtr.Zero)
-            {
-                System.Runtime.InteropServices.Marshal.FreeHGlobal(unmanagedMem);
-                unmanagedMem = IntPtr.Zero;
-            }
-        }
-    }
 
-    class FormRenderUpdateEventArgs : EventArgs
+    class GLFWProgram
     {
-        public GlFwForm form;
-    }
-    class GLFWProgram2
-    {
+
+        /// <summary>
+        /// The main entry point for the application.
+        /// </summary>
+        [STAThread]
+        static void Main()
+        {
+            Start();
+        }
+
+
         static bool needUpdateContent = false;
         static MyNativeRGBA32BitsImage myImg;
-        static int textureId;
         static GLBitmap glBmp;
 
         static void UpdateViewContent(FormRenderUpdateEventArgs formRenderUpdateEventArgs)
@@ -104,11 +74,13 @@ namespace TestGlfw
                 var aggImage = new PixelFarm.Agg.ActualImage((int)lionBounds.Width, (int)lionBounds.Height, PixelFarm.Agg.PixelFormat.ARGB32);
                 var imgGfx2d = new PixelFarm.Agg.ImageGraphics2D(aggImage);
                 var aggPainter = new PixelFarm.Agg.AggCanvasPainter(imgGfx2d);
-
                 DrawLion(aggPainter, lionShape, lionShape.Path.Vxs);
+                //-------------
+
+
+
                 //convert affImage to texture 
                 glBmp = LoadTexture(aggImage);
-
             }
         }
         static PixelFarm.DrawingGL.GLBitmap LoadTexture(PixelFarm.Agg.ActualImage actualImg)
@@ -195,27 +167,39 @@ namespace TestGlfw
 
             LayoutFarm.Ease.EaseHost.StartGraphicsHost();
 
-            var rootgfx = new MyRootGraphic(LayoutFarm.UI.UIPlatform.CurrentUIPlatform,
-               ww_w, ww_h);
-
+            var rootgfx = new MyRootGraphic(
+                LayoutFarm.UI.UIPlatformWinNeutral.platform,
+                LayoutFarm.UI.UIPlatformWinNeutral.platform.GetIFonts(),
+                ww_w, ww_h);
 
             var surfaceViewportControl = new LayoutFarm.UI.WinNeutral.UISurfaceViewportControl();
 
             surfaceViewportControl.InitRootGraphics(rootgfx, rootgfx.TopWinEventPortal, InnerViewportKind.GL);
+
+
+            //lion fill sample
+            OpenTkEssTest.T108_LionFill lionFill = new OpenTkEssTest.T108_LionFill();
+            lionFill.Init2(canvasGL2d);
+            GLCanvasPainter painter1 = lionFill.Painter;
+
+            var myCanvasGL = PixelFarm.Drawing.GLES2.GLES2Platform.CreateCanvas2(0, 0, 800, 600, canvasGL2d, painter1);
+            surfaceViewportControl.SetupCanvas(myCanvasGL);
+
             SampleViewport viewport = new LayoutFarm.SampleViewport(surfaceViewportControl);
             HtmlHost htmlHost;
             htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(viewport, null, null);
             ////==================================================
             //html box
+            HtmlBox lightHtmlBox = new HtmlBox(htmlHost, 800, 50);
             {
-                HtmlBox lightHtmlBox = new HtmlBox(htmlHost, 800, 50);
+
                 lightHtmlBox.SetLocation(50, 450);
                 viewport.AddContent(lightHtmlBox);
                 //light box can't load full html
                 //all light boxs of the same lightbox host share resource with the host
                 string html = @"<div>OK1</div><div>OK2</div>";
                 //if you want to use full html-> use HtmlBox instead  
-                lightHtmlBox.LoadHtmlFragmentString(html);
+                lightHtmlBox.LoadHtmlString(html);
             }
 
             form1.SetDrawFrameDelegate(() =>
@@ -225,8 +209,26 @@ namespace TestGlfw
                 {
                     UpdateViewContent(formRenderUpdateEventArgs);
                 }
-                canvasGL2d.Clear(Color.Blue);
-                canvasGL2d.DrawImage(glBmp, 0, 600);
+                canvasGL2d.Clear(Color.White);
+
+                //canvasGL2d.DrawRect(0, 0, 200, 200);
+                ////canvasGL2d.DrawImage(glBmp, 0, 600);
+                //int tmp_x = lightHtmlBox.Left;
+                //int tmp_y = lightHtmlBox.Top;
+                //myCanvasGL.SetCanvasOrigin(tmp_x, tmp_y);
+
+                canvasGL2d.SmoothMode = CanvasSmoothMode.No;
+                //---------
+                //flip y axis for html box (and other UI)
+                canvasGL2d.FlipY = true;
+                lightHtmlBox.CurrentPrimaryRenderElement.DrawToThisCanvas(
+                    myCanvasGL, new Rectangle(0, 0, 800, 600));
+                canvasGL2d.FlipY = false;
+                //myCanvasGL.SetCanvasOrigin(tmp_x, -tmp_y);
+                //lion use canvas coordinate system
+                lionFill.TestRender();
+
+                //surfaceViewportControl.PaintMe(canvasGL2d);
             });
 
 
