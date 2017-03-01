@@ -7,8 +7,19 @@ namespace LayoutFarm.UI
         private UIPlatformWinNeutral()
         {
             LayoutFarm.UI.Clipboard.SetUIPlatform(this);
-            PixelFarm.Drawing.GLES2.GLES2Platform.SetFontLoader(YourImplementation.BootStrapOpenGLES2.myFontLoader);
 
+            //no gdi+
+
+            //gles2
+            PixelFarm.Drawing.GLES2.GLES2Platform.SetFontLoader(YourImplementation.BootStrapOpenGLES2.myFontLoader);
+            //skia
+            //skia 
+            if (!YourImplementation.BootStrapSkia.IsNativeLibAvailable())
+            {
+                //set font not found handler
+                PixelFarm.Drawing.Skia.SkiaGraphicsPlatform.SetFontLoader(YourImplementation.BootStrapSkia.myFontLoader);
+
+            }
         }
         public override UITimer CreateUITimer()
         {

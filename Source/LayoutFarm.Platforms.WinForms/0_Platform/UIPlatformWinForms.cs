@@ -8,8 +8,21 @@ namespace LayoutFarm.UI
         {
             //set up winform platform 
             LayoutFarm.UI.Clipboard.SetUIPlatform(this);
+            //gdi+
             PixelFarm.Drawing.WinGdi.WinGdiPlusPlatform.SetFontLoader(YourImplementation.BootStrapWinGdi.myFontLoader);
+            //gles2
             PixelFarm.Drawing.GLES2.GLES2Platform.SetFontLoader(YourImplementation.BootStrapOpenGLES2.myFontLoader);
+            //skia 
+            if (!YourImplementation.BootStrapSkia.IsNativeLibAvailable())
+            {
+                //handle  when native dll is not ready
+            }
+            else
+            {
+                //when ready
+                PixelFarm.Drawing.Skia.SkiaGraphicsPlatform.SetFontLoader(YourImplementation.BootStrapSkia.myFontLoader);
+            }
+
         }
         public override UITimer CreateUITimer()
         {
