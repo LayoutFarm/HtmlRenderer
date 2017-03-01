@@ -172,6 +172,7 @@ namespace PixelFarm.Agg
                 {
                     // New color. Every new color creates new path in the path object.
                     path.CloseFigure();
+                    path.EndGroup();
                     colors[npaths] = Drawing.Color.CreatRGB8Packed((int)newColor);
                     path_idx[npaths] = path.StartFigure();
                     npaths++;
@@ -193,6 +194,8 @@ namespace PixelFarm.Agg
                             {
                                 startedPoly = true;
                                 path.CloseFigure();
+                                path.EndGroup();
+
                                 path.MoveTo(x, y);
                             }
                             else

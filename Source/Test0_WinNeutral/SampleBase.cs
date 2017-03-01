@@ -31,6 +31,11 @@ namespace OpenTkEssTest
         {
             return PixelFarm.Drawing.GLES2.GLES2Platform.CreateCanvasGL2d(w, h);
         }
+        protected void SetPrinter(PixelFarm.DrawingGL.GLCanvasPainter painter)
+        {
+            var textPrinter = new PixelFarm.DrawingGL.AggFontPrinter(painter, 100, 20);
+            painter.TextPrinter = textPrinter;
+        }
         //protected static PixelFarm.DrawingGL.GLBitmap LoadTexture(string imgFileName)
         //{
         //    //1. create native image
