@@ -6,34 +6,28 @@ namespace PixelFarm.Drawing.Skia
 {
     public class SkiaGraphicsPlatform : GraphicsPlatform
     {
-        static InstalledFontCollection s_installFontCollection = new InstalledFontCollection();
+        static IFontLoader s_fontLoader;
         static Dictionary<InstalledFont, SkiaSharp.SKTypeface> skTypeFaces = new Dictionary<InstalledFont, SkiaSharp.SKTypeface>();
 
-        static SkiaGraphicsPlatform()
-        {
-
-
-            //TODO: review here again about font provider ***
-            //var installFontsWin32 = new PixelFarm.Drawing.Win32.InstallFontsProviderWin32();
-            //s_installFontCollection.LoadInstalledFont(installFontsWin32.GetInstalledFontIter());
-            throw new System.NotSupportedException(); 
-
-        }
         public SkiaGraphicsPlatform()
         {
+        }
+        public static void SetFontLoader(IFontLoader fontLoader)
+        {
+            s_fontLoader = fontLoader;
         }
         public override Canvas CreateCanvas(int left, int top, int width, int height, CanvasInitParameters canvasInitPars = new CanvasInitParameters())
         {
             return new MySkiaCanvas(0, 0, left, top, width, height);
         }
-        public static void SetFontNotFoundHandler(FontNotFoundHandler fontNotFoundHandler)
-        {
-            s_installFontCollection.SetFontNotFoundHandler(fontNotFoundHandler);
-        }
+        //public static void SetFontNotFoundHandler(FontNotFoundHandler fontNotFoundHandler)
+        //{
+        //    s_installFontCollection.SetFontNotFoundHandler(fontNotFoundHandler);
+        //}
         internal static SkiaSharp.SKTypeface GetInstalledFont(string typefaceName)
         {
 
-            InstalledFont installedFont = s_installFontCollection.GetFont(typefaceName, InstalledFontStyle.Regular);
+            InstalledFont installedFont = s_fontLoader.GetFont(typefaceName, InstalledFontStyle.Regular);
             if (installedFont == null)
             {
                 return null;

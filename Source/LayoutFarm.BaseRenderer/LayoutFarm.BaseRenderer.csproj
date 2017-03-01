@@ -34,7 +34,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="1_Root\RootGraphicsPlatform.cs" />
-    <Compile Include="1_Root\TextService.cs" />
     <Compile Include="2_RenderElement\3_RenderElement.Bubble_Layout.cs" />
     <Compile Include="2_RenderElement\RenderElementConst.cs" />
     <Compile Include="2_RenderElement\RenderElementFoundDelegate.cs" />

@@ -56,13 +56,25 @@
     <Compile Include="..\LayoutFarm.PlatformBase\OpenGLCanvasViewport.cs">
       <Link>3_OpenGL\OpenGLCanvasViewport.cs</Link>
     </Compile>
+    <Compile Include="..\LayoutFarm.PlatformBase\PlatformBootStrap\BootStrapOpenGLES2.cs">
+      <Link>0_Platform\BootStrapOpenGLES2.cs</Link>
+    </Compile>
+    <Compile Include="..\LayoutFarm.PlatformBase\PlatformBootStrap\BootStrapSkia.cs">
+      <Link>0_Platform\BootStrapSkia.cs</Link>
+    </Compile>
+    <Compile Include="..\LayoutFarm.PlatformBase\Windows\InstallFontsProviderWin32.cs">
+      <Link>5_Shared\InstallFontsProviderWin32.cs</Link>
+    </Compile>
+    <Compile Include="..\LayoutFarm.PlatformBase\Windows\WindowFontLoader.cs">
+      <Link>5_Shared\WindowFontLoader.cs</Link>
+    </Compile>
     <Compile Include="1_LayoutFarm.UI\MyGlfwForm.cs" />
     <Compile Include="1_LayoutFarm.UI\AbstractCompletionWindow.cs" />
-    <Compile Include="1_LayoutFarm.UI\TopWindowBridgeWinNeutral.cs" />
-    <Compile Include="1_LayoutFarm.UI\TopWindowBridgeWinNeutral_dbug.cs" />
-    <Compile Include="1_LayoutFarm.UI\UIPlatformWinNeutral.cs" />
-    <Compile Include="1_LayoutFarm.UI\UISurfaceViewportControl.cs" />
-    <Compile Include="3_OpenGL\3_MyTopWindowBridgeOpenGL.cs" />
+    <Compile Include="1_Bridge_WinNeutral\TopWindowBridgeWinNeutral.cs" />
+    <Compile Include="1_Bridge_WinNeutral\TopWindowBridgeWinNeutral_dbug.cs" />
+    <Compile Include="0_Platform\UIPlatformWinNeutral.cs" />
+    <Compile Include="0_UISurfaceViewport\UISurfaceViewportControl.cs" />
+    <Compile Include="2_GLES2\3_MyTopWindowBridgeOpenGL.cs" />
     <Compile Include="4_Skia\2_SkiaCanvasViewport.cs" />
     <Compile Include="4_Skia\3_MyTopWindowBridgeSkia.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

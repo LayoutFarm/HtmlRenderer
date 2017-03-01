@@ -12,11 +12,22 @@ namespace LayoutFarm.UI
         ITopWindowEventRoot topWinEventRoot;
         InnerViewportKind innerViewportKind;
         List<Form> subForms = new List<Form>();
+
+
+        //init once***
+        static readonly UIPlatformWinForm winPlatform = UIPlatformWinForm.platform;
+
         public UISurfaceViewportControl()
         {
             InitializeComponent();
         }
-
+        public UIPlatform Platform
+        {
+            get
+            {
+                return winPlatform;
+            }
+        }
         public void InitRootGraphics(
             RootGraphic rootgfx,
             ITopWindowEventRoot topWinEventRoot,

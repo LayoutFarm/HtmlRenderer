@@ -170,9 +170,9 @@ namespace LayoutFarm.Text
         }
         Size CalculateDrawingStringSize(char[] buffer, int length)
         {
-
-            return TextServices.IFonts.MeasureString(buffer, 0,
+            return this.Root.IFonts.MeasureString(buffer, 0,
                 length, GetFont());
+         
         }
         protected RequestFont GetFont()
         {

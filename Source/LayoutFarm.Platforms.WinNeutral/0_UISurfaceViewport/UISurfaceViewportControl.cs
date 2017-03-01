@@ -23,6 +23,10 @@ namespace LayoutFarm.UI.WinNeutral
         {
 
         }
+        public LayoutFarm.UI.UIPlatform Platform
+        {
+            get { return LayoutFarm.UI.UIPlatformWinNeutral.platform; }
+        }
         public PixelFarm.Drawing.Size Size
         {
             get { return new PixelFarm.Drawing.Size(width, height); }
@@ -62,6 +66,7 @@ namespace LayoutFarm.UI.WinNeutral
         {
             bridge.SetupCanvas(canvas);
         }
+        //
         OpenGL.MyTopWindowBridgeOpenGL bridge;
         public void InitRootGraphics(
             RootGraphic rootgfx,
@@ -232,6 +237,7 @@ namespace LayoutFarm.UI.WinNeutral
 
             UISurfaceViewportControl newViewportControl = new UISurfaceViewportControl();
             newViewportControl.Size = new PixelFarm.Drawing.Size(w, h);
+
             RootGraphic newRootGraphic = this.rootgfx.CreateNewOne(w, h);
             ITopWindowEventRoot topEventRoot = null;
             if (newRootGraphic is ITopWindowEventRootProvider)

@@ -8,14 +8,14 @@ namespace TestGraphicPackage
 {
     public partial class Form1 : Form
     {
-        UIPlatform uiPlatformWinForm;
-        PixelFarm.Drawing.GraphicsPlatform gfxPlatform;
-        public Form1(PixelFarm.Drawing.GraphicsPlatform p)
+        //UIPlatform uiPlatformWinForm;
+        //PixelFarm.Drawing.GraphicsPlatform gfxPlatform;
+        public Form1()
         {
             InitializeComponent();
-            this.uiPlatformWinForm = new LayoutFarm.UI.UIPlatformWinForm();
-            LayoutFarm.UI.UIPlatform.CurrentUIPlatform = uiPlatformWinForm;
-            this.gfxPlatform = p;
+            //this.uiPlatformWinForm = new LayoutFarm.UI.UIPlatformWinForm();
+            //LayoutFarm.UI.UIPlatform.CurrentUIPlatform = uiPlatformWinForm;
+            //this.gfxPlatform = p;
         }
 
         static void ShowFormLayoutInspector(LayoutFarm.UI.UISurfaceViewportControl viewport)
@@ -33,13 +33,8 @@ namespace TestGraphicPackage
         private void cmdShowBasicFormCanvas_Click(object sender, EventArgs e)
         {
             LayoutFarm.UI.UISurfaceViewportControl viewport;
-            int w = 800;
-            int h = 600;
-            MyRootGraphic rootgfx = new MyRootGraphic(
-                this.uiPlatformWinForm, 
-                w,
-                h);
-            Form formCanvas = FormCanvasHelper.CreateNewFormCanvas(rootgfx,
+
+            Form formCanvas = FormCanvasHelper.CreateNewFormCanvas(800, 600,
                InnerViewportKind.GdiPlus,
                out viewport);
             viewport.PaintMe();
@@ -58,7 +53,9 @@ namespace TestGraphicPackage
             simpleForm.Controls.Add(viewport);
             int w = 800;
             int h = 600;
-            var rootgfx = new MyRootGraphic(this.uiPlatformWinForm, 
+            var rootgfx = new MyRootGraphic(
+                LayoutFarm.UI.UIPlatformWinForm.platform,
+                LayoutFarm.UI.UIPlatformWinForm.platform.GetIFonts(),
                 w, h);
             viewport.InitRootGraphics(rootgfx, rootgfx.TopWinEventPortal,
                 InnerViewportKind.GdiPlus);

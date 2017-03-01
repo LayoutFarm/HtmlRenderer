@@ -89,8 +89,9 @@ namespace PixelFarm.Drawing.WinGdi
             }
             else
             {
-                return (MyGdiPlusCanvas)LayoutFarm.UI.GdiPlus.MyWinGdiPortal.P.CreateCanvas(
-                     0, 0, eachPageWidth, eachPageHeight);
+                return new MyGdiPlusCanvas(0, 0, eachPageWidth, eachPageHeight);
+                //return (MyGdiPlusCanvas)LayoutFarm.UI.GdiPlus.MyWinGdiPortal.P.CreateCanvas(
+                //     0, 0, eachPageWidth, eachPageHeight);
 
                 //PixelFarm.Drawing.WinGdi.WinGdiPlusPlatform
                 //return new MyGdiPlusCanvas( 

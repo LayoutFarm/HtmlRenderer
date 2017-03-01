@@ -9,10 +9,10 @@ namespace LayoutFarm.Demo
 {
     public partial class DevForm : Form
     {
-        PixelFarm.Drawing.GraphicsPlatform graphicsPlatform;
-        public DevForm(PixelFarm.Drawing.GraphicsPlatform graphicsPlatform)
+      
+        public DevForm()
         {
-            this.graphicsPlatform = graphicsPlatform;
+           
             InitializeComponent();
             this.lstDemoList.DoubleClick += new EventHandler(lstDemoList_DoubleClick);
             LoadDemoList();
@@ -26,7 +26,7 @@ namespace LayoutFarm.Demo
                 DemoBase demoInstance = (DemoBase)Activator.CreateInstance(demoInfo.DemoType);
                 if (demoInstance != null)
                 {
-                    DemoForm demoForm = new DemoForm(this.graphicsPlatform);
+                    DemoForm demoForm = new DemoForm();
                     demoForm.Show();
                     demoForm.Activate();
                     demoForm.LoadDemo(demoInstance);
@@ -68,7 +68,7 @@ namespace LayoutFarm.Demo
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            DemoForm demoForm = new DemoForm(this.graphicsPlatform);
+            DemoForm demoForm = new DemoForm();
             demoForm.PrepareSamples();
             demoForm.Show();
             demoForm.Activate();
@@ -83,7 +83,7 @@ namespace LayoutFarm.Demo
         {
             for (int i = 0; i < 10; ++i)
             {
-                DemoForm demoForm = new DemoForm(this.graphicsPlatform);
+                DemoForm demoForm = new DemoForm();
                 demoForm.StartAtSampleIndex = 2;
                 demoForm.PrepareSamples();
                 demoForm.Show();

@@ -31,7 +31,7 @@ namespace TestGlfw
 
 
         static bool needUpdateContent = false;
-        static MyNativeRGBA32BitsImage myImg; 
+        static MyNativeRGBA32BitsImage myImg;
         static GLBitmap glBmp;
 
         static void UpdateViewContent(FormRenderUpdateEventArgs formRenderUpdateEventArgs)
@@ -168,7 +168,8 @@ namespace TestGlfw
             LayoutFarm.Ease.EaseHost.StartGraphicsHost();
 
             var rootgfx = new MyRootGraphic(
-                LayoutFarm.UI.UIPlatform.CurrentUIPlatform,
+                LayoutFarm.UI.UIPlatformWinNeutral.platform,
+                LayoutFarm.UI.UIPlatformWinNeutral.platform.GetIFonts(),
                 ww_w, ww_h);
 
             var surfaceViewportControl = new LayoutFarm.UI.WinNeutral.UISurfaceViewportControl();

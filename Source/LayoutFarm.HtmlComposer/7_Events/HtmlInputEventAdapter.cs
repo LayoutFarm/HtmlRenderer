@@ -32,12 +32,13 @@ namespace LayoutFarm.HtmlBoxes
         public HtmlInputEventAdapter()
         {
 
-            this.ifonts = TextServices.IFonts;
+            //this.ifonts = TextServices.IFonts;
         }
         public void Bind(HtmlContainer htmlCont)
         {
             this._htmlContainer = htmlCont;
             _isBinded = htmlCont != null;
+            this.ifonts = ((RootGraphic)htmlCont.RootCssBox.RootGfx).IFonts;
         }
         public void Unbind()
         {

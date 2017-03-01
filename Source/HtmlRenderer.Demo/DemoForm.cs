@@ -59,10 +59,10 @@ namespace LayoutFarm.Demo
         /// <summary>
         /// Init.
         /// </summary>
-        public DemoForm(PixelFarm.Drawing.GraphicsPlatform p)
+        public DemoForm()
         {
-            this.graphicsPlatform = p;
-            this._htmlPanel = new LayoutFarm.Demo.HtmlPanel(this.graphicsPlatform, 800, 600);
+            this.graphicsPlatform = null;
+            this._htmlPanel = new LayoutFarm.Demo.HtmlPanel();
             this.htmlHost = new LayoutFarm.HtmlBoxes.HtmlHost();
             htmlHost.AttachEssentailHandlers(
                 this.HandleImageRequest,

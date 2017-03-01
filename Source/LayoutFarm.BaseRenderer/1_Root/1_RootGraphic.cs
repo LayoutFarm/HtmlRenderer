@@ -27,7 +27,7 @@ namespace LayoutFarm
             this.Height = heigth;
         }
 
-
+        public abstract IFonts IFonts { get; }
         public abstract RequestFont DefaultTextEditFontInfo
         {
             get;

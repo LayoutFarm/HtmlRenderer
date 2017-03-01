@@ -23,125 +23,68 @@ namespace LayoutFarm.UI.OpenGL
         }
         static InstalledFontCollection s_installFontCollection = new InstalledFontCollection();
     }
-    public static class MyOpenGLPortal
-    {
-        static OpenGLGfxPlatform _winGdiPlatform;
-        static bool isInit;
-        public static GraphicsPlatform Start(MyWinGdiPortalSetupParameters initParams)
-        {
-            if (isInit)
-            {
-                return _winGdiPlatform;
-            }
-            isInit = true;
+    //public static class MyOpenGLPortal
+    //{
+    //    static OpenGLGfxPlatform _winGdiPlatform;
+    //    static bool isInit;
+    //    static GraphicsPlatform Start(MyWinGdiPortalSetupParameters initParams)
+    //    {
+    //        if (isInit)
+    //        {
+    //            return _winGdiPlatform;
+    //        }
+    //        isInit = true;
 
-            //text services:            
-            TextServices.IFonts = initParams.TextServiceInstance ?? new GdiPlusIFonts();
-            ActualFontResolver.Resolver = initParams.ActualFontResolver ?? new GdiFontResolver();
-            //set if we use pixelfarm's native myft.dll
-            //or use managed text break
-            //-------------------------------------
-            //if we use ICU text breaker
-            //1. load icu data
-            //if (initParams.IcuDataFile != null)
-            //{
-            //    //check icu file is exist 
-            //    //TODO: review  file/resource load mechanism again ***
-            //     NativeTextBreaker.SetICUDataFile(initParams.IcuDataFile);
-            //}
-            ////2. text breaker
-            //RootGraphic.SetTextBreakerGenerator(
-            //    initParams.TextBreakGenerator ??
-            //    (locale => new NativeTextBreaker(TextBreakKind.Word, locale))
-            //    );
+    //        //text services:            
+    //        //TextServices.IFonts = initParams.TextServiceInstance ?? new GdiPlusIFonts();
+    //        //ActualFontResolver.Resolver = initParams.ActualFontResolver ?? new GdiFontResolver();
+    //        //set if we use pixelfarm's native myft.dll
+    //        //or use managed text break
+    //        //-------------------------------------
+    //        //if we use ICU text breaker
+    //        //1. load icu data
+    //        //if (initParams.IcuDataFile != null)
+    //        //{
+    //        //    //check icu file is exist 
+    //        //    //TODO: review  file/resource load mechanism again ***
+    //        //     NativeTextBreaker.SetICUDataFile(initParams.IcuDataFile);
+    //        //}
+    //        ////2. text breaker
+    //        //RootGraphic.SetTextBreakerGenerator(
+    //        //    initParams.TextBreakGenerator ??
+    //        //    (locale => new NativeTextBreaker(TextBreakKind.Word, locale))
+    //        //    );
 
-            //-------------------------------------
-            //config encoding
-            OpenGLGfxPlatform.SetFontEncoding(System.Text.Encoding.GetEncoding(874));
-            //-------------------------------------
-            OpenGLGfxPlatform.SetFontNotFoundHandler(
-                (fontCollection, fontName, style) =>
-                {
-                    //TODO: implement font not found mapping here
-                    //_fontsMapping["monospace"] = "Courier New";
-                    //_fontsMapping["Helvetica"] = "Arial";
-                    fontName = fontName.ToUpper();
-                    switch (fontName)
-                    {
-                        case "MONOSPACE":
-                            return fontCollection.GetFont("Courier New", style);
-                        case "HELVETICA":
-                            return fontCollection.GetFont("Arial", style);
-                        case "TAHOMA":
-                            //default font must found
-                            //if not throw err 
-                            //this prevent infinit loop
-                            throw new System.NotSupportedException();
-                        default:
-                            return fontCollection.GetFont("tahoma", style);
-                    }
-                });
-            _winGdiPlatform = new OpenGL.OpenGLGfxPlatform();
-            return _winGdiPlatform;
-        }
-        public static void End()
-        {
-            //PixelFarm.Drawing.DrawingGL.CanvasGLPortal.End();
-        }
-        public static GraphicsPlatform P
-        {
-            get
-            {
-                return null;
-                //PixelFarm.Drawing.DrawingGL.CanvasGLPortal.P;
-            }
-        }
-    }
-    public class MyWinGdiPortalSetupParameters
-    {
-        public string IcuDataFile { get; set; }
-        public IFonts TextServiceInstance { get; set; }
-        public IActualFontResolver ActualFontResolver { get; set; }
-    }
-
-    class GdiPlusIFonts : IFonts
-    {
-        public float MeasureWhitespace(RequestFont f)
-        {
-            throw new NotSupportedException();
-            //return WinGdiTextService.MeasureWhitespace(f);
-        }
-        public Size MeasureString(char[] buff, int startAt, int len, RequestFont font)
-        {
-            throw new NotSupportedException();
-            //return WinGdiTextService.MeasureString(buff, startAt, len, font);
-        }
-        public Size MeasureString(char[] buff, int startAt, int len, RequestFont font,
-            float maxWidth,
-            out int charFit,
-            out int charFitWidth)
-        {
-            throw new NotSupportedException();
-            // return WinGdiTextService.MeasureString(buff, startAt, len, font, maxWidth, out charFit, out charFitWidth);
-        }
-        public void CalculateGlyphAdvancePos(char[] str, int startAt, int len, RequestFont font, int[] glyphXAdvances)
-        {
-            throw new NotSupportedException();
-            //WinGdiTextService.CalculateGlyphAdvancePos(str, startAt, len, font, glyphXAdvances);
-        }
-        public void Dispose()
-        {
-        }
-    }
-    class GdiFontResolver : LayoutFarm.IActualFontResolver
-    {
-        public PixelFarm.Drawing.Fonts.ActualFont Resolve(RequestFont font)
-        {
-            throw new NotSupportedException();
-            //return WinGdiTextService.GetWinGdiFont(font);
-        }
-    }
-
+    //        //-------------------------------------
+    //        //config encoding
+    //        OpenGLGfxPlatform.SetFontEncoding(System.Text.Encoding.GetEncoding(874));
+    //        //-------------------------------------
+    //        OpenGLGfxPlatform.SetFontNotFoundHandler(
+    //            (fontCollection, fontName, style) =>
+    //            {
+    //                //TODO: implement font not found mapping here
+    //                //_fontsMapping["monospace"] = "Courier New";
+    //                //_fontsMapping["Helvetica"] = "Arial";
+    //                fontName = fontName.ToUpper();
+    //                switch (fontName)
+    //                {
+    //                    case "MONOSPACE":
+    //                        return fontCollection.GetFont("Courier New", style);
+    //                    case "HELVETICA":
+    //                        return fontCollection.GetFont("Arial", style);
+    //                    case "TAHOMA":
+    //                        //default font must found
+    //                        //if not throw err 
+    //                        //this prevent infinit loop
+    //                        throw new System.NotSupportedException();
+    //                    default:
+    //                        return fontCollection.GetFont("tahoma", style);
+    //                }
+    //            });
+    //        _winGdiPlatform = new OpenGL.OpenGLGfxPlatform();
+    //        return _winGdiPlatform;
+    //    } 
+    //} 
 }
 #endif
 

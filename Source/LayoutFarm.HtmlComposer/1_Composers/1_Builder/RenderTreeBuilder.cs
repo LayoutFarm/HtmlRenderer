@@ -180,8 +180,9 @@ namespace LayoutFarm.Composers
             PrepareStylesAndContentOfChildNodes((HtmlElement)htmldoc.RootNode, activeTemplate);
             //----------------------------------------------------------------  
             RootGraphic rootgfx = (containerElement != null) ? containerElement.Root : null;
+            
             //TODO: review here, we should create cssbox at  document.body? 
-            CssBox bridgeBox = HtmlHost.CreateBridgeBox(TextServices.IFonts, containerElement, rootgfx);
+            CssBox bridgeBox = HtmlHost.CreateBridgeBox(rootgfx.IFonts, containerElement, rootgfx);
             ((HtmlElement)htmldoc.RootNode).SetPrincipalBox(bridgeBox);
             htmlHost.UpdateChildBoxes((HtmlRootElement)htmldoc.RootNode, true);
             htmldoc.SetDocumentState(DocumentState.Idle);
@@ -200,7 +201,7 @@ namespace LayoutFarm.Composers
             TopDownActiveCssTemplate activeTemplate = new TopDownActiveCssTemplate(cssActiveSheet);
             PrepareStylesAndContentOfChildNodes((HtmlElement)htmldoc.RootNode, activeTemplate);
             //TODO: review here, we should create cssbox at document.body?  
-            CssBox rootBox = HtmlHost.CreateIsolateBox(TextServices.IFonts, rootgfx);
+            CssBox rootBox = HtmlHost.CreateIsolateBox(rootgfx.IFonts, rootgfx);
             ((HtmlElement)htmldoc.RootNode).SetPrincipalBox(rootBox);
             htmlHost.UpdateChildBoxes((HtmlRootElement)htmldoc.RootNode, true);
             htmldoc.SetDocumentState(DocumentState.Idle);
