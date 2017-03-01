@@ -379,7 +379,7 @@ namespace PixelFarm.Drawing.WinGdi
         }
     }
 
-    class GdiPlusIFonts : IFonts
+    class Gdi32IFonts : IFonts
     {
         public float MeasureWhitespace(RequestFont f)
         {
