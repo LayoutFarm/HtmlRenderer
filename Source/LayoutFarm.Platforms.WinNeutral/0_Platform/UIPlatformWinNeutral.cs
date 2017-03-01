@@ -10,10 +10,11 @@ namespace LayoutFarm.UI
 
             //no gdi+
 
-            //gles2
+            //gles2 
+            
             PixelFarm.Drawing.GLES2.GLES2Platform.SetFontLoader(YourImplementation.BootStrapOpenGLES2.myFontLoader);
             //skia
-            //skia 
+             
             if (!YourImplementation.BootStrapSkia.IsNativeLibAvailable())
             {
                 //set font not found handler

@@ -30,7 +30,7 @@ namespace PixelFarm.Drawing.GLES2
         //--------------------------------------------------------------------
         public override void SetCanvasOrigin(int x, int y)
         {
-             
+
             painter1.SetOrigin(x, y);
             //----------- 
             int total_dx = x - canvasOriginX;
@@ -52,24 +52,14 @@ namespace PixelFarm.Drawing.GLES2
         }
         public override void SetClipRect(Rectangle rect, CombineMode combineMode = CombineMode.Replace)
         {
-            throw new NotSupportedException();
-            //gx.SetClip(
-            //  this.currentClipRect = new System.Drawing.Rectangle(
-            //        rect.X, rect.Y,
-            //        rect.Width, rect.Height),
-            //        (System.Drawing.Drawing2D.CombineMode)combineMode);
+            //TODO: reivew clip combine mode
+            painter1.SetClipBox(rect.Left, rect.Bottom, rect.Right, rect.Top);
         }
-        //public override bool IntersectsWith(Rectangle clientRect)
-        //{
-        //    return clientRect.IntersectsWith(left, top, right, bottom);
-        //}
-
         public override bool PushClipAreaRect(int width, int height, ref Rectangle updateArea)
         {
             //TODO: review here
             return true;
             // throw new NotSupportedException();
-
             //this.clipRectStack.Push(currentClipRect);
             //System.Drawing.Rectangle intersectResult =
             //      System.Drawing.Rectangle.Intersect(

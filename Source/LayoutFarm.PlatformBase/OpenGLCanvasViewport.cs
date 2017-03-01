@@ -2,7 +2,6 @@
 #if GL_ENABLE
 using System.Collections.Generic;
 using PixelFarm.Drawing;
-
 namespace LayoutFarm.UI.OpenGL
 {
     class OpenGLCanvasViewport : CanvasViewport
@@ -19,7 +18,6 @@ namespace LayoutFarm.UI.OpenGL
             isClosed = true;
             if (canvas != null)
             {
-
                 canvas.CloseCanvas();
                 canvas = null;
             }
@@ -29,9 +27,8 @@ namespace LayoutFarm.UI.OpenGL
         }
         internal void NotifyWindowControlBinding()
         {
-            //this.canvas = PixelFarm.Drawing.DrawingGL.CanvasGLPortal.P.CreateCanvas(0, 0, 800, 600);
-
         }
+
         public void SetCanvas(Canvas canvas)
         {
             this.canvas = canvas;
@@ -103,7 +100,10 @@ namespace LayoutFarm.UI.OpenGL
             // return;
             //----------------------------------
             //gl paint here
-
+            if (canvas == null)
+            {
+                return;
+            }
             canvas.ClearSurface(Color.White);
             ////test draw rect
             //canvas.StrokeColor = PixelFarm.Drawing.Color.Blue;

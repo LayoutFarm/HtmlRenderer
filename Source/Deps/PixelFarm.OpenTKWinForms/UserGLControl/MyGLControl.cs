@@ -9,6 +9,8 @@ namespace OpenTK
 {
     public partial class MyGLControl : GLControl
     {
+
+
         OpenTK.Graphics.Color4 clearColor;
         EventHandler glPaintHandler;
         static OpenTK.Graphics.GraphicsMode gfxmode = new OpenTK.Graphics.GraphicsMode(
@@ -24,22 +26,6 @@ namespace OpenTK
         {
             this.InitializeComponent();
         }
-
-        //public MyGLControl()
-        //{
-        //    OpenTK.Graphics.GraphicsMode gfxmode = new OpenTK.Graphics.GraphicsMode(
-        //     DisplayDevice.Default.BitsPerPixel,//default 32 bits color
-        //     16,//depth buffer => 16
-        //     8,  //stencil buffer => 8 (  //if want to use stencil buffer then set stencil buffer too! )
-        //     0,//number of sample of FSAA
-        //     0,  //accum buffer
-        //     2, // n buffer, 2=> double buffer
-        //     false);//sterio
-
-        //    ChildCtorOnlyResetGraphicMode(gfxmode);
-        //    //-----------
-        //    this.InitializeComponent();
-        //}
         public void InitSetup2d(int x, int y, int w, int h)
         {
 
