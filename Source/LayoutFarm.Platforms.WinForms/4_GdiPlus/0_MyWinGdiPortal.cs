@@ -85,7 +85,13 @@ namespace LayoutFarm.UI.GdiPlus
     //    public IFonts TextServiceInstance { get; set; }
     //    //public IActualFontResolver ActualFontResolver { get; set; }
     //}
-
+    //class GdiFontResolver : LayoutFarm.IActualFontResolver
+    //{
+    //    public PixelFarm.Drawing.Fonts.ActualFont Resolve(RequestFont font)
+    //    {
+    //        return WinGdiTextService.GetWinGdiFont(font);
+    //    }
+    //}
     class GdiPlusIFonts : IFonts
     {
         public float MeasureWhitespace(RequestFont f)
@@ -111,12 +117,6 @@ namespace LayoutFarm.UI.GdiPlus
         {
         }
     }
-    //class GdiFontResolver : LayoutFarm.IActualFontResolver
-    //{
-    //    public PixelFarm.Drawing.Fonts.ActualFont Resolve(RequestFont font)
-    //    {
-    //        return WinGdiTextService.GetWinGdiFont(font);
-    //    }
-    //}
+   
 
 }

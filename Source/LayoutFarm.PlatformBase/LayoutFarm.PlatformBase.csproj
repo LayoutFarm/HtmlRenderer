@@ -33,7 +33,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MyOpenGLPortal.cs" />
+    <Compile Include="x_notusedOpenGLPortal.cs" />
     <Compile Include="OpenGLCanvasViewport.cs" />
     <Compile Include="CanvasViewport.cs" />
     <Compile Include="dbugHelper.cs" />

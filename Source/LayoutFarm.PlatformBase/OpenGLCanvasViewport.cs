@@ -110,6 +110,9 @@ namespace LayoutFarm.UI.OpenGL
             //canvas.DrawRectangle(Color.Blue, 20, 20, 200, 200);
             ////------------------------
 
+
+
+
             if (this.IsClosed) { return; }
             //------------------------------------ 
 
