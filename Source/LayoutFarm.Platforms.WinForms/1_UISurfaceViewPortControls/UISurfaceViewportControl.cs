@@ -91,10 +91,11 @@ namespace LayoutFarm.UI
                         int max = Math.Max(this.Width, this.Height);
                         canvas2d = PixelFarm.Drawing.GLES2.GLES2Platform.CreateCanvasGL2d(max, max);
                         canvasPainter = new GLCanvasPainter(canvas2d, max, max);
-                        canvasPainter.SmoothingMode = PixelFarm.Drawing.SmoothingMode.HighQuality;
+                        //canvasPainter.SmoothingMode = PixelFarm.Drawing.SmoothingMode.HighQuality;
+                        
                         //----------------------
                         //1. win gdi based
-                        //var printer = new WinGdiFontPrinter(canvas2d, w, h);
+                        //var printer = new WinGdiFontPrinter(canvas2d, view.Width, view.Height);
                         //canvasPainter.TextPrinter = printer;
                         //----------------------
                         //2. raw vxs
@@ -110,6 +111,7 @@ namespace LayoutFarm.UI
 
                         //-
                         var myGLCanvas1 = new PixelFarm.Drawing.GLES2.MyGLCanvas(canvasPainter, 0, 0, view.Width, view.Height);
+                        
                         bridge.SetCanvas(myGLCanvas1);
 
 
