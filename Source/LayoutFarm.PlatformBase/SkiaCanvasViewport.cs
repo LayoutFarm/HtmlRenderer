@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 using PixelFarm.Drawing;
-using PixelFarm.Drawing.WinGdi;
+
 
 #if __SKIA__
 namespace LayoutFarm.UI.Skia
@@ -143,7 +143,7 @@ namespace LayoutFarm.UI.Skia
         }
 
 
-  
+
     }
 }
 

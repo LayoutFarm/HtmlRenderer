@@ -76,6 +76,9 @@
     <Compile Include="..\LayoutFarm.PlatformBase\PlatformBootStrap\BootStrapWinGdi.cs">
       <Link>0_Platform\BootStrapWinGdi.cs</Link>
     </Compile>
+    <Compile Include="..\LayoutFarm.PlatformBase\SkiaCanvasViewport.cs">
+      <Link>4_Skia\SkiaCanvasViewport.cs</Link>
+    </Compile>
     <Compile Include="..\LayoutFarm.PlatformBase\Windows\InstallFontsProviderWin32.cs">
       <Link>5_Shared\InstallFontsProviderWin32.cs</Link>
     </Compile>
@@ -116,7 +119,6 @@
     <Compile Include="2_Bridge_WinForm\TopWindowBridgeWinForm_dbug.cs" />
     <Compile Include="4_GdiPlus\3_MyTopWindowBridgeGdiPlus.cs" />
     <Compile Include="2_GLES2\3_MyTopWindowBridgeOpenGL.cs" />
-    <Compile Include="4_Skia\2_SkiaCanvasViewport.cs" />
     <Compile Include="4_Skia\3_MyTopWindowBridgeSkia.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
