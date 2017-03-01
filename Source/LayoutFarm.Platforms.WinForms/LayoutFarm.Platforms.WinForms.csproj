@@ -93,7 +93,7 @@
       <DependentUpon>AbstractCompletionWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="4_GdiPlus\1_GdiPlusCanvasViewport.cs" />
-    <Compile Include="4_GdiPlus\0_MyWinGdiPortal.cs" />
+    <Compile Include="4_GdiPlus\GdiPlusIFonts.cs" />
     <Compile Include="2_GLES2\1_GpuOpenGLSurfaceView.cs">
       <SubType>UserControl</SubType>
     </Compile>

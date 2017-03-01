@@ -38,6 +38,15 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\deps\win32utils\MyWin32.cs">
+      <Link>Win32Utils\MyWin32.cs</Link>
+    </Compile>
+    <Compile Include="..\deps\win32utils\NativeTextWin32.cs">
+      <Link>Win32Utils\NativeTextWin32.cs</Link>
+    </Compile>
+    <Compile Include="..\deps\win32utils\NativeWin32MemoryDc.cs">
+      <Link>Win32Utils\NativeWin32MemoryDc.cs</Link>
+    </Compile>
     <Compile Include="..\LayoutFarm.PlatformBase\CanvasViewport.cs">
       <Link>0_Shared\CanvasViewport.cs</Link>
     </Compile>
@@ -65,6 +74,7 @@
     <Compile Include="..\LayoutFarm.PlatformBase\Windows\WindowFontLoader.cs">
       <Link>5_Shared\WindowFontLoader.cs</Link>
     </Compile>
+    <Compile Include="0_Platform\GdiPlusIFonts.cs" />
     <Compile Include="1_LayoutFarm.UI\MyGlfwForm.cs" />
     <Compile Include="1_LayoutFarm.UI\AbstractCompletionWindow.cs" />
     <Compile Include="1_Bridge_WinNeutral\TopWindowBridgeWinNeutral.cs" />
