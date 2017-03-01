@@ -98,6 +98,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SampleViewportExtension.cs" />
+    <Compile Include="x_notusedOpenGLPortal.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Deps\LayoutFarm.TextBreak\LayoutFarm.TextBreak.Icu\LayoutFarm.TextBreak.Icu.csproj">
@@ -108,17 +109,13 @@
       <Project>{09EC5531-D272-40DB-87A4-B2D353846CC2}</Project>
       <Name>LayoutFarm.TextBreak</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Deps\PixelFarm.DataProvider.Managed\PixelFarm.DataProvider.Managed.csproj">
-      <Project>{025E536D-53A6-4C5F-AED5-E21960C70763}</Project>
-      <Name>PixelFarm.DataProvider.Managed</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Deps\PixelFarm.DataProvider.Native\PixelFarm.DataProvider.Native.csproj">
-      <Project>{821C2F8B-45E4-4242-970D-AE64780970B2}</Project>
-      <Name>PixelFarm.DataProvider.Native</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Deps\PixelFarm.Drawing.Core\PixelFarm.Drawing.Core.csproj">
       <Project>{51D63482-5697-4B16-8401-506965624657}</Project>
       <Name>PixelFarm.Drawing.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Deps\PixelFarm.DrawingCanvas\PixelFarm.DrawingCanvas.csproj">
+      <Project>{0cc424d5-20ac-4849-993d-3a720dbae94f}</Project>
+      <Name>PixelFarm.DrawingCanvas</Name>
     </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.BaseRenderer\LayoutFarm.BaseRenderer.csproj">
       <Project>{20048075-A2F3-4B97-B3C6-BEA794429741}</Project>
@@ -128,9 +125,9 @@
       <Project>{61369865-95B7-49F2-B012-67B4A2427A8B}</Project>
       <Name>LayoutFarm.ClientPlatforms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.Composers\LayoutFarm.Composers.csproj">
-      <Project>{1AF17E34-4C2D-4657-B993-E0608C555111}</Project>
-      <Name>LayoutFarm.Composers</Name>
+    <ProjectReference Include="..\LayoutFarm.HtmlComposer\LayoutFarm.HtmlComposer.csproj">
+      <Project>{1af17e34-4c2d-4657-b993-e0608c555111}</Project>
+      <Name>LayoutFarm.HtmlComposer</Name>
     </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.HtmlRenderer\LayoutFarm.HtmlRenderer.csproj">
       <Project>{9D2A40BC-FA95-454D-AEF5-4DD9344BFDC3}</Project>

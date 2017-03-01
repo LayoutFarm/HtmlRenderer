@@ -1,5 +1,4 @@
-﻿//BSD, 2014-2017, WinterDev
-using System.Runtime.InteropServices;
+﻿//BSD, 2014-2017, WinterDev 
 namespace PixelFarm.Agg
 {
     public abstract class AggBuffMx
@@ -21,15 +20,12 @@ namespace PixelFarm.Agg
         {
             s_impl.InnerMemCopy(dest_buffer, dest_startAt, src_buffer, src_StartAt, len);
         }
-
-
-
     }
     class ManagedAggBufferMx : AggBuffMx
     {
         protected override void InnerMemCopy(byte[] dest_buffer, int dest_startAt, byte[] src_buffer, int src_StartAt, int len)
         {
-           
+
             System.Buffer.BlockCopy(
                 src_buffer, src_StartAt, dest_buffer, dest_startAt, len);
         }
@@ -39,12 +35,13 @@ namespace PixelFarm.Agg
             {
                 fixed (byte* pos = &dest[startAt])
                 {
+                    //TODO: review performance here
                     for (int i = count - 1; i >= 0; --i)
                     {
                         *(pos + i) = value;
                     }
                 }
-            } 
+            }
         }
     }
 

@@ -20,7 +20,7 @@ namespace BuildMergeProject
                "HtmlRenderer.One",
                "v2.0",
                //"ICU_VER_54;NET20",
-               ";NET20, __DESKTOP__",
+               ";NET20, __DESKTOP__"+ ",NET20,PIXEL_FARM,PIXEL_FARM_NET20",//additional define constant,
                new string[] {
                   "System",
                   "System.Drawing",
@@ -31,8 +31,7 @@ namespace BuildMergeProject
         static MergeProject CreateMergePixelFarmProject()
         {
             MergeProject mergePro = new MergeProject();
-            mergePro.LoadSubProject(DEV_DIR + @"Deps\PixelFarm.One.HtmlRenderer.csproj");//this is auto-gen project too
-            mergePro.LoadSubProject(DEV_DIR + @"Deps\PixelFarm.DataProvider.Native\PixelFarm.DataProvider.Native.csproj");//this is auto-gen project too
+            mergePro.LoadSubProject(DEV_DIR + @"Deps\PixelFarm.One.HtmlRenderer.csproj");//this is auto-gen project too             
             //mergePro.LoadSubProject(DEV_DIR + @"Deps\PixelFarm.SkiaSharp\PixelFarm.SkiaSharp.csproj");
             //mergePro.LoadSubProject(DEV_DIR + @"Deps\PixelFarm.Drawing.Skia\PixelFarm.Drawing.Skia.csproj");
             mergePro.LoadSubProject(DEV_DIR + @"Deps\Tesselate\Tesselate.csproj");
@@ -45,7 +44,7 @@ namespace BuildMergeProject
             mergePro.LoadSubProject(DEV_DIR + @"LayoutFarm.BaseRenderer\LayoutFarm.BaseRenderer.csproj");
             mergePro.LoadSubProject(DEV_DIR + @"LayoutFarm.HtmlRenderer\LayoutFarm.HtmlRenderer.csproj");
             //integrated module
-            mergePro.LoadSubProject(DEV_DIR + @"LayoutFarm.Composers\LayoutFarm.Composers.csproj");
+            mergePro.LoadSubProject(DEV_DIR + @"LayoutFarm.HtmlComposer\LayoutFarm.HtmlComposer.csproj");
             mergePro.LoadSubProject(DEV_DIR + @"LayoutFarm.TextEdit\LayoutFarm.TextEdit.csproj");
             mergePro.LoadSubProject(DEV_DIR + @"LayoutFarm.WebDom\LayoutFarm.WebDom.csproj");
             mergePro.LoadSubProject(DEV_DIR + @"LayoutFarm.YourCustomWidgets\LayoutFarm.YourCustomWidgets.csproj");

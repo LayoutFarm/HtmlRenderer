@@ -38,7 +38,24 @@ namespace PixelFarm.Drawing.Skia
             get { return _skCanvas; }
             set { _skCanvas = value; }
         }
-
+        public override float OriginX
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+        public override float OriginY
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+        public override void SetOrigin(float ox, float oy)
+        {
+            throw new NotImplementedException();
+        }
         static bool defaultAntiAlias = false;
         public override SmoothingMode SmoothingMode
         {

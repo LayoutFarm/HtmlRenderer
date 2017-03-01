@@ -151,6 +151,15 @@ namespace OpenTK.Graphics.ES20
             float frustumWidth = (float)(frustumHeight * aspectRatio);
             return frustum(-frustumWidth, frustumWidth, -frustumHeight, frustumHeight, nearZ, farZ);
         }
+        public static MyMat4 scale(float sx, float sy)
+        {
+            return new MyMat4(
+                sx, 0.0f, 0.0f, 0.0f,
+                0.0f, sy, 0.0f, 0.0f,
+                0.0f, 0.0f, 1.0f, 0.0f,
+                0.0f, 0.0f, 0.0f, 1.0f
+                );
+        }
         static MyMat4 frustum(float l, float r, float b, float t, float n, float f)
         {
             return new MyMat4((2.0f * n) / (r - l), 0.0f, (r + l) / (r - l), 0.0f,
@@ -174,8 +183,8 @@ namespace OpenTK.Graphics.ES20
         static float Vector3lengthSquared(ref Vector3 vec)
         {
             return vec.X * vec.X +
-            vec.Y * vec.Y +
-            vec.Z * vec.Z;
+                   vec.Y * vec.Y +
+                   vec.Z * vec.Z;
         }
 
         static Vector3 NormalizeVector(Vector3 vec)
@@ -206,9 +215,9 @@ namespace OpenTK.Graphics.ES20
         public static MyMat4 translate(Vector3 t)
         {
             return new MyMat4(1.0f, 0.0f, 0.0f, t.X,
-                           0.0f, 1.0f, 0.0f, t.Y,
-                           0.0f, 0.0f, 1.0f, t.Z,
-                           0.0f, 0.0f, 0.0f, 1.0f);
+                              0.0f, 1.0f, 0.0f, t.Y,
+                              0.0f, 0.0f, 1.0f, t.Z,
+                              0.0f, 0.0f, 0.0f, 1.0f);
         }
         public static MyMat4 ortho(float l, float r, float b, float t, float n, float f)
         {

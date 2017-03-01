@@ -1,7 +1,6 @@
-﻿//BSD, 2014-2017, WinterDev
+﻿//BSD, 2014-2017, WinterDev  
 
 using System;
-using System.Runtime.InteropServices;
 
 namespace Win32
 {

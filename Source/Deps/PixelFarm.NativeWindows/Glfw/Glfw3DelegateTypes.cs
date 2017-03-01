@@ -41,11 +41,11 @@ namespace Pencil.Gaming
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate void GlfwWindowFocusFun(GlfwWindowPtr wnd, bool focus);
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void GlfwKeyFun(GlfwWindowPtr wnd, Key key, int scanCode, KeyAction action, KeyModifiers mods);
+    public delegate void GlfwKeyFun(GlfwWindowPtr wnd, Key key, int scanCode, KeyActionKind action, KeyModifiers mods);
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate void GlfwCharFun(GlfwWindowPtr wnd, char ch);
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void GlfwMouseButtonFun(GlfwWindowPtr wnd, MouseButton btn, KeyAction action);
+    public delegate void GlfwMouseButtonFun(GlfwWindowPtr wnd, MouseButton btn, KeyActionKind action);
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate void GlfwWindowIconifyFun(GlfwWindowPtr wnd, bool iconify);
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]

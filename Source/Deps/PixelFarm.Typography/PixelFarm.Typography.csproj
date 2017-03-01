@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{540A2EA6-DAE3-4625-8951-B2C3118603A4}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PixelFarm.Typography</RootNamespace>
+    <AssemblyName>PixelFarm.Typography</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.XML" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PixelFarm.Drawing.Core\PixelFarm.Drawing.Core.csproj">
+      <Project>{51d63482-5697-4b16-8401-506965624657}</Project>
+      <Name>PixelFarm.Drawing.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PixelFarm.DrawingCanvas\PixelFarm.DrawingCanvas.csproj">
+      <Project>{0cc424d5-20ac-4849-993d-3a720dbae94f}</Project>
+      <Name>PixelFarm.DrawingCanvas</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Typography\Typography.GlyphLayout\Typography.GlyphLayout.csproj">
+      <Project>{c48f2c17-3c32-4f27-a96c-60a9d86df9cf}</Project>
+      <Name>Typography.GlyphLayout</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Typography\Typography.OpenFont\N20\Typography.OpenFont\Typography.OpenFont.csproj">
+      <Project>{29ed0dfe-373c-4e98-bd4b-43f8e5fb16f6}</Project>
+      <Name>Typography.OpenFont</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Typography\Typography.Rendering\Typography.Rendering.csproj">
+      <Project>{e4a1c3c3-1c1c-4e11-a2e6-a1fafd6652c7}</Project>
+      <Name>Typography.Rendering</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Typography\FontAtlas\BinPacker.cs">
+      <Link>4_FontAtlas\BinPacker.cs</Link>
+    </Compile>
+    <Compile Include="..\Typography\FontAtlas\MsdfGlyphGen.cs">
+      <Link>4_FontAtlas\MsdfGlyphGen.cs</Link>
+    </Compile>
+    <Compile Include="..\Typography\FontAtlas\MsdfGlyphGenExtension.cs">
+      <Link>4_FontAtlas\MsdfGlyphGenExtension.cs</Link>
+    </Compile>
+    <Compile Include="..\Typography\FontAtlas\SimpleFontAtlas.cs">
+      <Link>4_FontAtlas\SimpleFontAtlas.cs</Link>
+    </Compile>
+    <Compile Include="..\Typography\FontAtlas\SimpleFontAtlasBuilder.cs">
+      <Link>4_FontAtlas\SimpleFontAtlasBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\Typography\Typography.MsdfGen\EdgeColor.cs">
+      <Link>5_Msdf\EdgeColor.cs</Link>
+    </Compile>
+    <Compile Include="..\Typography\Typography.MsdfGen\EdgeColoring.cs">
+      <Link>5_Msdf\EdgeColoring.cs</Link>
+    </Compile>
+    <Compile Include="..\Typography\Typography.MsdfGen\EdgeHolder.cs">
+      <Link>5_Msdf\EdgeHolder.cs</Link>
+    </Compile>
+    <Compile Include="..\Typography\Typography.MsdfGen\EdgeSegment.cs">
+      <Link>5_Msdf\EdgeSegment.cs</Link>
+    </Compile>
+    <Compile Include="..\Typography\Typography.MsdfGen\EquationSolver.cs">
+      <Link>5_Msdf\EquationSolver.cs</Link>
+    </Compile>
+    <Compile Include="..\Typography\Typography.MsdfGen\MsdfGen.cs">
+      <Link>5_Msdf\MsdfGen.cs</Link>
+    </Compile>
+    <Compile Include="..\Typography\Typography.MsdfGen\SignedDistance.cs">
+      <Link>5_Msdf\SignedDistance.cs</Link>
+    </Compile>
+    <Compile Include="1_Drawing_Fonts\FontPreview.cs" />
+    <Compile Include="1_Drawing_Fonts\GlyphPathBuilderVxs.cs" />
+    <Compile Include="1_Drawing_Fonts\InstalledFontCollection.cs" />
+    <Compile Include="2_Drawing_Text\ManagedShapingService.cs" />
+    <Compile Include="1_Drawing_Fonts\MyGlyphPathBuilder.cs" />
+    <Compile Include="3_FontFaceImpl\ManagedFontFace.cs" />
+    <Compile Include="3_FontFaceImpl\OpenFontLoader.cs" />
+    <Compile Include="2_Drawing_Text\TextShapingAndLayoutService.cs" />
+    <Compile Include="1_Drawing_Fonts\TextPrinterImpl.cs" />
+    <Compile Include="3_FontFaceImpl\TextureFontFace.cs" />
+    <Compile Include="3_FontFaceImpl\TextureFontLoader.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <SchemaVersion>2.0</SchemaVersion>
+    <OutputType>Library</OutputType>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AssemblyName>PixelFarm.Drawing.MiniAgg</AssemblyName>
+    <ProjectGuid>{99A570D0-492A-453D-8B97-7F40489C10E0}</ProjectGuid>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <OutputPath>bin\Debug\</OutputPath>
+    <Optimize>false</Optimize>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <DefineConstants>TRACE;DEBUG;WIN</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <OutputPath>bin\Release\</OutputPath>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <DefineConstants> TRACE</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="MiniAgg.Complements\0_CanvasPainter\AggCanvasPainter.cs">
+    </Compile>
+    <Compile Include="MiniAgg.Complements\0_CanvasPainter\AggRenderVx.cs" />
+    <Compile Include="MiniAgg.Complements\0_CanvasPainter\Canvas2dExtension.cs" />
+    <Compile Include="MiniAgg.Complements\0_CanvasPainter\dbugVertexSourceIO.cs" />
+    <Compile Include="MiniAgg.Complements\1_Base\BorderDouble.cs" />
+    <Compile Include="MiniAgg.Complements\1_Base\ClipProxyImage.cs" />
+    <Compile Include="MiniAgg.Complements\1_Base\GammaFuntions.cs" />
+    <Compile Include="MiniAgg.Complements\1_Base\PixelBlenderRGB.cs" />
+    <Compile Include="MiniAgg.Complements\1_Base\ProxyImage.cs" />
+    <Compile Include="MiniAgg.Complements\1_Base\Queue.cs" />
+    <Compile Include="MiniAgg.Complements\1_Base\ScanlineRasToDestBitmapRendererExtension.cs" />
+    <Compile Include="MiniAgg.Complements\2_SpanGenerators\SpanGenGourand.cs" />
+    <Compile Include="MiniAgg.Complements\2_SpanGenerators\SpanGenGouraudRGBA.cs" />
+    <Compile Include="MiniAgg.Complements\2_SpanGenerators\SpanGradient.cs" />
+    <Compile Include="MiniAgg.Complements\2_SpanGenerators\SpanGradient_GradientValueCalculators.cs" />
+    <Compile Include="MiniAgg.Complements\Filter\ImageFilters.cs" />
+    <Compile Include="MiniAgg.Complements\Filter\PatternFilterBilnearColorRGBA.cs" />
+    <Compile Include="MiniAgg.Complements\Filter\RecursiveBlur.cs" />
+    <Compile Include="MiniAgg.Complements\Filter\StackBlur.cs" />
+    <Compile Include="MiniAgg.Complements\Image\AlphaMask.cs" />
+    <Compile Include="MiniAgg.Complements\Image\AlphaMaskAdaptor.cs" />
+    <Compile Include="MiniAgg.Complements\Image\FilterMan.cs" />
+    <Compile Include="MiniAgg.Complements\Image\FloodFiller.cs" />
+    <Compile Include="MiniAgg.Complements\Image\Transposer.cs" />
+    <Compile Include="MiniAgg\00_Context\Graphics2D.cs" />
+    <Compile Include="MiniAgg\00_Context\ImageGraphics2D.cs" />
+    <Compile Include="MiniAgg\00_Context\ImageGraphics2D_RenderImages.cs" />
+    <Compile Include="MiniAgg\02_PixelBuffer\ChildImage.cs" />
+    <Compile Include="MiniAgg\02_PixelBuffer\ColorOrder.cs" />
+    <Compile Include="MiniAgg\02_PixelBuffer\ColorRGBAf.cs" />
+    <Compile Include="MiniAgg\02_PixelBuffer\GammaLookUpTable.cs" />
+    <Compile Include="MiniAgg\02_PixelBuffer\IImageReaderWriter.cs" />
+    <Compile Include="MiniAgg\02_PixelBuffer\ImageHelper.cs" />
+    <Compile Include="MiniAgg\02_PixelBuffer\ImageReaderWriterBase.cs" />
+    <Compile Include="MiniAgg\02_PixelBuffer\PixelBlenderGray.cs" />
+    <Compile Include="MiniAgg\02_PixelBuffer\PixelBlenderRGBA.cs" />
+    <Compile Include="MiniAgg\03_SpanGenerators\0_ISpanGenerator.cs" />
+    <Compile Include="MiniAgg\03_SpanGenerators\1_ImgSpanGen.cs" />
+    <Compile Include="MiniAgg\03_SpanGenerators\2_ImgSpanGenRGB.cs" />
+    <Compile Include="MiniAgg\03_SpanGenerators\3_ImgSpanGenRGBA.cs" />
+    <Compile Include="MiniAgg\03_SpanGenerators\4_ImgSpanGenGray.cs" />
+    <Compile Include="MiniAgg\03_SpanGenerators\IGammaFunction.cs" />
+    <Compile Include="MiniAgg\03_SpanGenerators\ISpanInterpolator.cs" />
+    <Compile Include="MiniAgg\04_Scanline\0_ScanlineSpan.cs" />
+    <Compile Include="MiniAgg\04_Scanline\1_Scanline.cs" />
+    <Compile Include="MiniAgg\04_Scanline\2_ScanlinePacked8.cs" />
+    <Compile Include="MiniAgg\04_Scanline\3_ScanlineUnpacked8.cs" />
+    <Compile Include="MiniAgg\04_Scanline\4.1_ScanlineRasterizer.cs" />
+    <Compile Include="MiniAgg\04_Scanline\4.2_CellAARasterizer.cs" />
+    <Compile Include="MiniAgg\04_Scanline\4.3_VectorClipper.cs" />
+    <Compile Include="MiniAgg\04_Scanline\5_ScanlineRasToDestBitmapRenderer.cs" />
+    <Compile Include="MiniAgg\04_Scanline\6_ClipLiangBarsky.cs" />
+    <Compile Include="MiniAgg\07_ISpanInterpolator\LineInterpolators.cs" />
+    <Compile Include="MiniAgg\07_ISpanInterpolator\SpanInterpolatorLinear.cs" />
+    <Compile Include="MiniAgg\07_ISpanInterpolator\SpanInterpolatorPerspectiveLerp.cs" />
+    <Compile Include="MiniAgg\07_Lines\1.1_LinesAA.cs" />
+    <Compile Include="MiniAgg\07_Lines\1.2_PatternFilter.cs" />
+    <Compile Include="MiniAgg\07_Lines\1.3_LineParameters.cs" />
+    <Compile Include="MiniAgg\07_Lines\2.1_DistanceInterpolators.cs" />
+    <Compile Include="MiniAgg\07_Lines\2.2_LineInterpolators.cs" />
+    <Compile Include="MiniAgg\07_Lines\2.3_EllipseBrensenhemInterpolator.cs" />
+    <Compile Include="MiniAgg\07_Lines\3.1_LineRenderer.cs" />
+    <Compile Include="MiniAgg\07_Lines\3.2_OutlineRenderer.cs" />
+    <Compile Include="MiniAgg\07_Lines\3.3_ImageLineRenderer.cs" />
+    <Compile Include="MiniAgg\07_Lines\4_OutlineAARasterizer.cs" />
+    <Compile Include="MiniAgg\08_ImageResampling\FilterImageSpanGenerator.cs" />
+    <Compile Include="MiniAgg\08_ImageResampling\FilterImageSpanGenerator.ImageBufferAccessor.cs" />
+    <Compile Include="MiniAgg\08_ImageResampling\FilterRGBAImageSpanGen.cs" />
+    <Compile Include="MiniAgg\08_ImageResampling\FilterRGBImageSpanGen.cs" />
+    <Compile Include="MiniAgg\08_ImageResampling\IImageFilter.cs" />
+    <Compile Include="MiniAgg\08_ImageResampling\ImageFilterLookupTable.cs" />
+    <Compile Include="MiniAgg\08_ImageResampling\ImageFreeTransform.cs" />
+    <Compile Include="MiniAgg\08_ImageResampling\ImageInterpolationQuality.cs" />
+    <Compile Include="MiniAgg\08_ImageResampling\ImageTransform.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="PixelFarm.Drawing.Core\PixelFarm.Drawing.Core.csproj">
+      <Project>{51d63482-5697-4b16-8401-506965624657}</Project>
+      <Name>PixelFarm.Drawing.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="PixelFarm.DrawingCanvas\PixelFarm.DrawingCanvas.csproj">
+      <Project>{0cc424d5-20ac-4849-993d-3a720dbae94f}</Project>
+      <Name>PixelFarm.DrawingCanvas</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

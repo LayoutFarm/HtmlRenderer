@@ -8,9 +8,10 @@ namespace LayoutFarm
     [DemoNote("1.6 ScrollView")]
     class Demo_ScrollView : DemoBase
     {
-        ImageContentManager imageContentMan = new ImageContentManager();
+        ImageContentManager imageContentMan;
         protected override void OnStartDemo(SampleViewport viewport)
         {
+            imageContentMan = new ImageContentManager(viewport.Platform);
             imageContentMan.ImageLoadingRequest += (s, e) =>
             {
                 e.SetResultImage(LoadBitmap(e.ImagSource));
@@ -134,6 +135,6 @@ namespace LayoutFarm
             }
             panel.PerformContentLayout();
         }
-        
+
     }
 }

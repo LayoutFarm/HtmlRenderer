@@ -117,7 +117,8 @@ namespace LayoutFarm.Text
                 //TODO: review this,
                 //if we have enough length, -> we don't need to alloc every time. 
                 glyphPositions = new int[len];
-                TextServices.IFonts.CalculateGlyphAdvancePos(mybuffer, 0, len, GetFont(), glyphPositions);
+                Root.IFonts.CalculateGlyphAdvancePos(mybuffer, 0, len, GetFont(), glyphPositions);
+                //TextServices.IFonts.CalculateGlyphAdvancePos(mybuffer, 0, len, GetFont(), glyphPositions);
             }
             //---------
             this.SetSize(size.Width, size.Height);
@@ -166,9 +167,8 @@ namespace LayoutFarm.Text
         Size CalculateDrawingStringSize(char[] buffer, int length)
         {
             PixelFarm.Drawing.RequestFont fontInfo = GetFont();
-            return TextServices.IFonts.MeasureString(buffer, 0,
-                length, fontInfo);
-
+            return this.Root.IFonts.MeasureString(buffer, 0,
+                 length, fontInfo);
         }
         protected PixelFarm.Drawing.RequestFont GetFont()
         {

@@ -5,10 +5,10 @@ using PixelFarm.Forms;
 using PixelFarm.Drawing;
 namespace LayoutFarm.UI.Skia
 {
-    class MyTopWindowBridgeSkia : TopWindowBridge
+    class MyTopWindowBridgeSkia : TopWindowBridgeWinNeutral
     {
         Control windowControl;
-        SkiaCanvasViewport canvasViewport;
+       SkiaCanvasViewport canvasViewport;
         public MyTopWindowBridgeSkia(RootGraphic root, ITopWindowEventRoot topWinEventRoot)
             : base(root, topWinEventRoot)
         {
@@ -38,11 +38,13 @@ namespace LayoutFarm.UI.Skia
                 ref rect);
         }
         public override void PaintToOutputWindow()
-        {
-            //*** force paint to output viewdow
-            IntPtr hdc = Win32.MyWin32.GetDC(this.windowControl.Handle);
-            this.canvasViewport.PaintMe(hdc);
-            Win32.MyWin32.ReleaseDC(this.windowControl.Handle, hdc);
+        {   
+            //TODO: review here
+            throw new NotSupportedException();
+            ////*** force paint to output viewdow
+            //IntPtr hdc = Win32.MyWin32.GetDC(this.windowControl.Handle);
+            //this.canvasViewport.PaintMe(hdc);
+            //Win32.MyWin32.ReleaseDC(this.windowControl.Handle, hdc);
         }
         //public void PrintToCanvas(PixelFarm.Drawing.WinGdi.MyGdiPlusCanvas canvas)
         //{

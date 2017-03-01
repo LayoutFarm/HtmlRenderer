@@ -35,9 +35,6 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\PixelFarm.Drawing.GdiPlus\Implementation\WinGdiFont.cs">
-      <Link>PixelFarm.Drawing.GLES2\Implementation\WinGdiFont.cs</Link>
-    </Compile>
     <Compile Include="..\PixelFarm.DrawingGL\DrawingGL\GLCanvas\CanvasGL2d.cs">
       <Link>DrawingGL\GLCanvas\CanvasGL2d.cs</Link>
     </Compile>
@@ -47,8 +44,8 @@
     <Compile Include="..\PixelFarm.DrawingGL\DrawingGL\GLCanvas\CanvasToShaderSharedResource.cs">
       <Link>DrawingGL\GLCanvas\CanvasToShaderSharedResource.cs</Link>
     </Compile>
-    <Compile Include="..\PixelFarm.DrawingGL\DrawingGL\GLCanvas\GLCanvasPainterBase.cs">
-      <Link>DrawingGL\GLCanvas\GLCanvasPainterBase.cs</Link>
+    <Compile Include="..\PixelFarm.DrawingGL\DrawingGL\GLCanvas\GLCanvasPainter.cs">
+      <Link>DrawingGL\GLCanvas\GLCanvasPainter.cs</Link>
     </Compile>
     <Compile Include="..\PixelFarm.DrawingGL\DrawingGL\GLCanvas\GLGradientColorProvider.cs">
       <Link>DrawingGL\GLCanvas\GLGradientColorProvider.cs</Link>
@@ -110,47 +107,30 @@
     <Compile Include="..\PixelFarm.DrawingGL\DrawingGL\GLTexture\TextureAtlas.cs">
       <Link>DrawingGL\GLTexture\TextureAtlas.cs</Link>
     </Compile>
-    <Compile Include="..\PixelFarm.DrawingGL\DrawingGL\TextureFonts\TextureFont.cs">
-      <Link>DrawingGL\TextureFonts\TextureFont.cs</Link>
-    </Compile>
-    <Compile Include="..\Win32Utils\MyWin32.cs">
-      <Link>Win32Utils\MyWin32.cs</Link>
-    </Compile>
-    <Compile Include="..\Win32Utils\NativeTextWin32.cs">
-      <Link>Win32Utils\NativeTextWin32.cs</Link>
-    </Compile>
-    <Compile Include="..\Win32Utils\NativeWin32MemoryDc.cs">
-      <Link>Win32Utils\NativeWin32MemoryDc.cs</Link>
-    </Compile>
-    <Compile Include="PixelFarm.Drawing.GLES2\Implementation\GLTextPrinter.cs" />
-    <Compile Include="PixelFarm.Drawing.GLES2\0_Start\GLES2Platform.cs" />
-    <Compile Include="PixelFarm.Drawing.GLES2\Canvas\1_MyGLCanvas_Specific.cs" />
-    <Compile Include="PixelFarm.Drawing.GLES2\Canvas\2_MyGLCanvas_CoordinateAndClip.cs" />
-    <Compile Include="PixelFarm.Drawing.GLES2\Canvas\3_MyGLCanvas_DrawGraphics.cs" />
-    <Compile Include="PixelFarm.Drawing.GLES2\Canvas\4_MyGLCanvas_TextAndFonts.cs" />
-    <Compile Include="PixelFarm.Drawing.GLES2\0_Start\GLES2PlatformFontMx.cs" />
-    <Compile Include="PixelFarm.Drawing.GLES2\Implementation\GLCanvasPainter.cs" />
-    <Compile Include="PixelFarm.Drawing.GLES2\Implementation\PensAndBrushes.cs" />
-    <Compile Include="PixelFarm.Drawing.GLES2\Implementation\TextureFontStore.cs" />
-    <Compile Include="PixelFarm.Drawing.GLES2\Implementation\WinGdiFontPrinter.cs" />
+    <Compile Include="0_Start\GLES2Platform.cs" />
+    <Compile Include="PixelFarm.Drawing.GLES2\1_MyGLCanvas_Specific.cs" />
+    <Compile Include="PixelFarm.Drawing.GLES2\2_MyGLCanvas_CoordinateAndClip.cs" />
+    <Compile Include="PixelFarm.Drawing.GLES2\3_MyGLCanvas_DrawGraphics.cs" />
+    <Compile Include="PixelFarm.Drawing.GLES2\4_MyGLCanvas_TextAndFonts.cs" />
+    <Compile Include="0_Start\GLES2PlatformFontMx.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PixelFarm.DataProvider.Managed\PixelFarm.DataProvider.Managed.csproj">
-      <Project>{025E536D-53A6-4C5F-AED5-E21960C70763}</Project>
-      <Name>PixelFarm.DataProvider.Managed</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\PixelFarm.DataProvider.Native\PixelFarm.DataProvider.Native.csproj">
-      <Project>{821C2F8B-45E4-4242-970D-AE64780970B2}</Project>
-      <Name>PixelFarm.DataProvider.Native</Name>
-    </ProjectReference>
     <ProjectReference Include="..\PixelFarm.Drawing.Core\PixelFarm.Drawing.Core.csproj">
       <Project>{51D63482-5697-4B16-8401-506965624657}</Project>
       <Name>PixelFarm.Drawing.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PixelFarm.DrawingCanvas\PixelFarm.DrawingCanvas.csproj">
+      <Project>{0cc424d5-20ac-4849-993d-3a720dbae94f}</Project>
+      <Name>PixelFarm.DrawingCanvas</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PixelFarm.MiniOpenTK\PixelFarm.MiniOpenTK.csproj">
       <Project>{7C154E68-1709-4D5D-AB76-833FEBE4B3B2}</Project>
       <Name>PixelFarm.MiniOpenTK</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PixelFarm.Typography\PixelFarm.Typography.csproj">
+      <Project>{540a2ea6-dae3-4625-8951-b2c3118603a4}</Project>
+      <Name>PixelFarm.Typography</Name>
     </ProjectReference>
     <ProjectReference Include="..\Tesselate\Tesselate.csproj">
       <Project>{AE37DE1F-22F7-49EE-8732-FC6BC8DC58D9}</Project>

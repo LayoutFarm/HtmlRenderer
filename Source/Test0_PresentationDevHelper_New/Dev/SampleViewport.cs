@@ -15,7 +15,13 @@ namespace LayoutFarm
             var workingArea = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea;
             this.primaryScreenWorkingAreaW = workingArea.Width;
             this.primaryScreenWorkingAreaH = workingArea.Height;
-
+        }
+        public LayoutFarm.UI.UIPlatform Platform
+        {
+            get
+            {
+                return vw.Platform;
+            }
         }
         public int PrimaryScreenWidth
         {
@@ -29,7 +35,7 @@ namespace LayoutFarm
         {
             this.vw.AddContent(renderElement);
         }
-      
+
         public LayoutFarm.UI.UISurfaceViewportControl ViewportControl
         {
             get { return this.vw; }
