@@ -10,6 +10,8 @@ namespace LayoutFarm.UI
             LayoutFarm.UI.Clipboard.SetUIPlatform(this);
             //gdi+
             PixelFarm.Drawing.WinGdi.WinGdiPlusPlatform.SetFontLoader(YourImplementation.BootStrapWinGdi.myFontLoader);
+            PixelFarm.Drawing.WinGdi.WinGdiFontFace.SetFontLoader(YourImplementation.BootStrapWinGdi.myFontLoader);
+
             //gles2
             OpenTK.Toolkit.Init();
             PixelFarm.Drawing.GLES2.GLES2Platform.SetFontLoader(YourImplementation.BootStrapOpenGLES2.myFontLoader);

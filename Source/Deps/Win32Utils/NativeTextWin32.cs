@@ -11,7 +11,7 @@ namespace PixelFarm.Drawing.WinGdi
     using System.Text;
     using PixelFarm.Drawing.Fonts;
     using System.Collections.Generic;
-    public static class WinGdiTextService
+    static class WinGdiTextService
     {
         //TODO: consider use uniscribe
 
@@ -218,7 +218,7 @@ namespace PixelFarm.Drawing.WinGdi
             return WinGdiFontSystem.GetWinGdiFont(f);
         }
     }
-    public class WinGdiFont : ActualFont
+    class WinGdiFont : ActualFont
     {
         /// <summary>
         /// font 'em' height?
@@ -415,7 +415,7 @@ namespace PixelFarm.Drawing.WinGdi
             this.FontStyle = fontKey.FontStyle;
         }
     }
-    public class WinGdiFontSystem
+    class WinGdiFontSystem
     {
 
         static RequestFont latestFont;
@@ -464,7 +464,7 @@ namespace PixelFarm.Drawing.WinGdi
             return latestWinFont = found;
         }
     }
-    public class WinGdiFontFace : FontFace
+    class WinGdiFontFace : FontFace
     {
         FontFace nopenTypeFontFace;
         FontStyle style;
@@ -498,6 +498,7 @@ namespace PixelFarm.Drawing.WinGdi
 
         public static void SetFontLoader(IFontLoader fontLoader)
         {
+
             //set once
             if (s_fontLoader != null)
             {
