@@ -5,7 +5,7 @@ namespace LayoutFarm.HtmlBoxes
 {
     public sealed class CssBoxSvgRoot : CssBox
     {
-        public CssBoxSvgRoot(Css.BoxSpec spec, RootGraphic rootgfx, SvgElement svgElem)
+        public CssBoxSvgRoot(Css.BoxSpec spec, IRootGraphics rootgfx, SvgElement svgElem)
             : base(spec, rootgfx, Css.CssDisplay.Block)
         {
             SetAsCustomCssBox(this);

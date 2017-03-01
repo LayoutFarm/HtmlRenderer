@@ -6,7 +6,7 @@ using PixelFarm.Drawing;
 #if __SKIA__
 namespace LayoutFarm.UI.Skia
 {
-    class MyTopWindowBridgeSkia : TopWindowBridge
+    class MyTopWindowBridgeSkia : TopWindowBridgeWinForm
     {
         Control windowControl;
         SkiaCanvasViewport canvasViewport;

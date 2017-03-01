@@ -7,12 +7,12 @@ namespace LayoutFarm.UI
     partial class MyGlfwForm : GlFwForm
     {
         //this ui support gdi+ and skia on WinForms 
-        TopWindowBridge winBridge;
+        TopWindowBridgeWinNeutral winBridge;
         public MyGlfwForm()
         {
             //this.MouseWheel += new MouseEventHandler(CpuGdiPlusSurfaceView_MouseWheel);
         }
-        public void Bind(TopWindowBridge winBridge)
+        public void Bind(TopWindowBridgeWinNeutral winBridge)
         {
             //1. 
             this.winBridge = winBridge;

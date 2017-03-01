@@ -33,7 +33,7 @@ namespace PixelFarm.DrawingGL
 
         MyMat4 orthoView;
         MyMat4 flipVerticalView;
-        MyMat4 orthoAndFlip; 
+        MyMat4 orthoAndFlip;
 
         TessTool tessTool;
         FrameBuffer _currentFrameBuffer;//default = null, system provide frame buffer 
@@ -88,17 +88,26 @@ namespace PixelFarm.DrawingGL
             GL.Viewport(0, 0, canvasW, canvasH);
         }
 
-        public void FlipY(bool flip)
+        bool _flipY;
+        public bool FlipY
         {
-            if (flip)
+            get
             {
-                shaderRes.OrthoView = orthoAndFlip;
+                return this._flipY;
             }
-            else
+            set
             {
-                shaderRes.OrthoView = orthoView;
+                if (this._flipY = value)
+                {
+                    shaderRes.OrthoView = orthoAndFlip;
+                }
+                else
+                {
+                    shaderRes.OrthoView = orthoView;
+                }
             }
         }
+
         public void Dispose()
         {
         }
@@ -152,10 +161,7 @@ namespace PixelFarm.DrawingGL
                 ClearBufferMask.DepthBufferBit |
                 ClearBufferMask.StencilBufferBit);
         }
-        public void SetFlipVerticalY(bool flipY)
-        {
 
-        }
         public void ClearColorBuffer()
         {
             GL.Clear(ClearBufferMask.ColorBufferBit);
@@ -345,11 +351,7 @@ namespace PixelFarm.DrawingGL
             sdfShader.ForegroundColor = PixelFarm.Drawing.Color.Black;
             sdfShader.Render(bmp, x, y, bmp.Width * scale, bmp.Height * scale);
         }
-        //public void DrawImageWithSdf(GLBitmap bmp, float x, float y)
-        //{
-        //    sdfShader.ForegroundColor = PixelFarm.Drawing.Color.Black;
-        //    sdfShader.Render(bmp, x, y, bmp.Width, bmp.Height);
-        //}
+
         //-------------------------------------------------------------------------------
         public void FillTriangleStrip(Drawing.Color color, float[] coords, int n)
         {
@@ -394,7 +396,11 @@ namespace PixelFarm.DrawingGL
                         for (int i = 0; i < subPathCount; ++i)
                         {
                             Figure f = figures[i];
-                            this.basicFillShader.FillTriangles(f.GetAreaTess(ref this.tessTool), f.TessAreaTriangleCount, color);
+                            float[] tessArea = f.GetAreaTess(ref this.tessTool);
+                            if (tessArea != null)
+                            {
+                                this.basicFillShader.FillTriangles(tessArea, f.TessAreaTriangleCount, color);
+                            }
                         }
                     }
                     break;
@@ -404,13 +410,18 @@ namespace PixelFarm.DrawingGL
                         List<Figure> figures = igpth.figures;
                         int subPathCount = figures.Count;
                         float prevWidth = StrokeWidth;
+                         
                         StrokeColor = color;
                         StrokeWidth = 0.5f;
                         for (int i = 0; i < subPathCount; ++i)
                         {
                             Figure f = figures[i];
-                            basicFillShader.FillTriangles(f.GetAreaTess(ref this.tessTool), f.TessAreaTriangleCount, color);
-                            smoothLineShader.DrawTriangleStrips(f.GetSmoothBorders(), f.BorderTriangleStripCount);
+                            float[] tessArea = f.GetAreaTess(ref this.tessTool);
+                            if (tessArea != null)
+                            {
+                                basicFillShader.FillTriangles(tessArea, f.TessAreaTriangleCount, color);                                 
+                                smoothLineShader.DrawTriangleStrips(f.GetSmoothBorders(), f.BorderTriangleStripCount);
+                            }
                         }
                         StrokeWidth = prevWidth;
                     }
@@ -452,7 +463,10 @@ namespace PixelFarm.DrawingGL
 
                             float[] tessArea = fig.GetAreaTess(ref this.tessTool);
                             //-------------------------------------   
-                            this.basicFillShader.FillTriangles(tessArea, fig.TessAreaTriangleCount, PixelFarm.Drawing.Color.Black);
+                            if (tessArea != null)
+                            {
+                                this.basicFillShader.FillTriangles(tessArea, fig.TessAreaTriangleCount, PixelFarm.Drawing.Color.Black);
+                            }
                             //-------------------------------------- 
                             //render color
                             //--------------------------------------  
@@ -627,7 +641,7 @@ namespace PixelFarm.DrawingGL
                 x,y,
                 x+w,y,
                 x+w,y+h,
-                x,x+h
+                x,y+h
             };
         }
     }

@@ -19,10 +19,10 @@ namespace TestGraphicPackage2
             //temp
             //TODO: fix this , 
             //LayoutFarm.Composers.Default.TextBreaker = new LayoutFarm.Composers.MyManagedTextBreaker();
-            LayoutFarm.Composers.Default.TextBreaker = new LayoutFarm.Composers.MyNativeTextBreaker();
-            var startPars = new LayoutFarm.UI.GdiPlus.MyWinGdiPortalSetupParameters();
-            var platform = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.Start(startPars);
-            //-------------------------------
+            //LayoutFarm.Composers.Default.TextBreaker = new LayoutFarm.Composers.MyNativeTextBreaker();
+            //var startPars = new LayoutFarm.UI.GdiPlus.MyWinGdiPortalSetupParameters();
+            //var platform = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.Start(startPars);
+            ////-------------------------------
 
 
 
@@ -30,7 +30,7 @@ namespace TestGraphicPackage2
             formDemoList.LoadDemoList(typeof(Program));
             LoadHtmlSamples(formDemoList.SamplesTreeView);
             Application.Run(formDemoList);
-            LayoutFarm.UI.GdiPlus.MyWinGdiPortal.End();
+            //LayoutFarm.UI.GdiPlus.MyWinGdiPortal.End();
         }
         static void LoadHtmlSamples(TreeView _samplesTreeView)
         {

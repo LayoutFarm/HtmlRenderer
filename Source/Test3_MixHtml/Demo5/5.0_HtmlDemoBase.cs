@@ -15,7 +15,7 @@ namespace LayoutFarm.WebWidgets
         protected override void OnStartDemo(SampleViewport viewport)
         {
             this.sampleViewport = viewport;
-            imageContentMan = new ContentManagers.ImageContentManager();
+            imageContentMan = new ContentManagers.ImageContentManager(viewport.Platform);
             imageContentMan.ImageLoadingRequest += (s, e) =>
             {
                 e.SetResultImage(LoadBitmap(e.ImagSource));

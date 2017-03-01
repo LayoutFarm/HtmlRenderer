@@ -6,7 +6,7 @@ using System.Text;
 namespace Win32
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct BlendFunction
+    struct BlendFunction
     {
         public byte BlendOp;
         public byte BlendFlags;
@@ -22,7 +22,7 @@ namespace Win32
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct BitMapInfo
+    struct BitMapInfo
     {
         public int biSize;
         public int biWidth;
@@ -67,7 +67,7 @@ namespace Win32
     }
 
 
-    public static class MyWin32
+    static class MyWin32
     {
         [DllImport("kernel32.dll", ExactSpelling = true)]
         public static extern IntPtr GlobalAlloc(int flags, int size);

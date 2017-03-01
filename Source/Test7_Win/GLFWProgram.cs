@@ -31,7 +31,7 @@ namespace TestGlfw
 
 
         static bool needUpdateContent = false;
-        static MyNativeRGBA32BitsImage myImg; 
+        static MyNativeRGBA32BitsImage myImg;
         static GLBitmap glBmp;
 
         static void UpdateViewContent(FormRenderUpdateEventArgs formRenderUpdateEventArgs)
@@ -168,7 +168,8 @@ namespace TestGlfw
             LayoutFarm.Ease.EaseHost.StartGraphicsHost();
 
             var rootgfx = new MyRootGraphic(
-                LayoutFarm.UI.UIPlatform.CurrentUIPlatform,
+                LayoutFarm.UI.UIPlatformWinNeutral.platform,
+                LayoutFarm.UI.UIPlatformWinNeutral.platform.GetIFonts(),
                 ww_w, ww_h);
 
             var surfaceViewportControl = new LayoutFarm.UI.WinNeutral.UISurfaceViewportControl();
@@ -219,10 +220,10 @@ namespace TestGlfw
                 canvasGL2d.SmoothMode = CanvasSmoothMode.No;
                 //---------
                 //flip y axis for html box (and other UI)
-                canvasGL2d.FlipY(true);
+                canvasGL2d.FlipY = true;
                 lightHtmlBox.CurrentPrimaryRenderElement.DrawToThisCanvas(
                     myCanvasGL, new Rectangle(0, 0, 800, 600));
-                canvasGL2d.FlipY(false);
+                canvasGL2d.FlipY = false;
                 //myCanvasGL.SetCanvasOrigin(tmp_x, -tmp_y);
                 //lion use canvas coordinate system
                 lionFill.TestRender();

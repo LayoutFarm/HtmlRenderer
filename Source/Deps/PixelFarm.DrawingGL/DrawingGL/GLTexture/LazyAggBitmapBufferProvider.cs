@@ -4,7 +4,7 @@ using System;
 using System.Runtime.InteropServices;
 namespace PixelFarm.DrawingGL
 {
-    class LazyAggBitmapBufferProvider : LazyBitmapBufferProvider
+    public class LazyAggBitmapBufferProvider : LazyBitmapBufferProvider
     {
         PixelFarm.Agg.ActualImage image;
         GCHandle handle;

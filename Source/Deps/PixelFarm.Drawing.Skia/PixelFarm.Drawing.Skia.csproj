@@ -38,25 +38,21 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PixelFarm.DataProvider.Managed\PixelFarm.DataProvider.Managed.csproj">
-      <Project>{025e536d-53a6-4c5f-aed5-e21960c70763}</Project>
-      <Name>PixelFarm.DataProvider.Managed</Name>
-    </ProjectReference>
     <ProjectReference Include="..\PixelFarm.Drawing.Core\PixelFarm.Drawing.Core.csproj">
       <Project>{51d63482-5697-4b16-8401-506965624657}</Project>
       <Name>PixelFarm.Drawing.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PixelFarm.MiniOpenTK\PixelFarm.MiniOpenTK.csproj">
-      <Project>{7c154e68-1709-4d5d-ab76-833febe4b3b2}</Project>
-      <Name>PixelFarm.MiniOpenTK</Name>
+    <ProjectReference Include="..\PixelFarm.DrawingCanvas\PixelFarm.DrawingCanvas.csproj">
+      <Project>{0cc424d5-20ac-4849-993d-3a720dbae94f}</Project>
+      <Name>PixelFarm.DrawingCanvas</Name>
     </ProjectReference>
     <ProjectReference Include="..\PixelFarm.SkiaSharp\PixelFarm.SkiaSharp.csproj">
       <Project>{fb828375-3017-44d8-8357-59207224906d}</Project>
       <Name>PixelFarm.SkiaSharp</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Tesselate\Tesselate.csproj">
-      <Project>{ae37de1f-22f7-49ee-8732-fc6bc8dc58d9}</Project>
-      <Name>Tesselate</Name>
+    <ProjectReference Include="..\PixelFarm.Typography\PixelFarm.Typography.csproj">
+      <Project>{540a2ea6-dae3-4625-8951-b2c3118603a4}</Project>
+      <Name>PixelFarm.Typography</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

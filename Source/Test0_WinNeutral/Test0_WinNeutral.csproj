@@ -41,14 +41,6 @@
     <Compile Include="T108_LionFill.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Deps\MiniAgg.Complements\MiniAgg.Complements.csproj">
-      <Project>{ae0df71e-9b14-4197-b55a-e1e0ce0683c7}</Project>
-      <Name>MiniAgg.Complements</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Deps\MiniAgg\MiniAgg.csproj">
-      <Project>{4d5ce655-58fa-4523-8e46-738b941e9e47}</Project>
-      <Name>MiniAgg</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Deps\PixelFarm.Drawing.Core\PixelFarm.Drawing.Core.csproj">
       <Project>{51d63482-5697-4b16-8401-506965624657}</Project>
       <Name>PixelFarm.Drawing.Core</Name>
@@ -56,6 +48,14 @@
     <ProjectReference Include="..\Deps\PixelFarm.Drawing.GLES2\PixelFarm.Drawing.GLES2.csproj">
       <Project>{e1e89b3b-b529-4b17-b7ed-4c70cc8475eb}</Project>
       <Name>PixelFarm.Drawing.GLES2</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Deps\PixelFarm.DrawingCanvas\PixelFarm.DrawingCanvas.csproj">
+      <Project>{0cc424d5-20ac-4849-993d-3a720dbae94f}</Project>
+      <Name>PixelFarm.DrawingCanvas</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.Platforms.WinNeutral\LayoutFarm.Platforms.WinNeutral.csproj">
+      <Project>{2854a4f1-0110-4b47-b773-9a5fd462755e}</Project>
+      <Name>LayoutFarm.Platforms.WinNeutral</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

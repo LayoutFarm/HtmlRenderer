@@ -13,7 +13,7 @@
 // - Sun Tsu,
 // "The Art of War"
 
-using System;
+
 using Win32;
 namespace PixelFarm.Drawing.WinGdi
 {
