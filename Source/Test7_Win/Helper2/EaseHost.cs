@@ -76,8 +76,6 @@ namespace LayoutFarm.Ease
                 //startParams.IcuDataFile = IcuDataFile;
                 //gdiPlatform = LayoutFarm.UI.OpenGL.MyOpenGLPortal.Start(startParams);
 
-                //uiPlatformWinForm = new LayoutFarm.UI.UIPlatformWinNeutral();
-                //UI.UIPlatform.CurrentUIPlatform = uiPlatformWinForm;
                 //--------------------
                 isStarted = true;
                 //--------------------

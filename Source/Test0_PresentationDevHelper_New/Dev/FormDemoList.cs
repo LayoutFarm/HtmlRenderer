@@ -6,17 +6,7 @@ namespace LayoutFarm.Dev
 {
     public partial class FormDemoList : Form
     {
-        //UIPlatform uiPlatformWinForm;
-        //static readonly PixelFarm.Drawing.GraphicsPlatform gdiPlatform = null;
-        //static readonly PixelFarm.Drawing.GraphicsPlatform openGLPlatform = null;
-        //static FormDemoList()
-        //{
-
-        //    var startPars = new LayoutFarm.UI.GdiPlus.MyWinGdiPortalSetupParameters();
-        //    gdiPlatform = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.Start(startPars);
-
-        //}
-
+         
 
         public FormDemoList()
         {
@@ -27,10 +17,7 @@ namespace LayoutFarm.Dev
             this.cmbPlatformSelector.Items.Add(InnerViewportKind.Skia);
             this.cmbPlatformSelector.Items.Add(InnerViewportKind.GL);
             this.cmbPlatformSelector.SelectedIndex = 0;//set default
-            ////------
-            ////default
-            //this.uiPlatformWinForm = new LayoutFarm.UI.UIPlatformWinForm();
-            //UI.UIPlatform.CurrentUIPlatform = uiPlatformWinForm;
+            
 
         }
         public TreeView SamplesTreeView
