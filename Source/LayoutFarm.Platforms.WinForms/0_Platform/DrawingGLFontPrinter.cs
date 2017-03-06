@@ -52,25 +52,26 @@ namespace PixelFarm.DrawingGL
         }
         public void DrawString(char[] text, double x, double y)
         {
-            aggPainter.Clear(Drawing.Color.White);
+            aggPainter.Clear(Drawing.Color.Transparent);
             //draw text 
             textPrinter.DrawString(text, 0, 0);
 
             byte[] buffer = PixelFarm.Agg.ActualImage.GetBuffer(actualImage);
             //------------------------------------------------------
             GLBitmap glBmp = new GLBitmap(bmpWidth, bmpHeight, buffer, true);
+            canvas.DrawImage(glBmp, (float)x, (float)y);
+            //bool isYFliped = canvas.FlipY;
+            //if (isYFliped)
+            //{
+                
+            //}
+            //else
+            //{
+            //    canvas.FlipY = true;
+            //    canvas.DrawImage(glBmp, (float)x, (float)y);
+            //    canvas.FlipY = false;
+            //}
 
-            bool isYFliped = canvas.FlipY;
-            if (isYFliped)
-            {
-                canvas.DrawImage(glBmp, (float)x, (float)y);
-            }
-            else
-            {
-                canvas.FlipY = true;
-                canvas.DrawImage(glBmp, (float)x, (float)y);
-                canvas.FlipY = false;
-            }
             glBmp.Dispose();
         }
         public void DrawString(string text, double x, double y)
@@ -84,7 +85,7 @@ namespace PixelFarm.DrawingGL
         }
         public void ChangeFontColor(Color fontColor)
         {
-            aggPainter.FillColor = fontColor;
+            aggPainter.FillColor = Color.Black;
         }
     }
 
