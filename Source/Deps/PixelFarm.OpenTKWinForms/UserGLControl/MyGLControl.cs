@@ -59,6 +59,7 @@ namespace OpenTK
                 {
                     glPaintHandler(this, e);
                 }
+                SwapBuffers();
             }
 
             //------------------------------------------

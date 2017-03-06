@@ -51,10 +51,8 @@ namespace PixelFarm.Drawing.Text
                     {
                         //finish , just return
                         return;
-                    }
-                    GlyphPlan plan = new GlyphPlan((ushort)propGlyph.codepoint);
-                    plan.advX = propGlyph.x_advance;
-                    glyphPlans.Add(plan);
+                    } 
+                    glyphPlans.Add(new GlyphPlan((ushort)propGlyph.codepoint, 0, 0, propGlyph.x_advance));
                 }
 
             }

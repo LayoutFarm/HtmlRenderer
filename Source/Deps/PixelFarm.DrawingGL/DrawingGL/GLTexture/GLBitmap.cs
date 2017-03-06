@@ -2,6 +2,8 @@
 
 using System;
 using OpenTK.Graphics.ES20;
+using PixelFarm.Drawing;
+
 namespace PixelFarm.DrawingGL
 {
     public abstract class LazyBitmapBufferProvider
@@ -43,7 +45,7 @@ namespace PixelFarm.DrawingGL
             this.rawIntBuffer = rawIntBuffer;
             this.isInvertImage = isInvertImage;
         }
-     
+
         public GLBitmap(int w, int h, IntPtr nativeImgMem)
         {
             this.width = w;
@@ -68,6 +70,7 @@ namespace PixelFarm.DrawingGL
         public bool IsInvert
         {
             get { return this.isInvertImage; }
+            set { this.isInvertImage = value; }
         }
         public int TextureId { get { return textureId; } }
         public override int Width
@@ -169,6 +172,14 @@ namespace PixelFarm.DrawingGL
             GL.DeleteTextures(1, ref textureId);
         }
 
+        //public override BitmapData LockBits()
+        //{
+        //    throw new NotImplementedException();
+        //}
+        //public override void UnlockBits(BitmapData bmpdata)
+        //{
+        //    throw new NotImplementedException();
+        //}
 #if DEBUG
 
         public readonly int dbugId = dbugIdTotal++;

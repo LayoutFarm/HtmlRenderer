@@ -29,6 +29,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -97,14 +98,15 @@
       <Link>5_Msdf\SignedDistance.cs</Link>
     </Compile>
     <Compile Include="1_Drawing_Fonts\FontPreview.cs" />
-    <Compile Include="1_Drawing_Fonts\GlyphPathBuilderVxs.cs" />
+    <Compile Include="1_Drawing_Fonts\GlyphTranslatorToVxs.cs" />
+    <Compile Include="1_Drawing_Fonts\HintTechnique.cs" />
     <Compile Include="1_Drawing_Fonts\InstalledFontCollection.cs" />
     <Compile Include="2_Drawing_Text\ManagedShapingService.cs" />
-    <Compile Include="1_Drawing_Fonts\MyGlyphPathBuilder.cs" />
+    <Compile Include="1_Drawing_Fonts\GlyphPathBuilder.cs" />
     <Compile Include="3_FontFaceImpl\ManagedFontFace.cs" />
     <Compile Include="3_FontFaceImpl\OpenFontLoader.cs" />
     <Compile Include="2_Drawing_Text\TextShapingAndLayoutService.cs" />
-    <Compile Include="1_Drawing_Fonts\TextPrinterImpl.cs" />
+    <Compile Include="1_Drawing_Fonts\VxsTextPrinter.cs" />
     <Compile Include="3_FontFaceImpl\TextureFontFace.cs" />
     <Compile Include="3_FontFaceImpl\TextureFontLoader.cs" />
   </ItemGroup>

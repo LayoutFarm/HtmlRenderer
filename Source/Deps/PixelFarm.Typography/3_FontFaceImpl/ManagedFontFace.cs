@@ -13,7 +13,7 @@ namespace PixelFarm.Drawing.Fonts
     {
         readonly string name, path;
         Typeface typeface;
-        MyGlyphPathBuilder glyphPathBuilder;
+        GlyphPathBuilder glyphPathBuilder;
 
         public ManagedFontFace(Typeface typeface, string fontName, string fontPath)
         {
@@ -21,7 +21,7 @@ namespace PixelFarm.Drawing.Fonts
             this.name = fontName;
             this.path = fontPath;
             //----
-            glyphPathBuilder = new MyGlyphPathBuilder(typeface);
+            glyphPathBuilder = new GlyphPathBuilder(typeface);
         }
         public override string Name
         {
@@ -39,7 +39,7 @@ namespace PixelFarm.Drawing.Fonts
         }
         public Typeface Typeface { get { return this.typeface; } }
 
-        internal MyGlyphPathBuilder VxsBuilder
+        internal GlyphPathBuilder VxsBuilder
         {
             get
             {
@@ -76,6 +76,7 @@ namespace PixelFarm.Drawing.Fonts
         Typeface typeFace;
         float scale;
         Dictionary<uint, VertexStore> glyphVxs = new Dictionary<uint, VertexStore>();
+        VertexStorePool vxsPool = new VertexStorePool();
         public ManagedActualFont(ManagedFontFace ownerFace, float sizeInPoints, FontStyle style)
         {
             this.ownerFace = ownerFace;
@@ -182,12 +183,16 @@ namespace PixelFarm.Drawing.Fonts
             //then build it
             ownerFace.VxsBuilder.BuildFromGlyphIndex((ushort)codepoint, this.sizeInPoints);
 
-            GlyphPathBuilderVxs vxsBuilder = new Fonts.GlyphPathBuilderVxs();
-            ownerFace.VxsBuilder.ReadShapes(vxsBuilder);
-            found = vxsBuilder.GetVxs();
+            var txToVxs = new Fonts.GlyphTranslatorToVxs();
+            ownerFace.VxsBuilder.ReadShapes(txToVxs);
+            //
+            //create new one
+            found = new VertexStore();
+            txToVxs.WriteOutput(found, vxsPool);
             glyphVxs.Add(codepoint, found);
             return found;
         }
+
     }
 }
 

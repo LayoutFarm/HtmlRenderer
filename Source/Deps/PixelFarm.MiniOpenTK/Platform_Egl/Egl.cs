@@ -39,7 +39,7 @@ namespace OpenTK.Platform.Egl
     using EGLDisplay = IntPtr;
     using EGLSurface = IntPtr;
     using EGLClientBuffer = IntPtr;
-    static partial class Egl
+    public static partial class Egl
     {
         public const int VERSION_1_0 = 1;
         public const int VERSION_1_1 = 1;

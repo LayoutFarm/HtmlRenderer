@@ -12,10 +12,11 @@ namespace PixelFarm.Drawing.Fonts
             WriteDirection writeDirection = WriteDirection.LTR)
         {
             //read font file
-            OpenFontReader openTypeReader = new OpenFontReader();
+
             Typeface typeface = null;
             using (FileStream fs = new FileStream(fontfile, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
+                var openTypeReader = new OpenFontReader();
                 typeface = openTypeReader.Read(fs);
                 if (typeface == null)
                 {

@@ -52,7 +52,7 @@ namespace PixelFarm.Drawing.Fonts
             }
             //sample: create sample msdf texture 
             //-------------------------------------------------------------
-            var builder = new MyGlyphPathBuilder(typeface);
+            var builder = new GlyphPathBuilder(typeface);
             //builder.UseTrueTypeInterpreter = this.chkTrueTypeHint.Checked;
             //builder.UseVerticalHinting = this.chkVerticalHinting.Checked;
             //-------------------------------------------------------------

@@ -153,25 +153,51 @@ namespace PixelFarm.DrawingGL
                 float orgBmpH = bmp.Height;
                 unsafe
                 {
-                    float* imgVertices = stackalloc float[5 * 4];
+                    if (bmp.IsInvert)
                     {
-                        imgVertices[0] = targetLeft; imgVertices[1] = targetTop; imgVertices[2] = 0; //coord 0
-                        imgVertices[3] = srcLeft / orgBmpW; imgVertices[4] = srcBottom / orgBmpH; //texture coord 0 
+                        //if glbmp is inverted
+                        float* imgVertices = stackalloc float[5 * 4];
+                        {
+                            imgVertices[0] = targetLeft; imgVertices[1] = targetTop; imgVertices[2] = 0; //coord 0
+                            imgVertices[3] = srcLeft / orgBmpW; imgVertices[4] = srcBottom / orgBmpH; //texture coord 0 
 
-                        //---------------------
-                        imgVertices[5] = targetLeft; imgVertices[6] = targetTop - (srcH * scale); imgVertices[7] = 0; //coord 1
-                        imgVertices[8] = srcLeft / orgBmpW; imgVertices[9] = srcTop / orgBmpH; //texture coord 1 
+                            //---------------------
+                            imgVertices[5] = targetLeft; imgVertices[6] = targetTop - (srcH * scale); imgVertices[7] = 0; //coord 1
+                            imgVertices[8] = srcLeft / orgBmpW; imgVertices[9] = srcTop / orgBmpH; //texture coord 1 
 
-                        //---------------------
-                        imgVertices[10] = targetLeft + (srcW * scale); imgVertices[11] = targetTop; imgVertices[12] = 0; //coord 2
-                        imgVertices[13] = srcRight / orgBmpW; imgVertices[14] = srcBottom / orgBmpH; //texture coord 2 
+                            //---------------------
+                            imgVertices[10] = targetLeft + (srcW * scale); imgVertices[11] = targetTop; imgVertices[12] = 0; //coord 2
+                            imgVertices[13] = srcRight / orgBmpW; imgVertices[14] = srcBottom / orgBmpH; //texture coord 2 
 
-                        //---------------------
-                        imgVertices[15] = targetLeft + (srcW * scale); imgVertices[16] = targetTop - (srcH * scale); imgVertices[17] = 0; //coord 3
-                        imgVertices[18] = srcRight / orgBmpW; imgVertices[19] = srcTop / orgBmpH; //texture coord 3 
-                    };
-                    a_position.UnsafeLoadMixedV3f(imgVertices, 5);
-                    a_texCoord.UnsafeLoadMixedV2f(imgVertices + 3, 5);
+                            //---------------------
+                            imgVertices[15] = targetLeft + (srcW * scale); imgVertices[16] = targetTop - (srcH * scale); imgVertices[17] = 0; //coord 3
+                            imgVertices[18] = srcRight / orgBmpW; imgVertices[19] = srcTop / orgBmpH; //texture coord 3 
+                        }
+                        a_position.UnsafeLoadMixedV3f(imgVertices, 5);
+                        a_texCoord.UnsafeLoadMixedV2f(imgVertices + 3, 5);
+                    }
+                    else
+                    {
+                        float* imgVertices = stackalloc float[5 * 4];
+                        {
+                            imgVertices[0] = targetLeft; imgVertices[1] = targetTop; imgVertices[2] = 0; //coord 0                                                                                                       
+                            imgVertices[3] = srcLeft / orgBmpW; imgVertices[4] = srcTop / orgBmpH; //texture coord 0 
+
+                            //---------------------
+                            imgVertices[5] = targetLeft; imgVertices[6] = targetTop - (srcH * scale); imgVertices[7] = 0; //coord 1                                                                                                                   
+                            imgVertices[8] = srcLeft / orgBmpW; imgVertices[9] = srcBottom / orgBmpH; //texture coord 1 
+
+                            //---------------------
+                            imgVertices[10] = targetLeft + (srcW * scale); imgVertices[11] = targetTop; imgVertices[12] = 0; //coord 2                                                                                                                   
+                            imgVertices[13] = srcRight / orgBmpW; imgVertices[14] = srcTop / orgBmpH; //texture coord 2 
+
+                            //---------------------
+                            imgVertices[15] = targetLeft + (srcW * scale); imgVertices[16] = targetTop - (srcH * scale); imgVertices[17] = 0; //coord 3                                                                                                                                       
+                            imgVertices[18] = srcRight / orgBmpW; imgVertices[19] = srcBottom / orgBmpH; //texture coord 3 
+                        }
+                        a_position.UnsafeLoadMixedV3f(imgVertices, 5);
+                        a_texCoord.UnsafeLoadMixedV2f(imgVertices + 3, 5);
+                    }
                 }
                 GL.DrawElements(BeginMode.TriangleStrip, 4, DrawElementsType.UnsignedShort, indices);
             }
@@ -184,7 +210,7 @@ namespace PixelFarm.DrawingGL
 
                 if (bmp.IsInvert)
                 {
-                     
+
                     float* imgVertices = stackalloc float[5 * 4];
                     {
                         imgVertices[0] = left; imgVertices[1] = top; imgVertices[2] = 0; //coord 0

@@ -52,6 +52,10 @@ namespace PixelFarm.DrawingGL
             set
             {
                 _requestFont = value;
+                if (_textPriner != null)
+                {
+                    _textPriner.ChangeFont(value);
+                }
             }
         }
         public override RectInt ClipBox
@@ -90,7 +94,14 @@ namespace PixelFarm.DrawingGL
         public ITextPrinter TextPrinter
         {
             get { return _textPriner; }
-            set { _textPriner = value; }
+            set
+            {
+                _textPriner = value;
+                if (value != null && _requestFont != null)
+                {
+                    _textPriner.ChangeFont(this._requestFont);
+                }
+            }
         }
         public override Color FillColor
         {
