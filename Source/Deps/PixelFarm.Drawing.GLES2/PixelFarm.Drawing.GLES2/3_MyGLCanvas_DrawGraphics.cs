@@ -104,11 +104,11 @@ namespace PixelFarm.Drawing.GLES2
         }
         public override void FillRectangle(Color color, float left, float top, float width, float height)
         {
+
             painter1.FillColor = color;
-            painter1.FillRectangle(left, top + height, left + width, top);
+
+            painter1.FillRectangle(left, this.Height - (top + height), left + width, this.Height - top);
         }
-
-
         public override void DrawRectangle(Color color, float left, float top, float width, float height)
         {
             painter1.StrokeColor = color;
