@@ -353,11 +353,9 @@ namespace PixelFarm.DrawingGL
         //-----------
         public void DrawString(char[] buffer, int startAt, int len, double x, double y)
         {
-            int j = buffer.Length;
-            //int buffsize = j * 2;
-
-            //resolve font from painter? 
-
+            //int j = buffer.Length;
+            //int buffsize = j * 2; 
+            //resolve font from painter?  
             glyphPlans.Clear();
             _glyphLayout.Layout(_typeface, font.SizeInPoints, buffer, startAt, len, glyphPlans);
 
