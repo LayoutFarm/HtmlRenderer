@@ -69,13 +69,14 @@ namespace Typography.TextLayout
 
         public void Layout(Typeface typeface, float size, string str, List<GlyphPlan> glyphPlanBuffer)
         {
-            Layout(typeface, size, str.ToCharArray(), glyphPlanBuffer);
+            char[] buffer = str.ToCharArray();
+            Layout(typeface, size, buffer, 0, buffer.Length, glyphPlanBuffer);
         }
         List<ushort> inputGlyphs = new List<ushort>(); //not thread safe***
 
 
 
-        public void Layout(Typeface typeface, float size, char[] str, List<GlyphPlan> glyphPlanBuffer)
+        public void Layout(Typeface typeface, float size, char[] str, int startAt, int len, List<GlyphPlan> glyphPlanBuffer)
         {
             //---------------------------------------------- 
             //1. convert char[] to glyph[]

@@ -38,6 +38,7 @@ namespace PixelFarm.DrawingGL
             this.canvas = canvasPainter.Canvas;
             bmpWidth = w;
             bmpHeight = h;
+
             actualImage = new ActualImage(bmpWidth, bmpHeight, PixelFormat.ARGB32);
 
             imgGfx2d = new ImageGraphics2D(actualImage);
@@ -50,11 +51,11 @@ namespace PixelFarm.DrawingGL
             textPrinter = new VxsTextPrinter(aggPainter, YourImplementation.BootStrapOpenGLES2.myFontLoader);
             aggPainter.TextPrinter = textPrinter;
         }
-        public void DrawString(char[] text, double x, double y)
+        public void DrawString(char[] text, int startAt, int len, double x, double y)
         {
             aggPainter.Clear(Drawing.Color.White);
             //draw text 
-            textPrinter.DrawString(text, 0, 0);
+            textPrinter.DrawString(text, startAt, len, 0, 0);
 
             byte[] buffer = PixelFarm.Agg.ActualImage.GetBuffer(actualImage);
             //------------------------------------------------------
@@ -75,7 +76,7 @@ namespace PixelFarm.DrawingGL
         }
         public void DrawString(string text, double x, double y)
         {
-            DrawString(text.ToCharArray(), x, y);
+            DrawString(text.ToCharArray(), 0, text.Length, x, y);
         }
 
         public void ChangeFont(RequestFont font)
@@ -141,7 +142,7 @@ namespace PixelFarm.DrawingGL
             hfont = Win32.MyWin32.CreateFontIndirect(ref logFont);
             Win32.MyWin32.SelectObject(memdc.DC, hfont);
         }
-        public void DrawString(char[] textBuffer, double x, double y)
+        public void DrawString(char[] textBuffer, int startAt, int len, double x, double y)
         {
             //TODO: review performan 
             Win32.MyWin32.PatBlt(memdc.DC, 0, 0, bmpWidth, bmpHeight, Win32.MyWin32.WHITENESS);
@@ -221,7 +222,7 @@ namespace PixelFarm.DrawingGL
 
         public void DrawString(string text, double x, double y)
         {
-            DrawString(text.ToCharArray(), x, y);
+            DrawString(text.ToCharArray(), 0, text.Length, x, y);
         }
     }
 
@@ -350,7 +351,7 @@ namespace PixelFarm.DrawingGL
         Typography.OpenFont.Typeface _typeface;
         float _finalTextureScale = 1;
         //-----------
-        public void DrawString(char[] buffer, double x, double y)
+        public void DrawString(char[] buffer, int startAt, int len, double x, double y)
         {
             int j = buffer.Length;
             //int buffsize = j * 2;
@@ -358,7 +359,7 @@ namespace PixelFarm.DrawingGL
             //resolve font from painter? 
 
             glyphPlans.Clear();
-            _glyphLayout.Layout(_typeface, font.SizeInPoints, buffer, glyphPlans);
+            _glyphLayout.Layout(_typeface, font.SizeInPoints, buffer, startAt, len, glyphPlans);
 
             //
             //un-test version
@@ -674,7 +675,7 @@ namespace PixelFarm.DrawingGL
         }
         public void DrawString(string t, double x, double y)
         {
-            DrawString(t.ToCharArray(), x, y);
+            DrawString(t.ToCharArray(), 0, t.Length, x, y);
         }
 
         static PixelFarm.Drawing.Rectangle ConvToRect(Typography.Rendering.Rectangle r)
