@@ -52,14 +52,14 @@
     <Compile Include="..\Deps\Win32Utils\NativeWin32MemoryDc.cs">
       <Link>Win32Utils\NativeWin32MemoryDc.cs</Link>
     </Compile>
+    <Compile Include="..\Deps\YourImplementation.PixelFarm\DrawingGLFontPrinter.cs">
+      <Link>0_Platform\DrawingGLFontPrinter.cs</Link>
+    </Compile>
     <Compile Include="..\LayoutFarm.PlatformBase\CanvasViewport.cs">
       <Link>0_Shared\CanvasViewport.cs</Link>
     </Compile>
     <Compile Include="..\LayoutFarm.PlatformBase\dbugHelper.cs">
       <Link>0_Shared\dbugHelper.cs</Link>
-    </Compile>
-    <Compile Include="..\LayoutFarm.PlatformBase\DrawingGLFontPrinter.cs">
-      <Link>0_Platform\DrawingGLFontPrinter.cs</Link>
     </Compile>
     <Compile Include="..\LayoutFarm.PlatformBase\InnerViewportKind.cs">
       <Link>0_Shared\InnerViewportKind.cs</Link>
