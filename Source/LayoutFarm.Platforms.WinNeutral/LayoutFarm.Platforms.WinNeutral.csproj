@@ -53,6 +53,9 @@
     <Compile Include="..\LayoutFarm.PlatformBase\dbugHelper.cs">
       <Link>0_Shared\dbugHelper.cs</Link>
     </Compile>
+    <Compile Include="..\LayoutFarm.PlatformBase\DrawingGLFontPrinter.cs">
+      <Link>0_Platform\DrawingGLFontPrinter.cs</Link>
+    </Compile>
     <Compile Include="..\LayoutFarm.PlatformBase\InnerViewportKind.cs">
       <Link>0_Shared\InnerViewportKind.cs</Link>
     </Compile>
@@ -77,7 +80,6 @@
     <Compile Include="..\LayoutFarm.PlatformBase\Windows\WindowFontLoader.cs">
       <Link>5_Shared\WindowFontLoader.cs</Link>
     </Compile>
-    <Compile Include="0_Platform\DrawingGLFontPrinter.cs" />
     <Compile Include="1_LayoutFarm.UI\AbstractCompletionWindow.cs" />
     <Compile Include="1_Bridge_WinNeutral\TopWindowBridgeWinNeutral.cs" />
     <Compile Include="1_Bridge_WinNeutral\TopWindowBridgeWinNeutral_dbug.cs" />

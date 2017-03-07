@@ -33,6 +33,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DrawingGLFontPrinter.cs" />
     <Compile Include="SkiaCanvasViewport.cs" />
     <Compile Include="OpenGLCanvasViewport.cs" />
     <Compile Include="CanvasViewport.cs" />
