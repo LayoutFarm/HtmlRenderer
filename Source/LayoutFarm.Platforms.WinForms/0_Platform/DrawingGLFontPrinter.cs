@@ -59,11 +59,13 @@ namespace PixelFarm.DrawingGL
             byte[] buffer = PixelFarm.Agg.ActualImage.GetBuffer(actualImage);
             //------------------------------------------------------
             GLBitmap glBmp = new GLBitmap(bmpWidth, bmpHeight, buffer, true);
-            canvas.DrawImage(glBmp, (float)x, (float)y);
+            glBmp.IsInvert = false;
+            canvas.DrawImage(glBmp, (float)x, (float)y + 40);
+
             //bool isYFliped = canvas.FlipY;
             //if (isYFliped)
             //{
-                
+
             //}
             //else
             //{
