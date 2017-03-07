@@ -88,11 +88,15 @@ namespace LayoutFarm.UI
                         view.SetGLPaintHandler(HandleGLPaint);
                         hh1 = view.Handle; //force real window handle creation
                         view.MakeCurrent();
-                        int max = Math.Max(this.Width, this.Height);
+                        //int max = Math.Max(this.Width, this.Height);
+                        int max = Math.Max(view.Width, view.Height);
                         canvas2d = PixelFarm.Drawing.GLES2.GLES2Platform.CreateCanvasGL2d(max, max);
+                        //---------------
+                        //canvas2d.FlipY = true;//
+                        //---------------
                         canvasPainter = new GLCanvasPainter(canvas2d, max, max);
+
                         //canvasPainter.SmoothingMode = PixelFarm.Drawing.SmoothingMode.HighQuality;
-                        
                         //----------------------
                         //1. win gdi based
                         //var printer = new WinGdiFontPrinter(canvas2d, view.Width, view.Height);
@@ -110,8 +114,8 @@ namespace LayoutFarm.UI
                         //canvasPainter.TextPrinter = printer;
 
                         //-
+                        //var myGLCanvas1 = new PixelFarm.Drawing.GLES2.MyGLCanvas(canvasPainter, 0, 0, view.Width, view.Height);
                         var myGLCanvas1 = new PixelFarm.Drawing.GLES2.MyGLCanvas(canvasPainter, 0, 0, view.Width, view.Height);
-                        
                         bridge.SetCanvas(myGLCanvas1);
 
 

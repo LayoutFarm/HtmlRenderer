@@ -171,7 +171,7 @@ namespace PixelFarm.DrawingGL
             get { return shaderRes._strokeWidth; }
             set
             {
-                shaderRes._strokeWidth = value;
+                shaderRes._strokeWidth = value / 2;
             }
         }
         public Drawing.Color StrokeColor
@@ -190,7 +190,16 @@ namespace PixelFarm.DrawingGL
                     break;
                 default:
                     {
-                        this.basicFillShader.DrawLine(x1, y1, x2, y2, StrokeColor);
+                        if (StrokeWidth == 1)
+                        {
+                            this.basicFillShader.DrawLine(x1, y1, x2, y2, StrokeColor);
+                        }
+                        else
+                        {
+                            //TODO: review stroke with for smooth line shader again
+                            shaderRes._strokeWidth = this.StrokeWidth / 2;
+                            this.smoothLineShader.DrawLine(x1, y1, x2, y2);
+                        }
                     }
                     break;
             }
@@ -410,7 +419,7 @@ namespace PixelFarm.DrawingGL
                         List<Figure> figures = igpth.figures;
                         int subPathCount = figures.Count;
                         float prevWidth = StrokeWidth;
-                         
+
                         StrokeColor = color;
                         StrokeWidth = 0.5f;
                         for (int i = 0; i < subPathCount; ++i)
@@ -419,7 +428,7 @@ namespace PixelFarm.DrawingGL
                             float[] tessArea = f.GetAreaTess(ref this.tessTool);
                             if (tessArea != null)
                             {
-                                basicFillShader.FillTriangles(tessArea, f.TessAreaTriangleCount, color);                                 
+                                basicFillShader.FillTriangles(tessArea, f.TessAreaTriangleCount, color);
                                 smoothLineShader.DrawTriangleStrips(f.GetSmoothBorders(), f.BorderTriangleStripCount);
                             }
                         }
