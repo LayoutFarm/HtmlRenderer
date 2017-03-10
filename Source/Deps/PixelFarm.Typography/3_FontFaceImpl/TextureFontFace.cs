@@ -43,7 +43,7 @@ namespace PixelFarm.Drawing.Fonts
         {
             get { return primFontFace; }
         }
-        public override ActualFont GetFontAtPointsSize(float pointSize)
+        public override ActualFont GetFontAtPointSize(float pointSize)
         {
             TextureFont t = new TextureFont(this, pointSize);
             return t;
@@ -77,7 +77,7 @@ namespace PixelFarm.Drawing.Fonts
         {
             this.typeface = typeface;
             this.fontAtlas = typeface.FontAtlas;
-            actualFont = typeface.InnerFontFace.GetFontAtPointsSize(sizeInPoints);
+            actualFont = typeface.InnerFontFace.GetFontAtPointSize(sizeInPoints);
 
         }
         public override string FontName

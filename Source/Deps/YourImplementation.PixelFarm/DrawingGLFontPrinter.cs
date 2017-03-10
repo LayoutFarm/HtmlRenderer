@@ -286,7 +286,7 @@ namespace PixelFarm.DrawingGL
             ActualFont createdFont;
             if (!registerFonts.TryGetValue(fontKey, out createdFont))
             {
-                createdFont = fontFace.GetFontAtPointsSize(fontSizeInPoints);
+                createdFont = fontFace.GetFontAtPointSize(fontSizeInPoints);
             }
             //-----------
             return createdFont;
@@ -338,7 +338,7 @@ namespace PixelFarm.DrawingGL
             string fontfile = _fontLoader.GetFont(font.Name, InstalledFontStyle.Regular).FontPath;
             ff = TextureFontLoader.LoadFont(fontfile, ScriptLangs.Latin, WriteDirection.LTR, out simpleFontAtlas);
             //resolve typeface**
-            ActualFont fontImp = ff.GetFontAtPointsSize(font.SizeInPoints);
+            ActualFont fontImp = ff.GetFontAtPointSize(font.SizeInPoints);
             _typeface = (Typography.OpenFont.Typeface)ff.GetInternalTypeface();
 
             float srcTextureScale = _typeface.CalculateFromPointToPixelScale(14);

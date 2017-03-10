@@ -456,7 +456,7 @@ namespace PixelFarm.Drawing.WinGdi
                     winGdiFonFaces.Add(fontfaceKey, fontface);
                 }
 
-                found = (WinGdiFont)fontface.GetFontAtPointsSize(f.SizeInPoints);
+                found = (WinGdiFont)fontface.GetFontAtPointSize(f.SizeInPoints);
                 registerFonts.Add(key, found);//cache here
             }
             latestFont = f;
@@ -518,7 +518,7 @@ namespace PixelFarm.Drawing.WinGdi
         {
             get { return nopenTypeFontFace.Name; }
         }
-        public override ActualFont GetFontAtPointsSize(float pointSize)
+        public override ActualFont GetFontAtPointSize(float pointSize)
         {
             //create WinGdiFont 
             return new WinGdiFont(this, pointSize, style);

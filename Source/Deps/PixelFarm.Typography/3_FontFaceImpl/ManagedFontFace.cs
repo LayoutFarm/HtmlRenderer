@@ -32,7 +32,7 @@ namespace PixelFarm.Drawing.Fonts
             get { return path; }
         }
         protected override void OnDispose() { }
-        public override ActualFont GetFontAtPointsSize(float pointSize)
+        public override ActualFont GetFontAtPointSize(float pointSize)
         {
             ManagedActualFont actualFont = new ManagedActualFont(this, pointSize, FontStyle.Regular);
             return actualFont;
