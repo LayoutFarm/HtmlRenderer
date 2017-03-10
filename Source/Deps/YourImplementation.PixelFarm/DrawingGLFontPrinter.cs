@@ -44,9 +44,24 @@ namespace PixelFarm.DrawingGL
 
             //set default1
             aggPainter.CurrentFont = canvasPainter.CurrentFont;
+
             textPrinter = new VxsTextPrinter(aggPainter, YourImplementation.BootStrapOpenGLES2.myFontLoader);
             aggPainter.TextPrinter = textPrinter;
         }
+        public Typography.Rendering.HintTechnique HintTechnique
+        {
+            get { return textPrinter.HintTechnique; }
+            set { textPrinter.HintTechnique = value; }
+        }
+        public bool UseSubPixelRendering
+        {
+            get { return aggPainter.UseSubPixelRendering; }
+            set
+            {
+                aggPainter.UseSubPixelRendering = value;
+            }
+        }
+
         public void DrawString(char[] text, int startAt, int len, double x, double y)
         {
 
@@ -83,7 +98,7 @@ namespace PixelFarm.DrawingGL
         CanvasGL2d canvas2d;
         GLCanvasPainter painter;
         SimpleFontAtlas simpleFontAtlas;
-        IFontLoader _fontLoader; 
+        IFontLoader _fontLoader;
         RequestFont font;
 
         public GLBmpGlyphTextPrinter(GLCanvasPainter painter, IFontLoader fontLoader)
@@ -108,7 +123,7 @@ namespace PixelFarm.DrawingGL
             //we resolve it to actual font
 
             this.font = font;
-            this._glyphLayout.ScriptLang = font.GetOpenFontScriptLang(); 
+            this._glyphLayout.ScriptLang = font.GetOpenFontScriptLang();
             ActualFont fontImp = ActiveFontAtlasService.GetTextureFontAtlasOrCreateNew(_fontLoader, font, out simpleFontAtlas);
             _typeface = (Typography.OpenFont.Typeface)fontImp.FontFace.GetInternalTypeface();
             float srcTextureScale = _typeface.CalculateFromPointToPixelScale(simpleFontAtlas.OriginalFontSizePts);

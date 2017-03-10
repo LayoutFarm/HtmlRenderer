@@ -64,7 +64,11 @@ namespace PixelFarm.Drawing.Fonts
             Console.Write("please impl change font color");
 #endif
         }
-
+        public HintTechnique HintTechnique
+        {
+            get;
+            set;
+        }
         float FontSizeInPoints
         {
             get { return _font.SizeInPoints; }
@@ -90,7 +94,7 @@ namespace PixelFarm.Drawing.Fonts
             float ox = canvasPainter.OriginX;
             float oy = canvasPainter.OriginY;
             int j = _outputGlyphPlans.Count;
-
+            canvasPainter.Clear(PixelFarm.Drawing.Color.White);
             //---------------------------------------------------
             //consider use cached glyph, to increase performance 
             hintGlyphCollection.SetCacheInfo(typeface, fontSizePoint, this.HintTechnique);
@@ -107,6 +111,7 @@ namespace PixelFarm.Drawing.Fonts
                 if (!hintGlyphCollection.TryGetCacheGlyph(glyphPlan.glyphIndex, out glyphVxs))
                 {
                     //if not found then create new glyph vxs and cache it
+                    _glyphPathBuilder.SetHintTechnique(this.HintTechnique);
                     _glyphPathBuilder.BuildFromGlyphIndex(glyphPlan.glyphIndex, fontSizePoint);
                     //-----------------------------------  
                     _tovxs.Reset();
@@ -134,11 +139,7 @@ namespace PixelFarm.Drawing.Fonts
             get { return _glyphLayout.PositionTechnique; }
             set { _glyphLayout.PositionTechnique = value; }
         }
-        public HintTechnique HintTechnique
-        {
-            get;
-            set;
-        }
+
         public bool EnableLigature
         {
             get { return _glyphLayout.EnableLigature; }
