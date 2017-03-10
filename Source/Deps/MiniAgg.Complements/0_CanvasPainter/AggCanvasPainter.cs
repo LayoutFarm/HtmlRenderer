@@ -407,12 +407,12 @@ namespace PixelFarm.Agg
                 if (value)
                 {
                     this.sclineRasToBmp.ScanlineRenderMode = ScanlineRenderMode.SubPixelRendering;
-                    this.sclineRas.UseSubPixelRendering = true;
+                    this.sclineRas.ScanlineRenderMode = ScanlineRenderMode.SubPixelRendering;
                 }
                 else
                 {
                     this.sclineRasToBmp.ScanlineRenderMode = ScanlineRenderMode.Default;
-                    this.sclineRas.UseSubPixelRendering = false;
+                    this.sclineRas.ScanlineRenderMode = ScanlineRenderMode.Default;
                 }
             }
         }

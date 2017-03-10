@@ -63,11 +63,11 @@ namespace PixelFarm.Agg
             this.currentBlender = this.pixBlenderRGBA32 = new PixelBlenderBGRA();
         }
 
-        public override bool UseSubPixelRendering2
-        {
-            get { return ScanlineRasterizer.UseSubPixelRendering; }
-            set { ScanlineRasterizer.UseSubPixelRendering = value; }
-        }
+        //public override bool UseSubPixelRendering2
+        //{
+        //    get { return ScanlineRasterizer.UseSubPixelRendering; }
+        //    set { ScanlineRasterizer.UseSubPixelRendering = value; }
+        //}
         public override ScanlinePacked8 ScanlinePacked8
         {
             get { return this.sclinePack8; }

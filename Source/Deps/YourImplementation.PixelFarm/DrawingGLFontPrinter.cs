@@ -44,7 +44,6 @@ namespace PixelFarm.DrawingGL
 
             //set default1
             aggPainter.CurrentFont = canvasPainter.CurrentFont;
-
             textPrinter = new VxsTextPrinter(aggPainter, YourImplementation.BootStrapOpenGLES2.myFontLoader);
             aggPainter.TextPrinter = textPrinter;
         }
@@ -65,18 +64,41 @@ namespace PixelFarm.DrawingGL
         public void DrawString(char[] text, int startAt, int len, double x, double y)
         {
 
-            //1. clear prev drawing result
-            aggPainter.Clear(Drawing.Color.Transparent);
-            //2. print text span into Agg Canvas
-            textPrinter.DrawString(text, startAt, len, 0, 0);
-            //3.copy to gl bitmap
-            byte[] buffer = PixelFarm.Agg.ActualImage.GetBuffer(actualImage);
-            //------------------------------------------------------
-            GLBitmap glBmp = new GLBitmap(bmpWidth, bmpHeight, buffer, true);
-            glBmp.IsInvert = false;
-            //TODO: review font height
-            canvas.DrawImage(glBmp, (float)x, (float)y + 40);
-            glBmp.Dispose();
+
+            if (this.UseSubPixelRendering)
+            {
+                //1. clear prev drawing result
+                //aggPainter.Clear(Drawing.Color.FromArgb(0, 0, 0, 0));
+                //aggPainter.Clear(Drawing.Color.White);
+                aggPainter.Clear(Drawing.Color.FromArgb(0, 0, 0, 0));
+                //2. print text span into Agg Canvas
+                textPrinter.DrawString(text, startAt, len, 0, 0);
+                //3.copy to gl bitmap
+                byte[] buffer = PixelFarm.Agg.ActualImage.GetBuffer(actualImage);
+                //------------------------------------------------------
+                GLBitmap glBmp = new GLBitmap(bmpWidth, bmpHeight, buffer, true);
+                glBmp.IsInvert = false;
+                //TODO: review font height
+                canvas.DrawGlyphImageWithSubPixelRenderingTechnique(glBmp, (float)x, (float)y + 40);
+                glBmp.Dispose();
+            }
+            else
+            {
+
+                //1. clear prev drawing result
+                aggPainter.Clear(Drawing.Color.FromArgb(0, 0, 0, 0));
+                //2. print text span into Agg Canvas
+                textPrinter.DrawString(text, startAt, len, 0, 0);
+                //3.copy to gl bitmap
+                byte[] buffer = PixelFarm.Agg.ActualImage.GetBuffer(actualImage);
+                //------------------------------------------------------
+                GLBitmap glBmp = new GLBitmap(bmpWidth, bmpHeight, buffer, true);
+                glBmp.IsInvert = false;
+                //TODO: review font height
+                canvas.DrawGlyphImage(glBmp, (float)x, (float)y + 40);
+                glBmp.Dispose();
+            }
+
         }
 
         public void ChangeFont(RequestFont font)

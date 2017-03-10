@@ -16,6 +16,7 @@ namespace PixelFarm.DrawingGL
         RectFillShader rectFillShader;
         GdiImageTextureShader gdiImgTextureShader;
         GdiImageTextureWithWhiteTransparentShader gdiImgTextureWithWhiteTransparentShader;
+        GdiImageTextureWithSubPixelRenderingShader gdiImageTextureWithSubPixelRenderingShader;
         OpenGLESTextureShader glesTextureShader;
         BlurShader blurShader;
         Conv3x3TextureShader conv3x3TextureShader;
@@ -58,6 +59,7 @@ namespace PixelFarm.DrawingGL
             rectFillShader = new RectFillShader(shaderRes);
             gdiImgTextureShader = new GdiImageTextureShader(shaderRes);
             gdiImgTextureWithWhiteTransparentShader = new GdiImageTextureWithWhiteTransparentShader(shaderRes);
+            gdiImageTextureWithSubPixelRenderingShader = new GdiImageTextureWithSubPixelRenderingShader(shaderRes);
             blurShader = new BlurShader(shaderRes);
             glesTextureShader = new OpenGLESTextureShader(shaderRes);
             invertAlphaFragmentShader = new InvertAlphaLineSmoothShader(shaderRes); //used with stencil  ***
@@ -300,10 +302,32 @@ namespace PixelFarm.DrawingGL
                 gdiImgTextureShader.Render(bmp, x, y, w, h);
             }
         }
-        public void DrawImageWithWhiteTransparent(GLBitmap bmp, float x, float y)
+        /// <summary>
+        /// draw glyph image with transparent
+        /// </summary>
+        /// <param name="bmp"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        public void DrawGlyphImage(GLBitmap bmp, float x, float y)
         {
             this.gdiImgTextureWithWhiteTransparentShader.Render(bmp, x, y, bmp.Width, bmp.Height);
         }
+        /// <summary>
+        /// draw glyph image with transparent
+        /// </summary>
+        /// <param name="bmp"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        public void DrawGlyphImageWithSubPixelRenderingTechnique(GLBitmap bmp, float x, float y)
+        {
+
+            gdiImageTextureWithSubPixelRenderingShader.IsBigEndian = bmp.IsBigEndianPixel;
+            gdiImageTextureWithSubPixelRenderingShader.SetBitmapSize(bmp.Width, bmp.Height);
+            //gdiImageTextureWithSubPixelRenderingShader.Render(bmp, x, y, bmp.Width, bmp.Height);
+            //TODO: review to render width again ***
+            gdiImageTextureWithSubPixelRenderingShader.RenderSubImage(bmp, 0, bmp.Height, 100, bmp.Height, x, y);
+        }
+
         public void DrawImage(GLBitmapReference bmp, float x, float y)
         {
             this.DrawImage(bmp.OwnerBitmap,

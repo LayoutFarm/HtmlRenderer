@@ -264,7 +264,7 @@ namespace PixelFarm.Agg
         /// <summary>
         /// use subpixel rendering or not
         /// </summary>
-        public bool UseSubPixelRendering { get; set; }
+        public ScanlineRenderMode ScanlineRenderMode { get; set; }
 
         /// <summary>
         /// we do NOT store snap ***
@@ -289,29 +289,33 @@ namespace PixelFarm.Agg
 #if DEBUG
             int dbugVertexCount = 0;
 #endif
-            if (UseSubPixelRendering)
-            {
-                while ((cmd = snapIter.GetNextVertex(out x, out y)) != VertexCmd.NoMore)
-                {
-#if DEBUG
-                    dbugVertexCount++;
-#endif
-                    //AddVertext 3 of 4
-                    AddVertex(cmd, (x + offsetOrgX) * 3, y + offsetOrgY);
-                }
 
-            }
-            else
+            switch (ScanlineRenderMode)
             {
-
-                while ((cmd = snapIter.GetNextVertex(out x, out y)) != VertexCmd.NoMore)
-                {
+                case ScanlineRenderMode.SubPixelRenderingOfGLES:
+                case ScanlineRenderMode.SubPixelRendering:
+                    while ((cmd = snapIter.GetNextVertex(out x, out y)) != VertexCmd.NoMore)
+                    {
 #if DEBUG
-                    dbugVertexCount++;
+                        dbugVertexCount++;
 #endif
-                    //AddVertext 4 of 4
-                    AddVertex(cmd, x + offsetOrgX, y + offsetOrgY);
-                }
+                        //---------------------------------------------
+                        //NOTE: we scale horizontal 3 times.
+                        //subpixel renderer will shrink it to 1 
+                        //---------------------------------------------
+                        AddVertex(cmd, (x + offsetOrgX) * 3, y + offsetOrgY);
+                    }
+                    break;
+                default:
+                    while ((cmd = snapIter.GetNextVertex(out x, out y)) != VertexCmd.NoMore)
+                    {
+#if DEBUG
+                        dbugVertexCount++;
+#endif
+
+                        AddVertex(cmd, x + offsetOrgX, y + offsetOrgY);
+                    }
+                    break;
             }
 
 

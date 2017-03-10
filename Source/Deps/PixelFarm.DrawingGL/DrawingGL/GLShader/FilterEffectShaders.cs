@@ -334,6 +334,12 @@ namespace PixelFarm.DrawingGL
             kernelWeight = total;
         }
         public bool IsBigEndian { get; set; }
+        public void SetBitmapSize(int w, int h)
+        {
+            this.toDrawImgW = w;
+            this.toDrawImgH = h;
+        }
+        //
         protected override void OnProgramBuilt()
         {
             _isBigEndian = shaderProgram.GetUniform1("isBigEndian");
@@ -348,10 +354,6 @@ namespace PixelFarm.DrawingGL
             _onepix_xy.SetValue(1f / toDrawImgW, 1f / toDrawImgH);
             _kernelWeight.SetValue(kernelWeight);
         }
-        public void SetBitmapSize(int w, int h)
-        {
-            this.toDrawImgW = w;
-            this.toDrawImgH = h;
-        }
+       
     }
 }

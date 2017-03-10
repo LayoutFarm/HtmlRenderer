@@ -41,7 +41,7 @@ namespace PixelFarm.Agg
         /// <param name="c"></param>
         public abstract void Render(VertexStoreSnap vertexSource, Drawing.Color c);
         //------------------------------------------------------------------------
-        public abstract bool UseSubPixelRendering2 { get; set; }
+    
         /// <summary>
         /// we do NOT store vxs
         /// </summary>

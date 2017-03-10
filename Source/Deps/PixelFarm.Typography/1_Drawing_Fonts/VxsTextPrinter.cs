@@ -94,7 +94,7 @@ namespace PixelFarm.Drawing.Fonts
             float ox = canvasPainter.OriginX;
             float oy = canvasPainter.OriginY;
             int j = _outputGlyphPlans.Count;
-            canvasPainter.Clear(PixelFarm.Drawing.Color.White);
+            
             //---------------------------------------------------
             //consider use cached glyph, to increase performance 
             hintGlyphCollection.SetCacheInfo(typeface, fontSizePoint, this.HintTechnique);
