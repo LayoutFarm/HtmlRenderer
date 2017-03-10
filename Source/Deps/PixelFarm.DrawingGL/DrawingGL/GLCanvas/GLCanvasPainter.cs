@@ -255,13 +255,11 @@ namespace PixelFarm.DrawingGL
         }
         public override void DrawString(string text, double x, double y)
         {
-            if (_textPriner == null) { return; }
-            //--------------------------------
-            _textPriner.DrawString(text, x, y);
-
+            if (_textPriner != null)
+            {
+                _textPriner.DrawString(text, x, y);
+            }
         }
-
-
 
         public override void Fill(VertexStore vxs)
         {

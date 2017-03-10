@@ -16,10 +16,10 @@ namespace PixelFarm.Drawing
             SetFontNotFoundHandler(
               (fontCollection, fontName, style) =>
               {
-                  //TODO: implement font not found mapping here
-                  //_fontsMapping["monospace"] = "Courier New";
-                  //_fontsMapping["Helvetica"] = "Arial";
-                  fontName = fontName.ToUpper();
+                    //TODO: implement font not found mapping here
+                    //_fontsMapping["monospace"] = "Courier New";
+                    //_fontsMapping["Helvetica"] = "Arial";
+                    fontName = fontName.ToUpper();
                   switch (fontName)
                   {
                       case "MONOSPACE":
@@ -27,10 +27,10 @@ namespace PixelFarm.Drawing
                       case "HELVETICA":
                           return fontCollection.GetFont("Arial", style);
                       case "TAHOMA":
-                          //default font must found
-                          //if not throw err 
-                          //this prevent infinit loop
-                          throw new System.NotSupportedException();
+                            //default font must found
+                            //if not throw err 
+                            //this prevent infinit loop
+                            throw new System.NotSupportedException();
                       default:
                           return fontCollection.GetFont("tahoma", style);
                   }

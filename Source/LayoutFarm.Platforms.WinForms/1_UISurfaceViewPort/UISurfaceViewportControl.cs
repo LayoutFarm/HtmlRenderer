@@ -107,11 +107,11 @@ namespace LayoutFarm.UI
                         //canvasPainter.TextPrinter = printer;
                         //----------------------
                         //3. agg texture based font texture
-                        var printer = new AggFontPrinter(canvasPainter, 400, 50);
-                        canvasPainter.TextPrinter = printer;
-
-                        //var printer = new GLBmpGlyphTextPrinter(canvasPainter, YourImplementation.BootStrapWinGdi.myFontLoader);
+                        //var printer = new AggFontPrinter(canvasPainter, 400, 50);
                         //canvasPainter.TextPrinter = printer;
+
+                        var printer = new GLBmpGlyphTextPrinter(canvasPainter, YourImplementation.BootStrapOpenGLES2.myFontLoader);
+                        canvasPainter.TextPrinter = printer;
 
                         //-
                         //var myGLCanvas1 = new PixelFarm.Drawing.GLES2.MyGLCanvas(canvasPainter, 0, 0, view.Width, view.Height);

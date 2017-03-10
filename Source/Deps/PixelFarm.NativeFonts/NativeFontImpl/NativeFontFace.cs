@@ -85,7 +85,7 @@ namespace PixelFarm.Drawing.Fonts
         {
             Dispose();
         }
-        public override ActualFont GetFontAtPointsSize(float fontPointSize)
+        public override ActualFont GetFontAtPointSize(float fontPointSize)
         {
             currentFacePixelSize = (int)RequestFont.ConvEmSizeInPointsToPixels(fontPointSize);
             //----------------------------------

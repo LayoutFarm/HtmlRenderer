@@ -71,9 +71,6 @@
     <Compile Include="..\Typography\FontAtlas\MsdfGlyphGen.cs">
       <Link>FontAtlas\MsdfGlyphGen.cs</Link>
     </Compile>
-    <Compile Include="..\Typography\FontAtlas\MsdfGlyphGenExtension.cs">
-      <Link>FontAtlas\MsdfGlyphGenExtension.cs</Link>
-    </Compile>
     <Compile Include="..\Typography\FontAtlas\SimpleFontAtlas.cs">
       <Link>FontAtlas\SimpleFontAtlas.cs</Link>
     </Compile>

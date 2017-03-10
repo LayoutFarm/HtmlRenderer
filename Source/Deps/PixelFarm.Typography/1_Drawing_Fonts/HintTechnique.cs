@@ -1,7 +1,8 @@
-﻿//MIT, 2016-2017, WinterDev  
-namespace PixelFarm.Drawing.Fonts
+﻿//MIT, 2016-2017, WinterDev
+namespace Typography.Rendering
 {
-    public enum HintTechnique
+
+    public enum HintTechnique : byte
     {
         /// <summary>
         /// no hinting

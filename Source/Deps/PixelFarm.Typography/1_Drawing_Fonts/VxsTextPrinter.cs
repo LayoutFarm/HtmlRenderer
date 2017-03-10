@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using Typography.OpenFont;
 using Typography.TextLayout;
+using Typography.Rendering;
 using PixelFarm.Agg;
 
 namespace PixelFarm.Drawing.Fonts
@@ -17,32 +18,29 @@ namespace PixelFarm.Drawing.Fonts
         CanvasPainter canvasPainter;
         IFontLoader _fontLoader;
         RequestFont _font;
-
+        //-----------------------------------------------------------
         GlyphPathBuilder _glyphPathBuilder;
         GlyphLayout _glyphLayout = new GlyphLayout();
         Dictionary<string, GlyphPathBuilder> _cacheGlyphPathBuilders = new Dictionary<string, GlyphPathBuilder>();
-        List<GlyphPlan> glyphPlanList = new List<GlyphPlan>(20);
+        List<GlyphPlan> _outputGlyphPlans = new List<GlyphPlan>();
+        //         
+        HintedVxsGlyphCollection hintGlyphCollection = new HintedVxsGlyphCollection();
+        VertexStorePool _vxsPool = new VertexStorePool();
+        GlyphTranslatorToVxs _tovxs = new GlyphTranslatorToVxs();
 
         public VxsTextPrinter(CanvasPainter canvasPainter, IFontLoader fontLoader)
         {
             this.canvasPainter = canvasPainter;
             this._fontLoader = fontLoader;
-#if DEBUG
 
-            Typography.OpenFont.ScriptLang scLang = Typography.OpenFont.ScriptLangs.GetRegisteredScriptLang(canvasPainter.CurrentFont.ScriptCode.shortname);
-            if (scLang == null)
-            {
-                throw new NotSupportedException("unknown script lang");
-            }
-#endif
-            this.ScriptLang = scLang;
+            this.ScriptLang = canvasPainter.CurrentFont.GetOpenFontScriptLang();
             ChangeFont(canvasPainter.CurrentFont);
         }
         public void ChangeFont(RequestFont font)
         {
             //1.  resolve actual font file
             this._font = font;
-            string resolvedFontFilename = _fontLoader.GetFont(font.Name, InstalledFontStyle.Regular).FontPath;
+            string resolvedFontFilename = _fontLoader.GetFont(font.Name, font.Style.ConvToInstalledFontStyle()).FontPath;
             if (resolvedFontFilename != _currentFontFilename)
             {
                 //switch to another font  
@@ -66,58 +64,70 @@ namespace PixelFarm.Drawing.Fonts
             Console.Write("please impl change font color");
 #endif
         }
-        public void DrawString(string text, double x, double y)
+
+        float FontSizeInPoints
         {
-            DrawString(text.ToCharArray(), 0, text.Length, x, y);
+            get { return _font.SizeInPoints; }
         }
+
         public void DrawString(char[] text, int startAt, int len, double x, double y)
         {
 
-            //1. update current type face
-            Typeface typeface = UpdateTypefaceAndGlyphBuilder();
+            //1. update some props..
 
-            //2. layout glyphs with selected layout techniue 
-            glyphPlanList.Clear();
+            //2. update current type face
+            UpdateTypefaceAndGlyphBuilder();
+            Typeface typeface = _glyphPathBuilder.Typeface;
 
+            //3. layout glyphs with selected layout technique
             //TODO: review this again, we should use pixel?
-            float fontSizePoint = _font.SizeInPoints;//font size in point unit,
 
-            _glyphLayout.Layout(typeface, fontSizePoint, text, startAt, len, glyphPlanList);
+            float fontSizePoint = this.FontSizeInPoints;
+            _outputGlyphPlans.Clear();
+            _glyphLayout.Layout(typeface, fontSizePoint, text, startAt, len, _outputGlyphPlans);
 
-            float pxScale = typeface.CalculateFromPointToPixelScale(fontSizePoint);
-            int j = glyphPlanList.Count;
+            //4. render each glyph
             float ox = canvasPainter.OriginX;
             float oy = canvasPainter.OriginY;
+            int j = _outputGlyphPlans.Count;
+
+            //---------------------------------------------------
+            //consider use cached glyph, to increase performance 
+            hintGlyphCollection.SetCacheInfo(typeface, fontSizePoint, this.HintTechnique);
+            //---------------------------------------------------
             for (int i = 0; i < j; ++i)
             {
-                GlyphPlan glyphPlan = glyphPlanList[i];
+                GlyphPlan glyphPlan = _outputGlyphPlans[i];
                 //-----------------------------------
-
                 //TODO: review here ***
                 //PERFORMANCE revisit here 
                 //if we have create a vxs we can cache it for later use?
                 //-----------------------------------  
-                _glyphPathBuilder.BuildFromGlyphIndex(glyphPlan.glyphIndex, fontSizePoint);
-                //-----------------------------------  
-                _txToVxs.Reset();
-                _glyphPathBuilder.ReadShapes(_txToVxs);
+                VertexStore glyphVxs;
+                if (!hintGlyphCollection.TryGetCacheGlyph(glyphPlan.glyphIndex, out glyphVxs))
+                {
+                    //if not found then create new glyph vxs and cache it
+                    _glyphPathBuilder.BuildFromGlyphIndex(glyphPlan.glyphIndex, fontSizePoint);
+                    //-----------------------------------  
+                    _tovxs.Reset();
+                    _glyphPathBuilder.ReadShapes(_tovxs);
 
-                //TODO: review here, 
-
-                VertexStore outputVxs = _vxsPool.GetFreeVxs();
-                _txToVxs.WriteOutput(outputVxs, _vxsPool, pxScale);
+                    //TODO: review here, 
+                    //float pxScale = _glyphPathBuilder.GetPixelScale();
+                    glyphVxs = new VertexStore();
+                    _tovxs.WriteOutput(glyphVxs, _vxsPool);
+                    //
+                    hintGlyphCollection.RegisterCachedGlyph(glyphPlan.glyphIndex, glyphVxs);
+                }
                 canvasPainter.SetOrigin((float)(glyphPlan.x + x), (float)(glyphPlan.y + y));
-                canvasPainter.Fill(outputVxs);
-                _vxsPool.Release(ref outputVxs);
-
+                canvasPainter.Fill(glyphVxs);
             }
             //restore prev origin
             canvasPainter.SetOrigin(ox, oy);
         }
 
         //-----------------------
-        VertexStorePool _vxsPool = new VertexStorePool();
-        GlyphTranslatorToVxs _txToVxs = new GlyphTranslatorToVxs();
+
         string _currentFontFilename = "";
         public PositionTechnique PositionTechnique
         {

@@ -44,9 +44,9 @@ namespace PixelFarm.Drawing.WinGdi
         {
             unsafe
             {
-                fixed (byte* head = &dest[0])
+                fixed (byte* head = &dest[startAt])
                 {
-                    Win32.MyWin32.memset(head, 0, 100);
+                    Win32.MyWin32.memset(head, value, count);
                 }
             }
         }

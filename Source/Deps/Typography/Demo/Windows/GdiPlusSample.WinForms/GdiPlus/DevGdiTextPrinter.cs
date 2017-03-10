@@ -5,7 +5,7 @@ using System.Collections.Generic;
 //
 using Typography.OpenFont;
 using Typography.TextLayout;
-using System;
+using Typography.Rendering;
 
 namespace SampleWinForms
 {
@@ -38,11 +38,11 @@ namespace SampleWinForms
         public Color FillColor { get; set; }
         public Color OutlineColor { get; set; }
         public Graphics DefaultTargetGraphics { get; set; }
-        public override void DrawString(char[] textBuffer, float xpos, float ypos)
-        {
-            this.DrawString(this.DefaultTargetGraphics, textBuffer, xpos, ypos);
-        }
 
+        public override void DrawString(char[] textBuffer, int startAt, int len, float xpos, float ypos)
+        {
+            this.DrawString(this.DefaultTargetGraphics, textBuffer, startAt, len, xpos, ypos);
+        }
         void UpdateTypefaceAndGlyphBuilder()
         {
             if (_currentTypeface == null)
@@ -56,28 +56,17 @@ namespace SampleWinForms
                 }
                 //2. glyph builder
                 _currentGlyphPathBuilder = new GlyphPathBuilder(_currentTypeface);
+                _currentGlyphPathBuilder.MinorAdjustFitYForAutoFit = true;//for gdi path***
                 //3. glyph reader,output as Gdi+ GraphicsPath
                 _txToGdiPath = new GlyphTranslatorToGdiPath();
             }
 
 
             //2.1 
-            var hintTech = this.HintTechnique;
-            _currentGlyphPathBuilder.UseTrueTypeInstructions = false;//reset
-            _currentGlyphPathBuilder.UseVerticalHinting = false;//reset
-            switch (hintTech)
-            {
-                case HintTechnique.TrueTypeInstruction:
-                    _currentGlyphPathBuilder.UseTrueTypeInstructions = true;
-                    break;
-                case HintTechnique.TrueTypeInstruction_VerticalOnly:
-                    _currentGlyphPathBuilder.UseTrueTypeInstructions = true;
-                    _currentGlyphPathBuilder.UseVerticalHinting = true;
-                    break;
-                case HintTechnique.CustomAutoFit:
-                    //custom agg autofit 
-                    break;
-            }
+
+            _currentGlyphPathBuilder.UseTrueTypeInstructions = this.UseTrueTypeInstructions;
+            _currentGlyphPathBuilder.UseVerticalHinting = this.UseVerticalHint;
+
             //2.2
             _glyphLayout.ScriptLang = this.ScriptLang;
             _glyphLayout.PositionTechnique = this.PositionTechnique;
@@ -91,6 +80,8 @@ namespace SampleWinForms
         public void DrawString(
                 Graphics g,
                 char[] textBuffer,
+                int startAt,
+                int len,
                 float x,
                 float y)
         {
@@ -115,28 +106,27 @@ namespace SampleWinForms
             //3. layout glyphs with selected layout technique
             float sizeInPoints = this.FontSizeInPoints;
             _outputGlyphPlans.Clear();
-            _glyphLayout.Layout(_currentTypeface, sizeInPoints, textBuffer, _outputGlyphPlans);
+            _glyphLayout.Layout(_currentTypeface, sizeInPoints, textBuffer, startAt, len, _outputGlyphPlans);
 
             //
             //4. render each glyph
-            float pxScale = _currentTypeface.CalculateFromPointToPixelScale(sizeInPoints);
+            
             System.Drawing.Drawing2D.Matrix scaleMat = null;
             // 
-            
+
             int j = _outputGlyphPlans.Count;
             for (int i = 0; i < j; ++i)
             {
                 GlyphPlan glyphPlan = _outputGlyphPlans[i];
                 _currentGlyphPathBuilder.BuildFromGlyphIndex(glyphPlan.glyphIndex, sizeInPoints);
                 // 
-
+               // float pxScale = _currentGlyphPathBuilder.GetPixelScale();
                 scaleMat = new System.Drawing.Drawing2D.Matrix(
-                    pxScale, 0,//scale x
-                    0, pxScale, //scale y
+                    1, 0,//scale x
+                    0, 1, //scale y
                     x + glyphPlan.x,
                     y + glyphPlan.y //xpos,ypos
                 );
-                //c_x += (glyphPlan.advX); //move xpos
 
                 //
                 _txToGdiPath.Reset();

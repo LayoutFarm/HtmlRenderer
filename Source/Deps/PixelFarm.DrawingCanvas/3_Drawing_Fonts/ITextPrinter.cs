@@ -19,10 +19,18 @@ namespace PixelFarm.Drawing.Fonts
 {
     public interface ITextPrinter
     {
-
-        void DrawString(string text, double x, double y);
         void DrawString(char[] text, int startAt, int len, double x, double y);
         void ChangeFont(RequestFont font);
         void ChangeFontColor(Color fontColor);
     }
+
+    public static class ITextPrinterExtensions
+    {
+        public static void DrawString(this ITextPrinter textPrinter, string text, double x, double y)
+        {
+            char[] textBuffer = text.ToCharArray();
+            textPrinter.DrawString(textBuffer, 0, textBuffer.Length, x, y);
+        }
+    }
+
 }

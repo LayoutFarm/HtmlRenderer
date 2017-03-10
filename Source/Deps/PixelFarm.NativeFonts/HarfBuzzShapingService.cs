@@ -80,7 +80,7 @@ namespace PixelFarm.Drawing.Text
             }
 
             //check if we have native fontface for this font?                
-            nativeFont = (NativeFont)nativeFontFace.GetFontAtPointsSize(actualFont.SizeInPoints);
+            nativeFont = (NativeFont)nativeFontFace.GetFontAtPointSize(actualFont.SizeInPoints);
             specificFontSize.Add(key, nativeFont);
             return nativeFont;
         }

@@ -47,6 +47,9 @@
     <Compile Include="..\deps\win32utils\NativeWin32MemoryDc.cs">
       <Link>Win32Utils\NativeWin32MemoryDc.cs</Link>
     </Compile>
+    <Compile Include="..\Deps\YourImplementation.PixelFarm\ActiveFontAtlasService.cs">
+      <Link>0_Platform\ActiveFontAtlasService.cs</Link>
+    </Compile>
     <Compile Include="..\Deps\YourImplementation.PixelFarm\DrawingGLFontPrinter.cs">
       <Link>0_Platform\DrawingGLFontPrinter.cs</Link>
     </Compile>
