@@ -344,6 +344,10 @@ namespace PixelFarm.Agg
                 //this request font must resolve to actual font
                 //within canvas *** 
                 //TODO: review drawing string  with agg here 
+                if (_textPrinter != null && value != null)
+                {
+                    _textPrinter.ChangeFont(value);
+                }
             }
         }
 
@@ -352,15 +356,14 @@ namespace PixelFarm.Agg
            double x,
            double y)
         {
-            //TODO: review drawing string  with agg here  
-            //textPrinter.Print(this, text.ToString(), x, y);
+            //TODO: review drawing string  with agg here   
             if (_textPrinter != null)
             {
                 _textPrinter.DrawString(text, x, y);
             }
         }
-         
-        ITextPrinter _textPrinter; 
+
+        ITextPrinter _textPrinter;
         public ITextPrinter TextPrinter
         {
             get
@@ -370,6 +373,10 @@ namespace PixelFarm.Agg
             set
             {
                 _textPrinter = value;
+                if (_textPrinter != null)
+                {
+                    _textPrinter.ChangeFont(this.currentFont);
+                }
             }
 
         }

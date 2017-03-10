@@ -29,6 +29,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -69,9 +70,6 @@
     </Compile>
     <Compile Include="..\Typography\FontAtlas\MsdfGlyphGen.cs">
       <Link>FontAtlas\MsdfGlyphGen.cs</Link>
-    </Compile>
-    <Compile Include="..\Typography\FontAtlas\MsdfGlyphGenExtension.cs">
-      <Link>FontAtlas\MsdfGlyphGenExtension.cs</Link>
     </Compile>
     <Compile Include="..\Typography\FontAtlas\SimpleFontAtlas.cs">
       <Link>FontAtlas\SimpleFontAtlas.cs</Link>

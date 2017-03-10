@@ -44,7 +44,7 @@ namespace PixelFarm.Drawing.GLES2
         }
         public override void DrawText(char[] buffer, int x, int y)
         {
-            painter1.TextPrinter.DrawString(buffer, x, y);
+            painter1.TextPrinter.DrawString(buffer, 0, buffer.Length, x, this.Height - y);
             //var tmpColor = this.internalSolidBrush.Color;
             //internalSolidBrush.Color = this.currentTextColor;
             //gx.DrawString(new string(buffer),
@@ -55,7 +55,7 @@ namespace PixelFarm.Drawing.GLES2
         public override void DrawText(char[] buffer, Rectangle logicalTextBox, int textAlignment)
         {
             //TODO: review again
-            painter1.TextPrinter.DrawString(buffer, logicalTextBox.X, logicalTextBox.Y);
+            painter1.TextPrinter.DrawString(buffer, 0, buffer.Length, logicalTextBox.X, this.Height - logicalTextBox.Y);
             //var tmpColor = this.internalSolidBrush.Color;
             //internalSolidBrush.Color = this.currentTextColor;
             //gx.DrawString(new string(buffer),
@@ -71,7 +71,7 @@ namespace PixelFarm.Drawing.GLES2
         public override void DrawText(char[] str, int startAt, int len, Rectangle logicalTextBox, int textAlignment)
         {
             //TODO: review again
-            painter1.TextPrinter.DrawString(str, logicalTextBox.X, logicalTextBox.Y+30);
+            painter1.TextPrinter.DrawString(str, startAt, len, logicalTextBox.X, this.Height - logicalTextBox.Y);
             //TODO: review here
             //painter1.FillRectangle(0, 0, 20, 20, Color.Red);
 

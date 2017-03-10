@@ -8,7 +8,6 @@
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AssemblyName>PixelFarm.One</AssemblyName>
-    <ProjectGuid>{7F98E675-D257-4142-B5FC-EB4B192F7183}</ProjectGuid>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -510,9 +509,6 @@
     <Compile Include="..\PixelFarm.Drawing.GdiPlus\Implementation\Region.cs">
       <Link>PixelFarm.Drawing.GdiPlus\Implementation\Region.cs</Link>
     </Compile>
-    <Compile Include="..\PixelFarm.Drawing.GdiPlus\Implementation\WinGdiFont.cs">
-      <Link>PixelFarm.Drawing.GdiPlus\Implementation\WinGdiFont.cs</Link>
-    </Compile>
     <Compile Include="..\PixelFarm.Drawing.GdiPlus\MiniAggGraphics\BufferBitmapStore.cs">
       <Link>PixelFarm.Drawing.GdiPlus\MiniAggGraphics\BufferBitmapStore.cs</Link>
     </Compile>
@@ -651,8 +647,8 @@
     <Compile Include="..\PixelFarm.Drawing.Skia\MiniAggGraphics\VxsHelper.cs">
       <Link>PixelFarm.Drawing.Skia\MiniAggGraphics\VxsHelper.cs</Link>
     </Compile>
-    <Compile Include="..\PixelFarm.DrawingCanvas\0_Start\GraphicsPlatform.cs">
-      <Link>PixelFarm.DrawingCanvas\0_Start\GraphicsPlatform.cs</Link>
+    <Compile Include="..\PixelFarm.DrawingCanvas\0_Start\IRootGraphics.cs">
+      <Link>PixelFarm.DrawingCanvas\0_Start\IRootGraphics.cs</Link>
     </Compile>
     <Compile Include="..\PixelFarm.DrawingCanvas\1_Canvas\Canvas.cs">
       <Link>PixelFarm.DrawingCanvas\1_Canvas\Canvas.cs</Link>
@@ -665,6 +661,9 @@
     </Compile>
     <Compile Include="..\PixelFarm.DrawingCanvas\1_Canvas\CanvasPaintToOutputDelegate.cs">
       <Link>PixelFarm.DrawingCanvas\1_Canvas\CanvasPaintToOutputDelegate.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.DrawingCanvas\1_Canvas\KnownColors.cs">
+      <Link>PixelFarm.DrawingCanvas\1_Canvas\KnownColors.cs</Link>
     </Compile>
     <Compile Include="..\PixelFarm.DrawingCanvas\2_Drawing\FontStyle.cs">
       <Link>PixelFarm.DrawingCanvas\2_Drawing\FontStyle.cs</Link>
@@ -912,6 +911,9 @@
     <Compile Include="..\PixelFarm.MiniOpenTK\OpenTK\Serialization\XmlIgnoreAttribute.cs">
       <Link>PixelFarm.MiniOpenTK\OpenTK\Serialization\XmlIgnoreAttribute.cs</Link>
     </Compile>
+    <Compile Include="..\PixelFarm.MiniOpenTK\Platform_Egl\Egl.cs">
+      <Link>PixelFarm.MiniOpenTK\Platform_Egl\Egl.cs</Link>
+    </Compile>
     <Compile Include="..\PixelFarm.NativeFonts\Bitmap\NativeImage.cs">
       <Link>PixelFarm.NativeFonts\Bitmap\NativeImage.cs</Link>
     </Compile>
@@ -1073,9 +1075,6 @@
     </Compile>
     <Compile Include="..\PixelFarm.OpenTKWinForms\Platform\Egl\AngleProjectEglConfig.cs">
       <Link>PixelFarm.OpenTKWinForms\Platform\Egl\AngleProjectEglConfig.cs</Link>
-    </Compile>
-    <Compile Include="..\PixelFarm.OpenTKWinForms\Platform\Egl\Egl.cs">
-      <Link>PixelFarm.OpenTKWinForms\Platform\Egl\Egl.cs</Link>
     </Compile>
     <Compile Include="..\PixelFarm.OpenTKWinForms\Platform\Egl\EglContext.cs">
       <Link>PixelFarm.OpenTKWinForms\Platform\Egl\EglContext.cs</Link>
@@ -1268,7 +1267,6 @@
     </Compile>
     <Compile Include="..\PixelFarm.OpenTKWinForms\UserGLControl\GLControl.cs">
       <Link>PixelFarm.OpenTKWinForms\UserGLControl\GLControl.cs</Link>
-      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="..\PixelFarm.OpenTKWinForms\UserGLControl\GLControl.Designer.cs">
       <Link>PixelFarm.OpenTKWinForms\UserGLControl\GLControl.Designer.cs</Link>
@@ -1281,7 +1279,6 @@
     </Compile>
     <Compile Include="..\PixelFarm.OpenTKWinForms\UserGLControl\MyGLControl.cs">
       <Link>PixelFarm.OpenTKWinForms\UserGLControl\MyGLControl.cs</Link>
-      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="..\PixelFarm.OpenTKWinForms\UserGLControl\MyGLControl.Designer.cs">
       <Link>PixelFarm.OpenTKWinForms\UserGLControl\MyGLControl.Designer.cs</Link>
@@ -1520,17 +1517,20 @@
     <Compile Include="..\PixelFarm.Typography\1_Drawing_Fonts\FontPreview.cs">
       <Link>PixelFarm.Typography\1_Drawing_Fonts\FontPreview.cs</Link>
     </Compile>
-    <Compile Include="..\PixelFarm.Typography\1_Drawing_Fonts\GlyphPathBuilderVxs.cs">
-      <Link>PixelFarm.Typography\1_Drawing_Fonts\GlyphPathBuilderVxs.cs</Link>
+    <Compile Include="..\PixelFarm.Typography\1_Drawing_Fonts\GlyphPathBuilder.cs">
+      <Link>PixelFarm.Typography\1_Drawing_Fonts\GlyphPathBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.Typography\1_Drawing_Fonts\GlyphTranslatorToVxs.cs">
+      <Link>PixelFarm.Typography\1_Drawing_Fonts\GlyphTranslatorToVxs.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelFarm.Typography\1_Drawing_Fonts\HintTechnique.cs">
+      <Link>PixelFarm.Typography\1_Drawing_Fonts\HintTechnique.cs</Link>
     </Compile>
     <Compile Include="..\PixelFarm.Typography\1_Drawing_Fonts\InstalledFontCollection.cs">
       <Link>PixelFarm.Typography\1_Drawing_Fonts\InstalledFontCollection.cs</Link>
     </Compile>
-    <Compile Include="..\PixelFarm.Typography\1_Drawing_Fonts\MyGlyphPathBuilder.cs">
-      <Link>PixelFarm.Typography\1_Drawing_Fonts\MyGlyphPathBuilder.cs</Link>
-    </Compile>
-    <Compile Include="..\PixelFarm.Typography\1_Drawing_Fonts\TextPrinterImpl.cs">
-      <Link>PixelFarm.Typography\1_Drawing_Fonts\TextPrinterImpl.cs</Link>
+    <Compile Include="..\PixelFarm.Typography\1_Drawing_Fonts\VxsTextPrinter.cs">
+      <Link>PixelFarm.Typography\1_Drawing_Fonts\VxsTextPrinter.cs</Link>
     </Compile>
     <Compile Include="..\PixelFarm.Typography\2_Drawing_Text\ManagedShapingService.cs">
       <Link>PixelFarm.Typography\2_Drawing_Text\ManagedShapingService.cs</Link>
@@ -1549,30 +1549,6 @@
     </Compile>
     <Compile Include="..\PixelFarm.Typography\3_FontFaceImpl\TextureFontLoader.cs">
       <Link>PixelFarm.Typography\3_FontFaceImpl\TextureFontLoader.cs</Link>
-    </Compile>
-    <Compile Include="..\Tesselate\ActiveRegion.cs">
-      <Link>Tesselate\ActiveRegion.cs</Link>
-    </Compile>
-    <Compile Include="..\Tesselate\Collections\MaxFirstList.cs">
-      <Link>Tesselate\Collections\MaxFirstList.cs</Link>
-    </Compile>
-    <Compile Include="..\Tesselate\ContourVertex.cs">
-      <Link>Tesselate\ContourVertex.cs</Link>
-    </Compile>
-    <Compile Include="..\Tesselate\Dictionary.cs">
-      <Link>Tesselate\Dictionary.cs</Link>
-    </Compile>
-    <Compile Include="..\Tesselate\Face.cs">
-      <Link>Tesselate\Face.cs</Link>
-    </Compile>
-    <Compile Include="..\Tesselate\HalfEdge.cs">
-      <Link>Tesselate\HalfEdge.cs</Link>
-    </Compile>
-    <Compile Include="..\Tesselate\Mesh.cs">
-      <Link>Tesselate\Mesh.cs</Link>
-    </Compile>
-    <Compile Include="..\Tesselate\Tesselator.cs">
-      <Link>Tesselate\Tesselator.cs</Link>
     </Compile>
     <Compile Include="..\TypeMirror\SimpleReflectionHelper.cs">
       <Link>TypeMirror\SimpleReflectionHelper.cs</Link>
@@ -1631,8 +1607,8 @@
     <Compile Include="..\Typography\Typography.OpenFont\N20\Typography.OpenFont\..\..\NetCore\Typography.OpenFont\Glyph.cs">
       <Link>Typography\Typography.OpenFont\N20\Typography.OpenFont\..\..\NetCore\Typography.OpenFont\Glyph.cs</Link>
     </Compile>
-    <Compile Include="..\Typography\Typography.OpenFont\N20\Typography.OpenFont\..\..\NetCore\Typography.OpenFont\IGlyphPathBuilder.cs">
-      <Link>Typography\Typography.OpenFont\N20\Typography.OpenFont\..\..\NetCore\Typography.OpenFont\IGlyphPathBuilder.cs</Link>
+    <Compile Include="..\Typography\Typography.OpenFont\N20\Typography.OpenFont\..\..\NetCore\Typography.OpenFont\IGlyphTranslator.cs">
+      <Link>Typography\Typography.OpenFont\N20\Typography.OpenFont\..\..\NetCore\Typography.OpenFont\IGlyphTranslator.cs</Link>
     </Compile>
     <Compile Include="..\Typography\Typography.OpenFont\N20\Typography.OpenFont\..\..\NetCore\Typography.OpenFont\IO\ByteOrderSwappingBinaryReader.cs">
       <Link>Typography\Typography.OpenFont\N20\Typography.OpenFont\..\..\NetCore\Typography.OpenFont\IO\ByteOrderSwappingBinaryReader.cs</Link>
@@ -1802,9 +1778,6 @@
     <Compile Include="..\Typography\Typography.Rendering\CurveGen.cs">
       <Link>Typography\Typography.Rendering\CurveGen.cs</Link>
     </Compile>
-    <Compile Include="..\Typography\Typography.Rendering\GlyphAnalysis.cs">
-      <Link>Typography\Typography.Rendering\GlyphAnalysis.cs</Link>
-    </Compile>
     <Compile Include="..\Typography\Typography.Rendering\GlyphAutoFit.cs">
       <Link>Typography\Typography.Rendering\GlyphAutoFit.cs</Link>
     </Compile>
@@ -1813,6 +1786,9 @@
     </Compile>
     <Compile Include="..\Typography\Typography.Rendering\GlyphImages.cs">
       <Link>Typography\Typography.Rendering\GlyphImages.cs</Link>
+    </Compile>
+    <Compile Include="..\Typography\Typography.Rendering\GlyphTranslatorToContour.cs">
+      <Link>Typography\Typography.Rendering\GlyphTranslatorToContour.cs</Link>
     </Compile>
     <Compile Include="..\Typography\Typography.Rendering\Rect.cs">
       <Link>Typography\Typography.Rendering\Rect.cs</Link>
@@ -1826,9 +1802,6 @@
     <Compile Include="..\Win32Utils\NativeWin32MemoryDc.cs">
       <Link>Win32Utils\NativeWin32MemoryDc.cs</Link>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Typography\Typography.OpenFont\N20\Typography.OpenFont\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

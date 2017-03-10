@@ -239,7 +239,7 @@
     <Compile Include="PixelFarm.Drawing.Skia\MiniAggGraphics\SkiaCanvasPainter.cs" />
     <Compile Include="PixelFarm.Drawing.Skia\MiniAggGraphics\SkiaRenderVx.cs" />
     <Compile Include="PixelFarm.Drawing.Skia\MiniAggGraphics\VxsHelper.cs" />
-    <Compile Include="PixelFarm.DrawingCanvas\0_Start\GraphicsPlatform.cs" />
+    <Compile Include="PixelFarm.DrawingCanvas\0_Start\IRootGraphics.cs" />
     <Compile Include="PixelFarm.DrawingCanvas\1_Canvas\Canvas.cs" />
     <Compile Include="PixelFarm.DrawingCanvas\1_Canvas\CanvasOptions.cs" />
     <Compile Include="PixelFarm.DrawingCanvas\1_Canvas\CanvasPainter.cs" />
@@ -350,6 +350,7 @@
     <Compile Include="PixelFarm.MiniOpenTK\OpenTK\Platform\INativeWindow.cs" />
     <Compile Include="PixelFarm.MiniOpenTK\OpenTK\Platform\IPlatformFactory.cs" />
     <Compile Include="PixelFarm.MiniOpenTK\OpenTK\Serialization\XmlIgnoreAttribute.cs" />
+    <Compile Include="PixelFarm.MiniOpenTK\Platform_Egl\Egl.cs" />
     <Compile Include="PixelFarm.OpenTKWinForms\..\TypeMirror\SimpleReflectionHelper.cs" />
     <Compile Include="PixelFarm.OpenTKWinForms\Configuration.cs" />
     <Compile Include="PixelFarm.OpenTKWinForms\Exceptions.cs" />
@@ -379,7 +380,6 @@
     <Compile Include="PixelFarm.OpenTKWinForms\Minimal.cs" />
     <Compile Include="PixelFarm.OpenTKWinForms\NativeWindow.cs" />
     <Compile Include="PixelFarm.OpenTKWinForms\Platform\Egl\AngleProjectEglConfig.cs" />
-    <Compile Include="PixelFarm.OpenTKWinForms\Platform\Egl\Egl.cs" />
     <Compile Include="PixelFarm.OpenTKWinForms\Platform\Egl\EglContext.cs" />
     <Compile Include="PixelFarm.OpenTKWinForms\Platform\Egl\EglGraphicsMode.cs" />
     <Compile Include="PixelFarm.OpenTKWinForms\Platform\Egl\EglMacPlatformFactory.cs" />
@@ -527,10 +527,11 @@
     <Compile Include="PixelFarm.Typography\..\Typography\Typography.MsdfGen\MsdfGen.cs" />
     <Compile Include="PixelFarm.Typography\..\Typography\Typography.MsdfGen\SignedDistance.cs" />
     <Compile Include="PixelFarm.Typography\1_Drawing_Fonts\FontPreview.cs" />
-    <Compile Include="PixelFarm.Typography\1_Drawing_Fonts\GlyphPathBuilderVxs.cs" />
+    <Compile Include="PixelFarm.Typography\1_Drawing_Fonts\GlyphPathBuilder.cs" />
+    <Compile Include="PixelFarm.Typography\1_Drawing_Fonts\GlyphTranslatorToVxs.cs" />
+    <Compile Include="PixelFarm.Typography\1_Drawing_Fonts\HintTechnique.cs" />
     <Compile Include="PixelFarm.Typography\1_Drawing_Fonts\InstalledFontCollection.cs" />
-    <Compile Include="PixelFarm.Typography\1_Drawing_Fonts\MyGlyphPathBuilder.cs" />
-    <Compile Include="PixelFarm.Typography\1_Drawing_Fonts\TextPrinterImpl.cs" />
+    <Compile Include="PixelFarm.Typography\1_Drawing_Fonts\VxsTextPrinter.cs" />
     <Compile Include="PixelFarm.Typography\2_Drawing_Text\ManagedShapingService.cs" />
     <Compile Include="PixelFarm.Typography\2_Drawing_Text\TextShapingAndLayoutService.cs" />
     <Compile Include="PixelFarm.Typography\3_FontFaceImpl\ManagedFontFace.cs" />
@@ -564,7 +565,7 @@
     <Compile Include="Typography\Typography.OpenFont\N20\Typography.OpenFont\..\..\NetCore\Typography.OpenFont\fontcollection\InstalledFont.cs" />
     <Compile Include="Typography\Typography.OpenFont\N20\Typography.OpenFont\..\..\NetCore\Typography.OpenFont\Geometry.cs" />
     <Compile Include="Typography\Typography.OpenFont\N20\Typography.OpenFont\..\..\NetCore\Typography.OpenFont\Glyph.cs" />
-    <Compile Include="Typography\Typography.OpenFont\N20\Typography.OpenFont\..\..\NetCore\Typography.OpenFont\IGlyphPathBuilder.cs" />
+    <Compile Include="Typography\Typography.OpenFont\N20\Typography.OpenFont\..\..\NetCore\Typography.OpenFont\IGlyphTranslator.cs" />
     <Compile Include="Typography\Typography.OpenFont\N20\Typography.OpenFont\..\..\NetCore\Typography.OpenFont\IO\ByteOrderSwappingBinaryReader.cs" />
     <Compile Include="Typography\Typography.OpenFont\N20\Typography.OpenFont\..\..\NetCore\Typography.OpenFont\OpenFontReader.cs" />
     <Compile Include="Typography\Typography.OpenFont\N20\Typography.OpenFont\..\..\NetCore\Typography.OpenFont\Tables.AdvancedLayout\AttachmentListTable.cs" />
@@ -621,10 +622,10 @@
     <Compile Include="Typography\Typography.OpenFont\N20\Typography.OpenFont\..\..\NetCore\Typography.OpenFont\TrueTypeInterperter\InvalidFontException.cs" />
     <Compile Include="Typography\Typography.OpenFont\N20\Typography.OpenFont\..\..\NetCore\Typography.OpenFont\Typeface.cs" />
     <Compile Include="Typography\Typography.Rendering\CurveGen.cs" />
-    <Compile Include="Typography\Typography.Rendering\GlyphAnalysis.cs" />
     <Compile Include="Typography\Typography.Rendering\GlyphAutoFit.cs" />
     <Compile Include="Typography\Typography.Rendering\GlyphFitOutline.cs" />
     <Compile Include="Typography\Typography.Rendering\GlyphImages.cs" />
+    <Compile Include="Typography\Typography.Rendering\GlyphTranslatorToContour.cs" />
     <Compile Include="Typography\Typography.Rendering\Rect.cs" />
     <Compile Include="Win32Utils\MyWin32.cs" />
     <Compile Include="Win32Utils\NativeTextWin32.cs" />

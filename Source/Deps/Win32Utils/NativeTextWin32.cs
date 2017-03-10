@@ -452,11 +452,11 @@ namespace PixelFarm.Drawing.WinGdi
                 if (!winGdiFonFaces.TryGetValue(fontfaceKey, out fontface))
                 {
                     //create new 
-                    fontface = new WinGdiFontFace(f.Name, f.Style);
+                    fontface = new WinGdiFontFace(f);
                     winGdiFonFaces.Add(fontfaceKey, fontface);
                 }
 
-                found = (WinGdiFont)fontface.GetFontAtPointsSize(f.SizeInPoints);
+                found = (WinGdiFont)fontface.GetFontAtPointSize(f.SizeInPoints);
                 registerFonts.Add(key, found);//cache here
             }
             latestFont = f;
@@ -469,40 +469,26 @@ namespace PixelFarm.Drawing.WinGdi
         FontFace nopenTypeFontFace;
         FontStyle style;
         static IFontLoader s_fontLoader;
-        public WinGdiFontFace(string fontName, FontStyle style)
-        {
-            this.style = style;
-            InstalledFontStyle installedStyle = InstalledFontStyle.Regular;
-            switch (style)
-            {
-                default: break;
-                case FontStyle.Bold:
-                    installedStyle = InstalledFontStyle.Bold;
-                    break;
-                case FontStyle.Italic:
-                    installedStyle = InstalledFontStyle.Italic;
-                    break;
-                case FontStyle.Bold | FontStyle.Italic:
-                    installedStyle = InstalledFontStyle.Italic;
-                    break;
-            }
 
+        public WinGdiFontFace(RequestFont f)
+        {
+            this.style = f.Style;
             //resolve
-            InstalledFont foundInstalledFont = s_fontLoader.GetFont(fontName, installedStyle);
+            InstalledFont foundInstalledFont = s_fontLoader.GetFont(f.Name, style.ConvToInstalledFontStyle());
             //TODO: review 
             this.nopenTypeFontFace = OpenFontLoader.LoadFont(
                 foundInstalledFont.FontPath,
-                ScriptLangs.Latin,
-                WriteDirection.LTR);
+                f.ScriptLang,
+                f.WriteDirection);
         }
 
         public static void SetFontLoader(IFontLoader fontLoader)
         {
 
-            //just warning  
+            //warning if duplicate
             if (s_fontLoader != null)
             {
-                // throw new NotSupportedException();
+
             }
             s_fontLoader = fontLoader;
         }
@@ -518,7 +504,7 @@ namespace PixelFarm.Drawing.WinGdi
         {
             get { return nopenTypeFontFace.Name; }
         }
-        public override ActualFont GetFontAtPointsSize(float pointSize)
+        public override ActualFont GetFontAtPointSize(float pointSize)
         {
             //create WinGdiFont 
             return new WinGdiFont(this, pointSize, style);

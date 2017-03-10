@@ -29,14 +29,15 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CurveGen.cs" />
-    <Compile Include="GlyphAutoFit.cs" />
-    <Compile Include="GlyphAnalysis.cs" />
+    <Compile Include="GlyphFitOutlineAnalyzer.cs" />
+    <Compile Include="GlyphTranslatorToContour.cs" />
     <Compile Include="GlyphFitOutline.cs" />
     <Compile Include="GlyphImages.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

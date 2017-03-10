@@ -1,27 +1,17 @@
 ﻿//BSD, 2014-2017, WinterDev 
 
-using System.Runtime.InteropServices;
 using PixelFarm.Drawing.Fonts;
 namespace PixelFarm.Drawing.WinGdi
 {
-    public class WinGdiPlusPlatform : GraphicsPlatform
+    public static class WinGdiPlusPlatform
     {
 
         static WinGdiPlusPlatform()
         {
-             
+
             PixelFarm.Agg.AggBuffMx.SetNaiveBufferImpl(new Win32AggBuffMx());
             //3. set default encoing
             WinGdiTextService.SetDefaultEncoding(System.Text.Encoding.ASCII);
-        }
-        public WinGdiPlusPlatform()
-        {
-        }
-
-      
-        public override Canvas CreateCanvas(int left, int top, int width, int height, CanvasInitParameters canvasInitPars = new CanvasInitParameters())
-        {
-            return new MyGdiPlusCanvas(0, 0, left, top, width, height);
         }
 
         public static void SetFontEncoding(System.Text.Encoding encoding)
@@ -54,13 +44,13 @@ namespace PixelFarm.Drawing.WinGdi
         {
             unsafe
             {
-                fixed (byte* head = &dest[0])
+                fixed (byte* head = &dest[startAt])
                 {
-                    Win32.MyWin32.memset(head, 0, 100);
+                    Win32.MyWin32.memset(head, value, count);
                 }
             }
         }
-        
+
     }
 
 

@@ -44,7 +44,7 @@ namespace PixelFarm.Drawing.Fonts
 
     public delegate InstalledFont FontNotFoundHandler(InstalledFontCollection fontCollection, string fontName, InstalledFontStyle style);
 
-    public class InstalledFontCollection 
+    public class InstalledFontCollection
     {
 
         Dictionary<string, InstalledFont> regular_Fonts = new Dictionary<string, InstalledFont>();
@@ -195,6 +195,26 @@ namespace PixelFarm.Drawing.Fonts
     }
 
 
-
+    public static class FontStyleExtensions
+    {
+        public static InstalledFontStyle ConvToInstalledFontStyle(this FontStyle style)
+        {
+            InstalledFontStyle installedStyle = InstalledFontStyle.Regular;//regular
+            switch (style)
+            {
+                default: break;
+                case FontStyle.Bold:
+                    installedStyle = InstalledFontStyle.Bold;
+                    break;
+                case FontStyle.Italic:
+                    installedStyle = InstalledFontStyle.Italic;
+                    break;
+                case FontStyle.Bold | FontStyle.Italic:
+                    installedStyle = InstalledFontStyle.Italic;
+                    break;
+            }
+            return installedStyle;
+        }
+    }
 
 }
