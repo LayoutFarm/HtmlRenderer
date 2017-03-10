@@ -4,7 +4,7 @@ namespace PixelFarm.Drawing.Fonts
 {
     public enum WriteDirection
     {
-        Unknown,
+         
         /// <summary>
         /// left-to-right
         /// </summary>
