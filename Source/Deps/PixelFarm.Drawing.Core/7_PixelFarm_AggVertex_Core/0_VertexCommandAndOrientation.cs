@@ -27,6 +27,7 @@ namespace PixelFarm.Agg
         //start from move to is 
         MoveTo = 0x04,
         LineTo = 0x05,
+        //TODO: review rename command ...
         P2c = 0x06, // 2nd p for Curve3,Curve4 
         P3c = 0x07, // 3rd p for Curve4 
     }
@@ -58,14 +59,14 @@ namespace PixelFarm.Agg
             //TODO: review here
             return ((int)c & 0x3) >= (int)VertexCmd.Close;
         }
-        
+
         public static bool IsNextPoly(VertexCmd c)
         {
             //?
             return c <= VertexCmd.MoveTo;
         }
 
-        public static void ShortenPath(VertexDistanceList vertexDistanceList, double s, bool closed)
+        internal static void ShortenPath(VertexDistanceList vertexDistanceList, double s, bool closed)
         {
             if (s > 0.0 && vertexDistanceList.Count > 1)
             {
@@ -91,8 +92,7 @@ namespace PixelFarm.Agg
                     d = (prev.dist - s) / prev.dist;
                     double x = prev.x + (last.x - prev.x) * d;
                     double y = prev.y + (last.y - prev.y) * d;
-                    last.x = x;
-                    last.y = y;
+                    last = new VertexDistance(x, y);
                     if (!prev.IsEqual(last))
                     {
                         vertexDistanceList.RemoveLast();

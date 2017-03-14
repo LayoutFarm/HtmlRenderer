@@ -25,7 +25,7 @@ namespace PixelFarm.DrawingGL
         Ellipse ellipse = new Ellipse();
         Stroke _aggStroke = new Stroke(1);
         RequestFont _requestFont;
-        ITextPrinter _textPriner;
+        ITextPrinter _textPrinter;
 
         SmoothingMode _smoothingMode; //smoothing mode of this  painter
         public GLCanvasPainter(CanvasGL2d canvas, int w, int h)
@@ -52,9 +52,9 @@ namespace PixelFarm.DrawingGL
             set
             {
                 _requestFont = value;
-                if (_textPriner != null)
+                if (_textPrinter != null)
                 {
-                    _textPriner.ChangeFont(value);
+                    _textPrinter.ChangeFont(value);
                 }
             }
         }
@@ -93,13 +93,13 @@ namespace PixelFarm.DrawingGL
         }
         public ITextPrinter TextPrinter
         {
-            get { return _textPriner; }
+            get { return _textPrinter; }
             set
             {
-                _textPriner = value;
+                _textPrinter = value;
                 if (value != null && _requestFont != null)
                 {
-                    _textPriner.ChangeFont(this._requestFont);
+                    _textPrinter.ChangeFont(this._requestFont);
                 }
             }
         }
@@ -111,11 +111,7 @@ namespace PixelFarm.DrawingGL
             }
             set
             {
-                _fillColor = value;
-                if (_textPriner != null)
-                {
-                    _textPriner.ChangeFontColor(value);
-                }
+                _fillColor = value; 
             }
         }
         public override int Height
@@ -255,12 +251,30 @@ namespace PixelFarm.DrawingGL
         }
         public override void DrawString(string text, double x, double y)
         {
-            if (_textPriner != null)
+            if (_textPrinter != null)
             {
-                _textPriner.DrawString(text, x, y);
+                _textPrinter.DrawString(text, x, y);
             }
         }
+        public override RenderVxFormattedString CreateRenderVx(string textspan)
+        {
+            var renderVxFmtStr = new GLRenderVxFormattedString(textspan);
+            if (_textPrinter != null)
+            {
+                char[] buffer = textspan.ToCharArray();
+                _textPrinter.PrepareStringForRenderVx(renderVxFmtStr, buffer, 0, buffer.Length);
 
+            }
+            return renderVxFmtStr;
+        }
+        public override void DrawString(RenderVxFormattedString renderVx, double x, double y)
+        {
+            //
+            if (_textPrinter != null)
+            {
+                _textPrinter.DrawString(renderVx, x, y);
+            }
+        }
         public override void Fill(VertexStore vxs)
         {
             _canvas.FillGfxPath(

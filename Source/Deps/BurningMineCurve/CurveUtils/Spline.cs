@@ -1,4 +1,5 @@
-﻿// Copyright (c) 2015 burningmime
+﻿//ZLIB, 2015,burningmime
+// Copyright (c) 2015 burningmime
 // 
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages

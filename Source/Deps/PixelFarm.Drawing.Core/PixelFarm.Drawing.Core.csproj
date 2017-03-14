@@ -59,8 +59,8 @@
     </Compile>
     <Compile Include="5_PixelFarm_Agg\ActualImage.cs" />
     <Compile Include="5_PixelFarm_Agg\PixelFormat.cs" />
+    <Compile Include="9_PixelFarm_AggVertex_More\VertexSource\LineWalker.cs" />
     <Compile Include="ForNet20\ExtensionAttribute.cs" />
-    <Compile Include="1_Drawing\RenderVx.cs" />
     <Compile Include="6_PixelFarm_AggVectorMath\AggBasics.cs" />
     <Compile Include="6_PixelFarm_AggVectorMath\AggMath.cs" />
     <Compile Include="6_PixelFarm_AggVectorMath\AxisAlignedBoundingBox.cs" />
@@ -109,8 +109,6 @@
     <Compile Include="9_PixelFarm_AggVertex_More\VertexSource\BezireCurve.cs" />
     <Compile Include="9_PixelFarm_AggVertex_More\VertexSource\BoundingRect.cs" />
     <Compile Include="9_PixelFarm_AggVertex_More\VertexSource\BSpline.cs" />
-    <Compile Include="9_PixelFarm_AggVertex_More\VertexSource\Contour.cs" />
-    <Compile Include="9_PixelFarm_AggVertex_More\VertexSource\ContourGenerator.cs" />
     <Compile Include="9_PixelFarm_AggVertex_More\VertexSource\CurveFlattener.cs" />
     <Compile Include="9_PixelFarm_AggVertex_More\VertexSource\Curves.cs" />
     <Compile Include="9_PixelFarm_AggVertex_More\VertexSource\Ellipse.cs" />

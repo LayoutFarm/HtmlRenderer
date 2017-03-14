@@ -120,7 +120,9 @@ namespace PixelFarm.DrawingGL
 
             _canvasShareResource.AssignStrokeColorToVar(u_solidColor);
             a_position.LoadPureV4f(vtxs);
-            u_linewidth.SetValue(_canvasShareResource._strokeWidth);
+            //because original stroke width is the width of both side of
+            //the line, but u_linewidth is the half of the strokeWidth
+            u_linewidth.SetValue(_canvasShareResource._strokeWidth / 2f);
             GL.DrawArrays(BeginMode.TriangleStrip, 0, 4);
         }
         public void DrawTriangleStrips(float[] coords, int ncount)
@@ -131,7 +133,9 @@ namespace PixelFarm.DrawingGL
 
             _canvasShareResource.AssignStrokeColorToVar(u_solidColor);
             a_position.LoadPureV4f(coords);
-            u_linewidth.SetValue(_canvasShareResource._strokeWidth);
+            //because original stroke width is the width of both side of
+            //the line, but u_linewidth is the half of the strokeWidth
+            u_linewidth.SetValue(_canvasShareResource._strokeWidth / 2f);
             GL.DrawArrays(BeginMode.TriangleStrip, 0, ncount);
         }
     }

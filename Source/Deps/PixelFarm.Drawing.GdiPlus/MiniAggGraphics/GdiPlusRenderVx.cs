@@ -12,4 +12,11 @@ namespace PixelFarm.Drawing.WinGdi
             this.snap = snap;
         }
     }
+    class WinGdiRenderVxFormattedString : RenderVxFormattedString
+    {
+        public WinGdiRenderVxFormattedString(string str)
+        {
+            this.OriginalString = str;
+        }
+    }
 }

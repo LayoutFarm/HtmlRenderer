@@ -39,6 +39,7 @@
     <Compile Include="MiniAgg.Complements\0_CanvasPainter\AggRenderVx.cs" />
     <Compile Include="MiniAgg.Complements\0_CanvasPainter\Canvas2dExtension.cs" />
     <Compile Include="MiniAgg.Complements\0_CanvasPainter\dbugVertexSourceIO.cs" />
+    <Compile Include="MiniAgg.Complements\0_CanvasPainter\LineDashGenerator.cs" />
     <Compile Include="MiniAgg.Complements\1_Base\BorderDouble.cs" />
     <Compile Include="MiniAgg.Complements\1_Base\ClipProxyImage.cs" />
     <Compile Include="MiniAgg.Complements\1_Base\GammaFuntions.cs" />
@@ -127,7 +128,6 @@
     <Compile Include="PixelFarm.Drawing.Core\1_Drawing\Rectangle.cs" />
     <Compile Include="PixelFarm.Drawing.Core\1_Drawing\RectangleF.cs" />
     <Compile Include="PixelFarm.Drawing.Core\1_Drawing\Region.cs" />
-    <Compile Include="PixelFarm.Drawing.Core\1_Drawing\RenderVx.cs" />
     <Compile Include="PixelFarm.Drawing.Core\5_PixelFarm_Agg\ActualImage.cs" />
     <Compile Include="PixelFarm.Drawing.Core\5_PixelFarm_Agg\PixelFormat.cs" />
     <Compile Include="PixelFarm.Drawing.Core\6_PixelFarm_AggVectorMath\AggBasics.cs" />
@@ -168,11 +168,10 @@
     <Compile Include="PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\BezireCurve.cs" />
     <Compile Include="PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\BoundingRect.cs" />
     <Compile Include="PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\BSpline.cs" />
-    <Compile Include="PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\Contour.cs" />
-    <Compile Include="PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\ContourGenerator.cs" />
     <Compile Include="PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\CurveFlattener.cs" />
     <Compile Include="PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\Curves.cs" />
     <Compile Include="PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\Ellipse.cs" />
+    <Compile Include="PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\LineWalker.cs" />
     <Compile Include="PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\PathWriter.cs" />
     <Compile Include="PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\RoundedRect.cs" />
     <Compile Include="PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\SimpleRect.cs" />
@@ -245,6 +244,7 @@
     <Compile Include="PixelFarm.DrawingCanvas\1_Canvas\CanvasPainter.cs" />
     <Compile Include="PixelFarm.DrawingCanvas\1_Canvas\CanvasPaintToOutputDelegate.cs" />
     <Compile Include="PixelFarm.DrawingCanvas\1_Canvas\KnownColors.cs" />
+    <Compile Include="PixelFarm.DrawingCanvas\1_Canvas\RenderVx.cs" />
     <Compile Include="PixelFarm.DrawingCanvas\2_Drawing\FontStyle.cs" />
     <Compile Include="PixelFarm.DrawingCanvas\2_Drawing\RequestFont.cs" />
     <Compile Include="PixelFarm.DrawingCanvas\3_Drawing_Fonts\ActualFont.cs" />
@@ -516,7 +516,6 @@
     <Compile Include="PixelFarm.Triangulation\x_notused\TriangulationConstraint.cs" />
     <Compile Include="PixelFarm.Typography\..\Typography\FontAtlas\BinPacker.cs" />
     <Compile Include="PixelFarm.Typography\..\Typography\FontAtlas\MsdfGlyphGen.cs" />
-    <Compile Include="PixelFarm.Typography\..\Typography\FontAtlas\MsdfGlyphGenExtension.cs" />
     <Compile Include="PixelFarm.Typography\..\Typography\FontAtlas\SimpleFontAtlas.cs" />
     <Compile Include="PixelFarm.Typography\..\Typography\FontAtlas\SimpleFontAtlasBuilder.cs" />
     <Compile Include="PixelFarm.Typography\..\Typography\Typography.MsdfGen\EdgeColor.cs" />
@@ -529,15 +528,17 @@
     <Compile Include="PixelFarm.Typography\1_Drawing_Fonts\FontPreview.cs" />
     <Compile Include="PixelFarm.Typography\1_Drawing_Fonts\GlyphPathBuilder.cs" />
     <Compile Include="PixelFarm.Typography\1_Drawing_Fonts\GlyphTranslatorToVxs.cs" />
+    <Compile Include="PixelFarm.Typography\1_Drawing_Fonts\HintedVxsGlyphCollection.cs" />
     <Compile Include="PixelFarm.Typography\1_Drawing_Fonts\HintTechnique.cs" />
     <Compile Include="PixelFarm.Typography\1_Drawing_Fonts\InstalledFontCollection.cs" />
     <Compile Include="PixelFarm.Typography\1_Drawing_Fonts\VxsTextPrinter.cs" />
     <Compile Include="PixelFarm.Typography\2_Drawing_Text\ManagedShapingService.cs" />
     <Compile Include="PixelFarm.Typography\2_Drawing_Text\TextShapingAndLayoutService.cs" />
-    <Compile Include="PixelFarm.Typography\3_FontFaceImpl\ManagedFontFace.cs" />
+    <Compile Include="PixelFarm.Typography\3_FontFaceImpl\NOpenFontFace.cs" />
     <Compile Include="PixelFarm.Typography\3_FontFaceImpl\OpenFontLoader.cs" />
-    <Compile Include="PixelFarm.Typography\3_FontFaceImpl\TextureFontFace.cs" />
+    <Compile Include="PixelFarm.Typography\3_FontFaceImpl\ScriptLangConv.cs" />
     <Compile Include="PixelFarm.Typography\3_FontFaceImpl\TextureFontLoader.cs" />
+    <Compile Include="PixelFarm.Typography\6_AggTexture\AggGlyphTextureGen.cs" />
     <Compile Include="Tesselate\ActiveRegion.cs" />
     <Compile Include="Tesselate\Collections\MaxFirstList.cs" />
     <Compile Include="Tesselate\ContourVertex.cs" />
@@ -549,10 +550,11 @@
     <Compile Include="TypeMirror\SimpleReflectionHelper.cs" />
     <Compile Include="Typography\FontAtlas\BinPacker.cs" />
     <Compile Include="Typography\FontAtlas\MsdfGlyphGen.cs" />
-    <Compile Include="Typography\FontAtlas\MsdfGlyphGenExtension.cs" />
     <Compile Include="Typography\FontAtlas\SimpleFontAtlas.cs" />
     <Compile Include="Typography\FontAtlas\SimpleFontAtlasBuilder.cs" />
     <Compile Include="Typography\Typography.GlyphLayout\GlyphLayout.cs" />
+    <Compile Include="Typography\Typography.GlyphLayout\GlyphPosition.cs" />
+    <Compile Include="Typography\Typography.GlyphLayout\GlyphSubtitution.cs" />
     <Compile Include="Typography\Typography.MsdfGen\EdgeColor.cs" />
     <Compile Include="Typography\Typography.MsdfGen\EdgeColoring.cs" />
     <Compile Include="Typography\Typography.MsdfGen\EdgeHolder.cs" />
@@ -622,8 +624,8 @@
     <Compile Include="Typography\Typography.OpenFont\N20\Typography.OpenFont\..\..\NetCore\Typography.OpenFont\TrueTypeInterperter\InvalidFontException.cs" />
     <Compile Include="Typography\Typography.OpenFont\N20\Typography.OpenFont\..\..\NetCore\Typography.OpenFont\Typeface.cs" />
     <Compile Include="Typography\Typography.Rendering\CurveGen.cs" />
-    <Compile Include="Typography\Typography.Rendering\GlyphAutoFit.cs" />
     <Compile Include="Typography\Typography.Rendering\GlyphFitOutline.cs" />
+    <Compile Include="Typography\Typography.Rendering\GlyphFitOutlineAnalyzer.cs" />
     <Compile Include="Typography\Typography.Rendering\GlyphImages.cs" />
     <Compile Include="Typography\Typography.Rendering\GlyphTranslatorToContour.cs" />
     <Compile Include="Typography\Typography.Rendering\Rect.cs" />

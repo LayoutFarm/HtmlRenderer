@@ -12,4 +12,11 @@ namespace PixelFarm.Drawing.Skia
             this.snap = snap;
         }
     }
+    class SkiaRenerVxFormattedString : RenderVxFormattedString
+    {
+        public SkiaRenerVxFormattedString(string str)
+        {
+            this.OriginalString = str;
+        }
+    }
 }

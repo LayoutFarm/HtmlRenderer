@@ -261,11 +261,7 @@ namespace PixelFarm.Agg
 
             this.AddPath(new VertexStoreSnap(vxs));
         }
-        /// <summary>
-        /// use subpixel rendering or not
-        /// </summary>
-        public ScanlineRenderMode ScanlineRenderMode { get; set; }
-
+        public bool ExtendX3ForSubPixelRendering { get; set; }
         /// <summary>
         /// we do NOT store snap ***
         /// </summary>
@@ -290,36 +286,32 @@ namespace PixelFarm.Agg
             int dbugVertexCount = 0;
 #endif
 
-            switch (ScanlineRenderMode)
+            if (ExtendX3ForSubPixelRendering)
             {
-                case ScanlineRenderMode.SubPixelRenderingOfGLES:
-                case ScanlineRenderMode.SubPixelRendering:
-                    while ((cmd = snapIter.GetNextVertex(out x, out y)) != VertexCmd.NoMore)
-                    {
+                while ((cmd = snapIter.GetNextVertex(out x, out y)) != VertexCmd.NoMore)
+                {
 #if DEBUG
-                        dbugVertexCount++;
+                    dbugVertexCount++;
 #endif
-                        //---------------------------------------------
-                        //NOTE: we scale horizontal 3 times.
-                        //subpixel renderer will shrink it to 1 
-                        //---------------------------------------------
-                        AddVertex(cmd, (x + offsetOrgX) * 3, y + offsetOrgY);
-                    }
-                    break;
-                default:
-                    while ((cmd = snapIter.GetNextVertex(out x, out y)) != VertexCmd.NoMore)
-                    {
-#if DEBUG
-                        dbugVertexCount++;
-#endif
-
-                        AddVertex(cmd, x + offsetOrgX, y + offsetOrgY);
-                    }
-                    break;
+                    //---------------------------------------------
+                    //NOTE: we scale horizontal 3 times.
+                    //subpixel renderer will shrink it to 1 
+                    //---------------------------------------------
+                    AddVertex(cmd, (x + offsetOrgX) * 3, y + offsetOrgY);
+                }
             }
+            else
+            {
+                while ((cmd = snapIter.GetNextVertex(out x, out y)) != VertexCmd.NoMore)
+                {
+#if DEBUG
+                    dbugVertexCount++;
+#endif
 
-
-
+                    AddVertex(cmd, x + offsetOrgX, y + offsetOrgY);
+                }
+            }
+             
 
             //            if (snap.VxsHasMoreThanOnePart)
             //            {

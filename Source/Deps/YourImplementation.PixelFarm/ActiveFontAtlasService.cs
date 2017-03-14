@@ -59,7 +59,7 @@ namespace PixelFarm.DrawingGL
                     Typography.OpenFont.Tables.UnicodeLangBits.Thai //eg. Thai, for test with complex script, you can change to your own
                 };
                 //
-                creationParams.textureKind = Typography.Rendering.TextureKind.AggGrayScale;
+                creationParams.textureKind = Typography.Rendering.TextureKind.AggSubPixel;
                 if (font.SizeInPoints >= 4 && font.SizeInPoints <= 14)
                 {
                     creationParams.hintTechnique = Typography.Rendering.HintTechnique.TrueTypeInstruction_VerticalOnly;
