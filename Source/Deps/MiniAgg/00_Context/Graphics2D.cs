@@ -22,13 +22,13 @@ using PixelFarm.Agg.Imaging;
 using PixelFarm.Agg.Transform;
 namespace PixelFarm.Agg
 {
+    
     public abstract class Graphics2D
     {
         protected ActualImage destActualImage;
         protected ScanlineRasterizer sclineRas;
         Affine currentTxMatrix = Affine.IdentityMatrix;
-
-        //------------------------------------------------------------------------
+         
 
         public abstract void SetClippingRect(RectInt rect);
         public abstract RectInt GetClippingRect();

@@ -56,13 +56,17 @@ namespace PixelFarm.Drawing.Fonts
             this._currentFontFilename = resolvedFontFilename;
 
         }
-        public void ChangeFontColor(Color fontColor)
+        public void ChangeFillColor(Color fontColor)
         {
             //change font color
 
 #if DEBUG
             Console.Write("please impl change font color");
 #endif
+        }
+        public void ChangeStrokeColor(Color strokeColor)
+        {
+
         }
         public HintTechnique HintTechnique
         {
@@ -76,25 +80,21 @@ namespace PixelFarm.Drawing.Fonts
 
         public void DrawString(char[] text, int startAt, int len, double x, double y)
         {
+            float ox = canvasPainter.OriginX;
+            float oy = canvasPainter.OriginY;
 
-            //1. update some props..
-
+            //1. update some props.. 
             //2. update current type face
             UpdateTypefaceAndGlyphBuilder();
             Typeface typeface = _glyphPathBuilder.Typeface;
-
             //3. layout glyphs with selected layout technique
             //TODO: review this again, we should use pixel?
 
             float fontSizePoint = this.FontSizeInPoints;
             _outputGlyphPlans.Clear();
             _glyphLayout.Layout(typeface, fontSizePoint, text, startAt, len, _outputGlyphPlans);
-
-            //4. render each glyph
-            float ox = canvasPainter.OriginX;
-            float oy = canvasPainter.OriginY;
+            //4. render each glyph 
             int j = _outputGlyphPlans.Count;
-            
             //---------------------------------------------------
             //consider use cached glyph, to increase performance 
             hintGlyphCollection.SetCacheInfo(typeface, fontSizePoint, this.HintTechnique);
@@ -130,9 +130,73 @@ namespace PixelFarm.Drawing.Fonts
             //restore prev origin
             canvasPainter.SetOrigin(ox, oy);
         }
+        public void DrawString(RenderVxFormattedString renderVx, double x, double y)
+        {
+            float ox = canvasPainter.OriginX;
+            float oy = canvasPainter.OriginY;
 
-        //-----------------------
+            //1. update some props.. 
+            //2. update current type face
+            UpdateTypefaceAndGlyphBuilder();
+            Typeface typeface = _glyphPathBuilder.Typeface;
+            //3. layout glyphs with selected layout technique
+            //TODO: review this again, we should use pixel? 
+            float fontSizePoint = this.FontSizeInPoints;
 
+            RenderVxGlyphPlan[] glyphPlans = renderVx.glyphList;
+            int j = glyphPlans.Length;
+            //---------------------------------------------------
+            //consider use cached glyph, to increase performance 
+            hintGlyphCollection.SetCacheInfo(typeface, fontSizePoint, this.HintTechnique);
+            //---------------------------------------------------
+
+            for (int i = 0; i < j; ++i)
+            {
+                RenderVxGlyphPlan glyphPlan = glyphPlans[i];
+                //-----------------------------------
+                //TODO: review here ***
+                //PERFORMANCE revisit here 
+                //if we have create a vxs we can cache it for later use?
+                //-----------------------------------  
+                VertexStore glyphVxs;
+                if (!hintGlyphCollection.TryGetCacheGlyph(glyphPlan.glyphIndex, out glyphVxs))
+                {
+                    //if not found then create new glyph vxs and cache it
+                    _glyphPathBuilder.SetHintTechnique(this.HintTechnique);
+                    _glyphPathBuilder.BuildFromGlyphIndex(glyphPlan.glyphIndex, fontSizePoint);
+                    //-----------------------------------  
+                    _tovxs.Reset();
+                    _glyphPathBuilder.ReadShapes(_tovxs);
+
+                    //TODO: review here, 
+                    //float pxScale = _glyphPathBuilder.GetPixelScale();
+                    glyphVxs = new VertexStore();
+                    _tovxs.WriteOutput(glyphVxs, _vxsPool);
+                    //
+                    hintGlyphCollection.RegisterCachedGlyph(glyphPlan.glyphIndex, glyphVxs);
+                }
+                canvasPainter.SetOrigin((float)(glyphPlan.x + x), (float)(glyphPlan.y + y));
+                canvasPainter.Fill(glyphVxs);
+            }
+            //restore prev origin
+            canvasPainter.SetOrigin(ox, oy);
+        }
+        public void PrepareStringForRenderVx(RenderVxFormattedString renderVx, char[] text, int startAt, int len)
+        {
+
+            //1. update some props.. 
+            //2. update current type face
+            UpdateTypefaceAndGlyphBuilder();
+            Typeface typeface = _glyphPathBuilder.Typeface;
+            //3. layout glyphs with selected layout technique
+            //TODO: review this again, we should use pixel?
+
+            float fontSizePoint = this.FontSizeInPoints;
+            _outputGlyphPlans.Clear();
+            _glyphLayout.Layout(typeface, fontSizePoint, text, startAt, len, _outputGlyphPlans);
+            TextPrinterHelper.CopyGlyphPlans(renderVx, _outputGlyphPlans);
+
+        }
         string _currentFontFilename = "";
         public PositionTechnique PositionTechnique
         {
@@ -156,8 +220,6 @@ namespace PixelFarm.Drawing.Fonts
                 _glyphLayout.ScriptLang = value;
             }
         }
-
-
         Typeface UpdateTypefaceAndGlyphBuilder()
         {
             //1. update _glyphPathBuilder for current typeface
@@ -181,9 +243,30 @@ namespace PixelFarm.Drawing.Fonts
                 return _glyphPathBuilder.Typeface;
             }
         }
+
+
     }
 
-
+    public static class TextPrinterHelper
+    {
+        public static void CopyGlyphPlans(RenderVxFormattedString renderVx, List<GlyphPlan> glyphPlans)
+        {
+            int n = glyphPlans.Count;
+            //copy 
+            var renderVxGlyphPlans = new RenderVxGlyphPlan[n];
+            for (int i = 0; i < n; ++i)
+            {
+                GlyphPlan glyphPlan = glyphPlans[i];
+                renderVxGlyphPlans[i] = new RenderVxGlyphPlan(
+                    glyphPlan.glyphIndex,
+                    glyphPlan.x,
+                    glyphPlan.y,
+                    glyphPlan.advX
+                    );
+            }
+            renderVx.glyphList = renderVxGlyphPlans;
+        }
+    }
 
 
 }

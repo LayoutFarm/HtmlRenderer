@@ -338,7 +338,7 @@ namespace PixelFarm.Drawing.Fonts
             builder.SetHintTechnique(hintTech);
             //-------------------------------------------------------------
             var atlasBuilder = new SimpleFontAtlasBuilder();
-            atlasBuilder.SetAtlasInfo(TextureKind.AggGrayScale, sizeInPoint);
+            atlasBuilder.SetAtlasInfo(TextureKind.AggSubPixel, sizeInPoint);
             VertexStorePool vxsPool = new VertexStorePool();
             //create agg cavnas
 
@@ -389,12 +389,18 @@ namespace PixelFarm.Drawing.Fonts
                 //create glyph img 
                 ActualImage img = new Agg.ActualImage(w, h, PixelFormat.ARGB32);
                 ImageGraphics2D imgCanvas2d = new Agg.ImageGraphics2D(img);
-                AggCanvasPainter painter = new Agg.AggCanvasPainter(imgCanvas2d);
-                painter.FillColor = Color.Black;
-                painter.StrokeColor = Color.Black;
+                AggCanvasPainter painter = new Agg.AggCanvasPainter(imgCanvas2d); 
+                //we use white glyph on black bg for this texture                
+                painter.Clear(Color.Black); //fill with black
+                painter.FillColor = Color.White;
+                painter.StrokeColor = Color.White; 
+                //--------------------------------------------  
+
                 painter.UseSubPixelRendering = true;
-                painter.Clear(Color.White);
-                //
+                //--------------------------------------------  
+
+
+                //-------------------------------------------- 
                 painter.Fill(glyphVxs);
                 //-------------------------------------------- 
                 var glyphImage = new GlyphImage(w, h);

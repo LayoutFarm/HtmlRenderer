@@ -19,12 +19,17 @@
 //----------------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
+
 namespace PixelFarm.Agg
 {
     class StrokeGenerator
     {
         StrokeMath m_stroker;
-        VertexDistanceList vertexDistanceList;
+        VertexDistanceList _curCurtexDistanceList;
+        Queue<VertexDistanceList> _vertextDistanceListQueue = new Queue<VertexDistanceList>();
+
+
         VertexStore m_out_vertices;
         double m_shorten;
         bool m_closed;
@@ -35,7 +40,6 @@ namespace PixelFarm.Agg
         public StrokeGenerator()
         {
             m_stroker = new StrokeMath();
-            vertexDistanceList = new VertexDistanceList();
             m_out_vertices = new VertexStore();
             m_status = StrokeMath.Status.Init;
         }
@@ -56,8 +60,6 @@ namespace PixelFarm.Agg
             get { return this.m_stroker.InnerJoin; }
             set { this.m_stroker.InnerJoin = value; }
         }
-
-
 
         public double Width
         {
@@ -87,37 +89,49 @@ namespace PixelFarm.Agg
             get { throw new NotSupportedException(); }
             set { throw new NotSupportedException(); }
         }
-
-
-
         public double Shorten
         {
             get { return this.m_shorten; }
             set { this.m_shorten = value; }
         }
         // Vertex Generator Interface
-        public void RemoveAll()
+        public void Reset()
         {
-            vertexDistanceList.Clear();
+            _curCurtexDistanceList = null;
+            if (_curCurtexDistanceList != null)
+            {
+                _curCurtexDistanceList.Clear();
+                _curCurtexDistanceList = null;
+            }
+
+            _vertextDistanceListQueue.Clear();
             m_closed = false;
             m_status = StrokeMath.Status.Init;
-        }
 
+        }
         public void AddVertex(double x, double y, VertexCmd cmd)
         {
             m_status = StrokeMath.Status.Init;
             switch (cmd)
             {
                 case VertexCmd.MoveTo:
-                    vertexDistanceList.ReplaceLast(new VertexDistance(x, y));
+                    if (_curCurtexDistanceList == null)
+                    {
+                        _curCurtexDistanceList = new Agg.VertexDistanceList();
+                    }
+                    else
+                    {
+                        _vertextDistanceListQueue.Enqueue(_curCurtexDistanceList);
+                        _curCurtexDistanceList = new Agg.VertexDistanceList();
+                    }
+                    _curCurtexDistanceList.AddVertex(new VertexDistance(x, y)); 
                     break;
-
                 case VertexCmd.Close:
                 case VertexCmd.CloseAndEndFigure:
                     m_closed = true;
-                    break;               
+                    break;
                 default:
-                    vertexDistanceList.AddVertex(new VertexDistance(x, y));
+                    _curCurtexDistanceList.AddVertex(new VertexDistance(x, y));
                     break;
             }
         }
@@ -128,31 +142,49 @@ namespace PixelFarm.Agg
             double x = 0, y = 0;
             for (;;)
             {
-                var cmd = GetNextVertex(ref x, ref y);
-                outputVxs.AddVertex(x, y, cmd);
+                VertexCmd cmd = GetNextVertex(ref x, ref y); 
                 if (cmd == VertexCmd.NoMore)
                 {
-                    break;
+                    if (_vertextDistanceListQueue.Count > 0)
+                    {
+                        m_status = StrokeMath.Status.Ready;
+                        m_src_vertex = 0;
+                        m_out_vertex = 0;
+                        //switch to first one
+                        _curCurtexDistanceList = _vertextDistanceListQueue.Dequeue();
+                        continue;
+                    }
+                    else
+                    {
+                        break;//exit from loop
+                    }
                 }
+                outputVxs.AddVertex(x, y, cmd);
             }
         }
         void Rewind()
         {
             if (m_status == StrokeMath.Status.Init)
             {
-                vertexDistanceList.Close(m_closed);
-                VertexHelper.ShortenPath(vertexDistanceList, m_shorten, m_closed);
-                if (vertexDistanceList.Count < 3) { m_closed = false; }
+                _curCurtexDistanceList.Close(m_closed);
+                VertexHelper.ShortenPath(_curCurtexDistanceList, m_shorten, m_closed);
+                if (_curCurtexDistanceList.Count < 3) { m_closed = false; }
             }
             m_status = StrokeMath.Status.Ready;
             m_src_vertex = 0;
             m_out_vertex = 0;
+            if (_vertextDistanceListQueue.Count > 0)
+            {
+                _vertextDistanceListQueue.Enqueue(_curCurtexDistanceList);
+                //switch to first one
+                _curCurtexDistanceList = _vertextDistanceListQueue.Dequeue();
+            }
         }
 
         VertexCmd GetNextVertex(ref double x, ref double y)
         {
             VertexCmd cmd = VertexCmd.LineTo;
-            while (!VertexHelper.IsEmpty(cmd))
+            do
             {
                 switch (m_status)
                 {
@@ -161,7 +193,7 @@ namespace PixelFarm.Agg
                         goto case StrokeMath.Status.Ready;
                     case StrokeMath.Status.Ready:
 
-                        if (vertexDistanceList.Count < 2 + (m_closed ? 1 : 0))
+                        if (_curCurtexDistanceList.Count < 2 + (m_closed ? 1 : 0))
                         {
                             cmd = VertexCmd.NoMore;
                             break;
@@ -174,9 +206,9 @@ namespace PixelFarm.Agg
                     case StrokeMath.Status.Cap1:
                         m_stroker.CreateCap(
                             m_out_vertices,
-                            vertexDistanceList[0],
-                            vertexDistanceList[1],
-                            vertexDistanceList[0].dist);
+                            _curCurtexDistanceList[0],
+                            _curCurtexDistanceList[1],
+                            _curCurtexDistanceList[0].dist);
                         m_src_vertex = 1;
                         m_prev_status = StrokeMath.Status.Outline1;
                         m_status = StrokeMath.Status.OutVertices;
@@ -184,66 +216,87 @@ namespace PixelFarm.Agg
                         break;
                     case StrokeMath.Status.Cap2:
                         m_stroker.CreateCap(m_out_vertices,
-                            vertexDistanceList[vertexDistanceList.Count - 1],
-                            vertexDistanceList[vertexDistanceList.Count - 2],
-                            vertexDistanceList[vertexDistanceList.Count - 2].dist);
+                            _curCurtexDistanceList[_curCurtexDistanceList.Count - 1],
+                            _curCurtexDistanceList[_curCurtexDistanceList.Count - 2],
+                            _curCurtexDistanceList[_curCurtexDistanceList.Count - 2].dist);
                         m_prev_status = StrokeMath.Status.Outline2;
                         m_status = StrokeMath.Status.OutVertices;
                         m_out_vertex = 0;
                         break;
                     case StrokeMath.Status.Outline1:
-                        if (m_closed)
                         {
-                            if (m_src_vertex >= vertexDistanceList.Count)
+                            if (m_closed)
                             {
-                                m_prev_status = StrokeMath.Status.CloseFirst;
-                                m_status = StrokeMath.Status.EndPoly1;
-                                break;
+                                if (m_src_vertex >= _curCurtexDistanceList.Count)
+                                {
+                                    m_prev_status = StrokeMath.Status.CloseFirst;
+                                    m_status = StrokeMath.Status.EndPoly1;
+                                    break;
+                                }
                             }
-                        }
-                        else
-                        {
-                            if (m_src_vertex >= vertexDistanceList.Count - 1)
+                            else
                             {
-                                m_status = StrokeMath.Status.Cap2;
-                                break;
+                                if (m_src_vertex >= _curCurtexDistanceList.Count - 1)
+                                {
+                                    m_status = StrokeMath.Status.Cap2;
+                                    break;
+                                }
                             }
-                        }
 
-                        m_stroker.CreateJoin(m_out_vertices,
-                            vertexDistanceList.prev(m_src_vertex),
-                            vertexDistanceList.curr(m_src_vertex),
-                            vertexDistanceList.next(m_src_vertex),
-                            vertexDistanceList.prev(m_src_vertex).dist,
-                            vertexDistanceList.curr(m_src_vertex).dist);
-                        ++m_src_vertex;
-                        m_prev_status = m_status;
-                        m_status = StrokeMath.Status.OutVertices;
-                        m_out_vertex = 0;
+                            VertexDistance prev, cur, next;
+                            _curCurtexDistanceList.GetTripleVertices(m_src_vertex,
+                                out prev,
+                                out cur,
+                                out next);
+                            //check if we should join or not ?
+
+                            //don't join it
+                            m_stroker.CreateJoin(m_out_vertices,
+                           prev,
+                           cur,
+                           next,
+                           prev.dist,
+                           cur.dist);
+
+                            ++m_src_vertex;
+                            m_prev_status = m_status;
+                            m_status = StrokeMath.Status.OutVertices;
+                            m_out_vertex = 0;
+
+                        }
                         break;
                     case StrokeMath.Status.CloseFirst:
                         m_status = StrokeMath.Status.Outline2;
                         cmd = VertexCmd.MoveTo;
                         goto case StrokeMath.Status.Outline2;
                     case StrokeMath.Status.Outline2:
-
-                        if (m_src_vertex <= (!m_closed ? 1 : 0))
                         {
-                            m_status = StrokeMath.Status.EndPoly2;
-                            m_prev_status = StrokeMath.Status.Stop;
-                            break;
-                        }
+                            if (m_src_vertex <= (!m_closed ? 1 : 0))
+                            {
+                                m_status = StrokeMath.Status.EndPoly2;
+                                m_prev_status = StrokeMath.Status.Stop;
+                                break;
+                            }
 
-                        --m_src_vertex;
-                        m_stroker.CreateJoin(m_out_vertices,
-                            vertexDistanceList.next(m_src_vertex),
-                            vertexDistanceList.curr(m_src_vertex),
-                            vertexDistanceList.prev(m_src_vertex),
-                            vertexDistanceList.curr(m_src_vertex).dist,
-                            vertexDistanceList.prev(m_src_vertex).dist);
-                        m_prev_status = m_status;
-                        m_status = StrokeMath.Status.OutVertices;
-                        m_out_vertex = 0;
+                            --m_src_vertex;
+
+                            VertexDistance prev, cur, next;
+                            _curCurtexDistanceList.GetTripleVertices(m_src_vertex,
+                                out prev,
+                                out cur,
+                                out next);
+
+                            m_stroker.CreateJoin(m_out_vertices,
+                              next,
+                              cur,
+                              prev,
+                              cur.dist,
+                              prev.dist);
+                            m_prev_status = m_status;
+                            m_status = StrokeMath.Status.OutVertices;
+                            m_out_vertex = 0;
+
+                        }
                         break;
                     case StrokeMath.Status.OutVertices:
                         if (m_out_vertex >= m_out_vertices.Count)
@@ -271,7 +324,8 @@ namespace PixelFarm.Agg
                         cmd = VertexCmd.NoMore;
                         break;
                 }
-            }
+
+            } while (!VertexHelper.IsEmpty(cmd));
             return cmd;
         }
     }

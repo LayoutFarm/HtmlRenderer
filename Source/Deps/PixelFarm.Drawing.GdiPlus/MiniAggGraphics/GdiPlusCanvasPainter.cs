@@ -369,6 +369,14 @@ namespace PixelFarm.Drawing.WinGdi
             _gfx.ScaleTransform(1.0F, -1.0F);// Flip the Y-Axis
             _gfx.TranslateTransform(0.0F, -(float)Height);// Translate the drawing area accordingly                
         }
+        public override RenderVxFormattedString CreateRenderVx(string textspan)
+        {
+            return new WinGdiRenderVxFormattedString(textspan);
+        }
+        public override void DrawString(RenderVxFormattedString renderVx, double x, double y)
+        {
+            throw new NotImplementedException();
+        }
         /// <summary>
         /// we do NOT store snap/vxs
         /// </summary>
