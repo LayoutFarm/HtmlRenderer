@@ -219,14 +219,19 @@ namespace PixelFarm.DrawingGL
         }
     }
 
-
-
-    public class GLRenderVx : PixelFarm.Drawing.RenderVx
+    class GLRenderVx : PixelFarm.Drawing.RenderVx
     {
         internal InternalGraphicsPath gxpth;
         public GLRenderVx(InternalGraphicsPath gxpth)
         {
             this.gxpth = gxpth;
+        }
+    }
+    class GLRenderVxFormattedString : PixelFarm.Drawing.RenderVxFormattedString
+    {
+        public GLRenderVxFormattedString(string str)
+        {
+            this.OriginalString = str;
         }
     }
 }

@@ -149,6 +149,10 @@ namespace OpenTK.Graphics.ES20
         {
             GL.Uniform1(this.location, value);
         }
+        public void SetValue(bool value)
+        {
+            GL.Uniform1(this.location, value ? 1 : 0);
+        }
     }
     public struct ShaderUniformVar2
     {

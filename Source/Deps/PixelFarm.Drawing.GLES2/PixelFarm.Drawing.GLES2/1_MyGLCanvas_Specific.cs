@@ -15,8 +15,7 @@ namespace PixelFarm.Drawing.GLES2
         bool isDisposed;
         Stack<Rectangle> clipRectStack = new Stack<Rectangle>();
         Rectangle currentClipRect;
-        Color currentTextColor;
-
+        
         public MyGLCanvas(
            GLCanvasPainter painter, //*** we wrap around GLCanvasPainter ***
            int left, int top,

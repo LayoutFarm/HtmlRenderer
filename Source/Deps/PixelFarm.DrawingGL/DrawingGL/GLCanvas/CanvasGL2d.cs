@@ -16,6 +16,7 @@ namespace PixelFarm.DrawingGL
         RectFillShader rectFillShader;
         GdiImageTextureShader gdiImgTextureShader;
         GdiImageTextureWithWhiteTransparentShader gdiImgTextureWithWhiteTransparentShader;
+        ImageTextureWithSubPixelRenderingShader textureSubPixRendering;
         OpenGLESTextureShader glesTextureShader;
         BlurShader blurShader;
         Conv3x3TextureShader conv3x3TextureShader;
@@ -58,6 +59,7 @@ namespace PixelFarm.DrawingGL
             rectFillShader = new RectFillShader(shaderRes);
             gdiImgTextureShader = new GdiImageTextureShader(shaderRes);
             gdiImgTextureWithWhiteTransparentShader = new GdiImageTextureWithWhiteTransparentShader(shaderRes);
+            textureSubPixRendering = new ImageTextureWithSubPixelRenderingShader(shaderRes);
             blurShader = new BlurShader(shaderRes);
             glesTextureShader = new OpenGLESTextureShader(shaderRes);
             invertAlphaFragmentShader = new InvertAlphaLineSmoothShader(shaderRes); //used with stencil  ***
@@ -81,10 +83,15 @@ namespace PixelFarm.DrawingGL
             //GL.CullFace(CullFaceMode.Back); 
 
             GL.Enable(EnableCap.Blend);
-            GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+            GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);//original **
+
+            //GL.BlendFunc(BlendingFactorSrc.SrcColor, BlendingFactorDest.One);// not apply alpha to src
+            //GL.BlendFuncSeparate(BlendingFactorSrc.SrcColor, BlendingFactorDest.OneMinusSrcAlpha,
+            //                     BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+            //GL.BlendFuncSeparate(BlendingFactorSrc.SrcColor, BlendingFactorDest.OneMinusSrcColor, BlendingFactorSrc.SrcAlpha, BlendingFactorDest.Zero);
+
             GL.ClearColor(1, 1, 1, 1);
             //-------------------------------------------------------------------------------
-
             GL.Viewport(0, 0, canvasW, canvasH);
         }
 
@@ -171,7 +178,7 @@ namespace PixelFarm.DrawingGL
             get { return shaderRes._strokeWidth; }
             set
             {
-                shaderRes._strokeWidth = value / 2;
+                shaderRes._strokeWidth = value;
             }
         }
         public Drawing.Color StrokeColor
@@ -197,7 +204,7 @@ namespace PixelFarm.DrawingGL
                         else
                         {
                             //TODO: review stroke with for smooth line shader again
-                            shaderRes._strokeWidth = this.StrokeWidth / 2;
+                            shaderRes._strokeWidth = this.StrokeWidth;
                             this.smoothLineShader.DrawLine(x1, y1, x2, y2);
                         }
                     }
@@ -280,11 +287,11 @@ namespace PixelFarm.DrawingGL
         {
             if (bmp.IsBigEndianPixel)
             {
-                msdfShader.RenderSubImage(bmp, coords, scale);
+                msdfShader.RenderSubImages(bmp, coords, scale);
             }
             else
             {
-                msdfShader.RenderSubImage(bmp, coords, scale);
+                msdfShader.RenderSubImages(bmp, coords, scale);
             }
         }
         public void DrawImage(GLBitmap bmp,
@@ -300,9 +307,63 @@ namespace PixelFarm.DrawingGL
                 gdiImgTextureShader.Render(bmp, x, y, w, h);
             }
         }
-        public void DrawImageWithWhiteTransparent(GLBitmap bmp, float x, float y)
+        /// <summary>
+        /// draw glyph image with transparent
+        /// </summary>
+        /// <param name="bmp"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        public void DrawGlyphImage(GLBitmap bmp, float x, float y)
         {
             this.gdiImgTextureWithWhiteTransparentShader.Render(bmp, x, y, bmp.Width, bmp.Height);
+        }
+        /// <summary>
+        /// draw glyph image with transparent
+        /// </summary>
+        /// <param name="bmp"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        public void DrawGlyphImageWithSubPixelRenderingTechnique(GLBitmap bmp, float x, float y)
+        {
+            PixelFarm.Drawing.Rectangle r = new Drawing.Rectangle(0, bmp.Height, bmp.Width, bmp.Height);
+            DrawGlyphImageWithSubPixelRenderingTechnique(bmp, ref r, x, y, 1);
+        }
+        public PixelFarm.Drawing.Color FontFillColor { get; set; }
+        public void DrawGlyphImageWithSubPixelRenderingTechnique(
+            GLBitmap bmp,
+            ref PixelFarm.Drawing.Rectangle r,
+            float targetLeft,
+            float targetTop,
+            float scale)
+        {
+
+            if (bmp.IsBigEndianPixel)
+            {
+                throw new NotSupportedException();
+            }
+            else
+            {
+                textureSubPixRendering.IsBigEndian = bmp.IsBigEndianPixel;
+                textureSubPixRendering.SetColor(this.FontFillColor);
+                textureSubPixRendering.SetCompo(1);
+
+                //draw a serie of image***
+                //-------------------------
+                //1. load once
+                textureSubPixRendering.LoadGLBitmap(bmp);
+                //2. b , cyan result
+                GL.ColorMask(false, false, true, false);
+                textureSubPixRendering.DrawSubImage(r.Left, r.Top, r.Width, r.Height, targetLeft - (1 / 3f), targetTop);
+                //3. g , magenta result
+                GL.ColorMask(false, true, false, false);
+                textureSubPixRendering.DrawSubImage(r.Left, r.Top, r.Width, r.Height, targetLeft, targetTop);
+                //4. r , yellow result
+                GL.ColorMask(true, false, false, false);//             
+                textureSubPixRendering.DrawSubImage(r.Left, r.Top, r.Width, r.Height, targetLeft + (1 / 3f), targetTop);
+                //enable all color component
+                GL.ColorMask(true, true, true, true);
+            }
+
         }
         public void DrawImage(GLBitmapReference bmp, float x, float y)
         {

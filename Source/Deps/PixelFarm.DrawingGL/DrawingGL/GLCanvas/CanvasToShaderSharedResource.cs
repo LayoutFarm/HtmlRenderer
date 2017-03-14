@@ -7,8 +7,11 @@ namespace PixelFarm.DrawingGL
     /// </summary>
     class CanvasToShaderSharedResource
     {
+        /// <summary>
+        /// stroke width here is the sum of both side of the line.
+        /// </summary>
         internal float _strokeWidth = 1;
-        Drawing.Color _strokeColor;         
+        Drawing.Color _strokeColor;
         OpenTK.Graphics.ES20.MyMat4 _orthoView;
         internal ShaderBase _currentShader;
         int _orthoViewVersion = 0;
