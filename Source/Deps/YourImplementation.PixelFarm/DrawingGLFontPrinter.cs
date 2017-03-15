@@ -129,29 +129,83 @@ namespace PixelFarm.DrawingGL
     }
 
 
+    delegate GLBitmap LoadNewGLBitmapDel<T>(T src);
 
+    class GLBitmapCache<T> : IDisposable
+    {
+        Dictionary<T, GLBitmap> _loadedGLBmps = new Dictionary<T, GLBitmap>();
+        LoadNewGLBitmapDel<T> _loadNewGLBmpDel;
+        public GLBitmapCache(LoadNewGLBitmapDel<T> loadNewGLBmpDel)
+        {
+            _loadNewGLBmpDel = loadNewGLBmpDel;
+        }
+        public GLBitmap GetOrCreateNewOne(T key)
+        {
+            GLBitmap found;
+            if (!_loadedGLBmps.TryGetValue(key, out found))
+            {
+
+                return _loadedGLBmps[key] = _loadNewGLBmpDel(key);
+            }
+            return found;
+        }
+        public void Dispose()
+        {
+            Clear();
+        }
+        public void Clear()
+        {
+            foreach (GLBitmap glbmp in _loadedGLBmps.Values)
+            {
+                glbmp.Dispose();
+            }
+            _loadedGLBmps.Clear();
+        }
+        public void Delete(T key)
+        {
+            GLBitmap found;
+            if (_loadedGLBmps.TryGetValue(key, out found))
+            {
+                found.Dispose();
+                _loadedGLBmps.Remove(key);
+            }
+        }
+    }
 
     public class GLBmpGlyphTextPrinter : ITextPrinter, IDisposable
     {
+
+        GLBitmapCache<SimpleFontAtlas> _loadedGlyphs;
+
+        //--------
         GlyphLayout _glyphLayout = new GlyphLayout();
         CanvasGL2d canvas2d;
         GLCanvasPainter painter;
         SimpleFontAtlas simpleFontAtlas;
         IFontLoader _fontLoader;
         GLBitmap _glBmp;
-
         RequestFont font;
-      
+
         public GLBmpGlyphTextPrinter(GLCanvasPainter painter, IFontLoader fontLoader)
         {
             //create text printer for use with canvas painter
+
+
             this.painter = painter;
             this.canvas2d = painter.Canvas;
             _fontLoader = fontLoader;
-            //------
             ChangeFont(painter.CurrentFont);
             this._glyphLayout.ScriptLang = painter.CurrentFont.GetOpenFontScriptLang();
 
+           _loadedGlyphs = new GLBitmapCache<SimpleFontAtlas>(atlas =>
+           {
+               //create new one
+               Typography.Rendering.GlyphImage totalGlyphImg = atlas.TotalGlyph;
+               //load to glbmp 
+               GLBitmap found = new GLBitmap(totalGlyphImg.Width, totalGlyphImg.Height, totalGlyphImg.GetImageBuffer(), false);
+               found.IsInvert = false;
+               return found;
+           });
         }
         public void ChangeFillColor(Color color)
         {
@@ -175,11 +229,7 @@ namespace PixelFarm.DrawingGL
             if (foundFontAtlas != this.simpleFontAtlas)
             {
                 //change to another font atlas
-                if (_glBmp != null)
-                {
-                    _glBmp.Dispose();
-                    _glBmp = null;
-                }
+                _glBmp = null;
                 this.simpleFontAtlas = foundFontAtlas;
             }
 
@@ -191,6 +241,8 @@ namespace PixelFarm.DrawingGL
         }
         public void Dispose()
         {
+            _loadedGlyphs.Clear();
+
             if (_glBmp != null)
             {
                 _glBmp.Dispose();
@@ -210,15 +262,9 @@ namespace PixelFarm.DrawingGL
 
         void EnsureLoadGLBmp()
         {
-            //PERF:
-            //TODO: review here, can we cache the glbmp for later use
-            //not to create it every time 
             if (_glBmp == null)
             {
-                Typography.Rendering.GlyphImage totalGlyphImg = simpleFontAtlas.TotalGlyph;
-                //load to glbmp 
-                _glBmp = new GLBitmap(totalGlyphImg.Width, totalGlyphImg.Height, totalGlyphImg.GetImageBuffer(), false);
-                _glBmp.IsInvert = false;
+                _glBmp = _loadedGlyphs.GetOrCreateNewOne(simpleFontAtlas);
             }
         }
         public void DrawString(char[] buffer, int startAt, int len, double x, double y)
@@ -290,6 +336,9 @@ namespace PixelFarm.DrawingGL
 
             for (int i = 0; i < n; ++i)
             {
+                //PERF:
+                //TODO: 
+                //render a set of glyph instead of one glyph per time ***
                 RenderVxGlyphPlan glyph = glyphPlans[i];
                 Typography.Rendering.TextureFontGlyphData glyphData;
                 if (!simpleFontAtlas.TryGetGlyphDataByCodePoint(glyph.glyphIndex, out glyphData))

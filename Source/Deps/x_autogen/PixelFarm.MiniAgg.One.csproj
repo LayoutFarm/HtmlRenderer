@@ -389,9 +389,6 @@
     <Compile Include="..\PixelFarm.Drawing.Core\7_PixelFarm_AggVertex_Core\StrokeMath.cs">
       <Link>PixelFarm.Drawing.Core\7_PixelFarm_AggVertex_Core\StrokeMath.cs</Link>
     </Compile>
-    <Compile Include="..\PixelFarm.Drawing.Core\7_PixelFarm_AggVertex_Core\VertexDistanceList.cs">
-      <Link>PixelFarm.Drawing.Core\7_PixelFarm_AggVertex_Core\VertexDistanceList.cs</Link>
-    </Compile>
     <Compile Include="..\PixelFarm.Drawing.Core\8_PixelFarm_AggTransforms\0_ICoordTransformer.cs">
       <Link>PixelFarm.Drawing.Core\8_PixelFarm_AggTransforms\0_ICoordTransformer.cs</Link>
     </Compile>

@@ -154,7 +154,6 @@
     <Compile Include="PixelFarm.Drawing.Core\7_PixelFarm_AggVertex_Core\Stroke.cs" />
     <Compile Include="PixelFarm.Drawing.Core\7_PixelFarm_AggVertex_Core\StrokeGenerator.cs" />
     <Compile Include="PixelFarm.Drawing.Core\7_PixelFarm_AggVertex_Core\StrokeMath.cs" />
-    <Compile Include="PixelFarm.Drawing.Core\7_PixelFarm_AggVertex_Core\VertexDistanceList.cs" />
     <Compile Include="PixelFarm.Drawing.Core\8_PixelFarm_AggTransforms\0_ICoordTransformer.cs" />
     <Compile Include="PixelFarm.Drawing.Core\8_PixelFarm_AggTransforms\1_Affine.cs" />
     <Compile Include="PixelFarm.Drawing.Core\8_PixelFarm_AggTransforms\2_Bilinear.cs" />
