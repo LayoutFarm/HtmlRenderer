@@ -53,7 +53,7 @@ namespace LayoutFarm.Demo
         /// used ignore html editor updates when updating seperatly
         /// </summary>
         private bool _updateLock;
-        PixelFarm.Drawing.GraphicsPlatform graphicsPlatform;
+         
         LayoutFarm.HtmlBoxes.HtmlHost htmlHost;
         string htmlRootFolder;
         /// <summary>
@@ -61,7 +61,7 @@ namespace LayoutFarm.Demo
         /// </summary>
         public DemoForm()
         {
-            this.graphicsPlatform = null;
+            
             this._htmlPanel = new LayoutFarm.Demo.HtmlPanel();
             this.htmlHost = new LayoutFarm.HtmlBoxes.HtmlHost();
             htmlHost.AttachEssentailHandlers(

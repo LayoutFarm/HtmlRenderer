@@ -6,7 +6,7 @@ namespace LayoutFarm.Dev
 {
     public partial class FormDemoList : Form
     {
-         
+
 
         public FormDemoList()
         {
@@ -17,7 +17,7 @@ namespace LayoutFarm.Dev
             this.cmbPlatformSelector.Items.Add(InnerViewportKind.Skia);
             this.cmbPlatformSelector.Items.Add(InnerViewportKind.GL);
             this.cmbPlatformSelector.SelectedIndex = 0;//set default
-            
+
 
         }
         public TreeView SamplesTreeView
@@ -115,7 +115,7 @@ namespace LayoutFarm.Dev
               innerViewportKind,
               out viewport);
 
-            formCanvas.Text = "FormCanvas 1";
+            formCanvas.Text = "FormCanvas 1 :" + innerViewportKind;
 
             viewport.PaintMe();
 

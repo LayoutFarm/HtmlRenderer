@@ -51,10 +51,8 @@ namespace PixelFarm.Drawing.Text
                     {
                         //finish , just return
                         return;
-                    }
-                    GlyphPlan plan = new GlyphPlan((ushort)propGlyph.codepoint);
-                    plan.advX = propGlyph.x_advance;
-                    glyphPlans.Add(plan);
+                    } 
+                    glyphPlans.Add(new GlyphPlan((ushort)propGlyph.codepoint, 0, 0, propGlyph.x_advance));
                 }
 
             }
@@ -82,7 +80,7 @@ namespace PixelFarm.Drawing.Text
             }
 
             //check if we have native fontface for this font?                
-            nativeFont = (NativeFont)nativeFontFace.GetFontAtPointsSize(actualFont.SizeInPoints);
+            nativeFont = (NativeFont)nativeFontFace.GetFontAtPointSize(actualFont.SizeInPoints);
             specificFontSize.Add(key, nativeFont);
             return nativeFont;
         }

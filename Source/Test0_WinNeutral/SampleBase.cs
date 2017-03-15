@@ -33,7 +33,9 @@ namespace OpenTkEssTest
         }
         protected void SetPrinter(PixelFarm.DrawingGL.GLCanvasPainter painter)
         {
-            var textPrinter = new PixelFarm.DrawingGL.AggFontPrinter(painter, 100, 20);
+
+            //var textPrinter = new PixelFarm.DrawingGL.GLBmpGlyphTextPrinter(painter, YourImplementation.BootStrapOpenGLES2.myFontLoader);
+            var textPrinter = new PixelFarm.DrawingGL.AggTextSpanPrinter(painter, 100, 20);
             painter.TextPrinter = textPrinter;
         }
         //protected static PixelFarm.DrawingGL.GLBitmap LoadTexture(string imgFileName)

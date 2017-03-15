@@ -182,7 +182,9 @@ namespace TestGlfw
             lionFill.Init2(canvasGL2d);
             GLCanvasPainter painter1 = lionFill.Painter;
 
-            var myCanvasGL = PixelFarm.Drawing.GLES2.GLES2Platform.CreateCanvas2(0, 0, 800, 600, canvasGL2d, painter1);
+            var myCanvasGL = new PixelFarm.Drawing.GLES2.MyGLCanvas(painter1, 0, 0, 800, 600);
+            //(PixelFarm.Drawing.GLES2.GLES2Platform.CreateCanvas(0, 0, 800, 600, canvasGL2d, painter1);
+
             surfaceViewportControl.SetupCanvas(myCanvasGL);
 
             SampleViewport viewport = new LayoutFarm.SampleViewport(surfaceViewportControl);

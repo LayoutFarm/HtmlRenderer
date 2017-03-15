@@ -18,8 +18,7 @@ namespace PixelFarm.Drawing.GLES2
     partial class MyGLCanvas
     {
         //TODO: review drawstring again ***
-
-        Color mycurrentTextColor = Color.Black;
+        Color _currentTextColor;
         public override RequestFont CurrentFont
         {
             get
@@ -31,47 +30,34 @@ namespace PixelFarm.Drawing.GLES2
                 painter1.CurrentFont = value;
             }
         }
+        /// <summary>
+        /// current text fill color
+        /// </summary>
         public override Color CurrentTextColor
         {
             get
             {
-                return mycurrentTextColor;
+                return _currentTextColor;
             }
             set
             {
-                this.currentTextColor = value;
+                this._currentTextColor = value;
+                //set this to 
+                painter1.TextPrinter.ChangeFillColor(value);
             }
         }
         public override void DrawText(char[] buffer, int x, int y)
         {
-            painter1.TextPrinter.DrawString(buffer, x, y);
-            //var tmpColor = this.internalSolidBrush.Color;
-            //internalSolidBrush.Color = this.currentTextColor;
-            //gx.DrawString(new string(buffer),
-            //    (System.Drawing.Font)this.currentTextFont.InnerFont,
-            //    internalSolidBrush, new System.Drawing.PointF(x, y));
-            //internalSolidBrush.Color = tmpColor;
+            painter1.TextPrinter.DrawString(buffer, 0, buffer.Length, x, this.Height - y);
         }
         public override void DrawText(char[] buffer, Rectangle logicalTextBox, int textAlignment)
         {
-            //TODO: review again
-            painter1.TextPrinter.DrawString(buffer, logicalTextBox.X, logicalTextBox.Y);
-            //var tmpColor = this.internalSolidBrush.Color;
-            //internalSolidBrush.Color = this.currentTextColor;
-            //gx.DrawString(new string(buffer),
-            //    (System.Drawing.Font)this.currentTextFont.InnerFont,
-            //    internalSolidBrush,
-            //    new System.Drawing.RectangleF(
-            //        logicalTextBox.X,
-            //        logicalTextBox.Y,
-            //        logicalTextBox.Width,
-            //        logicalTextBox.Height));
-            //internalSolidBrush.Color = tmpColor;
+            painter1.TextPrinter.DrawString(buffer, 0, buffer.Length, logicalTextBox.X, this.Height - logicalTextBox.Y);
         }
         public override void DrawText(char[] str, int startAt, int len, Rectangle logicalTextBox, int textAlignment)
         {
             //TODO: review again
-            painter1.TextPrinter.DrawString(str, logicalTextBox.X, logicalTextBox.Y+30);
+            painter1.TextPrinter.DrawString(str, startAt, len, logicalTextBox.X, this.Height - logicalTextBox.Y);
             //TODO: review here
             //painter1.FillRectangle(0, 0, 20, 20, Color.Red);
 

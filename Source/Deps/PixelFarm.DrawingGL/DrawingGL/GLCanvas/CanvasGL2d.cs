@@ -16,6 +16,7 @@ namespace PixelFarm.DrawingGL
         RectFillShader rectFillShader;
         GdiImageTextureShader gdiImgTextureShader;
         GdiImageTextureWithWhiteTransparentShader gdiImgTextureWithWhiteTransparentShader;
+        ImageTextureWithSubPixelRenderingShader textureSubPixRendering;
         OpenGLESTextureShader glesTextureShader;
         BlurShader blurShader;
         Conv3x3TextureShader conv3x3TextureShader;
@@ -58,6 +59,7 @@ namespace PixelFarm.DrawingGL
             rectFillShader = new RectFillShader(shaderRes);
             gdiImgTextureShader = new GdiImageTextureShader(shaderRes);
             gdiImgTextureWithWhiteTransparentShader = new GdiImageTextureWithWhiteTransparentShader(shaderRes);
+            textureSubPixRendering = new ImageTextureWithSubPixelRenderingShader(shaderRes);
             blurShader = new BlurShader(shaderRes);
             glesTextureShader = new OpenGLESTextureShader(shaderRes);
             invertAlphaFragmentShader = new InvertAlphaLineSmoothShader(shaderRes); //used with stencil  ***
@@ -81,10 +83,15 @@ namespace PixelFarm.DrawingGL
             //GL.CullFace(CullFaceMode.Back); 
 
             GL.Enable(EnableCap.Blend);
-            GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+            GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);//original **
+
+            //GL.BlendFunc(BlendingFactorSrc.SrcColor, BlendingFactorDest.One);// not apply alpha to src
+            //GL.BlendFuncSeparate(BlendingFactorSrc.SrcColor, BlendingFactorDest.OneMinusSrcAlpha,
+            //                     BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+            //GL.BlendFuncSeparate(BlendingFactorSrc.SrcColor, BlendingFactorDest.OneMinusSrcColor, BlendingFactorSrc.SrcAlpha, BlendingFactorDest.Zero);
+
             GL.ClearColor(1, 1, 1, 1);
             //-------------------------------------------------------------------------------
-
             GL.Viewport(0, 0, canvasW, canvasH);
         }
 
@@ -190,7 +197,16 @@ namespace PixelFarm.DrawingGL
                     break;
                 default:
                     {
-                        this.basicFillShader.DrawLine(x1, y1, x2, y2, StrokeColor);
+                        if (StrokeWidth == 1)
+                        {
+                            this.basicFillShader.DrawLine(x1, y1, x2, y2, StrokeColor);
+                        }
+                        else
+                        {
+                            //TODO: review stroke with for smooth line shader again
+                            shaderRes._strokeWidth = this.StrokeWidth;
+                            this.smoothLineShader.DrawLine(x1, y1, x2, y2);
+                        }
                     }
                     break;
             }
@@ -234,6 +250,17 @@ namespace PixelFarm.DrawingGL
                 gdiImgTextureShader.RenderSubImage(bmp, r.Left, r.Top, r.Width, r.Height, targetLeft, targetTop);
             }
         }
+        public void DrawSubImage(GLBitmap bmp, ref PixelFarm.Drawing.Rectangle r, float targetLeft, float targetTop, float scale)
+        {
+            if (bmp.IsBigEndianPixel)
+            {
+                glesTextureShader.RenderSubImage(bmp, r.Left, r.Top, r.Width, r.Height, targetLeft, targetTop);
+            }
+            else
+            {
+                gdiImgTextureShader.RenderSubImage(bmp, r.Left, r.Top, r.Width, r.Height, targetLeft, targetTop);
+            }
+        }
         public void DrawSubImageWithMsdf(GLBitmap bmp, ref PixelFarm.Drawing.Rectangle r, float targetLeft, float targetTop)
         {
             if (bmp.IsBigEndianPixel)
@@ -260,11 +287,11 @@ namespace PixelFarm.DrawingGL
         {
             if (bmp.IsBigEndianPixel)
             {
-                msdfShader.RenderSubImage(bmp, coords, scale);
+                msdfShader.RenderSubImages(bmp, coords, scale);
             }
             else
             {
-                msdfShader.RenderSubImage(bmp, coords, scale);
+                msdfShader.RenderSubImages(bmp, coords, scale);
             }
         }
         public void DrawImage(GLBitmap bmp,
@@ -280,9 +307,71 @@ namespace PixelFarm.DrawingGL
                 gdiImgTextureShader.Render(bmp, x, y, w, h);
             }
         }
-        public void DrawImageWithWhiteTransparent(GLBitmap bmp, float x, float y)
+        /// <summary>
+        /// draw glyph image with transparent
+        /// </summary>
+        /// <param name="bmp"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        public void DrawGlyphImage(GLBitmap bmp, float x, float y)
         {
             this.gdiImgTextureWithWhiteTransparentShader.Render(bmp, x, y, bmp.Width, bmp.Height);
+        }
+        /// <summary>
+        /// draw glyph image with transparent
+        /// </summary>
+        /// <param name="bmp"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        public void DrawGlyphImageWithSubPixelRenderingTechnique(GLBitmap bmp, float x, float y)
+        {
+            PixelFarm.Drawing.Rectangle r = new Drawing.Rectangle(0, bmp.Height, bmp.Width, bmp.Height);
+            DrawGlyphImageWithSubPixelRenderingTechnique(bmp, ref r, x, y, 1);
+        }
+        public PixelFarm.Drawing.Color FontFillColor { get; set; }
+        public void DrawGlyphImageWithSubPixelRenderingTechnique(
+            GLBitmap bmp,
+            ref PixelFarm.Drawing.Rectangle r,
+            float targetLeft,
+            float targetTop,
+            float scale)
+        {
+
+            if (bmp.IsBigEndianPixel)
+            {
+                throw new NotSupportedException();
+            }
+            else
+            {
+                textureSubPixRendering.LoadGLBitmap(bmp);
+                textureSubPixRendering.IsBigEndian = bmp.IsBigEndianPixel;
+                textureSubPixRendering.SetColor(this.FontFillColor);
+                textureSubPixRendering.SetIntensity(1.15f);
+                //-------------------------
+                //draw a serie of image***
+                //-------------------------
+
+                //1. B , cyan result
+                GL.ColorMask(false, false, true, false);
+                textureSubPixRendering.SetCompo(0); 
+                textureSubPixRendering.DrawSubImage(r.Left, r.Top, r.Width, r.Height, targetLeft, targetTop);
+                //float subpixel_shift = 1 / 9f;
+                //textureSubPixRendering.DrawSubImage(r.Left, r.Top, r.Width, r.Height, targetLeft - subpixel_shift, targetTop); //TODO: review this option
+                //---------------------------------------------------
+                //2. G , magenta result
+                GL.ColorMask(false, true, false, false);
+                textureSubPixRendering.SetCompo(1); 
+                textureSubPixRendering.DrawSubImage(r.Left, r.Top, r.Width, r.Height, targetLeft, targetTop);
+                //textureSubPixRendering.DrawSubImage(r.Left, r.Top, r.Width, r.Height, targetLeft, targetTop); //TODO: review this option
+                //1. R , yellow result 
+                textureSubPixRendering.SetCompo(2);
+                GL.ColorMask(true, false, false, false);//             
+                textureSubPixRendering.DrawSubImage(r.Left, r.Top, r.Width, r.Height, targetLeft, targetTop);
+                //textureSubPixRendering.DrawSubImage(r.Left, r.Top, r.Width, r.Height, targetLeft + subpixel_shift, targetTop); //TODO: review this option
+                //enable all color component
+                GL.ColorMask(true, true, true, true);
+            }
+
         }
         public void DrawImage(GLBitmapReference bmp, float x, float y)
         {
@@ -410,7 +499,7 @@ namespace PixelFarm.DrawingGL
                         List<Figure> figures = igpth.figures;
                         int subPathCount = figures.Count;
                         float prevWidth = StrokeWidth;
-                         
+
                         StrokeColor = color;
                         StrokeWidth = 0.5f;
                         for (int i = 0; i < subPathCount; ++i)
@@ -419,7 +508,7 @@ namespace PixelFarm.DrawingGL
                             float[] tessArea = f.GetAreaTess(ref this.tessTool);
                             if (tessArea != null)
                             {
-                                basicFillShader.FillTriangles(tessArea, f.TessAreaTriangleCount, color);                                 
+                                basicFillShader.FillTriangles(tessArea, f.TessAreaTriangleCount, color);
                                 smoothLineShader.DrawTriangleStrips(f.GetSmoothBorders(), f.BorderTriangleStripCount);
                             }
                         }

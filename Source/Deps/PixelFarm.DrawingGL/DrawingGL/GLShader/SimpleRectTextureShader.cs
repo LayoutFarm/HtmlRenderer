@@ -27,103 +27,18 @@ namespace PixelFarm.DrawingGL
         }
 
 
-        public void RenderSubImage(GLBitmap bmp, float srcLeft, float srcTop, float srcW, float srcH, float targetLeft, float targetTop)
+
+        //-----------------------------------------
+        float _latestBmpW;
+        float _latestBmpH;
+        bool _latestBmpInverted;
+        /// <summary>
+        /// load glbmp before draw
+        /// </summary>
+        /// <param name="bmp"></param>
+        public void LoadGLBitmap(GLBitmap bmp)
         {
-            //float srcBottom = srcTop - srcH;
-            //float srcRight = srcLeft + srcW;
-            //float orgBmpW = bmp.Width;
-            //float orgBmpH = bmp.Height;
-            //unsafe
-            //{
-            //    float* imgVertices = stackalloc float[5 * 4];
-            //    {
-            //        imgVertices[0] = targetLeft; imgVertices[1] = targetTop; imgVertices[2] = 0; //coord 0
-            //        imgVertices[3] = srcLeft / orgBmpW; imgVertices[4] = srcBottom / orgBmpH; //texture coord 0 
-
-            //        //---------------------
-            //        imgVertices[5] = targetLeft; imgVertices[6] = targetTop - srcH; imgVertices[7] = 0; //coord 1
-            //        imgVertices[8] = srcLeft / orgBmpW; imgVertices[9] = srcTop / orgBmpH; //texture coord 1 
-
-            //        //---------------------
-            //        imgVertices[10] = targetLeft + srcW; imgVertices[11] = targetTop; imgVertices[12] = 0; //coord 2
-            //        imgVertices[13] = srcRight / orgBmpW; imgVertices[14] = srcBottom / orgBmpH; //texture coord 2 
-
-            //        //---------------------
-            //        imgVertices[15] = targetLeft + srcW; imgVertices[16] = targetTop - srcH; imgVertices[17] = 0; //coord 3
-            //        imgVertices[18] = srcRight / orgBmpW; imgVertices[19] = srcTop / orgBmpH; //texture coord 3 
-            //    };
-            //    a_position.UnsafeLoadMixedV3f(imgVertices, 5);
-            //    a_texCoord.UnsafeLoadMixedV2f(imgVertices + 3, 5);
-            //}
-
-            //SetCurrent();
-            //CheckViewMatrix();
-            ////-------------------------------------------------------------------------------------
-            //// Bind the texture...
-            //GL.ActiveTexture(TextureUnit.Texture0);
-            //GL.BindTexture(TextureTarget.Texture2D, bmp.GetServerTextureId());
-            //// Set the texture sampler to texture unit to 0     
-            //s_texture.SetValue(0);
-            //OnSetVarsBeforeRenderer();
-            //GL.DrawElements(BeginMode.TriangleStrip, 4, DrawElementsType.UnsignedShort, indices);
-            RenderSubImage(bmp, new float[]{
-                srcLeft,srcTop,
-                srcW,srcH,
-                targetLeft,
-                targetTop
-            }, 1);
-        }
-
-        public void RenderSubImage(GLBitmap bmp, float srcLeft, float srcTop, float srcW, float srcH, float targetLeft, float targetTop, float scale)
-        {
-            //SetCurrent();
-            //CheckViewMatrix();
-            ////-------------------------------------------------------------------------------------
-            //// Bind the texture...
-            //GL.ActiveTexture(TextureUnit.Texture0);
-            //GL.BindTexture(TextureTarget.Texture2D, bmp.GetServerTextureId());
-            //// Set the texture sampler to texture unit to 0     
-            //s_texture.SetValue(0);
-            //OnSetVarsBeforeRenderer();
-
-            //float srcBottom = srcTop - srcH;
-            //float srcRight = srcLeft + srcW;
-            //float orgBmpW = bmp.Width;
-            //float orgBmpH = bmp.Height;
-            //unsafe
-            //{
-            //    float* imgVertices = stackalloc float[5 * 4];
-            //    {
-            //        imgVertices[0] = targetLeft; imgVertices[1] = targetTop; imgVertices[2] = 0; //coord 0
-            //        imgVertices[3] = srcLeft / orgBmpW; imgVertices[4] = srcBottom / orgBmpH; //texture coord 0 
-
-            //        //---------------------
-            //        imgVertices[5] = targetLeft; imgVertices[6] = targetTop - (srcH * scale); imgVertices[7] = 0; //coord 1
-            //        imgVertices[8] = srcLeft / orgBmpW; imgVertices[9] = srcTop / orgBmpH; //texture coord 1 
-
-            //        //---------------------
-            //        imgVertices[10] = targetLeft + (srcW * scale); imgVertices[11] = targetTop; imgVertices[12] = 0; //coord 2
-            //        imgVertices[13] = srcRight / orgBmpW; imgVertices[14] = srcBottom / orgBmpH; //texture coord 2 
-
-            //        //---------------------
-            //        imgVertices[15] = targetLeft + (srcW * scale); imgVertices[16] = targetTop - (srcH * scale); imgVertices[17] = 0; //coord 3
-            //        imgVertices[18] = srcRight / orgBmpW; imgVertices[19] = srcTop / orgBmpH; //texture coord 3 
-            //    };
-            //    a_position.UnsafeLoadMixedV3f(imgVertices, 5);
-            //    a_texCoord.UnsafeLoadMixedV2f(imgVertices + 3, 5);
-            //}
-
-
-            //GL.DrawElements(BeginMode.TriangleStrip, 4, DrawElementsType.UnsignedShort, indices);
-            RenderSubImage(bmp, new float[]{
-                srcLeft,srcTop,
-                srcW,srcH,
-                targetLeft,
-                targetTop
-            }, scale);
-        }
-        public void RenderSubImage(GLBitmap bmp, float[] srcDestList, float scale)
-        {
+            //load before use with RenderSubImage
             SetCurrent();
             CheckViewMatrix();
             //-------------------------------------------------------------------------------------
@@ -132,10 +47,19 @@ namespace PixelFarm.DrawingGL
             GL.BindTexture(TextureTarget.Texture2D, bmp.GetServerTextureId());
             // Set the texture sampler to texture unit to 0     
             s_texture.SetValue(0);
-            OnSetVarsBeforeRenderer();
+            this._latestBmpW = bmp.Width;
+            this._latestBmpH = bmp.Height;
+            this._latestBmpInverted = bmp.IsInvert;
+        }
+        internal unsafe void UnsafeDrawSubImages(float* srcDestList, int arrLen, float scale)
+        {
 
-            int j = srcDestList.Length;
-            for (int i = 0; i < j;)
+            //-------------------------------------------------------------------------------------
+            OnSetVarsBeforeRenderer();
+            //-------------------------------------------------------------------------------------          
+            float orgBmpW = _latestBmpW;
+            float orgBmpH = _latestBmpH;
+            for (int i = 0; i < arrLen;)
             {
 
                 float srcLeft = srcDestList[i];
@@ -149,60 +73,85 @@ namespace PixelFarm.DrawingGL
                 //-------------------------------
                 float srcBottom = srcTop - srcH;
                 float srcRight = srcLeft + srcW;
-                float orgBmpW = bmp.Width;
-                float orgBmpH = bmp.Height;
+
                 unsafe
                 {
-                    float* imgVertices = stackalloc float[5 * 4];
+                    if (_latestBmpInverted)
                     {
-                        imgVertices[0] = targetLeft; imgVertices[1] = targetTop; imgVertices[2] = 0; //coord 0
-                        imgVertices[3] = srcLeft / orgBmpW; imgVertices[4] = srcBottom / orgBmpH; //texture coord 0 
 
-                        //---------------------
-                        imgVertices[5] = targetLeft; imgVertices[6] = targetTop - (srcH * scale); imgVertices[7] = 0; //coord 1
-                        imgVertices[8] = srcLeft / orgBmpW; imgVertices[9] = srcTop / orgBmpH; //texture coord 1 
+                        float* imgVertices = stackalloc float[5 * 4];
+                        {
+                            imgVertices[0] = targetLeft; imgVertices[1] = targetTop; imgVertices[2] = 0; //coord 0 (left,top)
+                            imgVertices[3] = srcLeft / orgBmpW; imgVertices[4] = srcBottom / orgBmpH; //texture coord 0  (left,bottom)
 
-                        //---------------------
-                        imgVertices[10] = targetLeft + (srcW * scale); imgVertices[11] = targetTop; imgVertices[12] = 0; //coord 2
-                        imgVertices[13] = srcRight / orgBmpW; imgVertices[14] = srcBottom / orgBmpH; //texture coord 2 
+                            //---------------------
+                            imgVertices[5] = targetLeft; imgVertices[6] = targetTop - (srcH * scale); imgVertices[7] = 0; //coord 1 (left,bottom)
+                            imgVertices[8] = srcLeft / orgBmpW; imgVertices[9] = srcTop / orgBmpH; //texture coord 1  (left,top)
 
-                        //---------------------
-                        imgVertices[15] = targetLeft + (srcW * scale); imgVertices[16] = targetTop - (srcH * scale); imgVertices[17] = 0; //coord 3
-                        imgVertices[18] = srcRight / orgBmpW; imgVertices[19] = srcTop / orgBmpH; //texture coord 3 
-                    };
-                    a_position.UnsafeLoadMixedV3f(imgVertices, 5);
-                    a_texCoord.UnsafeLoadMixedV2f(imgVertices + 3, 5);
+                            //---------------------
+                            imgVertices[10] = targetLeft + (srcW * scale); imgVertices[11] = targetTop; imgVertices[12] = 0; //coord 2 (right,top)
+                            imgVertices[13] = srcRight / orgBmpW; imgVertices[14] = srcBottom / orgBmpH; //texture coord 2  (right,bottom)
+
+                            //---------------------
+                            imgVertices[15] = targetLeft + (srcW * scale); imgVertices[16] = targetTop - (srcH * scale); imgVertices[17] = 0; //coord 3 (right, bottom)
+                            imgVertices[18] = srcRight / orgBmpW; imgVertices[19] = srcTop / orgBmpH; //texture coord 3 (right,top)
+                        }
+                        a_position.UnsafeLoadMixedV3f(imgVertices, 5);
+                        a_texCoord.UnsafeLoadMixedV2f(imgVertices + 3, 5);
+                    }
+                    else
+                    {
+                        float* imgVertices = stackalloc float[5 * 4];
+                        {
+                            imgVertices[0] = targetLeft; imgVertices[1] = targetTop; imgVertices[2] = 0; //coord 0 (left,top)                                                                                                       
+                            imgVertices[3] = srcLeft / orgBmpW; imgVertices[4] = srcTop / orgBmpH; //texture coord 0 (left,top)
+
+                            //---------------------
+                            imgVertices[5] = targetLeft; imgVertices[6] = targetTop - (srcH * scale); imgVertices[7] = 0; //coord 1 (left,bottom)
+                            imgVertices[8] = srcLeft / orgBmpW; imgVertices[9] = srcBottom / orgBmpH; //texture coord 1 (left,bottom)
+
+                            //---------------------
+                            imgVertices[10] = targetLeft + (srcW * scale); imgVertices[11] = targetTop; imgVertices[12] = 0; //coord 2 (right,top)
+                            imgVertices[13] = srcRight / orgBmpW; imgVertices[14] = srcTop / orgBmpH; //texture coord 2 (right,top)
+
+                            //---------------------
+                            imgVertices[15] = targetLeft + (srcW * scale); imgVertices[16] = targetTop - (srcH * scale); imgVertices[17] = 0; //coord 3 (right, bottom)
+                            imgVertices[18] = srcRight / orgBmpW; imgVertices[19] = srcBottom / orgBmpH; //texture coord 3  (right,bottom)
+                        }
+                        a_position.UnsafeLoadMixedV3f(imgVertices, 5);
+                        a_texCoord.UnsafeLoadMixedV2f(imgVertices + 3, 5);
+                    }
                 }
                 GL.DrawElements(BeginMode.TriangleStrip, 4, DrawElementsType.UnsignedShort, indices);
             }
-
         }
+
+
         public void Render(GLBitmap bmp, float left, float top, float w, float h)
         {
             unsafe
             {
-
                 if (bmp.IsInvert)
                 {
-                     
+
                     float* imgVertices = stackalloc float[5 * 4];
                     {
-                        imgVertices[0] = left; imgVertices[1] = top; imgVertices[2] = 0; //coord 0
-                        imgVertices[3] = 0; imgVertices[4] = 0; //texture coord 0 
+                        imgVertices[0] = left; imgVertices[1] = top; imgVertices[2] = 0; //coord 0 (left,top)
+                        imgVertices[3] = 0; imgVertices[4] = 0; //texture coord 0 (left,bottom)
+                        //imgVertices[3] = srcLeft / orgBmpW; imgVertices[4] = srcBottom / orgBmpH; //texture coord 0  (left,bottom)
 
                         //---------------------
-                        imgVertices[5] = left; imgVertices[6] = top - h; imgVertices[7] = 0; //coord 1
-                        imgVertices[8] = 0; imgVertices[9] = 1; //texture coord 1 
+                        imgVertices[5] = left; imgVertices[6] = top - h; imgVertices[7] = 0; //coord 1 (left,bottom)
+                        imgVertices[8] = 0; imgVertices[9] = 1; //texture coord 1  (left,top)
 
                         //---------------------
-                        imgVertices[10] = left + w; imgVertices[11] = top; imgVertices[12] = 0; //coord 2
-                        imgVertices[13] = 1; imgVertices[14] = 0; //texture coord 2 
+                        imgVertices[10] = left + w; imgVertices[11] = top; imgVertices[12] = 0; //coord 2 (right,top)
+                        imgVertices[13] = 1; imgVertices[14] = 0; //texture coord 2  (right,bottom)
 
                         //---------------------
-                        imgVertices[15] = left + w; imgVertices[16] = top - h; imgVertices[17] = 0; //coord 3
-                        imgVertices[18] = 1; imgVertices[19] = 1; //texture coord 3 
-                    };
-
+                        imgVertices[15] = left + w; imgVertices[16] = top - h; imgVertices[17] = 0; //coord 3 (right, bottom)
+                        imgVertices[18] = 1; imgVertices[19] = 1; //texture coord 3 (right,top)
+                    }
                     a_position.UnsafeLoadMixedV3f(imgVertices, 5);
                     a_texCoord.UnsafeLoadMixedV2f(imgVertices + 3, 5);
                 }
@@ -210,22 +159,21 @@ namespace PixelFarm.DrawingGL
                 {
                     float* imgVertices = stackalloc float[5 * 4];
                     {
-                        imgVertices[0] = left; imgVertices[1] = top; imgVertices[2] = 0; //coord 0
-                        imgVertices[3] = 0; imgVertices[4] = 0; //texture coord 0 
+                        imgVertices[0] = left; imgVertices[1] = top; imgVertices[2] = 0; //coord 0 (left,top)                                                                                                       
+                        imgVertices[3] = 0; imgVertices[4] = 1; //texture coord 0 (left,top)
 
                         //---------------------
-                        imgVertices[5] = left; imgVertices[6] = top - h; imgVertices[7] = 0; //coord 1
-                        imgVertices[8] = 0; imgVertices[9] = 1; //texture coord 1 
+                        imgVertices[5] = left; imgVertices[6] = top - h; imgVertices[7] = 0; //coord 1 (left,bottom)
+                        imgVertices[8] = 0; imgVertices[9] = 0; //texture coord 1 (left,bottom)
 
                         //---------------------
-                        imgVertices[10] = left + w; imgVertices[11] = top; imgVertices[12] = 0; //coord 2
-                        imgVertices[13] = 1; imgVertices[14] = 0; //texture coord 2 
+                        imgVertices[10] = left + w; imgVertices[11] = top; imgVertices[12] = 0; //coord 2 (right,top)
+                        imgVertices[13] = 1; imgVertices[14] = 1; //texture coord 2 (right,top)
 
                         //---------------------
-                        imgVertices[15] = left + w; imgVertices[16] = top - h; imgVertices[17] = 0; //coord 3
-                        imgVertices[18] = 1; imgVertices[19] = 1; //texture coord 3 
-                    };
-
+                        imgVertices[15] = left + w; imgVertices[16] = top - h; imgVertices[17] = 0; //coord 3 (right, bottom)
+                        imgVertices[18] = 1; imgVertices[19] = 0; //texture coord 3  (right,bottom)
+                    }
                     a_position.UnsafeLoadMixedV3f(imgVertices, 5);
                     a_texCoord.UnsafeLoadMixedV2f(imgVertices + 3, 5);
                 }
@@ -400,4 +348,172 @@ namespace PixelFarm.DrawingGL
             BuildProgram(vs, fs);
         }
     }
+
+
+    class ImageTextureWithSubPixelRenderingShader : SimpleRectTextureShader
+    {
+        //this shader is designed for subpixel shader
+
+        ShaderUniformVar1 _c_compo;
+        ShaderUniformVar1 _isBigEndian;
+        ShaderUniformVar1 _c_intensity;
+        ShaderUniformVar4 _d_color; //drawing color
+        public ImageTextureWithSubPixelRenderingShader(CanvasToShaderSharedResource canvasShareResource)
+            : base(canvasShareResource)
+        {
+
+            string vs = @"
+                attribute vec4 a_position;
+                attribute vec2 a_texCoord;
+                uniform mat4 u_mvpMatrix; 
+                varying vec2 v_texCoord;
+                void main()
+                {
+                    gl_Position = u_mvpMatrix* a_position;
+                    v_texCoord =  a_texCoord;
+                 }	 
+                ";
+            //in fs, angle on windows 
+            //we need to switch color component
+            //because we store value in memory as BGRA
+            //and gl expect input in RGBA
+            string fs = @"
+                      precision mediump float;
+
+                      uniform sampler2D s_texture;
+                      uniform int isBigEndian;
+                      uniform int c_compo;
+                      uniform vec4 d_color;
+                      uniform float c_intensity;
+  
+                      varying vec2 v_texCoord; 
+                      void main()
+                      {                        
+                         float v_texCoord0 =v_texCoord[0];
+                         float v_texCoord1= v_texCoord[1]; 
+                        
+
+                         vec4 c= texture2D(s_texture,vec2(v_texCoord0 ,v_texCoord1));                          
+                         if(c_compo==0){
+                            gl_FragColor = vec4(d_color[0],d_color[1],d_color[2],(c[0]* d_color[3])*c_intensity);
+                         }else if(c_compo==1){
+                            gl_FragColor = vec4(d_color[0],d_color[1],d_color[2],(c[1]* d_color[3])*c_intensity);
+                         }else{
+                            gl_FragColor = vec4(d_color[0],d_color[1],d_color[2],(c[2]* d_color[3])*c_intensity);
+                         }
+                      }
+                ";
+            BuildProgram(vs, fs);
+        }
+        public bool IsBigEndian { get; set; }
+
+        float _color_a = 1f;
+        float _color_r;
+        float _color_g;
+        float _color_b;
+        int _use_color_compo;//0,1,2
+        float _use_intensity = 1.2f; //default
+        public void SetColor(PixelFarm.Drawing.Color c)
+        {
+            this._color_a = c.A / 255f;
+            this._color_r = c.R / 255f;
+            this._color_g = c.G / 255f;
+            this._color_b = c.B / 255f;
+        }
+        public void SetCompo(int compo)
+        {
+            switch (compo)
+            {
+                case 0:
+                case 1:
+                case 2:
+                    this._use_color_compo = compo;
+                    break;
+                default:
+                    throw new System.NotSupportedException();
+
+            }
+        }
+        public void SetIntensity(float intensity)
+        {
+            _use_intensity = intensity;
+        }
+        protected override void OnProgramBuilt()
+        {
+            _isBigEndian = shaderProgram.GetUniform1("isBigEndian");
+            _d_color = shaderProgram.GetUniform4("d_color");
+            _c_compo = shaderProgram.GetUniform1("c_compo");
+            _c_intensity = shaderProgram.GetUniform1("c_intensity");
+        }
+        protected override void OnSetVarsBeforeRenderer()
+        {
+            _isBigEndian.SetValue(IsBigEndian);
+            _d_color.SetValue(_color_r, _color_g, _color_b, _color_a);
+            _c_compo.SetValue(this._use_color_compo);
+            _c_intensity.SetValue(_use_intensity);
+        }
+
+    }
+
+
+    //--------------------------------------------------------
+    static class SimpleRectTextureShaderExtensions
+    {
+        public static void DrawSubImage(this SimpleRectTextureShader shader, float srcLeft, float srcTop, float srcW, float srcH, float targetLeft, float targetTop)
+        {
+            //TODO: review float array here,use buffer instead
+            unsafe
+            {
+                float* srcDestList = stackalloc float[6];
+                {
+                    srcDestList[0] = srcLeft;
+                    srcDestList[1] = srcTop;
+                    srcDestList[2] = srcW;
+                    srcDestList[3] = srcH;
+                    srcDestList[4] = targetLeft;
+                    srcDestList[5] = targetTop;
+                }
+                shader.UnsafeDrawSubImages(srcDestList, 6, 1);
+            }
+        }
+        public static void RenderSubImage(this SimpleRectTextureShader shader, GLBitmap bmp,
+            float srcLeft, float srcTop,
+            float srcW, float srcH,
+            float targetLeft, float targetTop,
+            float scale = 1)
+        {
+
+            //TODO: review float array here,use buffer instead
+            unsafe
+            {
+                float* srcDestList = stackalloc float[6];
+                {
+                    srcDestList[0] = srcLeft;
+                    srcDestList[1] = srcTop;
+                    srcDestList[2] = srcW;
+                    srcDestList[3] = srcH;
+                    srcDestList[4] = targetLeft;
+                    srcDestList[5] = targetTop;
+                }
+                shader.LoadGLBitmap(bmp);
+                shader.UnsafeDrawSubImages(srcDestList, 6, scale);
+            }
+        }
+        public static void DrawSubImages(this SimpleRectTextureShader shader, float[] srcDestList, float scale)
+        {
+            unsafe
+            {
+                fixed (float* head = &srcDestList[0])
+                {
+                    shader.UnsafeDrawSubImages(head, srcDestList.Length, scale);
+                }
+            }
+        }
+        public static void RenderSubImages(this SimpleRectTextureShader shader, GLBitmap bmp, float[] srcDestList, float scale)
+        {
+            shader.LoadGLBitmap(bmp);
+            shader.DrawSubImages(srcDestList, scale);
+        }
+    }
+
 }

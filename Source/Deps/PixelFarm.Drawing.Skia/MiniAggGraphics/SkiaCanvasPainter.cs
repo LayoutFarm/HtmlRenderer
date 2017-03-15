@@ -359,6 +359,15 @@ namespace PixelFarm.Drawing.Skia
             //_skCanvas.Scale(1f, -1f);// Flip the Y-Axis
             //_skCanvas.Translate(0.0F, -(float)Height);// Translate the drawing area accordingly                             
         }
+        public override void DrawString(RenderVxFormattedString renderVx, double x, double y)
+        {
+            //TODO: review here again 
+            _skCanvas.DrawText(renderVx.OriginalString, (float)x, (float)y, _stroke);
+        }
+        public override RenderVxFormattedString CreateRenderVx(string textspan)
+        {
+            return new SkiaRenerVxFormattedString(textspan);
+        }
         /// <summary>
         /// we do NOT store snap/vxs
         /// </summary>
@@ -513,6 +522,7 @@ namespace PixelFarm.Drawing.Skia
             renderVx.path = VxsHelper.CreateGraphicsPath(snap);
             return renderVx;
         }
+
         public override void FillRenderVx(Brush brush, RenderVx renderVx)
         {
             //TODO: review brush implementation here

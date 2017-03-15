@@ -12,7 +12,7 @@ namespace PixelFarm.Drawing
             //iterate
             var installFontsWin32 = new InstallFontsProviderWin32();
             installFontCollection.LoadInstalledFont(installFontsWin32.GetInstalledFontIter());
-            SetFontHotFoundHandler(
+            SetFontNotFoundHandler(
                 (fontCollection, fontName, style) =>
                 {
                     //TODO: implement font not found mapping here
@@ -39,7 +39,7 @@ namespace PixelFarm.Drawing
         {
             return installFontCollection.GetFont(fontName, style);
         }
-        public void SetFontHotFoundHandler(FontNotFoundHandler fontNotFoundHandler)
+        public void SetFontNotFoundHandler(FontNotFoundHandler fontNotFoundHandler)
         {
             installFontCollection.SetFontNotFoundHandler(fontNotFoundHandler);
         }
