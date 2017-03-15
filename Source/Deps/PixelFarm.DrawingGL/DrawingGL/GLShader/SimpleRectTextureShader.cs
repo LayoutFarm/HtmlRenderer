@@ -356,6 +356,7 @@ namespace PixelFarm.DrawingGL
 
         ShaderUniformVar1 _c_compo;
         ShaderUniformVar1 _isBigEndian;
+        ShaderUniformVar1 _c_intensity;
         ShaderUniformVar4 _d_color; //drawing color
         public ImageTextureWithSubPixelRenderingShader(CanvasToShaderSharedResource canvasShareResource)
             : base(canvasShareResource)
@@ -381,21 +382,24 @@ namespace PixelFarm.DrawingGL
 
                       uniform sampler2D s_texture;
                       uniform int isBigEndian;
-                      uniform int _c_compo;
+                      uniform int c_compo;
                       uniform vec4 d_color;
-                        
+                      uniform float c_intensity;
+  
                       varying vec2 v_texCoord; 
                       void main()
                       {                        
                          float v_texCoord0 =v_texCoord[0];
                          float v_texCoord1= v_texCoord[1]; 
-                         vec4 c0= texture2D(s_texture,vec2(v_texCoord0 ,v_texCoord1));                          
-                         if(_c_compo==0){
-                            gl_FragColor = vec4(d_color[0],d_color[1],d_color[2],c0[0]* d_color[3]);
-                         }else if(_c_compo==1){
-                            gl_FragColor = vec4(d_color[0],d_color[1],d_color[2],c0[1]* d_color[3]);
+                        
+
+                         vec4 c= texture2D(s_texture,vec2(v_texCoord0 ,v_texCoord1));                          
+                         if(c_compo==0){
+                            gl_FragColor = vec4(d_color[0],d_color[1],d_color[2],(c[0]* d_color[3])*c_intensity);
+                         }else if(c_compo==1){
+                            gl_FragColor = vec4(d_color[0],d_color[1],d_color[2],(c[1]* d_color[3])*c_intensity);
                          }else{
-                            gl_FragColor = vec4(d_color[0],d_color[1],d_color[2],c0[2]* d_color[3]);
+                            gl_FragColor = vec4(d_color[0],d_color[1],d_color[2],(c[2]* d_color[3])*c_intensity);
                          }
                       }
                 ";
@@ -408,6 +412,7 @@ namespace PixelFarm.DrawingGL
         float _color_g;
         float _color_b;
         int _use_color_compo;//0,1,2
+        float _use_intensity = 1.2f; //default
         public void SetColor(PixelFarm.Drawing.Color c)
         {
             this._color_a = c.A / 255f;
@@ -417,19 +422,35 @@ namespace PixelFarm.DrawingGL
         }
         public void SetCompo(int compo)
         {
-            this._use_color_compo = compo;
+            switch (compo)
+            {
+                case 0:
+                case 1:
+                case 2:
+                    this._use_color_compo = compo;
+                    break;
+                default:
+                    throw new System.NotSupportedException();
+
+            }
+        }
+        public void SetIntensity(float intensity)
+        {
+            _use_intensity = intensity;
         }
         protected override void OnProgramBuilt()
         {
             _isBigEndian = shaderProgram.GetUniform1("isBigEndian");
             _d_color = shaderProgram.GetUniform4("d_color");
-            _c_compo = shaderProgram.GetUniform1("_c_compo");
+            _c_compo = shaderProgram.GetUniform1("c_compo");
+            _c_intensity = shaderProgram.GetUniform1("c_intensity");
         }
         protected override void OnSetVarsBeforeRenderer()
         {
             _isBigEndian.SetValue(IsBigEndian);
             _d_color.SetValue(_color_r, _color_g, _color_b, _color_a);
             _c_compo.SetValue(this._use_color_compo);
+            _c_intensity.SetValue(_use_intensity);
         }
 
     }

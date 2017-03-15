@@ -169,7 +169,11 @@ namespace PixelFarm.DrawingGL
 
         public override void Dispose()
         {
-            GL.DeleteTextures(1, ref textureId);
+            //after delete the textureId will set to 0 ?
+            if (textureId > 0)
+            {
+                GL.DeleteTextures(1, ref textureId);
+            }
         }
 
 #if DEBUG

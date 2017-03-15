@@ -234,24 +234,24 @@ namespace PixelFarm.Agg
         }
 
         //-------------------------------------------------------calc_polygon_area
-        internal static double CalculatePolygonArea(VertexDistanceList st)
-        {
-            int i;
-            double sum = 0.0;
-            double x = st[0].x;
-            double y = st[0].y;
-            double xs = x;
-            double ys = y;
-            int j = st.Count;
-            for (i = 1; i < j; i++)
-            {
-                VertexDistance v = st[i];
-                sum += x * v.y - y * v.x;
-                x = v.x;
-                y = v.y;
-            }
-            return (sum + x * ys - y * xs) * 0.5;
-        }
+        //internal static double CalculatePolygonArea(VertexDistanceList st)
+        //{
+        //    int i;
+        //    double sum = 0.0;
+        //    double x = st[0].x;
+        //    double y = st[0].y;
+        //    double xs = x;
+        //    double ys = y;
+        //    int j = st.Count;
+        //    for (i = 1; i < j; i++)
+        //    {
+        //        VertexDistance v = st[i];
+        //        sum += x * v.y - y * v.x;
+        //        x = v.x;
+        //        y = v.y;
+        //    }
+        //    return (sum + x * ys - y * xs) * 0.5;
+        //}
 
         //------------------------------------------------------------------------
         // Tables for fast sqrt

@@ -343,23 +343,31 @@ namespace PixelFarm.DrawingGL
             }
             else
             {
+                textureSubPixRendering.LoadGLBitmap(bmp);
                 textureSubPixRendering.IsBigEndian = bmp.IsBigEndianPixel;
                 textureSubPixRendering.SetColor(this.FontFillColor);
-                textureSubPixRendering.SetCompo(1);
-
+                textureSubPixRendering.SetIntensity(1.15f);
+                //-------------------------
                 //draw a serie of image***
                 //-------------------------
-                //1. load once
-                textureSubPixRendering.LoadGLBitmap(bmp);
-                //2. b , cyan result
+
+                //1. B , cyan result
                 GL.ColorMask(false, false, true, false);
-                textureSubPixRendering.DrawSubImage(r.Left, r.Top, r.Width, r.Height, targetLeft - (1 / 3f), targetTop);
-                //3. g , magenta result
-                GL.ColorMask(false, true, false, false);
+                textureSubPixRendering.SetCompo(0); 
                 textureSubPixRendering.DrawSubImage(r.Left, r.Top, r.Width, r.Height, targetLeft, targetTop);
-                //4. r , yellow result
+                //float subpixel_shift = 1 / 9f;
+                //textureSubPixRendering.DrawSubImage(r.Left, r.Top, r.Width, r.Height, targetLeft - subpixel_shift, targetTop); //TODO: review this option
+                //---------------------------------------------------
+                //2. G , magenta result
+                GL.ColorMask(false, true, false, false);
+                textureSubPixRendering.SetCompo(1); 
+                textureSubPixRendering.DrawSubImage(r.Left, r.Top, r.Width, r.Height, targetLeft, targetTop);
+                //textureSubPixRendering.DrawSubImage(r.Left, r.Top, r.Width, r.Height, targetLeft, targetTop); //TODO: review this option
+                //1. R , yellow result 
+                textureSubPixRendering.SetCompo(2);
                 GL.ColorMask(true, false, false, false);//             
-                textureSubPixRendering.DrawSubImage(r.Left, r.Top, r.Width, r.Height, targetLeft + (1 / 3f), targetTop);
+                textureSubPixRendering.DrawSubImage(r.Left, r.Top, r.Width, r.Height, targetLeft, targetTop);
+                //textureSubPixRendering.DrawSubImage(r.Left, r.Top, r.Width, r.Height, targetLeft + subpixel_shift, targetTop); //TODO: review this option
                 //enable all color component
                 GL.ColorMask(true, true, true, true);
             }

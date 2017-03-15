@@ -33,13 +33,12 @@ namespace PixelFarm.Drawing.Fonts
             {
                 var reader = new OpenFontReader();
                 Typeface typeface = reader.Read(fs);
-                return LoadFont(typeface, fontfile, creationParams, out fontAtlas);
+                return LoadFont(typeface, creationParams, out fontAtlas);
             }
         }
 
         public static FontFace LoadFont(
             Typeface typeface,
-            string fontFile,
             TextureFontCreationParams creationParams,
             out SimpleFontAtlas fontAtlas)
         {
@@ -389,11 +388,11 @@ namespace PixelFarm.Drawing.Fonts
                 //create glyph img 
                 ActualImage img = new Agg.ActualImage(w, h, PixelFormat.ARGB32);
                 ImageGraphics2D imgCanvas2d = new Agg.ImageGraphics2D(img);
-                AggCanvasPainter painter = new Agg.AggCanvasPainter(imgCanvas2d); 
+                AggCanvasPainter painter = new Agg.AggCanvasPainter(imgCanvas2d);
                 //we use white glyph on black bg for this texture                
                 painter.Clear(Color.Black); //fill with black
                 painter.FillColor = Color.White;
-                painter.StrokeColor = Color.White; 
+                painter.StrokeColor = Color.White;
                 //--------------------------------------------  
 
                 painter.UseSubPixelRendering = true;

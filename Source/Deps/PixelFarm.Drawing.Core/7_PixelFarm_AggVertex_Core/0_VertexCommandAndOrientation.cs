@@ -66,41 +66,41 @@ namespace PixelFarm.Agg
             return c <= VertexCmd.MoveTo;
         }
 
-        internal static void ShortenPath(VertexDistanceList vertexDistanceList, double s, bool closed)
-        {
-            if (s > 0.0 && vertexDistanceList.Count > 1)
-            {
-                double d;
-                int n = (int)(vertexDistanceList.Count - 2);
-                while (n != 0)
-                {
-                    d = vertexDistanceList[n].dist;
-                    if (d > s) break;
-                    vertexDistanceList.RemoveLast();
-                    s -= d;
-                    --n;
-                }
-                if (vertexDistanceList.Count < 2)
-                {
-                    vertexDistanceList.Clear();
-                }
-                else
-                {
-                    n = (int)vertexDistanceList.Count - 1;
-                    VertexDistance prev = vertexDistanceList[n - 1];
-                    VertexDistance last = vertexDistanceList[n];
-                    d = (prev.dist - s) / prev.dist;
-                    double x = prev.x + (last.x - prev.x) * d;
-                    double y = prev.y + (last.y - prev.y) * d;
-                    last = new VertexDistance(x, y);
-                    if (!prev.IsEqual(last))
-                    {
-                        vertexDistanceList.RemoveLast();
-                    }
-                    vertexDistanceList.Close(closed);
-                }
-            }
-        }
+        //internal static void ShortenPath(VertexDistanceList vertexDistanceList, double s, bool closed)
+        //{
+        //    if (s > 0.0 && vertexDistanceList.Count > 1)
+        //    {
+        //        double d;
+        //        int n = (int)(vertexDistanceList.Count - 2);
+        //        while (n != 0)
+        //        {
+        //            d = vertexDistanceList[n].dist;
+        //            if (d > s) break;
+        //            vertexDistanceList.RemoveLast();
+        //            s -= d;
+        //            --n;
+        //        }
+        //        if (vertexDistanceList.Count < 2)
+        //        {
+        //            vertexDistanceList.Clear();
+        //        }
+        //        else
+        //        {
+        //            n = (int)vertexDistanceList.Count - 1;
+        //            VertexDistance prev = vertexDistanceList[n - 1];
+        //            VertexDistance last = vertexDistanceList[n];
+        //            d = (prev.dist - s) / prev.dist;
+        //            double x = prev.x + (last.x - prev.x) * d;
+        //            double y = prev.y + (last.y - prev.y) * d;
+        //            last = new VertexDistance(x, y);
+        //            if (prev.IsEqual(last))
+        //            {
+        //                vertexDistanceList.RemoveLast();
+        //            }
+        //            vertexDistanceList.Close(closed);
+        //        }
+        //    }
+        //}
         public static void ArrangeOrientationsAll(VertexStore myvxs, bool closewise)
         {
             int start = 0;
