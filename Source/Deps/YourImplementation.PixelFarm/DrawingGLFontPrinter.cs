@@ -270,11 +270,23 @@ namespace PixelFarm.DrawingGL
         }
         public void DrawString(char[] buffer, int startAt, int len, double x, double y)
         {
+            
+
+
+
             int j = buffer.Length;
             //resolve font from painter?  
             glyphPlans.Clear();
             _glyphLayout.Layout(_typeface, buffer, startAt, len, glyphPlans);
             float scale = _typeface.CalculateFromPointToPixelScale(font.SizeInPoints);
+
+            //--------------------------
+            //TODO:
+            //if (x,y) is left top
+            //we need to adjust y again
+            y -= (_typeface.Ascender - _typeface.Descender + _typeface.LineGap) * scale;
+            //
+
             //
             int n = glyphPlans.Count;
             EnsureLoadGLBmp();
