@@ -197,15 +197,15 @@ namespace PixelFarm.DrawingGL
             ChangeFont(painter.CurrentFont);
             this._glyphLayout.ScriptLang = painter.CurrentFont.GetOpenFontScriptLang();
 
-           _loadedGlyphs = new GLBitmapCache<SimpleFontAtlas>(atlas =>
-           {
-               //create new one
-               Typography.Rendering.GlyphImage totalGlyphImg = atlas.TotalGlyph;
-               //load to glbmp 
-               GLBitmap found = new GLBitmap(totalGlyphImg.Width, totalGlyphImg.Height, totalGlyphImg.GetImageBuffer(), false);
-               found.IsInvert = false;
-               return found;
-           });
+            _loadedGlyphs = new GLBitmapCache<SimpleFontAtlas>(atlas =>
+            {
+                //create new one
+                Typography.Rendering.GlyphImage totalGlyphImg = atlas.TotalGlyph;
+                //load to glbmp 
+                GLBitmap found = new GLBitmap(totalGlyphImg.Width, totalGlyphImg.Height, totalGlyphImg.GetImageBuffer(), false);
+                found.IsInvert = false;
+                return found;
+            });
         }
         public void ChangeFillColor(Color color)
         {
@@ -251,6 +251,7 @@ namespace PixelFarm.DrawingGL
         }
         static PixelFarm.Drawing.Rectangle ConvToRect(Typography.Rendering.Rectangle r)
         {
+            //TODO: review here
             return Rectangle.FromLTRB(r.Left, r.Top, r.Right, r.Bottom);
         }
 
@@ -272,7 +273,8 @@ namespace PixelFarm.DrawingGL
             int j = buffer.Length;
             //resolve font from painter?  
             glyphPlans.Clear();
-            _glyphLayout.Layout(_typeface, font.SizeInPoints, buffer, startAt, len, glyphPlans);
+            _glyphLayout.Layout(_typeface, buffer, startAt, len, glyphPlans);
+            float scale = _typeface.CalculateFromPointToPixelScale(font.SizeInPoints);
             //
             int n = glyphPlans.Count;
             EnsureLoadGLBmp();
@@ -295,8 +297,8 @@ namespace PixelFarm.DrawingGL
                         {
                             canvas2d.DrawSubImageWithMsdf(_glBmp,
                                 ref srcRect,
-                                (float)(x + (glyph.x - glyphData.TextureXOffset) * scaleFromTexture), // -glyphData.TextureXOffset => restore to original pos
-                                (float)(y + (glyph.y - glyphData.TextureYOffset + srcRect.Height) * scaleFromTexture),// -glyphData.TextureYOffset => restore to original pos
+                                (float)(x + (glyph.x * scale - glyphData.TextureXOffset) * scaleFromTexture), // -glyphData.TextureXOffset => restore to original pos
+                                (float)(y + (glyph.y * scale - glyphData.TextureYOffset + srcRect.Height) * scaleFromTexture),// -glyphData.TextureYOffset => restore to original pos
                                 scaleFromTexture);
                         }
                         break;
@@ -304,16 +306,16 @@ namespace PixelFarm.DrawingGL
                         {
                             canvas2d.DrawSubImage(_glBmp,
                               ref srcRect,
-                              (float)(x + (glyph.x - glyphData.TextureXOffset) * scaleFromTexture), // -glyphData.TextureXOffset => restore to original pos
-                              (float)(y + (glyph.y - glyphData.TextureYOffset + srcRect.Height) * scaleFromTexture),// -glyphData.TextureYOffset => restore to original pos
+                              (float)(x + (glyph.x * scale - glyphData.TextureXOffset) * scaleFromTexture), // -glyphData.TextureXOffset => restore to original pos
+                              (float)(y + (glyph.y * scale - glyphData.TextureYOffset + srcRect.Height) * scaleFromTexture),// -glyphData.TextureYOffset => restore to original pos
                               scaleFromTexture);
                         }
                         break;
                     case Typography.Rendering.TextureKind.AggSubPixel:
                         canvas2d.DrawGlyphImageWithSubPixelRenderingTechnique(_glBmp,
                                  ref srcRect,
-                                 (float)(x + (glyph.x - glyphData.TextureXOffset) * scaleFromTexture), // -glyphData.TextureXOffset => restore to original pos
-                                 (float)(y + (glyph.y - glyphData.TextureYOffset + srcRect.Height) * scaleFromTexture),// -glyphData.TextureYOffset => restore to original pos
+                                 (float)(x + (glyph.x * scale - glyphData.TextureXOffset) * scaleFromTexture), // -glyphData.TextureXOffset => restore to original pos
+                                 (float)(y + (glyph.y * scale - glyphData.TextureYOffset + srcRect.Height) * scaleFromTexture),// -glyphData.TextureYOffset => restore to original pos
                                  scaleFromTexture);
                         break;
                 }
@@ -380,8 +382,9 @@ namespace PixelFarm.DrawingGL
         public void PrepareStringForRenderVx(RenderVxFormattedString renderVx, char[] buffer, int startAt, int len)
         {
             glyphPlans.Clear();
-            _glyphLayout.Layout(_typeface, font.SizeInPoints, buffer, startAt, len, glyphPlans);
-            TextPrinterHelper.CopyGlyphPlans(renderVx, glyphPlans);
+            _glyphLayout.Layout(_typeface, buffer, startAt, len, glyphPlans);
+
+            TextPrinterHelper.CopyGlyphPlans(renderVx, glyphPlans, _typeface.CalculateFromPointToPixelScale(font.SizeInPoints));
         }
     }
 

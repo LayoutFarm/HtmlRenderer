@@ -551,9 +551,12 @@
     <Compile Include="Typography\FontAtlas\MsdfGlyphGen.cs" />
     <Compile Include="Typography\FontAtlas\SimpleFontAtlas.cs" />
     <Compile Include="Typography\FontAtlas\SimpleFontAtlasBuilder.cs" />
+    <Compile Include="Typography\Typography.GlyphLayout\GlyphIndexList.cs" />
     <Compile Include="Typography\Typography.GlyphLayout\GlyphLayout.cs" />
     <Compile Include="Typography\Typography.GlyphLayout\GlyphPosition.cs" />
     <Compile Include="Typography\Typography.GlyphLayout\GlyphSubtitution.cs" />
+    <Compile Include="Typography\Typography.GlyphLayout\MeasureStringBox.cs" />
+    <Compile Include="Typography\Typography.GlyphLayout\UserCharToGlyphIndexMap.cs" />
     <Compile Include="Typography\Typography.MsdfGen\EdgeColor.cs" />
     <Compile Include="Typography\Typography.MsdfGen\EdgeColoring.cs" />
     <Compile Include="Typography\Typography.MsdfGen\EdgeHolder.cs" />

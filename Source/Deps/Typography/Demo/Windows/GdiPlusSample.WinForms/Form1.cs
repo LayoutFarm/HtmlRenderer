@@ -1,11 +1,13 @@
 ﻿//MIT, 2016-2017, WinterDev
 using System.IO;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 //
 using Typography.OpenFont;
 using Typography.TextLayout;
 using Typography.Rendering;
+
 
 namespace SampleWinForms
 {
@@ -14,7 +16,8 @@ namespace SampleWinForms
         Graphics g;
         //for this sample code,
         //create text printer env for developer.
-        DevGdiTextPrinter currentTextPrinter = new DevGdiTextPrinter();
+        DevGdiTextPrinter _currentTextPrinter = new DevGdiTextPrinter();
+        SampleWinForms.UI.SampleTextBoxControllerForGdi _textBoxControllerForGdi = new UI.SampleTextBoxControllerForGdi();
 
         public Form1()
         {
@@ -22,7 +25,7 @@ namespace SampleWinForms
 
             //choose Thai script for 'complex script' testing.
             //you can change this to test other script.
-            currentTextPrinter.ScriptLang = Typography.OpenFont.ScriptLangs.Thai;
+            _currentTextPrinter.ScriptLang = Typography.OpenFont.ScriptLangs.Thai;
             //----------
             button1.Click += (s, e) => UpdateRenderOutput();
             //simple load test fonts from local test dir
@@ -43,8 +46,16 @@ namespace SampleWinForms
             lstHintList.Items.Add(HintTechnique.CustomAutoFit);
             lstHintList.SelectedIndex = 0;
             lstHintList.SelectedIndexChanged += (s, e) => UpdateRenderOutput();
-            //---------- 
 
+            //---------- 
+            //share text printer to our sample textbox
+            //but you can create another text printer that specific to text textbox control
+            _textBoxControllerForGdi.TextPrinter = _currentTextPrinter;
+            _textBoxControllerForGdi.BindHostGraphics(this.sampleTextBox1.CreateGraphics());
+            //---------- 
+            this.sampleTextBox1.SetController(_textBoxControllerForGdi);
+
+            //---------- 
             txtInputChar.TextChanged += (s, e) => UpdateRenderOutput();
             //
             int selectedFileIndex = -1;
@@ -61,7 +72,8 @@ namespace SampleWinForms
                 if (selectedFileIndex < 0 && tmpLocalFile.OnlyFileName == selectedFontFileName)
                 {
                     selectedFileIndex = fileIndexCount;
-                    currentTextPrinter.FontFilename = file;
+                    _currentTextPrinter.FontFilename = file;
+                    //sample text box
 
                 }
                 fileIndexCount++;
@@ -70,8 +82,10 @@ namespace SampleWinForms
             lstFontList.SelectedIndex = selectedFileIndex;
             lstFontList.SelectedIndexChanged += (s, e) =>
             {
-                currentTextPrinter.FontFilename = ((TempLocalFontFile)lstFontList.SelectedItem).actualFileName;
+                _currentTextPrinter.FontFilename = ((TempLocalFontFile)lstFontList.SelectedItem).actualFileName;
+                //sample text box 
                 UpdateRenderOutput();
+
             };
             //----------
             lstFontSizes.Items.AddRange(
@@ -86,11 +100,12 @@ namespace SampleWinForms
             lstFontSizes.SelectedIndexChanged += (s, e) =>
             {
                 //new font size
-                currentTextPrinter.FontSizeInPoints = (int)lstFontSizes.SelectedItem;
+                _currentTextPrinter.FontSizeInPoints = (int)lstFontSizes.SelectedItem;
                 UpdateRenderOutput();
             };
             lstFontSizes.SelectedIndex = 0;
             this.Text = "Gdi+ Sample";
+            //------ 
         }
         void UpdateRenderOutput()
         {
@@ -104,21 +119,48 @@ namespace SampleWinForms
                 return;
             }
             //-----------------------  
-            currentTextPrinter.HintTechnique = (HintTechnique)lstHintList.SelectedItem;
-            currentTextPrinter.PositionTechnique = (PositionTechnique)cmbPositionTech.SelectedItem;
+            //set some props ...
+            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            g.Clear(Color.White);
+            //credit:
+            //http://stackoverflow.com/questions/1485745/flip-coordinates-when-drawing-to-control
+            g.ScaleTransform(1.0F, -1.0F);// Flip the Y-Axis 
+            g.TranslateTransform(0.0F, -(float)300);// Translate the drawing area accordingly   
+
+            //-----------------------  
+            _currentTextPrinter.HintTechnique = (HintTechnique)lstHintList.SelectedItem;
+            _currentTextPrinter.PositionTechnique = (PositionTechnique)cmbPositionTech.SelectedItem;
+            _currentTextPrinter.TargetGraphics = g;
             //render at specific pos
-            float x_pos = 0, y_pos = 0;
+            float x_pos = 0, y_pos = 100;
             char[] textBuffer = txtInputChar.Text.ToCharArray();
-            currentTextPrinter.DrawString(g,
+
+            //test draw multiple lines
+            float lineSpacingPx = _currentTextPrinter.FontLineSpacingPx;
+            for (int i = 0; i < 3; ++i)
+            {
+                _currentTextPrinter.DrawString(
                  textBuffer,
                  0,
                  textBuffer.Length,
                  x_pos,
                  y_pos
                 );
+                //draw top to bottom 
+                y_pos -= lineSpacingPx;
+            }
+            //
+            //-----------------------  
+            //transform back
+            g.ScaleTransform(1.0F, -1.0F);// Flip the Y-Axis 
+            g.TranslateTransform(0.0F, -(float)300);// Translate the drawing area accordingly            
+            //-----------------------  
+
+            if (sampleTextBox1.Visible)
+            {
+                sampleTextBox1.Refresh();
+            }
         }
-
-
 
         //=========================================================================
         //msdf texture generator example
@@ -182,6 +224,78 @@ namespace SampleWinForms
                     bmp.Save("d:\\WImageTest\\a_total.png");
                 }
                 atlasBuilder.SaveFontInfo("d:\\WImageTest\\a_info.xml");
+            }
+        }
+        private void cmdMeasureTextSpan_Click(object sender, System.EventArgs e)
+        {
+            //set some Gdi+ props... 
+            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            g.Clear(Color.White);
+            //credit:
+            //http://stackoverflow.com/questions/1485745/flip-coordinates-when-drawing-to-control
+            g.ScaleTransform(1.0F, -1.0F);// Flip the Y-Axis 
+            g.TranslateTransform(0.0F, -(float)300);// Translate the drawing area accordingly   
+
+            //--------------------------------
+            //textspan measurement sample
+            //--------------------------------  
+            _currentTextPrinter.HintTechnique = (HintTechnique)lstHintList.SelectedItem;
+            _currentTextPrinter.PositionTechnique = (PositionTechnique)cmbPositionTech.SelectedItem;
+            //render at specific pos
+            float x_pos = 0, y_pos = 100;
+            char[] textBuffer = txtInputChar.Text.ToCharArray();
+
+            //Example 1: this is a basic draw sample
+            _currentTextPrinter.FillColor = Color.Black;
+            _currentTextPrinter.TargetGraphics = g;
+            _currentTextPrinter.DrawString(
+                textBuffer,
+                 0,
+                 textBuffer.Length,
+                 x_pos,
+                 y_pos
+                );
+            //
+            //--------------------------------------------------
+            //Example 2: print glyph plan to 'user' list-> then draw it (or hold it/ not draw)                         
+            //you can create you own class to hold userGlyphPlans.***
+            //2.1
+            List<GlyphPlan> userGlyphPlans = new List<GlyphPlan>();
+
+            _currentTextPrinter.GlyphLayoutMan.GenerateGlyphPlans(textBuffer, 0, textBuffer.Length, userGlyphPlans, null);
+            //2.2
+            //and we can print the formatted glyph plan later.
+            y_pos -= _currentTextPrinter.FontLineSpacingPx;
+            _currentTextPrinter.FillColor = Color.Red;
+            _currentTextPrinter.DrawGlyphPlanList(
+                  userGlyphPlans,
+                  x_pos,
+                  y_pos
+             );
+            //Example 3: MeasureString        
+            float scale = _currentTextPrinter.Typeface.CalculateFromPointToPixelScale(_currentTextPrinter.FontSizeInPoints);
+            MeasuredStringBox strBox;
+            _currentTextPrinter.GlyphLayoutMan.MeasureString(textBuffer, 0, textBuffer.Length, out strBox, scale);
+            //draw line mark
+
+            float x_pos2 = x_pos + strBox.width + 10;
+            g.DrawRectangle(Pens.Red, x_pos, y_pos, strBox.width, strBox.CalculateLineHeight());
+            g.DrawLine(Pens.Blue, x_pos, y_pos, x_pos2, y_pos); //baseline
+            g.DrawLine(Pens.Green, x_pos, y_pos + strBox.descending, x_pos2, y_pos + strBox.descending);//descending
+            g.DrawLine(Pens.Magenta, x_pos, y_pos + strBox.ascending, x_pos2, y_pos + strBox.ascending);//ascending
+
+
+
+            _currentTextPrinter.FillColor = Color.Black;
+            //transform back
+            g.ScaleTransform(1.0F, -1.0F);// Flip the Y-Axis 
+            g.TranslateTransform(0.0F, -(float)300);// Translate the drawing area accordingly   
+        }
+        private void chkShowSampleTextBox_CheckedChanged(object sender, System.EventArgs e)
+        {
+            if (sampleTextBox1.Visible = chkShowSampleTextBox.Visible)
+            {
+                sampleTextBox1.Focus();
             }
         }
     }

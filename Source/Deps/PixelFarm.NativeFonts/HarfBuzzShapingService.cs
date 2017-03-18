@@ -52,7 +52,7 @@ namespace PixelFarm.Drawing.Text
                         //finish , just return
                         return;
                     } 
-                    glyphPlans.Add(new GlyphPlan((ushort)propGlyph.codepoint, 0, 0, propGlyph.x_advance));
+                    glyphPlans.Add(new GlyphPlan((ushort)propGlyph.codepoint, 0, 0,(ushort) propGlyph.x_advance));
                 }
 
             }

@@ -91,8 +91,9 @@ namespace PixelFarm.Drawing.Fonts
             //TODO: review this again, we should use pixel?
 
             float fontSizePoint = this.FontSizeInPoints;
+            float scale = typeface.CalculateFromPointToPixelScale(fontSizePoint);
             _outputGlyphPlans.Clear();
-            _glyphLayout.Layout(typeface, fontSizePoint, text, startAt, len, _outputGlyphPlans);
+            _glyphLayout.Layout(typeface, text, startAt, len, _outputGlyphPlans);
             //4. render each glyph 
             int j = _outputGlyphPlans.Count;
             //---------------------------------------------------
@@ -124,7 +125,7 @@ namespace PixelFarm.Drawing.Fonts
                     //
                     hintGlyphCollection.RegisterCachedGlyph(glyphPlan.glyphIndex, glyphVxs);
                 }
-                canvasPainter.SetOrigin((float)(glyphPlan.x + x), (float)(glyphPlan.y + y));
+                canvasPainter.SetOrigin((float)(glyphPlan.x * scale + x), (float)(glyphPlan.y * scale + y));
                 canvasPainter.Fill(glyphVxs);
             }
             //restore prev origin
@@ -142,7 +143,7 @@ namespace PixelFarm.Drawing.Fonts
             //3. layout glyphs with selected layout technique
             //TODO: review this again, we should use pixel? 
             float fontSizePoint = this.FontSizeInPoints;
-
+            float scale = typeface.CalculateFromPointToPixelScale(fontSizePoint);
             RenderVxGlyphPlan[] glyphPlans = renderVx.glyphList;
             int j = glyphPlans.Length;
             //---------------------------------------------------
@@ -175,7 +176,7 @@ namespace PixelFarm.Drawing.Fonts
                     //
                     hintGlyphCollection.RegisterCachedGlyph(glyphPlan.glyphIndex, glyphVxs);
                 }
-                canvasPainter.SetOrigin((float)(glyphPlan.x + x), (float)(glyphPlan.y + y));
+                canvasPainter.SetOrigin((float)(glyphPlan.x * scale + x), (float)(glyphPlan.y * scale + y));
                 canvasPainter.Fill(glyphVxs);
             }
             //restore prev origin
@@ -193,8 +194,8 @@ namespace PixelFarm.Drawing.Fonts
 
             float fontSizePoint = this.FontSizeInPoints;
             _outputGlyphPlans.Clear();
-            _glyphLayout.Layout(typeface, fontSizePoint, text, startAt, len, _outputGlyphPlans);
-            TextPrinterHelper.CopyGlyphPlans(renderVx, _outputGlyphPlans);
+            _glyphLayout.Layout(typeface, text, startAt, len, _outputGlyphPlans);
+            TextPrinterHelper.CopyGlyphPlans(renderVx, _outputGlyphPlans, typeface.CalculateFromPointToPixelScale(fontSizePoint));
 
         }
         string _currentFontFilename = "";
@@ -249,7 +250,7 @@ namespace PixelFarm.Drawing.Fonts
 
     public static class TextPrinterHelper
     {
-        public static void CopyGlyphPlans(RenderVxFormattedString renderVx, List<GlyphPlan> glyphPlans)
+        public static void CopyGlyphPlans(RenderVxFormattedString renderVx, List<GlyphPlan> glyphPlans, float scale)
         {
             int n = glyphPlans.Count;
             //copy 
@@ -259,9 +260,9 @@ namespace PixelFarm.Drawing.Fonts
                 GlyphPlan glyphPlan = glyphPlans[i];
                 renderVxGlyphPlans[i] = new RenderVxGlyphPlan(
                     glyphPlan.glyphIndex,
-                    glyphPlan.x,
-                    glyphPlan.y,
-                    glyphPlan.advX
+                    glyphPlan.x * scale,
+                    glyphPlan.y * scale,
+                    glyphPlan.advX * scale
                     );
             }
             renderVx.glyphList = renderVxGlyphPlans;
