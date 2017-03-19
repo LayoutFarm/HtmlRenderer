@@ -60,11 +60,13 @@ feel free to fork/ comment/ suggest /pull request
 
 
 
+---
+**License**
 
-**license**
 it is a C# project with permissive license( MIT,BSD, Apache2)
 
-**plan**
+---
+**Plan**
 
 1) always permissive license (MIT,BSD, Apache2)
 
