@@ -58,6 +58,19 @@ such as
 feel free to fork/ comment/ suggest /pull request 
 
 
+---
+**Plan**
+
+1) always permissive license (MIT,BSD, Apache2)
+
+2) bind some features from Blink engine
+
+3) add more html5/css3/js support
+
+4) convert to C++ code with some transpiler tools 
+   so users can build a final native code web browser
+
+5) to make this runs on .NetCore
 
 ---
 **Licenses**
@@ -121,18 +134,7 @@ MIT, 2004,2007, Novell Inc., for System.Drawing
 
 
 ---
-**Plan**
 
-1) always permissive license (MIT,BSD, Apache2)
-
-2) bind some features from Blink engine
-
-3) add more html5/css3/js support
-
-4) convert to C++ code with some transpiler tools 
-   so users can build a final native code web browser
-
-5) to make this runs on .NetCore
- 
+**Long Live Our Beloved C#**
 
 WinterDev :)
