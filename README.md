@@ -21,7 +21,7 @@ The classic image.
 
  _pic 3: HtmlRenderer's Classic, Gdi+_
 
-**more info / screen capture imgs** -> [see wiki](../../wiki/1.-Some-Screen-Captures)
+**MORE info / screen capture imgs** -> [see wiki](../../wiki/1.-Some-Screen-Captures)
 
 **Build Note** -> [see wiki](../../wiki/3.-Build-The-Project)
 
