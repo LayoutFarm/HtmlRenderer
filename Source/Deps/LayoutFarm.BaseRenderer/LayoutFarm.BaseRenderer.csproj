@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{20048075-A2F3-4B97-B3C6-BEA794429741}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LayoutFarm.BaseRenderer</RootNamespace>
+    <AssemblyName>LayoutFarm.BaseRenderer</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;NET20</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="1_Root\RootGraphicsPlatform.cs" />
+    <Compile Include="2_RenderElement\3_RenderElement.Bubble_Layout.cs" />
+    <Compile Include="2_RenderElement\RenderElementConst.cs" />
+    <Compile Include="2_RenderElement\RenderElementFoundDelegate.cs" />
+    <Compile Include="2_RenderElement\RenderElement_IParentLink.cs" />
+    <Compile Include="2_RenderElement\x_RenderElement_LocationHelper.cs" />
+    <Compile Include="1_Root\1_RootGraphic.cs" />
+    <Compile Include="1_Root\1_RootGraphic_p1_dbug.cs" />
+    <Compile Include="1_Root\1_RootGraphic_p2_dbug.cs" />
+    <Compile Include="0_Start\dbugCoreConst.cs" />
+    <Compile Include="4_Boxes\IBoxElement.cs" />
+    <Compile Include="1_Root\3_GraphicsTimerTask.cs" />
+    <Compile Include="6_debug\dbugVisualEvalScrollBarTrace.cs" />
+    <Compile Include="6_debug\dbugVisualInvalidationTracer.cs" />
+    <Compile Include="6_debug\dbugVisualLayoutTracer.cs" />
+    <Compile Include="1_Root\2_RenderRequest.cs" />
+    <Compile Include="6_debug\dbug.cs" />
+    <Compile Include="6_debug\dbugVisitorMessage.cs" />
+    <Compile Include="2_RenderElement\0_RenderElement.cs" />
+    <Compile Include="2_RenderElement\2_RenderElement.ElementPositioning_1_WithSizeChanged.cs" />
+    <Compile Include="2_RenderElement\1_RenderElement.ElementPositioning_NoBoundChanged.cs" />
+    <Compile Include="2_RenderElement\4_RenderElement.Bubble_Repaint.cs" />
+    <Compile Include="3_Layers\0_IParentLink.cs" />
+    <Compile Include="2_RenderElement\x_RenderElement.debug.cs" />
+    <Compile Include="4_Boxes\RenderBoxBase.cs" />
+    <Compile Include="3_Layers\1_RenderElementLayer.cs" />
+    <Compile Include="3_Layers\2_PlainLayer.cs" />
+    <Compile Include="5_HitTest\HitChain.cs" />
+    <Compile Include="6_debug\dbugHitTracker.cs" />
+    <Compile Include="6_debug\IdbugOutputWindow.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PixelFarm.Drawing.Core\PixelFarm.Drawing.Core.csproj">
+      <Project>{51D63482-5697-4B16-8401-506965624657}</Project>
+      <Name>PixelFarm.Drawing.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PixelFarm.DrawingCanvas\PixelFarm.DrawingCanvas.csproj">
+      <Project>{0cc424d5-20ac-4849-993d-3a720dbae94f}</Project>
+      <Name>PixelFarm.DrawingCanvas</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
