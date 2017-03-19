@@ -102,14 +102,6 @@
     <Compile Include="x_notusedOpenGLPortal.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Deps\LayoutFarm.TextBreak\LayoutFarm.TextBreak.Icu\LayoutFarm.TextBreak.Icu.csproj">
-      <Project>{777178CA-C706-406F-856D-62CC40AC63E4}</Project>
-      <Name>LayoutFarm.TextBreak.Icu</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Deps\LayoutFarm.TextBreak\TextBreak\LayoutFarm.TextBreak.csproj">
-      <Project>{09EC5531-D272-40DB-87A4-B2D353846CC2}</Project>
-      <Name>LayoutFarm.TextBreak</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Deps\PixelFarm.Drawing.Core\PixelFarm.Drawing.Core.csproj">
       <Project>{51D63482-5697-4B16-8401-506965624657}</Project>
       <Name>PixelFarm.Drawing.Core</Name>
@@ -117,6 +109,14 @@
     <ProjectReference Include="..\Deps\PixelFarm.DrawingCanvas\PixelFarm.DrawingCanvas.csproj">
       <Project>{0cc424d5-20ac-4849-993d-3a720dbae94f}</Project>
       <Name>PixelFarm.DrawingCanvas</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Deps_I18N\LayoutFarm.TextBreak\LayoutFarm.TextBreak.Icu\LayoutFarm.TextBreak.Icu.csproj">
+      <Project>{777178ca-c706-406f-856d-62cc40ac63e4}</Project>
+      <Name>LayoutFarm.TextBreak.Icu</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Deps_I18N\LayoutFarm.TextBreak\TextBreak\LayoutFarm.TextBreak.csproj">
+      <Project>{09ec5531-d272-40db-87a4-b2d353846cc2}</Project>
+      <Name>LayoutFarm.TextBreak</Name>
     </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.BaseRenderer\LayoutFarm.BaseRenderer.csproj">
       <Project>{20048075-A2F3-4B97-B3C6-BEA794429741}</Project>
