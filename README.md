@@ -1,4 +1,4 @@
-#Hello !
+**Hello !**
 
 ![nearly acid1](https://cloud.githubusercontent.com/assets/7447159/23646196/5c5c5096-0342-11e7-8d35-75b208206050.png)
 
@@ -12,9 +12,9 @@ The classic image of original project.
 
  
 
-###more info / screen capture imgs -> [see wiki](../../wiki/1.-Some-Screen-Captures)
+**more info / screen capture imgs** -> [see wiki](../../wiki/1.-Some-Screen-Captures)
 
-###Build Note -> [see wiki](../../wiki/3.-Build-The-Project)
+**Build Note** -> [see wiki](../../wiki/3.-Build-The-Project)
 
 -----
 I forked this project from https://github.com/ArthurHub/HTML-Renderer (thank you so much)
@@ -66,7 +66,6 @@ it is a C# project with permissive license( MIT,BSD, Apache2)
    so users can build a final native code web browser
 
 5) to make this runs on .NetCore
-
-Nice to meet you!
+ 
 
 WinterDev :)
