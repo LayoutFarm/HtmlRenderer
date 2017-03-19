@@ -63,6 +63,10 @@
       <Project>{cfb41c52-614e-476c-8bbe-d07c26fb582d}</Project>
       <Name>LayoutFarm.TextEdit</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Deps\LayoutFarm.YourBasicCustomWidgets\LayoutFarm.YourBasicCustomWidgets.csproj">
+      <Project>{6317f5f0-bc4b-4bfd-b3c0-73c05c2aa11e}</Project>
+      <Name>LayoutFarm.YourBasicCustomWidgets</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Deps\PixelFarm.Drawing.Core\PixelFarm.Drawing.Core.csproj">
       <Project>{51d63482-5697-4b16-8401-506965624657}</Project>
       <Name>PixelFarm.Drawing.Core</Name>
@@ -90,10 +94,6 @@
     <ProjectReference Include="..\LayoutFarm.WebDom\LayoutFarm.WebDom.csproj">
       <Project>{a7e65fd9-329d-4902-bcda-51ee4f992fd5}</Project>
       <Name>LayoutFarm.WebDom</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.YourBasicCustomWidgets\LayoutFarm.YourBasicCustomWidgets.csproj">
-      <Project>{6317f5f0-bc4b-4bfd-b3c0-73c05c2aa11e}</Project>
-      <Name>LayoutFarm.YourBasicCustomWidgets</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
