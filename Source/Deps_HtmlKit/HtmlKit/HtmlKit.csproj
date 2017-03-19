@@ -4,7 +4,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <ProjectGuid>{8406C949-82DB-4A84-9F4A-7245C70C5E51}</ProjectGuid>
+    <ProjectGuid>{517EAAFF-7CEE-4558-B7F3-BE30957AAE69}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>HtmlKit</RootNamespace>
     <AssemblyName>HtmlKit</AssemblyName>
