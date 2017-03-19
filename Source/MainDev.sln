@@ -61,9 +61,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypeMirror", "Deps\TypeMirr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlKit_Net20", "HtmlKit\HtmlKit_Net20\HtmlKit_Net20.csproj", "{517EAAFF-7CEE-4558-B7F3-BE30957AAE69}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.TextBreak", "Deps\LayoutFarm.TextBreak\TextBreak\LayoutFarm.TextBreak.csproj", "{09EC5531-D272-40DB-87A4-B2D353846CC2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.TextBreak", "Deps_I18N\LayoutFarm.TextBreak\TextBreak\LayoutFarm.TextBreak.csproj", "{09EC5531-D272-40DB-87A4-B2D353846CC2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.TextBreak.Icu", "Deps\LayoutFarm.TextBreak\LayoutFarm.TextBreak.Icu\LayoutFarm.TextBreak.Icu.csproj", "{777178CA-C706-406F-856D-62CC40AC63E4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.TextBreak.Icu", "Deps_I18N\LayoutFarm.TextBreak\LayoutFarm.TextBreak.Icu\LayoutFarm.TextBreak.Icu.csproj", "{777178CA-C706-406F-856D-62CC40AC63E4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextBreakerTest", "Deps\LayoutFarm.TextBreak\TextBreakerTest\TextBreakerTest.csproj", "{949DBA60-3DB1-4F6C-8BFA-B0056D320DF0}"
 EndProject
