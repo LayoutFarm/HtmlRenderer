@@ -30,17 +30,8 @@ namespace TestGraphicPackage2
         static void LoadHtmlSamples(TreeView _samplesTreeView)
         {
             //find sample folder 
-            string execFromFolder = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
-            string checkFolder = ExampleFolderConfig.GetCheckFolder();
-
-            //only from debug ?
-            if (!execFromFolder.EndsWith(checkFolder))
-            {
-                return;
-            }
-
-            int index = execFromFolder.LastIndexOf(checkFolder);
-            string rootSampleFolder = execFromFolder.Substring(0, index) + "\\Source\\Test8_HtmlRenderer.Demo\\Samples";
+            string execFromFolder = System.IO.Path.GetDirectoryName(Application.ExecutablePath);  
+            string rootSampleFolder = "..\\Test8_HtmlRenderer.Demo\\Samples";
             var root = new TreeNode("HTML Renderer");
             _samplesTreeView.Nodes.Add(root);
             string[] sampleDirs = System.IO.Directory.GetDirectories(rootSampleFolder);

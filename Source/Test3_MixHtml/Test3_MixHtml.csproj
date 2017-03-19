@@ -98,8 +98,6 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SampleViewportExtension.cs" />
-    <Compile Include="x_MyGlfwForm.cs" />
-    <Compile Include="x_notusedOpenGLPortal.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Deps\LayoutFarm.YourBasicCustomWidgets\LayoutFarm.YourBasicCustomWidgets.csproj">

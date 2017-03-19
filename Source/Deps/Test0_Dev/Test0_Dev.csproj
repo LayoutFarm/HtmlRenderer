@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6317F5F0-BC4B-4BFD-B3C0-73C05C2AA11E}</ProjectGuid>
+    <ProjectGuid>{3B23A8FC-89F0-415D-B5D3-2740BC86D09C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LayoutFarm.YourBasicCustomWidgets</RootNamespace>
-    <AssemblyName>LayoutFarm.YourBasicCustomWidgets</AssemblyName>
+    <RootNamespace>Test0_Dev</RootNamespace>
+    <AssemblyName>Test0_Dev</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,51 +31,44 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="0_CustomRenderElements\CustomContainerRenderBox.cs" />
-    <Compile Include="0_CustomRenderElements\CustomImageRenderBox.cs" />
-    <Compile Include="0_CustomRenderElements\CustomRenderElements.cs" />
-    <Compile Include="0_CustomRenderElements\CustomTextRun.cs" />
-    <Compile Include="0_CustomRenderElements\RenderElementExtension.cs" />
-    <Compile Include="1_UIElement\1_UIElement.cs" />
-    <Compile Include="1_UIElement\2_UIElement_EventListener.cs" />
-    <Compile Include="1_UIElement\3_UIBox.cs" />
-    <Compile Include="1_UIElement\4_UICollection.cs" />
-    <Compile Include="1_UIElement\5_IScrollable.cs" />
-    <Compile Include="1_UIElement\UIDragHitCollection.cs" />
-    <Compile Include="1_UIElement\UIVisitor.cs" />
-    <Compile Include="2_Basic\0_EaseBox.cs" />
-    <Compile Include="2_Basic\1_ImageBox.cs" />
-    <Compile Include="2_Basic\2_TextBox.cs" />
-    <Compile Include="2_Basic\3_SimpleBox.cs" />
-    <Compile Include="2_Basic\4_Label.cs" />
-    <Compile Include="3_Grid\2_GridLayer.cs" />
-    <Compile Include="3_Grid\3_GridTable.cs" />
-    <Compile Include="3_Grid\5_GridBox.cs" />
-    <Compile Include="4.1_Composites\CheckBox.cs" />
-    <Compile Include="4.1_Composites\ComboBox.cs" />
-    <Compile Include="4.1_Composites\HingeBox.cs" />
-    <Compile Include="4.1_Composites\HingeRelation.cs" />
-    <Compile Include="4.1_Composites\ListView.cs" />
-    <Compile Include="4.1_Composites\Menu.cs" />
-    <Compile Include="4.1_Composites\ScrollBar.cs" />
-    <Compile Include="4.1_Composites\TextBoxContainer.cs" />
-    <Compile Include="4.1_Composites\TreeView.cs" />
-    <Compile Include="4.3_Space\1_UINinespaceBox.cs" />
-    <Compile Include="4.3_Space\4_NineSpaceController.cs" />
-    <Compile Include="4.3_Space\5_DockSpaceController.cs" />
-    <Compile Include="4.3_Space\6_FreeSpaceController.cs" />
-    <Compile Include="4.3_Space\7_SpacePart.cs" />
-    <Compile Include="4.3_Space\8_SpacePartEnums.cs" />
-    <Compile Include="4.3_Space\9_NinespaceGrippers.cs" />
-    <Compile Include="6_InternalResourceMx\ClientBinder.cs" />
-    <Compile Include="6_InternalResourceMx\ResImageList.cs" />
-    <Compile Include="7_WindowUI\UIFloatWindow.cs" />
-    <Compile Include="8_Canvas\MiniAggCanvasBox.cs" />
-    <Compile Include="8_Canvas\MiniAggCanvasRenderElement.cs" />
-    <Compile Include="9_TextContentSplitter\ContentTextSplitter.cs" />
+    <Compile Include="Dev\DemoBase.cs" />
+    <Compile Include="Dev\FormCanvasHelper.cs" />
+    <Compile Include="Dev\FormDemoList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dev\FormDemoList.Designer.cs">
+      <DependentUpon>FormDemoList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dev\FormLayoutInspector.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dev\FormLayoutInspector.Designer.cs">
+      <DependentUpon>FormLayoutInspector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dev\FormPrint.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dev\FormPrint.Designer.cs">
+      <DependentUpon>FormPrint.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dev\SampleViewport.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Dev\FormDemoList.resx">
+      <DependentUpon>FormDemoList.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dev\FormLayoutInspector.resx">
+      <DependentUpon>FormLayoutInspector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dev\FormPrint.resx">
+      <DependentUpon>FormPrint.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LayoutFarm.BaseRenderer\LayoutFarm.BaseRenderer.csproj">
@@ -90,17 +83,17 @@
       <Project>{d88d86cd-6732-45e7-8fc9-49449ea9c737}</Project>
       <Name>LayoutFarm.ComposerCore</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.TextEdit\LayoutFarm.TextEdit.csproj">
-      <Project>{cfb41c52-614e-476c-8bbe-d07c26fb582d}</Project>
-      <Name>LayoutFarm.TextEdit</Name>
+    <ProjectReference Include="..\LayoutFarm.Platforms.WinForms\LayoutFarm.Platforms.WinForms.csproj">
+      <Project>{4602b28b-eeec-4a69-854c-b00b8b616837}</Project>
+      <Name>LayoutFarm.Platforms.WinForms</Name>
     </ProjectReference>
     <ProjectReference Include="..\PixelFarm.Drawing.Core\PixelFarm.Drawing.Core.csproj">
       <Project>{51d63482-5697-4b16-8401-506965624657}</Project>
       <Name>PixelFarm.Drawing.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PixelFarm.Drawing.MiniAgg.csproj">
-      <Project>{99a570d0-492a-453d-8b97-7f40489c10e0}</Project>
-      <Name>PixelFarm.Drawing.MiniAgg</Name>
+    <ProjectReference Include="..\PixelFarm.Drawing.GdiPlus\PixelFarm.Drawing.GdiPlus.csproj">
+      <Project>{1aa171e3-523c-4dd5-a169-de6322991ff5}</Project>
+      <Name>PixelFarm.Drawing.GdiPlus</Name>
     </ProjectReference>
     <ProjectReference Include="..\PixelFarm.DrawingCanvas\PixelFarm.DrawingCanvas.csproj">
       <Project>{0cc424d5-20ac-4849-993d-3a720dbae94f}</Project>
