@@ -5,24 +5,22 @@ namespace TestGraphicPackage2
 {
     static class ExampleFolderConfig
     {
+        static string execFromFolder;
         static ExampleFolderConfig()
         {
-            LayoutFarm.TextBreak.CustomBreakerBuilder.DataDir = @"D:\projects\HTML-Renderer\Source\Deps\LayoutFarm.TextBreak\icu58\brkitr_src\dictionaries";
+            string execLocation = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            execFromFolder = System.IO.Path.GetDirectoryName(execLocation);
+
+            LayoutFarm.TextBreak.CustomBreakerBuilder.DataDir = execFromFolder + "\\dictionaries"; 
+            //@"Deps_I18N\LayoutFarm.TextBreak\icu58\brkitr_src\dictionaries";
+
         }
         public static void InitIcuData()
         {
-            string icu_dataFile = @"D:\WImageTest\icudt57l\icudt57l.dat";
-            LayoutFarm.TextBreak.ICU.NativeTextBreaker.SetICUDataFile(icu_dataFile);
-        }
-        public static string GetCheckFolder()
-        {
-#if DEBUG
-            string checkFolder = "\\Source\\Test3_MixHtml\\bin\\Debug";
-#else
-            string checkFolder = "\\Source\\Test3_MixHtml\\bin\\Release";
-#endif
-            return checkFolder;
 
+            string icu_dataFile = @"icudt57l.dat";
+            LayoutFarm.TextBreak.ICU.NativeTextBreaker.SetICUDataFile(execFromFolder + "\\" + icu_dataFile);
         }
+
     }
 }
