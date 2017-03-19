@@ -8,8 +8,8 @@
     <ProjectGuid>{465CB0FF-C9FA-4371-AD10-51C6DFF537B8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PixelFarm.ClientPlatforms</RootNamespace>
-    <AssemblyName>PixelFarm.ClientPlatforms</AssemblyName>
+    <RootNamespace>LayoutFarm.ClientPlatforms</RootNamespace>
+    <AssemblyName>LayoutFarm.ClientPlatforms</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

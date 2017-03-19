@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test1_CoreVisual_New", "Tes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test3_MixHtml", "Test3_MixHtml\Test3_MixHtml.csproj", "{14840A73-6D38-4A2A-A71C-F84DC4FB4620}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlRenderer.Demo", "HtmlRenderer.Demo\HtmlRenderer.Demo.csproj", "{2D211739-D392-4FA9-BBA1-77278C68E5EA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test8_HtmlRenderer.Demo", "Test8_HtmlRenderer.Demo\Test8_HtmlRenderer.Demo.csproj", "{2D211739-D392-4FA9-BBA1-77278C68E5EA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.HtmlRenderer", "LayoutFarm.HtmlRenderer\LayoutFarm.HtmlRenderer.csproj", "{9D2A40BC-FA95-454D-AEF5-4DD9344BFDC3}"
 EndProject
