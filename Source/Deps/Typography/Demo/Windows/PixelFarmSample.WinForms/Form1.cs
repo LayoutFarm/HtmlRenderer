@@ -28,6 +28,11 @@ namespace SampleWinForms
         DevVxsTextPrinter _devVxsTextPrinter = null;
         DevGdiTextPrinter _devGdiTextPrinter = null;
 
+        SampleWinForms.UI.SampleTextBoxControllerForGdi _controllerForGdi = new UI.SampleTextBoxControllerForGdi();
+        //
+        SampleWinForms.UI.SampleTextBoxControllerForPixelFarm _controllerForPixelFarm = new UI.SampleTextBoxControllerForPixelFarm();
+
+
         float _fontSizeInPts = 14;//default
         string _selectedFontFilename;
         public Form1()
@@ -37,6 +42,7 @@ namespace SampleWinForms
 
             _devVxsTextPrinter = new DevVxsTextPrinter();
             _devGdiTextPrinter = new DevGdiTextPrinter();
+            this.sampleTextBox1.Visible = false;
 
             selectedTextPrinter = _devVxsTextPrinter;
             //default
@@ -47,6 +53,7 @@ namespace SampleWinForms
 
 
             this.Load += new EventHandler(Form1_Load);
+
             this.txtGridSize.KeyDown += TxtGridSize_KeyDown;
             //----------
             txtInputChar.TextChanged += (s, e) => UpdateRenderOutput();
@@ -71,6 +78,19 @@ namespace SampleWinForms
             lstHintList.SelectedIndex = 0;
             lstHintList.SelectedIndexChanged += (s, e) => UpdateRenderOutput();
             //---------- 
+
+            //---------- 
+            //share text printer to our sample textbox
+            //but you can create another text printer that specific to text textbox control
+            Graphics gx = this.sampleTextBox1.CreateGraphics(); 
+            _controllerForGdi.TextPrinter = _devGdiTextPrinter;
+            _controllerForGdi.BindHostGraphics(gx);
+            //---------- 
+            _controllerForPixelFarm.TextPrinter = _devVxsTextPrinter;
+            _controllerForPixelFarm.BindHostGraphics(gx);
+            //---------- 
+            this.sampleTextBox1.SetController(_controllerForPixelFarm);
+
 
             button1.Click += (s, e) => UpdateRenderOutput();
             chkShowGrid.CheckedChanged += (s, e) => UpdateRenderOutput();
@@ -171,8 +191,8 @@ namespace SampleWinForms
                 winBmp = new Bitmap(400, 300, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
                 g = this.CreateGraphics();
 
-                _devVxsTextPrinter.DefaultCanvasPainter = p;
-                _devGdiTextPrinter.DefaultTargetGraphics = g;
+                _devVxsTextPrinter.TargetCanvasPainter = p;
+                _devGdiTextPrinter.TargetGraphics = g;
             }
 
             if (string.IsNullOrEmpty(this.txtInputChar.Text))
@@ -181,23 +201,6 @@ namespace SampleWinForms
             }
 
             var hintTech = (HintTechnique)lstHintList.SelectedItem;
-            //bool useTrueTypeInst = false;//reset
-            //bool useVerticalHinting = false; //reset agg vertical-only hinting
-
-            //switch (Typography.Rendering)
-            //{
-            //    case HintTechnique.TrueTypeInstruction:
-            //        useTrueTypeInst = true;
-            //        break;
-            //    case HintTechnique.TrueTypeInstruction_VerticalOnly:
-            //        useTrueTypeInst = true;
-            //        useVerticalHinting = true;
-            //        break;
-            //    case HintTechnique.CustomAutoFit:
-            //        //custom agg autofit 
-            //        useVerticalHinting = true;
-            //        break;
-            //}
 
             //1. read typeface from font file 
             RenderChoice renderChoice = (RenderChoice)this.cmbRenderChoices.SelectedItem;
@@ -210,6 +213,7 @@ namespace SampleWinForms
                         selectedTextPrinter.FontFilename = _selectedFontFilename;
                         selectedTextPrinter.FontSizeInPoints = _fontSizeInPts;
                         selectedTextPrinter.HintTechnique = hintTech;
+                        selectedTextPrinter.PositionTechnique = (PositionTechnique)cmbPositionTech.SelectedItem;
                         //
                         selectedTextPrinter.DrawString(this.txtInputChar.Text.ToCharArray(), 0, 0);
 
@@ -226,8 +230,19 @@ namespace SampleWinForms
                         selectedTextPrinter.FontFilename = _selectedFontFilename;
                         selectedTextPrinter.FontSizeInPoints = _fontSizeInPts;
                         selectedTextPrinter.HintTechnique = hintTech;
+                        selectedTextPrinter.PositionTechnique = (PositionTechnique)cmbPositionTech.SelectedItem;
 
-                        selectedTextPrinter.DrawString(this.txtInputChar.Text.ToCharArray(), 0, 0);
+                        //test print 3 lines
+
+                        char[] printTextBuffer = this.txtInputChar.Text.ToCharArray();
+                        float x_pos = 0, y_pos = 200;
+                        float lineSpacingPx = selectedTextPrinter.FontLineSpacingPx;
+                        for (int i = 0; i < 3; ++i)
+                        {
+                            selectedTextPrinter.DrawString(printTextBuffer, x_pos, y_pos);
+                            y_pos -= lineSpacingPx;
+                        }
+
 
                         //copy from Agg's memory buffer to gdi 
                         PixelFarm.Agg.Imaging.BitmapHelper.CopyToGdiPlusBitmapSameSize(destImg, winBmp);
@@ -277,23 +292,7 @@ namespace SampleWinForms
         {
             //----------------------------------------------------
             var builder = new GlyphPathBuilder(typeface);
-            var hintTech = (HintTechnique)lstHintList.SelectedItem;
-            builder.UseTrueTypeInstructions = false;//reset
-            builder.UseVerticalHinting = false;//reset
-            switch (hintTech)
-            {
-                case HintTechnique.TrueTypeInstruction:
-                    builder.UseTrueTypeInstructions = true;
-                    break;
-                case HintTechnique.TrueTypeInstruction_VerticalOnly:
-                    builder.UseTrueTypeInstructions = true;
-                    builder.UseVerticalHinting = true;
-                    break;
-                case HintTechnique.CustomAutoFit:
-                    //custom agg autofit 
-                    builder.UseVerticalHinting = true;
-                    break;
-            }
+            builder.SetHintTechnique((HintTechnique)lstHintList.SelectedItem);
             //----------------------------------------------------
             builder.Build(testChar, sizeInPoint);
             var txToVxs1 = new GlyphTranslatorToVxs();
@@ -353,22 +352,8 @@ namespace SampleWinForms
             p.Clear(PixelFarm.Drawing.Color.White);
             //----------------------------------------------------
             var builder = new GlyphPathBuilder(typeface);
-            var hintTech = (HintTechnique)lstHintList.SelectedItem;
-            builder.UseTrueTypeInstructions = false;//reset
-            builder.UseVerticalHinting = false;//reset 
-            switch (hintTech)
-            {
-                case HintTechnique.TrueTypeInstruction:
-                    builder.UseTrueTypeInstructions = true;
-                    break;
-                case HintTechnique.TrueTypeInstruction_VerticalOnly:
-                    builder.UseTrueTypeInstructions = true;
-                    builder.UseVerticalHinting = true;
-                    break;
-                case HintTechnique.CustomAutoFit:
-                    //custom agg autofit 
-                    break;
-            }
+            builder.SetHintTechnique((HintTechnique)lstHintList.SelectedItem);
+
             //----------------------------------------------------
             builder.Build(testChar, sizeInPoint);
             //----------------------------------------------------
@@ -648,16 +633,16 @@ namespace SampleWinForms
                 var atlasBuilder = new SimpleFontAtlasBuilder();
 
 
-                for (ushort n = startGlyphIndex; n <= endGlyphIndex; ++n)
+                for (ushort gindex = startGlyphIndex; gindex <= endGlyphIndex; ++gindex)
                 {
                     //build glyph
-                    builder.BuildFromGlyphIndex(n, sizeInPoint);
+                    builder.BuildFromGlyphIndex(gindex, sizeInPoint);
 
                     var glyphToContour = new GlyphTranslatorToContour();
                     //glyphToContour.Read(builder.GetOutputPoints(), builder.GetOutputContours());
                     builder.ReadShapes(glyphToContour);
                     GlyphImage glyphImg = MsdfGlyphGen.CreateMsdfImage(glyphToContour);
-                    atlasBuilder.AddGlyph(n, glyphImg);
+                    atlasBuilder.AddGlyph(gindex, glyphImg);
 
                     //using (Bitmap bmp = new Bitmap(w, h, System.Drawing.Imaging.PixelFormat.Format32bppArgb))
                     //{
@@ -683,6 +668,12 @@ namespace SampleWinForms
             }
         }
 
-
+        private void chkShowSampleTextBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (this.sampleTextBox1.Visible = chkShowSampleTextBox.Visible)
+            {
+                this.sampleTextBox1.Focus();
+            }
+        }
     }
 }
