@@ -127,9 +127,13 @@
       <Project>{a7e65fd9-329d-4902-bcda-51ee4f992fd5}</Project>
       <Name>LayoutFarm.WebDom</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.YourCustomWidgets\LayoutFarm.YourCustomWidgets.csproj">
-      <Project>{1d8e9129-b883-4aee-93a3-8056469f5e6e}</Project>
-      <Name>LayoutFarm.YourCustomWidgets</Name>
+    <ProjectReference Include="..\LayoutFarm.YourBasicCustomWidgets\LayoutFarm.YourBasicCustomWidgets.csproj">
+      <Project>{6317f5f0-bc4b-4bfd-b3c0-73c05c2aa11e}</Project>
+      <Name>LayoutFarm.YourBasicCustomWidgets</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.YourHtmlWidget\LayoutFarm.YourHtmlWidget.csproj">
+      <Project>{9a73d7be-c7f0-47a8-8fd4-2906c4917148}</Project>
+      <Name>LayoutFarm.YourHtmlWidget</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

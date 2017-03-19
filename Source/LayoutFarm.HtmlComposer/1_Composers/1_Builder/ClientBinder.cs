@@ -2,7 +2,7 @@
 
 namespace LayoutFarm
 {
-    class ClientImageBinder : ImageBinder
+    public class ClientImageBinder : ImageBinder
     {
         UI.IEventListener listener;
         public ClientImageBinder(string src)
