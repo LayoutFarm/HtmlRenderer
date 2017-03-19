@@ -1,15 +1,29 @@
-#Hello !
+**Hello !**
 
-![nearly acid1](/readme_imgs/s02_nearly_acid1.png)
-(test file: Source/HtmlRenderer.Demo/Samples/0_acid1_dev/00.html)
-###seems promising ?, NEARLY pass ACID1 test :)
+![nearly acid1](https://cloud.githubusercontent.com/assets/7447159/23646196/5c5c5096-0342-11e7-8d35-75b208206050.png)
+
+_pic 1: HtmlRenderer, Gdi+ (test file: Source/HtmlRenderer.Demo/Samples/0_acid1_dev/00.html)_
+
+**seems promising ?, NEARLY pass ACID1 test :)**
+
+---
+
+I try to make this run cross platform.
 
 
-![debug view screen](/readme_imgs/s01.png)
+![gles2](https://cloud.githubusercontent.com/assets/7447159/24074437/ee5cb5e8-0c3a-11e7-8df0-53f32617aeac.png)
 
-###more info / screen capture imgs -> [see wiki](../../wiki/1.-Some-Screen-Captures)
+_pic 2: HtmlRenderer: OpenGLES2 BackEnd, Preview of Latest snapshot_
 
-###Build Note -> [see wiki](../../wiki/3.-Build-The-Project)
+---
+The classic image.
+![html_renderer_s01](https://cloud.githubusercontent.com/assets/7447159/24077194/3da7a684-0c78-11e7-8b83-98ebf77d5fdc.png)
+
+ _pic 3: HtmlRenderer's Classic, Gdi+_
+
+**more info / screen capture imgs** -> [see wiki](../../wiki/1.-Some-Screen-Captures)
+
+**Build Note** -> [see wiki](../../wiki/3.-Build-The-Project)
 
 -----
 I forked this project from https://github.com/ArthurHub/HTML-Renderer (thank you so much)
@@ -45,11 +59,13 @@ feel free to fork/ comment/ suggest /pull request
 
 
 
+---
+**License**
 
-#license
 it is a C# project with permissive license( MIT,BSD, Apache2)
 
-#plan
+---
+**Plan**
 
 1) always permissive license (MIT,BSD, Apache2)
 
@@ -61,7 +77,6 @@ it is a C# project with permissive license( MIT,BSD, Apache2)
    so users can build a final native code web browser
 
 5) to make this runs on .NetCore
-
-Nice to meet you!
+ 
 
 WinterDev :)
