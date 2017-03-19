@@ -6,10 +6,7 @@ using LayoutFarm.HtmlBoxes;
 namespace LayoutFarm.Composers
 {
 
-    public interface ITextBreaker
-    {
-        void DoBreak(char[] inputBuffer, int startIndex, int len, List<int> breakAtList);
-    }
+    
 
     /// <summary>
     /// parse html text content, 
@@ -293,17 +290,6 @@ namespace LayoutFarm.Composers
     }
 
 
-    public struct TextSplitBound
-    {
-        public readonly int startIndex;
-        public readonly int length;
-        public TextSplitBound(int startIndex, int length)
-        {
-            this.startIndex = startIndex;
-            this.length = length;
-        }
-    }
-
-
+    
 
 }
