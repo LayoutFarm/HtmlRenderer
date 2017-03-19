@@ -2,9 +2,7 @@
 
 ![nearly acid1](https://cloud.githubusercontent.com/assets/7447159/23646196/5c5c5096-0342-11e7-8d35-75b208206050.png)
 
-_pic 1: HtmlRenderer, Gdi+_
-
-(test file: Source/HtmlRenderer.Demo/Samples/0_acid1_dev/00.html)
+_pic 1: HtmlRenderer, Gdi+ (test file: Source/HtmlRenderer.Demo/Samples/0_acid1_dev/00.html)_
 
 **seems promising ?, NEARLY pass ACID1 test :)**
 
@@ -12,16 +10,17 @@ _pic 1: HtmlRenderer, Gdi+_
 
 I try to make this run cross platform.
 
-This is latest snapshot, HtmlRenderer: OpenGLES2 Backend.
+This is latest snapshot. 
 
 ![gles2](https://cloud.githubusercontent.com/assets/7447159/24074437/ee5cb5e8-0c3a-11e7-8df0-53f32617aeac.png)
 
+_pic 2: HtmlRenderer: OpenGLES2 BackEnd_
 
 ---
-The classic image of original project.
+The classic image.
 ![html_renderer_s01](https://cloud.githubusercontent.com/assets/7447159/24077194/3da7a684-0c78-11e7-8b83-98ebf77d5fdc.png)
 
- 
+ _pic 3: HtmlRenderer's Classic, Gdi+_
 
 **more info / screen capture imgs** -> [see wiki](../../wiki/1.-Some-Screen-Captures)
 
