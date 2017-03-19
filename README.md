@@ -1,11 +1,11 @@
 #Hello !
 
-![nearly acid1](/readme_imgs/s02_nearly_acid1.png)
+![nearly acid1](https://cloud.githubusercontent.com/assets/7447159/23646196/5c5c5096-0342-11e7-8d35-75b208206050.png)
 (test file: Source/HtmlRenderer.Demo/Samples/0_acid1_dev/00.html)
 ###seems promising ?, NEARLY pass ACID1 test :)
 
 
-![debug view screen](/readme_imgs/s01.png)
+ 
 
 ###more info / screen capture imgs -> [see wiki](../../wiki/1.-Some-Screen-Captures)
 
