@@ -2,13 +2,13 @@
 
 ![nearly acid1](https://cloud.githubusercontent.com/assets/7447159/23646196/5c5c5096-0342-11e7-8d35-75b208206050.png)
 
-_pic 1: HtmlRenderer, Gdi+ (test file: Source/HtmlRenderer.Demo/Samples/0_acid1_dev/00.html)_
+_pic 1: HtmlRenderer, Gdi+, see [test file](https://github.com/LayoutFarm/HtmlRenderer/blob/master/Source/Test8_HtmlRenderer.Demo/Samples/0_acid1_dev/00.htm)_ 
 
 **seems promising ?, NEARLY pass ACID1 test :)**
 
 ---
 
-I try to make this run cross platform.
+**Work In Progrss ... : Cross Platform HtmlRenderer**
 
 
 ![gles2](https://cloud.githubusercontent.com/assets/7447159/24074437/ee5cb5e8-0c3a-11e7-8df0-53f32617aeac.png)
@@ -21,7 +21,7 @@ The classic image.
 
  _pic 3: HtmlRenderer's Classic, Gdi+_
 
-**more info / screen capture imgs** -> [see wiki](../../wiki/1.-Some-Screen-Captures)
+**MORE info / screen capture imgs** -> [see wiki](../../wiki/1.-Some-Screen-Captures)
 
 **Build Note** -> [see wiki](../../wiki/3.-Build-The-Project)
 

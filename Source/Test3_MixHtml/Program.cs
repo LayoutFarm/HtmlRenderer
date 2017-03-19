@@ -40,7 +40,7 @@ namespace TestGraphicPackage2
             }
 
             int index = execFromFolder.LastIndexOf(checkFolder);
-            string rootSampleFolder = execFromFolder.Substring(0, index) + "\\Source\\HtmlRenderer.Demo\\Samples";
+            string rootSampleFolder = execFromFolder.Substring(0, index) + "\\Source\\Test8_HtmlRenderer.Demo\\Samples";
             var root = new TreeNode("HTML Renderer");
             _samplesTreeView.Nodes.Add(root);
             string[] sampleDirs = System.IO.Directory.GetDirectories(rootSampleFolder);
