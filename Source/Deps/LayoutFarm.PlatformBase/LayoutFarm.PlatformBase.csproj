@@ -47,27 +47,27 @@
     <Compile Include="Windows\WindowFontLoader.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Deps\PixelFarm.Drawing.Core\PixelFarm.Drawing.Core.csproj">
+    <ProjectReference Include="..\PixelFarm.Drawing.Core\PixelFarm.Drawing.Core.csproj">
       <Project>{51d63482-5697-4b16-8401-506965624657}</Project>
       <Name>PixelFarm.Drawing.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Deps\PixelFarm.Drawing.GLES2\PixelFarm.Drawing.GLES2.csproj">
+    <ProjectReference Include="..\PixelFarm.Drawing.GLES2\PixelFarm.Drawing.GLES2.csproj">
       <Project>{e1e89b3b-b529-4b17-b7ed-4c70cc8475eb}</Project>
       <Name>PixelFarm.Drawing.GLES2</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Deps\PixelFarm.Drawing.MiniAgg.csproj">
+    <ProjectReference Include="..\PixelFarm.Drawing.MiniAgg.csproj">
       <Project>{99a570d0-492a-453d-8b97-7f40489c10e0}</Project>
       <Name>PixelFarm.Drawing.MiniAgg</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Deps\PixelFarm.DrawingCanvas\PixelFarm.DrawingCanvas.csproj">
+    <ProjectReference Include="..\PixelFarm.DrawingCanvas\PixelFarm.DrawingCanvas.csproj">
       <Project>{0cc424d5-20ac-4849-993d-3a720dbae94f}</Project>
       <Name>PixelFarm.DrawingCanvas</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Deps\PixelFarm.Typography\PixelFarm.Typography.csproj">
+    <ProjectReference Include="..\PixelFarm.Typography\PixelFarm.Typography.csproj">
       <Project>{540a2ea6-dae3-4625-8951-b2c3118603a4}</Project>
       <Name>PixelFarm.Typography</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Deps\Typography\Typography.OpenFont\N20\Typography.OpenFont\Typography.OpenFont.csproj">
+    <ProjectReference Include="..\Typography\Typography.OpenFont\N20\Typography.OpenFont\Typography.OpenFont.csproj">
       <Project>{29ed0dfe-373c-4e98-bd4b-43f8e5fb16f6}</Project>
       <Name>Typography.OpenFont</Name>
     </ProjectReference>
