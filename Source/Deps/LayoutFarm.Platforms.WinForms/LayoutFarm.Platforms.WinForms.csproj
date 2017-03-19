@@ -43,21 +43,6 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\Deps\Win32Utils\MyWin32.cs">
-      <Link>Win32Utils\MyWin32.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Deps\Win32Utils\NativeTextWin32.cs">
-      <Link>Win32Utils\NativeTextWin32.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Deps\Win32Utils\NativeWin32MemoryDc.cs">
-      <Link>Win32Utils\NativeWin32MemoryDc.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Deps\YourImplementation.PixelFarm\ActiveFontAtlasService.cs">
-      <Link>0_Platform\ActiveFontAtlasService.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Deps\YourImplementation.PixelFarm\DrawingGLFontPrinter.cs">
-      <Link>0_Platform\DrawingGLFontPrinter.cs</Link>
-    </Compile>
     <Compile Include="..\LayoutFarm.PlatformBase\CanvasViewport.cs">
       <Link>0_Shared\CanvasViewport.cs</Link>
     </Compile>
@@ -90,6 +75,21 @@
     </Compile>
     <Compile Include="..\LayoutFarm.PlatformBase\Windows\WindowFontLoader.cs">
       <Link>5_Shared\WindowFontLoader.cs</Link>
+    </Compile>
+    <Compile Include="..\Win32Utils\MyWin32.cs">
+      <Link>Win32Utils\MyWin32.cs</Link>
+    </Compile>
+    <Compile Include="..\Win32Utils\NativeTextWin32.cs">
+      <Link>Win32Utils\NativeTextWin32.cs</Link>
+    </Compile>
+    <Compile Include="..\Win32Utils\NativeWin32MemoryDc.cs">
+      <Link>Win32Utils\NativeWin32MemoryDc.cs</Link>
+    </Compile>
+    <Compile Include="..\YourImplementation.PixelFarm\ActiveFontAtlasService.cs">
+      <Link>0_Platform\ActiveFontAtlasService.cs</Link>
+    </Compile>
+    <Compile Include="..\YourImplementation.PixelFarm\DrawingGLFontPrinter.cs">
+      <Link>0_Platform\DrawingGLFontPrinter.cs</Link>
     </Compile>
     <Compile Include="1_UISurfaceViewport\UISurfaceViewportControl.cs">
       <SubType>UserControl</SubType>
@@ -129,55 +129,55 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Deps\PixelFarm.Drawing.Core\PixelFarm.Drawing.Core.csproj">
+    <ProjectReference Include="..\PixelFarm.Drawing.Core\PixelFarm.Drawing.Core.csproj">
       <Project>{51D63482-5697-4B16-8401-506965624657}</Project>
       <Name>PixelFarm.Drawing.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Deps\PixelFarm.Drawing.GdiPlus\PixelFarm.Drawing.GdiPlus.csproj">
+    <ProjectReference Include="..\PixelFarm.Drawing.GdiPlus\PixelFarm.Drawing.GdiPlus.csproj">
       <Project>{1AA171E3-523C-4DD5-A169-DE6322991FF5}</Project>
       <Name>PixelFarm.Drawing.GdiPlus</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Deps\PixelFarm.Drawing.GLES2\PixelFarm.Drawing.GLES2.csproj">
+    <ProjectReference Include="..\PixelFarm.Drawing.GLES2\PixelFarm.Drawing.GLES2.csproj">
       <Project>{e1e89b3b-b529-4b17-b7ed-4c70cc8475eb}</Project>
       <Name>PixelFarm.Drawing.GLES2</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Deps\PixelFarm.Drawing.MiniAgg.csproj">
+    <ProjectReference Include="..\PixelFarm.Drawing.MiniAgg.csproj">
       <Project>{99a570d0-492a-453d-8b97-7f40489c10e0}</Project>
       <Name>PixelFarm.Drawing.MiniAgg</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Deps\PixelFarm.Drawing.Skia\PixelFarm.Drawing.Skia.csproj">
+    <ProjectReference Include="..\PixelFarm.Drawing.Skia\PixelFarm.Drawing.Skia.csproj">
       <Project>{9450c9fb-5a70-4e47-bec3-b0a98a9c7d15}</Project>
       <Name>PixelFarm.Drawing.Skia</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Deps\PixelFarm.DrawingCanvas\PixelFarm.DrawingCanvas.csproj">
+    <ProjectReference Include="..\PixelFarm.DrawingCanvas\PixelFarm.DrawingCanvas.csproj">
       <Project>{0cc424d5-20ac-4849-993d-3a720dbae94f}</Project>
       <Name>PixelFarm.DrawingCanvas</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Deps\PixelFarm.MiniOpenTK\PixelFarm.MiniOpenTK.csproj">
+    <ProjectReference Include="..\PixelFarm.MiniOpenTK\PixelFarm.MiniOpenTK.csproj">
       <Project>{7c154e68-1709-4d5d-ab76-833febe4b3b2}</Project>
       <Name>PixelFarm.MiniOpenTK</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Deps\PixelFarm.OpenTKWinForms\PixelFarm.OpenTKWinForms.csproj">
+    <ProjectReference Include="..\PixelFarm.OpenTKWinForms\PixelFarm.OpenTKWinForms.csproj">
       <Project>{4cf14dce-f731-4060-b92b-f1acfdf9803d}</Project>
       <Name>PixelFarm.OpenTKWinForms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Deps\PixelFarm.SkiaSharp\PixelFarm.SkiaSharp.csproj">
+    <ProjectReference Include="..\PixelFarm.SkiaSharp\PixelFarm.SkiaSharp.csproj">
       <Project>{fb828375-3017-44d8-8357-59207224906d}</Project>
       <Name>PixelFarm.SkiaSharp</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Deps\PixelFarm.Typography\PixelFarm.Typography.csproj">
+    <ProjectReference Include="..\PixelFarm.Typography\PixelFarm.Typography.csproj">
       <Project>{540a2ea6-dae3-4625-8951-b2c3118603a4}</Project>
       <Name>PixelFarm.Typography</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Deps\Typography\Typography.GlyphLayout\Typography.GlyphLayout.csproj">
+    <ProjectReference Include="..\Typography\Typography.GlyphLayout\Typography.GlyphLayout.csproj">
       <Project>{c48f2c17-3c32-4f27-a96c-60a9d86df9cf}</Project>
       <Name>Typography.GlyphLayout</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Deps\Typography\Typography.OpenFont\N20\Typography.OpenFont\Typography.OpenFont.csproj">
+    <ProjectReference Include="..\Typography\Typography.OpenFont\N20\Typography.OpenFont\Typography.OpenFont.csproj">
       <Project>{29ed0dfe-373c-4e98-bd4b-43f8e5fb16f6}</Project>
       <Name>Typography.OpenFont</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Deps\Typography\Typography.Rendering\Typography.Rendering.csproj">
+    <ProjectReference Include="..\Typography\Typography.Rendering\Typography.Rendering.csproj">
       <Project>{e4a1c3c3-1c1c-4e11-a2e6-a1fafd6652c7}</Project>
       <Name>Typography.Rendering</Name>
     </ProjectReference>
