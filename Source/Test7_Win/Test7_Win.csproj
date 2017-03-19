@@ -65,6 +65,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Deps\PixelFarm.ClientPlatforms\PixelFarm.ClientPlatforms.csproj">
+      <Project>{61369865-95b7-49f2-b012-67b4a2427a8b}</Project>
+      <Name>PixelFarm.ClientPlatforms</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Deps_I18N\LayoutFarm.TextBreak\LayoutFarm.TextBreak.Icu\LayoutFarm.TextBreak.Icu.csproj">
       <Project>{777178ca-c706-406f-856d-62cc40ac63e4}</Project>
       <Name>LayoutFarm.TextBreak.Icu</Name>

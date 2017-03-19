@@ -126,6 +126,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Deps\PixelFarm.ClientPlatforms\PixelFarm.ClientPlatforms.csproj">
+      <Project>{61369865-95b7-49f2-b012-67b4a2427a8b}</Project>
+      <Name>PixelFarm.ClientPlatforms</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Deps\PixelFarm.Drawing.Core\PixelFarm.Drawing.Core.csproj">
       <Project>{51D63482-5697-4B16-8401-506965624657}</Project>
       <Name>PixelFarm.Drawing.Core</Name>
