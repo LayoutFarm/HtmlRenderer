@@ -17,9 +17,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.HtmlRenderer", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.HtmlComposer", "LayoutFarm.HtmlComposer\LayoutFarm.HtmlComposer.csproj", "{1AF17E34-4C2D-4657-B993-E0608C555111}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.Platforms.WinForms", "Deps_Clients\LayoutFarm.Platforms.WinForms\LayoutFarm.Platforms.WinForms.csproj", "{4602B28B-EEEC-4A69-854C-B00B8B616837}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.Platforms.WinForms", "Deps\LayoutFarm.Platforms.WinForms\LayoutFarm.Platforms.WinForms.csproj", "{4602B28B-EEEC-4A69-854C-B00B8B616837}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.BaseRenderer", "Deps_Clients\LayoutFarm.BaseRenderer\LayoutFarm.BaseRenderer.csproj", "{20048075-A2F3-4B97-B3C6-BEA794429741}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.BaseRenderer", "Deps\LayoutFarm.BaseRenderer\LayoutFarm.BaseRenderer.csproj", "{20048075-A2F3-4B97-B3C6-BEA794429741}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.2_HtmlRenderer", "2.2_HtmlRenderer", "{9B34DBD5-4DF5-4098-BD8E-9396CDEC769A}"
 EndProject
@@ -67,17 +67,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tesselate", "Deps\Tesselate
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixelFarm.MiniOpenTK", "Deps\PixelFarm.MiniOpenTK\PixelFarm.MiniOpenTK.csproj", "{7C154E68-1709-4D5D-AB76-833FEBE4B3B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.Platforms.WinNeutral", "Deps_Clients\LayoutFarm.Platforms.WinNeutral\LayoutFarm.Platforms.WinNeutral.csproj", "{2854A4F1-0110-4B47-B773-9A5FD462755E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.Platforms.WinNeutral", "Deps\LayoutFarm.Platforms.WinNeutral\LayoutFarm.Platforms.WinNeutral.csproj", "{2854A4F1-0110-4B47-B773-9A5FD462755E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixelFarm.NativeWindows", "Deps\PixelFarm.NativeWindows\PixelFarm.NativeWindows.csproj", "{198D20B3-0DBD-4C8C-8F0D-0D0FD9C61D43}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixelFarm.DrawingGL", "Deps\PixelFarm.DrawingGL\PixelFarm.DrawingGL.csproj", "{E1702214-6C76-46FA-A1DF-31645CA704C6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixelFarm.Drawing.GLES2", "Deps\PixelFarm.Drawing.GLES2\PixelFarm.Drawing.GLES2.csproj", "{E1E89B3B-B529-4B17-B7ED-4C70CC8475EB}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0_TestDev2_WinNeutral", "0_TestDev2_WinNeutral", "{2A93AC8D-AAEE-4CC7-8BD7-3C77164161D5}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test7_Win", "Test7_Win\Test7_Win.csproj", "{B3047240-20CB-48FE-A6FB-2BBA559C402C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixelFarm.Triangulation", "Deps\PixelFarm.Triangulation\PixelFarm.Triangulation.csproj", "{C5E5802D-6A45-4FE9-BAE7-5F0AE91D72C1}"
 EndProject
@@ -109,7 +105,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.1_Agg_PureSoftwareRendere
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.1_WindowsSystem", "2.1_WindowsSystem", "{E42248A8-0780-4443-A679-C4C9C28B3F63}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.PlatformBase", "Deps_Clients\LayoutFarm.PlatformBase\LayoutFarm.PlatformBase.csproj", "{CDEFD12B-956C-4686-AE8A-F89C3280C95F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.PlatformBase", "Deps\LayoutFarm.PlatformBase\LayoutFarm.PlatformBase.csproj", "{CDEFD12B-956C-4686-AE8A-F89C3280C95F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0_TestDev3", "0_TestDev3", "{593F2AEF-40E6-4A44-BD9D-4F27800A1A46}"
 EndProject
@@ -125,9 +121,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1_Deps_Clients", "1_Deps_Cl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlKit_Net20", "Deps_HtmlKit\HtmlKit_Net20\HtmlKit_Net20.csproj", "{69C5BFF6-18C2-4D29-AA07-3C8DBDC70F87}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.ClientPlatforms", "Deps_Clients\LayoutFarm.ClientPlatforms\LayoutFarm.ClientPlatforms.csproj", "{465CB0FF-C9FA-4371-AD10-51C6DFF537B8}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5_ClientPlatforms", "5_ClientPlatforms", "{94E71FD9-49D6-4254-A03D-99A4D4316716}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.ClientPlatforms", "Deps\LayoutFarm.ClientPlatforms\LayoutFarm.ClientPlatforms.csproj", "{465CB0FF-C9FA-4371-AD10-51C6DFF537B8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -640,24 +634,6 @@ Global
 		{E1E89B3B-B529-4B17-B7ED-4C70CC8475EB}.Release64|Mixed Platforms.Build.0 = Release|Any CPU
 		{E1E89B3B-B529-4B17-B7ED-4C70CC8475EB}.Release64|x86.ActiveCfg = Release|Any CPU
 		{E1E89B3B-B529-4B17-B7ED-4C70CC8475EB}.Release64|x86.Build.0 = Release|Any CPU
-		{B3047240-20CB-48FE-A6FB-2BBA559C402C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B3047240-20CB-48FE-A6FB-2BBA559C402C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B3047240-20CB-48FE-A6FB-2BBA559C402C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{B3047240-20CB-48FE-A6FB-2BBA559C402C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{B3047240-20CB-48FE-A6FB-2BBA559C402C}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{B3047240-20CB-48FE-A6FB-2BBA559C402C}.Debug|x86.Build.0 = Debug|Any CPU
-		{B3047240-20CB-48FE-A6FB-2BBA559C402C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B3047240-20CB-48FE-A6FB-2BBA559C402C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B3047240-20CB-48FE-A6FB-2BBA559C402C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{B3047240-20CB-48FE-A6FB-2BBA559C402C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{B3047240-20CB-48FE-A6FB-2BBA559C402C}.Release|x86.ActiveCfg = Release|Any CPU
-		{B3047240-20CB-48FE-A6FB-2BBA559C402C}.Release|x86.Build.0 = Release|Any CPU
-		{B3047240-20CB-48FE-A6FB-2BBA559C402C}.Release64|Any CPU.ActiveCfg = Release|Any CPU
-		{B3047240-20CB-48FE-A6FB-2BBA559C402C}.Release64|Any CPU.Build.0 = Release|Any CPU
-		{B3047240-20CB-48FE-A6FB-2BBA559C402C}.Release64|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{B3047240-20CB-48FE-A6FB-2BBA559C402C}.Release64|Mixed Platforms.Build.0 = Release|Any CPU
-		{B3047240-20CB-48FE-A6FB-2BBA559C402C}.Release64|x86.ActiveCfg = Release|Any CPU
-		{B3047240-20CB-48FE-A6FB-2BBA559C402C}.Release64|x86.Build.0 = Release|Any CPU
 		{C5E5802D-6A45-4FE9-BAE7-5F0AE91D72C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C5E5802D-6A45-4FE9-BAE7-5F0AE91D72C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C5E5802D-6A45-4FE9-BAE7-5F0AE91D72C1}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
@@ -909,7 +885,6 @@ Global
 		{198D20B3-0DBD-4C8C-8F0D-0D0FD9C61D43} = {E42248A8-0780-4443-A679-C4C9C28B3F63}
 		{E1702214-6C76-46FA-A1DF-31645CA704C6} = {B59D407E-3B8A-4678-A4C0-AA64DAF42A84}
 		{E1E89B3B-B529-4B17-B7ED-4C70CC8475EB} = {23C0EDB4-09A6-4821-962E-80CD0E5AEE51}
-		{B3047240-20CB-48FE-A6FB-2BBA559C402C} = {2A93AC8D-AAEE-4CC7-8BD7-3C77164161D5}
 		{C5E5802D-6A45-4FE9-BAE7-5F0AE91D72C1} = {B59D407E-3B8A-4678-A4C0-AA64DAF42A84}
 		{4CF14DCE-F731-4060-B92B-F1ACFDF9803D} = {E42248A8-0780-4443-A679-C4C9C28B3F63}
 		{0CC424D5-20AC-4849-993D-3A720DBAE94F} = {17F5D14D-5DE2-40BB-A28B-A17747AB4CFC}
@@ -930,6 +905,5 @@ Global
 		{8963DD34-CE0A-42CD-B3B2-D73031B8F0A0} = {84CCD0BF-E1ED-4856-A3B6-22581BB03069}
 		{69C5BFF6-18C2-4D29-AA07-3C8DBDC70F87} = {7259A1DA-AE5A-4F41-9BAC-BB3873B52D80}
 		{465CB0FF-C9FA-4371-AD10-51C6DFF537B8} = {B534306A-8A47-475F-87D2-634D7E8860C3}
-		{94E71FD9-49D6-4254-A03D-99A4D4316716} = {305A00BF-62AC-40B9-BEF1-B2CF4FE7F4B3}
 	EndGlobalSection
 EndGlobal
