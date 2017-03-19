@@ -118,10 +118,6 @@
     <Compile Include="2_WebDom\WellknownElementName.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LayoutFarm.ClientPlatforms\LayoutFarm.ClientPlatforms.csproj">
-      <Project>{61369865-95B7-49F2-B012-67B4A2427A8B}</Project>
-      <Name>LayoutFarm.ClientPlatforms</Name>
-    </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.CssBase\LayoutFarm.CssBase.csproj">
       <Project>{5164EC24-95C4-4333-BD4E-70EE625CCEB4}</Project>
       <Name>LayoutFarm.CssBase</Name>

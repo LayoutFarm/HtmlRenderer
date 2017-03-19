@@ -145,10 +145,6 @@
       <Project>{20048075-a2f3-4b97-b3c6-bea794429741}</Project>
       <Name>LayoutFarm.BaseRenderer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.ClientPlatforms\LayoutFarm.ClientPlatforms.csproj">
-      <Project>{61369865-95b7-49f2-b012-67b4a2427a8b}</Project>
-      <Name>LayoutFarm.ClientPlatforms</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
