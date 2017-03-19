@@ -57,7 +57,7 @@
       <Project>{540a2ea6-dae3-4625-8951-b2c3118603a4}</Project>
       <Name>PixelFarm.Typography</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.Platforms.WinNeutral\LayoutFarm.Platforms.WinNeutral.csproj">
+    <ProjectReference Include="..\Deps_Clients\LayoutFarm.Platforms.WinNeutral\LayoutFarm.Platforms.WinNeutral.csproj">
       <Project>{2854a4f1-0110-4b47-b773-9a5fd462755e}</Project>
       <Name>LayoutFarm.Platforms.WinNeutral</Name>
     </ProjectReference>

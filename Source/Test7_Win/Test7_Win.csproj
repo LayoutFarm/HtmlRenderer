@@ -113,7 +113,7 @@
       <Project>{540a2ea6-dae3-4625-8951-b2c3118603a4}</Project>
       <Name>PixelFarm.Typography</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.BaseRenderer\LayoutFarm.BaseRenderer.csproj">
+    <ProjectReference Include="..\Deps_Clients\LayoutFarm.BaseRenderer\LayoutFarm.BaseRenderer.csproj">
       <Project>{20048075-a2f3-4b97-b3c6-bea794429741}</Project>
       <Name>LayoutFarm.BaseRenderer</Name>
     </ProjectReference>
@@ -129,7 +129,7 @@
       <Project>{9d2a40bc-fa95-454d-aef5-4dd9344bfdc3}</Project>
       <Name>LayoutFarm.HtmlRenderer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.Platforms.WinNeutral\LayoutFarm.Platforms.WinNeutral.csproj">
+    <ProjectReference Include="..\Deps_Clients\LayoutFarm.Platforms.WinNeutral\LayoutFarm.Platforms.WinNeutral.csproj">
       <Project>{2854a4f1-0110-4b47-b773-9a5fd462755e}</Project>
       <Name>LayoutFarm.Platforms.WinNeutral</Name>
     </ProjectReference>

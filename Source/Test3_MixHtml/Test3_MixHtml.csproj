@@ -122,7 +122,7 @@
       <Project>{09ec5531-d272-40db-87a4-b2d353846cc2}</Project>
       <Name>LayoutFarm.TextBreak</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.BaseRenderer\LayoutFarm.BaseRenderer.csproj">
+    <ProjectReference Include="..\Deps_Clients\LayoutFarm.BaseRenderer\LayoutFarm.BaseRenderer.csproj">
       <Project>{20048075-A2F3-4B97-B3C6-BEA794429741}</Project>
       <Name>LayoutFarm.BaseRenderer</Name>
     </ProjectReference>
@@ -134,11 +134,11 @@
       <Project>{9D2A40BC-FA95-454D-AEF5-4DD9344BFDC3}</Project>
       <Name>LayoutFarm.HtmlRenderer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.Platforms.WinForms\LayoutFarm.Platforms.WinForms.csproj">
+    <ProjectReference Include="..\Deps_Clients\LayoutFarm.Platforms.WinForms\LayoutFarm.Platforms.WinForms.csproj">
       <Project>{4602B28B-EEEC-4A69-854C-B00B8B616837}</Project>
       <Name>LayoutFarm.Platforms.WinForms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.TextEdit\LayoutFarm.TextEdit.csproj">
+    <ProjectReference Include="..\Deps_Clients\LayoutFarm.TextEdit\LayoutFarm.TextEdit.csproj">
       <Project>{CFB41C52-614E-476C-8BBE-D07C26FB582D}</Project>
       <Name>LayoutFarm.TextEdit</Name>
     </ProjectReference>
