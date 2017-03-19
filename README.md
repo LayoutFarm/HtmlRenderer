@@ -117,9 +117,7 @@ MIT, 2006-2009,  Stefanos Apostolopoulos and other Open Tool Kit Contributors, f
 
 MIT, 2013, Antonie Blom, from  https://github.com/andykorth/Pencil.Gaming
 
-MIT, 2004,2007, Novell Inc., for System.Drawing
-
-it is a C# project with permissive license( MIT,BSD, Apache2)
+MIT, 2004,2007, Novell Inc., for System.Drawing 
 
 
 ---
