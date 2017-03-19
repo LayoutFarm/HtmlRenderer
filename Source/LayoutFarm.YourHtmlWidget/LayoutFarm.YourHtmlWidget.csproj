@@ -1,15 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{1D8E9129-B883-4AEE-93A3-8056469F5E6E}</ProjectGuid>
+    <ProjectGuid>{9A73D7BE-C7F0-47A8-8FD4-2906C4917148}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LayoutFarm.YourCustomWidgets</RootNamespace>
-    <AssemblyName>LayoutFarm.YourCustomWidgets</AssemblyName>
+    <RootNamespace>LayoutFarm.YourHtmlWidget</RootNamespace>
+    <AssemblyName>LayoutFarm.YourHtmlWidget</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -34,43 +33,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="0_CustomRenderElements\CustomContainerRenderBox.cs" />
-    <Compile Include="0_CustomRenderElements\CustomTextRun.cs" />
-    <Compile Include="0_CustomRenderElements\RenderElementExtension.cs" />
-    <Compile Include="1_UIElement\1_UIElement.cs" />
-    <Compile Include="1_UIElement\2_UIElement_EventListener.cs" />
-    <Compile Include="1_UIElement\3_UIBox.cs" />
-    <Compile Include="1_UIElement\4_UICollection.cs" />
-    <Compile Include="1_UIElement\5_IScrollable.cs" />
-    <Compile Include="1_UIElement\UIDragHitCollection.cs" />
-    <Compile Include="1_UIElement\UIVisitor.cs" />
-    <Compile Include="2_Basic\2_TextBox.cs" />
-    <Compile Include="3_Grid\2_GridLayer.cs" />
-    <Compile Include="3_Grid\3_GridTable.cs" />
-    <Compile Include="4.1_Composites\TextBoxContainer.cs" />
-    <Compile Include="4.3_Space\4_NineSpaceController.cs" />
-    <Compile Include="4.3_Space\5_DockSpaceController.cs" />
-    <Compile Include="4.3_Space\6_FreeSpaceController.cs" />
-    <Compile Include="4.3_Space\8_SpacePartEnums.cs" />
-    <Compile Include="4.3_Space\7_SpacePart.cs" />
-    <Compile Include="4.3_Space\9_NinespaceGrippers.cs" />
-    <Compile Include="2_Basic\0_EaseBox.cs" />
-    <Compile Include="0_CustomRenderElements\CustomImageRenderBox.cs" />
-    <Compile Include="0_CustomRenderElements\CustomRenderElements.cs" />
-    <Compile Include="3_Grid\5_GridBox.cs" />
-    <Compile Include="2_Basic\1_ImageBox.cs" />
-    <Compile Include="2_Basic\3_SimpleBox.cs" />
-    <Compile Include="4.3_Space\1_UINinespaceBox.cs" />
     <Compile Include="5.1_HtmlWidgetBase\0_WidgetBase.cs" />
-    <Compile Include="4.1_Composites\ScrollBar.cs" />
-    <Compile Include="2_Basic\4_Label.cs" />
-    <Compile Include="4.1_Composites\HingeRelation.cs" />
-    <Compile Include="4.1_Composites\CheckBox.cs" />
-    <Compile Include="4.1_Composites\ComboBox.cs" />
-    <Compile Include="4.1_Composites\HingeBox.cs" />
-    <Compile Include="4.1_Composites\ListView.cs" />
-    <Compile Include="4.1_Composites\Menu.cs" />
-    <Compile Include="4.1_Composites\TreeView.cs" />
     <Compile Include="5.1_HtmlWidgetBase\Button.cs" />
     <Compile Include="5.1_HtmlWidgetBase\CheckBox.cs" />
     <Compile Include="5.1_HtmlWidgetBase\ComboBox.cs" />
@@ -85,16 +48,27 @@
     <Compile Include="5_HtmlBox\HtmlContainerHelper.cs" />
     <Compile Include="5_HtmlBox\HtmlHostContentManager.cs" />
     <Compile Include="5_HtmlBox\MyCustomCssBoxGenerator.cs" />
-    <Compile Include="6_InternalResourceMx\ResImageList.cs" />
-    <Compile Include="7_WindowUI\UIFloatWindow.cs" />
-    <Compile Include="8_Canvas\MiniAggCanvasBox.cs" />
-    <Compile Include="8_Canvas\MiniAggCanvasRenderElement.cs" />
-    <Compile Include="9_TextContentSplitter\ContentTextSplitter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Deps\LayoutFarm.BaseRenderer\LayoutFarm.BaseRenderer.csproj">
+      <Project>{20048075-a2f3-4b97-b3c6-bea794429741}</Project>
+      <Name>LayoutFarm.BaseRenderer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Deps\LayoutFarm.ClientPlatforms\LayoutFarm.ClientPlatforms.csproj">
+      <Project>{465cb0ff-c9fa-4371-ad10-51c6dff537b8}</Project>
+      <Name>LayoutFarm.ClientPlatforms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Deps\LayoutFarm.TextEdit\LayoutFarm.TextEdit.csproj">
+      <Project>{cfb41c52-614e-476c-8bbe-d07c26fb582d}</Project>
+      <Name>LayoutFarm.TextEdit</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Deps\LayoutFarm.YourBasicCustomWidgets\LayoutFarm.YourBasicCustomWidgets.csproj">
+      <Project>{6317f5f0-bc4b-4bfd-b3c0-73c05c2aa11e}</Project>
+      <Name>LayoutFarm.YourBasicCustomWidgets</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Deps\PixelFarm.Drawing.Core\PixelFarm.Drawing.Core.csproj">
-      <Project>{51D63482-5697-4B16-8401-506965624657}</Project>
+      <Project>{51d63482-5697-4b16-8401-506965624657}</Project>
       <Name>PixelFarm.Drawing.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Deps\PixelFarm.Drawing.MiniAgg.csproj">
@@ -105,16 +79,8 @@
       <Project>{0cc424d5-20ac-4849-993d-3a720dbae94f}</Project>
       <Name>PixelFarm.DrawingCanvas</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Deps\LayoutFarm.BaseRenderer\LayoutFarm.BaseRenderer.csproj">
-      <Project>{20048075-a2f3-4b97-b3c6-bea794429741}</Project>
-      <Name>LayoutFarm.BaseRenderer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Deps\LayoutFarm.ClientPlatforms\LayoutFarm.ClientPlatforms.csproj">
-      <Project>{465cb0ff-c9fa-4371-ad10-51c6dff537b8}</Project>
-      <Name>LayoutFarm.ClientPlatforms</Name>
-    </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.CssBase\LayoutFarm.CssBase.csproj">
-      <Project>{5164EC24-95C4-4333-BD4E-70EE625CCEB4}</Project>
+      <Project>{5164ec24-95c4-4333-bd4e-70ee625cceb4}</Project>
       <Name>LayoutFarm.CssBase</Name>
     </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.HtmlComposer\LayoutFarm.HtmlComposer.csproj">
@@ -122,19 +88,14 @@
       <Name>LayoutFarm.HtmlComposer</Name>
     </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.HtmlRenderer\LayoutFarm.HtmlRenderer.csproj">
-      <Project>{9D2A40BC-FA95-454D-AEF5-4DD9344BFDC3}</Project>
+      <Project>{9d2a40bc-fa95-454d-aef5-4dd9344bfdc3}</Project>
       <Name>LayoutFarm.HtmlRenderer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Deps\LayoutFarm.TextEdit\LayoutFarm.TextEdit.csproj">
-      <Project>{cfb41c52-614e-476c-8bbe-d07c26fb582d}</Project>
-      <Name>LayoutFarm.TextEdit</Name>
-    </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.WebDom\LayoutFarm.WebDom.csproj">
-      <Project>{A7E65FD9-329D-4902-BCDA-51EE4F992FD5}</Project>
+      <Project>{a7e65fd9-329d-4902-bcda-51ee4f992fd5}</Project>
       <Name>LayoutFarm.WebDom</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -102,6 +102,10 @@
     <Compile Include="x_notusedOpenGLPortal.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Deps\LayoutFarm.YourBasicCustomWidgets\LayoutFarm.YourBasicCustomWidgets.csproj">
+      <Project>{6317f5f0-bc4b-4bfd-b3c0-73c05c2aa11e}</Project>
+      <Name>LayoutFarm.YourBasicCustomWidgets</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Deps\PixelFarm.Drawing.Core\PixelFarm.Drawing.Core.csproj">
       <Project>{51D63482-5697-4B16-8401-506965624657}</Project>
       <Name>PixelFarm.Drawing.Core</Name>
@@ -146,9 +150,9 @@
       <Project>{A7E65FD9-329D-4902-BCDA-51EE4F992FD5}</Project>
       <Name>LayoutFarm.WebDom</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.YourCustomWidgets\LayoutFarm.YourCustomWidgets.csproj">
-      <Project>{1D8E9129-B883-4AEE-93A3-8056469F5E6E}</Project>
-      <Name>LayoutFarm.YourCustomWidgets</Name>
+    <ProjectReference Include="..\LayoutFarm.YourHtmlWidget\LayoutFarm.YourHtmlWidget.csproj">
+      <Project>{9a73d7be-c7f0-47a8-8fd4-2906c4917148}</Project>
+      <Name>LayoutFarm.YourHtmlWidget</Name>
     </ProjectReference>
     <ProjectReference Include="..\Test0_PresentationDevHelper_New\Test0_PresentationDevHelper_New.csproj">
       <Project>{05C84CAB-2F5D-4D74-9A62-EADDF5B4CC0B}</Project>

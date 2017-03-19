@@ -1,9 +1,8 @@
 ﻿//Apache2, 2014-2017, WinterDev
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
+ 
+using System.Collections.Generic; 
 using PixelFarm.Drawing;
 using LayoutFarm.CustomWidgets;
 using LayoutFarm.WebDom;

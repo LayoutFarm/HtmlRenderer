@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("LayoutFarm.YourCustomUI")]
+[assembly: AssemblyTitle("LayoutFarm.YourHtmlWidget")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("LayoutFarm.YourCustomUI")]
-[assembly: AssemblyCopyright("Copyright ©  2014")]
+[assembly: AssemblyProduct("LayoutFarm.YourHtmlWidget")]
+[assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("135d70b9-8976-4b30-bb9d-f2a6d2f22402")]
+[assembly: Guid("9a73d7be-c7f0-47a8-8fd4-2906c4917148")]
 
 // Version information for an assembly consists of the following four values:
 //

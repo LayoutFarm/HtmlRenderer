@@ -1,8 +1,16 @@
 ﻿//BSD, 2014-2017, WinterDev
 
+using System.Collections.Generic;
 using PixelFarm.Drawing;
+
 namespace LayoutFarm
 {
+
+    public interface ITextBreaker
+    {
+        void DoBreak(char[] inputBuffer, int startIndex, int len, List<int> breakAtList);
+    }
+
     public abstract class ImageBinder
     {
         Image _image;
@@ -110,5 +118,27 @@ namespace LayoutFarm
         Loading,
         Error,
         NoImage
+    }
+
+
+    namespace Composers
+    {
+        //TODO: review here
+        public struct TextSplitBound
+        {
+            public readonly int startIndex;
+            public readonly int length;
+            public TextSplitBound(int startIndex, int length)
+            {
+                this.startIndex = startIndex;
+                this.length = length;
+            }
+        }
+        //TODO: review here
+        public static class Default
+        {
+            public static ITextBreaker TextBreaker { get; set; }
+        }
+
     }
 }

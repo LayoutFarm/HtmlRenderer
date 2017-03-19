@@ -1,9 +1,7 @@
 ﻿//Apache2, 2014-2017, WinterDev
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 using PixelFarm.Drawing;
 namespace LayoutFarm.CustomWidgets
 {
@@ -32,7 +30,7 @@ namespace LayoutFarm.CustomWidgets
         {
             Image found;
             images.TryGetValue(imageName, out found);
-            ImageBinder binder = new ClientImageBinder(null);
+            ImageBinder binder = new MyClientImageBinder(null);
             binder.SetImage(found);
             binder.State = ImageBinderState.Loaded;
             return binder;

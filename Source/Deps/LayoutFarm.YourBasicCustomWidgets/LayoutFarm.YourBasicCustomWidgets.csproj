@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{6317F5F0-BC4B-4BFD-B3C0-73C05C2AA11E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LayoutFarm.YourBasicCustomWidgets</RootNamespace>
+    <AssemblyName>LayoutFarm.YourBasicCustomWidgets</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="0_CustomRenderElements\CustomContainerRenderBox.cs" />
+    <Compile Include="0_CustomRenderElements\CustomImageRenderBox.cs" />
+    <Compile Include="0_CustomRenderElements\CustomRenderElements.cs" />
+    <Compile Include="0_CustomRenderElements\CustomTextRun.cs" />
+    <Compile Include="0_CustomRenderElements\RenderElementExtension.cs" />
+    <Compile Include="1_UIElement\1_UIElement.cs" />
+    <Compile Include="1_UIElement\2_UIElement_EventListener.cs" />
+    <Compile Include="1_UIElement\3_UIBox.cs" />
+    <Compile Include="1_UIElement\4_UICollection.cs" />
+    <Compile Include="1_UIElement\5_IScrollable.cs" />
+    <Compile Include="1_UIElement\UIDragHitCollection.cs" />
+    <Compile Include="1_UIElement\UIVisitor.cs" />
+    <Compile Include="2_Basic\0_EaseBox.cs" />
+    <Compile Include="2_Basic\1_ImageBox.cs" />
+    <Compile Include="2_Basic\2_TextBox.cs" />
+    <Compile Include="2_Basic\3_SimpleBox.cs" />
+    <Compile Include="2_Basic\4_Label.cs" />
+    <Compile Include="3_Grid\2_GridLayer.cs" />
+    <Compile Include="3_Grid\3_GridTable.cs" />
+    <Compile Include="3_Grid\5_GridBox.cs" />
+    <Compile Include="4.1_Composites\CheckBox.cs" />
+    <Compile Include="4.1_Composites\ComboBox.cs" />
+    <Compile Include="4.1_Composites\HingeBox.cs" />
+    <Compile Include="4.1_Composites\HingeRelation.cs" />
+    <Compile Include="4.1_Composites\ListView.cs" />
+    <Compile Include="4.1_Composites\Menu.cs" />
+    <Compile Include="4.1_Composites\ScrollBar.cs" />
+    <Compile Include="4.1_Composites\TextBoxContainer.cs" />
+    <Compile Include="4.1_Composites\TreeView.cs" />
+    <Compile Include="4.3_Space\1_UINinespaceBox.cs" />
+    <Compile Include="4.3_Space\4_NineSpaceController.cs" />
+    <Compile Include="4.3_Space\5_DockSpaceController.cs" />
+    <Compile Include="4.3_Space\6_FreeSpaceController.cs" />
+    <Compile Include="4.3_Space\7_SpacePart.cs" />
+    <Compile Include="4.3_Space\8_SpacePartEnums.cs" />
+    <Compile Include="4.3_Space\9_NinespaceGrippers.cs" />
+    <Compile Include="6_InternalResourceMx\ClientBinder.cs" />
+    <Compile Include="6_InternalResourceMx\ResImageList.cs" />
+    <Compile Include="7_WindowUI\UIFloatWindow.cs" />
+    <Compile Include="8_Canvas\MiniAggCanvasBox.cs" />
+    <Compile Include="8_Canvas\MiniAggCanvasRenderElement.cs" />
+    <Compile Include="9_TextContentSplitter\ContentTextSplitter.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LayoutFarm.BaseRenderer\LayoutFarm.BaseRenderer.csproj">
+      <Project>{20048075-a2f3-4b97-b3c6-bea794429741}</Project>
+      <Name>LayoutFarm.BaseRenderer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.ClientPlatforms\LayoutFarm.ClientPlatforms.csproj">
+      <Project>{465cb0ff-c9fa-4371-ad10-51c6dff537b8}</Project>
+      <Name>LayoutFarm.ClientPlatforms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.TextEdit\LayoutFarm.TextEdit.csproj">
+      <Project>{cfb41c52-614e-476c-8bbe-d07c26fb582d}</Project>
+      <Name>LayoutFarm.TextEdit</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PixelFarm.Drawing.Core\PixelFarm.Drawing.Core.csproj">
+      <Project>{51d63482-5697-4b16-8401-506965624657}</Project>
+      <Name>PixelFarm.Drawing.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PixelFarm.Drawing.MiniAgg.csproj">
+      <Project>{99a570d0-492a-453d-8b97-7f40489c10e0}</Project>
+      <Name>PixelFarm.Drawing.MiniAgg</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PixelFarm.DrawingCanvas\PixelFarm.DrawingCanvas.csproj">
+      <Project>{0cc424d5-20ac-4849-993d-3a720dbae94f}</Project>
+      <Name>PixelFarm.DrawingCanvas</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

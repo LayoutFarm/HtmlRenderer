@@ -1,13 +1,8 @@
 ﻿//Apache2, 2014-2017, WinterDev
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Text;
-using PixelFarm.Drawing;
 using LayoutFarm.Composers;
-using LayoutFarm.Text;
-using LayoutFarm.UI;
 namespace LayoutFarm.CustomWidgets
 {
 
