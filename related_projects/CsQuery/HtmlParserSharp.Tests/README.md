@@ -1,1 +1,0 @@
-﻿This test project is a placeholder. Right now it doesn't even test this code (it uses CsQuery to build the DOM) so don't think too much about it.
