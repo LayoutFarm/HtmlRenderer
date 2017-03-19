@@ -21,13 +21,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.Platforms.WinFor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.BaseRenderer", "Deps_Clients\LayoutFarm.BaseRenderer\LayoutFarm.BaseRenderer.csproj", "{20048075-A2F3-4B97-B3C6-BEA794429741}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.3_HtmlRenderer", "3.3_HtmlRenderer", "{9B34DBD5-4DF5-4098-BD8E-9396CDEC769A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.2_HtmlRenderer", "2.2_HtmlRenderer", "{9B34DBD5-4DF5-4098-BD8E-9396CDEC769A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0_TestDev1", "0_TestDev1", "{C3BA1377-B139-4BD6-A0D1-F486FB6E29BE}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.2_HtmlBase", "3.2_HtmlBase", "{3BA8D292-2DD5-49D2-8D77-AB7113B6E007}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4.2_YourWidgets", "4.2_YourWidgets", "{9C0C4A5D-D6B8-4C16-AA49-585AA37302E1}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.1_HtmlBase", "2.1_HtmlBase", "{3BA8D292-2DD5-49D2-8D77-AB7113B6E007}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.YourCustomWidgets", "LayoutFarm.YourCustomWidgets\LayoutFarm.YourCustomWidgets.csproj", "{1D8E9129-B883-4AEE-93A3-8056469F5E6E}"
 EndProject
@@ -119,7 +117,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.PlatformBase", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0_TestDev3", "0_TestDev3", "{593F2AEF-40E6-4A44-BD9D-4F27800A1A46}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.4_Composer", "3.4_Composer", "{F7F6E774-3C8A-4263-9EE2-07E286A78BF8}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3_Composer", "3_Composer", "{F7F6E774-3C8A-4263-9EE2-07E286A78BF8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4_YourImplementation", "4_YourImplementation", "{84CCD0BF-E1ED-4856-A3B6-22581BB03069}"
 EndProject
