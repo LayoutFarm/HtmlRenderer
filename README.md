@@ -10,11 +10,10 @@ _pic 1: HtmlRenderer, Gdi+ (test file: Source/HtmlRenderer.Demo/Samples/0_acid1_
 
 I try to make this run cross platform.
 
-This is latest snapshot. 
 
 ![gles2](https://cloud.githubusercontent.com/assets/7447159/24074437/ee5cb5e8-0c3a-11e7-8df0-53f32617aeac.png)
 
-_pic 2: HtmlRenderer: OpenGLES2 BackEnd_
+_pic 2: HtmlRenderer: OpenGLES2 BackEnd, Preview of Latest snapshot_
 
 ---
 The classic image.
