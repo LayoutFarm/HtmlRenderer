@@ -10,8 +10,6 @@ namespace Typography.Rendering
     //for your flexiblity of glyph path builder.
     //-----------------------------------
 
-
-
     public class GlyphPathBuilder
     {
         readonly Typeface _typeface;
@@ -128,6 +126,10 @@ namespace Typography.Rendering
                 tx.Read(this._outputGlyphPoints, this._outputContours, _recentPixelScale);
             }
         }
+        public float RecentPixelScale
+        {
+            get { return _recentPixelScale; }
+        }
     }
 
     public static class GlyphPathBuilderExtensions
@@ -135,6 +137,26 @@ namespace Typography.Rendering
         public static void Build(this GlyphPathBuilder builder, char c, float sizeInPoints)
         {
             builder.BuildFromGlyphIndex((ushort)builder.Typeface.LookupIndex(c), sizeInPoints);
+        }
+        public static void SetHintTechnique(this GlyphPathBuilder builder, HintTechnique hintTech)
+        {
+
+            builder.UseTrueTypeInstructions = false;//reset
+            builder.UseVerticalHinting = false;//reset
+            switch (hintTech)
+            {
+                case HintTechnique.TrueTypeInstruction:
+                    builder.UseTrueTypeInstructions = true;
+                    break;
+                case HintTechnique.TrueTypeInstruction_VerticalOnly:
+                    builder.UseTrueTypeInstructions = true;
+                    builder.UseVerticalHinting = true;
+                    break;
+                case HintTechnique.CustomAutoFit:
+                    //custom agg autofit 
+                    builder.UseVerticalHinting = true;
+                    break;
+            }
         }
     }
 

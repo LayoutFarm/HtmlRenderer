@@ -1,5 +1,6 @@
 ﻿//MIT, 2016-2017, WinterDev
-
+using System.Collections.Generic;
+using Typography.TextLayout;
 namespace Typography.Rendering
 {
     /// <summary>
@@ -8,72 +9,91 @@ namespace Typography.Rendering
     public abstract class DevTextPrinterBase
     {
         HintTechnique _hintTech;
-        protected string _currentSelectedFontFile;
+
         public DevTextPrinterBase()
         {
             FontSizeInPoints = 14;//
             ScriptLang = Typography.OpenFont.ScriptLangs.Latin;//default?
         }
 
-        public string FontFilename
+        public abstract string FontFilename
         {
-            get
-            {
-                return _currentSelectedFontFile;
-            }
-            set
-            {
-                if (_currentSelectedFontFile != value)
-                {
-                    _currentSelectedFontFile = value;
-                    //sample only ....
-                    //when we change new font, 
-                    OnFontFilenameChanged();
-                }
-
-            }
+            get;
+            set;
         }
+        public abstract GlyphLayout GlyphLayoutMan { get; }
+        public abstract Typography.OpenFont.Typeface Typeface { get; }
         public bool FillBackground { get; set; }
         public bool DrawOutline { get; set; }
-        public bool UseTrueTypeInstructions { get; private set; }
-        public bool UseVerticalHint { get; private set; }
+        public float FontAscendingPx { get; set; }
+        public float FontDescedingPx { get; set; }
+        public float FontLineGapPx { get; set; }
+        public float FontLineSpacingPx { get; set; }
+
         public HintTechnique HintTechnique
         {
             get { return _hintTech; }
             set
             {
                 this._hintTech = value;
-                this.UseTrueTypeInstructions = false; //reset
-                this.UseVerticalHint = false; //reset
-                switch (value)
+            }
+        }
+
+
+        float _fontSizeInPoints;
+        public float FontSizeInPoints
+        {
+            get { return _fontSizeInPoints; }
+            set
+            {
+                if (_fontSizeInPoints != value)
                 {
-                    case HintTechnique.TrueTypeInstruction:
-                        this.UseTrueTypeInstructions = true;
-                        break;
-                    case HintTechnique.TrueTypeInstruction_VerticalOnly:
-                        this.UseTrueTypeInstructions = true;
-                        this.UseVerticalHint = true;
-                        break;
-                    case HintTechnique.CustomAutoFit:
-                        UseVerticalHint = true;
-                        break;
+                    _fontSizeInPoints = value;
+                    OnFontSizeChanged();
                 }
             }
         }
-        //
-        public float FontSizeInPoints { get; set; }
-        protected virtual void OnFontFilenameChanged() { }
+
+        protected virtual void OnFontSizeChanged() { }
         public Typography.OpenFont.ScriptLang ScriptLang { get; set; }
         public Typography.TextLayout.PositionTechnique PositionTechnique { get; set; }
         public bool EnableLigature { get; set; }
+        /// <summary>
+        /// draw string at (xpos,ypos) of baseline 
+        /// </summary>
+        /// <param name="textBuffer"></param>
+        /// <param name="startAt"></param>
+        /// <param name="len"></param>
+        /// <param name="xpos"></param>
+        /// <param name="ypos"></param>
         public abstract void DrawString(char[] textBuffer, int startAt, int len, float xpos, float ypos);
+        /// <summary>
+        /// draw glyph plan list at (xpos,ypos) of baseline
+        /// </summary>
+        /// <param name="glyphPlanList"></param>
+        /// <param name="xpos"></param>
+        /// <param name="ypos"></param>
+        public abstract void DrawGlyphPlanList(List<GlyphPlan> glyphPlanList, int startAt, int len, float xpos, float ypos);
+
+        /// <summary>
+        /// draw caret at xpos,ypos (sample only)
+        /// </summary>
+        /// <param name="xpos"></param>
+        /// <param name="ypos"></param>
+        public abstract void DrawCaret(float xpos, float ypos);
 
 
-
+        //----------------------------------------------------
+        //helper methods
         public void DrawString(char[] textBuffer, float xpos, float ypos)
         {
-            this.DrawString(textBuffer, 0, textBuffer.Length, xpos, ypos);
+            DrawString(textBuffer, 0, textBuffer.Length, xpos, ypos);
+        }
+        public void DrawGlyphPlanList(List<GlyphPlan> glyphPlanList, float xpos, float ypos)
+        {
+            DrawGlyphPlanList(glyphPlanList, 0, glyphPlanList.Count, xpos, ypos);
         }
 
     }
+
 }

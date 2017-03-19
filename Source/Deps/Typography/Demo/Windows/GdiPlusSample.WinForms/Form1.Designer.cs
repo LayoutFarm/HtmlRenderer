@@ -38,6 +38,9 @@
             this.button1 = new System.Windows.Forms.Button();
             this.cmdBuildMsdfTexture = new System.Windows.Forms.Button();
             this.lstHintList = new System.Windows.Forms.ListBox();
+            this.cmdMeasureTextSpan = new System.Windows.Forms.Button();
+            this.chkShowSampleTextBox = new System.Windows.Forms.CheckBox();
+            this.sampleTextBox1 = new SampleWinForms.SampleTextBox();
             this.SuspendLayout();
             // 
             // lstFontList
@@ -129,11 +132,44 @@
             this.lstHintList.Size = new System.Drawing.Size(224, 69);
             this.lstHintList.TabIndex = 36;
             // 
+            // cmdMeasureTextSpan
+            // 
+            this.cmdMeasureTextSpan.Location = new System.Drawing.Point(206, 31);
+            this.cmdMeasureTextSpan.Name = "cmdMeasureTextSpan";
+            this.cmdMeasureTextSpan.Size = new System.Drawing.Size(153, 37);
+            this.cmdMeasureTextSpan.TabIndex = 37;
+            this.cmdMeasureTextSpan.Text = "MeasureTextSpan";
+            this.cmdMeasureTextSpan.UseVisualStyleBackColor = true;
+            this.cmdMeasureTextSpan.Click += new System.EventHandler(this.cmdMeasureTextSpan_Click);
+            // 
+            // chkShowSampleTextBox
+            // 
+            this.chkShowSampleTextBox.AutoSize = true;
+            this.chkShowSampleTextBox.Location = new System.Drawing.Point(12, 90);
+            this.chkShowSampleTextBox.Name = "chkShowSampleTextBox";
+            this.chkShowSampleTextBox.Size = new System.Drawing.Size(133, 17);
+            this.chkShowSampleTextBox.TabIndex = 38;
+            this.chkShowSampleTextBox.Text = "Show Sample TextBox";
+            this.chkShowSampleTextBox.UseVisualStyleBackColor = true;
+            this.chkShowSampleTextBox.CheckedChanged += new System.EventHandler(this.chkShowSampleTextBox_CheckedChanged);
+            // 
+            // sampleTextBox1
+            // 
+            this.sampleTextBox1.BackColor = System.Drawing.Color.Gray;
+            this.sampleTextBox1.Location = new System.Drawing.Point(12, 113);
+            this.sampleTextBox1.Name = "sampleTextBox1";
+            this.sampleTextBox1.Size = new System.Drawing.Size(433, 388);
+            this.sampleTextBox1.TabIndex = 39;
+            this.sampleTextBox1.Visible = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(935, 567);
+            this.ClientSize = new System.Drawing.Size(935, 753);
+            this.Controls.Add(this.sampleTextBox1);
+            this.Controls.Add(this.chkShowSampleTextBox);
+            this.Controls.Add(this.cmdMeasureTextSpan);
             this.Controls.Add(this.lstHintList);
             this.Controls.Add(this.cmdBuildMsdfTexture);
             this.Controls.Add(this.button1);
@@ -163,5 +199,8 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button cmdBuildMsdfTexture;
         private System.Windows.Forms.ListBox lstHintList;
+        private System.Windows.Forms.Button cmdMeasureTextSpan;
+        private System.Windows.Forms.CheckBox chkShowSampleTextBox;
+        private SampleTextBox sampleTextBox1;
     }
 }
