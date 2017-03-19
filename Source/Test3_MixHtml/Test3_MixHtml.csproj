@@ -138,7 +138,7 @@
       <Project>{4602B28B-EEEC-4A69-854C-B00B8B616837}</Project>
       <Name>LayoutFarm.Platforms.WinForms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Deps_Clients\LayoutFarm.TextEdit\LayoutFarm.TextEdit.csproj">
+    <ProjectReference Include="..\Deps\LayoutFarm.TextEdit\LayoutFarm.TextEdit.csproj">
       <Project>{CFB41C52-614E-476C-8BBE-D07C26FB582D}</Project>
       <Name>LayoutFarm.TextEdit</Name>
     </ProjectReference>
