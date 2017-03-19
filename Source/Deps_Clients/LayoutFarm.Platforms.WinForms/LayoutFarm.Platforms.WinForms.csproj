@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4602B28B-EEEC-4A69-854C-B00B8B616837}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LayoutFarm.Platforms.WinForms</RootNamespace>
+    <AssemblyName>LayoutFarm.Platforms.WinForms</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;__DESKTOP__, __SKIA__, GL_ENABLE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Deps\Win32Utils\MyWin32.cs">
+      <Link>Win32Utils\MyWin32.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\Win32Utils\NativeTextWin32.cs">
+      <Link>Win32Utils\NativeTextWin32.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\Win32Utils\NativeWin32MemoryDc.cs">
+      <Link>Win32Utils\NativeWin32MemoryDc.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\YourImplementation.PixelFarm\ActiveFontAtlasService.cs">
+      <Link>0_Platform\ActiveFontAtlasService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\YourImplementation.PixelFarm\DrawingGLFontPrinter.cs">
+      <Link>0_Platform\DrawingGLFontPrinter.cs</Link>
+    </Compile>
+    <Compile Include="..\LayoutFarm.PlatformBase\CanvasViewport.cs">
+      <Link>0_Shared\CanvasViewport.cs</Link>
+    </Compile>
+    <Compile Include="..\LayoutFarm.PlatformBase\dbugHelper.cs">
+      <Link>0_Shared\dbugHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\LayoutFarm.PlatformBase\InnerViewportKind.cs">
+      <Link>0_Shared\InnerViewportKind.cs</Link>
+    </Compile>
+    <Compile Include="..\LayoutFarm.PlatformBase\MyUITimer.cs">
+      <Link>0_Shared\MyUITimer.cs</Link>
+    </Compile>
+    <Compile Include="..\LayoutFarm.PlatformBase\OpenGLCanvasViewport.cs">
+      <Link>3_OpenGL\OpenGLCanvasViewport.cs</Link>
+    </Compile>
+    <Compile Include="..\LayoutFarm.PlatformBase\PlatformBootStrap\BootStrapOpenGLES2.cs">
+      <Link>0_Platform\BootStrapOpenGLES2.cs</Link>
+    </Compile>
+    <Compile Include="..\LayoutFarm.PlatformBase\PlatformBootStrap\BootStrapSkia.cs">
+      <Link>0_Platform\BootStrapSkia.cs</Link>
+    </Compile>
+    <Compile Include="..\LayoutFarm.PlatformBase\PlatformBootStrap\BootStrapWinGdi.cs">
+      <Link>0_Platform\BootStrapWinGdi.cs</Link>
+    </Compile>
+    <Compile Include="..\LayoutFarm.PlatformBase\SkiaCanvasViewport.cs">
+      <Link>4_Skia\SkiaCanvasViewport.cs</Link>
+    </Compile>
+    <Compile Include="..\LayoutFarm.PlatformBase\Windows\InstallFontsProviderWin32.cs">
+      <Link>5_Shared\InstallFontsProviderWin32.cs</Link>
+    </Compile>
+    <Compile Include="..\LayoutFarm.PlatformBase\Windows\WindowFontLoader.cs">
+      <Link>5_Shared\WindowFontLoader.cs</Link>
+    </Compile>
+    <Compile Include="1_UISurfaceViewport\UISurfaceViewportControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="1_UISurfaceViewport\UISurfaceViewportControl.Designer.cs" />
+    <Compile Include="4_GdiPlus\Conv.cs" />
+    <Compile Include="4_GdiPlus\CanvasCollection.cs" />
+    <Compile Include="4_GdiPlus\QuadPages.cs" />
+    <Compile Include="3_SurfaceViewForGdiPlus_and_Skia\AbstractCompletionWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="3_SurfaceViewForGdiPlus_and_Skia\AbstractCompletionWindow.Designer.cs">
+      <DependentUpon>AbstractCompletionWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="4_GdiPlus\1_GdiPlusCanvasViewport.cs" />
+    <Compile Include="2_GLES2\1_GpuOpenGLSurfaceView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="2_GLES2\1_GpuOpenGLSurfaceView.Designer.cs">
+      <DependentUpon>1_GpuOpenGLSurfaceView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="3_SurfaceViewForGdiPlus_and_Skia\1_CpuSurfaceView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="3_SurfaceViewForGdiPlus_and_Skia\1_CpuSurfaceView.Designer.cs">
+      <DependentUpon>1_CpuSurfaceView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="0_Platform\UIPlatformWinForms.cs" />
+    <Compile Include="2_Bridge_WinForm\TopWindowBridgeWinForm.cs" />
+    <Compile Include="2_Bridge_WinForm\TopWindowBridgeWinForm_dbug.cs" />
+    <Compile Include="4_GdiPlus\3_MyTopWindowBridgeGdiPlus.cs" />
+    <Compile Include="2_GLES2\3_MyTopWindowBridgeOpenGL.cs" />
+    <Compile Include="4_Skia\3_MyTopWindowBridgeSkia.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Deps\PixelFarm.Drawing.Core\PixelFarm.Drawing.Core.csproj">
+      <Project>{51D63482-5697-4B16-8401-506965624657}</Project>
+      <Name>PixelFarm.Drawing.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Deps\PixelFarm.Drawing.GdiPlus\PixelFarm.Drawing.GdiPlus.csproj">
+      <Project>{1AA171E3-523C-4DD5-A169-DE6322991FF5}</Project>
+      <Name>PixelFarm.Drawing.GdiPlus</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Deps\PixelFarm.Drawing.GLES2\PixelFarm.Drawing.GLES2.csproj">
+      <Project>{e1e89b3b-b529-4b17-b7ed-4c70cc8475eb}</Project>
+      <Name>PixelFarm.Drawing.GLES2</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Deps\PixelFarm.Drawing.MiniAgg.csproj">
+      <Project>{99a570d0-492a-453d-8b97-7f40489c10e0}</Project>
+      <Name>PixelFarm.Drawing.MiniAgg</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Deps\PixelFarm.Drawing.Skia\PixelFarm.Drawing.Skia.csproj">
+      <Project>{9450c9fb-5a70-4e47-bec3-b0a98a9c7d15}</Project>
+      <Name>PixelFarm.Drawing.Skia</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Deps\PixelFarm.DrawingCanvas\PixelFarm.DrawingCanvas.csproj">
+      <Project>{0cc424d5-20ac-4849-993d-3a720dbae94f}</Project>
+      <Name>PixelFarm.DrawingCanvas</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Deps\PixelFarm.MiniOpenTK\PixelFarm.MiniOpenTK.csproj">
+      <Project>{7c154e68-1709-4d5d-ab76-833febe4b3b2}</Project>
+      <Name>PixelFarm.MiniOpenTK</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Deps\PixelFarm.OpenTKWinForms\PixelFarm.OpenTKWinForms.csproj">
+      <Project>{4cf14dce-f731-4060-b92b-f1acfdf9803d}</Project>
+      <Name>PixelFarm.OpenTKWinForms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Deps\PixelFarm.SkiaSharp\PixelFarm.SkiaSharp.csproj">
+      <Project>{fb828375-3017-44d8-8357-59207224906d}</Project>
+      <Name>PixelFarm.SkiaSharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Deps\PixelFarm.Typography\PixelFarm.Typography.csproj">
+      <Project>{540a2ea6-dae3-4625-8951-b2c3118603a4}</Project>
+      <Name>PixelFarm.Typography</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Deps\Typography\Typography.GlyphLayout\Typography.GlyphLayout.csproj">
+      <Project>{c48f2c17-3c32-4f27-a96c-60a9d86df9cf}</Project>
+      <Name>Typography.GlyphLayout</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Deps\Typography\Typography.OpenFont\N20\Typography.OpenFont\Typography.OpenFont.csproj">
+      <Project>{29ed0dfe-373c-4e98-bd4b-43f8e5fb16f6}</Project>
+      <Name>Typography.OpenFont</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Deps\Typography\Typography.Rendering\Typography.Rendering.csproj">
+      <Project>{e4a1c3c3-1c1c-4e11-a2e6-a1fafd6652c7}</Project>
+      <Name>Typography.Rendering</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.BaseRenderer\LayoutFarm.BaseRenderer.csproj">
+      <Project>{20048075-a2f3-4b97-b3c6-bea794429741}</Project>
+      <Name>LayoutFarm.BaseRenderer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.ClientPlatforms\LayoutFarm.ClientPlatforms.csproj">
+      <Project>{465cb0ff-c9fa-4371-ad10-51c6dff537b8}</Project>
+      <Name>LayoutFarm.ClientPlatforms</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

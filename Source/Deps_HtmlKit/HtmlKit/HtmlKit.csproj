@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectGuid>{517EAAFF-7CEE-4558-B7F3-BE30957AAE69}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>HtmlKit</RootNamespace>
+    <AssemblyName>HtmlKit</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Profile78</TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;PORTABLE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <DefineConstants>DEBUG;PORTABLE</DefineConstants>
+    <DocumentationFile>bin\Release\HtmlKit.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="HtmlAttribute.cs" />
+    <Compile Include="HtmlAttributeCollection.cs" />
+    <Compile Include="HtmlAttributeId.cs" />
+    <Compile Include="HtmlEntityDecoder.cs" />
+    <Compile Include="HtmlEntityDecoder.g.cs">
+      <DependentUpon>HtmlEntityDecoder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HtmlNamespace.cs" />
+    <Compile Include="HtmlTagId.cs" />
+    <Compile Include="HtmlToken.cs" />
+    <Compile Include="HtmlTokenKind.cs" />
+    <Compile Include="HtmlTokenizer.cs" />
+    <Compile Include="HtmlTokenizerState.cs" />
+    <Compile Include="HtmlUtils.cs" />
+    <Compile Include="HtmlWriter.cs" />
+    <Compile Include="HtmlWriterState.cs" />
+    <Compile Include="ICharArray.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+</Project>

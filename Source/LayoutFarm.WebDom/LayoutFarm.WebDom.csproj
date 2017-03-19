@@ -36,44 +36,44 @@
     <Compile Include="..\Deps\TypeMirror\SimpleReflectionHelper.cs">
       <Link>5_HtmlKit\SimpleReflectionHelper.cs</Link>
     </Compile>
-    <Compile Include="..\HtmlKit\HtmlKit\HtmlAttribute.cs">
+    <Compile Include="..\Deps_HtmlKit\HtmlKit\HtmlAttribute.cs">
       <Link>5_HtmlKit\HtmlAttribute.cs</Link>
     </Compile>
-    <Compile Include="..\HtmlKit\HtmlKit\HtmlAttributeCollection.cs">
+    <Compile Include="..\Deps_HtmlKit\HtmlKit\HtmlAttributeCollection.cs">
       <Link>5_HtmlKit\HtmlAttributeCollection.cs</Link>
     </Compile>
-    <Compile Include="..\HtmlKit\HtmlKit\HtmlEntityDecoder.cs">
+    <Compile Include="..\Deps_HtmlKit\HtmlKit\HtmlEntityDecoder.cs">
       <Link>5_HtmlKit\HtmlEntityDecoder.cs</Link>
     </Compile>
-    <Compile Include="..\HtmlKit\HtmlKit\HtmlEntityDecoder.g.cs">
+    <Compile Include="..\Deps_HtmlKit\HtmlKit\HtmlEntityDecoder.g.cs">
       <Link>5_HtmlKit\HtmlEntityDecoder.g.cs</Link>
       <DependentUpon>HtmlEntityDecoder.g</DependentUpon>
     </Compile>
-    <Compile Include="..\HtmlKit\HtmlKit\HtmlNamespace.cs">
+    <Compile Include="..\Deps_HtmlKit\HtmlKit\HtmlNamespace.cs">
       <Link>5_HtmlKit\HtmlNamespace.cs</Link>
     </Compile>
-    <Compile Include="..\HtmlKit\HtmlKit\HtmlToken.cs">
+    <Compile Include="..\Deps_HtmlKit\HtmlKit\HtmlToken.cs">
       <Link>5_HtmlKit\HtmlToken.cs</Link>
     </Compile>
-    <Compile Include="..\HtmlKit\HtmlKit\HtmlTokenizer.cs">
+    <Compile Include="..\Deps_HtmlKit\HtmlKit\HtmlTokenizer.cs">
       <Link>5_HtmlKit\HtmlTokenizer.cs</Link>
     </Compile>
-    <Compile Include="..\HtmlKit\HtmlKit\HtmlTokenizerState.cs">
+    <Compile Include="..\Deps_HtmlKit\HtmlKit\HtmlTokenizerState.cs">
       <Link>5_HtmlKit\HtmlTokenizerState.cs</Link>
     </Compile>
-    <Compile Include="..\HtmlKit\HtmlKit\HtmlTokenKind.cs">
+    <Compile Include="..\Deps_HtmlKit\HtmlKit\HtmlTokenKind.cs">
       <Link>5_HtmlKit\HtmlTokenKind.cs</Link>
     </Compile>
-    <Compile Include="..\HtmlKit\HtmlKit\HtmlUtils.cs">
+    <Compile Include="..\Deps_HtmlKit\HtmlKit\HtmlUtils.cs">
       <Link>5_HtmlKit\HtmlUtils.cs</Link>
     </Compile>
-    <Compile Include="..\HtmlKit\HtmlKit\HtmlWriter.cs">
+    <Compile Include="..\Deps_HtmlKit\HtmlKit\HtmlWriter.cs">
       <Link>5_HtmlKit\HtmlWriter.cs</Link>
     </Compile>
-    <Compile Include="..\HtmlKit\HtmlKit\HtmlWriterState.cs">
+    <Compile Include="..\Deps_HtmlKit\HtmlKit\HtmlWriterState.cs">
       <Link>5_HtmlKit\HtmlWriterState.cs</Link>
     </Compile>
-    <Compile Include="..\HtmlKit\HtmlKit\ICharArray.cs">
+    <Compile Include="..\Deps_HtmlKit\HtmlKit\ICharArray.cs">
       <Link>5_HtmlKit\ICharArray.cs</Link>
     </Compile>
     <Compile Include="0_WebDom.Parser\HtmlKitParser.cs" />
@@ -118,8 +118,8 @@
     <Compile Include="2_WebDom\WellknownElementName.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LayoutFarm.ClientPlatforms\LayoutFarm.ClientPlatforms.csproj">
-      <Project>{61369865-95B7-49F2-B012-67B4A2427A8B}</Project>
+    <ProjectReference Include="..\Deps_Clients\LayoutFarm.ClientPlatforms\LayoutFarm.ClientPlatforms.csproj">
+      <Project>{465cb0ff-c9fa-4371-ad10-51c6dff537b8}</Project>
       <Name>LayoutFarm.ClientPlatforms</Name>
     </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.CssBase\LayoutFarm.CssBase.csproj">
