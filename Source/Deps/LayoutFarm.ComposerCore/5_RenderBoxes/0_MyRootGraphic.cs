@@ -236,24 +236,7 @@ namespace LayoutFarm.UI
             renderElement.IsInLayoutQueue = true;
             layoutQueue.Add(renderElement);
         }
-        public override void AddToUpdateQueue(object toupdateObj)
-        {
-            throw new NotSupportedException();
-            ////TODO: review this 
-            //var htmlCont = toupdateObj as HtmlBoxes.MyHtmlContainer;
-            //if (htmlCont != null && !htmlCont.IsInUpdateQueue)
-            //{
-            //    htmlCont.IsInUpdateQueue = true;
-            //    htmlContainerUpdateQueue.Add(htmlCont);
-            //}
-        }
-         
-        public override void AddToElementUpdateQueue(object requestBy)
-        {
-            //this.elementUpdateQueue.Add(requestBy);
-        }
-
-
+        
 #if DEBUG
 
         static void dbug_WriteInfo(dbugVisualLayoutTracer debugVisualLay, dbugVisitorMessage msg, RenderElement ve)

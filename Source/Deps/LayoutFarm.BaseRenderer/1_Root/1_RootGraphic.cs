@@ -51,12 +51,7 @@ namespace LayoutFarm
 
         public abstract void ClearRenderRequests();
         public abstract void AddToLayoutQueue(RenderElement renderElement);
-
-        //TODO: review this !
-        public abstract void AddToElementUpdateQueue(object requestBy);
-
-        public abstract void AddToUpdateQueue(object toupdateObj);
-        //
+ 
         public event EventHandler ClearingBeforeRender;
         public void InvokeClearingBeforeRender()
         {
