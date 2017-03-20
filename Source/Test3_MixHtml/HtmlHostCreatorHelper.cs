@@ -17,6 +17,10 @@ namespace LayoutFarm
             List<HtmlBoxes.HtmlContainer> htmlContUpdateList = new List<HtmlBoxes.HtmlContainer>();
             sampleViewport.Root.ClearingBeforeRender += (s, e) =>
             {
+
+                //1.
+                htmlhost.ClearUpdateWaitingCssBoxes();
+                //1.
                 int j = htmlContUpdateList.Count;
                 for (int i = 0; i < j; ++i)
                 {

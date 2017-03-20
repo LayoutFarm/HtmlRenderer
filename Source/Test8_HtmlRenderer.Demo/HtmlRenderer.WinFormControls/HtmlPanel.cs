@@ -102,7 +102,7 @@ namespace LayoutFarm.Demo
         }
         public void SetHtmlHost(HtmlHost htmlhost)
         {
-            this.htmlhost = htmlhost;
+            this.htmlhost = htmlhost;//***
             htmlhost.SetHtmlContainerUpdateHandler(htmlCont =>
             {
                 var updatedHtmlCont = htmlCont as MyHtmlContainer;

@@ -163,8 +163,19 @@ namespace LayoutFarm.HtmlBoxes
         }
         protected override void OnRequestScrollView(CssBox box)
         {
-            RootGraphic rootgfx = (RootGraphic)box.RootGfx;
-            rootgfx.AddToElementUpdateQueue(box);
+            //RootGraphic rootgfx = (RootGraphic)box.RootGfx;
+            //rootgfx.AddToElementUpdateQueue(box);
+            this.htmlhost.EnqueueCssUpdate(box);
+
+            //    var renderE = this.elementUpdateQueue[i];
+            //    var cssbox = renderE as HtmlBoxes.CssBox;
+            //    if (cssbox != null)
+            //    {
+            //        var controller = HtmlBoxes.CssBox.UnsafeGetController(cssbox) as IEventListener;
+            //        controller.HandleElementUpdate();
+            //    }
+            //    this.elementUpdateQueue.RemoveAt(i);
+            //}
         }
         /// <summary>
         /// check if dom update

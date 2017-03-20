@@ -20,7 +20,7 @@ namespace LayoutFarm.UI
         {
             this.topRenderElement = topRenderElement;
 #if DEBUG
-            dbugRootGraphics = (MyRootGraphic2)topRenderElement.Root;
+            dbugRootGraphics = (MyRootGraphic)topRenderElement.Root;
 #endif
         }
 
@@ -705,8 +705,8 @@ namespace LayoutFarm.UI
 #if DEBUG
         static int dbugTotalId;
         public readonly int dbugId = dbugTotalId++;
-        MyRootGraphic2 dbugRootGfx;
-        MyRootGraphic2 dbugRootGraphics
+        MyRootGraphic dbugRootGfx;
+        MyRootGraphic dbugRootGraphics
         {
             get { return dbugRootGfx; }
             set

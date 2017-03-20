@@ -13,7 +13,7 @@ namespace LayoutFarm.UI
             out LayoutFarm.UI.UISurfaceViewportControl canvasViewport)
         {
 
-            MyRootGraphic2 myRootGfx = new MyRootGraphic2(
+            MyRootGraphic myRootGfx = new MyRootGraphic(
                 LayoutFarm.UI.UIPlatformWinForm.platform,
                 LayoutFarm.UI.UIPlatformWinForm.platform.GetIFonts(),
                 w, h);
