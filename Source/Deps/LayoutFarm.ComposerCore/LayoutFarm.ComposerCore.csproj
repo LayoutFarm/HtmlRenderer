@@ -33,13 +33,9 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="5_RenderBoxes\0_MyRootGraphic.cs" />
-    <Compile Include="5_RenderBoxes\HtmlRenderBox.cs" />
-    <Compile Include="5_RenderBoxes\MyHtmlContainer.cs" />
-    <Compile Include="5_RenderBoxes\RenderElementWrapperCssBox.cs" />
-    <Compile Include="5_RenderBoxes\TopWindowRenderBox.cs" />
+    <Compile Include="0_MyRootGraphic.cs" />
+    <Compile Include="TopWindowRenderBox.cs" />
     <Compile Include="7_Events\GraphicsTimerTasksManager.cs" />
-    <Compile Include="7_Events\HtmlInputEventAdapter.cs" />
     <Compile Include="7_Events\MyIntervalTaskEventArgs.cs" />
     <Compile Include="7_Events\RenderElementEventPortal.cs" />
     <Compile Include="7_Events\ToNotifySizeChangedEvent.cs" />

@@ -14,7 +14,9 @@ namespace LayoutFarm.ContentManagers
         {
             this.ImageBinder = binder;
         }
-        internal object requestBy;
+
+        //TODO: review here
+        public object requestBy;
         public ImageBinder ImageBinder { get; private set; }
         public string ImagSource
         {
