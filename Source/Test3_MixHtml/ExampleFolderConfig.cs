@@ -17,7 +17,7 @@ namespace TestGraphicPackage2
         }
         public static void InitIcuData()
         {
-
+                
             string icu_dataFile = @"icudt57l.dat";
             LayoutFarm.TextBreak.ICU.NativeTextBreaker.SetICUDataFile(execFromFolder + "\\" + icu_dataFile);
         }

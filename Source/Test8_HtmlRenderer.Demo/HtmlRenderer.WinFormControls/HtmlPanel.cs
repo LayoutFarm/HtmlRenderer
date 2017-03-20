@@ -75,7 +75,7 @@ namespace LayoutFarm.Demo
         Timer timer01 = new Timer();
         LayoutFarm.HtmlBoxes.LayoutVisitor htmlLayoutVisitor;
         PixelFarm.Drawing.Canvas renderCanvas;
-        
+
 
         /// <summary>
         /// Creates a new HtmlPanel and sets a basic css for it's styling.
@@ -102,7 +102,7 @@ namespace LayoutFarm.Demo
         }
         public void SetHtmlHost(HtmlHost htmlhost)
         {
-            this.htmlhost = htmlhost;
+            this.htmlhost = htmlhost;//***
             htmlhost.SetHtmlContainerUpdateHandler(htmlCont =>
             {
                 var updatedHtmlCont = htmlCont as MyHtmlContainer;
@@ -125,6 +125,9 @@ namespace LayoutFarm.Demo
             timer01.Interval = 20;//20ms?
             timer01.Tick += (s, e) =>
             {
+                //----------------------
+                //TODO: not to run this
+                //----------------------
                 //clear waiting
                 int j = waitingUpdateList.Count;
                 for (int i = 0; i < j; ++i)
