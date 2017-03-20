@@ -16,16 +16,10 @@ namespace LayoutFarm.UI
         }
     }
 #endif
-    public interface ISpecialContainer
-    {
-        bool IsInUpdateQueue { get; set; }
-        IEventListener GetEventListener();
-    }
+     
     public sealed class MyRootGraphic2 : RootGraphic, ITopWindowEventRootProvider
     {
-        List<RenderElement> layoutQueue = new List<RenderElement>();
-        List<object> elementUpdateQueue = new List<object>();
-        List<ISpecialContainer> htmlContainerUpdateQueue = new List<ISpecialContainer>();
+        List<RenderElement> layoutQueue = new List<RenderElement>(); 
         List<ToNotifySizeChangedEvent> tobeNotifySizeChangedList = new List<ToNotifySizeChangedEvent>();
         List<RenderElementRequest> renderRequestList = new List<RenderElementRequest>();
         GraphicsTimerTaskManager graphicTimerTaskMan;
@@ -65,6 +59,7 @@ namespace LayoutFarm.UI
                     this.FlushAccumGraphics();
                 });
         }
+        
         public override IFonts IFonts
         {
             get
@@ -234,10 +229,7 @@ namespace LayoutFarm.UI
                 this.topWindowEventRoot.CurrentKeyboardFocusedElement = owner;
             }
         }
-        public override void AddToElementUpdateQueue(object requestBy)
-        {
-            this.elementUpdateQueue.Add(requestBy);
-        }
+    
         public override void AddToLayoutQueue(RenderElement renderElement)
         {
 #if DEBUG
@@ -259,29 +251,25 @@ namespace LayoutFarm.UI
         {
 
 
-            var htmlCont = toupdateObj as ISpecialContainer;
-            if (htmlCont != null && !htmlCont.IsInUpdateQueue)
-            {
-                htmlCont.IsInUpdateQueue = true;
-                htmlContainerUpdateQueue.Add(htmlCont);
-            }
+            //var htmlCont = toupdateObj as ISpecialContainer;
+            //if (htmlCont != null && !htmlCont.IsInUpdateQueue)
+            //{
+            //    htmlCont.IsInUpdateQueue = true;
+            //    htmlContainerUpdateQueue.Add(htmlCont);
+            //}
+        }
+        public override void AddToElementUpdateQueue(object requestBy)
+        {
+
+            //  this.elementUpdateQueue.Add(requestBy);
         }
         void ClearElementUpdateQueue()
         {
-
-            //TODO: review this * ** 
-            for (int i = this.elementUpdateQueue.Count - 1; i >= 0; --i)
-            {
-                //clear
-                var renderE = this.elementUpdateQueue[i];
-                var container = renderE as ISpecialContainer;
-                if (container != null)
-                {
-                    var controller = container.GetEventListener();
-                    controller.HandleElementUpdate();
-                }
-                this.elementUpdateQueue.RemoveAt(i);
-            }
+            //if (externalPreRenderUpdateQueue != null)
+            //{
+            //    externalPreRenderUpdateQueue.ProcessWaitingQueue();
+            //}
+           
         }
         void ClearLayoutQueue()
         {

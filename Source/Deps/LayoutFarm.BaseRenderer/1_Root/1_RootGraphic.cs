@@ -49,13 +49,20 @@ namespace LayoutFarm
         public abstract void CloseWinRoot();
         //-------------------------------------------------------------------------
 
-
         public abstract void ClearRenderRequests();
         public abstract void AddToLayoutQueue(RenderElement renderElement);
-        public abstract void AddToElementUpdateQueue(object requestBy);
-        public abstract void SetCurrentKeyboardFocus(RenderElement renderElement);
+
         //TODO: review this !
+        public abstract void AddToElementUpdateQueue(object requestBy);
+
         public abstract void AddToUpdateQueue(object toupdateObj);
+        //
+        public event EventHandler ClearingBeforeRender;
+        public void InvokeClearingBeforeRender()
+        {
+            if (ClearingBeforeRender != null) { ClearingBeforeRender(this, EventArgs.Empty); }
+        }
+        public abstract void SetCurrentKeyboardFocus(RenderElement renderElement);
         public bool LayoutQueueClearing
         {
             get;

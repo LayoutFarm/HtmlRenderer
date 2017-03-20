@@ -23,7 +23,9 @@ namespace LayoutFarm.HtmlBoxes
         public MyHtmlContainer(HtmlHost htmlhost)
         {
             this.htmlhost = htmlhost;
+
         }
+
 
         public void AttachEssentialHandlers(EventHandler domVisualRefreshHandler,
             EventHandler domRequestRebuildHandler,
@@ -49,11 +51,7 @@ namespace LayoutFarm.HtmlBoxes
                 this.domFinished(this, EventArgs.Empty);
             }
         }
-        public bool IsInUpdateQueue
-        {
-            get;
-            set;
-        }
+
         public DomElement RootElement
         {
             get { return webdoc.RootNode; }
@@ -86,7 +84,7 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
 
-        public bool RefreshDomIfNeed()
+        public override bool RefreshDomIfNeed()
         {
             if (webdoc == null) return false;
             //----------------------------------
