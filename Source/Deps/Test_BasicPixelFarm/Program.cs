@@ -6,15 +6,26 @@ namespace Test_BasicPixelFarm
 {
     static class Program
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
+        static LayoutFarm.Dev.FormDemoList formDemoList;
         [STAThread]
         static void Main()
         {
+
+             //ExampleFolderConfig.InitIcuData();
+            //-------------------------------
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            //temp
+            //TODO: fix this , 
+            //LayoutFarm.Composers.Default.TextBreaker = new LayoutFarm.Composers.MyManagedTextBreaker();
+            //LayoutFarm.Composers.Default.TextBreaker = new LayoutFarm.Composers.MyNativeTextBreaker();
+
+            ////------------------------------- 
+            formDemoList = new LayoutFarm.Dev.FormDemoList();
+            formDemoList.LoadDemoList(typeof(Program));
+            //LoadHtmlSamples(formDemoList.SamplesTreeView);
+            Application.Run(formDemoList);
         }
+        
     }
 }
