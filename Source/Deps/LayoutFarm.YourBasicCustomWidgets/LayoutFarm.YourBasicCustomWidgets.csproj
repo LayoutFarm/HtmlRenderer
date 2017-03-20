@@ -86,6 +86,10 @@
       <Project>{465cb0ff-c9fa-4371-ad10-51c6dff537b8}</Project>
       <Name>LayoutFarm.ClientPlatforms</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.ComposerCore\LayoutFarm.ComposerCore.csproj">
+      <Project>{d88d86cd-6732-45e7-8fc9-49449ea9c737}</Project>
+      <Name>LayoutFarm.ComposerCore</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.TextEdit\LayoutFarm.TextEdit.csproj">
       <Project>{cfb41c52-614e-476c-8bbe-d07c26fb582d}</Project>
       <Name>LayoutFarm.TextEdit</Name>

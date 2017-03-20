@@ -4,6 +4,16 @@ namespace LayoutFarm.UI
 {
     public class UIPlatformWinForm : UIPlatform
     {
+
+        public readonly static UIPlatformWinForm platform;
+        static UIPlatformWinForm()
+        {
+            platform = new UIPlatformWinForm();
+        }
+
+
+
+        PixelFarm.Drawing.WinGdi.Gdi32IFonts _gdiPlusIFonts = new PixelFarm.Drawing.WinGdi.Gdi32IFonts();
         private UIPlatformWinForm()
         {
             //set up winform platform 
@@ -45,12 +55,12 @@ namespace LayoutFarm.UI
         }
 
 
-        PixelFarm.Drawing.WinGdi.Gdi32IFonts _gdiPlusIFonts = new PixelFarm.Drawing.WinGdi.Gdi32IFonts();
+
         public PixelFarm.Drawing.IFonts GetIFonts()
         {
             return this._gdiPlusIFonts;
         }
-        public readonly static UIPlatformWinForm platform = new UIPlatformWinForm();
+
 
     }
 }
