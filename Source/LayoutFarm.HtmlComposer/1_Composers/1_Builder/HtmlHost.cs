@@ -16,6 +16,7 @@ namespace LayoutFarm.HtmlBoxes
         HtmlContainerUpdateHandler htmlContainerUpdateHandler;
         EventHandler<ImageRequestEventArgs> requestImage;
         EventHandler<TextRequestEventArgs> requestStyleSheet;
+        List<CssBox> waitForUpdateBoxes = new List<CssBox>();
 
         HtmlDocument commonHtmlDoc;
         RootGraphic rootgfx;
@@ -35,6 +36,21 @@ namespace LayoutFarm.HtmlBoxes
              true))
         {
             //use default style sheet
+        }
+        public void EnqueueCssUpdate(CssBox box)
+        {
+            waitForUpdateBoxes.Add(box); 
+        }
+        public void ClearUpdateWaitingCssBoxes()
+        {
+            int j = waitForUpdateBoxes.Count;
+            for (int i = 0; i < j; ++i)
+            {
+                CssBox cssbox = this.waitForUpdateBoxes[i];
+                var controller = HtmlBoxes.CssBox.UnsafeGetController(cssbox) as UI.IEventListener;
+                controller.HandleElementUpdate();
+            }
+            waitForUpdateBoxes.Clear();
         }
         public void SetRootGraphics(RootGraphic rootgfx)
         {

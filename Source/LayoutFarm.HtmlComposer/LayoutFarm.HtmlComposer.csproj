@@ -38,7 +38,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="0_Start\ComposerConfig.cs" />
-    <Compile Include="1_Composers\1_Builder\ClientBinder.cs" />
     <Compile Include="1_Composers\1_Builder\HtmlHost.cs" />
     <Compile Include="1_Composers\1_Builder\WebDocumentParser.cs" />
     <Compile Include="1_Composers\1_Builder\TopDownActiveCssTemplate.cs" />
@@ -69,7 +68,6 @@
     <Compile Include="5_RenderBasedUI\CustomRenderElements.cs" />
     <Compile Include="5_RenderBasedUI\RenderElementExtension.cs" />
     <Compile Include="5_RenderBasedUI\ScrollBar.cs" />
-    <Compile Include="7_Events\TopWindowEventRoot.cs" />
     <Compile Include="4_WebDom\HtmlDocument.cs" />
     <Compile Include="1_Composers\5_RenderBoxes\HtmlRenderBox.cs" />
     <Compile Include="7_Events\HtmlInputEventAdapter.cs" />
@@ -83,18 +81,14 @@
     <Compile Include="1_Composers\5_RenderBoxes\MyHtmlContainer.cs" />
     <Compile Include="6_Svg\SvgRootEventPortal_IEventPortal.cs" />
     <Compile Include="6_Svg\SvgRootEventPortal.cs" />
-    <Compile Include="7_Events\MyIntervalTaskEventArgs.cs" />
-    <Compile Include="1_Composers\5_RenderBoxes\0_MyRootGraphic.cs" />
-    <Compile Include="7_Events\GraphicsTimerTasksManager.cs" />
-    <Compile Include="7_Events\ToNotifySizeChangedEvent.cs" />
-    <Compile Include="7_Events\UIHoverMonitor.cs" />
     <Compile Include="7_Events\RenderElementEventPortal.cs" />
-    <Compile Include="8_ContentManagers\ImageContentManager.cs" />
-    <Compile Include="8_ContentManagers\ImageCacheSystem.cs" />
-    <Compile Include="8_ContentManagers\TextContentManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Deps\LayoutFarm.ComposerCore\LayoutFarm.ComposerCore.csproj">
+      <Project>{d88d86cd-6732-45e7-8fc9-49449ea9c737}</Project>
+      <Name>LayoutFarm.ComposerCore</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Deps\PixelFarm.Drawing.Core\PixelFarm.Drawing.Core.csproj">
       <Project>{51D63482-5697-4B16-8401-506965624657}</Project>
       <Name>PixelFarm.Drawing.Core</Name>
