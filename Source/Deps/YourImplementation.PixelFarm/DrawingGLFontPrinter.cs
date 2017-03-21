@@ -384,12 +384,42 @@ namespace PixelFarm.DrawingGL
                     default: throw new NotSupportedException();
                     case GlyphPosPixelSnapKind.Integer:
                         //use baseY not y
-                        g_y = (float)(baseY + (glyph.y * scale - glyphData.TextureYOffset + srcRect.Height) * scaleFromTexture);
+                        {
+                            g_y = (float)((glyph.y * scale - glyphData.TextureYOffset + srcRect.Height) * scaleFromTexture);
+                            int floor_y = (int)g_y;
+                            //round to int 0,1
+                            if (g_y - floor_y >= (1f / 2f))
+                            {
+                                g_y = floor_y + 1;
+                            }
+                            else
+                            {
+                                g_y = floor_y;
+                            }
+                            g_y = baseY + g_y;
+                        }
                         break;
                     case GlyphPosPixelSnapKind.Half:
                         //review here
                         //use baseY not y
-                        g_y = (float)(baseY + (glyph.y * scale - glyphData.TextureYOffset + srcRect.Height) * scaleFromTexture);
+                        {
+                            g_y = (float)((glyph.y * scale - glyphData.TextureYOffset + srcRect.Height) * scaleFromTexture);
+                            int floor_y = (int)g_y;
+                            //round to int 0, 0.5,1.0
+                            if (g_y - floor_y >= (2f / 3f))
+                            {
+                                g_y = floor_y + 1;
+                            }
+                            else if (g_x - floor_y >= (1f / 3f))
+                            {
+                                g_y = floor_y + 0.5f;
+                            }
+                            else
+                            {
+                                g_y = floor_y;
+                            }
+                            g_y = baseY + g_y;
+                        }
                         break;
                     case GlyphPosPixelSnapKind.None:
                         //use Y not baseY
@@ -514,12 +544,42 @@ namespace PixelFarm.DrawingGL
                     default: throw new NotSupportedException();
                     case GlyphPosPixelSnapKind.Integer:
                         //use baseY not y
-                        g_y = (float)(baseY + (glyph.y * scale - glyphData.TextureYOffset + srcRect.Height) * scaleFromTexture);
+                        {
+                            g_y = (float)((glyph.y * scale - glyphData.TextureYOffset + srcRect.Height) * scaleFromTexture);
+                            int floor_y = (int)g_y;
+                            //round to int 0,1
+                            if (g_y - floor_y >= (1f / 2f))
+                            {
+                                g_y = floor_y + 1;
+                            }
+                            else
+                            {
+                                g_y = floor_y;
+                            }
+                            g_y = baseY + g_y;
+                        }
                         break;
                     case GlyphPosPixelSnapKind.Half:
                         //review here
                         //use baseY not y
-                        g_y = (float)(baseY + (glyph.y * scale - glyphData.TextureYOffset + srcRect.Height) * scaleFromTexture);
+                        {
+                            g_y = (float)((glyph.y * scale - glyphData.TextureYOffset + srcRect.Height) * scaleFromTexture);
+                            int floor_y = (int)g_y;
+                            //round to int 0, 0.5,1.0
+                            if (g_y - floor_y >= (2f / 3f))
+                            {
+                                g_y = floor_y + 1;
+                            }
+                            else if (g_x - floor_y >= (1f / 3f))
+                            {
+                                g_y = floor_y + 0.5f;
+                            }
+                            else
+                            {
+                                g_y = floor_y;
+                            }
+                            g_y = baseY + g_y;
+                        }
                         break;
                     case GlyphPosPixelSnapKind.None:
                         //use Y not baseY
