@@ -172,6 +172,16 @@ namespace PixelFarm.DrawingGL
         }
     }
 
+    /// <summary>
+    /// how to pos a glyph on specific point
+    /// </summary>
+    public enum GlyphPosPixelSnapKind : byte
+    {
+        Integer,//default
+        Half,
+        None
+    }
+
     public class GLBmpGlyphTextPrinter : ITextPrinter, IDisposable
     {
 
@@ -186,13 +196,15 @@ namespace PixelFarm.DrawingGL
         GLBitmap _glBmp;
         RequestFont font;
 
+
         public GLBmpGlyphTextPrinter(GLCanvasPainter painter, IFontLoader fontLoader)
         {
-            //create text printer for use with canvas painter
-
-
+            //create text printer for use with canvas painter 
             this.painter = painter;
             this.canvas2d = painter.Canvas;
+            GlyphPosPixelSnapX = GlyphPosPixelSnapKind.Integer;
+            GlyphPosPixelSnapY = GlyphPosPixelSnapKind.Integer;
+
             _fontLoader = fontLoader;
             ChangeFont(painter.CurrentFont);
             this._glyphLayout.ScriptLang = painter.CurrentFont.GetOpenFontScriptLang();
@@ -206,6 +218,7 @@ namespace PixelFarm.DrawingGL
                 found.IsInvert = false;
                 return found;
             });
+
         }
         public void ChangeFillColor(Color color)
         {
@@ -214,8 +227,10 @@ namespace PixelFarm.DrawingGL
         }
         public void ChangeStrokeColor(Color strokeColor)
         {
+            //TODO: implementation here
 
         }
+
         public void ChangeFont(RequestFont font)
         {
             //from request font
@@ -255,6 +270,11 @@ namespace PixelFarm.DrawingGL
             return Rectangle.FromLTRB(r.Left, r.Top, r.Right, r.Bottom);
         }
 
+        /// <summary>
+        /// describe how to adjust pixel snaping
+        /// </summary>
+        public GlyphPosPixelSnapKind GlyphPosPixelSnapX { get; set; }
+        public GlyphPosPixelSnapKind GlyphPosPixelSnapY { get; set; }
         //-----------
         List<GlyphPlan> glyphPlans = new List<GlyphPlan>();
         Typography.OpenFont.Typeface _typeface;
@@ -283,15 +303,26 @@ namespace PixelFarm.DrawingGL
             //if (x,y) is left top
             //we need to adjust y again
             y -= (_typeface.Ascender - _typeface.Descender + _typeface.LineGap) * scale;
-            //
 
-            //
             int n = glyphPlans.Count;
             EnsureLoadGLBmp();
             // 
             float scaleFromTexture = _finalTextureScale;
             Typography.Rendering.TextureKind textureKind = simpleFontAtlas.TextureKind;
+            //--------------------------
 
+            //TODO: review render steps 
+            //NOTE:
+            // -glyphData.TextureXOffset => restore to original pos
+            // -glyphData.TextureYOffset => restore to original pos
+            // ideal_x = (float)(x + (glyph.x * scale - glyphData.TextureXOffset) * scaleFromTexture);
+            // ideal_y = (float)(y + (glyph.y * scale - glyphData.TextureYOffset + srcRect.Height) * scaleFromTexture);
+            //--------------------------
+            GlyphPosPixelSnapKind x_snap = this.GlyphPosPixelSnapX;
+            GlyphPosPixelSnapKind y_snap = this.GlyphPosPixelSnapY;
+            float g_x = 0;
+            float g_y = 0;
+            int baseY = (int)Math.Round(y);
             for (int i = 0; i < n; ++i)
             {
                 GlyphPlan glyph = glyphPlans[i];
@@ -300,66 +331,100 @@ namespace PixelFarm.DrawingGL
                 {
                     continue;
                 }
+                //--------------------------------------
+                //TODO: review precise height in float
+                //-------------------------------------- 
                 PixelFarm.Drawing.Rectangle srcRect = ConvToRect(glyphData.Rect);
+                switch (x_snap)
+                {
+                    default: throw new NotSupportedException();
+                    case GlyphPosPixelSnapKind.Integer:
+                        {
+                            g_x = (float)(x + (glyph.x * scale - glyphData.TextureXOffset) * scaleFromTexture); //ideal x
+                            int floor_x = (int)g_x;
+
+                            //round to int 0,1
+                            if (g_x - floor_x >= (1f / 2f))
+                            {
+                                g_x = floor_x + 1;
+                            }
+                            else
+                            {
+                                g_x = floor_x;
+                            }
+                        }
+                        break;
+                    case GlyphPosPixelSnapKind.Half:
+                        {
+                            g_x = (float)(x + (glyph.x * scale - glyphData.TextureXOffset) * scaleFromTexture); //ideal x
+                                                                                                                //adjust
+                            int floor_x = (int)g_x;
+                            //round to int 0, 0.5,1.0
+                            if (g_x - floor_x >= (2f / 3f))
+                            {
+                                g_x = floor_x + 1;
+                            }
+                            else if (g_x - floor_x >= (1f / 3f))
+                            {
+                                g_x = floor_x + 0.5f;
+                            }
+                            else
+                            {
+                                g_x = floor_x;
+                            }
+                        }
+                        break;
+                    case GlyphPosPixelSnapKind.None:
+                        g_x = (float)(x + (glyph.x * scale - glyphData.TextureXOffset) * scaleFromTexture);
+                        break;
+                }
+                //
+                switch (y_snap)
+                {
+                    default: throw new NotSupportedException();
+                    case GlyphPosPixelSnapKind.Integer:
+                        //use baseY not y
+                        g_y = (float)(baseY + (glyph.y * scale - glyphData.TextureYOffset + srcRect.Height) * scaleFromTexture);
+                        break;
+                    case GlyphPosPixelSnapKind.Half:
+                        //review here
+                        //use baseY not y
+                        g_y = (float)(baseY + (glyph.y * scale - glyphData.TextureYOffset + srcRect.Height) * scaleFromTexture);
+                        break;
+                    case GlyphPosPixelSnapKind.None:
+                        //use Y not baseY
+                        g_y = (float)(y + (glyph.y * scale - glyphData.TextureYOffset + srcRect.Height) * scaleFromTexture);
+                        break;
+                }
+
                 switch (textureKind)
                 {
                     case Typography.Rendering.TextureKind.Msdf:
-                        {
-                            canvas2d.DrawSubImageWithMsdf(_glBmp,
-                                ref srcRect,
-                                (float)(x + (glyph.x * scale - glyphData.TextureXOffset) * scaleFromTexture), // -glyphData.TextureXOffset => restore to original pos
-                                (float)(y + (glyph.y * scale - glyphData.TextureYOffset + srcRect.Height) * scaleFromTexture),// -glyphData.TextureYOffset => restore to original pos
-                                scaleFromTexture);
-                        }
+
+                        canvas2d.DrawSubImageWithMsdf(_glBmp,
+                            ref srcRect,
+                            g_x,
+                            g_y,
+                            scaleFromTexture);
+
                         break;
                     case Typography.Rendering.TextureKind.AggGrayScale:
-                        {
-                            canvas2d.DrawSubImage(_glBmp,
-                              ref srcRect,
-                              (float)(x + (glyph.x * scale - glyphData.TextureXOffset) * scaleFromTexture), // -glyphData.TextureXOffset => restore to original pos
-                              (float)(y + (glyph.y * scale - glyphData.TextureYOffset + srcRect.Height) * scaleFromTexture),// -glyphData.TextureYOffset => restore to original pos
-                              scaleFromTexture);
-                        }
+
+                        canvas2d.DrawSubImage(_glBmp,
+                         ref srcRect,
+                            g_x,
+                            g_y,
+                            scaleFromTexture);
+
                         break;
                     case Typography.Rendering.TextureKind.AggSubPixel:
-                        {
-                            //1. ideal
-                            // -glyphData.TextureXOffset => restore to original pos
-                            // -glyphData.TextureYOffset => restore to original pos
-                            float ideal_x = (float)(x + (glyph.x * scale - glyphData.TextureXOffset) * scaleFromTexture);
-                            float ideal_y = (float)(y + (glyph.y * scale - glyphData.TextureYOffset + srcRect.Height) * scaleFromTexture);
 
-                            //adjust ideal_x
-                            //2.half
-                            //int floor_x = (int)ideal_x;
-                            //if (ideal_x - floor_x >= (2f / 3f))
-                            //{
-                            //    ideal_x = floor_x + 1;
-                            //}
-                            //else if (ideal_x - floor_x >= (1f / 3f))
-                            //{
-                            //    ideal_x = floor_x + 0.5f;
-                            //}
-                            //else
-                            //{
-                            //    ideal_x = floor_x;
-                            //}
-                            //3.round
+                        canvas2d.DrawGlyphImageWithSubPixelRenderingTechnique(_glBmp,
+                             ref srcRect,
+                             g_x,
+                             g_y,
+                             scaleFromTexture);
 
-                            ideal_x = (int)Math.Round(ideal_x);
-                            //ideal_y = (int)Math.Round(ideal_y);
-
-                            int baseY = (int)Math.Round(y);
-                            ideal_y = (float)(baseY + (glyph.y * scale - glyphData.TextureYOffset + srcRect.Height) * scaleFromTexture);
-
-
-
-                            canvas2d.DrawGlyphImageWithSubPixelRenderingTechnique(_glBmp,
-                                 ref srcRect,
-                                 ideal_x,
-                                 ideal_y,
-                                 scaleFromTexture);
-                        }
                         break;
                 }
             }
@@ -378,7 +443,10 @@ namespace PixelFarm.DrawingGL
             float scaleFromTexture = _finalTextureScale;
 
             Typography.Rendering.TextureKind textureKind = simpleFontAtlas.TextureKind;
-
+            float g_x = 0;
+            float g_y = 0;
+            int baseY = (int)Math.Round(y);
+            float scale = 1;
             for (int i = 0; i < n; ++i)
             {
                 //PERF:
@@ -390,35 +458,132 @@ namespace PixelFarm.DrawingGL
                 {
                     continue;
                 }
+                //--------------------------------------
+                //TODO: review precise height in float
+                //-------------------------------------- 
                 PixelFarm.Drawing.Rectangle srcRect = ConvToRect(glyphData.Rect);
+                //--------------------------
+                GlyphPosPixelSnapKind x_snap = this.GlyphPosPixelSnapX;
+                GlyphPosPixelSnapKind y_snap = this.GlyphPosPixelSnapY;
+                switch (x_snap)
+                {
+                    default: throw new NotSupportedException();
+                    case GlyphPosPixelSnapKind.Integer:
+                        {
+                            g_x = (float)(x + (glyph.x * scale - glyphData.TextureXOffset) * scaleFromTexture); //ideal x
+                            int floor_x = (int)g_x;
+
+                            //round to int 0,1
+                            if (g_x - floor_x >= (1f / 2f))
+                            {
+                                g_x = floor_x + 1;
+                            }
+                            else
+                            {
+                                g_x = floor_x;
+                            }
+                        }
+                        break;
+                    case GlyphPosPixelSnapKind.Half:
+                        {
+                            g_x = (float)(x + (glyph.x * scale - glyphData.TextureXOffset) * scaleFromTexture); //ideal x
+                                                                                                                //adjust
+                            int floor_x = (int)g_x;
+                            //round to int 0, 0.5,1.0
+                            if (g_x - floor_x >= (2f / 3f))
+                            {
+                                g_x = floor_x + 1;
+                            }
+                            else if (g_x - floor_x >= (1f / 3f))
+                            {
+                                g_x = floor_x + 0.5f;
+                            }
+                            else
+                            {
+                                g_x = floor_x;
+                            }
+                        }
+                        break;
+                    case GlyphPosPixelSnapKind.None:
+                        g_x = (float)(x + (glyph.x * scale - glyphData.TextureXOffset) * scaleFromTexture);
+                        break;
+                }
+                //
+                switch (y_snap)
+                {
+                    default: throw new NotSupportedException();
+                    case GlyphPosPixelSnapKind.Integer:
+                        //use baseY not y
+                        g_y = (float)(baseY + (glyph.y * scale - glyphData.TextureYOffset + srcRect.Height) * scaleFromTexture);
+                        break;
+                    case GlyphPosPixelSnapKind.Half:
+                        //review here
+                        //use baseY not y
+                        g_y = (float)(baseY + (glyph.y * scale - glyphData.TextureYOffset + srcRect.Height) * scaleFromTexture);
+                        break;
+                    case GlyphPosPixelSnapKind.None:
+                        //use Y not baseY
+                        g_y = (float)(y + (glyph.y * scale - glyphData.TextureYOffset + srcRect.Height) * scaleFromTexture);
+                        break;
+                }
                 switch (textureKind)
                 {
                     case Typography.Rendering.TextureKind.Msdf:
-                        {
-                            canvas2d.DrawSubImageWithMsdf(_glBmp,
-                                ref srcRect,
-                                (float)(x + (glyph.x - glyphData.TextureXOffset) * scaleFromTexture), // -glyphData.TextureXOffset => restore to original pos
-                                (float)(y + (glyph.y - glyphData.TextureYOffset + srcRect.Height) * scaleFromTexture),// -glyphData.TextureYOffset => restore to original pos
-                                scaleFromTexture);
-                        }
+
+                        canvas2d.DrawSubImageWithMsdf(_glBmp,
+                            ref srcRect,
+                            g_x,
+                            g_y,
+                            scaleFromTexture);
+
                         break;
                     case Typography.Rendering.TextureKind.AggGrayScale:
-                        {
-                            canvas2d.DrawSubImage(_glBmp,
-                              ref srcRect,
-                              (float)(x + (glyph.x - glyphData.TextureXOffset) * scaleFromTexture), // -glyphData.TextureXOffset => restore to original pos
-                              (float)(y + (glyph.y - glyphData.TextureYOffset + srcRect.Height) * scaleFromTexture),// -glyphData.TextureYOffset => restore to original pos
-                              scaleFromTexture);
-                        }
+
+                        canvas2d.DrawSubImage(_glBmp,
+                         ref srcRect,
+                            g_x,
+                            g_y,
+                            scaleFromTexture);
+
                         break;
                     case Typography.Rendering.TextureKind.AggSubPixel:
                         canvas2d.DrawGlyphImageWithSubPixelRenderingTechnique(_glBmp,
-                                 ref srcRect,
-                                 (float)(x + (glyph.x - glyphData.TextureXOffset) * scaleFromTexture), // -glyphData.TextureXOffset => restore to original pos
-                                 (float)(y + (glyph.y - glyphData.TextureYOffset + srcRect.Height) * scaleFromTexture),// -glyphData.TextureYOffset => restore to original pos
-                                 scaleFromTexture);
+                                ref srcRect,
+                                g_x,
+                                g_y,
+                                scaleFromTexture);
                         break;
                 }
+                //-----------
+                //backup
+                //switch (textureKind)
+                //{
+                //    case Typography.Rendering.TextureKind.Msdf:
+                //        {
+                //            canvas2d.DrawSubImageWithMsdf(_glBmp,
+                //                ref srcRect,
+                //                (float)(x + (glyph.x - glyphData.TextureXOffset) * scaleFromTexture), // -glyphData.TextureXOffset => restore to original pos
+                //                (float)(y + (glyph.y - glyphData.TextureYOffset + srcRect.Height) * scaleFromTexture),// -glyphData.TextureYOffset => restore to original pos
+                //                scaleFromTexture);
+                //        }
+                //        break;
+                //    case Typography.Rendering.TextureKind.AggGrayScale:
+                //        {
+                //            canvas2d.DrawSubImage(_glBmp,
+                //              ref srcRect,
+                //              (float)(x + (glyph.x - glyphData.TextureXOffset) * scaleFromTexture), // -glyphData.TextureXOffset => restore to original pos
+                //              (float)(y + (glyph.y - glyphData.TextureYOffset + srcRect.Height) * scaleFromTexture),// -glyphData.TextureYOffset => restore to original pos
+                //              scaleFromTexture);
+                //        }
+                //        break;
+                //    case Typography.Rendering.TextureKind.AggSubPixel:
+                //        canvas2d.DrawGlyphImageWithSubPixelRenderingTechnique(_glBmp,
+                //                 ref srcRect,
+                //                 (float)(x + (glyph.x - glyphData.TextureXOffset) * scaleFromTexture), // -glyphData.TextureXOffset => restore to original pos
+                //                 (float)(y + (glyph.y - glyphData.TextureYOffset + srcRect.Height) * scaleFromTexture),// -glyphData.TextureYOffset => restore to original pos
+                //                 scaleFromTexture);
+                //        break;
+                //}
             }
         }
 

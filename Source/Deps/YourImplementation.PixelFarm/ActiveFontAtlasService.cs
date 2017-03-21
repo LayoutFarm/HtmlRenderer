@@ -51,7 +51,7 @@ namespace PixelFarm.DrawingGL
                 TextureFontCreationParams creationParams = new TextureFontCreationParams();
                 creationParams.originalFontSizeInPoint = font.SizeInPoints;
                 creationParams.scriptLang = font.ScriptLang;
-                creationParams.writeDirection = WriteDirection.RTL;//default 
+                creationParams.writeDirection = WriteDirection.LTR;//default 
                 //TODO: review here, langBits can be created with scriptLang ?
                 creationParams.langBits = new Typography.OpenFont.Tables.UnicodeLangBits[]
                 {
