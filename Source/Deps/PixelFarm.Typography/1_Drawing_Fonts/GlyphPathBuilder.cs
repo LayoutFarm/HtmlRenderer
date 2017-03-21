@@ -21,19 +21,31 @@ namespace Typography.Rendering
             //not use interperter so we need to scale it with our machnism
             //this demonstrate our auto hint engine ***
             //you can change this to your own hint engine***   
-            if (this.UseVerticalHinting)
+            if (this.UseTrueTypeInstructions)
             {
-                if (!_fitoutlineCollection.TryGetValue(glyphIndex, out _fitOutline))
+                base.FitCurrentGlyph(glyphIndex, glyph);
+            }
+            else
+            {
+                if (this.UseVerticalHinting)
                 {
-                    _fitOutline = _fitShapeAnalyzer.Analyze(
-                        this._outputGlyphPoints,
-                        this._outputContours);
-                    _fitoutlineCollection.Add(glyphIndex, _fitOutline);
+                    if (!_fitoutlineCollection.TryGetValue(glyphIndex, out _fitOutline))
+                    {
+                        _fitOutline = _fitShapeAnalyzer.Analyze(
+                            this._outputGlyphPoints,
+                            this._outputContours);
+                        _fitoutlineCollection.Add(glyphIndex, _fitOutline);
+                    }
                 }
             }
         }
         public override void ReadShapes(IGlyphTranslator tx)
         {
+            if (this.UseTrueTypeInstructions)
+            {
+                base.ReadShapes(tx);
+                return;
+            }
             if (this.UseVerticalHinting)
             {
                 //read from our auto hint fitoutline
