@@ -47,7 +47,7 @@ namespace PixelFarm.Drawing.Fonts
         }
         public override float GetScale(float pointSize)
         {
-            return typeface.CalculateFromPointToPixelScale(pointSize);
+            return typeface.CalculateToPixelScaleFromPointSize(pointSize);
         }
         public override int AscentInDzUnit
         {
@@ -83,7 +83,7 @@ namespace PixelFarm.Drawing.Fonts
             this.style = style;
             this.typeFace = ownerFace.Typeface;
             //calculate scale *** 
-            scale = typeFace.CalculateFromPointToPixelScale(sizeInPoints);
+            scale = typeFace.CalculateToPixelScaleFromPointSize(sizeInPoints);
         }
         public override float SizeInPoints
         {

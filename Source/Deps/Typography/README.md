@@ -1,9 +1,28 @@
-![Typography](https://github.com/LayoutFarm/Typography/blob/master/screenshots/title2.png)
+![Typography, this img was rendered with this lib, in subpixel rendering mode](https://github.com/LayoutFarm/Typography/blob/master/screenshots/title2.png)
 ===========
 
 Pure C# TrueType/OpenType/OpenFont Reader, Glyph Layout and Rendering.
+---
 
- * 1.Loads .ttf files, with OpenFontReader (Big thanks go to NOpenType ,https://github.com/vidstige/NRasterizer)
+During developing the [PixelFarm](https://github.com/PaintLab/PixelFarm),
+I think _'How-to-render-a-font-glyph'_ may be useful for other libs.
+
+So, I spin off  _'How-to-render-a-font-glyph'_ part to here,the **Typography**.
+
+The Typography lib dose NOT NEED PixelFarm Rendering lib.
+
+![gdiplus_sample1](https://cloud.githubusercontent.com/assets/7447159/24084514/1969489e-0d1e-11e7-8748-965e9e84693b.png)
+
+_pic 1:  Typography project's Solution Explorer View_
+
+see pic1, I provide the example(1) that uses Typography with WinGdiPlus,
+
+and the example(2) the uses Typography with 'mini' snapshot of PixelFarm Rendering Lib(3). 
+
+Concept
+---
+
+ * 1.Loads .ttf files, with OpenFontReader.
  
  * 2.Rasterizes char to bitmap with pure software renderer + Agg(anti grain geometry) Quality! with 
       our PixelFarm's MiniAgg :) (https://github.com/PaintLab/PixelFarm)
@@ -16,7 +35,7 @@ License
 
 Apache2, 2016-2017, WinterDev
 
-Apache2, 2014-2016, Samuel Carlsson, from https://github.com/vidstige/NRasterizer
+Apache2, 2014-2016, Samuel Carlsson, Big thanks for https://github.com/vidstige/NRasterizer
 
 MIT, 2015, Michael Popoloski, from https://github.com/MikePopoloski/SharpFont
 
@@ -24,7 +43,7 @@ The FreeType Project LICENSE (3-clauses BSD),2003-2016, David Turner, Robert Wil
 
 BSD, 2009-2010, Poly2Tri Contributors, from https://github.com/PaintLab/poly2tri-cs
 
-BSD, 2002-2005, Maxim Shemanarev (http://www.antigrain.com)Anti-Grain Geometry - Version 2.4,
+BSD, 2002-2005, Maxim Shemanarev, Anti-Grain Geometry - Version 2.4 from http://www.antigrain.com
 
 BSD, 2007-2014, Lars Brubaker, agg-sharp, from  https://github.com/MatterHackers/agg-sharp 
 
@@ -78,9 +97,41 @@ Msdf Texture
 ![msdfgen2](https://cloud.githubusercontent.com/assets/7447159/23061146/423cd040-f533-11e6-9f1a-a7fc3d60a14a.png)
 
 ---
-GSUB: ligature feature
+**Advance OpenFont Text Shaping**
 
-![ligature1](https://cloud.githubusercontent.com/assets/7447159/23093970/f7f879a8-f622-11e6-8539-8cdbcf1026d7.png)
+**1. GSUB :  ligature feature** 
+ 
+![ligature](https://cloud.githubusercontent.com/assets/7447159/23093970/f7f879a8-f622-11e6-8539-8cdbcf1026d7.png)
+
+_pic 1: show GSUB's  glyph ligature, see f-i_
+
+---
+
+**2. GPOS**
+ 
+ 
+![gpos](https://cloud.githubusercontent.com/assets/7447159/23071092/d53c89c2-f55f-11e6-8b6d-a9353345f77c.png)
+
+_pic 2: test with Thai (complex script) glyph that require gpos table_
+ 
+---
+**3. GSUB** : ccmp
+ 
+
+
+![gsub](https://cloud.githubusercontent.com/assets/7447159/23079342/1efa46c0-f57f-11e6-869e-fc9700037feb.png)
+
+_pic 3: test with Thai glyph (complex script) , shows glyph substitution_
+
+--- 
+
+**4. GSUB -  GPOS** 
+
+![th_glyph](https://cloud.githubusercontent.com/assets/7447159/23125153/f96d8608-f7a2-11e6-921d-d9bb132c179c.png)
+ 
+ ![th_glyph2](https://cloud.githubusercontent.com/assets/7447159/23194740/7b778fd2-f8e2-11e6-9aa1-1d62ad93de06.png)
+
+_pic 4: test with Thai glyph (complex script)_
 
 
 
