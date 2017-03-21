@@ -63,7 +63,8 @@ namespace LayoutFarm.HtmlBoxes
                 }
             }
         }
-     
+        public abstract bool RefreshDomIfNeed();
+
         public bool HasRootBox { get { return this._rootBox != null; } }
 
         /// <summary>
@@ -216,6 +217,7 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
 #endif
+        public bool IsInUpdateQueue { get; set; }
         protected virtual void OnLayoutFinished()
         {
         }

@@ -112,6 +112,7 @@
     <Compile Include="3_FontFaceImpl\ScriptLangConv.cs" />
     <Compile Include="3_FontFaceImpl\TextureFontLoader.cs" />
     <Compile Include="6_AggTexture\AggGlyphTextureGen.cs" />
+    <Compile Include="1_Drawing_Fonts\GlyphPathBuilderBase.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

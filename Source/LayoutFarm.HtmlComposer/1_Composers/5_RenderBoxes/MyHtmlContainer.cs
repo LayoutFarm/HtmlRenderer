@@ -23,7 +23,9 @@ namespace LayoutFarm.HtmlBoxes
         public MyHtmlContainer(HtmlHost htmlhost)
         {
             this.htmlhost = htmlhost;
+
         }
+
 
         public void AttachEssentialHandlers(EventHandler domVisualRefreshHandler,
             EventHandler domRequestRebuildHandler,
@@ -49,11 +51,7 @@ namespace LayoutFarm.HtmlBoxes
                 this.domFinished(this, EventArgs.Empty);
             }
         }
-        public bool IsInUpdateQueue
-        {
-            get;
-            set;
-        }
+
         public DomElement RootElement
         {
             get { return webdoc.RootNode; }
@@ -86,7 +84,7 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
 
-        public bool RefreshDomIfNeed()
+        public override bool RefreshDomIfNeed()
         {
             if (webdoc == null) return false;
             //----------------------------------
@@ -165,8 +163,19 @@ namespace LayoutFarm.HtmlBoxes
         }
         protected override void OnRequestScrollView(CssBox box)
         {
-            RootGraphic rootgfx = (RootGraphic)box.RootGfx;
-            rootgfx.AddToElementUpdateQueue(box);
+            //RootGraphic rootgfx = (RootGraphic)box.RootGfx;
+            //rootgfx.AddToElementUpdateQueue(box);
+            this.htmlhost.EnqueueCssUpdate(box);
+
+            //    var renderE = this.elementUpdateQueue[i];
+            //    var cssbox = renderE as HtmlBoxes.CssBox;
+            //    if (cssbox != null)
+            //    {
+            //        var controller = HtmlBoxes.CssBox.UnsafeGetController(cssbox) as IEventListener;
+            //        controller.HandleElementUpdate();
+            //    }
+            //    this.elementUpdateQueue.RemoveAt(i);
+            //}
         }
         /// <summary>
         /// check if dom update

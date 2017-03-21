@@ -125,6 +125,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.YourBasicCustomW
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.YourHtmlWidget", "LayoutFarm.YourHtmlWidget\LayoutFarm.YourHtmlWidget.csproj", "{9A73D7BE-C7F0-47A8-8FD4-2906C4917148}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.ComposerCore", "Deps\LayoutFarm.ComposerCore\LayoutFarm.ComposerCore.csproj", "{D88D86CD-6732-45E7-8FC9-49449EA9C737}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -890,6 +892,24 @@ Global
 		{9A73D7BE-C7F0-47A8-8FD4-2906C4917148}.Release64|Mixed Platforms.Build.0 = Release|Any CPU
 		{9A73D7BE-C7F0-47A8-8FD4-2906C4917148}.Release64|x86.ActiveCfg = Release|Any CPU
 		{9A73D7BE-C7F0-47A8-8FD4-2906C4917148}.Release64|x86.Build.0 = Release|Any CPU
+		{D88D86CD-6732-45E7-8FC9-49449EA9C737}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D88D86CD-6732-45E7-8FC9-49449EA9C737}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D88D86CD-6732-45E7-8FC9-49449EA9C737}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{D88D86CD-6732-45E7-8FC9-49449EA9C737}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{D88D86CD-6732-45E7-8FC9-49449EA9C737}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D88D86CD-6732-45E7-8FC9-49449EA9C737}.Debug|x86.Build.0 = Debug|Any CPU
+		{D88D86CD-6732-45E7-8FC9-49449EA9C737}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D88D86CD-6732-45E7-8FC9-49449EA9C737}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D88D86CD-6732-45E7-8FC9-49449EA9C737}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{D88D86CD-6732-45E7-8FC9-49449EA9C737}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{D88D86CD-6732-45E7-8FC9-49449EA9C737}.Release|x86.ActiveCfg = Release|Any CPU
+		{D88D86CD-6732-45E7-8FC9-49449EA9C737}.Release|x86.Build.0 = Release|Any CPU
+		{D88D86CD-6732-45E7-8FC9-49449EA9C737}.Release64|Any CPU.ActiveCfg = Release|Any CPU
+		{D88D86CD-6732-45E7-8FC9-49449EA9C737}.Release64|Any CPU.Build.0 = Release|Any CPU
+		{D88D86CD-6732-45E7-8FC9-49449EA9C737}.Release64|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{D88D86CD-6732-45E7-8FC9-49449EA9C737}.Release64|Mixed Platforms.Build.0 = Release|Any CPU
+		{D88D86CD-6732-45E7-8FC9-49449EA9C737}.Release64|x86.ActiveCfg = Release|Any CPU
+		{D88D86CD-6732-45E7-8FC9-49449EA9C737}.Release64|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -948,5 +968,6 @@ Global
 		{B3047240-20CB-48FE-A6FB-2BBA559C402C} = {C3BA1377-B139-4BD6-A0D1-F486FB6E29BE}
 		{6317F5F0-BC4B-4BFD-B3C0-73C05C2AA11E} = {84CCD0BF-E1ED-4856-A3B6-22581BB03069}
 		{9A73D7BE-C7F0-47A8-8FD4-2906C4917148} = {F7F6E774-3C8A-4263-9EE2-07E286A78BF8}
+		{D88D86CD-6732-45E7-8FC9-49449EA9C737} = {84CCD0BF-E1ED-4856-A3B6-22581BB03069}
 	EndGlobalSection
 EndGlobal

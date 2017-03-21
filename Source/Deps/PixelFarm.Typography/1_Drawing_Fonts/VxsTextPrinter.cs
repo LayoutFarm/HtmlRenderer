@@ -91,7 +91,7 @@ namespace PixelFarm.Drawing.Fonts
             //TODO: review this again, we should use pixel?
 
             float fontSizePoint = this.FontSizeInPoints;
-            float scale = typeface.CalculateFromPointToPixelScale(fontSizePoint);
+            float scale = typeface.CalculateToPixelScaleFromPointSize(fontSizePoint);
             _outputGlyphPlans.Clear();
             _glyphLayout.Layout(typeface, text, startAt, len, _outputGlyphPlans);
             //4. render each glyph 
@@ -143,7 +143,7 @@ namespace PixelFarm.Drawing.Fonts
             //3. layout glyphs with selected layout technique
             //TODO: review this again, we should use pixel? 
             float fontSizePoint = this.FontSizeInPoints;
-            float scale = typeface.CalculateFromPointToPixelScale(fontSizePoint);
+            float scale = typeface.CalculateToPixelScaleFromPointSize(fontSizePoint);
             RenderVxGlyphPlan[] glyphPlans = renderVx.glyphList;
             int j = glyphPlans.Length;
             //---------------------------------------------------
@@ -195,7 +195,7 @@ namespace PixelFarm.Drawing.Fonts
             float fontSizePoint = this.FontSizeInPoints;
             _outputGlyphPlans.Clear();
             _glyphLayout.Layout(typeface, text, startAt, len, _outputGlyphPlans);
-            TextPrinterHelper.CopyGlyphPlans(renderVx, _outputGlyphPlans, typeface.CalculateFromPointToPixelScale(fontSizePoint));
+            TextPrinterHelper.CopyGlyphPlans(renderVx, _outputGlyphPlans, typeface.CalculateToPixelScaleFromPointSize(fontSizePoint));
 
         }
         string _currentFontFilename = "";

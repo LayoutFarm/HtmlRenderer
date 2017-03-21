@@ -18,7 +18,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -44,34 +44,10 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Demo1\1.1_Demo_SingleButton.cs" />
-    <Compile Include="Demo1\1.2_Demo_MultipleBoxes.cs" />
-    <Compile Include="Demo1\1.3_Demo_SampleGrid.cs" />
-    <Compile Include="Demo1\1.4_Demo_Drag.cs" />
-    <Compile Include="Demo1\1.5_Demo_ScrollBar.cs" />
-    <Compile Include="Demo1\1.6_Demo_ScrollView.cs" />
-    <Compile Include="Demo1\1.7_Demo_ListView.cs" />
-    <Compile Include="Demo1\1.8_Demo_Hinge.cs" />
-    <Compile Include="Demo1\1.9_Demo_TreeView.cs" />
-    <Compile Include="Demo2\2.6_Demo_MultiLineTextBox_WithSugggestion.cs" />
-    <Compile Include="Demo2\2.5_Demo_MultiLineTextBox_WithSugggestion.cs" />
-    <Compile Include="Demo3\3.9_Compartment_withSpliter3.cs" />
     <Compile Include="Demo4\4.6_DynamicDom1.cs" />
     <Compile Include="Demo5\5.9_Demo_TreeView.cs" />
     <Compile Include="Demo5\5.0_HtmlDemoBase.cs" />
     <Compile Include="Demo5\5.2_Demo_MultipleBoxes2.cs" />
-    <Compile Include="Demo2\2.1_Demo_SingleLineTextBox.cs" />
-    <Compile Include="Demo2\2.2_Demo_MultilineTextBox.cs" />
-    <Compile Include="Demo2\2.3_Demo_SingleLineTextBox_WithSuggestion.cs" />
-    <Compile Include="Demo2\2.4_Demo_SingleTextLine_With_Compartment.cs" />
-    <Compile Include="Demo3\3.1_Demo_Visible.cs" />
-    <Compile Include="Demo3\3.2_Demo_ControllerBox.cs" />
-    <Compile Include="Demo3\3.3_Demo_ControllerBox2.cs" />
-    <Compile Include="Demo3\3.6_Demo_DragSelectionBox.cs" />
-    <Compile Include="Demo3\3.5_Demo_CompartmentBox2.cs" />
-    <Compile Include="Demo3\3.4_CompartmentBox.cs" />
-    <Compile Include="Demo3\3.7_Compartment_withSpliter.cs" />
-    <Compile Include="Demo3\3.8_Compartment_withSpliter2.cs" />
     <Compile Include="Demo5\5.3_Demo_TabPage.cs" />
     <Compile Include="Demo4\4.1_UIHtmlBox.cs" />
     <Compile Include="Demo4\4.2_MixHtml.cs" />
@@ -98,10 +74,12 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SampleViewportExtension.cs" />
-    <Compile Include="x_MyGlfwForm.cs" />
-    <Compile Include="x_notusedOpenGLPortal.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Deps\LayoutFarm.ComposerCore\LayoutFarm.ComposerCore.csproj">
+      <Project>{d88d86cd-6732-45e7-8fc9-49449ea9c737}</Project>
+      <Name>LayoutFarm.ComposerCore</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Deps\LayoutFarm.YourBasicCustomWidgets\LayoutFarm.YourBasicCustomWidgets.csproj">
       <Project>{6317f5f0-bc4b-4bfd-b3c0-73c05c2aa11e}</Project>
       <Name>LayoutFarm.YourBasicCustomWidgets</Name>
