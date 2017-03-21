@@ -51,7 +51,7 @@ namespace PixelFarm.DrawingGL
                 TextureFontCreationParams creationParams = new TextureFontCreationParams();
                 creationParams.originalFontSizeInPoint = font.SizeInPoints;
                 creationParams.scriptLang = font.ScriptLang;
-                creationParams.writeDirection = WriteDirection.RTL;//default 
+                creationParams.writeDirection = WriteDirection.LTR;//default 
                 //TODO: review here, langBits can be created with scriptLang ?
                 creationParams.langBits = new Typography.OpenFont.Tables.UnicodeLangBits[]
                 {
@@ -62,7 +62,9 @@ namespace PixelFarm.DrawingGL
                 creationParams.textureKind = Typography.Rendering.TextureKind.AggSubPixel;
                 if (font.SizeInPoints >= 4 && font.SizeInPoints <= 14)
                 {
-                    creationParams.hintTechnique = Typography.Rendering.HintTechnique.TrueTypeInstruction_VerticalOnly;
+                    //creationParams.hintTechnique = Typography.Rendering.HintTechnique.TrueTypeInstruction;
+                    //creationParams.hintTechnique = Typography.Rendering.HintTechnique.TrueTypeInstruction_VerticalOnly;                     
+                    creationParams.hintTechnique = Typography.Rendering.HintTechnique.CustomAutoFit;
                 }
                 //
                 ff = TextureFontLoader.LoadFont(fontfile, creationParams, out fontAtlas);

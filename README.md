@@ -11,7 +11,7 @@ _pic 1: HtmlRenderer, Gdi+, see [test file](https://github.com/LayoutFarm/HtmlRe
 **Work In Progrss ... : Cross Platform HtmlRenderer**
 
 
-![gles2](https://cloud.githubusercontent.com/assets/7447159/24074437/ee5cb5e8-0c3a-11e7-8df0-53f32617aeac.png)
+![gles2](https://cloud.githubusercontent.com/assets/7447159/24164527/9c547a16-0ea0-11e7-84e0-6d4062e8ba89.png)
 
 _pic 2: HtmlRenderer: OpenGLES2 BackEnd, Preview of Latest snapshot_
 
