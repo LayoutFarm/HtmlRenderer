@@ -62,8 +62,8 @@ namespace PixelFarm.DrawingGL
                 creationParams.textureKind = Typography.Rendering.TextureKind.AggSubPixel;
                 if (font.SizeInPoints >= 4 && font.SizeInPoints <= 14)
                 {
-                    //creationParams.hintTechnique = Typography.Rendering.HintTechnique.TrueTypeInstruction_VerticalOnly;                     
-                    creationParams.hintTechnique = Typography.Rendering.HintTechnique.CustomAutoFit;
+                    creationParams.hintTechnique = Typography.Rendering.HintTechnique.TrueTypeInstruction_VerticalOnly;                     
+                    //creationParams.hintTechnique = Typography.Rendering.HintTechnique.CustomAutoFit;
                 }
                 //
                 ff = TextureFontLoader.LoadFont(fontfile, creationParams, out fontAtlas);

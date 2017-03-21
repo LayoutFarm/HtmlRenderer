@@ -272,8 +272,6 @@ namespace PixelFarm.DrawingGL
         {
 
 
-
-
             int j = buffer.Length;
             //resolve font from painter?  
             glyphPlans.Clear();
@@ -332,24 +330,29 @@ namespace PixelFarm.DrawingGL
                             float ideal_y = (float)(y + (glyph.y * scale - glyphData.TextureYOffset + srcRect.Height) * scaleFromTexture);
 
                             //adjust ideal_x
-                            //2. half
-                            //int floor_int = (int)ideal_x;
-                            //if (ideal_x - floor_int >= (2f / 3f))
+                            //2.half
+                            //int floor_x = (int)ideal_x;
+                            //if (ideal_x - floor_x >= (2f / 3f))
                             //{
-                            //    ideal_x = floor_int + 1;
+                            //    ideal_x = floor_x + 1;
                             //}
-                            //else if (ideal_x - floor_int >= (1f / 3f))
+                            //else if (ideal_x - floor_x >= (1f / 3f))
                             //{
-                            //    ideal_x = floor_int + 0.5f;
+                            //    ideal_x = floor_x + 0.5f;
                             //}
                             //else
                             //{
-                            //    ideal_x = floor_int;
+                            //    ideal_x = floor_x;
                             //}
-                            //3. round
+                            //3.round
 
                             ideal_x = (int)Math.Round(ideal_x);
-                            ideal_y = (int)Math.Round(ideal_y);
+                            //ideal_y = (int)Math.Round(ideal_y);
+
+                            int baseY = (int)Math.Round(y);
+                            ideal_y = (float)(baseY + (glyph.y * scale - glyphData.TextureYOffset + srcRect.Height) * scaleFromTexture);
+
+
 
                             canvas2d.DrawGlyphImageWithSubPixelRenderingTechnique(_glBmp,
                                  ref srcRect,
