@@ -62,7 +62,8 @@ namespace PixelFarm.DrawingGL
                 creationParams.textureKind = Typography.Rendering.TextureKind.AggSubPixel;
                 if (font.SizeInPoints >= 4 && font.SizeInPoints <= 14)
                 {
-                    creationParams.hintTechnique = Typography.Rendering.HintTechnique.TrueTypeInstruction_VerticalOnly;                     
+                    creationParams.hintTechnique = Typography.Rendering.HintTechnique.TrueTypeInstruction;
+                    //creationParams.hintTechnique = Typography.Rendering.HintTechnique.TrueTypeInstruction_VerticalOnly;                     
                     //creationParams.hintTechnique = Typography.Rendering.HintTechnique.CustomAutoFit;
                 }
                 //
