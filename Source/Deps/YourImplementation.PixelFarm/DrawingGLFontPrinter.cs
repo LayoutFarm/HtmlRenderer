@@ -324,11 +324,31 @@ namespace PixelFarm.DrawingGL
                         }
                         break;
                     case Typography.Rendering.TextureKind.AggSubPixel:
-                        canvas2d.DrawGlyphImageWithSubPixelRenderingTechnique(_glBmp,
+                        {
+                            float ideal_x = (float)(x + (glyph.x * scale - glyphData.TextureXOffset) * scaleFromTexture);
+                            //adjust ideal_x
+
+                            int floor_int = (int)ideal_x;
+                            if (ideal_x - floor_int >= (2f / 3f))
+                            {
+                                ideal_x = floor_int + 1;
+                            }
+                            else if (ideal_x - floor_int >= (1f / 3f))
+                            {
+                                ideal_x = floor_int + 0.5f;
+                            }
+                            else
+                            {
+                                ideal_x = floor_int;
+                            }
+
+                            ideal_x = (int)Math.Round(ideal_x);
+                            canvas2d.DrawGlyphImageWithSubPixelRenderingTechnique(_glBmp,
                                  ref srcRect,
                                  (float)(x + (glyph.x * scale - glyphData.TextureXOffset) * scaleFromTexture), // -glyphData.TextureXOffset => restore to original pos
                                  (float)(y + (glyph.y * scale - glyphData.TextureYOffset + srcRect.Height) * scaleFromTexture),// -glyphData.TextureYOffset => restore to original pos
                                  scaleFromTexture);
+                        }
                         break;
                 }
             }
