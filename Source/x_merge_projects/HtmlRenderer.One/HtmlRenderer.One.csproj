@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{05995C72-AAF9-4F97-95FB-8DA4B0647D0F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HtmlRenderer.One</RootNamespace>
+    <AssemblyName>HtmlRenderer.One</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.XML" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Deps\LayoutFarm.BaseRenderer\LayoutFarm.BaseRenderer.csproj">
+      <Project>{20048075-a2f3-4b97-b3c6-bea794429741}</Project>
+      <Name>LayoutFarm.BaseRenderer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Deps\LayoutFarm.ComposerCore\LayoutFarm.ComposerCore.csproj">
+      <Project>{d88d86cd-6732-45e7-8fc9-49449ea9c737}</Project>
+      <Name>LayoutFarm.ComposerCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Deps\LayoutFarm.PlatformBase\LayoutFarm.PlatformBase.csproj">
+      <Project>{cdefd12b-956c-4686-ae8a-f89c3280c95f}</Project>
+      <Name>LayoutFarm.PlatformBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Deps\LayoutFarm.Platforms.WinForms\LayoutFarm.Platforms.WinForms.csproj">
+      <Project>{4602b28b-eeec-4a69-854c-b00b8b616837}</Project>
+      <Name>LayoutFarm.Platforms.WinForms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Deps\LayoutFarm.TextEdit\LayoutFarm.TextEdit.csproj">
+      <Project>{cfb41c52-614e-476c-8bbe-d07c26fb582d}</Project>
+      <Name>LayoutFarm.TextEdit</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Deps\LayoutFarm.YourBasicCustomWidgets\LayoutFarm.YourBasicCustomWidgets.csproj">
+      <Project>{6317f5f0-bc4b-4bfd-b3c0-73c05c2aa11e}</Project>
+      <Name>LayoutFarm.YourBasicCustomWidgets</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Deps\PixelFarm.Drawing.Core\PixelFarm.Drawing.Core.csproj">
+      <Project>{51d63482-5697-4b16-8401-506965624657}</Project>
+      <Name>PixelFarm.Drawing.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Deps\PixelFarm.DrawingCanvas\PixelFarm.DrawingCanvas.csproj">
+      <Project>{0cc424d5-20ac-4849-993d-3a720dbae94f}</Project>
+      <Name>PixelFarm.DrawingCanvas</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Deps_HtmlKit\HtmlKit_Net20\HtmlKit_Net20.csproj">
+      <Project>{69c5bff6-18c2-4d29-aa07-3c8dbdc70f87}</Project>
+      <Name>HtmlKit_Net20</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Deps_I18N\LayoutFarm.TextBreak\LayoutFarm.TextBreak.Icu\LayoutFarm.TextBreak.Icu.csproj">
+      <Project>{777178ca-c706-406f-856d-62cc40ac63e4}</Project>
+      <Name>LayoutFarm.TextBreak.Icu</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Deps_I18N\LayoutFarm.TextBreak\TextBreak\LayoutFarm.TextBreak.csproj">
+      <Project>{09ec5531-d272-40db-87a4-b2d353846cc2}</Project>
+      <Name>LayoutFarm.TextBreak</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\LayoutFarm.CssBase\LayoutFarm.CssBase.csproj">
+      <Project>{5164ec24-95c4-4333-bd4e-70ee625cceb4}</Project>
+      <Name>LayoutFarm.CssBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\LayoutFarm.HtmlComposer\LayoutFarm.HtmlComposer.csproj">
+      <Project>{1af17e34-4c2d-4657-b993-e0608c555111}</Project>
+      <Name>LayoutFarm.HtmlComposer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\LayoutFarm.HtmlRenderer\LayoutFarm.HtmlRenderer.csproj">
+      <Project>{9d2a40bc-fa95-454d-aef5-4dd9344bfdc3}</Project>
+      <Name>LayoutFarm.HtmlRenderer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\LayoutFarm.WebDom\LayoutFarm.WebDom.csproj">
+      <Project>{a7e65fd9-329d-4902-bcda-51ee4f992fd5}</Project>
+      <Name>LayoutFarm.WebDom</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Test0_PresentationDevHelper_New\Test0_PresentationDevHelper_New.csproj">
+      <Project>{05c84cab-2f5d-4d74-9a62-eaddf5b4cc0b}</Project>
+      <Name>Test0_PresentationDevHelper_New</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

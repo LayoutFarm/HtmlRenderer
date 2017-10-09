@@ -1,0 +1,1313 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <SchemaVersion>2.0</SchemaVersion>
+    <OutputType>Library</OutputType>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AssemblyName>HtmlRenderer.One</AssemblyName>
+    <ProjectGuid>{FD69D6D4-C25E-43ED-AC1E-2F771247E484}</ProjectGuid>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <OutputPath>bin\Debug\</OutputPath>
+    <Optimize>false</Optimize>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <DefineConstants>TRACE;DEBUG; TRACEDEBUG; ;NET20, __DESKTOP__,NET20,PIXEL_FARM,PIXEL_FARM_NET2</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <OutputPath>bin\Release\</OutputPath>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <DefineConstants> TRACEDEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.XML" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Deps\LayoutFarm.BaseRenderer\0_Start\dbugCoreConst.cs">
+      <Link>Deps\LayoutFarm.BaseRenderer\0_Start\dbugCoreConst.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.BaseRenderer\1_Root\1_RootGraphic.cs">
+      <Link>Deps\LayoutFarm.BaseRenderer\1_Root\1_RootGraphic.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.BaseRenderer\1_Root\1_RootGraphic_p1_dbug.cs">
+      <Link>Deps\LayoutFarm.BaseRenderer\1_Root\1_RootGraphic_p1_dbug.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.BaseRenderer\1_Root\1_RootGraphic_p2_dbug.cs">
+      <Link>Deps\LayoutFarm.BaseRenderer\1_Root\1_RootGraphic_p2_dbug.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.BaseRenderer\1_Root\2_RenderRequest.cs">
+      <Link>Deps\LayoutFarm.BaseRenderer\1_Root\2_RenderRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.BaseRenderer\1_Root\3_GraphicsTimerTask.cs">
+      <Link>Deps\LayoutFarm.BaseRenderer\1_Root\3_GraphicsTimerTask.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.BaseRenderer\1_Root\RootGraphicsPlatform.cs">
+      <Link>Deps\LayoutFarm.BaseRenderer\1_Root\RootGraphicsPlatform.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.BaseRenderer\2_RenderElement\0_RenderElement.cs">
+      <Link>Deps\LayoutFarm.BaseRenderer\2_RenderElement\0_RenderElement.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.BaseRenderer\2_RenderElement\1_RenderElement.ElementPositioning_NoBoundChanged.cs">
+      <Link>Deps\LayoutFarm.BaseRenderer\2_RenderElement\1_RenderElement.ElementPositioning_NoBoundChanged.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.BaseRenderer\2_RenderElement\2_RenderElement.ElementPositioning_1_WithSizeChanged.cs">
+      <Link>Deps\LayoutFarm.BaseRenderer\2_RenderElement\2_RenderElement.ElementPositioning_1_WithSizeChanged.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.BaseRenderer\2_RenderElement\3_RenderElement.Bubble_Layout.cs">
+      <Link>Deps\LayoutFarm.BaseRenderer\2_RenderElement\3_RenderElement.Bubble_Layout.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.BaseRenderer\2_RenderElement\4_RenderElement.Bubble_Repaint.cs">
+      <Link>Deps\LayoutFarm.BaseRenderer\2_RenderElement\4_RenderElement.Bubble_Repaint.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.BaseRenderer\2_RenderElement\RenderElementConst.cs">
+      <Link>Deps\LayoutFarm.BaseRenderer\2_RenderElement\RenderElementConst.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.BaseRenderer\2_RenderElement\RenderElementFoundDelegate.cs">
+      <Link>Deps\LayoutFarm.BaseRenderer\2_RenderElement\RenderElementFoundDelegate.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.BaseRenderer\2_RenderElement\RenderElement_IParentLink.cs">
+      <Link>Deps\LayoutFarm.BaseRenderer\2_RenderElement\RenderElement_IParentLink.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.BaseRenderer\2_RenderElement\x_RenderElement.debug.cs">
+      <Link>Deps\LayoutFarm.BaseRenderer\2_RenderElement\x_RenderElement.debug.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.BaseRenderer\2_RenderElement\x_RenderElement_LocationHelper.cs">
+      <Link>Deps\LayoutFarm.BaseRenderer\2_RenderElement\x_RenderElement_LocationHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.BaseRenderer\3_Layers\0_IParentLink.cs">
+      <Link>Deps\LayoutFarm.BaseRenderer\3_Layers\0_IParentLink.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.BaseRenderer\3_Layers\1_RenderElementLayer.cs">
+      <Link>Deps\LayoutFarm.BaseRenderer\3_Layers\1_RenderElementLayer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.BaseRenderer\3_Layers\2_PlainLayer.cs">
+      <Link>Deps\LayoutFarm.BaseRenderer\3_Layers\2_PlainLayer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.BaseRenderer\4_Boxes\IBoxElement.cs">
+      <Link>Deps\LayoutFarm.BaseRenderer\4_Boxes\IBoxElement.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.BaseRenderer\4_Boxes\RenderBoxBase.cs">
+      <Link>Deps\LayoutFarm.BaseRenderer\4_Boxes\RenderBoxBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.BaseRenderer\5_HitTest\HitChain.cs">
+      <Link>Deps\LayoutFarm.BaseRenderer\5_HitTest\HitChain.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.BaseRenderer\6_debug\dbug.cs">
+      <Link>Deps\LayoutFarm.BaseRenderer\6_debug\dbug.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.BaseRenderer\6_debug\dbugHitTracker.cs">
+      <Link>Deps\LayoutFarm.BaseRenderer\6_debug\dbugHitTracker.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.BaseRenderer\6_debug\dbugVisitorMessage.cs">
+      <Link>Deps\LayoutFarm.BaseRenderer\6_debug\dbugVisitorMessage.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.BaseRenderer\6_debug\dbugVisualEvalScrollBarTrace.cs">
+      <Link>Deps\LayoutFarm.BaseRenderer\6_debug\dbugVisualEvalScrollBarTrace.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.BaseRenderer\6_debug\dbugVisualInvalidationTracer.cs">
+      <Link>Deps\LayoutFarm.BaseRenderer\6_debug\dbugVisualInvalidationTracer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.BaseRenderer\6_debug\dbugVisualLayoutTracer.cs">
+      <Link>Deps\LayoutFarm.BaseRenderer\6_debug\dbugVisualLayoutTracer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.BaseRenderer\6_debug\IdbugOutputWindow.cs">
+      <Link>Deps\LayoutFarm.BaseRenderer\6_debug\IdbugOutputWindow.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.PlatformBase\CanvasViewport.cs">
+      <Link>Deps\LayoutFarm.PlatformBase\CanvasViewport.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.PlatformBase\dbugHelper.cs">
+      <Link>Deps\LayoutFarm.PlatformBase\dbugHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.PlatformBase\InnerViewportKind.cs">
+      <Link>Deps\LayoutFarm.PlatformBase\InnerViewportKind.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.PlatformBase\MyUITimer.cs">
+      <Link>Deps\LayoutFarm.PlatformBase\MyUITimer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.PlatformBase\OpenGLCanvasViewport.cs">
+      <Link>Deps\LayoutFarm.PlatformBase\OpenGLCanvasViewport.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.PlatformBase\PlatformBootStrap\BootStrapOpenGLES2.cs">
+      <Link>Deps\LayoutFarm.PlatformBase\PlatformBootStrap\BootStrapOpenGLES2.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.PlatformBase\PlatformBootStrap\BootStrapSkia.cs">
+      <Link>Deps\LayoutFarm.PlatformBase\PlatformBootStrap\BootStrapSkia.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.PlatformBase\PlatformBootStrap\BootStrapWinGdi.cs">
+      <Link>Deps\LayoutFarm.PlatformBase\PlatformBootStrap\BootStrapWinGdi.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.PlatformBase\SkiaCanvasViewport.cs">
+      <Link>Deps\LayoutFarm.PlatformBase\SkiaCanvasViewport.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.PlatformBase\Windows\InstallFontsProviderWin32.cs">
+      <Link>Deps\LayoutFarm.PlatformBase\Windows\InstallFontsProviderWin32.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.PlatformBase\Windows\WindowFontLoader.cs">
+      <Link>Deps\LayoutFarm.PlatformBase\Windows\WindowFontLoader.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\Win32Utils\MyWin32.cs">
+      <Link>Deps\Win32Utils\MyWin32.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\Win32Utils\NativeTextWin32.cs">
+      <Link>Deps\Win32Utils\NativeTextWin32.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\Win32Utils\NativeWin32MemoryDc.cs">
+      <Link>Deps\Win32Utils\NativeWin32MemoryDc.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\YourImplementation.PixelFarm\ActiveFontAtlasService.cs">
+      <Link>Deps\YourImplementation.PixelFarm\ActiveFontAtlasService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\YourImplementation.PixelFarm\DrawingGLFontPrinter.cs">
+      <Link>Deps\YourImplementation.PixelFarm\DrawingGLFontPrinter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.Platforms.WinForms\0_Platform\UIPlatformWinForms.cs">
+      <Link>Deps\LayoutFarm.Platforms.WinForms\0_Platform\UIPlatformWinForms.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.Platforms.WinForms\1_UISurfaceViewport\UISurfaceViewportControl.cs">
+      <Link>Deps\LayoutFarm.Platforms.WinForms\1_UISurfaceViewport\UISurfaceViewportControl.cs</Link>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.Platforms.WinForms\1_UISurfaceViewport\UISurfaceViewportControl.Designer.cs">
+      <Link>Deps\LayoutFarm.Platforms.WinForms\1_UISurfaceViewport\UISurfaceViewportControl.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.Platforms.WinForms\2_Bridge_WinForm\TopWindowBridgeWinForm.cs">
+      <Link>Deps\LayoutFarm.Platforms.WinForms\2_Bridge_WinForm\TopWindowBridgeWinForm.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.Platforms.WinForms\2_Bridge_WinForm\TopWindowBridgeWinForm_dbug.cs">
+      <Link>Deps\LayoutFarm.Platforms.WinForms\2_Bridge_WinForm\TopWindowBridgeWinForm_dbug.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.Platforms.WinForms\2_GLES2\1_GpuOpenGLSurfaceView.cs">
+      <Link>Deps\LayoutFarm.Platforms.WinForms\2_GLES2\1_GpuOpenGLSurfaceView.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.Platforms.WinForms\2_GLES2\1_GpuOpenGLSurfaceView.Designer.cs">
+      <Link>Deps\LayoutFarm.Platforms.WinForms\2_GLES2\1_GpuOpenGLSurfaceView.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.Platforms.WinForms\2_GLES2\3_MyTopWindowBridgeOpenGL.cs">
+      <Link>Deps\LayoutFarm.Platforms.WinForms\2_GLES2\3_MyTopWindowBridgeOpenGL.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.Platforms.WinForms\3_SurfaceViewForGdiPlus_and_Skia\1_CpuSurfaceView.cs">
+      <Link>Deps\LayoutFarm.Platforms.WinForms\3_SurfaceViewForGdiPlus_and_Skia\1_CpuSurfaceView.cs</Link>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.Platforms.WinForms\3_SurfaceViewForGdiPlus_and_Skia\1_CpuSurfaceView.Designer.cs">
+      <Link>Deps\LayoutFarm.Platforms.WinForms\3_SurfaceViewForGdiPlus_and_Skia\1_CpuSurfaceView.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.Platforms.WinForms\3_SurfaceViewForGdiPlus_and_Skia\AbstractCompletionWindow.cs">
+      <Link>Deps\LayoutFarm.Platforms.WinForms\3_SurfaceViewForGdiPlus_and_Skia\AbstractCompletionWindow.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.Platforms.WinForms\3_SurfaceViewForGdiPlus_and_Skia\AbstractCompletionWindow.Designer.cs">
+      <Link>Deps\LayoutFarm.Platforms.WinForms\3_SurfaceViewForGdiPlus_and_Skia\AbstractCompletionWindow.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.Platforms.WinForms\4_GdiPlus\1_GdiPlusCanvasViewport.cs">
+      <Link>Deps\LayoutFarm.Platforms.WinForms\4_GdiPlus\1_GdiPlusCanvasViewport.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.Platforms.WinForms\4_GdiPlus\3_MyTopWindowBridgeGdiPlus.cs">
+      <Link>Deps\LayoutFarm.Platforms.WinForms\4_GdiPlus\3_MyTopWindowBridgeGdiPlus.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.Platforms.WinForms\4_GdiPlus\CanvasCollection.cs">
+      <Link>Deps\LayoutFarm.Platforms.WinForms\4_GdiPlus\CanvasCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.Platforms.WinForms\4_GdiPlus\Conv.cs">
+      <Link>Deps\LayoutFarm.Platforms.WinForms\4_GdiPlus\Conv.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.Platforms.WinForms\4_GdiPlus\QuadPages.cs">
+      <Link>Deps\LayoutFarm.Platforms.WinForms\4_GdiPlus\QuadPages.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.Platforms.WinForms\4_Skia\3_MyTopWindowBridgeSkia.cs">
+      <Link>Deps\LayoutFarm.Platforms.WinForms\4_Skia\3_MyTopWindowBridgeSkia.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.TextEdit\1.1_EditableRuns\dbugMultiTextManRecorder.cs">
+      <Link>Deps\LayoutFarm.TextEdit\1.1_EditableRuns\dbugMultiTextManRecorder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.TextEdit\1.1_EditableRuns\EditableRun.cs">
+      <Link>Deps\LayoutFarm.TextEdit\1.1_EditableRuns\EditableRun.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.TextEdit\1.1_EditableRuns\EditableRunCharLocation.cs">
+      <Link>Deps\LayoutFarm.TextEdit\1.1_EditableRuns\EditableRunCharLocation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.TextEdit\1.1_EditableRuns\EditableTextSpan.cs">
+      <Link>Deps\LayoutFarm.TextEdit\1.1_EditableRuns\EditableTextSpan.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.TextEdit\1.1_EditableRuns\SolidTextRun.cs">
+      <Link>Deps\LayoutFarm.TextEdit\1.1_EditableRuns\SolidTextRun.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.TextEdit\1.1_EditableRuns\TextSpanSytle.cs">
+      <Link>Deps\LayoutFarm.TextEdit\1.1_EditableRuns\TextSpanSytle.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.TextEdit\1.1_EditableRuns\VisualPointInfo.cs">
+      <Link>Deps\LayoutFarm.TextEdit\1.1_EditableRuns\VisualPointInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.TextEdit\1.1_EditableRuns\VisualSelectionRange.cs">
+      <Link>Deps\LayoutFarm.TextEdit\1.1_EditableRuns\VisualSelectionRange.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.TextEdit\1.2_Lines\0_EditableTextLine.cs">
+      <Link>Deps\LayoutFarm.TextEdit\1.2_Lines\0_EditableTextLine.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.TextEdit\1.2_Lines\1_EditableTextLine_CORE_Collection.cs">
+      <Link>Deps\LayoutFarm.TextEdit\1.2_Lines\1_EditableTextLine_CORE_Collection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.TextEdit\1.2_Lines\2_EditableTextLine_PRIVATE_CollectionFeatures2.cs">
+      <Link>Deps\LayoutFarm.TextEdit\1.2_Lines\2_EditableTextLine_PRIVATE_CollectionFeatures2.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.TextEdit\1.2_Lines\3_EditableTextLine_PUBLIC_CollectionFeatures.cs">
+      <Link>Deps\LayoutFarm.TextEdit\1.2_Lines\3_EditableTextLine_PUBLIC_CollectionFeatures.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.TextEdit\1.2_Lines\4_EditableTextLine_ArrangeAndResizingMechanism.cs">
+      <Link>Deps\LayoutFarm.TextEdit\1.2_Lines\4_EditableTextLine_ArrangeAndResizingMechanism.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.TextEdit\1.2_Lines\6_EditableTextLine_Advanced.cs">
+      <Link>Deps\LayoutFarm.TextEdit\1.2_Lines\6_EditableTextLine_Advanced.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.TextEdit\1.2_Lines\7_EditableTextLine_SuppressNativeCollectionMethods.cs">
+      <Link>Deps\LayoutFarm.TextEdit\1.2_Lines\7_EditableTextLine_SuppressNativeCollectionMethods.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.TextEdit\1.2_Lines\TextLineReaderWriter.cs">
+      <Link>Deps\LayoutFarm.TextEdit\1.2_Lines\TextLineReaderWriter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.TextEdit\1.3_Layer\1_EditableTextFlowLayer.cs">
+      <Link>Deps\LayoutFarm.TextEdit\1.3_Layer\1_EditableTextFlowLayer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.TextEdit\1.3_Layer\1_EditableTextFlowLayer_CORE_Collection.cs">
+      <Link>Deps\LayoutFarm.TextEdit\1.3_Layer\1_EditableTextFlowLayer_CORE_Collection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.TextEdit\1.3_Layer\1_EditableTextFlowLayer_Relocator_Feeder.cs">
+      <Link>Deps\LayoutFarm.TextEdit\1.3_Layer\1_EditableTextFlowLayer_Relocator_Feeder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.TextEdit\2.1_MultiLineController\DocumentActions.cs">
+      <Link>Deps\LayoutFarm.TextEdit\2.1_MultiLineController\DocumentActions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.TextEdit\2.1_MultiLineController\TextLayerController.cs">
+      <Link>Deps\LayoutFarm.TextEdit\2.1_MultiLineController\TextLayerController.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.TextEdit\2.1_MultiLineController\TextLayerController.KeyboardFunctions.cs">
+      <Link>Deps\LayoutFarm.TextEdit\2.1_MultiLineController\TextLayerController.KeyboardFunctions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.TextEdit\2.1_MultiLineController\TextLayerController.TextFunctions.cs">
+      <Link>Deps\LayoutFarm.TextEdit\2.1_MultiLineController\TextLayerController.TextFunctions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.TextEdit\2.1_MultiLineController\TextSurfaceEventListener.cs">
+      <Link>Deps\LayoutFarm.TextEdit\2.1_MultiLineController\TextSurfaceEventListener.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.TextEdit\2.2_TextRenderBox\CaretRenderElement.cs">
+      <Link>Deps\LayoutFarm.TextEdit\2.2_TextRenderBox\CaretRenderElement.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.TextEdit\2.2_TextRenderBox\CustomRenderSurface.cs">
+      <Link>Deps\LayoutFarm.TextEdit\2.2_TextRenderBox\CustomRenderSurface.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.TextEdit\2.2_TextRenderBox\GlobalCaretController.cs">
+      <Link>Deps\LayoutFarm.TextEdit\2.2_TextRenderBox\GlobalCaretController.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.TextEdit\2.2_TextRenderBox\RenderSurfaceScrollRelation.cs">
+      <Link>Deps\LayoutFarm.TextEdit\2.2_TextRenderBox\RenderSurfaceScrollRelation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.TextEdit\2.2_TextRenderBox\StyleHelper.cs">
+      <Link>Deps\LayoutFarm.TextEdit\2.2_TextRenderBox\StyleHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.TextEdit\2.2_TextRenderBox\TextEditRenderBox.BaseFunctions.cs">
+      <Link>Deps\LayoutFarm.TextEdit\2.2_TextRenderBox\TextEditRenderBox.BaseFunctions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.TextEdit\2.2_TextRenderBox\TextEditRenderBox.cs">
+      <Link>Deps\LayoutFarm.TextEdit\2.2_TextRenderBox\TextEditRenderBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.TextEdit\2.2_TextRenderBox\TextEditRenderBox.TextSurfaceFuntions.cs">
+      <Link>Deps\LayoutFarm.TextEdit\2.2_TextRenderBox\TextEditRenderBox.TextSurfaceFuntions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.TextEdit\2.2_TextRenderBox\VisualPaintEventArgs.cs">
+      <Link>Deps\LayoutFarm.TextEdit\2.2_TextRenderBox\VisualPaintEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.YourBasicCustomWidgets\0_CustomRenderElements\CustomContainerRenderBox.cs">
+      <Link>Deps\LayoutFarm.YourBasicCustomWidgets\0_CustomRenderElements\CustomContainerRenderBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.YourBasicCustomWidgets\0_CustomRenderElements\CustomImageRenderBox.cs">
+      <Link>Deps\LayoutFarm.YourBasicCustomWidgets\0_CustomRenderElements\CustomImageRenderBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.YourBasicCustomWidgets\0_CustomRenderElements\CustomRenderElements.cs">
+      <Link>Deps\LayoutFarm.YourBasicCustomWidgets\0_CustomRenderElements\CustomRenderElements.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.YourBasicCustomWidgets\0_CustomRenderElements\CustomTextRun.cs">
+      <Link>Deps\LayoutFarm.YourBasicCustomWidgets\0_CustomRenderElements\CustomTextRun.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.YourBasicCustomWidgets\0_CustomRenderElements\RenderElementExtension.cs">
+      <Link>Deps\LayoutFarm.YourBasicCustomWidgets\0_CustomRenderElements\RenderElementExtension.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.YourBasicCustomWidgets\1_UIElement\1_UIElement.cs">
+      <Link>Deps\LayoutFarm.YourBasicCustomWidgets\1_UIElement\1_UIElement.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.YourBasicCustomWidgets\1_UIElement\2_UIElement_EventListener.cs">
+      <Link>Deps\LayoutFarm.YourBasicCustomWidgets\1_UIElement\2_UIElement_EventListener.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.YourBasicCustomWidgets\1_UIElement\3_UIBox.cs">
+      <Link>Deps\LayoutFarm.YourBasicCustomWidgets\1_UIElement\3_UIBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.YourBasicCustomWidgets\1_UIElement\4_UICollection.cs">
+      <Link>Deps\LayoutFarm.YourBasicCustomWidgets\1_UIElement\4_UICollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.YourBasicCustomWidgets\1_UIElement\5_IScrollable.cs">
+      <Link>Deps\LayoutFarm.YourBasicCustomWidgets\1_UIElement\5_IScrollable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.YourBasicCustomWidgets\1_UIElement\UIDragHitCollection.cs">
+      <Link>Deps\LayoutFarm.YourBasicCustomWidgets\1_UIElement\UIDragHitCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.YourBasicCustomWidgets\1_UIElement\UIVisitor.cs">
+      <Link>Deps\LayoutFarm.YourBasicCustomWidgets\1_UIElement\UIVisitor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.YourBasicCustomWidgets\2_Basic\0_EaseBox.cs">
+      <Link>Deps\LayoutFarm.YourBasicCustomWidgets\2_Basic\0_EaseBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.YourBasicCustomWidgets\2_Basic\1_ImageBox.cs">
+      <Link>Deps\LayoutFarm.YourBasicCustomWidgets\2_Basic\1_ImageBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.YourBasicCustomWidgets\2_Basic\2_TextBox.cs">
+      <Link>Deps\LayoutFarm.YourBasicCustomWidgets\2_Basic\2_TextBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.YourBasicCustomWidgets\2_Basic\3_SimpleBox.cs">
+      <Link>Deps\LayoutFarm.YourBasicCustomWidgets\2_Basic\3_SimpleBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.YourBasicCustomWidgets\2_Basic\4_Label.cs">
+      <Link>Deps\LayoutFarm.YourBasicCustomWidgets\2_Basic\4_Label.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.YourBasicCustomWidgets\3_Grid\2_GridLayer.cs">
+      <Link>Deps\LayoutFarm.YourBasicCustomWidgets\3_Grid\2_GridLayer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.YourBasicCustomWidgets\3_Grid\3_GridTable.cs">
+      <Link>Deps\LayoutFarm.YourBasicCustomWidgets\3_Grid\3_GridTable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.YourBasicCustomWidgets\3_Grid\5_GridBox.cs">
+      <Link>Deps\LayoutFarm.YourBasicCustomWidgets\3_Grid\5_GridBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.YourBasicCustomWidgets\4.1_Composites\CheckBox.cs">
+      <Link>Deps\LayoutFarm.YourBasicCustomWidgets\4.1_Composites\CheckBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.YourBasicCustomWidgets\4.1_Composites\ComboBox.cs">
+      <Link>Deps\LayoutFarm.YourBasicCustomWidgets\4.1_Composites\ComboBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.YourBasicCustomWidgets\4.1_Composites\HingeBox.cs">
+      <Link>Deps\LayoutFarm.YourBasicCustomWidgets\4.1_Composites\HingeBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.YourBasicCustomWidgets\4.1_Composites\HingeRelation.cs">
+      <Link>Deps\LayoutFarm.YourBasicCustomWidgets\4.1_Composites\HingeRelation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.YourBasicCustomWidgets\4.1_Composites\ListView.cs">
+      <Link>Deps\LayoutFarm.YourBasicCustomWidgets\4.1_Composites\ListView.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.YourBasicCustomWidgets\4.1_Composites\Menu.cs">
+      <Link>Deps\LayoutFarm.YourBasicCustomWidgets\4.1_Composites\Menu.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.YourBasicCustomWidgets\4.1_Composites\ScrollBar.cs">
+      <Link>Deps\LayoutFarm.YourBasicCustomWidgets\4.1_Composites\ScrollBar.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.YourBasicCustomWidgets\4.1_Composites\TextBoxContainer.cs">
+      <Link>Deps\LayoutFarm.YourBasicCustomWidgets\4.1_Composites\TextBoxContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.YourBasicCustomWidgets\4.1_Composites\TreeView.cs">
+      <Link>Deps\LayoutFarm.YourBasicCustomWidgets\4.1_Composites\TreeView.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.YourBasicCustomWidgets\4.3_Space\1_UINinespaceBox.cs">
+      <Link>Deps\LayoutFarm.YourBasicCustomWidgets\4.3_Space\1_UINinespaceBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.YourBasicCustomWidgets\4.3_Space\4_NineSpaceController.cs">
+      <Link>Deps\LayoutFarm.YourBasicCustomWidgets\4.3_Space\4_NineSpaceController.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.YourBasicCustomWidgets\4.3_Space\5_DockSpaceController.cs">
+      <Link>Deps\LayoutFarm.YourBasicCustomWidgets\4.3_Space\5_DockSpaceController.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.YourBasicCustomWidgets\4.3_Space\6_FreeSpaceController.cs">
+      <Link>Deps\LayoutFarm.YourBasicCustomWidgets\4.3_Space\6_FreeSpaceController.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.YourBasicCustomWidgets\4.3_Space\7_SpacePart.cs">
+      <Link>Deps\LayoutFarm.YourBasicCustomWidgets\4.3_Space\7_SpacePart.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.YourBasicCustomWidgets\4.3_Space\8_SpacePartEnums.cs">
+      <Link>Deps\LayoutFarm.YourBasicCustomWidgets\4.3_Space\8_SpacePartEnums.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.YourBasicCustomWidgets\4.3_Space\9_NinespaceGrippers.cs">
+      <Link>Deps\LayoutFarm.YourBasicCustomWidgets\4.3_Space\9_NinespaceGrippers.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.YourBasicCustomWidgets\6_InternalResourceMx\ClientBinder.cs">
+      <Link>Deps\LayoutFarm.YourBasicCustomWidgets\6_InternalResourceMx\ClientBinder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.YourBasicCustomWidgets\6_InternalResourceMx\ResImageList.cs">
+      <Link>Deps\LayoutFarm.YourBasicCustomWidgets\6_InternalResourceMx\ResImageList.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.YourBasicCustomWidgets\7_WindowUI\UIFloatWindow.cs">
+      <Link>Deps\LayoutFarm.YourBasicCustomWidgets\7_WindowUI\UIFloatWindow.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.YourBasicCustomWidgets\8_Canvas\MiniAggCanvasBox.cs">
+      <Link>Deps\LayoutFarm.YourBasicCustomWidgets\8_Canvas\MiniAggCanvasBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.YourBasicCustomWidgets\8_Canvas\MiniAggCanvasRenderElement.cs">
+      <Link>Deps\LayoutFarm.YourBasicCustomWidgets\8_Canvas\MiniAggCanvasRenderElement.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\LayoutFarm.YourBasicCustomWidgets\9_TextContentSplitter\ContentTextSplitter.cs">
+      <Link>Deps\LayoutFarm.YourBasicCustomWidgets\9_TextContentSplitter\ContentTextSplitter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\BurningMineCurve\CurveUtils\CubicBezier.cs">
+      <Link>Deps\BurningMineCurve\CurveUtils\CubicBezier.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\BurningMineCurve\CurveUtils\CurveBuilder.cs">
+      <Link>Deps\BurningMineCurve\CurveUtils\CurveBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\BurningMineCurve\CurveUtils\CurveFit.cs">
+      <Link>Deps\BurningMineCurve\CurveUtils\CurveFit.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\BurningMineCurve\CurveUtils\CurveFitBase.cs">
+      <Link>Deps\BurningMineCurve\CurveUtils\CurveFitBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\BurningMineCurve\CurveUtils\CurvePreprocess.cs">
+      <Link>Deps\BurningMineCurve\CurveUtils\CurvePreprocess.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\BurningMineCurve\CurveUtils\Spline.cs">
+      <Link>Deps\BurningMineCurve\CurveUtils\Spline.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\BurningMineCurve\CurveUtils\SplineBuilder.cs">
+      <Link>Deps\BurningMineCurve\CurveUtils\SplineBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\BurningMineCurve\CurveUtils\VectorHelper.cs">
+      <Link>Deps\BurningMineCurve\CurveUtils\VectorHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\1_Drawing\BasicGeometries.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\1_Drawing\BasicGeometries.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\1_Drawing\Brushes_Pens.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\1_Drawing\Brushes_Pens.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\1_Drawing\Color.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\1_Drawing\Color.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\1_Drawing\CombineMode.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\1_Drawing\CombineMode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\1_Drawing\DashStyle.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\1_Drawing\DashStyle.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\1_Drawing\GraphicsPath.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\1_Drawing\GraphicsPath.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\1_Drawing\Image_Bitmap.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\1_Drawing\Image_Bitmap.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\1_Drawing\Rectangle.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\1_Drawing\Rectangle.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\1_Drawing\RectangleF.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\1_Drawing\RectangleF.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\1_Drawing\Region.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\1_Drawing\Region.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\5_PixelFarm_Agg\ActualImage.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\5_PixelFarm_Agg\ActualImage.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\5_PixelFarm_Agg\PixelFormat.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\5_PixelFarm_Agg\PixelFormat.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\6_PixelFarm_AggVectorMath\AggBasics.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\6_PixelFarm_AggVectorMath\AggBasics.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\6_PixelFarm_AggVectorMath\AggMath.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\6_PixelFarm_AggVectorMath\AggMath.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\6_PixelFarm_AggVectorMath\AxisAlignedBoundingBox.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\6_PixelFarm_AggVectorMath\AxisAlignedBoundingBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\6_PixelFarm_AggVectorMath\BezierCurve.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\6_PixelFarm_AggVectorMath\BezierCurve.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\6_PixelFarm_AggVectorMath\BezierCurveCubic.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\6_PixelFarm_AggVectorMath\BezierCurveCubic.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\6_PixelFarm_AggVectorMath\BezierCurveQuadric.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\6_PixelFarm_AggVectorMath\BezierCurveQuadric.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\6_PixelFarm_AggVectorMath\MathHelper.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\6_PixelFarm_AggVectorMath\MathHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\6_PixelFarm_AggVectorMath\Matrix4x4.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\6_PixelFarm_AggVectorMath\Matrix4x4.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\6_PixelFarm_AggVectorMath\Quaternion.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\6_PixelFarm_AggVectorMath\Quaternion.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\6_PixelFarm_AggVectorMath\Ray.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\6_PixelFarm_AggVectorMath\Ray.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\6_PixelFarm_AggVectorMath\Vector2.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\6_PixelFarm_AggVectorMath\Vector2.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\6_PixelFarm_AggVectorMath\Vector3.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\6_PixelFarm_AggVectorMath\Vector3.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\6_PixelFarm_AggVectorMath\Vector3Float.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\6_PixelFarm_AggVectorMath\Vector3Float.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\6_PixelFarm_AggVectorMath\Vector4.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\6_PixelFarm_AggVectorMath\Vector4.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\7_PixelFarm_AggVertex_Core\0_VertexCommandAndOrientation.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\7_PixelFarm_AggVertex_Core\0_VertexCommandAndOrientation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\7_PixelFarm_AggVertex_Core\1_VertexStore.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\7_PixelFarm_AggVertex_Core\1_VertexStore.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\7_PixelFarm_AggVertex_Core\2_VertexStoreSnap.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\7_PixelFarm_AggVertex_Core\2_VertexStoreSnap.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\7_PixelFarm_AggVertex_Core\Collections.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\7_PixelFarm_AggVertex_Core\Collections.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\7_PixelFarm_AggVertex_Core\LineCapAndJoin.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\7_PixelFarm_AggVertex_Core\LineCapAndJoin.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\7_PixelFarm_AggVertex_Core\RectD.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\7_PixelFarm_AggVertex_Core\RectD.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\7_PixelFarm_AggVertex_Core\RectInt.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\7_PixelFarm_AggVertex_Core\RectInt.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\7_PixelFarm_AggVertex_Core\Stroke.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\7_PixelFarm_AggVertex_Core\Stroke.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\7_PixelFarm_AggVertex_Core\StrokeGenerator.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\7_PixelFarm_AggVertex_Core\StrokeGenerator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\7_PixelFarm_AggVertex_Core\StrokeMath.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\7_PixelFarm_AggVertex_Core\StrokeMath.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\8_PixelFarm_AggTransforms\0_ICoordTransformer.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\8_PixelFarm_AggTransforms\0_ICoordTransformer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\8_PixelFarm_AggTransforms\1_Affine.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\8_PixelFarm_AggTransforms\1_Affine.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\8_PixelFarm_AggTransforms\2_Bilinear.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\8_PixelFarm_AggTransforms\2_Bilinear.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\8_PixelFarm_AggTransforms\3_Perspective.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\8_PixelFarm_AggTransforms\3_Perspective.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\8_PixelFarm_AggTransforms\4_SimulEqGeneral.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\8_PixelFarm_AggTransforms\4_SimulEqGeneral.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\8_PixelFarm_AggTransforms\Viewport.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\8_PixelFarm_AggTransforms\Viewport.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\HitTest\VertexHitTester.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\HitTest\VertexHitTester.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VectorClipping\cliper.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VectorClipping\cliper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VectorClipping\VxsClipping.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VectorClipping\VxsClipping.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\Arc.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\Arc.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\BezireCurve.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\BezireCurve.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\BoundingRect.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\BoundingRect.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\BSpline.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\BSpline.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\CurveFlattener.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\CurveFlattener.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\Curves.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\Curves.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\Ellipse.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\Ellipse.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\LineWalker.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\LineWalker.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\PathWriter.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\PathWriter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\RoundedRect.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\RoundedRect.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\SimpleRect.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\SimpleRect.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\VertexData.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\VertexData.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\VertexStoreBuilder.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\9_PixelFarm_AggVertex_More\VertexSource\VertexStoreBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\ForNet20\ExtensionAttribute.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\ForNet20\ExtensionAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\MiniAggGraphics.Buffer\AggMemMx.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\MiniAggGraphics.Buffer\AggMemMx.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.Drawing.Core\MiniAggGraphics.Buffer\NativeBufferMx.cs">
+      <Link>Deps\PixelFarm.Drawing.Core\MiniAggGraphics.Buffer\NativeBufferMx.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.DrawingCanvas\0_Start\IRootGraphics.cs">
+      <Link>Deps\PixelFarm.DrawingCanvas\0_Start\IRootGraphics.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.DrawingCanvas\1_Canvas\Canvas.cs">
+      <Link>Deps\PixelFarm.DrawingCanvas\1_Canvas\Canvas.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.DrawingCanvas\1_Canvas\CanvasOptions.cs">
+      <Link>Deps\PixelFarm.DrawingCanvas\1_Canvas\CanvasOptions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.DrawingCanvas\1_Canvas\CanvasPainter.cs">
+      <Link>Deps\PixelFarm.DrawingCanvas\1_Canvas\CanvasPainter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.DrawingCanvas\1_Canvas\CanvasPaintToOutputDelegate.cs">
+      <Link>Deps\PixelFarm.DrawingCanvas\1_Canvas\CanvasPaintToOutputDelegate.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.DrawingCanvas\1_Canvas\KnownColors.cs">
+      <Link>Deps\PixelFarm.DrawingCanvas\1_Canvas\KnownColors.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.DrawingCanvas\1_Canvas\RenderVx.cs">
+      <Link>Deps\PixelFarm.DrawingCanvas\1_Canvas\RenderVx.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.DrawingCanvas\2_Drawing\1_ImageBinder.cs">
+      <Link>Deps\PixelFarm.DrawingCanvas\2_Drawing\1_ImageBinder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.DrawingCanvas\2_Drawing\FontStyle.cs">
+      <Link>Deps\PixelFarm.DrawingCanvas\2_Drawing\FontStyle.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.DrawingCanvas\2_Drawing\RequestFont.cs">
+      <Link>Deps\PixelFarm.DrawingCanvas\2_Drawing\RequestFont.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.DrawingCanvas\3_Drawing_Fonts\ActualFont.cs">
+      <Link>Deps\PixelFarm.DrawingCanvas\3_Drawing_Fonts\ActualFont.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.DrawingCanvas\3_Drawing_Fonts\FontFace.cs">
+      <Link>Deps\PixelFarm.DrawingCanvas\3_Drawing_Fonts\FontFace.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.DrawingCanvas\3_Drawing_Fonts\FontGlyph.cs">
+      <Link>Deps\PixelFarm.DrawingCanvas\3_Drawing_Fonts\FontGlyph.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.DrawingCanvas\3_Drawing_Fonts\FontKey.cs">
+      <Link>Deps\PixelFarm.DrawingCanvas\3_Drawing_Fonts\FontKey.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.DrawingCanvas\3_Drawing_Fonts\ITextPrinter.cs">
+      <Link>Deps\PixelFarm.DrawingCanvas\3_Drawing_Fonts\ITextPrinter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.DrawingCanvas\3_Drawing_Fonts\ScriptCode.cs">
+      <Link>Deps\PixelFarm.DrawingCanvas\3_Drawing_Fonts\ScriptCode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\PixelFarm.DrawingCanvas\3_Drawing_Fonts\WriteDirection.cs">
+      <Link>Deps\PixelFarm.DrawingCanvas\3_Drawing_Fonts\WriteDirection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps_HtmlKit\HtmlKit\HtmlAttribute.cs">
+      <Link>Deps_HtmlKit\HtmlKit\HtmlAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps_HtmlKit\HtmlKit\HtmlAttributeCollection.cs">
+      <Link>Deps_HtmlKit\HtmlKit\HtmlAttributeCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps_HtmlKit\HtmlKit\HtmlAttributeId.cs">
+      <Link>Deps_HtmlKit\HtmlKit\HtmlAttributeId.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps_HtmlKit\HtmlKit\HtmlEntityDecoder.cs">
+      <Link>Deps_HtmlKit\HtmlKit\HtmlEntityDecoder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps_HtmlKit\HtmlKit\HtmlEntityDecoder.g.cs">
+      <Link>Deps_HtmlKit\HtmlKit\HtmlEntityDecoder.g.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps_HtmlKit\HtmlKit\HtmlNamespace.cs">
+      <Link>Deps_HtmlKit\HtmlKit\HtmlNamespace.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps_HtmlKit\HtmlKit\HtmlTagId.cs">
+      <Link>Deps_HtmlKit\HtmlKit\HtmlTagId.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps_HtmlKit\HtmlKit\HtmlToken.cs">
+      <Link>Deps_HtmlKit\HtmlKit\HtmlToken.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps_HtmlKit\HtmlKit\HtmlTokenizer.cs">
+      <Link>Deps_HtmlKit\HtmlKit\HtmlTokenizer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps_HtmlKit\HtmlKit\HtmlTokenizerState.cs">
+      <Link>Deps_HtmlKit\HtmlKit\HtmlTokenizerState.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps_HtmlKit\HtmlKit\HtmlTokenKind.cs">
+      <Link>Deps_HtmlKit\HtmlKit\HtmlTokenKind.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps_HtmlKit\HtmlKit\HtmlUtils.cs">
+      <Link>Deps_HtmlKit\HtmlKit\HtmlUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps_HtmlKit\HtmlKit\HtmlWriter.cs">
+      <Link>Deps_HtmlKit\HtmlKit\HtmlWriter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps_HtmlKit\HtmlKit\HtmlWriterState.cs">
+      <Link>Deps_HtmlKit\HtmlKit\HtmlWriterState.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps_HtmlKit\HtmlKit\ICharArray.cs">
+      <Link>Deps_HtmlKit\HtmlKit\ICharArray.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps_HtmlKit\HtmlKit_Net20\ForNet20.cs">
+      <Link>Deps_HtmlKit\HtmlKit_Net20\ForNet20.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps_I18N\LayoutFarm.TextBreak\LayoutFarm.TextBreak.Icu\NativeText\NativeDll.cs">
+      <Link>Deps_I18N\LayoutFarm.TextBreak\LayoutFarm.TextBreak.Icu\NativeText\NativeDll.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps_I18N\LayoutFarm.TextBreak\LayoutFarm.TextBreak.Icu\NativeText\NativeTextBreaker.cs">
+      <Link>Deps_I18N\LayoutFarm.TextBreak\LayoutFarm.TextBreak.Icu\NativeText\NativeTextBreaker.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps_I18N\LayoutFarm.TextBreak\LayoutFarm.TextBreak.Icu\NativeText\TextBreaker.cs">
+      <Link>Deps_I18N\LayoutFarm.TextBreak\LayoutFarm.TextBreak.Icu\NativeText\TextBreaker.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps_I18N\LayoutFarm.TextBreak\TextBreak\BreakEngine.cs">
+      <Link>Deps_I18N\LayoutFarm.TextBreak\TextBreak\BreakEngine.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps_I18N\LayoutFarm.TextBreak\TextBreak\BreakingEngine.cs">
+      <Link>Deps_I18N\LayoutFarm.TextBreak\TextBreak\BreakingEngine.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps_I18N\LayoutFarm.TextBreak\TextBreak\CustomBreaker.cs">
+      <Link>Deps_I18N\LayoutFarm.TextBreak\TextBreak\CustomBreaker.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps_I18N\LayoutFarm.TextBreak\TextBreak\CustomBreakerBuilder.cs">
+      <Link>Deps_I18N\LayoutFarm.TextBreak\TextBreak\CustomBreakerBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps_I18N\LayoutFarm.TextBreak\TextBreak\CustomDict.cs">
+      <Link>Deps_I18N\LayoutFarm.TextBreak\TextBreak\CustomDict.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps_I18N\LayoutFarm.TextBreak\TextBreak\EngBreakingEngine.cs">
+      <Link>Deps_I18N\LayoutFarm.TextBreak\TextBreak\EngBreakingEngine.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps_I18N\LayoutFarm.TextBreak\TextBreak\LaoDictionaryBreakingEngine.cs">
+      <Link>Deps_I18N\LayoutFarm.TextBreak\TextBreak\LaoDictionaryBreakingEngine.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps_I18N\LayoutFarm.TextBreak\TextBreak\ThaiDictionaryBreakingEngine.cs">
+      <Link>Deps_I18N\LayoutFarm.TextBreak\TextBreak\ThaiDictionaryBreakingEngine.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps_I18N\LayoutFarm.TextBreak\TextBreak\WordVisitor.cs">
+      <Link>Deps_I18N\LayoutFarm.TextBreak\TextBreak\WordVisitor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.CssBase\CssColor.cs">
+      <Link>LayoutFarm.CssBase\CssColor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.CssBase\CssConstants.cs">
+      <Link>LayoutFarm.CssBase\CssConstants.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.CssBase\CssKnownColor.cs">
+      <Link>LayoutFarm.CssBase\CssKnownColor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.CssBase\CssLength.cs">
+      <Link>LayoutFarm.CssBase\CssLength.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.CssBase\CssProps.cs">
+      <Link>LayoutFarm.CssBase\CssProps.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.CssBase\CssUnitOrNames.cs">
+      <Link>LayoutFarm.CssBase\CssUnitOrNames.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.CssBase\DeprecatedAttribute.cs">
+      <Link>LayoutFarm.CssBase\DeprecatedAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.CssBase\MapAttribute.cs">
+      <Link>LayoutFarm.CssBase\MapAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\0_Start\ComposerConfig.cs">
+      <Link>LayoutFarm.HtmlComposer\0_Start\ComposerConfig.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\1_Composers\1_Builder\BulletNumberFormatter.cs">
+      <Link>LayoutFarm.HtmlComposer\1_Composers\1_Builder\BulletNumberFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\1_Composers\1_Builder\CustomCssBoxGenerator.cs">
+      <Link>LayoutFarm.HtmlComposer\1_Composers\1_Builder\CustomCssBoxGenerator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\1_Composers\1_Builder\HtmlContentTextSplitter.cs">
+      <Link>LayoutFarm.HtmlComposer\1_Composers\1_Builder\HtmlContentTextSplitter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\1_Composers\1_Builder\HtmlHost.cs">
+      <Link>LayoutFarm.HtmlComposer\1_Composers\1_Builder\HtmlHost.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\1_Composers\1_Builder\RenderTreeBuilder.cs">
+      <Link>LayoutFarm.HtmlComposer\1_Composers\1_Builder\RenderTreeBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\1_Composers\1_Builder\RunListHelper.cs">
+      <Link>LayoutFarm.HtmlComposer\1_Composers\1_Builder\RunListHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\1_Composers\1_Builder\SpecialBoxCreator.cs">
+      <Link>LayoutFarm.HtmlComposer\1_Composers\1_Builder\SpecialBoxCreator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\1_Composers\1_Builder\TopDownActiveCssTemplate.cs">
+      <Link>LayoutFarm.HtmlComposer\1_Composers\1_Builder\TopDownActiveCssTemplate.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\1_Composers\1_Builder\WebDocumentParser.cs">
+      <Link>LayoutFarm.HtmlComposer\1_Composers\1_Builder\WebDocumentParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\1_Composers\2_Css\CssColorConv.cs">
+      <Link>LayoutFarm.HtmlComposer\1_Composers\2_Css\CssColorConv.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\1_Composers\2_Css\CssDefaults.cs">
+      <Link>LayoutFarm.HtmlComposer\1_Composers\2_Css\CssDefaults.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\1_Composers\2_Css\SpecSetter.cs">
+      <Link>LayoutFarm.HtmlComposer\1_Composers\2_Css\SpecSetter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\1_Composers\3_Scriptable\EaseScriptElement.cs">
+      <Link>LayoutFarm.HtmlComposer\1_Composers\3_Scriptable\EaseScriptElement.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\1_Composers\4_Diagnostic\ArgCheckNotNullAttribute.cs">
+      <Link>LayoutFarm.HtmlComposer\1_Composers\4_Diagnostic\ArgCheckNotNullAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\1_Composers\4_Diagnostic\HtmlGenerationStyle.cs">
+      <Link>LayoutFarm.HtmlComposer\1_Composers\4_Diagnostic\HtmlGenerationStyle.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\1_Composers\4_Diagnostic\HtmlRenderErrorType.cs">
+      <Link>LayoutFarm.HtmlComposer\1_Composers\4_Diagnostic\HtmlRenderErrorType.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\1_Composers\5_RenderBoxes\HtmlRenderBox.cs">
+      <Link>LayoutFarm.HtmlComposer\1_Composers\5_RenderBoxes\HtmlRenderBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\1_Composers\5_RenderBoxes\MyHtmlContainer.cs">
+      <Link>LayoutFarm.HtmlComposer\1_Composers\5_RenderBoxes\MyHtmlContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\1_Composers\5_RenderBoxes\RenderElementWrapperCssBox.cs">
+      <Link>LayoutFarm.HtmlComposer\1_Composers\5_RenderBoxes\RenderElementWrapperCssBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\1_Composers\5_RenderBoxes\TopWindowRenderBox.cs">
+      <Link>LayoutFarm.HtmlComposer\1_Composers\5_RenderBoxes\TopWindowRenderBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\1_Composers\6_SpecialCssBoxes\CssBoxScrollView.cs">
+      <Link>LayoutFarm.HtmlComposer\1_Composers\6_SpecialCssBoxes\CssBoxScrollView.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\1_Composers\6_SpecialCssBoxes\CssIsolateBox.cs">
+      <Link>LayoutFarm.HtmlComposer\1_Composers\6_SpecialCssBoxes\CssIsolateBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\4_WebDom\CustomCssBoxGen.cs">
+      <Link>LayoutFarm.HtmlComposer\4_WebDom\CustomCssBoxGen.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\4_WebDom\HtmlDocument.cs">
+      <Link>LayoutFarm.HtmlComposer\4_WebDom\HtmlDocument.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\4_WebDom\HtmlDocumentFragment.cs">
+      <Link>LayoutFarm.HtmlComposer\4_WebDom\HtmlDocumentFragment.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\4_WebDom\HtmlElements.cs">
+      <Link>LayoutFarm.HtmlComposer\4_WebDom\HtmlElements.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\4_WebDom\HtmlShadowDocument.cs">
+      <Link>LayoutFarm.HtmlComposer\4_WebDom\HtmlShadowDocument.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\4_WebDom\HtmlSharedDocument.cs">
+      <Link>LayoutFarm.HtmlComposer\4_WebDom\HtmlSharedDocument.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\4_WebDom\HtmlTextNode.cs">
+      <Link>LayoutFarm.HtmlComposer\4_WebDom\HtmlTextNode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\4_WebDom\SpecialHtmlElements.cs">
+      <Link>LayoutFarm.HtmlComposer\4_WebDom\SpecialHtmlElements.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\5_RenderBasedUI\1_UIElement.cs">
+      <Link>LayoutFarm.HtmlComposer\5_RenderBasedUI\1_UIElement.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\5_RenderBasedUI\2_UIElement_EventListener.cs">
+      <Link>LayoutFarm.HtmlComposer\5_RenderBasedUI\2_UIElement_EventListener.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\5_RenderBasedUI\3_UIBox.cs">
+      <Link>LayoutFarm.HtmlComposer\5_RenderBasedUI\3_UIBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\5_RenderBasedUI\4_UICollection.cs">
+      <Link>LayoutFarm.HtmlComposer\5_RenderBasedUI\4_UICollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\5_RenderBasedUI\5_IScrollable.cs">
+      <Link>LayoutFarm.HtmlComposer\5_RenderBasedUI\5_IScrollable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\5_RenderBasedUI\7_EaseBox.cs">
+      <Link>LayoutFarm.HtmlComposer\5_RenderBasedUI\7_EaseBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\5_RenderBasedUI\CustomRenderElements.cs">
+      <Link>LayoutFarm.HtmlComposer\5_RenderBasedUI\CustomRenderElements.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\5_RenderBasedUI\RenderElementExtension.cs">
+      <Link>LayoutFarm.HtmlComposer\5_RenderBasedUI\RenderElementExtension.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\5_RenderBasedUI\ScrollBar.cs">
+      <Link>LayoutFarm.HtmlComposer\5_RenderBasedUI\ScrollBar.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\6_Svg\SvgCreator.cs">
+      <Link>LayoutFarm.HtmlComposer\6_Svg\SvgCreator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\6_Svg\SvgRootEventPortal.cs">
+      <Link>LayoutFarm.HtmlComposer\6_Svg\SvgRootEventPortal.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\6_Svg\SvgRootEventPortal_IEventPortal.cs">
+      <Link>LayoutFarm.HtmlComposer\6_Svg\SvgRootEventPortal_IEventPortal.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\7_Events\HtmlInputEventAdapter.cs">
+      <Link>LayoutFarm.HtmlComposer\7_Events\HtmlInputEventAdapter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\7_Events\RenderElementEventPortal.cs">
+      <Link>LayoutFarm.HtmlComposer\7_Events\RenderElementEventPortal.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\1_Css\BoxSpec.cs">
+      <Link>LayoutFarm.HtmlRenderer\1_Css\BoxSpec.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\1_Css\BoxSpecNode.cs">
+      <Link>LayoutFarm.HtmlRenderer\1_Css\BoxSpecNode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\1_Css\BoxSpec_CopyAndVersioning.cs">
+      <Link>LayoutFarm.HtmlRenderer\1_Css\BoxSpec_CopyAndVersioning.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\1_Css\CssFeatures.cs">
+      <Link>LayoutFarm.HtmlRenderer\1_Css\CssFeatures.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\2_Boxes\0_Root\CssBoxConstConfig.cs">
+      <Link>LayoutFarm.HtmlRenderer\2_Boxes\0_Root\CssBoxConstConfig.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\2_Boxes\0_Root\HtmlContainer.cs">
+      <Link>LayoutFarm.HtmlRenderer\2_Boxes\0_Root\HtmlContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\BoxVisitor.cs">
+      <Link>LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\BoxVisitor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssBox.cs">
+      <Link>LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssBoxCollection.cs">
+      <Link>LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssBoxCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssBox_BoxFlags.cs">
+      <Link>LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssBox_BoxFlags.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssBox_Fields.cs">
+      <Link>LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssBox_Fields.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssBox_Flex.cs">
+      <Link>LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssBox_Flex.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssBox_OtherActualValues.cs">
+      <Link>LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssBox_OtherActualValues.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssBox_Paint.cs">
+      <Link>LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssBox_Paint.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssBox_Positions.cs">
+      <Link>LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssBox_Positions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssBox_Spec_ReadOnly.cs">
+      <Link>LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssBox_Spec_ReadOnly.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssBox_Spec_Snap.cs">
+      <Link>LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssBox_Spec_Snap.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssBox_Unsafe.cs">
+      <Link>LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssBox_Unsafe.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssLineBox.cs">
+      <Link>LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssLineBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssSideAndOrientation.cs">
+      <Link>LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssSideAndOrientation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssValueParser.cs">
+      <Link>LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssValueParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\SelectionSegment.cs">
+      <Link>LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\SelectionSegment.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\2_Boxes\2_Runs\CssBlockRun.cs">
+      <Link>LayoutFarm.HtmlRenderer\2_Boxes\2_Runs\CssBlockRun.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\2_Boxes\2_Runs\CssImageRun.cs">
+      <Link>LayoutFarm.HtmlRenderer\2_Boxes\2_Runs\CssImageRun.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\2_Boxes\2_Runs\CssRun.cs">
+      <Link>LayoutFarm.HtmlRenderer\2_Boxes\2_Runs\CssRun.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\2_Boxes\2_Runs\CssTextRun.cs">
+      <Link>LayoutFarm.HtmlRenderer\2_Boxes\2_Runs\CssTextRun.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\2_Boxes\3_Render\BackgroundImagePaintHelper.cs">
+      <Link>LayoutFarm.HtmlRenderer\2_Boxes\3_Render\BackgroundImagePaintHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\2_Boxes\3_Render\BorderPaintHelper.cs">
+      <Link>LayoutFarm.HtmlRenderer\2_Boxes\3_Render\BorderPaintHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\2_Boxes\3_Render\CssBoxDecorator.cs">
+      <Link>LayoutFarm.HtmlRenderer\2_Boxes\3_Render\CssBoxDecorator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\2_Boxes\3_Render\MultiLayerStack.cs">
+      <Link>LayoutFarm.HtmlRenderer\2_Boxes\3_Render\MultiLayerStack.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\2_Boxes\3_Render\PaintVisitor.cs">
+      <Link>LayoutFarm.HtmlRenderer\2_Boxes\3_Render\PaintVisitor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\2_Boxes\4_HitAndSelections\BoxHitChain.cs">
+      <Link>LayoutFarm.HtmlRenderer\2_Boxes\4_HitAndSelections\BoxHitChain.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\2_Boxes\4_HitAndSelections\SelectionRange.cs">
+      <Link>LayoutFarm.HtmlRenderer\2_Boxes\4_HitAndSelections\SelectionRange.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\3_Boxes_Layout\0_General\BoxHitUtils.cs">
+      <Link>LayoutFarm.HtmlRenderer\3_Boxes_Layout\0_General\BoxHitUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\3_Boxes_Layout\0_General\CssBoxLayoutExtension.cs">
+      <Link>LayoutFarm.HtmlRenderer\3_Boxes_Layout\0_General\CssBoxLayoutExtension.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\3_Boxes_Layout\0_General\CssLayoutEngine.cs">
+      <Link>LayoutFarm.HtmlRenderer\3_Boxes_Layout\0_General\CssLayoutEngine.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\3_Boxes_Layout\0_General\CssLayoutEngine.FloatFormattingContext.cs">
+      <Link>LayoutFarm.HtmlRenderer\3_Boxes_Layout\0_General\CssLayoutEngine.FloatFormattingContext.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\3_Boxes_Layout\0_General\CssTableLayoutEngine.cs">
+      <Link>LayoutFarm.HtmlRenderer\3_Boxes_Layout\0_General\CssTableLayoutEngine.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\3_Boxes_Layout\0_General\CssTableLayoutEngine.CssVerticalCellSpacingBox.cs">
+      <Link>LayoutFarm.HtmlRenderer\3_Boxes_Layout\0_General\CssTableLayoutEngine.CssVerticalCellSpacingBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\3_Boxes_Layout\0_General\CssTableLayoutEngine.TableColumns.cs">
+      <Link>LayoutFarm.HtmlRenderer\3_Boxes_Layout\0_General\CssTableLayoutEngine.TableColumns.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\3_Boxes_Layout\0_General\LayoutVisitor.cs">
+      <Link>LayoutFarm.HtmlRenderer\3_Boxes_Layout\0_General\LayoutVisitor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\3_Boxes_Layout\1_Flex\FlexContainer.cs">
+      <Link>LayoutFarm.HtmlRenderer\3_Boxes_Layout\1_Flex\FlexContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\4_Svg\05_SvgDoms\CssBoxSvgRoot.cs">
+      <Link>LayoutFarm.HtmlRenderer\4_Svg\05_SvgDoms\CssBoxSvgRoot.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\4_Svg\05_SvgDoms\SvgElements.cs">
+      <Link>LayoutFarm.HtmlRenderer\4_Svg\05_SvgDoms\SvgElements.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\4_Svg\07_Coords_Transforms\SvgMatrix.cs">
+      <Link>LayoutFarm.HtmlRenderer\4_Svg\07_Coords_Transforms\SvgMatrix.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\4_Svg\07_Coords_Transforms\SvgRotate.cs">
+      <Link>LayoutFarm.HtmlRenderer\4_Svg\07_Coords_Transforms\SvgRotate.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\4_Svg\07_Coords_Transforms\SvgScale.cs">
+      <Link>LayoutFarm.HtmlRenderer\4_Svg\07_Coords_Transforms\SvgScale.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\4_Svg\07_Coords_Transforms\SvgShear.cs">
+      <Link>LayoutFarm.HtmlRenderer\4_Svg\07_Coords_Transforms\SvgShear.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\4_Svg\07_Coords_Transforms\SvgSkew.cs">
+      <Link>LayoutFarm.HtmlRenderer\4_Svg\07_Coords_Transforms\SvgSkew.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\4_Svg\07_Coords_Transforms\SvgTransform.cs">
+      <Link>LayoutFarm.HtmlRenderer\4_Svg\07_Coords_Transforms\SvgTransform.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\4_Svg\07_Coords_Transforms\SvgTranslate.cs">
+      <Link>LayoutFarm.HtmlRenderer\4_Svg\07_Coords_Transforms\SvgTranslate.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\4_Svg\08_Paths\SvgPath.cs">
+      <Link>LayoutFarm.HtmlRenderer\4_Svg\08_Paths\SvgPath.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\4_Svg\08_Paths\SvgPathDataParser.cs">
+      <Link>LayoutFarm.HtmlRenderer\4_Svg\08_Paths\SvgPathDataParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\4_Svg\08_Paths\SvgPathSegments.cs">
+      <Link>LayoutFarm.HtmlRenderer\4_Svg\08_Paths\SvgPathSegments.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\4_Svg\09_BasicShapes\SvgImage.cs">
+      <Link>LayoutFarm.HtmlRenderer\4_Svg\09_BasicShapes\SvgImage.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\4_Svg\09_BasicShapes\SvgImageBinder.cs">
+      <Link>LayoutFarm.HtmlRenderer\4_Svg\09_BasicShapes\SvgImageBinder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\4_Svg\09_BasicShapes\SvgSpec.cs">
+      <Link>LayoutFarm.HtmlRenderer\4_Svg\09_BasicShapes\SvgSpec.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\4_Svg\09_BasicShapes\SvgVisualElements.cs">
+      <Link>LayoutFarm.HtmlRenderer\4_Svg\09_BasicShapes\SvgVisualElements.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\4_Svg\16_Interactivity\SvgHitChain.cs">
+      <Link>LayoutFarm.HtmlRenderer\4_Svg\16_Interactivity\SvgHitChain.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\5_Boxes_SpecialBoxes\CssBoxFrame.cs">
+      <Link>LayoutFarm.HtmlRenderer\5_Boxes_SpecialBoxes\CssBoxFrame.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\5_Boxes_SpecialBoxes\CssBoxHr.cs">
+      <Link>LayoutFarm.HtmlRenderer\5_Boxes_SpecialBoxes\CssBoxHr.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\5_Boxes_SpecialBoxes\CssBoxImage.cs">
+      <Link>LayoutFarm.HtmlRenderer\5_Boxes_SpecialBoxes\CssBoxImage.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\5_Boxes_SpecialBoxes\CssBoxListItem.cs">
+      <Link>LayoutFarm.HtmlRenderer\5_Boxes_SpecialBoxes\CssBoxListItem.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\5_Boxes_SpecialBoxes\CssFloatContainerBox.cs">
+      <Link>LayoutFarm.HtmlRenderer\5_Boxes_SpecialBoxes\CssFloatContainerBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\6_Diagnostics\dbug.cs">
+      <Link>LayoutFarm.HtmlRenderer\6_Diagnostics\dbug.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\Platform\FontDefaultConfig.cs">
+      <Link>LayoutFarm.HtmlRenderer\Platform\FontDefaultConfig.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\Platform\RenderUtils.cs">
+      <Link>LayoutFarm.HtmlRenderer\Platform\RenderUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\TypeMirror\SimpleReflectionHelper.cs">
+      <Link>Deps\TypeMirror\SimpleReflectionHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\0_WebDom.Parser\CssParser.cs">
+      <Link>LayoutFarm.WebDom\0_WebDom.Parser\CssParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\0_WebDom.Parser\CssParserHelper.cs">
+      <Link>LayoutFarm.WebDom\0_WebDom.Parser\CssParserHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\0_WebDom.Parser\CssValueParser.cs">
+      <Link>LayoutFarm.WebDom\0_WebDom.Parser\CssValueParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\0_WebDom.Parser\HtmlKitParser.cs">
+      <Link>LayoutFarm.WebDom\0_WebDom.Parser\HtmlKitParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\0_WebDom.Parser\HtmlParser.cs">
+      <Link>LayoutFarm.WebDom\0_WebDom.Parser\HtmlParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\0_WebDom.Parser\HtmlUtils.cs">
+      <Link>LayoutFarm.WebDom\0_WebDom.Parser\HtmlUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\0_WebDom.Parser\MyHtmlParser.cs">
+      <Link>LayoutFarm.WebDom\0_WebDom.Parser\MyHtmlParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\0_WebDom.Parser\TextSource.cs">
+      <Link>LayoutFarm.WebDom\0_WebDom.Parser\TextSource.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\1_Css\CssActiveSheet.cs">
+      <Link>LayoutFarm.WebDom\1_Css\CssActiveSheet.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\1_Css\CssAttributeSelector.cs">
+      <Link>LayoutFarm.WebDom\1_Css\CssAttributeSelector.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\1_Css\CssCodeValueExpressions.cs">
+      <Link>LayoutFarm.WebDom\1_Css\CssCodeValueExpressions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\1_Css\CssDocMembers.cs">
+      <Link>LayoutFarm.WebDom\1_Css\CssDocMembers.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\1_Css\CssDocument.cs">
+      <Link>LayoutFarm.WebDom\1_Css\CssDocument.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\1_Css\CssElementSelectors.cs">
+      <Link>LayoutFarm.WebDom\1_Css\CssElementSelectors.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\1_Css\CssPropertyDeclaration.cs">
+      <Link>LayoutFarm.WebDom\1_Css\CssPropertyDeclaration.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\1_Css\UserMapUtil.cs">
+      <Link>LayoutFarm.WebDom\1_Css\UserMapUtil.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\1_Css\ValueMaps.cs">
+      <Link>LayoutFarm.WebDom\1_Css\ValueMaps.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\1_Css\WellknownCssPropertyName.cs">
+      <Link>LayoutFarm.WebDom\1_Css\WellknownCssPropertyName.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\2_WebDom\DomElement.cs">
+      <Link>LayoutFarm.WebDom\2_WebDom\DomElement.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\2_WebDom\DomElement_EventListener.cs">
+      <Link>LayoutFarm.WebDom\2_WebDom\DomElement_EventListener.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\2_WebDom\DomElement_OnEvents.cs">
+      <Link>LayoutFarm.WebDom\2_WebDom\DomElement_OnEvents.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\2_WebDom\DomNodes.cs">
+      <Link>LayoutFarm.WebDom\2_WebDom\DomNodes.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\2_WebDom\ElementChangeKind.cs">
+      <Link>LayoutFarm.WebDom\2_WebDom\ElementChangeKind.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\2_WebDom\StringTable.cs">
+      <Link>LayoutFarm.WebDom\2_WebDom\StringTable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\2_WebDom\WebDocument.cs">
+      <Link>LayoutFarm.WebDom\2_WebDom\WebDocument.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\2_WebDom\WellknownElementName.cs">
+      <Link>LayoutFarm.WebDom\2_WebDom\WellknownElementName.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\3_WebDom_Interfaces\HtmlInterfaces.cs">
+      <Link>LayoutFarm.WebDom\3_WebDom_Interfaces\HtmlInterfaces.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\4_WebDom.Impl\DomTextWriter.cs">
+      <Link>LayoutFarm.WebDom\4_WebDom.Impl\DomTextWriter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\4_WebDom.Impl\HtmlDocument.cs">
+      <Link>LayoutFarm.WebDom\4_WebDom.Impl\HtmlDocument.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\4_WebDom.Impl\HtmlDocumentFragment.cs">
+      <Link>LayoutFarm.WebDom\4_WebDom.Impl\HtmlDocumentFragment.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\4_WebDom.Impl\HtmlDocument_Scripting.cs">
+      <Link>LayoutFarm.WebDom\4_WebDom.Impl\HtmlDocument_Scripting.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\4_WebDom.Impl\HtmlElements.cs">
+      <Link>LayoutFarm.WebDom\4_WebDom.Impl\HtmlElements.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\4_WebDom.Impl\HtmlElements.Scripting.cs">
+      <Link>LayoutFarm.WebDom\4_WebDom.Impl\HtmlElements.Scripting.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\4_WebDom.Impl\HtmlPredefinedNames.cs">
+      <Link>LayoutFarm.WebDom\4_WebDom.Impl\HtmlPredefinedNames.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\4_WebDom.Impl\HtmlShadowDocument.cs">
+      <Link>LayoutFarm.WebDom\4_WebDom.Impl\HtmlShadowDocument.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\4_WebDom.Impl\HtmlTextNode.cs">
+      <Link>LayoutFarm.WebDom\4_WebDom.Impl\HtmlTextNode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\4_WebDom.Impl\SpecialHtmlElements.cs">
+      <Link>LayoutFarm.WebDom\4_WebDom.Impl\SpecialHtmlElements.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\5_HtmlKit\HtmlAttributeId.cs">
+      <Link>LayoutFarm.WebDom\5_HtmlKit\HtmlAttributeId.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\5_HtmlKit\HtmlTagId.cs">
+      <Link>LayoutFarm.WebDom\5_HtmlKit\HtmlTagId.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Test0_PresentationDevHelper_New\Dev\DemoBase.cs">
+      <Link>Test0_PresentationDevHelper_New\Dev\DemoBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Test0_PresentationDevHelper_New\Dev\FormCanvasHelper.cs">
+      <Link>Test0_PresentationDevHelper_New\Dev\FormCanvasHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Test0_PresentationDevHelper_New\Dev\FormDemoList.cs">
+      <Link>Test0_PresentationDevHelper_New\Dev\FormDemoList.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\..\Test0_PresentationDevHelper_New\Dev\FormDemoList.Designer.cs">
+      <Link>Test0_PresentationDevHelper_New\Dev\FormDemoList.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Test0_PresentationDevHelper_New\Dev\FormLayoutInspector.cs">
+      <Link>Test0_PresentationDevHelper_New\Dev\FormLayoutInspector.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\..\Test0_PresentationDevHelper_New\Dev\FormLayoutInspector.Designer.cs">
+      <Link>Test0_PresentationDevHelper_New\Dev\FormLayoutInspector.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Test0_PresentationDevHelper_New\Dev\FormPrint.cs">
+      <Link>Test0_PresentationDevHelper_New\Dev\FormPrint.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\..\Test0_PresentationDevHelper_New\Dev\FormPrint.Designer.cs">
+      <Link>Test0_PresentationDevHelper_New\Dev\FormPrint.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Test0_PresentationDevHelper_New\Dev\SampleViewport.cs">
+      <Link>Test0_PresentationDevHelper_New\Dev\SampleViewport.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
