@@ -18,7 +18,7 @@
     <Optimize>false</Optimize>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <DefineConstants>TRACE;DEBUG; TRACEDEBUG; ;NET20, __DESKTOP__,NET20,PIXEL_FARM,PIXEL_FARM_NET2</DefineConstants>
+    <DefineConstants>TRACE;DEBUG; TRACEDEBUG; ;NET20, __DESKTOP__,NET20,PIXEL_FARM,PIXEL_FARM_NET20</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
