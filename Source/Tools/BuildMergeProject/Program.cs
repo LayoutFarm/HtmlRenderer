@@ -1,5 +1,8 @@
-﻿using System; 
-using System.Windows.Forms; 
+﻿//MIT, 2017, WinterDev
+
+using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
 namespace BuildMergeProject
 {
     static class Program
@@ -12,7 +15,12 @@ namespace BuildMergeProject
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+
+            StartupConfig.defaultSln = @"D:\projects\PixelFarm\a_mini\projects\MiniDev.sln";
+
+            Application.Run(new FormBuildMergeProject());
         }
     }
+
 }
+
