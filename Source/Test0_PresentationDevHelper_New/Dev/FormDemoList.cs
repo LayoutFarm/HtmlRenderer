@@ -50,10 +50,9 @@ namespace LayoutFarm.Dev
             //viewport.PaintMe();
             //ShowFormLayoutInspector(viewport); 
         }
+        LayoutFarm.UI.UISurfaceViewportControl viewport;
         public void RunDemo(DemoBase selectedDemo)
-        {
-            LayoutFarm.UI.UISurfaceViewportControl viewport;
-
+        {   
             Form formCanvas;
             CreateReadyForm(out viewport, out formCanvas);
 
@@ -180,6 +179,21 @@ namespace LayoutFarm.Dev
         private void chkShowFormPrint_CheckedChanged(object sender, EventArgs e)
         {
 
+        } 
+
+        private void cmdSaveToImage_Click(object sender, EventArgs e)
+        {
+            using (var bmp = new System.Drawing.Bitmap(800, 600, System.Drawing.Imaging.PixelFormat.Format32bppArgb))
+            using (var g = System.Drawing.Graphics.FromImage(bmp))
+            {
+                //var canvasInit = new PixelFarm.Drawing.CanvasInitParameters();
+                //canvasInit.externalCanvas = g;
+                var canvas = new PixelFarm.Drawing.WinGdi.MyGdiPlusCanvas(0, 0, 800, 600); ;// LayoutFarm.UI.GdiPlus.MyWinGdiPortal.P.CreateCanvas(0, 0, 800, 600, canvasInit);
+                canvas.CurrentFont = new PixelFarm.Drawing.RequestFont("Tahoma", 10, PixelFarm.Drawing.FontStyle.Regular);
+                canvas.StrokeColor = PixelFarm.Drawing.Color.Black;
+                viewport.PrintMe(canvas);
+                bmp.Save("testhtml.bmp");
+            }
         }
     }
 }
