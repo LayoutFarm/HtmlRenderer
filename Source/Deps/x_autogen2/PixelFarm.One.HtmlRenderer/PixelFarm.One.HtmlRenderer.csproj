@@ -36,6 +36,99 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.PlatformBase\CanvasViewport.cs">
+      <Link>PixelFarm\LayoutFarm.PlatformBase\CanvasViewport.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.PlatformBase\dbugHelper.cs">
+      <Link>PixelFarm\LayoutFarm.PlatformBase\dbugHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.PlatformBase\InnerViewportKind.cs">
+      <Link>PixelFarm\LayoutFarm.PlatformBase\InnerViewportKind.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.PlatformBase\MyUITimer.cs">
+      <Link>PixelFarm\LayoutFarm.PlatformBase\MyUITimer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.PlatformBase\OpenGLCanvasViewport.cs">
+      <Link>PixelFarm\LayoutFarm.PlatformBase\OpenGLCanvasViewport.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.PlatformBase\PlatformBootStrap\BootStrapSkia.cs">
+      <Link>PixelFarm\LayoutFarm.PlatformBase\PlatformBootStrap\BootStrapSkia.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.PlatformBase\SkiaCanvasViewport.cs">
+      <Link>PixelFarm\LayoutFarm.PlatformBase\SkiaCanvasViewport.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\Win32Utils\MyWin32.cs">
+      <Link>PixelFarm\Win32Utils\MyWin32.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\Win32Utils\NativeTextWin32.cs">
+      <Link>PixelFarm\Win32Utils\NativeTextWin32.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\Win32Utils\NativeWin32MemoryDc.cs">
+      <Link>PixelFarm\Win32Utils\NativeWin32MemoryDc.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\YourImplementation.PixelFarm\ActiveFontAtlasService.cs">
+      <Link>PixelFarm\YourImplementation.PixelFarm\ActiveFontAtlasService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\YourImplementation.PixelFarm\DrawingGLFontPrinter.cs">
+      <Link>PixelFarm\YourImplementation.PixelFarm\DrawingGLFontPrinter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.Platforms.WinForms\0_Platform\UIPlatformWinForms.cs">
+      <Link>PixelFarm\LayoutFarm.Platforms.WinForms\0_Platform\UIPlatformWinForms.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.Platforms.WinForms\1_UISurfaceViewport\UISurfaceViewportControl.cs">
+      <Link>PixelFarm\LayoutFarm.Platforms.WinForms\1_UISurfaceViewport\UISurfaceViewportControl.cs</Link>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.Platforms.WinForms\1_UISurfaceViewport\UISurfaceViewportControl.Designer.cs">
+      <Link>PixelFarm\LayoutFarm.Platforms.WinForms\1_UISurfaceViewport\UISurfaceViewportControl.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.Platforms.WinForms\2_Bridge_WinForm\TopWindowBridgeWinForm.cs">
+      <Link>PixelFarm\LayoutFarm.Platforms.WinForms\2_Bridge_WinForm\TopWindowBridgeWinForm.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.Platforms.WinForms\2_Bridge_WinForm\TopWindowBridgeWinForm_dbug.cs">
+      <Link>PixelFarm\LayoutFarm.Platforms.WinForms\2_Bridge_WinForm\TopWindowBridgeWinForm_dbug.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.Platforms.WinForms\2_GLES2\1_GpuOpenGLSurfaceView.cs">
+      <Link>PixelFarm\LayoutFarm.Platforms.WinForms\2_GLES2\1_GpuOpenGLSurfaceView.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.Platforms.WinForms\2_GLES2\1_GpuOpenGLSurfaceView.Designer.cs">
+      <Link>PixelFarm\LayoutFarm.Platforms.WinForms\2_GLES2\1_GpuOpenGLSurfaceView.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.Platforms.WinForms\2_GLES2\3_MyTopWindowBridgeOpenGL.cs">
+      <Link>PixelFarm\LayoutFarm.Platforms.WinForms\2_GLES2\3_MyTopWindowBridgeOpenGL.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.Platforms.WinForms\3_SurfaceViewForGdiPlus_and_Skia\1_CpuSurfaceView.cs">
+      <Link>PixelFarm\LayoutFarm.Platforms.WinForms\3_SurfaceViewForGdiPlus_and_Skia\1_CpuSurfaceView.cs</Link>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.Platforms.WinForms\3_SurfaceViewForGdiPlus_and_Skia\1_CpuSurfaceView.Designer.cs">
+      <Link>PixelFarm\LayoutFarm.Platforms.WinForms\3_SurfaceViewForGdiPlus_and_Skia\1_CpuSurfaceView.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.Platforms.WinForms\3_SurfaceViewForGdiPlus_and_Skia\AbstractCompletionWindow.cs">
+      <Link>PixelFarm\LayoutFarm.Platforms.WinForms\3_SurfaceViewForGdiPlus_and_Skia\AbstractCompletionWindow.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.Platforms.WinForms\3_SurfaceViewForGdiPlus_and_Skia\AbstractCompletionWindow.Designer.cs">
+      <Link>PixelFarm\LayoutFarm.Platforms.WinForms\3_SurfaceViewForGdiPlus_and_Skia\AbstractCompletionWindow.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.Platforms.WinForms\4_GdiPlus\1_GdiPlusCanvasViewport.cs">
+      <Link>PixelFarm\LayoutFarm.Platforms.WinForms\4_GdiPlus\1_GdiPlusCanvasViewport.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.Platforms.WinForms\4_GdiPlus\3_MyTopWindowBridgeGdiPlus.cs">
+      <Link>PixelFarm\LayoutFarm.Platforms.WinForms\4_GdiPlus\3_MyTopWindowBridgeGdiPlus.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.Platforms.WinForms\4_GdiPlus\CanvasCollection.cs">
+      <Link>PixelFarm\LayoutFarm.Platforms.WinForms\4_GdiPlus\CanvasCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.Platforms.WinForms\4_GdiPlus\Conv.cs">
+      <Link>PixelFarm\LayoutFarm.Platforms.WinForms\4_GdiPlus\Conv.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.Platforms.WinForms\4_GdiPlus\QuadPages.cs">
+      <Link>PixelFarm\LayoutFarm.Platforms.WinForms\4_GdiPlus\QuadPages.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.Platforms.WinForms\4_Skia\3_MyTopWindowBridgeSkia.cs">
+      <Link>PixelFarm\LayoutFarm.Platforms.WinForms\4_Skia\3_MyTopWindowBridgeSkia.cs</Link>
+    </Compile>
     <Compile Include="..\..\PixelFarm\LayoutFarm.TextEdit\1.1_EditableRuns\dbugMultiTextManRecorder.cs">
       <Link>PixelFarm\LayoutFarm.TextEdit\1.1_EditableRuns\dbugMultiTextManRecorder.cs</Link>
     </Compile>
@@ -491,15 +584,6 @@
     </Compile>
     <Compile Include="..\..\PixelFarm\MiniAgg\09_ImgFilters\InternalBrightnessAndContrastAdjustment.cs">
       <Link>PixelFarm\MiniAgg\09_ImgFilters\InternalBrightnessAndContrastAdjustment.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\win32utils\MyWin32.cs">
-      <Link>PixelFarm\win32utils\MyWin32.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\win32utils\NativeTextWin32.cs">
-      <Link>PixelFarm\win32utils\NativeTextWin32.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\win32utils\NativeWin32MemoryDc.cs">
-      <Link>PixelFarm\win32utils\NativeWin32MemoryDc.cs</Link>
     </Compile>
     <Compile Include="..\..\PixelFarm\PixelFarm.Drawing.GdiPlus\0_Start\WinGdiPlusPlatform.cs">
       <Link>PixelFarm\PixelFarm.Drawing.GdiPlus\0_Start\WinGdiPlusPlatform.cs</Link>

@@ -4,6 +4,7 @@ using PixelFarm.Drawing;
 
 namespace LayoutFarm.UI
 {
+
     public static class FormCanvasHelper
     {
 
@@ -12,11 +13,12 @@ namespace LayoutFarm.UI
             InnerViewportKind internalViewportKind,
             out LayoutFarm.UI.UISurfaceViewportControl canvasViewport)
         {
-
+            var ifont = new PixelFarm.Drawing.WinGdi.Gdi32IFonts();
             MyRootGraphic myRootGfx = new MyRootGraphic(
-                LayoutFarm.UI.UIPlatformWinForm.platform,
-                LayoutFarm.UI.UIPlatformWinForm.platform.GetIFonts(),
-                w, h);
+                w, h,
+                ifont,
+                LayoutFarm.UI.UIPlatformWinForm.platform.CreateUITimer()
+                );
 
             Form form1 = new Form();
             var innerViewport = canvasViewport = new LayoutFarm.UI.UISurfaceViewportControl();
