@@ -38,6 +38,7 @@ x64/
 *.vspscc
 *.vssscc
 .builds
+Source/Deps/PixelFarm
 
 # Visual C++ cache files
 ipch/
