@@ -26,6 +26,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -41,6 +42,15 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\deps\pixelfarm\win32utils\MyWin32.cs">
+      <Link>win32utils\MyWin32.cs</Link>
+    </Compile>
+    <Compile Include="..\deps\pixelfarm\win32utils\NativeTextWin32.cs">
+      <Link>win32utils\NativeTextWin32.cs</Link>
+    </Compile>
+    <Compile Include="..\deps\pixelfarm\win32utils\NativeWin32MemoryDc.cs">
+      <Link>win32utils\NativeWin32MemoryDc.cs</Link>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -52,33 +62,13 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Deps\LayoutFarm.ComposerCore\LayoutFarm.ComposerCore.csproj">
-      <Project>{d88d86cd-6732-45e7-8fc9-49449ea9c737}</Project>
-      <Name>LayoutFarm.ComposerCore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Deps\PixelFarm.Drawing.Core\PixelFarm.Drawing.Core.csproj">
-      <Project>{51D63482-5697-4B16-8401-506965624657}</Project>
-      <Name>PixelFarm.Drawing.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Deps\PixelFarm.DrawingCanvas\PixelFarm.DrawingCanvas.csproj">
-      <Project>{0cc424d5-20ac-4849-993d-3a720dbae94f}</Project>
-      <Name>PixelFarm.DrawingCanvas</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Deps\LayoutFarm.ClientPlatforms\LayoutFarm.ClientPlatforms.csproj">
-      <Project>{465cb0ff-c9fa-4371-ad10-51c6dff537b8}</Project>
-      <Name>LayoutFarm.ClientPlatforms</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Deps\LayoutFarm.BaseRenderer\LayoutFarm.BaseRenderer.csproj">
-      <Project>{20048075-A2F3-4B97-B3C6-BEA794429741}</Project>
-      <Name>LayoutFarm.BaseRenderer</Name>
+    <ProjectReference Include="..\Deps\x_autogen2\PixelFarm.One.HtmlRenderer\PixelFarm.One.HtmlRenderer.csproj">
+      <Project>{0759498a-427e-480c-a405-0442611fb33b}</Project>
+      <Name>PixelFarm.One.HtmlRenderer</Name>
     </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.HtmlComposer\LayoutFarm.HtmlComposer.csproj">
       <Project>{1af17e34-4c2d-4657-b993-e0608c555111}</Project>
       <Name>LayoutFarm.HtmlComposer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Deps\LayoutFarm.Platforms.WinForms\LayoutFarm.Platforms.WinForms.csproj">
-      <Project>{4602B28B-EEEC-4A69-854C-B00B8B616837}</Project>
-      <Name>LayoutFarm.Platforms.WinForms</Name>
     </ProjectReference>
     <ProjectReference Include="..\Test0_PresentationDevHelper_New\Test0_PresentationDevHelper_New.csproj">
       <Project>{05C84CAB-2F5D-4D74-9A62-EADDF5B4CC0B}</Project>

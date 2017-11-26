@@ -8,11 +8,14 @@ namespace TestGraphicPackage2
     static class Program
     {
         static LayoutFarm.Dev.FormDemoList formDemoList;
+       
+
         [STAThread]
         static void Main()
         {
 
-            ExampleFolderConfig.InitIcuData();
+
+            ExampleFolderConfig.InitData();
             //-------------------------------
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -30,7 +33,7 @@ namespace TestGraphicPackage2
         static void LoadHtmlSamples(TreeView _samplesTreeView)
         {
             //find sample folder 
-            string execFromFolder = System.IO.Path.GetDirectoryName(Application.ExecutablePath);  
+            string execFromFolder = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
             string rootSampleFolder = "..\\Test8_HtmlRenderer.Demo\\Samples";
             var root = new TreeNode("HTML Renderer");
             _samplesTreeView.Nodes.Add(root);

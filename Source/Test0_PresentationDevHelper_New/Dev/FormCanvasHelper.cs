@@ -1,24 +1,56 @@
 ﻿//Apache2, 2014-2017, WinterDev
+using System;
 using System.Windows.Forms;
 using PixelFarm.Drawing;
 
 namespace LayoutFarm.UI
 {
-    public static class FormCanvasHelper
+    public static partial class FormCanvasHelper
     {
-
+        static LayoutFarm.UI.UIPlatformWinForm s_platform;
+        static PixelFarm.Drawing.Fonts.IFontLoader s_fontstore;
+        static void InitWinform()
+        {
+            if (s_platform != null) return;
+            //----------------------------------------------------
+            s_platform = new LayoutFarm.UI.UIPlatformWinForm();
+            s_fontstore = new PixelFarm.Drawing.Fonts.OpenFontStore();
+        }
         public static Form CreateNewFormCanvas(
             int w, int h,
             InnerViewportKind internalViewportKind,
             out LayoutFarm.UI.UISurfaceViewportControl canvasViewport)
         {
+            //1. init
+            InitWinform();
+            PixelFarm.Drawing.Fonts.IFontLoader fontLoader = s_fontstore;
+            //2. 
+            PixelFarm.Drawing.IFonts ifont = null;
 
+            switch (internalViewportKind)
+            {
+                default:
+                    ifont = new PixelFarm.Drawing.WinGdi.Gdi32IFonts();
+                    break;
+                case InnerViewportKind.GL:
+                    ifont = new OpenFontIFonts(fontLoader);
+                    break;
+
+            }
+            //PixelFarm.Drawing.WinGdi.Gdi32IFonts ifonts2 = new PixelFarm.Drawing.WinGdi.Gdi32IFonts();
+            PixelFarm.Drawing.WinGdi.WinGdiFontFace.SetFontLoader(fontLoader);
+            PixelFarm.Drawing.WinGdi.WinGdiPlusPlatform.SetFontLoader(fontLoader);
+            PixelFarm.Drawing.WinGdi.WinGdiPlusPlatform.SetFontEncoding(System.Text.Encoding.ASCII);
+            //
+
+            //---------------------------------------------------------------------------
+            UITimer timer = s_platform.CreateUITimer();
             MyRootGraphic myRootGfx = new MyRootGraphic(
-                LayoutFarm.UI.UIPlatformWinForm.platform,
-                LayoutFarm.UI.UIPlatformWinForm.platform.GetIFonts(),
-                w, h);
+               w, h,
+               ifont,
+               timer);
+            //---------------------------------------------------------------------------
 
-            Form form1 = new Form();
             var innerViewport = canvasViewport = new LayoutFarm.UI.UISurfaceViewportControl();
             Rectangle screenClientAreaRect = Conv.ToRect(Screen.PrimaryScreen.WorkingArea);
 
@@ -28,6 +60,7 @@ namespace LayoutFarm.UI
                     screenClientAreaRect.Width,
                     screenClientAreaRect.Height);
             //---------------------- 
+            Form form1 = new Form();
             form1.Controls.Add(canvasViewport);
             //----------------------
             MakeFormCanvas(form1, canvasViewport);
@@ -72,5 +105,7 @@ namespace LayoutFarm.UI
             }
             return Screen.PrimaryScreen;
         }
+
+
     }
 }

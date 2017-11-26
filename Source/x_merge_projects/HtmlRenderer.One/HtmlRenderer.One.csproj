@@ -75,14 +75,6 @@
       <Project>{69c5bff6-18c2-4d29-aa07-3c8dbdc70f87}</Project>
       <Name>HtmlKit_Net20</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Deps_I18N\LayoutFarm.TextBreak\LayoutFarm.TextBreak.Icu\LayoutFarm.TextBreak.Icu.csproj">
-      <Project>{777178ca-c706-406f-856d-62cc40ac63e4}</Project>
-      <Name>LayoutFarm.TextBreak.Icu</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Deps_I18N\LayoutFarm.TextBreak\TextBreak\LayoutFarm.TextBreak.csproj">
-      <Project>{09ec5531-d272-40db-87a4-b2d353846cc2}</Project>
-      <Name>LayoutFarm.TextBreak</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\LayoutFarm.CssBase\LayoutFarm.CssBase.csproj">
       <Project>{5164ec24-95c4-4333-bd4e-70ee625cceb4}</Project>
       <Name>LayoutFarm.CssBase</Name>

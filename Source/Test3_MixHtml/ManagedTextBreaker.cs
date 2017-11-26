@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using LayoutFarm.TextBreak;
+using Typography.TextBreak;
 namespace LayoutFarm.Composers
 {
     class MyManagedTextBreaker : ITextBreaker
@@ -18,7 +18,7 @@ namespace LayoutFarm.Composers
         {
             myTextBreaker.BreakWords(inputBuffer, startIndex);
             myTextBreaker.LoadBreakAtList(breakAtList);
-             
+
         }
     }
 
