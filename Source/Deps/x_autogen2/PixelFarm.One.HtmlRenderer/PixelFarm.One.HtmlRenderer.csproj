@@ -2276,6 +2276,57 @@
     <Compile Include="..\..\PixelFarm\Typography\Typography.Contours\GlyphDynamicOutline.cs">
       <Link>PixelFarm\Typography\Typography.Contours\GlyphDynamicOutline.cs</Link>
     </Compile>
+    <Compile Include="..\..\PixelFarm\Typography\Typography.TextBreak\Typography.TextBreak\BreakEngine.cs">
+      <Link>PixelFarm\Typography\Typography.TextBreak\Typography.TextBreak\BreakEngine.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\Typography\Typography.TextBreak\Typography.TextBreak\BreakingEngine.cs">
+      <Link>PixelFarm\Typography\Typography.TextBreak\Typography.TextBreak\BreakingEngine.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\Typography\Typography.TextBreak\Typography.TextBreak\CustomBreaker.cs">
+      <Link>PixelFarm\Typography\Typography.TextBreak\Typography.TextBreak\CustomBreaker.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\Typography\Typography.TextBreak\Typography.TextBreak\CustomBreakerBuilder.cs">
+      <Link>PixelFarm\Typography\Typography.TextBreak\Typography.TextBreak\CustomBreakerBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\Typography\Typography.TextBreak\Typography.TextBreak\CustomDict.cs">
+      <Link>PixelFarm\Typography\Typography.TextBreak\Typography.TextBreak\CustomDict.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\Typography\Typography.TextBreak\Typography.TextBreak\EngBreakingEngine.cs">
+      <Link>PixelFarm\Typography\Typography.TextBreak\Typography.TextBreak\EngBreakingEngine.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\Typography\Typography.TextBreak\Typography.TextBreak\LaoDictionaryBreakingEngine.cs">
+      <Link>PixelFarm\Typography\Typography.TextBreak\Typography.TextBreak\LaoDictionaryBreakingEngine.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\Typography\Typography.TextBreak\Typography.TextBreak\ThaiDictionaryBreakingEngine.cs">
+      <Link>PixelFarm\Typography\Typography.TextBreak\Typography.TextBreak\ThaiDictionaryBreakingEngine.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\Typography\Typography.TextBreak\Typography.TextBreak\WordVisitor.cs">
+      <Link>PixelFarm\Typography\Typography.TextBreak\Typography.TextBreak\WordVisitor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\Typography\Typography.TextFlow\Dom\EditableTextBlockLayoutEngine.cs">
+      <Link>PixelFarm\Typography\Typography.TextFlow\Dom\EditableTextBlockLayoutEngine.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\Typography\Typography.TextFlow\Dom\EditableTextLine.cs">
+      <Link>PixelFarm\Typography\Typography.TextFlow\Dom\EditableTextLine.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\Typography\Typography.TextFlow\Dom\IRun.cs">
+      <Link>PixelFarm\Typography\Typography.TextFlow\Dom\IRun.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\Typography\Typography.TextFlow\Dom\TextBuffer.cs">
+      <Link>PixelFarm\Typography\Typography.TextFlow\Dom\TextBuffer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\Typography\Typography.TextFlow\Dom\TextRun.cs">
+      <Link>PixelFarm\Typography\Typography.TextFlow\Dom\TextRun.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\Typography\Typography.TextFlow\Layout\SingleLineLayoutEngine.cs">
+      <Link>PixelFarm\Typography\Typography.TextFlow\Layout\SingleLineLayoutEngine.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\Typography\Typography.TextFlow\Simple\SmallLine.cs">
+      <Link>PixelFarm\Typography\Typography.TextFlow\Simple\SmallLine.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\Typography\Typography.TextFlow\TextLexer\TextLexer.cs">
+      <Link>PixelFarm\Typography\Typography.TextFlow\TextLexer\TextLexer.cs</Link>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -45,6 +45,15 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\deps\pixelfarm\win32utils\MyWin32.cs">
+      <Link>win32utils\MyWin32.cs</Link>
+    </Compile>
+    <Compile Include="..\deps\pixelfarm\win32utils\NativeTextWin32.cs">
+      <Link>win32utils\NativeTextWin32.cs</Link>
+    </Compile>
+    <Compile Include="..\deps\pixelfarm\win32utils\NativeWin32MemoryDc.cs">
+      <Link>win32utils\NativeWin32MemoryDc.cs</Link>
+    </Compile>
     <Compile Include="Demo4\4.6_DynamicDom1.cs" />
     <Compile Include="Demo5\5.9_Demo_TreeView.cs" />
     <Compile Include="Demo5\5.0_HtmlDemoBase.cs" />
