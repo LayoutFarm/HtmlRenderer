@@ -8,6 +8,7 @@
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AssemblyName>PixelFarm.One.HtmlRenderer</AssemblyName>
+    <ProjectGuid>{0759498A-427E-480C-A405-0442611FB33B}</ProjectGuid>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -35,6 +36,228 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.TextEdit\1.1_EditableRuns\dbugMultiTextManRecorder.cs">
+      <Link>PixelFarm\LayoutFarm.TextEdit\1.1_EditableRuns\dbugMultiTextManRecorder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.TextEdit\1.1_EditableRuns\EditableRun.cs">
+      <Link>PixelFarm\LayoutFarm.TextEdit\1.1_EditableRuns\EditableRun.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.TextEdit\1.1_EditableRuns\EditableRunCharLocation.cs">
+      <Link>PixelFarm\LayoutFarm.TextEdit\1.1_EditableRuns\EditableRunCharLocation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.TextEdit\1.1_EditableRuns\EditableTextSpan.cs">
+      <Link>PixelFarm\LayoutFarm.TextEdit\1.1_EditableRuns\EditableTextSpan.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.TextEdit\1.1_EditableRuns\SolidTextRun.cs">
+      <Link>PixelFarm\LayoutFarm.TextEdit\1.1_EditableRuns\SolidTextRun.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.TextEdit\1.1_EditableRuns\TextSpanSytle.cs">
+      <Link>PixelFarm\LayoutFarm.TextEdit\1.1_EditableRuns\TextSpanSytle.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.TextEdit\1.1_EditableRuns\VisualPointInfo.cs">
+      <Link>PixelFarm\LayoutFarm.TextEdit\1.1_EditableRuns\VisualPointInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.TextEdit\1.1_EditableRuns\VisualSelectionRange.cs">
+      <Link>PixelFarm\LayoutFarm.TextEdit\1.1_EditableRuns\VisualSelectionRange.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.TextEdit\1.2_Lines\0_EditableTextLine.cs">
+      <Link>PixelFarm\LayoutFarm.TextEdit\1.2_Lines\0_EditableTextLine.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.TextEdit\1.2_Lines\1_EditableTextLine_CORE_Collection.cs">
+      <Link>PixelFarm\LayoutFarm.TextEdit\1.2_Lines\1_EditableTextLine_CORE_Collection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.TextEdit\1.2_Lines\2_EditableTextLine_PRIVATE_CollectionFeatures2.cs">
+      <Link>PixelFarm\LayoutFarm.TextEdit\1.2_Lines\2_EditableTextLine_PRIVATE_CollectionFeatures2.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.TextEdit\1.2_Lines\3_EditableTextLine_PUBLIC_CollectionFeatures.cs">
+      <Link>PixelFarm\LayoutFarm.TextEdit\1.2_Lines\3_EditableTextLine_PUBLIC_CollectionFeatures.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.TextEdit\1.2_Lines\4_EditableTextLine_ArrangeAndResizingMechanism.cs">
+      <Link>PixelFarm\LayoutFarm.TextEdit\1.2_Lines\4_EditableTextLine_ArrangeAndResizingMechanism.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.TextEdit\1.2_Lines\6_EditableTextLine_Advanced.cs">
+      <Link>PixelFarm\LayoutFarm.TextEdit\1.2_Lines\6_EditableTextLine_Advanced.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.TextEdit\1.2_Lines\7_EditableTextLine_SuppressNativeCollectionMethods.cs">
+      <Link>PixelFarm\LayoutFarm.TextEdit\1.2_Lines\7_EditableTextLine_SuppressNativeCollectionMethods.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.TextEdit\1.2_Lines\TextLineReaderWriter.cs">
+      <Link>PixelFarm\LayoutFarm.TextEdit\1.2_Lines\TextLineReaderWriter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.TextEdit\1.3_Layer\1_EditableTextFlowLayer.cs">
+      <Link>PixelFarm\LayoutFarm.TextEdit\1.3_Layer\1_EditableTextFlowLayer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.TextEdit\1.3_Layer\1_EditableTextFlowLayer_CORE_Collection.cs">
+      <Link>PixelFarm\LayoutFarm.TextEdit\1.3_Layer\1_EditableTextFlowLayer_CORE_Collection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.TextEdit\2.1_MultiLineController\DocumentActions.cs">
+      <Link>PixelFarm\LayoutFarm.TextEdit\2.1_MultiLineController\DocumentActions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.TextEdit\2.1_MultiLineController\TextLayerController.cs">
+      <Link>PixelFarm\LayoutFarm.TextEdit\2.1_MultiLineController\TextLayerController.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.TextEdit\2.1_MultiLineController\TextLayerController.KeyboardFunctions.cs">
+      <Link>PixelFarm\LayoutFarm.TextEdit\2.1_MultiLineController\TextLayerController.KeyboardFunctions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.TextEdit\2.1_MultiLineController\TextLayerController.TextFunctions.cs">
+      <Link>PixelFarm\LayoutFarm.TextEdit\2.1_MultiLineController\TextLayerController.TextFunctions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.TextEdit\2.1_MultiLineController\TextSurfaceEventListener.cs">
+      <Link>PixelFarm\LayoutFarm.TextEdit\2.1_MultiLineController\TextSurfaceEventListener.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.TextEdit\2.2_TextRenderBox\CaretRenderElement.cs">
+      <Link>PixelFarm\LayoutFarm.TextEdit\2.2_TextRenderBox\CaretRenderElement.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.TextEdit\2.2_TextRenderBox\CustomRenderSurface.cs">
+      <Link>PixelFarm\LayoutFarm.TextEdit\2.2_TextRenderBox\CustomRenderSurface.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.TextEdit\2.2_TextRenderBox\GlobalCaretController.cs">
+      <Link>PixelFarm\LayoutFarm.TextEdit\2.2_TextRenderBox\GlobalCaretController.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.TextEdit\2.2_TextRenderBox\RenderSurfaceScrollRelation.cs">
+      <Link>PixelFarm\LayoutFarm.TextEdit\2.2_TextRenderBox\RenderSurfaceScrollRelation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.TextEdit\2.2_TextRenderBox\StyleHelper.cs">
+      <Link>PixelFarm\LayoutFarm.TextEdit\2.2_TextRenderBox\StyleHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.TextEdit\2.2_TextRenderBox\TextEditRenderBox.BaseFunctions.cs">
+      <Link>PixelFarm\LayoutFarm.TextEdit\2.2_TextRenderBox\TextEditRenderBox.BaseFunctions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.TextEdit\2.2_TextRenderBox\TextEditRenderBox.cs">
+      <Link>PixelFarm\LayoutFarm.TextEdit\2.2_TextRenderBox\TextEditRenderBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.TextEdit\2.2_TextRenderBox\TextEditRenderBox.TextSurfaceFuntions.cs">
+      <Link>PixelFarm\LayoutFarm.TextEdit\2.2_TextRenderBox\TextEditRenderBox.TextSurfaceFuntions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.TextEdit\2.2_TextRenderBox\VisualPaintEventArgs.cs">
+      <Link>PixelFarm\LayoutFarm.TextEdit\2.2_TextRenderBox\VisualPaintEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.YourBasicCustomWidgets\0_CustomRenderElements\CustomContainerRenderBox.cs">
+      <Link>PixelFarm\LayoutFarm.YourBasicCustomWidgets\0_CustomRenderElements\CustomContainerRenderBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.YourBasicCustomWidgets\0_CustomRenderElements\CustomImageRenderBox.cs">
+      <Link>PixelFarm\LayoutFarm.YourBasicCustomWidgets\0_CustomRenderElements\CustomImageRenderBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.YourBasicCustomWidgets\0_CustomRenderElements\CustomRenderElements.cs">
+      <Link>PixelFarm\LayoutFarm.YourBasicCustomWidgets\0_CustomRenderElements\CustomRenderElements.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.YourBasicCustomWidgets\0_CustomRenderElements\CustomTextRun.cs">
+      <Link>PixelFarm\LayoutFarm.YourBasicCustomWidgets\0_CustomRenderElements\CustomTextRun.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.YourBasicCustomWidgets\0_CustomRenderElements\RenderElementExtension.cs">
+      <Link>PixelFarm\LayoutFarm.YourBasicCustomWidgets\0_CustomRenderElements\RenderElementExtension.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.YourBasicCustomWidgets\1_UIElement\1_UIElement.cs">
+      <Link>PixelFarm\LayoutFarm.YourBasicCustomWidgets\1_UIElement\1_UIElement.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.YourBasicCustomWidgets\1_UIElement\2_UIElement_EventListener.cs">
+      <Link>PixelFarm\LayoutFarm.YourBasicCustomWidgets\1_UIElement\2_UIElement_EventListener.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.YourBasicCustomWidgets\1_UIElement\3_UIBox.cs">
+      <Link>PixelFarm\LayoutFarm.YourBasicCustomWidgets\1_UIElement\3_UIBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.YourBasicCustomWidgets\1_UIElement\4_UICollection.cs">
+      <Link>PixelFarm\LayoutFarm.YourBasicCustomWidgets\1_UIElement\4_UICollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.YourBasicCustomWidgets\1_UIElement\5_IScrollable.cs">
+      <Link>PixelFarm\LayoutFarm.YourBasicCustomWidgets\1_UIElement\5_IScrollable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.YourBasicCustomWidgets\1_UIElement\UIDragHitCollection.cs">
+      <Link>PixelFarm\LayoutFarm.YourBasicCustomWidgets\1_UIElement\UIDragHitCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.YourBasicCustomWidgets\1_UIElement\UIVisitor.cs">
+      <Link>PixelFarm\LayoutFarm.YourBasicCustomWidgets\1_UIElement\UIVisitor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.YourBasicCustomWidgets\2_Basic\0_EaseBox.cs">
+      <Link>PixelFarm\LayoutFarm.YourBasicCustomWidgets\2_Basic\0_EaseBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.YourBasicCustomWidgets\2_Basic\1_ImageBox.cs">
+      <Link>PixelFarm\LayoutFarm.YourBasicCustomWidgets\2_Basic\1_ImageBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.YourBasicCustomWidgets\2_Basic\2_TextBox.cs">
+      <Link>PixelFarm\LayoutFarm.YourBasicCustomWidgets\2_Basic\2_TextBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.YourBasicCustomWidgets\2_Basic\3_SimpleBox.cs">
+      <Link>PixelFarm\LayoutFarm.YourBasicCustomWidgets\2_Basic\3_SimpleBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.YourBasicCustomWidgets\2_Basic\4_Label.cs">
+      <Link>PixelFarm\LayoutFarm.YourBasicCustomWidgets\2_Basic\4_Label.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.YourBasicCustomWidgets\3_Grid\2_GridLayer.cs">
+      <Link>PixelFarm\LayoutFarm.YourBasicCustomWidgets\3_Grid\2_GridLayer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.YourBasicCustomWidgets\3_Grid\3_GridTable.cs">
+      <Link>PixelFarm\LayoutFarm.YourBasicCustomWidgets\3_Grid\3_GridTable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.YourBasicCustomWidgets\3_Grid\5_GridBox.cs">
+      <Link>PixelFarm\LayoutFarm.YourBasicCustomWidgets\3_Grid\5_GridBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.YourBasicCustomWidgets\4.1_Composites\CheckBox.cs">
+      <Link>PixelFarm\LayoutFarm.YourBasicCustomWidgets\4.1_Composites\CheckBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.YourBasicCustomWidgets\4.1_Composites\ComboBox.cs">
+      <Link>PixelFarm\LayoutFarm.YourBasicCustomWidgets\4.1_Composites\ComboBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.YourBasicCustomWidgets\4.1_Composites\HingeBox.cs">
+      <Link>PixelFarm\LayoutFarm.YourBasicCustomWidgets\4.1_Composites\HingeBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.YourBasicCustomWidgets\4.1_Composites\HingeRelation.cs">
+      <Link>PixelFarm\LayoutFarm.YourBasicCustomWidgets\4.1_Composites\HingeRelation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.YourBasicCustomWidgets\4.1_Composites\ListView.cs">
+      <Link>PixelFarm\LayoutFarm.YourBasicCustomWidgets\4.1_Composites\ListView.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.YourBasicCustomWidgets\4.1_Composites\Menu.cs">
+      <Link>PixelFarm\LayoutFarm.YourBasicCustomWidgets\4.1_Composites\Menu.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.YourBasicCustomWidgets\4.1_Composites\ScrollBar.cs">
+      <Link>PixelFarm\LayoutFarm.YourBasicCustomWidgets\4.1_Composites\ScrollBar.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.YourBasicCustomWidgets\4.1_Composites\TextBoxContainer.cs">
+      <Link>PixelFarm\LayoutFarm.YourBasicCustomWidgets\4.1_Composites\TextBoxContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.YourBasicCustomWidgets\4.1_Composites\TreeView.cs">
+      <Link>PixelFarm\LayoutFarm.YourBasicCustomWidgets\4.1_Composites\TreeView.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.YourBasicCustomWidgets\4.3_Space\1_UINinespaceBox.cs">
+      <Link>PixelFarm\LayoutFarm.YourBasicCustomWidgets\4.3_Space\1_UINinespaceBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.YourBasicCustomWidgets\4.3_Space\4_NineSpaceController.cs">
+      <Link>PixelFarm\LayoutFarm.YourBasicCustomWidgets\4.3_Space\4_NineSpaceController.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.YourBasicCustomWidgets\4.3_Space\5_DockSpaceController.cs">
+      <Link>PixelFarm\LayoutFarm.YourBasicCustomWidgets\4.3_Space\5_DockSpaceController.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.YourBasicCustomWidgets\4.3_Space\6_FreeSpaceController.cs">
+      <Link>PixelFarm\LayoutFarm.YourBasicCustomWidgets\4.3_Space\6_FreeSpaceController.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.YourBasicCustomWidgets\4.3_Space\7_SpacePart.cs">
+      <Link>PixelFarm\LayoutFarm.YourBasicCustomWidgets\4.3_Space\7_SpacePart.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.YourBasicCustomWidgets\4.3_Space\8_SpacePartEnums.cs">
+      <Link>PixelFarm\LayoutFarm.YourBasicCustomWidgets\4.3_Space\8_SpacePartEnums.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.YourBasicCustomWidgets\4.3_Space\9_NinespaceGrippers.cs">
+      <Link>PixelFarm\LayoutFarm.YourBasicCustomWidgets\4.3_Space\9_NinespaceGrippers.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.YourBasicCustomWidgets\6_InternalResourceMx\ClientBinder.cs">
+      <Link>PixelFarm\LayoutFarm.YourBasicCustomWidgets\6_InternalResourceMx\ClientBinder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.YourBasicCustomWidgets\6_InternalResourceMx\ResImageList.cs">
+      <Link>PixelFarm\LayoutFarm.YourBasicCustomWidgets\6_InternalResourceMx\ResImageList.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.YourBasicCustomWidgets\7_WindowUI\UIFloatWindow.cs">
+      <Link>PixelFarm\LayoutFarm.YourBasicCustomWidgets\7_WindowUI\UIFloatWindow.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.YourBasicCustomWidgets\8_Canvas\MiniAggCanvasBox.cs">
+      <Link>PixelFarm\LayoutFarm.YourBasicCustomWidgets\8_Canvas\MiniAggCanvasBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.YourBasicCustomWidgets\8_Canvas\MiniAggCanvasRenderElement.cs">
+      <Link>PixelFarm\LayoutFarm.YourBasicCustomWidgets\8_Canvas\MiniAggCanvasRenderElement.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\LayoutFarm.YourBasicCustomWidgets\9_TextContentSplitter\ContentTextSplitter.cs">
+      <Link>PixelFarm\LayoutFarm.YourBasicCustomWidgets\9_TextContentSplitter\ContentTextSplitter.cs</Link>
+    </Compile>
     <Compile Include="..\..\PixelFarm\MiniAgg.Complements\0_CanvasPainter\AggCanvasPainter.cs">
       <Link>PixelFarm\MiniAgg.Complements\0_CanvasPainter\AggCanvasPainter.cs</Link>
     </Compile>
@@ -1213,6 +1436,7 @@
     </Compile>
     <Compile Include="..\..\PixelFarm\PixelFarm.OpenTKWinForms\UserGLControl\GLControl.cs">
       <Link>PixelFarm\PixelFarm.OpenTKWinForms\UserGLControl\GLControl.cs</Link>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="..\..\PixelFarm\PixelFarm.OpenTKWinForms\UserGLControl\GLControl.Designer.cs">
       <Link>PixelFarm\PixelFarm.OpenTKWinForms\UserGLControl\GLControl.Designer.cs</Link>
@@ -1225,6 +1449,7 @@
     </Compile>
     <Compile Include="..\..\PixelFarm\PixelFarm.OpenTKWinForms\UserGLControl\MyGLControl.cs">
       <Link>PixelFarm\PixelFarm.OpenTKWinForms\UserGLControl\MyGLControl.cs</Link>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="..\..\PixelFarm\PixelFarm.OpenTKWinForms\UserGLControl\MyGLControl.Designer.cs">
       <Link>PixelFarm\PixelFarm.OpenTKWinForms\UserGLControl\MyGLControl.Designer.cs</Link>

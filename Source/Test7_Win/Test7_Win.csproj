@@ -55,6 +55,10 @@
     <Compile Include="T108_LionFill.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Deps\x_autogen2\PixelFarm.One.HtmlRenderer\PixelFarm.One.HtmlRenderer.csproj">
+      <Project>{0759498a-427e-480c-a405-0442611fb33b}</Project>
+      <Name>PixelFarm.One.HtmlRenderer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.CssBase\LayoutFarm.CssBase.csproj">
       <Project>{5164ec24-95c4-4333-bd4e-70ee625cceb4}</Project>
       <Name>LayoutFarm.CssBase</Name>

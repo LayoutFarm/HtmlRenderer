@@ -126,6 +126,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Deps\x_autogen2\PixelFarm.One.HtmlRenderer\PixelFarm.One.HtmlRenderer.csproj">
+      <Project>{0759498a-427e-480c-a405-0442611fb33b}</Project>
+      <Name>PixelFarm.One.HtmlRenderer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.HtmlComposer\LayoutFarm.HtmlComposer.csproj">
       <Project>{1af17e34-4c2d-4657-b993-e0608c555111}</Project>
       <Name>LayoutFarm.HtmlComposer</Name>
