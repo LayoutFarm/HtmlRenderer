@@ -1,1 +1,0 @@
-This module is a bridge between Typography Lib and the PixelFarm.

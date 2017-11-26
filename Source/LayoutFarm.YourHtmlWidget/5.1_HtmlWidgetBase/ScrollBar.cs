@@ -198,6 +198,7 @@ namespace LayoutFarm.HtmlWidgets
             if (this.ScrollBarType == ScrollBarType.Horizontal)
             {
                 max_button = new ScrollBarButton(minmax_boxHeight, this.Height, this);
+               
                 max_button.SetLocation(this.Width - minmax_boxHeight, 0);
             }
             else

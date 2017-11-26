@@ -55,65 +55,9 @@
     <Compile Include="T108_LionFill.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Deps\LayoutFarm.ClientPlatforms\LayoutFarm.ClientPlatforms.csproj">
-      <Project>{465cb0ff-c9fa-4371-ad10-51c6dff537b8}</Project>
-      <Name>LayoutFarm.ClientPlatforms</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Deps\LayoutFarm.ComposerCore\LayoutFarm.ComposerCore.csproj">
-      <Project>{d88d86cd-6732-45e7-8fc9-49449ea9c737}</Project>
-      <Name>LayoutFarm.ComposerCore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Deps\LayoutFarm.YourBasicCustomWidgets\LayoutFarm.YourBasicCustomWidgets.csproj">
-      <Project>{6317f5f0-bc4b-4bfd-b3c0-73c05c2aa11e}</Project>
-      <Name>LayoutFarm.YourBasicCustomWidgets</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Deps_I18N\LayoutFarm.TextBreak\LayoutFarm.TextBreak.Icu\LayoutFarm.TextBreak.Icu.csproj">
-      <Project>{777178ca-c706-406f-856d-62cc40ac63e4}</Project>
-      <Name>LayoutFarm.TextBreak.Icu</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Deps_I18N\LayoutFarm.TextBreak\TextBreak\LayoutFarm.TextBreak.csproj">
-      <Project>{09ec5531-d272-40db-87a4-b2d353846cc2}</Project>
-      <Name>LayoutFarm.TextBreak</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Deps\PixelFarm.Drawing.Core\PixelFarm.Drawing.Core.csproj">
-      <Project>{51d63482-5697-4b16-8401-506965624657}</Project>
-      <Name>PixelFarm.Drawing.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Deps\PixelFarm.Drawing.GLES2\PixelFarm.Drawing.GLES2.csproj">
-      <Project>{e1e89b3b-b529-4b17-b7ed-4c70cc8475eb}</Project>
-      <Name>PixelFarm.Drawing.GLES2</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Deps\PixelFarm.Drawing.MiniAgg.csproj">
-      <Project>{99a570d0-492a-453d-8b97-7f40489c10e0}</Project>
-      <Name>PixelFarm.Drawing.MiniAgg</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Deps\PixelFarm.Drawing.Skia\PixelFarm.Drawing.Skia.csproj">
-      <Project>{9450c9fb-5a70-4e47-bec3-b0a98a9c7d15}</Project>
-      <Name>PixelFarm.Drawing.Skia</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Deps\PixelFarm.DrawingCanvas\PixelFarm.DrawingCanvas.csproj">
-      <Project>{0cc424d5-20ac-4849-993d-3a720dbae94f}</Project>
-      <Name>PixelFarm.DrawingCanvas</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Deps\PixelFarm.MiniOpenTK\PixelFarm.MiniOpenTK.csproj">
-      <Project>{7c154e68-1709-4d5d-ab76-833febe4b3b2}</Project>
-      <Name>PixelFarm.MiniOpenTK</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Deps\PixelFarm.NativeWindows\PixelFarm.NativeWindows.csproj">
-      <Project>{198d20b3-0dbd-4c8c-8f0d-0d0fd9c61d43}</Project>
-      <Name>PixelFarm.NativeWindows</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Deps\PixelFarm.SkiaSharp\PixelFarm.SkiaSharp.csproj">
-      <Project>{fb828375-3017-44d8-8357-59207224906d}</Project>
-      <Name>PixelFarm.SkiaSharp</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Deps\PixelFarm.Typography\PixelFarm.Typography.csproj">
-      <Project>{540a2ea6-dae3-4625-8951-b2c3118603a4}</Project>
-      <Name>PixelFarm.Typography</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Deps\LayoutFarm.BaseRenderer\LayoutFarm.BaseRenderer.csproj">
-      <Project>{20048075-a2f3-4b97-b3c6-bea794429741}</Project>
-      <Name>LayoutFarm.BaseRenderer</Name>
+    <ProjectReference Include="..\Deps\x_autogen2\PixelFarm.One.HtmlRenderer\PixelFarm.One.HtmlRenderer.csproj">
+      <Project>{0759498a-427e-480c-a405-0442611fb33b}</Project>
+      <Name>PixelFarm.One.HtmlRenderer</Name>
     </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.CssBase\LayoutFarm.CssBase.csproj">
       <Project>{5164ec24-95c4-4333-bd4e-70ee625cceb4}</Project>
@@ -126,10 +70,6 @@
     <ProjectReference Include="..\LayoutFarm.HtmlRenderer\LayoutFarm.HtmlRenderer.csproj">
       <Project>{9d2a40bc-fa95-454d-aef5-4dd9344bfdc3}</Project>
       <Name>LayoutFarm.HtmlRenderer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Deps\LayoutFarm.Platforms.WinNeutral\LayoutFarm.Platforms.WinNeutral.csproj">
-      <Project>{2854a4f1-0110-4b47-b773-9a5fd462755e}</Project>
-      <Name>LayoutFarm.Platforms.WinNeutral</Name>
     </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.WebDom\LayoutFarm.WebDom.csproj">
       <Project>{a7e65fd9-329d-4902-bcda-51ee4f992fd5}</Project>

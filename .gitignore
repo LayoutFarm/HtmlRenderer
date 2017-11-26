@@ -40,6 +40,8 @@ x64/
 .builds
 Source/Deps/PixelFarm
 
+Source/Deps/PixelFarm/*
+
 # Visual C++ cache files
 ipch/
 *.aps
