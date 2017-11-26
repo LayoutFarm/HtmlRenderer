@@ -76,38 +76,6 @@
     <Compile Include="SampleViewportExtension.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Deps\LayoutFarm.ComposerCore\LayoutFarm.ComposerCore.csproj">
-      <Project>{d88d86cd-6732-45e7-8fc9-49449ea9c737}</Project>
-      <Name>LayoutFarm.ComposerCore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Deps\LayoutFarm.YourBasicCustomWidgets\LayoutFarm.YourBasicCustomWidgets.csproj">
-      <Project>{6317f5f0-bc4b-4bfd-b3c0-73c05c2aa11e}</Project>
-      <Name>LayoutFarm.YourBasicCustomWidgets</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Deps\PixelFarm.Drawing.Core\PixelFarm.Drawing.Core.csproj">
-      <Project>{51D63482-5697-4B16-8401-506965624657}</Project>
-      <Name>PixelFarm.Drawing.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Deps\PixelFarm.DrawingCanvas\PixelFarm.DrawingCanvas.csproj">
-      <Project>{0cc424d5-20ac-4849-993d-3a720dbae94f}</Project>
-      <Name>PixelFarm.DrawingCanvas</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Deps\LayoutFarm.ClientPlatforms\LayoutFarm.ClientPlatforms.csproj">
-      <Project>{465cb0ff-c9fa-4371-ad10-51c6dff537b8}</Project>
-      <Name>LayoutFarm.ClientPlatforms</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Deps_I18N\LayoutFarm.TextBreak\LayoutFarm.TextBreak.Icu\LayoutFarm.TextBreak.Icu.csproj">
-      <Project>{777178ca-c706-406f-856d-62cc40ac63e4}</Project>
-      <Name>LayoutFarm.TextBreak.Icu</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Deps_I18N\LayoutFarm.TextBreak\TextBreak\LayoutFarm.TextBreak.csproj">
-      <Project>{09ec5531-d272-40db-87a4-b2d353846cc2}</Project>
-      <Name>LayoutFarm.TextBreak</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Deps\LayoutFarm.BaseRenderer\LayoutFarm.BaseRenderer.csproj">
-      <Project>{20048075-A2F3-4B97-B3C6-BEA794429741}</Project>
-      <Name>LayoutFarm.BaseRenderer</Name>
-    </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.HtmlComposer\LayoutFarm.HtmlComposer.csproj">
       <Project>{1af17e34-4c2d-4657-b993-e0608c555111}</Project>
       <Name>LayoutFarm.HtmlComposer</Name>
@@ -115,14 +83,6 @@
     <ProjectReference Include="..\LayoutFarm.HtmlRenderer\LayoutFarm.HtmlRenderer.csproj">
       <Project>{9D2A40BC-FA95-454D-AEF5-4DD9344BFDC3}</Project>
       <Name>LayoutFarm.HtmlRenderer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Deps\LayoutFarm.Platforms.WinForms\LayoutFarm.Platforms.WinForms.csproj">
-      <Project>{4602B28B-EEEC-4A69-854C-B00B8B616837}</Project>
-      <Name>LayoutFarm.Platforms.WinForms</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Deps\LayoutFarm.TextEdit\LayoutFarm.TextEdit.csproj">
-      <Project>{CFB41C52-614E-476C-8BBE-D07C26FB582D}</Project>
-      <Name>LayoutFarm.TextEdit</Name>
     </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.WebDom\LayoutFarm.WebDom.csproj">
       <Project>{A7E65FD9-329D-4902-BCDA-51EE4F992FD5}</Project>
