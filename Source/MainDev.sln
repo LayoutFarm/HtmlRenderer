@@ -51,6 +51,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildMergeProject", "Tools\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixelFarm.One.HtmlRenderer", "Deps\x_autogen2\PixelFarm.One.HtmlRenderer\PixelFarm.One.HtmlRenderer.csproj", "{0759498A-427E-480C-A405-0442611FB33B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixelFarm.HtmlRender.Windows.One", "Deps\x_autogen2\PixelFarm.HtmlRender.Windows.One\PixelFarm.HtmlRender.Windows.One.csproj", "{F54D8556-EFF4-44DB-8ACA-B466774FBE09}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -346,6 +348,24 @@ Global
 		{0759498A-427E-480C-A405-0442611FB33B}.Release64|Mixed Platforms.Build.0 = Release|Any CPU
 		{0759498A-427E-480C-A405-0442611FB33B}.Release64|x86.ActiveCfg = Release|Any CPU
 		{0759498A-427E-480C-A405-0442611FB33B}.Release64|x86.Build.0 = Release|Any CPU
+		{F54D8556-EFF4-44DB-8ACA-B466774FBE09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F54D8556-EFF4-44DB-8ACA-B466774FBE09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F54D8556-EFF4-44DB-8ACA-B466774FBE09}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F54D8556-EFF4-44DB-8ACA-B466774FBE09}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F54D8556-EFF4-44DB-8ACA-B466774FBE09}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F54D8556-EFF4-44DB-8ACA-B466774FBE09}.Debug|x86.Build.0 = Debug|Any CPU
+		{F54D8556-EFF4-44DB-8ACA-B466774FBE09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F54D8556-EFF4-44DB-8ACA-B466774FBE09}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F54D8556-EFF4-44DB-8ACA-B466774FBE09}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F54D8556-EFF4-44DB-8ACA-B466774FBE09}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{F54D8556-EFF4-44DB-8ACA-B466774FBE09}.Release|x86.ActiveCfg = Release|Any CPU
+		{F54D8556-EFF4-44DB-8ACA-B466774FBE09}.Release|x86.Build.0 = Release|Any CPU
+		{F54D8556-EFF4-44DB-8ACA-B466774FBE09}.Release64|Any CPU.ActiveCfg = Release|Any CPU
+		{F54D8556-EFF4-44DB-8ACA-B466774FBE09}.Release64|Any CPU.Build.0 = Release|Any CPU
+		{F54D8556-EFF4-44DB-8ACA-B466774FBE09}.Release64|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F54D8556-EFF4-44DB-8ACA-B466774FBE09}.Release64|Mixed Platforms.Build.0 = Release|Any CPU
+		{F54D8556-EFF4-44DB-8ACA-B466774FBE09}.Release64|x86.ActiveCfg = Release|Any CPU
+		{F54D8556-EFF4-44DB-8ACA-B466774FBE09}.Release64|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -368,6 +388,7 @@ Global
 		{15E44653-B4A9-40D5-9FCD-4BA476D80B12} = {C65EA1B4-7D9E-4AD0-AAA7-A6A105139866}
 		{FA071D34-6C87-425D-8110-9C3595A01106} = {C65EA1B4-7D9E-4AD0-AAA7-A6A105139866}
 		{0759498A-427E-480C-A405-0442611FB33B} = {66102BF3-4C83-431A-B231-CA6137763AB5}
+		{F54D8556-EFF4-44DB-8ACA-B466774FBE09} = {66102BF3-4C83-431A-B231-CA6137763AB5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8E122BCF-9C21-4ED3-ADDC-19E7F173F4BF}
