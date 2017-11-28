@@ -59,7 +59,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
         public WrapperCssBoxBase(object controller,
              BoxSpec spec,
              RootGraphic rootgfx, CssDisplay display)
-            : base(spec, new IsolateBoxRootGfx(rootgfx), display)
+            : base(spec, new CssBoxRootGfxBridge(rootgfx), display)
         {
             this.SetController(controller);
         }

@@ -17,13 +17,10 @@ using System;
 using System.Collections.Generic;
 using PixelFarm.Drawing;
 using LayoutFarm.Css;
-namespace PixelFarm.Drawing
-{
-    public interface IRootGraphics { }
-}
+
 namespace LayoutFarm.HtmlBoxes
 {
-   
+
 
     /// <summary>
     /// Represents a CSS Box of text or replaced elements.
@@ -95,8 +92,16 @@ namespace LayoutFarm.HtmlBoxes
         }
         public IRootGraphics RootGfx
         {
-            get { return this.rootgfx; }
+            get
+            {
+                return rootgfx;
+            }
         }
+        public RootGraphic GetInternalRootGfx()
+        {
+            return ((CssBoxRootGfxBridge)rootgfx).RootGfx;
+        }
+
         /// <summary>
         /// Gets the parent box of this box
         /// </summary>
