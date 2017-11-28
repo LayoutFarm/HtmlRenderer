@@ -3,6 +3,8 @@
 using System;
 using PixelFarm.Drawing;
 using LayoutFarm.InternalUI;
+using LayoutFarm.CustomWidgets;
+using LayoutFarm.UI;
 namespace LayoutFarm.HtmlBoxes
 {
     class CssScrollView : CssBox

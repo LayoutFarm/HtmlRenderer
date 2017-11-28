@@ -59,15 +59,8 @@
     <Compile Include="4_WebDom\HtmlDocumentFragment.cs" />
     <Compile Include="4_WebDom\HtmlShadowDocument.cs" />
     <Compile Include="4_WebDom\HtmlSharedDocument.cs" />
-    <Compile Include="5_RenderBasedUI\1_UIElement.cs" />
-    <Compile Include="5_RenderBasedUI\2_UIElement_EventListener.cs" />
-    <Compile Include="5_RenderBasedUI\3_UIBox.cs" />
-    <Compile Include="5_RenderBasedUI\4_UICollection.cs" />
-    <Compile Include="5_RenderBasedUI\5_IScrollable.cs" />
-    <Compile Include="5_RenderBasedUI\7_EaseBox.cs" />
     <Compile Include="5_RenderBasedUI\CustomRenderElements.cs" />
     <Compile Include="5_RenderBasedUI\RenderElementExtension.cs" />
-    <Compile Include="5_RenderBasedUI\ScrollBar.cs" />
     <Compile Include="4_WebDom\HtmlDocument.cs" />
     <Compile Include="1_Composers\5_RenderBoxes\HtmlRenderBox.cs" />
     <Compile Include="7_Events\HtmlInputEventAdapter.cs" />

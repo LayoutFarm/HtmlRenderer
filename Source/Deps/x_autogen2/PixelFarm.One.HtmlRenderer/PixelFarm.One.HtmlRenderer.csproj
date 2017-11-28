@@ -585,6 +585,129 @@
     <Compile Include="..\..\PixelFarm\MiniAgg\09_ImgFilters\InternalBrightnessAndContrastAdjustment.cs">
       <Link>PixelFarm\MiniAgg\09_ImgFilters\InternalBrightnessAndContrastAdjustment.cs</Link>
     </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTreeComposer\0_MyRootGraphic.cs">
+      <Link>PixelFarm\PaintLab.RenderTreeComposer\0_MyRootGraphic.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTreeComposer\1_Events\EventQueueSystem.cs">
+      <Link>PixelFarm\PaintLab.RenderTreeComposer\1_Events\EventQueueSystem.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTreeComposer\1_Events\GraphicsTimerTasksManager.cs">
+      <Link>PixelFarm\PaintLab.RenderTreeComposer\1_Events\GraphicsTimerTasksManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTreeComposer\1_Events\MyIntervalTaskEventArgs.cs">
+      <Link>PixelFarm\PaintLab.RenderTreeComposer\1_Events\MyIntervalTaskEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTreeComposer\1_Events\RenderElementEventPortal.cs">
+      <Link>PixelFarm\PaintLab.RenderTreeComposer\1_Events\RenderElementEventPortal.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTreeComposer\1_Events\ToNotifySizeChangedEvent.cs">
+      <Link>PixelFarm\PaintLab.RenderTreeComposer\1_Events\ToNotifySizeChangedEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTreeComposer\1_Events\TopWindowEventRoot.cs">
+      <Link>PixelFarm\PaintLab.RenderTreeComposer\1_Events\TopWindowEventRoot.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTreeComposer\1_Events\UIHoverMonitor.cs">
+      <Link>PixelFarm\PaintLab.RenderTreeComposer\1_Events\UIHoverMonitor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTreeComposer\2_ContentManagers\ImageCacheSystem.cs">
+      <Link>PixelFarm\PaintLab.RenderTreeComposer\2_ContentManagers\ImageCacheSystem.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTreeComposer\2_ContentManagers\ImageContentManager.cs">
+      <Link>PixelFarm\PaintLab.RenderTreeComposer\2_ContentManagers\ImageContentManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTreeComposer\2_ContentManagers\TextContentManager.cs">
+      <Link>PixelFarm\PaintLab.RenderTreeComposer\2_ContentManagers\TextContentManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTreeComposer\ClientBinder.cs">
+      <Link>PixelFarm\PaintLab.RenderTreeComposer\ClientBinder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTreeComposer\TopWindowRenderBox.cs">
+      <Link>PixelFarm\PaintLab.RenderTreeComposer\TopWindowRenderBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\0_Start\dbugCoreConst.cs">
+      <Link>PixelFarm\PaintLab.RenderTree\0_Start\dbugCoreConst.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\1_Root\1_RootGraphic.cs">
+      <Link>PixelFarm\PaintLab.RenderTree\1_Root\1_RootGraphic.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\1_Root\1_RootGraphic_p1_dbug.cs">
+      <Link>PixelFarm\PaintLab.RenderTree\1_Root\1_RootGraphic_p1_dbug.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\1_Root\1_RootGraphic_p2_dbug.cs">
+      <Link>PixelFarm\PaintLab.RenderTree\1_Root\1_RootGraphic_p2_dbug.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\1_Root\2_RenderRequest.cs">
+      <Link>PixelFarm\PaintLab.RenderTree\1_Root\2_RenderRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\1_Root\3_GraphicsTimerTask.cs">
+      <Link>PixelFarm\PaintLab.RenderTree\1_Root\3_GraphicsTimerTask.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\2_RenderElement\0_RenderElement.cs">
+      <Link>PixelFarm\PaintLab.RenderTree\2_RenderElement\0_RenderElement.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\2_RenderElement\1_RenderElement.ElementPositioning_NoBoundChanged.cs">
+      <Link>PixelFarm\PaintLab.RenderTree\2_RenderElement\1_RenderElement.ElementPositioning_NoBoundChanged.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\2_RenderElement\2_RenderElement.ElementPositioning_1_WithSizeChanged.cs">
+      <Link>PixelFarm\PaintLab.RenderTree\2_RenderElement\2_RenderElement.ElementPositioning_1_WithSizeChanged.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\2_RenderElement\3_RenderElement.Bubble_Layout.cs">
+      <Link>PixelFarm\PaintLab.RenderTree\2_RenderElement\3_RenderElement.Bubble_Layout.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\2_RenderElement\4_RenderElement.Bubble_Repaint.cs">
+      <Link>PixelFarm\PaintLab.RenderTree\2_RenderElement\4_RenderElement.Bubble_Repaint.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\2_RenderElement\RenderElementConst.cs">
+      <Link>PixelFarm\PaintLab.RenderTree\2_RenderElement\RenderElementConst.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\2_RenderElement\RenderElement_IParentLink.cs">
+      <Link>PixelFarm\PaintLab.RenderTree\2_RenderElement\RenderElement_IParentLink.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\2_RenderElement\x_RenderElement.debug.cs">
+      <Link>PixelFarm\PaintLab.RenderTree\2_RenderElement\x_RenderElement.debug.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\2_RenderElement\x_RenderElement_LocationHelper.cs">
+      <Link>PixelFarm\PaintLab.RenderTree\2_RenderElement\x_RenderElement_LocationHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\3_Layers\0_IParentLink.cs">
+      <Link>PixelFarm\PaintLab.RenderTree\3_Layers\0_IParentLink.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\3_Layers\1_RenderElementLayer.cs">
+      <Link>PixelFarm\PaintLab.RenderTree\3_Layers\1_RenderElementLayer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\3_Layers\2_PlainLayer.cs">
+      <Link>PixelFarm\PaintLab.RenderTree\3_Layers\2_PlainLayer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\4_Boxes\IBoxElement.cs">
+      <Link>PixelFarm\PaintLab.RenderTree\4_Boxes\IBoxElement.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\4_Boxes\RenderBoxBase.cs">
+      <Link>PixelFarm\PaintLab.RenderTree\4_Boxes\RenderBoxBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\5_HitTest\HitChain.cs">
+      <Link>PixelFarm\PaintLab.RenderTree\5_HitTest\HitChain.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\6_debug\dbug.cs">
+      <Link>PixelFarm\PaintLab.RenderTree\6_debug\dbug.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\6_debug\dbugHitTracker.cs">
+      <Link>PixelFarm\PaintLab.RenderTree\6_debug\dbugHitTracker.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\6_debug\dbugVisitorMessage.cs">
+      <Link>PixelFarm\PaintLab.RenderTree\6_debug\dbugVisitorMessage.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\6_debug\dbugVisualEvalScrollBarTrace.cs">
+      <Link>PixelFarm\PaintLab.RenderTree\6_debug\dbugVisualEvalScrollBarTrace.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\6_debug\dbugVisualInvalidationTracer.cs">
+      <Link>PixelFarm\PaintLab.RenderTree\6_debug\dbugVisualInvalidationTracer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\6_debug\dbugVisualLayoutTracer.cs">
+      <Link>PixelFarm\PaintLab.RenderTree\6_debug\dbugVisualLayoutTracer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\6_debug\IdbugOutputWindow.cs">
+      <Link>PixelFarm\PaintLab.RenderTree\6_debug\IdbugOutputWindow.cs</Link>
+    </Compile>
     <Compile Include="..\..\PixelFarm\PixelFarm.Drawing.GdiPlus\0_Start\WinGdiPlusPlatform.cs">
       <Link>PixelFarm\PixelFarm.Drawing.GdiPlus\0_Start\WinGdiPlusPlatform.cs</Link>
     </Compile>
@@ -785,9 +908,6 @@
     </Compile>
     <Compile Include="..\..\PixelFarm\burningminecurve\curveutils\VectorHelper.cs">
       <Link>PixelFarm\burningminecurve\curveutils\VectorHelper.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.DrawingCanvas\0_Start\IRootGraphics.cs">
-      <Link>PixelFarm\PixelFarm.DrawingCanvas\0_Start\IRootGraphics.cs</Link>
     </Compile>
     <Compile Include="..\..\PixelFarm\PixelFarm.DrawingCanvas\1_Canvas\Canvas.cs">
       <Link>PixelFarm\PixelFarm.DrawingCanvas\1_Canvas\Canvas.cs</Link>
@@ -1585,126 +1705,6 @@
     </Compile>
     <Compile Include="..\..\PixelFarm\PixelFarm.PlatformBridge\Events\UIEventNames.cs">
       <Link>PixelFarm\PixelFarm.PlatformBridge\Events\UIEventNames.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.RenderTreeComposer\0_MyRootGraphic.cs">
-      <Link>PixelFarm\PixelFarm.RenderTreeComposer\0_MyRootGraphic.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.RenderTreeComposer\1_Events\GraphicsTimerTasksManager.cs">
-      <Link>PixelFarm\PixelFarm.RenderTreeComposer\1_Events\GraphicsTimerTasksManager.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.RenderTreeComposer\1_Events\MyIntervalTaskEventArgs.cs">
-      <Link>PixelFarm\PixelFarm.RenderTreeComposer\1_Events\MyIntervalTaskEventArgs.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.RenderTreeComposer\1_Events\RenderElementEventPortal.cs">
-      <Link>PixelFarm\PixelFarm.RenderTreeComposer\1_Events\RenderElementEventPortal.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.RenderTreeComposer\1_Events\ToNotifySizeChangedEvent.cs">
-      <Link>PixelFarm\PixelFarm.RenderTreeComposer\1_Events\ToNotifySizeChangedEvent.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.RenderTreeComposer\1_Events\TopWindowEventRoot.cs">
-      <Link>PixelFarm\PixelFarm.RenderTreeComposer\1_Events\TopWindowEventRoot.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.RenderTreeComposer\1_Events\UIHoverMonitor.cs">
-      <Link>PixelFarm\PixelFarm.RenderTreeComposer\1_Events\UIHoverMonitor.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.RenderTreeComposer\2_ContentManagers\ImageCacheSystem.cs">
-      <Link>PixelFarm\PixelFarm.RenderTreeComposer\2_ContentManagers\ImageCacheSystem.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.RenderTreeComposer\2_ContentManagers\ImageContentManager.cs">
-      <Link>PixelFarm\PixelFarm.RenderTreeComposer\2_ContentManagers\ImageContentManager.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.RenderTreeComposer\2_ContentManagers\TextContentManager.cs">
-      <Link>PixelFarm\PixelFarm.RenderTreeComposer\2_ContentManagers\TextContentManager.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.RenderTreeComposer\ClientBinder.cs">
-      <Link>PixelFarm\PixelFarm.RenderTreeComposer\ClientBinder.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.RenderTreeComposer\TopWindowRenderBox.cs">
-      <Link>PixelFarm\PixelFarm.RenderTreeComposer\TopWindowRenderBox.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.RenderTree\0_Start\dbugCoreConst.cs">
-      <Link>PixelFarm\PixelFarm.RenderTree\0_Start\dbugCoreConst.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.RenderTree\1_Root\1_RootGraphic.cs">
-      <Link>PixelFarm\PixelFarm.RenderTree\1_Root\1_RootGraphic.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.RenderTree\1_Root\1_RootGraphic_p1_dbug.cs">
-      <Link>PixelFarm\PixelFarm.RenderTree\1_Root\1_RootGraphic_p1_dbug.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.RenderTree\1_Root\1_RootGraphic_p2_dbug.cs">
-      <Link>PixelFarm\PixelFarm.RenderTree\1_Root\1_RootGraphic_p2_dbug.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.RenderTree\1_Root\2_RenderRequest.cs">
-      <Link>PixelFarm\PixelFarm.RenderTree\1_Root\2_RenderRequest.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.RenderTree\1_Root\3_GraphicsTimerTask.cs">
-      <Link>PixelFarm\PixelFarm.RenderTree\1_Root\3_GraphicsTimerTask.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.RenderTree\2_RenderElement\0_RenderElement.cs">
-      <Link>PixelFarm\PixelFarm.RenderTree\2_RenderElement\0_RenderElement.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.RenderTree\2_RenderElement\1_RenderElement.ElementPositioning_NoBoundChanged.cs">
-      <Link>PixelFarm\PixelFarm.RenderTree\2_RenderElement\1_RenderElement.ElementPositioning_NoBoundChanged.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.RenderTree\2_RenderElement\2_RenderElement.ElementPositioning_1_WithSizeChanged.cs">
-      <Link>PixelFarm\PixelFarm.RenderTree\2_RenderElement\2_RenderElement.ElementPositioning_1_WithSizeChanged.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.RenderTree\2_RenderElement\3_RenderElement.Bubble_Layout.cs">
-      <Link>PixelFarm\PixelFarm.RenderTree\2_RenderElement\3_RenderElement.Bubble_Layout.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.RenderTree\2_RenderElement\4_RenderElement.Bubble_Repaint.cs">
-      <Link>PixelFarm\PixelFarm.RenderTree\2_RenderElement\4_RenderElement.Bubble_Repaint.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.RenderTree\2_RenderElement\RenderElementConst.cs">
-      <Link>PixelFarm\PixelFarm.RenderTree\2_RenderElement\RenderElementConst.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.RenderTree\2_RenderElement\RenderElement_IParentLink.cs">
-      <Link>PixelFarm\PixelFarm.RenderTree\2_RenderElement\RenderElement_IParentLink.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.RenderTree\2_RenderElement\x_RenderElement.debug.cs">
-      <Link>PixelFarm\PixelFarm.RenderTree\2_RenderElement\x_RenderElement.debug.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.RenderTree\2_RenderElement\x_RenderElement_LocationHelper.cs">
-      <Link>PixelFarm\PixelFarm.RenderTree\2_RenderElement\x_RenderElement_LocationHelper.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.RenderTree\3_Layers\0_IParentLink.cs">
-      <Link>PixelFarm\PixelFarm.RenderTree\3_Layers\0_IParentLink.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.RenderTree\3_Layers\1_RenderElementLayer.cs">
-      <Link>PixelFarm\PixelFarm.RenderTree\3_Layers\1_RenderElementLayer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.RenderTree\3_Layers\2_PlainLayer.cs">
-      <Link>PixelFarm\PixelFarm.RenderTree\3_Layers\2_PlainLayer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.RenderTree\4_Boxes\IBoxElement.cs">
-      <Link>PixelFarm\PixelFarm.RenderTree\4_Boxes\IBoxElement.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.RenderTree\4_Boxes\RenderBoxBase.cs">
-      <Link>PixelFarm\PixelFarm.RenderTree\4_Boxes\RenderBoxBase.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.RenderTree\5_HitTest\HitChain.cs">
-      <Link>PixelFarm\PixelFarm.RenderTree\5_HitTest\HitChain.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.RenderTree\6_debug\dbug.cs">
-      <Link>PixelFarm\PixelFarm.RenderTree\6_debug\dbug.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.RenderTree\6_debug\dbugHitTracker.cs">
-      <Link>PixelFarm\PixelFarm.RenderTree\6_debug\dbugHitTracker.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.RenderTree\6_debug\dbugVisitorMessage.cs">
-      <Link>PixelFarm\PixelFarm.RenderTree\6_debug\dbugVisitorMessage.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.RenderTree\6_debug\dbugVisualEvalScrollBarTrace.cs">
-      <Link>PixelFarm\PixelFarm.RenderTree\6_debug\dbugVisualEvalScrollBarTrace.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.RenderTree\6_debug\dbugVisualInvalidationTracer.cs">
-      <Link>PixelFarm\PixelFarm.RenderTree\6_debug\dbugVisualInvalidationTracer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.RenderTree\6_debug\dbugVisualLayoutTracer.cs">
-      <Link>PixelFarm\PixelFarm.RenderTree\6_debug\dbugVisualLayoutTracer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.RenderTree\6_debug\IdbugOutputWindow.cs">
-      <Link>PixelFarm\PixelFarm.RenderTree\6_debug\IdbugOutputWindow.cs</Link>
     </Compile>
     <Compile Include="..\..\PixelFarm\PixelFarm.SkiaSharp\Definitions.cs">
       <Link>PixelFarm\PixelFarm.SkiaSharp\Definitions.cs</Link>
