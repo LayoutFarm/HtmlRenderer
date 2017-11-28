@@ -73,6 +73,7 @@
     <Compile Include="..\Deps_HtmlKit\HtmlKit\ICharArray.cs">
       <Link>5_HtmlKit\ICharArray.cs</Link>
     </Compile>
+    <Compile Include="0_WebDom.Parser\DeprecatedAttribute.cs" />
     <Compile Include="0_WebDom.Parser\HtmlKitParser.cs" />
     <Compile Include="0_WebDom.Parser\MyHtmlParser.cs" />
     <Compile Include="0_WebDom.Parser\TextSource.cs" />
@@ -116,9 +117,13 @@
     <Compile Include="2_WebDom\WellknownElementName.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Deps\x_autogen2\PixelFarm.One.HtmlRenderer\PixelFarm.One.HtmlRenderer.csproj">
-      <Project>{0759498a-427e-480c-a405-0442611fb33b}</Project>
-      <Name>PixelFarm.One.HtmlRenderer</Name>
+    <ProjectReference Include="..\..\..\PixelFarm\a_mini\projects\PixelFarm\PixelFarm.PlatformBridge\PixelFarm.PlatformBridge.csproj">
+      <Project>{465cb0ff-c9fa-4371-ad10-51c6dff537b8}</Project>
+      <Name>PixelFarm.PlatformBridge</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\PixelFarm\a_mini\projects\PixelFarm\TypeMirror\TypeMirror.csproj">
+      <Project>{68f1daf6-2b35-476e-b2f8-5eadbc823935}</Project>
+      <Name>TypeMirror</Name>
     </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.CssBase\LayoutFarm.CssBase.csproj">
       <Project>{5164EC24-95C4-4333-BD4E-70EE625CCEB4}</Project>
