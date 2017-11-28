@@ -4,7 +4,23 @@ using PixelFarm.Drawing;
 using LayoutFarm.Css;
 namespace LayoutFarm.HtmlBoxes
 {
-  
+    public class CssBoxRootGfxBridge : IRootGraphics
+    {
+        LayoutFarm.RootGraphic rootgfx;
+        public CssBoxRootGfxBridge(LayoutFarm.RootGraphic rootgfx)
+        {
+            this.rootgfx = rootgfx;
+        }
+        public LayoutFarm.RootGraphic RootGfx { get { return rootgfx; } }
+    }
+    static class CssBoxExtensions
+    {
+        public static RootGraphic GetInternalRootGfx(this CssBox cssbox)
+        {
+            return ((LayoutFarm.HtmlBoxes.CssBoxRootGfxBridge)cssbox.RootGfx).RootGfx;
+        }
+    }
+
     class CssIsolateBox : CssBox
     {
 
