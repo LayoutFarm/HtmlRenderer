@@ -17,6 +17,10 @@ using System;
 using System.Collections.Generic;
 using PixelFarm.Drawing;
 using LayoutFarm.Css;
+namespace PixelFarm.Drawing
+{
+    public interface IRootGraphics { }
+}
 namespace LayoutFarm.HtmlBoxes
 {
    

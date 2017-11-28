@@ -1640,9 +1640,6 @@
     <Compile Include="..\..\PixelFarm\PixelFarm.RenderTree\1_Root\3_GraphicsTimerTask.cs">
       <Link>PixelFarm\PixelFarm.RenderTree\1_Root\3_GraphicsTimerTask.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.RenderTree\1_Root\RootGraphicsPlatform.cs">
-      <Link>PixelFarm\PixelFarm.RenderTree\1_Root\RootGraphicsPlatform.cs</Link>
-    </Compile>
     <Compile Include="..\..\PixelFarm\PixelFarm.RenderTree\2_RenderElement\0_RenderElement.cs">
       <Link>PixelFarm\PixelFarm.RenderTree\2_RenderElement\0_RenderElement.cs</Link>
     </Compile>
