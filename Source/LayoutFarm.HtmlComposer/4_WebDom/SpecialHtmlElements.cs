@@ -38,7 +38,7 @@ namespace LayoutFarm.Composers
             {
                 RenderElement re;
                 object controller;
-                lazyCreator((RootGraphic)parentCssBox.RootGfx, out re, out controller);
+                lazyCreator(parentCssBox.GetInternalRootGfx(), out re, out controller);
                 CssBox wrapper = CustomCssBoxGenerator.CreateWrapper(controller, re, this.Spec, false);
                 this.SetPrincipalBox(wrapper);
                 return wrapper;
@@ -46,7 +46,7 @@ namespace LayoutFarm.Composers
         }
     }
 
-
+    
 
     sealed class ShadowRootElement : HtmlElement
     {

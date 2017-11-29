@@ -4,10 +4,28 @@ using PixelFarm.Drawing;
 using LayoutFarm.Css;
 namespace LayoutFarm.HtmlBoxes
 {
+    public class CssBoxRootGfxBridge : IRootGraphics
+    {
+        LayoutFarm.RootGraphic rootgfx;
+        public CssBoxRootGfxBridge(LayoutFarm.RootGraphic rootgfx)
+        {
+            this.rootgfx = rootgfx;
+        }
+        public LayoutFarm.RootGraphic RootGfx { get { return rootgfx; } }
+    }
+    static class CssBoxExtensions
+    {
+        public static RootGraphic GetInternalRootGfx(this CssBox cssbox)
+        {
+            return ((LayoutFarm.HtmlBoxes.CssBoxRootGfxBridge)cssbox.RootGfx).RootGfx;
+        }
+    }
+
     class CssIsolateBox : CssBox
     {
+
         public CssIsolateBox(BoxSpec spec, RootGraphic rootgfx)
-            : base(spec, rootgfx)
+            : base(spec, new CssBoxRootGfxBridge(rootgfx))
         {
         }
     }
@@ -18,7 +36,7 @@ namespace LayoutFarm.HtmlBoxes
         public RenderElementBridgeCssBox(BoxSpec spec,
             RenderElement containerElement,
             RootGraphic rootgfx)
-            : base(spec, rootgfx)
+            : base(spec, new CssBoxRootGfxBridge(rootgfx))
         {
             this.containerElement = containerElement;
         }

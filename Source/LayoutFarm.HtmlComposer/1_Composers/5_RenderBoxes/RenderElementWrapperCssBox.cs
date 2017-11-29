@@ -58,8 +58,8 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
         protected int adjustY;
         public WrapperCssBoxBase(object controller,
              BoxSpec spec,
-             RootGraphic root, CssDisplay display)
-            : base(spec, root, display)
+             RootGraphic rootgfx, CssDisplay display)
+            : base(spec, new CssBoxRootGfxBridge(rootgfx), display)
         {
             this.SetController(controller);
         }

@@ -107,7 +107,7 @@ namespace LayoutFarm.HtmlBoxes
             LayoutVisitor lay = null;
             if (htmlLayoutVisitorStock.Count == 0)
             {
-                RootGraphic rootgfx = (RootGraphic)htmlCont.RootCssBox.RootGfx;
+                RootGraphic rootgfx = (RootGraphic)htmlCont.RootCssBox.GetInternalRootGfx();
                 lay = new LayoutVisitor(rootgfx.IFonts);
             }
             else

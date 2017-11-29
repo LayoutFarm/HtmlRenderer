@@ -33,13 +33,7 @@ namespace LayoutFarm.HtmlBoxes
             TryGetColor(colorValue, 0, colorValue.Length, out color);
             return color;
         }
-
-
-
         #region Private methods
-
-
-
 
         /// <summary>
         /// Parses a color value in CSS style; e.g. #ff0000, RED, RGB(255,0,0), RGB(100%, 0, 0)

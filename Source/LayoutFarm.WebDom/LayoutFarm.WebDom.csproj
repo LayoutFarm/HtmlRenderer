@@ -73,6 +73,7 @@
     <Compile Include="..\Deps_HtmlKit\HtmlKit\ICharArray.cs">
       <Link>5_HtmlKit\ICharArray.cs</Link>
     </Compile>
+    <Compile Include="0_WebDom.Parser\DeprecatedAttribute.cs" />
     <Compile Include="0_WebDom.Parser\HtmlKitParser.cs" />
     <Compile Include="0_WebDom.Parser\MyHtmlParser.cs" />
     <Compile Include="0_WebDom.Parser\TextSource.cs" />

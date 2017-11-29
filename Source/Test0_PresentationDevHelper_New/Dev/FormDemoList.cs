@@ -183,17 +183,31 @@ namespace LayoutFarm.Dev
 
         private void cmdSaveToImage_Click(object sender, EventArgs e)
         {
-            using (var bmp = new System.Drawing.Bitmap(800, 600, System.Drawing.Imaging.PixelFormat.Format32bppArgb))
-            using (var g = System.Drawing.Graphics.FromImage(bmp))
+            int w = viewport.Width;
+            int h = viewport.Height;
+
+            //create target gdi+ bmp 
+            using (System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(w, h))
             {
-                //var canvasInit = new PixelFarm.Drawing.CanvasInitParameters();
-                //canvasInit.externalCanvas = g;
-                var canvas = new PixelFarm.Drawing.WinGdi.MyGdiPlusCanvas(0, 0, 800, 600); ;// LayoutFarm.UI.GdiPlus.MyWinGdiPortal.P.CreateCanvas(0, 0, 800, 600, canvasInit);
-                canvas.CurrentFont = new PixelFarm.Drawing.RequestFont("Tahoma", 10, PixelFarm.Drawing.FontStyle.Regular);
-                canvas.StrokeColor = PixelFarm.Drawing.Color.Black;
-                viewport.PrintMe(canvas);
-                bmp.Save("testhtml.bmp");
+                System.Drawing.Imaging.BitmapData bmpData = bmp.LockBits(new System.Drawing.Rectangle(0, 0, w, h),
+                System.Drawing.Imaging.ImageLockMode.ReadWrite, System.Drawing.Imaging.PixelFormat.Format32bppRgb);
+                //
+                this.viewport.PaintToPixelBuffer(bmpData.Scan0);
+                //
+                bmp.UnlockBits(bmpData);
+                bmp.Save("d:\\WImageTest\\001.png");
             }
+            //using (var bmp = new System.Drawing.Bitmap(800, 600, System.Drawing.Imaging.PixelFormat.Format32bppArgb))
+            //using (var g = System.Drawing.Graphics.FromImage(bmp))
+            //{
+            //    //var canvasInit = new PixelFarm.Drawing.CanvasInitParameters();
+            //    //canvasInit.externalCanvas = g;
+            //    var canvas = new PixelFarm.Drawing.WinGdi.MyGdiPlusCanvas(0, 0, 800, 600); ;// LayoutFarm.UI.GdiPlus.MyWinGdiPortal.P.CreateCanvas(0, 0, 800, 600, canvasInit);
+            //    canvas.CurrentFont = new PixelFarm.Drawing.RequestFont("Tahoma", 10, PixelFarm.Drawing.FontStyle.Regular);
+            //    canvas.StrokeColor = PixelFarm.Drawing.Color.Black;
+            //    viewport.PrintMe(canvas);
+            //    bmp.Save("testhtml.bmp");
+            //}
         }
     }
 }

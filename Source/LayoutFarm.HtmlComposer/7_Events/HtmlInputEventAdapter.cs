@@ -38,7 +38,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             this._htmlContainer = htmlCont;
             _isBinded = htmlCont != null;
-            this.ifonts = ((RootGraphic)htmlCont.RootCssBox.RootGfx).IFonts;
+            this.ifonts = ((RootGraphic)htmlCont.RootCssBox.GetInternalRootGfx()).IFonts;
         }
         public void Unbind()
         {

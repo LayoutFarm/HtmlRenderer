@@ -66,6 +66,7 @@
     <Compile Include="1_Css\BoxSpecNode.cs" />
     <Compile Include="1_Css\BoxSpec_CopyAndVersioning.cs" />
     <Compile Include="1_Css\CssFeatures.cs" />
+    <Compile Include="2_Boxes\0_Root\IRootGraphics.cs" />
     <Compile Include="2_Boxes\1_CoreBox\CssBox_Flex.cs" />
     <Compile Include="2_Boxes\3_Render\CssBoxDecorator.cs" />
     <Compile Include="2_Boxes\1_CoreBox\SelectionSegment.cs" />
