@@ -7,7 +7,7 @@
     <OutputType>Library</OutputType>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AssemblyName>PixelFarm.Drawing.One</AssemblyName>
+    <AssemblyName>PixelFarm.MiniAgg.One</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -17,7 +17,7 @@
     <Optimize>false</Optimize>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <DefineConstants>DEBUG; TRACETRACE;DEBUG; PIXEL_FARM, PIXEL_FARM_NET20,NET20,NETSTANDARD</DefineConstants>
+    <DefineConstants>DEBUG; TRACETRACE;DEBUG; PIXEL_FARM, PIXEL_FARM_NET20</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -26,140 +26,245 @@
     <OutputPath>bin\Release\</OutputPath>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
-    <DefineConstants> TRACETRACE;DEBUG; PIXEL_FARM, PIXEL_FARM_NET20,NET20,NETSTANDARD</DefineConstants>
+    <DefineConstants> TRACETRACE;DEBUG; PIXEL_FARM, PIXEL_FARM_NET20</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\PixelFarm\PaintLab.PlatformBridge\Common\Clipboard.cs">
-      <Link>PixelFarm\PaintLab.PlatformBridge\Common\Clipboard.cs</Link>
+    <Compile Include="..\..\PixelFarm\MiniAgg.Complements\0_CanvasPainter\AggCanvasPainter.cs">
+      <Link>PixelFarm\MiniAgg.Complements\0_CanvasPainter\AggCanvasPainter.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.PlatformBridge\Common\ExtensionAttribute.cs">
-      <Link>PixelFarm\PaintLab.PlatformBridge\Common\ExtensionAttribute.cs</Link>
+    <Compile Include="..\..\PixelFarm\MiniAgg.Complements\0_CanvasPainter\AggRenderVx.cs">
+      <Link>PixelFarm\MiniAgg.Complements\0_CanvasPainter\AggRenderVx.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.PlatformBridge\Common\IPlatformWindowBox.cs">
-      <Link>PixelFarm\PaintLab.PlatformBridge\Common\IPlatformWindowBox.cs</Link>
+    <Compile Include="..\..\PixelFarm\MiniAgg.Complements\0_CanvasPainter\Canvas2dExtension.cs">
+      <Link>PixelFarm\MiniAgg.Complements\0_CanvasPainter\Canvas2dExtension.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.PlatformBridge\Common\Keys.cs">
-      <Link>PixelFarm\PaintLab.PlatformBridge\Common\Keys.cs</Link>
+    <Compile Include="..\..\PixelFarm\MiniAgg.Complements\0_CanvasPainter\dbugVertexSourceIO.cs">
+      <Link>PixelFarm\MiniAgg.Complements\0_CanvasPainter\dbugVertexSourceIO.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.PlatformBridge\Common\UIPlatform.cs">
-      <Link>PixelFarm\PaintLab.PlatformBridge\Common\UIPlatform.cs</Link>
+    <Compile Include="..\..\PixelFarm\MiniAgg.Complements\0_CanvasPainter\LineDashGenerator.cs">
+      <Link>PixelFarm\MiniAgg.Complements\0_CanvasPainter\LineDashGenerator.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.PlatformBridge\Common\UITimer.cs">
-      <Link>PixelFarm\PaintLab.PlatformBridge\Common\UITimer.cs</Link>
+    <Compile Include="..\..\PixelFarm\MiniAgg.Complements\1_Base\BorderDouble.cs">
+      <Link>PixelFarm\MiniAgg.Complements\1_Base\BorderDouble.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.PlatformBridge\Common\UITimerTask.cs">
-      <Link>PixelFarm\PaintLab.PlatformBridge\Common\UITimerTask.cs</Link>
+    <Compile Include="..\..\PixelFarm\MiniAgg.Complements\1_Base\ClipProxyImage.cs">
+      <Link>PixelFarm\MiniAgg.Complements\1_Base\ClipProxyImage.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.PlatformBridge\Events\IEventListener.cs">
-      <Link>PixelFarm\PaintLab.PlatformBridge\Events\IEventListener.cs</Link>
+    <Compile Include="..\..\PixelFarm\MiniAgg.Complements\1_Base\GammaFuntions.cs">
+      <Link>PixelFarm\MiniAgg.Complements\1_Base\GammaFuntions.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.PlatformBridge\Events\IEventPortal.cs">
-      <Link>PixelFarm\PaintLab.PlatformBridge\Events\IEventPortal.cs</Link>
+    <Compile Include="..\..\PixelFarm\MiniAgg.Complements\1_Base\PixelBlenderRGB.cs">
+      <Link>PixelFarm\MiniAgg.Complements\1_Base\PixelBlenderRGB.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.PlatformBridge\Events\ITopWindowEventRoot.cs">
-      <Link>PixelFarm\PaintLab.PlatformBridge\Events\ITopWindowEventRoot.cs</Link>
+    <Compile Include="..\..\PixelFarm\MiniAgg.Complements\1_Base\ProxyImage.cs">
+      <Link>PixelFarm\MiniAgg.Complements\1_Base\ProxyImage.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.PlatformBridge\Events\ScrollSurfaceRequestEventArgs.cs">
-      <Link>PixelFarm\PaintLab.PlatformBridge\Events\ScrollSurfaceRequestEventArgs.cs</Link>
+    <Compile Include="..\..\PixelFarm\MiniAgg.Complements\1_Base\Queue.cs">
+      <Link>PixelFarm\MiniAgg.Complements\1_Base\Queue.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.PlatformBridge\Events\UIEventArgs.cs">
-      <Link>PixelFarm\PaintLab.PlatformBridge\Events\UIEventArgs.cs</Link>
+    <Compile Include="..\..\PixelFarm\MiniAgg.Complements\1_Base\ScanlineRasToDestBitmapRendererExtension.cs">
+      <Link>PixelFarm\MiniAgg.Complements\1_Base\ScanlineRasToDestBitmapRendererExtension.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.PlatformBridge\Events\UIEventNames.cs">
-      <Link>PixelFarm\PaintLab.PlatformBridge\Events\UIEventNames.cs</Link>
+    <Compile Include="..\..\PixelFarm\MiniAgg.Complements\2_SpanGenerators\SpanGenGouraud.cs">
+      <Link>PixelFarm\MiniAgg.Complements\2_SpanGenerators\SpanGenGouraud.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\1_Root\1_RootGraphic.cs">
-      <Link>PixelFarm\PaintLab.RenderTree\1_Root\1_RootGraphic.cs</Link>
+    <Compile Include="..\..\PixelFarm\MiniAgg.Complements\2_SpanGenerators\SpanGenGouraudRGBA.cs">
+      <Link>PixelFarm\MiniAgg.Complements\2_SpanGenerators\SpanGenGouraudRGBA.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\1_Root\1_RootGraphic_p1_dbug.cs">
-      <Link>PixelFarm\PaintLab.RenderTree\1_Root\1_RootGraphic_p1_dbug.cs</Link>
+    <Compile Include="..\..\PixelFarm\MiniAgg.Complements\2_SpanGenerators\SpanGradient.cs">
+      <Link>PixelFarm\MiniAgg.Complements\2_SpanGenerators\SpanGradient.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\1_Root\1_RootGraphic_p2_dbug.cs">
-      <Link>PixelFarm\PaintLab.RenderTree\1_Root\1_RootGraphic_p2_dbug.cs</Link>
+    <Compile Include="..\..\PixelFarm\MiniAgg.Complements\2_SpanGenerators\SpanGradient_GradientValueCalculators.cs">
+      <Link>PixelFarm\MiniAgg.Complements\2_SpanGenerators\SpanGradient_GradientValueCalculators.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\1_Root\2_RenderRequest.cs">
-      <Link>PixelFarm\PaintLab.RenderTree\1_Root\2_RenderRequest.cs</Link>
+    <Compile Include="..\..\PixelFarm\MiniAgg.Complements\Filter\BrightnessAndContrastAdjustment.cs">
+      <Link>PixelFarm\MiniAgg.Complements\Filter\BrightnessAndContrastAdjustment.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\1_Root\3_GraphicsTimerTask.cs">
-      <Link>PixelFarm\PaintLab.RenderTree\1_Root\3_GraphicsTimerTask.cs</Link>
+    <Compile Include="..\..\PixelFarm\MiniAgg.Complements\Filter\ImageFilters.cs">
+      <Link>PixelFarm\MiniAgg.Complements\Filter\ImageFilters.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\2_RenderElement\0_RenderElement.cs">
-      <Link>PixelFarm\PaintLab.RenderTree\2_RenderElement\0_RenderElement.cs</Link>
+    <Compile Include="..\..\PixelFarm\MiniAgg.Complements\Filter\PatternFilterBilnearColorRGBA.cs">
+      <Link>PixelFarm\MiniAgg.Complements\Filter\PatternFilterBilnearColorRGBA.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\2_RenderElement\1_RenderElement.ElementPositioning_NoBoundChanged.cs">
-      <Link>PixelFarm\PaintLab.RenderTree\2_RenderElement\1_RenderElement.ElementPositioning_NoBoundChanged.cs</Link>
+    <Compile Include="..\..\PixelFarm\MiniAgg.Complements\Filter\RecursiveBlur.cs">
+      <Link>PixelFarm\MiniAgg.Complements\Filter\RecursiveBlur.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\2_RenderElement\2_RenderElement.ElementPositioning_1_WithSizeChanged.cs">
-      <Link>PixelFarm\PaintLab.RenderTree\2_RenderElement\2_RenderElement.ElementPositioning_1_WithSizeChanged.cs</Link>
+    <Compile Include="..\..\PixelFarm\MiniAgg.Complements\Filter\StackBlur.cs">
+      <Link>PixelFarm\MiniAgg.Complements\Filter\StackBlur.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\2_RenderElement\3_RenderElement.Bubble_Layout.cs">
-      <Link>PixelFarm\PaintLab.RenderTree\2_RenderElement\3_RenderElement.Bubble_Layout.cs</Link>
+    <Compile Include="..\..\PixelFarm\MiniAgg.Complements\Image\AlphaMask.cs">
+      <Link>PixelFarm\MiniAgg.Complements\Image\AlphaMask.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\2_RenderElement\4_RenderElement.Bubble_Repaint.cs">
-      <Link>PixelFarm\PaintLab.RenderTree\2_RenderElement\4_RenderElement.Bubble_Repaint.cs</Link>
+    <Compile Include="..\..\PixelFarm\MiniAgg.Complements\Image\AlphaMaskAdaptor.cs">
+      <Link>PixelFarm\MiniAgg.Complements\Image\AlphaMaskAdaptor.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\2_RenderElement\RenderElementConst.cs">
-      <Link>PixelFarm\PaintLab.RenderTree\2_RenderElement\RenderElementConst.cs</Link>
+    <Compile Include="..\..\PixelFarm\MiniAgg.Complements\Image\FilterMan.cs">
+      <Link>PixelFarm\MiniAgg.Complements\Image\FilterMan.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\2_RenderElement\RenderElement_IParentLink.cs">
-      <Link>PixelFarm\PaintLab.RenderTree\2_RenderElement\RenderElement_IParentLink.cs</Link>
+    <Compile Include="..\..\PixelFarm\MiniAgg.Complements\Image\FloodFiller.cs">
+      <Link>PixelFarm\MiniAgg.Complements\Image\FloodFiller.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\2_RenderElement\x_RenderElement.debug.cs">
-      <Link>PixelFarm\PaintLab.RenderTree\2_RenderElement\x_RenderElement.debug.cs</Link>
+    <Compile Include="..\..\PixelFarm\MiniAgg.Complements\Image\Transposer.cs">
+      <Link>PixelFarm\MiniAgg.Complements\Image\Transposer.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\2_RenderElement\x_RenderElement_LocationHelper.cs">
-      <Link>PixelFarm\PaintLab.RenderTree\2_RenderElement\x_RenderElement_LocationHelper.cs</Link>
+    <Compile Include="..\..\PixelFarm\MiniAgg\00_Context\Graphics2D.cs">
+      <Link>PixelFarm\MiniAgg\00_Context\Graphics2D.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\3_Layers\0_IParentLink.cs">
-      <Link>PixelFarm\PaintLab.RenderTree\3_Layers\0_IParentLink.cs</Link>
+    <Compile Include="..\..\PixelFarm\MiniAgg\00_Context\ImageGraphics2D.cs">
+      <Link>PixelFarm\MiniAgg\00_Context\ImageGraphics2D.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\3_Layers\1_RenderElementLayer.cs">
-      <Link>PixelFarm\PaintLab.RenderTree\3_Layers\1_RenderElementLayer.cs</Link>
+    <Compile Include="..\..\PixelFarm\MiniAgg\00_Context\ImageGraphics2D_RenderImages.cs">
+      <Link>PixelFarm\MiniAgg\00_Context\ImageGraphics2D_RenderImages.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\3_Layers\2_PlainLayer.cs">
-      <Link>PixelFarm\PaintLab.RenderTree\3_Layers\2_PlainLayer.cs</Link>
+    <Compile Include="..\..\PixelFarm\MiniAgg\02_PixelBuffer\ChildImage.cs">
+      <Link>PixelFarm\MiniAgg\02_PixelBuffer\ChildImage.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\4_Boxes\IBoxElement.cs">
-      <Link>PixelFarm\PaintLab.RenderTree\4_Boxes\IBoxElement.cs</Link>
+    <Compile Include="..\..\PixelFarm\MiniAgg\02_PixelBuffer\ColorOrder.cs">
+      <Link>PixelFarm\MiniAgg\02_PixelBuffer\ColorOrder.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\4_Boxes\RenderBoxBase.cs">
-      <Link>PixelFarm\PaintLab.RenderTree\4_Boxes\RenderBoxBase.cs</Link>
+    <Compile Include="..\..\PixelFarm\MiniAgg\02_PixelBuffer\ColorRGBAf.cs">
+      <Link>PixelFarm\MiniAgg\02_PixelBuffer\ColorRGBAf.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\5_HitTest\HitChain.cs">
-      <Link>PixelFarm\PaintLab.RenderTree\5_HitTest\HitChain.cs</Link>
+    <Compile Include="..\..\PixelFarm\MiniAgg\02_PixelBuffer\GammaLookUpTable.cs">
+      <Link>PixelFarm\MiniAgg\02_PixelBuffer\GammaLookUpTable.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\6_debug\dbug.cs">
-      <Link>PixelFarm\PaintLab.RenderTree\6_debug\dbug.cs</Link>
+    <Compile Include="..\..\PixelFarm\MiniAgg\02_PixelBuffer\IImageReaderWriter.cs">
+      <Link>PixelFarm\MiniAgg\02_PixelBuffer\IImageReaderWriter.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\6_debug\dbugCoreConst.cs">
-      <Link>PixelFarm\PaintLab.RenderTree\6_debug\dbugCoreConst.cs</Link>
+    <Compile Include="..\..\PixelFarm\MiniAgg\02_PixelBuffer\ImageHelper.cs">
+      <Link>PixelFarm\MiniAgg\02_PixelBuffer\ImageHelper.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\6_debug\dbugHitTracker.cs">
-      <Link>PixelFarm\PaintLab.RenderTree\6_debug\dbugHitTracker.cs</Link>
+    <Compile Include="..\..\PixelFarm\MiniAgg\02_PixelBuffer\ImageReaderWriterBase.cs">
+      <Link>PixelFarm\MiniAgg\02_PixelBuffer\ImageReaderWriterBase.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\6_debug\dbugVisitorMessage.cs">
-      <Link>PixelFarm\PaintLab.RenderTree\6_debug\dbugVisitorMessage.cs</Link>
+    <Compile Include="..\..\PixelFarm\MiniAgg\02_PixelBuffer\PixelBlenderGray.cs">
+      <Link>PixelFarm\MiniAgg\02_PixelBuffer\PixelBlenderGray.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\6_debug\dbugVisualEvalScrollBarTrace.cs">
-      <Link>PixelFarm\PaintLab.RenderTree\6_debug\dbugVisualEvalScrollBarTrace.cs</Link>
+    <Compile Include="..\..\PixelFarm\MiniAgg\02_PixelBuffer\PixelBlenderRGBA.cs">
+      <Link>PixelFarm\MiniAgg\02_PixelBuffer\PixelBlenderRGBA.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\6_debug\dbugVisualInvalidationTracer.cs">
-      <Link>PixelFarm\PaintLab.RenderTree\6_debug\dbugVisualInvalidationTracer.cs</Link>
+    <Compile Include="..\..\PixelFarm\MiniAgg\03_SpanGenerators\0_ISpanGenerator.cs">
+      <Link>PixelFarm\MiniAgg\03_SpanGenerators\0_ISpanGenerator.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\6_debug\dbugVisualLayoutTracer.cs">
-      <Link>PixelFarm\PaintLab.RenderTree\6_debug\dbugVisualLayoutTracer.cs</Link>
+    <Compile Include="..\..\PixelFarm\MiniAgg\03_SpanGenerators\1_ImgSpanGen.cs">
+      <Link>PixelFarm\MiniAgg\03_SpanGenerators\1_ImgSpanGen.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\6_debug\IdbugOutputWindow.cs">
-      <Link>PixelFarm\PaintLab.RenderTree\6_debug\IdbugOutputWindow.cs</Link>
+    <Compile Include="..\..\PixelFarm\MiniAgg\03_SpanGenerators\2_ImgSpanGenRGB.cs">
+      <Link>PixelFarm\MiniAgg\03_SpanGenerators\2_ImgSpanGenRGB.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\7_ContentMx\1_ImageBinder.cs">
-      <Link>PixelFarm\PaintLab.RenderTree\7_ContentMx\1_ImageBinder.cs</Link>
+    <Compile Include="..\..\PixelFarm\MiniAgg\03_SpanGenerators\3_ImgSpanGenRGBA.cs">
+      <Link>PixelFarm\MiniAgg\03_SpanGenerators\3_ImgSpanGenRGBA.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\8_EventQueue\EventQueueSystem.cs">
-      <Link>PixelFarm\PaintLab.RenderTree\8_EventQueue\EventQueueSystem.cs</Link>
+    <Compile Include="..\..\PixelFarm\MiniAgg\03_SpanGenerators\4_ImgSpanGenGray.cs">
+      <Link>PixelFarm\MiniAgg\03_SpanGenerators\4_ImgSpanGenGray.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\MiniAgg\03_SpanGenerators\IGammaFunction.cs">
+      <Link>PixelFarm\MiniAgg\03_SpanGenerators\IGammaFunction.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\MiniAgg\03_SpanGenerators\ISpanInterpolator.cs">
+      <Link>PixelFarm\MiniAgg\03_SpanGenerators\ISpanInterpolator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\MiniAgg\04_Scanline\0_ScanlineSpan.cs">
+      <Link>PixelFarm\MiniAgg\04_Scanline\0_ScanlineSpan.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\MiniAgg\04_Scanline\1_Scanline.cs">
+      <Link>PixelFarm\MiniAgg\04_Scanline\1_Scanline.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\MiniAgg\04_Scanline\2_ScanlinePacked8.cs">
+      <Link>PixelFarm\MiniAgg\04_Scanline\2_ScanlinePacked8.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\MiniAgg\04_Scanline\3_ScanlineUnpacked8.cs">
+      <Link>PixelFarm\MiniAgg\04_Scanline\3_ScanlineUnpacked8.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\MiniAgg\04_Scanline\4.1_ScanlineRasterizer.cs">
+      <Link>PixelFarm\MiniAgg\04_Scanline\4.1_ScanlineRasterizer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\MiniAgg\04_Scanline\4.2_CellAARasterizer.cs">
+      <Link>PixelFarm\MiniAgg\04_Scanline\4.2_CellAARasterizer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\MiniAgg\04_Scanline\4.3_VectorClipper.cs">
+      <Link>PixelFarm\MiniAgg\04_Scanline\4.3_VectorClipper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\MiniAgg\04_Scanline\5_ScanlineRasToDestBitmapRenderer.cs">
+      <Link>PixelFarm\MiniAgg\04_Scanline\5_ScanlineRasToDestBitmapRenderer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\MiniAgg\04_Scanline\6_ClipLiangBarsky.cs">
+      <Link>PixelFarm\MiniAgg\04_Scanline\6_ClipLiangBarsky.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\MiniAgg\04_Scanline\SubPixConst.cs">
+      <Link>PixelFarm\MiniAgg\04_Scanline\SubPixConst.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\MiniAgg\07_ISpanInterpolator\LineInterpolators.cs">
+      <Link>PixelFarm\MiniAgg\07_ISpanInterpolator\LineInterpolators.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\MiniAgg\07_ISpanInterpolator\SpanInterpolatorLinear.cs">
+      <Link>PixelFarm\MiniAgg\07_ISpanInterpolator\SpanInterpolatorLinear.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\MiniAgg\07_ISpanInterpolator\SpanInterpolatorPerspectiveLerp.cs">
+      <Link>PixelFarm\MiniAgg\07_ISpanInterpolator\SpanInterpolatorPerspectiveLerp.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\MiniAgg\07_Lines\1.1_LinesAA.cs">
+      <Link>PixelFarm\MiniAgg\07_Lines\1.1_LinesAA.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\MiniAgg\07_Lines\1.2_PatternFilter.cs">
+      <Link>PixelFarm\MiniAgg\07_Lines\1.2_PatternFilter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\MiniAgg\07_Lines\1.3_LineParameters.cs">
+      <Link>PixelFarm\MiniAgg\07_Lines\1.3_LineParameters.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\MiniAgg\07_Lines\2.1_DistanceInterpolators.cs">
+      <Link>PixelFarm\MiniAgg\07_Lines\2.1_DistanceInterpolators.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\MiniAgg\07_Lines\2.2_LineInterpolators.cs">
+      <Link>PixelFarm\MiniAgg\07_Lines\2.2_LineInterpolators.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\MiniAgg\07_Lines\2.3_EllipseBrensenhemInterpolator.cs">
+      <Link>PixelFarm\MiniAgg\07_Lines\2.3_EllipseBrensenhemInterpolator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\MiniAgg\07_Lines\3.1_LineRenderer.cs">
+      <Link>PixelFarm\MiniAgg\07_Lines\3.1_LineRenderer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\MiniAgg\07_Lines\3.2_OutlineRenderer.cs">
+      <Link>PixelFarm\MiniAgg\07_Lines\3.2_OutlineRenderer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\MiniAgg\07_Lines\3.3_ImageLineRenderer.cs">
+      <Link>PixelFarm\MiniAgg\07_Lines\3.3_ImageLineRenderer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\MiniAgg\07_Lines\4_OutlineAARasterizer.cs">
+      <Link>PixelFarm\MiniAgg\07_Lines\4_OutlineAARasterizer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\MiniAgg\08_ImageResampling\FilterImageSpanGenerator.cs">
+      <Link>PixelFarm\MiniAgg\08_ImageResampling\FilterImageSpanGenerator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\MiniAgg\08_ImageResampling\FilterImageSpanGenerator.ImageBufferAccessor.cs">
+      <Link>PixelFarm\MiniAgg\08_ImageResampling\FilterImageSpanGenerator.ImageBufferAccessor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\MiniAgg\08_ImageResampling\FilterRGBAImageSpanGen.cs">
+      <Link>PixelFarm\MiniAgg\08_ImageResampling\FilterRGBAImageSpanGen.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\MiniAgg\08_ImageResampling\FilterRGBImageSpanGen.cs">
+      <Link>PixelFarm\MiniAgg\08_ImageResampling\FilterRGBImageSpanGen.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\MiniAgg\08_ImageResampling\IImageFilter.cs">
+      <Link>PixelFarm\MiniAgg\08_ImageResampling\IImageFilter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\MiniAgg\08_ImageResampling\ImageFilterLookupTable.cs">
+      <Link>PixelFarm\MiniAgg\08_ImageResampling\ImageFilterLookupTable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\MiniAgg\08_ImageResampling\ImageFreeTransform.cs">
+      <Link>PixelFarm\MiniAgg\08_ImageResampling\ImageFreeTransform.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\MiniAgg\08_ImageResampling\ImageInterpolationQuality.cs">
+      <Link>PixelFarm\MiniAgg\08_ImageResampling\ImageInterpolationQuality.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\MiniAgg\08_ImageResampling\ImageTransform.cs">
+      <Link>PixelFarm\MiniAgg\08_ImageResampling\ImageTransform.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\MiniAgg\09_ImgFilters\InternalBrightnessAndContrastAdjustment.cs">
+      <Link>PixelFarm\MiniAgg\09_ImgFilters\InternalBrightnessAndContrastAdjustment.cs</Link>
     </Compile>
     <Compile Include="..\..\PixelFarm\burningminecurve\curveutils\CubicBezier.cs">
       <Link>PixelFarm\burningminecurve\curveutils\CubicBezier.cs</Link>
@@ -322,6 +427,9 @@
     </Compile>
     <Compile Include="..\..\PixelFarm\PixelFarm.DrawingCore\5_Agg_DrawElements\VertexSource\VertexStoreBuilder.cs">
       <Link>PixelFarm\PixelFarm.DrawingCore\5_Agg_DrawElements\VertexSource\VertexStoreBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PixelFarm.DrawingCore\ForNet20\ExtensionAttribute.cs">
+      <Link>PixelFarm\PixelFarm.DrawingCore\ForNet20\ExtensionAttribute.cs</Link>
     </Compile>
     <Compile Include="..\..\PixelFarm\pixelfarm.vectors\1_vectormaths\AggBasics.cs">
       <Link>PixelFarm\pixelfarm.vectors\1_vectormaths\AggBasics.cs</Link>

@@ -585,47 +585,44 @@
     <Compile Include="..\..\PixelFarm\MiniAgg\09_ImgFilters\InternalBrightnessAndContrastAdjustment.cs">
       <Link>PixelFarm\MiniAgg\09_ImgFilters\InternalBrightnessAndContrastAdjustment.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.RenderTreeComposer\0_MyRootGraphic.cs">
-      <Link>PixelFarm\PaintLab.RenderTreeComposer\0_MyRootGraphic.cs</Link>
+    <Compile Include="..\..\PixelFarm\PaintLab.PlatformBridge\Common\Clipboard.cs">
+      <Link>PixelFarm\PaintLab.PlatformBridge\Common\Clipboard.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.RenderTreeComposer\1_Events\EventQueueSystem.cs">
-      <Link>PixelFarm\PaintLab.RenderTreeComposer\1_Events\EventQueueSystem.cs</Link>
+    <Compile Include="..\..\PixelFarm\PaintLab.PlatformBridge\Common\ExtensionAttribute.cs">
+      <Link>PixelFarm\PaintLab.PlatformBridge\Common\ExtensionAttribute.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.RenderTreeComposer\1_Events\GraphicsTimerTasksManager.cs">
-      <Link>PixelFarm\PaintLab.RenderTreeComposer\1_Events\GraphicsTimerTasksManager.cs</Link>
+    <Compile Include="..\..\PixelFarm\PaintLab.PlatformBridge\Common\IPlatformWindowBox.cs">
+      <Link>PixelFarm\PaintLab.PlatformBridge\Common\IPlatformWindowBox.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.RenderTreeComposer\1_Events\MyIntervalTaskEventArgs.cs">
-      <Link>PixelFarm\PaintLab.RenderTreeComposer\1_Events\MyIntervalTaskEventArgs.cs</Link>
+    <Compile Include="..\..\PixelFarm\PaintLab.PlatformBridge\Common\Keys.cs">
+      <Link>PixelFarm\PaintLab.PlatformBridge\Common\Keys.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.RenderTreeComposer\1_Events\RenderElementEventPortal.cs">
-      <Link>PixelFarm\PaintLab.RenderTreeComposer\1_Events\RenderElementEventPortal.cs</Link>
+    <Compile Include="..\..\PixelFarm\PaintLab.PlatformBridge\Common\UIPlatform.cs">
+      <Link>PixelFarm\PaintLab.PlatformBridge\Common\UIPlatform.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.RenderTreeComposer\1_Events\ToNotifySizeChangedEvent.cs">
-      <Link>PixelFarm\PaintLab.RenderTreeComposer\1_Events\ToNotifySizeChangedEvent.cs</Link>
+    <Compile Include="..\..\PixelFarm\PaintLab.PlatformBridge\Common\UITimer.cs">
+      <Link>PixelFarm\PaintLab.PlatformBridge\Common\UITimer.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.RenderTreeComposer\1_Events\TopWindowEventRoot.cs">
-      <Link>PixelFarm\PaintLab.RenderTreeComposer\1_Events\TopWindowEventRoot.cs</Link>
+    <Compile Include="..\..\PixelFarm\PaintLab.PlatformBridge\Common\UITimerTask.cs">
+      <Link>PixelFarm\PaintLab.PlatformBridge\Common\UITimerTask.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.RenderTreeComposer\1_Events\UIHoverMonitor.cs">
-      <Link>PixelFarm\PaintLab.RenderTreeComposer\1_Events\UIHoverMonitor.cs</Link>
+    <Compile Include="..\..\PixelFarm\PaintLab.PlatformBridge\Events\IEventListener.cs">
+      <Link>PixelFarm\PaintLab.PlatformBridge\Events\IEventListener.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.RenderTreeComposer\2_ContentManagers\ImageCacheSystem.cs">
-      <Link>PixelFarm\PaintLab.RenderTreeComposer\2_ContentManagers\ImageCacheSystem.cs</Link>
+    <Compile Include="..\..\PixelFarm\PaintLab.PlatformBridge\Events\IEventPortal.cs">
+      <Link>PixelFarm\PaintLab.PlatformBridge\Events\IEventPortal.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.RenderTreeComposer\2_ContentManagers\ImageContentManager.cs">
-      <Link>PixelFarm\PaintLab.RenderTreeComposer\2_ContentManagers\ImageContentManager.cs</Link>
+    <Compile Include="..\..\PixelFarm\PaintLab.PlatformBridge\Events\ITopWindowEventRoot.cs">
+      <Link>PixelFarm\PaintLab.PlatformBridge\Events\ITopWindowEventRoot.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.RenderTreeComposer\2_ContentManagers\TextContentManager.cs">
-      <Link>PixelFarm\PaintLab.RenderTreeComposer\2_ContentManagers\TextContentManager.cs</Link>
+    <Compile Include="..\..\PixelFarm\PaintLab.PlatformBridge\Events\ScrollSurfaceRequestEventArgs.cs">
+      <Link>PixelFarm\PaintLab.PlatformBridge\Events\ScrollSurfaceRequestEventArgs.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.RenderTreeComposer\ClientBinder.cs">
-      <Link>PixelFarm\PaintLab.RenderTreeComposer\ClientBinder.cs</Link>
+    <Compile Include="..\..\PixelFarm\PaintLab.PlatformBridge\Events\UIEventArgs.cs">
+      <Link>PixelFarm\PaintLab.PlatformBridge\Events\UIEventArgs.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.RenderTreeComposer\TopWindowRenderBox.cs">
-      <Link>PixelFarm\PaintLab.RenderTreeComposer\TopWindowRenderBox.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\0_Start\dbugCoreConst.cs">
-      <Link>PixelFarm\PaintLab.RenderTree\0_Start\dbugCoreConst.cs</Link>
+    <Compile Include="..\..\PixelFarm\PaintLab.PlatformBridge\Events\UIEventNames.cs">
+      <Link>PixelFarm\PaintLab.PlatformBridge\Events\UIEventNames.cs</Link>
     </Compile>
     <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\1_Root\1_RootGraphic.cs">
       <Link>PixelFarm\PaintLab.RenderTree\1_Root\1_RootGraphic.cs</Link>
@@ -690,6 +687,9 @@
     <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\6_debug\dbug.cs">
       <Link>PixelFarm\PaintLab.RenderTree\6_debug\dbug.cs</Link>
     </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\6_debug\dbugCoreConst.cs">
+      <Link>PixelFarm\PaintLab.RenderTree\6_debug\dbugCoreConst.cs</Link>
+    </Compile>
     <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\6_debug\dbugHitTracker.cs">
       <Link>PixelFarm\PaintLab.RenderTree\6_debug\dbugHitTracker.cs</Link>
     </Compile>
@@ -707,6 +707,48 @@
     </Compile>
     <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\6_debug\IdbugOutputWindow.cs">
       <Link>PixelFarm\PaintLab.RenderTree\6_debug\IdbugOutputWindow.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\7_ContentMx\1_ImageBinder.cs">
+      <Link>PixelFarm\PaintLab.RenderTree\7_ContentMx\1_ImageBinder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTree\8_EventQueue\EventQueueSystem.cs">
+      <Link>PixelFarm\PaintLab.RenderTree\8_EventQueue\EventQueueSystem.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTreeComposer\0_MyRootGraphic.cs">
+      <Link>PixelFarm\PaintLab.RenderTreeComposer\0_MyRootGraphic.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTreeComposer\1_Events\GraphicsTimerTasksManager.cs">
+      <Link>PixelFarm\PaintLab.RenderTreeComposer\1_Events\GraphicsTimerTasksManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTreeComposer\1_Events\MyIntervalTaskEventArgs.cs">
+      <Link>PixelFarm\PaintLab.RenderTreeComposer\1_Events\MyIntervalTaskEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTreeComposer\1_Events\RenderElementEventPortal.cs">
+      <Link>PixelFarm\PaintLab.RenderTreeComposer\1_Events\RenderElementEventPortal.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTreeComposer\1_Events\ToNotifySizeChangedEvent.cs">
+      <Link>PixelFarm\PaintLab.RenderTreeComposer\1_Events\ToNotifySizeChangedEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTreeComposer\1_Events\TopWindowEventRoot.cs">
+      <Link>PixelFarm\PaintLab.RenderTreeComposer\1_Events\TopWindowEventRoot.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTreeComposer\1_Events\UIHoverMonitor.cs">
+      <Link>PixelFarm\PaintLab.RenderTreeComposer\1_Events\UIHoverMonitor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTreeComposer\2_ContentManagers\ImageCacheSystem.cs">
+      <Link>PixelFarm\PaintLab.RenderTreeComposer\2_ContentManagers\ImageCacheSystem.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTreeComposer\2_ContentManagers\ImageContentManager.cs">
+      <Link>PixelFarm\PaintLab.RenderTreeComposer\2_ContentManagers\ImageContentManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTreeComposer\2_ContentManagers\TextContentManager.cs">
+      <Link>PixelFarm\PaintLab.RenderTreeComposer\2_ContentManagers\TextContentManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTreeComposer\ClientBinder.cs">
+      <Link>PixelFarm\PaintLab.RenderTreeComposer\ClientBinder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\PixelFarm\PaintLab.RenderTreeComposer\TopWindowRenderBox.cs">
+      <Link>PixelFarm\PaintLab.RenderTreeComposer\TopWindowRenderBox.cs</Link>
     </Compile>
     <Compile Include="..\..\PixelFarm\PixelFarm.Drawing.GdiPlus\0_Start\WinGdiPlusPlatform.cs">
       <Link>PixelFarm\PixelFarm.Drawing.GdiPlus\0_Start\WinGdiPlusPlatform.cs</Link>
@@ -927,9 +969,6 @@
     <Compile Include="..\..\PixelFarm\PixelFarm.DrawingCanvas\1_Canvas\RenderVx.cs">
       <Link>PixelFarm\PixelFarm.DrawingCanvas\1_Canvas\RenderVx.cs</Link>
     </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.DrawingCanvas\2_Drawing\1_ImageBinder.cs">
-      <Link>PixelFarm\PixelFarm.DrawingCanvas\2_Drawing\1_ImageBinder.cs</Link>
-    </Compile>
     <Compile Include="..\..\PixelFarm\PixelFarm.DrawingCanvas\2_Drawing\FontStyle.cs">
       <Link>PixelFarm\PixelFarm.DrawingCanvas\2_Drawing\FontStyle.cs</Link>
     </Compile>
@@ -1049,9 +1088,6 @@
     </Compile>
     <Compile Include="..\..\PixelFarm\PixelFarm.DrawingCore\5_Agg_DrawElements\VertexSource\VertexStoreBuilder.cs">
       <Link>PixelFarm\PixelFarm.DrawingCore\5_Agg_DrawElements\VertexSource\VertexStoreBuilder.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.DrawingCore\ForNet20\ExtensionAttribute.cs">
-      <Link>PixelFarm\PixelFarm.DrawingCore\ForNet20\ExtensionAttribute.cs</Link>
     </Compile>
     <Compile Include="..\..\PixelFarm\pixelfarm.vectors\1_vectormaths\AggBasics.cs">
       <Link>PixelFarm\pixelfarm.vectors\1_vectormaths\AggBasics.cs</Link>
@@ -1669,42 +1705,6 @@
     </Compile>
     <Compile Include="..\..\PixelFarm\PixelFarm.OpenTKWinForms\WindowState.cs">
       <Link>PixelFarm\PixelFarm.OpenTKWinForms\WindowState.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.PlatformBridge\Common\Clipboard.cs">
-      <Link>PixelFarm\PixelFarm.PlatformBridge\Common\Clipboard.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.PlatformBridge\Common\IPlatformWindowBox.cs">
-      <Link>PixelFarm\PixelFarm.PlatformBridge\Common\IPlatformWindowBox.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.PlatformBridge\Common\Keys.cs">
-      <Link>PixelFarm\PixelFarm.PlatformBridge\Common\Keys.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.PlatformBridge\Common\UIPlatform.cs">
-      <Link>PixelFarm\PixelFarm.PlatformBridge\Common\UIPlatform.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.PlatformBridge\Common\UITimer.cs">
-      <Link>PixelFarm\PixelFarm.PlatformBridge\Common\UITimer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.PlatformBridge\Common\UITimerTask.cs">
-      <Link>PixelFarm\PixelFarm.PlatformBridge\Common\UITimerTask.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.PlatformBridge\Events\IEventListener.cs">
-      <Link>PixelFarm\PixelFarm.PlatformBridge\Events\IEventListener.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.PlatformBridge\Events\IEventPortal.cs">
-      <Link>PixelFarm\PixelFarm.PlatformBridge\Events\IEventPortal.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.PlatformBridge\Events\ITopWindowEventRoot.cs">
-      <Link>PixelFarm\PixelFarm.PlatformBridge\Events\ITopWindowEventRoot.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.PlatformBridge\Events\ScrollSurfaceRequestEventArgs.cs">
-      <Link>PixelFarm\PixelFarm.PlatformBridge\Events\ScrollSurfaceRequestEventArgs.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.PlatformBridge\Events\UIEventArgs.cs">
-      <Link>PixelFarm\PixelFarm.PlatformBridge\Events\UIEventArgs.cs</Link>
-    </Compile>
-    <Compile Include="..\..\PixelFarm\PixelFarm.PlatformBridge\Events\UIEventNames.cs">
-      <Link>PixelFarm\PixelFarm.PlatformBridge\Events\UIEventNames.cs</Link>
     </Compile>
     <Compile Include="..\..\PixelFarm\PixelFarm.SkiaSharp\Definitions.cs">
       <Link>PixelFarm\PixelFarm.SkiaSharp\Definitions.cs</Link>
