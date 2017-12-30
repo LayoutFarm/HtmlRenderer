@@ -464,10 +464,10 @@ namespace LayoutFarm.HtmlBoxes
         {
             //iterate from each words 
             CssBox latestOwner = null;
-            var innerCanvas = p.InnerCanvas;
-            var enterFont = innerCanvas.CurrentFont;
-            var enterColor = innerCanvas.CurrentTextColor;
-            var tmpRuns = this._runs;
+            DrawBoard innerCanvas = p.InnerCanvas;
+            RequestFont enterFont = innerCanvas.CurrentFont;
+            Color enterColor = innerCanvas.CurrentTextColor;
+            List<CssRun> tmpRuns = this._runs;
             int j = tmpRuns.Count;
             for (int i = 0; i < j; ++i)
             {
@@ -509,7 +509,7 @@ namespace LayoutFarm.HtmlBoxes
                             }
 
                             CssTextRun textRun = (CssTextRun)w;
-                            var wordPoint = new PointF(w.Left, w.Top);
+                            PointF wordPoint = new PointF(w.Left, w.Top);
                             p.DrawText(CssBox.UnsafeGetTextBuffer(w.OwnerBox),
                                textRun.TextStartIndex,
                                textRun.TextLength, wordPoint,
@@ -587,14 +587,14 @@ namespace LayoutFarm.HtmlBoxes
             //}
             for (int i = _bottomUpBoxStrips.Length - 1; i >= 0; --i)
             {
-                var strip = _bottomUpBoxStrips[i];
-                var stripOwner = strip.owner;
+                PartialBoxStrip strip = _bottomUpBoxStrips[i];
+                CssBox stripOwner = strip.owner;
                 if (!stripOwner.HasVisibleBgColor)
                 {
                     continue;
                 }
                 //-----------------------------------------------------------------
-                var stripArea = strip.Bound;
+                RectangleF stripArea = strip.Bound;
                 bool isFirstLine, isLastLine;
                 CssBox.GetSplitInfo(stripOwner, this, out isFirstLine, out isLastLine);
                 stripOwner.PaintBackground(p, stripArea, isFirstLine, isLastLine);
@@ -615,7 +615,7 @@ namespace LayoutFarm.HtmlBoxes
             //}
             for (int i = _bottomUpBoxStrips.Length - 1; i >= 0; --i)
             {
-                var strip = _bottomUpBoxStrips[i];
+                PartialBoxStrip strip = _bottomUpBoxStrips[i];
                 CssBox ownerBox = strip.owner;
                 bool isFirstLine, isLastLine;
                 CssBox.GetSplitInfo(ownerBox, this, out isFirstLine, out isLastLine);
@@ -633,7 +633,7 @@ namespace LayoutFarm.HtmlBoxes
         void SetBaseLine(CssBox stripOwnerBox, float baseline)
         {
             float newtop = baseline;
-            foreach (var word in this.GetRunIter(stripOwnerBox))
+            foreach (CssRun word in this.GetRunIter(stripOwnerBox))
             {
                 if (!word.IsSolidContent)
                 {
@@ -665,8 +665,8 @@ namespace LayoutFarm.HtmlBoxes
             for (int i = startInputAt; i < j; ++i)
             {
                 //step up
-                var strip = inputList[i];
-                var upperBox = strip.owner.ParentBox;
+                PartialBoxStrip strip = inputList[i];
+                CssBox upperBox = strip.owner.ParentBox;
                 if (upperBox != null && upperBox != lineOwnerBox && upperBox.OutsideDisplayIsInline)
                 {
                     RegisterStripPart(upperBox, strip.Left, strip.Top, strip.Right, strip.Bottom, inputList, dicStrips);
@@ -706,7 +706,7 @@ namespace LayoutFarm.HtmlBoxes
             CssRun maxRun = null;
             for (int i = this._runs.Count - 1; i >= 0; --i)
             {
-                var r = _runs[i];
+                CssRun r = _runs[i];
                 if (r.Width > max)
                 {
                     max = r.Width;
