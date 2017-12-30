@@ -30,7 +30,7 @@ namespace LayoutFarm.HtmlBoxes
         public override void ClearAllChildren()
         {
         }
-        protected override void DrawBoxContent(Canvas canvas, Rectangle updateArea)
+        protected override void DrawBoxContent(DrawBoard canvas, Rectangle updateArea)
         {
             //TODO: review here, 
             //
@@ -64,7 +64,7 @@ namespace LayoutFarm.HtmlBoxes
 
     static class PainterStock
     {
-        internal static PaintVisitor GetSharedPainter(HtmlContainer htmlCont, Canvas canvas)
+        internal static PaintVisitor GetSharedPainter(HtmlContainer htmlCont, DrawBoard canvas)
         {
             PaintVisitor painter = null;
             if (painterStock.Count == 0)

@@ -22,12 +22,18 @@ namespace LayoutFarm.HtmlBoxes
         RootGraphic rootgfx;
         Queue<LayoutFarm.HtmlBoxes.LayoutVisitor> htmlLayoutVisitorStock = new Queue<LayoutVisitor>();
         LayoutFarm.Composers.RenderTreeBuilder renderTreeBuilder;
+
+        ITextService _textservice;
+
         private HtmlHost(WebDom.CssActiveSheet activeSheet)
         {
 
             this.BaseStylesheet = activeSheet;
             this.commonHtmlDoc = new HtmlDocument();
             this.commonHtmlDoc.CssActiveSheet = activeSheet;
+
+
+            this._textservice = MyFontServices.GetTextService();
         }
         public HtmlHost()
             : this(
@@ -37,9 +43,13 @@ namespace LayoutFarm.HtmlBoxes
         {
             //use default style sheet
         }
+        public ITextService GetTextService()
+        {
+            return _textservice;
+        }
         public void EnqueueCssUpdate(CssBox box)
         {
-            waitForUpdateBoxes.Add(box); 
+            waitForUpdateBoxes.Add(box);
         }
         public void ClearUpdateWaitingCssBoxes()
         {
@@ -108,7 +118,7 @@ namespace LayoutFarm.HtmlBoxes
             if (htmlLayoutVisitorStock.Count == 0)
             {
                 RootGraphic rootgfx = (RootGraphic)htmlCont.RootCssBox.GetInternalRootGfx();
-                lay = new LayoutVisitor(rootgfx.IFonts);
+                lay = new LayoutVisitor(this.GetTextService());
             }
             else
             {
@@ -497,13 +507,13 @@ namespace LayoutFarm.HtmlBoxes
             {
                 var clientImageBinder = new ClientImageBinder(imgsrc);
                 imgBinder = clientImageBinder;
-                clientImageBinder.SetOwner(childElement);
+                //clientImageBinder.SetOwner(childElement);
             }
             else
             {
                 var clientImageBinder = new ClientImageBinder(null);
                 imgBinder = clientImageBinder;
-                clientImageBinder.SetOwner(childElement);
+                //clientImageBinder.SetOwner(childElement);
             }
 
             CssBoxImage boxImage = new CssBoxImage(childElement.Spec, parent.RootGfx, imgBinder);
@@ -516,7 +526,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             return new HtmlDocument();
         }
-        internal static CssBox CreateBridgeBox(IFonts iFonts, LayoutFarm.RenderElement containerElement, RootGraphic rootgfx)
+        internal static CssBox CreateBridgeBox(ITextService iFonts, LayoutFarm.RenderElement containerElement, RootGraphic rootgfx)
         {
             var spec = new BoxSpec();
             spec.CssDisplay = CssDisplay.Block;
@@ -527,7 +537,7 @@ namespace LayoutFarm.HtmlBoxes
             //------------------------------------
             return box;
         }
-        internal static CssBox CreateIsolateBox(IFonts iFonts, RootGraphic rootgfx)
+        internal static CssBox CreateIsolateBox(ITextService iFonts, RootGraphic rootgfx)
         {
             var spec = new BoxSpec();
             spec.CssDisplay = CssDisplay.Block;

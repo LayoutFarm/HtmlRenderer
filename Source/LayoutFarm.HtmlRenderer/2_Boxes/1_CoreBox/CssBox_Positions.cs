@@ -3,8 +3,8 @@
 
 using System;
 using PixelFarm.Drawing;
-using PixelFarm.Drawing.Fonts;
 using LayoutFarm.Css;
+
 namespace LayoutFarm.HtmlBoxes
 {
     partial class CssBox
@@ -146,13 +146,13 @@ namespace LayoutFarm.HtmlBoxes
             get { return (this._boxCompactFlags & BoxFlags.LAY_EVAL_COMPUTE_VALUES) == 0; }
         }
 
-        public void ReEvaluateFont(IFonts iFonts, float parentFontSize)
+        public void ReEvaluateFont(ITextService iFonts, float parentFontSize)
         {
             RequestFont fontInfo = this._myspec.GetFont(parentFontSize);
 
             this._resolvedFont = fontInfo;
 
-           
+
             if (_myspec.WordSpacing.IsNormalWordSpacing)
             {
                 this._actualWordSpacing = iFonts.MeasureWhitespace(_resolvedFont);
@@ -167,7 +167,7 @@ namespace LayoutFarm.HtmlBoxes
         /// <summary>
         /// evaluate computed value
         /// </summary>
-        internal void ReEvaluateComputedValues(IFonts iFonts, CssBox containingBlock)
+        internal void ReEvaluateComputedValues(ITextService iFonts, CssBox containingBlock)
         {
 
             //depend on parent

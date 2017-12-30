@@ -1,20 +1,24 @@
 ﻿//Apache2, 2014-2017, WinterDev
+
+
 using System;
 using System.Windows.Forms;
+
 using PixelFarm.Drawing;
+using Typography.TextServices;
 
 namespace LayoutFarm.UI
 {
     public static partial class FormCanvasHelper
     {
         static LayoutFarm.UI.UIPlatformWinForm s_platform;
-        static PixelFarm.Drawing.Fonts.IFontLoader s_fontstore;
+        static IFontLoader s_fontstore;
         static void InitWinform()
         {
             if (s_platform != null) return;
             //----------------------------------------------------
             s_platform = new LayoutFarm.UI.UIPlatformWinForm();
-            s_fontstore = new PixelFarm.Drawing.Fonts.OpenFontStore();
+            s_fontstore = new OpenFontStore();
         }
         public static Form CreateNewFormCanvas(
             int w, int h,
@@ -23,32 +27,32 @@ namespace LayoutFarm.UI
         {
             //1. init
             InitWinform();
-            PixelFarm.Drawing.Fonts.IFontLoader fontLoader = s_fontstore;
+            IFontLoader fontLoader = s_fontstore;
             //2. 
-            PixelFarm.Drawing.IFonts ifont = null;
-
+            PixelFarm.Drawing.ITextService ifont = null;
             switch (internalViewportKind)
             {
                 default:
-                    ifont = new PixelFarm.Drawing.WinGdi.Gdi32IFonts();
+                    //ifont = PixelFarm.Drawing.WinGdi.WinGdiPlusPlatform.GetIFonts();
+                    ifont = new OpenFontTextService();
                     break;
                 case InnerViewportKind.GL:
-                    ifont = new OpenFontIFonts(fontLoader);
+                    ifont = new OpenFontTextService();
                     break;
 
             }
-            //PixelFarm.Drawing.WinGdi.Gdi32IFonts ifonts2 = new PixelFarm.Drawing.WinGdi.Gdi32IFonts();
-            PixelFarm.Drawing.WinGdi.WinGdiFontFace.SetFontLoader(fontLoader);
+
             PixelFarm.Drawing.WinGdi.WinGdiPlusPlatform.SetFontLoader(fontLoader);
-            PixelFarm.Drawing.WinGdi.WinGdiPlusPlatform.SetFontEncoding(System.Text.Encoding.ASCII);
+
             //
 
             //---------------------------------------------------------------------------
-            UITimer timer = s_platform.CreateUITimer();
+
             MyRootGraphic myRootGfx = new MyRootGraphic(
                w, h,
-               ifont,
-               timer);
+               ifont
+               );
+
             //---------------------------------------------------------------------------
 
             var innerViewport = canvasViewport = new LayoutFarm.UI.UISurfaceViewportControl();
@@ -56,11 +60,12 @@ namespace LayoutFarm.UI
 
             canvasViewport.InitRootGraphics(myRootGfx, myRootGfx.TopWinEventPortal, internalViewportKind);
             canvasViewport.Bounds =
-                new System.Drawing.Rectangle(0, 0,
+                new System.Drawing.Rectangle(10, 10,
                     screenClientAreaRect.Width,
                     screenClientAreaRect.Height);
             //---------------------- 
             Form form1 = new Form();
+            //LayoutFarm.Dev.FormNoBorder form1 = new Dev.FormNoBorder();
             form1.Controls.Add(canvasViewport);
             //----------------------
             MakeFormCanvas(form1, canvasViewport);
@@ -79,8 +84,10 @@ namespace LayoutFarm.UI
             };
             //----------------------
             return form1;
-
         }
+
+
+
         public static void MakeFormCanvas(Form form1, LayoutFarm.UI.UISurfaceViewportControl surfaceViewportControl)
         {
             form1.FormClosing += (s, e) =>
@@ -106,6 +113,9 @@ namespace LayoutFarm.UI
             return Screen.PrimaryScreen;
         }
 
-
+        //
     }
+
+
+
 }
