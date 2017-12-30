@@ -27,7 +27,7 @@
     <OutputPath>bin\Release\</OutputPath>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
-    <DefineConstants> TRACETRACE;DEBUG; PIXEL_FARM, PIXEL_FARM_NET20,NET20</DefineConstants>
+    <DefineConstants>TRACETRACE; PIXEL_FARM, PIXEL_FARM_NET20,NET20,GL_ENABLE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
