@@ -182,7 +182,7 @@ namespace LayoutFarm.Composers
             RootGraphic rootgfx = (containerElement != null) ? containerElement.Root : null;
             
             //TODO: review here, we should create cssbox at  document.body? 
-            CssBox bridgeBox = HtmlHost.CreateBridgeBox(rootgfx.IFonts, containerElement, rootgfx);
+            CssBox bridgeBox = HtmlHost.CreateBridgeBox(htmlHost.GetTextService(), containerElement, rootgfx);
             ((HtmlElement)htmldoc.RootNode).SetPrincipalBox(bridgeBox);
             htmlHost.UpdateChildBoxes((HtmlRootElement)htmldoc.RootNode, true);
             htmldoc.SetDocumentState(DocumentState.Idle);
@@ -201,7 +201,7 @@ namespace LayoutFarm.Composers
             TopDownActiveCssTemplate activeTemplate = new TopDownActiveCssTemplate(cssActiveSheet);
             PrepareStylesAndContentOfChildNodes((HtmlElement)htmldoc.RootNode, activeTemplate);
             //TODO: review here, we should create cssbox at document.body?  
-            CssBox rootBox = HtmlHost.CreateIsolateBox(rootgfx.IFonts, rootgfx);
+            CssBox rootBox = HtmlHost.CreateIsolateBox(this.htmlHost.GetTextService(), rootgfx);
             ((HtmlElement)htmldoc.RootNode).SetPrincipalBox(rootBox);
             htmlHost.UpdateChildBoxes((HtmlRootElement)htmldoc.RootNode, true);
             htmldoc.SetDocumentState(DocumentState.Idle);
@@ -820,7 +820,7 @@ namespace LayoutFarm.Composers
                                         {
                                             var clientImageBinder = new ClientImageBinder(imgsrc);
                                             imgbinder1 = clientImageBinder;
-                                            clientImageBinder.SetOwner(tag);
+                                            //clientImageBinder.SetOwner(tag);
                                             cssBoxImage1.ImageBinder = clientImageBinder;
                                         }
                                     }

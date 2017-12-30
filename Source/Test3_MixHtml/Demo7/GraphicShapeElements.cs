@@ -11,7 +11,7 @@ namespace LayoutFarm.DzBoardSample
             : base(root, w, h)
         {
         }
-        protected override void DrawBoxContent(Canvas canvas, Rectangle updateArea)
+        protected override void DrawBoxContent(DrawBoard canvas, Rectangle updateArea)
         {
             //draw this ...
             var penwidth = canvas.StrokeWidth;

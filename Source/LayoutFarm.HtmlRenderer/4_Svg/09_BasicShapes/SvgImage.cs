@@ -71,7 +71,7 @@ namespace LayoutFarm.Svg
         }
         public override void Paint(PaintVisitor p)
         {
-            Canvas g = p.InnerCanvas;
+            DrawBoard g = p.InnerCanvas;
             if (fillColor.A > 0)
             {
                 p.FillPath(_path, this.fillColor);

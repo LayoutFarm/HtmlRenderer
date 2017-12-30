@@ -22,7 +22,7 @@ namespace LayoutFarm.HtmlBoxes
         public SelectionRange(
             CssBoxHitChain startChain,
             CssBoxHitChain endChain,
-            IFonts ifonts)
+            ITextService ifonts)
         {
             if (IsOnTheSameLine(startChain, endChain))
             {
@@ -201,7 +201,7 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
 
-        void SetupStartHitPoint(CssBoxHitChain startChain, IFonts ifonts)
+        void SetupStartHitPoint(CssBoxHitChain startChain, ITextService ifonts)
         {
             //find global location of start point
             HitInfo startHit = startChain.GetLastHit();
@@ -259,7 +259,7 @@ namespace LayoutFarm.HtmlBoxes
         }
 
 
-        void SetupEndHitPoint(CssBoxHitChain startChain, CssBoxHitChain endChain, IFonts ifonts)
+        void SetupEndHitPoint(CssBoxHitChain startChain, CssBoxHitChain endChain, ITextService ifonts)
         {
             //find global location of end point 
             HitInfo endHit = endChain.GetLastHit();

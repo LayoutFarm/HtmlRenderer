@@ -66,13 +66,13 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="brush">the brush to use</param>
         /// <param name="rectangle">the bounding rectangle to draw in</param>
         /// <returns>Beveled border path, null if there is no rounded corners</returns>
-        public static void DrawBorder(Color color, CssSide border, PointF[] borderPts, Canvas g,
+        public static void DrawBorder(Color color, CssSide border, PointF[] borderPts, DrawBoard g,
             CssBox box, RectangleF rectangle)
         {
             SetInOutsetRectanglePoints(border, box, rectangle, true, true, borderPts);
             g.FillPolygon(color, borderPts);
         }
-        public static void DrawBorder(CssSide border, PointF[] borderPts, Canvas g, CssBox box, Color solidColor, RectangleF rectangle)
+        public static void DrawBorder(CssSide border, PointF[] borderPts, DrawBoard g, CssBox box, Color solidColor, RectangleF rectangle)
         {
             SetInOutsetRectanglePoints(border, box, rectangle, true, true, borderPts);
             g.FillPolygon(solidColor, borderPts);
@@ -140,7 +140,7 @@ namespace LayoutFarm.HtmlBoxes
             Color borderColor;
             CssBorderStyle style;
             GetBorderBorderDrawingInfo(box, borderSide, out style, out borderColor, out actualBorderWidth);
-            Canvas g = p.InnerCanvas;
+            DrawBoard g = p.InnerCanvas;
             if (box.HasSomeRoundCorner)
             {
                 GraphicsPath borderPath = GetRoundedBorderPath(p, borderSide, box, rect);

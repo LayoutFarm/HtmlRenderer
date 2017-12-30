@@ -22,7 +22,7 @@ namespace LayoutFarm.HtmlBoxes
         CssBox _mouseDownStartAt;
         //-----------------------------------------------
 
-        IFonts ifonts;
+        ITextService ifonts;
         bool _isBinded;
         int lastDomLayoutVersion;
         const int DOUBLE_CLICK_SENSE = 150;//ms 
@@ -38,7 +38,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             this._htmlContainer = htmlCont;
             _isBinded = htmlCont != null;
-            this.ifonts = ((RootGraphic)htmlCont.RootCssBox.GetInternalRootGfx()).IFonts;
+            this.ifonts = htmlCont.GetTextService();// ((RootGraphic)htmlCont.RootCssBox.GetInternalRootGfx()).IFonts;
         }
         public void Unbind()
         {

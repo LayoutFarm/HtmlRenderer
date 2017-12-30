@@ -16,7 +16,7 @@ namespace LayoutFarm
             this.primaryScreenWorkingAreaW = workingArea.Width;
             this.primaryScreenWorkingAreaH = workingArea.Height;
         }
-        public LayoutFarm.UI.UIPlatform Platform
+        public LayoutFarm.UIPlatform Platform
         {
             get
             {

@@ -29,7 +29,7 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         readonly CssBox _tableBox;
         readonly List<CssBox> _allRowBoxes = new List<CssBox>();
-        IFonts _tmpIFonts;
+        ITextService _tmpIFonts;
         TableColumnCollection columnCollection;
         const int MAX_COL_AT_THIS_VERSION = 20;
         float hostAvaliableWidth;
@@ -1148,7 +1148,7 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="maxWidth">The total width the content can take without line wrapping (with padding).</param>
         static void CalculateMinMaxContentWidths(CssBox box,
             CssBox cbBox,
-            IFonts iFonts,
+            ITextService iFonts,
             out float minWidth, out float maxWidth)
         {
             float min = 0f;
@@ -1173,7 +1173,7 @@ namespace LayoutFarm.HtmlBoxes
         static void CalculateMinMaxSumWords(
             CssBox box,
             CssBox cbBox,
-            IFonts iFonts,
+            ITextService iFonts,
             ref float min,
             ref float maxSum,
             ref float paddingSum,

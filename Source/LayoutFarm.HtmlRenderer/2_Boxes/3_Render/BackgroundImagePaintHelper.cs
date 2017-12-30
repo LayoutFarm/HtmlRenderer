@@ -31,7 +31,7 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="box">the box to draw its background image</param>
         /// <param name="imageLoadHandler">the handler that loads image to draw</param>
         /// <param name="rectangle">the rectangle to draw image in</param>
-        public static void DrawBackgroundImage(Canvas g, CssBox box, ImageBinder imageBinder, RectangleF rectangle)
+        public static void DrawBackgroundImage(DrawBoard g, CssBox box, ImageBinder imageBinder, RectangleF rectangle)
         {
             var image = imageBinder.Image;
             //temporary comment image scale code 
@@ -138,7 +138,7 @@ namespace LayoutFarm.HtmlBoxes
         /// Draw the background image at the required location repeating it over the X axis.<br/>
         /// Adjust location to left if starting location doesn't include all the range (adjusted to center or right).
         /// </summary>
-        static void DrawRepeatX(Canvas g, Image img, RectangleF rectangle, Rectangle srcRect, Rectangle destRect, Size imgSize)
+        static void DrawRepeatX(DrawBoard g, Image img, RectangleF rectangle, Rectangle srcRect, Rectangle destRect, Size imgSize)
         {
             while (destRect.X > rectangle.X)
                 destRect.X -= imgSize.Width;
@@ -155,7 +155,7 @@ namespace LayoutFarm.HtmlBoxes
         /// Draw the background image at the required location repeating it over the Y axis.<br/>
         /// Adjust location to top if starting location doesn't include all the range (adjusted to center or bottom).
         /// </summary>
-        private static void DrawRepeatY(Canvas g, Image img, RectangleF rectangle, Rectangle srcRect, Rectangle destRect, Size imgSize)
+        private static void DrawRepeatY(DrawBoard g, Image img, RectangleF rectangle, Rectangle srcRect, Rectangle destRect, Size imgSize)
         {
             while (destRect.Y > rectangle.Y)
                 destRect.Y -= imgSize.Height;
@@ -171,7 +171,7 @@ namespace LayoutFarm.HtmlBoxes
         /// Draw the background image at the required location repeating it over the X and Y axis.<br/>
         /// Adjust location to left-top if starting location doesn't include all the range (adjusted to center or bottom/right).
         /// </summary>
-        private static void DrawRepeat(Canvas g, Image img, RectangleF rectangle, Rectangle srcRect, Rectangle destRect, Size imgSize)
+        private static void DrawRepeat(DrawBoard g, Image img, RectangleF rectangle, Rectangle srcRect, Rectangle destRect, Size imgSize)
         {
             while (destRect.X > rectangle.X)
                 destRect.X -= imgSize.Width;
