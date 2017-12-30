@@ -121,13 +121,23 @@ BSD, 2009-2010, Poly2Tri Contributors, from https://github.com/PaintLab/poly2tri
 
 SGI, 2000, Eric Veach, Tesselate.
 
+
+**Image Processing**
+
+BSD, 2002-2005, Maxim Shemanarev, from http://www.antigrain.com , Anti-Grain Geometry - Version 2.4,
+
+MIT, 2009-2015, Bill Reiss, Rene Schulte and WriteableBitmapEx Contributors, https://github.com/teichgraf/WriteableBitmapEx
+
+MIT, 2008, dotPDN LLC, Rick Brewster, Chris Crosetto, Tom Jackson, Michael Kelsey, Brandon Ortiz, Craig Taylor, Chris Trevino, and Luke Walker., from OpenPDN v 3.36 (Paint.NET), https://github.com/rivy/OpenPDN
+
+
 **Font**
 
-Apache2, 2016-2017, WinterDev, from https://github.com/LayoutFarm/Typography
+Apache2, 2016-2017, WinterDev, Samuel Carlsson, Sam Hocevar and others, from https://github.com/LayoutFarm/Typography
 
 Apache2, 2014-2016, Samuel Carlsson, from https://github.com/vidstige/NRasterizer
 
-MIT, 2015, Michael Popoloski MIT, from https://github.com/MikePopoloski/SharpFont
+MIT, 2015, Michael Popoloski, from https://github.com/MikePopoloski/SharpFont
 
 The FreeType Project LICENSE (3-clauses BSD style),2003-2016, David Turner, Robert Wilhelm, and Werner Lemberg and others, from https://www.freetype.org/
 
