@@ -14,7 +14,7 @@ The HtmlRenderer example!
 ---
 
 
-![html_renderer_with_selection](https://user-images.githubusercontent.com/7447159/34452219-1a37545c-ed6d-11e7-969f-b0f5623e4802.png)
+![html_renderer_with_selection2](https://user-images.githubusercontent.com/7447159/34453250-b149ecce-ed81-11e7-885b-e4b02460fcf7.png)
 _pic 2: HtmlRenderer on GLES2 surface, text are renderered with the Typography_
 
 
