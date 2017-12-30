@@ -48,9 +48,6 @@
     <Compile Include="..\deps\pixelfarm\win32utils\MyWin32.cs">
       <Link>win32utils\MyWin32.cs</Link>
     </Compile>
-    <Compile Include="..\deps\pixelfarm\win32utils\NativeTextWin32.cs">
-      <Link>win32utils\NativeTextWin32.cs</Link>
-    </Compile>
     <Compile Include="..\deps\pixelfarm\win32utils\NativeWin32MemoryDc.cs">
       <Link>win32utils\NativeWin32MemoryDc.cs</Link>
     </Compile>

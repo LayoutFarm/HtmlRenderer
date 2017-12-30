@@ -74,7 +74,7 @@ namespace LayoutFarm.Demo
         WebDom.CssActiveSheet _baseCssData;
         Timer timer01 = new Timer();
         LayoutFarm.HtmlBoxes.LayoutVisitor htmlLayoutVisitor;
-        PixelFarm.Drawing.Canvas renderCanvas;
+        PixelFarm.Drawing.DrawBoard renderCanvas;
 
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace LayoutFarm.Demo
                 OnRefresh,
                 null);
             //------------------------------------------------------- 
-            htmlLayoutVisitor = new LayoutVisitor(htmlhost.RootGfx.IFonts);
+            htmlLayoutVisitor = new LayoutVisitor(htmlhost.GetTextService());
             htmlLayoutVisitor.Bind(htmlContainer);
             //------------------------------------------------------- 
             timer01.Interval = 20;//20ms?
@@ -401,7 +401,7 @@ namespace LayoutFarm.Demo
                 var bounds = this.Bounds;
                 htmlContainer.CheckDocUpdate();
                 var painter = GetSharedPainter(htmlContainer, renderCanvas);
-                renderCanvas.ClearSurface(PixelFarm.Drawing.Color.White);
+                renderCanvas.Clear(PixelFarm.Drawing.Color.White);
                 var scrollPos = AutoScrollPosition;
                 painter.SetViewportSize(bounds.Width, bounds.Height);
                 painter.OffsetCanvasOrigin(scrollPos.X, scrollPos.Y);
@@ -754,7 +754,7 @@ namespace LayoutFarm.Demo
         #endregion
 
 
-        static PaintVisitor GetSharedPainter(LayoutFarm.HtmlBoxes.HtmlContainer htmlCont, PixelFarm.Drawing.Canvas canvas)
+        static PaintVisitor GetSharedPainter(LayoutFarm.HtmlBoxes.HtmlContainer htmlCont, PixelFarm.Drawing.DrawBoard canvas)
         {
             PaintVisitor painter = null;
             if (painterStock.Count == 0)

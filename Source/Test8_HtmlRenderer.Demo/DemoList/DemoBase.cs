@@ -1,6 +1,7 @@
 ﻿//MIT, 2014-2017, WinterDev
 using System;
 using System.Drawing;
+using PixelFarm.Drawing;
 
 namespace LayoutFarm.Demo
 {
@@ -70,6 +71,11 @@ namespace LayoutFarm.Demo
         public byte[] GetRawImageBuffer()
         {
             return rawImageBuffer;
+        }
+
+        public override void RequestInternalBuffer(ref ImgBufferRequestArgs buffRequest)
+        {
+            throw new NotImplementedException();
         }
     }
    

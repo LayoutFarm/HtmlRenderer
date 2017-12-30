@@ -11,7 +11,7 @@ namespace LayoutFarm.HtmlBoxes
         Stack<Rectangle> clipStacks = new Stack<Rectangle>();
         PointF[] borderPoints = new PointF[4];
         HtmlContainer htmlContainer;
-        Canvas canvas;
+        DrawBoard canvas;
         Rectangle latestClip = new Rectangle(0, 0, CssBoxConstConfig.BOX_MAX_RIGHT, CssBoxConstConfig.BOX_MAX_BOTTOM);
         MultiLayerStack<CssBox> latePaintStack = new MultiLayerStack<CssBox>();
         float viewportWidth;
@@ -19,7 +19,7 @@ namespace LayoutFarm.HtmlBoxes
         public PaintVisitor()
         {
         }
-        public void Bind(HtmlContainer htmlCont, Canvas canvas)
+        public void Bind(HtmlContainer htmlCont, DrawBoard canvas)
         {
             this.htmlContainer = htmlCont;
             this.canvas = canvas;
@@ -40,7 +40,7 @@ namespace LayoutFarm.HtmlBoxes
             this.viewportHeight = height;
         }
 
-        public Canvas InnerCanvas
+        public DrawBoard InnerCanvas
         {
             get
             {
@@ -160,11 +160,11 @@ namespace LayoutFarm.HtmlBoxes
 
         public int CanvasOriginX
         {
-            get { return this.canvas.CanvasOriginX; }
+            get { return this.canvas.OriginX; }
         }
         public int CanvasOriginY
         {
-            get { return this.canvas.CanvasOriginY; }
+            get { return this.canvas.OriginY; }
         }
         public void SetCanvasOrigin(int x, int y)
         {

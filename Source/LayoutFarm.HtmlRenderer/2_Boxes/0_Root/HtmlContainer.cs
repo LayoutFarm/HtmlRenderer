@@ -20,6 +20,7 @@ namespace LayoutFarm.HtmlBoxes
 {
     public abstract class HtmlContainer : IDisposable
     {
+        ITextService _textService;
         /// <summary>
         /// the root css box of the parsed html
         /// </summary>
@@ -41,6 +42,12 @@ namespace LayoutFarm.HtmlBoxes
         public abstract void CopySelection(System.Text.StringBuilder stbuilder);
         public HtmlContainer()
         {
+            //TODO: review here again
+            _textService = PixelFarm.Drawing.WinGdi.WinGdiPlusPlatform.GetIFonts();
+        }
+        public ITextService GetTextService()
+        {
+            return _textService;
         }
 #if DEBUG
         public static int dbugCount02 = 0;

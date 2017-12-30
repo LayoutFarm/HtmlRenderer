@@ -32,7 +32,11 @@ namespace BuildMergeProject
             _slnListViewController.SetMergePlanListView(this.listView2);
             _slnListViewController.SetProjectReferenceListView(this.lstAsmReferenceList);
             _slnListViewController.LoadSolutionMx(slnMx);
-        } 
+        }
 
+        private void cmdBuildSelectedMergePro_Click(object sender, EventArgs e)
+        {
+            _slnListViewController.BuildMergeProjectFromSelectedItem();
+        }
     }
 }

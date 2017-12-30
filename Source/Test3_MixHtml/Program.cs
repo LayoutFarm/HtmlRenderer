@@ -8,12 +8,14 @@ namespace TestGraphicPackage2
     static class Program
     {
         static LayoutFarm.Dev.FormDemoList formDemoList;
-       
+
 
         [STAThread]
         static void Main()
         {
 
+            YourImplementation.BootStrapWinGdi.SetupDefaultValues();
+            YourImplementation.BootStrapOpenGLES2.SetupDefaultValues();
 
             ExampleFolderConfig.InitData();
             //-------------------------------

@@ -75,6 +75,11 @@ namespace LayoutFarm
         {
             return rawImageBuffer;
         }
+
+        public override void RequestInternalBuffer(ref ImgBufferRequestArgs buffRequest)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 

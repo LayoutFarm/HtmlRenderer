@@ -67,7 +67,7 @@ namespace LayoutFarm.HtmlBoxes
                 vscbar.MaxValue = innerBox.VisualHeight;
                 vscbar.SmallChange = 20;
                 //add relation between viewpanel and scroll bar 
-                vscRelation = new ScrollingRelation(vscbar, scrollView);
+                vscRelation = new ScrollingRelation(vscbar.SliderBox, scrollView);
                 //---------------------- 
                 var scBarWrapCssBox = LayoutFarm.Composers.CustomCssBoxGenerator.CreateWrapper(
                            this.vscbar,
@@ -85,7 +85,7 @@ namespace LayoutFarm.HtmlBoxes
                 hscbar.MaxValue = innerBox.VisualHeight;
                 hscbar.SmallChange = 20;
                 //add relation between viewpanel and scroll bar 
-                hscRelation = new ScrollingRelation(hscbar, scrollView);
+                hscRelation = new ScrollingRelation(hscbar.SliderBox, scrollView);
                 //---------------------- 
                 var renderE = this.hscbar.GetPrimaryRenderElement((RootGraphic)this.GetInternalRootGfx());
                 var scBarWrapCssBox = LayoutFarm.Composers.CustomCssBoxGenerator.CreateWrapper(

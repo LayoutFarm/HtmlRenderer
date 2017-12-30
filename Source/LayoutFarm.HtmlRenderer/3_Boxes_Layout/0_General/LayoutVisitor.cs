@@ -16,8 +16,8 @@ namespace LayoutFarm.HtmlBoxes
         FloatingContextStack floatingContextStack = new FloatingContextStack();
         static int totalLayoutIdEpisode = 0;
         int episodeId = 1;
-        IFonts fontService;
-        public LayoutVisitor(IFonts fontService)
+        ITextService fontService;
+        public LayoutVisitor(ITextService fontService)
         {
             this.fontService = fontService;
         }
@@ -41,7 +41,7 @@ namespace LayoutFarm.HtmlBoxes
             totalMarginLeftAndRight = 0;
         }
 
-        internal IFonts SampleIFonts
+        internal ITextService SampleIFonts
         {
             get { return this.fontService; }
         }

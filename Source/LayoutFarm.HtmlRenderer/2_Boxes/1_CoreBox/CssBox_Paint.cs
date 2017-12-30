@@ -352,7 +352,7 @@ namespace LayoutFarm.HtmlBoxes
                 }
 
 
-                Canvas g = p.InnerCanvas;
+                DrawBoard g = p.InnerCanvas;
                 SmoothingMode smooth = g.SmoothingMode;
                 if (brush != null)
                 {
@@ -395,7 +395,7 @@ namespace LayoutFarm.HtmlBoxes
                 }
             }
         }
-        internal void PaintDecoration(Canvas g, RectangleF rectangle, bool isFirst, bool isLast)
+        internal void PaintDecoration(DrawBoard g, RectangleF rectangle, bool isFirst, bool isLast)
         {
             float y = 0f;
             switch (this.TextDecoration)
