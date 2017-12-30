@@ -10,10 +10,21 @@ _pic 1: HtmlRenderer, Gdi+, see [test file](https://github.com/LayoutFarm/HtmlRe
 
 **Work In Progrss ... : Cross Platform HtmlRenderer**
 
+The HtmlRenderer example!
+---
 
-![gles2](https://cloud.githubusercontent.com/assets/7447159/24164527/9c547a16-0ea0-11e7-84e0-6d4062e8ba89.png)
 
-_pic 2: HtmlRenderer: OpenGLES2 BackEnd, Preview of Latest snapshot_
+![html_renderer_with_selection](https://user-images.githubusercontent.com/7447159/34452219-1a37545c-ed6d-11e7-969f-b0f5623e4802.png)
+_pic 2: HtmlRenderer on GLES2 surface, text are renderered with the Typography_
+
+
+
+also, please note the text selection on the Html Surface.
+
+
+(HtmlRender => https://github.com/LayoutFarm/HtmlRenderer,
+
+Typography => https://github.com/LayoutFarm/Typography)
 
 ---
 The classic image.
