@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F58609C8-35D6-4F53-8D93-CAF1AC8E9C83}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PaintLab.MiniSvg</RootNamespace>
+    <AssemblyName>PaintLab.MiniSvg</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\deps_htmlkit\htmlkit\HtmlAttribute.cs">
+      <Link>WebDom\5_HtmlKit\HtmlAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\deps_htmlkit\htmlkit\HtmlAttributeCollection.cs">
+      <Link>WebDom\5_HtmlKit\HtmlAttributeCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\deps_htmlkit\htmlkit\HtmlEntityDecoder.cs">
+      <Link>WebDom\5_HtmlKit\HtmlEntityDecoder.cs</Link>
+    </Compile>
+    <Compile Include="..\deps_htmlkit\htmlkit\HtmlEntityDecoder.g.cs">
+      <Link>WebDom\5_HtmlKit\HtmlEntityDecoder.g.cs</Link>
+    </Compile>
+    <Compile Include="..\deps_htmlkit\htmlkit\HtmlNamespace.cs">
+      <Link>WebDom\5_HtmlKit\HtmlNamespace.cs</Link>
+    </Compile>
+    <Compile Include="..\deps_htmlkit\htmlkit\HtmlToken.cs">
+      <Link>WebDom\5_HtmlKit\HtmlToken.cs</Link>
+    </Compile>
+    <Compile Include="..\deps_htmlkit\htmlkit\HtmlTokenizer.cs">
+      <Link>WebDom\5_HtmlKit\HtmlTokenizer.cs</Link>
+    </Compile>
+    <Compile Include="..\deps_htmlkit\htmlkit\HtmlTokenizerState.cs">
+      <Link>WebDom\5_HtmlKit\HtmlTokenizerState.cs</Link>
+    </Compile>
+    <Compile Include="..\deps_htmlkit\htmlkit\HtmlTokenKind.cs">
+      <Link>WebDom\5_HtmlKit\HtmlTokenKind.cs</Link>
+    </Compile>
+    <Compile Include="..\deps_htmlkit\htmlkit\HtmlUtils.cs">
+      <Link>WebDom\5_HtmlKit\HtmlUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\deps_htmlkit\htmlkit\HtmlWriter.cs">
+      <Link>WebDom\5_HtmlKit\HtmlWriter.cs</Link>
+    </Compile>
+    <Compile Include="..\deps_htmlkit\htmlkit\HtmlWriterState.cs">
+      <Link>WebDom\5_HtmlKit\HtmlWriterState.cs</Link>
+    </Compile>
+    <Compile Include="..\deps_htmlkit\htmlkit\ICharArray.cs">
+      <Link>WebDom\5_HtmlKit\ICharArray.cs</Link>
+    </Compile>
+    <Compile Include="ForNet20.cs" />
+    <Compile Include="WebDom\0_WebDom.Parser\CssParser.cs" />
+    <Compile Include="WebDom\0_WebDom.Parser\CssParserHelper.cs" />
+    <Compile Include="WebDom\0_WebDom.Parser\CssValueParser.cs" />
+    <Compile Include="WebDom\0_WebDom.Parser\DeprecatedAttribute.cs" />
+    <Compile Include="WebDom\0_WebDom.Parser\HtmlKitParser.cs" />
+    <Compile Include="WebDom\0_WebDom.Parser\HtmlParser.cs" />
+    <Compile Include="WebDom\0_WebDom.Parser\HtmlUtils.cs" />
+    <Compile Include="WebDom\0_WebDom.Parser\MyHtmlParser.cs" />
+    <Compile Include="WebDom\0_WebDom.Parser\TextSource.cs" />
+    <Compile Include="CssBase\CssColor.cs" />
+    <Compile Include="CssBase\CssConstants.cs" />
+    <Compile Include="CssBase\CssKnownColor.cs" />
+    <Compile Include="CssBase\CssLength.cs" />
+    <Compile Include="CssBase\CssProps.cs" />
+    <Compile Include="CssBase\CssUnitOrNames.cs" />
+    <Compile Include="CssBase\MapAttribute.cs" />
+    <Compile Include="WebDom\1_Css\CssActiveSheet.cs" />
+    <Compile Include="WebDom\1_Css\CssAttributeSelector.cs" />
+    <Compile Include="WebDom\1_Css\CssCodeValueExpressions.cs" />
+    <Compile Include="WebDom\1_Css\CssDocMembers.cs" />
+    <Compile Include="WebDom\1_Css\CssDocument.cs" />
+    <Compile Include="WebDom\1_Css\CssElementSelectors.cs" />
+    <Compile Include="WebDom\1_Css\CssPropertyDeclaration.cs" />
+    <Compile Include="WebDom\1_Css\UserMapUtil.cs" />
+    <Compile Include="WebDom\1_Css\ValueMaps.cs" />
+    <Compile Include="WebDom\1_Css\WellknownCssPropertyName.cs" />
+    <Compile Include="WebDom\2_Svg\05_SvgDoms\CssBoxSvgRoot.cs" />
+    <Compile Include="WebDom\2_Svg\05_SvgDoms\SvgElements.cs" />
+    <Compile Include="WebDom\2_Svg\07_Coords_Transforms\SvgMatrix.cs" />
+    <Compile Include="WebDom\2_Svg\07_Coords_Transforms\SvgRotate.cs" />
+    <Compile Include="WebDom\2_Svg\07_Coords_Transforms\SvgScale.cs" />
+    <Compile Include="WebDom\2_Svg\07_Coords_Transforms\SvgShear.cs" />
+    <Compile Include="WebDom\2_Svg\07_Coords_Transforms\SvgSkew.cs" />
+    <Compile Include="WebDom\2_Svg\07_Coords_Transforms\SvgTransform.cs" />
+    <Compile Include="WebDom\2_Svg\07_Coords_Transforms\SvgTranslate.cs" />
+    <Compile Include="WebDom\2_Svg\08_Paths\SvgPath.cs" />
+    <Compile Include="WebDom\2_Svg\08_Paths\SvgPathDataParser.cs" />
+    <Compile Include="WebDom\2_Svg\08_Paths\SvgPathSegments.cs" />
+    <Compile Include="WebDom\2_Svg\09_BasicShapes\SvgImage.cs" />
+    <Compile Include="WebDom\2_Svg\09_BasicShapes\SvgImageBinder.cs" />
+    <Compile Include="WebDom\2_Svg\09_BasicShapes\SvgSpec.cs" />
+    <Compile Include="WebDom\2_Svg\09_BasicShapes\SvgVisualElements.cs" />
+    <Compile Include="WebDom\5_HtmlKit\HtmlAttributeId.cs" />
+    <Compile Include="WebDom\5_HtmlKit\HtmlTagId.cs" />
+    <Compile Include="WebDom\IScriptable\JsScriptAttributes.cs" />
+    <Compile Include="WebLexer\CssLexer.cs" />
+    <Compile Include="WebLexer\dbugLexerReport.cs" />
+    <Compile Include="WebLexer\HtmlLexer.cs" />
+    <Compile Include="WebLexer\MyHtmlLexer.cs" />
+    <Compile Include="WebLexer\MyHtmlLexer_dbug.cs" />
+    <Compile Include="WebLexer\TextSnapshot.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

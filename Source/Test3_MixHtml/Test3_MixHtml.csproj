@@ -19,7 +19,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
@@ -47,12 +47,6 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\deps\pixelfarm\win32utils\MyWin32.cs">
-      <Link>win32utils\MyWin32.cs</Link>
-    </Compile>
-    <Compile Include="..\deps\pixelfarm\win32utils\NativeWin32MemoryDc.cs">
-      <Link>win32utils\NativeWin32MemoryDc.cs</Link>
-    </Compile>
     <Compile Include="Demo4\4.6_DynamicDom1.cs" />
     <Compile Include="Demo5\5.9_Demo_TreeView.cs" />
     <Compile Include="Demo5\5.0_HtmlDemoBase.cs" />
@@ -85,33 +79,17 @@
     <Compile Include="SampleViewportExtension.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Deps\x_autogen2\PixelFarm.One.HtmlRenderer\PixelFarm.One.HtmlRenderer.csproj">
-      <Project>{0759498a-427e-480c-a405-0442611fb33b}</Project>
+    <ProjectReference Include="..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\PixelFarm.One.HtmlRenderer.csproj">
+      <Project>{367ae189-bede-436c-8186-362a771f35b2}</Project>
       <Name>PixelFarm.One.HtmlRenderer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.CssBase\LayoutFarm.CssBase.csproj">
-      <Project>{5164ec24-95c4-4333-bd4e-70ee625cceb4}</Project>
-      <Name>LayoutFarm.CssBase</Name>
     </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.HtmlComposer\LayoutFarm.HtmlComposer.csproj">
       <Project>{1af17e34-4c2d-4657-b993-e0608c555111}</Project>
       <Name>LayoutFarm.HtmlComposer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.HtmlRenderer\LayoutFarm.HtmlRenderer.csproj">
-      <Project>{9D2A40BC-FA95-454D-AEF5-4DD9344BFDC3}</Project>
-      <Name>LayoutFarm.HtmlRenderer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.WebDom\LayoutFarm.WebDom.csproj">
-      <Project>{A7E65FD9-329D-4902-BCDA-51EE4F992FD5}</Project>
-      <Name>LayoutFarm.WebDom</Name>
-    </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.YourHtmlWidget\LayoutFarm.YourHtmlWidget.csproj">
       <Project>{9a73d7be-c7f0-47a8-8fd4-2906c4917148}</Project>
       <Name>LayoutFarm.YourHtmlWidget</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Test0_PresentationDevHelper_New\Test0_PresentationDevHelper_New.csproj">
-      <Project>{05C84CAB-2F5D-4D74-9A62-EADDF5B4CC0B}</Project>
-      <Name>Test0_PresentationDevHelper_New</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

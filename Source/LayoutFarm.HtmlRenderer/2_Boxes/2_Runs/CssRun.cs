@@ -186,7 +186,7 @@ namespace LayoutFarm.HtmlBoxes
         public float Height
         {
             get { return this._height; }
-           set { this._height = value; }
+            set { this._height = value; }
         }
 
         /// <summary>
@@ -284,23 +284,28 @@ namespace LayoutFarm.HtmlBoxes
                     {
                         char[] ownerTextBuff = CssBox.UnsafeGetTextBuffer(this.OwnerBox);
                         CssTextRun textRun = (CssTextRun)this;
-                        ifonts.MeasureString(ownerTextBuff, textRun.TextStartIndex, textRun.TextLength,
+                        var textBuf = new TextBufferSpan(ownerTextBuff, textRun.TextStartIndex, textRun.TextLength);
+
+                        ifonts.MeasureString(ref textBuf,
                             this.OwnerBox.ResolvedFont, maxWidth, out charFit, out charFitWidth);
                         selectionIndex = charFit;
                         runSelectionOffsetPx = charFitWidth;
- 
+
+
                     }
                     break;
                 case CssRunKind.Space:
                     {
                         char[] ownerTextBuff = CssBox.UnsafeGetTextBuffer(this.OwnerBox);
                         CssTextRun textRun = (CssTextRun)this;
-                        ifonts.MeasureString(ownerTextBuff, textRun.TextStartIndex, textRun.TextLength,
+                        var textBuf = new TextBufferSpan(ownerTextBuff, textRun.TextStartIndex, textRun.TextLength);
+
+                        ifonts.MeasureString(ref textBuf,
                             this.OwnerBox.ResolvedFont, maxWidth, out charFit, out charFitWidth);
                         selectionIndex = charFit;
                         runSelectionOffsetPx = charFitWidth;
 
-                      
+
                     }
                     break;
                 case CssRunKind.SingleSpace:

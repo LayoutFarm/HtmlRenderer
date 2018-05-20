@@ -15,8 +15,10 @@ namespace TestGraphicPackage2
         {
 
             YourImplementation.BootStrapWinGdi.SetupDefaultValues();
-            YourImplementation.BootStrapOpenGLES2.SetupDefaultValues();
 
+#if GL_ENABLE
+            YourImplementation.BootStrapOpenGLES2.SetupDefaultValues();
+#endif
             ExampleFolderConfig.InitData();
             //-------------------------------
             Application.EnableVisualStyles();

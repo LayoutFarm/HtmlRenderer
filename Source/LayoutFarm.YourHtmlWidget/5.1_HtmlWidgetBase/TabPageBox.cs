@@ -67,23 +67,24 @@ namespace LayoutFarm.HtmlWidgets
         public DomElement GetPageBody(DomElement hostNode)
         {
             if (contentNode != null) return contentNode;
-            var ownerdoc = hostNode.OwnerDocument;
+            WebDocument ownerdoc = hostNode.OwnerDocument;
             contentNode = ownerdoc.CreateElement("div");
             if (this.contentUI != null)
             {
                 //add content ui to the body of page
                 //creat html wrapper for this ...        
 
-                throw new NotImplementedException();
+                //  throw new NotImplementedException();
                 //reimpl here again
-                //HtmlDocument htmldoc = (HtmlDocument)ownerdoc;
-                //var wrapperElement = htmldoc.CreateWrapperElement("x",(RootGraphic rootgfx, out RenderElement renderE, out object controller) =>
-                //{   
-                //    renderE = contentUI.GetPrimaryRenderElement(rootgfx);
-                //    controller = contentUI;
+                LayoutFarm.Composers.HtmlDocument htmldoc = (LayoutFarm.Composers.HtmlDocument)ownerdoc;
+                var wrapperElement = htmldoc.CreateWrapperElement("x",
+                 (RootGraphic rootgfx, out RenderElement renderE, out object controller) =>
+                 {
+                     renderE = contentUI.GetPrimaryRenderElement(rootgfx);
+                     controller = contentUI;
 
-                //});
-                //contentNode.AddChild(wrapperElement);
+                 });
+                contentNode.AddChild(wrapperElement);
 
             }
             return contentNode;
