@@ -55,21 +55,9 @@
       <Project>{367ae189-bede-436c-8186-362a771f35b2}</Project>
       <Name>PixelFarm.One.HtmlRenderer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.CssBase\LayoutFarm.CssBase.csproj">
-      <Project>{5164ec24-95c4-4333-bd4e-70ee625cceb4}</Project>
-      <Name>LayoutFarm.CssBase</Name>
-    </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.HtmlComposer\LayoutFarm.HtmlComposer.csproj">
       <Project>{1af17e34-4c2d-4657-b993-e0608c555111}</Project>
       <Name>LayoutFarm.HtmlComposer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.HtmlRenderer\LayoutFarm.HtmlRenderer.csproj">
-      <Project>{9d2a40bc-fa95-454d-aef5-4dd9344bfdc3}</Project>
-      <Name>LayoutFarm.HtmlRenderer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.WebDom\LayoutFarm.WebDom.csproj">
-      <Project>{a7e65fd9-329d-4902-bcda-51ee4f992fd5}</Project>
-      <Name>LayoutFarm.WebDom</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
