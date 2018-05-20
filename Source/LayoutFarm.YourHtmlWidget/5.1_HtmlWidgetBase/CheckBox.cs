@@ -67,12 +67,12 @@ namespace LayoutFarm.HtmlWidgets
             {
                 //init 
                 bool is_close = true;
-                img.SetAttribute("src", "../../Demo/arrow_close.png");
+                img.SetAttribute("src", "../Test3_MixHtml/Demo/arrow_close.png");
                 img.AttachMouseDownEvent(e =>
                 {
                     img.SetAttribute("src", is_close ?
-                        "../../Demo/arrow_open.png" :
-                        "../../Demo/arrow_close.png");
+                        "../Test3_MixHtml/Demo/arrow_open.png" :
+                        "../Test3_MixHtml/Demo/arrow_close.png");
                     is_close = !is_close;
                     e.StopPropagation();
                 });

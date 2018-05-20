@@ -16,7 +16,7 @@ namespace BuildMergeProject
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            StartupConfig.defaultSln = @"D:\projects\PixelFarm\a_mini\projects\MiniDev.sln";
+            StartupConfig.defaultSln = @"D:\projects\HtmlRenderer\Source\HtmlRenderer.sln";
 
             Application.Run(new FormBuildMergeProject());
         }
