@@ -43,12 +43,6 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\deps\pixelfarm\win32utils\MyWin32.cs">
-      <Link>win32utils\MyWin32.cs</Link>
-    </Compile>
-    <Compile Include="..\deps\pixelfarm\win32utils\NativeWin32MemoryDc.cs">
-      <Link>win32utils\NativeWin32MemoryDc.cs</Link>
-    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
