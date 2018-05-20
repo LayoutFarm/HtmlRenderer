@@ -43,7 +43,7 @@ namespace LayoutFarm.HtmlBoxes
         public HtmlContainer()
         {
             //TODO: review here again
-            _textService = PixelFarm.Drawing.WinGdi.WinGdiPlusPlatform.GetIFonts();
+            //_textService = PixelFarm.Drawing.WinGdi.WinGdiPlusPlatform.GetIFonts();
         }
         public ITextService GetTextService()
         {
