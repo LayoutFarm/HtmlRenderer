@@ -30,9 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="..\HtmlKit\HtmlAttribute.cs">
       <Link>HtmlAttribute.cs</Link>
     </Compile>
