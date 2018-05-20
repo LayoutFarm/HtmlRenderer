@@ -51,7 +51,7 @@ namespace LayoutFarm.HtmlWidgets
                 div.AddChild("img", img =>
                 {
                     //init 
-                    img.SetAttribute("src", "../../Demo/arrow_close.png");
+                    img.SetAttribute("src", "../Test3_MixHtml/Demo/arrow_close.png");
                     img.AttachMouseDownEvent(e =>
                     {
                         //img.SetAttribute("src", this.IsOpen ?
@@ -61,12 +61,12 @@ namespace LayoutFarm.HtmlWidgets
 
                         if (this.IsOpen)
                         {
-                            img.SetAttribute("src", "../../Demo/arrow_close.png");
+                            img.SetAttribute("src", "../Test3_MixHtml/Demo/arrow_close.png");
                             this.CloseHinge();
                         }
                         else
                         {
-                            img.SetAttribute("src", "../../Demo/arrow_open.png");
+                            img.SetAttribute("src", "../Test3_MixHtml/Demo/arrow_open.png");
                             this.OpenHinge();
                         }
 

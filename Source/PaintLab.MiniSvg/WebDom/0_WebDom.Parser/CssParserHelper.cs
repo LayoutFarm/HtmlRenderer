@@ -63,15 +63,12 @@ namespace LayoutFarm.WebDom.Parser
         {
             if (!String.IsNullOrEmpty(cssTextSource))
             {
-                //TODO: review here
-                
                 var parser = new WebDom.Parser.CssParser();
                 parser.ParseCssStyleSheet(cssTextSource.ToCharArray());
                 //-----------------------------------
                 WebDom.CssDocument cssDoc = parser.OutputCssDocument;
                 WebDom.CssActiveSheet cssActiveDoc = new WebDom.CssActiveSheet();
                 cssActiveDoc.LoadCssDoc(cssDoc);
-                
                 if (cssData != null)
                 {
                     //merge ?

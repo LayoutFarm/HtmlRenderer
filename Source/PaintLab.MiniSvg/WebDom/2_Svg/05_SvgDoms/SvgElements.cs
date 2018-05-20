@@ -83,11 +83,6 @@ namespace LayoutFarm.Svg
         }
         public static float ConvertToPx(CssLength length, ref ReEvaluateArgs args)
         {
-            //--
-            //TODO: review here,
-            //move to 'Utils' class
-            //--
-
             //Return zero if no length specified, zero specified      
             switch (length.UnitOrNames)
             {
