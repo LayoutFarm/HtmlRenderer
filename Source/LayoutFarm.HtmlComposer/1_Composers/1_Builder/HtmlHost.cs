@@ -34,6 +34,8 @@ namespace LayoutFarm.HtmlBoxes
 
 
             this._textservice = MyFontServices.GetTextService();
+            HtmlContainerTextService.SetTextService(this._textservice);
+            
         }
         public HtmlHost()
             : this(
