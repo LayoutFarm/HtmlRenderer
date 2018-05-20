@@ -49,6 +49,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildMergeProject", "Tools\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixelFarm.One.HtmlRenderer", "..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\PixelFarm.One.HtmlRenderer.csproj", "{367AE189-BEDE-436C-8186-362A771F35B2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "x_merge_notes", "x_merge_notes", "{C7B2F301-3CE6-458A-AAD5-3E6CFF254512}"
+	ProjectSection(SolutionItems) = preProject
+		Deps\we_use_PixelFarm.One.HtmlRenderer_dev_Branch.txt = Deps\we_use_PixelFarm.One.HtmlRenderer_dev_Branch.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
