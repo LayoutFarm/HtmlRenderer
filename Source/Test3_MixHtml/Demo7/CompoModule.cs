@@ -12,6 +12,7 @@ namespace LayoutFarm.DzBoardSample
             this.viewport = viewport;
             OnStartModule();
         }
+        public RootGraphic RootGfx { get { return viewport.RootGfx; } }
         protected virtual void OnStartModule()
         {
         }

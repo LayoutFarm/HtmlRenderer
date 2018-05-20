@@ -140,7 +140,7 @@ namespace LayoutFarm.DzBoardSample
         public bool EnableUndoHistoryRecording { get; set; }
         protected override void OnStartModule()
         {
-            this.rootgfx = viewport.ViewportControl.RootGfx;
+            this.rootgfx = viewport.RootGfx;
             //--------------------------------
 
 

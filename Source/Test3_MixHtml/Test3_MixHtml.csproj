@@ -19,7 +19,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
@@ -85,8 +85,8 @@
     <Compile Include="SampleViewportExtension.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Deps\x_autogen2\PixelFarm.One.HtmlRenderer\PixelFarm.One.HtmlRenderer.csproj">
-      <Project>{0759498a-427e-480c-a405-0442611fb33b}</Project>
+    <ProjectReference Include="..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\PixelFarm.One.HtmlRenderer.csproj">
+      <Project>{367ae189-bede-436c-8186-362a771f35b2}</Project>
       <Name>PixelFarm.One.HtmlRenderer</Name>
     </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.CssBase\LayoutFarm.CssBase.csproj">
@@ -108,10 +108,6 @@
     <ProjectReference Include="..\LayoutFarm.YourHtmlWidget\LayoutFarm.YourHtmlWidget.csproj">
       <Project>{9a73d7be-c7f0-47a8-8fd4-2906c4917148}</Project>
       <Name>LayoutFarm.YourHtmlWidget</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Test0_PresentationDevHelper_New\Test0_PresentationDevHelper_New.csproj">
-      <Project>{05C84CAB-2F5D-4D74-9A62-EADDF5B4CC0B}</Project>
-      <Name>Test0_PresentationDevHelper_New</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
