@@ -18,7 +18,7 @@ namespace LayoutFarm.DzBoardSample
             dzBoardModule = new DesignBoardModule();
             menuModule = new MenuBoardModule();
             menuModule.menuItemClick += new EventHandler<MenuItemClickEventArgs>(menuModule_menuItemClick);
-            var contentMx = new LayoutFarm.ContentManagers.ImageContentManager(sampleViewport.Platform);
+            var contentMx = new LayoutFarm.ContentManagers.ImageContentManager();
             contentMx.ImageLoadingRequest += contentMx_ImageLoadingRequest;
             //app specific here
             documentRootPath = System.Windows.Forms.Application.ExecutablePath;
@@ -135,5 +135,8 @@ namespace LayoutFarm.DzBoardSample
             //if found
             e.TextContent = System.IO.File.ReadAllText(absolutePath);
         }
+
+    
+
     }
 }

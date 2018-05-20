@@ -12,10 +12,10 @@ namespace LayoutFarm
             EventHandler<ContentManagers.TextRequestEventArgs> textReq)
         {
             HtmlBoxes.HtmlHost htmlhost = new HtmlBoxes.HtmlHost();
-            htmlhost.SetRootGraphics(sampleViewport.Root);
+            htmlhost.SetRootGraphics(sampleViewport.RootGfx);
 
             List<HtmlBoxes.HtmlContainer> htmlContUpdateList = new List<HtmlBoxes.HtmlContainer>();
-            sampleViewport.Root.ClearingBeforeRender += (s, e) =>
+            sampleViewport.RootGfx.ClearingBeforeRender += (s, e) =>
             {
 
                 //1.

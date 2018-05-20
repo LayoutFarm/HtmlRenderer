@@ -13,7 +13,7 @@ namespace LayoutFarm
         protected override void OnStartDemo(SampleViewport viewport)
         {
             //html box
-            var contentMx = new LayoutFarm.ContentManagers.ImageContentManager(viewport.Platform);
+            var contentMx = new LayoutFarm.ContentManagers.ImageContentManager();
             contentMx.ImageLoadingRequest += contentMx_ImageLoadingRequest;
             var host = HtmlHostCreatorHelper.CreateHtmlHost(viewport,
                 (s, e) => contentMx.AddRequestImage(e.ImageBinder),
