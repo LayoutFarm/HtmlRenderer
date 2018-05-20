@@ -18,6 +18,19 @@ using System.Collections.Generic;
 using PixelFarm.Drawing;
 namespace LayoutFarm.HtmlBoxes
 {
+
+
+    public static class HtmlContainerTextService
+    {
+
+        internal static ITextService s_textservice;
+        public static void SetTextService(ITextService textservice)
+        {
+            s_textservice = textservice;
+        }
+
+
+    }
     public abstract class HtmlContainer : IDisposable
     {
         ITextService _textService;
@@ -43,7 +56,14 @@ namespace LayoutFarm.HtmlBoxes
         public HtmlContainer()
         {
             //TODO: review here again
-            //_textService = PixelFarm.Drawing.WinGdi.WinGdiPlusPlatform.GetIFonts();
+          
+            _textService = HtmlContainerTextService.s_textservice;
+#if DEBUG
+            if (_textService == null)
+            {
+                throw new NotSupportedException();
+            }
+#endif
         }
         public ITextService GetTextService()
         {
