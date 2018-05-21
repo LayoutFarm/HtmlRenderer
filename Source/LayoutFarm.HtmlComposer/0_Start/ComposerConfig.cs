@@ -1,7 +1,6 @@
 ﻿//BSD, 2014-2017, WinterDev
 
 using PixelFarm.Drawing;
-using PixelFarm.Drawing.Fonts;
 namespace LayoutFarm.Composers
 {
 
@@ -10,7 +9,7 @@ namespace LayoutFarm.Composers
     {
 
         static ITextService s_textService;
-        public static PixelFarm.Drawing.ITextService GetTextService()
+        public static ITextService GetTextService()
         {
             if (s_textService == null)
             {
