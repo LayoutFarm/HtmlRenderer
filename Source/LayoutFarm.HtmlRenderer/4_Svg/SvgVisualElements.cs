@@ -6,27 +6,7 @@ using PixelFarm.Drawing;
 using LayoutFarm.HtmlBoxes;
 namespace LayoutFarm.Svg
 {
-    //public class PaintVisitor
-    //{
-    //    public bool UseCurrentContext { get; set; }
-    //    public Color CurrentContextFillColor { get; set; }
-    //    public Color CurrentContextPenColor { get; set; }
-    //    public float CurrentContextPenWidth { get; set; }
-
-    //    public void FillPath(GraphicsPath g, Color color)
-    //    {
-
-    //    }
-    //    public void DrawPath(GraphicsPath g, Color strokeColor, float strokeWidth)
-    //    {
-
-    //    }
-    //    public void DrawLine(float x1, float y1, float x2, float y2, Color strokeColor, float strokeWidth)
-    //    {
-
-    //    }
-
-    //}
+     
     public abstract class SvgVisualElement : SvgElement
     {
         protected Color strokeColor = Color.Transparent;
