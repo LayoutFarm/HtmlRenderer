@@ -73,23 +73,13 @@
     <Compile Include="2_Boxes\3_Render\MultiLayerStack.cs" />
     <Compile Include="3_Boxes_Layout\0_General\CssLayoutEngine.FloatFormattingContext.cs" />
     <Compile Include="3_Boxes_Layout\1_Flex\FlexContainer.cs" />
-    <Compile Include="4_Svg\05_SvgDoms\CssBoxSvgRoot.cs" />
-    <Compile Include="4_Svg\05_SvgDoms\SvgElements.cs" />
-    <Compile Include="4_Svg\07_Coords_Transforms\SvgMatrix.cs" />
-    <Compile Include="4_Svg\07_Coords_Transforms\SvgRotate.cs" />
-    <Compile Include="4_Svg\07_Coords_Transforms\SvgScale.cs" />
-    <Compile Include="4_Svg\07_Coords_Transforms\SvgShear.cs" />
-    <Compile Include="4_Svg\07_Coords_Transforms\SvgSkew.cs" />
-    <Compile Include="4_Svg\07_Coords_Transforms\SvgTransform.cs" />
-    <Compile Include="4_Svg\07_Coords_Transforms\SvgTranslate.cs" />
-    <Compile Include="4_Svg\08_Paths\SvgPath.cs" />
-    <Compile Include="4_Svg\08_Paths\SvgPathDataParser.cs" />
-    <Compile Include="4_Svg\08_Paths\SvgPathSegments.cs" />
-    <Compile Include="4_Svg\09_BasicShapes\SvgImage.cs" />
-    <Compile Include="4_Svg\09_BasicShapes\SvgImageBinder.cs" />
-    <Compile Include="4_Svg\09_BasicShapes\SvgSpec.cs" />
-    <Compile Include="4_Svg\09_BasicShapes\SvgVisualElements.cs" />
-    <Compile Include="4_Svg\16_Interactivity\SvgHitChain.cs" />
+    <Compile Include="4_Svg\CssBoxSvgRoot.cs" />
+    <Compile Include="4_Svg\SvgElements.cs" />
+    <Compile Include="4_Svg\SvgImage.cs" />
+    <Compile Include="4_Svg\SvgHitChain.cs" />
+    <Compile Include="4_Svg\SvgImageBinder.cs" />
+    <Compile Include="4_Svg\SvgPath.cs" />
+    <Compile Include="4_Svg\SvgVisualElements.cs" />
     <Compile Include="5_Boxes_SpecialBoxes\CssFloatContainerBox.cs" />
     <Compile Include="Platform\FontDefaultConfig.cs" />
     <Compile Include="2_Boxes\4_HitAndSelections\SelectionRange.cs" />
@@ -154,13 +144,25 @@
       <Project>{d2cc5cef-3003-4a5d-a532-8eb7e4fa40f2}</Project>
       <Name>PaintLab.AbstractPlatform</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.CssBase\PaintLab.CssBase.csproj">
+      <Project>{bf5f9590-f680-403d-932a-7cdd12af89fb}</Project>
+      <Name>PaintLab.CssBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\PaintLab.WebDom.csproj">
+      <Project>{7ff733c1-dce3-4735-b772-bb2d362eca54}</Project>
+      <Name>PaintLab.WebDom</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebLexer\PaintLab.WebLexer.csproj">
+      <Project>{8fba6297-44a9-4c3f-b22d-d33e00669942}</Project>
+      <Name>PaintLab.WebLexer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\PixelFarm.Drawing.csproj">
       <Project>{51d63482-5697-4b16-8401-506965624657}</Project>
       <Name>PixelFarm.Drawing</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.CssBase\LayoutFarm.CssBase.csproj">
-      <Project>{5164EC24-95C4-4333-BD4E-70EE625CCEB4}</Project>
-      <Name>LayoutFarm.CssBase</Name>
+    <ProjectReference Include="..\LayoutFarm.WebDom\LayoutFarm.WebDom.csproj">
+      <Project>{a7e65fd9-329d-4902-bcda-51ee4f992fd5}</Project>
+      <Name>LayoutFarm.WebDom</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

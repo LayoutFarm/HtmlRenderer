@@ -35,8 +35,114 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.CssBase\CssBase\CssColor.cs">
+      <Link>8_REF_CssBase\CssColor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.CssBase\CssBase\CssConstants.cs">
+      <Link>8_REF_CssBase\CssConstants.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.CssBase\CssBase\CssKnownColor.cs">
+      <Link>8_REF_CssBase\CssKnownColor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.CssBase\CssBase\CssLength.cs">
+      <Link>8_REF_CssBase\CssLength.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.CssBase\CssBase\CssProps.cs">
+      <Link>8_REF_CssBase\CssProps.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.CssBase\CssBase\CssUnitOrNames.cs">
+      <Link>8_REF_CssBase\CssUnitOrNames.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.CssBase\CssBase\MapAttribute.cs">
+      <Link>8_REF_CssBase\MapAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\0_WebDom.Parser\CssParser.cs">
+      <Link>9_REF_PaintLab.WebDom\0_WebDom.Parser\CssParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\0_WebDom.Parser\CssParserHelper.cs">
+      <Link>9_REF_PaintLab.WebDom\0_WebDom.Parser\CssParserHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\0_WebDom.Parser\CssValueParser.cs">
+      <Link>9_REF_PaintLab.WebDom\0_WebDom.Parser\CssValueParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\1_Css\CssActiveSheet.cs">
+      <Link>9_REF_PaintLab.WebDom\1_Css\CssActiveSheet.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\1_Css\CssAttributeSelector.cs">
+      <Link>9_REF_PaintLab.WebDom\1_Css\CssAttributeSelector.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\1_Css\CssCodeValueExpressions.cs">
+      <Link>9_REF_PaintLab.WebDom\1_Css\CssCodeValueExpressions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\1_Css\CssDocMembers.cs">
+      <Link>9_REF_PaintLab.WebDom\1_Css\CssDocMembers.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\1_Css\CssDocument.cs">
+      <Link>9_REF_PaintLab.WebDom\1_Css\CssDocument.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\1_Css\CssElementSelectors.cs">
+      <Link>9_REF_PaintLab.WebDom\1_Css\CssElementSelectors.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\1_Css\CssPropertyDeclaration.cs">
+      <Link>9_REF_PaintLab.WebDom\1_Css\CssPropertyDeclaration.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\1_Css\UserMapUtil.cs">
+      <Link>9_REF_PaintLab.WebDom\1_Css\UserMapUtil.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\1_Css\ValueMaps.cs">
+      <Link>9_REF_PaintLab.WebDom\1_Css\ValueMaps.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\1_Css\WellknownCssPropertyName.cs">
+      <Link>9_REF_PaintLab.WebDom\1_Css\WellknownCssPropertyName.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\2_Svg\07_Coords_Transforms\SvgMatrix.cs">
+      <Link>9_REF_PaintLab.WebDom\2_Svg\07_Coords_Transforms\SvgMatrix.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\2_Svg\07_Coords_Transforms\SvgRotate.cs">
+      <Link>9_REF_PaintLab.WebDom\2_Svg\07_Coords_Transforms\SvgRotate.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\2_Svg\07_Coords_Transforms\SvgScale.cs">
+      <Link>9_REF_PaintLab.WebDom\2_Svg\07_Coords_Transforms\SvgScale.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\2_Svg\07_Coords_Transforms\SvgShear.cs">
+      <Link>9_REF_PaintLab.WebDom\2_Svg\07_Coords_Transforms\SvgShear.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\2_Svg\07_Coords_Transforms\SvgSkew.cs">
+      <Link>9_REF_PaintLab.WebDom\2_Svg\07_Coords_Transforms\SvgSkew.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\2_Svg\07_Coords_Transforms\SvgTransform.cs">
+      <Link>9_REF_PaintLab.WebDom\2_Svg\07_Coords_Transforms\SvgTransform.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\2_Svg\07_Coords_Transforms\SvgTranslate.cs">
+      <Link>9_REF_PaintLab.WebDom\2_Svg\07_Coords_Transforms\SvgTranslate.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\2_Svg\08_Paths\SvgPathDataParser.cs">
+      <Link>9_REF_PaintLab.WebDom\2_Svg\08_Paths\SvgPathDataParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\2_Svg\08_Paths\SvgPathSegments.cs">
+      <Link>9_REF_PaintLab.WebDom\2_Svg\08_Paths\SvgPathSegments.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\2_Svg\09_BasicShapes\SvgSpec.cs">
+      <Link>9_REF_PaintLab.WebDom\2_Svg\09_BasicShapes\SvgSpec.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\2_Svg\SvgParser.cs">
+      <Link>9_REF_PaintLab.WebDom\2_Svg\SvgParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\IScriptable\JsScriptAttributes.cs">
+      <Link>9_REF_PaintLab.WebDom\IScriptable\JsScriptAttributes.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebLexer\CssLexer.cs">
+      <Link>9_Dep_CssLexer\CssLexer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebLexer\dbugLexerReport.cs">
+      <Link>9_Dep_CssLexer\dbugLexerReport.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebLexer\TextSnapshot.cs">
+      <Link>9_Dep_CssLexer\TextSnapshot.cs</Link>
+    </Compile>
     <Compile Include="..\Deps_HtmlKit\HtmlKit\HtmlAttribute.cs">
       <Link>8_Deps_WebDom\5_HtmlKit\HtmlAttribute.cs</Link>
     </Compile>
@@ -75,27 +181,6 @@
     </Compile>
     <Compile Include="..\Deps_HtmlKit\HtmlKit\ICharArray.cs">
       <Link>8_Deps_WebDom\5_HtmlKit\ICharArray.cs</Link>
-    </Compile>
-    <Compile Include="..\LayoutFarm.CssBase\CssColor.cs">
-      <Link>8_Dep_Css\CssColor.cs</Link>
-    </Compile>
-    <Compile Include="..\LayoutFarm.CssBase\CssConstants.cs">
-      <Link>8_Dep_Css\CssConstants.cs</Link>
-    </Compile>
-    <Compile Include="..\LayoutFarm.CssBase\CssKnownColor.cs">
-      <Link>8_Dep_Css\CssKnownColor.cs</Link>
-    </Compile>
-    <Compile Include="..\LayoutFarm.CssBase\CssLength.cs">
-      <Link>8_Dep_Css\CssLength.cs</Link>
-    </Compile>
-    <Compile Include="..\LayoutFarm.CssBase\CssProps.cs">
-      <Link>8_Dep_Css\CssProps.cs</Link>
-    </Compile>
-    <Compile Include="..\LayoutFarm.CssBase\CssUnitOrNames.cs">
-      <Link>8_Dep_Css\CssUnitOrNames.cs</Link>
-    </Compile>
-    <Compile Include="..\LayoutFarm.CssBase\MapAttribute.cs">
-      <Link>8_Dep_Css\MapAttribute.cs</Link>
     </Compile>
     <Compile Include="..\LayoutFarm.HtmlRenderer\1_Css\BoxSpec.cs">
       <Link>8_Dep_HtmlRenderer\1_Css\BoxSpec.cs</Link>
@@ -226,56 +311,26 @@
     <Compile Include="..\LayoutFarm.HtmlRenderer\3_Boxes_Layout\1_Flex\FlexContainer.cs">
       <Link>8_Dep_HtmlRenderer\3_Boxes_Layout\1_Flex\FlexContainer.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\4_Svg\05_SvgDoms\CssBoxSvgRoot.cs">
-      <Link>8_Dep_HtmlRenderer\4_Svg\05_SvgDoms\CssBoxSvgRoot.cs</Link>
+    <Compile Include="..\LayoutFarm.HtmlRenderer\4_Svg\CssBoxSvgRoot.cs">
+      <Link>8_Dep_HtmlRenderer\4_Svg\CssBoxSvgRoot.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\4_Svg\05_SvgDoms\SvgElements.cs">
-      <Link>8_Dep_HtmlRenderer\4_Svg\05_SvgDoms\SvgElements.cs</Link>
+    <Compile Include="..\LayoutFarm.HtmlRenderer\4_Svg\SvgElements.cs">
+      <Link>8_Dep_HtmlRenderer\4_Svg\SvgElements.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\4_Svg\07_Coords_Transforms\SvgMatrix.cs">
-      <Link>8_Dep_HtmlRenderer\4_Svg\07_Coords_Transforms\SvgMatrix.cs</Link>
+    <Compile Include="..\LayoutFarm.HtmlRenderer\4_Svg\SvgHitChain.cs">
+      <Link>8_Dep_HtmlRenderer\4_Svg\SvgHitChain.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\4_Svg\07_Coords_Transforms\SvgRotate.cs">
-      <Link>8_Dep_HtmlRenderer\4_Svg\07_Coords_Transforms\SvgRotate.cs</Link>
+    <Compile Include="..\LayoutFarm.HtmlRenderer\4_Svg\SvgImage.cs">
+      <Link>8_Dep_HtmlRenderer\4_Svg\SvgImage.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\4_Svg\07_Coords_Transforms\SvgScale.cs">
-      <Link>8_Dep_HtmlRenderer\4_Svg\07_Coords_Transforms\SvgScale.cs</Link>
+    <Compile Include="..\LayoutFarm.HtmlRenderer\4_Svg\SvgImageBinder.cs">
+      <Link>8_Dep_HtmlRenderer\4_Svg\SvgImageBinder.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\4_Svg\07_Coords_Transforms\SvgShear.cs">
-      <Link>8_Dep_HtmlRenderer\4_Svg\07_Coords_Transforms\SvgShear.cs</Link>
+    <Compile Include="..\LayoutFarm.HtmlRenderer\4_Svg\SvgPath.cs">
+      <Link>8_Dep_HtmlRenderer\4_Svg\SvgPath.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\4_Svg\07_Coords_Transforms\SvgSkew.cs">
-      <Link>8_Dep_HtmlRenderer\4_Svg\07_Coords_Transforms\SvgSkew.cs</Link>
-    </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\4_Svg\07_Coords_Transforms\SvgTransform.cs">
-      <Link>8_Dep_HtmlRenderer\4_Svg\07_Coords_Transforms\SvgTransform.cs</Link>
-    </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\4_Svg\07_Coords_Transforms\SvgTranslate.cs">
-      <Link>8_Dep_HtmlRenderer\4_Svg\07_Coords_Transforms\SvgTranslate.cs</Link>
-    </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\4_Svg\08_Paths\SvgPath.cs">
-      <Link>8_Dep_HtmlRenderer\4_Svg\08_Paths\SvgPath.cs</Link>
-    </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\4_Svg\08_Paths\SvgPathDataParser.cs">
-      <Link>8_Dep_HtmlRenderer\4_Svg\08_Paths\SvgPathDataParser.cs</Link>
-    </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\4_Svg\08_Paths\SvgPathSegments.cs">
-      <Link>8_Dep_HtmlRenderer\4_Svg\08_Paths\SvgPathSegments.cs</Link>
-    </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\4_Svg\09_BasicShapes\SvgImage.cs">
-      <Link>8_Dep_HtmlRenderer\4_Svg\09_BasicShapes\SvgImage.cs</Link>
-    </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\4_Svg\09_BasicShapes\SvgImageBinder.cs">
-      <Link>8_Dep_HtmlRenderer\4_Svg\09_BasicShapes\SvgImageBinder.cs</Link>
-    </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\4_Svg\09_BasicShapes\SvgSpec.cs">
-      <Link>8_Dep_HtmlRenderer\4_Svg\09_BasicShapes\SvgSpec.cs</Link>
-    </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\4_Svg\09_BasicShapes\SvgVisualElements.cs">
-      <Link>8_Dep_HtmlRenderer\4_Svg\09_BasicShapes\SvgVisualElements.cs</Link>
-    </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\4_Svg\16_Interactivity\SvgHitChain.cs">
-      <Link>8_Dep_HtmlRenderer\4_Svg\16_Interactivity\SvgHitChain.cs</Link>
+    <Compile Include="..\LayoutFarm.HtmlRenderer\4_Svg\SvgVisualElements.cs">
+      <Link>8_Dep_HtmlRenderer\4_Svg\SvgVisualElements.cs</Link>
     </Compile>
     <Compile Include="..\LayoutFarm.HtmlRenderer\5_Boxes_SpecialBoxes\CssBoxFrame.cs">
       <Link>8_Dep_HtmlRenderer\5_Boxes_SpecialBoxes\CssBoxFrame.cs</Link>
@@ -301,15 +356,6 @@
     <Compile Include="..\LayoutFarm.HtmlRenderer\Platform\RenderUtils.cs">
       <Link>8_Dep_HtmlRenderer\Platform\RenderUtils.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.WebDom\0_WebDom.Parser\CssParser.cs">
-      <Link>2_WebDom\0_WebDom.Parser\CssParser.cs</Link>
-    </Compile>
-    <Compile Include="..\LayoutFarm.WebDom\0_WebDom.Parser\CssParserHelper.cs">
-      <Link>2_WebDom\0_WebDom.Parser\CssParserHelper.cs</Link>
-    </Compile>
-    <Compile Include="..\LayoutFarm.WebDom\0_WebDom.Parser\CssValueParser.cs">
-      <Link>2_WebDom\0_WebDom.Parser\CssValueParser.cs</Link>
-    </Compile>
     <Compile Include="..\LayoutFarm.WebDom\0_WebDom.Parser\DeprecatedAttribute.cs">
       <Link>2_WebDom\0_WebDom.Parser\DeprecatedAttribute.cs</Link>
     </Compile>
@@ -327,36 +373,6 @@
     </Compile>
     <Compile Include="..\LayoutFarm.WebDom\0_WebDom.Parser\TextSource.cs">
       <Link>2_WebDom\0_WebDom.Parser\TextSource.cs</Link>
-    </Compile>
-    <Compile Include="..\LayoutFarm.WebDom\1_Css\CssActiveSheet.cs">
-      <Link>2_WebDom\Css\CssActiveSheet.cs</Link>
-    </Compile>
-    <Compile Include="..\LayoutFarm.WebDom\1_Css\CssAttributeSelector.cs">
-      <Link>2_WebDom\Css\CssAttributeSelector.cs</Link>
-    </Compile>
-    <Compile Include="..\LayoutFarm.WebDom\1_Css\CssCodeValueExpressions.cs">
-      <Link>2_WebDom\Css\CssCodeValueExpressions.cs</Link>
-    </Compile>
-    <Compile Include="..\LayoutFarm.WebDom\1_Css\CssDocMembers.cs">
-      <Link>2_WebDom\Css\CssDocMembers.cs</Link>
-    </Compile>
-    <Compile Include="..\LayoutFarm.WebDom\1_Css\CssDocument.cs">
-      <Link>2_WebDom\Css\CssDocument.cs</Link>
-    </Compile>
-    <Compile Include="..\LayoutFarm.WebDom\1_Css\CssElementSelectors.cs">
-      <Link>2_WebDom\Css\CssElementSelectors.cs</Link>
-    </Compile>
-    <Compile Include="..\LayoutFarm.WebDom\1_Css\CssPropertyDeclaration.cs">
-      <Link>2_WebDom\Css\CssPropertyDeclaration.cs</Link>
-    </Compile>
-    <Compile Include="..\LayoutFarm.WebDom\1_Css\UserMapUtil.cs">
-      <Link>2_WebDom\Css\UserMapUtil.cs</Link>
-    </Compile>
-    <Compile Include="..\LayoutFarm.WebDom\1_Css\ValueMaps.cs">
-      <Link>2_WebDom\Css\ValueMaps.cs</Link>
-    </Compile>
-    <Compile Include="..\LayoutFarm.WebDom\1_Css\WellknownCssPropertyName.cs">
-      <Link>2_WebDom\Css\WellknownCssPropertyName.cs</Link>
     </Compile>
     <Compile Include="..\LayoutFarm.WebDom\2_WebDom\DomElement.cs">
       <Link>8_Deps_WebDom\2_WebDom\DomElement.cs</Link>
@@ -421,26 +437,14 @@
     <Compile Include="..\LayoutFarm.WebDom\5_HtmlKit\HtmlTagId.cs">
       <Link>8_Deps_WebDom\5_HtmlKit\HtmlTagId.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.WebDom\IScriptable\JsScriptAttributes.cs">
-      <Link>8_Deps_WebDom\6_IScriptatble\JsScriptAttributes.cs</Link>
+    <Compile Include="..\LayoutFarm.WebDom\HtmlLexer\HtmlLexer.cs">
+      <Link>8_REF_LayoutFarm.WebDom\HtmlLexer\HtmlLexer.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.WebLexer\MyLexer\CssLexer.cs">
-      <Link>9_Dep_CssLexer\CssLexer.cs</Link>
+    <Compile Include="..\LayoutFarm.WebDom\HtmlLexer\MyHtmlLexer.cs">
+      <Link>8_REF_LayoutFarm.WebDom\HtmlLexer\MyHtmlLexer.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.WebLexer\MyLexer\dbugLexerReport.cs">
-      <Link>9_Dep_CssLexer\dbugLexerReport.cs</Link>
-    </Compile>
-    <Compile Include="..\LayoutFarm.WebLexer\MyLexer\HtmlLexer.cs">
-      <Link>9_Dep_CssLexer\HtmlLexer.cs</Link>
-    </Compile>
-    <Compile Include="..\LayoutFarm.WebLexer\MyLexer\MyHtmlLexer.cs">
-      <Link>9_Dep_CssLexer\MyHtmlLexer.cs</Link>
-    </Compile>
-    <Compile Include="..\LayoutFarm.WebLexer\MyLexer\MyHtmlLexer_dbug.cs">
-      <Link>9_Dep_CssLexer\MyHtmlLexer_dbug.cs</Link>
-    </Compile>
-    <Compile Include="..\LayoutFarm.WebLexer\MyLexer\TextSnapshot.cs">
-      <Link>9_Dep_CssLexer\TextSnapshot.cs</Link>
+    <Compile Include="..\LayoutFarm.WebDom\HtmlLexer\MyHtmlLexer_dbug.cs">
+      <Link>8_REF_LayoutFarm.WebDom\HtmlLexer\MyHtmlLexer_dbug.cs</Link>
     </Compile>
     <Compile Include="0_Start\ComposerConfig.cs" />
     <Compile Include="1_Composers\1_Builder\HtmlHost.cs" />
@@ -488,9 +492,7 @@
       <Name>PixelFarm.One.HtmlRenderer</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="2_WebDom\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

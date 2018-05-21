@@ -45,17 +45,24 @@ namespace LayoutFarm.Svg
         {
             //1. 
             chain.AddHit(root, x, y);
+
             //2. find hit child
             var child = root.GetFirstNode();
-            while (child != null)
-            {
-                var node = child.Value;
-                if (node.HitTestCore(chain, x, y))
-                {
-                    break;
-                }
-                child = child.Next;
-            }
+
+
+            //TODO: review here again!
+            throw new System.NotImplementedException();
+            //TODO: check hit test core on svg again!
+            //while (child != null)
+            //{
+            //    //test hit text core again
+            //    var node = child.Value;
+            //    if (node.HitTestCore(chain, x, y))
+            //    {
+            //        break;
+            //    }
+            //    child = child.Next;
+            //}
         }
 
         static void ForEachOnlyEventPortalBubbleUp(UIEventArgs e, SvgHitChain hitPointChain, EventPortalAction eventPortalAction)

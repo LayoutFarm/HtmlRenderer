@@ -25,7 +25,7 @@ namespace LayoutFarm.Svg
         public override void ReEvaluateComputeValue(ref ReEvaluateArgs args)
         {
             var myspec = this.spec;
-            this.fillColor = myspec.ActualColor;
+            this.fillColor = myspec.FillColor;
             this.strokeColor = myspec.StrokeColor;
             this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, ref args);
             if (this.IsPathValid) { return; }
