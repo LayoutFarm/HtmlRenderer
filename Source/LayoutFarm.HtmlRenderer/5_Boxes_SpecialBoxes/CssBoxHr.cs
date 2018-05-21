@@ -1,4 +1,5 @@
-﻿//ArthurHub  , Jose Manuel Menendez Poo
+﻿//BSD, 2014
+//ArthurHub  , Jose Manuel Menendez Poo
 // "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,
 // inexhaustible as the great rivers.
@@ -11,6 +12,7 @@
 // - Sun Tsu,
 // "The Art of War"
 
+//MIT, 2018, WinterDev
 using PixelFarm.Drawing;
 namespace LayoutFarm.HtmlBoxes
 {

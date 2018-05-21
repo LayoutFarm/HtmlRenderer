@@ -1,4 +1,4 @@
-//BSD 2014, 
+//BSD, 2014,
 //ArthurHub  , Jose Manuel Menendez Poo
 
 // "Therefore those skilled at the unorthodox
@@ -12,6 +12,8 @@
 // 
 // - Sun Tsu,
 // "The Art of War"
+
+//MIT, 2018, WinterDev
 
 using PixelFarm.Drawing;
 namespace LayoutFarm
@@ -140,7 +142,7 @@ namespace LayoutFarm
         {
             p.DrawRectangle(Color.LightGray, r.Left + 2, r.Top + 2, 15, 15);
             var image = GetErrorImage();
-            p.DrawImage(image, new RectangleF(r.Left + 3, r.Top + 3, image.Width, image.Height)); 
+            p.DrawImage(image, new RectangleF(r.Left + 3, r.Top + 3, image.Width, image.Height));
         }
         /// <summary>
         /// Creates a rounded rectangle using the specified corner radius

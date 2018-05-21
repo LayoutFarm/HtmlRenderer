@@ -1,4 +1,5 @@
-﻿using LayoutFarm.UI;
+﻿//MIT, 2014-2018, WinterDev
+using LayoutFarm.UI;
 namespace LayoutFarm.Demo
 {
     class Demo04_DynamicContent2 : DemoBase

@@ -1,4 +1,5 @@
-﻿using LayoutFarm.Composers;
+﻿//MIT, 2014-2018, WinterDev
+using LayoutFarm.Composers;
 using LayoutFarm.UI;
 namespace LayoutFarm.Demo
 {

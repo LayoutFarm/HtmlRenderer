@@ -11,6 +11,8 @@
 // - Sun Tsu,
 // "The Art of War"
 
+//MIT, 2018, WinterDev
+
 using PixelFarm.Drawing;
 namespace LayoutFarm.HtmlBoxes
 {
