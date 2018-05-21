@@ -363,7 +363,7 @@ namespace LayoutFarm.HtmlBoxes
                     bool hasSomeRoundCorner = this.HasSomeRoundCorner;
                     if (hasSomeRoundCorner)
                     {
-                        roundrect = RenderUtils.GetRoundRect( rect, ActualCornerNW, ActualCornerNE, ActualCornerSE, ActualCornerSW);
+                        roundrect = RenderUtils.GetRoundRect(rect, ActualCornerNW, ActualCornerNE, ActualCornerSE, ActualCornerSW);
                     }
 
                     if (!p.AvoidGeometryAntialias && hasSomeRoundCorner)
@@ -404,18 +404,7 @@ namespace LayoutFarm.HtmlBoxes
                     return;
                 case Css.CssTextDecoration.Underline:
                     {
-                        //TODO: correct this ...
-                        //var h = g.MeasureString(" ", ActualFont).Height;
-                        //float desc = FontsUtils.GetDescentPx(ActualFont);
-                        //y = (float)Math.Round(rectangle.Top + h - desc + 0.5); 
-
-                        RequestFont afont = ResolvedFont;
-                        
-                            
-                        //PixelFarm.Drawing.Fonts.ActualFont ff = afont.ActualFont;
-                        var h = afont.SizeInPixels;
-                        float desc = (float)afont.DescentInPixels;// fontInfo.DescentPx;
-                        y = (float)Math.Round(rectangle.Top + h - desc);
+                        y = (float)Math.Round(rectangle.Bottom - 1);
                     }
                     break;
                 case Css.CssTextDecoration.LineThrough:
