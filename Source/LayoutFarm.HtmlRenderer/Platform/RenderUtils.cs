@@ -112,7 +112,13 @@ namespace LayoutFarm
             var image = GetLoadImage();
             g.DrawImage(image, new RectangleF(r.Left + 4, r.Top + 4, image.Width, image.Height));
         }
+        public static void DrawImageLoadingIcon(LayoutFarm.HtmlBoxes.PaintVisitor p, RectangleF r)
+        {
+            p.DrawRectangle(Color.LightGray, r.Left + 3, r.Top + 3, 13, 14);
+            var image = GetLoadImage();
+            p.DrawImage(image, new RectangleF(r.Left + 4, r.Top + 4, image.Width, image.Height));
 
+        }
         /// <summary>
         /// Draw image failed to load icon.
         /// </summary>
@@ -125,6 +131,17 @@ namespace LayoutFarm
             g.DrawImage(image, new RectangleF(r.Left + 3, r.Top + 3, image.Width, image.Height));
         }
 
+        /// <summary>
+        /// Draw image failed to load icon.
+        /// </summary>
+        /// <param name="p">the device to draw into</param>
+        /// <param name="r">the rectangle to draw icon in</param>
+        public static void DrawImageErrorIcon(LayoutFarm.HtmlBoxes.PaintVisitor p, RectangleF r)
+        {
+            p.DrawRectangle(Color.LightGray, r.Left + 2, r.Top + 2, 15, 15);
+            var image = GetErrorImage();
+            p.DrawImage(image, new RectangleF(r.Left + 3, r.Top + 3, image.Width, image.Height)); 
+        }
         /// <summary>
         /// Creates a rounded rectangle using the specified corner radius
         /// </summary>

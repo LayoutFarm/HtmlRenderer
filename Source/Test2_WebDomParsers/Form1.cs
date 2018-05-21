@@ -20,11 +20,11 @@ namespace Test2_WebDomParsers
             parser.Parse(snapSource, blankHtmlDoc, blankHtmlDoc.RootNode);
             this.treeView2.Nodes.Clear();
             var rootNode = new TreeNode("root");
-            DescibeNode(blankHtmlDoc.RootNode, rootNode);
+            DescribeNode(blankHtmlDoc.RootNode, rootNode);
             treeView2.Nodes.Add(rootNode);
             this.treeView2.ExpandAll();
         }
-        void DescibeNode(DomNode node, TreeNode parentNode)
+        void DescribeNode(DomNode node, TreeNode parentNode)
         {
             var node_info = node.ToString();
             var treeNode = new TreeNode(node_info);
@@ -35,7 +35,7 @@ namespace Test2_WebDomParsers
                 var childCount = domElt.ChildrenCount;
                 for (int i = 0; i < childCount; ++i)
                 {
-                    DescibeNode(domElt.GetChildNode(i), treeNode);
+                    DescribeNode(domElt.GetChildNode(i), treeNode);
                 }
             }
         }

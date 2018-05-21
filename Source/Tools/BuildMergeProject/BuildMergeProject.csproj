@@ -65,7 +65,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MergeProjectTool\MergeProjectTool.csproj">
+    <ProjectReference Include="..\..\..\..\PixelFarm\src\Tools\MergeProjectTool\MergeProjectTool.csproj">
       <Project>{15e44653-b4a9-40d5-9fcd-4ba476d80b12}</Project>
       <Name>MergeProjectTool</Name>
     </ProjectReference>

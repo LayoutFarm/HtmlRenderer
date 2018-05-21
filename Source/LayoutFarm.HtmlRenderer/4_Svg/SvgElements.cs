@@ -1,6 +1,6 @@
 ﻿//MS-PL, Apache2, 2014-2017, WinterDev
 
-using PixelFarm.Drawing;
+ 
 using System.Collections.Generic;
 using LayoutFarm.Css;
 using LayoutFarm.HtmlBoxes;
@@ -83,11 +83,6 @@ namespace LayoutFarm.Svg
         }
         public static float ConvertToPx(CssLength length, ref ReEvaluateArgs args)
         {
-            //--
-            //TODO: review here,
-            //move to 'Utils' class
-            //--
-
             //Return zero if no length specified, zero specified      
             switch (length.UnitOrNames)
             {
@@ -120,11 +115,6 @@ namespace LayoutFarm.Svg
         public virtual void Paint(PaintVisitor p)
         {
         }
-        public virtual bool HitTestCore(SvgHitChain svgChain, float x, float y)
-        {
-            return false;
-        }
-
 
         //--------------------------------
         public static object UnsafeGetController(SvgElement elem)

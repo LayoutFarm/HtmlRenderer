@@ -77,19 +77,6 @@
     <Compile Include="0_WebDom.Parser\HtmlKitParser.cs" />
     <Compile Include="0_WebDom.Parser\MyHtmlParser.cs" />
     <Compile Include="0_WebDom.Parser\TextSource.cs" />
-    <Compile Include="1_Css\CssCodeValueExpressions.cs" />
-    <Compile Include="1_Css\UserMapUtil.cs" />
-    <Compile Include="1_Css\ValueMaps.cs" />
-    <Compile Include="1_Css\CssActiveSheet.cs" />
-    <Compile Include="1_Css\CssAttributeSelector.cs" />
-    <Compile Include="1_Css\CssDocMembers.cs" />
-    <Compile Include="1_Css\CssDocument.cs" />
-    <Compile Include="1_Css\CssElementSelectors.cs" />
-    <Compile Include="1_Css\CssPropertyDeclaration.cs" />
-    <Compile Include="1_Css\WellknownCssPropertyName.cs" />
-    <Compile Include="0_WebDom.Parser\CssParser.cs" />
-    <Compile Include="0_WebDom.Parser\CssParserHelper.cs" />
-    <Compile Include="0_WebDom.Parser\CssValueParser.cs" />
     <Compile Include="0_WebDom.Parser\HtmlParser.cs" />
     <Compile Include="0_WebDom.Parser\HtmlUtils.cs" />
     <Compile Include="3_WebDom_Interfaces\HtmlInterfaces.cs" />
@@ -105,7 +92,9 @@
     <Compile Include="4_WebDom.Impl\SpecialHtmlElements.cs" />
     <Compile Include="5_HtmlKit\HtmlAttributeId.cs" />
     <Compile Include="5_HtmlKit\HtmlTagId.cs" />
-    <Compile Include="IScriptable\JsScriptAttributes.cs" />
+    <Compile Include="HtmlLexer\HtmlLexer.cs" />
+    <Compile Include="HtmlLexer\MyHtmlLexer.cs" />
+    <Compile Include="HtmlLexer\MyHtmlLexer_dbug.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="2_WebDom\DomElement.cs" />
     <Compile Include="2_WebDom\DomElement_EventListener.cs" />
@@ -121,17 +110,21 @@
       <Project>{d2cc5cef-3003-4a5d-a532-8eb7e4fa40f2}</Project>
       <Name>PaintLab.AbstractPlatform</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.CssBase\PaintLab.CssBase.csproj">
+      <Project>{bf5f9590-f680-403d-932a-7cdd12af89fb}</Project>
+      <Name>PaintLab.CssBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\PaintLab.WebDom.csproj">
+      <Project>{7ff733c1-dce3-4735-b772-bb2d362eca54}</Project>
+      <Name>PaintLab.WebDom</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebLexer\PaintLab.WebLexer.csproj">
+      <Project>{8fba6297-44a9-4c3f-b22d-d33e00669942}</Project>
+      <Name>PaintLab.WebLexer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\PixelFarm\src\PixelFarm\TypeMirror\BackEnd.TypeMirror.csproj">
       <Project>{68f1daf6-2b35-476e-b2f8-5eadbc823935}</Project>
       <Name>BackEnd.TypeMirror</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.CssBase\LayoutFarm.CssBase.csproj">
-      <Project>{5164EC24-95C4-4333-BD4E-70EE625CCEB4}</Project>
-      <Name>LayoutFarm.CssBase</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.WebLexer\LayoutFarm.WebLexer.csproj">
-      <Project>{48B4B5F3-2F56-49EA-8A6D-C07523DCB03E}</Project>
-      <Name>LayoutFarm.WebLexer</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

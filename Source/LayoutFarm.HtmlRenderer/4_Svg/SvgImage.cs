@@ -11,8 +11,6 @@ namespace LayoutFarm.Svg
     public class SvgImage : SvgVisualElement
     {
         SvgImageSpec imageSpec;
-        Color strokeColor = Color.Transparent;
-        Color fillColor = Color.Black;
         GraphicsPath _path;
         LayoutFarm.HtmlBoxes.CssImageRun _imgRun;
         public SvgImage(SvgImageSpec spec, object controller)
@@ -51,14 +49,14 @@ namespace LayoutFarm.Svg
         public override void ReEvaluateComputeValue(ref ReEvaluateArgs args)
         {
             var myspec = this.imageSpec;
-            this.fillColor = myspec.ActualColor;
+            this.fillColor = myspec.FillColor;
             this.strokeColor = myspec.StrokeColor;
             this.ActualX = ConvertToPx(myspec.X, ref args);
             this.ActualY = ConvertToPx(myspec.Y, ref args);
             this.ActualWidth = ConvertToPx(myspec.Width, ref args);
             this.ActualHeight = ConvertToPx(myspec.Height, ref args);
             this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, ref args);
-            this._path = CreateRectGraphicPath( 
+            this._path = CreateRectGraphicPath(
                     this.ActualX,
                     this.ActualY,
                     this.ActualWidth,
@@ -71,7 +69,7 @@ namespace LayoutFarm.Svg
         }
         public override void Paint(PaintVisitor p)
         {
-            DrawBoard g = p.InnerCanvas;
+            //DrawBoard g = p.InnerCanvas;
             if (fillColor.A > 0)
             {
                 p.FillPath(_path, this.fillColor);
@@ -86,7 +84,7 @@ namespace LayoutFarm.Svg
 
                 RectangleF r = new RectangleF(this.ActualX, this.ActualY, this.ActualWidth, this.ActualHeight);
                 bool tryLoadOnce = false;
-            EVAL_STATE:
+                EVAL_STATE:
                 switch (this.ImageBinder.State)
                 {
                     case ImageBinderState.Unload:
@@ -113,20 +111,22 @@ namespace LayoutFarm.Svg
                             {
                                 if (_imgRun.ImageRectangle == Rectangle.Empty)
                                 {
-                                    g.DrawImage(img, r);
+                                    p.DrawImage(img, r);
+                                   
                                 }
                                 else
                                 {
                                     //
-                                    g.DrawImage(img, _imgRun.ImageRectangle);
+                                    p.DrawImage(img, _imgRun.ImageRectangle); 
                                 }
                             }
                             else
                             {
-                                RenderUtils.DrawImageLoadingIcon(g, r);
+                                RenderUtils.DrawImageLoadingIcon(p, r);
                                 if (r.Width > 19 && r.Height > 19)
                                 {
-                                    g.DrawRectangle(Color.LightGray, r.X, r.Y, r.Width, r.Height);
+                                    p.DrawImage(img, _imgRun.ImageRectangle);
+                                    p.DrawRectangle(Color.LightGray, r.X, r.Y, r.Width, r.Height);
                                 }
                             }
                         }
@@ -137,7 +137,7 @@ namespace LayoutFarm.Svg
                         break;
                     case ImageBinderState.Error:
                         {
-                            RenderUtils.DrawImageErrorIcon(g, r);
+                            RenderUtils.DrawImageErrorIcon(p, r);
                         }
                         break;
                 }
