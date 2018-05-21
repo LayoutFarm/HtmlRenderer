@@ -1,3 +1,4 @@
+//BSD, 2014
 // "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,
 // inexhaustible as the great rivers.

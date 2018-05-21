@@ -1,4 +1,5 @@
-﻿using LayoutFarm.WebDom;
+﻿//MIT, 2014-2018, WinterDev
+using LayoutFarm.WebDom;
 using LayoutFarm.UI;
 namespace LayoutFarm.Demo
 {

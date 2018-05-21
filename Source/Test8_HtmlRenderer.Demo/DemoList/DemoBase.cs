@@ -1,8 +1,5 @@
-﻿//MIT, 2014-2017, WinterDev
+﻿//MIT, 2014-2018, WinterDev
 using System;
-using System.Drawing;
-using PixelFarm.Drawing;
-
 namespace LayoutFarm.Demo
 {
     public abstract class DemoBase
@@ -78,7 +75,7 @@ namespace LayoutFarm.Demo
             throw new NotImplementedException();
         }
     }
-   
+
 
     //public class DemoNoteAttribute : Attribute
     //{
