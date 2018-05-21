@@ -6,6 +6,27 @@ using PixelFarm.Drawing;
 using LayoutFarm.HtmlBoxes;
 namespace LayoutFarm.Svg
 {
+    //public class PaintVisitor
+    //{
+    //    public bool UseCurrentContext { get; set; }
+    //    public Color CurrentContextFillColor { get; set; }
+    //    public Color CurrentContextPenColor { get; set; }
+    //    public float CurrentContextPenWidth { get; set; }
+
+    //    public void FillPath(GraphicsPath g, Color color)
+    //    {
+
+    //    }
+    //    public void DrawPath(GraphicsPath g, Color strokeColor, float strokeWidth)
+    //    {
+
+    //    }
+    //    public void DrawLine(float x1, float y1, float x2, float y2, Color strokeColor, float strokeWidth)
+    //    {
+
+    //    }
+
+    //}
     public abstract class SvgVisualElement : SvgElement
     {
         protected Color strokeColor = Color.Transparent;
@@ -95,7 +116,7 @@ namespace LayoutFarm.Svg
         public override void ReEvaluateComputeValue(ref ReEvaluateArgs args)
         {
             var myspec = this.rectSpec;
-            this.fillColor = myspec.ActualColor;
+            this.fillColor = myspec.FillColor;
             this.strokeColor = myspec.StrokeColor;
             this.ActualX = ConvertToPx(myspec.X, ref args);
             this.ActualY = ConvertToPx(myspec.Y, ref args);
@@ -111,7 +132,7 @@ namespace LayoutFarm.Svg
             ClearCachePath();
             if (this.ActualCornerX == 0 && this.ActualCornerY == 0)
             {
-                this.myCachedPath = CreateRectGraphicPath( 
+                this.myCachedPath = CreateRectGraphicPath(
                     this.ActualX,
                     this.ActualY,
                     this.ActualWidth,
@@ -119,7 +140,7 @@ namespace LayoutFarm.Svg
             }
             else
             {
-                this.myCachedPath = CreateRoundRectGraphicPath( 
+                this.myCachedPath = CreateRoundRectGraphicPath(
                     this.ActualX,
                     this.ActualY,
                     this.ActualWidth,
@@ -192,19 +213,7 @@ namespace LayoutFarm.Svg
             return _path;
         }
 
-        //------------------------------------------------
-        public override bool HitTestCore(SvgHitChain svgChain, float x, float y)
-        {
-            if (y >= this.ActualY & y < (this.ActualY + this.ActualHeight))
-            {
-                if (x >= this.ActualX && x < this.ActualX + this.ActualWidth)
-                {
-                    svgChain.AddHit(this, x, y);
-                    return true;
-                }
-            }
-            return false;
-        }
+
         public override void Paint(PaintVisitor p)
         {
             if (fillColor.A > 0)
@@ -250,7 +259,7 @@ namespace LayoutFarm.Svg
         public override void ReEvaluateComputeValue(ref ReEvaluateArgs args)
         {
             var myspec = this.spec;
-            this.fillColor = myspec.ActualColor;
+            this.fillColor = myspec.FillColor;
             this.strokeColor = myspec.StrokeColor;
             this.ActualX = ConvertToPx(myspec.X, ref args);
             this.ActualY = ConvertToPx(myspec.Y, ref args);
@@ -266,13 +275,7 @@ namespace LayoutFarm.Svg
             ValidatePath();
         }
 
-        //------------------------------------------------
-        public override bool HitTestCore(SvgHitChain svgChain, float x, float y)
-        {
-            //is in circle area ?
 
-            return false;
-        }
         public override void Paint(PaintVisitor p)
         {
             if (fillColor.A > 0)
@@ -321,7 +324,7 @@ namespace LayoutFarm.Svg
         public override void ReEvaluateComputeValue(ref ReEvaluateArgs args)
         {
             var myspec = this.spec;
-            this.fillColor = myspec.ActualColor;
+            this.fillColor = myspec.FillColor;
             this.strokeColor = myspec.StrokeColor;
             this.ActualX = ConvertToPx(myspec.X, ref args);
             this.ActualY = ConvertToPx(myspec.Y, ref args);
@@ -336,14 +339,6 @@ namespace LayoutFarm.Svg
             myCachedPath.AddEllipse(this.ActualX - this.ActualRadiusX, this.ActualY - this.ActualRadiusY, 2 * this.ActualRadiusX, 2 * this.ActualRadiusY);
             myCachedPath.CloseFigure();
             ValidatePath();
-        }
-
-        //------------------------------------------------
-        public override bool HitTestCore(SvgHitChain svgChain, float x, float y)
-        {
-            //is in circle area ?
-
-            return false;
         }
         public override void Paint(PaintVisitor p)
         {
@@ -370,7 +365,7 @@ namespace LayoutFarm.Svg
         public override void ReEvaluateComputeValue(ref ReEvaluateArgs args)
         {
             var myspec = this.spec;
-            this.fillColor = myspec.ActualColor;
+            this.fillColor = myspec.FillColor;
             this.strokeColor = myspec.StrokeColor;
             this.pointList = spec.Points.ToArray();
             this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, ref args);
@@ -430,7 +425,7 @@ namespace LayoutFarm.Svg
         public override void ReEvaluateComputeValue(ref ReEvaluateArgs args)
         {
             var myspec = this.spec;
-            this.fillColor = myspec.ActualColor;
+            this.fillColor = myspec.FillColor;
             this.strokeColor = myspec.StrokeColor;
             this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, ref args);
             this.pointList = spec.Points.ToArray();
@@ -493,7 +488,7 @@ namespace LayoutFarm.Svg
         public override void ReEvaluateComputeValue(ref ReEvaluateArgs args)
         {
             SvgLineSpec myspec = this.spec;
-            this.fillColor = myspec.ActualColor;
+            this.fillColor = myspec.FillColor;
             this.strokeColor = myspec.StrokeColor;
             this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, ref args);
             this.ActualX1 = ConvertToPx(myspec.X1, ref args);
@@ -519,7 +514,11 @@ namespace LayoutFarm.Svg
     {
         SvgVisualSpec spec;
         //'g' element
-
+        public SvgGroupElement(SvgVisualSpec spec)
+            : base(null)
+        {
+            this.spec = spec;
+        }
         public SvgGroupElement(SvgVisualSpec spec, object controller)
             : base(controller)
         {
@@ -527,7 +526,7 @@ namespace LayoutFarm.Svg
         }
         public override void ReEvaluateComputeValue(ref ReEvaluateArgs args)
         {
-            this.fillColor = spec.ActualColor;
+            this.fillColor = spec.FillColor;
             this.strokeColor = spec.StrokeColor;
             this.ActualStrokeWidth = ConvertToPx(spec.StrokeWidth, ref args);
             var node = this.GetFirstNode();
@@ -540,8 +539,9 @@ namespace LayoutFarm.Svg
         }
         public override void Paint(PaintVisitor p)
         {
+
             p.UseCurrentContext = true;
-            p.CurrentContextFillColor = spec.ActualColor;
+            p.CurrentContextFillColor = spec.FillColor;
             p.CurrentContextPenColor = spec.StrokeColor;
             p.CurrentContextPenWidth = this.ActualStrokeWidth;
             var node = this.GetFirstNode();

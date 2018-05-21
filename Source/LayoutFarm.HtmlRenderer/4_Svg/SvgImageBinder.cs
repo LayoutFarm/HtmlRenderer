@@ -3,11 +3,12 @@
 
 namespace LayoutFarm.Svg
 {
-    class SvgImageBinder : ImageBinder
+    public class SvgImageBinder : LayoutFarm.ImageBinder
     {
+        string imgsrc;
         public SvgImageBinder(string imgsrc)
-            : base(imgsrc)
         {
+            this.imgsrc = imgsrc;
         }
     }
 }

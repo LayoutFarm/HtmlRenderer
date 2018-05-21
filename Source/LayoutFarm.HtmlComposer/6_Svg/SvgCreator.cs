@@ -112,7 +112,7 @@ namespace LayoutFarm.Svg
                 {
                     case WebDom.WellknownName.Svg_Fill:
                         {
-                            spec.ActualColor = CssValueParser.GetActualColor(attr.Value);
+                            spec.FillColor = CssValueParser.GetActualColor(attr.Value);
                         }
                         break;
                     case WebDom.WellknownName.Svg_Stroke:
@@ -247,7 +247,7 @@ namespace LayoutFarm.Svg
                         break;
                     case WebDom.WellknownName.Svg_Fill:
                         {
-                            spec.ActualColor = CssValueParser.GetActualColor(attr.Value);
+                            spec.FillColor = CssValueParser.GetActualColor(attr.Value);
                         }
                         break;
                     case WebDom.WellknownName.Svg_Stroke:
@@ -311,7 +311,7 @@ namespace LayoutFarm.Svg
                         break;
                     case WebDom.WellknownName.Svg_Fill:
                         {
-                            spec.ActualColor = CssValueParser.GetActualColor(attr.Value);
+                            spec.FillColor = CssValueParser.GetActualColor(attr.Value);
                         }
                         break;
                     case WebDom.WellknownName.Svg_Stroke:
@@ -369,7 +369,7 @@ namespace LayoutFarm.Svg
                         break;
                     case WebDom.WellknownName.Svg_Fill:
                         {
-                            spec.ActualColor = CssValueParser.GetActualColor(attr.Value);
+                            spec.FillColor = CssValueParser.GetActualColor(attr.Value);
                         }
                         break;
                     case WebDom.WellknownName.Svg_Stroke:
@@ -413,7 +413,7 @@ namespace LayoutFarm.Svg
                         break;
                     case WebDom.WellknownName.Svg_Fill:
                         {
-                            spec.ActualColor = CssValueParser.GetActualColor(attr.Value);
+                            spec.FillColor = CssValueParser.GetActualColor(attr.Value);
                         }
                         break;
                     case WebDom.WellknownName.Svg_Stroke:
@@ -457,7 +457,7 @@ namespace LayoutFarm.Svg
                         break;
                     case WebDom.WellknownName.Svg_Fill:
                         {
-                            spec.ActualColor = CssValueParser.GetActualColor(attr.Value);
+                            spec.FillColor = CssValueParser.GetActualColor(attr.Value);
                         }
                         break;
                     case WebDom.WellknownName.Svg_Stroke:
@@ -516,7 +516,7 @@ namespace LayoutFarm.Svg
                         break;
                     case WebDom.WellknownName.Svg_Fill:
                         {
-                            spec.ActualColor = CssValueParser.GetActualColor(attr.Value);
+                            spec.FillColor = CssValueParser.GetActualColor(attr.Value);
                         }
                         break;
                     case WebDom.WellknownName.Svg_Stroke:
@@ -545,7 +545,7 @@ namespace LayoutFarm.Svg
                                     {
                                         //parse vertex commands 
                                         Svg.Pathing.SvgPathDataParser parser = new Svg.Pathing.SvgPathDataParser();
-                                        svgPath.Segments = parser.Parse(attr.Value.ToCharArray());
+                                        //svgPath.Segments = parser.Parse(attr.Value.ToCharArray());
                                     }
                                     break;
                             }
@@ -587,7 +587,7 @@ namespace LayoutFarm.Svg
                         break;
                     case WebDom.WellknownName.Svg_Fill:
                         {
-                            spec.ActualColor = CssValueParser.GetActualColor(attr.Value);
+                            spec.FillColor = CssValueParser.GetActualColor(attr.Value);
                         }
                         break;
                     case WebDom.WellknownName.Svg_Stroke:
