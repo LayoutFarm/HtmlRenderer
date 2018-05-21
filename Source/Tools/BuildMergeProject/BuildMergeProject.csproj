@@ -64,12 +64,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MergeProjectTool\MergeProjectTool.csproj">
-      <Project>{15e44653-b4a9-40d5-9fcd-4ba476d80b12}</Project>
-      <Name>MergeProjectTool</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
