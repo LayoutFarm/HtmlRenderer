@@ -621,8 +621,16 @@ namespace LayoutFarm.Svg
 
         public static void TranslateSvgAttributesMain(HtmlElement elem)
         {
+
         }
-        static List<PointF> ParsePointList(string str)
+        static PointF[] ParsePointList(string str)
+        {
+            //
+            List<PointF> output = new List<PointF>();
+            ParsePointList(str, output);
+            return output.ToArray();
+        }
+        static void ParsePointList(string str, List<PointF> output)
         {
             //easy parse 01
             string[] allPoints = str.Split(new char[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries);
@@ -646,11 +654,6 @@ namespace LayoutFarm.Svg
 
                     list.Add(new PointF(x, y));
                 }
-                return list;
-            }
-            else
-            {
-                return new List<PointF>();
             }
         }
     }

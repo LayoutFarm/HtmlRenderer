@@ -347,7 +347,7 @@ namespace LayoutFarm.Svg
             var myspec = this.spec;
             this.fillColor = myspec.FillColor;
             this.strokeColor = myspec.StrokeColor;
-            this.pointList = spec.Points.ToArray();
+            this.pointList = spec.Points;
             this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, ref args);
             if (this.IsPathValid) { return; }
             ClearCachePath();
@@ -408,7 +408,7 @@ namespace LayoutFarm.Svg
             this.fillColor = myspec.FillColor;
             this.strokeColor = myspec.StrokeColor;
             this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, ref args);
-            this.pointList = spec.Points.ToArray();
+            this.pointList = spec.Points;
             if (this.IsPathValid) { return; }
             ClearCachePath();
             this.myCachedPath = new GraphicsPath();
