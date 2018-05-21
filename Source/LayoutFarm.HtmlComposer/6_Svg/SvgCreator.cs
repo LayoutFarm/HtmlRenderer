@@ -543,9 +543,11 @@ namespace LayoutFarm.Svg
                             {
                                 case "d":
                                     {
+
                                         //parse vertex commands 
-                                        Svg.Pathing.SvgPathDataParser parser = new Svg.Pathing.SvgPathDataParser();
-                                        //svgPath.Segments = parser.Parse(attr.Value.ToCharArray());
+                                        svgPath.DefinitionString = attr.Value;
+                                        MySvgPathDataParser parser = new MySvgPathDataParser();
+                                        parser.Parse(attr.Value.ToCharArray());
                                     }
                                     break;
                             }
@@ -554,6 +556,60 @@ namespace LayoutFarm.Svg
                 }
             }
         }
+
+
+        class MySvgPathDataParser : Svg.Pathing.SvgPathDataParser
+        {
+
+            //create svg path segment with our parser
+
+            protected override void OnArc(float r1, float r2, float xAxisRotation, int largeArcFlag, int sweepFlags, float x, float y, bool isRelative)
+            {
+
+                //not support arc on path yet!
+
+                base.OnArc(r1, r2, xAxisRotation, largeArcFlag, sweepFlags, x, y, isRelative);
+            }
+            protected override void OnCloseFigure()
+            {
+                base.OnCloseFigure();
+            }
+            protected override void OnCurveToCubic(float x1, float y1, float x2, float y2, float x, float y, bool isRelative)
+            {
+                base.OnCurveToCubic(x1, y1, x2, y2, x, y, isRelative);
+            }
+            protected override void OnCurveToCubicSmooth(float x2, float y2, float x, float y, bool isRelative)
+            {
+                base.OnCurveToCubicSmooth(x2, y2, x, y, isRelative);
+            }
+            protected override void OnCurveToQuadratic(float x1, float y1, float x, float y, bool isRelative)
+            {
+                base.OnCurveToQuadratic(x1, y1, x, y, isRelative);
+            }
+            protected override void OnCurveToQuadraticSmooth(float x, float y, bool isRelative)
+            {
+                base.OnCurveToQuadraticSmooth(x, y, isRelative);
+            }
+            protected override void OnHLineTo(float x, bool relative)
+            {
+                base.OnHLineTo(x, relative);
+            }
+            protected override void OnLineTo(float x, float y, bool relative)
+            {
+                base.OnLineTo(x, y, relative);
+            }
+            protected override void OnMoveTo(float x, float y, bool relative)
+            {
+                base.OnMoveTo(x, y, relative);
+            }
+            protected override void OnVLineTo(float y, bool relative)
+            {
+                base.OnVLineTo(y, relative);
+            }
+
+        }
+
+
 
         static void CreateSvgImage(SvgElement parentNode, HtmlElement elem)
         {
@@ -621,8 +677,16 @@ namespace LayoutFarm.Svg
 
         public static void TranslateSvgAttributesMain(HtmlElement elem)
         {
+
         }
-        static List<PointF> ParsePointList(string str)
+        static PointF[] ParsePointList(string str)
+        {
+            //
+            List<PointF> output = new List<PointF>();
+            ParsePointList(str, output);
+            return output.ToArray();
+        }
+        static void ParsePointList(string str, List<PointF> output)
         {
             //easy parse 01
             string[] allPoints = str.Split(new char[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries);
@@ -646,11 +710,6 @@ namespace LayoutFarm.Svg
 
                     list.Add(new PointF(x, y));
                 }
-                return list;
-            }
-            else
-            {
-                return new List<PointF>();
             }
         }
     }
