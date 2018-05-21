@@ -79,6 +79,8 @@
     <Compile Include="4_Svg\SvgHitChain.cs" />
     <Compile Include="4_Svg\SvgImageBinder.cs" />
     <Compile Include="4_Svg\SvgPath.cs" />
+    <Compile Include="4_Svg\SvgPathSegments.cs" />
+    <Compile Include="4_Svg\SvgMatrixAndTransforms.cs" />
     <Compile Include="4_Svg\SvgVisualElements.cs" />
     <Compile Include="5_Boxes_SpecialBoxes\CssFloatContainerBox.cs" />
     <Compile Include="Platform\FontDefaultConfig.cs" />
