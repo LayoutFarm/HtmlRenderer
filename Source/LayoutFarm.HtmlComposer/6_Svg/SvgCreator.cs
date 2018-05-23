@@ -16,6 +16,7 @@ namespace LayoutFarm.Svg
             Css.BoxSpec spec)
         {
             SvgFragment fragment = new SvgFragment();
+
             SvgRootEventPortal svgRootController = new SvgRootEventPortal(elementNode);
             CssBoxSvgRoot svgRoot = new CssBoxSvgRoot(
                 elementNode.Spec,
@@ -483,7 +484,10 @@ namespace LayoutFarm.Svg
         }
 
 
-        Svg.Pathing.SvgPathDataParser svgPathDataParser = new Svg.Pathing.SvgPathDataParser();
+
+
+        PaintLab.Svg.SvgParser parser = new PaintLab.Svg.SvgParser();
+
         void CreateSvgPath(SvgElement parentNode, HtmlElement elem)
         {
             SvgPathSpec spec = new SvgPathSpec();
@@ -543,10 +547,8 @@ namespace LayoutFarm.Svg
                             {
                                 case "d":
                                     {
-
-                                        //parse vertex commands 
-                                        svgPath.DefinitionString = attr.Value;
-                                        svgPathDataParser.Parse(attr.Value.ToCharArray());
+                                        //parse vertex commands                                          
+                                        svgPath.Vxs = parser.ParseSvgPathDefinitionToVxs(attr.Value.ToCharArray());
                                     }
                                     break;
                             }
@@ -556,7 +558,7 @@ namespace LayoutFarm.Svg
             }
         }
 
- 
+
 
         static void CreateSvgImage(SvgElement parentNode, HtmlElement elem)
         {
@@ -641,7 +643,7 @@ namespace LayoutFarm.Svg
             int j = allPoints.Length - 1;
             if (j > 1)
             {
-                var list = new List<PointF>(j / 2);
+
                 for (int i = 0; i < j; i += 2)
                 {
                     float x, y;
@@ -653,9 +655,7 @@ namespace LayoutFarm.Svg
                     {
                         y = 0;
                     }
-
-
-                    list.Add(new PointF(x, y));
+                    output.Add(new PointF(x, y));
                 }
             }
         }

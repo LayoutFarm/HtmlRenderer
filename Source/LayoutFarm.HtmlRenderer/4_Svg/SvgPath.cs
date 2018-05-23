@@ -10,6 +10,10 @@ namespace LayoutFarm.Svg
     {
         SvgPathSpec spec;
         List<Svg.Pathing.SvgPathSeg> segments;
+        PixelFarm.Agg.SvgPart svgPart;
+        PixelFarm.Agg.SvgRenderVx renderVx;
+
+
         public SvgPath(SvgPathSpec spec, object controller)
             : base(controller)
         {
@@ -21,10 +25,59 @@ namespace LayoutFarm.Svg
             set { this.segments = value; }
         }
 
-        public string DefinitionString { get; set; }
+
+
+        VertexStore _vxs;
+        internal VertexStore Vxs
+        {
+            get { return _vxs; }
+            set
+            {
+                _vxs = value;
+                //convert this to svg path seg
+                segments = new List<SvgPathSeg>();
+
+                int cmdCount = _vxs.Count;
+                for (int i = 0; i < cmdCount; ++i)
+                {
+                    var cmd = _vxs.GetVertex(i, out double x, out double y);
+                    switch (cmd)
+                    {
+                        case PixelFarm.Agg.VertexCmd.MoveTo:
+                            segments.Add(new SvgPathSegMoveTo((float)x, (float)y));
+                            break;
+                        case PixelFarm.Agg.VertexCmd.LineTo:
+                            segments.Add(new SvgPathSegLineTo((float)x, (float)y));
+                            break;
+                        //case PixelFarm.Agg.VertexCmd.P2c:
+                        //    segments.Add(new SvgPathSegLineTo((float)x, (float)y));
+                        //    break;
+                        //case PixelFarm.Agg.VertexCmd.P3c:
+                        //    segments.Add(new SvgPathSegLineTo((float)x, (float)y));
+                        //    break;
+                        //case PixelFarm.Agg.VertexCmd.EndFigure:
+                        //    break; 
+                        case PixelFarm.Agg.VertexCmd.Close:
+                            segments.Add(new SvgPathSegClosePath());
+                            break;
+                        //case PixelFarm.Agg.VertexCmd.CloseAndEndFigure:
+                        //case PixelFarm.Agg.VertexCmd.NoMore: 
+
+                        default:
+                            throw new NotSupportedException();
+                            break;
+                    }
+                }
+
+
+
+            }
+        }
 
         public override void ReEvaluateComputeValue(ref ReEvaluateArgs args)
         {
+
+
             var myspec = this.spec;
             this.fillColor = myspec.FillColor;
             this.strokeColor = myspec.StrokeColor;
@@ -262,6 +315,17 @@ namespace LayoutFarm.Svg
         }
         public override void Paint(PaintVisitor p)
         {
+            if (Vxs != null)
+            {
+                //1. 
+                //convert vxs to bitmap
+                //then render with bitmap cache**
+                //or 
+                //2. convert vxs to path data
+
+
+            }
+
             if (fillColor.A > 0)
             {
                 p.FillPath(this.myCachedPath, this.fillColor);
