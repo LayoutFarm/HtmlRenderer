@@ -59,15 +59,6 @@
     <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.CssBase\CssBase\MapAttribute.cs">
       <Link>9_REF_PaintLab.CssBase\MapAttribute.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\0_WebDom.Parser\CssParser.cs">
-      <Link>9_REF_PaintLab.WebDom\0_WebDom.Parser\CssParser.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\0_WebDom.Parser\CssParserHelper.cs">
-      <Link>9_REF_PaintLab.WebDom\0_WebDom.Parser\CssParserHelper.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\0_WebDom.Parser\CssValueParser.cs">
-      <Link>9_REF_PaintLab.WebDom\0_WebDom.Parser\CssValueParser.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\1_Css\CssActiveSheet.cs">
       <Link>9_REF_PaintLab.WebDom\1_Css\CssActiveSheet.cs</Link>
     </Compile>
@@ -98,6 +89,15 @@
     <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\1_Css\WellknownCssPropertyName.cs">
       <Link>9_REF_PaintLab.WebDom\1_Css\WellknownCssPropertyName.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\1_Css_Parser\CssParser.cs">
+      <Link>9_REF_PaintLab.WebDom\1_Css_Parser\CssParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\1_Css_Parser\CssParserHelper.cs">
+      <Link>9_REF_PaintLab.WebDom\1_Css_Parser\CssParserHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\1_Css_Parser\CssValueParser.cs">
+      <Link>9_REF_PaintLab.WebDom\1_Css_Parser\CssValueParser.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\2_Svg\SvgParser.cs">
       <Link>9_REF_PaintLab.WebDom\2_Svg\SvgParser.cs</Link>
     </Compile>
@@ -116,8 +116,17 @@
     <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebLexer\dbugLexerReport.cs">
       <Link>9_REF_PaintLab.WebLexer\dbugLexerReport.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebLexer\MyXmlLexer.cs">
+      <Link>9_REF_PaintLab.WebLexer\MyXmlLexer.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebLexer\TextSnapshot.cs">
       <Link>9_REF_PaintLab.WebLexer\TextSnapshot.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebLexer\XmlLexer.cs">
+      <Link>9_REF_PaintLab.WebLexer\XmlLexer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebLexer\XmlLexer_debug.cs">
+      <Link>9_REF_PaintLab.WebLexer\XmlLexer_debug.cs</Link>
     </Compile>
     <Compile Include="..\Deps_HtmlKit\HtmlKit\HtmlAttribute.cs">
       <Link>8_REF_LayoutFarm.WebDom\5_HtmlKit\HtmlAttribute.cs</Link>

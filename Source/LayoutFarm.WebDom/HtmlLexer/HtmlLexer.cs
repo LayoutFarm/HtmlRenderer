@@ -3,41 +3,11 @@
 using LayoutFarm.WebLexer;
 namespace LayoutFarm.WebDom.Parser
 {
-    public enum HtmlLexerEvent
-    {
-        VisitOpenAngle,        //  <a
-        VisitOpenSlashAngle,   //  </a
-        VisitCloseAngle,       //  a>
-        VisitCloseSlashAngle,  //  />        
-        VisitAttrAssign,      //=
-        VisitOpenAngleExclimation, //<! eg.   <!doctype
-        OpenComment,           //  <!--
-        CloseComment,          //  -->
-        OpenProcessInstruction,  //  <?
-        CloseProcessInstruction, //  ?>
-        NodeNameOrAttribute,
-        NodeNamePrefix,
-        NodeNameLocal,
-        Attribute,
-        AttributeNameLocal,
-        AttributeNamePrefix,
-        AttributeValueAsLiteralString,
-        SwitchToContentPart,
-        FromContentPart,
-        CommentContent
-    }
-
-    enum HtmlLexState
-    {
-        Init,
-        AfterOpenAngle
-    }
-
-    public delegate void HtmlLexerEventHandler(HtmlLexerEvent lexEvent, int startIndex, int len);
+    
     public abstract partial class HtmlLexer
     {
-        public event HtmlLexerEventHandler LexStateChanged;
-        protected void RaiseStateChanged(HtmlLexerEvent lexEvent, int startIndex, int len)
+        public event XmlLexerEventHandler LexStateChanged;
+        protected void RaiseStateChanged(XmlLexerEvent lexEvent, int startIndex, int len)
         {
             LexStateChanged(lexEvent, startIndex, len);
         }
