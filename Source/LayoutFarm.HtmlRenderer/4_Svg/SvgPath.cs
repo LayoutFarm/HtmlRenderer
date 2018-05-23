@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using PixelFarm.Drawing;
 using LayoutFarm.HtmlBoxes;
 using LayoutFarm.Svg.Pathing;
+using PixelFarm.Agg;
+
 namespace LayoutFarm.Svg
 {
     public class SvgPath : SvgVisualElement
@@ -12,7 +14,7 @@ namespace LayoutFarm.Svg
         List<Svg.Pathing.SvgPathSeg> segments;
         PixelFarm.Agg.SvgPart svgPart;
         PixelFarm.Agg.SvgRenderVx renderVx;
-
+        ActualImage backimg;
 
         public SvgPath(SvgPathSpec spec, object controller)
             : base(controller)
@@ -24,9 +26,6 @@ namespace LayoutFarm.Svg
             get { return this.segments; }
             set { this.segments = value; }
         }
-
-
-
         VertexStore _vxs;
         internal VertexStore Vxs
         {
@@ -34,42 +33,6 @@ namespace LayoutFarm.Svg
             set
             {
                 _vxs = value;
-                //convert this to svg path seg
-                segments = new List<SvgPathSeg>();
-
-                int cmdCount = _vxs.Count;
-                for (int i = 0; i < cmdCount; ++i)
-                {
-                    var cmd = _vxs.GetVertex(i, out double x, out double y);
-                    switch (cmd)
-                    {
-                        case PixelFarm.Agg.VertexCmd.MoveTo:
-                            segments.Add(new SvgPathSegMoveTo((float)x, (float)y));
-                            break;
-                        case PixelFarm.Agg.VertexCmd.LineTo:
-                            segments.Add(new SvgPathSegLineTo((float)x, (float)y));
-                            break;
-                        //case PixelFarm.Agg.VertexCmd.P2c:
-                        //    segments.Add(new SvgPathSegLineTo((float)x, (float)y));
-                        //    break;
-                        //case PixelFarm.Agg.VertexCmd.P3c:
-                        //    segments.Add(new SvgPathSegLineTo((float)x, (float)y));
-                        //    break;
-                        //case PixelFarm.Agg.VertexCmd.EndFigure:
-                        //    break; 
-                        case PixelFarm.Agg.VertexCmd.Close:
-                            segments.Add(new SvgPathSegClosePath());
-                            break;
-                        //case PixelFarm.Agg.VertexCmd.CloseAndEndFigure:
-                        //case PixelFarm.Agg.VertexCmd.NoMore: 
-
-                        default:
-                            throw new NotSupportedException();
-                            break;
-                    }
-                }
-
-
 
             }
         }
@@ -87,6 +50,54 @@ namespace LayoutFarm.Svg
             if (segments == null)
             {
                 this.myCachedPath = null;
+            }
+            else if (_vxs != null)
+            {
+                //this is flatten vxs?
+
+                GraphicsPath gpath = this.myCachedPath = new GraphicsPath();
+                int cmdCount = _vxs.Count; 
+                double lastMoveX = 0, lastMoveY = 0, curX = 0, curY = 0; 
+                for (int i = 0; i < cmdCount; ++i)
+                {
+                    var cmd = _vxs.GetVertex(i, out double x, out double y);
+                    switch (cmd)
+                    {
+                        case VertexCmd.MoveTo:
+                            gpath.StartFigure();
+                            curX = lastMoveX = x;
+                            curY = lastMoveY = y;
+                            break;
+                        case VertexCmd.LineTo:
+                            gpath.AddLine((float)curX, (float)curY, (float)x, (float)y);
+                            curX = x;
+                            curY = y;
+                            break;
+                        //case PixelFarm.Agg.VertexCmd.P2c:
+                        //    segments.Add(new SvgPathSegLineTo((float)x, (float)y));
+                        //    break;
+                        //case PixelFarm.Agg.VertexCmd.P3c:
+                        //    segments.Add(new SvgPathSegLineTo((float)x, (float)y));
+                        //    break;
+                        //case PixelFarm.Agg.VertexCmd.EndFigure:
+                        //    break; 
+
+                        //case PixelFarm.Agg.VertexCmd.CloseAndEndFigure:
+                        //case PixelFarm.Agg.VertexCmd.NoMore: 
+
+                        case VertexCmd.Close:
+                            gpath.CloseFigure();
+                            break;
+                        case VertexCmd.NoMore:
+                            i = cmdCount;//force stop
+                            break;
+                        default:
+                            throw new NotSupportedException();
+                       
+                    }
+                }
+
+
             }
             else
             {
@@ -323,7 +334,33 @@ namespace LayoutFarm.Svg
                 //or 
                 //2. convert vxs to path data
 
+                if (backimg == null)
+                {
+                    var svgPart = new SvgPart(SvgRenderVxKind.Path);
+                    svgPart.FillColor = fillColor;
 
+                    svgPart.SetVxsAsOriginal(Vxs);
+                    var svgVx = new SvgRenderVx(new SvgPart[] { svgPart });
+
+                    if (svgVx != null && !svgVx.HasBitmapSnapshot)
+                    {
+                        var bounds = svgVx.GetBounds();
+                        //create 
+                        backimg = new ActualImage((int)bounds.Width, (int)bounds.Height);
+                        AggRenderSurface renderSurface = new AggRenderSurface(backimg);
+                        AggPainter painter = new AggPainter(renderSurface);
+                        svgVx.Render(painter);
+                        svgVx.SetBitmapSnapshot(backimg);
+                        //***
+                    }
+                }
+
+
+                if (backimg != null)
+                {
+                    p.InnerCanvas.DrawImage(backimg, new RectangleF(0, 0, backimg.Width, backimg.Height));
+                    return;
+                }
             }
 
             if (fillColor.A > 0)
