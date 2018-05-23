@@ -117,7 +117,7 @@ namespace LayoutFarm.HtmlBoxes
                             if (startRun == endHitRun)
                             {
                                 var rr = startRun as CssTextRun;
-                                if (this.startHitRunCharIndex >= 0)
+                                if (rr != null && this.startHitRunCharIndex >= 0)
                                 {
                                     var alltext = rr.Text;
                                     var sub1 = alltext.Substring(this.startHitRunCharIndex, this.endHitRunCharIndex - this.startHitRunCharIndex);
@@ -631,7 +631,7 @@ namespace LayoutFarm.HtmlBoxes
                 //no next line 
                 //then walk up  ***
                 CssBox curBox = startLine.OwnerBox;
-            RETRY:
+                RETRY:
                 CssBox level1Sibling = BoxHitUtils.GetNextSibling(curBox);
                 while (level1Sibling != null)
                 {
