@@ -10,7 +10,7 @@ namespace LayoutFarm.WebDom.Parser
         VisitCloseAngle,       //  a>
         VisitCloseSlashAngle,  //  />        
         VisitAttrAssign,      //=
-        VisitOpenAngleExclimation, //<! eg. document node <!doctype
+        VisitOpenAngleExclimation, //<! eg.   <!doctype
         OpenComment,           //  <!--
         CloseComment,          //  -->
         OpenProcessInstruction,  //  <?

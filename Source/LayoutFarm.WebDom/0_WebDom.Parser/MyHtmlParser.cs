@@ -68,6 +68,7 @@ namespace LayoutFarm.WebDom.Parser
                     break;
                 case HtmlLexerEvent.Attribute:
                     {
+                        //create attribute node and wait for its value
                         string nodename = textSnapshot.Substring(startIndex, len);
                         curAttr = this._resultHtmlDoc.CreateAttribute(null, nodename);
                     }
@@ -249,6 +250,7 @@ namespace LayoutFarm.WebDom.Parser
                     break;
                 case HtmlLexerEvent.VisitOpenAngleExclimation:
                     {
+                        //eg. doctype
                         parseState = 10;
                     }
                     break;
