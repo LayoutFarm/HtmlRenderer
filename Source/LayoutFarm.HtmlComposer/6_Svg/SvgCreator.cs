@@ -9,9 +9,9 @@ using LayoutFarm.HtmlBoxes;
 using LayoutFarm.WebDom;
 namespace LayoutFarm.Svg
 {
-    static class SvgCreator
+    class SvgCreator
     {
-        public static CssBoxSvgRoot CreateSvgBox(CssBox parentBox,
+        public CssBoxSvgRoot CreateSvgBox(CssBox parentBox,
             HtmlElement elementNode,
             Css.BoxSpec spec)
         {
@@ -27,9 +27,7 @@ namespace LayoutFarm.Svg
             CreateSvgBoxContent(fragment, elementNode);
             return svgRoot;
         }
-        static void CreateSvgBoxContent(
-          SvgElement parentElement,
-          HtmlElement elementNode)
+        void CreateSvgBoxContent(SvgElement parentElement, HtmlElement elementNode)
         {
             int j = elementNode.ChildrenCount;
             for (int i = 0; i < j; ++i)
@@ -100,7 +98,7 @@ namespace LayoutFarm.Svg
                 }
             }
         }
-        static void CreateSvgGroupElement(SvgElement parentNode, HtmlElement elem)
+        void CreateSvgGroupElement(SvgElement parentNode, HtmlElement elem)
         {
             SvgVisualSpec spec = new SvgVisualSpec();
             SvgGroupElement svgGroupElement = new SvgGroupElement(spec, elem);
@@ -135,14 +133,14 @@ namespace LayoutFarm.Svg
 
             CreateSvgBoxContent(svgGroupElement, elem);
         }
-        static void CreateSvgDefs(SvgElement parentNode, HtmlElement elem)
+        void CreateSvgDefs(SvgElement parentNode, HtmlElement elem)
         {
             //inside single definition
             SvgDefinitionList svgDefList = new SvgDefinitionList(elem);
             parentNode.AddChild(svgDefList);
             CreateSvgBoxContent(svgDefList, elem);
         }
-        static void CreateSvgLinearGradient(SvgElement parentNode, HtmlElement elem)
+        void CreateSvgLinearGradient(SvgElement parentNode, HtmlElement elem)
         {
             //linear gradient definition
 
@@ -215,7 +213,7 @@ namespace LayoutFarm.Svg
         }
 
 
-        static void CreateSvgRect(SvgElement parentNode, HtmlElement elem)
+        void CreateSvgRect(SvgElement parentNode, HtmlElement elem)
         {
             SvgRectSpec spec = new SvgRectSpec();
             SvgRect shape = new SvgRect(spec, elem);
@@ -283,7 +281,7 @@ namespace LayoutFarm.Svg
                 }
             }
         }
-        static void CreateSvgCircle(SvgElement parentNode, HtmlElement elem)
+        void CreateSvgCircle(SvgElement parentNode, HtmlElement elem)
         {
             SvgCircleSpec spec = new SvgCircleSpec();
             SvgCircle shape = new SvgCircle(spec, elem);
@@ -337,7 +335,7 @@ namespace LayoutFarm.Svg
                 }
             }
         }
-        static void CreateSvgEllipse(SvgElement parentNode, HtmlElement elem)
+        void CreateSvgEllipse(SvgElement parentNode, HtmlElement elem)
         {
             SvgEllipseSpec spec = new SvgEllipseSpec();
             SvgEllipse shape = new SvgEllipse(spec, elem);
@@ -395,7 +393,7 @@ namespace LayoutFarm.Svg
                 }
             }
         }
-        static void CreateSvgPolygon(SvgElement parentNode, HtmlElement elem)
+        void CreateSvgPolygon(SvgElement parentNode, HtmlElement elem)
         {
             SvgPolygonSpec spec = new SvgPolygonSpec();
             SvgPolygon shape = new SvgPolygon(spec, elem);
@@ -439,7 +437,7 @@ namespace LayoutFarm.Svg
                 }
             }
         }
-        static void CreateSvgPolyline(SvgElement parentNode, HtmlElement elem)
+        void CreateSvgPolyline(SvgElement parentNode, HtmlElement elem)
         {
             SvgPolylineSpec spec = new SvgPolylineSpec();
             SvgPolyline shape = new SvgPolyline(spec, elem);
@@ -484,7 +482,9 @@ namespace LayoutFarm.Svg
             }
         }
 
-        static void CreateSvgPath(SvgElement parentNode, HtmlElement elem)
+
+        Svg.Pathing.SvgPathDataParser svgPathDataParser = new Svg.Pathing.SvgPathDataParser();
+        void CreateSvgPath(SvgElement parentNode, HtmlElement elem)
         {
             SvgPathSpec spec = new SvgPathSpec();
             SvgPath svgPath = new SvgPath(spec, elem);
@@ -546,8 +546,7 @@ namespace LayoutFarm.Svg
 
                                         //parse vertex commands 
                                         svgPath.DefinitionString = attr.Value;
-                                        MySvgPathDataParser parser = new MySvgPathDataParser();
-                                        parser.Parse(attr.Value.ToCharArray());
+                                        svgPathDataParser.Parse(attr.Value.ToCharArray());
                                     }
                                     break;
                             }
@@ -557,59 +556,7 @@ namespace LayoutFarm.Svg
             }
         }
 
-
-        class MySvgPathDataParser : Svg.Pathing.SvgPathDataParser
-        {
-
-            //create svg path segment with our parser
-
-            protected override void OnArc(float r1, float r2, float xAxisRotation, int largeArcFlag, int sweepFlags, float x, float y, bool isRelative)
-            {
-
-                //not support arc on path yet!
-
-                base.OnArc(r1, r2, xAxisRotation, largeArcFlag, sweepFlags, x, y, isRelative);
-            }
-            protected override void OnCloseFigure()
-            {
-                base.OnCloseFigure();
-            }
-            protected override void OnCurveToCubic(float x1, float y1, float x2, float y2, float x, float y, bool isRelative)
-            {
-                base.OnCurveToCubic(x1, y1, x2, y2, x, y, isRelative);
-            }
-            protected override void OnCurveToCubicSmooth(float x2, float y2, float x, float y, bool isRelative)
-            {
-                base.OnCurveToCubicSmooth(x2, y2, x, y, isRelative);
-            }
-            protected override void OnCurveToQuadratic(float x1, float y1, float x, float y, bool isRelative)
-            {
-                base.OnCurveToQuadratic(x1, y1, x, y, isRelative);
-            }
-            protected override void OnCurveToQuadraticSmooth(float x, float y, bool isRelative)
-            {
-                base.OnCurveToQuadraticSmooth(x, y, isRelative);
-            }
-            protected override void OnHLineTo(float x, bool relative)
-            {
-                base.OnHLineTo(x, relative);
-            }
-            protected override void OnLineTo(float x, float y, bool relative)
-            {
-                base.OnLineTo(x, y, relative);
-            }
-            protected override void OnMoveTo(float x, float y, bool relative)
-            {
-                base.OnMoveTo(x, y, relative);
-            }
-            protected override void OnVLineTo(float y, bool relative)
-            {
-                base.OnVLineTo(y, relative);
-            }
-
-        }
-
-
+ 
 
         static void CreateSvgImage(SvgElement parentNode, HtmlElement elem)
         {
