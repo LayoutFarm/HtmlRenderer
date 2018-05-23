@@ -2,6 +2,8 @@
 
 using System;
 using LayoutFarm.WebLexer;
+using HtmlLexerEvent = LayoutFarm.WebDom.Parser.XmlLexerEvent;
+
 namespace LayoutFarm.WebDom.Parser
 {
     class MyHtmlParser : HtmlParser
@@ -68,12 +70,17 @@ namespace LayoutFarm.WebDom.Parser
                     break;
                 case HtmlLexerEvent.Attribute:
                     {
+                        //create attribute node and wait for its value
                         string nodename = textSnapshot.Substring(startIndex, len);
                         curAttr = this._resultHtmlDoc.CreateAttribute(null, nodename);
                     }
                     break;
                 case HtmlLexerEvent.NodeNameOrAttribute:
                     {
+                        //the lexer dose not store state of element name or attribute name
+                        //so we use parseState to decide here
+
+
                         string name = textSnapshot.Substring(startIndex, len);
                         switch (parseState)
                         {
@@ -249,6 +256,7 @@ namespace LayoutFarm.WebDom.Parser
                     break;
                 case HtmlLexerEvent.VisitOpenAngleExclimation:
                     {
+                        //eg. doctype
                         parseState = 10;
                     }
                     break;

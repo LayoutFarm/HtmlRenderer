@@ -51,7 +51,7 @@ namespace LayoutFarm.Svg
 
 
             //TODO: review here again!
-            throw new System.NotImplementedException();
+           // throw new System.NotImplementedException();
             //TODO: check hit test core on svg again!
             //while (child != null)
             //{
