@@ -20,14 +20,16 @@ namespace LayoutFarm.CustomWidgets
                 //1. image req
                 (s, e) =>
                 {
-                    foreach (ImageContentManager key in imageContentManList.Keys)
+                    foreach (ImageContentManager imgContentMx in imageContentManList.Keys)
                     {
-                        key.AddRequestImage(e.ImageBinder);
+                        imgContentMx.AddRequestImage(e.ImageBinder);
                     }
                 },
                 //2. stylesheet request
                 (s, e) =>
                 {
+
+
                 });
         }
 
