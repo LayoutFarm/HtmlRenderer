@@ -4,94 +4,94 @@
 using LayoutFarm.UI;
 namespace LayoutFarm.WebDom
 {
-    partial class DomElement : IEventListener
+    partial class DomElement : IUIEventListener
     {
-        void IEventListener.ListenKeyPress(UIKeyEventArgs e)
+        void IUIEventListener.ListenKeyPress(UIKeyEventArgs e)
         {
             OnKeyPress(e);
         }
-        void IEventListener.ListenKeyDown(UIKeyEventArgs e)
+        void IUIEventListener.ListenKeyDown(UIKeyEventArgs e)
         {
             OnKeyDown(e);
         }
-        void IEventListener.ListenKeyUp(UIKeyEventArgs e)
+        void IUIEventListener.ListenKeyUp(UIKeyEventArgs e)
         {
             OnKeyUp(e);
         }
-        bool IEventListener.ListenProcessDialogKey(UIKeyEventArgs e)
+        bool IUIEventListener.ListenProcessDialogKey(UIKeyEventArgs e)
         {
             return OnProcessDialogKey(e);
         }
-        void IEventListener.ListenMouseDown(UIMouseEventArgs e)
+        void IUIEventListener.ListenMouseDown(UIMouseEventArgs e)
         {
             OnMouseDown(e);
         }
-        void IEventListener.ListenLostMouseFocus(UIMouseEventArgs e)
+        void IUIEventListener.ListenLostMouseFocus(UIMouseEventArgs e)
         {
             OnLostMouseFocus(e);
         }
-        void IEventListener.ListenMouseMove(UIMouseEventArgs e)
+        void IUIEventListener.ListenMouseMove(UIMouseEventArgs e)
         {
             OnMouseMove(e);
         }
-        void IEventListener.ListenMouseUp(UIMouseEventArgs e)
+        void IUIEventListener.ListenMouseUp(UIMouseEventArgs e)
         {
             //1. mouse up
             OnMouseUp(e);
         }
-        void IEventListener.ListenMouseClick(UIMouseEventArgs e)
+        void IUIEventListener.ListenMouseClick(UIMouseEventArgs e)
         {
         }
-        void IEventListener.ListenMouseDoubleClick(UIMouseEventArgs e)
+        void IUIEventListener.ListenMouseDoubleClick(UIMouseEventArgs e)
         {
             OnDoubleClick(e);
         }
-        void IEventListener.ListenMouseWheel(UIMouseEventArgs e)
+        void IUIEventListener.ListenMouseWheel(UIMouseEventArgs e)
         {
             OnMouseWheel(e);
         }
-        void IEventListener.ListenMouseLeave(UIMouseEventArgs e)
+        void IUIEventListener.ListenMouseLeave(UIMouseEventArgs e)
         {
             OnMouseLeave(e);
         }
-        void IEventListener.ListenGotKeyboardFocus(UIFocusEventArgs e)
+        void IUIEventListener.ListenGotKeyboardFocus(UIFocusEventArgs e)
         {
             OnGotFocus(e);
         }
-        void IEventListener.ListenLostKeyboardFocus(UIFocusEventArgs e)
+        void IUIEventListener.ListenLostKeyboardFocus(UIFocusEventArgs e)
         {
             OnLostFocus(e);
         }
 
-        void IEventListener.HandleContentLayout()
+        void IUIEventListener.HandleContentLayout()
         {
             OnContentLayout();
         }
-        void IEventListener.HandleContentUpdate()
+        void IUIEventListener.HandleContentUpdate()
         {
             OnContentUpdate();
         }
-        void IEventListener.HandleElementUpdate()
+        void IUIEventListener.HandleElementUpdate()
         {
             OnElementChanged();
         }
-        bool IEventListener.BypassAllMouseEvents
+        bool IUIEventListener.BypassAllMouseEvents
         {
             get { return false; }
         }
-        bool IEventListener.AutoStopMouseEventPropagation
+        bool IUIEventListener.AutoStopMouseEventPropagation
         {
             get { return false; }
         }
-        void IEventListener.ListenInterComponentMsg(object sender, int msgcode, string msg)
+        void IUIEventListener.ListenInterComponentMsg(object sender, int msgcode, string msg)
         {
             this.OnInterComponentMsg(sender, msgcode, msg);
         }
 
-        void IEventListener.ListenGuestTalk(UIGuestTalkEventArgs e)
+        void IUIEventListener.ListenGuestTalk(UIGuestTalkEventArgs e)
         {
         }
-        void IEventListener.GetGlobalLocation(out int x, out int y)
+        void IUIEventListener.GetGlobalLocation(out int x, out int y)
         {
             this.GetGlobalLocation(out x, out y);
         }

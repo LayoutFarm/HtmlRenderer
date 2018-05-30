@@ -61,7 +61,7 @@ namespace LayoutFarm.HtmlBoxes
             for (int i = 0; i < j; ++i)
             {
                 CssBox cssbox = this.waitForUpdateBoxes[i];
-                var controller = HtmlBoxes.CssBox.UnsafeGetController(cssbox) as UI.IEventListener;
+                var controller = HtmlBoxes.CssBox.UnsafeGetController(cssbox) as UI.IUIEventListener;
                 controller.HandleElementUpdate();
             }
             waitForUpdateBoxes.Clear();

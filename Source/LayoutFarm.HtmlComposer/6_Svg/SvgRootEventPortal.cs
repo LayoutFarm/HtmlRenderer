@@ -94,7 +94,7 @@ namespace LayoutFarm.Svg
             {
                 //propagate up 
                 var hitInfo = hitChain.GetHitInfo(i);
-                IEventListener controller = SvgElement.UnsafeGetController(hitInfo.svg) as IEventListener;
+                IUIEventListener controller = SvgElement.UnsafeGetController(hitInfo.svg) as IUIEventListener;
                 //switch (hitInfo.hitObjectKind)
                 //{
                 //    default:
