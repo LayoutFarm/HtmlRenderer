@@ -338,7 +338,7 @@ namespace LayoutFarm.DzBoardSample
                             if (targetBox != null)
                             {
                                 //move target box too 
-                                targetBox.SetBounds(targetBox.Left + diffX + 5,
+                                targetBox.SetLocationAndSize(targetBox.Left + diffX + 5,
                                     targetBox.Top + diffY + 5,
                                     controllerBox.Width - 10,
                                     controllerBox.Height - 10);
@@ -355,7 +355,7 @@ namespace LayoutFarm.DzBoardSample
                             if (targetBox != null)
                             {
                                 //move target box too 
-                                targetBox.SetBounds(targetBox.Left + diffX + 5,
+                                targetBox.SetLocationAndSize(targetBox.Left + diffX + 5,
                                    targetBox.Top + diffY + 5,
                                    controllerBox.Width - 10,
                                    controllerBox.Height - 10);
@@ -371,7 +371,7 @@ namespace LayoutFarm.DzBoardSample
                             if (targetBox != null)
                             {
                                 //move target box too 
-                                targetBox.SetBounds(targetBox.Left + diffX + 5,
+                                targetBox.SetLocationAndSize(targetBox.Left + diffX + 5,
                                    targetBox.Top + diffY + 5,
                                    controllerBox.Width - 10,
                                    controllerBox.Height - 10);
@@ -388,7 +388,7 @@ namespace LayoutFarm.DzBoardSample
                             if (targetBox != null)
                             {
                                 //move target box too 
-                                targetBox.SetBounds(targetBox.Left + diffX + 5,
+                                targetBox.SetLocationAndSize(targetBox.Left + diffX + 5,
                                    targetBox.Top + diffY + 5,
                                    controllerBox.Width - 10,
                                    controllerBox.Height - 10);
@@ -440,7 +440,7 @@ namespace LayoutFarm.DzBoardSample
                     controllerBox.beginRect,
                     newRect);
                 controllerBox.beginRect = newRect;
-                targetBox.SetBounds(newRect.Left,
+                targetBox.SetLocationAndSize(newRect.Left,
                     newRect.Top,
                     newRect.Width,
                     newRect.Height);
