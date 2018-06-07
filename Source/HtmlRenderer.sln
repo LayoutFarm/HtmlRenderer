@@ -43,7 +43,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixelFarm.One.HtmlRenderer"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaintLab.AbstractPlatform", "..\..\PixelFarm\src\PixelFarm\PaintLab.AbstractPlatform\PaintLab.AbstractPlatform.csproj", "{D2CC5CEF-3003-4A5D-A532-8EB7E4FA40F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackEnd.TypeMirror", "..\..\PixelFarm\src\PixelFarm\TypeMirror\BackEnd.TypeMirror.csproj", "{68F1DAF6-2B35-476E-B2F8-5EADBC823935}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackEnd.TypeMirror", "..\..\PixelFarm\src\PixelFarm\BackEnd.TypeMirror\BackEnd.TypeMirror.csproj", "{68F1DAF6-2B35-476E-B2F8-5EADBC823935}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixelFarm.Drawing", "..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\PixelFarm.Drawing.csproj", "{51D63482-5697-4B16-8401-506965624657}"
 EndProject

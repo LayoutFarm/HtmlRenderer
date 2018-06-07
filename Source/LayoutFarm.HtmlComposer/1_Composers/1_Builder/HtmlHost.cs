@@ -24,6 +24,7 @@ namespace LayoutFarm.HtmlBoxes
         LayoutFarm.Composers.RenderTreeBuilder renderTreeBuilder;
 
         ITextService _textservice;
+        Svg.SvgCreator _svgCreator;
 
         private HtmlHost(WebDom.CssActiveSheet activeSheet)
         {
@@ -35,7 +36,8 @@ namespace LayoutFarm.HtmlBoxes
 
             this._textservice = MyFontServices.GetTextService();
             HtmlContainerTextService.SetTextService(this._textservice);
-            
+            _svgCreator = new Svg.SvgCreator();
+
         }
         public HtmlHost()
             : this(
@@ -59,7 +61,7 @@ namespace LayoutFarm.HtmlBoxes
             for (int i = 0; i < j; ++i)
             {
                 CssBox cssbox = this.waitForUpdateBoxes[i];
-                var controller = HtmlBoxes.CssBox.UnsafeGetController(cssbox) as UI.IEventListener;
+                var controller = HtmlBoxes.CssBox.UnsafeGetController(cssbox) as UI.IUIEventListener;
                 controller.HandleElementUpdate();
             }
             waitForUpdateBoxes.Clear();
@@ -434,7 +436,7 @@ namespace LayoutFarm.HtmlBoxes
                 case WellKnownDomNodeName.svg:
                     {
                         //1. create svg container node 
-                        newBox = Svg.SvgCreator.CreateSvgBox(parentBox, childElement, childElement.Spec);
+                        newBox = _svgCreator.CreateSvgBox(parentBox, childElement, childElement.Spec);
                         childElement.SetPrincipalBox(newBox);
                         return newBox;
                     }

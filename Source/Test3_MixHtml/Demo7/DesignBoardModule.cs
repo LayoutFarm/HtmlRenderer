@@ -437,7 +437,7 @@ namespace LayoutFarm.DzBoardSample
                         y -= h;
                     }
                     //set width and height
-                    selectionBox.SetBounds(x, y, w, h);
+                    selectionBox.SetLocationAndSize(x, y, w, h);
                     e.SetMouseCapture(selectionBox);
                 }
 
@@ -566,7 +566,7 @@ namespace LayoutFarm.DzBoardSample
                         y -= h;
                     }
                     //set width and height
-                    selectionBox.SetBounds(x, y, w, h);
+                    selectionBox.SetLocationAndSize(x, y, w, h);
                 }
                 e.StopPropagation();
             };

@@ -4,7 +4,7 @@
 using LayoutFarm.UI;
 namespace LayoutFarm.WebDom
 {
-    partial class DomElement : IEventListener
+    partial class DomElement : IUIEventListener
     {
         void IEventListener.ListenKeyPress(UIKeyEventArgs e)
         {
@@ -62,24 +62,7 @@ namespace LayoutFarm.WebDom
         {
             OnLostFocus(e);
         }
-
-        void IEventListener.HandleContentLayout()
-        {
-            OnContentLayout();
-        }
-        void IEventListener.HandleContentUpdate()
-        {
-            OnContentUpdate();
-        }
-        void IEventListener.HandleElementUpdate()
-        {
-            OnElementChanged();
-        }
-        bool IEventListener.BypassAllMouseEvents
-        {
-            get { return false; }
-        }
-        bool IEventListener.AutoStopMouseEventPropagation
+        bool IUIEventListener.AutoStopMouseEventPropagation
         {
             get { return false; }
         }
@@ -88,10 +71,29 @@ namespace LayoutFarm.WebDom
             this.OnInterComponentMsg(sender, msgcode, msg);
         }
 
+        //--------------
+        void IUIEventListener.HandleContentLayout()
+        {
+            OnContentLayout();
+        }
+        void IUIEventListener.HandleContentUpdate()
+        {
+            OnContentUpdate();
+        }
+        void IUIEventListener.HandleElementUpdate()
+        {
+            OnElementChanged();
+        }
+        bool IUIEventListener.BypassAllMouseEvents
+        {
+            get { return false; }
+        }
+       
+
         void IEventListener.ListenGuestTalk(UIGuestTalkEventArgs e)
         {
         }
-        void IEventListener.GetGlobalLocation(out int x, out int y)
+        void IUIEventListener.GetGlobalLocation(out int x, out int y)
         {
             this.GetGlobalLocation(out x, out y);
         }
