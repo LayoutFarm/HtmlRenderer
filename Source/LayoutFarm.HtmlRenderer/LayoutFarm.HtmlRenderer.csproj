@@ -79,6 +79,8 @@
     <Compile Include="4_Svg\SvgHitChain.cs" />
     <Compile Include="4_Svg\SvgImageBinder.cs" />
     <Compile Include="4_Svg\SvgPath.cs" />
+    <Compile Include="4_Svg\SvgPathSegments.cs" />
+    <Compile Include="4_Svg\SvgMatrixAndTransforms.cs" />
     <Compile Include="4_Svg\SvgVisualElements.cs" />
     <Compile Include="5_Boxes_SpecialBoxes\CssFloatContainerBox.cs" />
     <Compile Include="Platform\FontDefaultConfig.cs" />
@@ -164,9 +166,6 @@
       <Project>{a7e65fd9-329d-4902-bcda-51ee4f992fd5}</Project>
       <Name>LayoutFarm.WebDom</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="4_Svg\license.txt" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

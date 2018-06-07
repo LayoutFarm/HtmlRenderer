@@ -21,6 +21,7 @@ namespace LayoutFarm.Svg
             set { this.segments = value; }
         }
 
+        public string DefinitionString { get; set; }
 
         public override void ReEvaluateComputeValue(ref ReEvaluateArgs args)
         {

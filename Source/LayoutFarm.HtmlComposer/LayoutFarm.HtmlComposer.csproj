@@ -98,38 +98,14 @@
     <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\1_Css\WellknownCssPropertyName.cs">
       <Link>9_REF_PaintLab.WebDom\1_Css\WellknownCssPropertyName.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\2_Svg\07_Coords_Transforms\SvgMatrix.cs">
-      <Link>9_REF_PaintLab.WebDom\2_Svg\07_Coords_Transforms\SvgMatrix.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\2_Svg\07_Coords_Transforms\SvgRotate.cs">
-      <Link>9_REF_PaintLab.WebDom\2_Svg\07_Coords_Transforms\SvgRotate.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\2_Svg\07_Coords_Transforms\SvgScale.cs">
-      <Link>9_REF_PaintLab.WebDom\2_Svg\07_Coords_Transforms\SvgScale.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\2_Svg\07_Coords_Transforms\SvgShear.cs">
-      <Link>9_REF_PaintLab.WebDom\2_Svg\07_Coords_Transforms\SvgShear.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\2_Svg\07_Coords_Transforms\SvgSkew.cs">
-      <Link>9_REF_PaintLab.WebDom\2_Svg\07_Coords_Transforms\SvgSkew.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\2_Svg\07_Coords_Transforms\SvgTransform.cs">
-      <Link>9_REF_PaintLab.WebDom\2_Svg\07_Coords_Transforms\SvgTransform.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\2_Svg\07_Coords_Transforms\SvgTranslate.cs">
-      <Link>9_REF_PaintLab.WebDom\2_Svg\07_Coords_Transforms\SvgTranslate.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\2_Svg\08_Paths\SvgPathDataParser.cs">
-      <Link>9_REF_PaintLab.WebDom\2_Svg\08_Paths\SvgPathDataParser.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\2_Svg\08_Paths\SvgPathSegments.cs">
-      <Link>9_REF_PaintLab.WebDom\2_Svg\08_Paths\SvgPathSegments.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\2_Svg\09_BasicShapes\SvgSpec.cs">
-      <Link>9_REF_PaintLab.WebDom\2_Svg\09_BasicShapes\SvgSpec.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\2_Svg\SvgParser.cs">
       <Link>9_REF_PaintLab.WebDom\2_Svg\SvgParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\2_Svg\SvgPathDataParser.cs">
+      <Link>9_REF_PaintLab.WebDom\2_Svg\SvgPathDataParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\2_Svg\SvgSpec.cs">
+      <Link>9_REF_PaintLab.WebDom\2_Svg\SvgSpec.cs</Link>
     </Compile>
     <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\IScriptable\JsScriptAttributes.cs">
       <Link>9_REF_PaintLab.WebDom\IScriptable\JsScriptAttributes.cs</Link>
@@ -326,8 +302,14 @@
     <Compile Include="..\LayoutFarm.HtmlRenderer\4_Svg\SvgImageBinder.cs">
       <Link>8_REF_LayoutFarm.HtmlRenderer\4_Svg\SvgImageBinder.cs</Link>
     </Compile>
+    <Compile Include="..\LayoutFarm.HtmlRenderer\4_Svg\SvgMatrixAndTransforms.cs">
+      <Link>8_REF_LayoutFarm.HtmlRenderer\4_Svg\SvgMatrixAndTransforms.cs</Link>
+    </Compile>
     <Compile Include="..\LayoutFarm.HtmlRenderer\4_Svg\SvgPath.cs">
       <Link>8_REF_LayoutFarm.HtmlRenderer\4_Svg\SvgPath.cs</Link>
+    </Compile>
+    <Compile Include="..\LayoutFarm.HtmlRenderer\4_Svg\SvgPathSegments.cs">
+      <Link>8_REF_LayoutFarm.HtmlRenderer\4_Svg\SvgPathSegments.cs</Link>
     </Compile>
     <Compile Include="..\LayoutFarm.HtmlRenderer\4_Svg\SvgVisualElements.cs">
       <Link>8_REF_LayoutFarm.HtmlRenderer\4_Svg\SvgVisualElements.cs</Link>
