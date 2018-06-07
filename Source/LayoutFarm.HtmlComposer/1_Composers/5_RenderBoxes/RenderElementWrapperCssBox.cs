@@ -209,7 +209,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
         }
         public override void CustomRecomputedValue(CssBox containingBlock)
         {
-            var ibox = CssBox.UnsafeGetController(this) as IBoxElement;
+            var ibox = CssBox.UnsafeGetController(this) as LayoutFarm.UI.IBoxElement;
             if (ibox != null)
             {
                 //todo: user minimum font height of the IBoxElement

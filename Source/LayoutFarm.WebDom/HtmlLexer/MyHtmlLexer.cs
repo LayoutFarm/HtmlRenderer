@@ -1,6 +1,7 @@
 ﻿//BSD, 2014-2018, WinterDev
 
 using LayoutFarm.WebLexer;
+using HtmlLexerEvent = LayoutFarm.WebDom.Parser.XmlLexerEvent;
 namespace LayoutFarm.WebDom.Parser
 {
     sealed partial class MyHtmlLexer : HtmlLexer

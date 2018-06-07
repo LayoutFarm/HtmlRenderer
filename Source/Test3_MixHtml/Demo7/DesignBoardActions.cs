@@ -51,11 +51,11 @@ namespace LayoutFarm.DzBoardSample
         public override void InvokeUndo(DesignBoardModule dzBoard)
         {
             //move to old point
-            this.dzBox.SetBounds(oldBounds.Left, oldBounds.Top, oldBounds.Width, oldBounds.Height);
+            this.dzBox.SetLocationAndSize(oldBounds.Left, oldBounds.Top, oldBounds.Width, oldBounds.Height);
         }
         public override void InvokeRedo(DesignBoardModule dzBoard)
         {
-            this.dzBox.SetBounds(newBounds.Left, newBounds.Top, newBounds.Width, newBounds.Height);
+            this.dzBox.SetLocationAndSize(newBounds.Left, newBounds.Top, newBounds.Width, newBounds.Height);
         }
     }
     class DzMoveElementSetAction : DzBoardAction

@@ -200,7 +200,7 @@ namespace LayoutFarm.UI
                 SetEventOrigin(e, hitPointChain);
                 //------------------------------ 
                 var prevMouseDownElement = e.PreviousMouseDown;
-                IEventListener currentMouseDown = null;
+                IUIEventListener currentMouseDown = null;
                 //portal                
                 ForEachOnlyEventPortalBubbleUp(e, hitPointChain, (portal) =>
                 {
@@ -406,7 +406,7 @@ namespace LayoutFarm.UI
 
         //===================================================================
         delegate bool EventPortalAction(IEventPortal evPortal);
-        delegate bool EventListenerAction(IEventListener listener);
+        delegate bool EventListenerAction(IUIEventListener listener);
         static void ForEachOnlyEventPortalBubbleUp(UIEventArgs e, HitChain hitPointChain, EventPortalAction eventPortalAction)
         {
             for (int i = hitPointChain.Count - 1; i >= 0; --i)
@@ -417,7 +417,7 @@ namespace LayoutFarm.UI
                 if (eventPortal != null)
                 {
                     var ppp = hitPoint.point;
-                    e.CurrentContextElement = currentHitElement as IEventListener;
+                    e.CurrentContextElement = currentHitElement as IUIEventListener;
                     e.SetLocation(ppp.X, ppp.Y);
                     if (eventPortalAction(eventPortal))
                     {
@@ -432,7 +432,7 @@ namespace LayoutFarm.UI
             for (int i = hitPointChain.Count - 1; i >= 0; --i)
             {
                 hitInfo = hitPointChain.GetHitInfo(i);
-                IEventListener listener = hitInfo.hitElement.GetController() as IEventListener;
+                IUIEventListener listener = hitInfo.hitElement.GetController() as IUIEventListener;
                 if (listener != null)
                 {
                     if (e.SourceHitElement == null)

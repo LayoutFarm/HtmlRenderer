@@ -20,7 +20,7 @@ namespace LayoutFarm.HtmlBoxes
             var cnode = svgElement.GetFirstNode();
             ReEvaluateArgs reEvalArgs = new ReEvaluateArgs(
                 containingBlock.VisualWidth,
-                100,
+                100,//temp 
                 containingBlock.GetEmHeight());
             while (cnode != null)
             {

@@ -56,7 +56,7 @@ namespace LayoutFarm.HtmlBoxes
         public HtmlContainer()
         {
             //TODO: review here again
-          
+
             _textService = HtmlContainerTextService.s_textservice;
 #if DEBUG
             if (_textService == null)
@@ -280,12 +280,13 @@ namespace LayoutFarm.HtmlBoxes
         //------------------------------------------------------------------
         protected abstract void OnRequestImage(ImageBinder binder,
             object reqFrom, bool _sync);
+
         internal void RaiseImageRequest(
             ImageBinder binder,
             object reqBy,
-            bool _sync)
+            bool _sync = false)
         {
-            //TODO: sync or async?
+            //async by default
             OnRequestImage(binder, reqBy, false);
         }
 

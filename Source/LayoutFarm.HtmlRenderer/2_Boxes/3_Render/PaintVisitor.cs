@@ -313,6 +313,9 @@ namespace LayoutFarm.HtmlBoxes
                   );
         }
 #if DEBUG
+
+       
+
         int dbugIndentLevel;
         internal bool dbugEnableLogRecord;
         internal List<string> logRecords = new List<string>();

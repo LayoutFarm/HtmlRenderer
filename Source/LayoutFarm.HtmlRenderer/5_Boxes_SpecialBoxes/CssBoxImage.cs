@@ -38,11 +38,24 @@ namespace LayoutFarm.HtmlBoxes
         {
             this._imgRun = new CssImageRun();
             this._imgRun.ImageBinder = binder;
+            binder.ImageChanged += Binder_ImageChanged;
             this._imgRun.SetOwner(this);
+            //
             var runlist = new List<CssRun>(1);
             runlist.Add(_imgRun);
             CssBox.UnsafeSetContentRuns(this, runlist, false);
         }
+
+        private void Binder_ImageChanged(object sender, EventArgs e)
+        {
+
+            SetVisualSize(
+                this._imgRun.ImageBinder.ImageWidth,
+                this._imgRun.ImageBinder.ImageHeight);
+
+            this.InvalidateGraphics();
+        }
+
         public override void Clear()
         {
             base.Clear();
@@ -74,7 +87,7 @@ namespace LayoutFarm.HtmlBoxes
             r.X = (float)Math.Floor(r.X);
             r.Y = (float)Math.Floor(r.Y);
             bool tryLoadOnce = false;
-        EVAL_STATE:
+            EVAL_STATE:
             switch (_imgRun.ImageBinder.State)
             {
                 case ImageBinderState.Unload:

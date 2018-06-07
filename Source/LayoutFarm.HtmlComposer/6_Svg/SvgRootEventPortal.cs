@@ -51,7 +51,7 @@ namespace LayoutFarm.Svg
 
 
             //TODO: review here again!
-            throw new System.NotImplementedException();
+           // throw new System.NotImplementedException();
             //TODO: check hit test core on svg again!
             //while (child != null)
             //{
@@ -94,7 +94,7 @@ namespace LayoutFarm.Svg
             {
                 //propagate up 
                 var hitInfo = hitChain.GetHitInfo(i);
-                IEventListener controller = SvgElement.UnsafeGetController(hitInfo.svg) as IEventListener;
+                IUIEventListener controller = SvgElement.UnsafeGetController(hitInfo.svg) as IUIEventListener;
                 //switch (hitInfo.hitObjectKind)
                 //{
                 //    default:

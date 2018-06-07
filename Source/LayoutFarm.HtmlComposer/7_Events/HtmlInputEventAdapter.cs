@@ -16,7 +16,7 @@ namespace LayoutFarm.HtmlBoxes
         CssBoxHitChain _latestMouseDownChain = null;
         //-----------------------------------------------
         DateTime lastimeMouseUp;
-        IEventListener currentMouseDown;
+        IUIEventListener currentMouseDown;
         int _mousedownX;
         int _mousedownY;
         CssBox _mouseDownStartAt;
@@ -374,7 +374,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 //propagate up 
                 var hitInfo = hitChain.GetHitInfo(i);
-                IEventListener controller = null;
+                IUIEventListener controller = null;
                 switch (hitInfo.hitObjectKind)
                 {
                     default:
@@ -384,13 +384,13 @@ namespace LayoutFarm.HtmlBoxes
                     case HitObjectKind.Run:
                         {
                             CssRun run = (CssRun)hitInfo.hitObject;
-                            controller = CssBox.UnsafeGetController(run.OwnerBox) as IEventListener;
+                            controller = CssBox.UnsafeGetController(run.OwnerBox) as IUIEventListener;
                         }
                         break;
                     case HitObjectKind.CssBox:
                         {
                             CssBox box = (CssBox)hitInfo.hitObject;
-                            controller = CssBox.UnsafeGetController(box) as IEventListener;
+                            controller = CssBox.UnsafeGetController(box) as IUIEventListener;
                         }
                         break;
                 }

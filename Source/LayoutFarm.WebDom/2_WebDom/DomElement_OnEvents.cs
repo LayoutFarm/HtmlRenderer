@@ -5,7 +5,7 @@ using LayoutFarm.UI;
 namespace LayoutFarm.WebDom
 {
     public delegate void HtmlEventHandler(UIEventArgs e);
-    partial class DomElement : IEventListener
+    partial class DomElement : IUIEventListener
     {
         //------------------------------------------------------
         public void AttachEvent(UIEventName eventName, HtmlEventHandler handler)
