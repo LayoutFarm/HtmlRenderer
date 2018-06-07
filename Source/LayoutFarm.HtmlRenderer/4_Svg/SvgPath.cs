@@ -14,7 +14,7 @@ namespace LayoutFarm.Svg
         List<Svg.Pathing.SvgPathSeg> segments;
         PixelFarm.Agg.SvgPart svgPart;
         PixelFarm.Agg.SvgRenderVx renderVx;
-        ActualImage backimg;
+        ActualBitmap backimg;
 
         public SvgPath(SvgPathSpec spec, object controller)
             : base(controller)
@@ -346,7 +346,7 @@ namespace LayoutFarm.Svg
                     {
                         var bounds = svgVx.GetBounds();
                         //create 
-                        backimg = new ActualImage((int)bounds.Width, (int)bounds.Height);
+                        backimg = new ActualBitmap((int)bounds.Width, (int)bounds.Height);
                         AggRenderSurface renderSurface = new AggRenderSurface(backimg);
                         AggPainter painter = new AggPainter(renderSurface);
                         svgVx.Render(painter);

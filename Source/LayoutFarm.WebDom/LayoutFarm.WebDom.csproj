@@ -106,6 +106,10 @@
     <Compile Include="2_WebDom\WellknownElementName.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\PixelFarm\src\PixelFarm\BackEnd.TypeMirror\BackEnd.TypeMirror.csproj">
+      <Project>{68f1daf6-2b35-476e-b2f8-5eadbc823935}</Project>
+      <Name>BackEnd.TypeMirror</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.AbstractPlatform\PaintLab.AbstractPlatform.csproj">
       <Project>{d2cc5cef-3003-4a5d-a532-8eb7e4fa40f2}</Project>
       <Name>PaintLab.AbstractPlatform</Name>
@@ -121,10 +125,6 @@
     <ProjectReference Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebLexer\PaintLab.WebLexer.csproj">
       <Project>{8fba6297-44a9-4c3f-b22d-d33e00669942}</Project>
       <Name>PaintLab.WebLexer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\PixelFarm\src\PixelFarm\TypeMirror\BackEnd.TypeMirror.csproj">
-      <Project>{68f1daf6-2b35-476e-b2f8-5eadbc823935}</Project>
-      <Name>BackEnd.TypeMirror</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
