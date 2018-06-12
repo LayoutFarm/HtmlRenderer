@@ -106,7 +106,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 this.cssbox = cssbox;
             }
-            void IScrollable.SetViewport(int x, int y)
+            void IScrollable.SetViewport(int x, int y, object reqBy)
             {
                 this.cssbox.SetViewport(x, y);
             }
@@ -144,6 +144,13 @@ namespace LayoutFarm.HtmlBoxes
 
             event EventHandler IScrollable.LayoutFinished
             {
+                //TODO: review this
+                add { }
+                remove { }
+            }
+            event EventHandler IScrollable.ViewportChanged
+            {
+                //TODO: review this
                 add { }
                 remove { }
             }
