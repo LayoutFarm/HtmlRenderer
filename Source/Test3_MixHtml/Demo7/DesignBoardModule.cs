@@ -12,7 +12,7 @@ namespace LayoutFarm.DzBoardSample
         void Describe(DzBoxSerializer writer);
     }
     delegate UIElement UICloneHandler(DesignBox holderBox);
-    abstract class DesignBox : LayoutFarm.CustomWidgets.EaseBox, IDesignBox
+    abstract class DesignBox : LayoutFarm.CustomWidgets.Box, IDesignBox
     {
         UICloneHandler cloneDelegate;
         UISerializeHandler serializeDelegate;
@@ -54,7 +54,7 @@ namespace LayoutFarm.DzBoardSample
     }
     class UIHolderBox : DesignBox
     {
-        LayoutFarm.UI.UIBox targetUI;
+        LayoutFarm.UI.AbstractRect targetUI;
         int borderWidth = 5;
         public UIHolderBox(int w, int h)
             : base(w, h)
@@ -65,7 +65,7 @@ namespace LayoutFarm.DzBoardSample
             get { return this.borderWidth; }
             set { this.borderWidth = value; }
         }
-        public LayoutFarm.UI.UIBox TargetBox
+        public LayoutFarm.UI.AbstractRect TargetBox
         {
             get { return this.targetUI; }
             set
@@ -95,7 +95,7 @@ namespace LayoutFarm.DzBoardSample
         }
     }
 
-    class DesignRectBox : LayoutFarm.CustomWidgets.EaseBox, IDesignBox
+    class DesignRectBox : LayoutFarm.CustomWidgets.Box, IDesignBox
     {
         public DesignRectBox(int w, int h)
             : base(w, h)
@@ -125,7 +125,7 @@ namespace LayoutFarm.DzBoardSample
         UISelectionBox selectionBox;
         bool selectionBoxIsShown;
         RootGraphic rootgfx;
-        List<LayoutFarm.CustomWidgets.EaseBox> userBoxes = new List<CustomWidgets.EaseBox>();
+        List<LayoutFarm.CustomWidgets.Box> userBoxes = new List<CustomWidgets.Box>();
         Queue<UIControllerBox> userControllerPool = new Queue<UIControllerBox>();
         List<UIControllerBox> workingControllerBoxes = new List<UIControllerBox>();
         SelectionSet selectionSet = new SelectionSet();
@@ -169,7 +169,7 @@ namespace LayoutFarm.DzBoardSample
             userBoxes.Add(box1);
         }
 
-        public UIHolderBox AddExternalControl(int x, int y, UIBox uibox)
+        public UIHolderBox AddExternalControl(int x, int y, AbstractRect uibox)
         {
             //create holder ui
             var box1 = new UIHolderBox(uibox.Width + 10, uibox.Height + 10);
@@ -182,7 +182,7 @@ namespace LayoutFarm.DzBoardSample
             userBoxes.Add(box1);
             return box1;
         }
-        public UIHolderBox WrapWithHolderBox(int x, int y, UIBox uibox)
+        public UIHolderBox WrapWithHolderBox(int x, int y, AbstractRect uibox)
         {
             //create holder ui
             var box1 = new UIHolderBox(uibox.Width + 10, uibox.Height + 10);
@@ -362,7 +362,7 @@ namespace LayoutFarm.DzBoardSample
         }
         internal void RemoveTargetBox(IDesignBox ui)
         {
-            var uiDesignBox = ui as LayoutFarm.CustomWidgets.EaseBox;
+            var uiDesignBox = ui as LayoutFarm.CustomWidgets.Box;
             if (uiDesignBox != null)
             {
                 var re = uiDesignBox.CurrentPrimaryRenderElement;
@@ -398,7 +398,7 @@ namespace LayoutFarm.DzBoardSample
             //Console.WriteLine(">> ctrl " + userControllerPool.Count);
         }
 
-        void SetupBackgroundProperties(LayoutFarm.CustomWidgets.EaseBox backgroundBox)
+        void SetupBackgroundProperties(LayoutFarm.CustomWidgets.Box backgroundBox)
         {
             //if click on background
             backgroundBox.MouseDown += (s, e) =>
@@ -464,7 +464,7 @@ namespace LayoutFarm.DzBoardSample
             var primGlobalPoint = primSelectionBox.GetGlobalLocation();
             var selectedRectArea = new Rectangle(primGlobalPoint, primSelectionBox.Size);
             this.selectionSet.Clear();
-            List<CustomWidgets.EaseBox> selectedList = new List<CustomWidgets.EaseBox>();
+            List<CustomWidgets.Box> selectedList = new List<CustomWidgets.Box>();
             for (int i = 0; i < j; ++i)
             {
                 var box = userBoxes[i];
@@ -492,7 +492,7 @@ namespace LayoutFarm.DzBoardSample
                 }
             }
         }
-        void SetupActiveBoxProperties(LayoutFarm.CustomWidgets.EaseBox box)
+        void SetupActiveBoxProperties(LayoutFarm.CustomWidgets.Box box)
         {
             //1. mouse down         
             box.MouseDown += (s, e) =>
@@ -573,11 +573,11 @@ namespace LayoutFarm.DzBoardSample
         }
 
         //-----------------------------------------------------------------------------------------------
-        public void HistoryRecordDzElementNewPosition(UIBox dzBox, Point oldPoint, Point newPoint)
+        public void HistoryRecordDzElementNewPosition(AbstractRect dzBox, Point oldPoint, Point newPoint)
         {
             this.dzCommandHistory.AddAction(new DzSetLocationAction(dzBox, oldPoint, newPoint));
         }
-        public void HistoryRecordDzElementNewBounds(UIBox dzBox, Rectangle oldRect, Rectangle newRect)
+        public void HistoryRecordDzElementNewBounds(AbstractRect dzBox, Rectangle oldRect, Rectangle newRect)
         {
             this.dzCommandHistory.AddAction(new DzSetBoundsAction(dzBox, oldRect, newRect));
         }

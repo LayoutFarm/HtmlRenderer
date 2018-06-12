@@ -5,15 +5,15 @@ using PixelFarm.Drawing;
 using LayoutFarm.UI;
 namespace LayoutFarm.DzBoardSample
 {
-    class UIControllerBox : LayoutFarm.CustomWidgets.EaseBox
+    class UIControllerBox : LayoutFarm.CustomWidgets.Box
     {
-        LayoutFarm.UI.UIBox box;
-        LayoutFarm.CustomWidgets.EaseBox contentBox;
+        LayoutFarm.UI.AbstractRect box;
+        LayoutFarm.CustomWidgets.Box contentBox;
         //small controller box
-        LayoutFarm.CustomWidgets.EaseBox boxLeftTop;
-        LayoutFarm.CustomWidgets.EaseBox boxRightTop;
-        LayoutFarm.CustomWidgets.EaseBox boxLeftBottom;
-        LayoutFarm.CustomWidgets.EaseBox boxRightBottom;
+        LayoutFarm.CustomWidgets.Box boxLeftTop;
+        LayoutFarm.CustomWidgets.Box boxRightTop;
+        LayoutFarm.CustomWidgets.Box boxLeftBottom;
+        LayoutFarm.CustomWidgets.Box boxRightBottom;
         DockSpacesController dockspaceController;
         Rectangle beginRect;
         public UIControllerBox(int w, int h)
@@ -38,7 +38,7 @@ namespace LayoutFarm.DzBoardSample
             get;
             set;
         }
-        public LayoutFarm.CustomWidgets.EaseBox ContentBox
+        public LayoutFarm.CustomWidgets.Box ContentBox
         {
             get { return this.contentBox; }
             set
@@ -46,7 +46,7 @@ namespace LayoutFarm.DzBoardSample
                 this.contentBox = value;
             }
         }
-        public LayoutFarm.UI.UIBox TargetBox
+        public LayoutFarm.UI.AbstractRect TargetBox
         {
             get { return this.box; }
             set
@@ -265,10 +265,10 @@ namespace LayoutFarm.DzBoardSample
             visitor.EndElement();
         }
 
-        CustomWidgets.EaseBox CreateTinyControlBox(SpaceName name)
+        CustomWidgets.Box CreateTinyControlBox(SpaceName name)
         {
             int controllerBoxWH = 10;
-            CustomWidgets.EaseBox tinyBox = new CustomWidgets.SimpleBox(controllerBoxWH, controllerBoxWH);
+            CustomWidgets.Box tinyBox = new CustomWidgets.SimpleBox(controllerBoxWH, controllerBoxWH);
             tinyBox.BackColor = PixelFarm.Drawing.Color.Red;
             tinyBox.Tag = name;
             //add handler for each tiny box 
@@ -449,7 +449,7 @@ namespace LayoutFarm.DzBoardSample
     }
 
 
-    class UISelectionBox : LayoutFarm.CustomWidgets.EaseBox
+    class UISelectionBox : LayoutFarm.CustomWidgets.Box
     {
         public UISelectionBox(int w, int h)
             : base(w, h)
@@ -522,7 +522,7 @@ namespace LayoutFarm.DzBoardSample
             }
         }
     }
-    class DesingBoardBackground : LayoutFarm.CustomWidgets.EaseBox
+    class DesingBoardBackground : LayoutFarm.CustomWidgets.Box
     {
         public DesingBoardBackground(int w, int h)
             : base(w, h)
