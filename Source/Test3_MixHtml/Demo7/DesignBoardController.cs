@@ -5,7 +5,7 @@ using PixelFarm.Drawing;
 using LayoutFarm.UI;
 namespace LayoutFarm.DzBoardSample
 {
-    class UIControllerBox : LayoutFarm.CustomWidgets.Box
+    class UIControllerBox : LayoutFarm.CustomWidgets.AbstractBox
     {
         LayoutFarm.UI.AbstractRect box;
         LayoutFarm.CustomWidgets.Box contentBox;
@@ -268,7 +268,7 @@ namespace LayoutFarm.DzBoardSample
         CustomWidgets.Box CreateTinyControlBox(SpaceName name)
         {
             int controllerBoxWH = 10;
-            CustomWidgets.Box tinyBox = new CustomWidgets.SimpleBox(controllerBoxWH, controllerBoxWH);
+            CustomWidgets.Box tinyBox = new CustomWidgets.Box(controllerBoxWH, controllerBoxWH);
             tinyBox.BackColor = PixelFarm.Drawing.Color.Red;
             tinyBox.Tag = name;
             //add handler for each tiny box 
@@ -449,7 +449,7 @@ namespace LayoutFarm.DzBoardSample
     }
 
 
-    class UISelectionBox : LayoutFarm.CustomWidgets.Box
+    class UISelectionBox : LayoutFarm.CustomWidgets.AbstractBox
     {
         public UISelectionBox(int w, int h)
             : base(w, h)
@@ -522,7 +522,7 @@ namespace LayoutFarm.DzBoardSample
             }
         }
     }
-    class DesingBoardBackground : LayoutFarm.CustomWidgets.Box
+    class DesingBoardBackground : LayoutFarm.CustomWidgets.AbstractBox
     {
         public DesingBoardBackground(int w, int h)
             : base(w, h)

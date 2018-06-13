@@ -125,7 +125,7 @@ namespace LayoutFarm.DzBoardSample
         static Dictionary<Type, string> registerTypeNames = new Dictionary<Type, string>();
         static DzBoxSerializerHelper()
         {
-            registerTypeNames.Add(typeof(LayoutFarm.CustomWidgets.SimpleBox), "panel");
+            registerTypeNames.Add(typeof(LayoutFarm.CustomWidgets.Box), "panel");
         }
 
         public static void WriteElement(DzBoxSerializer writer, AbstractRect uiElement, string elemName)

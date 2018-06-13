@@ -19,7 +19,7 @@ namespace LayoutFarm
                 (s, e) => contentMx.AddRequestImage(e.ImageBinder),
                 contentMx_LoadStyleSheet);
             htmlBox = new HtmlBox(host, 1024, 800);
-            viewport.AddContent(htmlBox);
+            viewport.AddChild(htmlBox);
             if (htmltext == null)
             {
                 htmltext = @"<html><head></head><body>NOT FOUND!</body></html>";

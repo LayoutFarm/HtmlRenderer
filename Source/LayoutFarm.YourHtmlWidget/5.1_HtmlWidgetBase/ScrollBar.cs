@@ -7,7 +7,7 @@ using LayoutFarm.UI;
 namespace LayoutFarm.HtmlWidgets
 {
     public delegate void ScrollBarEvaluator(ScrollBar scBar, out double onePixelFore, out int scrollBoxHeight);
-    public class ScrollBar : Box
+    public class ScrollBar : AbstractBox
     {
         CustomRenderBox mainBox;
         ScrollBarButton minButton;
@@ -556,7 +556,7 @@ namespace LayoutFarm.HtmlWidgets
     }
 
 
-    class ScrollBarButton : Box
+    class ScrollBarButton : AbstractBox
     {
         public ScrollBarButton(int w, int h, ScrollBar owner)
             : base(w, h)

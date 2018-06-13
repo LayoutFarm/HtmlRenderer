@@ -47,7 +47,7 @@ namespace LayoutFarm.CustomWidgets
             }
 
             //default unknown
-            var simpleBox = new LayoutFarm.CustomWidgets.SimpleBox(100, 20);
+            var simpleBox = new LayoutFarm.CustomWidgets.Box(100, 20);
             simpleBox.BackColor = PixelFarm.Drawing.Color.LightGray;
             var wrapperBox2 = CreateWrapper(
                                simpleBox,
@@ -128,7 +128,7 @@ namespace LayoutFarm.CustomWidgets
                         {
                             //tempfix -> just copy the Button code,
                             //TODO: review here, use proper radio button 
-                            var box = new LayoutFarm.CustomWidgets.SimpleBox(20, 20);
+                            var box = new LayoutFarm.CustomWidgets.Box(20, 20);
                             CssBox wrapperBox = CreateWrapper(
                                  box,
                                  box.GetPrimaryRenderElement(rootgfx),
