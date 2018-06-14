@@ -1,4 +1,4 @@
-﻿//MS-PL, Apache2, 2014-2018, WinterDev
+﻿//MS-PL, Apache2, 2014-present, WinterDev
 using PixelFarm.Drawing;
 using LayoutFarm.Svg;
 namespace LayoutFarm.HtmlBoxes

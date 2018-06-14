@@ -1,5 +1,5 @@
 //BSD, 2014,
-//ArthurHub  , Jose Manuel Menendez Poo
+//ArthurHub, Jose Manuel Menendez Poo
 
 // "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,

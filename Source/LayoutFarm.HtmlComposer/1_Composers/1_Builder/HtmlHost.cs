@@ -1,5 +1,5 @@
-﻿//BSD, 2014-2018, WinterDev
-//ArthurHub  , Jose Manuel Menendez Poo
+﻿//BSD, 2014-present, WinterDev 
+//ArthurHub, Jose Manuel Menendez Poo
 
 using System;
 using System.Collections.Generic;

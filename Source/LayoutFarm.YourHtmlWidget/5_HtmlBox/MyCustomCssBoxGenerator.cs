@@ -1,4 +1,4 @@
-﻿//BSD, 2014-2018, WinterDev
+﻿//BSD, 2014-present, WinterDev 
 //ArthurHub, Jose Manuel Menendez Poo
 
 using LayoutFarm.Composers;
@@ -136,7 +136,6 @@ namespace LayoutFarm.CustomWidgets
                             parentBox.AppendChild(wrapperBox);
                             return wrapperBox;
                         }
-                        break;
                 }
             }
             return null;

@@ -1,5 +1,5 @@
-﻿//BSD, 2014-2018, WinterDev 
-//ArthurHub  , Jose Manuel Menendez Poo
+﻿//BSD, 2014-present, WinterDev 
+//ArthurHub, Jose Manuel Menendez Poo
 
 // "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,
@@ -27,7 +27,7 @@ namespace LayoutFarm.WebDom.Parser
         static readonly Dictionary<WellknownName, byte> canbeOmittedTags = new Dictionary<WellknownName, byte>();
         static HtmlTagMatching()
         {
-            //html5 (//BSD, 2014-2018, WinterDev-04-24) void elements
+            //html5 (//BSD, 2014-present, WinterDev -04-24) void elements
             //void elements: no endtag, no content ***
             noContentTags.Add(WebDom.WellknownName.Area, 0);
             noContentTags.Add(WebDom.WellknownName.Base, 0);
