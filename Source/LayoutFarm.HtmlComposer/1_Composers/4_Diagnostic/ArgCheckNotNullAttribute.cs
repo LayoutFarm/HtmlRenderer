@@ -1,4 +1,4 @@
-//BSD, 2014-2018, WinterDev
+//BSD, 2014-present, WinterDev 
 
 using System;
 namespace LayoutFarm.HtmlDiagnostics

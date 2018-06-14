@@ -1,4 +1,4 @@
-﻿//MS-PL, Apache2, 2014-2018, WinterDev
+﻿//MS-PL, Apache2, 2014-present, WinterDev
 
  
 using System.Collections.Generic;

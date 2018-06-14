@@ -1,5 +1,5 @@
-﻿//MIT, 2015-2018, WinterDev  
-//ArthurHub  , Jose Manuel Menendez Poo
+﻿//MIT, 2015-present, WinterDev  
+//ArthurHub, Jose Manuel Menendez Poo
 
 using System;
 using System.Text;

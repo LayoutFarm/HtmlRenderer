@@ -1,4 +1,4 @@
-﻿//MIT, 2014-2018, WinterDev 
+﻿//MIT, 2014-present, WinterDev 
 
 using PixelFarm.Drawing;
 using LayoutFarm.Css;

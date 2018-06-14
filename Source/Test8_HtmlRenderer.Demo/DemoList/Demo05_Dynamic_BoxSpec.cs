@@ -1,4 +1,4 @@
-﻿//MIT, 2014-2018, WinterDev
+﻿//MIT, 2014-present, WinterDev
 using LayoutFarm.Composers;
 using LayoutFarm.UI;
 namespace LayoutFarm.Demo

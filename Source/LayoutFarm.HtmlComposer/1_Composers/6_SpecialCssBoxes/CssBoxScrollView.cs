@@ -1,8 +1,7 @@
-﻿//MIT, 2015-2018, WinterDev
+﻿//MIT, 2015-present, WinterDev
 
 using System;
 using PixelFarm.Drawing;
-using LayoutFarm.InternalUI;
 using LayoutFarm.CustomWidgets;
 using LayoutFarm.UI;
 namespace LayoutFarm.HtmlBoxes
