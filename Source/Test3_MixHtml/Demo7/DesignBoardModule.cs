@@ -12,7 +12,7 @@ namespace LayoutFarm.DzBoardSample
         void Describe(DzBoxSerializer writer);
     }
     delegate UIElement UICloneHandler(DesignBox holderBox);
-    abstract class DesignBox : LayoutFarm.CustomWidgets.EaseBox, IDesignBox
+    abstract class DesignBox : LayoutFarm.CustomWidgets.AbstractBox, IDesignBox
     {
         UICloneHandler cloneDelegate;
         UISerializeHandler serializeDelegate;
@@ -54,7 +54,7 @@ namespace LayoutFarm.DzBoardSample
     }
     class UIHolderBox : DesignBox
     {
-        LayoutFarm.UI.UIBox targetUI;
+        LayoutFarm.UI.AbstractRect targetUI;
         int borderWidth = 5;
         public UIHolderBox(int w, int h)
             : base(w, h)
@@ -65,7 +65,7 @@ namespace LayoutFarm.DzBoardSample
             get { return this.borderWidth; }
             set { this.borderWidth = value; }
         }
-        public LayoutFarm.UI.UIBox TargetBox
+        public LayoutFarm.UI.AbstractRect TargetBox
         {
             get { return this.targetUI; }
             set
@@ -95,7 +95,7 @@ namespace LayoutFarm.DzBoardSample
         }
     }
 
-    class DesignRectBox : LayoutFarm.CustomWidgets.EaseBox, IDesignBox
+    class DesignRectBox : LayoutFarm.CustomWidgets.AbstractBox, IDesignBox
     {
         public DesignRectBox(int w, int h)
             : base(w, h)
@@ -125,7 +125,7 @@ namespace LayoutFarm.DzBoardSample
         UISelectionBox selectionBox;
         bool selectionBoxIsShown;
         RootGraphic rootgfx;
-        List<LayoutFarm.CustomWidgets.EaseBox> userBoxes = new List<CustomWidgets.EaseBox>();
+        List<LayoutFarm.CustomWidgets.AbstractBox> userBoxes = new List<CustomWidgets.AbstractBox>();
         Queue<UIControllerBox> userControllerPool = new Queue<UIControllerBox>();
         List<UIControllerBox> workingControllerBoxes = new List<UIControllerBox>();
         SelectionSet selectionSet = new SelectionSet();
@@ -149,13 +149,13 @@ namespace LayoutFarm.DzBoardSample
             dzBoardBg.BackColor = Color.White;
             dzBoardBg.SetLocation(0, 0);
             SetupBackgroundProperties(dzBoardBg);
-            viewport.AddContent(dzBoardBg);
+            viewport.AddChild(dzBoardBg);
             //--------------------------------
 
             selectionBox = new UISelectionBox(1, 1);
             selectionBox.Visible = false;
             selectionBox.BackColor = Color.FromArgb(80, Color.Green);
-            viewport.AddContent(selectionBox);
+            viewport.AddChild(selectionBox);
             SetupSelectionBoxProperties(selectionBox);
         }
         public void AddNewBox(int x, int y, int w, int h)
@@ -165,11 +165,11 @@ namespace LayoutFarm.DzBoardSample
             box1.BackColor = Color.Red;
             box1.SetLocation(x, y);
             SetupActiveBoxProperties(box1);
-            viewport.AddContent(box1);
+            viewport.AddChild(box1);
             userBoxes.Add(box1);
         }
 
-        public UIHolderBox AddExternalControl(int x, int y, UIBox uibox)
+        public UIHolderBox AddExternalControl(int x, int y, AbstractRect uibox)
         {
             //create holder ui
             var box1 = new UIHolderBox(uibox.Width + 10, uibox.Height + 10);
@@ -178,11 +178,11 @@ namespace LayoutFarm.DzBoardSample
             box1.SetLocation(x, y);
             box1.TargetBox = uibox;
             SetupActiveBoxProperties(box1);
-            viewport.AddContent(box1);
+            viewport.AddChild(box1);
             userBoxes.Add(box1);
             return box1;
         }
-        public UIHolderBox WrapWithHolderBox(int x, int y, UIBox uibox)
+        public UIHolderBox WrapWithHolderBox(int x, int y, AbstractRect uibox)
         {
             //create holder ui
             var box1 = new UIHolderBox(uibox.Width + 10, uibox.Height + 10);
@@ -207,7 +207,7 @@ namespace LayoutFarm.DzBoardSample
             box1.TargetBox = imgBox;
             box1.SetSize(imgBinder.ImageWidth + 20, imgBinder.ImageHeight + 20);
             SetupActiveBoxProperties(box1);
-            viewport.AddContent(box1);
+            viewport.AddChild(box1);
             userBoxes.Add(box1);
             return box1;
         }
@@ -218,7 +218,7 @@ namespace LayoutFarm.DzBoardSample
             box1.BackColor = Color.Red;
             box1.SetLocation(x, y);
             SetupActiveBoxProperties(box1);
-            viewport.AddContent(box1);
+            viewport.AddChild(box1);
             userBoxes.Add(box1);
         }
 
@@ -276,7 +276,7 @@ namespace LayoutFarm.DzBoardSample
             {
                 controlBox = userControllerPool.Dequeue();
                 //-------------------------------------------
-                viewport.AddContent(controlBox);
+                viewport.AddChild(controlBox);
                 //register to working controller box
                 workingControllerBoxes.Add(controlBox);
             }
@@ -296,7 +296,7 @@ namespace LayoutFarm.DzBoardSample
                 controlBox.SetLocation(200, 200);
                 //controllerBox1.dbugTag = 3;
                 controlBox.Visible = false;
-                viewport.AddContent(controlBox);
+                viewport.AddChild(controlBox);
                 //-------------------------------------------
                 //register to working controller box
                 workingControllerBoxes.Add(controlBox);
@@ -329,7 +329,7 @@ namespace LayoutFarm.DzBoardSample
                 if (newCloneAsRect != null)
                 {
                     SetupActiveBoxProperties(newCloneAsRect);
-                    viewport.AddContent(newCloneAsRect);
+                    viewport.AddChild(newCloneAsRect);
                     userBoxes.Add(newCloneAsRect);
                     return;
                 }
@@ -337,7 +337,7 @@ namespace LayoutFarm.DzBoardSample
                 if (holderBox != null)
                 {
                     SetupActiveBoxProperties(holderBox);
-                    viewport.AddContent(holderBox);
+                    viewport.AddChild(holderBox);
                     userBoxes.Add(holderBox);
                 }
 
@@ -345,7 +345,7 @@ namespace LayoutFarm.DzBoardSample
                 if (gfxBox != null)
                 {
                     SetupActiveBoxProperties(gfxBox);
-                    viewport.AddContent(gfxBox);
+                    viewport.AddChild(gfxBox);
                     userBoxes.Add(gfxBox);
                 }
             }
@@ -362,7 +362,7 @@ namespace LayoutFarm.DzBoardSample
         }
         internal void RemoveTargetBox(IDesignBox ui)
         {
-            var uiDesignBox = ui as LayoutFarm.CustomWidgets.EaseBox;
+            var uiDesignBox = ui as LayoutFarm.CustomWidgets.AbstractBox;
             if (uiDesignBox != null)
             {
                 var re = uiDesignBox.CurrentPrimaryRenderElement;
@@ -398,7 +398,7 @@ namespace LayoutFarm.DzBoardSample
             //Console.WriteLine(">> ctrl " + userControllerPool.Count);
         }
 
-        void SetupBackgroundProperties(LayoutFarm.CustomWidgets.EaseBox backgroundBox)
+        void SetupBackgroundProperties(LayoutFarm.CustomWidgets.AbstractBox backgroundBox)
         {
             //if click on background
             backgroundBox.MouseDown += (s, e) =>
@@ -464,7 +464,7 @@ namespace LayoutFarm.DzBoardSample
             var primGlobalPoint = primSelectionBox.GetGlobalLocation();
             var selectedRectArea = new Rectangle(primGlobalPoint, primSelectionBox.Size);
             this.selectionSet.Clear();
-            List<CustomWidgets.EaseBox> selectedList = new List<CustomWidgets.EaseBox>();
+            List<CustomWidgets.AbstractBox> selectedList = new List<CustomWidgets.AbstractBox>();
             for (int i = 0; i < j; ++i)
             {
                 var box = userBoxes[i];
@@ -492,7 +492,7 @@ namespace LayoutFarm.DzBoardSample
                 }
             }
         }
-        void SetupActiveBoxProperties(LayoutFarm.CustomWidgets.EaseBox box)
+        void SetupActiveBoxProperties(LayoutFarm.CustomWidgets.AbstractBox box)
         {
             //1. mouse down         
             box.MouseDown += (s, e) =>
@@ -573,11 +573,11 @@ namespace LayoutFarm.DzBoardSample
         }
 
         //-----------------------------------------------------------------------------------------------
-        public void HistoryRecordDzElementNewPosition(UIBox dzBox, Point oldPoint, Point newPoint)
+        public void HistoryRecordDzElementNewPosition(AbstractRect dzBox, Point oldPoint, Point newPoint)
         {
             this.dzCommandHistory.AddAction(new DzSetLocationAction(dzBox, oldPoint, newPoint));
         }
-        public void HistoryRecordDzElementNewBounds(UIBox dzBox, Rectangle oldRect, Rectangle newRect)
+        public void HistoryRecordDzElementNewBounds(AbstractRect dzBox, Rectangle oldRect, Rectangle newRect)
         {
             this.dzCommandHistory.AddAction(new DzSetBoundsAction(dzBox, oldRect, newRect));
         }

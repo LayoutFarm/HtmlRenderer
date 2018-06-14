@@ -88,7 +88,7 @@ namespace LayoutFarm.WebDom
         {
             get { return false; }
         }
-       
+
 
         void IEventListener.ListenGuestTalk(UIGuestTalkEventArgs e)
         {
@@ -97,7 +97,11 @@ namespace LayoutFarm.WebDom
         {
             this.GetGlobalLocation(out x, out y);
         }
-
+        void IUIEventListener.GetViewport(out int x, out int y)
+        {
+            this.GetViewport(out x, out y);
+        }
         public abstract void GetGlobalLocation(out int x, out int y);
+        public abstract void GetViewport(out int x, out int y);
     }
 }

@@ -26,7 +26,7 @@ namespace LayoutFarm.DzBoardSample
             canvas.StrokeWidth = penwidth;
         }
     }
-    class GraphicShapeBox : EaseBox, IDesignBox
+    class GraphicShapeBox : AbstractBox, IDesignBox
     {
         GraphicShapeRenderElement renderShape;
         public GraphicShapeBox(int w, int h)

@@ -30,7 +30,7 @@ namespace LayoutFarm.WebWidgets
             string html = @"<div></div>";
             //if you want to use full html-> use HtmlBox instead  
 
-            this.sampleViewport.AddContent(groundHtmlBox);
+            this.sampleViewport.AddChild(groundHtmlBox);
             //----------------------------------------------------- 
             groundHtmlBox.LoadHtmlFragmentString(html);
             this.groundHtmlDoc = groundHtmlBox.HtmlContainer.WebDocument as HtmlDocument;
