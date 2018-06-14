@@ -136,7 +136,6 @@ namespace LayoutFarm.CustomWidgets
                             parentBox.AppendChild(wrapperBox);
                             return wrapperBox;
                         }
-                        break;
                 }
             }
             return null;
