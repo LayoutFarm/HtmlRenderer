@@ -86,11 +86,13 @@ feel free to fork/ comment/ suggest /pull request
 ---
 **Licenses**
 
-Source code from multiple projects.
+The project is based on multiple open-sourced projects (listed below) **all using permissive licenses**.
 
-I select ONLY PERMISSIVE ONE :)
+A license for a whole project is [**MIT**](https://opensource.org/licenses/MIT).
 
-Here...
+but if you use some part of the code
+please check each source file's header for the licensing info.
+
 
 **Html Engine**
 
@@ -133,7 +135,7 @@ MIT, 2008, dotPDN LLC, Rick Brewster, Chris Crosetto, Tom Jackson, Michael Kelse
 
 **Font**
 
-Apache2, 2016-2017, WinterDev, Samuel Carlsson, Sam Hocevar and others, from https://github.com/LayoutFarm/Typography
+MIT, 2016-present, WinterDev, Samuel Carlsson, Sam Hocevar and others, from https://github.com/LayoutFarm/Typography
 
 Apache2, 2014-2016, Samuel Carlsson, from https://github.com/vidstige/NRasterizer
 
