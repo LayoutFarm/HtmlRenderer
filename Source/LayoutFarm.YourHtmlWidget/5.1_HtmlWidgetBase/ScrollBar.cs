@@ -615,7 +615,7 @@ namespace LayoutFarm.HtmlWidgets
                 onePixelFor = 1;
                 scrollBoxLength = 1;
                 //1. 
-                int contentLength = scrollableSurface.DesiredHeight;
+                int contentLength = scrollableSurface.InnerHeight;
                 if (contentLength == 0)
                 {
                     contentLength = 1;
@@ -634,11 +634,11 @@ namespace LayoutFarm.HtmlWidgets
             });
             //--------------------------------------------------------------------------------------
             //1st evaluate  
-            scBar.MaxValue = scrollableSurface.DesiredHeight;
+            scBar.MaxValue = scrollableSurface.InnerHeight;
             scBar.ReEvaluateScrollBar();
             scrollableSurface.LayoutFinished += (s, e) =>
             {
-                scBar.MaxValue = scrollableSurface.DesiredHeight;
+                scBar.MaxValue = scrollableSurface.InnerHeight;
                 scBar.ReEvaluateScrollBar();
             };
             scBar.UserScroll += (s, e) =>
@@ -655,7 +655,7 @@ namespace LayoutFarm.HtmlWidgets
                 onePixelFor = 1;
                 scrollBoxLength = 1;
                 //1. 
-                int contentLength = scrollableSurface.DesiredWidth;
+                int contentLength = scrollableSurface.InnerWidth;
                 scrollBoxLength = (int)((physicalScrollLength * scrollableSurface.ViewportWidth) / contentLength);
                 if (scrollBoxLength < sc.ScrollBoxSizeLimit)
                 {
@@ -670,11 +670,11 @@ namespace LayoutFarm.HtmlWidgets
             });
             //--------------------------------------------------------------------------------------
             //1st evaluate  
-            scBar.MaxValue = scrollableSurface.DesiredWidth;
+            scBar.MaxValue = scrollableSurface.InnerWidth;
             scBar.ReEvaluateScrollBar();
             scrollableSurface.LayoutFinished += (s, e) =>
             {
-                scBar.MaxValue = scrollableSurface.DesiredWidth;
+                scBar.MaxValue = scrollableSurface.InnerWidth;
                 scBar.ReEvaluateScrollBar();
             };
             scBar.UserScroll += (s, e) =>

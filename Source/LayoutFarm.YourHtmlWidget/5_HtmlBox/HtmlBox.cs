@@ -253,20 +253,21 @@ namespace LayoutFarm.CustomWidgets
                 htmlRenderBox.SetViewport(x, y);
             }
         }
-        public override int DesiredWidth
+        public override int InnerWidth
         {
             get
             {
                 return this.htmlRenderBox.HtmlWidth;
             }
         }
-        public override int DesiredHeight
+        public override int InnerHeight
         {
             get
             {
                 return this.htmlRenderBox.HtmlHeight;
             }
         }
+         
         public override void Walk(UIVisitor visitor)
         {
             visitor.BeginElement(this, "htmlbox");
