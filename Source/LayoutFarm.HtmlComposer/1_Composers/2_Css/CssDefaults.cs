@@ -1,5 +1,5 @@
 //BSD 2014
-//ArthurHub  , Jose Manuel Menendez Poo
+//ArthurHub, Jose Manuel Menendez Poo
 //MIT, 2018, WinterDev
 namespace LayoutFarm.Composers
 {

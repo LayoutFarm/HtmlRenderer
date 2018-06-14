@@ -1,4 +1,4 @@
-//BSD, 2014-2018, WinterDev
+//BSD, 2014-present, WinterDev 
 
 // "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,

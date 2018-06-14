@@ -94,7 +94,7 @@ Here...
 
 **Html Engine**
 
-BSD, 2009, José Manuel Menéndez Poo, Base HtmlRender code
+BSD, 2009, José Manuel Menéndez Poo, https://www.codeproject.com/Articles/32376/A-Professional-HTML-Renderer-You-Will-Use
 
 BSD, 2013-2014, Arthur Teplitzki, from https://github.com/ArthurHub/HTML-Renderer
 
@@ -104,7 +104,7 @@ MIT, 2015, Jeffrey Stedfastm, from HtmlKit https://github.com/jstedfast/HtmlKit
 
 MIT, 2013, Federico Di Gregorio, from https://github.com/Daniel15/vroomjs
 
-MIT, 2015-2017, WinterDev, from https://github.com/prepare/Espresso
+MIT, 2015-present, WinterDev, from https://github.com/prepare/Espresso
 
 
 **Geometry**

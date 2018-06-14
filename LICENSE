@@ -1,6 +1,6 @@
 Copyright (c) 2009, José Manuel Menéndez Poo
 Copyright (c) 2013, Arthur Teplitzki
-Copyright (c) 2014-2017, WinterDev (github.com/prepare) 
+Copyright (c) 2014-present, WinterDev (github.com/prepare) 
 
 All rights reserved.
 
@@ -38,7 +38,7 @@ This project also includes multiple sub-projects with its own licenses
 ----------------------------------------------------------------------------
 1. PixelFarm
 ----------------------------------------------------------------------------
-BSD, 2014-2017, WinterDev
+BSD, 2014-present, WinterDev
 ----------------------------------------------------------------------------
  Anti-Grain Geometry - Version 2.4
  Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
@@ -56,7 +56,7 @@ BSD, 2014-2017, WinterDev
 ----------------------------------------------------------------------------
 2. Espresso
 ----------------------------------------------------------------------------  
-MIT, 2015-2017, WinterDev, 
+MIT, 2015-present, WinterDev, 
 ----------------------------------------------------------------------------  
  Author:
      Federico Di Gregorio <fog@initd.org>
