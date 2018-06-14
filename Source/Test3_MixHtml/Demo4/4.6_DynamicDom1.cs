@@ -22,7 +22,7 @@ namespace LayoutFarm
             //html box
             this.testHtmlBox = new HtmlBox(htmlhost, 800, 400);
             testHtmlBox.SetLocation(30, 50);
-            viewport.AddContent(testHtmlBox);
+            viewport.AddChild(testHtmlBox);
             string html = @"<html><head></head><body><div id='div1'>OK1</div><div>OK2</div></body></html>";
             testHtmlBox.LoadHtmlString(html);
             //==================================================  
@@ -32,7 +32,7 @@ namespace LayoutFarm
             //==================================================
             this.htmlMenuBox = new HtmlBox(htmlhost, 800, 40);
             htmlMenuBox.SetLocation(30, 0);
-            viewport.AddContent(htmlMenuBox);
+            viewport.AddChild(htmlMenuBox);
             string html = @"<html><head></head><body>
                     <div id='menubox'>
                         <span id='test_dom1'>click to toggle!</span>

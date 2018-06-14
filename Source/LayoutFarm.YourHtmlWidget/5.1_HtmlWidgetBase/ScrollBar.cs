@@ -7,7 +7,7 @@ using LayoutFarm.UI;
 namespace LayoutFarm.HtmlWidgets
 {
     public delegate void ScrollBarEvaluator(ScrollBar scBar, out double onePixelFore, out int scrollBoxHeight);
-    public class ScrollBar : UIBox
+    public class ScrollBar : AbstractBox
     {
         CustomRenderBox mainBox;
         ScrollBarButton minButton;
@@ -198,7 +198,7 @@ namespace LayoutFarm.HtmlWidgets
             if (this.ScrollBarType == ScrollBarType.Horizontal)
             {
                 max_button = new ScrollBarButton(minmax_boxHeight, this.Height, this);
-               
+
                 max_button.SetLocation(this.Width - minmax_boxHeight, 0);
             }
             else
@@ -556,7 +556,7 @@ namespace LayoutFarm.HtmlWidgets
     }
 
 
-    class ScrollBarButton : EaseBox
+    class ScrollBarButton : AbstractBox
     {
         public ScrollBarButton(int w, int h, ScrollBar owner)
             : base(w, h)
@@ -643,7 +643,7 @@ namespace LayoutFarm.HtmlWidgets
             };
             scBar.UserScroll += (s, e) =>
             {
-                scrollableSurface.SetViewport(scrollableSurface.ViewportX, (int)scBar.ScrollValue);
+                scrollableSurface.SetViewport(scrollableSurface.ViewportX, (int)scBar.ScrollValue, scBar);
             };
         }
         void SetupHorizontalScrollRelation()
@@ -679,7 +679,7 @@ namespace LayoutFarm.HtmlWidgets
             };
             scBar.UserScroll += (s, e) =>
             {
-                scrollableSurface.SetViewport((int)scBar.ScrollValue, scrollableSurface.ViewportY);
+                scrollableSurface.SetViewport((int)scBar.ScrollValue, scrollableSurface.ViewportY,scBar);
             };
         }
     }

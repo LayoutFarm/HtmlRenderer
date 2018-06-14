@@ -35,7 +35,7 @@ namespace LayoutFarm
             //==================================================
             //html box
             var htmlBox = new HtmlBox(GetHtmlHost(viewport), 800, 600);
-            viewport.AddContent(htmlBox);
+            viewport.AddChild(htmlBox);
             string html = "<html><head></head><body><div>OK1</div><div>3 Images</div><img src=\"sample01.png\"></img><img src=\"sample01.png\"></img><img src=\"sample01.png\"></img></body></html>";
             htmlBox.LoadHtmlString(html);
         }

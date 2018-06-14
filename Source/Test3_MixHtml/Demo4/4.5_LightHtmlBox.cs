@@ -19,7 +19,7 @@ namespace LayoutFarm
             {
                 HtmlBox lightHtmlBox = new HtmlBox(htmlHost, 800, 50);
                 lightHtmlBox.SetLocation(50, 450);
-                viewport.AddContent(lightHtmlBox);
+                viewport.AddChild(lightHtmlBox);
                 //light box can't load full html
                 //all light boxs of the same lightbox host share resource with the host
                 string html = @"<div>OK1</div><div>OK2</div>";
@@ -30,7 +30,7 @@ namespace LayoutFarm
             {
                 HtmlBox lightHtmlBox2 = new HtmlBox(htmlHost, 800, 50);
                 lightHtmlBox2.SetLocation(0, 60);
-                viewport.AddContent(lightHtmlBox2);
+                viewport.AddChild(lightHtmlBox2);
                 //light box can't load full html
                 //all light boxs of the same lightbox host share resource with the host
                 string html2 = @"<div>OK3</div><div>OK4</div>";
@@ -41,7 +41,7 @@ namespace LayoutFarm
             {
                 HtmlBox lightHtmlBox3 = new HtmlBox(htmlHost, 800, 50);
                 lightHtmlBox3.SetLocation(0, 100);
-                viewport.AddContent(lightHtmlBox3);
+                viewport.AddChild(lightHtmlBox3);
                 //fragment dom 
                 //create dom then to thie light box
                 lightHtmlBox3.LoadHtmlDom(CreateSampleHtmlDoc());
@@ -50,7 +50,7 @@ namespace LayoutFarm
             //textbox
             var textbox = new LayoutFarm.CustomWidgets.TextBox(400, 150, true);
             textbox.SetLocation(0, 200);
-            viewport.AddContent(textbox);
+            viewport.AddChild(textbox);
             textbox.Focus();
         }
         HtmlDocument CreateSampleHtmlDoc()

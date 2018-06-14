@@ -21,13 +21,13 @@ namespace LayoutFarm
             stbuilder.Append("<x type=\"textbox\" id=\"my_custombox1\"></x>");
             stbuilder.Append("</body></html>");
             htmlBox.LoadHtmlString(stbuilder.ToString());
-            viewport.AddContent(htmlBox);
+            viewport.AddChild(htmlBox);
             //==================================================  
 
             //textbox
             var textbox = new LayoutFarm.CustomWidgets.TextBox(400, 100, true);
             textbox.SetLocation(0, 200);
-            viewport.AddContent(textbox);
+            viewport.AddChild(textbox);
             textbox.Focus();
         }
     }

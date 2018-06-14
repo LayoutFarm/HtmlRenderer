@@ -13,7 +13,7 @@ namespace LayoutFarm
             //html box
             var htmlBox = new HtmlBox(htmlhost, 800, 400);
             htmlBox.SetLocation(30, 30);
-            viewport.AddContent(htmlBox);
+            viewport.AddChild(htmlBox);
             string html = @"<html><head></head><body><div>OK1</div><div>OK2</div></body></html>";
             htmlBox.LoadHtmlString(html);
             //================================================== 
@@ -21,7 +21,7 @@ namespace LayoutFarm
             //textbox
             var textbox = new LayoutFarm.CustomWidgets.TextBox(400, 100, true);
             textbox.SetLocation(0, 200);
-            viewport.AddContent(textbox);
+            viewport.AddChild(textbox);
             textbox.Focus();
         }
     }
