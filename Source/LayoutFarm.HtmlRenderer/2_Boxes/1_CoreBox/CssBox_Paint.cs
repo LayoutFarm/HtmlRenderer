@@ -305,7 +305,92 @@ namespace LayoutFarm.HtmlBoxes
             p.dbugExitContext();
 #endif
         }
+        static LinearGradientBrush CreateLinearGradientBrush(RectangleF rect,
+        Color startColor, Color stopColor, float degreeAngle)
+        {
+            //find radius
+            int w = Math.Abs((int)(rect.Right - rect.Left));
+            int h = Math.Abs((int)(rect.Bottom - rect.Top));
+            int max = Math.Max(w, h);
+            float radius = (float)Math.Pow(2 * (max * max), 0.5f);
+            //find point1 and point2
+            //not implement! 
+            bool fromNegativeAngle = false;
+            if (degreeAngle < 0)
+            {
+                fromNegativeAngle = true;
+                degreeAngle = -degreeAngle;
+            }
 
+            PointF startPoint = new PointF(rect.Left, rect.Top);
+            PointF stopPoint = new PointF(rect.Right, rect.Top);
+            if (degreeAngle > 360)
+            {
+            }
+            //-------------------------
+            if (degreeAngle == 0)
+            {
+                startPoint = new PointF(rect.Left, rect.Bottom);
+                stopPoint = new PointF(rect.Right, rect.Bottom);
+            }
+            else if (degreeAngle < 90)
+            {
+                startPoint = new PointF(rect.Left, rect.Bottom);
+                var angleRad = PixelFarm.CpuBlit.AggMath.deg2rad(degreeAngle);
+
+                stopPoint = new PointF(
+                   rect.Left + (float)(Math.Cos(angleRad) * radius),
+                   rect.Bottom - (float)(Math.Sin(angleRad) * radius));
+            }
+            else if (degreeAngle == 90)
+            {
+                startPoint = new PointF(rect.Left, rect.Bottom);
+                stopPoint = new PointF(rect.Left, rect.Top);
+            }
+            else if (degreeAngle < 180)
+            {
+
+                startPoint = new PointF(rect.Right, rect.Bottom);
+                var angleRad = PixelFarm.CpuBlit.AggMath.deg2rad(degreeAngle);
+                var pos = (float)(Math.Cos(angleRad) * radius);
+                stopPoint = new PointF(
+                   rect.Right + (float)(Math.Cos(angleRad) * radius),
+                   rect.Bottom - (float)(Math.Sin(angleRad) * radius));
+            }
+            else if (degreeAngle == 180)
+            {
+                startPoint = new PointF(rect.Right, rect.Bottom);
+                stopPoint = new PointF(rect.Left, rect.Bottom);
+            }
+            else if (degreeAngle < 270)
+            {
+                startPoint = new PointF(rect.Right, rect.Top);
+                var angleRad = PixelFarm.CpuBlit.AggMath.deg2rad(degreeAngle);
+                stopPoint = new PointF(
+                   rect.Right - (float)(Math.Cos(angleRad) * radius),
+                   rect.Top + (float)(Math.Sin(angleRad) * radius));
+            }
+            else if (degreeAngle == 270)
+            {
+                startPoint = new PointF(rect.Left, rect.Top);
+                stopPoint = new PointF(rect.Left, rect.Bottom);
+            }
+            else if (degreeAngle < 360)
+            {
+                startPoint = new PointF(rect.Left, rect.Top);
+                var angleRad = PixelFarm.CpuBlit.AggMath.deg2rad(degreeAngle);
+                stopPoint = new PointF(
+                   rect.Left + (float)(Math.Cos(angleRad) * radius),
+                   rect.Top + (float)(Math.Sin(angleRad) * radius));
+            }
+            else if (degreeAngle == 360)
+            {
+                startPoint = new PointF(rect.Left, rect.Bottom);
+                stopPoint = new PointF(rect.Right, rect.Bottom);
+            }
+
+            return new LinearGradientBrush(startPoint, startColor, stopPoint, stopColor);
+        }
         /// <summary>
         /// Paints the background of the box
         /// </summary>
@@ -339,7 +424,7 @@ namespace LayoutFarm.HtmlBoxes
                 {
                     //use bg gradient 
 
-                    brush = LinearGradientBrush.CreateLinearGradientBrush(rect,
+                    brush = CreateLinearGradientBrush(rect,
                         ActualBackgroundColor,
                         ActualBackgroundGradient,
                         ActualBackgroundGradientAngle);

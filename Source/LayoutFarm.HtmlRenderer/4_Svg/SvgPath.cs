@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using PixelFarm.Drawing;
 using LayoutFarm.HtmlBoxes;
 using LayoutFarm.Svg.Pathing;
-using PixelFarm.Agg;
+using PixelFarm.CpuBlit;
 
 namespace LayoutFarm.Svg
 {
@@ -12,8 +12,8 @@ namespace LayoutFarm.Svg
     {
         SvgPathSpec spec;
         List<Svg.Pathing.SvgPathSeg> segments;
-        PixelFarm.Agg.SvgPart svgPart;
-        PixelFarm.Agg.SvgRenderVx renderVx;
+        SvgPart svgPart;
+        SvgRenderVx renderVx;
         ActualBitmap backimg;
 
         public SvgPath(SvgPathSpec spec, object controller)
@@ -56,8 +56,8 @@ namespace LayoutFarm.Svg
                 //this is flatten vxs?
 
                 GraphicsPath gpath = this.myCachedPath = new GraphicsPath();
-                int cmdCount = _vxs.Count; 
-                double lastMoveX = 0, lastMoveY = 0, curX = 0, curY = 0; 
+                int cmdCount = _vxs.Count;
+                double lastMoveX = 0, lastMoveY = 0, curX = 0, curY = 0;
                 for (int i = 0; i < cmdCount; ++i)
                 {
                     var cmd = _vxs.GetVertex(i, out double x, out double y);
@@ -93,7 +93,7 @@ namespace LayoutFarm.Svg
                             break;
                         default:
                             throw new NotSupportedException();
-                       
+
                     }
                 }
 
@@ -115,12 +115,12 @@ namespace LayoutFarm.Svg
                     SvgPathSeg seg = segs[i];
                     switch (seg.Command)
                     {
-                        case SvgPathCommand.ZClosePath:
+                        case Pathing.SvgPathCommand.ZClosePath:
                             {
                                 gpath.CloseFigure();
                             }
                             break;
-                        case SvgPathCommand.MoveTo:
+                        case Pathing.SvgPathCommand.MoveTo:
                             {
                                 var moveTo = (SvgPathSegMoveTo)seg;
                                 PointF moveToPoint;
@@ -131,7 +131,7 @@ namespace LayoutFarm.Svg
                                 lastMoveY = lastPoint.Y;
                             }
                             break;
-                        case SvgPathCommand.LineTo:
+                        case Pathing.SvgPathCommand.LineTo:
                             {
                                 var lineTo = (SvgPathSegLineTo)seg;
                                 PointF lineToPoint;
@@ -140,7 +140,7 @@ namespace LayoutFarm.Svg
                                 lastPoint = lineToPoint;
                             }
                             break;
-                        case SvgPathCommand.HorizontalLineTo:
+                        case Pathing.SvgPathCommand.HorizontalLineTo:
                             {
                                 var hlintTo = (SvgPathSegLineToHorizontal)seg;
                                 PointF lineToPoint;
@@ -149,7 +149,7 @@ namespace LayoutFarm.Svg
                                 lastPoint = lineToPoint;
                             }
                             break;
-                        case SvgPathCommand.VerticalLineTo:
+                        case Pathing.SvgPathCommand.VerticalLineTo:
                             {
                                 var vlineTo = (SvgPathSegLineToVertical)seg;
                                 PointF lineToPoint;
@@ -160,7 +160,7 @@ namespace LayoutFarm.Svg
                             break;
                         //---------------------------------------------------------------------------
                         //curve modes...... 
-                        case SvgPathCommand.CurveTo:
+                        case Pathing.SvgPathCommand.CurveTo:
                             {
                                 //cubic curve to  (2 control points)
                                 var cubicCurve = (SvgPathSegCurveToCubic)seg;
@@ -170,7 +170,7 @@ namespace LayoutFarm.Svg
                                 lastPoint = p;
                             }
                             break;
-                        case SvgPathCommand.QuadraticBezierCurve:
+                        case Pathing.SvgPathCommand.QuadraticBezierCurve:
                             {
                                 //quadratic curve (1 control point)
                                 //auto calculate for c1,c2 
@@ -183,7 +183,7 @@ namespace LayoutFarm.Svg
                             }
                             break;
                         //------------------------------------------------------------------------------------
-                        case SvgPathCommand.SmoothCurveTo:
+                        case Pathing.SvgPathCommand.SmoothCurveTo:
                             {
                                 //smooth cubic curve to
                                 var smthC4 = (SvgPathSegCurveToCubicSmooth)seg;
@@ -199,11 +199,11 @@ namespace LayoutFarm.Svg
                                     //check if prev is curve 
                                     switch (prevSeg.Command)
                                     {
-                                        case SvgPathCommand.Arc:
-                                        case SvgPathCommand.CurveTo:
-                                        case SvgPathCommand.SmoothCurveTo:
-                                        case SvgPathCommand.QuadraticBezierCurve:
-                                        case SvgPathCommand.TSmoothQuadraticBezierCurveTo:
+                                        case Pathing.SvgPathCommand.Arc:
+                                        case Pathing.SvgPathCommand.CurveTo:
+                                        case Pathing.SvgPathCommand.SmoothCurveTo:
+                                        case Pathing.SvgPathCommand.QuadraticBezierCurve:
+                                        case Pathing.SvgPathCommand.TSmoothQuadraticBezierCurveTo:
 
                                             //make mirror point
 
@@ -220,7 +220,7 @@ namespace LayoutFarm.Svg
                                 lastPoint = p;
                             }
                             break;
-                        case SvgPathCommand.TSmoothQuadraticBezierCurveTo:
+                        case Pathing.SvgPathCommand.TSmoothQuadraticBezierCurveTo:
                             {
                                 //curve 3
                                 var smtC3 = (SvgPathSegCurveToQuadraticSmooth)seg;
@@ -235,9 +235,9 @@ namespace LayoutFarm.Svg
                                     //check if prev is curve 
                                     switch (prevSeg.Command)
                                     {
-                                        case SvgPathCommand.Arc:
-                                        case SvgPathCommand.CurveTo:
-                                        case SvgPathCommand.SmoothCurveTo:
+                                        case Pathing.SvgPathCommand.Arc:
+                                        case Pathing.SvgPathCommand.CurveTo:
+                                        case Pathing.SvgPathCommand.SmoothCurveTo:
                                             {
                                                 PointF c = SvgCurveHelper.CreateMirrorPoint(p3, lastPoint);
                                                 SvgCurveHelper.Curve3GetControlPoints(lastPoint, c, p, out p2, out p3);
@@ -245,7 +245,7 @@ namespace LayoutFarm.Svg
                                                 lastPoint = p;
                                             }
                                             break;
-                                        case SvgPathCommand.TSmoothQuadraticBezierCurveTo:
+                                        case Pathing.SvgPathCommand.TSmoothQuadraticBezierCurveTo:
                                             {
                                                 //make mirror point
                                                 PointF c = SvgCurveHelper.CreateMirrorPoint(intm_c3_c, lastPoint);
@@ -255,7 +255,7 @@ namespace LayoutFarm.Svg
                                                 intm_c3_c = c;
                                             }
                                             break;
-                                        case SvgPathCommand.QuadraticBezierCurve:
+                                        case Pathing.SvgPathCommand.QuadraticBezierCurve:
                                             {
                                                 PointF c = SvgCurveHelper.CreateMirrorPoint(intm_c3_c, lastPoint);
                                                 SvgCurveHelper.Curve3GetControlPoints(lastPoint, c, p, out p2, out p3);
@@ -272,7 +272,7 @@ namespace LayoutFarm.Svg
                                 lastPoint = p;
                             }
                             break;
-                        case SvgPathCommand.Arc:
+                        case Pathing.SvgPathCommand.Arc:
                             {
                                 var arcTo = (SvgPathSegArc)seg;
                                 PointF p;
