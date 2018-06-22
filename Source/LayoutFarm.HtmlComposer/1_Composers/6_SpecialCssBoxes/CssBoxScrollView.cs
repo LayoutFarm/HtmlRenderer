@@ -129,13 +129,13 @@ namespace LayoutFarm.HtmlBoxes
             {
                 get { return (int)this.cssbox.VisualHeight; }
             }
-            int IScrollable.DesiredHeight
+            int IScrollable.InnerHeight
             {
                 //content height of the cssbox
                 get { return (int)cssbox.InnerContentHeight; }
             }
 
-            int IScrollable.DesiredWidth
+            int IScrollable.InnerWidth
             {
                 //content width of the cssbox
                 get { return (int)cssbox.InnerContentWidth; }
