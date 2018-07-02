@@ -53,10 +53,10 @@ namespace TestGraphicPackage
             simpleForm.Controls.Add(viewport);
             int w = 800;
             int h = 600;
-            var ifont = PixelFarm.Drawing.WinGdi.WinGdiPlusPlatform.GetIFonts();
+
             var rootgfx = new MyRootGraphic(
                 w, h,
-                ifont);
+                PixelFarm.Drawing.WinGdi.WinGdiPlusPlatform.GetTextService());
             viewport.InitRootGraphics(rootgfx, rootgfx.TopWinEventPortal,
                 InnerViewportKind.GdiPlus);
             viewport.PaintMe();

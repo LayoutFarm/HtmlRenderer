@@ -13,7 +13,7 @@ namespace LayoutFarm.Composers
         {
             if (s_textService == null)
             {
-                s_textService = PixelFarm.Drawing.WinGdi.WinGdiPlusPlatform.GetIFonts();
+                s_textService = PixelFarm.Drawing.WinGdi.WinGdiPlusPlatform.GetTextService();
             }
             return s_textService;
         }
