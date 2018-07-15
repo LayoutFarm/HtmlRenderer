@@ -3,10 +3,10 @@
 namespace LayoutFarm.DzBoardSample
 {
     [DemoNote("7.1 Demo DesignBoard")]
-    class Demo_DzBoard : DemoBase
+    class Demo_DzBoard : App
     {
         AppModule appModule = new AppModule();
-        protected override void OnStartDemo(AppHost host)
+        protected override void OnStart(AppHost host)
         {
             appModule.StartModule(host);
         }

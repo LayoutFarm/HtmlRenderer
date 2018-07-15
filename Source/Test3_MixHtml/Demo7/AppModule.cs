@@ -110,7 +110,7 @@ namespace LayoutFarm.DzBoardSample
         static ImageBinder LoadImage(string filename)
         {
             ImageBinder binder = new ClientImageBinder(filename);
-            binder.SetImage(DemoBase.LoadBitmap(filename));
+            binder.SetImage(App.LoadBitmap(filename));
             binder.State = ImageBinderState.Loaded;
             return binder;
         }
@@ -123,7 +123,7 @@ namespace LayoutFarm.DzBoardSample
                 return;
             }
             //load             
-            e.SetResultImage(DemoBase.LoadBitmap(absolutePath));
+            e.SetResultImage(App.LoadBitmap(absolutePath));
         }
         void contentMx_LoadStyleSheet(object sender, LayoutFarm.ContentManagers.TextRequestEventArgs e)
         {

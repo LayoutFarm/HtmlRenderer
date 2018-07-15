@@ -5,14 +5,14 @@ using LayoutFarm.WebDom;
 namespace LayoutFarm
 {
     [DemoNote("4.6 dynamic dom1")]
-    class Demo_DynamicDom1 : DemoBase
+    class Demo_DynamicDom1 : App
     {
         HtmlBox htmlMenuBox;
         HtmlBox testHtmlBox;
         HtmlBoxes.HtmlHost htmlhost;
         AppHost _host;
         bool testToggle;
-        protected override void OnStartDemo(AppHost host)
+        protected override void OnStart(AppHost host)
         {
             this._host = host;
             this.htmlhost = HtmlHostCreatorHelper.CreateHtmlHost(host, null, null);

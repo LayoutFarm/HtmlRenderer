@@ -5,7 +5,7 @@ using LayoutFarm.CustomWidgets;
 namespace LayoutFarm
 {
     [DemoNote("4.3.1 UIHtmlBox with Resource Request1")]
-    class Demo_UIHtmlBox_WithResReq1 : DemoBase
+    class Demo_UIHtmlBox_WithResReq1 : App
     {
         HtmlBoxes.HtmlHost htmlHost;
         HtmlBoxes.HtmlHost GetHtmlHost(AppHost host)
@@ -35,7 +35,7 @@ namespace LayoutFarm
         }
 
         string imgFolderPath = null;
-        protected override void OnStartDemo(AppHost host)
+        protected override void OnStart(AppHost host)
         {
             var appPath = System.Windows.Forms.Application.ExecutablePath;
             int pos = appPath.IndexOf("\\bin\\");

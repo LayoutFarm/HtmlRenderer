@@ -5,12 +5,12 @@ using LayoutFarm.CustomWidgets;
 namespace LayoutFarm
 {
     [DemoNote("4.1 UIHtmlBox")]
-    class Demo_UIHtmlBox : DemoBase
+    class Demo_UIHtmlBox : App
     {
         HtmlBox htmlBox;
         string htmltext;
         string documentRootPath;
-        protected override void OnStartDemo(AppHost viewport)
+        protected override void OnStart(AppHost viewport)
         {
             //html box
             var contentMx = new LayoutFarm.ContentManagers.ImageContentManager();

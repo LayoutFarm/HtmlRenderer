@@ -4,9 +4,9 @@ using LayoutFarm.CustomWidgets;
 namespace LayoutFarm
 {
     [DemoNote("4.2 MixHtml and Text")]
-    class Demo_MixHtml : DemoBase
+    class Demo_MixHtml : App
     {
-        protected override void OnStartDemo(AppHost host)
+        protected override void OnStart(AppHost host)
         {
             var htmlhost = HtmlHostCreatorHelper.CreateHtmlHost(host, null, null);
             ////==================================================

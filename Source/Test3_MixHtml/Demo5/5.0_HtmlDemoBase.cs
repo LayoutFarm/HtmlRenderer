@@ -5,14 +5,14 @@ using LayoutFarm.Composers;
 using LayoutFarm.CustomWidgets;
 namespace LayoutFarm.WebWidgets
 {
-    abstract class HtmlDemoBase : DemoBase
+    abstract class HtmlDemoBase : App
     {
         LayoutFarm.ContentManagers.ImageContentManager imageContentMan;
         protected LayoutFarm.HtmlBoxes.HtmlHost myHtmlHost;
         protected HtmlBox groundHtmlBox;
         protected AppHost _host;
         HtmlDocument groundHtmlDoc;
-        protected override void OnStartDemo(AppHost host)
+        protected override void OnStart(AppHost host)
         {
             this._host = host;
             imageContentMan = new ContentManagers.ImageContentManager();

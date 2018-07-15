@@ -5,9 +5,9 @@ using LayoutFarm.CustomWidgets;
 namespace LayoutFarm
 {
     [DemoNote("4.4 CssLeanBox")]
-    class Demo_CssLeanBox : DemoBase
+    class Demo_CssLeanBox : App
     {
-        protected override void OnStartDemo(AppHost host)
+        protected override void OnStart(AppHost host)
         {
             ////==================================================
             //html box

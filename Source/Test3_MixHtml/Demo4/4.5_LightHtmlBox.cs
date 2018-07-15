@@ -8,10 +8,10 @@ using LayoutFarm.HtmlBoxes;
 namespace LayoutFarm
 {
     [DemoNote("4.5 LightHtmlBox")]
-    class Demo_LightHtmlBox : DemoBase
+    class Demo_LightHtmlBox : App
     {
         HtmlHost htmlHost;
-        protected override void OnStartDemo(AppHost host)
+        protected override void OnStart(AppHost host)
         {
             htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(host, null, null);
             ////==================================================
