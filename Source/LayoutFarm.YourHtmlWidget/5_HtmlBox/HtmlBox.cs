@@ -7,7 +7,7 @@ using LayoutFarm.HtmlBoxes;
 using LayoutFarm.UI;
 namespace LayoutFarm.CustomWidgets
 {
-    public class HtmlBox : AbstractRect, IEventPortal
+    public class HtmlBox : AbstractRectUI, IEventPortal
     {
         WaitingContentKind waitingContentKind;
         string waitingHtmlString;

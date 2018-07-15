@@ -7,7 +7,7 @@ namespace LayoutFarm.DzBoardSample
 {
     class UIControllerBox : LayoutFarm.CustomWidgets.AbstractBox
     {
-        LayoutFarm.UI.AbstractRect box;
+        LayoutFarm.UI.AbstractRectUI box;
         LayoutFarm.CustomWidgets.Box contentBox;
         //small controller box
         LayoutFarm.CustomWidgets.Box boxLeftTop;
@@ -46,7 +46,7 @@ namespace LayoutFarm.DzBoardSample
                 this.contentBox = value;
             }
         }
-        public LayoutFarm.UI.AbstractRect TargetBox
+        public LayoutFarm.UI.AbstractRectUI TargetBox
         {
             get { return this.box; }
             set

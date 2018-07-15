@@ -54,7 +54,7 @@ namespace LayoutFarm.DzBoardSample
     }
     class UIHolderBox : DesignBox
     {
-        LayoutFarm.UI.AbstractRect targetUI;
+        LayoutFarm.UI.AbstractRectUI targetUI;
         int borderWidth = 5;
         public UIHolderBox(int w, int h)
             : base(w, h)
@@ -65,7 +65,7 @@ namespace LayoutFarm.DzBoardSample
             get { return this.borderWidth; }
             set { this.borderWidth = value; }
         }
-        public LayoutFarm.UI.AbstractRect TargetBox
+        public LayoutFarm.UI.AbstractRectUI TargetBox
         {
             get { return this.targetUI; }
             set
@@ -169,7 +169,7 @@ namespace LayoutFarm.DzBoardSample
             userBoxes.Add(box1);
         }
 
-        public UIHolderBox AddExternalControl(int x, int y, AbstractRect uibox)
+        public UIHolderBox AddExternalControl(int x, int y, AbstractRectUI uibox)
         {
             //create holder ui
             var box1 = new UIHolderBox(uibox.Width + 10, uibox.Height + 10);
@@ -182,7 +182,7 @@ namespace LayoutFarm.DzBoardSample
             userBoxes.Add(box1);
             return box1;
         }
-        public UIHolderBox WrapWithHolderBox(int x, int y, AbstractRect uibox)
+        public UIHolderBox WrapWithHolderBox(int x, int y, AbstractRectUI uibox)
         {
             //create holder ui
             var box1 = new UIHolderBox(uibox.Width + 10, uibox.Height + 10);
@@ -573,11 +573,11 @@ namespace LayoutFarm.DzBoardSample
         }
 
         //-----------------------------------------------------------------------------------------------
-        public void HistoryRecordDzElementNewPosition(AbstractRect dzBox, Point oldPoint, Point newPoint)
+        public void HistoryRecordDzElementNewPosition(AbstractRectUI dzBox, Point oldPoint, Point newPoint)
         {
             this.dzCommandHistory.AddAction(new DzSetLocationAction(dzBox, oldPoint, newPoint));
         }
-        public void HistoryRecordDzElementNewBounds(AbstractRect dzBox, Rectangle oldRect, Rectangle newRect)
+        public void HistoryRecordDzElementNewBounds(AbstractRectUI dzBox, Rectangle oldRect, Rectangle newRect)
         {
             this.dzCommandHistory.AddAction(new DzSetBoundsAction(dzBox, oldRect, newRect));
         }
