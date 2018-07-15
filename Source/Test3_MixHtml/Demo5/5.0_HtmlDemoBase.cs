@@ -18,7 +18,7 @@ namespace LayoutFarm.WebWidgets
             imageContentMan = new ContentManagers.ImageContentManager();
             imageContentMan.ImageLoadingRequest += (s, e) =>
             {
-                e.SetResultImage(LoadBitmap(e.ImagSource));
+                e.SetResultImage(host.LoadImage(e.ImagSource));
             };
             //init host 
             myHtmlHost = HtmlHostCreatorHelper.CreateHtmlHost(host,
@@ -39,7 +39,7 @@ namespace LayoutFarm.WebWidgets
         protected virtual void OnHtmlHostCreated()
         {
         }
-  
+
 
         protected void AddToViewport(HtmlWidgets.HtmlWidgetBase htmlWidget)
         {

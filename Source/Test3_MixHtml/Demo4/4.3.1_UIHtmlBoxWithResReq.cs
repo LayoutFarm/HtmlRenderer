@@ -24,7 +24,7 @@ namespace LayoutFarm
                         }
 
                         //load create and load bitmap                         
-                        e.ImageBinder.SetImage(LoadBitmap(absolutePath));
+                        e.ImageBinder.SetImage(host.LoadImage(absolutePath));
                     },
                     //2. stylesheet request
                     (s, e) =>

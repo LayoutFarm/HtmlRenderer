@@ -8,6 +8,7 @@ namespace LayoutFarm
     class Demo_UIHtmlBox_ContentMx : App
     {
         HtmlBoxes.HtmlHost htmlHost;
+        AppHost _host;
         HtmlBoxes.HtmlHost GetHtmlHost(AppHost host)
         {
             if (htmlHost == null)
@@ -25,6 +26,7 @@ namespace LayoutFarm
         string imgFolderPath = null;
         protected override void OnStart(AppHost host)
         {
+            _host = host;
             var appPath = System.Windows.Forms.Application.ExecutablePath;
             int pos = appPath.IndexOf("\\bin\\");
             if (pos > -1)
@@ -49,8 +51,7 @@ namespace LayoutFarm
                 return;
             }
             //load
-             
-            e.SetResultImage(LoadBitmap(absolutePath));
+            e.SetResultImage(_host.LoadImage(absolutePath));
         }
     }
 }

@@ -107,12 +107,14 @@ namespace LayoutFarm.DzBoardSample
             newClone.TargetBox = imgbox;
             return newClone;
         }
-        static ImageBinder LoadImage(string filename)
+        ImageBinder LoadImage(string filename)
         {
-            ImageBinder binder = new ClientImageBinder(filename);
-            binder.SetImage(App.LoadBitmap(filename));
-            binder.State = ImageBinderState.Loaded;
-            return binder;
+            return _host.GetImageBinder(filename);
+
+            //ImageBinder binder = new ClientImageBinder(filename);
+            //binder.SetImage(App.LoadBitmap(filename));
+            //binder.State = ImageBinderState.Loaded;
+            //return binder;
         }
         void contentMx_ImageLoadingRequest(object sender, LayoutFarm.ContentManagers.ImageRequestEventArgs e)
         {
@@ -123,7 +125,7 @@ namespace LayoutFarm.DzBoardSample
                 return;
             }
             //load             
-            e.SetResultImage(App.LoadBitmap(absolutePath));
+            e.SetResultImage(_host.LoadImage(absolutePath));
         }
         void contentMx_LoadStyleSheet(object sender, LayoutFarm.ContentManagers.TextRequestEventArgs e)
         {
@@ -136,7 +138,7 @@ namespace LayoutFarm.DzBoardSample
             e.TextContent = System.IO.File.ReadAllText(absolutePath);
         }
 
-    
+
 
     }
 }

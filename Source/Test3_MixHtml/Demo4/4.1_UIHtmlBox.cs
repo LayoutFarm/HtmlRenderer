@@ -10,16 +10,18 @@ namespace LayoutFarm
         HtmlBox htmlBox;
         string htmltext;
         string documentRootPath;
-        protected override void OnStart(AppHost viewport)
+        AppHost _host;
+        protected override void OnStart(AppHost host)
         {
             //html box
             var contentMx = new LayoutFarm.ContentManagers.ImageContentManager();
             contentMx.ImageLoadingRequest += contentMx_ImageLoadingRequest;
-            var host = HtmlHostCreatorHelper.CreateHtmlHost(viewport,
+
+            var htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(host,
                 (s, e) => contentMx.AddRequestImage(e.ImageBinder),
                 contentMx_LoadStyleSheet);
-            htmlBox = new HtmlBox(host, 1024, 800);
-            viewport.AddChild(htmlBox);
+            htmlBox = new HtmlBox(htmlHost, 1024, 800);
+            host.AddChild(htmlBox);
             if (htmltext == null)
             {
                 htmltext = @"<html><head></head><body>NOT FOUND!</body></html>";
@@ -41,8 +43,8 @@ namespace LayoutFarm
                 return;
             }
             //load
-             
-            e.SetResultImage(LoadBitmap(absolutePath));
+
+            e.SetResultImage(_host.LoadImage(absolutePath));
         }
         void contentMx_LoadStyleSheet(object sender, LayoutFarm.ContentManagers.TextRequestEventArgs e)
         {
