@@ -7,7 +7,7 @@ namespace LayoutFarm
 {
     public static class HtmlHostCreatorHelper
     {
-        public static HtmlBoxes.HtmlHost CreateHtmlHost(SampleViewport sampleViewport,
+        public static HtmlBoxes.HtmlHost CreateHtmlHost(AppHost sampleViewport,
             EventHandler<ContentManagers.ImageRequestEventArgs> imageReqHandler,
             EventHandler<ContentManagers.TextRequestEventArgs> textReq)
         {

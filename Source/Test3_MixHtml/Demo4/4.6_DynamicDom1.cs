@@ -10,19 +10,19 @@ namespace LayoutFarm
         HtmlBox htmlMenuBox;
         HtmlBox testHtmlBox;
         HtmlBoxes.HtmlHost htmlhost;
-        SampleViewport viewport;
+        AppHost _host;
         bool testToggle;
-        protected override void OnStartDemo(SampleViewport viewport)
+        protected override void OnStartDemo(AppHost host)
         {
-            this.viewport = viewport;
-            this.htmlhost = HtmlHostCreatorHelper.CreateHtmlHost(viewport, null, null);
+            this._host = host;
+            this.htmlhost = HtmlHostCreatorHelper.CreateHtmlHost(host, null, null);
             SetupHtmlMenuBox();
             //==================================================
             //box1 test area
             //html box
             this.testHtmlBox = new HtmlBox(htmlhost, 800, 400);
             testHtmlBox.SetLocation(30, 50);
-            viewport.AddChild(testHtmlBox);
+            host.AddChild(testHtmlBox);
             string html = @"<html><head></head><body><div id='div1'>OK1</div><div>OK2</div></body></html>";
             testHtmlBox.LoadHtmlString(html);
             //==================================================  
@@ -32,7 +32,7 @@ namespace LayoutFarm
             //==================================================
             this.htmlMenuBox = new HtmlBox(htmlhost, 800, 40);
             htmlMenuBox.SetLocation(30, 0);
-            viewport.AddChild(htmlMenuBox);
+            _host.AddChild(htmlMenuBox);
             string html = @"<html><head></head><body>
                     <div id='menubox'>
                         <span id='test_dom1'>click to toggle!</span>

@@ -10,7 +10,7 @@ namespace LayoutFarm
         HtmlBox htmlBox;
         string htmltext;
         string documentRootPath;
-        protected override void OnStartDemo(SampleViewport viewport)
+        protected override void OnStartDemo(AppHost viewport)
         {
             //html box
             var contentMx = new LayoutFarm.ContentManagers.ImageContentManager();

@@ -140,7 +140,7 @@ namespace LayoutFarm.DzBoardSample
         public bool EnableUndoHistoryRecording { get; set; }
         protected override void OnStartModule()
         {
-            this.rootgfx = viewport.RootGfx;
+            this.rootgfx = _host.RootGfx;
             //--------------------------------
 
 
@@ -149,13 +149,13 @@ namespace LayoutFarm.DzBoardSample
             dzBoardBg.BackColor = Color.White;
             dzBoardBg.SetLocation(0, 0);
             SetupBackgroundProperties(dzBoardBg);
-            viewport.AddChild(dzBoardBg);
+            _host.AddChild(dzBoardBg);
             //--------------------------------
 
             selectionBox = new UISelectionBox(1, 1);
             selectionBox.Visible = false;
             selectionBox.BackColor = Color.FromArgb(80, Color.Green);
-            viewport.AddChild(selectionBox);
+            _host.AddChild(selectionBox);
             SetupSelectionBoxProperties(selectionBox);
         }
         public void AddNewBox(int x, int y, int w, int h)
@@ -165,7 +165,7 @@ namespace LayoutFarm.DzBoardSample
             box1.BackColor = Color.Red;
             box1.SetLocation(x, y);
             SetupActiveBoxProperties(box1);
-            viewport.AddChild(box1);
+            _host.AddChild(box1);
             userBoxes.Add(box1);
         }
 
@@ -178,7 +178,7 @@ namespace LayoutFarm.DzBoardSample
             box1.SetLocation(x, y);
             box1.TargetBox = uibox;
             SetupActiveBoxProperties(box1);
-            viewport.AddChild(box1);
+            _host.AddChild(box1);
             userBoxes.Add(box1);
             return box1;
         }
@@ -207,7 +207,7 @@ namespace LayoutFarm.DzBoardSample
             box1.TargetBox = imgBox;
             box1.SetSize(imgBinder.ImageWidth + 20, imgBinder.ImageHeight + 20);
             SetupActiveBoxProperties(box1);
-            viewport.AddChild(box1);
+            _host.AddChild(box1);
             userBoxes.Add(box1);
             return box1;
         }
@@ -218,7 +218,7 @@ namespace LayoutFarm.DzBoardSample
             box1.BackColor = Color.Red;
             box1.SetLocation(x, y);
             SetupActiveBoxProperties(box1);
-            viewport.AddChild(box1);
+            _host.AddChild(box1);
             userBoxes.Add(box1);
         }
 
@@ -276,7 +276,7 @@ namespace LayoutFarm.DzBoardSample
             {
                 controlBox = userControllerPool.Dequeue();
                 //-------------------------------------------
-                viewport.AddChild(controlBox);
+                _host.AddChild(controlBox);
                 //register to working controller box
                 workingControllerBoxes.Add(controlBox);
             }
@@ -296,7 +296,7 @@ namespace LayoutFarm.DzBoardSample
                 controlBox.SetLocation(200, 200);
                 //controllerBox1.dbugTag = 3;
                 controlBox.Visible = false;
-                viewport.AddChild(controlBox);
+                _host.AddChild(controlBox);
                 //-------------------------------------------
                 //register to working controller box
                 workingControllerBoxes.Add(controlBox);
@@ -329,7 +329,7 @@ namespace LayoutFarm.DzBoardSample
                 if (newCloneAsRect != null)
                 {
                     SetupActiveBoxProperties(newCloneAsRect);
-                    viewport.AddChild(newCloneAsRect);
+                    _host.AddChild(newCloneAsRect);
                     userBoxes.Add(newCloneAsRect);
                     return;
                 }
@@ -337,7 +337,7 @@ namespace LayoutFarm.DzBoardSample
                 if (holderBox != null)
                 {
                     SetupActiveBoxProperties(holderBox);
-                    viewport.AddChild(holderBox);
+                    _host.AddChild(holderBox);
                     userBoxes.Add(holderBox);
                 }
 
@@ -345,7 +345,7 @@ namespace LayoutFarm.DzBoardSample
                 if (gfxBox != null)
                 {
                     SetupActiveBoxProperties(gfxBox);
-                    viewport.AddChild(gfxBox);
+                    _host.AddChild(gfxBox);
                     userBoxes.Add(gfxBox);
                 }
             }

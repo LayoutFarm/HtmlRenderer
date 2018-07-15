@@ -8,11 +8,11 @@ namespace LayoutFarm
     class Demo_UIHtmlBox_ContentMx : DemoBase
     {
         HtmlBoxes.HtmlHost htmlHost;
-        HtmlBoxes.HtmlHost GetHtmlHost(SampleViewport viewport)
+        HtmlBoxes.HtmlHost GetHtmlHost(AppHost host)
         {
             if (htmlHost == null)
             {
-                htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(viewport, null, null);
+                htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(host, null, null);
                 var htmlBoxContentMx = new HtmlHostContentManager();
                 var contentMx = new LayoutFarm.ContentManagers.ImageContentManager();
                 contentMx.ImageLoadingRequest += contentMx_ImageLoadingRequest;
@@ -23,7 +23,7 @@ namespace LayoutFarm
         }
 
         string imgFolderPath = null;
-        protected override void OnStartDemo(SampleViewport viewport)
+        protected override void OnStartDemo(AppHost host)
         {
             var appPath = System.Windows.Forms.Application.ExecutablePath;
             int pos = appPath.IndexOf("\\bin\\");
@@ -34,8 +34,8 @@ namespace LayoutFarm
             }
             //==================================================
             //html box
-            var htmlBox = new HtmlBox(GetHtmlHost(viewport), 800, 600);
-            viewport.AddChild(htmlBox);
+            var htmlBox = new HtmlBox(GetHtmlHost(host), 800, 600);
+            host.AddChild(htmlBox);
             string html = "<html><head></head><body><div>OK1</div><div>3 Images</div><img src=\"sample01.png\"></img><img src=\"sample01.png\"></img><img src=\"sample01.png\"></img></body></html>";
             htmlBox.LoadHtmlString(html);
         }

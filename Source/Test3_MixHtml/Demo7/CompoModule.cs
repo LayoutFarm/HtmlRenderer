@@ -5,14 +5,14 @@ namespace LayoutFarm.DzBoardSample
     public abstract class CompoModule
     {
         protected HtmlBoxes.HtmlHost htmlHost;
-        protected SampleViewport viewport;
-        public void StartModule(HtmlBoxes.HtmlHost htmlHost, SampleViewport viewport)
+        protected AppHost _host;
+        public void StartModule(HtmlBoxes.HtmlHost htmlHost, AppHost host)
         {
             this.htmlHost = htmlHost;
-            this.viewport = viewport;
+            this._host = host;
             OnStartModule();
         }
-        public RootGraphic RootGfx { get { return viewport.RootGfx; } }
+        public RootGraphic RootGfx { get { return _host.RootGfx; } }
         protected virtual void OnStartModule()
         {
         }

@@ -6,9 +6,9 @@ namespace LayoutFarm.DzBoardSample
     class Demo_DzBoard : DemoBase
     {
         AppModule appModule = new AppModule();
-        protected override void OnStartDemo(SampleViewport viewport)
+        protected override void OnStartDemo(AppHost host)
         {
-            appModule.StartModule(viewport);
+            appModule.StartModule(host);
         }
     }
 }

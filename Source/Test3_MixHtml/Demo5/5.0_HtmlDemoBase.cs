@@ -10,18 +10,18 @@ namespace LayoutFarm.WebWidgets
         LayoutFarm.ContentManagers.ImageContentManager imageContentMan;
         protected LayoutFarm.HtmlBoxes.HtmlHost myHtmlHost;
         protected HtmlBox groundHtmlBox;
-        protected SampleViewport sampleViewport;
+        protected AppHost _host;
         HtmlDocument groundHtmlDoc;
-        protected override void OnStartDemo(SampleViewport viewport)
+        protected override void OnStartDemo(AppHost host)
         {
-            this.sampleViewport = viewport;
+            this._host = host;
             imageContentMan = new ContentManagers.ImageContentManager();
             imageContentMan.ImageLoadingRequest += (s, e) =>
             {
                 e.SetResultImage(LoadBitmap(e.ImagSource));
             };
             //init host 
-            myHtmlHost = HtmlHostCreatorHelper.CreateHtmlHost(viewport,
+            myHtmlHost = HtmlHostCreatorHelper.CreateHtmlHost(host,
               (s, e) => this.imageContentMan.AddRequestImage(e.ImageBinder),
               (s, e) => { });
             //-----------------------------------------------------
@@ -30,7 +30,7 @@ namespace LayoutFarm.WebWidgets
             string html = @"<div></div>";
             //if you want to use full html-> use HtmlBox instead  
 
-            this.sampleViewport.AddChild(groundHtmlBox);
+            this._host.AddChild(groundHtmlBox);
             //----------------------------------------------------- 
             groundHtmlBox.LoadHtmlFragmentString(html);
             this.groundHtmlDoc = groundHtmlBox.HtmlContainer.WebDocument as HtmlDocument;

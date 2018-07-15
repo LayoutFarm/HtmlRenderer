@@ -9,12 +9,12 @@ namespace LayoutFarm.DzBoardSample
     {
         DesignBoardModule dzBoardModule;
         MenuBoardModule menuModule;
-        SampleViewport viewport;
+        AppHost _host;
         LayoutFarm.HtmlBoxes.HtmlHost htmlHost;
         string documentRootPath;
-        public void StartModule(LayoutFarm.SampleViewport sampleViewport)
+        public void StartModule(LayoutFarm.AppHost host)
         {
-            this.viewport = sampleViewport;
+            this._host = host;
             dzBoardModule = new DesignBoardModule();
             menuModule = new MenuBoardModule();
             menuModule.menuItemClick += new EventHandler<MenuItemClickEventArgs>(menuModule_menuItemClick);
@@ -22,15 +22,15 @@ namespace LayoutFarm.DzBoardSample
             contentMx.ImageLoadingRequest += contentMx_ImageLoadingRequest;
             //app specific here
             documentRootPath = System.Windows.Forms.Application.ExecutablePath;
-            this.htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(viewport,
+            this.htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(_host,
                 (s, e) => contentMx.AddRequestImage(e.ImageBinder),
                 contentMx_LoadStyleSheet);
             //1. design board
-            dzBoardModule.StartModule(htmlHost, this.viewport);
+            dzBoardModule.StartModule(htmlHost, this._host);
             ////2. canvas board
             //drawingBoard.StartModule(htmlHost, this.viewport);
             //3. menu
-            menuModule.StartModule(htmlHost, this.viewport);
+            menuModule.StartModule(htmlHost, this._host);
             //------------------------------------------------------
             //context knowledge*** 
             //------------------------------------------------------
