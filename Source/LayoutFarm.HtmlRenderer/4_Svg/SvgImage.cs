@@ -87,7 +87,7 @@ namespace LayoutFarm.Svg
                 EVAL_STATE:
                 switch (this.ImageBinder.State)
                 {
-                    case ImageBinderState.Unload:
+                    case BinderState.Unload:
                         {
                             //async request image
                             if (!tryLoadOnce)
@@ -99,12 +99,12 @@ namespace LayoutFarm.Svg
                             }
                         }
                         break;
-                    case ImageBinderState.Loading:
+                    case BinderState.Loading:
                         {
                             //RenderUtils.DrawImageLoadingIcon(g, r);
                         }
                         break;
-                    case ImageBinderState.Loaded:
+                    case BinderState.Loaded:
                         {
                             Image img;
                             if ((img = _imgRun.ImageBinder.Image) != null)
@@ -131,11 +131,11 @@ namespace LayoutFarm.Svg
                             }
                         }
                         break;
-                    case ImageBinderState.NoImage:
+                    case BinderState.Blank:
                         {
                         }
                         break;
-                    case ImageBinderState.Error:
+                    case BinderState.Error:
                         {
                             RenderUtils.DrawImageErrorIcon(p, r);
                         }

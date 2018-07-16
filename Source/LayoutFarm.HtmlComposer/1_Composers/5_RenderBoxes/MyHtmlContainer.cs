@@ -156,7 +156,7 @@ namespace LayoutFarm.HtmlBoxes
         protected override void OnRequestImage(ImageBinder binder, object reqFrom, bool _sync)
         {
             //send request to host
-            if (binder.State == ImageBinderState.Unload)
+            if (binder.State == BinderState.Unload)
             {
                 this.htmlhost.ChildRequestImage(binder, this, reqFrom, _sync);
             }

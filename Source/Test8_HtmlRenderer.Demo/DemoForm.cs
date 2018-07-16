@@ -53,7 +53,7 @@ namespace LayoutFarm.Demo
         /// used ignore html editor updates when updating seperatly
         /// </summary>
         private bool _updateLock;
-         
+
         LayoutFarm.HtmlBoxes.HtmlHost htmlHost;
         string htmlRootFolder;
         /// <summary>
@@ -61,7 +61,7 @@ namespace LayoutFarm.Demo
         /// </summary>
         public DemoForm()
         {
-            
+
             this._htmlPanel = new LayoutFarm.Demo.HtmlPanel();
             this.htmlHost = new LayoutFarm.HtmlBoxes.HtmlHost();
             htmlHost.AttachEssentailHandlers(
@@ -405,7 +405,7 @@ namespace LayoutFarm.Demo
             else
             {
                 //no image found
-                e.ImageBinder.State = ImageBinderState.Error;
+                e.ImageBinder.State = BinderState.Error;
             }
         }
 
