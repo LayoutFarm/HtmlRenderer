@@ -136,7 +136,7 @@ namespace LayoutFarm.CustomWidgets
             {
                 var newFrRenderBox = new HtmlRenderBox(rootgfx, this.Width, this.Height);
                 newFrRenderBox.SetController(this);
-                newFrRenderBox.HasSpecificSize = true;
+                newFrRenderBox.HasSpecificWidthAndHeight = true;
                 newFrRenderBox.SetLocation(this.Left, this.Top);
                 //set to this field if ready
                 this.htmlRenderBox = newFrRenderBox;

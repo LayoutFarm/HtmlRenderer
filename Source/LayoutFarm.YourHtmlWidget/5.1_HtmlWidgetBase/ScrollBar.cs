@@ -139,7 +139,7 @@ namespace LayoutFarm.HtmlWidgets
         void CreateVScrollbarContent(RootGraphic rootgfx)
         {
             CustomRenderBox bgBox = new CustomRenderBox(rootgfx, this.Width, this.Height);
-            bgBox.HasSpecificSize = true;
+            bgBox.HasSpecificWidthAndHeight = true;
             bgBox.SetController(this);
             bgBox.SetLocation(this.Left, this.Top);
             //MinButton
@@ -154,7 +154,7 @@ namespace LayoutFarm.HtmlWidgets
         void CreateHScrollbarContent(RootGraphic rootgfx)
         {
             CustomRenderBox bgBox = new CustomRenderBox(rootgfx, this.Width, this.Height);
-            bgBox.HasSpecificSize = true;
+            bgBox.HasSpecificWidthAndHeight = true;
             bgBox.SetController(this);
             bgBox.SetLocation(this.Left, this.Top);
             //---------------------------------------------------------
