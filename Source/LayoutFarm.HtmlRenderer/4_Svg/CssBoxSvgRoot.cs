@@ -4,6 +4,7 @@ using LayoutFarm.Svg;
 using PaintLab.Svg;
 namespace LayoutFarm.HtmlBoxes
 {
+
     public sealed class CssBoxSvgRoot : CssBox
     {
         PixelFarm.CpuBlit.VgRenderVx _renderVx;
@@ -26,19 +27,7 @@ namespace LayoutFarm.HtmlBoxes
         {
 
 
-            //    public struct ReEvaluateArgs
-            //    {
-            //        public readonly float containerW;
-            //        public readonly float containerH;
-            //        public readonly float emHeight;
-
-            //        public ReEvaluateArgs(float containerW, float containerH, float emHeight)
-            //        {
-            //            this.containerW = containerW;
-            //            this.containerH = containerH;
-            //            this.emHeight = emHeight;
-            //        }
-            //    }
+           
 
             //var svgElement = this.SvgSpec;
             ////recompute value if need  
