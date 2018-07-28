@@ -13,46 +13,18 @@ using LayoutFarm.Css;
 namespace LayoutFarm.Svg
 {
 
-    public class SvgImageSpec : SvgVisualSpec
-    {
-        public CssLength X
-        {
-            get;
-            set;
-        }
-        public CssLength Y
-        {
-            get;
-            set;
-        }
-        public CssLength Width
-        {
-            get;
-            set;
-        }
-        public CssLength Height
-        {
-            get;
-            set;
-        }
-
-        public string ImageSrc
-        {
-            get;
-            set;
-        }
-    }
+    
     class SvgImage : SvgElement
     {
         public SvgImage(SvgImageSpec spec, object controller)
-            : base(WellknownSvgElementName.Path)
+            : base(WellknownSvgElementName.Image, spec)
         {
         }
     }
     class SvgPath : SvgElement
     {
         public SvgPath(SvgPathSpec spec, object controller)
-            : base(WellknownSvgElementName.Path)
+            : base(WellknownSvgElementName.Path, spec)
         {
         }
     }
@@ -107,7 +79,7 @@ namespace LayoutFarm.Svg
         {
         }
         public SvgGroupElement(SvgVisualSpec spec, object controller)
-            : base(WellknownSvgElementName.Group)
+            : base(WellknownSvgElementName.Group, spec)
         {
 
         }
@@ -666,7 +638,7 @@ namespace LayoutFarm.Svg
                                 case "d":
                                     {
                                         //parse vertex commands                                          
-                                        // svgPath.Vxs = parser.ParseSvgPathDefinitionToVxs(attr.Value.ToCharArray());
+                                        spec.D = attr.Value;
                                     }
                                     break;
                             }

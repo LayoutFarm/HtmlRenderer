@@ -301,9 +301,6 @@
     <Compile Include="..\LayoutFarm.HtmlRenderer\4_Svg\CssBoxSvgRoot.cs">
       <Link>8_REF_LayoutFarm.HtmlRenderer\4_Svg\CssBoxSvgRoot.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\4_Svg\SvgElements.cs">
-      <Link>8_REF_LayoutFarm.HtmlRenderer\4_Svg\SvgElements.cs</Link>
-    </Compile>
     <Compile Include="..\LayoutFarm.HtmlRenderer\4_Svg\SvgImage.cs">
       <Link>8_REF_LayoutFarm.HtmlRenderer\4_Svg\SvgImage.cs</Link>
     </Compile>

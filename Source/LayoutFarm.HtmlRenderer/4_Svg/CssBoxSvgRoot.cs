@@ -52,6 +52,7 @@ namespace LayoutFarm.HtmlBoxes
 
             DrawBoard drawBoard = p.InnerCanvas;
             drawBoard.DrawRenderVx(_renderVx, 0, 0);
+
             //var g = p.InnerCanvas;
             //var prevMode = g.SmoothingMode;
             //g.SmoothingMode = SmoothingMode.AntiAlias;
