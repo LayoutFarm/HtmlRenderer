@@ -14,6 +14,7 @@ namespace LayoutFarm
         protected override void OnStart(AppHost host)
         {
             //html box
+            _host = host;
             var contentMx = new LayoutFarm.ContentManagers.ImageContentManager();
             contentMx.ImageLoadingRequest += contentMx_ImageLoadingRequest;
 
