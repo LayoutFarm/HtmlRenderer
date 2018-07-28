@@ -11,11 +11,32 @@ namespace LayoutFarm.HtmlBoxes
         {
             SetAsCustomCssBox(this);
             //create svg node 
-            this.SvgSpec = svgElem;
+            this.SvgElem = svgElem;
+            //convert svgElem to agg-based
+
+
+            
+
             ChangeDisplayType(this, Css.CssDisplay.Block);
         }
         public override void CustomRecomputedValue(CssBox containingBlock)
         {
+
+
+            //    public struct ReEvaluateArgs
+            //    {
+            //        public readonly float containerW;
+            //        public readonly float containerH;
+            //        public readonly float emHeight;
+
+            //        public ReEvaluateArgs(float containerW, float containerH, float emHeight)
+            //        {
+            //            this.containerW = containerW;
+            //            this.containerH = containerH;
+            //            this.emHeight = emHeight;
+            //        }
+            //    }
+
             //var svgElement = this.SvgSpec;
             ////recompute value if need  
             //var cnode = svgElement.GetFirstNode();
@@ -37,6 +58,8 @@ namespace LayoutFarm.HtmlBoxes
             p.dbugEnterNewContext(this, PaintVisitor.PaintVisitorContextName.Init);
 #endif
 
+            DrawBoard drawBoard = p.InnerCanvas;
+
             //var g = p.InnerCanvas;
             //var prevMode = g.SmoothingMode;
             //g.SmoothingMode = SmoothingMode.AntiAlias;
@@ -53,7 +76,7 @@ namespace LayoutFarm.HtmlBoxes
             p.dbugExitContext();
 #endif
         }
-        public SvgElement SvgSpec
+        public SvgElement SvgElem
         {
             get;
             set;

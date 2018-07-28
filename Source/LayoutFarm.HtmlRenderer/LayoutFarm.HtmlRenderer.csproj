@@ -77,6 +77,9 @@
     <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.cssbase\cssbase\MapAttribute.cs">
       <Link>REF_CssBase\MapAttribute.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.Svg\SvgRenderVxDocBuilder.cs">
+      <Link>4_Svg\SvgRenderVxDocBuilder.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.webdom\1_css\CssActiveSheet.cs">
       <Link>REF_WebDom\1_Css\CssActiveSheet.cs</Link>
     </Compile>
@@ -166,11 +169,9 @@
     <Compile Include="4_Svg\CssBoxSvgRoot.cs" />
     <Compile Include="4_Svg\SvgElements.cs" />
     <Compile Include="4_Svg\SvgImage.cs" />
-    <Compile Include="4_Svg\SvgHitChain.cs" />
     <Compile Include="4_Svg\SvgImageBinder.cs" />
     <Compile Include="4_Svg\SvgPath.cs" />
     <Compile Include="4_Svg\SvgPathSegments.cs" />
-    <Compile Include="4_Svg\SvgMatrixAndTransforms.cs" />
     <Compile Include="4_Svg\SvgVisualElements.cs" />
     <Compile Include="5_Boxes_SpecialBoxes\CssFloatContainerBox.cs" />
     <Compile Include="Platform\FontDefaultConfig.cs" />

@@ -10,19 +10,6 @@
 //    {
 //    }
 
-//    public struct ReEvaluateArgs
-//    {
-//        public readonly float containerW;
-//        public readonly float containerH;
-//        public readonly float emHeight;
-
-//        public ReEvaluateArgs(float containerW, float containerH, float emHeight)
-//        {
-//            this.containerW = containerW;
-//            this.containerH = containerH;
-//            this.emHeight = emHeight;
-//        }
-//    }
 
 //    public abstract class SvgElement : SvgNode
 //    {
