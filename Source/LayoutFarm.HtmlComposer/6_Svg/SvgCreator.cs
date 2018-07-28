@@ -59,45 +59,39 @@ namespace LayoutFarm.Svg
     class SvgRect : SvgElement
     {
         public SvgRect(SvgRectSpec spec, object controller)
-            : base(WellknownSvgElementName.Rect)
+            : base(WellknownSvgElementName.Rect, spec)
         {
         }
     }
     class SvgCircle : SvgElement
     {
         public SvgCircle(SvgCircleSpec spec, object controller)
-            : base(WellknownSvgElementName.Circle)
+            : base(WellknownSvgElementName.Circle, spec)
         {
         }
     }
     class SvgEllipse : SvgElement
     {
         public SvgEllipse(SvgEllipseSpec spec, object controller)
-            : base(WellknownSvgElementName.Ellipse)
+            : base(WellknownSvgElementName.Ellipse, spec)
         {
         }
     }
     class SvgPolygon : SvgElement
     {
         public SvgPolygon(SvgPolygonSpec spec, object controller)
-            : base(WellknownSvgElementName.Polygon)
+            : base(WellknownSvgElementName.Polygon, spec)
         {
         }
     }
     class SvgPolyline : SvgElement
     {
         public SvgPolyline(SvgPolylineSpec spec, object controller)
-            : base(WellknownSvgElementName.Polyline)
+            : base(WellknownSvgElementName.Polyline, spec)
         {
         }
     }
-    class SvgFragment : SvgElement
-    {
-        public SvgFragment()
-            : base(WellknownSvgElementName.Svg)
-        {
-        }
-    }
+
     class SvgDefinitionList : SvgElement
     {
         public SvgDefinitionList(object controller)
@@ -130,23 +124,26 @@ namespace LayoutFarm.Svg
         public CssLength X2 { get; set; }
         public CssLength Y2 { get; set; }
     }
+
+
     class SvgCreator
     {
         public CssBoxSvgRoot CreateSvgBox(CssBox parentBox,
             HtmlElement elementNode,
             Css.BoxSpec spec)
         {
-            SvgFragment fragment = new SvgFragment();
+            SvgDocument svgdoc = new SvgDocument();
+            CreateSvgBoxContent(svgdoc.Root, elementNode);
 
             SvgRootEventPortal svgRootController = new SvgRootEventPortal(elementNode);
             CssBoxSvgRoot svgRoot = new CssBoxSvgRoot(
                 elementNode.Spec,
                 parentBox.RootGfx,
-                fragment);
+                svgdoc);
             svgRoot.SetController(svgRootController);
             svgRootController.SvgRoot = svgRoot;
             parentBox.AppendChild(svgRoot);
-            CreateSvgBoxContent(fragment, elementNode);
+
             return svgRoot;
         }
         void CreateSvgBoxContent(SvgElement parentElement, HtmlElement elementNode)

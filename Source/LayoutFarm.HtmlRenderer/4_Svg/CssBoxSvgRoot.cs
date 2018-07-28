@@ -6,18 +6,21 @@ namespace LayoutFarm.HtmlBoxes
 {
     public sealed class CssBoxSvgRoot : CssBox
     {
-        public CssBoxSvgRoot(Css.BoxSpec spec, IRootGraphics rootgfx, SvgElement svgElem)
+        PixelFarm.CpuBlit.VgRenderVx _renderVx;
+
+        public CssBoxSvgRoot(Css.BoxSpec spec, IRootGraphics rootgfx, SvgDocument svgdoc)
             : base(spec, rootgfx, Css.CssDisplay.Block)
         {
             SetAsCustomCssBox(this);
             //create svg node 
-            this.SvgElem = svgElem;
-            //convert svgElem to agg-based
-
-
-            
-
+            this.SvgDoc = svgdoc;
+            //convert svgElem to agg-based 
             ChangeDisplayType(this, Css.CssDisplay.Block);
+
+
+            var renderVxDocBuilder = new PixelFarm.CpuBlit.SvgRenderVxDocBuilder();
+            _renderVx = renderVxDocBuilder.CreateRenderVx(svgdoc);
+
         }
         public override void CustomRecomputedValue(CssBox containingBlock)
         {
@@ -59,7 +62,7 @@ namespace LayoutFarm.HtmlBoxes
 #endif
 
             DrawBoard drawBoard = p.InnerCanvas;
-
+            drawBoard.DrawRenderVx(_renderVx, 0, 0);
             //var g = p.InnerCanvas;
             //var prevMode = g.SmoothingMode;
             //g.SmoothingMode = SmoothingMode.AntiAlias;
@@ -76,7 +79,7 @@ namespace LayoutFarm.HtmlBoxes
             p.dbugExitContext();
 #endif
         }
-        public SvgElement SvgElem
+        public SvgDocument SvgDoc
         {
             get;
             set;

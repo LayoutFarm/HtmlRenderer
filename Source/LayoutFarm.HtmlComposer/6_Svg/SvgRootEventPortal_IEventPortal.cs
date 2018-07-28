@@ -15,7 +15,7 @@ namespace LayoutFarm.Svg
             SvgHitChain hitChain = GetFreeHitChain();
             hitChain.SetRootGlobalPosition(e.X, e.Y);
             //1. hit test
-            HitTestCore(this.SvgRoot.SvgElem, hitChain, e.X, e.Y);
+            HitTestCore(this.SvgRoot.SvgDoc.Root, hitChain, e.X, e.Y);
             SetEventOrigin(e, hitChain);
             //2. propagate event  portal
             ForEachOnlyEventPortalBubbleUp(e, hitChain, (portal) =>
@@ -49,7 +49,7 @@ namespace LayoutFarm.Svg
             SvgHitChain hitChain = GetFreeHitChain();
             hitChain.SetRootGlobalPosition(e.X, e.Y);
             //1. hit test
-            HitTestCore(this.SvgRoot.SvgElem, hitChain, e.X, e.Y);
+            HitTestCore(this.SvgRoot.SvgDoc.Root, hitChain, e.X, e.Y);
             SetEventOrigin(e, hitChain);
             //2. propagate event  portal
             ForEachOnlyEventPortalBubbleUp(e, hitChain, (portal) =>
@@ -81,7 +81,7 @@ namespace LayoutFarm.Svg
                 //handle mouse drag
                 SvgHitChain hitChain = GetFreeHitChain();
                 hitChain.SetRootGlobalPosition(x, y);
-                HitTestCore(this.SvgRoot.SvgElem, hitChain, e.X, e.Y);
+                HitTestCore(this.SvgRoot.SvgDoc.Root, hitChain, e.X, e.Y);
                 SetEventOrigin(e, hitChain);
                 //---------------------------------------------------------
                 //propagate mouse drag 
@@ -126,7 +126,7 @@ namespace LayoutFarm.Svg
                 //---------------------------------------------------------
                 SvgHitChain hitChain = GetFreeHitChain();
                 hitChain.SetRootGlobalPosition(x, y);
-                HitTestCore(this.SvgRoot.SvgElem, hitChain, e.X, e.Y);
+                HitTestCore(this.SvgRoot.SvgDoc.Root, hitChain, e.X, e.Y);
                 SetEventOrigin(e, hitChain);
                 //---------------------------------------------------------
 
