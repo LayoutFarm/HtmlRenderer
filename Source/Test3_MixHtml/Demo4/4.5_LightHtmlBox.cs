@@ -8,18 +8,18 @@ using LayoutFarm.HtmlBoxes;
 namespace LayoutFarm
 {
     [DemoNote("4.5 LightHtmlBox")]
-    class Demo_LightHtmlBox : DemoBase
+    class Demo_LightHtmlBox : App
     {
         HtmlHost htmlHost;
-        protected override void OnStartDemo(SampleViewport viewport)
+        protected override void OnStart(AppHost host)
         {
-            htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(viewport, null, null);
+            htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(host, null, null);
             ////==================================================
             //html box
             {
                 HtmlBox lightHtmlBox = new HtmlBox(htmlHost, 800, 50);
                 lightHtmlBox.SetLocation(50, 450);
-                viewport.AddChild(lightHtmlBox);
+                host.AddChild(lightHtmlBox);
                 //light box can't load full html
                 //all light boxs of the same lightbox host share resource with the host
                 string html = @"<div>OK1</div><div>OK2</div>";
@@ -30,7 +30,7 @@ namespace LayoutFarm
             {
                 HtmlBox lightHtmlBox2 = new HtmlBox(htmlHost, 800, 50);
                 lightHtmlBox2.SetLocation(0, 60);
-                viewport.AddChild(lightHtmlBox2);
+                host.AddChild(lightHtmlBox2);
                 //light box can't load full html
                 //all light boxs of the same lightbox host share resource with the host
                 string html2 = @"<div>OK3</div><div>OK4</div>";
@@ -41,7 +41,7 @@ namespace LayoutFarm
             {
                 HtmlBox lightHtmlBox3 = new HtmlBox(htmlHost, 800, 50);
                 lightHtmlBox3.SetLocation(0, 100);
-                viewport.AddChild(lightHtmlBox3);
+                host.AddChild(lightHtmlBox3);
                 //fragment dom 
                 //create dom then to thie light box
                 lightHtmlBox3.LoadHtmlDom(CreateSampleHtmlDoc());
@@ -50,7 +50,7 @@ namespace LayoutFarm
             //textbox
             var textbox = new LayoutFarm.CustomWidgets.TextBox(400, 150, true);
             textbox.SetLocation(0, 200);
-            viewport.AddChild(textbox);
+            host.AddChild(textbox);
             textbox.Focus();
         }
         HtmlDocument CreateSampleHtmlDoc()

@@ -1,5 +1,7 @@
 ﻿//MIT, 2014-present, WinterDev
 using System;
+using PixelFarm.Drawing;
+
 namespace LayoutFarm.Demo
 {
     public abstract class DemoBase
@@ -69,7 +71,10 @@ namespace LayoutFarm.Demo
         {
             return rawImageBuffer;
         }
-
+        public override Image CreateAnother(float scaleW, float scaleH)
+        {
+            throw new NotImplementedException();
+        }
         public override void RequestInternalBuffer(ref ImgBufferRequestArgs buffRequest)
         {
             throw new NotImplementedException();

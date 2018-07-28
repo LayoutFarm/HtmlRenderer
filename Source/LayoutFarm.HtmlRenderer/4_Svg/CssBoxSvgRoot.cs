@@ -1,6 +1,7 @@
 ﻿//MS-PL, Apache2, 2014-present, WinterDev
 using PixelFarm.Drawing;
 using LayoutFarm.Svg;
+using PaintLab.Svg;
 namespace LayoutFarm.HtmlBoxes
 {
     public sealed class CssBoxSvgRoot : CssBox
@@ -15,20 +16,20 @@ namespace LayoutFarm.HtmlBoxes
         }
         public override void CustomRecomputedValue(CssBox containingBlock)
         {
-            var svgElement = this.SvgSpec;
-            //recompute value if need  
-            var cnode = svgElement.GetFirstNode();
-            ReEvaluateArgs reEvalArgs = new ReEvaluateArgs(
-                containingBlock.VisualWidth,
-                100,//temp 
-                containingBlock.GetEmHeight());
-            while (cnode != null)
-            {
-                cnode.Value.ReEvaluateComputeValue(ref reEvalArgs);
-                cnode = cnode.Next;
-            }
+            //var svgElement = this.SvgSpec;
+            ////recompute value if need  
+            //var cnode = svgElement.GetFirstNode();
+            //ReEvaluateArgs reEvalArgs = new ReEvaluateArgs(
+            //    containingBlock.VisualWidth,
+            //    100,//temp 
+            //    containingBlock.GetEmHeight());
+            //while (cnode != null)
+            //{
+            //    cnode.Value.ReEvaluateComputeValue(ref reEvalArgs);
+            //    cnode = cnode.Next;
+            //}
 
-            this.SetVisualSize(500, 500);
+            this.SetVisualSize(500, 500); //TODO: review here
         }
         protected override void PaintImp(PaintVisitor p)
         {
@@ -36,18 +37,18 @@ namespace LayoutFarm.HtmlBoxes
             p.dbugEnterNewContext(this, PaintVisitor.PaintVisitorContextName.Init);
 #endif
 
-            var g = p.InnerCanvas;
-            var prevMode = g.SmoothingMode;
-            g.SmoothingMode = SmoothingMode.AntiAlias;
-            //render this svg
-            var cnode = this.SvgSpec.GetFirstNode();
-            while (cnode != null)
-            {
-                cnode.Value.Paint(p);
-                cnode = cnode.Next;
-            }
+            //var g = p.InnerCanvas;
+            //var prevMode = g.SmoothingMode;
+            //g.SmoothingMode = SmoothingMode.AntiAlias;
+            ////render this svg
+            //var cnode = this.SvgSpec.GetFirstNode();
+            //while (cnode != null)
+            //{
+            //    cnode.Value.Paint(p);
+            //    cnode = cnode.Next;
+            //}
 
-            g.SmoothingMode = prevMode;
+            //g.SmoothingMode = prevMode;
 #if DEBUG
             p.dbugExitContext();
 #endif

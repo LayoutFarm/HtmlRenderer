@@ -5,14 +5,14 @@ using LayoutFarm.CustomWidgets;
 namespace LayoutFarm
 {
     [DemoNote("4.3.1 UIHtmlBox with Resource Request1")]
-    class Demo_UIHtmlBox_WithResReq1 : DemoBase
+    class Demo_UIHtmlBox_WithResReq1 : App
     {
         HtmlBoxes.HtmlHost htmlHost;
-        HtmlBoxes.HtmlHost GetHtmlHost(SampleViewport viewport)
+        HtmlBoxes.HtmlHost GetHtmlHost(AppHost host)
         {
             if (htmlHost == null)
             {
-                htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(viewport,
+                htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(host,
                     //1. img request
                     (s, e) =>
                     {
@@ -24,7 +24,7 @@ namespace LayoutFarm
                         }
 
                         //load create and load bitmap                         
-                        e.ImageBinder.SetImage(LoadBitmap(absolutePath));
+                        e.ImageBinder.SetImage(host.LoadImage(absolutePath));
                     },
                     //2. stylesheet request
                     (s, e) =>
@@ -35,7 +35,7 @@ namespace LayoutFarm
         }
 
         string imgFolderPath = null;
-        protected override void OnStartDemo(SampleViewport viewport)
+        protected override void OnStart(AppHost host)
         {
             var appPath = System.Windows.Forms.Application.ExecutablePath;
             int pos = appPath.IndexOf("\\bin\\");
@@ -46,8 +46,8 @@ namespace LayoutFarm
             }
             //==================================================
             //html box
-            var htmlBox = new HtmlBox(GetHtmlHost(viewport), 800, 600);
-            viewport.AddChild(htmlBox);
+            var htmlBox = new HtmlBox(GetHtmlHost(host), 800, 600);
+            host.AddChild(htmlBox);
             string html = "<html><head></head><body><div>OK1</div><div>3 Images</div><img src=\"sample01.png\"></img><img src=\"sample01.png\"></img><img src=\"sample01.png\"></img></body></html>";
             htmlBox.LoadHtmlString(html);
         }

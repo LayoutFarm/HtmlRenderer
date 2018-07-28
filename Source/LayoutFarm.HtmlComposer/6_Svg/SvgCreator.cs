@@ -7,8 +7,129 @@ using PixelFarm.Drawing;
 using LayoutFarm.Composers;
 using LayoutFarm.HtmlBoxes;
 using LayoutFarm.WebDom;
+using PaintLab.Svg;
+using LayoutFarm.Css;
+
 namespace LayoutFarm.Svg
 {
+
+    public class SvgImageSpec : SvgVisualSpec
+    {
+        public CssLength X
+        {
+            get;
+            set;
+        }
+        public CssLength Y
+        {
+            get;
+            set;
+        }
+        public CssLength Width
+        {
+            get;
+            set;
+        }
+        public CssLength Height
+        {
+            get;
+            set;
+        }
+
+        public string ImageSrc
+        {
+            get;
+            set;
+        }
+    }
+    class SvgImage : SvgElement
+    {
+        public SvgImage(SvgImageSpec spec, object controller)
+            : base(WellknownSvgElementName.Path)
+        {
+        }
+    }
+    class SvgPath : SvgElement
+    {
+        public SvgPath(SvgPathSpec spec, object controller)
+            : base(WellknownSvgElementName.Path)
+        {
+        }
+    }
+    class SvgRect : SvgElement
+    {
+        public SvgRect(SvgRectSpec spec, object controller)
+            : base(WellknownSvgElementName.Rect)
+        {
+        }
+    }
+    class SvgCircle : SvgElement
+    {
+        public SvgCircle(SvgCircleSpec spec, object controller)
+            : base(WellknownSvgElementName.Circle)
+        {
+        }
+    }
+    class SvgEllipse : SvgElement
+    {
+        public SvgEllipse(SvgEllipseSpec spec, object controller)
+            : base(WellknownSvgElementName.Ellipse)
+        {
+        }
+    }
+    class SvgPolygon : SvgElement
+    {
+        public SvgPolygon(SvgPolygonSpec spec, object controller)
+            : base(WellknownSvgElementName.Polygon)
+        {
+        }
+    }
+    class SvgPolyline : SvgElement
+    {
+        public SvgPolyline(SvgPolylineSpec spec, object controller)
+            : base(WellknownSvgElementName.Polyline)
+        {
+        }
+    }
+    class SvgFragment : SvgElement
+    {
+        public SvgFragment()
+            : base(WellknownSvgElementName.Svg)
+        {
+        }
+    }
+    class SvgDefinitionList : SvgElement
+    {
+        public SvgDefinitionList(object controller)
+            : base(WellknownSvgElementName.Defs)
+        {
+
+        }
+    }
+    class SvgGroupElement : SvgElement
+    {
+        public SvgGroupElement()
+           : base(WellknownSvgElementName.Group)
+        {
+        }
+        public SvgGroupElement(SvgVisualSpec spec, object controller)
+            : base(WellknownSvgElementName.Group)
+        {
+
+        }
+    }
+    class SvgLinearGradient : SvgElement
+    {
+        public SvgLinearGradient(object controller)
+            : base(WellknownSvgElementName.Gradient)
+        {
+        }
+        public List<StopColorPoint> StopList { get; set; }
+        public CssLength X1 { get; set; }
+        public CssLength Y1 { get; set; }
+        public CssLength X2 { get; set; }
+        public CssLength Y2 { get; set; }
+    }
     class SvgCreator
     {
         public CssBoxSvgRoot CreateSvgBox(CssBox parentBox,
@@ -111,12 +232,12 @@ namespace LayoutFarm.Svg
                 {
                     case WebDom.WellknownName.Svg_Fill:
                         {
-                            spec.FillColor = CssValueParser.GetActualColor(attr.Value);
+                            spec.FillColor = CssValueParser2.ParseCssColor(attr.Value);
                         }
                         break;
                     case WebDom.WellknownName.Svg_Stroke:
                         {
-                            spec.StrokeColor = CssValueParser.GetActualColor(attr.Value);
+                            spec.StrokeColor = CssValueParser2.ParseCssColor(attr.Value);
                         }
                         break;
                     case WebDom.WellknownName.Svg_Stroke_Width:
@@ -196,7 +317,7 @@ namespace LayoutFarm.Svg
                                 {
                                     case WellknownName.Svg_StopColor:
                                         {
-                                            stopPoint.StopColor = CssValueParser.GetActualColor(attr.Value);
+                                            stopPoint.StopColor = CssValueParser2.ParseCssColor(attr.Value);
                                         }
                                         break;
                                     case WellknownName.Svg_Offset:
@@ -246,12 +367,12 @@ namespace LayoutFarm.Svg
                         break;
                     case WebDom.WellknownName.Svg_Fill:
                         {
-                            spec.FillColor = CssValueParser.GetActualColor(attr.Value);
+                            spec.FillColor = CssValueParser2.ParseCssColor(attr.Value);
                         }
                         break;
                     case WebDom.WellknownName.Svg_Stroke:
                         {
-                            spec.StrokeColor = CssValueParser.GetActualColor(attr.Value);
+                            spec.StrokeColor = CssValueParser2.ParseCssColor(attr.Value);
                         }
                         break;
                     case WebDom.WellknownName.Svg_Stroke_Width:
@@ -310,12 +431,12 @@ namespace LayoutFarm.Svg
                         break;
                     case WebDom.WellknownName.Svg_Fill:
                         {
-                            spec.FillColor = CssValueParser.GetActualColor(attr.Value);
+                            spec.FillColor = CssValueParser2.ParseCssColor(attr.Value);
                         }
                         break;
                     case WebDom.WellknownName.Svg_Stroke:
                         {
-                            spec.StrokeColor = CssValueParser.GetActualColor(attr.Value);
+                            spec.StrokeColor = CssValueParser2.ParseCssColor(attr.Value);
                         }
                         break;
                     case WebDom.WellknownName.Svg_Stroke_Width:
@@ -368,12 +489,12 @@ namespace LayoutFarm.Svg
                         break;
                     case WebDom.WellknownName.Svg_Fill:
                         {
-                            spec.FillColor = CssValueParser.GetActualColor(attr.Value);
+                            spec.FillColor = CssValueParser2.ParseCssColor(attr.Value);
                         }
                         break;
                     case WebDom.WellknownName.Svg_Stroke:
                         {
-                            spec.StrokeColor = CssValueParser.GetActualColor(attr.Value);
+                            spec.StrokeColor = CssValueParser2.ParseCssColor(attr.Value);
                         }
                         break;
                     case WebDom.WellknownName.Svg_Stroke_Width:
@@ -412,12 +533,12 @@ namespace LayoutFarm.Svg
                         break;
                     case WebDom.WellknownName.Svg_Fill:
                         {
-                            spec.FillColor = CssValueParser.GetActualColor(attr.Value);
+                            spec.FillColor = CssValueParser2.ParseCssColor(attr.Value);
                         }
                         break;
                     case WebDom.WellknownName.Svg_Stroke:
                         {
-                            spec.StrokeColor = CssValueParser.GetActualColor(attr.Value);
+                            spec.StrokeColor = CssValueParser2.ParseCssColor(attr.Value);
                         }
                         break;
                     case WebDom.WellknownName.Svg_Stroke_Width:
@@ -456,12 +577,12 @@ namespace LayoutFarm.Svg
                         break;
                     case WebDom.WellknownName.Svg_Fill:
                         {
-                            spec.FillColor = CssValueParser.GetActualColor(attr.Value);
+                            spec.FillColor = CssValueParser2.ParseCssColor(attr.Value);
                         }
                         break;
                     case WebDom.WellknownName.Svg_Stroke:
                         {
-                            spec.StrokeColor = CssValueParser.GetActualColor(attr.Value);
+                            spec.StrokeColor = CssValueParser2.ParseCssColor(attr.Value);
                         }
                         break;
                     case WebDom.WellknownName.Svg_Stroke_Width:
@@ -486,7 +607,7 @@ namespace LayoutFarm.Svg
 
 
 
-        PaintLab.Svg.SvgParser parser = new PaintLab.Svg.SvgParser();
+
 
         void CreateSvgPath(SvgElement parentNode, HtmlElement elem)
         {
@@ -520,12 +641,12 @@ namespace LayoutFarm.Svg
                         break;
                     case WebDom.WellknownName.Svg_Fill:
                         {
-                            spec.FillColor = CssValueParser.GetActualColor(attr.Value);
+                            spec.FillColor = CssValueParser2.ParseCssColor(attr.Value);
                         }
                         break;
                     case WebDom.WellknownName.Svg_Stroke:
                         {
-                            spec.StrokeColor = CssValueParser.GetActualColor(attr.Value);
+                            spec.StrokeColor = CssValueParser2.ParseCssColor(attr.Value);
                         }
                         break;
                     case WebDom.WellknownName.Svg_Stroke_Width:
@@ -548,7 +669,7 @@ namespace LayoutFarm.Svg
                                 case "d":
                                     {
                                         //parse vertex commands                                          
-                                        svgPath.Vxs = parser.ParseSvgPathDefinitionToVxs(attr.Value.ToCharArray());
+                                        // svgPath.Vxs = parser.ParseSvgPathDefinitionToVxs(attr.Value.ToCharArray());
                                     }
                                     break;
                             }
@@ -635,6 +756,7 @@ namespace LayoutFarm.Svg
             ParsePointList(str, output);
             return output.ToArray();
         }
+
         static void ParsePointList(string str, List<PointF> output)
         {
             //easy parse 01

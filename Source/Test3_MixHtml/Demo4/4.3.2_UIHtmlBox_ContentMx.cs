@@ -5,14 +5,15 @@ using LayoutFarm.CustomWidgets;
 namespace LayoutFarm
 {
     [DemoNote("4.3.2 UIHtmlBox with ContentMx")]
-    class Demo_UIHtmlBox_ContentMx : DemoBase
+    class Demo_UIHtmlBox_ContentMx : App
     {
         HtmlBoxes.HtmlHost htmlHost;
-        HtmlBoxes.HtmlHost GetHtmlHost(SampleViewport viewport)
+        AppHost _host;
+        HtmlBoxes.HtmlHost GetHtmlHost(AppHost host)
         {
             if (htmlHost == null)
             {
-                htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(viewport, null, null);
+                htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(host, null, null);
                 var htmlBoxContentMx = new HtmlHostContentManager();
                 var contentMx = new LayoutFarm.ContentManagers.ImageContentManager();
                 contentMx.ImageLoadingRequest += contentMx_ImageLoadingRequest;
@@ -23,8 +24,9 @@ namespace LayoutFarm
         }
 
         string imgFolderPath = null;
-        protected override void OnStartDemo(SampleViewport viewport)
+        protected override void OnStart(AppHost host)
         {
+            _host = host;
             var appPath = System.Windows.Forms.Application.ExecutablePath;
             int pos = appPath.IndexOf("\\bin\\");
             if (pos > -1)
@@ -34,8 +36,8 @@ namespace LayoutFarm
             }
             //==================================================
             //html box
-            var htmlBox = new HtmlBox(GetHtmlHost(viewport), 800, 600);
-            viewport.AddChild(htmlBox);
+            var htmlBox = new HtmlBox(GetHtmlHost(host), 800, 600);
+            host.AddChild(htmlBox);
             string html = "<html><head></head><body><div>OK1</div><div>3 Images</div><img src=\"sample01.png\"></img><img src=\"sample01.png\"></img><img src=\"sample01.png\"></img></body></html>";
             htmlBox.LoadHtmlString(html);
         }
@@ -49,8 +51,7 @@ namespace LayoutFarm
                 return;
             }
             //load
-             
-            e.SetResultImage(LoadBitmap(absolutePath));
+            e.SetResultImage(_host.LoadImage(absolutePath));
         }
     }
 }

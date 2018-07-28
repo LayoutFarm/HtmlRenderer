@@ -128,7 +128,7 @@ namespace LayoutFarm.DzBoardSample
             registerTypeNames.Add(typeof(LayoutFarm.CustomWidgets.Box), "panel");
         }
 
-        public static void WriteElement(DzBoxSerializer writer, AbstractRect uiElement, string elemName)
+        public static void WriteElement(DzBoxSerializer writer, AbstractRectUI uiElement, string elemName)
         {
             uiElement.Walk(writer);
             //writer.BeginElement(elemName);
@@ -142,7 +142,7 @@ namespace LayoutFarm.DzBoardSample
             ////content
             //writer.EndElement();
         }
-        public static void WriteCommon(DzBoxSerializer writer, AbstractRect uiElement)
+        public static void WriteCommon(DzBoxSerializer writer, AbstractRectUI uiElement)
         {
             //find element type
             //var elemType = uiElement.GetType();

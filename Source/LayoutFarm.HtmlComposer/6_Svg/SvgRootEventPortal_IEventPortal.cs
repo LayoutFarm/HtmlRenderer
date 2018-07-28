@@ -3,6 +3,8 @@
 
 using PixelFarm.Drawing;
 using LayoutFarm.UI;
+using PaintLab.Svg;
+
 namespace LayoutFarm.Svg
 {
     partial class SvgRootEventPortal : IEventPortal
@@ -30,10 +32,10 @@ namespace LayoutFarm.Svg
                     //temp test only
                     //-------
                     var svgElement = e.ExactHitObject as SvgElement;
-                    if (svgElement is SvgRect)
-                    {
-                        ((SvgRect)svgElement).FillColor = Color.White;
-                    }
+                    //if (svgElement is SvgRect)
+                    //{
+                    //    ((SvgRect)svgElement).FillColor = Color.White;
+                    //}
                     return true;
                 });
             }

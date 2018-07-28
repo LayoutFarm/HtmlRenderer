@@ -136,7 +136,7 @@ namespace LayoutFarm.HtmlBoxes
             }
 
             //--------------------------------------------------
-            if (binder.State == ImageBinderState.Loaded)
+            if (binder.State == BinderState.Loaded)
             {
                 Image img = binder.Image;
                 if (img != null)

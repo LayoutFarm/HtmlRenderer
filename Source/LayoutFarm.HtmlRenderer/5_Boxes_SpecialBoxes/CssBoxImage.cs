@@ -90,7 +90,7 @@ namespace LayoutFarm.HtmlBoxes
             EVAL_STATE:
             switch (_imgRun.ImageBinder.State)
             {
-                case ImageBinderState.Unload:
+                case BinderState.Unload:
                     {
                         //async request image
                         if (!tryLoadOnce)
@@ -102,12 +102,12 @@ namespace LayoutFarm.HtmlBoxes
                         }
                     }
                     break;
-                case ImageBinderState.Loading:
+                case BinderState.Loading:
                     {
                         //RenderUtils.DrawImageLoadingIcon(g, r);
                     }
                     break;
-                case ImageBinderState.Loaded:
+                case BinderState.Loaded:
                     {
                         Image img;
                         if ((img = (Image)_imgRun.ImageBinder.Image) != null)
@@ -133,11 +133,11 @@ namespace LayoutFarm.HtmlBoxes
                         }
                     }
                     break;
-                case ImageBinderState.NoImage:
+                case BinderState.Blank:
                     {
                     }
                     break;
-                case ImageBinderState.Error:
+                case BinderState.Error:
                     {
                         RenderUtils.DrawImageErrorIcon(p.InnerCanvas, r);
                     }

@@ -9,7 +9,7 @@ namespace LayoutFarm
             : base(rootGfx, width, height)
         {
             this.IsTopWindow = true;
-            this.HasSpecificSize = true;
+            this.HasSpecificWidthAndHeight = true;
         }
         protected override void DrawBoxContent(DrawBoard canvas, Rectangle updateArea)
         {

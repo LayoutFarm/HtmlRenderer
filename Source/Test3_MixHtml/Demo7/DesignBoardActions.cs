@@ -17,10 +17,10 @@ namespace LayoutFarm.DzBoardSample
 
     class DzSetLocationAction : DzBoardAction
     {
-        AbstractRect dzBox;
+        AbstractRectUI dzBox;
         Point oldPoint;
         Point newPoint;
-        public DzSetLocationAction(AbstractRect box, Point oldPoint, Point newPoint)
+        public DzSetLocationAction(AbstractRectUI box, Point oldPoint, Point newPoint)
         {
             this.dzBox = box;
             this.oldPoint = oldPoint;
@@ -39,10 +39,10 @@ namespace LayoutFarm.DzBoardSample
     }
     class DzSetBoundsAction : DzBoardAction
     {
-        AbstractRect dzBox;
+        AbstractRectUI dzBox;
         Rectangle oldBounds;
         Rectangle newBounds;
-        public DzSetBoundsAction(AbstractRect box, Rectangle oldBounds, Rectangle newBounds)
+        public DzSetBoundsAction(AbstractRectUI box, Rectangle oldBounds, Rectangle newBounds)
         {
             this.dzBox = box;
             this.oldBounds = oldBounds;

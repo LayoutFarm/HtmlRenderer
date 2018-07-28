@@ -47,8 +47,7 @@ namespace LayoutFarm.Composers
             existingRuleSet.AddCssCodeProperty(
                 new CssPropertyDeclaration(
                     WellknownCssPropertyName.Color,
-                    new CssCodeColor(
-                        CssColorConv.ConvertToCssColor(newcolor))));
+                    new CssCodeColor(newcolor)));
             HtmlElement.InvokeNotifyChangeOnIdleState(elem, ElementChangeKind.Spec);
         }
         public void ChangeBackgroundColor(Color backgroundColor)
@@ -77,7 +76,7 @@ namespace LayoutFarm.Composers
             existingRuleSet.AddCssCodeProperty(
                new CssPropertyDeclaration(
                    WellknownCssPropertyName.BackgroundColor,
-                   new CssCodeColor(CssColorConv.ConvertToCssColor(backgroundColor))));
+                   new CssCodeColor(backgroundColor)));
             elem.SkipPrincipalBoxEvalulation = false;
             CssBox cssbox = HtmlElement.InternalGetPrincipalBox(elem);
             if (cssbox != null)

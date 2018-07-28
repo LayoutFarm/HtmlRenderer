@@ -19,7 +19,7 @@ namespace LayoutFarm.DzBoardSample
         protected override void OnStartModule()
         {
             var htmlBox = new HtmlBox(htmlHost, 500, 40);
-            viewport.AddChild(htmlBox);
+            _host.AddChild(htmlBox);
             //design buttons here 
 
             string htmltext = @"<html><head></head><body id='body_elem'>
