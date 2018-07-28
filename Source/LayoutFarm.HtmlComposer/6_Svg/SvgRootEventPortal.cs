@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using LayoutFarm.Composers;
 using LayoutFarm.HtmlBoxes;
 using LayoutFarm.UI;
+using PaintLab.Svg;
+
 namespace LayoutFarm.Svg
 {
     partial class SvgRootEventPortal
@@ -47,11 +49,14 @@ namespace LayoutFarm.Svg
             chain.AddHit(root, x, y);
 
             //2. find hit child
-            var child = root.GetFirstNode();
+            int j = root.ChildCount;
+            for (int i = 0; i < j; ++i)
+            {
 
-
+            }
+            //var child = root.GetFirstNode(); 
             //TODO: review here again!
-           // throw new System.NotImplementedException();
+            // throw new System.NotImplementedException();
             //TODO: check hit test core on svg again!
             //while (child != null)
             //{

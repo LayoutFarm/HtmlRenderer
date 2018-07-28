@@ -24,7 +24,7 @@ namespace LayoutFarm.Composers
     {
         internal static Color AsColor(WebDom.CssCodeValueExpression value)
         {
-            return CssColorConv.ConvertToActualColor(UserMapUtil.AsColor(value));
+            return UserMapUtil.AsColor(value);
         }
         //=======================================================================================
         public static void AssignPropertyValue(BoxSpec spec, BoxSpec parentSpec, CssPropertyDeclaration decl)
