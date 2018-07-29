@@ -13,91 +13,57 @@ using LayoutFarm.Css;
 namespace LayoutFarm.Svg
 {
 
-    public class SvgImageSpec : SvgVisualSpec
-    {
-        public CssLength X
-        {
-            get;
-            set;
-        }
-        public CssLength Y
-        {
-            get;
-            set;
-        }
-        public CssLength Width
-        {
-            get;
-            set;
-        }
-        public CssLength Height
-        {
-            get;
-            set;
-        }
-
-        public string ImageSrc
-        {
-            get;
-            set;
-        }
-    }
+    
     class SvgImage : SvgElement
     {
         public SvgImage(SvgImageSpec spec, object controller)
-            : base(WellknownSvgElementName.Path)
+            : base(WellknownSvgElementName.Image, spec)
         {
         }
     }
     class SvgPath : SvgElement
     {
         public SvgPath(SvgPathSpec spec, object controller)
-            : base(WellknownSvgElementName.Path)
+            : base(WellknownSvgElementName.Path, spec)
         {
         }
     }
     class SvgRect : SvgElement
     {
         public SvgRect(SvgRectSpec spec, object controller)
-            : base(WellknownSvgElementName.Rect)
+            : base(WellknownSvgElementName.Rect, spec)
         {
         }
     }
     class SvgCircle : SvgElement
     {
         public SvgCircle(SvgCircleSpec spec, object controller)
-            : base(WellknownSvgElementName.Circle)
+            : base(WellknownSvgElementName.Circle, spec)
         {
         }
     }
     class SvgEllipse : SvgElement
     {
         public SvgEllipse(SvgEllipseSpec spec, object controller)
-            : base(WellknownSvgElementName.Ellipse)
+            : base(WellknownSvgElementName.Ellipse, spec)
         {
         }
     }
     class SvgPolygon : SvgElement
     {
         public SvgPolygon(SvgPolygonSpec spec, object controller)
-            : base(WellknownSvgElementName.Polygon)
+            : base(WellknownSvgElementName.Polygon, spec)
         {
         }
     }
     class SvgPolyline : SvgElement
     {
         public SvgPolyline(SvgPolylineSpec spec, object controller)
-            : base(WellknownSvgElementName.Polyline)
+            : base(WellknownSvgElementName.Polyline, spec)
         {
         }
     }
-    class SvgFragment : SvgElement
-    {
-        public SvgFragment()
-            : base(WellknownSvgElementName.Svg)
-        {
-        }
-    }
+
     class SvgDefinitionList : SvgElement
     {
         public SvgDefinitionList(object controller)
@@ -113,7 +79,7 @@ namespace LayoutFarm.Svg
         {
         }
         public SvgGroupElement(SvgVisualSpec spec, object controller)
-            : base(WellknownSvgElementName.Group)
+            : base(WellknownSvgElementName.Group, spec)
         {
 
         }
@@ -130,23 +96,26 @@ namespace LayoutFarm.Svg
         public CssLength X2 { get; set; }
         public CssLength Y2 { get; set; }
     }
+
+
     class SvgCreator
     {
         public CssBoxSvgRoot CreateSvgBox(CssBox parentBox,
             HtmlElement elementNode,
             Css.BoxSpec spec)
         {
-            SvgFragment fragment = new SvgFragment();
+            SvgDocument svgdoc = new SvgDocument();
+            CreateSvgBoxContent(svgdoc.Root, elementNode);
 
             SvgRootEventPortal svgRootController = new SvgRootEventPortal(elementNode);
             CssBoxSvgRoot svgRoot = new CssBoxSvgRoot(
                 elementNode.Spec,
                 parentBox.RootGfx,
-                fragment);
+                svgdoc);
             svgRoot.SetController(svgRootController);
             svgRootController.SvgRoot = svgRoot;
             parentBox.AppendChild(svgRoot);
-            CreateSvgBoxContent(fragment, elementNode);
+
             return svgRoot;
         }
         void CreateSvgBoxContent(SvgElement parentElement, HtmlElement elementNode)
@@ -669,7 +638,7 @@ namespace LayoutFarm.Svg
                                 case "d":
                                     {
                                         //parse vertex commands                                          
-                                        // svgPath.Vxs = parser.ParseSvgPathDefinitionToVxs(attr.Value.ToCharArray());
+                                        spec.D = attr.Value;
                                     }
                                     break;
                             }

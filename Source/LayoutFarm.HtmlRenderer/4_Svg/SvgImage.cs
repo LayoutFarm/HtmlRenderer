@@ -161,33 +161,5 @@
 //        }
 //    }
 
-//    public class SvgImageSpec : SvgVisualSpec
-//    {
-//        public CssLength X
-//        {
-//            get;
-//            set;
-//        }
-//        public CssLength Y
-//        {
-//            get;
-//            set;
-//        }
-//        public CssLength Width
-//        {
-//            get;
-//            set;
-//        }
-//        public CssLength Height
-//        {
-//            get;
-//            set;
-//        }
 
-//        public string ImageSrc
-//        {
-//            get;
-//            set;
-//        }
-//    }
 //}
