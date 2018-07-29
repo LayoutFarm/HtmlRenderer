@@ -2,11 +2,8 @@
 //MS-PL, Apache2 some parts derived from github.com/vvvv/svg 
 
 using System;
-using System.Collections.Generic;
-using PixelFarm.Drawing;
 using LayoutFarm.Composers;
 using LayoutFarm.HtmlBoxes;
-using LayoutFarm.WebDom;
 using PaintLab.Svg;
 
 namespace LayoutFarm.Svg
