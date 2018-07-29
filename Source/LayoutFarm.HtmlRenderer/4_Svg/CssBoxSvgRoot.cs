@@ -27,8 +27,6 @@ namespace LayoutFarm.HtmlBoxes
         {
 
 
-           
-
             //var svgElement = this.SvgSpec;
             ////recompute value if need  
             //var cnode = svgElement.GetFirstNode();
@@ -51,6 +49,7 @@ namespace LayoutFarm.HtmlBoxes
 #endif
 
             DrawBoard drawBoard = p.InnerCanvas;
+            
             drawBoard.DrawRenderVx(_renderVx, 0, 0);
 
             //var g = p.InnerCanvas;

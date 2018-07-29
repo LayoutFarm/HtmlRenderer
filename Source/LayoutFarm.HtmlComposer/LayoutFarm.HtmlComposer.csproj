@@ -307,15 +307,6 @@
     <Compile Include="..\LayoutFarm.HtmlRenderer\4_Svg\SvgImageBinder.cs">
       <Link>8_REF_LayoutFarm.HtmlRenderer\4_Svg\SvgImageBinder.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\4_Svg\SvgPath.cs">
-      <Link>8_REF_LayoutFarm.HtmlRenderer\4_Svg\SvgPath.cs</Link>
-    </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\4_Svg\SvgPathSegments.cs">
-      <Link>8_REF_LayoutFarm.HtmlRenderer\4_Svg\SvgPathSegments.cs</Link>
-    </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\4_Svg\SvgVisualElements.cs">
-      <Link>8_REF_LayoutFarm.HtmlRenderer\4_Svg\SvgVisualElements.cs</Link>
-    </Compile>
     <Compile Include="..\LayoutFarm.HtmlRenderer\5_Boxes_SpecialBoxes\CssBoxFrame.cs">
       <Link>8_REF_LayoutFarm.HtmlRenderer\5_Boxes_SpecialBoxes\CssBoxFrame.cs</Link>
     </Compile>

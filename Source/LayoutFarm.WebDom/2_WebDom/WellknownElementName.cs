@@ -169,6 +169,11 @@ namespace LayoutFarm.WebDom
         [Map("stop-color")]
         Svg_StopColor,
         [Map("offset")]
-        Svg_Offset
+        Svg_Offset,
+
+        [Map("clip-path")]
+        Svg_ClipPath,
+        //-------------------
+
     }
 }
