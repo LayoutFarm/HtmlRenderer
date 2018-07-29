@@ -611,7 +611,7 @@ namespace LayoutFarm.Composers
 
         static void AssignSvgAttributes(HtmlElement tag)
         {
-            Svg.SvgCreator.TranslateSvgAttributesMain(tag);
+            //Svg.SvgCreator.TranslateSvgAttributesMain(tag);
         }
         static void AssignStylesFromTranslatedAttributesHTML5(HtmlElement tag)
         {
