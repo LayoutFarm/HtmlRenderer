@@ -52,6 +52,9 @@
     <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.cssbase\cssbase\MapAttribute.cs">
       <Link>REF_CssBase\MapAttribute.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.Svg\SvgRenderVxDocBuilder.cs">
+      <Link>8_REF_LayoutFarm.HtmlRenderer\4_Svg\SvgRenderVxDocBuilder.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.webdom\1_css\CssActiveSheet.cs">
       <Link>REF_WebDom\1_Css\CssActiveSheet.cs</Link>
     </Compile>
@@ -298,20 +301,11 @@
     <Compile Include="..\LayoutFarm.HtmlRenderer\4_Svg\CssBoxSvgRoot.cs">
       <Link>8_REF_LayoutFarm.HtmlRenderer\4_Svg\CssBoxSvgRoot.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\4_Svg\SvgElements.cs">
-      <Link>8_REF_LayoutFarm.HtmlRenderer\4_Svg\SvgElements.cs</Link>
-    </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\4_Svg\SvgHitChain.cs">
-      <Link>8_REF_LayoutFarm.HtmlRenderer\4_Svg\SvgHitChain.cs</Link>
-    </Compile>
     <Compile Include="..\LayoutFarm.HtmlRenderer\4_Svg\SvgImage.cs">
       <Link>8_REF_LayoutFarm.HtmlRenderer\4_Svg\SvgImage.cs</Link>
     </Compile>
     <Compile Include="..\LayoutFarm.HtmlRenderer\4_Svg\SvgImageBinder.cs">
       <Link>8_REF_LayoutFarm.HtmlRenderer\4_Svg\SvgImageBinder.cs</Link>
-    </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\4_Svg\SvgMatrixAndTransforms.cs">
-      <Link>8_REF_LayoutFarm.HtmlRenderer\4_Svg\SvgMatrixAndTransforms.cs</Link>
     </Compile>
     <Compile Include="..\LayoutFarm.HtmlRenderer\4_Svg\SvgPath.cs">
       <Link>8_REF_LayoutFarm.HtmlRenderer\4_Svg\SvgPath.cs</Link>
