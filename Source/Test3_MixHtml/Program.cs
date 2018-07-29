@@ -19,6 +19,21 @@ namespace TestGraphicPackage2
 #if GL_ENABLE
             YourImplementation.BootStrapOpenGLES2.SetupDefaultValues();
 #endif
+
+#if DEBUG
+            PixelFarm.CpuBlit.Imaging.PngImageWriter.InstallImageSaveToFileService((IntPtr imgBuffer, int stride, int width, int height, string filename) =>
+            {
+
+                using (System.Drawing.Bitmap newBmp = new System.Drawing.Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb))
+                {
+                    PixelFarm.CpuBlit.Imaging.BitmapHelper.CopyToGdiPlusBitmapSameSize(imgBuffer, newBmp);
+                    //save
+                    newBmp.Save(filename);
+                }
+            });
+#endif
+
+
             ExampleFolderConfig.InitData();
             //-------------------------------
             Application.EnableVisualStyles();

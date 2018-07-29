@@ -13,7 +13,7 @@ using LayoutFarm.Css;
 namespace LayoutFarm.Svg
 {
 
-    
+
     class SvgImage : SvgElement
     {
         public SvgImage(SvgImageSpec spec, object controller)
@@ -100,6 +100,8 @@ namespace LayoutFarm.Svg
 
     class SvgCreator
     {
+        PaintLab.Svg.SvgElementSpecEvaluator _svgSpecEval = new SvgElementSpecEvaluator();
+
         public CssBoxSvgRoot CreateSvgBox(CssBox parentBox,
             HtmlElement elementNode,
             Css.BoxSpec spec)
@@ -117,6 +119,11 @@ namespace LayoutFarm.Svg
             parentBox.AppendChild(svgRoot);
 
             return svgRoot;
+        }
+
+        void AssignCommonAttribute(SvgVisualSpec spec, string attrName, string value)
+        {
+            _svgSpecEval.OnAttribute(attrName, value);
         }
         void CreateSvgBoxContent(SvgElement parentElement, HtmlElement elementNode)
         {
@@ -194,32 +201,43 @@ namespace LayoutFarm.Svg
             SvgVisualSpec spec = new SvgVisualSpec();
             SvgGroupElement svgGroupElement = new SvgGroupElement(spec, elem);
             parentNode.AddChild(svgGroupElement);
+
+            _svgSpecEval.SetCurrentElement(svgGroupElement);
+
             foreach (WebDom.DomAttribute attr in elem.GetAttributeIterForward())
             {
                 WebDom.WellknownName wellknownName = (WebDom.WellknownName)attr.LocalNameIndex;
-                switch (wellknownName)
-                {
-                    case WebDom.WellknownName.Svg_Fill:
-                        {
-                            spec.FillColor = CssValueParser2.ParseCssColor(attr.Value);
-                        }
-                        break;
-                    case WebDom.WellknownName.Svg_Stroke:
-                        {
-                            spec.StrokeColor = CssValueParser2.ParseCssColor(attr.Value);
-                        }
-                        break;
-                    case WebDom.WellknownName.Svg_Stroke_Width:
-                        {
-                            spec.StrokeWidth = UserMapUtil.ParseGenericLength(attr.Value);
-                        }
-                        break;
-                    default:
-                        {
-                            //other attrs
-                        }
-                        break;
-                }
+                AssignCommonAttribute(spec, attr.Name, attr.Value);
+
+                //switch (wellknownName)
+                //{
+                //    default:
+                //        {
+                //            //other attrs 
+                //        }
+                //        break;
+                //    case WebDom.WellknownName.Svg_Fill:
+                //        {
+                //            spec.FillColor = CssValueParser2.ParseCssColor(attr.Value);
+                //        }
+                //        break;
+                //    case WebDom.WellknownName.Svg_Stroke:
+                //        {
+                //            spec.StrokeColor = CssValueParser2.ParseCssColor(attr.Value);
+                //        }
+                //        break;
+                //    case WebDom.WellknownName.Svg_Stroke_Width:
+                //        {
+                //            spec.StrokeWidth = UserMapUtil.ParseGenericLength(attr.Value);
+                //        }
+                //        break;
+                //    case WellknownName.Svg_Transform:
+                //        {
+                //            PaintLab.Svg.SvgParser.ParseTransform(attr.Value, spec);
+                //        }
+                //        break;
+
+                //}
             }
 
             CreateSvgBoxContent(svgGroupElement, elem);
@@ -573,21 +591,32 @@ namespace LayoutFarm.Svg
             }
         }
 
-
-
-
-
-
         void CreateSvgPath(SvgElement parentNode, HtmlElement elem)
         {
             SvgPathSpec spec = new SvgPathSpec();
             SvgPath svgPath = new SvgPath(spec, elem);
             parentNode.AddChild(svgPath);
+
+            _svgSpecEval.SetCurrentElement(svgPath);
             foreach (WebDom.DomAttribute attr in elem.GetAttributeIterForward())
             {
                 WebDom.WellknownName wellknownName = (WebDom.WellknownName)attr.LocalNameIndex;
                 switch (wellknownName)
                 {
+                    //other attrs 
+                    default:
+                        {
+                            //parse vertex commands                                          
+                            if (attr.Name == "d")
+                            {
+                                spec.D = attr.Value;
+                            }
+                            else
+                            {
+                                AssignCommonAttribute(spec, attr.Name, attr.Value);
+                            }
+                        }
+                        break;
                     case WebDom.WellknownName.Svg_X:
                         {
                             spec.X = UserMapUtil.ParseGenericLength(attr.Value);
@@ -626,24 +655,10 @@ namespace LayoutFarm.Svg
                     case WebDom.WellknownName.Svg_Transform:
                         {
                             //TODO: parse svg transform function   
-
-
+                            SvgParser.ParseTransform(attr.Value, spec);
                         }
                         break;
-                    default:
-                        {
-                            //other attrs
-                            switch (attr.Name)
-                            {
-                                case "d":
-                                    {
-                                        //parse vertex commands                                          
-                                        spec.D = attr.Value;
-                                    }
-                                    break;
-                            }
-                        }
-                        break;
+
                 }
             }
         }
