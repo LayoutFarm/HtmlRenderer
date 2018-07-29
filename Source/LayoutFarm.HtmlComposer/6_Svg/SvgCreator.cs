@@ -100,6 +100,8 @@ namespace LayoutFarm.Svg
 
     class SvgCreator
     {
+
+        SvgDocBuilder _svgDocBuilder = new SvgDocBuilder();
         PaintLab.Svg.SvgElementSpecEvaluator _svgSpecEval = new SvgElementSpecEvaluator();
 
         public CssBoxSvgRoot CreateSvgBox(CssBox parentBox,
@@ -107,7 +109,10 @@ namespace LayoutFarm.Svg
             Css.BoxSpec spec)
         {
             SvgDocument svgdoc = new SvgDocument();
-            CreateSvgBoxContent(svgdoc.Root, elementNode);
+            _svgDocBuilder.ResultDocument = svgdoc;
+            _svgDocBuilder.OnBegin();
+            CreateSvgBoxContent(elementNode);
+            _svgDocBuilder.OnEnd();
 
             SvgRootEventPortal svgRootController = new SvgRootEventPortal(elementNode);
             CssBoxSvgRoot svgRoot = new CssBoxSvgRoot(
@@ -117,84 +122,36 @@ namespace LayoutFarm.Svg
             svgRoot.SetController(svgRootController);
             svgRootController.SvgRoot = svgRoot;
             parentBox.AppendChild(svgRoot);
-
             return svgRoot;
         }
-
         void AssignCommonAttribute(SvgVisualSpec spec, string attrName, string value)
         {
             _svgSpecEval.OnAttribute(attrName, value);
         }
-        void CreateSvgBoxContent(SvgElement parentElement, HtmlElement elementNode)
+        void CreateSvgBoxContent(HtmlElement elementNode)
         {
+            //recursive ***
+
+            _svgDocBuilder.OnVisitNewElement(elementNode.Name);
+            foreach (WebDom.DomAttribute attr in elementNode.GetAttributeIterForward())
+            {
+                _svgDocBuilder.OnAttribute(attr.Name, attr.Value);
+            }
+            _svgDocBuilder.OnEnteringElementBody();
+
             int j = elementNode.ChildrenCount;
             for (int i = 0; i < j; ++i)
             {
                 HtmlElement node = elementNode.GetChildNode(i) as HtmlElement;
-                if (node == null)
+                if (node != null)
                 {
-                    continue;
-                }
-                switch (node.WellknownElementName)
-                {
-                    case WellKnownDomNodeName.svg_rect:
-                        {
-                            CreateSvgRect(parentElement, node);
-                        }
-                        break;
-                    case WellKnownDomNodeName.svg_circle:
-                        {
-                            //sample circle from 
-                            //www.svgbasics.com/shapes.html
-                            CreateSvgCircle(parentElement, node);
-                        }
-                        break;
-                    case WellKnownDomNodeName.svg_ellipse:
-                        {
-                            CreateSvgEllipse(parentElement, node);
-                        }
-                        break;
-                    case WellKnownDomNodeName.svg_polygon:
-                        {
-                            CreateSvgPolygon(parentElement, node);
-                        }
-                        break;
-                    case WellKnownDomNodeName.svg_polyline:
-                        {
-                            CreateSvgPolyline(parentElement, node);
-                        }
-                        break;
-                    case WellKnownDomNodeName.svg_defs:
-                        {
-                            CreateSvgDefs(parentElement, node);
-                        }
-                        break;
-                    case WellKnownDomNodeName.svg_linearGradient:
-                        {
-                            CreateSvgLinearGradient(parentElement, node);
-                        }
-                        break;
-                    case WellKnownDomNodeName.svg_path:
-                        {
-                            CreateSvgPath(parentElement, node);
-                        }
-                        break;
-                    case WellKnownDomNodeName.svg_image:
-                        {
-                            CreateSvgImage(parentElement, node);
-                        }
-                        break;
-                    case WellKnownDomNodeName.svg_g:
-                        {
-                            CreateSvgGroupElement(parentElement, node);
-                        }
-                        break;
-                    default:
-                        {
-                        }
-                        break;
+                    //recursive ***
+                    CreateSvgBoxContent(node);
                 }
             }
+            _svgDocBuilder.OnExtingElementBody();
+
+             
         }
         void CreateSvgGroupElement(SvgElement parentNode, HtmlElement elem)
         {
@@ -240,14 +197,14 @@ namespace LayoutFarm.Svg
                 //}
             }
 
-            CreateSvgBoxContent(svgGroupElement, elem);
+            // CreateSvgBoxContent(svgGroupElement, elem);
         }
         void CreateSvgDefs(SvgElement parentNode, HtmlElement elem)
         {
             //inside single definition
             SvgDefinitionList svgDefList = new SvgDefinitionList(elem);
             parentNode.AddChild(svgDefList);
-            CreateSvgBoxContent(svgDefList, elem);
+            //CreateSvgBoxContent(svgDefList, elem);
         }
         void CreateSvgLinearGradient(SvgElement parentNode, HtmlElement elem)
         {
@@ -327,11 +284,20 @@ namespace LayoutFarm.Svg
             SvgRectSpec spec = new SvgRectSpec();
             SvgRect shape = new SvgRect(spec, elem);
             parentNode.AddChild(shape);
+
+            _svgSpecEval.SetCurrentElement(shape); //**
+
             foreach (WebDom.DomAttribute attr in elem.GetAttributeIterForward())
             {
                 WebDom.WellknownName wellknownName = (WebDom.WellknownName)attr.LocalNameIndex;
                 switch (wellknownName)
                 {
+                    default:
+                        {
+                            //other attrs
+                            AssignCommonAttribute(spec, attr.Name, attr.Value);
+                        }
+                        break;
                     case WebDom.WellknownName.Svg_X:
                         {
                             spec.X = UserMapUtil.ParseGenericLength(attr.Value);
@@ -382,11 +348,7 @@ namespace LayoutFarm.Svg
                             //TODO: parse svg transform function  
                         }
                         break;
-                    default:
-                        {
-                            //other attrs
-                        }
-                        break;
+
                 }
             }
         }
@@ -395,12 +357,17 @@ namespace LayoutFarm.Svg
             SvgCircleSpec spec = new SvgCircleSpec();
             SvgCircle shape = new SvgCircle(spec, elem);
             parentNode.AddChild(shape);
+            _svgSpecEval.SetCurrentElement(shape); //**
+
             //translate attribute            
             foreach (WebDom.DomAttribute attr in elem.GetAttributeIterForward())
             {
                 WebDom.WellknownName wellknownName = (WebDom.WellknownName)attr.LocalNameIndex;
                 switch (wellknownName)
                 {
+                    default:
+                        AssignCommonAttribute(spec, attr.Name, attr.Value);
+                        break;
                     case WebDom.WellknownName.Svg_Cx:
                         {
                             spec.X = UserMapUtil.ParseGenericLength(attr.Value);
@@ -431,16 +398,7 @@ namespace LayoutFarm.Svg
                             spec.StrokeWidth = UserMapUtil.ParseGenericLength(attr.Value);
                         }
                         break;
-                    case WebDom.WellknownName.Svg_Transform:
-                        {
-                            //TODO: parse svg transform function  
-                        }
-                        break;
-                    default:
-                        {
-                            //other attrs
-                        }
-                        break;
+
                 }
             }
         }
@@ -449,11 +407,17 @@ namespace LayoutFarm.Svg
             SvgEllipseSpec spec = new SvgEllipseSpec();
             SvgEllipse shape = new SvgEllipse(spec, elem);
             parentNode.AddChild(shape);
+
+            _svgSpecEval.SetCurrentElement(shape); //**
+
             foreach (WebDom.DomAttribute attr in elem.GetAttributeIterForward())
             {
                 WebDom.WellknownName wellknownName = (WebDom.WellknownName)attr.LocalNameIndex;
                 switch (wellknownName)
                 {
+                    default:
+                        AssignCommonAttribute(spec, attr.Name, attr.Value);
+                        break;
                     case WebDom.WellknownName.Svg_Cx:
                         {
                             spec.X = UserMapUtil.ParseGenericLength(attr.Value);
@@ -492,11 +456,6 @@ namespace LayoutFarm.Svg
                     case WebDom.WellknownName.Svg_Transform:
                         {
                             //TODO: parse svg transform function  
-                        }
-                        break;
-                    default:
-                        {
-                            //other attrs
                         }
                         break;
                 }
