@@ -62,10 +62,10 @@ namespace LayoutFarm.Composers
             foreach (WebDom.DomNode node in parentElement.GetChildNodeIterForward())
             {
                 activeCssTemplate.EnterLevel();
-                switch (node.NodeType)
+                switch (node.NodeKind)
                 {
-                    case WebDom.HtmlNodeType.OpenElement:
-                    case WebDom.HtmlNodeType.ShortElement:
+                    case WebDom.HtmlNodeKind.OpenElement:
+                    case WebDom.HtmlNodeKind.ShortElement:
                         {
                             HtmlElement htmlElement = (HtmlElement)node;
                             htmlElement.WellknownElementName = UserMapUtil.EvaluateTagName(htmlElement.LocalName);
@@ -78,9 +78,9 @@ namespace LayoutFarm.Composers
                                         for (int i = 0; i < j; ++i)
                                         {
                                             var ch = htmlElement.GetChildNode(i);
-                                            switch (ch.NodeType)
+                                            switch (ch.NodeKind)
                                             {
-                                                case HtmlNodeType.TextNode:
+                                                case HtmlNodeKind.TextNode:
                                                     {
                                                         HtmlTextNode textNode = (HtmlTextNode)htmlElement.GetChildNode(0);
                                                         activeCssTemplate.LoadRawStyleElementContent(new string(textNode.GetOriginalBuffer()));
@@ -143,7 +143,7 @@ namespace LayoutFarm.Composers
                             //-----------------------------
                         }
                         break;
-                    case WebDom.HtmlNodeType.TextNode:
+                    case WebDom.HtmlNodeKind.TextNode:
                         {
                             HtmlTextNode textnode = (HtmlTextNode)node;
                             //inner content is parsed here 

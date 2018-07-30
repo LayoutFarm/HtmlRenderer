@@ -38,28 +38,34 @@ namespace LayoutFarm.Svg
             return svgRoot;
         }
 
-        void CreateSvgBoxContent(HtmlElement elementNode)
+        void CreateSvgBoxContent(HtmlElement elem)
         {
             //recursive ***
 
-            _svgDocBuilder.OnVisitNewElement(elementNode.Name);
+            _svgDocBuilder.OnVisitNewElement(elem.Name);
             //
-            _svgDocBuilder.CurrentSvgElem.SetController(elementNode); //**
+            _svgDocBuilder.CurrentSvgElem.SetController(elem); //**
 
-            foreach (WebDom.DomAttribute attr in elementNode.GetAttributeIterForward())
+            foreach (WebDom.DomAttribute attr in elem.GetAttributeIterForward())
             {
                 _svgDocBuilder.OnAttribute(attr.Name, attr.Value);
             }
             _svgDocBuilder.OnEnteringElementBody();
 
-            int j = elementNode.ChildrenCount;
+            int j = elem.ChildrenCount;
             for (int i = 0; i < j; ++i)
             {
-                HtmlElement node = elementNode.GetChildNode(i) as HtmlElement;
-                if (node != null)
+                WebDom.DomNode childNode = elem.GetChildNode(i);
+                HtmlElement htmlElem = childNode as HtmlElement;
+
+                if (htmlElem != null)
                 {
                     //recursive ***
-                    CreateSvgBoxContent(node);
+                    CreateSvgBoxContent(htmlElem);
+                }
+                else
+                {
+
                 }
             }
             _svgDocBuilder.OnExtingElementBody();

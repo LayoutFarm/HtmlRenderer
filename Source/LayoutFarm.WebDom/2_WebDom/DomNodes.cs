@@ -5,7 +5,7 @@ using System.Text;
 using System.Collections.Generic;
 namespace LayoutFarm.WebDom
 {
-    public enum HtmlNodeType
+    public enum HtmlNodeKind
     {
         OpenElement,
         CloseElement,
@@ -24,7 +24,7 @@ namespace LayoutFarm.WebDom
     {
         WebDocument ownerDoc;
         DomNode parentNode;
-        HtmlNodeType nodeType;
+        HtmlNodeKind _nodeKind;
 #if DEBUG
         static int dbugTotalId;
         public int dbugId;
@@ -54,15 +54,16 @@ namespace LayoutFarm.WebDom
                 return this.parentNode;
             }
         }
-        protected void SetNodeType(HtmlNodeType nodeType)
+        protected void SetNodeType(HtmlNodeKind nodekind)
         {
-            this.nodeType = nodeType;
+            this._nodeKind = nodekind;
         }
-        public HtmlNodeType NodeType
+        public HtmlNodeKind NodeKind
         {
             get
             {
-                return nodeType;
+                return _nodeKind
+                    ;
             }
         }
 
@@ -87,7 +88,7 @@ namespace LayoutFarm.WebDom
         public DomTextNode(WebDocument ownerDoc, char[] copyBuffer)
             : base(ownerDoc)
         {
-            SetNodeType(HtmlNodeType.TextNode);
+            SetNodeType(HtmlNodeKind.TextNode);
             this.copyBuffer = copyBuffer;
         }
         public void AppendTextContent(char[] newCopyBuffer)
@@ -128,7 +129,7 @@ namespace LayoutFarm.WebDom
         internal DomComment(WebDocument ownerDoc)
             : base(ownerDoc)
         {
-            SetNodeType(HtmlNodeType.Comment);
+            SetNodeType(HtmlNodeKind.Comment);
         }
         public StringBuilder Content
         {
@@ -142,7 +143,7 @@ namespace LayoutFarm.WebDom
         public DomDocumentNode(WebDocument ownerDoc)
             : base(ownerDoc)
         {
-            SetNodeType(HtmlNodeType.DocumentNode);
+            SetNodeType(HtmlNodeKind.DocumentNode);
         }
         public string DocNodeName { get; set; }
         public void AddParameter(string nodeParameter)
@@ -179,7 +180,7 @@ namespace LayoutFarm.WebDom
             : base(ownerDoc)
         {
             this.procName = procName;
-            SetNodeType(HtmlNodeType.ProcessInstruction);
+            SetNodeType(HtmlNodeKind.ProcessInstruction);
         }
         public StringBuilder Content
         {
@@ -192,7 +193,7 @@ namespace LayoutFarm.WebDom
         internal DomCDataNode(WebDocument ownerDoc)
             : base(ownerDoc)
         {
-            SetNodeType(HtmlNodeType.CData);
+            SetNodeType(HtmlNodeKind.CData);
         }
         public string Content
         {
@@ -214,7 +215,7 @@ namespace LayoutFarm.WebDom
             int nodeLocalNameIndex)
             : base(ownerDoc)
         {
-            SetNodeType(HtmlNodeType.Attribute);
+            SetNodeType(HtmlNodeKind.Attribute);
             this.nodePrefixNameIndex = nodePrefixNameIndex;
             this.nodeLocalNameIndex = nodeLocalNameIndex;
         }

@@ -22,7 +22,7 @@ namespace LayoutFarm.WebDom
         {
             this.nodePrefixNameIndex = nodePrefixNameIndex;
             this.nodeLocalNameIndex = nodeLocalNameIndex;
-            SetNodeType(HtmlNodeType.OpenElement);
+            SetNodeType(HtmlNodeKind.OpenElement);
         }
 
         public static bool EqualNames(DomElement node1, DomElement node2)
@@ -141,9 +141,9 @@ namespace LayoutFarm.WebDom
 
         public virtual void AddChild(DomNode childNode)
         {
-            switch (childNode.NodeType)
+            switch (childNode.NodeKind)
             {
-                case HtmlNodeType.Attribute:
+                case HtmlNodeKind.Attribute:
                     {
                         AddAttribute((DomAttribute)childNode);
                     }
@@ -163,9 +163,9 @@ namespace LayoutFarm.WebDom
         }
         public virtual bool RemoveChild(DomNode childNode)
         {
-            switch (childNode.NodeType)
+            switch (childNode.NodeKind)
             {
-                case HtmlNodeType.Attribute:
+                case HtmlNodeKind.Attribute:
                     {
                         //TODO: support remove attribute
                         return false;
