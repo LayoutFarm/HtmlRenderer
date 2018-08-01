@@ -2,6 +2,8 @@
 using PixelFarm.Drawing;
 using LayoutFarm.Svg;
 using PaintLab.Svg;
+using PixelFarm.CpuBlit;
+
 namespace LayoutFarm.HtmlBoxes
 {
 
@@ -47,26 +49,34 @@ namespace LayoutFarm.HtmlBoxes
 #if DEBUG
             p.dbugEnterNewContext(this, PaintVisitor.PaintVisitorContextName.Init);
 #endif
-
             DrawBoard drawBoard = p.InnerCanvas;
-            
-            drawBoard.DrawRenderVx(_renderVx, 0, 0);
+            if (_renderVx.HasBitmapSnapshot)
+            {
+                Image backimg = _renderVx.BackingImage;
+                drawBoard.DrawImage(backimg, new RectangleF(0, 0, backimg.Width, backimg.Height));
+            }
+            else
+            {
 
-            //var g = p.InnerCanvas;
-            //var prevMode = g.SmoothingMode;
-            //g.SmoothingMode = SmoothingMode.AntiAlias;
-            ////render this svg
-            //var cnode = this.SvgSpec.GetFirstNode();
-            //while (cnode != null)
-            //{
-            //    cnode.Value.Paint(p);
-            //    cnode = cnode.Next;
-            //}
+                PixelFarm.CpuBlit.RectD bound = _renderVx.GetBounds();
 
-            //g.SmoothingMode = prevMode;
+                //create 
+                PixelFarm.CpuBlit.ActualBitmap backimg = new PixelFarm.CpuBlit.ActualBitmap((int)bound.Width + 200, (int)bound.Height + 200);
+                PixelFarm.CpuBlit.AggPainter painter = PixelFarm.CpuBlit.AggPainter.Create(backimg);
+
+                painter.StrokeWidth = 1;//default
+
+                SvgPainter svgPainter = new SvgPainter();
+                svgPainter.P = painter;
+                ((PixelFarm.CpuBlit.SvgRenderElement)_renderVx._renderE).Paint(svgPainter);
 #if DEBUG
-            p.dbugExitContext();
+                //test 
+                //PixelFarm.CpuBlit.Imaging.PngImageWriter.dbugSaveToPngFile(backimg, "d:\\WImageTest\\subimg1.png");
 #endif
+                _renderVx.SetBitmapSnapshot(backimg);
+                drawBoard.DrawImage(backimg, new RectangleF(0, 0, backimg.Width, backimg.Height));
+                //drawBoard.DrawRenderVx(_renderVx, 0, 0); 
+            }
         }
         public SvgDocument SvgDoc
         {
