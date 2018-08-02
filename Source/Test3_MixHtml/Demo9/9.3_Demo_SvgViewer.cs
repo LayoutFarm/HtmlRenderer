@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using LayoutFarm.CustomWidgets; 
 using LayoutFarm.UI;
 using LayoutFarm.Svg;
-
+using PaintLab.Svg;
 namespace LayoutFarm.ColorBlenderSample
 {
     [DemoNote("9.3 SvgViewer")]
