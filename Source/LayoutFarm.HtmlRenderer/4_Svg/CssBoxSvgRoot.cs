@@ -2,14 +2,13 @@
 using PixelFarm.Drawing;
 using LayoutFarm.Svg;
 using PaintLab.Svg;
-using PixelFarm.CpuBlit;
 
 namespace LayoutFarm.HtmlBoxes
 {
 
     public sealed class CssBoxSvgRoot : CssBox
     {
-        PixelFarm.CpuBlit.VgRenderVx _renderVx;
+        VgRenderVx _renderVx;
 
         public CssBoxSvgRoot(Css.BoxSpec spec, IRootGraphics rootgfx, SvgDocument svgdoc)
             : base(spec, rootgfx, Css.CssDisplay.Block)
@@ -19,9 +18,7 @@ namespace LayoutFarm.HtmlBoxes
             this.SvgDoc = svgdoc;
             //convert svgElem to agg-based 
             ChangeDisplayType(this, Css.CssDisplay.Block);
-
-
-            var renderVxDocBuilder = new PixelFarm.CpuBlit.SvgRenderVxDocBuilder();
+            var renderVxDocBuilder = new SvgRenderVxDocBuilder();
             _renderVx = renderVxDocBuilder.CreateRenderVx(svgdoc);
 
         }
@@ -65,10 +62,11 @@ namespace LayoutFarm.HtmlBoxes
                 PixelFarm.CpuBlit.AggPainter painter = PixelFarm.CpuBlit.AggPainter.Create(backimg);
 
                 painter.StrokeWidth = 1;//default
+                 
 
-                SvgPainter svgPainter = new SvgPainter();
-                svgPainter.P = painter;
-                ((PixelFarm.CpuBlit.SvgRenderElement)_renderVx._renderE).Paint(svgPainter);
+                VgPainterArgsPool.GetFreePainterArgs(painter, out VgPaintArgs paintArgs);
+                _renderVx._renderE.Paint(paintArgs);
+                VgPainterArgsPool.ReleasePainterArgs(ref paintArgs);
 #if DEBUG
                 //test 
                 //PixelFarm.CpuBlit.Imaging.PngImageWriter.dbugSaveToPngFile(backimg, "d:\\WImageTest\\subimg1.png");
@@ -89,4 +87,8 @@ namespace LayoutFarm.HtmlBoxes
             return true;//stop here
         }
     }
+
+
+
+
 }
