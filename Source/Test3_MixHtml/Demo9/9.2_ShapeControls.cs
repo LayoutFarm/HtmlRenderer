@@ -4,9 +4,10 @@ using System.Collections.Generic;
 
 using PixelFarm.Drawing;
 using PaintLab.Svg;
+using LayoutFarm.Svg;
 using LayoutFarm.UI;
 using PaintLab;
-using PixelFarm.CpuBlit;
+ 
 
 namespace LayoutFarm
 {

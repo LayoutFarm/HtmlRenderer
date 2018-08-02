@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using LayoutFarm.CustomWidgets;
 using PixelFarm.CpuBlit;
 using LayoutFarm.UI;
+using LayoutFarm.Svg;
 
 namespace LayoutFarm.ColorBlenderSample
 {

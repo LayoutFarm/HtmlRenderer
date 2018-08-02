@@ -9,7 +9,7 @@ namespace LayoutFarm.HtmlBoxes
 
     public sealed class CssBoxSvgRoot : CssBox
     {
-        PixelFarm.CpuBlit.VgRenderVx _renderVx;
+        VgRenderVx _renderVx;
 
         public CssBoxSvgRoot(Css.BoxSpec spec, IRootGraphics rootgfx, SvgDocument svgdoc)
             : base(spec, rootgfx, Css.CssDisplay.Block)
@@ -19,9 +19,7 @@ namespace LayoutFarm.HtmlBoxes
             this.SvgDoc = svgdoc;
             //convert svgElem to agg-based 
             ChangeDisplayType(this, Css.CssDisplay.Block);
-
-
-            var renderVxDocBuilder = new PixelFarm.CpuBlit.SvgRenderVxDocBuilder();
+            var renderVxDocBuilder = new SvgRenderVxDocBuilder();
             _renderVx = renderVxDocBuilder.CreateRenderVx(svgdoc);
 
         }
@@ -68,7 +66,7 @@ namespace LayoutFarm.HtmlBoxes
 
                 SvgPainter svgPainter = new SvgPainter();
                 svgPainter.P = painter;
-                ((PixelFarm.CpuBlit.SvgRenderElement)_renderVx._renderE).Paint(svgPainter);
+                ((SvgRenderElement)_renderVx._renderE).Paint(svgPainter);
 #if DEBUG
                 //test 
                 //PixelFarm.CpuBlit.Imaging.PngImageWriter.dbugSaveToPngFile(backimg, "d:\\WImageTest\\subimg1.png");
