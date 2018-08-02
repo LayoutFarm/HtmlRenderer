@@ -63,9 +63,12 @@ namespace LayoutFarm.HtmlBoxes
 
                 painter.StrokeWidth = 1;//default
 
-                SvgPainter svgPainter = new SvgPainter();
-                svgPainter.P = painter;
-                ((SvgRenderElement)_renderVx._renderE).Paint(svgPainter);
+
+                VgPaintArgs paintArgs;
+                VgPainterArgsPool.GetFreePainterArg(out paintArgs);
+                paintArgs.P = painter;
+                _renderVx._renderE.Paint(paintArgs);
+                VgPainterArgsPool.ReleaseSvgPainter(ref paintArgs);
 #if DEBUG
                 //test 
                 //PixelFarm.CpuBlit.Imaging.PngImageWriter.dbugSaveToPngFile(backimg, "d:\\WImageTest\\subimg1.png");
@@ -86,4 +89,8 @@ namespace LayoutFarm.HtmlBoxes
             return true;//stop here
         }
     }
+
+
+
+
 }
