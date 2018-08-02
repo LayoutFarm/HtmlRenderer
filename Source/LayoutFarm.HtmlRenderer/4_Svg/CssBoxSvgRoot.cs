@@ -2,7 +2,6 @@
 using PixelFarm.Drawing;
 using LayoutFarm.Svg;
 using PaintLab.Svg;
-using PixelFarm.CpuBlit;
 
 namespace LayoutFarm.HtmlBoxes
 {
