@@ -2,7 +2,7 @@
 
 using System;
 using System.Collections.Generic;
-using LayoutFarm.CustomWidgets; 
+using LayoutFarm.CustomWidgets;
 using LayoutFarm.UI;
 using LayoutFarm.Svg;
 using PaintLab.Svg;
@@ -71,7 +71,9 @@ namespace LayoutFarm.ColorBlenderSample
             WebLexer.TextSnapshot textSnapshot = new WebLexer.TextSnapshot(svgContent);
             parser.ParseDocument(textSnapshot);
             //
-            VgRenderVx svgRenderVx = _docBuilder.ResultDocument.CreateRenderVx();
+            SvgRenderVxDocBuilder builder = new SvgRenderVxDocBuilder();
+            VgRenderVx svgRenderVx = builder.CreateRenderVx(_docBuilder.ResultDocument);
+
             var uiSprite = new UISprite(10, 10);
             uiSprite.LoadSvg(svgRenderVx);
             _backBoard.ClearChildren();

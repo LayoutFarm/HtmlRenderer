@@ -4,7 +4,7 @@ using PixelFarm.Drawing;
 using PaintLab.Svg;
 using LayoutFarm.UI;
 using LayoutFarm.Svg;
- 
+
 
 namespace LayoutFarm
 {
@@ -101,8 +101,9 @@ namespace LayoutFarm
             PaintLab.Svg.SvgParser parser = new SvgParser(docBuidler);
             WebLexer.TextSnapshot textSnapshot = new WebLexer.TextSnapshot(svgContent);
             parser.ParseDocument(textSnapshot);
-            //
-            return docBuidler.ResultDocument.CreateRenderVx();
+            //TODO: review this step again
+            SvgRenderVxDocBuilder builder = new SvgRenderVxDocBuilder();
+            return builder.CreateRenderVx(docBuidler.ResultDocument);             
         }
         void SetupActiveBoxProperties(LayoutFarm.CustomWidgets.Box box)
         {
