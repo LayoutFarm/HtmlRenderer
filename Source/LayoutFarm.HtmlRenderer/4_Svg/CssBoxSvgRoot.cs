@@ -61,19 +61,19 @@ namespace LayoutFarm.HtmlBoxes
                 PixelFarm.CpuBlit.ActualBitmap backimg = new PixelFarm.CpuBlit.ActualBitmap((int)bound.Width + 200, (int)bound.Height + 200);
                 PixelFarm.CpuBlit.AggPainter painter = PixelFarm.CpuBlit.AggPainter.Create(backimg);
 
-                painter.StrokeWidth = 1;//default
-                 
-
+                double prevStrokeW = painter.StrokeWidth;
+                painter.StrokeWidth = 1;//default 
                 VgPainterArgsPool.GetFreePainterArgs(painter, out VgPaintArgs paintArgs);
                 _renderVx._renderE.Paint(paintArgs);
                 VgPainterArgsPool.ReleasePainterArgs(ref paintArgs);
+                painter.StrokeWidth = prevStrokeW;//restore
 #if DEBUG
                 //test 
                 //PixelFarm.CpuBlit.Imaging.PngImageWriter.dbugSaveToPngFile(backimg, "d:\\WImageTest\\subimg1.png");
 #endif
                 _renderVx.SetBitmapSnapshot(backimg);
                 drawBoard.DrawImage(backimg, new RectangleF(0, 0, backimg.Width, backimg.Height));
-                //drawBoard.DrawRenderVx(_renderVx, 0, 0); 
+      
             }
         }
         public SvgDocument SvgDoc
