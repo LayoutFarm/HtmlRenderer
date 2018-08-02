@@ -54,7 +54,7 @@ namespace LayoutFarm.ColorBlenderSample
                 };
 
 
-                foreach (string file in System.IO.Directory.GetFiles("../Data/Svg/twemoji"))
+                foreach (string file in System.IO.Directory.GetFiles("../Test8_HtmlRenderer.Demo/Samples/Svg/twemoji"))
                 {
                     ListItem listItem = new ListItem(200, 20);
                     listItem.Text = System.IO.Path.GetFileName(file);

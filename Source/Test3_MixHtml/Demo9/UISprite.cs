@@ -6,11 +6,14 @@ using System.Collections.Generic;
 using PixelFarm.Drawing;
 using PixelFarm.CpuBlit;
 using LayoutFarm.RenderBoxes;
+using PaintLab.Svg;
 
 namespace LayoutFarm.UI
 {
     class VgBridgeRenderElement : RenderElement
     {
+        PaintLab.Svg.VgRenderVx _vgRenderVx;
+
         public VgBridgeRenderElement(RootGraphic rootGfx, int width, int height)
             : base(rootGfx, width, height)
         {
@@ -19,6 +22,15 @@ namespace LayoutFarm.UI
             //this.NeedClipArea = false;
             this.MayHasChild = true;
             this.TransparentForAllEvents = true;
+        }
+
+        public PaintLab.Svg.VgRenderVx VgRenderVx
+        {
+            get { return _vgRenderVx; }
+            set
+            {
+                _vgRenderVx = value;
+            }
         }
         public override void ChildrenHitTestCore(HitChain hitChain)
         {
@@ -65,14 +77,32 @@ namespace LayoutFarm.UI
         }
         public override void CustomDrawToThisCanvas(DrawBoard canvas, Rectangle updateArea)
         {
-            throw new NotSupportedException();
-            //if (RenderVx == null) return;
-            ////--------------------------
+            if (_vgRenderVx == null) return; 
+             
+            if (_vgRenderVx.HasBitmapSnapshot)
+            {
+                Image backimg = _vgRenderVx.BackingImage;
+                canvas.DrawImage(backimg, new RectangleF(0, 0, backimg.Width, backimg.Height));
+            }
+            else
+            {
 
-            //if (RenderVx != null)
-            //{
-            //    canvas.DrawRenderVx(RenderVx, this.X, this.Y);
-            //}
+                PixelFarm.CpuBlit.RectD bound = _vgRenderVx.GetBounds(); 
+                //create 
+                PixelFarm.CpuBlit.ActualBitmap backimg = new PixelFarm.CpuBlit.ActualBitmap((int)bound.Width + 200, (int)bound.Height + 200);
+                PixelFarm.CpuBlit.AggPainter painter = PixelFarm.CpuBlit.AggPainter.Create(backimg);
+
+                double prevStrokeW = painter.StrokeWidth;
+                painter.StrokeWidth = 1;//default 
+                VgPainterArgsPool.GetFreePainterArgs(painter, out VgPaintArgs paintArgs);
+                _vgRenderVx._renderE.Paint(paintArgs);
+                VgPainterArgsPool.ReleasePainterArgs(ref paintArgs);
+                painter.StrokeWidth = prevStrokeW;//restore
+
+                _vgRenderVx.SetBitmapSnapshot(backimg);
+                canvas.DrawImage(backimg, new RectangleF(0, 0, backimg.Width, backimg.Height));
+
+            }
         }
         public override void ResetRootGraphics(RootGraphic rootgfx)
         {
@@ -84,6 +114,7 @@ namespace LayoutFarm.UI
     {
 
         VgBridgeRenderElement _svgRenderElement;
+        PaintLab.Svg.VgRenderVx _renderVx;
 #if DEBUG
         static int dbugTotalId;
         public readonly int dbugId = dbugTotalId++;
@@ -94,8 +125,14 @@ namespace LayoutFarm.UI
             this.AutoStopMouseEventPropagation = true;
 
         }
-        public void LoadSvg(object renderVx)
+        public void LoadSvg(PaintLab.Svg.VgRenderVx renderVx)
         {
+            _renderVx = renderVx;
+            if (_svgRenderElement != null)
+            {
+                _svgRenderElement.VgRenderVx = renderVx;
+            }
+
             //_svgRenderVx = renderVx;
             //if (_svgRenderElement != null)
             //{
@@ -139,8 +176,9 @@ namespace LayoutFarm.UI
             {
                 _svgRenderElement = new VgBridgeRenderElement(rootgfx, 10, 10);
                 _svgRenderElement.SetLocation((int)this.Left, (int)this.Top);
-
                 _svgRenderElement.SetController(this);
+                _svgRenderElement.VgRenderVx = _renderVx;
+
                 //if (_svgRenderVx != null)
                 //{
                 //    _svgRenderElement.RenderVx = _svgRenderVx;
