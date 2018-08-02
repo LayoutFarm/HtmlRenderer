@@ -32,7 +32,7 @@ namespace LayoutFarm
 
             //load lion svg
 
-            string svgfile = "tiger.svg";
+            string svgfile = "../Test8_HtmlRenderer.Demo/Samples/SvgSamples/tiger.svg";
             //string svgfile = "1f30b.svg";
             //string svgfile = "../Data/Svg/twemoji/1f30b.svg";
             //string svgfile = "../Data/1f30b.svg";
