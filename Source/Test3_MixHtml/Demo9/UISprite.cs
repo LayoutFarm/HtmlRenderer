@@ -77,8 +77,8 @@ namespace LayoutFarm.UI
         }
         public override void CustomDrawToThisCanvas(DrawBoard canvas, Rectangle updateArea)
         {
-            if (_vgRenderVx == null) return; 
-             
+            if (_vgRenderVx == null) return;
+
             if (_vgRenderVx.HasBitmapSnapshot)
             {
                 Image backimg = _vgRenderVx.BackingImage;
@@ -87,7 +87,7 @@ namespace LayoutFarm.UI
             else
             {
 
-                PixelFarm.CpuBlit.RectD bound = _vgRenderVx.GetBounds(); 
+                PixelFarm.CpuBlit.RectD bound = _vgRenderVx.GetBounds();
                 //create 
                 PixelFarm.CpuBlit.ActualBitmap backimg = new PixelFarm.CpuBlit.ActualBitmap((int)bound.Width + 200, (int)bound.Height + 200);
                 PixelFarm.CpuBlit.AggPainter painter = PixelFarm.CpuBlit.AggPainter.Create(backimg);
@@ -113,7 +113,7 @@ namespace LayoutFarm.UI
     public class UISprite : UIElement
     {
 
-        VgBridgeRenderElement _svgRenderElement;
+        VgBridgeRenderElement _vgRenderElemBridge;
         PaintLab.Svg.VgRenderVx _renderVx;
 #if DEBUG
         static int dbugTotalId;
@@ -128,29 +128,28 @@ namespace LayoutFarm.UI
         public void LoadSvg(PaintLab.Svg.VgRenderVx renderVx)
         {
             _renderVx = renderVx;
-            if (_svgRenderElement != null)
+            if (_vgRenderElemBridge != null)
             {
-                _svgRenderElement.VgRenderVx = renderVx;
+                _vgRenderElemBridge.VgRenderVx = renderVx;
+
+                RectD bounds = _renderVx.GetBounds();
+                this.SetSize((int)bounds.Width, (int)bounds.Height);
+
             }
 
-            //_svgRenderVx = renderVx;
-            //if (_svgRenderElement != null)
-            //{
-            //    _svgRenderElement.RenderVx = renderVx;
-            //    RectD bound = renderVx.GetBounds();
-            //    this.SetSize((float)bound.Width, (float)bound.Height);
-            //}
         }
         protected override void OnElementChanged()
         {
 
-            if (_svgRenderElement != null)
+            if (_vgRenderElemBridge != null)
             {
-                //_svgRenderVx.SetBitmapSnapshot(null);
-
+                _renderVx.SetBitmapSnapshot(null);//clear
+                _renderVx.InvalidateBounds(); 
+                //_svgRenderVx.SetBitmapSnapshot(null); 
                 //_svgRenderElement.RenderVx = _svgRenderVx;
-                //_svgRenderVx.InvalidateBounds();
-                //RectD bound1 = _svgRenderVx.GetBounds();
+                //_svgRenderVx.InvalidateBounds(); 
+                RectD bounds = _renderVx.GetBounds();
+                this.SetSize((int)bounds.Width, (int)bounds.Height);
 
             }
         }
@@ -164,29 +163,27 @@ namespace LayoutFarm.UI
         }
         protected override bool HasReadyRenderElement
         {
-            get { return _svgRenderElement != null; }
+            get { return _vgRenderElemBridge != null; }
         }
         public override RenderElement CurrentPrimaryRenderElement
         {
-            get { return _svgRenderElement; }
+            get { return _vgRenderElemBridge; }
         }
         public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
         {
-            if (_svgRenderElement == null)
+            if (_vgRenderElemBridge == null)
             {
-                _svgRenderElement = new VgBridgeRenderElement(rootgfx, 10, 10);
-                _svgRenderElement.SetLocation((int)this.Left, (int)this.Top);
-                _svgRenderElement.SetController(this);
-                _svgRenderElement.VgRenderVx = _renderVx;
+                _vgRenderElemBridge = new VgBridgeRenderElement(rootgfx, 10, 10);
+                _vgRenderElemBridge.SetLocation((int)this.Left, (int)this.Top);
+                _vgRenderElemBridge.SetController(this);
+                _vgRenderElemBridge.VgRenderVx = _renderVx;
 
-                //if (_svgRenderVx != null)
-                //{
-                //    _svgRenderElement.RenderVx = _svgRenderVx;
-                //    RectD bound = _svgRenderVx.GetBounds();
-                //    this.SetSize((int)bound.Width, (int)bound.Height);
-                //}
+                //
+                RectD bounds = _renderVx.GetBounds();
+                this.SetSize((int)bounds.Width, (int)bounds.Height);
+
             }
-            return _svgRenderElement;
+            return _vgRenderElemBridge;
         }
         public virtual void SetLocation(float left, float top)
         {
