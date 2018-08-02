@@ -62,13 +62,11 @@ namespace LayoutFarm.HtmlBoxes
                 PixelFarm.CpuBlit.AggPainter painter = PixelFarm.CpuBlit.AggPainter.Create(backimg);
 
                 painter.StrokeWidth = 1;//default
+                 
 
-
-                VgPaintArgs paintArgs;
-                VgPainterArgsPool.GetFreePainterArg(out paintArgs);
-                paintArgs.P = painter;
+                VgPainterArgsPool.GetFreePainterArgs(painter, out VgPaintArgs paintArgs);
                 _renderVx._renderE.Paint(paintArgs);
-                VgPainterArgsPool.ReleaseSvgPainter(ref paintArgs);
+                VgPainterArgsPool.ReleasePainterArgs(ref paintArgs);
 #if DEBUG
                 //test 
                 //PixelFarm.CpuBlit.Imaging.PngImageWriter.dbugSaveToPngFile(backimg, "d:\\WImageTest\\subimg1.png");
