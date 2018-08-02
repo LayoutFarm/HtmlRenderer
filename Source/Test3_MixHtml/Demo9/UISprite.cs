@@ -34,11 +34,12 @@ namespace LayoutFarm.UI
         }
         public override void ChildrenHitTestCore(HitChain hitChain)
         {
-            RectD bound = new RectD();
+            RectD bound = _vgRenderVx.GetBounds();
 
             if (bound.Contains(hitChain.TestPoint.x, hitChain.TestPoint.y))
             {
                 //check exact hit or the vxs part
+
                 if (HitTestOnSubPart(this, hitChain.TextPointX, hitChain.TextPointY))
                 {
                     hitChain.AddHitObject(this);
@@ -48,31 +49,44 @@ namespace LayoutFarm.UI
 
             base.ChildrenHitTestCore(hitChain);
         }
+
+
+        static class VgHitTestArgsPool
+        {
+            [System.ThreadStatic]
+            static Stack<VgHitTestArgs> s_pool = new Stack<VgHitTestArgs>();
+            public static void GetFreeHitTestArgs(out VgHitTestArgs hitTestArgs)
+            {
+                if (s_pool.Count > 0)
+                {
+                    hitTestArgs = s_pool.Pop();
+                }
+                else
+                {
+                    hitTestArgs = new VgHitTestArgs();
+                }
+            }
+            public static void ReleaseHitTestArgs(ref VgHitTestArgs hitTestArgs)
+            {
+                hitTestArgs.Clear();
+                s_pool.Push(hitTestArgs);
+                hitTestArgs = null;
+            }
+        }
+
         static bool HitTestOnSubPart(VgBridgeRenderElement _svgRenderVx, float x, float y)
         {
-            //int partCount = _svgRenderVx.VgCmdCount; 
-            //for (int i = partCount - 1; i >= 0; --i)
-            //{
-            //    //we do hittest top to bottom => (so => iter backward)
-
-            //    VgCmd vx = _svgRenderVx.GetVgCmd(i);
-            //    if (vx.Name != VgCommandName.Path)
-            //    {
-            //        continue;
-            //    }
-            //    //
-            //    VgCmdPath path = (VgCmdPath)vx;
-            //    //fine tune
-            //    //hit test ***
-            //    if (PixelFarm.CpuBlit.VertexProcessing.VertexHitTester.IsPointInVxs(path.Vxs, x, y))
-            //    {
-            //        return true;
-            //    }
-            //}
-            //return false;
-
-
-            return false;
+            VgHitTestArgsPool.GetFreeHitTestArgs(out VgHitTestArgs args);
+            args.X = x;
+            args.Y = y;
+            args.WithSubPartTest = false;
+            //
+            SvgRenderElement renderE = _svgRenderVx._vgRenderVx._renderE;
+            renderE.HitTest(args);
+            //
+            bool result = args.Result;
+            VgHitTestArgsPool.ReleaseHitTestArgs(ref args);
+            return result;
 
         }
         public override void CustomDrawToThisCanvas(DrawBoard canvas, Rectangle updateArea)
@@ -144,7 +158,7 @@ namespace LayoutFarm.UI
             if (_vgRenderElemBridge != null)
             {
                 _renderVx.SetBitmapSnapshot(null);//clear
-                _renderVx.InvalidateBounds(); 
+                _renderVx.InvalidateBounds();
                 //_svgRenderVx.SetBitmapSnapshot(null); 
                 //_svgRenderElement.RenderVx = _svgRenderVx;
                 //_svgRenderVx.InvalidateBounds(); 
