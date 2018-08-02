@@ -4,8 +4,7 @@ using PixelFarm.Drawing;
 using PaintLab.Svg;
 using LayoutFarm.UI;
 using LayoutFarm.Svg;
-
-using PixelFarm.CpuBlit;
+ 
 
 namespace LayoutFarm
 {
