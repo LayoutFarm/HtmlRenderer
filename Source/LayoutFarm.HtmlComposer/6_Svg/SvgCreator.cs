@@ -83,6 +83,7 @@ namespace LayoutFarm.Svg
                                 {
                                     //svg text node
                                     SvgTextSpec textspec = (SvgTextSpec)_svgDocBuilder.CurrentSvgElem._visualSpec;
+                                    textspec.TextContent = new string(textnode.GetOriginalBuffer());
                                     textspec.ExternalTextNode = elem;
                                 }
                             }
