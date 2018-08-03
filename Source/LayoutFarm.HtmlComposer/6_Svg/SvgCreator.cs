@@ -24,7 +24,7 @@ namespace LayoutFarm.Svg
             SvgDocument svgdoc = new SvgDocument();
             _svgDocBuilder.ResultDocument = svgdoc;
             _svgDocBuilder.OnBegin();
-            CreateSvgBoxContent(elementNode);
+            CreateBoxContent(elementNode);
             _svgDocBuilder.OnEnd();
 
             SvgRootEventPortal svgRootController = new SvgRootEventPortal(elementNode);
@@ -38,7 +38,7 @@ namespace LayoutFarm.Svg
             return svgRoot;
         }
 
-        void CreateSvgBoxContent(HtmlElement elem)
+        void CreateBoxContent(HtmlElement elem)
         {
             //recursive ***
 
@@ -46,29 +46,52 @@ namespace LayoutFarm.Svg
             //
             _svgDocBuilder.CurrentSvgElem.SetController(elem); //**
 
+            //some nodes have special content
+            //linear gradient  
             foreach (WebDom.DomAttribute attr in elem.GetAttributeIterForward())
             {
                 _svgDocBuilder.OnAttribute(attr.Name, attr.Value);
             }
             _svgDocBuilder.OnEnteringElementBody();
-
             int j = elem.ChildrenCount;
             for (int i = 0; i < j; ++i)
             {
                 WebDom.DomNode childNode = elem.GetChildNode(i);
-                HtmlElement htmlElem = childNode as HtmlElement;
-
-                if (htmlElem != null)
+                switch (childNode.NodeKind)
                 {
-                    //recursive ***
-                    CreateSvgBoxContent(htmlElem);
-                }
-                else
-                {
+                    case WebDom.HtmlNodeKind.OpenElement:
+                        {
 
+                            HtmlElement htmlElem = childNode as HtmlElement;
+                            if (htmlElem != null)
+                            {
+                                //recursive ***
+                                CreateBoxContent(htmlElem);
+                            }
+                        }
+                        break;
+                    case WebDom.HtmlNodeKind.TextNode:
+                        {
+                            HtmlTextNode textnode = childNode as HtmlTextNode;
+                            if (textnode != null)
+                            {
+                                if (elem.WellknownElementName == WebDom.WellKnownDomNodeName.style)
+                                {
+                                    //content of style node
+                                }
+                                else if (elem.Name == "text")
+                                {
+                                    //svg text node
+                                    SvgTextSpec textspec = (SvgTextSpec)_svgDocBuilder.CurrentSvgElem._visualSpec;
+                                    textspec.TextContent = new string(textnode.GetOriginalBuffer());
+                                    textspec.ExternalTextNode = elem;
+                                }
+                            }
+                        }
+                        break;
                 }
             }
-            _svgDocBuilder.OnExtingElementBody();
+            _svgDocBuilder.OnExitingElementBody();
         }
     }
 }

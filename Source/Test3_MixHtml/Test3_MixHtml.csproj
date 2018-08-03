@@ -70,6 +70,11 @@
     <Compile Include="Demo7\DzBoxSerializer.cs" />
     <Compile Include="Demo7\GraphicShapeElements.cs" />
     <Compile Include="Demo7\MenuBoardModule.cs" />
+    <Compile Include="Demo9\9.1_SvgTiger.cs" />
+    <Compile Include="Demo9\9.2_ShapeControls.cs" />
+    <Compile Include="Demo9\9.3_Demo_SvgViewer.cs" />
+    <Compile Include="Demo9\SpriteElement.cs" />
+    <Compile Include="Demo9\UISprite.cs" />
     <Compile Include="ExampleFolderConfig.cs" />
     <Compile Include="HtmlHostCreatorHelper.cs" />
     <Compile Include="ManagedTextBreaker.cs" />
