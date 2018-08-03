@@ -10,6 +10,9 @@ namespace LayoutFarm.HtmlBoxes
     {
         VgRenderVx _renderVx;
 
+        static LayoutFarm.OpenFontTextService s_openfontTextService;
+
+
         public CssBoxSvgRoot(Css.BoxSpec spec, IRootGraphics rootgfx, SvgDocument svgdoc)
             : base(spec, rootgfx, Css.CssDisplay.Block)
         {
@@ -61,19 +64,35 @@ namespace LayoutFarm.HtmlBoxes
                 PixelFarm.CpuBlit.ActualBitmap backimg = new PixelFarm.CpuBlit.ActualBitmap((int)bound.Width + 200, (int)bound.Height + 200);
                 PixelFarm.CpuBlit.AggPainter painter = PixelFarm.CpuBlit.AggPainter.Create(backimg);
 
+
+                //TODO: review here
+                //temp fix
+                if (s_openfontTextService == null)
+                {
+                    s_openfontTextService = new OpenFontTextService();
+                }
+
+                painter.CurrentFont = new RequestFont("tahoma", 14);
+                var textPrinter = new PixelFarm.Drawing.Fonts.VxsTextPrinter(painter, s_openfontTextService);
+                painter.TextPrinter = textPrinter;
+                painter.Clear(Color.White);
+                //
                 double prevStrokeW = painter.StrokeWidth;
+                Color fillColor = painter.FillColor;
                 painter.StrokeWidth = 1;//default 
+                painter.FillColor = Color.Black; ;
                 VgPainterArgsPool.GetFreePainterArgs(painter, out VgPaintArgs paintArgs);
                 _renderVx._renderE.Paint(paintArgs);
                 VgPainterArgsPool.ReleasePainterArgs(ref paintArgs);
                 painter.StrokeWidth = prevStrokeW;//restore
+                painter.FillColor = fillColor;////restore
 #if DEBUG
                 //test 
                 //PixelFarm.CpuBlit.Imaging.PngImageWriter.dbugSaveToPngFile(backimg, "d:\\WImageTest\\subimg1.png");
 #endif
                 _renderVx.SetBitmapSnapshot(backimg);
                 drawBoard.DrawImage(backimg, new RectangleF(0, 0, backimg.Width, backimg.Height));
-      
+
             }
         }
         public SvgDocument SvgDoc
