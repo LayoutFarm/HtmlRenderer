@@ -103,7 +103,7 @@ namespace LayoutFarm.UI
 
                 PixelFarm.CpuBlit.RectD bound = _vgRenderVx.GetBounds();
                 //create 
-                PixelFarm.CpuBlit.ActualBitmap backimg = new PixelFarm.CpuBlit.ActualBitmap((int)bound.Width + 200, (int)bound.Height + 200);
+                PixelFarm.CpuBlit.ActualBitmap backimg = new PixelFarm.CpuBlit.ActualBitmap((int)bound.Width, (int)bound.Height);
                 PixelFarm.CpuBlit.AggPainter painter = PixelFarm.CpuBlit.AggPainter.Create(backimg);
 
                 double prevStrokeW = painter.StrokeWidth;

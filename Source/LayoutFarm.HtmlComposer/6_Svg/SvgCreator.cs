@@ -77,7 +77,11 @@ namespace LayoutFarm.Svg
                             {
                                 if (elem.WellknownElementName == WebDom.WellKnownDomNodeName.style)
                                 {
-                                    //content of style node
+                                    //content of style node 
+                                    SvgStyleSpec styleSpec = (SvgStyleSpec)_svgDocBuilder.CurrentSvgElem._visualSpec;
+                                    //content of the style elem
+                                    styleSpec.TextContent = new string(textnode.GetOriginalBuffer());
+
                                 }
                                 else if (elem.Name == "text")
                                 {

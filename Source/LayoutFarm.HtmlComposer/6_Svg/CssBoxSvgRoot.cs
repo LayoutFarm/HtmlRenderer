@@ -69,7 +69,9 @@ namespace LayoutFarm.HtmlBoxes
                 //temp fix
                 if (s_openfontTextService == null)
                 {
+                    
                     s_openfontTextService = new OpenFontTextService();
+                    
                 }
 
                 painter.CurrentFont = new RequestFont("tahoma", 14);
