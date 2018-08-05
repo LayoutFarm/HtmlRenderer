@@ -198,5 +198,8 @@ namespace LayoutFarm.Composers
             }
             return base.RemoveChild(childNode);
         }
+
+
+        internal object ForiegnNode { get; set; }
     }
 }

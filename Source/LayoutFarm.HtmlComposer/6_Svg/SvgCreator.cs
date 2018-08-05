@@ -21,12 +21,20 @@ namespace LayoutFarm.Svg
             HtmlElement elementNode,
             Css.BoxSpec spec)
         {
+
+            //TODO: review here
+            //
+             
+
             SvgDocument svgdoc = new SvgDocument();
+
+
             _svgDocBuilder.ResultDocument = svgdoc;
             _svgDocBuilder.OnBegin();
             CreateBoxContent(elementNode);
             _svgDocBuilder.OnEnd();
 
+            //-----------------------------------------
             SvgRootEventPortal svgRootController = new SvgRootEventPortal(elementNode);
             CssBoxSvgRoot svgRoot = new CssBoxSvgRoot(
                 elementNode.Spec,
@@ -78,15 +86,15 @@ namespace LayoutFarm.Svg
                                 if (elem.WellknownElementName == WebDom.WellKnownDomNodeName.style)
                                 {
                                     //content of style node 
-                                    SvgStyleSpec styleSpec = (SvgStyleSpec)_svgDocBuilder.CurrentSvgElem._visualSpec;
+                                    SvgStyleSpec styleSpec = (SvgStyleSpec)_svgDocBuilder.CurrentSvgElem.ElemSpec;
                                     //content of the style elem
-                                    styleSpec.TextContent = new string(textnode.GetOriginalBuffer());
+                                    styleSpec.RawTextContent = new string(textnode.GetOriginalBuffer());
 
                                 }
                                 else if (elem.Name == "text")
                                 {
                                     //svg text node
-                                    SvgTextSpec textspec = (SvgTextSpec)_svgDocBuilder.CurrentSvgElem._visualSpec;
+                                    SvgTextSpec textspec = (SvgTextSpec)_svgDocBuilder.CurrentSvgElem.ElemSpec;
                                     textspec.TextContent = new string(textnode.GetOriginalBuffer());
                                     textspec.ExternalTextNode = elem;
                                 }
