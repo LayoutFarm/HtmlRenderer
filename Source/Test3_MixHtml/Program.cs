@@ -13,7 +13,7 @@ namespace TestGraphicPackage2
         [STAThread]
         static void Main()
         {
-            YourImplementation.CommonTextServiceSetup.SetupDefaultValues();
+           
             YourImplementation.BootStrapWinGdi.SetupDefaultValues();
 
 #if GL_ENABLE
