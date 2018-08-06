@@ -53,15 +53,22 @@ namespace LayoutFarm.ColorBlenderSample
                     }
                 };
 
+                foreach (string file in System.IO.Directory.GetFiles("../Test8_HtmlRenderer.Demo/Samples/Svg/freepik"))
+                {
+                    ListItem listItem = new ListItem(200, 20);
+                    listItem.Text = System.IO.Path.GetFileName(file);
+                    listItem.Tag = file;
+                    _lstvw_svgFiles.AddItem(listItem);
+                }
 
                 foreach (string file in System.IO.Directory.GetFiles("../Test8_HtmlRenderer.Demo/Samples/Svg/twemoji"))
                 {
                     ListItem listItem = new ListItem(200, 20);
                     listItem.Text = System.IO.Path.GetFileName(file);
-                    listItem.Tag = file;
-
+                    listItem.Tag = file; 
                     _lstvw_svgFiles.AddItem(listItem);
                 }
+             
             }
         }
         void ParseAndRenderSvgFile(string svgFile)
