@@ -106,6 +106,9 @@
     <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.webdom\2_svg\SvgSpec.cs">
       <Link>REF_WebDom\2_Svg\SvgSpec.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\2_Svg\SvgTransformation.cs">
+      <Link>REF_WebDom\2_Svg\SvgTransformation.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.webdom\iscriptable\JsScriptAttributes.cs">
       <Link>REF_WebDom\IScriptable\JsScriptAttributes.cs</Link>
     </Compile>
