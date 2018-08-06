@@ -15,7 +15,7 @@ namespace LayoutFarm.ColorBlenderSample
 
         ListView _lstvw_svgFiles;
         BackDrawBoardUI _backBoard;
-        PaintLab.Svg.SvgParser parser;
+        SvgParser parser;
 
 
 
@@ -71,8 +71,8 @@ namespace LayoutFarm.ColorBlenderSample
         }
         void ParseAndRenderSvgFile(string svgFile)
         {
-            var docBuilder = new PaintLab.Svg.SvgDocBuilder();
-            parser = new PaintLab.Svg.SvgParser(docBuilder);
+            var docBuilder = new SvgDocBuilder();
+            parser = new SvgParser(docBuilder);
 
             string svgContent = System.IO.File.ReadAllText(svgFile);
             WebLexer.TextSnapshot textSnapshot = new WebLexer.TextSnapshot(svgContent);
