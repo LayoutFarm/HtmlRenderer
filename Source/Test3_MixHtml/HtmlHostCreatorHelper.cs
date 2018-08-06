@@ -7,15 +7,15 @@ namespace LayoutFarm
 {
     public static class HtmlHostCreatorHelper
     {
-        public static HtmlBoxes.HtmlHost CreateHtmlHost(AppHost sampleViewport,
+        public static HtmlBoxes.HtmlHost CreateHtmlHost(AppHost appHost,
             EventHandler<ContentManagers.ImageRequestEventArgs> imageReqHandler,
             EventHandler<ContentManagers.TextRequestEventArgs> textReq)
         {
             HtmlBoxes.HtmlHost htmlhost = new HtmlBoxes.HtmlHost();
-            htmlhost.SetRootGraphics(sampleViewport.RootGfx);
+            htmlhost.SetRootGraphics(appHost.RootGfx);
 
             List<HtmlBoxes.HtmlContainer> htmlContUpdateList = new List<HtmlBoxes.HtmlContainer>();
-            sampleViewport.RootGfx.ClearingBeforeRender += (s, e) =>
+            appHost.RootGfx.ClearingBeforeRender += (s, e) =>
             {
 
                 //1.
@@ -25,7 +25,7 @@ namespace LayoutFarm
                 for (int i = 0; i < j; ++i)
                 {
 
-                    var htmlCont = htmlContUpdateList[i]; 
+                    var htmlCont = htmlContUpdateList[i];
                     htmlCont.RefreshDomIfNeed();
                     htmlCont.IsInUpdateQueue = false;
                 }
