@@ -204,16 +204,16 @@ namespace LayoutFarm.HtmlBoxes
                         //only one child -- easy 
                         DomNode child = parentElement.GetChildNode(0);
                         int newBox = 0;
-                        switch (child.NodeType)
+                        switch (child.NodeKind)
                         {
-                            case HtmlNodeType.TextNode:
+                            case HtmlNodeKind.TextNode:
                                 {
                                     HtmlTextNode singleTextNode = (HtmlTextNode)child;
                                     RunListHelper.AddRunList(hostBox, parentElement.Spec, singleTextNode);
                                 }
                                 break;
-                            case HtmlNodeType.ShortElement:
-                            case HtmlNodeType.OpenElement:
+                            case HtmlNodeKind.ShortElement:
+                            case HtmlNodeKind.OpenElement:
                                 {
                                     HtmlElement childElement = (HtmlElement)child;
                                     var spec = childElement.Spec;
@@ -263,9 +263,9 @@ namespace LayoutFarm.HtmlBoxes
                         for (int i = 0; i < childCount; ++i)
                         {
                             var childNode = parentElement.GetChildNode(i);
-                            switch (childNode.NodeType)
+                            switch (childNode.NodeKind)
                             {
-                                case HtmlNodeType.TextNode:
+                                case HtmlNodeKind.TextNode:
                                     {
                                         HtmlTextNode textNode = (HtmlTextNode)childNode;
                                         switch (ws)
@@ -306,8 +306,8 @@ namespace LayoutFarm.HtmlBoxes
                                         newBox++;
                                     }
                                     break;
-                                case HtmlNodeType.ShortElement:
-                                case HtmlNodeType.OpenElement:
+                                case HtmlNodeKind.ShortElement:
+                                case HtmlNodeKind.OpenElement:
                                     {
                                         HtmlElement childElement = (HtmlElement)childNode;
                                         var spec = childElement.Spec;

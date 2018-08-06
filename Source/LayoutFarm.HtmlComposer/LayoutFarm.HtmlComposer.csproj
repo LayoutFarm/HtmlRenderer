@@ -298,9 +298,6 @@
     <Compile Include="..\LayoutFarm.HtmlRenderer\3_Boxes_Layout\1_Flex\FlexContainer.cs">
       <Link>8_REF_LayoutFarm.HtmlRenderer\3_Boxes_Layout\1_Flex\FlexContainer.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\4_Svg\CssBoxSvgRoot.cs">
-      <Link>8_REF_LayoutFarm.HtmlRenderer\4_Svg\CssBoxSvgRoot.cs</Link>
-    </Compile>
     <Compile Include="..\LayoutFarm.HtmlRenderer\4_Svg\SvgImage.cs">
       <Link>8_REF_LayoutFarm.HtmlRenderer\4_Svg\SvgImage.cs</Link>
     </Compile>
@@ -447,6 +444,7 @@
     <Compile Include="5_RenderBasedUI\RenderElementExtension.cs" />
     <Compile Include="4_WebDom\HtmlDocument.cs" />
     <Compile Include="1_Composers\5_RenderBoxes\HtmlRenderBox.cs" />
+    <Compile Include="6_Svg\CssBoxSvgRoot.cs" />
     <Compile Include="7_Events\HtmlInputEventAdapter.cs" />
     <Compile Include="1_Composers\5_RenderBoxes\RenderElementWrapperCssBox.cs" />
     <Compile Include="1_Composers\2_Css\CssDefaults.cs" />

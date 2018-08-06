@@ -13,12 +13,14 @@ namespace TestGraphicPackage2
         [STAThread]
         static void Main()
         {
-
+           
             YourImplementation.BootStrapWinGdi.SetupDefaultValues();
 
 #if GL_ENABLE
             YourImplementation.BootStrapOpenGLES2.SetupDefaultValues();
 #endif
+
+            
 
 #if DEBUG
             PixelFarm.CpuBlit.Imaging.PngImageWriter.InstallImageSaveToFileService((IntPtr imgBuffer, int stride, int width, int height, string filename) =>
