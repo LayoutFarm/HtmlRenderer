@@ -17,15 +17,13 @@ namespace LayoutFarm.ColorBlenderSample
         BackDrawBoardUI _backBoard;
         PaintLab.Svg.SvgParser parser;
 
-        PaintLab.Svg.SvgDocBuilder _docBuilder;
+
 
         protected override void OnStart(AppHost host)
         {
             this.host = host;
             base.OnStart(host);
 
-            _docBuilder = new PaintLab.Svg.SvgDocBuilder();
-            parser = new PaintLab.Svg.SvgParser(_docBuilder);
 
             {
                 _backBoard = new BackDrawBoardUI(800, 600);
@@ -65,21 +63,23 @@ namespace LayoutFarm.ColorBlenderSample
                 {
                     ListItem listItem = new ListItem(200, 20);
                     listItem.Text = System.IO.Path.GetFileName(file);
-                    listItem.Tag = file; 
+                    listItem.Tag = file;
                     _lstvw_svgFiles.AddItem(listItem);
                 }
-             
+
             }
         }
         void ParseAndRenderSvgFile(string svgFile)
         {
+            var docBuilder = new PaintLab.Svg.SvgDocBuilder();
+            parser = new PaintLab.Svg.SvgParser(docBuilder);
 
             string svgContent = System.IO.File.ReadAllText(svgFile);
             WebLexer.TextSnapshot textSnapshot = new WebLexer.TextSnapshot(svgContent);
             parser.ParseDocument(textSnapshot);
             //
             SvgRenderVxDocBuilder builder = new SvgRenderVxDocBuilder();
-            VgRenderVx svgRenderVx = builder.CreateRenderVx(_docBuilder.ResultDocument);
+            VgRenderVx svgRenderVx = builder.CreateRenderVx(docBuilder.ResultDocument);
 
             var uiSprite = new UISprite(10, 10);
             uiSprite.LoadSvg(svgRenderVx);
