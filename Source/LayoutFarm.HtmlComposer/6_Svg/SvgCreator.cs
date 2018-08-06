@@ -17,6 +17,7 @@ namespace LayoutFarm.Svg
         SvgDocBuilder _svgDocBuilder = new SvgDocBuilder();
         SvgElementSpecEvaluator _svgSpecEval = new SvgElementSpecEvaluator();
 
+        SvgDocument _currentDoc;
         public CssBoxSvgRoot CreateSvgBox(CssBox parentBox,
             HtmlElement elementNode,
             Css.BoxSpec spec)
@@ -24,11 +25,11 @@ namespace LayoutFarm.Svg
 
             //TODO: review here
             //
-             
 
+            //create blank svg document
             SvgDocument svgdoc = new SvgDocument();
-
-
+            _currentDoc = svgdoc;
+            svgdoc.CssActiveSheet = new WebDom.CssActiveSheet();
             _svgDocBuilder.ResultDocument = svgdoc;
             _svgDocBuilder.OnBegin();
             CreateBoxContent(elementNode);
@@ -40,6 +41,7 @@ namespace LayoutFarm.Svg
                 elementNode.Spec,
                 parentBox.RootGfx,
                 svgdoc);
+
             svgRoot.SetController(svgRootController);
             svgRootController.SvgRoot = svgRoot;
             parentBox.AppendChild(svgRoot);
@@ -88,8 +90,13 @@ namespace LayoutFarm.Svg
                                     //content of style node 
                                     SvgStyleSpec styleSpec = (SvgStyleSpec)_svgDocBuilder.CurrentSvgElem.ElemSpec;
                                     //content of the style elem
+                                    //parse
                                     styleSpec.RawTextContent = new string(textnode.GetOriginalBuffer());
+                                    //parse css content of the style element
 
+                                    LayoutFarm.WebDom.Parser.CssParserHelper.ParseStyleSheet(styleSpec.CssSheet = new WebDom.CssActiveSheet(), styleSpec.RawTextContent);
+                                    _currentDoc.CssActiveSheet.Combine(styleSpec.CssSheet);
+                                    //TODO: review Combine again 
                                 }
                                 else if (elem.Name == "text")
                                 {

@@ -20,6 +20,8 @@ namespace LayoutFarm.HtmlBoxes
             this.SvgDoc = svgdoc;
             //convert svgElem to agg-based 
             ChangeDisplayType(this, Css.CssDisplay.Block);
+
+
         }
         public override void CustomRecomputedValue(CssBox containingBlock)
         {
@@ -72,7 +74,6 @@ namespace LayoutFarm.HtmlBoxes
                 {
 
                     s_openfontTextService = new OpenFontTextService();
-
                 }
 
                 painter.CurrentFont = new RequestFont("tahoma", 14);
