@@ -9,7 +9,6 @@ namespace LayoutFarm.HtmlBoxes
     public sealed class CssBoxSvgRoot : CssBox
     {
         VgRenderVx _renderVx;
-
         static LayoutFarm.OpenFontTextService s_openfontTextService;
 
 
@@ -21,12 +20,16 @@ namespace LayoutFarm.HtmlBoxes
             this.SvgDoc = svgdoc;
             //convert svgElem to agg-based 
             ChangeDisplayType(this, Css.CssDisplay.Block);
-            var renderVxDocBuilder = new SvgRenderVxDocBuilder();
-            _renderVx = renderVxDocBuilder.CreateRenderVx(svgdoc);
+
 
         }
         public override void CustomRecomputedValue(CssBox containingBlock)
         {
+
+            var renderVxDocBuilder = new SvgRenderVxDocBuilder();
+            renderVxDocBuilder.SetContainerSize(containingBlock.VisualWidth, containingBlock.VisualHeight);
+            _renderVx = renderVxDocBuilder.CreateRenderVx(SvgDoc);
+
 
 
             //var svgElement = this.SvgSpec;
@@ -69,9 +72,8 @@ namespace LayoutFarm.HtmlBoxes
                 //temp fix
                 if (s_openfontTextService == null)
                 {
-                    
+
                     s_openfontTextService = new OpenFontTextService();
-                    
                 }
 
                 painter.CurrentFont = new RequestFont("tahoma", 14);

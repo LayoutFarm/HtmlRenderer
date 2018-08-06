@@ -17,21 +17,31 @@ namespace LayoutFarm.Svg
         SvgDocBuilder _svgDocBuilder = new SvgDocBuilder();
         SvgElementSpecEvaluator _svgSpecEval = new SvgElementSpecEvaluator();
 
+        SvgDocument _currentDoc;
         public CssBoxSvgRoot CreateSvgBox(CssBox parentBox,
             HtmlElement elementNode,
             Css.BoxSpec spec)
         {
+
+            //TODO: review here
+            //
+
+            //create blank svg document
             SvgDocument svgdoc = new SvgDocument();
+            _currentDoc = svgdoc;
+            svgdoc.CssActiveSheet = new WebDom.CssActiveSheet();
             _svgDocBuilder.ResultDocument = svgdoc;
             _svgDocBuilder.OnBegin();
             CreateBoxContent(elementNode);
             _svgDocBuilder.OnEnd();
 
+            //-----------------------------------------
             SvgRootEventPortal svgRootController = new SvgRootEventPortal(elementNode);
             CssBoxSvgRoot svgRoot = new CssBoxSvgRoot(
                 elementNode.Spec,
                 parentBox.RootGfx,
                 svgdoc);
+
             svgRoot.SetController(svgRootController);
             svgRootController.SvgRoot = svgRoot;
             parentBox.AppendChild(svgRoot);
@@ -78,15 +88,20 @@ namespace LayoutFarm.Svg
                                 if (elem.WellknownElementName == WebDom.WellKnownDomNodeName.style)
                                 {
                                     //content of style node 
-                                    SvgStyleSpec styleSpec = (SvgStyleSpec)_svgDocBuilder.CurrentSvgElem._visualSpec;
+                                    SvgStyleSpec styleSpec = (SvgStyleSpec)_svgDocBuilder.CurrentSvgElem.ElemSpec;
                                     //content of the style elem
-                                    styleSpec.TextContent = new string(textnode.GetOriginalBuffer());
+                                    //parse
+                                    styleSpec.RawTextContent = new string(textnode.GetOriginalBuffer());
+                                    //parse css content of the style element
 
+                                    LayoutFarm.WebDom.Parser.CssParserHelper.ParseStyleSheet(styleSpec.CssSheet = new WebDom.CssActiveSheet(), styleSpec.RawTextContent);
+                                    _currentDoc.CssActiveSheet.Combine(styleSpec.CssSheet);
+                                    //TODO: review Combine again 
                                 }
                                 else if (elem.Name == "text")
                                 {
                                     //svg text node
-                                    SvgTextSpec textspec = (SvgTextSpec)_svgDocBuilder.CurrentSvgElem._visualSpec;
+                                    SvgTextSpec textspec = (SvgTextSpec)_svgDocBuilder.CurrentSvgElem.ElemSpec;
                                     textspec.TextContent = new string(textnode.GetOriginalBuffer());
                                     textspec.ExternalTextNode = elem;
                                 }
