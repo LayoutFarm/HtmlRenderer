@@ -20,6 +20,6 @@
    marker-start="url(#arrow)" marker-end="url(#arrow)"  />
 
   <!-- Data line with polymarkers -->
-  <!--<polyline points="15,80 29,50 43,60 57,30 71,40 85,15" fill="none" stroke="grey"
-   marker-start="url(#arrow)" marker-mid="url(#arrow)"  marker-end="url(#arrow)" /> -->
+   <polyline points="15,80 29,50 43,60 57,30 71,40 85,15" fill="none" stroke="grey"
+   marker-start="url(#dot)" marker-mid="url(#dot)"  marker-end="url(#dot)" />
 </svg>
