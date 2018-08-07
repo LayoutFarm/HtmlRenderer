@@ -117,11 +117,21 @@ namespace LayoutFarm.UI
                 PixelFarm.CpuBlit.AggPainter painter = PixelFarm.CpuBlit.AggPainter.Create(backimg);
 
                 double prevStrokeW = painter.StrokeWidth;
+                Color prevFill = painter.FillColor;
+                Color prevStrokeColor = painter.StrokeColor;
+
                 painter.StrokeWidth = 1;//default 
+                painter.FillColor = Color.Black;
+                painter.StrokeColor = Color.Black;
                 VgPainterArgsPool.GetFreePainterArgs(painter, out VgPaintArgs paintArgs);
                 _vgRenderVx._renderE.Paint(paintArgs);
                 VgPainterArgsPool.ReleasePainterArgs(ref paintArgs);
+
                 painter.StrokeWidth = prevStrokeW;//restore
+                painter.FillColor = prevFill;
+                painter.StrokeColor = prevStrokeColor;
+
+
 
                 _vgRenderVx.SetBitmapSnapshot(backimg);
                 canvas.DrawImage(backimg, new RectangleF(0, 0, backimg.Width, backimg.Height));
