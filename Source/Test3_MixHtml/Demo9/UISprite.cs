@@ -121,15 +121,15 @@ namespace LayoutFarm.UI
                 Color prevStrokeColor = painter.StrokeColor;
 
                 painter.StrokeWidth = 1;//default 
-                painter.FillColor = Color.Black;
-                painter.StrokeColor = Color.Black;
+                //painter.FillColor = Color.Black;
+                //painter.StrokeColor = Color.Black;
                 VgPainterArgsPool.GetFreePainterArgs(painter, out VgPaintArgs paintArgs);
                 _vgRenderVx._renderE.Paint(paintArgs);
                 VgPainterArgsPool.ReleasePainterArgs(ref paintArgs);
 
                 painter.StrokeWidth = prevStrokeW;//restore
-                painter.FillColor = prevFill;
-                painter.StrokeColor = prevStrokeColor;
+                //painter.FillColor = prevFill;
+                //painter.StrokeColor = prevStrokeColor;
 
 
 
