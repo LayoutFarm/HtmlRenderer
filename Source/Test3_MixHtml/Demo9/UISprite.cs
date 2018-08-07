@@ -101,17 +101,37 @@ namespace LayoutFarm.UI
             else
             {
 
-                PixelFarm.CpuBlit.RectD bound = _vgRenderVx.GetBounds();
+                PixelFarm.CpuBlit.RectD bounds = _vgRenderVx.GetBounds();
+                int width = (int)Math.Ceiling(bounds.Width);
+                int height = (int)Math.Ceiling(bounds.Height);
                 //create 
-                PixelFarm.CpuBlit.ActualBitmap backimg = new PixelFarm.CpuBlit.ActualBitmap((int)bound.Width, (int)bound.Height);
+                if (bounds.Left > 0)
+                {
+                    width = (int)Math.Ceiling(bounds.Right);
+                }
+                if (bounds.Bottom > 0)
+                {
+                    height = (int)Math.Ceiling(bounds.Top);
+                }
+                PixelFarm.CpuBlit.ActualBitmap backimg = new PixelFarm.CpuBlit.ActualBitmap(width, height);
                 PixelFarm.CpuBlit.AggPainter painter = PixelFarm.CpuBlit.AggPainter.Create(backimg);
 
                 double prevStrokeW = painter.StrokeWidth;
+                Color prevFill = painter.FillColor;
+                Color prevStrokeColor = painter.StrokeColor;
+
                 painter.StrokeWidth = 1;//default 
+                //painter.FillColor = Color.Black;
+                //painter.StrokeColor = Color.Black;
                 VgPainterArgsPool.GetFreePainterArgs(painter, out VgPaintArgs paintArgs);
                 _vgRenderVx._renderE.Paint(paintArgs);
                 VgPainterArgsPool.ReleasePainterArgs(ref paintArgs);
+
                 painter.StrokeWidth = prevStrokeW;//restore
+                //painter.FillColor = prevFill;
+                //painter.StrokeColor = prevStrokeColor;
+
+
 
                 _vgRenderVx.SetBitmapSnapshot(backimg);
                 canvas.DrawImage(backimg, new RectangleF(0, 0, backimg.Width, backimg.Height));

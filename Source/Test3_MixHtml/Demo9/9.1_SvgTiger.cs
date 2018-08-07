@@ -98,7 +98,7 @@ namespace LayoutFarm
 
             string svgContent = System.IO.File.ReadAllText(filename);
             SvgDocBuilder docBuidler = new SvgDocBuilder();
-            PaintLab.Svg.SvgParser parser = new SvgParser(docBuidler);
+             SvgParser parser = new SvgParser(docBuidler);
             WebLexer.TextSnapshot textSnapshot = new WebLexer.TextSnapshot(svgContent);
             parser.ParseDocument(textSnapshot);
             //TODO: review this step again
