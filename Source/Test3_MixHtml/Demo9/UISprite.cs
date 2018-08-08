@@ -10,6 +10,8 @@ using PaintLab.Svg;
 
 namespace LayoutFarm.UI
 {
+
+
     class VgBridgeRenderElement : RenderElement
     {
         PaintLab.Svg.VgRenderVx _vgRenderVx;
@@ -32,61 +34,86 @@ namespace LayoutFarm.UI
                 _vgRenderVx = value;
             }
         }
+        public bool EnableSubSvgTest { get; set; }
+        public SvgHitInfo FindRenderElementAtPos(float x, float y)
+        {
+            VgHitChainPool.GetFreeHitTestArgs(out SvgHitChain svgHitChain);
+            svgHitChain.WithSubPartTest = true;
+            svgHitChain.SetHitTestPos(x, y);
+
+            HitTestOnSubPart(this, svgHitChain);
+
+            int hitCount = svgHitChain.Count;
+
+            SvgHitInfo hitInfo;
+            if (hitCount > 0)
+            {
+                hitInfo = svgHitChain.GetHitInfo(hitCount - 1);//get latest hit info
+            }
+            else
+            {
+                hitInfo = new SvgHitInfo();
+            }
+
+            VgHitChainPool.ReleaseHitTestArgs(ref svgHitChain);
+            return hitInfo;
+
+        }
         public override void ChildrenHitTestCore(HitChain hitChain)
         {
             RectD bound = _vgRenderVx.GetBounds();
-
             if (bound.Contains(hitChain.TestPoint.x, hitChain.TestPoint.y))
             {
-                //check exact hit or the vxs part
+                //we hit in svg bounds area  
+                VgHitChainPool.GetFreeHitTestArgs(out SvgHitChain svgHitChain);
+                //check if we hit on some part of the svg 
+#if DEBUG
+                if (hitChain.dbugHitPhase == dbugHitChainPhase.MouseDown)
+                {
 
-                if (HitTestOnSubPart(this, hitChain.TextPointX, hitChain.TextPointY))
+                }
+#endif
+                svgHitChain.WithSubPartTest = this.EnableSubSvgTest;
+                svgHitChain.SetHitTestPos(hitChain.TextPointX, hitChain.TextPointY);
+                if (HitTestOnSubPart(this, svgHitChain))
                 {
                     hitChain.AddHitObject(this);
-                    return; //return after first hit
                 }
+                VgHitChainPool.ReleaseHitTestArgs(ref svgHitChain);
             }
-
-            base.ChildrenHitTestCore(hitChain);
         }
 
 
-        static class VgHitTestArgsPool
+        static class VgHitChainPool
         {
+            //
+            //
             [System.ThreadStatic]
-            static Stack<VgHitTestArgs> s_pool = new Stack<VgHitTestArgs>();
-            public static void GetFreeHitTestArgs(out VgHitTestArgs hitTestArgs)
+            static Stack<SvgHitChain> s_hitChains = new Stack<SvgHitChain>();
+            public static void GetFreeHitTestArgs(out SvgHitChain hitTestArgs)
             {
-                if (s_pool.Count > 0)
+                if (s_hitChains.Count > 0)
                 {
-                    hitTestArgs = s_pool.Pop();
+                    hitTestArgs = s_hitChains.Pop();
                 }
                 else
                 {
-                    hitTestArgs = new VgHitTestArgs();
+                    hitTestArgs = new SvgHitChain();
                 }
             }
-            public static void ReleaseHitTestArgs(ref VgHitTestArgs hitTestArgs)
+            public static void ReleaseHitTestArgs(ref SvgHitChain hitTestArgs)
             {
                 hitTestArgs.Clear();
-                s_pool.Push(hitTestArgs);
+                s_hitChains.Push(hitTestArgs);
                 hitTestArgs = null;
             }
         }
-
-        static bool HitTestOnSubPart(VgBridgeRenderElement _svgRenderVx, float x, float y)
+        static bool HitTestOnSubPart(VgBridgeRenderElement _svgRenderVx, SvgHitChain hitChain)
         {
-            VgHitTestArgsPool.GetFreeHitTestArgs(out VgHitTestArgs args);
-            args.X = x;
-            args.Y = y;
-            args.WithSubPartTest = false;
-            //
+
             SvgRenderElement renderE = _svgRenderVx._vgRenderVx._renderE;
-            renderE.HitTest(args);
-            //
-            bool result = args.Result;
-            VgHitTestArgsPool.ReleaseHitTestArgs(ref args);
-            return result;
+            renderE.HitTest(hitChain);
+            return hitChain.Count > 0;//found some             
 
         }
         public override void CustomDrawToThisCanvas(DrawBoard canvas, Rectangle updateArea)
@@ -146,9 +173,9 @@ namespace LayoutFarm.UI
 
     public class UISprite : UIElement
     {
-
+        bool _enableSubSvgTest;
         VgBridgeRenderElement _vgRenderElemBridge;
-        PaintLab.Svg.VgRenderVx _renderVx;
+        VgRenderVx _renderVx;
 #if DEBUG
         static int dbugTotalId;
         public readonly int dbugId = dbugTotalId++;
@@ -157,8 +184,23 @@ namespace LayoutFarm.UI
         {
             SetElementBoundsWH(width, height);
             this.AutoStopMouseEventPropagation = true;
-
         }
+        public bool EnableSubSvgTest
+        {
+            get
+            {
+                return _enableSubSvgTest;
+            }
+            set
+            {
+                _enableSubSvgTest = value;
+                if (_vgRenderElemBridge != null)
+                {
+                    _vgRenderElemBridge.EnableSubSvgTest = value;
+                }
+            }
+        }
+
         public void LoadSvg(PaintLab.Svg.VgRenderVx renderVx)
         {
             _renderVx = renderVx;
@@ -170,6 +212,12 @@ namespace LayoutFarm.UI
                 this.SetSize((int)bounds.Width, (int)bounds.Height);
 
             }
+
+        }
+
+        public SvgHitInfo FindRenderElementAtPos(float x, float y)
+        {
+            return _vgRenderElemBridge.FindRenderElementAtPos(x, y);
 
         }
         protected override void OnElementChanged()
@@ -211,7 +259,7 @@ namespace LayoutFarm.UI
                 _vgRenderElemBridge.SetLocation((int)this.Left, (int)this.Top);
                 _vgRenderElemBridge.SetController(this);
                 _vgRenderElemBridge.VgRenderVx = _renderVx;
-
+                _vgRenderElemBridge.EnableSubSvgTest = this.EnableSubSvgTest;
                 //
                 RectD bounds = _renderVx.GetBounds();
                 this.SetSize((int)bounds.Width, (int)bounds.Height);
