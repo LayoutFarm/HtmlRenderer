@@ -45,15 +45,13 @@ namespace LayoutFarm.Svg
 
         public static void HitTestCore(SvgElement root, SvgHitChain chain, float x, float y)
         {
-            //1. 
-            chain.AddHit(root, x, y);
-
-            //2. find hit child
-            int j = root.ChildCount;
-            for (int i = 0; i < j; ++i)
-            {
-
-            }
+            ////1. 
+            //chain.AddHit(root, x, y); 
+            ////2. find hit child
+            //int j = root.ChildCount;
+            //for (int i = 0; i < j; ++i)
+            //{ 
+            //}
             //var child = root.GetFirstNode(); 
             //TODO: review here again!
             // throw new System.NotImplementedException();
@@ -77,10 +75,10 @@ namespace LayoutFarm.Svg
             {
                 //propagate up 
                 var hitInfo = hitPointChain.GetHitInfo(i);
-                SvgElement svg = hitInfo.svg;
+                SvgElement svg = hitInfo.svg.GetController() as SvgElement;
                 if (svg != null)
                 {
-                    var controller = SvgElement.UnsafeGetController(hitInfo.svg) as IEventPortal;
+                    var controller = SvgElement.UnsafeGetController(svg) as IEventPortal;
                     if (controller != null)
                     {
                         e.SetLocation((int)hitInfo.x, (int)hitInfo.y);
@@ -98,8 +96,9 @@ namespace LayoutFarm.Svg
             for (int i = hitChain.Count - 1; i >= 0; --i)
             {
                 //propagate up 
-                var hitInfo = hitChain.GetHitInfo(i);
-                IUIEventListener controller = SvgElement.UnsafeGetController(hitInfo.svg) as IUIEventListener;
+                SvgHitInfo hitInfo = hitChain.GetHitInfo(i);
+
+                IUIEventListener controller = SvgElement.UnsafeGetController(hitInfo.GetSvgElement()) as IUIEventListener;
                 //switch (hitInfo.hitObjectKind)
                 //{
                 //    default:

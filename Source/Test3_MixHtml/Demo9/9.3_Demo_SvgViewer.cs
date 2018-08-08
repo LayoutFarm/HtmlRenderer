@@ -96,7 +96,7 @@ namespace LayoutFarm.ColorBlenderSample
 
             };
 
-            uiSprite.AttachExternalEventListener(null);
+             
             uiSprite.LoadSvg(svgRenderVx);
 
             _backBoard.ClearChildren();

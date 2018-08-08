@@ -22,6 +22,7 @@ namespace LayoutFarm.UI
             //this.NeedClipArea = false;
             this.MayHasChild = true;
             this.TransparentForAllEvents = true;
+
         }
 
         public PaintLab.Svg.VgRenderVx VgRenderVx
@@ -37,10 +38,14 @@ namespace LayoutFarm.UI
             RectD bound = _vgRenderVx.GetBounds();
             if (bound.Contains(hitChain.TestPoint.x, hitChain.TestPoint.y))
             {
-                //check exact hit or the vxs part 
+                //we hit in svg bounds area 
 
-                if (HitTestOnSubPart(this, hitChain.TextPointX, hitChain.TextPointY))
+                VgHitChainPool.GetFreeHitTestArgs(out SvgHitChain svgHitChain);
+                //check if we hit on some part of the svg
+                svgHitChain.SetHitTestPos(hitChain.TextPointX, hitChain.TextPointY);
+                if (HitTestOnSubPart(this, svgHitChain))
                 {
+
                     hitChain.AddHitObject(this);
                     return; //return after first hit
                 }
@@ -49,43 +54,38 @@ namespace LayoutFarm.UI
             base.ChildrenHitTestCore(hitChain);
         }
 
-
-        static class VgHitTestArgsPool
+        static class VgHitChainPool
         {
+            //
+            //
             [System.ThreadStatic]
-            static Stack<VgHitTestArgs> s_pool = new Stack<VgHitTestArgs>();
-            public static void GetFreeHitTestArgs(out VgHitTestArgs hitTestArgs)
+            static Stack<SvgHitChain> s_hitChains = new Stack<SvgHitChain>();
+            public static void GetFreeHitTestArgs(out SvgHitChain hitTestArgs)
             {
-                if (s_pool.Count > 0)
+                if (s_hitChains.Count > 0)
                 {
-                    hitTestArgs = s_pool.Pop();
+                    hitTestArgs = s_hitChains.Pop();
                 }
                 else
                 {
-                    hitTestArgs = new VgHitTestArgs();
+                    hitTestArgs = new SvgHitChain();
                 }
             }
-            public static void ReleaseHitTestArgs(ref VgHitTestArgs hitTestArgs)
+            public static void ReleaseHitTestArgs(ref SvgHitChain hitTestArgs)
             {
                 hitTestArgs.Clear();
-                s_pool.Push(hitTestArgs);
+                s_hitChains.Push(hitTestArgs);
                 hitTestArgs = null;
             }
         }
 
-        static bool HitTestOnSubPart(VgBridgeRenderElement _svgRenderVx, float x, float y)
+
+        static bool HitTestOnSubPart(VgBridgeRenderElement _svgRenderVx, SvgHitChain hitChain)
         {
-            VgHitTestArgsPool.GetFreeHitTestArgs(out VgHitTestArgs args);
-            args.X = x;
-            args.Y = y;
-            args.WithSubPartTest = false;
-            //
+
             SvgRenderElement renderE = _svgRenderVx._vgRenderVx._renderE;
-            renderE.HitTest(args);
-            //
-            bool result = args.Result;
-            VgHitTestArgsPool.ReleaseHitTestArgs(ref args);
-            return result;
+            renderE.HitTest(hitChain);
+            return hitChain.Count > 0;//found some             
 
         }
         public override void CustomDrawToThisCanvas(DrawBoard canvas, Rectangle updateArea)
@@ -156,7 +156,7 @@ namespace LayoutFarm.UI
         {
             SetElementBoundsWH(width, height);
             this.AutoStopMouseEventPropagation = true;
-            
+
         }
         public void LoadSvg(PaintLab.Svg.VgRenderVx renderVx)
         {
