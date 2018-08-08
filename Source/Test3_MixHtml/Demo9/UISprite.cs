@@ -141,10 +141,10 @@ namespace LayoutFarm.UI
 
         }
     }
-        bool _enableSubSvgTest;
+
     public class UISprite : UIElement
     {
-
+        bool _enableSubSvgTest;
         VgBridgeRenderElement _vgRenderElemBridge;
         VgRenderVx _renderVx;
 #if DEBUG
