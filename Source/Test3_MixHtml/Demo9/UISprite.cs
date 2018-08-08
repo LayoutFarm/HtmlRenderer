@@ -38,16 +38,17 @@ namespace LayoutFarm.UI
             RectD bound = _vgRenderVx.GetBounds();
             if (bound.Contains(hitChain.TestPoint.x, hitChain.TestPoint.y))
             {
-                //we hit in svg bounds area 
-
+                //we hit in svg bounds area  
                 VgHitChainPool.GetFreeHitTestArgs(out SvgHitChain svgHitChain);
                 //check if we hit on some part of the svg
-
-                svgHitChain.WithSubPartTest = this.EnableSubSvgTest; 
-                svgHitChain.SetHitTestPos(hitChain.TextPointX, hitChain.TextPointY); 
+                svgHitChain.WithSubPartTest = this.EnableSubSvgTest;
+                svgHitChain.SetHitTestPos(hitChain.TextPointX, hitChain.TextPointY);
                 if (HitTestOnSubPart(this, svgHitChain))
                 {
                     hitChain.AddHitObject(this);
+                    //...
+                    //add svg hit information
+
                 }
                 VgHitChainPool.ReleaseHitTestArgs(ref svgHitChain);
             }
