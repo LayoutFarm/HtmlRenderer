@@ -22,7 +22,6 @@ namespace LayoutFarm.UI
             //this.NeedClipArea = false;
             this.MayHasChild = true;
             this.TransparentForAllEvents = true;
-
         }
 
         public PaintLab.Svg.VgRenderVx VgRenderVx
@@ -33,6 +32,7 @@ namespace LayoutFarm.UI
                 _vgRenderVx = value;
             }
         }
+        public bool EnableSubSvgTest { get; set; }
         public override void ChildrenHitTestCore(HitChain hitChain)
         {
             RectD bound = _vgRenderVx.GetBounds();
@@ -42,16 +42,15 @@ namespace LayoutFarm.UI
 
                 VgHitChainPool.GetFreeHitTestArgs(out SvgHitChain svgHitChain);
                 //check if we hit on some part of the svg
-                svgHitChain.SetHitTestPos(hitChain.TextPointX, hitChain.TextPointY);
+
+                svgHitChain.WithSubPartTest = this.EnableSubSvgTest; 
+                svgHitChain.SetHitTestPos(hitChain.TextPointX, hitChain.TextPointY); 
                 if (HitTestOnSubPart(this, svgHitChain))
                 {
-
                     hitChain.AddHitObject(this);
-                    return; //return after first hit
                 }
+                VgHitChainPool.ReleaseHitTestArgs(ref svgHitChain);
             }
-
-            base.ChildrenHitTestCore(hitChain);
         }
 
         static class VgHitChainPool
@@ -142,7 +141,7 @@ namespace LayoutFarm.UI
 
         }
     }
-
+        bool _enableSubSvgTest;
     public class UISprite : UIElement
     {
 
@@ -156,8 +155,23 @@ namespace LayoutFarm.UI
         {
             SetElementBoundsWH(width, height);
             this.AutoStopMouseEventPropagation = true;
-
         }
+        public bool EnableSubSvgTest
+        {
+            get
+            {
+                return _enableSubSvgTest;
+            }
+            set
+            {
+                _enableSubSvgTest = value;
+                if (_vgRenderElemBridge != null)
+                {
+                    _vgRenderElemBridge.EnableSubSvgTest = value;
+                }
+            }
+        }
+
         public void LoadSvg(PaintLab.Svg.VgRenderVx renderVx)
         {
             _renderVx = renderVx;
@@ -210,7 +224,7 @@ namespace LayoutFarm.UI
                 _vgRenderElemBridge.SetLocation((int)this.Left, (int)this.Top);
                 _vgRenderElemBridge.SetController(this);
                 _vgRenderElemBridge.VgRenderVx = _renderVx;
-
+                _vgRenderElemBridge.EnableSubSvgTest = this.EnableSubSvgTest;
                 //
                 RectD bounds = _renderVx.GetBounds();
                 this.SetSize((int)bounds.Width, (int)bounds.Height);
