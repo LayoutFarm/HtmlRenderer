@@ -88,7 +88,17 @@ namespace LayoutFarm.ColorBlenderSample
             VgRenderVx svgRenderVx = builder.CreateRenderVx(docBuilder.ResultDocument);
 
             var uiSprite = new UISprite(10, 10);
+            var evListener = new GeneralEventListener();
+            uiSprite.AttachExternalEventListener(evListener);
+            evListener.MouseDown += (e) =>
+            {
+                //hit on svg color- area
+
+            };
+
+            uiSprite.AttachExternalEventListener(null);
             uiSprite.LoadSvg(svgRenderVx);
+
             _backBoard.ClearChildren();
             _backBoard.AddChild(uiSprite);
         }

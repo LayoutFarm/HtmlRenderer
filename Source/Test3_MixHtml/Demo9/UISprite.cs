@@ -35,10 +35,9 @@ namespace LayoutFarm.UI
         public override void ChildrenHitTestCore(HitChain hitChain)
         {
             RectD bound = _vgRenderVx.GetBounds();
-
             if (bound.Contains(hitChain.TestPoint.x, hitChain.TestPoint.y))
             {
-                //check exact hit or the vxs part
+                //check exact hit or the vxs part 
 
                 if (HitTestOnSubPart(this, hitChain.TextPointX, hitChain.TextPointY))
                 {
@@ -148,7 +147,7 @@ namespace LayoutFarm.UI
     {
 
         VgBridgeRenderElement _vgRenderElemBridge;
-        PaintLab.Svg.VgRenderVx _renderVx;
+        VgRenderVx _renderVx;
 #if DEBUG
         static int dbugTotalId;
         public readonly int dbugId = dbugTotalId++;
@@ -157,7 +156,7 @@ namespace LayoutFarm.UI
         {
             SetElementBoundsWH(width, height);
             this.AutoStopMouseEventPropagation = true;
-
+            
         }
         public void LoadSvg(PaintLab.Svg.VgRenderVx renderVx)
         {
