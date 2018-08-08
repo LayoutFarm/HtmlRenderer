@@ -32,7 +32,7 @@ namespace LayoutFarm
 
             //load lion svg
 
-            string svgfile = "../Test8_HtmlRenderer.Demo/Samples/SvgSamples/tiger.svg";
+            string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/others/tiger.svg";
             //string svgfile = "1f30b.svg";
             //string svgfile = "../Data/Svg/twemoji/1f30b.svg";
             //string svgfile = "../Data/1f30b.svg";
@@ -98,7 +98,7 @@ namespace LayoutFarm
 
             string svgContent = System.IO.File.ReadAllText(filename);
             SvgDocBuilder docBuidler = new SvgDocBuilder();
-            PaintLab.Svg.SvgParser parser = new SvgParser(docBuidler);
+             SvgParser parser = new SvgParser(docBuidler);
             WebLexer.TextSnapshot textSnapshot = new WebLexer.TextSnapshot(svgContent);
             parser.ParseDocument(textSnapshot);
             //TODO: review this step again

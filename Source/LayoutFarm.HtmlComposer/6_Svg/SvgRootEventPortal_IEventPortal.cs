@@ -1,7 +1,7 @@
 ﻿//Apache2, 2014-present, WinterDev
 //MS-PL, Apache2 some parts derived from github.com/vvvv/svg 
 
-using PixelFarm.Drawing;
+
 using LayoutFarm.UI;
 using PaintLab.Svg;
 

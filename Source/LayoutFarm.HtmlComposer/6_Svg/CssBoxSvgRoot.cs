@@ -82,14 +82,14 @@ namespace LayoutFarm.HtmlBoxes
                 painter.Clear(Color.White);
                 //
                 double prevStrokeW = painter.StrokeWidth;
-                Color fillColor = painter.FillColor;
-                painter.StrokeWidth = 1;//default 
-                painter.FillColor = Color.Black; ;
+                //Color fillColor = painter.FillColor;
+                //painter.StrokeWidth = 1;//default 
+                //painter.FillColor = Color.Black;
                 VgPainterArgsPool.GetFreePainterArgs(painter, out VgPaintArgs paintArgs);
                 _renderVx._renderE.Paint(paintArgs);
                 VgPainterArgsPool.ReleasePainterArgs(ref paintArgs);
                 painter.StrokeWidth = prevStrokeW;//restore
-                painter.FillColor = fillColor;////restore
+                //painter.FillColor = fillColor;////restore
 #if DEBUG
                 //test 
                 //PixelFarm.CpuBlit.Imaging.PngImageWriter.dbugSaveToPngFile(backimg, "d:\\WImageTest\\subimg1.png");
