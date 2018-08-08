@@ -10,6 +10,8 @@ using PaintLab.Svg;
 
 namespace LayoutFarm.UI
 {
+
+
     class VgBridgeRenderElement : RenderElement
     {
         PaintLab.Svg.VgRenderVx _vgRenderVx;
@@ -33,6 +35,30 @@ namespace LayoutFarm.UI
             }
         }
         public bool EnableSubSvgTest { get; set; }
+        public SvgHitInfo FindRenderElementAtPos(float x, float y)
+        {
+            VgHitChainPool.GetFreeHitTestArgs(out SvgHitChain svgHitChain);
+            svgHitChain.WithSubPartTest = true;
+            svgHitChain.SetHitTestPos(x, y);
+
+            HitTestOnSubPart(this, svgHitChain);
+
+            int hitCount = svgHitChain.Count;
+
+            SvgHitInfo hitInfo;
+            if (hitCount > 0)
+            {
+                hitInfo = svgHitChain.GetHitInfo(hitCount - 1);//get latest hit info
+            }
+            else
+            {
+                hitInfo = new SvgHitInfo();
+            }
+
+            VgHitChainPool.ReleaseHitTestArgs(ref svgHitChain);
+            return hitInfo;
+
+        }
         public override void ChildrenHitTestCore(HitChain hitChain)
         {
             RectD bound = _vgRenderVx.GetBounds();
@@ -40,19 +66,23 @@ namespace LayoutFarm.UI
             {
                 //we hit in svg bounds area  
                 VgHitChainPool.GetFreeHitTestArgs(out SvgHitChain svgHitChain);
-                //check if we hit on some part of the svg
+                //check if we hit on some part of the svg 
+#if DEBUG
+                if (hitChain.dbugHitPhase == dbugHitChainPhase.MouseDown)
+                {
+
+                }
+#endif
                 svgHitChain.WithSubPartTest = this.EnableSubSvgTest;
                 svgHitChain.SetHitTestPos(hitChain.TextPointX, hitChain.TextPointY);
                 if (HitTestOnSubPart(this, svgHitChain))
                 {
                     hitChain.AddHitObject(this);
-                    //...
-                    //add svg hit information
-
                 }
                 VgHitChainPool.ReleaseHitTestArgs(ref svgHitChain);
             }
         }
+
 
         static class VgHitChainPool
         {
@@ -78,8 +108,6 @@ namespace LayoutFarm.UI
                 hitTestArgs = null;
             }
         }
-
-
         static bool HitTestOnSubPart(VgBridgeRenderElement _svgRenderVx, SvgHitChain hitChain)
         {
 
@@ -184,6 +212,12 @@ namespace LayoutFarm.UI
                 this.SetSize((int)bounds.Width, (int)bounds.Height);
 
             }
+
+        }
+
+        public SvgHitInfo FindRenderElementAtPos(float x, float y)
+        {
+            return _vgRenderElemBridge.FindRenderElementAtPos(x, y);
 
         }
         protected override void OnElementChanged()
