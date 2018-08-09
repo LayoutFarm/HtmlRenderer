@@ -22,7 +22,7 @@ namespace LayoutFarm
                 (s, e) => contentMx.AddRequestImage(e.ImageBinder),
                 contentMx_LoadStyleSheet);
             htmlBox = new HtmlBox(htmlHost, 400, 800);
-            htmlBox.SetLocation(100, 0);
+            //htmlBox.SetLocation(100, 0); //test
             host.AddChild(htmlBox);
             if (htmltext == null)
             {
