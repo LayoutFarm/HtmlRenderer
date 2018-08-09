@@ -43,6 +43,7 @@ namespace LayoutFarm.HtmlBoxes
         public override void InvalidateGraphics(Rectangle clientArea)
         {
             //send to container element
+            clientArea.Offset(containerElement.X, containerElement.Y);
             this.containerElement.InvalidateGraphicBounds(clientArea);
         }
         public LayoutFarm.RenderElement ContainerElement

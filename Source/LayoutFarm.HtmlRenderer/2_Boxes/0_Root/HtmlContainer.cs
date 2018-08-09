@@ -33,6 +33,7 @@ namespace LayoutFarm.HtmlBoxes
     }
     public abstract class HtmlContainer : IDisposable
     {
+
         ITextService _textService;
         /// <summary>
         /// the root css box of the parsed html
@@ -45,6 +46,8 @@ namespace LayoutFarm.HtmlBoxes
         float _actualHeight;
         float _maxWidth;
         float _maxHeight;
+        
+
         /// <summary>
         /// 99999
         /// </summary>
@@ -75,21 +78,24 @@ namespace LayoutFarm.HtmlBoxes
         public CssBox RootCssBox
         {
             get { return this._rootBox; }
-            set
+
+        }
+        
+        public void SetRootCssBox(CssBox rootCssBox)
+        {
+            if (_rootBox != null)
             {
-                if (_rootBox != null)
-                {
-                    _rootBox = null;
-                    //---------------------------
-                    this.OnRootDisposed();
-                }
-                _rootBox = value;
-                if (value != null)
-                {
-                    this.OnRootCreated(_rootBox);
-                }
+                _rootBox = null;
+                //---------------------------
+                this.OnRootDisposed();
+            }
+            _rootBox = rootCssBox;
+            if (rootCssBox != null)
+            {
+                this.OnRootCreated(_rootBox);
             }
         }
+
         public abstract bool RefreshDomIfNeed();
 
         public bool HasRootBox { get { return this._rootBox != null; } }

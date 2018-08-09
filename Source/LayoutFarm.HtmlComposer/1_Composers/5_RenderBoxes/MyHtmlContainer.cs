@@ -10,6 +10,7 @@ namespace LayoutFarm.HtmlBoxes
     public delegate void HtmlContainerUpdateHandler(HtmlContainer htmlCont);
     public sealed class MyHtmlContainer : HtmlContainer
     {
+         
         WebDocument webdoc;
         HtmlHost htmlhost;
         SelectionRange _currentSelectionRange;
@@ -18,15 +19,13 @@ namespace LayoutFarm.HtmlBoxes
         EventHandler domRequestRebuild;
         EventHandler containerInvalidateGfxHandler;
         EventHandler domFinished;
-        Rectangle currentSelectionArea;
+        Rectangle _currentSelectionArea;
         bool hasSomeSelectedArea;
         public MyHtmlContainer(HtmlHost htmlhost)
         {
             this.htmlhost = htmlhost;
-
         }
-
-
+         
         public void AttachEssentialHandlers(EventHandler domVisualRefreshHandler,
             EventHandler domRequestRebuildHandler,
             EventHandler containerInvalidateGfxHanlder,
@@ -113,8 +112,8 @@ namespace LayoutFarm.HtmlBoxes
             {
                 _currentSelectionRange.ClearSelection();
                 _currentSelectionRange = null;
-                this.RootCssBox.InvalidateGraphics(this.currentSelectionArea);
-                this.currentSelectionArea = Rectangle.Empty;
+                this.RootCssBox.InvalidateGraphics(this._currentSelectionArea);
+                _currentSelectionArea = Rectangle.Empty;
             }
             hasSomeSelectedArea = false;
         }
@@ -125,8 +124,8 @@ namespace LayoutFarm.HtmlBoxes
 
             if (selRange != null)
             {
-                this.currentSelectionArea = (hasSomeSelectedArea) ?
-                            Rectangle.Union(this.currentSelectionArea, selRange.SnapSelectionArea) :
+                _currentSelectionArea = (hasSomeSelectedArea) ?
+                            Rectangle.Union(_currentSelectionArea, selRange.SnapSelectionArea) :
                             selRange.SnapSelectionArea;
                 hasSomeSelectedArea = true;
             }
@@ -135,7 +134,8 @@ namespace LayoutFarm.HtmlBoxes
                 hasSomeSelectedArea = false;
             }
             this._currentSelectionRange = selRange;
-            this.RootCssBox.InvalidateGraphics(this.currentSelectionArea);
+             
+            this.RootCssBox.InvalidateGraphics(_currentSelectionArea);
         }
         public override void CopySelection(StringBuilder stbuilder)
         {

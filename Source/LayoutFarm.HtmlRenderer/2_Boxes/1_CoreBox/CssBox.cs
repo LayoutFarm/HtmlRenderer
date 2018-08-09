@@ -97,11 +97,6 @@ namespace LayoutFarm.HtmlBoxes
                 return rootgfx;
             }
         }
-        //public RootGraphic GetInternalRootGfx()
-        //{
-        //    return ((CssBoxRootGfxBridge)rootgfx).RootGfx;
-        //}
-
         /// <summary>
         /// Gets the parent box of this box
         /// </summary>
