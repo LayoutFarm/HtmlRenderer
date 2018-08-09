@@ -19,7 +19,7 @@ namespace LayoutFarm.HtmlBoxes
         EventHandler domRequestRebuild;
         EventHandler containerInvalidateGfxHandler;
         EventHandler domFinished;
-        Rectangle currentSelectionArea;
+        Rectangle _currentSelectionArea;
         bool hasSomeSelectedArea;
         public MyHtmlContainer(HtmlHost htmlhost)
         {
@@ -115,8 +115,8 @@ namespace LayoutFarm.HtmlBoxes
             {
                 _currentSelectionRange.ClearSelection();
                 _currentSelectionRange = null;
-                this.RootCssBox.InvalidateGraphics(this.currentSelectionArea);
-                this.currentSelectionArea = Rectangle.Empty;
+                this.RootCssBox.InvalidateGraphics(this._currentSelectionArea);
+                _currentSelectionArea = Rectangle.Empty;
             }
             hasSomeSelectedArea = false;
         }
@@ -127,8 +127,8 @@ namespace LayoutFarm.HtmlBoxes
 
             if (selRange != null)
             {
-                this.currentSelectionArea = (hasSomeSelectedArea) ?
-                            Rectangle.Union(this.currentSelectionArea, selRange.SnapSelectionArea) :
+                _currentSelectionArea = (hasSomeSelectedArea) ?
+                            Rectangle.Union(_currentSelectionArea, selRange.SnapSelectionArea) :
                             selRange.SnapSelectionArea;
                 hasSomeSelectedArea = true;
             }
@@ -137,16 +137,11 @@ namespace LayoutFarm.HtmlBoxes
                 hasSomeSelectedArea = false;
             }
             this._currentSelectionRange = selRange;
-            if (_rootRenderE == null)
+            if (_rootRenderE != null)
             {
-                this.RootCssBox.InvalidateGraphics(this.currentSelectionArea);
+                _currentSelectionArea.Offset(_rootRenderE.X, _rootRenderE.Y);
             }
-            else
-            {
-                currentSelectionArea.Offset(_rootRenderE.X, _rootRenderE.Y);
-                this.RootCssBox.InvalidateGraphics(this.currentSelectionArea);
-            }
-
+            this.RootCssBox.InvalidateGraphics(_currentSelectionArea);
         }
         public override void CopySelection(StringBuilder stbuilder)
         {
