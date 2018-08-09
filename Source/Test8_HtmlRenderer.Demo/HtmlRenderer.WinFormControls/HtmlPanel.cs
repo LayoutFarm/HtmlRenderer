@@ -277,7 +277,7 @@ namespace LayoutFarm.Demo
                 cssData,
                 null);
             htmlContainer.WebDocument = htmldoc;
-            htmlContainer.RootCssBox = rootBox;
+            htmlContainer.SetRootCssBox(rootBox);
         }
 
         public void LoadHtmlDom(LayoutFarm.WebDom.WebDocument doc, string defaultCss)
@@ -300,7 +300,7 @@ namespace LayoutFarm.Demo
                 this.currentDoc,
                 cssData,
                 null);
-            htmlCont.RootCssBox = rootBox;
+            htmlCont.SetRootCssBox(rootBox);
         }
         public void ForceRefreshHtmlDomChange(LayoutFarm.WebDom.WebDocument doc)
         {
