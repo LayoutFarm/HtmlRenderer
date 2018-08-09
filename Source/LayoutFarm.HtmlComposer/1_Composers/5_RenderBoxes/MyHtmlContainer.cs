@@ -10,7 +10,7 @@ namespace LayoutFarm.HtmlBoxes
     public delegate void HtmlContainerUpdateHandler(HtmlContainer htmlCont);
     public sealed class MyHtmlContainer : HtmlContainer
     {
-        RenderElement _rootRenderE;
+         
         WebDocument webdoc;
         HtmlHost htmlhost;
         SelectionRange _currentSelectionRange;
@@ -25,10 +25,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             this.htmlhost = htmlhost;
         }
-        public void SetRootRenderElement(RenderElement r)
-        {
-            _rootRenderE = r;
-        }
+         
         public void AttachEssentialHandlers(EventHandler domVisualRefreshHandler,
             EventHandler domRequestRebuildHandler,
             EventHandler containerInvalidateGfxHanlder,
@@ -137,10 +134,7 @@ namespace LayoutFarm.HtmlBoxes
                 hasSomeSelectedArea = false;
             }
             this._currentSelectionRange = selRange;
-            if (_rootRenderE != null)
-            {
-                _currentSelectionArea.Offset(_rootRenderE.X, _rootRenderE.Y);
-            }
+             
             this.RootCssBox.InvalidateGraphics(_currentSelectionArea);
         }
         public override void CopySelection(StringBuilder stbuilder)

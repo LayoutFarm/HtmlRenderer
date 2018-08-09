@@ -26,7 +26,7 @@ namespace LayoutFarm.HtmlBoxes
             var htmlContainer = new MyHtmlContainer(htmlHost);
             htmlContainer.WebDocument = htmldoc;
             htmlContainer.SetRootCssBox(rootElement);
-            htmlContainer.SetRootRenderElement(htmlFrgmentRenderBox);
+            //htmlContainer.SetRootRenderElement(htmlFrgmentRenderBox);
 
             htmlContainer.SetMaxSize(htmlFrgmentRenderBox.Width, 0);
             var lay = htmlHost.GetSharedHtmlLayoutVisitor(htmlContainer);
@@ -65,7 +65,7 @@ namespace LayoutFarm.HtmlBoxes
             htmlContainer.WebDocument = newDivHost.OwnerDocument;
             htmlContainer.SetRootCssBox(rootElement);
             htmlContainer.SetMaxSize(htmlFrgmentRenderBox.Width, 0);
-            htmlContainer.SetRootRenderElement(htmlFrgmentRenderBox);
+            //htmlContainer.SetRootRenderElement(htmlFrgmentRenderBox);
 
             //
             var lay = htmlHost.GetSharedHtmlLayoutVisitor(htmlContainer);
@@ -97,7 +97,7 @@ namespace LayoutFarm.HtmlBoxes
             htmlContainer.WebDocument = htmldoc;
             htmlContainer.SetRootCssBox(rootElement);
             htmlContainer.SetMaxSize(htmlFrgmentRenderBox.Width, 0);
-            htmlContainer.SetRootRenderElement(htmlFrgmentRenderBox);
+            //htmlContainer.SetRootRenderElement(htmlFrgmentRenderBox);
 
             var lay = htmlHost.GetSharedHtmlLayoutVisitor(htmlContainer);
             htmlContainer.PerformLayout(lay);
