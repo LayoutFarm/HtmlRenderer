@@ -21,7 +21,8 @@ namespace LayoutFarm
             var htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(host,
                 (s, e) => contentMx.AddRequestImage(e.ImageBinder),
                 contentMx_LoadStyleSheet);
-            htmlBox = new HtmlBox(htmlHost, 1024, 800);
+            htmlBox = new HtmlBox(htmlHost, 400, 800);
+            //htmlBox.SetLocation(100, 0); //test
             host.AddChild(htmlBox);
             if (htmltext == null)
             {
