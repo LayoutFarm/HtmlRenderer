@@ -247,6 +247,13 @@ namespace LayoutFarm.HtmlBoxes
                 return this._myspec.ActualBackgroundColor;
             }
         }
+        public CssCursorName CursorName
+        {
+            get
+            {
+                return this._myspec.CursorName;
+            }
+        }
         /// <summary>
         /// Gets the font that should be actually used to paint the text of the box
         /// </summary>
