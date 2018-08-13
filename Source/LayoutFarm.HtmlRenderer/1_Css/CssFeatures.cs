@@ -634,15 +634,24 @@ namespace LayoutFarm.Css
 
     }
 
-
+    public enum CssCursorName
+    {
+        Default,
+        Pointer,
+        Hand,
+        IBeam,
+    }
     class CssBackgroundFeature : CssFeatureBase
     {
+
         Color _bgColor, _bgGradient;
         float _bgGradientAngle;
         ImageBinder _imgBinder;
         string _bgPosition;
         CssLength _bgPosX, _bgPosY;
         CssBackgroundRepeat _bgRepeat;
+        CssCursorName _cursorName;
+
         static CssBackgroundFeature()
         {
             Default.Freeze();
@@ -657,6 +666,7 @@ namespace LayoutFarm.Css
             this.BackgroundPosX = new CssLength(0, CssUnitOrNames.Percent);
             this.BackgroundPosY = new CssLength(0, CssUnitOrNames.Percent);
             this.BackgroundRepeat = CssBackgroundRepeat.Repeat;
+            this.CursorName = CssCursorName.Default;
         }
         private CssBackgroundFeature(object owner, CssBackgroundFeature inheritFrom)
             : base(owner)
@@ -668,6 +678,7 @@ namespace LayoutFarm.Css
             BackgroundPosX = inheritFrom.BackgroundPosX;
             BackgroundPosY = inheritFrom.BackgroundPosY;
             BackgroundRepeat = inheritFrom.BackgroundRepeat;
+            CursorName = inheritFrom.CursorName;
         }
 
         public CssBackgroundFeature GetMyOwnVersion(object checkOwner)
@@ -726,6 +737,11 @@ namespace LayoutFarm.Css
         }
 
 
+        public CssCursorName CursorName
+        {
+            get { return _cursorName; }
+            set { if (Assignable()) this._cursorName = value; }
+        }
         //---------------------------------
         public static readonly CssBackgroundFeature Default = new CssBackgroundFeature(null);
 #if DEBUG

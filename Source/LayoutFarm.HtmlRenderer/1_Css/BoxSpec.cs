@@ -427,7 +427,12 @@ namespace LayoutFarm.Css
             get { return this._backgroundFeats.BackgroundRepeat; }
             set { if (Assignable()) CheckBgVersion().BackgroundRepeat = value; }
         }
+        public CssCursorName CursorName
+        {
+            get { return this._backgroundFeats.CursorName; }
+            set { if (Assignable()) CheckBgVersion().CursorName = value; }
 
+        }
         public Color BackgroundGradient
         {
             get { return this._backgroundFeats.BackgroundGradient; }
