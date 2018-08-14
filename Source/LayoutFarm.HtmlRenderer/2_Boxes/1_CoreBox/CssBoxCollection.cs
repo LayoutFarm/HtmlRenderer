@@ -68,6 +68,9 @@ namespace LayoutFarm.HtmlBoxes
         {
             var linkedNode = CssBox.UnsafeGetLinkedNode(box);
             this._boxes.Remove(linkedNode);
+#if DEBUG
+            box.dbug_hasParent = false;
+#endif
             CssBox.UnsafeSetNodes(box, null, null);
         }
         public CssBox GetFirstChild()
