@@ -855,7 +855,9 @@ namespace LayoutFarm.HtmlBoxes
 
                             if (box.HasAbsoluteLayer)
                             {
+                                lay.InAbsoluteLayerMode = true;
                                 LayoutContentInAbsoluteLayer(lay, box);
+                                lay.InAbsoluteLayerMode = false;
                             }
                         }
                         //---------------------
@@ -973,7 +975,12 @@ namespace LayoutFarm.HtmlBoxes
                         sx += box.ActualMarginLeft;
                         sy += box.ActualMarginTop;
                         box.SetLocation(sx, sy);
-                        lay.AddFloatBox(box);
+
+                        if (!lay.InAbsoluteLayerMode)
+                        {
+                            lay.AddFloatBox(box);
+                        }
+
                     }
                     break;
                 case CssFloat.Right:
@@ -1065,7 +1072,10 @@ namespace LayoutFarm.HtmlBoxes
                         sx += box.ActualMarginLeft;
                         sy += box.ActualMarginTop;
                         box.SetLocation(sx, sy);
-                        lay.AddFloatBox(box);
+                        if (!lay.InAbsoluteLayerMode)
+                        {
+                            lay.AddFloatBox(box);
+                        }
                     }
                     break;
                 case CssFloat.None:
@@ -1324,7 +1334,8 @@ namespace LayoutFarm.HtmlBoxes
         static void LayoutContentInAbsoluteLayer(LayoutVisitor lay, CssBox srcBox)
         {
             if (srcBox.JustTempContainer) return;
-            var ifonts = lay.SampleIFonts;
+
+            PixelFarm.Drawing.ITextService ifonts = lay.SampleIFonts;
             //css3 jan2015: absolute position
             //use offset relative to its normal the box's containing box***
 

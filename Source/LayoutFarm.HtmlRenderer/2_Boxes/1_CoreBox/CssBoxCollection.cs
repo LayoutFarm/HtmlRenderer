@@ -6,7 +6,25 @@ namespace LayoutFarm.HtmlBoxes
 {
     class CssBoxAbsoluteLayer
     {
-        List<CssBox> _boxes;
+        List<CssBox> _boxes = new List<CssBox>();
+        public CssBoxAbsoluteLayer()
+        {
+        }
+        public void AddChild(CssBox box)
+        {
+          
+            _boxes.Add(box);
+        }
+        public CssBox GetBox(int index) { return _boxes[index]; }
+        public int Count { get { return _boxes.Count; } }
+        public void Clear()
+        {
+            _boxes.Clear();
+        }
+        public bool Remove(CssBox box)
+        {
+            return _boxes.Remove(box);
+        }
 
     }
     class CssBoxCollection
@@ -16,7 +34,7 @@ namespace LayoutFarm.HtmlBoxes
         public CssBoxCollection()
         {
         }
-        public bool AbsolutePos { get; set; }
+
 
         public IEnumerable<CssBox> GetChildBoxIter()
         {

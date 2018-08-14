@@ -37,12 +37,13 @@ namespace LayoutFarm.HtmlBoxes
             if (dicStripPool != null) dicStripPool.Clear();
             if (listStripPool != null) listStripPool.Clear();
             readyDicStrip.Clear();
-            readyListStrip.Clear(); 
+            readyListStrip.Clear();
             totalMarginLeftAndRight = 0;
             floatingContextStack.Reset();
+            InAbsoluteLayerMode = false;
 
         }
-
+        internal bool InAbsoluteLayerMode { get; set; }
         internal ITextService SampleIFonts
         {
             get { return this.fontService; }
@@ -154,7 +155,7 @@ namespace LayoutFarm.HtmlBoxes
         internal float MeasureStringWidth(char[] buffer, int startIndex, int len, RequestFont f)
         {
             TextBufferSpan textSpan = new TextBufferSpan(buffer, startIndex, len);
-            return this.SampleIFonts.MeasureString(ref textSpan, f).Width; 
+            return this.SampleIFonts.MeasureString(ref textSpan, f).Width;
 
         }
         internal Size MeasureStringSize(char[] buffer, int startIndex, int len, RequestFont f)

@@ -405,10 +405,10 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="g">Device context to use</param>
         public void PerformLayout(LayoutVisitor lay)
         {
-            if (this.dbugMark1 > 0)
-            {
+            //if (this.dbugMark1 > 0)
+            //{
 
-            }
+            //}
             //derived class can perform its own layout algo            
             //by override performContentLayout 
             PerformContentLayout(lay);

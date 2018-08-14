@@ -3,7 +3,6 @@
 
 using System;
 using PixelFarm.Drawing;
-using PixelFarm.Drawing.Fonts;
 namespace LayoutFarm.HtmlBoxes
 {
     partial class CssBox
@@ -92,7 +91,7 @@ namespace LayoutFarm.HtmlBoxes
         {
 
 #if DEBUG
-            
+
 #endif
             //if (this.dbugMark2 == 10 || this.dbugMark2 == 12)
             //{
@@ -189,7 +188,7 @@ namespace LayoutFarm.HtmlBoxes
                     while (node != null)
                     {
                         CssBox b = node.Value;
-                        if (b.CssDisplay == Css.CssDisplay.None)
+                        if (b.CssDisplay == Css.CssDisplay.None || b.IsAddedToAbsLayer)
                         {
                             node = node.Next;
                             continue;
@@ -235,7 +234,7 @@ namespace LayoutFarm.HtmlBoxes
                     while (node != null)
                     {
                         CssBox b = node.Value;
-                        if (b.CssDisplay == Css.CssDisplay.None)
+                        if (b.CssDisplay == Css.CssDisplay.None || b.IsAddedToAbsLayer)
                         {
                             node = node.Next;
                             continue;
@@ -259,19 +258,30 @@ namespace LayoutFarm.HtmlBoxes
                 p.PushContaingBlock(this);
                 int ox = p.CanvasOriginX;
                 int oy = p.CanvasOriginY;
-                var node = this._absPosLayer.GetFirstLinkedNode();
-                while (node != null)
+                int j = _absPosLayer.Count;
+                for (int i = 0; i < j; ++i)
                 {
-                    CssBox b = node.Value;
+                    CssBox b = this._absPosLayer.GetBox(i);
                     if (b.CssDisplay == Css.CssDisplay.None)
                     {
-                        node = node.Next;
                         continue;
                     }
                     p.SetCanvasOrigin(ox + (int)b.LocalX, oy + (int)b.LocalY);
                     b.Paint(p);
-                    node = node.Next;
                 }
+                //var node = this._absPosLayer.GetFirstLinkedNode();
+                //while (node != null)
+                //{
+                //    CssBox b = node.Value;
+                //    if (b.CssDisplay == Css.CssDisplay.None)
+                //    {
+                //        node = node.Next;
+                //        continue;
+                //    }
+                //    p.SetCanvasOrigin(ox + (int)b.LocalX, oy + (int)b.LocalY);
+                //    b.Paint(p);
+                //    node = node.Next;
+                //}
                 p.SetCanvasOrigin(ox, oy);
                 p.PopContainingBlock();
             }

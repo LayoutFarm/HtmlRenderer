@@ -90,7 +90,7 @@ namespace LayoutFarm.HtmlBoxes
 #if DEBUG
             if (_dbugDic1.ContainsKey(floatBox))
             {
-
+                return;
             }
             else
             {

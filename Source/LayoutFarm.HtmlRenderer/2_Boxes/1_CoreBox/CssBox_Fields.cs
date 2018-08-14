@@ -56,7 +56,7 @@ namespace LayoutFarm.HtmlBoxes
         /// <summary>
         /// absolute position layer
         /// </summary>
-        CssBoxCollection _absPosLayer;
+        CssBoxAbsoluteLayer _absPosLayer;
         CssBlockRun justBlockRun;
         //----------------------------------------------------   
         //only in condition 3
@@ -65,6 +65,8 @@ namespace LayoutFarm.HtmlBoxes
         CssBoxDecorator decorator;
         bool mayHasViewport;
         bool isOutOfFlowBox;
+        bool _addedToAbsLayer;
+
         internal bool IsOutOfFlowBox
         {
             get { return this.isOutOfFlowBox; }
@@ -98,11 +100,26 @@ namespace LayoutFarm.HtmlBoxes
         }
         public IEnumerable<CssBox> GetAbsoluteChildBoxIter()
         {
-            return this._absPosLayer.GetChildBoxIter();
+            if (_absPosLayer != null)
+            {
+                int j = _absPosLayer.Count;
+                for (int i = 0; i < j; ++i)
+                {
+                    yield return _absPosLayer.GetBox(i);
+                }
+            }
+
         }
         public IEnumerable<CssBox> GetAbsoluteChildBoxBackwardIter()
         {
-            return this._absPosLayer.GetChildBoxBackwardIter();
+            if (_absPosLayer != null)
+            {
+                int j = _absPosLayer.Count;
+                for (int i = _absPosLayer.Count - 1; i >= 0; --i)
+                {
+                    yield return _absPosLayer.GetBox(i);
+                }
+            }
         }
         internal CssBox GetNextNode()
         {
@@ -154,8 +171,8 @@ namespace LayoutFarm.HtmlBoxes
                 case Css.CssPosition.Fixed:
                 case Css.CssPosition.Relative:
                     {
+                        //TODO: review here again
                         this._absPosLayer.Remove(box);
-                        //this._absLayer2.Remove(box);
                     }
                     break;
                 default:
@@ -335,27 +352,19 @@ namespace LayoutFarm.HtmlBoxes
             //find proper ancestor node for absolute position 
             if (this._absPosLayer == null)
             {
-                this._absPosLayer = new CssBoxCollection();
-                
+                this._absPosLayer = new CssBoxAbsoluteLayer();
             }
             if (box.ParentBox != null)
             {
-                box.ParentBox.RemoveChild(box);
+                box._addedToAbsLayer = true;
+                //box.ParentBox.RemoveChild(box);
             }
-
-            this._absPosLayer.AddChild(this, box);
-            //if (this._absLayer2 == null)
-            //{
-            //    this._absLayer2 = new List<CssBox>();
-            //}
-            //TODO: fix here again 
-            //if (!_absLayer2.Contains(box))
-            //{
-            //    this._absLayer2.Add(box);
-            //}
-
+            this._absPosLayer.AddChild(box);
         }
-
+        internal bool IsAddedToAbsLayer
+        {
+            get { return _addedToAbsLayer; }
+        }
         //-------------------------------------
         internal void ResetLineBoxes()
         {
