@@ -50,12 +50,14 @@ namespace LayoutFarm.HtmlBoxes
 #if DEBUG
             //if (this.__aa_dbugId == 6)
             //{
+            //}   
+
+            //if (!spec.IsFreezed)
+            //{
+            //    //must be freezed
+            //    throw new NotSupportedException();
             //}
-            if (!spec.IsFreezed)
-            {
-                //must be freezed
-                throw new NotSupportedException();
-            }
+
 #endif
 
             //assign spec 
@@ -401,6 +403,10 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="g">Device context to use</param>
         public void PerformLayout(LayoutVisitor lay)
         {
+            if (this.dbugMark1 > 0)
+            {
+
+            }
             //derived class can perform its own layout algo            
             //by override performContentLayout 
             PerformContentLayout(lay);

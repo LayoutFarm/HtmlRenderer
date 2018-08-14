@@ -14,6 +14,8 @@ namespace LayoutFarm.Composers
         bool freeze;
         bool hasSomeChar;
         List<CssRun> runs;
+        bool _setSplitParts;
+
         public HtmlTextNode(WebDocument ownerDoc, char[] buffer)
             : base(ownerDoc, buffer)
         {
@@ -30,6 +32,11 @@ namespace LayoutFarm.Composers
             this.freeze = false;
             this.runs = runs;
             this.hasSomeChar = hasSomeChar;
+            _setSplitParts = true;
+        }
+        internal bool HasSetSplitPart
+        {
+            get { return _setSplitParts; }
         }
         public bool IsFreeze
         {

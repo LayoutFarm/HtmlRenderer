@@ -121,7 +121,7 @@ namespace LayoutFarm.HtmlBoxes
             LayoutVisitor lay = null;
             if (htmlLayoutVisitorStock.Count == 0)
             {
-                RootGraphic rootgfx = (RootGraphic)htmlCont.RootCssBox.GetInternalRootGfx();
+                //RootGraphic rootgfx = (RootGraphic)htmlCont.RootCssBox.GetInternalRootGfx();
                 lay = new LayoutVisitor(this.GetTextService());
             }
             else
@@ -209,7 +209,14 @@ namespace LayoutFarm.HtmlBoxes
                             case HtmlNodeKind.TextNode:
                                 {
                                     HtmlTextNode singleTextNode = (HtmlTextNode)child;
-                                    RunListHelper.AddRunList(hostBox, parentElement.Spec, singleTextNode);
+                                    if (!singleTextNode.HasSetSplitPart)
+                                    {
+                                        CssBox principalCssBox = parentElement.CurrentPrincipalBox;
+                                        bool isblockContext = (principalCssBox != null) ? principalCssBox.IsBlock : false;
+                                        renderTreeBuilder.UpdateTextNode(parentElement, singleTextNode, isblockContext);
+                                        RunListHelper.AddRunList(hostBox, parentElement.Spec, singleTextNode);
+                                    }
+
                                 }
                                 break;
                             case HtmlNodeKind.ShortElement:

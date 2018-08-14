@@ -63,20 +63,23 @@ namespace LayoutFarm.HtmlWidgets
             if (pnode != null) return pnode;
             //---------------------------------------------------
             pnode = htmldoc.CreateElement("div");
-            pnode.AddChild("img", img =>
-            {
-                //init 
-                bool is_close = true;
-                img.SetAttribute("src", "../Test3_MixHtml/Demo/arrow_close.png");
-                img.AttachMouseDownEvent(e =>
-                {
-                    img.SetAttribute("src", is_close ?
-                        "../Test3_MixHtml/Demo/arrow_open.png" :
-                        "../Test3_MixHtml/Demo/arrow_close.png");
-                    is_close = !is_close;
-                    e.StopPropagation();
-                });
-            });
+            pnode.SetAttribute("style", "background-color:red;color:white");
+            pnode.AddTextContent("CHK");
+
+            //pnode.AddChild("img", img =>
+            //{
+            //    //init 
+            //    bool is_close = true;
+            //    img.SetAttribute("src", "../Test3_MixHtml/Demo/arrow_close.png");
+            //    img.AttachMouseDownEvent(e =>
+            //    {
+            //        img.SetAttribute("src", is_close ?
+            //            "../Test3_MixHtml/Demo/arrow_open.png" :
+            //            "../Test3_MixHtml/Demo/arrow_close.png");
+            //        is_close = !is_close;
+            //        e.StopPropagation();
+            //    });
+            //});
             //pnode.AddChild("img", img =>
             //{
 
@@ -97,10 +100,10 @@ namespace LayoutFarm.HtmlWidgets
             //    });
 
             //});
-            pnode.AddChild("span", span =>
-            {
-                span.AddTextContent(this.checkBoxText);
-            });
+            //pnode.AddChild("span", span =>
+            //{
+            //    span.AddTextContent(this.checkBoxText);
+            //});
             return pnode;
         }
     }

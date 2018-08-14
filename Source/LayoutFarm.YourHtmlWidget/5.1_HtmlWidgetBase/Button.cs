@@ -32,7 +32,7 @@ namespace LayoutFarm.HtmlWidgets
             pnode.AddChild("div", div2 =>
             {
                 //init
-                div2.SetAttribute("style", "padding:5px;background-color:#dddddd;");
+                div2.SetAttribute("style", "padding:5px;background-color:#dddddd;color:black;");
                 div2.AddChild("span", span =>
                 {
                     span.AddTextContent(this.buttonText);

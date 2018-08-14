@@ -166,8 +166,22 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
 
+#if DEBUG
+        public bool dbug_hasParent;
+#endif
         public void AppendChild(CssBox box)
         {
+#if DEBUG
+            if (box.dbug_hasParent)
+            {
+
+            }
+            else
+            {
+
+            }
+            dbug_hasParent = true;
+#endif
             switch (box.Position)
             {
                 case Css.CssPosition.Absolute:

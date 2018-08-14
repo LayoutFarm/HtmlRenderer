@@ -2,10 +2,26 @@
 //ArthurHub, Jose Manuel Menendez Poo
 
 using System;
+using System.Collections.Generic;
 using LayoutFarm.HtmlBoxes;
 using LayoutFarm.WebDom;
 namespace LayoutFarm.Composers
 {
+
+    static class CssParserPool
+    {
+        static Stack<WebDom.Parser.CssParser> s_pool = new Stack<WebDom.Parser.CssParser>();
+        public static WebDom.Parser.CssParser GetFreeParser()
+        {
+            if (s_pool.Count > 0) return s_pool.Pop();
+            return new WebDom.Parser.CssParser();
+        }
+        public static void ReleaseParser(ref WebDom.Parser.CssParser parser)
+        {
+            s_pool.Push(parser);
+        }
+    }
+
     class HtmlElement : LayoutFarm.WebDom.Impl.HtmlElement
     {
         CssBox principalBox;
@@ -16,6 +32,7 @@ namespace LayoutFarm.Composers
             this.boxSpec = new Css.BoxSpec();
         }
 
+
         public override void SetAttribute(DomAttribute attr)
         {
             base.SetAttribute(attr);
@@ -25,6 +42,24 @@ namespace LayoutFarm.Composers
                     {
                         //TODO: parse and evaluate style here 
                         //****
+                        WebDom.Parser.CssParser miniCssParser = CssParserPool.GetFreeParser();
+                        //parse and evaluate the ruleset
+                        CssRuleSet parsedRuleSet = miniCssParser.ParseCssPropertyDeclarationList(attr.Value.ToCharArray());
+
+                        Css.BoxSpec spec = null;
+                        if (this.ParentNode != null)
+                        {
+                            spec = ((HtmlElement)this.ParentNode).Spec;
+                        }
+                        foreach (WebDom.CssPropertyDeclaration propDecl in parsedRuleSet.GetAssignmentIter())
+                        {
+
+                            SpecSetter.AssignPropertyValue(
+                                boxSpec,
+                                spec,
+                                propDecl);
+                        }
+                        CssParserPool.ReleaseParser(ref miniCssParser);
                     }
                     break;
             }
@@ -199,6 +234,6 @@ namespace LayoutFarm.Composers
             return base.RemoveChild(childNode);
         }
 
-         
+
     }
 }

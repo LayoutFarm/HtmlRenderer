@@ -81,9 +81,9 @@ namespace LayoutFarm.Composers
             CssBox cssbox = HtmlElement.InternalGetPrincipalBox(elem);
             if (cssbox != null)
             {
-#if DEBUG
-                cssbox.dbugMark1++;
-#endif
+//#if DEBUG
+//                cssbox.dbugMark1++;
+//#endif
 
                 CssBox.InvalidateComputeValue(cssbox);
             }

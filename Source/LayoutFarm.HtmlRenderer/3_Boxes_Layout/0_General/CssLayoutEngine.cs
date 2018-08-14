@@ -464,9 +464,12 @@ namespace LayoutFarm.HtmlBoxes
                                     var line = new CssLineBox(newAnonBlock);
                                     newAnonBlock.AddLineBox(line);
                                     var newFloatCtx = new FloatFormattingContext();
+
+                                    //recursive***
                                     FlowBoxContentIntoHostLineFmtContext(lay, newAnonBlock, b,
                                         limitLocalRight, 0,
                                         ref line, ref localX1, ref newFloatCtx);
+
                                     float localY = 0;
                                     int interlineSpace = 0;
                                     float maxLineWidth = 0;
