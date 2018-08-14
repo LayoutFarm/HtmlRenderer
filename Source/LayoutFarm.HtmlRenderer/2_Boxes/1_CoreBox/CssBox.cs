@@ -45,6 +45,8 @@ namespace LayoutFarm.HtmlBoxes
 #endif
         public CssBox(BoxSpec spec, IRootGraphics rootgfx)
         {
+
+
             this.rootgfx = rootgfx;
             this._aa_boxes = new CssBoxCollection();
 #if DEBUG
@@ -819,8 +821,8 @@ namespace LayoutFarm.HtmlBoxes
         //-----------------------------------------------------------------
         public static CssBox AddNewAnonInline(CssBox parent)
         {
-            var spec = CssBox.UnsafeGetBoxSpec(parent);
-            var newBox = new CssBox(spec.GetAnonVersion(), parent.rootgfx);
+            BoxSpec spec = CssBox.UnsafeGetBoxSpec(parent);
+            CssBox newBox = new CssBox(spec.GetAnonVersion(), parent.rootgfx);
             parent.AppendChild(newBox);
             CssBox.ChangeDisplayType(newBox, Css.CssDisplay.Inline);
             return newBox;

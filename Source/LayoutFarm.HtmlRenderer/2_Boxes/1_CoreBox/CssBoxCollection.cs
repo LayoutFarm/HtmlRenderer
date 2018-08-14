@@ -4,12 +4,19 @@ using System;
 using System.Collections.Generic;
 namespace LayoutFarm.HtmlBoxes
 {
+    class CssBoxAbsoluteLayer
+    {
+        List<CssBox> _boxes;
+
+    }
     class CssBoxCollection
     {
         LinkedList<CssBox> _boxes = new LinkedList<CssBox>();
+
         public CssBoxCollection()
         {
         }
+        public bool AbsolutePos { get; set; }
 
         public IEnumerable<CssBox> GetChildBoxIter()
         {
@@ -67,7 +74,10 @@ namespace LayoutFarm.HtmlBoxes
         public void Remove(CssBox box)
         {
             var linkedNode = CssBox.UnsafeGetLinkedNode(box);
-            this._boxes.Remove(linkedNode); 
+            if (this._boxes.Remove(box))
+            {
+
+            }
             CssBox.UnsafeSetNodes(box, null, null);
         }
         public CssBox GetFirstChild()

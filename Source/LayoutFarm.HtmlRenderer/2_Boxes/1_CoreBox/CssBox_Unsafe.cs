@@ -42,10 +42,18 @@ namespace LayoutFarm.HtmlBoxes
         }
         public static void UnsafeSetParent(CssBox box, CssBox parent)
         {
+            if (parent == null)
+            {
 #if DEBUG
-            if (parent == null) box.dbug_hasParent = false;
+                box.dbug_hasParent = false;
 #endif
-            box._parentBox = parent;
+                box._linkedNode = null;
+                box._parentBox = null;
+            }
+            else
+            {
+                box._parentBox = parent;
+            }
         }
         public static object UnsafeGetController(CssBox box)
         {
@@ -99,7 +107,6 @@ namespace LayoutFarm.HtmlBoxes
                     return "!a " + " " + this.CssDisplay + " c=" + this.ChildCount;
                 }
             }
-            return base.ToString();
         }
 #endif
     }

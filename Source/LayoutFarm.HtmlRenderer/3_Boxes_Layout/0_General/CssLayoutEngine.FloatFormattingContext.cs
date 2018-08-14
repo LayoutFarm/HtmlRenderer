@@ -16,73 +16,96 @@ namespace LayoutFarm.HtmlBoxes
 
     class FloatingContextStack
     {
-        List<FloatingContext> totalContext = new List<FloatingContext>();
-        List<FloatingContext> floatingContexts = new List<FloatingContext>();
-        FloatingContext latestFloatingContext;
+
+#if DEBUG
+        Dictionary<CssBox, bool> _dbugDic1 = new Dictionary<CssBox, bool>();
+#endif
+        List<FloatingContext> _totalContexts = new List<FloatingContext>();
+        List<FloatingContext> _floatingContexts = new List<FloatingContext>();
+        FloatingContext _latestFloatingContext;
         public FloatingContextStack()
         {
         }
+        public void Reset()
+        {
+            _latestFloatingContext = null;
+            _totalContexts.Clear();
+            _floatingContexts.Clear();
+#if DEBUG
+            _dbugDic1.Clear();
+#endif
+        }
         public void PushContainingBlock(CssBox box)
         {
-            if (latestFloatingContext == null)
+            if (_latestFloatingContext == null)
             {
-                latestFloatingContext = new FloatingContext(box);
-                totalContext.Add(latestFloatingContext);
+                _latestFloatingContext = new FloatingContext(box);
+                _totalContexts.Add(_latestFloatingContext);
             }
             else
             {
                 if (box.Float != Css.CssFloat.None)
                 {
-                    latestFloatingContext = new FloatingContext(box);
-                    totalContext.Add(latestFloatingContext);
+                    _latestFloatingContext = new FloatingContext(box);
+                    _totalContexts.Add(_latestFloatingContext);
                 }
             }
-            floatingContexts.Add(latestFloatingContext);
+            _floatingContexts.Add(_latestFloatingContext);
         }
         public void PopContainingBlock()
         {
-            switch (floatingContexts.Count)
+            switch (_floatingContexts.Count)
             {
                 case 0:
-                    latestFloatingContext = null;
+                    _latestFloatingContext = null;
                     return;
                 case 1:
-                    floatingContexts.Clear();
-                    latestFloatingContext = null;
+                    _floatingContexts.Clear();
+                    _latestFloatingContext = null;
                     break;
                 default:
-                    floatingContexts.RemoveAt(floatingContexts.Count - 1);
-                    latestFloatingContext = floatingContexts[floatingContexts.Count - 1];
+                    _floatingContexts.RemoveAt(_floatingContexts.Count - 1);
+                    _latestFloatingContext = _floatingContexts[_floatingContexts.Count - 1];
                     break;
             }
         }
         internal CssBox LatestLeftFloatBox
         {
-            get { return latestFloatingContext.LatestLeftFloatBox; }
+            get { return _latestFloatingContext.LatestLeftFloatBox; }
         }
         public CssBox LatestRightFloatBox
         {
             get
             {
-                return latestFloatingContext.LatestRightFloatBox;
+                return _latestFloatingContext.LatestRightFloatBox;
             }
         }
         public bool HasFloatBoxInContext
         {
-            get { return latestFloatingContext.HasFloatBox; }
+            get { return _latestFloatingContext.HasFloatBox; }
         }
 
         public void AddFloatBox(CssBox floatBox)
         {
-            latestFloatingContext.AddFloatBox(floatBox);
+#if DEBUG
+            if (_dbugDic1.ContainsKey(floatBox))
+            {
+
+            }
+            else
+            {
+                _dbugDic1.Add(floatBox, true);
+            }
+#endif
+            _latestFloatingContext.AddFloatBox(floatBox);
         }
         public CssBox CurrentTopOwner
         {
             get
             {
-                if (latestFloatingContext != null)
+                if (_latestFloatingContext != null)
                 {
-                    return latestFloatingContext.Owner;
+                    return _latestFloatingContext.Owner;
                 }
                 return null;
             }
@@ -90,7 +113,7 @@ namespace LayoutFarm.HtmlBoxes
 
         public List<FloatingContext> GetTotalContexts()
         {
-            return totalContext;
+            return _totalContexts;
         }
     }
 

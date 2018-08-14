@@ -80,7 +80,7 @@ namespace LayoutFarm.WebDom
                     //recursive to its parent
                     parentAsDomElem.OnMouseDown(e);
                     //when stop the cancel bubbline
-                    e.CancelBubbling = true;
+                    //e.CancelBubbling = true;
                 }
             }
         }
@@ -98,7 +98,7 @@ namespace LayoutFarm.WebDom
                     //recursive to its parent
                     parentAsDomElem.OnMouseUp(e);
                     //when stop the cancel bubbline
-                    e.CancelBubbling = true;
+                    //e.CancelBubbling = true;
                 }
             }
         }

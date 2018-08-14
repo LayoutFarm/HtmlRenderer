@@ -37,8 +37,10 @@ namespace LayoutFarm.HtmlBoxes
             if (dicStripPool != null) dicStripPool.Clear();
             if (listStripPool != null) listStripPool.Clear();
             readyDicStrip.Clear();
-            readyListStrip.Clear();
+            readyListStrip.Clear(); 
             totalMarginLeftAndRight = 0;
+            floatingContextStack.Reset();
+
         }
 
         internal ITextService SampleIFonts

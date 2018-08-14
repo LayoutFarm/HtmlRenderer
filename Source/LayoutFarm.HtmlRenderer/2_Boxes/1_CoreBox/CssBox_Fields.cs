@@ -336,6 +336,7 @@ namespace LayoutFarm.HtmlBoxes
             if (this._absPosLayer == null)
             {
                 this._absPosLayer = new CssBoxCollection();
+                
             }
             if (box.ParentBox != null)
             {

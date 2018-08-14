@@ -37,7 +37,7 @@ namespace LayoutFarm.HtmlBoxes
         public void Paint(PaintVisitor p)
         {
 #if DEBUG
-             
+
             dbugCounter.dbugBoxPaintCount++;
 #endif
             if (this._isVisible)
@@ -90,6 +90,10 @@ namespace LayoutFarm.HtmlBoxes
 #endif
         protected virtual void PaintImp(PaintVisitor p)
         {
+
+#if DEBUG
+            
+#endif
             //if (this.dbugMark2 == 10 || this.dbugMark2 == 12)
             //{
 

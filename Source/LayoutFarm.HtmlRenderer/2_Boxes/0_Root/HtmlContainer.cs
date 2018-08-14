@@ -165,7 +165,7 @@ namespace LayoutFarm.HtmlBoxes
                 FloatingContext floatingContext = totalContexts[i];
                 int floatBoxCount = floatingContext.FloatBoxCount;
                 if (floatBoxCount == 0) { continue; }
-
+                //-----------------------------------------------------------
 
                 CssBox floatingOwner = floatingContext.Owner;
                 float rfx, rfy;
