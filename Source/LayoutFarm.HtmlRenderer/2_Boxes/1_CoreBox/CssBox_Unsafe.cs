@@ -18,6 +18,9 @@ namespace LayoutFarm.HtmlBoxes
         }
         internal static void UnsafeSetNodes(CssBox childNode, CssBox parent, LinkedListNode<CssBox> linkNode)
         {
+#if DEBUG
+            if (parent == null) childNode.dbug_hasParent = false;
+#endif
             childNode._parentBox = parent;
             childNode._linkedNode = linkNode;
         }
@@ -39,6 +42,9 @@ namespace LayoutFarm.HtmlBoxes
         }
         public static void UnsafeSetParent(CssBox box, CssBox parent)
         {
+#if DEBUG
+            if (parent == null) box.dbug_hasParent = false;
+#endif
             box._parentBox = parent;
         }
         public static object UnsafeGetController(CssBox box)
