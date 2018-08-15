@@ -36,7 +36,10 @@ namespace LayoutFarm.HtmlBoxes
         public void Paint(PaintVisitor p)
         {
 #if DEBUG
+            //if (this.__aa_dbugId == 5)
+            //{
 
+            //}
             dbugCounter.dbugBoxPaintCount++;
 #endif
             if (this._isVisible)
