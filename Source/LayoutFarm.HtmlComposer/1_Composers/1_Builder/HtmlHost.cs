@@ -214,9 +214,8 @@ namespace LayoutFarm.HtmlBoxes
                                         CssBox principalCssBox = parentElement.CurrentPrincipalBox;
                                         bool isblockContext = (principalCssBox != null) ? principalCssBox.IsBlock : false;
                                         renderTreeBuilder.UpdateTextNode(parentElement, singleTextNode, isblockContext);
-                                        RunListHelper.AddRunList(hostBox, parentElement.Spec, singleTextNode);
                                     }
-
+                                    RunListHelper.AddRunList(hostBox, parentElement.Spec, singleTextNode);
                                 }
                                 break;
                             case HtmlNodeKind.ShortElement:

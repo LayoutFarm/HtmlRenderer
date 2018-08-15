@@ -28,15 +28,18 @@ namespace LayoutFarm.HtmlWidgets
             if (pnode != null) return pnode;
             //----------------------------------
             pnode = htmldoc.CreateElement("div");
-            pnode.SetAttribute("style", "display:inline-block;width:" + Width + "px;height:" + this.Height + "px;");
+            pnode.SetAttribute("style", "display:inline-block;width:" + Width + "px;height:" + this.Height + "px;cursor:pointer");
             pnode.AddChild("div", div2 =>
             {
                 //init
                 div2.SetAttribute("style", "padding:5px;background-color:#dddddd;color:black;");
-                div2.AddChild("span", span =>
-                {
-                    span.AddTextContent(this.buttonText);
-                });
+                DomElement imgNode = div2.AddChild("img");
+                imgNode.SetAttribute("src", "chk_unchecked.png");
+
+                //div2.AddChild("span", span =>
+                //{
+                //    span.AddTextContent(this.buttonText);
+                //});
                 //------------------------------
 #if DEBUG
                 div2.dbugMark = 10;
@@ -57,11 +60,10 @@ namespace LayoutFarm.HtmlWidgets
 #if DEBUG
                     //                    div2.dbugMark = 2;
 #endif
-                    //                    div2.SetAttribute("style", "padding:5px;background-color:#dddddd;");
-
+                    div2.SetAttribute("style", "padding:5px;background-color:#dddddd;");
                     //                    //EaseScriptElement ee = new EaseScriptElement(div2);
                     //                    //ee.ChangeBackgroundColor(Color.FromArgb(0xdd, 0xdd, 0xdd));
-                    //                    e.StopPropagation();
+                    e.StopPropagation();
                 });
             });
             return pnode;
