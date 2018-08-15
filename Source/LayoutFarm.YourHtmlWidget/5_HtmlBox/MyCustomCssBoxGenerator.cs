@@ -111,7 +111,7 @@ namespace LayoutFarm.CustomWidgets
                             }
 
                             DomElement buttonDom = button.GetPresentationDomNode((HtmlDocument)domE.OwnerDocument);
-                            buttonDom.SetAttribute("style", "width:20px;height:20px;background-color:white;");
+                            buttonDom.SetAttribute("style", "width:20px;height:20px;background-color:white;cursor:pointer");
                             CssBox buttonCssBox = host.CreateBox2(parentBox, (WebDom.Impl.HtmlElement)buttonDom, true);
                             parentBox.AppendChild(buttonCssBox);
                             return buttonCssBox;
