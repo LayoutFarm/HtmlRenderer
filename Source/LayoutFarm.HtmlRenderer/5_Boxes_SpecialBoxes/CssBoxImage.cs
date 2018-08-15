@@ -71,6 +71,10 @@ namespace LayoutFarm.HtmlBoxes
             {
                 this._imgRun.ImageBinder = value;
                 this.RunSizeMeasurePass = false;
+                if (value != null)
+                {
+                    value.ImageChanged += Binder_ImageChanged;
+                }
             }
         }
         public override void Paint(PaintVisitor p, RectangleF rect)
