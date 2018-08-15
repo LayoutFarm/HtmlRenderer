@@ -42,14 +42,14 @@ namespace LayoutFarm.HtmlBoxes
             }
 
             myHtmlCont.CheckDocUpdate();
-            PaintVisitor painter = PainterStock.GetSharedPainter(this.myHtmlCont, canvas);
+            PaintVisitor painter = PaintVisitorStock.GetSharedPaintVisitor(this.myHtmlCont, canvas);
             painter.SetViewportSize(this.Width, this.Height);
 #if DEBUG
             painter.dbugDrawDiagonalBox(Color.Blue, this.X, this.Y, this.Width, this.Height);
 #endif
 
             myHtmlCont.PerformPaint(painter);
-            PainterStock.ReleaseSharedPainter(painter);
+            PaintVisitorStock.ReleaseSharedPaintVisitor(painter);
         }
         public override void ChildrenHitTestCore(HitChain hitChain)
         {
@@ -64,29 +64,29 @@ namespace LayoutFarm.HtmlBoxes
         }
     }
 
-    static class PainterStock
+    static class PaintVisitorStock
     {
-        internal static PaintVisitor GetSharedPainter(HtmlContainer htmlCont, DrawBoard canvas)
+        internal static PaintVisitor GetSharedPaintVisitor(HtmlContainer htmlCont, DrawBoard canvas)
         {
             PaintVisitor painter = null;
-            if (painterStock.Count == 0)
+            if (s_paintVisitorStock.Count == 0)
             {
                 painter = new PaintVisitor();
             }
             else
             {
-                painter = painterStock.Dequeue();
+                painter = s_paintVisitorStock.Dequeue();
             }
 
             painter.Bind(htmlCont, canvas);
             return painter;
         }
-        internal static void ReleaseSharedPainter(PaintVisitor p)
+        internal static void ReleaseSharedPaintVisitor(PaintVisitor p)
         {
             p.UnBind();
-            painterStock.Enqueue(p);
+            s_paintVisitorStock.Enqueue(p);
         }
-        static Queue<PaintVisitor> painterStock = new Queue<PaintVisitor>();
+        static Queue<PaintVisitor> s_paintVisitorStock = new Queue<PaintVisitor>();
     }
 }
 
