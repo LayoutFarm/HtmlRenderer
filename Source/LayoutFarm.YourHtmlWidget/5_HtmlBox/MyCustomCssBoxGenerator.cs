@@ -115,18 +115,6 @@ namespace LayoutFarm.CustomWidgets
                             CssBox buttonCssBox = host.CreateBox2(parentBox, (WebDom.Impl.HtmlElement)buttonDom, true);
                             parentBox.AppendChild(buttonCssBox);
                             return buttonCssBox;
-                            // CreateCssBox(buttonDom, parentBox, spec, host);
-                            //var ui = button.GetPrimaryUIElement(this.myHost);
-
-                            //var wrapperBox = CreateWrapper(
-                            //    button,
-                            //    ui.GetPrimaryRenderElement(rootgfx),
-                            //    spec, true);
-                            //parentBox.AppendChild(wrapperBox);
-                            //return wrapperBox;
-
-                            //parentBox.AppendChild(buttonCssBox);
-                            //return buttonCssBox;
                         }
                     case "radio":
                         {
@@ -143,43 +131,12 @@ namespace LayoutFarm.CustomWidgets
                             button.Text = "C";
                             DomElement buttonDom = button.GetPresentationDomNode((HtmlDocument)domE.OwnerDocument);
                             buttonDom.SetAttribute("style", "width:20px;height:20px;background-color:red;");
-
-
                             CssBox buttonCssBox = host.CreateBox2(parentBox, (WebDom.Impl.HtmlElement)buttonDom, true); //create and append to the parentBox
 #if DEBUG
                             buttonCssBox.dbugMark1 = 1;
 #endif
                             return buttonCssBox;
-
-                            ////tempfix -> just copy the Button code,
-                            ////TODO: review here, use proper radio button 
-                            //var box = new LayoutFarm.CustomWidgets.Box(20, 20);
-                            //CssBox wrapperBox = CreateWrapper(
-                            //     box,
-                            //     box.GetPrimaryRenderElement(rootgfx),
-                            //     spec, true);
-                            //parentBox.AppendChild(wrapperBox);
-                            //return wrapperBox;
-
-
-                            ////use subdom technique
-                            ////todo: review the technique here
-                            //var checkbox = new HtmlWidgets.CheckBox(20, 20);
-                            //var ihtmlElement = domE as LayoutFarm.WebDom.IHtmlElement;
-                            //if (ihtmlElement != null)
-                            //{
-                            //    checkbox.Text = ihtmlElement.innerHTML;
-                            //}
-                            //else
-                            //{
-                            //    checkbox.Text = "";
-                            //}
-                            //DomElement buttonDom = checkbox.GetPresentationDomNode((HtmlDocument)domE.OwnerDocument);
-                            //CssBox buttonCssBox = host.CreateBox2(parentBox, (WebDom.Impl.HtmlElement)buttonDom, true);
-                            //parentBox.AppendChild(buttonCssBox);
-                            //return buttonCssBox;
                         }
-                        break;
                     case "your_box":
                         {
 
