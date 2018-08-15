@@ -204,6 +204,54 @@ namespace LayoutFarm.HtmlBoxes
                         return true;
                     });
                 }
+
+                var cssbox = e.ExactHitObject as HtmlBoxes.CssBox;
+                if (cssbox != null)
+                {
+                    switch (cssbox.CursorName)
+                    {
+                        case Css.CssCursorName.IBeam:
+                            if (e.MouseCursorStyle != MouseCursorStyle.IBeam)
+                            {
+                                e.MouseCursorStyle = MouseCursorStyle.IBeam;
+                            }
+                            break;
+                        case Css.CssCursorName.Hand:
+                        case Css.CssCursorName.Pointer:
+                            if (e.MouseCursorStyle != MouseCursorStyle.Pointer)
+                            {
+                                e.MouseCursorStyle = MouseCursorStyle.Pointer;
+                            }
+                            break;
+                        case Css.CssCursorName.Default:
+                            if (e.MouseCursorStyle != MouseCursorStyle.Default)
+                            {
+                                e.MouseCursorStyle = MouseCursorStyle.Default;
+                            }
+                            break;
+                    }
+                }
+                else
+                {
+                    var cssspan = e.ExactHitObject as HtmlBoxes.CssTextRun;
+                    if (cssspan != null)
+                    {
+                        cssbox = cssspan.OwnerBox;
+                        switch (cssbox.CursorName)
+                        {
+                            default:
+                                e.MouseCursorStyle = MouseCursorStyle.IBeam;
+                                break;
+                            case Css.CssCursorName.Hand:
+                            case Css.CssCursorName.Pointer:
+                                if (e.MouseCursorStyle != MouseCursorStyle.Pointer)
+                                {
+                                    e.MouseCursorStyle = MouseCursorStyle.Pointer;
+                                }
+                                break;
+                        }
+                    }
+                }
                 ReleaseHitChain(hitChain);
             }
         }
@@ -409,7 +457,7 @@ namespace LayoutFarm.HtmlBoxes
                     if (listenerAction())
                     {
                         return;
-                    }
+                    } 
                 }
             }
         }

@@ -98,12 +98,12 @@ namespace LayoutFarm
 
             string svgContent = System.IO.File.ReadAllText(filename);
             SvgDocBuilder docBuidler = new SvgDocBuilder();
-             SvgParser parser = new SvgParser(docBuidler);
+            SvgParser parser = new SvgParser(docBuidler);
             WebLexer.TextSnapshot textSnapshot = new WebLexer.TextSnapshot(svgContent);
             parser.ParseDocument(textSnapshot);
             //TODO: review this step again
             SvgRenderVxDocBuilder builder = new SvgRenderVxDocBuilder();
-            return builder.CreateRenderVx(docBuidler.ResultDocument);             
+            return builder.CreateRenderVx(docBuidler.ResultDocument);
         }
         void SetupActiveBoxProperties(LayoutFarm.CustomWidgets.Box box)
         {

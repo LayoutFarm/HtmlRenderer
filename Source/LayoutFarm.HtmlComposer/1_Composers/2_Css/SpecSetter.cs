@@ -48,6 +48,7 @@ namespace LayoutFarm.Composers
             //TODO: implement background position from combination value
             throw new NotSupportedException();
         }
+
         static void SetBackgroundPosition(this BoxSpec box, WebDom.CssCodeValueExpression value)
         {
             //TODO: implement background position from combination value
@@ -147,6 +148,27 @@ namespace LayoutFarm.Composers
                     break;
                 case WellknownCssPropertyName.CornerSWRadius:
                     spec.CornerSWRadius = cssValue.AsLength();
+                    break;
+                case WellknownCssPropertyName.Cursor:
+                    {
+                        string str = cssValue.GetTranslatedStringValue();
+                        switch (str)
+                        {
+                            default: break;
+                            case "hand":
+                            case "pointer":
+                                spec.CursorName = CssCursorName.Hand;
+                                break;
+                            case "arrow":
+                            case "default":
+                                spec.CursorName = CssCursorName.Default;
+                                break;
+                            case "ibeam":
+                                spec.CursorName = CssCursorName.IBeam;
+                                break;
+                        }
+                    }
+
                     break;
                 //------------------------------------------------
                 case WellknownCssPropertyName.MarginBottom:
@@ -573,9 +595,7 @@ namespace LayoutFarm.Composers
                     spec.BackgroundGradient = parentSpec.BackgroundGradient;
                     break;
                 case WellknownCssPropertyName.BackgroundGradientAngle:
-                    {
-                        spec.BackgroundGradientAngle = parentSpec.BackgroundGradientAngle;
-                    }
+                    spec.BackgroundGradientAngle = parentSpec.BackgroundGradientAngle;
                     break;
                 case WellknownCssPropertyName.Color:
                     spec.Color = parentSpec.Color;

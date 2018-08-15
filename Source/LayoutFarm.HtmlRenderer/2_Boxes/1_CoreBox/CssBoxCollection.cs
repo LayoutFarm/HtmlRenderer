@@ -4,12 +4,37 @@ using System;
 using System.Collections.Generic;
 namespace LayoutFarm.HtmlBoxes
 {
+    class CssBoxAbsoluteLayer
+    {
+        List<CssBox> _boxes = new List<CssBox>();
+        public CssBoxAbsoluteLayer()
+        {
+        }
+        public void AddChild(CssBox box)
+        {
+          
+            _boxes.Add(box);
+        }
+        public CssBox GetBox(int index) { return _boxes[index]; }
+        public int Count { get { return _boxes.Count; } }
+        public void Clear()
+        {
+            _boxes.Clear();
+        }
+        public bool Remove(CssBox box)
+        {
+            return _boxes.Remove(box);
+        }
+
+    }
     class CssBoxCollection
     {
         LinkedList<CssBox> _boxes = new LinkedList<CssBox>();
+
         public CssBoxCollection()
         {
         }
+
 
         public IEnumerable<CssBox> GetChildBoxIter()
         {
@@ -67,7 +92,7 @@ namespace LayoutFarm.HtmlBoxes
         public void Remove(CssBox box)
         {
             var linkedNode = CssBox.UnsafeGetLinkedNode(box);
-            this._boxes.Remove(linkedNode);
+            this._boxes.Remove(linkedNode); 
             CssBox.UnsafeSetNodes(box, null, null);
         }
         public CssBox GetFirstChild()

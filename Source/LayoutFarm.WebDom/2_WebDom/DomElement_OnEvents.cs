@@ -72,6 +72,35 @@ namespace LayoutFarm.WebDom
             {
                 evhMouseDown(e);
             }
+            if (!e.CancelBubbling)
+            {
+                DomElement parentAsDomElem = this.ParentNode as DomElement;
+                if (parentAsDomElem != null)
+                {
+                    //recursive to its parent
+                    parentAsDomElem.OnMouseDown(e);
+                    //when stop the cancel bubbline
+                    //e.CancelBubbling = true;
+                }
+            }
+        }
+        protected virtual void OnMouseUp(UIMouseEventArgs e)
+        {
+            if (evhMouseUp != null)
+            {
+                evhMouseUp(e);
+            }
+            if (!e.CancelBubbling)
+            {
+                DomElement parentAsDomElem = this.ParentNode as DomElement;
+                if (parentAsDomElem != null)
+                {
+                    //recursive to its parent
+                    parentAsDomElem.OnMouseUp(e);
+                    //when stop the cancel bubbline
+                    //e.CancelBubbling = true;
+                }
+            }
         }
         protected virtual void OnMouseWheel(UIMouseEventArgs e)
         {
@@ -112,13 +141,7 @@ namespace LayoutFarm.WebDom
         protected virtual void OnMouseHover(UIMouseEventArgs e)
         {
         }
-        protected virtual void OnMouseUp(UIMouseEventArgs e)
-        {
-            if (evhMouseUp != null)
-            {
-                evhMouseUp(e);
-            }
-        }
+
         protected virtual void OnMouseEnter(UIMouseEventArgs e)
         {
         }
