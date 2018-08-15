@@ -9,13 +9,13 @@ namespace LayoutFarm.WebDom.Extension
         //level 1
         public static DomElement AddChild(this DomElement elem, string elementName)
         {
-            var newchild = elem.OwnerDocument.CreateElement(elementName);
+            DomElement newchild = elem.OwnerDocument.CreateElement(elementName); 
             elem.AddChild(newchild);
             return newchild;
         }
         public static DomElement AddChild(this DomElement elem, string elementName, out DomElement elemExit)
         {
-            var newchild = elem.OwnerDocument.CreateElement(elementName);
+            DomElement newchild = elem.OwnerDocument.CreateElement(elementName);
             elem.AddChild(newchild);
             elemExit = newchild;
             return newchild;

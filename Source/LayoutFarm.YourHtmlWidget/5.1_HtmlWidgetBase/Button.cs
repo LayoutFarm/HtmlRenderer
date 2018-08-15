@@ -33,10 +33,13 @@ namespace LayoutFarm.HtmlWidgets
             {
                 //init
                 div2.SetAttribute("style", "padding:5px;background-color:#dddddd;color:black;");
-                div2.AddChild("span", span =>
-                {
-                    span.AddTextContent(this.buttonText);
-                });
+                DomElement imgNode = div2.AddChild("img");
+                imgNode.SetAttribute("src", "chk_unchecked.png");
+
+                //div2.AddChild("span", span =>
+                //{
+                //    span.AddTextContent(this.buttonText);
+                //});
                 //------------------------------
 #if DEBUG
                 div2.dbugMark = 10;

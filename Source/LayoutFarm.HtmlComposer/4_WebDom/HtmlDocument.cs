@@ -26,9 +26,11 @@ namespace LayoutFarm.Composers
         public override DomElement CreateElement(string prefix, string localName)
         {
             //actual implementation
-            return new HtmlElement(this,
+            var htmlElement = new HtmlElement(this,
                 AddStringIfNotExists(prefix),
-                AddStringIfNotExists(localName));
+                AddStringIfNotExists(localName)); 
+            htmlElement.WellknownElementName = UserMapUtil.EvaluateTagName(htmlElement.LocalName);
+            return htmlElement;
         }
         public override DomNode CreateDocumentNodeElement()
         {

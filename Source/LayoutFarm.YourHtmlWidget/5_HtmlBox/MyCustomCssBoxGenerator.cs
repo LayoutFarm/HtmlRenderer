@@ -118,7 +118,7 @@ namespace LayoutFarm.CustomWidgets
                         }
                     case "radio":
                         {
-                            var button = new HtmlWidgets.Button(60, 30);
+                            var button = new HtmlWidgets.CheckBox(16, 16);
                             var ihtmlElement = domE as LayoutFarm.WebDom.IHtmlElement;
                             if (ihtmlElement != null)
                             {
@@ -129,8 +129,9 @@ namespace LayoutFarm.CustomWidgets
                                 button.Text = "testButton";
                             }
                             button.Text = "C";
+
                             DomElement buttonDom = button.GetPresentationDomNode((HtmlDocument)domE.OwnerDocument);
-                            buttonDom.SetAttribute("style", "width:20px;height:20px;background-color:red;");
+                            //buttonDom.SetAttribute("style", "width:20px;height:20px;background-color:red;cursor:pointer");
                             CssBox buttonCssBox = host.CreateBox2(parentBox, (WebDom.Impl.HtmlElement)buttonDom, true); //create and append to the parentBox
 #if DEBUG
                             buttonCssBox.dbugMark1 = 1;
