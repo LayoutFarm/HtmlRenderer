@@ -10,7 +10,7 @@ namespace LayoutFarm.HtmlBoxes
     public delegate void HtmlContainerUpdateHandler(HtmlContainer htmlCont);
     public sealed class MyHtmlContainer : HtmlContainer
     {
-         
+
         WebDocument webdoc;
         HtmlHost htmlhost;
         SelectionRange _currentSelectionRange;
@@ -25,7 +25,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             this.htmlhost = htmlhost;
         }
-         
+
         public void AttachEssentialHandlers(EventHandler domVisualRefreshHandler,
             EventHandler domRequestRebuildHandler,
             EventHandler containerInvalidateGfxHanlder,
@@ -97,6 +97,7 @@ namespace LayoutFarm.HtmlBoxes
                 if (domVisualRefresh != null)
                 {
                     domVisualRefresh(this, EventArgs.Empty);
+                    this.ContainerInvalidateGraphics();
                 }
 #if DEBUG
                 //dbugCount02++;
@@ -134,7 +135,7 @@ namespace LayoutFarm.HtmlBoxes
                 hasSomeSelectedArea = false;
             }
             this._currentSelectionRange = selRange;
-             
+
             this.RootCssBox.InvalidateGraphics(_currentSelectionArea);
         }
         public override void CopySelection(StringBuilder stbuilder)

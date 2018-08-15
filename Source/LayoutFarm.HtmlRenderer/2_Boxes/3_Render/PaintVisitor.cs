@@ -314,7 +314,7 @@ namespace LayoutFarm.HtmlBoxes
         }
 #if DEBUG
 
-       
+
 
         int dbugIndentLevel;
         internal bool dbugEnableLogRecord;

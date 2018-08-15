@@ -27,7 +27,7 @@ namespace LayoutFarm.WebWidgets
                 statedBox.SetLocation(10, boxY);
                 boxY += boxHeight + 5;
                 AddToViewport(statedBox);
-                statedBox.WhenChecked += (s, e) =>
+                statedBox.CheckValueAssigned += (s, e) =>
                 {
                     var selectedBox = (LayoutFarm.HtmlWidgets.CheckBox)s;
                     if (selectedBox != currentSingleCheckedBox)
