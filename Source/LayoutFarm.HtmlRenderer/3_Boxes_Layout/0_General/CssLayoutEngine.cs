@@ -1349,6 +1349,11 @@ namespace LayoutFarm.HtmlBoxes
                     continue;
                 }
 
+                if (b.Float == CssFloat.Left || b.Float == CssFloat.Right)
+                {
+                    continue;
+                }
+
                 if (b.NeedComputedValueEvaluation)
                 {
                     b.ReEvaluateComputedValues(ifonts, lay.LatestContainingBlock);
