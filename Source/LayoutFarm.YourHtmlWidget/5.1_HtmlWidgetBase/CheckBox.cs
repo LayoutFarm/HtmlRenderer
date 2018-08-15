@@ -48,13 +48,15 @@ namespace LayoutFarm.HtmlWidgets
             pnode.AddChild("div", div2 =>
             {
                 //init
-                div2.SetAttribute("style", "padding:5px;background-color:#dddddd;color:black;");
+                div2.SetAttribute("style", "background-color:#dddddd;color:black;");
                 DomElement imgNode = div2.AddChild("img");
-                imgNode.SetAttribute("src", "chk_checked.png");
+                imgNode.SetAttribute("src", "chk_unchecked.png");
 
                 imgNode.AttachMouseDownEvent(e =>
                 {
-
+                    imgNode.SetAttribute("src", "chk_checked.png");
+                    imgNode.SetAttribute("style", "background-color:yellow");
+                    e.StopPropagation();
                 });
 
 #if DEBUG
