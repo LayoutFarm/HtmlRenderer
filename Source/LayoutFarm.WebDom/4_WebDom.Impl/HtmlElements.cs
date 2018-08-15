@@ -4,9 +4,10 @@
 using System.Text;
 namespace LayoutFarm.WebDom.Impl
 {
-    public partial class HtmlElement : DomElement, IHtmlElement
+    public abstract partial class HtmlElement : DomElement, IHtmlElement
     {
         CssRuleSet elementRuleSet;
+
         public HtmlElement(HtmlDocument owner, int prefix, int localNameIndex)
             : base(owner, prefix, localNameIndex)
         {
@@ -26,6 +27,7 @@ namespace LayoutFarm.WebDom.Impl
                 return false;
             }
         }
+
         public bool TryGetAttribute(WellknownName wellknownHtmlName, out string value)
         {
             DomAttribute found;
