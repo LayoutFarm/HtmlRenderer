@@ -45,17 +45,21 @@ namespace LayoutFarm.HtmlBoxes
 #endif
         public CssBox(BoxSpec spec, IRootGraphics rootgfx)
         {
+
+
             this.rootgfx = rootgfx;
             this._aa_boxes = new CssBoxCollection();
 #if DEBUG
             //if (this.__aa_dbugId == 6)
             //{
+            //}   
+
+            //if (!spec.IsFreezed)
+            //{
+            //    //must be freezed
+            //    throw new NotSupportedException();
             //}
-            if (!spec.IsFreezed)
-            {
-                //must be freezed
-                throw new NotSupportedException();
-            }
+
 #endif
 
             //assign spec 
@@ -401,6 +405,10 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="g">Device context to use</param>
         public void PerformLayout(LayoutVisitor lay)
         {
+            //if (this.dbugMark1 > 0)
+            //{
+
+            //}
             //derived class can perform its own layout algo            
             //by override performContentLayout 
             PerformContentLayout(lay);
@@ -813,8 +821,8 @@ namespace LayoutFarm.HtmlBoxes
         //-----------------------------------------------------------------
         public static CssBox AddNewAnonInline(CssBox parent)
         {
-            var spec = CssBox.UnsafeGetBoxSpec(parent);
-            var newBox = new CssBox(spec.GetAnonVersion(), parent.rootgfx);
+            BoxSpec spec = CssBox.UnsafeGetBoxSpec(parent);
+            CssBox newBox = new CssBox(spec.GetAnonVersion(), parent.rootgfx);
             parent.AppendChild(newBox);
             CssBox.ChangeDisplayType(newBox, Css.CssDisplay.Inline);
             return newBox;

@@ -46,7 +46,7 @@ namespace LayoutFarm.HtmlBoxes
         float _actualHeight;
         float _maxWidth;
         float _maxHeight;
-        
+
 
         /// <summary>
         /// 99999
@@ -80,7 +80,7 @@ namespace LayoutFarm.HtmlBoxes
             get { return this._rootBox; }
 
         }
-        
+
         public void SetRootCssBox(CssBox rootCssBox)
         {
             if (_rootBox != null)
@@ -165,7 +165,7 @@ namespace LayoutFarm.HtmlBoxes
                 FloatingContext floatingContext = totalContexts[i];
                 int floatBoxCount = floatingContext.FloatBoxCount;
                 if (floatBoxCount == 0) { continue; }
-
+                //-----------------------------------------------------------
 
                 CssBox floatingOwner = floatingContext.Owner;
                 float rfx, rfy;
@@ -254,6 +254,11 @@ namespace LayoutFarm.HtmlBoxes
         protected virtual void OnLayoutFinished()
         {
         }
+
+
+#if DEBUG
+        public static int dbugPaintN;
+#endif
         public void PerformPaint(PaintVisitor p)
         {
             if (_rootBox == null)
@@ -265,10 +270,12 @@ namespace LayoutFarm.HtmlBoxes
 #if DEBUG
             p.dbugEnableLogRecord = false;
             p.dbugResetLogRecords();
+            dbugPaintN++;
 #endif
             _rootBox.Paint(p);
             p.PopContainingBlock();
 #if DEBUG
+            
             if (p.dbugEnableLogRecord)
             {
                 //var logs = p.logRecords;

@@ -96,6 +96,17 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="localY"></param>
         public void SetLocation(float localX, float localY)
         {
+#if DEBUG
+            //if (this.__aa_dbugId == 5)
+            //{
+                
+            //    this._localX = localX;
+            //    this._localY = localY;
+            //    this._boxCompactFlags |= BoxFlags.HAS_ASSIGNED_LOCATION;
+            //    return;
+            //}
+#endif
+
             this._localX = localX;
             this._localY = localY;
             this._boxCompactFlags |= BoxFlags.HAS_ASSIGNED_LOCATION;

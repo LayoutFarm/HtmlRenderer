@@ -238,7 +238,7 @@ namespace LayoutFarm.HtmlBoxes
                     {
                         cssbox = cssspan.OwnerBox;
                         switch (cssbox.CursorName)
-                        {   
+                        {
                             default:
                                 e.MouseCursorStyle = MouseCursorStyle.IBeam;
                                 break;
@@ -457,7 +457,7 @@ namespace LayoutFarm.HtmlBoxes
                     if (listenerAction())
                     {
                         return;
-                    }
+                    } 
                 }
             }
         }

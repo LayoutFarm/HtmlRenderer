@@ -464,9 +464,12 @@ namespace LayoutFarm.HtmlBoxes
                                     var line = new CssLineBox(newAnonBlock);
                                     newAnonBlock.AddLineBox(line);
                                     var newFloatCtx = new FloatFormattingContext();
+
+                                    //recursive***
                                     FlowBoxContentIntoHostLineFmtContext(lay, newAnonBlock, b,
                                         limitLocalRight, 0,
                                         ref line, ref localX1, ref newFloatCtx);
+
                                     float localY = 0;
                                     int interlineSpace = 0;
                                     float maxLineWidth = 0;
@@ -852,7 +855,9 @@ namespace LayoutFarm.HtmlBoxes
 
                             if (box.HasAbsoluteLayer)
                             {
+                                lay.InAbsoluteLayerMode = true;
                                 LayoutContentInAbsoluteLayer(lay, box);
+                                lay.InAbsoluteLayerMode = false;
                             }
                         }
                         //---------------------
@@ -970,7 +975,12 @@ namespace LayoutFarm.HtmlBoxes
                         sx += box.ActualMarginLeft;
                         sy += box.ActualMarginTop;
                         box.SetLocation(sx, sy);
-                        lay.AddFloatBox(box);
+
+                        if (!lay.InAbsoluteLayerMode)
+                        {
+                            lay.AddFloatBox(box);
+                        }
+
                     }
                     break;
                 case CssFloat.Right:
@@ -1062,7 +1072,10 @@ namespace LayoutFarm.HtmlBoxes
                         sx += box.ActualMarginLeft;
                         sy += box.ActualMarginTop;
                         box.SetLocation(sx, sy);
-                        lay.AddFloatBox(box);
+                        if (!lay.InAbsoluteLayerMode)
+                        {
+                            lay.AddFloatBox(box);
+                        }
                     }
                     break;
                 case CssFloat.None:
@@ -1321,7 +1334,8 @@ namespace LayoutFarm.HtmlBoxes
         static void LayoutContentInAbsoluteLayer(LayoutVisitor lay, CssBox srcBox)
         {
             if (srcBox.JustTempContainer) return;
-            var ifonts = lay.SampleIFonts;
+
+            PixelFarm.Drawing.ITextService ifonts = lay.SampleIFonts;
             //css3 jan2015: absolute position
             //use offset relative to its normal the box's containing box***
 
@@ -1331,6 +1345,11 @@ namespace LayoutFarm.HtmlBoxes
             foreach (var b in srcBox.GetAbsoluteChildBoxIter())
             {
                 if (b.JustTempContainer)
+                {
+                    continue;
+                }
+
+                if (b.Float == CssFloat.Left || b.Float == CssFloat.Right)
                 {
                     continue;
                 }
