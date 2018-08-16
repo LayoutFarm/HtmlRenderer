@@ -101,7 +101,12 @@ namespace LayoutFarm.HtmlBoxes
                             //4. go deeper for block run
                             if (foundRun.Kind == CssRunKind.BlockRun)
                             {
-                                var blockRun = (CssBlockRun)foundRun;
+
+#if DEBUG
+                                if(hitChain.de)
+#endif
+
+                                CssBlockRun blockRun = (CssBlockRun)foundRun;
                                 CssLineBox hostLine = blockRun.HostLine;
                                 //adjust with hostline 
 

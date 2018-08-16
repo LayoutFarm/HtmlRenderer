@@ -55,13 +55,13 @@ namespace LayoutFarm.HtmlWidgets
                 //init
                 div2.SetAttribute("style", "background-color:#dddddd;color:black;");
                 DomElement imgNode = div2.AddChild("img");
-                imgNode.SetAttribute("src", "chk_unchecked.png");
-                //imgNode.SetAttribute("src", "opt_unchecked.png");
+                //imgNode.SetAttribute("src", "chk_unchecked.png");
+                imgNode.SetAttribute("src", "opt_unchecked.png");
 
                 imgNode.AttachMouseDownEvent(e =>
                 {
-                    imgNode.SetAttribute("src", "chk_checked.png");
-                    //imgNode.SetAttribute("src", "opt_checked.png");
+                    //imgNode.SetAttribute("src", "chk_checked.png");
+                    imgNode.SetAttribute("src", "opt_checked.png");
                     //imgNode.SetAttribute("style", "background-color:yellow");
                     e.StopPropagation();
                 });
