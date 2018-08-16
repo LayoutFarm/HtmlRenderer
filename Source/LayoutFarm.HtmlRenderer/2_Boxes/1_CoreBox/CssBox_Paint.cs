@@ -7,9 +7,12 @@ namespace LayoutFarm.HtmlBoxes
 {
     partial class CssBox
     {
+
         public void InvalidateGraphics()
         {
             //bubble invalidate area to to parent?
+
+
             if (this.justBlockRun != null)
             {
 
@@ -22,7 +25,7 @@ namespace LayoutFarm.HtmlBoxes
                 return;
             }
 
-            var parentBox = this.ParentBox;
+            CssBox parentBox = _absLayerOwner ?? this.ParentBox;
             if (parentBox != null)
             {
                 parentBox.InvalidateGraphics(new Rectangle(
@@ -32,6 +35,7 @@ namespace LayoutFarm.HtmlBoxes
                     (int)this.VisualHeight));
             }
         }
+
         public virtual void InvalidateGraphics(Rectangle clientArea)
         {
             //bubble up to parent
@@ -49,7 +53,8 @@ namespace LayoutFarm.HtmlBoxes
 
                 return;
             }
-            var parentBox = this.ParentBox;
+
+            CssBox parentBox = _absLayerOwner ?? this.ParentBox;
             if (parentBox != null)
             {
                 clientArea.Offset((int)this.LocalX, (int)this.LocalY);
