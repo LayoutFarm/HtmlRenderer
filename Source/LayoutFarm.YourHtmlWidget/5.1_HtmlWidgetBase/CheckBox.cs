@@ -55,12 +55,13 @@ namespace LayoutFarm.HtmlWidgets
                 //init
                 div2.SetAttribute("style", "background-color:#dddddd;color:black;");
                 DomElement imgNode = div2.AddChild("img");
-                //imgNode.SetAttribute("src", "chk_unchecked.png");
                 imgNode.SetAttribute("src", "chk_unchecked.png");
+                //imgNode.SetAttribute("src", "opt_unchecked.png");
 
                 imgNode.AttachMouseDownEvent(e =>
                 {
                     imgNode.SetAttribute("src", "chk_checked.png");
+                    //imgNode.SetAttribute("src", "opt_checked.png");
                     //imgNode.SetAttribute("style", "background-color:yellow");
                     e.StopPropagation();
                 });
@@ -77,8 +78,8 @@ namespace LayoutFarm.HtmlWidgets
                     //EaseScriptElement ee = new EaseScriptElement(div2);
                     //ee.ChangeBackgroundColor(Color.FromArgb(0xaa, 0xaa, 0xaa));
                     //div2.SetAttribute("style", "padding:5px;background-color:yellow;");
-                    imgNode.SetAttribute("src", "chk_checked.png");
-                    imgNode.SetAttribute("src", "chk_unchecked.png");
+                    //imgNode.SetAttribute("src", "opt_checked.png");
+                    //imgNode.SetAttribute("src", "chk_unchecked.png");
                     e.StopPropagation();
                 });
                 div2.AttachMouseUpEvent(e =>
@@ -86,7 +87,8 @@ namespace LayoutFarm.HtmlWidgets
 #if DEBUG
                     //                    div2.dbugMark = 2;
 #endif
-                    imgNode.SetAttribute("src", "chk_unchecked.png");
+                    //imgNode.SetAttribute("src", "chk_unchecked.png");
+                    //imgNode.SetAttribute("src", "opt_unchecked.png");
                     //div2.SetAttribute("style", "padding:5px;background-color:#dddddd;");
                     //                    //EaseScriptElement ee = new EaseScriptElement(div2);
                     //                    //ee.ChangeBackgroundColor(Color.FromArgb(0xdd, 0xdd, 0xdd));
