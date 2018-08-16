@@ -88,7 +88,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         public bool HasFloatBoxInContext
         {
-            get { return _latestFloatingContext.HasFloatBox; }
+            get { return _latestFloatingContext != null && _latestFloatingContext.HasFloatBox; }
         }
 
         public void AddFloatBox(CssBox floatBox)
