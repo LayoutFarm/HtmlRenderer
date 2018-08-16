@@ -214,9 +214,8 @@ namespace LayoutFarm.HtmlBoxes
                                         CssBox principalCssBox = parentElement.CurrentPrincipalBox;
                                         bool isblockContext = (principalCssBox != null) ? principalCssBox.IsBlock : false;
                                         renderTreeBuilder.UpdateTextNode(parentElement, singleTextNode, isblockContext);
-                                        RunListHelper.AddRunList(hostBox, parentElement.Spec, singleTextNode);
                                     }
-
+                                    RunListHelper.AddRunList(hostBox, parentElement.Spec, singleTextNode);
                                 }
                                 break;
                             case HtmlNodeKind.ShortElement:
@@ -499,10 +498,18 @@ namespace LayoutFarm.HtmlBoxes
                                 newBox = new CssBox(childSpec, parentBox.RootGfx);
                                 newBox.SetController(childElement);
                                 parentBox.AppendChild(newBox);
+
+
+
                                 break;
                         }
                     }
                     break;
+            }
+
+            if (childElement.WellknownElementName == WellKnownDomNodeName.body)
+            {
+                newBox.IsBody = true;
             }
 
             childElement.SetPrincipalBox(newBox);

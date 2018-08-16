@@ -178,7 +178,8 @@ namespace LayoutFarm.HtmlBoxes
                     float bfx, bfy;
                     CssBox box = floatingContext.GetBox(n);
                     box.GetGlobalLocation(out bfx, out bfy);
-                    //diff
+
+                    //diff, find relative offset between floating container and its child
                     float nx = bfx - rfx;
                     float ny = bfy - rfy;
                     if (prevParent != null && prevParent != box.ParentBox)
@@ -203,53 +204,53 @@ namespace LayoutFarm.HtmlBoxes
             unchecked { layoutVersion++; }
             //----------------------- 
         }
-#if DEBUG
-        void dbugAddToProperContainer(CssBox box)
-        {
-            var rectChild = new RectangleF(box.LocalX, box.LocalY,
-                box.InnerContentWidth,
-                box.InnerContentHeight);
-            CssBox parent = box.ParentBox;
-            bool found = false;
-            while (parent != null)
-            {
-                var rectParent = new RectangleF(0, 0, parent.VisualWidth, parent.VisualHeight);
-                if (rectParent.Contains(rectChild))
-                {
-                    found = true;
-                    //add to here
-                    float bfx, bfy;
-                    box.GetGlobalLocation(out bfx, out bfy);
-                    float rfx, rfy;
-                    parent.GetGlobalLocation(out rfx, out rfy);
-                    //diff
-                    float nx = bfx - rfx;
-                    float ny = bfy - rfy;
-                    box.SetLocation(nx, ny);
-                    parent.AppendToAbsoluteLayer(box);
-                    break;
-                }
-                else
-                {
-                    rectChild.Offset(parent.LocalX, parent.LocalY);
-                    parent = parent.ParentBox;
-                }
-            }
-            if (!found)
-            {
-                //add to root top 
-                float bfx, bfy;
-                box.GetGlobalLocation(out bfx, out bfy);
-                float rfx, rfy;
-                this._rootBox.GetGlobalLocation(out rfx, out rfy);
-                //diff
-                float nx = bfx - rfx;
-                float ny = bfy - rfy;
-                box.SetLocation(nx, ny);
-                this._rootBox.AppendToAbsoluteLayer(box);
-            }
-        }
-#endif
+        //#if DEBUG
+        //        void dbugAddToProperContainer(CssBox box)
+        //        {
+        //            var rectChild = new RectangleF(box.LocalX, box.LocalY,
+        //                box.InnerContentWidth,
+        //                box.InnerContentHeight);
+        //            CssBox parent = box.ParentBox;
+        //            bool found = false;
+        //            while (parent != null)
+        //            {
+        //                var rectParent = new RectangleF(0, 0, parent.VisualWidth, parent.VisualHeight);
+        //                if (rectParent.Contains(rectChild))
+        //                {
+        //                    found = true;
+        //                    //add to here
+        //                    float bfx, bfy;
+        //                    box.GetGlobalLocation(out bfx, out bfy);
+        //                    float rfx, rfy;
+        //                    parent.GetGlobalLocation(out rfx, out rfy);
+        //                    //diff
+        //                    float nx = bfx - rfx;
+        //                    float ny = bfy - rfy;
+        //                    box.SetLocation(nx, ny);
+        //                    parent.AppendToAbsoluteLayer(box);
+        //                    break;
+        //                }
+        //                else
+        //                {
+        //                    rectChild.Offset(parent.LocalX, parent.LocalY);
+        //                    parent = parent.ParentBox;
+        //                }
+        //            }
+        //            if (!found)
+        //            {
+        //                //add to root top 
+        //                float bfx, bfy;
+        //                box.GetGlobalLocation(out bfx, out bfy);
+        //                float rfx, rfy;
+        //                this._rootBox.GetGlobalLocation(out rfx, out rfy);
+        //                //diff
+        //                float nx = bfx - rfx;
+        //                float ny = bfy - rfy;
+        //                box.SetLocation(nx, ny);
+        //                this._rootBox.AppendToAbsoluteLayer(box);
+        //            }
+        //        }
+        //#endif
         public bool IsInUpdateQueue { get; set; }
         protected virtual void OnLayoutFinished()
         {
@@ -275,7 +276,7 @@ namespace LayoutFarm.HtmlBoxes
             _rootBox.Paint(p);
             p.PopContainingBlock();
 #if DEBUG
-            
+
             if (p.dbugEnableLogRecord)
             {
                 //var logs = p.logRecords;

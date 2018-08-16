@@ -55,7 +55,7 @@ namespace LayoutFarm.HtmlWidgets
                 imgNode.AttachMouseDownEvent(e =>
                 {
                     imgNode.SetAttribute("src", "chk_checked.png");
-                    imgNode.SetAttribute("style", "background-color:yellow");
+                    //imgNode.SetAttribute("style", "background-color:yellow");
                     e.StopPropagation();
                 });
 

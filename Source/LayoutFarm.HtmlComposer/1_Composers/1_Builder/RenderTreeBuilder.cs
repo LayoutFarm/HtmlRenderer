@@ -819,14 +819,14 @@ namespace LayoutFarm.Composers
                                     //ImageBinder imgBinder = null;
                                     if (tag.TryGetAttribute(WellknownName.Src, out imgsrc))
                                     {
-                                        var cssBoxImage1 = HtmlElement.InternalGetPrincipalBox(tag) as CssBoxImage;
-                                        var imgbinder1 = cssBoxImage1.ImageBinder;
+                                        CssBoxImage cssBoxImage1 = HtmlElement.InternalGetPrincipalBox(tag) as CssBoxImage;
+                                        ImageBinder imgbinder1 = cssBoxImage1.ImageBinder;
                                         if (imgbinder1.ImageSource != imgsrc)
                                         {
-                                            var clientImageBinder = new ClientImageBinder(imgsrc);
-                                            imgbinder1 = clientImageBinder;
+                                            //var clientImageBinder = new ClientImageBinder(imgsrc);
+                                            //imgbinder1 = clientImageBinder;
                                             //clientImageBinder.SetOwner(tag);
-                                            cssBoxImage1.ImageBinder = clientImageBinder;
+                                            cssBoxImage1.ImageBinder = new ClientImageBinder(imgsrc);
                                         }
                                     }
                                     else
