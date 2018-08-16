@@ -1,12 +1,11 @@
 ﻿//Apache2, 2014-present, WinterDev
 
 using System;
-using LayoutFarm.CustomWidgets;
 using LayoutFarm.WebDom;
 using LayoutFarm.WebDom.Extension;
 namespace LayoutFarm.HtmlWidgets
 {
-    public class CheckBox : HtmlWidgetBase
+    public class ChoiceBox : HtmlWidgetBase
     {
         string buttonText = "";
         DomElement pnode;
@@ -14,7 +13,7 @@ namespace LayoutFarm.HtmlWidgets
         //
         public event EventHandler<EventArgs> CheckValueAssigned;
 
-        public CheckBox(int w, int h)
+        public ChoiceBox(int w, int h)
             : base(w, h)
         {
         }
@@ -39,6 +38,12 @@ namespace LayoutFarm.HtmlWidgets
                 this.buttonText = value;
             }
         }
+
+        public bool OnlyOne
+        {
+            get;
+            set;
+        }
         public override DomElement GetPresentationDomNode(WebDom.Impl.HtmlDocument htmldoc)
         {
             if (pnode != null) return pnode;
@@ -50,6 +55,7 @@ namespace LayoutFarm.HtmlWidgets
                 //init
                 div2.SetAttribute("style", "background-color:#dddddd;color:black;");
                 DomElement imgNode = div2.AddChild("img");
+                //imgNode.SetAttribute("src", "chk_unchecked.png");
                 imgNode.SetAttribute("src", "chk_unchecked.png");
 
                 imgNode.AttachMouseDownEvent(e =>
@@ -72,6 +78,7 @@ namespace LayoutFarm.HtmlWidgets
                     //ee.ChangeBackgroundColor(Color.FromArgb(0xaa, 0xaa, 0xaa));
                     //div2.SetAttribute("style", "padding:5px;background-color:yellow;");
                     imgNode.SetAttribute("src", "chk_checked.png");
+                    imgNode.SetAttribute("src", "chk_unchecked.png");
                     e.StopPropagation();
                 });
                 div2.AttachMouseUpEvent(e =>
@@ -89,4 +96,6 @@ namespace LayoutFarm.HtmlWidgets
             return pnode;
         }
     }
+
+
 }

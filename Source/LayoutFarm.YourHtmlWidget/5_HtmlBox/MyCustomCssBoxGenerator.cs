@@ -118,7 +118,7 @@ namespace LayoutFarm.CustomWidgets
                         }
                     case "radio":
                         {
-                            var button = new HtmlWidgets.CheckBox(16, 16);
+                            var button = new HtmlWidgets.ChoiceBox(16, 16);
                             var ihtmlElement = domE as LayoutFarm.WebDom.IHtmlElement;
                             if (ihtmlElement != null)
                             {
