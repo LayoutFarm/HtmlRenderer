@@ -1,4 +1,4 @@
-﻿//BSD, 2014-present, WinterDev 
+﻿//BSD, 2014-present, WinterDev +
 //ArthurHub, Jose Manuel Menendez Poo
 
 using System;
@@ -10,6 +10,18 @@ namespace LayoutFarm.HtmlBoxes
         public void InvalidateGraphics()
         {
             //bubble invalidate area to to parent?
+            if (this.justBlockRun != null)
+            {
+
+                Rectangle clientArea = new Rectangle((int)this.LocalX, (int)this.LocalY, (int)this.VisualWidth, (int)this.VisualHeight);
+                clientArea.Offset(
+                  (int)(justBlockRun.Left),
+                  (int)(justBlockRun.Top + justBlockRun.HostLine.CachedLineTop));
+                justBlockRun.HostLine.OwnerBox.InvalidateGraphics(clientArea);
+
+                return;
+            }
+
             var parentBox = this.ParentBox;
             if (parentBox != null)
             {
@@ -26,6 +38,17 @@ namespace LayoutFarm.HtmlBoxes
             //clientArea => area relative to this element
             //adjust to 
             //adjust client area 
+
+            if (this.justBlockRun != null)
+            {
+
+                clientArea.Offset(
+                    (int)(justBlockRun.Left),
+                    (int)(justBlockRun.Top + justBlockRun.HostLine.CachedLineTop));
+                justBlockRun.HostLine.OwnerBox.InvalidateGraphics(clientArea);
+
+                return;
+            }
             var parentBox = this.ParentBox;
             if (parentBox != null)
             {

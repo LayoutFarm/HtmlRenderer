@@ -53,10 +53,9 @@ namespace LayoutFarm.HtmlBoxes
                 this._imgRun.ImageBinder.ImageWidth,
                 this._imgRun.ImageBinder.ImageHeight);
             _imgRun.SetSize(this._imgRun.ImageBinder.ImageWidth,
-                 this._imgRun.ImageBinder.ImageHeight);
-
-            //_imgRun.InvalidateGraphics();
-            this.InvalidateGraphics();
+                 this._imgRun.ImageBinder.ImageHeight); 
+            _imgRun.InvalidateGraphics();
+           
         }
 
         public override void Clear()

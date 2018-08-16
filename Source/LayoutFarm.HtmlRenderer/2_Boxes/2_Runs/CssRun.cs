@@ -91,7 +91,40 @@ namespace LayoutFarm.HtmlBoxes
             run._hostline = hostline;
         }
 
+        internal void InvalidateGraphics()
+        {
+            switch (this._runKind)
+            {
+                case CssRunKind.BlockRun:
+                    {
+                        //TODO: review here again
 
+                        CssBlockRun blockRun = (CssBlockRun)this;
+                        CssLineBox ownerLine = blockRun.HostLine;
+                        Rectangle r = new Rectangle(
+                           (int)(this.Left + blockRun.Left),
+                           (int)(this.Top + blockRun.Top + ownerLine.CachedLineTop),
+                           (int)this.Width,
+                           (int)this.Height);
+                        CssBox ownerBox = ownerLine.OwnerBox;
+                        ownerBox.InvalidateGraphics(r);
+                    }
+                    break;
+                default:
+                    //fine owner
+                    {
+                        CssLineBox ownerLine = this.HostLine;
+                        Rectangle r = new Rectangle(
+                           (int)(this.Left),
+                           (int)(this.Top + ownerLine.CachedLineTop),
+                           (int)this.Width,
+                           (int)this.Height);
+                        CssBox ownerBox = ownerLine.OwnerBox;
+                        ownerBox.InvalidateGraphics(r);
+                    }
+                    break;
+            }
+        }
 #if DEBUG
         //int dbugPaintCount;
         //int dbugSnapPass;
