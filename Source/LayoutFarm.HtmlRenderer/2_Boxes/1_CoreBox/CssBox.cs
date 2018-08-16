@@ -94,6 +94,12 @@ namespace LayoutFarm.HtmlBoxes
         {
             this._controller = controller;
         }
+
+        internal bool IsBody
+        {
+            get;
+            set;
+        }
         public IRootGraphics RootGfx
         {
             get

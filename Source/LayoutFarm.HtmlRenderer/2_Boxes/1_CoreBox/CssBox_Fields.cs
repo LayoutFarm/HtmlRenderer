@@ -65,7 +65,8 @@ namespace LayoutFarm.HtmlBoxes
         CssBoxDecorator decorator;
         bool mayHasViewport;
         bool isOutOfFlowBox;
-        bool _addedToAbsLayer;
+
+        CssBox _absLayerOwner;
 
         internal bool IsOutOfFlowBox
         {
@@ -354,16 +355,19 @@ namespace LayoutFarm.HtmlBoxes
             {
                 this._absPosLayer = new CssBoxAbsoluteLayer();
             }
+
+            box._absLayerOwner = this;
+
             if (box.ParentBox != null)
             {
-                box._addedToAbsLayer = true;
+
                 //box.ParentBox.RemoveChild(box);
             }
             this._absPosLayer.AddChild(box);
         }
         internal bool IsAddedToAbsLayer
         {
-            get { return _addedToAbsLayer; }
+            get { return _absLayerOwner != null; }
         }
         //-------------------------------------
         internal void ResetLineBoxes()

@@ -52,7 +52,10 @@ namespace LayoutFarm.HtmlBoxes
             SetVisualSize(
                 this._imgRun.ImageBinder.ImageWidth,
                 this._imgRun.ImageBinder.ImageHeight);
+            _imgRun.SetSize(this._imgRun.ImageBinder.ImageWidth,
+                 this._imgRun.ImageBinder.ImageHeight);
 
+            //_imgRun.InvalidateGraphics();
             this.InvalidateGraphics();
         }
 
