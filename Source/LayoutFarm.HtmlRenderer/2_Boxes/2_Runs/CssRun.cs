@@ -363,14 +363,14 @@ namespace LayoutFarm.HtmlBoxes
         }
 
 
-        public CssBox GetGlobalLocation(out float globalX, out float globalY)
-        {
-            //get global location              
-            float x2, y2;
-            var root = this._hostline.OwnerBox.GetGlobalLocation(out x2, out y2);
-            globalX = x2 + this._x;
-            globalY = y2 + this._y;
-            return root;
-        }
+        //public CssBox GetGlobalLocation(out float globalX, out float globalY)
+        //{
+        //    //get global location              
+        //    float x2, y2;
+        //    var root = this._hostline.OwnerBox.GetGlobalLocation(out x2, out y2);
+        //    globalX = x2 + this._x;
+        //    globalY = y2 + this._y;
+        //    return root;
+        //}
     }
 }
