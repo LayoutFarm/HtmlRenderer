@@ -121,7 +121,9 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         /// <param name="binder"></param>
         /// <param name="requestFrom"></param>
-        public void RequestImageAsync(ImageBinder binder, CssImageRun imgRun, object requestFrom)
+        public void RequestImageAsync(ImageBinder binder,
+            CssImageRun imgRun,
+            object requestFrom)
         {
             if (htmlContainer != null)
             {
@@ -148,15 +150,7 @@ namespace LayoutFarm.HtmlBoxes
                 }
             }
         }
-        //internal void RequestImage(ImageBinder binder, CssBox requestFrom, ReadyStateChangedHandler handler)
-        //{
-        //    HtmlRenderer.HtmlContainer.RaiseRequestImage(
-        //           this.container,
-        //           binder,
-        //           requestFrom,
-        //           false);
-        //}
-        //=========================================================
+ 
 
         public int CanvasOriginX
         {

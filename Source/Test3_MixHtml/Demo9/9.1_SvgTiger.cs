@@ -103,7 +103,10 @@ namespace LayoutFarm
             parser.ParseDocument(textSnapshot);
             //TODO: review this step again
             SvgRenderVxDocBuilder builder = new SvgRenderVxDocBuilder();
-            return builder.CreateRenderVx(docBuidler.ResultDocument);
+            return builder.CreateRenderVx(docBuidler.ResultDocument, svgElem =>
+            {
+
+            });
         }
         void SetupActiveBoxProperties(LayoutFarm.CustomWidgets.Box box)
         {

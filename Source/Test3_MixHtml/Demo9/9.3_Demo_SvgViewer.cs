@@ -85,7 +85,7 @@ namespace LayoutFarm.ColorBlenderSample
             parser.ParseDocument(textSnapshot);
             //
             SvgRenderVxDocBuilder builder = new SvgRenderVxDocBuilder();
-            VgRenderVx svgRenderVx = builder.CreateRenderVx(docBuilder.ResultDocument);
+            VgRenderVx svgRenderVx = builder.CreateRenderVx(docBuilder.ResultDocument, null);
 
             var uiSprite = new UISprite(10, 10);
             var evListener = new GeneralEventListener();

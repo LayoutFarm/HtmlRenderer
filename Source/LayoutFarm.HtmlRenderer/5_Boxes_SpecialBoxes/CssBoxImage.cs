@@ -161,7 +161,7 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="g">the device to draw to</param>
         protected override void PaintImp(PaintVisitor p)
         {
-            // load image iff it is in visible rectangle  
+            // load image if it is in visible rectangle  
             //1. single image can't be splited  
 #if DEBUG
             p.dbugEnterNewContext(this, PaintVisitor.PaintVisitorContextName.Init);

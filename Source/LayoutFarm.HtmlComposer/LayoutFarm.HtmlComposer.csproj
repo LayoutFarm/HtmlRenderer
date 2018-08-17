@@ -301,12 +301,6 @@
     <Compile Include="..\LayoutFarm.HtmlRenderer\3_Boxes_Layout\1_Flex\FlexContainer.cs">
       <Link>8_REF_LayoutFarm.HtmlRenderer\3_Boxes_Layout\1_Flex\FlexContainer.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\4_Svg\SvgImage.cs">
-      <Link>8_REF_LayoutFarm.HtmlRenderer\4_Svg\SvgImage.cs</Link>
-    </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\4_Svg\SvgImageBinder.cs">
-      <Link>8_REF_LayoutFarm.HtmlRenderer\4_Svg\SvgImageBinder.cs</Link>
-    </Compile>
     <Compile Include="..\LayoutFarm.HtmlRenderer\5_Boxes_SpecialBoxes\CssBoxFrame.cs">
       <Link>8_REF_LayoutFarm.HtmlRenderer\5_Boxes_SpecialBoxes\CssBoxFrame.cs</Link>
     </Compile>
