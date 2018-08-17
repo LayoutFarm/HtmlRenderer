@@ -515,10 +515,10 @@ namespace LayoutFarm.HtmlBoxes
                             }
 
                             CssTextRun textRun = (CssTextRun)w;
-                            PointF wordPoint = new PointF(w.Left, w.Top);
                             p.DrawText(CssBox.UnsafeGetTextBuffer(w.OwnerBox),
                                                            textRun.TextStartIndex,
-                                                           textRun.TextLength, wordPoint,
+                                                           textRun.TextLength,
+                                                           new PointF(w.Left, w.Top),
                                                            new SizeF(w.Width, w.Height));
                         }
                         break;
