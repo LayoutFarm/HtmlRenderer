@@ -16,6 +16,7 @@ namespace LayoutFarm.HtmlBoxes
         MultiLayerStack<CssBox> latePaintStack = new MultiLayerStack<CssBox>();
         float viewportWidth;
         float viewportHeight;
+        Color _cssBoxSelectionColor = Color.LightGray;
         public PaintVisitor()
         {
         }
@@ -24,6 +25,8 @@ namespace LayoutFarm.HtmlBoxes
             this.htmlContainer = htmlCont;
             this.canvas = canvas;
         }
+
+        public Color CssBoxSelectionColor { get { return _cssBoxSelectionColor; } }
 
         public void UnBind()
         {
@@ -150,7 +153,7 @@ namespace LayoutFarm.HtmlBoxes
                 }
             }
         }
- 
+
 
         public int CanvasOriginX
         {

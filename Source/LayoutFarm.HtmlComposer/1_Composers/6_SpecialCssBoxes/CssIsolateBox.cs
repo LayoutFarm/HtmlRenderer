@@ -50,12 +50,12 @@ namespace LayoutFarm.HtmlBoxes
         {
             get { return this.containerElement; }
         }
-        protected override CssBox GetGlobalLocationImpl(out float globalX, out float globalY)
+        protected override void GetGlobalLocationImpl(out float globalX, out float globalY)
         {
             Point p = containerElement.GetGlobalLocation();
             globalX = p.X;
             globalY = p.Y;
-            return this;
+            //return this;
         }
     }
 }

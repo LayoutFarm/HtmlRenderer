@@ -479,23 +479,21 @@ namespace LayoutFarm.HtmlBoxes
             if (selectedLines != null)
             {
                 int j = selectedLines.Count;
-                //first 
+
                 if (j > 0)
                 {
                     CssBox ownerCssBox = null;
-                    CssBox rootbox = null;
+
                     float fx1 = 0, fy1 = 0; //left top
                     RectangleF selArea = RectangleF.Empty;
-                    //if (j ==1)
-                    //{ 
-                    //}
+
                     for (int i = 0; i < j; ++i)
                     {
-                        var line = selectedLines[i];
+                        CssLineBox line = selectedLines[i];
                         if (line.OwnerBox != ownerCssBox)
                         {
                             ownerCssBox = line.OwnerBox;
-                            rootbox = ownerCssBox.GetGlobalLocationRelativeToRoot(out fx1, out fy1);
+                            ownerCssBox.GetGlobalLocationRelativeToRoot(out fx1, out fy1);
                         }
                         if (i == 0)
                         {

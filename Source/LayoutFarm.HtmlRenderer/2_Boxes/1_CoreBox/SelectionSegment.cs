@@ -1,6 +1,6 @@
 ﻿//BSD, 2014-present, WinterDev 
 
-using PixelFarm.Drawing;
+
 namespace LayoutFarm.HtmlBoxes
 {
     enum SelectionSegmentKind
@@ -38,19 +38,21 @@ namespace LayoutFarm.HtmlBoxes
         {
             if (this.Kind == SelectionSegmentKind.FullLine)
             {
-                p.FillRectangle(Color.LightGray,
+                p.FillRectangle(p.CssBoxSelectionColor, //should  be configurable
                        0,
                        0,
                        line.CachedLineContentWidth,
                        line.CacheLineHeight);
+
             }
             else
             {
                 p.FillRectangle(
-                 Color.LightGray,
-                 this.BeginAtPx, 0,
-                 this.WidthPx,
-                (int)line.CacheLineHeight);
+                      p.CssBoxSelectionColor,
+                      this.BeginAtPx, 0,
+                      this.WidthPx,
+                      (int)line.CacheLineHeight);
+
             }
         }
     }
