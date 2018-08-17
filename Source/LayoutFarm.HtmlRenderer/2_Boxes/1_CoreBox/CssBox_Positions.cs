@@ -882,34 +882,38 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
 
-        protected virtual CssBox GetGlobalLocationImpl(out float globalX, out float globalY)
+        protected virtual void GetGlobalLocationImpl(out float globalX, out float globalY)
         {
+            //TODO: review here again***
             globalX = this._localX;
             globalY = this._localY;
-            CssBox foundRoot = null;
+            //CssBox foundRoot = null;
             if (this.ParentBox != null)
             {
                 float p_left, p_top;
-                foundRoot = this.ParentBox.GetGlobalLocation(out p_left, out p_top);
+                /* foundRoot = */
+                this.ParentBox.GetGlobalLocation(out p_left, out p_top);
                 globalX += p_left;
                 globalY += p_top;
             }
-            return foundRoot;
+            //return foundRoot;
+        }
+        public void GetGlobalLocation(out float globalX, out float globalY)
+        {
+            this.GetGlobalLocationImpl(out globalX, out globalY);
         }
 
-        
-        public CssBox GetGlobalLocation(out float globalX, out float globalY)
-        {
-            return this.GetGlobalLocationImpl(out globalX, out globalY);
-        }
         void GetGlobalLocationRelativeToRoot(ref PointF location)
         {
+            //recursive
+
             if (this.justBlockRun != null)
             {
                 location.Offset(
                     (int)(justBlockRun.Left),
                     (int)(justBlockRun.Top + justBlockRun.HostLine.CachedLineTop));
 
+                //recursive
                 justBlockRun.HostLine.OwnerBox.GetGlobalLocationRelativeToRoot(ref location);
                 return;//***
             }
@@ -918,6 +922,7 @@ namespace LayoutFarm.HtmlBoxes
             if (parentBox != null)
             {
                 location.Offset((int)this.LocalX, (int)this.LocalY);
+                //recursive
                 parentBox.GetGlobalLocationRelativeToRoot(ref location);
             }
 
