@@ -41,7 +41,43 @@ namespace LayoutFarm
                     htmlContUpdateList.Add(htmlCont);
                 }
             });
+
+            PaintLab.Svg.VgResourceIO._vgIODelegate = RequestImgAyncs;
+
             return htmlhost;
+        }
+
+
+        static ContentManagers.ImageContentManager _contentMx;
+        static void RequestImgAyncs(LayoutFarm.ImageBinder binder, PaintLab.Svg.SvgRenderElement imgRun, object requestFrom)
+        {
+            if (_contentMx == null)
+            {
+                _contentMx = new ContentManagers.ImageContentManager();
+                _contentMx.ImageLoadingRequest += (s, e) =>
+                {
+                    e.SetResultImage(LoadImage(e.ImagSource));
+                };
+            }
+            _contentMx.AddRequestImage(binder);
+        }
+        public static PixelFarm.Drawing.Image LoadImage(string imgName)
+        {
+            //temp fix
+            if (imgName == "html32.png")
+            {
+                //TODO: review document root
+                imgName = @"D:\projects\HtmlRenderer\Source\Test8_HtmlRenderer.Demo\Samples\SvgSamples\" + imgName;
+            }
+            //handle resource load
+            if (!System.IO.File.Exists(imgName))
+            {
+
+            }
+
+            System.Drawing.Bitmap gdiBmp = new System.Drawing.Bitmap(imgName);
+            GdiPlusBitmap bmp = new GdiPlusBitmap(gdiBmp.Width, gdiBmp.Height, gdiBmp);
+            return bmp;
         }
     }
 }

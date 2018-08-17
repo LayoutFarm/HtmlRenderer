@@ -23,7 +23,8 @@ namespace LayoutFarm
             Svg.SvgPathSpec spec = new Svg.SvgPathSpec();
             spec.FillColor = Color.Red;
 
-            SvgRenderElement renderE = new SvgRenderElement(WellknownSvgElementName.Path, spec);
+            SvgRenderRootElement renderRoot = new SvgRenderRootElement();
+            SvgRenderElement renderE = new SvgRenderElement(WellknownSvgElementName.Path, spec, renderRoot);
             VgRenderVx svgRenderVx = new VgRenderVx(renderE);
             using (VxsContext.Temp(out VertexStore vxs))
             {
@@ -38,7 +39,7 @@ namespace LayoutFarm
             //VgRenderVx svgRenderVx = new VgRenderVx(new VgCmd[] {
             //    new VgCmdFillColor(Color.Red),
             //    path });
-             
+
             svgRenderVx.DisableBackingImage = true;
 
 

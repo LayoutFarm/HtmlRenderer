@@ -83,6 +83,7 @@ namespace LayoutFarm.HtmlBoxes
                 //Color fillColor = painter.FillColor;
                 //painter.StrokeWidth = 1;//default 
                 //painter.FillColor = Color.Black;
+
                 VgPainterArgsPool.GetFreePainterArgs(painter, out VgPaintArgs paintArgs);
                 _renderVx._renderE.Paint(paintArgs);
                 VgPainterArgsPool.ReleasePainterArgs(ref paintArgs);
