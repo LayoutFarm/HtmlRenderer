@@ -897,6 +897,11 @@ namespace LayoutFarm.HtmlBoxes
             return foundRoot;
         }
 
+        
+        public CssBox GetGlobalLocation(out float globalX, out float globalY)
+        {
+            return this.GetGlobalLocationImpl(out globalX, out globalY);
+        }
         void GetGlobalLocationRelativeToRoot(ref PointF location)
         {
             if (this.justBlockRun != null)
@@ -924,11 +929,6 @@ namespace LayoutFarm.HtmlBoxes
             globalX = location.X;
             globalY = location.Y;
         }
-        public CssBox GetGlobalLocation(out float globalX, out float globalY)
-        {
-            return this.GetGlobalLocationImpl(out globalX, out globalY);
-        }
-
         /// <summary>
         /// inner content width
         /// </summary>
