@@ -133,7 +133,21 @@ namespace LayoutFarm.HtmlBoxes
         {
             get { return this.globalOffsetY; }
         }
+
+#if DEBUG
+
+        public dbugEventPhase debugEventPhase { get; set; }
+        public enum dbugEventPhase
+        {
+            Unknown,
+            MouseDown,
+            MouseMove,
+            MouseUp,
+        }
+
+#endif
     }
+
 
     public enum HitObjectKind : byte
     {
