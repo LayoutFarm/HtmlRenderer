@@ -99,6 +99,10 @@ namespace LayoutFarm.HtmlBoxes
         {
             return this._aa_boxes.GetChildBoxIter();
         }
+        public IEnumerable<CssBox> GetChildBoxBackwardIter()
+        {
+            return this._aa_boxes.GetChildBoxBackwardIter();
+        }
         public IEnumerable<CssBox> GetAbsoluteChildBoxIter()
         {
             if (_absPosLayer != null)
