@@ -99,7 +99,7 @@ namespace LayoutFarm.HtmlBoxes
 #if DEBUG
             //if (this.__aa_dbugId == 5)
             //{
-                
+
             //    this._localX = localX;
             //    this._localY = localY;
             //    this._boxCompactFlags |= BoxFlags.HAS_ASSIGNED_LOCATION;
@@ -896,31 +896,33 @@ namespace LayoutFarm.HtmlBoxes
             }
             return foundRoot;
         }
-        internal CssBox GetGlobalLocationRelativeToRoot(out float globalX, out float globalY)
+
+        void GetGlobalLocationRelativeToRoot(ref PointF location)
         {
             if (this.justBlockRun != null)
             {
-                var hostLineOfThisRun = this.justBlockRun.HostLine;
-                var hostBox = hostLineOfThisRun.OwnerBox;
-                CssBox foundRoot = hostBox.GetGlobalLocationRelativeToRoot(out globalX, out globalY);
-                globalX += this.justBlockRun.Left;
-                globalY += this.justBlockRun.Top + hostLineOfThisRun.CachedLineTop;
-                return foundRoot;
+                location.Offset(
+                    (int)(justBlockRun.Left),
+                    (int)(justBlockRun.Top + justBlockRun.HostLine.CachedLineTop));
+
+                justBlockRun.HostLine.OwnerBox.GetGlobalLocationRelativeToRoot(ref location);
+                return;//***
             }
-            else
+
+            CssBox parentBox = _absLayerOwner ?? this.ParentBox;
+            if (parentBox != null)
             {
-                globalX = this._localX;
-                globalY = this._localY;
-                CssBox foundRoot = null;
-                if (this.ParentBox != null)
-                {
-                    float p_left, p_top;
-                    foundRoot = this.ParentBox.GetGlobalLocationRelativeToRoot(out p_left, out p_top);
-                    globalX += p_left;
-                    globalY += p_top;
-                }
-                return foundRoot;
+                location.Offset((int)this.LocalX, (int)this.LocalY);
+                parentBox.GetGlobalLocationRelativeToRoot(ref location);
             }
+
+        }
+        internal void GetGlobalLocationRelativeToRoot(out float globalX, out float globalY)
+        {
+            PointF location = new PointF(0, 0);
+            GetGlobalLocationRelativeToRoot(ref location);
+            globalX = location.X;
+            globalY = location.Y;
         }
         public CssBox GetGlobalLocation(out float globalX, out float globalY)
         {
