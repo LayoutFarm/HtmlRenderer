@@ -31,6 +31,7 @@ namespace LayoutFarm.HtmlBoxes
             _renderVx = renderVxDocBuilder.CreateRenderVx(SvgDoc, svgElem =>
             {
                 _renderVx.SetBitmapSnapshot(null);
+                _renderVx.InvalidateBounds();
                 this.InvalidateGraphics();
             });
 
@@ -60,13 +61,13 @@ namespace LayoutFarm.HtmlBoxes
             if (_renderVx.HasBitmapSnapshot)
             {
                 Image backimg = _renderVx.BackingImage;
+
                 drawBoard.DrawImage(backimg, new RectangleF(0, 0, backimg.Width, backimg.Height));
             }
             else
             {
 
                 PixelFarm.CpuBlit.RectD bound = _renderVx.GetBounds();
-
                 //create
                 PixelFarm.CpuBlit.ActualBitmap backimg = new PixelFarm.CpuBlit.ActualBitmap((int)bound.Width + 10, (int)bound.Height + 10);
                 PixelFarm.CpuBlit.AggPainter painter = PixelFarm.CpuBlit.AggPainter.Create(backimg);
@@ -74,7 +75,6 @@ namespace LayoutFarm.HtmlBoxes
                 //temp fix
                 if (s_openfontTextService == null)
                 {
-
                     s_openfontTextService = new OpenFontTextService();
                 }
 
