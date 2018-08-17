@@ -489,7 +489,7 @@ namespace LayoutFarm.HtmlBoxes
 
                     for (int i = 0; i < j; ++i)
                     {
-                        var line = selectedLines[i];
+                        CssLineBox line = selectedLines[i];
                         if (line.OwnerBox != ownerCssBox)
                         {
                             ownerCssBox = line.OwnerBox;
