@@ -169,11 +169,7 @@
     <Compile Include="2_Boxes\3_Render\MultiLayerStack.cs" />
     <Compile Include="3_Boxes_Layout\0_General\CssLayoutEngine.FloatFormattingContext.cs" />
     <Compile Include="3_Boxes_Layout\1_Flex\FlexContainer.cs" />
-    <Compile Include="4_Svg\SvgImage.cs" />
     <Compile Include="4_Svg\SvgImageBinder.cs" />
-    <Compile Include="4_Svg\SvgPath.cs" />
-    <Compile Include="4_Svg\SvgPathSegments.cs" />
-    <Compile Include="4_Svg\SvgVisualElements.cs" />
     <Compile Include="5_Boxes_SpecialBoxes\CssFloatContainerBox.cs" />
     <Compile Include="Platform\FontDefaultConfig.cs" />
     <Compile Include="2_Boxes\4_HitAndSelections\SelectionRange.cs" />
