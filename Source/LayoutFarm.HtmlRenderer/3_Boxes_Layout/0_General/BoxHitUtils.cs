@@ -21,6 +21,7 @@ namespace LayoutFarm.HtmlBoxes
     {
         public static bool HitTest(CssBox box, float x, float y, CssBoxHitChain hitChain)
         {
+
             //--------------------------------------
             float boxHitLocalX = x - box.LocalX;
             float boxHitLocalY = y - box.LocalY;
@@ -30,7 +31,6 @@ namespace LayoutFarm.HtmlBoxes
             {
                 hitChain.AddHit(box, (int)boxHitLocalX, (int)boxHitLocalY);
             }
-
             //check absolute layer first ***
             if (box.HasAbsoluteLayer)
             {
@@ -67,8 +67,7 @@ namespace LayoutFarm.HtmlBoxes
                 return false;
             }
             //----------------------------------------------------------------------
-            //at here point is in the area*** 
-
+            //at here point is in the area***  
             hitChain.PushContextBox(box);
             if (box.IsCustomCssBox)
             {
@@ -83,8 +82,9 @@ namespace LayoutFarm.HtmlBoxes
 
             if (box.LineBoxCount > 0)
             {
+
                 bool foundSomeLine = false;
-                foreach (var lineBox in box.GetLineBoxIter())
+                foreach (CssLineBox lineBox in box.GetLineBoxIter())
                 {
                     //line box not overlap
                     if (lineBox.HitTest(boxHitLocalX, boxHitLocalY))
@@ -93,7 +93,10 @@ namespace LayoutFarm.HtmlBoxes
                         float lineBoxLocalY = boxHitLocalY - lineBox.CachedLineTop;
                         //2.
                         hitChain.AddHit(lineBox, (int)boxHitLocalX, (int)lineBoxLocalY);
-                        var foundRun = BoxHitUtils.GetCssRunOnLocation(lineBox, (int)boxHitLocalX, (int)lineBoxLocalY);
+
+
+                        CssRun foundRun = BoxHitUtils.GetCssRunOnLocation(lineBox, (int)boxHitLocalX, (int)lineBoxLocalY);
+                        //CssRun foundRun = BoxHitUtils.GetCssRunOnLocation(lineBox, (int)x, (int)y);
                         if (foundRun != null)
                         {
                             //3.
@@ -101,11 +104,13 @@ namespace LayoutFarm.HtmlBoxes
                             //4. go deeper for block run
                             if (foundRun.Kind == CssRunKind.BlockRun)
                             {
-                                var blockRun = (CssBlockRun)foundRun;
+                                CssBlockRun blockRun = (CssBlockRun)foundRun;
                                 CssLineBox hostLine = blockRun.HostLine;
                                 //adjust with hostline 
-
-                                HitTest(((CssBlockRun)foundRun).ContentBox, (int)(boxHitLocalX - foundRun.Left), boxHitLocalY - hostLine.CachedLineTop, hitChain);
+                                HitTest(blockRun.ContentBox,
+                                    (int)(boxHitLocalX + blockRun.ContentBox.LocalX - foundRun.Left),
+                                    (int)(boxHitLocalY - hostLine.CachedLineTop),
+                                    hitChain);
                             }
                         }
                         //found line box
@@ -121,7 +126,8 @@ namespace LayoutFarm.HtmlBoxes
             else
             {
                 //iterate in child 
-                foreach (var childBox in box.GetChildBoxIter())
+                //foreach (var childBox in box.GetChildBoxIter())
+                foreach (CssBox childBox in box.GetChildBoxBackwardIter())
                 {
                     if (HitTest(childBox, boxHitLocalX, boxHitLocalY, hitChain))
                     {

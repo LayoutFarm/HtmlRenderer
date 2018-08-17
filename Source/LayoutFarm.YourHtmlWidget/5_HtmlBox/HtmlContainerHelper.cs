@@ -26,9 +26,8 @@ namespace LayoutFarm.HtmlBoxes
             var htmlContainer = new MyHtmlContainer(htmlHost);
             htmlContainer.WebDocument = htmldoc;
             htmlContainer.SetRootCssBox(rootElement);
-            //htmlContainer.SetRootRenderElement(htmlFrgmentRenderBox);
-
             htmlContainer.SetMaxSize(htmlFrgmentRenderBox.Width, 0);
+            //
             var lay = htmlHost.GetSharedHtmlLayoutVisitor(htmlContainer);
             htmlContainer.PerformLayout(lay);
             htmlHost.ReleaseHtmlLayoutVisitor(lay);

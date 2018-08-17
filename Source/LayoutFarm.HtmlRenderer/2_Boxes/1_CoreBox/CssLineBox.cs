@@ -462,13 +462,18 @@ namespace LayoutFarm.HtmlBoxes
         }
         internal void PaintRuns(PaintVisitor p)
         {
+            List<CssRun> tmpRuns = this._runs;
+            int j = tmpRuns.Count;
+            if (j < 1) { return; }
+            //-----------------------
+
+
             //iterate from each words 
             CssBox latestOwner = null;
             DrawBoard innerCanvas = p.InnerCanvas;
             RequestFont enterFont = innerCanvas.CurrentFont;
             Color enterColor = innerCanvas.CurrentTextColor;
-            List<CssRun> tmpRuns = this._runs;
-            int j = tmpRuns.Count;
+
             for (int i = 0; i < j; ++i)
             {
                 //-----------------
@@ -491,7 +496,8 @@ namespace LayoutFarm.HtmlBoxes
                             CssBlockRun blockRun = (CssBlockRun)w;
                             int ox = p.CanvasOriginX;
                             int oy = p.CanvasOriginY;
-                            p.SetCanvasOrigin(ox + (int)(blockRun.Left + blockRun.ContentBox.LocalX), oy + (int)blockRun.Top);
+                            //p.SetCanvasOrigin(ox + (int)(blockRun.Left + blockRun.ContentBox.LocalX), oy + (int)blockRun.Top);
+                            p.SetCanvasOrigin(ox + (int)(blockRun.Left), oy + (int)blockRun.Top);
                             blockRun.ContentBox.Paint(p);
                             p.SetCanvasOrigin(ox, oy);
                         }
@@ -509,11 +515,11 @@ namespace LayoutFarm.HtmlBoxes
                             }
 
                             CssTextRun textRun = (CssTextRun)w;
-                            PointF wordPoint = new PointF(w.Left, w.Top);
                             p.DrawText(CssBox.UnsafeGetTextBuffer(w.OwnerBox),
-                               textRun.TextStartIndex,
-                               textRun.TextLength, wordPoint,
-                               new SizeF(w.Width, w.Height));
+                                                           textRun.TextStartIndex,
+                                                           textRun.TextLength,
+                                                           new PointF(w.Left, w.Top),
+                                                           new SizeF(w.Width, w.Height));
                         }
                         break;
                     default:
@@ -526,13 +532,10 @@ namespace LayoutFarm.HtmlBoxes
                 }
             }
 
-            //---
-            //exit
-            if (j > 0)
-            {
-                innerCanvas.CurrentFont = enterFont;
-                innerCanvas.CurrentTextColor = enterColor;
-            }
+
+            innerCanvas.CurrentFont = enterFont;
+            innerCanvas.CurrentTextColor = enterColor;
+
         }
 #if DEBUG
         internal void dbugPaintRuns(PaintVisitor p)

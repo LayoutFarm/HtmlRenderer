@@ -39,8 +39,11 @@ namespace LayoutFarm.HtmlBoxes
         {
             if (_latestFloatingContext == null)
             {
-                _latestFloatingContext = new FloatingContext(box);
-                _totalContexts.Add(_latestFloatingContext);
+                if (box.IsBody)
+                {
+                    _latestFloatingContext = new FloatingContext(box);
+                    _totalContexts.Add(_latestFloatingContext);
+                }
             }
             else
             {
@@ -50,7 +53,10 @@ namespace LayoutFarm.HtmlBoxes
                     _totalContexts.Add(_latestFloatingContext);
                 }
             }
-            _floatingContexts.Add(_latestFloatingContext);
+            if (_latestFloatingContext != null)
+            {
+                _floatingContexts.Add(_latestFloatingContext);
+            }
         }
         public void PopContainingBlock()
         {
@@ -82,7 +88,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         public bool HasFloatBoxInContext
         {
-            get { return _latestFloatingContext.HasFloatBox; }
+            get { return _latestFloatingContext != null && _latestFloatingContext.HasFloatBox; }
         }
 
         public void AddFloatBox(CssBox floatBox)

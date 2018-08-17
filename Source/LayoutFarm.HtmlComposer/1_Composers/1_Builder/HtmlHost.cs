@@ -498,10 +498,18 @@ namespace LayoutFarm.HtmlBoxes
                                 newBox = new CssBox(childSpec, parentBox.RootGfx);
                                 newBox.SetController(childElement);
                                 parentBox.AppendChild(newBox);
+
+
+
                                 break;
                         }
                     }
                     break;
+            }
+
+            if (childElement.WellknownElementName == WellKnownDomNodeName.body)
+            {
+                newBox.IsBody = true;
             }
 
             childElement.SetPrincipalBox(newBox);

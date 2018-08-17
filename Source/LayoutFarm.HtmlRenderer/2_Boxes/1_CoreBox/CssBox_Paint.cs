@@ -1,4 +1,4 @@
-﻿//BSD, 2014-present, WinterDev 
+﻿//BSD, 2014-present, WinterDev +
 //ArthurHub, Jose Manuel Menendez Poo
 
 using System;
@@ -7,10 +7,25 @@ namespace LayoutFarm.HtmlBoxes
 {
     partial class CssBox
     {
+
         public void InvalidateGraphics()
         {
             //bubble invalidate area to to parent?
-            var parentBox = this.ParentBox;
+
+
+            if (this.justBlockRun != null)
+            {
+
+                Rectangle clientArea = new Rectangle((int)this.LocalX, (int)this.LocalY, (int)this.VisualWidth, (int)this.VisualHeight);
+                clientArea.Offset(
+                  (int)(justBlockRun.Left),
+                  (int)(justBlockRun.Top + justBlockRun.HostLine.CachedLineTop));
+                justBlockRun.HostLine.OwnerBox.InvalidateGraphics(clientArea);
+
+                return;
+            }
+
+            CssBox parentBox = _absLayerOwner ?? this.ParentBox;
             if (parentBox != null)
             {
                 parentBox.InvalidateGraphics(new Rectangle(
@@ -20,13 +35,26 @@ namespace LayoutFarm.HtmlBoxes
                     (int)this.VisualHeight));
             }
         }
+
         public virtual void InvalidateGraphics(Rectangle clientArea)
         {
             //bubble up to parent
             //clientArea => area relative to this element
             //adjust to 
             //adjust client area 
-            var parentBox = this.ParentBox;
+
+            if (this.justBlockRun != null)
+            {
+
+                clientArea.Offset(
+                    (int)(justBlockRun.Left),
+                    (int)(justBlockRun.Top + justBlockRun.HostLine.CachedLineTop));
+                justBlockRun.HostLine.OwnerBox.InvalidateGraphics(clientArea);
+
+                return;
+            }
+
+            CssBox parentBox = _absLayerOwner ?? this.ParentBox;
             if (parentBox != null)
             {
                 clientArea.Offset((int)this.LocalX, (int)this.LocalY);
@@ -36,7 +64,10 @@ namespace LayoutFarm.HtmlBoxes
         public void Paint(PaintVisitor p)
         {
 #if DEBUG
+            //if (this.__aa_dbugId == 5)
+            //{
 
+            //}
             dbugCounter.dbugBoxPaintCount++;
 #endif
             if (this._isVisible)

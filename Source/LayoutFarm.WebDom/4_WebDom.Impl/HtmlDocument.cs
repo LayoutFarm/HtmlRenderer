@@ -69,10 +69,18 @@ namespace LayoutFarm.WebDom.Impl
             }
         }
 
+        class MyHtmlElement : HtmlElement
+        {
+            public MyHtmlElement(HtmlDocument owner, int prefixNameIndex, int localNameIndex)
+                : base(owner, prefixNameIndex, localNameIndex)
+            {
+            }
+        }
+
         public override DomElement CreateElement(string prefix, string localName)
         {
             //actual implementation
-            return new HtmlElement(this,
+            return new MyHtmlElement(this,
                 AddStringIfNotExists(prefix),
                 AddStringIfNotExists(localName));
         }

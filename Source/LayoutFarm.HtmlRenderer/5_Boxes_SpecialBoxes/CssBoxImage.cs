@@ -52,8 +52,10 @@ namespace LayoutFarm.HtmlBoxes
             SetVisualSize(
                 this._imgRun.ImageBinder.ImageWidth,
                 this._imgRun.ImageBinder.ImageHeight);
-
-            this.InvalidateGraphics();
+            _imgRun.SetSize(this._imgRun.ImageBinder.ImageWidth,
+                 this._imgRun.ImageBinder.ImageHeight); 
+            _imgRun.InvalidateGraphics();
+           
         }
 
         public override void Clear()
@@ -71,6 +73,10 @@ namespace LayoutFarm.HtmlBoxes
             {
                 this._imgRun.ImageBinder = value;
                 this.RunSizeMeasurePass = false;
+                if (value != null)
+                {
+                    value.ImageChanged += Binder_ImageChanged;
+                }
             }
         }
         public override void Paint(PaintVisitor p, RectangleF rect)
@@ -155,7 +161,7 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="g">the device to draw to</param>
         protected override void PaintImp(PaintVisitor p)
         {
-            // load image iff it is in visible rectangle  
+            // load image if it is in visible rectangle  
             //1. single image can't be splited  
 #if DEBUG
             p.dbugEnterNewContext(this, PaintVisitor.PaintVisitorContextName.Init);
