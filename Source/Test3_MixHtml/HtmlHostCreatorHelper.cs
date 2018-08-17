@@ -56,12 +56,12 @@ namespace LayoutFarm
                 _contentMx = new ContentManagers.ImageContentManager();
                 _contentMx.ImageLoadingRequest += (s, e) =>
                 {
-                    e.SetResultImage(LoadImage(e.ImagSource));
+                    e.SetResultImage(LoadImgForSvgElem(e.ImagSource));
                 };
             }
             _contentMx.AddRequestImage(binder);
         }
-        public static PixelFarm.Drawing.Image LoadImage(string imgName)
+        static PixelFarm.Drawing.Image LoadImgForSvgElem(string imgName)
         {
             //temp fix
             if (imgName == "html32.png")
@@ -75,9 +75,20 @@ namespace LayoutFarm
 
             }
 
-            System.Drawing.Bitmap gdiBmp = new System.Drawing.Bitmap(imgName);
-            GdiPlusBitmap bmp = new GdiPlusBitmap(gdiBmp.Width, gdiBmp.Height, gdiBmp);
-            return bmp;
+
+            using (System.Drawing.Bitmap gdiBmp = new System.Drawing.Bitmap(imgName))
+            {
+                int w = gdiBmp.Width;
+                int h = gdiBmp.Height;
+
+                var bmpData = gdiBmp.LockBits(new System.Drawing.Rectangle(0, 0, w, h), System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                int[] buffer = new int[w * h];
+                System.Runtime.InteropServices.Marshal.Copy(bmpData.Scan0, buffer, 0, w * h);
+                gdiBmp.UnlockBits(bmpData);
+
+                return new PixelFarm.CpuBlit.ActualBitmap(gdiBmp.Width, gdiBmp.Height, buffer);
+            }
+           
         }
     }
 }

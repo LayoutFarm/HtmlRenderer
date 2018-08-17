@@ -28,7 +28,11 @@ namespace LayoutFarm.HtmlBoxes
 
             var renderVxDocBuilder = new SvgRenderVxDocBuilder();
             renderVxDocBuilder.SetContainerSize(containingBlock.VisualWidth, containingBlock.VisualHeight);
-            _renderVx = renderVxDocBuilder.CreateRenderVx(SvgDoc);
+            _renderVx = renderVxDocBuilder.CreateRenderVx(SvgDoc, svgElem =>
+            {
+                _renderVx.SetBitmapSnapshot(null);
+                this.InvalidateGraphics();
+            });
 
 
 
