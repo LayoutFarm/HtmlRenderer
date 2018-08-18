@@ -69,13 +69,16 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
         {
             get
             {
-                int globalX;
-                int globalY;
-                return this.GetParentRenderElement(out globalX, out globalY);
+
+                return this.GetParentRenderElement(out int globalX, out int globalY);
             }
         }
         void RenderBoxes.IParentLink.AdjustLocation(ref Point p)
         {
+            this.GetGlobalLocationRelativeToRoot(out float gx, out float gy);
+            adjustX = (int)gx;
+            adjustY = (int)gy;
+
             p.Offset(adjustX, adjustY);
         }
         RenderElement RenderBoxes.IParentLink.FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
@@ -163,7 +166,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
         internal override RenderElement GetParentRenderElement(out int globalX, out int globalY)
         {
             CssBox cbox = this;
-            //start 
+            //start  
             globalX = (int)this.externalRun.Left;
             globalY = (int)this.externalRun.Top;
             while (cbox != null)
