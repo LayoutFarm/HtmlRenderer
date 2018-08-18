@@ -96,16 +96,16 @@ namespace LayoutFarm.CustomWidgets
             {
                 switch (typeAttr.Value)
                 {
-                    case "textbox":
-                        {
-                            var textbox = new LayoutFarm.CustomWidgets.TextBox(100, 17, false);
-                            CssBox wrapperBox = CreateWrapper(
-                                 textbox,
-                                 textbox.GetPrimaryRenderElement(rootgfx),
-                                 spec, true);
-                            parentBox.AppendChild(wrapperBox);
-                            return wrapperBox;
-                        }
+                    //case "textbox":
+                    //    {
+                    //        var textbox = new LayoutFarm.CustomWidgets.TextBox(100, 17, false);
+                    //        CssBox wrapperBox = CreateWrapper(
+                    //             textbox,
+                    //             textbox.GetPrimaryRenderElement(rootgfx),
+                    //             spec, true);
+                    //        parentBox.AppendChild(wrapperBox);
+                    //        return wrapperBox;
+                    //    }
                     case "text":
                         {
                             // user can specific width of textbox 
