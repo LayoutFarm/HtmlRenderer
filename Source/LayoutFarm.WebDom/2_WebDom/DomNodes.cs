@@ -288,4 +288,134 @@ namespace LayoutFarm.WebDom
             }
         }
     }
+
+    
+    public static class WellKnownDomNodeMap
+    {
+        static readonly ValueMap<WellKnownDomNodeName> _wellknownHtmlTagNameMap = new ValueMap<WellKnownDomNodeName>();
+        public static WellKnownDomNodeName EvaluateTagName(string name)
+        {
+            return _wellknownHtmlTagNameMap.GetValueFromString(name, WellKnownDomNodeName.Unknown);
+        }
+
+    }
+
+    public enum WellKnownDomNodeName : byte
+    {
+        NotAssign, //extension , for anonymous element
+        Unknown,
+        //---------------- 
+        [Map("html")]
+        html,
+        [Map("a")]
+        a,
+        [Map("area")]
+        area,
+        [Map("hr")]
+        hr,
+        [Map("br")]
+        br,
+        [Map("body")]
+        body,
+        [Map("style")]
+        style,
+        [Map("script")]
+        script,
+        [Map("img")]
+        img,
+        [Map("input")]
+        input,
+
+        [Map("option")]
+        option,
+        [Map("select")]
+        select,
+
+        [Map("canvas")]
+        canvas,
+        [Map("div")]
+        div,
+        [Map("span")]
+        span,
+        [Map("link")]
+        link,
+        [Map("p")]
+        p,
+        //----------------------------------
+        [Map("table")]
+        table,
+        [Map("tr")]
+        tr,//table-row
+        [Map("tbody")]
+        tbody,//table-row-group
+        [Map("thead")]
+        thead, //table-header-group
+        //from css2.1 spec:
+        //thead: like 'table-row-group' ,but for visual formatting.
+        //the row group is always displayed before all other rows and row groups and
+        //after any top captions...
+
+        [Map("tfoot")]
+        tfoot, //table-footer-group
+        //css2.1: like 'table-row-group',but for visual formatting
+
+        [Map("col")]
+        col,//table-column, specifics that an element describes a column of cells
+        [Map("colgroup")]
+        colgroup,//table-column-group, specific that an element groups one or more columns;
+        [Map("template")]
+        template, //html5 template
+        [Map("td")]
+        td,//table-cell                
+        [Map("th")]
+        th,//table-cell
+        [Map("caption")]
+        caption,//table-caption element
+        //----------------------------------------
+
+
+        [Map("iframe")]
+        iframe,
+        ////----------------------------------------
+        //[FeatureDeprecated("not support in Html5")]
+        //[Map("frame")]
+        //frame,
+        //[FeatureDeprecated("not support in Html5,Use Css instead")]
+        //[Map("font")]
+        //font,
+        //[FeatureDeprecated("not support in Html5,Use Css instead")]
+        //[Map("basefont")]
+        basefont,
+        [Map("base")]
+        _base,
+        [Map("meta")]
+        meta,
+        [Map("param")]
+        _param,
+        [Map("svg")]
+        svg,
+        [Map("rect")]
+        svg_rect,
+        [Map("circle")]
+        svg_circle,
+        [Map("ellipse")]
+        svg_ellipse,
+        [Map("polygon")]
+        svg_polygon,
+        [Map("polyline")]
+        svg_polyline,
+        [Map("defs")]
+        svg_defs,
+        [Map("linearGradient")]
+        svg_linearGradient,
+        [Map("stop")]
+        svg_stop,
+        [Map("path")]
+        svg_path,
+        [Map("image")]
+        svg_image,
+        [Map("g")]
+        svg_g
+    }
+
 }

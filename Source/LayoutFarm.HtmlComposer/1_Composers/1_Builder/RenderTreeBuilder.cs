@@ -72,7 +72,7 @@ namespace LayoutFarm.Composers
                     case WebDom.HtmlNodeKind.ShortElement:
                         {
                             HtmlElement htmlElement = (HtmlElement)node;
-                            htmlElement.WellknownElementName = UserMapUtil.EvaluateTagName(htmlElement.LocalName);
+                            htmlElement.WellknownElementName = WellKnownDomNodeMap.EvaluateTagName(htmlElement.LocalName);
                             switch (htmlElement.WellknownElementName)
                             {
                                 case WellKnownDomNodeName.style:

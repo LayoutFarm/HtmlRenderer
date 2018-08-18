@@ -29,7 +29,7 @@ namespace LayoutFarm.Composers
             var htmlElement = new HtmlElement(this,
                 AddStringIfNotExists(prefix),
                 AddStringIfNotExists(localName)); 
-            htmlElement.WellknownElementName = UserMapUtil.EvaluateTagName(htmlElement.LocalName);
+            htmlElement.WellknownElementName = WellKnownDomNodeMap.EvaluateTagName(htmlElement.LocalName);
             return htmlElement;
         }
         public override DomNode CreateDocumentNodeElement()
