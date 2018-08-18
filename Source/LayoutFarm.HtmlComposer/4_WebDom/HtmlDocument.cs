@@ -20,7 +20,9 @@ namespace LayoutFarm.Composers
             //default root
             this.SetRootElement(new HtmlRootElement(this));
             //TODO: test only
+#if DEBUG
             this.RegisterCustomElement("fivespace", CustomBoxGenSample1.CreateCssBox);
+#endif
         }
 
         public override DomElement CreateElement(string prefix, string localName)
@@ -28,7 +30,7 @@ namespace LayoutFarm.Composers
             //actual implementation
             var htmlElement = new HtmlElement(this,
                 AddStringIfNotExists(prefix),
-                AddStringIfNotExists(localName)); 
+                AddStringIfNotExists(localName));
             htmlElement.WellknownElementName = WellKnownDomNodeMap.EvaluateTagName(htmlElement.LocalName);
             return htmlElement;
         }
