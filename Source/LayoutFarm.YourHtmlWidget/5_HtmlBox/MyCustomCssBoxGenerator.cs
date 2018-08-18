@@ -62,21 +62,50 @@ namespace LayoutFarm.CustomWidgets
             BoxSpec spec,
             LayoutFarm.RootGraphic rootgfx, HtmlHost host)
         {
+
+
+
+            //https://www.w3schools.com/tags/tag_input.asp
+            //button
+            //checkbox
+            //color
+            //date
+            //datetime - local
+            //email
+            //file
+            //hidden
+            //image
+            //month
+            //number
+            //password
+            //radio
+            //range
+            //reset
+            //search
+            //submit
+            //tel
+            //text
+            //time
+            //url
+            //week
+
+
+
             var typeAttr = domE.FindAttribute("type");
             if (typeAttr != null)
             {
                 switch (typeAttr.Value)
                 {
-                    case "textbox":
-                        {
-                            var textbox = new LayoutFarm.CustomWidgets.TextBox(100, 17, false);
-                            CssBox wrapperBox = CreateWrapper(
-                                 textbox,
-                                 textbox.GetPrimaryRenderElement(rootgfx),
-                                 spec, true);
-                            parentBox.AppendChild(wrapperBox);
-                            return wrapperBox;
-                        }
+                    //case "textbox":
+                    //    {
+                    //        var textbox = new LayoutFarm.CustomWidgets.TextBox(100, 17, false);
+                    //        CssBox wrapperBox = CreateWrapper(
+                    //             textbox,
+                    //             textbox.GetPrimaryRenderElement(rootgfx),
+                    //             spec, true);
+                    //        parentBox.AppendChild(wrapperBox);
+                    //        return wrapperBox;
+                    //    }
                     case "text":
                         {
                             // user can specific width of textbox 
@@ -116,19 +145,48 @@ namespace LayoutFarm.CustomWidgets
                             parentBox.AppendChild(buttonCssBox);
                             return buttonCssBox;
                         }
+                    case "checkbox":
+                        {
+                            //implement with choice box + multiple value
+                            var button = new HtmlWidgets.ChoiceBox(10, 10);
+                            button.OnlyOne = false; //*** show as checked box
+
+                            var ihtmlElement = domE as LayoutFarm.WebDom.IHtmlElement;
+                            //if (ihtmlElement != null)
+                            //{
+                            //    button.Text = ihtmlElement.innerHTML;
+                            //}
+                            //else
+                            //{
+                            //    button.Text = "testButton";
+                            //}
+                            //button.Text = "C";
+
+                            DomElement buttonDom = button.GetPresentationDomNode((HtmlDocument)domE.OwnerDocument);
+                            //buttonDom.SetAttribute("style", "width:20px;height:20px;background-color:red;cursor:pointer");
+                            CssBox buttonCssBox = host.CreateBox2(parentBox, (WebDom.Impl.HtmlElement)buttonDom, true); //create and append to the parentBox
+#if DEBUG
+                            buttonCssBox.dbugMark1 = 1;
+#endif
+                            return buttonCssBox;
+                        }
+
                     case "radio":
                         {
                             var button = new HtmlWidgets.ChoiceBox(10, 10);
+                            button.OnlyOne = true;// show as option box
+
                             var ihtmlElement = domE as LayoutFarm.WebDom.IHtmlElement;
-                            if (ihtmlElement != null)
-                            {
-                                button.Text = ihtmlElement.innerHTML;
-                            }
-                            else
-                            {
-                                button.Text = "testButton";
-                            }
-                            button.Text = "C";
+
+                            //if (ihtmlElement != null)
+                            //{
+                            //    button.Text = ihtmlElement.innerHTML;
+                            //}
+                            //else
+                            //{
+                            //    button.Text = "testButton";
+                            //}
+                            //button.Text = "C";
 
                             DomElement buttonDom = button.GetPresentationDomNode((HtmlDocument)domE.OwnerDocument);
                             //buttonDom.SetAttribute("style", "width:20px;height:20px;background-color:red;cursor:pointer");

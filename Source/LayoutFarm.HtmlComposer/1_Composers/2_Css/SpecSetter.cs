@@ -133,20 +133,20 @@ namespace LayoutFarm.Composers
                 case WellknownCssPropertyName.BoxShadow:
                     SetBoxShadow(spec, decl);
                     break;
-                case WellknownCssPropertyName.CornerRadius:
+                case WellknownCssPropertyName.BorderRadius:
 
                     SetCornerRadius(spec, cssValue);
                     break;
-                case WellknownCssPropertyName.CornerNWRadius:
+                case WellknownCssPropertyName.BorderNWRadius:
                     spec.CornerNWRadius = cssValue.AsLength();
                     break;
-                case WellknownCssPropertyName.CornerNERadius:
+                case WellknownCssPropertyName.BorderNERadius:
                     spec.CornerNERadius = cssValue.AsLength();
                     break;
-                case WellknownCssPropertyName.CornerSERadius:
+                case WellknownCssPropertyName.BorderSERadius:
                     spec.CornerSERadius = cssValue.AsLength();
                     break;
-                case WellknownCssPropertyName.CornerSWRadius:
+                case WellknownCssPropertyName.BorderSWRadius:
                     spec.CornerSWRadius = cssValue.AsLength();
                     break;
                 case WellknownCssPropertyName.Cursor:
@@ -517,23 +517,23 @@ namespace LayoutFarm.Composers
                     spec.BorderCollapse = parentSpec.BorderCollapse;
                     break;
                 //------------------------------------------------
-                case WellknownCssPropertyName.CornerRadius:
+                case WellknownCssPropertyName.BorderRadius:
                     spec.CornerNERadius = parentSpec.CornerNERadius;
                     spec.CornerNWRadius = parentSpec.CornerNWRadius;
                     spec.CornerSERadius = parentSpec.CornerSERadius;
                     spec.CornerSWRadius = parentSpec.CornerSWRadius;
                     break;
-                case WellknownCssPropertyName.CornerNWRadius:
+                case WellknownCssPropertyName.BorderNWRadius:
 
                     spec.CornerNWRadius = parentSpec.CornerNWRadius;
                     break;
-                case WellknownCssPropertyName.CornerNERadius:
+                case WellknownCssPropertyName.BorderNERadius:
                     spec.CornerNERadius = parentSpec.CornerNERadius;
                     break;
-                case WellknownCssPropertyName.CornerSERadius:
+                case WellknownCssPropertyName.BorderSERadius:
                     spec.CornerSERadius = parentSpec.CornerSERadius;
                     break;
-                case WellknownCssPropertyName.CornerSWRadius:
+                case WellknownCssPropertyName.BorderSWRadius:
                     spec.CornerSWRadius = parentSpec.CornerSWRadius;
                     break;
                 //------------------------------------------------

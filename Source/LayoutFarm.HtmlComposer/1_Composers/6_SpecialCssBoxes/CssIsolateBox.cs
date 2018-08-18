@@ -44,7 +44,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             //send to container element
             clientArea.Offset(containerElement.X, containerElement.Y);
-            this.containerElement.InvalidateGraphicBounds(clientArea);
+            this.containerElement.InvalidateParentGraphics(clientArea);
         }
         public LayoutFarm.RenderElement ContainerElement
         {
