@@ -368,7 +368,7 @@ namespace LayoutFarm.UI
         {
             if (this.CurrentPrimaryRenderElement != null)
             {
-                this.CurrentPrimaryRenderElement.InvalidateGraphicBounds();
+                this.CurrentPrimaryRenderElement.InvalidateParentGraphics();
             }
         }
         public virtual void PerformContentLayout()
