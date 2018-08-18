@@ -197,7 +197,19 @@ namespace LayoutFarm.Composers
                 return this._principalBox.VisualHeight;
             }
         }
+        public override float GetActualHeightIndirect()
+        {
+            float actualHeight = this.ActualHeight;
+            if (actualHeight == 0)
+            {
+                if (_principalBox != null && _principalBox.ParentBox != null)
+                {
+                    return _principalBox.ParentBox.VisualHeight;
+                }
 
+            }
+            return actualHeight;
+        }
 
         //-------------------------------------------
         internal virtual CssBox GetPrincipalBox(CssBox parentCssBox, HtmlHost host)

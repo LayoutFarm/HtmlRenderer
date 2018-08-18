@@ -1,5 +1,7 @@
 ﻿//Apache2, 2014-present, WinterDev
 
+using System.Collections.Generic;
+
 using PixelFarm.Drawing;
 using LayoutFarm.Composers;
 using LayoutFarm.WebDom;
@@ -19,6 +21,9 @@ namespace LayoutFarm.HtmlWidgets
         Color backColor = Color.LightGray;
         bool isOpen;
         HingeFloatPartStyle floatPartStyle;
+        DomElement _div_floatingPart;
+        List<DomElement> _items;
+
         public HingeBox(int w, int h)
             : base(w, h)
         {
@@ -26,16 +31,67 @@ namespace LayoutFarm.HtmlWidgets
         DomElement CreateFloatPartDom(WebDom.Impl.HtmlDocument htmldoc)
         {
             //create land part 
-            var div = htmldoc.CreateElement("div");
-            div.SetAttribute("style", "position:absolute;left:0px;top:0px;width:300px;height:500px;");
-            for (int i = 0; i < 10; ++i)
+            _div_floatingPart = htmldoc.CreateElement("div");
+            _div_floatingPart.SetAttribute("style", "background-color:white;position:absolute;left:0px;top:0px;width:300px;height:500px;");
+            if (_items != null)
             {
-                div.AddChild("div", div2 =>
+                int j = _items.Count;
+                for (int i = 0; i < j; ++i)
                 {
-                    div2.AddTextContent("HELLO!" + i);
-                });
+                    _div_floatingPart.AddChild(_items[i]);
+                }
             }
-            return div;
+            return _div_floatingPart;
+        }
+        //--------------
+        public void ClearItems()
+        {
+            if (_items != null)
+            {
+                _items.Clear();
+            }
+            if (_div_floatingPart != null)
+            {
+                _div_floatingPart.ClearAllElements();
+            }
+        }
+        public void AddItem(DomElement item)
+        {
+            if (_items == null)
+            {
+                _items = new List<DomElement>();
+            }
+            _items.Add(item);
+            //
+            //
+            if (_div_floatingPart != null)
+            {
+                _div_floatingPart.AddChild(item);
+            }
+
+        }
+        public void RemoveItem(int index)
+        {
+            DomElement elem = _items[index];
+            _items.RemoveAt(index);
+
+            if (_div_floatingPart != null)
+            {
+                _div_floatingPart.RemoveChild(elem);
+            }
+        }
+        public DomElement GetItem(int index)
+        {
+            return _items[index];
+        }
+        public int ItemCount
+        {
+            get
+            {
+                if (_items == null) return 0;
+                return _items.Count;
+            }
+
         }
         public override DomElement GetPresentationDomNode(WebDom.Impl.HtmlDocument htmldoc)
         {
@@ -90,6 +146,7 @@ namespace LayoutFarm.HtmlWidgets
         public void OpenHinge()
         {
             if (isOpen) return;
+            //----------------------
             this.isOpen = true;
             switch (floatPartStyle)
             {
@@ -100,9 +157,10 @@ namespace LayoutFarm.HtmlWidgets
                         var floatPartE = this.floatPartDomElement as WebDom.Impl.HtmlElement;
                         var landPartE = this.presentationNode as WebDom.Impl.HtmlElement;
                         htmldoc.RootNode.AddChild(this.floatPartDomElement);
-                        int x, y;
-                        this.presentationNode.GetGlobalLocation(out x, out y);
-                        floatPartE.SetLocation(x, y + (int)landPartE.ActualHeight);
+
+                        this.presentationNode.GetGlobalLocation(out int x, out int y);
+                        float actualHeight = landPartE.GetActualHeightIndirect();
+                        floatPartE.SetLocation(x, (int)(y + actualHeight));
                     }
                     break;
                 case HingeFloatPartStyle.Embeded:
@@ -114,12 +172,13 @@ namespace LayoutFarm.HtmlWidgets
         public void CloseHinge()
         {
             if (!isOpen) return;
+            //-------------------------------------
             this.isOpen = false;
             if (floatPartDomElement == null)
             {
                 return;
             }
-
+            //-------------------------------------
             switch (floatPartStyle)
             {
                 default:
