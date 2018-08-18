@@ -232,7 +232,7 @@ namespace LayoutFarm.HtmlBoxes
                                     //-------------------------------------------------- 
                                     if (fullmode)
                                     {
-                                        CssBox newbox = CreateBox(hostBox, childElement, fullmode);
+                                        CssBox newbox = CreateBoxInternal(hostBox, childElement, fullmode);
                                         childElement.SetPrincipalBox(newbox);
                                     }
                                     else
@@ -240,7 +240,7 @@ namespace LayoutFarm.HtmlBoxes
                                         CssBox existing = HtmlElement.InternalGetPrincipalBox(childElement);
                                         if (existing == null)
                                         {
-                                            CssBox box = CreateBox(hostBox, childElement, fullmode);
+                                            CssBox box = CreateBoxInternal(hostBox, childElement, fullmode);
                                             childElement.SetPrincipalBox(box);
                                         }
                                         else
@@ -324,14 +324,14 @@ namespace LayoutFarm.HtmlBoxes
 
                                         if (fullmode)
                                         {
-                                            CssBox box = CreateBox(hostBox, childElement, fullmode);
+                                            CssBox box = CreateBoxInternal(hostBox, childElement, fullmode);
                                         }
                                         else
                                         {
                                             CssBox existingCssBox = HtmlElement.InternalGetPrincipalBox(childElement);
                                             if (existingCssBox == null)
                                             {
-                                                CssBox box = CreateBox(hostBox, childElement, fullmode);
+                                                CssBox box = CreateBoxInternal(hostBox, childElement, fullmode);
                                             }
                                             else
                                             {
@@ -362,11 +362,11 @@ namespace LayoutFarm.HtmlBoxes
             //that will be used on layout process 
             //---------------------------------- 
         }
-        public CssBox CreateBox2(CssBox parentBox, WebDom.Impl.HtmlElement childElement, bool fullmode)
+        public CssBox CreateBox(CssBox parentBox, WebDom.Impl.HtmlElement childElement, bool fullmode)
         {
-            return CreateBox(parentBox, (HtmlElement)childElement, fullmode);
+            return CreateBoxInternal(parentBox, (HtmlElement)childElement, fullmode);
         }
-        internal CssBox CreateBox(CssBox parentBox, HtmlElement childElement, bool fullmode)
+        CssBox CreateBoxInternal(CssBox parentBox, HtmlElement childElement, bool fullmode)
         {
             //----------------------------------------- 
             //1. create new box
@@ -396,6 +396,8 @@ namespace LayoutFarm.HtmlBoxes
                     parentBox.AppendChild(newBox);
                     childElement.SetPrincipalBox(newBox);
                     return newBox;
+
+
                 //-----------------------------------------------------
                 //TODO: simplify this ...
                 //table-display elements, fix display type
@@ -428,6 +430,15 @@ namespace LayoutFarm.HtmlBoxes
                     newBox = TableBoxCreator.CreateOtherPredefinedTableElement(parentBox, childElement, CssDisplay.TableFooterGroup);
                     break;
                 //---------------------------------------------------
+                case WellKnownDomNodeName.select:
+                    newBox = this.CreateCustomCssBox(parentBox, childElement, childElement.Spec);
+                    if (newBox != null)
+                    {
+                        childElement.SetPrincipalBox(newBox);
+                        return newBox;
+                    }
+                    goto default; //else goto default *** 
+
                 case WellKnownDomNodeName.canvas:
                 case WellKnownDomNodeName.input:
 

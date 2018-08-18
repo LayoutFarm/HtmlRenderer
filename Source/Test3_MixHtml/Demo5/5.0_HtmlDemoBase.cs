@@ -11,7 +11,7 @@ namespace LayoutFarm.WebWidgets
         protected LayoutFarm.HtmlBoxes.HtmlHost myHtmlHost;
         protected HtmlBox groundHtmlBox;
         protected AppHost _host;
-        HtmlDocument groundHtmlDoc;
+        protected HtmlDocument _groundHtmlDoc;
         protected override void OnStart(AppHost host)
         {
             this._host = host;
@@ -33,7 +33,8 @@ namespace LayoutFarm.WebWidgets
             this._host.AddChild(groundHtmlBox);
             //----------------------------------------------------- 
             groundHtmlBox.LoadHtmlFragmentString(html);
-            this.groundHtmlDoc = groundHtmlBox.HtmlContainer.WebDocument as HtmlDocument;
+            this._groundHtmlDoc = groundHtmlBox.HtmlContainer.WebDocument as HtmlDocument;
+
             OnHtmlHostCreated();
         }
         protected virtual void OnHtmlHostCreated()
@@ -41,11 +42,12 @@ namespace LayoutFarm.WebWidgets
         }
 
 
+
         protected void AddToViewport(HtmlWidgets.HtmlWidgetBase htmlWidget)
         {
             //
-            var presentationDomNode = htmlWidget.GetPresentationDomNode(this.groundHtmlDoc);
-            this.groundHtmlDoc.BodyElement.AddChild(presentationDomNode);
+            var presentationDomNode = htmlWidget.GetPresentationDomNode(this._groundHtmlDoc);
+            this._groundHtmlDoc.BodyElement.AddChild(presentationDomNode);
             //this.groundHtmlDoc.RootNode.AddChild(presentationDomNode);
             //sampleViewport.AddContent(htmlWidget.GetPrimaryUIElement(myHtmlHost));
         }

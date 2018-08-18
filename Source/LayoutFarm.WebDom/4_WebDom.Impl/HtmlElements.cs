@@ -174,5 +174,10 @@ namespace LayoutFarm.WebDom.Impl
                 return 0;
             }
         }
+
+        public virtual float GetActualHeightIndirect()
+        {
+            return 0;
+        }
     }
 }
