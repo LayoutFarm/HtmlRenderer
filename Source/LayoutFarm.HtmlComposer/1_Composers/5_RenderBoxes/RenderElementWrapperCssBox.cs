@@ -73,8 +73,10 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
                 return this.GetParentRenderElement(out int globalX, out int globalY);
             }
         }
+        protected abstract void AdjustLocalLocation(ref Point p);
         void RenderBoxes.IParentLink.AdjustLocation(ref Point p)
         {
+            AdjustLocalLocation(ref p);
             this.GetGlobalLocationRelativeToRoot(out float gx, out float gy);
             adjustX = (int)gx;
             adjustY = (int)gy;
@@ -116,6 +118,10 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
             //---------------------------------------------------  
             LayoutFarm.RenderElement.SetParentLink(re, this);
         }
+        protected override void AdjustLocalLocation(ref Point p)
+        {
+            p.Offset((int)externalRun.Left, (int)externalRun.Top);
+        }
         public override void Clear()
         {
             base.Clear();
@@ -128,18 +134,11 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
             var updateArea = new Rectangle((int)r.Left, (int)r.Top, (int)r.Width, (int)r.Height);
             int x = (int)updateArea.Left;
             int y = (int)updateArea.Top;
-            var canvasPage = p.InnerCanvas;
+            DrawBoard canvasPage = p.InnerCanvas;
             canvasPage.OffsetCanvasOrigin(x, y);
             updateArea.Offset(-x, -y);
             externalRun.RenderElement.DrawToThisCanvas(canvasPage, updateArea);
             canvasPage.OffsetCanvasOrigin(-x, -y);
-        }
-        public RenderElement RenderElement
-        {
-            get
-            {
-                return externalRun.RenderElement;
-            }
         }
 
         protected override void PaintImp(PaintVisitor p)
@@ -205,7 +204,10 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
             this.SetVisualSize(w, h);
             LayoutFarm.RenderElement.SetParentLink(renderElement, this);
         }
+        protected override void AdjustLocalLocation(ref Point p)
+        {
 
+        }
         public override bool CustomContentHitTest(float x, float y, CssBoxHitChain hitChain)
         {
             return false;
