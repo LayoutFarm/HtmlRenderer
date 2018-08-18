@@ -152,15 +152,15 @@ namespace LayoutFarm.CustomWidgets
                             button.OnlyOne = false; //*** show as checked box
 
                             var ihtmlElement = domE as LayoutFarm.WebDom.IHtmlElement;
-                            if (ihtmlElement != null)
-                            {
-                                button.Text = ihtmlElement.innerHTML;
-                            }
-                            else
-                            {
-                                button.Text = "testButton";
-                            }
-                            button.Text = "C";
+                            //if (ihtmlElement != null)
+                            //{
+                            //    button.Text = ihtmlElement.innerHTML;
+                            //}
+                            //else
+                            //{
+                            //    button.Text = "testButton";
+                            //}
+                            //button.Text = "C";
 
                             DomElement buttonDom = button.GetPresentationDomNode((HtmlDocument)domE.OwnerDocument);
                             //buttonDom.SetAttribute("style", "width:20px;height:20px;background-color:red;cursor:pointer");
@@ -178,15 +178,15 @@ namespace LayoutFarm.CustomWidgets
 
                             var ihtmlElement = domE as LayoutFarm.WebDom.IHtmlElement;
 
-                            if (ihtmlElement != null)
-                            {
-                                button.Text = ihtmlElement.innerHTML;
-                            }
-                            else
-                            {
-                                button.Text = "testButton";
-                            }
-                            button.Text = "C";
+                            //if (ihtmlElement != null)
+                            //{
+                            //    button.Text = ihtmlElement.innerHTML;
+                            //}
+                            //else
+                            //{
+                            //    button.Text = "testButton";
+                            //}
+                            //button.Text = "C";
 
                             DomElement buttonDom = button.GetPresentationDomNode((HtmlDocument)domE.OwnerDocument);
                             //buttonDom.SetAttribute("style", "width:20px;height:20px;background-color:red;cursor:pointer");
