@@ -900,7 +900,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         public void GetGlobalLocation(out float globalX, out float globalY)
         {
-            this.GetGlobalLocationImpl(out globalX, out globalY);
+            this.GetGlobalLocationImpl(out globalX, out globalY); 
         }
 
         void GetGlobalLocationRelativeToRoot(ref PointF location)
@@ -925,9 +925,8 @@ namespace LayoutFarm.HtmlBoxes
                 //recursive
                 parentBox.GetGlobalLocationRelativeToRoot(ref location);
             }
-
         }
-        internal void GetGlobalLocationRelativeToRoot(out float globalX, out float globalY)
+        public void GetGlobalLocationRelativeToRoot(out float globalX, out float globalY)
         {
             PointF location = new PointF(0, 0);
             GetGlobalLocationRelativeToRoot(ref location);

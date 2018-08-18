@@ -22,6 +22,8 @@ namespace LayoutFarm.HtmlWidgets
         bool isOpen;
         HingeFloatPartStyle floatPartStyle;
         DomElement _div_floatingPart;
+        DomElement _div_landingPoint;
+
         List<DomElement> _items;
         public HingeBox(int w, int h)
             : base(w, h)
@@ -126,6 +128,11 @@ namespace LayoutFarm.HtmlWidgets
                     });
                 });
             });
+
+            _div_landingPoint = presentationNode.AddChild("div", div =>
+            {
+                div.SetAttribute("style", "display:block");
+            });
             //-------------------
 
             this.floatPartDomElement = this.CreateFloatPartDom(htmldoc);
@@ -151,11 +158,9 @@ namespace LayoutFarm.HtmlWidgets
                         var htmldoc = this.presentationNode.OwnerDocument as HtmlDocument;
                         var floatPartE = this.floatPartDomElement as WebDom.Impl.HtmlElement;
                         var landPartE = this.presentationNode as WebDom.Impl.HtmlElement;
-                        htmldoc.RootNode.AddChild(this.floatPartDomElement);
-
-                        this.presentationNode.GetGlobalLocation(out int x, out int y);
-                        float actualHeight = landPartE.GetActualHeightIndirect();
-                        floatPartE.SetLocation(x, (int)(y + actualHeight));
+                        htmldoc.RootNode.AddChild(this.floatPartDomElement); 
+                        this._div_landingPoint.GetGlobalLocationRelativeToRoot(out int x, out int y);
+                        floatPartE.SetLocation(x, y);
                     }
                     break;
                 case HingeFloatPartStyle.Embeded:

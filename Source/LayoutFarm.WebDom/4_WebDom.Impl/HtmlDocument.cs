@@ -49,6 +49,17 @@ namespace LayoutFarm.WebDom.Impl
                                 bodyElement = node;
                                 break;
                             }
+                            else if (node.Name == "html")
+                            {
+                                foreach (var childNode in node.GetChildNodeIterForward())
+                                {
+                                    HtmlElement childNodeE = childNode as HtmlElement;
+                                    if (childNodeE != null && childNodeE.Name == "body")
+                                    {
+                                        return bodyElement = childNodeE;
+                                    }
+                                }
+                            }
                         }
                     }
                 }
