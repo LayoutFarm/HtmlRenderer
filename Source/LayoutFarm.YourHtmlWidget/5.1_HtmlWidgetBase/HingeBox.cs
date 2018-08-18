@@ -23,10 +23,10 @@ namespace LayoutFarm.HtmlWidgets
         HingeFloatPartStyle floatPartStyle;
         DomElement _div_floatingPart;
         List<DomElement> _items;
-
         public HingeBox(int w, int h)
             : base(w, h)
         {
+
         }
         DomElement CreateFloatPartDom(WebDom.Impl.HtmlDocument htmldoc)
         {
@@ -107,22 +107,17 @@ namespace LayoutFarm.HtmlWidgets
                 div.AddChild("img", img =>
                 {
                     //init 
-                    img.SetAttribute("src", "../Test3_MixHtml/Demo/arrow_close.png");
+                    img.SetAttribute("src", "arrow_close.png");
                     img.AttachMouseDownEvent(e =>
                     {
-                        //img.SetAttribute("src", this.IsOpen ?
-                        //    "../../Demo/arrow_open.png" :
-                        //    "../../Demo/arrow_close.png");
-                        ////------------------------------
-
                         if (this.IsOpen)
                         {
-                            img.SetAttribute("src", "../Test3_MixHtml/Demo/arrow_close.png");
+                            img.SetAttribute("src", "arrow_close.png");
                             this.CloseHinge();
                         }
                         else
                         {
-                            img.SetAttribute("src", "../Test3_MixHtml/Demo/arrow_open.png");
+                            img.SetAttribute("src", "arrow_open.png");
                             this.OpenHinge();
                         }
 
