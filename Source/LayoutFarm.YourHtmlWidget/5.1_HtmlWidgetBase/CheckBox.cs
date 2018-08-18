@@ -10,7 +10,8 @@ namespace LayoutFarm.HtmlWidgets
         string buttonText = "";
         DomElement pnode;
         bool _checked;
-        //
+        DomElement imgNode;
+
         public event EventHandler<EventArgs> CheckValueAssigned;
 
         public ChoiceBox(int w, int h)
@@ -28,6 +29,18 @@ namespace LayoutFarm.HtmlWidgets
                 {
                     CheckValueAssigned(this, EventArgs.Empty);
                 }
+
+                if (imgNode != null)
+                {
+                    if (value)
+                    {
+                        imgNode.SetAttribute("src", OnlyOne ? "opt_checked.png" : "chk_checked.png");
+                    }
+                    else
+                    {
+                        imgNode.SetAttribute("src", OnlyOne ? "opt_unchecked.png" : "chk_unchecked.png");
+                    }
+                }               
             }
         }
         public string Text
@@ -54,15 +67,14 @@ namespace LayoutFarm.HtmlWidgets
             {
                 //init
                 div2.SetAttribute("style", "background-color:#dddddd;color:black;");
-                DomElement imgNode = div2.AddChild("img");
-                //imgNode.SetAttribute("src", "chk_unchecked.png");
-                imgNode.SetAttribute("src", "opt_unchecked.png");
+                imgNode = div2.AddChild("img");
+
+                imgNode.SetAttribute("src", OnlyOne ? "opt_unchecked.png" : "chk_unchecked.png");
 
                 imgNode.AttachMouseDownEvent(e =>
                 {
-                    //imgNode.SetAttribute("src", "chk_checked.png");
-                    imgNode.SetAttribute("src", "opt_checked.png");
-                    //imgNode.SetAttribute("style", "background-color:yellow");
+
+                    Checked = !Checked; //toggle 
                     e.StopPropagation();
                 });
 
