@@ -152,6 +152,10 @@ namespace LayoutFarm.WebDom.Impl
         {
             x = y = 0;
         }
+        public override void GetGlobalLocationRelativeToRoot(out int x, out int y)
+        {
+            x = y = 0;
+        }
         public override void GetViewport(out int x, out int y)
         {
             x = y = 0;//temp

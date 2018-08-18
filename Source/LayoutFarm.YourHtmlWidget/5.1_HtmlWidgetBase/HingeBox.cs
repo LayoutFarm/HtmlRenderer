@@ -153,7 +153,7 @@ namespace LayoutFarm.HtmlWidgets
                         var landPartE = this.presentationNode as WebDom.Impl.HtmlElement;
                         htmldoc.RootNode.AddChild(this.floatPartDomElement);
 
-                        this.presentationNode.GetGlobalLocation(out int x, out int y);
+                        this.presentationNode.GetGlobalLocationRelativeToRoot(out int x, out int y);
                         float actualHeight = landPartE.GetActualHeightIndirect();
                         floatPartE.SetLocation(x, (int)(y + actualHeight));
                     }

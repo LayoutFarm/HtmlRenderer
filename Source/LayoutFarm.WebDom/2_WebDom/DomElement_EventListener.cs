@@ -102,6 +102,7 @@ namespace LayoutFarm.WebDom
             this.GetViewport(out x, out y);
         }
         public abstract void GetGlobalLocation(out int x, out int y);
+        public abstract void GetGlobalLocationRelativeToRoot(out int x, out int y);
         public abstract void GetViewport(out int x, out int y);
     }
 }

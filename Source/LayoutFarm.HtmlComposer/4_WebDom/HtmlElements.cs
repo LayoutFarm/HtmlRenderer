@@ -158,6 +158,13 @@ namespace LayoutFarm.Composers
             x = (int)globalX;
             y = (int)globalY;
         }
+        public override void GetGlobalLocationRelativeToRoot(out int x, out int y)
+        {
+            float globalX, globalY;
+            this._principalBox.GetGlobalLocationRelativeToRoot(out globalX, out globalY);
+            x = (int)globalX;
+            y = (int)globalY;
+        }
         public override void SetLocation(int x, int y)
         {
             if (_principalBox != null)
