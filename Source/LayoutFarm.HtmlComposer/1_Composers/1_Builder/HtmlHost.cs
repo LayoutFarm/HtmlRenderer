@@ -172,11 +172,11 @@ namespace LayoutFarm.HtmlBoxes
 
         CssBox CreateCustomCssBox(CssBox parent,
           LayoutFarm.WebDom.DomElement tag,
-          LayoutFarm.Css.BoxSpec boxspec)
+          BoxSpec boxspec)
         {
             for (int i = generators.Count - 1; i >= 0; --i)
             {
-                var newbox = generators[i].CreateCssBox(tag, parent, boxspec, this);
+                CssBox newbox = generators[i].CreateCssBox(tag, parent, boxspec, this);
                 if (newbox != null)
                 {
                     return newbox;
