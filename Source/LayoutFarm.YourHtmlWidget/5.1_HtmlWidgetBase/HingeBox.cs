@@ -158,8 +158,12 @@ namespace LayoutFarm.HtmlWidgets
                         var htmldoc = this.presentationNode.OwnerDocument as HtmlDocument;
                         var floatPartE = this.floatPartDomElement as WebDom.Impl.HtmlElement;
                         var landPartE = this.presentationNode as WebDom.Impl.HtmlElement;
-                        htmldoc.RootNode.AddChild(this.floatPartDomElement); 
+
+                        //add the floating part to root node**
+                        htmldoc.RootNode.AddChild(this.floatPartDomElement);
+                        //find location relate to the landing point 
                         this._div_landingPoint.GetGlobalLocationRelativeToRoot(out int x, out int y);
+                        //and set its location 
                         floatPartE.SetLocation(x, y);
                     }
                     break;
