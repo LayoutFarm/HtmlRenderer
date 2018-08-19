@@ -4,7 +4,7 @@ using LayoutFarm.WebDom.Extension;
 
 namespace LayoutFarm.WebWidgets
 {
-    [DemoNote("5.3 Hinge")]
+    [DemoNote("5.8 Hinge")]
     class Demo_Hinge : HtmlDemoBase
     {
         protected override void OnHtmlHostCreated()
