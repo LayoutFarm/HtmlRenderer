@@ -9,7 +9,7 @@ namespace LayoutFarm.WebDom.Extension
         //level 1
         public static DomElement AddChild(this DomElement elem, string elementName)
         {
-            DomElement newchild = elem.OwnerDocument.CreateElement(elementName); 
+            DomElement newchild = elem.OwnerDocument.CreateElement(elementName);
             elem.AddChild(newchild);
             return newchild;
         }
@@ -36,7 +36,7 @@ namespace LayoutFarm.WebDom.Extension
         public static void AddTextContent(this DomElement elem, string text)
         {
             DomTextNode newTextNode = elem.OwnerDocument.CreateTextNode(text.ToCharArray());
-            elem.AddChild(newTextNode);
+            elem.AddChild(newTextNode); 
         }
         //------------------------------------------------------------------------------
 

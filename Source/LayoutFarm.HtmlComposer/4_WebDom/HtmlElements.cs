@@ -33,7 +33,6 @@ namespace LayoutFarm.Composers
         }
 
 
-
         public override void SetAttribute(DomAttribute attr)
         {
             base.SetAttribute(attr); //to base
@@ -114,8 +113,7 @@ namespace LayoutFarm.Composers
             HtmlDocument owner = this.OwnerDocument as HtmlDocument;
             owner.DomUpdateVersion++;
         }
-
-
+        
         protected override void OnElementChanged()
         {
             CssBox box = this._principalBox;
@@ -125,8 +123,9 @@ namespace LayoutFarm.Composers
             }
             //change 
             var boxSpec = CssBox.UnsafeGetBoxSpec(box);
-            //create scrollbar
 
+            //create scrollbar
+            //...?
 
             var scrollView = new CssScrollView(boxSpec, box.RootGfx);
             scrollView.SetController(this);
@@ -204,7 +203,7 @@ namespace LayoutFarm.Composers
                 return this._principalBox.VisualHeight;
             }
         }
-    
+
 
         //-------------------------------------------
         internal virtual CssBox GetPrincipalBox(CssBox parentCssBox, HtmlHost host)

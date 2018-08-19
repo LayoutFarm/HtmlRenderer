@@ -1,6 +1,5 @@
 ﻿//Apache2, 2014-present, WinterDev
 
-using PixelFarm.Drawing;
 using LayoutFarm.Composers;
 using LayoutFarm.CustomWidgets;
 namespace LayoutFarm.WebWidgets
