@@ -61,7 +61,7 @@ namespace LayoutFarm.WebDom.Impl
             this.OwnerDocument.SetDocumentState(DocumentState.ChangedAfterIdle);
             if (this.OwnerDocument.IsDocFragment) return;
             HtmlDocument owner = this.OwnerDocument as HtmlDocument;
-            owner.DomUpdateVersion++;
+            owner.IncDomVersion();
         }
 
         public CssRuleSet ElementRuleSet

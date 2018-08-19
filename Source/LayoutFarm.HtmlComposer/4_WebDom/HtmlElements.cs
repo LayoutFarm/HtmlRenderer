@@ -107,13 +107,17 @@ namespace LayoutFarm.Composers
             while (cnode != null)
             {
                 ((HtmlElement)cnode).SkipPrincipalBoxEvalulation = false;
+                if (cnode.ParentNode == null)
+                {
+
+                }
                 cnode = cnode.ParentNode;
             }
 
             HtmlDocument owner = this.OwnerDocument as HtmlDocument;
-            owner.DomUpdateVersion++;
+            owner.IncDomVersion();
         }
-        
+
         protected override void OnElementChanged()
         {
             CssBox box = this._principalBox;

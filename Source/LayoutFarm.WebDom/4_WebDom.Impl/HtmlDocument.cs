@@ -71,13 +71,13 @@ namespace LayoutFarm.WebDom.Impl
         public override int DomUpdateVersion
         {
             get { return this.domUpdateVersion; }
-            set
+        }
+        public override void IncDomVersion()
+        {
+            this.domUpdateVersion++;
+            if (domUpdatedHandler != null)
             {
-                this.domUpdateVersion = value;
-                if (domUpdatedHandler != null)
-                {
-                    domUpdatedHandler(this, EventArgs.Empty);
-                }
+                domUpdatedHandler(this, EventArgs.Empty);
             }
         }
 

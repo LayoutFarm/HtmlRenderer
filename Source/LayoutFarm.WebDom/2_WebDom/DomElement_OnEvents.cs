@@ -155,7 +155,7 @@ namespace LayoutFarm.WebDom
         }
         protected virtual void OnContentUpdate()
         {
-            this.OwnerDocument.DomUpdateVersion++;
+            this.OwnerDocument.IncDomVersion();
         }
         protected virtual void OnElementChanged()
         {
