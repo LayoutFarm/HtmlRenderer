@@ -37,7 +37,8 @@ namespace LayoutFarm.WebDom.Impl
             {
                 if (bodyElement == null)
                 {
-                    //find body
+                    //TODO: review here again!!!
+                    //
                     int j = rootNode.ChildrenCount;
                     for (int i = 0; i < j; ++i)
                     {
