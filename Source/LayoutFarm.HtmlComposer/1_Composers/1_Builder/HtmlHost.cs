@@ -30,7 +30,7 @@ namespace LayoutFarm.HtmlBoxes
         {
 
             this.BaseStylesheet = activeSheet;
-            this.commonHtmlDoc = new HtmlDocument();
+            this.commonHtmlDoc = new HtmlDocument(this);
             this.commonHtmlDoc.CssActiveSheet = activeSheet;
 
 
@@ -62,7 +62,10 @@ namespace LayoutFarm.HtmlBoxes
             {
                 CssBox cssbox = this.waitForUpdateBoxes[i];
                 var controller = HtmlBoxes.CssBox.UnsafeGetController(cssbox) as UI.IUIEventListener;
-                controller.HandleElementUpdate();
+                if (controller != null)
+                {
+                    controller.HandleElementUpdate();
+                }
             }
             waitForUpdateBoxes.Clear();
         }
@@ -553,7 +556,7 @@ namespace LayoutFarm.HtmlBoxes
 
         public LayoutFarm.WebDom.Impl.HtmlDocument CreatePresentationHtmlDoc()
         {
-            return new HtmlDocument();
+            return new HtmlDocument(this);
         }
         internal static CssBox CreateBridgeBox(ITextService iFonts, LayoutFarm.RenderElement containerElement, RootGraphic rootgfx)
         {

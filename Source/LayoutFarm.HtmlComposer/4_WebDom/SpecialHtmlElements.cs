@@ -46,7 +46,7 @@ namespace LayoutFarm.Composers
         }
     }
 
-    
+
 
     sealed class ShadowRootElement : HtmlElement
     {
@@ -56,7 +56,7 @@ namespace LayoutFarm.Composers
         public ShadowRootElement(HtmlDocument owner, int prefix, int localNameIndex)
             : base(owner, prefix, localNameIndex)
         {
-            shadowDoc = new HtmlShadowDocument(owner);
+            shadowDoc = new HtmlShadowDocument(owner.Host, owner);
             shadowDoc.SetDomUpdateHandler(owner.DomUpdateHandler);
         }
         internal override bool HasCustomPrincipalBoxGenerator

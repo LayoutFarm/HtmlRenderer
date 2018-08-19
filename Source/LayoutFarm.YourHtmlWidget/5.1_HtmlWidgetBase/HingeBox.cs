@@ -24,6 +24,7 @@ namespace LayoutFarm.HtmlWidgets
         DomElement _div_floatingPart;
         DomElement _div_landingPoint;
         DomElement _div_glassCover;
+        DomElement _span_textLabel;
 
         List<DomElement> _items;
         public HingeBox(int w, int h)
@@ -73,6 +74,12 @@ namespace LayoutFarm.HtmlWidgets
             if (e.SourceHitElement is DomElement)
             {
                 DomElement domElem = (DomElement)e.SourceHitElement;
+                if (domElem.Tag != null)
+                {
+                    //selected value
+                    _span_textLabel.ClearAllElements();
+                    _span_textLabel.AddTextContent(domElem.Tag.ToString());
+                }
             }
             e.StopPropagation();
             CloseHinge();
@@ -128,6 +135,12 @@ namespace LayoutFarm.HtmlWidgets
             presentationNode.AddChild("div", div =>
             {
                 div.SetAttribute("style", "font:10pt tahoma;");
+                div.AddChild("span", span1 =>
+                {
+                    _span_textLabel = span1;
+                    span1.SetAttribute("style", "background-color:white;width:50px;height:20px;");
+                  
+                });
                 div.AddChild("img", img =>
                 {
                     //init 

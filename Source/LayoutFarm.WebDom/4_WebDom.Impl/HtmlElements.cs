@@ -101,19 +101,12 @@ namespace LayoutFarm.WebDom.Impl
             }
             return stbuilder.ToString();
         }
+
         public virtual void SetInnerHtml(string innerHtml)
         {
             //parse html and create dom node
             //clear content of this node
             this.ClearAllElements();
-            //parse 
-            //throw new NotSupportedException();
-            //then apply new content ***
-
-            //WebDocumentParser.ParseHtmlDom(
-            //    new LayoutFarm.WebDom.Parser.TextSource(innerHtml.ToCharArray()),
-            //    (HtmlDocument)this.OwnerDocument,
-            //    this); 
 
         }
         public virtual void WriteNode(DomTextWriter writer)
@@ -179,6 +172,6 @@ namespace LayoutFarm.WebDom.Impl
             }
         }
 
-        
+
     }
 }
