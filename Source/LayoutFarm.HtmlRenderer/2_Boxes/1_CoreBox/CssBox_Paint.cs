@@ -2,12 +2,13 @@
 //ArthurHub, Jose Manuel Menendez Poo
 
 using System;
+using System.Collections.Generic;
 using PixelFarm.Drawing;
 namespace LayoutFarm.HtmlBoxes
 {
     partial class CssBox
     {
-
+        
         public void InvalidateGraphics()
         {
             //bubble invalidate area to to parent?

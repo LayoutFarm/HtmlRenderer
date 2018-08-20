@@ -4,7 +4,7 @@
 using System.Text;
 namespace LayoutFarm.WebDom.Impl
 {
-    public abstract partial class HtmlElement : DomElement, IHtmlElement
+    public abstract partial class HtmlElement : DomElement
     {
         CssRuleSet elementRuleSet;
 
@@ -76,6 +76,9 @@ namespace LayoutFarm.WebDom.Impl
             }
         }
 
+        public bool HasSpecialPresentation { get; set; }
+
+        public System.Action<object> SpecialPresentationUpdate;
 
         protected override void OnElementChanged()
         {

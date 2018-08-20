@@ -13,6 +13,7 @@ namespace LayoutFarm.CustomWidgets
         public MyCustomCssBoxGenerator(HtmlBoxes.HtmlHost myHost)
         {
             this.myHost = myHost;
+
         }
 
         public override CssBox CreateCssBox(
@@ -77,25 +78,45 @@ namespace LayoutFarm.CustomWidgets
             //1. as drop-down list
             //2. as list-box
 
-            LayoutFarm.HtmlWidgets.HingeBox hingeBox = new LayoutFarm.HtmlWidgets.HingeBox(100, 30);
+
+            WebDom.Impl.HtmlElement htmlElem = ((WebDom.Impl.HtmlElement)domE);
+            htmlElem.HasSpecialPresentation = true;
+            //
+            LayoutFarm.HtmlWidgets.HingeBox hingeBox = new LayoutFarm.HtmlWidgets.HingeBox(100, 30); //actual controller
             foreach (DomNode childNode in domE.GetChildNodeIterForward())
             {
+
                 WebDom.Impl.HtmlElement childElem = childNode as WebDom.Impl.HtmlElement;
                 if (childElem != null)
                 {
+                    //find a value 
+                    if (childElem.WellknownElementName == WellKnownDomNodeName.option)
+                    {
+                        DomAttribute domAttr = childElem.FindAttribute("value");
+                        if (domAttr != null)
+                        {
+                            childElem.Tag = domAttr.Value;
+                        }
+                    }
                     hingeBox.AddItem(childElem);
                 }
             }
 
-            var ihtmlElement = domE as LayoutFarm.WebDom.IHtmlElement;
-            DomElement hingeBoxDom = hingeBox.GetPresentationDomNode((HtmlDocument)domE.OwnerDocument);
-            //buttonDom.SetAttribute("style", "width:20px;height:20px;background-color:red;cursor:pointer");
-            CssBox cssHingeBox = host.CreateBox(parentBox, (WebDom.Impl.HtmlElement)hingeBoxDom, true); //create and append to the parentBox 
-                                                                                                        //and its item 
-
-
+            LayoutFarm.WebDom.Impl.HtmlElement hingeBoxDom = (LayoutFarm.WebDom.Impl.HtmlElement)hingeBox.GetPresentationDomNode((WebDom.Impl.HtmlDocument)domE.OwnerDocument);
+            CssBox cssHingeBox = host.CreateBox(parentBox, hingeBoxDom, true); //create and append to the parentBox 
+            //
+            hingeBoxDom.SetSubParentNode(domE);
+            cssHingeBox.IsReplacement = true;
+            htmlElem.SpecialPresentationUpdate = (o) =>
+            {
+                if (hingeBox.NeedUpdateDom)
+                {
+                    cssHingeBox.Clear();
+                    host.UpdateChildBoxes(hingeBoxDom, false);
+                }
+            };
 #if DEBUG
-            cssHingeBox.dbugMark1 = 1;
+            //cssHingeBox.dbugMark1 = 1;
 #endif
             return cssHingeBox;
         }
@@ -182,9 +203,9 @@ namespace LayoutFarm.CustomWidgets
                                 button.Text = "testButton";
                             }
 
-                            DomElement buttonDom = button.GetPresentationDomNode((HtmlDocument)domE.OwnerDocument);
+                            WebDom.Impl.HtmlElement buttonDom = (WebDom.Impl.HtmlElement)button.GetPresentationDomNode((HtmlDocument)domE.OwnerDocument);
                             buttonDom.SetAttribute("style", "width:20px;height:20px;background-color:white;cursor:pointer");
-                            CssBox buttonCssBox = host.CreateBox(parentBox, (WebDom.Impl.HtmlElement)buttonDom, true);
+                            CssBox buttonCssBox = host.CreateBox(parentBox, buttonDom, true);
                             parentBox.AppendChild(buttonCssBox);
                             return buttonCssBox;
                         }
@@ -194,9 +215,9 @@ namespace LayoutFarm.CustomWidgets
                             var button = new HtmlWidgets.ChoiceBox(10, 10);
                             button.OnlyOne = false; //*** show as checked box 
                             var ihtmlElement = domE as LayoutFarm.WebDom.IHtmlElement;
-                            DomElement buttonDom = button.GetPresentationDomNode((HtmlDocument)domE.OwnerDocument);
+                            WebDom.Impl.HtmlElement buttonDom = (WebDom.Impl.HtmlElement)button.GetPresentationDomNode((HtmlDocument)domE.OwnerDocument);
                             //buttonDom.SetAttribute("style", "width:20px;height:20px;background-color:red;cursor:pointer");
-                            CssBox buttonCssBox = host.CreateBox(parentBox, (WebDom.Impl.HtmlElement)buttonDom, true); //create and append to the parentBox
+                            CssBox buttonCssBox = host.CreateBox(parentBox, buttonDom, true); //create and append to the parentBox
 #if DEBUG
                             buttonCssBox.dbugMark1 = 1;
 #endif
@@ -220,9 +241,9 @@ namespace LayoutFarm.CustomWidgets
                             //}
                             //button.Text = "C";
 
-                            DomElement buttonDom = button.GetPresentationDomNode((HtmlDocument)domE.OwnerDocument);
+                            WebDom.Impl.HtmlElement buttonDom = (WebDom.Impl.HtmlElement)button.GetPresentationDomNode((HtmlDocument)domE.OwnerDocument);
                             //buttonDom.SetAttribute("style", "width:20px;height:20px;background-color:red;cursor:pointer");
-                            CssBox buttonCssBox = host.CreateBox(parentBox, (WebDom.Impl.HtmlElement)buttonDom, true); //create and append to the parentBox
+                            CssBox buttonCssBox = host.CreateBox(parentBox, buttonDom, true); //create and append to the parentBox
 #if DEBUG
                             buttonCssBox.dbugMark1 = 1;
 #endif

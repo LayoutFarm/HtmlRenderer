@@ -68,6 +68,7 @@ namespace LayoutFarm.HtmlWidgets
                 _div_floatingPart.ClearAllElements();
             }
         }
+        public bool NeedUpdateDom { get; set; }
         void ItemSelected(LayoutFarm.UI.UIEventArgs e)
         {
             //some item is selected
@@ -79,6 +80,7 @@ namespace LayoutFarm.HtmlWidgets
                     //selected value
                     _span_textLabel.ClearAllElements();
                     _span_textLabel.AddTextContent(domElem.Tag.ToString());
+                    NeedUpdateDom = true;
                 }
             }
             e.StopPropagation();
@@ -124,6 +126,8 @@ namespace LayoutFarm.HtmlWidgets
             }
 
         }
+
+
         public override DomElement GetPresentationDomNode(WebDom.Impl.HtmlDocument htmldoc)
         {
             if (presentationNode != null)
@@ -139,7 +143,7 @@ namespace LayoutFarm.HtmlWidgets
                 {
                     _span_textLabel = span1;
                     span1.SetAttribute("style", "background-color:white;width:50px;height:20px;");
-                  
+                    span1.AddTextContent("");
                 });
                 div.AddChild("img", img =>
                 {

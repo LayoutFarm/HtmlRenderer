@@ -37,6 +37,10 @@ namespace LayoutFarm.WebDom
 #if DEBUG
             this.dbugId = dbugTotalId;
             dbugTotalId++;
+            //if (this.dbugId == 69)
+            //{
+
+            //}
 #endif
 
         }
@@ -54,6 +58,18 @@ namespace LayoutFarm.WebDom
                 return this.parentNode;
             }
         }
+        DomNode _subParentNode;
+        public DomNode SubParentNode
+        {
+            get
+            {
+                return _subParentNode;
+            }
+        }
+        public void SetSubParentNode(DomNode subParentNode)
+        {
+            this._subParentNode = subParentNode;
+        }
         protected void SetNodeType(HtmlNodeKind nodekind)
         {
             this._nodeKind = nodekind;
@@ -62,8 +78,7 @@ namespace LayoutFarm.WebDom
         {
             get
             {
-                return _nodeKind
-                    ;
+                return _nodeKind;
             }
         }
 
@@ -75,8 +90,10 @@ namespace LayoutFarm.WebDom
             }
         }
 
+
         internal void SetParent(DomNode parentNode)
         {
+
             this.parentNode = parentNode;
         }
     }
@@ -289,7 +306,7 @@ namespace LayoutFarm.WebDom
         }
     }
 
-    
+
     public static class WellKnownDomNodeMap
     {
         static readonly ValueMap<WellKnownDomNodeName> _wellknownHtmlTagNameMap = new ValueMap<WellKnownDomNodeName>();
@@ -304,6 +321,8 @@ namespace LayoutFarm.WebDom
     {
         NotAssign, //extension , for anonymous element
         Unknown,
+
+
         //---------------- 
         [Map("html")]
         html,

@@ -50,10 +50,10 @@ namespace LayoutFarm.HtmlBoxes
             this.rootgfx = rootgfx;
             this._aa_boxes = new CssBoxCollection();
 #if DEBUG
-            //if (this.__aa_dbugId == 6)
-            //{
-            //}   
 
+            //if (this.__aa_dbugId == 13)
+            //{
+            //}
             //if (!spec.IsFreezed)
             //{
             //    //must be freezed
@@ -72,7 +72,7 @@ namespace LayoutFarm.HtmlBoxes
             this.rootgfx = rootgfx;
             this._aa_boxes = new CssBoxCollection();
 #if DEBUG
-            //if (this.__aa_dbugId == 6)
+            //if (this.__aa_dbugId == 13)
             //{
             //}
             if (!spec.IsFreezed)
@@ -94,7 +94,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             this._controller = controller;
         }
-
+        public bool IsReplacement { get; set; }
         internal bool IsBody
         {
             get;
