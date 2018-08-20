@@ -762,27 +762,10 @@ namespace LayoutFarm.HtmlBoxes
             CssBox prevSibling = lay.LatestSiblingBox;
             if (box.CssDisplay != Css.CssDisplay.TableCell)
             {
-                //-------------------------------------------
-                if (box.CssDisplay != Css.CssDisplay.Table)
-                {
-                    float availableWidth = myContainingBlock.GetClientWidth();
-                    // Console.WriteLine(availableWidth.ToString());
-
-                    if (!box.Width.IsEmptyOrAuto)
-                    {
-                        float w = CssValueParser.ConvertToPx(box.Width, availableWidth, box);
-                        //specific width
-                        box.SetCssBoxWidth(w);
-                    }
-                    else
-                    {
-                        box.SetCssBoxWidthLimitToContainerAvailableWidth(availableWidth);
-                    }
-                }
-                //-------------------------------------------
 
                 float localLeft = myContainingBlock.GetClientLeft() + box.ActualMarginLeft;
                 float localTop = 0;
+
                 if (prevSibling == null)
                 {
                     //this is first child of parent
@@ -795,9 +778,29 @@ namespace LayoutFarm.HtmlBoxes
                 {
                     localTop = prevSibling.LocalVisualBottom;
                 }
-                 
+
                 localTop += box.UpdateMarginTopCollapse(prevSibling);
                 box.SetLocation(localLeft, localTop);
+
+                //-------------------------------------------
+                if (box.CssDisplay != Css.CssDisplay.Table)
+                {
+                    float availableWidth = myContainingBlock.GetClientWidth() - (box.ActualMarginLeft + box.ActualMarginRight);
+
+                    if (!box.Width.IsEmptyOrAuto)
+                    {
+                        float w = CssValueParser.ConvertToPx(box.Width, availableWidth, box);
+                        //specific width
+                        box.SetCssBoxWidth(w);
+                    }
+                    else
+                    {
+
+                        box.SetCssBoxWidthLimitToContainerAvailableWidth(availableWidth);
+                    }
+                }
+                //-------------------------------------------
+
                 box.SetHeightToZero();
             }
             //--------------------------------------------------------------------------
@@ -1305,7 +1308,7 @@ namespace LayoutFarm.HtmlBoxes
                 if (nodeRight > maxRight)
                 {
                     maxRight = nodeRight;
-                } 
+                }
                 //
                 cnode = cnode.Next;
             }
