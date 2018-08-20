@@ -58,29 +58,6 @@ namespace LayoutFarm.HtmlWidgets
         {
         }
         public abstract WebDom.DomElement GetPresentationDomNode(WebDom.Impl.HtmlDocument htmldoc);
-        //public UIElement GetPrimaryUIElement(HtmlHost htmlhost)
-        //{
-        //    this.htmlhost = htmlhost;
-        //    if (this.lightHtmlBox == null)
-        //    {
-
-        //        var lightHtmlBox = new HtmlBox(htmlhost, this.Width, this.Height);
-        //        HtmlDocument htmldoc = htmlhost.CreateNewSharedHtmlDoc();
-        //        myPresentationDom = GetPresentationDomNode(htmldoc);
-        //        if (myPresentationDom != null)
-        //        {
-        //            htmldoc.RootNode.AddChild(myPresentationDom);
-        //            lightHtmlBox.LoadHtmlDom(htmldoc);
-        //        }
-
-        //        lightHtmlBox.SetLocation(this.Left, this.Top);
-        //        lightHtmlBox.LayoutFinished += (s, e) => this.RaiseEventLayoutFinished();
-
-        //        this.lightHtmlBox = lightHtmlBox;
-
-        //    }
-        //    return this.lightHtmlBox;
-        //}
-
+        
     }
 }

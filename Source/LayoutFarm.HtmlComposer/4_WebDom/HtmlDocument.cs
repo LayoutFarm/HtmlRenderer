@@ -10,13 +10,15 @@ namespace LayoutFarm.Composers
     {
         //foc custom elements 
         Dictionary<string, CreateCssBoxDelegate> registedCustomElemenGens = new Dictionary<string, CreateCssBoxDelegate>();
-        internal HtmlDocument()
+        internal HtmlDocument(HtmlBoxes.HtmlHost host)
         {
+            this.Host = host;
             this.SetRootElement(new HtmlRootElement(this));
         }
-        internal HtmlDocument(UniqueStringTable sharedUniqueStringTable)
+        internal HtmlDocument(HtmlBoxes.HtmlHost host, UniqueStringTable sharedUniqueStringTable)
             : base(sharedUniqueStringTable)
         {
+            this.Host = host;
             //default root
             this.SetRootElement(new HtmlRootElement(this));
             //TODO: test only
@@ -24,6 +26,8 @@ namespace LayoutFarm.Composers
             this.RegisterCustomElement("fivespace", CustomBoxGenSample1.CreateCssBox);
 #endif
         }
+
+        internal HtmlBoxes.HtmlHost Host { get; private set; }
 
         public override DomElement CreateElement(string prefix, string localName)
         {

@@ -16,7 +16,9 @@ namespace LayoutFarm.WebDom
         {
             get;
         }
-        public abstract int DomUpdateVersion { get; set; }
+        public abstract int DomUpdateVersion { get; }
+        public abstract void IncDomVersion();
+
         public int AddStringIfNotExists(string uniqueString)
         {
             return uniqueStringTable.AddStringIfNotExist(uniqueString);

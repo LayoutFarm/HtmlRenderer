@@ -23,6 +23,8 @@ namespace LayoutFarm.HtmlWidgets
         HingeFloatPartStyle floatPartStyle;
         DomElement _div_floatingPart;
         DomElement _div_landingPoint;
+        DomElement _div_glassCover;
+        DomElement _span_textLabel;
 
         List<DomElement> _items;
         public HingeBox(int w, int h)
@@ -43,6 +45,15 @@ namespace LayoutFarm.HtmlWidgets
                     _div_floatingPart.AddChild(_items[i]);
                 }
             }
+            //---------------------------------------
+            _div_glassCover = htmldoc.CreateElement("div");
+            _div_glassCover.SetAttribute("style", "position:absolute;width:100%;height:100%;");
+            _div_glassCover.AddChild(_div_floatingPart);
+            _div_glassCover.AttachMouseDownEvent(e =>
+            {
+                //when click on cover glass
+                CloseHinge();
+            });
             return _div_floatingPart;
         }
         //--------------
@@ -57,12 +68,32 @@ namespace LayoutFarm.HtmlWidgets
                 _div_floatingPart.ClearAllElements();
             }
         }
+        public bool NeedUpdateDom { get; set; }
+        void ItemSelected(LayoutFarm.UI.UIEventArgs e)
+        {
+            //some item is selected
+            if (e.SourceHitElement is DomElement)
+            {
+                DomElement domElem = (DomElement)e.SourceHitElement;
+                if (domElem.Tag != null)
+                {
+                    //selected value
+                    _span_textLabel.ClearAllElements();
+                    _span_textLabel.AddTextContent(domElem.Tag.ToString());
+                    NeedUpdateDom = true;
+                }
+            }
+            e.StopPropagation();
+            CloseHinge();
+        }
         public void AddItem(DomElement item)
         {
             if (_items == null)
             {
                 _items = new List<DomElement>();
             }
+            item.AttachMouseDownEvent(ItemSelected);
+
             _items.Add(item);
             //
             //
@@ -95,6 +126,8 @@ namespace LayoutFarm.HtmlWidgets
             }
 
         }
+
+
         public override DomElement GetPresentationDomNode(WebDom.Impl.HtmlDocument htmldoc)
         {
             if (presentationNode != null)
@@ -106,6 +139,12 @@ namespace LayoutFarm.HtmlWidgets
             presentationNode.AddChild("div", div =>
             {
                 div.SetAttribute("style", "font:10pt tahoma;");
+                div.AddChild("span", span1 =>
+                {
+                    _span_textLabel = span1;
+                    span1.SetAttribute("style", "background-color:white;width:50px;height:20px;");
+                    span1.AddTextContent("");
+                });
                 div.AddChild("img", img =>
                 {
                     //init 
@@ -155,11 +194,16 @@ namespace LayoutFarm.HtmlWidgets
                 default:
                 case HingeFloatPartStyle.Popup:
                     {
-                        var htmldoc = this.presentationNode.OwnerDocument as HtmlDocument;
+
+                        LayoutFarm.Composers.HtmlDocument htmldoc = this.presentationNode.OwnerDocument as HtmlDocument;
                         var floatPartE = this.floatPartDomElement as WebDom.Impl.HtmlElement;
                         var landPartE = this.presentationNode as WebDom.Impl.HtmlElement;
-                        htmldoc.RootNode.AddChild(this.floatPartDomElement); 
+
+                        //add the floating part to root node**
+                        htmldoc.RootNode.AddChild(this._div_glassCover);
+                        //find location relate to the landing point 
                         this._div_landingPoint.GetGlobalLocationRelativeToRoot(out int x, out int y);
+                        //and set its location 
                         floatPartE.SetLocation(x, y);
                     }
                     break;
@@ -189,7 +233,7 @@ namespace LayoutFarm.HtmlWidgets
                     {
                         if (this.floatPartDomElement != null && this.floatPartDomElement.ParentNode != null)
                         {
-                            ((IHtmlElement)this.floatPartDomElement.ParentNode).removeChild(this.floatPartDomElement);
+                            ((IHtmlElement)this._div_glassCover.ParentNode).removeChild(this._div_glassCover);
                         }
                     }
                     break;

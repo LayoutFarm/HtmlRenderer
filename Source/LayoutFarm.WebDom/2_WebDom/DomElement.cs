@@ -139,6 +139,7 @@ namespace LayoutFarm.WebDom
             NotifyChange(ElementChangeKind.AddAttribute);
         }
 
+        
         public virtual void AddChild(DomNode childNode)
         {
             switch (childNode.NodeKind)
@@ -315,5 +316,6 @@ namespace LayoutFarm.WebDom
         {
             get { return this.LocalName; }
         }
+        public object Tag { get; set; }
     }
 }

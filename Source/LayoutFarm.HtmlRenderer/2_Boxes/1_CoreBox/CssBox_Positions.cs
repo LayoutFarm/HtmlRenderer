@@ -185,7 +185,17 @@ namespace LayoutFarm.HtmlBoxes
             //1. fonts 
             if (this.ParentBox != null)
             {
-                ReEvaluateFont(iFonts, this.ParentBox.ResolvedFont.SizeInPixels);
+                if (this.ParentBox.ResolvedFont == null)
+                {
+                    //TODO: review this ... WHY?
+                    ReEvaluateFont(iFonts, containingBlock.ResolvedFont.SizeInPixels);
+                }
+                else
+                {
+                    ReEvaluateFont(iFonts, this.ParentBox.ResolvedFont.SizeInPixels);
+                }
+
+
                 //2. actual word spacing
                 //this._actualWordSpacing = this.NoEms(this.InitSpec.LineHeight);
                 //3. font size 
@@ -900,7 +910,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         public void GetGlobalLocation(out float globalX, out float globalY)
         {
-            this.GetGlobalLocationImpl(out globalX, out globalY); 
+            this.GetGlobalLocationImpl(out globalX, out globalY);
         }
 
         void GetGlobalLocationRelativeToRoot(ref PointF location)

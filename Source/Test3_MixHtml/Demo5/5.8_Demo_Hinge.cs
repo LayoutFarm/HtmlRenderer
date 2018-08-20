@@ -4,7 +4,7 @@ using LayoutFarm.WebDom.Extension;
 
 namespace LayoutFarm.WebWidgets
 {
-    [DemoNote("5.3 Hinge")]
+    [DemoNote("5.8 Hinge")]
     class Demo_Hinge : HtmlDemoBase
     {
         protected override void OnHtmlHostCreated()
@@ -19,8 +19,10 @@ namespace LayoutFarm.WebWidgets
                     var div = (HtmlElement)_groundHtmlDoc.CreateElement("div");
                     div.AddChild("div", div2 =>
                     {
-                        div2.AddTextContent("HELLO!" + i);
+                        div2.AddTextContent("HELLO!" + m);
+                        div2.Tag = m.ToString();
                     });
+                    
 
                     hingeBox.AddItem(div);
                 }

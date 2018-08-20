@@ -227,7 +227,7 @@ namespace LayoutFarm.HtmlBoxes
         /// <summary>
         /// turn on/off wire frame
         /// </summary>
-        public static bool dbugDrawWireFrame = true;
+        public static bool dbugDrawWireFrame = false;
         public void dbugDrawDiagonalBox(Color color, float x1, float y1, float x2, float y2)
         {
             if (!dbugDrawWireFrame)

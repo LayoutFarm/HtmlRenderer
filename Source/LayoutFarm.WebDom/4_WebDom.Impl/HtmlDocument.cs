@@ -37,7 +37,8 @@ namespace LayoutFarm.WebDom.Impl
             {
                 if (bodyElement == null)
                 {
-                    //find body
+                    //TODO: review here again!!!
+                    //
                     int j = rootNode.ChildrenCount;
                     for (int i = 0; i < j; ++i)
                     {
@@ -70,13 +71,13 @@ namespace LayoutFarm.WebDom.Impl
         public override int DomUpdateVersion
         {
             get { return this.domUpdateVersion; }
-            set
+        }
+        public override void IncDomVersion()
+        {
+            this.domUpdateVersion++;
+            if (domUpdatedHandler != null)
             {
-                this.domUpdateVersion = value;
-                if (domUpdatedHandler != null)
-                {
-                    domUpdatedHandler(this, EventArgs.Empty);
-                }
+                domUpdatedHandler(this, EventArgs.Empty);
             }
         }
 

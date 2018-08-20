@@ -10,25 +10,26 @@ namespace LayoutFarm.HtmlBoxes
             string fullHtmlString,
             HtmlRenderBox htmlFrgmentRenderBox)
         {
-            var htmldoc = WebDocumentParser.ParseDocument(
+            HtmlDocument htmldoc = WebDocumentParser.ParseDocument(
+                 htmlHost,
                  new LayoutFarm.WebDom.Parser.TextSource(fullHtmlString.ToCharArray()));
             //1. builder 
-            var renderTreeBuilder = htmlHost.GetRenderTreeBuilder();
+            RenderTreeBuilder renderTreeBuilder = htmlHost.GetRenderTreeBuilder();
             //------------------------------------------------------------------- 
             //2. generate render tree
             ////build rootbox from htmldoc
 
-            var rootElement = renderTreeBuilder.BuildCssRenderTree(htmldoc,
+            CssBox rootElement = renderTreeBuilder.BuildCssRenderTree(htmldoc,
                 htmlHost.BaseStylesheet,
                 htmlFrgmentRenderBox);
             //3. create small htmlContainer
 
-            var htmlContainer = new MyHtmlContainer(htmlHost);
+            MyHtmlContainer htmlContainer = new MyHtmlContainer(htmlHost);
             htmlContainer.WebDocument = htmldoc;
             htmlContainer.SetRootCssBox(rootElement);
             htmlContainer.SetMaxSize(htmlFrgmentRenderBox.Width, 0);
             //
-            var lay = htmlHost.GetSharedHtmlLayoutVisitor(htmlContainer);
+            LayoutVisitor lay = htmlHost.GetSharedHtmlLayoutVisitor(htmlContainer);
             htmlContainer.PerformLayout(lay);
             htmlHost.ReleaseHtmlLayoutVisitor(lay);
             htmlFrgmentRenderBox.SetHtmlContainer(htmlContainer, rootElement);
@@ -39,35 +40,35 @@ namespace LayoutFarm.HtmlBoxes
             string htmlFragment,
             HtmlRenderBox htmlFrgmentRenderBox)
         {
-            var htmldoc = htmlHost.CreateNewSharedHtmlDoc();
-            var myHtmlBodyElement = htmldoc.CreateElement("body");
+            HtmlDocument htmldoc = htmlHost.CreateNewSharedHtmlDoc();
+            WebDom.DomElement myHtmlBodyElement = htmldoc.CreateElement("body");
             htmldoc.RootNode.AddChild(myHtmlBodyElement);
             //data is wraped up within div?
             //TODO: review this, use shadow dom instead
-            var newDivHost = htmldoc.CreateElement("div");
+            WebDom.DomElement newDivHost = htmldoc.CreateElement("div");
             myHtmlBodyElement.AddChild(newDivHost);
             WebDocumentParser.ParseHtmlDom(
                      new LayoutFarm.WebDom.Parser.TextSource(htmlFragment.ToCharArray()),
                      htmldoc,
                      newDivHost);
             //1. builder 
-            var renderTreeBuilder = htmlHost.GetRenderTreeBuilder();
+            RenderTreeBuilder renderTreeBuilder = htmlHost.GetRenderTreeBuilder();
             //-------------------------------------------------------------------
             //2. generate render tree  
-            var rootElement = renderTreeBuilder.BuildCssRenderTree(
+            CssBox rootElement = renderTreeBuilder.BuildCssRenderTree(
                  htmldoc,
                  htmldoc.CssActiveSheet,
                  htmlFrgmentRenderBox);
             //3. create small htmlContainer
 
-            var htmlContainer = new MyHtmlContainer(htmlHost);
+            MyHtmlContainer htmlContainer = new MyHtmlContainer(htmlHost);
             htmlContainer.WebDocument = newDivHost.OwnerDocument;
             htmlContainer.SetRootCssBox(rootElement);
             htmlContainer.SetMaxSize(htmlFrgmentRenderBox.Width, 0);
             //htmlContainer.SetRootRenderElement(htmlFrgmentRenderBox);
 
             //
-            var lay = htmlHost.GetSharedHtmlLayoutVisitor(htmlContainer);
+            LayoutVisitor lay = htmlHost.GetSharedHtmlLayoutVisitor(htmlContainer);
             htmlContainer.PerformLayout(lay);
             htmlHost.ReleaseHtmlLayoutVisitor(lay);
             htmlFrgmentRenderBox.SetHtmlContainer(htmlContainer, rootElement);
@@ -80,25 +81,25 @@ namespace LayoutFarm.HtmlBoxes
             HtmlRenderBox htmlFrgmentRenderBox)
         {
             //1. builder 
-            var renderTreeBuilder = htmlHost.GetRenderTreeBuilder();
+            RenderTreeBuilder renderTreeBuilder = htmlHost.GetRenderTreeBuilder();
             //-------------------------------------------------------------------
 
 
             //2. generate render tree
             ////build rootbox from htmldoc
 
-            var rootElement = renderTreeBuilder.BuildCssRenderTree(htmldoc,
+            CssBox rootElement = renderTreeBuilder.BuildCssRenderTree(htmldoc,
                 htmlHost.BaseStylesheet,
                 htmlFrgmentRenderBox);
             //3. create small htmlContainer
 
-            var htmlContainer = new MyHtmlContainer(htmlHost);
+            MyHtmlContainer htmlContainer = new MyHtmlContainer(htmlHost);
             htmlContainer.WebDocument = htmldoc;
             htmlContainer.SetRootCssBox(rootElement);
             htmlContainer.SetMaxSize(htmlFrgmentRenderBox.Width, 0);
             //htmlContainer.SetRootRenderElement(htmlFrgmentRenderBox);
 
-            var lay = htmlHost.GetSharedHtmlLayoutVisitor(htmlContainer);
+            LayoutVisitor lay = htmlHost.GetSharedHtmlLayoutVisitor(htmlContainer);
             htmlContainer.PerformLayout(lay);
             htmlHost.ReleaseHtmlLayoutVisitor(lay);
             htmlFrgmentRenderBox.SetHtmlContainer(htmlContainer, rootElement);
