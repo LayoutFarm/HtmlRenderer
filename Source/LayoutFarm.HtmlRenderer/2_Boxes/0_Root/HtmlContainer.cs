@@ -109,16 +109,16 @@ namespace LayoutFarm.HtmlBoxes
         }
         public float ActualWidth
         {
-            get { return (int)this._actualWidth; }
+            get { return this._actualWidth; }
         }
         public float ActualHeight
         {
-            get { return (int)this._actualHeight; }
+            get { return this._actualHeight; }
         }
         public void SetMaxSize(float maxWidth, float maxHeight)
         {
             this._maxWidth = maxWidth;
-            this._maxHeight = maxHeight;
+            this._maxHeight = maxHeight; //init maxHeight = 0
         }
         int layoutVersion;
         public int LayoutVersion
@@ -149,7 +149,8 @@ namespace LayoutFarm.HtmlBoxes
             _rootBox.PerformLayout(lay);
             if (this._maxWidth <= 0.1)
             {
-                // in case the width is not restricted we need to double layout, first will find the width so second can layout by it (center alignment)
+                // in case the width is not restricted we need to double layout,
+                //first will find the width so second can layout by it (center alignment)
                 _rootBox.SetVisualWidth((int)Math.Ceiling(this._actualWidth));
                 _actualWidth = _actualHeight = 0;
                 _rootBox.PerformLayout(lay);

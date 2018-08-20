@@ -446,10 +446,10 @@ namespace LayoutFarm.HtmlBoxes
 #if DEBUG
             dbugBeforeSetWidth(containerClientWidth);
 #endif
-            this._visualWidth = containerClientWidth;
+            this._visualWidth = containerClientWidth; 
             this._cssBoxWidth = containerClientWidth - (
                        this.ActualPaddingLeft + this.ActualPaddingRight +
-                       +this.ActualBorderLeftWidth + this.ActualBorderRightWidth);
+                       +this.ActualBorderLeftWidth + this.ActualBorderRightWidth);//not include margin
         }
         internal void SetCssBoxHeight(float height)
         {
@@ -525,6 +525,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
+
                 return this._visualWidth;
             }
         }
