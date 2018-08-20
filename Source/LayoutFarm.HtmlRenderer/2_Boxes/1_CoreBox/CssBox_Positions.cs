@@ -170,8 +170,8 @@ namespace LayoutFarm.HtmlBoxes
             }
             else
             {
-                this._actualWordSpacing = iFonts.MeasureWhitespace(_resolvedFont)
-                    + CssValueParser.ConvertToPx(_myspec.WordSpacing, 1, this);
+                this._actualWordSpacing = iFonts.MeasureWhitespace(_resolvedFont) +
+                                          CssValueParser.ConvertToPx(_myspec.WordSpacing, 1, this);
             }
         }
 
@@ -441,15 +441,19 @@ namespace LayoutFarm.HtmlBoxes
 
             this.specificUserContentSizeWidth = true;
         }
-        internal void SetCssBoxFromContainerAvailableWidth(float containerClientWidth)
+        internal void SetCssBoxWidthLimitToContainerAvailableWidth(float containerClientWidth)
         {
 #if DEBUG
             dbugBeforeSetWidth(containerClientWidth);
 #endif
+            if (this.LocalX > 0)
+            {
+
+            }
             this._visualWidth = containerClientWidth;
             this._cssBoxWidth = containerClientWidth - (
                        this.ActualPaddingLeft + this.ActualPaddingRight +
-                       +this.ActualBorderLeftWidth + this.ActualBorderRightWidth);
+                       this.ActualBorderLeftWidth + this.ActualBorderRightWidth);//not include margin
         }
         internal void SetCssBoxHeight(float height)
         {
@@ -525,6 +529,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
+
                 return this._visualWidth;
             }
         }

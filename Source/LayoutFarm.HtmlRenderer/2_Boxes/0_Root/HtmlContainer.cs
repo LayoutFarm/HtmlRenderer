@@ -48,10 +48,8 @@ namespace LayoutFarm.HtmlBoxes
         float _maxHeight;
 
 
-        /// <summary>
-        /// 99999
-        /// </summary>
-        const int MAX_WIDTH = 99999;
+
+
         public float MaxWidth { get { return this._maxHeight; } }
         public abstract void ClearPreviousSelection();
         public abstract void SetSelection(SelectionRange selRange);
@@ -109,16 +107,16 @@ namespace LayoutFarm.HtmlBoxes
         }
         public float ActualWidth
         {
-            get { return (int)this._actualWidth; }
+            get { return this._actualWidth; }
         }
         public float ActualHeight
         {
-            get { return (int)this._actualHeight; }
+            get { return this._actualHeight; }
         }
         public void SetMaxSize(float maxWidth, float maxHeight)
         {
             this._maxWidth = maxWidth;
-            this._maxHeight = maxHeight;
+            this._maxHeight = maxHeight; //init maxHeight = 0
         }
         int layoutVersion;
         public int LayoutVersion
@@ -139,7 +137,7 @@ namespace LayoutFarm.HtmlBoxes
             _actualWidth = _actualHeight = 0;
             // if width is not restricted we set it to large value to get the actual later    
             _rootBox.SetLocation(0, 0);
-            _rootBox.SetVisualSize(this._maxWidth > 0 ? this._maxWidth : MAX_WIDTH, 0);
+            _rootBox.SetVisualSize(this._maxWidth > 0 ? this._maxWidth : CssBoxConstConfig.BOX_MAX_WIDTH, 0);
             CssBox.ValidateComputeValues(_rootBox);
             //----------------------- 
             //LayoutVisitor layoutArgs = new LayoutVisitor(this.GraphicsPlatform, this);
@@ -149,7 +147,8 @@ namespace LayoutFarm.HtmlBoxes
             _rootBox.PerformLayout(lay);
             if (this._maxWidth <= 0.1)
             {
-                // in case the width is not restricted we need to double layout, first will find the width so second can layout by it (center alignment)
+                // in case the width is not restricted we need to double layout,
+                //first will find the width so second can layout by it (center alignment)
                 _rootBox.SetVisualWidth((int)Math.Ceiling(this._actualWidth));
                 _actualWidth = _actualHeight = 0;
                 _rootBox.PerformLayout(lay);
