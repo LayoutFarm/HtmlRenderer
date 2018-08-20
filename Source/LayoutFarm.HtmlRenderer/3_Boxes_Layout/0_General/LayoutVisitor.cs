@@ -258,7 +258,7 @@ namespace LayoutFarm.HtmlBoxes
         int dbugIndentLevel;
         internal bool dbugEnableLogRecord;
         internal List<string> logRecords = new List<string>();
-        public enum PaintVisitorContextName
+        public enum dbugPaintVisitorContextName
         {
             Init
         }
@@ -267,7 +267,7 @@ namespace LayoutFarm.HtmlBoxes
             this.dbugIndentLevel = 0;
             logRecords.Clear();
         }
-        public void dbugEnterNewContext(CssBox box, PaintVisitorContextName contextName)
+        public void dbugEnterNewContext(CssBox box, dbugPaintVisitorContextName contextName)
         {
             if (this.dbugEnableLogRecord)
             {
