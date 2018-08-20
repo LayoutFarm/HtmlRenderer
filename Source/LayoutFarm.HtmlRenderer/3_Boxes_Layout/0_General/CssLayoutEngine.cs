@@ -776,7 +776,7 @@ namespace LayoutFarm.HtmlBoxes
                     }
                     else
                     {
-                        box.SetCssBoxFromContainerAvailableWidth(availableWidth);
+                        box.SetCssBoxWidthLimitToContainerAvailableWidth(availableWidth);
                     }
                 }
                 //-------------------------------------------
@@ -795,19 +795,7 @@ namespace LayoutFarm.HtmlBoxes
                 {
                     localTop = prevSibling.LocalVisualBottom;
                 }
-
-                //if (box.Float != CssFloat.None)
-                //{
-                //    //float box 
-                //    //find context floating c
-                //    if (lay.HasFloatBoxInContext)
-                //    {
-
-
-                //    }
-                //}
-
-
+                 
                 localTop += box.UpdateMarginTopCollapse(prevSibling);
                 box.SetLocation(localLeft, localTop);
                 box.SetHeightToZero();

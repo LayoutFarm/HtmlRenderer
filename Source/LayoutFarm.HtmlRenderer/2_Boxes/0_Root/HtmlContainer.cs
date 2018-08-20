@@ -48,10 +48,8 @@ namespace LayoutFarm.HtmlBoxes
         float _maxHeight;
 
 
-        /// <summary>
-        /// 99999
-        /// </summary>
-        const int MAX_WIDTH = 99999;
+
+
         public float MaxWidth { get { return this._maxHeight; } }
         public abstract void ClearPreviousSelection();
         public abstract void SetSelection(SelectionRange selRange);
@@ -139,7 +137,7 @@ namespace LayoutFarm.HtmlBoxes
             _actualWidth = _actualHeight = 0;
             // if width is not restricted we set it to large value to get the actual later    
             _rootBox.SetLocation(0, 0);
-            _rootBox.SetVisualSize(this._maxWidth > 0 ? this._maxWidth : MAX_WIDTH, 0);
+            _rootBox.SetVisualSize(this._maxWidth > 0 ? this._maxWidth : CssBoxConstConfig.BOX_MAX_WIDTH, 0);
             CssBox.ValidateComputeValues(_rootBox);
             //----------------------- 
             //LayoutVisitor layoutArgs = new LayoutVisitor(this.GraphicsPlatform, this);
