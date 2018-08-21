@@ -48,6 +48,7 @@ namespace LayoutFarm.CustomWidgets
                         //TODO: review here
                         var canvas = new LayoutFarm.CustomWidgets.MiniAggCanvasBox(400, 400);
                         var wrapperBox = CreateWrapper(
+                            host,
                              canvas,
                              canvas.GetPrimaryRenderElement(myHost.RootGfx),
                              spec, true);
@@ -60,6 +61,7 @@ namespace LayoutFarm.CustomWidgets
             var simpleBox = new LayoutFarm.CustomWidgets.Box(100, 20);
             simpleBox.BackColor = PixelFarm.Drawing.Color.LightGray;
             var wrapperBox2 = CreateWrapper(
+                               host,
                                simpleBox,
                                simpleBox.GetPrimaryRenderElement(myHost.RootGfx),
                                spec, false);
@@ -175,12 +177,13 @@ namespace LayoutFarm.CustomWidgets
                             // user can specific width of textbox 
                             //var textbox = new LayoutFarm.CustomWidgets.TextBox(100, 17, false);
                             var textbox = new LayoutFarm.CustomWidgets.TextBoxContainer(100, 20, false);
-                            var wrapperBox = CreateWrapper(
+                            CssBox wrapperBox = CreateWrapper(
+                                 host,
                                  textbox,
                                  textbox.GetPrimaryRenderElement(rootgfx),
                                  spec, true);
                             //place holder support
-                            var placeHolderAttr = domE.FindAttribute("placeholder");
+                            DomAttribute placeHolderAttr = domE.FindAttribute("placeholder");
                             if (placeHolderAttr != null)
                             {
                                 textbox.PlaceHolderText = placeHolderAttr.Value;
@@ -256,6 +259,7 @@ namespace LayoutFarm.CustomWidgets
                             //TODO: review here, use proper radio button 
                             var box = new LayoutFarm.CustomWidgets.Box(20, 20);
                             CssBox wrapperBox = CreateWrapper(
+                                 host,
                                  box,
                                  box.GetPrimaryRenderElement(rootgfx),
                                  spec, true);

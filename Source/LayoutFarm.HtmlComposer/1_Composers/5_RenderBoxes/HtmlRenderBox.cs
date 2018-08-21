@@ -15,10 +15,8 @@ namespace LayoutFarm.HtmlBoxes
             int width, int height)
             : base(rootgfx, width, height)
         {
-
              
-        }
-
+        } 
         public CssBox CssBox
         {
             get { return this.cssBox; }
@@ -27,7 +25,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             this.myHtmlCont = htmlCont;
             this.cssBox = box;
-
+            myHtmlCont.RootRenderElement = this;
         }
         public override void ClearAllChildren()
         {

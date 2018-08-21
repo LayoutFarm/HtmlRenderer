@@ -16,10 +16,13 @@ namespace LayoutFarm.HtmlBoxes
         ScrollingRelation hscRelation;
         ScrollBar hscbar;
         CssBox innerBox;
-        public CssScrollView(Css.BoxSpec boxSpec,
+        HtmlHost _htmlhost;
+
+        public CssScrollView(HtmlHost htmlhost, Css.BoxSpec boxSpec,
             IRootGraphics rootgfx)
             : base(boxSpec, rootgfx)
         {
+            _htmlhost = htmlhost;
         }
         public CssBox InnerBox
         {
@@ -69,6 +72,7 @@ namespace LayoutFarm.HtmlBoxes
                 vscRelation = new ScrollingRelation(vscbar.SliderBox, scrollView);
                 //---------------------- 
                 CssBox scBarWrapCssBox = LayoutFarm.Composers.CustomCssBoxGenerator.CreateWrapper(
+                            _htmlhost,
                              this.vscbar,
                              this.vscbar.GetPrimaryRenderElement((RootGraphic)this.GetInternalRootGfx()),
                              CssBox.UnsafeGetBoxSpec(this), false);
@@ -88,6 +92,7 @@ namespace LayoutFarm.HtmlBoxes
                 //---------------------- 
 
                 CssBox scBarWrapCssBox = LayoutFarm.Composers.CustomCssBoxGenerator.CreateWrapper(
+                        _htmlhost,
                          this.hscbar,
                          this.hscbar.GetPrimaryRenderElement((RootGraphic)this.GetInternalRootGfx()),
                          CssBox.UnsafeGetBoxSpec(this), false);

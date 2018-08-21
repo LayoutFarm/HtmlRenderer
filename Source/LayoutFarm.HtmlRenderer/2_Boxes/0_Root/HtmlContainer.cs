@@ -33,7 +33,7 @@ namespace LayoutFarm.HtmlBoxes
     }
     public abstract class HtmlContainer : IDisposable
     {
-
+        
         ITextService _textService;
         /// <summary>
         /// the root css box of the parsed html
@@ -70,14 +70,15 @@ namespace LayoutFarm.HtmlBoxes
         {
             return _textService;
         }
+
 #if DEBUG
         public static int dbugCount02 = 0;
 #endif
         public CssBox RootCssBox
         {
             get { return this._rootBox; }
-
         }
+        public RenderElement RootRenderElement { get; set; }
 
         public void SetRootCssBox(CssBox rootCssBox)
         {
