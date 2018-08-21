@@ -36,10 +36,9 @@ namespace LayoutFarm.Composers
             }
             else
             {
-                RenderElement re;
-                object controller;
-                lazyCreator(parentCssBox.GetInternalRootGfx(), out re, out controller);
-                CssBox wrapper = CustomCssBoxGenerator.CreateWrapper(controller, re, this.Spec, false);
+
+                lazyCreator(parentCssBox.GetInternalRootGfx(), out RenderElement re, out object controller);
+                CssBox wrapper = CustomCssBoxGenerator.CreateWrapper(((HtmlDocument)this.OwnerDocument).Host, controller, re, this.Spec, false);
                 this.SetPrincipalBox(wrapper);
                 return wrapper;
             }

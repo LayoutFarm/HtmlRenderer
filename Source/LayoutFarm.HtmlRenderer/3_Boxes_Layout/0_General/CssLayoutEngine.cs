@@ -762,27 +762,10 @@ namespace LayoutFarm.HtmlBoxes
             CssBox prevSibling = lay.LatestSiblingBox;
             if (box.CssDisplay != Css.CssDisplay.TableCell)
             {
-                //-------------------------------------------
-                if (box.CssDisplay != Css.CssDisplay.Table)
-                {
-                    float availableWidth = myContainingBlock.GetClientWidth();
-                    // Console.WriteLine(availableWidth.ToString());
-
-                    if (!box.Width.IsEmptyOrAuto)
-                    {
-                        float w = CssValueParser.ConvertToPx(box.Width, availableWidth, box);
-                        //specific width
-                        box.SetCssBoxWidth(w);
-                    }
-                    else
-                    {
-                        box.SetCssBoxFromContainerAvailableWidth(availableWidth);
-                    }
-                }
-                //-------------------------------------------
 
                 float localLeft = myContainingBlock.GetClientLeft() + box.ActualMarginLeft;
                 float localTop = 0;
+
                 if (prevSibling == null)
                 {
                     //this is first child of parent
@@ -796,20 +779,28 @@ namespace LayoutFarm.HtmlBoxes
                     localTop = prevSibling.LocalVisualBottom;
                 }
 
-                //if (box.Float != CssFloat.None)
-                //{
-                //    //float box 
-                //    //find context floating c
-                //    if (lay.HasFloatBoxInContext)
-                //    {
-
-
-                //    }
-                //}
-
-
                 localTop += box.UpdateMarginTopCollapse(prevSibling);
                 box.SetLocation(localLeft, localTop);
+
+                //-------------------------------------------
+                if (box.CssDisplay != Css.CssDisplay.Table)
+                {
+                    float availableWidth = myContainingBlock.GetClientWidth() - (box.ActualMarginLeft + box.ActualMarginRight);
+
+                    if (!box.Width.IsEmptyOrAuto)
+                    {
+                        float w = CssValueParser.ConvertToPx(box.Width, availableWidth, box);
+                        //specific width
+                        box.SetCssBoxWidth(w);
+                    }
+                    else
+                    {
+
+                        box.SetCssBoxWidthLimitToContainerAvailableWidth(availableWidth);
+                    }
+                }
+                //-------------------------------------------
+
                 box.SetHeightToZero();
             }
             //--------------------------------------------------------------------------
@@ -1249,7 +1240,7 @@ namespace LayoutFarm.HtmlBoxes
             box.InnerContentHeight = innerContentH;
             if (!box.Height.IsEmptyOrAuto)
             {
-                var h = CssValueParser.ConvertToPx(box.Height, lay.LatestContainingBlock.VisualWidth, lay.LatestContainingBlock);
+                float h = CssValueParser.ConvertToPx(box.Height, lay.LatestContainingBlock.VisualWidth, lay.LatestContainingBlock);
                 box.SetExpectedSize(box.ExpectedWidth, h);
                 box.SetVisualHeight(h);
                 box.SetCssBoxHeight(h);
@@ -1267,7 +1258,7 @@ namespace LayoutFarm.HtmlBoxes
             if (!box.Width.IsEmptyOrAuto)
             {
                 //find max line width  
-                var w = CssValueParser.ConvertToPx(box.Width, lay.LatestContainingBlock.VisualWidth, lay.LatestContainingBlock);
+                float w = CssValueParser.ConvertToPx(box.Width, lay.LatestContainingBlock.VisualWidth, lay.LatestContainingBlock);
                 box.SetExpectedSize(w, box.ExpectedHeight);
                 box.SetVisualWidth(w);
                 box.SetCssBoxWidth(w);
@@ -1304,17 +1295,21 @@ namespace LayoutFarm.HtmlBoxes
 
             //}
             float maxRight = 0;
-            var boxes = CssBox.UnsafeGetChildren(box);
+            CssBoxCollection boxes = CssBox.UnsafeGetChildren(box);
             var cnode = boxes.GetFirstLinkedNode();
             while (cnode != null)
             {
-                var cssbox = cnode.Value;
+                CssBox cssbox = cnode.Value;
                 //float nodeRight = cssbox.LocalX + cssbox.InnerContentWidth +
                 //     cssbox.ActualPaddingLeft + cssbox.ActualPaddingRight +
                 //     cssbox.ActualMarginLeft +
                 //     cssbox.ActualMarginRight;
                 float nodeRight = cssbox.LocalVisualRight + cssbox.ActualMarginRight;
-                maxRight = nodeRight > maxRight ? nodeRight : maxRight;
+                if (nodeRight > maxRight)
+                {
+                    maxRight = nodeRight;
+                }
+                //
                 cnode = cnode.Next;
             }
             return maxRight + (box.ActualBorderLeftWidth + box.ActualPaddingLeft +

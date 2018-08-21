@@ -359,7 +359,6 @@ namespace LayoutFarm.HtmlBoxes
             {
                 this._absPosLayer = new CssBoxAbsoluteLayer();
             }
-
             box._absLayerOwner = this;
 
             if (box.ParentBox != null)
