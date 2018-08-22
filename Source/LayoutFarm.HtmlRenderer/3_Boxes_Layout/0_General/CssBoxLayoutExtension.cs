@@ -21,8 +21,9 @@ namespace LayoutFarm.HtmlBoxes
         //------------------------------------------
         public static float GetClientWidth(this CssBox box)
         {
-            return box.VisualWidth - (box.ActualBorderLeftWidth +
-                box.ActualPaddingLeft + box.ActualPaddingRight + box.ActualBorderRightWidth);
+            return box.VisualWidth - (
+                box.ActualBorderLeftWidth + box.ActualPaddingLeft +
+                box.ActualPaddingRight + box.ActualBorderRightWidth);
         }
         public static float GetClientHeight(this CssBox box)
         {
