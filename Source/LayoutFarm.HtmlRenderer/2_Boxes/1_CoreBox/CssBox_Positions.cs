@@ -445,11 +445,12 @@ namespace LayoutFarm.HtmlBoxes
         {
 #if DEBUG
             dbugBeforeSetWidth(containerClientWidth);
-#endif
+
             if (this.LocalX > 0)
             {
 
             }
+#endif
             this._visualWidth = containerClientWidth;
             this._cssBoxWidth = containerClientWidth - (
                        this.ActualPaddingLeft + this.ActualPaddingRight +
@@ -908,7 +909,7 @@ namespace LayoutFarm.HtmlBoxes
 
             //TODO: review here again***
             globalX = this._localX - _viewportX;
-            globalY = this._localY - _viewportY; 
+            globalY = this._localY - _viewportY;
 
             //CssBox foundRoot = null;
             if (this.ParentBox != null)
