@@ -2,7 +2,7 @@
 
 namespace LayoutFarm.WebWidgets
 {
-    [DemoNote("5.1 HingeMixHtml")]
+    [DemoNote("5.1 MenuItems")]
     class Demo_HingeMixHtml : HtmlDemoBase
     {
         protected override void OnHtmlHostCreated()

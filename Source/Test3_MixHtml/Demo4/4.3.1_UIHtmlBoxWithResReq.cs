@@ -37,7 +37,7 @@ namespace LayoutFarm
         string imgFolderPath = null;
         protected override void OnStart(AppHost host)
         {
-            var appPath = System.Windows.Forms.Application.ExecutablePath;
+            string appPath = System.Windows.Forms.Application.ExecutablePath;
             int pos = appPath.IndexOf("\\bin\\");
             if (pos > -1)
             {

@@ -72,7 +72,7 @@ namespace LayoutFarm.Composers
                     case WebDom.HtmlNodeKind.ShortElement:
                         {
                             HtmlElement htmlElement = (HtmlElement)node;
-                            htmlElement.WellknownElementName = UserMapUtil.EvaluateTagName(htmlElement.LocalName);
+                            htmlElement.WellknownElementName = WellKnownDomNodeMap.EvaluateTagName(htmlElement.LocalName);
                             switch (htmlElement.WellknownElementName)
                             {
                                 case WellKnownDomNodeName.style:
@@ -188,7 +188,7 @@ namespace LayoutFarm.Composers
 
             //TODO: review here, we should create cssbox at  document.body? 
             CssBox bridgeBox = HtmlHost.CreateBridgeBox(htmlHost.GetTextService(), containerElement, rootgfx);
-            ((HtmlElement)htmldoc.RootNode).SetPrincipalBox(bridgeBox);
+            ((HtmlElement)htmldoc.RootNode).SetPrincipalBox(bridgeBox);//set bridgeBox as principal box of root node
             htmlHost.UpdateChildBoxes((HtmlRootElement)htmldoc.RootNode, true);
             htmldoc.SetDocumentState(DocumentState.Idle);
             //----------------------------------------------------------------  

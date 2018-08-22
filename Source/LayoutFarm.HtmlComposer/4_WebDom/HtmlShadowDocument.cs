@@ -6,8 +6,8 @@ namespace LayoutFarm.Composers
     {
         //this is not document fragment ***
         HtmlDocument primaryHtmlDoc;
-        internal HtmlShadowDocument(HtmlDocument primaryHtmlDoc)
-            : base(primaryHtmlDoc.UniqueStringTable)
+        internal HtmlShadowDocument(HtmlBoxes.HtmlHost host, HtmlDocument primaryHtmlDoc)
+            : base(host, primaryHtmlDoc.UniqueStringTable)
         {
             //share string table with primary html doc
             this.primaryHtmlDoc = primaryHtmlDoc;

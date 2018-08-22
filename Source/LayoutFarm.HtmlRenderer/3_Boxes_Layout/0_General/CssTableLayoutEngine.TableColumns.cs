@@ -148,7 +148,7 @@ namespace LayoutFarm.HtmlBoxes
                 occupiedSpace = 0f;
                 for (int i = columns.Length - 1; i >= 0; --i)
                 {
-                    var col = columns[i];
+                    TableColumn col = columns[i];
                     switch (col.SpecificWidthLevel)
                     {
                         case ColumnSpecificWidthLevel.None:
@@ -219,7 +219,7 @@ namespace LayoutFarm.HtmlBoxes
                 {
                     for (int i = columns.Length - 1; i >= 0; --i)
                     {
-                        var col = columns[i];
+                        TableColumn col = columns[i];
                         if (!col.HasSpecificWidth)
                         {
                             col.AddMoreWidthValue(value, ColumnSpecificWidthLevel.Adjust);

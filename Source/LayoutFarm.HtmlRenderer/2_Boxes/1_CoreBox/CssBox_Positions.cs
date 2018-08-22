@@ -170,8 +170,8 @@ namespace LayoutFarm.HtmlBoxes
             }
             else
             {
-                this._actualWordSpacing = iFonts.MeasureWhitespace(_resolvedFont)
-                    + CssValueParser.ConvertToPx(_myspec.WordSpacing, 1, this);
+                this._actualWordSpacing = iFonts.MeasureWhitespace(_resolvedFont) +
+                                          CssValueParser.ConvertToPx(_myspec.WordSpacing, 1, this);
             }
         }
 
@@ -185,7 +185,17 @@ namespace LayoutFarm.HtmlBoxes
             //1. fonts 
             if (this.ParentBox != null)
             {
-                ReEvaluateFont(iFonts, this.ParentBox.ResolvedFont.SizeInPixels);
+                if (this.ParentBox.ResolvedFont == null)
+                {
+                    //TODO: review this ... WHY?
+                    ReEvaluateFont(iFonts, containingBlock.ResolvedFont.SizeInPixels);
+                }
+                else
+                {
+                    ReEvaluateFont(iFonts, this.ParentBox.ResolvedFont.SizeInPixels);
+                }
+
+
                 //2. actual word spacing
                 //this._actualWordSpacing = this.NoEms(this.InitSpec.LineHeight);
                 //3. font size 
@@ -204,7 +214,7 @@ namespace LayoutFarm.HtmlBoxes
             //www.w3.org/TR/CSS2/box.html#margin-properties
             //w3c: margin applies to all elements except elements table display type
             //other than table-caption,table and inline table
-            var cssDisplay = this.CssDisplay;
+            CssDisplay cssDisplay = this.CssDisplay;
             BoxSpec spec = _myspec;
             switch (cssDisplay)
             {
@@ -431,15 +441,19 @@ namespace LayoutFarm.HtmlBoxes
 
             this.specificUserContentSizeWidth = true;
         }
-        internal void SetCssBoxFromContainerAvailableWidth(float containerClientWidth)
+        internal void SetCssBoxWidthLimitToContainerAvailableWidth(float containerClientWidth)
         {
 #if DEBUG
             dbugBeforeSetWidth(containerClientWidth);
 #endif
+            if (this.LocalX > 0)
+            {
+
+            }
             this._visualWidth = containerClientWidth;
             this._cssBoxWidth = containerClientWidth - (
                        this.ActualPaddingLeft + this.ActualPaddingRight +
-                       +this.ActualBorderLeftWidth + this.ActualBorderRightWidth);
+                       this.ActualBorderLeftWidth + this.ActualBorderRightWidth);//not include margin
         }
         internal void SetCssBoxHeight(float height)
         {
@@ -515,6 +529,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
+
                 return this._visualWidth;
             }
         }
@@ -884,9 +899,17 @@ namespace LayoutFarm.HtmlBoxes
 
         protected virtual void GetGlobalLocationImpl(out float globalX, out float globalY)
         {
+#if DEBUG
+            if (this._viewportX != 0 || this._viewportY != 0)
+            {
+
+            }
+#endif
+
             //TODO: review here again***
-            globalX = this._localX;
-            globalY = this._localY;
+            globalX = this._localX - _viewportX;
+            globalY = this._localY - _viewportY; 
+
             //CssBox foundRoot = null;
             if (this.ParentBox != null)
             {
@@ -905,10 +928,15 @@ namespace LayoutFarm.HtmlBoxes
 
         void GetGlobalLocationRelativeToRoot(ref PointF location)
         {
-            //recursive
 
             if (this.justBlockRun != null)
             {
+                //recursive
+                if (this._viewportX != 0 || this._viewportY != 0)
+                {
+
+                }
+
                 location.Offset(
                     (int)(justBlockRun.Left),
                     (int)(justBlockRun.Top + justBlockRun.HostLine.CachedLineTop));
@@ -921,13 +949,20 @@ namespace LayoutFarm.HtmlBoxes
             CssBox parentBox = _absLayerOwner ?? this.ParentBox;
             if (parentBox != null)
             {
-                location.Offset((int)this.LocalX, (int)this.LocalY);
+
+
+#if DEBUG
+                if (_viewportX != 0 || _viewportY != 0)
+                {
+
+                }
+#endif
+                location.Offset((int)this.LocalX - _viewportX, (int)this.LocalY - _viewportY);
                 //recursive
                 parentBox.GetGlobalLocationRelativeToRoot(ref location);
             }
-
         }
-        internal void GetGlobalLocationRelativeToRoot(out float globalX, out float globalY)
+        public void GetGlobalLocationRelativeToRoot(out float globalX, out float globalY)
         {
             PointF location = new PointF(0, 0);
             GetGlobalLocationRelativeToRoot(ref location);

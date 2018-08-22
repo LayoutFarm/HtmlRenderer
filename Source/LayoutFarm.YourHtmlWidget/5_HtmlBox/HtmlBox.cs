@@ -232,7 +232,7 @@ namespace LayoutFarm.CustomWidgets
                     if (htmlRenderBox == null) return;
                     //--------------------------- 
                     htmlhost.GetRenderTreeBuilder().RefreshCssTree(myHtmlCont.RootElement);
-                    var lay = this.htmlhost.GetSharedHtmlLayoutVisitor(myHtmlCont);
+                    LayoutVisitor lay = this.htmlhost.GetSharedHtmlLayoutVisitor(myHtmlCont);
                     myHtmlCont.PerformLayout(lay);
                     this.htmlhost.ReleaseHtmlLayoutVisitor(lay);
                 },
@@ -267,7 +267,7 @@ namespace LayoutFarm.CustomWidgets
                 return this.htmlRenderBox.HtmlHeight;
             }
         }
-         
+
         public override void Walk(UIVisitor visitor)
         {
             visitor.BeginElement(this, "htmlbox");

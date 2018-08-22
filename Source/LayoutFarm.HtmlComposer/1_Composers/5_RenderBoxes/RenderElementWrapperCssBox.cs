@@ -102,10 +102,14 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
     sealed class WrapperInlineCssBox : WrapperCssBoxBase
     {
         CssExternalRun externalRun;
-        public WrapperInlineCssBox(object controller, Css.BoxSpec boxSpec,
+        HtmlHost _htmlhost;
+
+        public WrapperInlineCssBox(HtmlHost htmlhost, object controller, Css.BoxSpec boxSpec,
             RootGraphic rootgfx, RenderElement re)
             : base(controller, boxSpec, re.Root, CssDisplay.Inline)
         {
+            _htmlhost = htmlhost;
+
             int w = re.Width;
             int h = re.Height;
             ChangeDisplayType(this, CssDisplay.Inline);
@@ -179,6 +183,13 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
                     this.adjustY = globalY;
                     return renderRoot.ContainerElement;
                 }
+                else
+                {
+                    if (cbox.ParentBox == null)
+                    {
+                        return _htmlhost.TopWindowRenderBox;
+                    }
+                }
                 cbox = cbox.ParentBox;
             }
             return null;
@@ -190,12 +201,16 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
     /// </summary>
     sealed class WrapperBlockCssBox : WrapperCssBoxBase
     {
+        HtmlHost _htmlHost;
         RenderElement renderE;
-        public WrapperBlockCssBox(object controller,
+        public WrapperBlockCssBox(
+             HtmlHost htmlHost,
+             object controller,
              BoxSpec spec,
              RenderElement renderElement)
             : base(controller, spec, renderElement.Root, CssDisplay.Block)
         {
+            _htmlHost = htmlHost;
             SetAsCustomCssBox(this);
             int w = renderElement.Width;
             int h = renderElement.Height;
@@ -244,6 +259,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
         internal override RenderElement GetParentRenderElement(out int globalX, out int globalY)
         {
             CssBox cbox = this;
+
             //start 
             globalX = 0;
             globalY = 0;
@@ -257,6 +273,13 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
                     this.adjustX = globalX;
                     this.adjustY = globalY;
                     return renderRoot.ContainerElement;
+                }
+                else
+                {
+                    if (cbox.ParentBox == null)
+                    {
+                        return _htmlHost.TopWindowRenderBox;
+                    }
                 }
                 cbox = cbox.ParentBox;
             }

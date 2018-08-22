@@ -22,20 +22,32 @@ namespace LayoutFarm.HtmlBoxes
         public static bool HitTest(CssBox box, float x, float y, CssBoxHitChain hitChain)
         {
 
+#if DEBUG
+            //if (box.ViewportY != 0 && hitChain.debugEventPhase == CssBoxHitChain.dbugEventPhase.MouseDown)
+            //{
+            //}
+#endif
             //--------------------------------------
-            float boxHitLocalX = x - box.LocalX;
-            float boxHitLocalY = y - box.LocalY;
             bool isPointInArea = box.IsPointInArea(x, y);
-            //----------------------------------------------------------------------
+            float boxHitLocalX = x - box.LocalX;  //**
+            float boxHitLocalY = y - box.LocalY; //**
+            //---------------------------------------------------------------------- 
             if (isPointInArea)
             {
                 hitChain.AddHit(box, (int)boxHitLocalX, (int)boxHitLocalY);
             }
+
+            //---------------------------------------------------------------------- 
+            //enter children space -> offset with its viewport
+            boxHitLocalX += box.ViewportX;
+            boxHitLocalY += box.ViewportY;
+
+
             //check absolute layer first ***
             if (box.HasAbsoluteLayer)
             {
                 hitChain.PushContextBox(box);
-                foreach (var absBox in box.GetAbsoluteChildBoxBackwardIter())
+                foreach (CssBox absBox in box.GetAbsoluteChildBoxBackwardIter())
                 {
                     if (HitTest(absBox, boxHitLocalX, boxHitLocalY, hitChain))
                     {
@@ -53,9 +65,9 @@ namespace LayoutFarm.HtmlBoxes
                 {
                     case Css.CssDisplay.TableRow:
                         {
-                            foreach (var childBox in box.GetChildBoxIter())
+                            foreach (CssBox childBox in box.GetChildBoxIter())
                             {
-                                if (HitTest(childBox, x, y, hitChain))
+                                if (HitTest(childBox, boxHitLocalX, boxHitLocalY, hitChain))
                                 {
                                     return true;
                                 }
@@ -73,7 +85,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 //custom css box
                 //return true= stop here
-                if (box.CustomContentHitTest(x, y, hitChain))
+                if (box.CustomContentHitTest(boxHitLocalX, boxHitLocalY, hitChain))
                 {
                     hitChain.PopContextBox(box);
                     return true;
@@ -231,7 +243,7 @@ namespace LayoutFarm.HtmlBoxes
             foreach (CssRun word in lineBox.GetRunIter())
             {
                 // add word spacing to word width so sentance won't have hols in it when moving the mouse
-                var rect = word.Rectangle;
+                RectangleF rect = word.Rectangle;
                 //rect.Width += word.OwnerBox.ActualWordSpacing;
                 if (rect.Contains(x, y))
                 {
@@ -250,9 +262,8 @@ namespace LayoutFarm.HtmlBoxes
                 return startBox; //This is the initial containing block.
             }
 
-            var box = startBox.ParentBox;
-            while (box.HasContainerProperty &&
-                box.ParentBox != null)
+            CssBox box = startBox.ParentBox;
+            while (box.HasContainerProperty && box.ParentBox != null)
             {
                 box = box.ParentBox;
             }

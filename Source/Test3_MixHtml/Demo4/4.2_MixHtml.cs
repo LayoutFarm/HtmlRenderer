@@ -8,7 +8,7 @@ namespace LayoutFarm
     {
         protected override void OnStart(AppHost host)
         {
-            var htmlhost = HtmlHostCreatorHelper.CreateHtmlHost(host, null, null);
+            HtmlBoxes.HtmlHost htmlhost = HtmlHostCreatorHelper.CreateHtmlHost(host, null, null);
             ////==================================================
             //html box
             var htmlBox = new HtmlBox(htmlhost, 800, 400);

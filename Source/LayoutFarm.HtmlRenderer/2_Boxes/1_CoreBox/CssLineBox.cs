@@ -304,7 +304,7 @@ namespace LayoutFarm.HtmlBoxes
             CssRun maxRun = null;
             for (int i = this._runs.Count - 1; i >= 0; --i)
             {
-                var run = this._runs[i];
+                CssRun run = this._runs[i];
                 if (run.Height > maxRunHeight)
                 {
                     maxRun = run;
@@ -345,7 +345,7 @@ namespace LayoutFarm.HtmlBoxes
 
             for (int i = this._runs.Count - 1; i >= 0; --i)
             {
-                var run = this._runs[i];
+                CssRun run = this._runs[i];
                 //adjust base line
                 run.SetLocation(run.Left, baseline);
             }

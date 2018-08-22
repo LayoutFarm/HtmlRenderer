@@ -31,8 +31,14 @@ namespace LayoutFarm.Composers
         {
             this._boxSpec = new Css.BoxSpec();
         }
+        public override void AddChild(DomNode childNode)
+        {
+            if (_principalBox != null && childNode.NodeKind == HtmlNodeKind.TextNode)
+            {
 
-
+            }
+            base.AddChild(childNode);
+        }
 
         public override void SetAttribute(DomAttribute attr)
         {
@@ -97,6 +103,7 @@ namespace LayoutFarm.Composers
 
         protected override void OnElementChangedInIdleState(ElementChangeKind changeKind)
         {
+
             //1. 
             this.OwnerDocument.SetDocumentState(DocumentState.ChangedAfterIdle);
             if (this.OwnerDocument.IsDocFragment) return;
@@ -104,17 +111,30 @@ namespace LayoutFarm.Composers
             //2. need box evaluation again
             this.SkipPrincipalBoxEvalulation = false;
             //3. propag
-            var cnode = this.ParentNode;
+
+            HtmlElement cnode = (HtmlElement)this.ParentNode;
+            HtmlDocument owner = this.OwnerDocument as HtmlDocument;
             while (cnode != null)
             {
-                ((HtmlElement)cnode).SkipPrincipalBoxEvalulation = false;
-                cnode = cnode.ParentNode;
+                cnode.SkipPrincipalBoxEvalulation = false;
+                if (cnode.ParentNode != null)
+                {
+                    cnode = (HtmlElement)cnode.ParentNode;
+                }
+                else
+                {
+                    if (cnode.SubParentNode != null)
+                    {
+                        cnode = (HtmlElement)cnode.SubParentNode;
+                    }
+                    else
+                    {
+                        cnode = null;
+                    }
+                }
             }
-
-            HtmlDocument owner = this.OwnerDocument as HtmlDocument;
-            owner.DomUpdateVersion++;
+            owner.IncDomVersion();
         }
-
 
         protected override void OnElementChanged()
         {
@@ -125,10 +145,12 @@ namespace LayoutFarm.Composers
             }
             //change 
             var boxSpec = CssBox.UnsafeGetBoxSpec(box);
+
             //create scrollbar
+            //...?
 
 
-            var scrollView = new CssScrollView(boxSpec, box.RootGfx);
+            var scrollView = new CssScrollView(((HtmlDocument)this.OwnerDocument).Host, boxSpec, box.RootGfx);
             scrollView.SetController(this);
             scrollView.SetVisualSize(box.VisualWidth, box.VisualHeight);
             scrollView.SetExpectedSize(box.VisualWidth, box.VisualHeight);
@@ -155,6 +177,13 @@ namespace LayoutFarm.Composers
         {
             float globalX, globalY;
             this._principalBox.GetGlobalLocation(out globalX, out globalY);
+            x = (int)globalX;
+            y = (int)globalY;
+        }
+        public override void GetGlobalLocationRelativeToRoot(out int x, out int y)
+        {
+            float globalX, globalY;
+            this._principalBox.GetGlobalLocationRelativeToRoot(out globalX, out globalY);
             x = (int)globalX;
             y = (int)globalY;
         }

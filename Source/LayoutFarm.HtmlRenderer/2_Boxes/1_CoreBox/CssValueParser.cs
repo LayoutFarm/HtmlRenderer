@@ -292,7 +292,7 @@ namespace LayoutFarm.HtmlBoxes
         /// <returns>true - valid color, false - otherwise</returns>
         private static bool GetColorByName(string str, int idx, int length, out Color color)
         {
-            color = KnownColors.FromKnownColor(str.Substring(idx, length)); 
+            color = KnownColors.FromKnownColor(str.Substring(idx, length));
             return color.A > 0;
         }
 
@@ -311,7 +311,7 @@ namespace LayoutFarm.HtmlBoxes
                 startIdx++;
             while (char.IsDigit(str, startIdx + len))
                 len++;
-            var val = ParseInt(str, startIdx, len);
+            int val = ParseInt(str, startIdx, len);
             startIdx = startIdx + len + 1;
             return val;
         }
