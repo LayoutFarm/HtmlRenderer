@@ -1106,14 +1106,14 @@ namespace LayoutFarm.HtmlBoxes
         {
             //block formatting context.... 
             lay.PushContaingBlock(box);
-            var currentLevelLatestSibling = lay.LatestSiblingBox;
+            CssBox currentLevelLatestSibling = lay.LatestSiblingBox;
             lay.LatestSiblingBox = null;//reset 
             //------------------------------------------  
-            var children = CssBox.UnsafeGetChildren(box);
+            CssBoxCollection children = CssBox.UnsafeGetChildren(box);
             var cnode = children.GetFirstLinkedNode();
             while (cnode != null)
             {
-                var childBox = cnode.Value;
+                CssBox childBox = cnode.Value;
                 //----------------------------
                 if (childBox.IsBrElement)
                 {
