@@ -98,7 +98,7 @@ namespace LayoutFarm.HtmlBoxes
             if (box != null)
             {
                 float box_fontsize = box.ResolvedFont.SizeInPixels;
-                var ifonts = lay.SampleIFonts;
+                ITextService ifonts = lay.SampleIFonts;
                 foreach (var childBox in box.GetChildBoxIter())
                 {
                     childBox.ReEvaluateFont(ifonts, box_fontsize);
@@ -120,7 +120,7 @@ namespace LayoutFarm.HtmlBoxes
             CssBox headerBox = null;
             CssBox footerBox = null;
             CssBox caption = null;
-            foreach (var box in _tableBox.GetChildBoxIter())
+            foreach (CssBox box in _tableBox.GetChildBoxIter())
             {
                 switch (box.CssDisplay)
                 {
@@ -213,12 +213,12 @@ namespace LayoutFarm.HtmlBoxes
             {
                 int rIndex = 0;
                 int bodyRowCount = bodyrows.Count;
-                var ifonts = _tmpIFonts;
+                ITextService ifonts = _tmpIFonts;
                 foreach (CssBox row in bodyrows)
                 {
                     //'row' loop 
                     int grid_index = 0;
-                    var cnode = row.GetFirstChild();
+                    CssBox cnode = row.GetFirstChild();
                     int c = 0;
                     while (cnode != null)
                     {
@@ -321,14 +321,14 @@ namespace LayoutFarm.HtmlBoxes
                 //mode 2:  anonymous column definitions, 
 
                 // Fill ColumnWidths array by scanning width in table-cell definitions
-                var tmpRows = this._allRowBoxes;
+                List<CssBox> tmpRows = this._allRowBoxes;
                 int rowCount = tmpRows.Count;
                 for (int rr = 0; rr < rowCount; ++rr)
                 {
                     CssBox row = tmpRows[rr];
                     //Check for column width in table-cell definitions
                     int col_limit = columnCount > MAX_COL_AT_THIS_VERSION ? MAX_COL_AT_THIS_VERSION : columnCount;
-                    var cnode = row.GetFirstChild();
+                    CssBox cnode = row.GetFirstChild();
                     int i = 0;
                     while (cnode != null)
                     {
@@ -336,7 +336,7 @@ namespace LayoutFarm.HtmlBoxes
                         {
                             if (i < row.ChildCount)
                             {
-                                var childBox = cnode;
+                                CssBox childBox = cnode;
                                 if (childBox.CssDisplay == CssDisplay.TableCell)
                                 {
                                     CssLength cellWidth = childBox.Width;
@@ -619,8 +619,8 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         void S7_EnforceMaximumSize()
         {
-            var widthSum = CalculateWidthSum();
-            var availableW = this.GetAvailableTableWidth();
+            float widthSum = CalculateWidthSum();
+            float availableW = this.GetAvailableTableWidth();
             if (widthSum > this.GetAvailableTableWidth())
             {
                 //try reduce...
@@ -666,7 +666,7 @@ namespace LayoutFarm.HtmlBoxes
                             float largeWidth = 0f, secLargeWidth = 0f;
                             for (int i = 0; i < colCount; i++)
                             {
-                                var col = this.columnCollection[i];
+                                TableColumn col = this.columnCollection[i];
                                 if (col.Width > largeWidth + 0.1)
                                 {
                                     secLargeWidth = largeWidth;
@@ -686,7 +686,7 @@ namespace LayoutFarm.HtmlBoxes
                             }
                             for (int i = 0; i < colCount; i++)
                             {
-                                var col = this.columnCollection[i];
+                                TableColumn col = this.columnCollection[i];
                                 if (col.Width > largeWidth - 0.1)
                                 {
                                     col.AddMoreWidthValue(-decrease, ColumnSpecificWidthLevel.Adjust);
@@ -708,7 +708,7 @@ namespace LayoutFarm.HtmlBoxes
                             int nonMaxedColumns = 0;
                             for (int i = 0; i < colCount; i++)
                             {
-                                var col = columnCollection[i];
+                                TableColumn col = columnCollection[i];
                                 if (col.Width + 1 < col.MaxContentWidth)
                                 {
                                     nonMaxedColumns++;
@@ -723,7 +723,7 @@ namespace LayoutFarm.HtmlBoxes
                             float minIncrement = (maxWidth - widthSum) / nonMaxedColumns;
                             for (int i = 0; i < colCount; i++)
                             {
-                                var col = columnCollection[i];
+                                TableColumn col = columnCollection[i];
                                 if (col.Width + 0.1 < col.MaxContentWidth)
                                 {
                                     minIncrement = Math.Min(minIncrement, col.MaxContentWidth - col.Width);
@@ -733,7 +733,7 @@ namespace LayoutFarm.HtmlBoxes
 
                             for (int i = 0; i < colCount; i++)
                             {
-                                var col = columnCollection[i];
+                                TableColumn col = columnCollection[i];
                                 if (!hit || col.Width + 1 < col.MaxContentWidth)
                                 {
                                     col.AddMoreWidthValue(minIncrement, ColumnSpecificWidthLevel.Adjust);
@@ -802,7 +802,7 @@ namespace LayoutFarm.HtmlBoxes
             int col_count = this.columnCollection.Count;
             for (int i = 0; i < _allRowBoxes.Count; i++)
             {
-                var row = _allRowBoxes[i];
+                CssBox row = _allRowBoxes[i];
                 float curX_local = startx_local;//reset
                 int col_index = 0;
                 int grid_index = 0;
@@ -903,7 +903,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             int count = 0;
             int columns = 0;
-            foreach (var box in tableBox.GetChildBoxIter())
+            foreach (CssBox box in tableBox.GetChildBoxIter())
             {
                 switch (box.CssDisplay)
                 {
@@ -967,7 +967,7 @@ namespace LayoutFarm.HtmlBoxes
                 //more than our threshold
                 if (cell.LineBoxCount > 0)
                 {
-                    var linebox = cell.GetFirstLineBox();
+                    CssLineBox linebox = cell.GetFirstLineBox();
                     while (linebox != null)
                     {
                         linebox.OffsetTop(dist);
@@ -987,7 +987,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             int colcount = 0;
             int cellCount = curRow.ChildCount;
-            var cnode = curRow.GetFirstChild();
+            CssBox cnode = curRow.GetFirstChild();
             int n = 0;
             while (cnode != null)
             {
@@ -1049,7 +1049,7 @@ namespace LayoutFarm.HtmlBoxes
         /// </remarks>
         private float GetMaxTableWidth()
         {
-            var tblen = _tableBox.MaxWidth;
+            float tblen = _tableBox.MaxWidth;
             if (tblen.Number > 0)
             {
                 return CssValueParser.ConvertToPx(_tableBox.MaxWidth, _tableBox.ParentBox.GetClientWidth(), _tableBox);
@@ -1073,7 +1073,7 @@ namespace LayoutFarm.HtmlBoxes
             int col_count = this.columnCollection.Count;
             if (s4_onlyNonCalculated)
             {
-                var ifonts = _tmpIFonts;
+                ITextService ifonts = _tmpIFonts;
                 foreach (CssBox row in _allRowBoxes)
                 {
                     int gridIndex = 0;
@@ -1112,7 +1112,7 @@ namespace LayoutFarm.HtmlBoxes
             }
             else
             {
-                var ifonts = _tmpIFonts;
+                ITextService ifonts = _tmpIFonts;
                 foreach (CssBox row in _allRowBoxes)
                 {
                     int gridIndex = 0;

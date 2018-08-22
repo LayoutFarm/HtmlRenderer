@@ -8,7 +8,11 @@ namespace LayoutFarm.HtmlBoxes
 {
     partial class CssBox
     {
-        
+
+        Rectangle GetVisualRectBounds()
+        {
+            return new Rectangle((int)this.LocalX, (int)this.LocalY, (int)this.VisualWidth, (int)this.VisualHeight);
+        }
         public void InvalidateGraphics()
         {
             //bubble invalidate area to to parent?
@@ -17,10 +21,24 @@ namespace LayoutFarm.HtmlBoxes
             if (this.justBlockRun != null)
             {
 
-                Rectangle clientArea = new Rectangle((int)this.LocalX, (int)this.LocalY, (int)this.VisualWidth, (int)this.VisualHeight);
+                Rectangle clientArea = this.GetVisualRectBounds();
+
+#if DEBUG
+                if (this._viewportY != 0)
+                {
+                    //TODO review here again***
+                    //clientArea.Offset(0, -_viewportY);
+                    //clientArea.Intersect(justBlockRun.HostLine.OwnerBox.GetVisualRectBounds());
+                    ////#if DEBUG
+                    ////                    Console.WriteLine(this.__aa_dbugId + ":i2_" + _viewportY.ToString());
+                    ////#endif
+                }
+#endif
+
                 clientArea.Offset(
                   (int)(justBlockRun.Left),
                   (int)(justBlockRun.Top + justBlockRun.HostLine.CachedLineTop));
+
                 justBlockRun.HostLine.OwnerBox.InvalidateGraphics(clientArea);
 
                 return;
@@ -29,11 +47,21 @@ namespace LayoutFarm.HtmlBoxes
             CssBox parentBox = _absLayerOwner ?? this.ParentBox;
             if (parentBox != null)
             {
-                parentBox.InvalidateGraphics(new Rectangle(
-                    (int)this.LocalX,
-                    (int)this.LocalY,
-                    (int)this.VisualWidth,
-                    (int)this.VisualHeight));
+                Rectangle clientArea = this.GetVisualRectBounds();
+#if DEBUG
+                if (this._viewportY != 0)
+                {
+                    ////TODO review here again***
+                    //clientArea = new Rectangle(0, 0, (int)parentBox.VisualWidth, (int)parentBox.VisualHeight);
+                    ////clientArea.Offset(0, -_viewportY);
+                    ////clientArea.Intersect(parentBox.GetVisualRectBounds());
+                    ////#if DEBUG
+                    ////                    Console.WriteLine(this.__aa_dbugId + ":i2_" + _viewportY.ToString());
+                    ////#endif
+                }
+#endif
+
+                parentBox.InvalidateGraphics(clientArea);
             }
         }
 
@@ -44,6 +72,12 @@ namespace LayoutFarm.HtmlBoxes
             //adjust to 
             //adjust client area 
 
+            if (this._viewportY != 0)
+            {
+#if DEBUG
+                Console.WriteLine(this.__aa_dbugId + ":i1_" + _viewportY.ToString());
+#endif
+            }
             if (this.justBlockRun != null)
             {
 
@@ -126,11 +160,11 @@ namespace LayoutFarm.HtmlBoxes
 
 #endif
             //if (this.dbugMark2 == 10 || this.dbugMark2 == 12)
-            //{
-
+            //{ 
             //}
 
             Css.CssDisplay display = this.CssDisplay;
+            //
             if (display == Css.CssDisplay.TableCell &&
                 this.EmptyCells == Css.CssEmptyCell.Hide &&
                 this.IsSpaceOrEmpty)
@@ -383,7 +417,7 @@ namespace LayoutFarm.HtmlBoxes
             else if (degreeAngle < 90)
             {
                 startPoint = new PointF(rect.Left, rect.Bottom);
-                var angleRad = PixelFarm.CpuBlit.AggMath.deg2rad(degreeAngle);
+                double angleRad = PixelFarm.CpuBlit.AggMath.deg2rad(degreeAngle);
 
                 stopPoint = new PointF(
                    rect.Left + (float)(Math.Cos(angleRad) * radius),
@@ -398,8 +432,8 @@ namespace LayoutFarm.HtmlBoxes
             {
 
                 startPoint = new PointF(rect.Right, rect.Bottom);
-                var angleRad = PixelFarm.CpuBlit.AggMath.deg2rad(degreeAngle);
-                var pos = (float)(Math.Cos(angleRad) * radius);
+                double angleRad = PixelFarm.CpuBlit.AggMath.deg2rad(degreeAngle);
+                float pos = (float)(Math.Cos(angleRad) * radius);
                 stopPoint = new PointF(
                    rect.Right + (float)(Math.Cos(angleRad) * radius),
                    rect.Bottom - (float)(Math.Sin(angleRad) * radius));
@@ -412,7 +446,7 @@ namespace LayoutFarm.HtmlBoxes
             else if (degreeAngle < 270)
             {
                 startPoint = new PointF(rect.Right, rect.Top);
-                var angleRad = PixelFarm.CpuBlit.AggMath.deg2rad(degreeAngle);
+                double angleRad = PixelFarm.CpuBlit.AggMath.deg2rad(degreeAngle);
                 stopPoint = new PointF(
                    rect.Right - (float)(Math.Cos(angleRad) * radius),
                    rect.Top + (float)(Math.Sin(angleRad) * radius));
@@ -425,7 +459,7 @@ namespace LayoutFarm.HtmlBoxes
             else if (degreeAngle < 360)
             {
                 startPoint = new PointF(rect.Left, rect.Top);
-                var angleRad = PixelFarm.CpuBlit.AggMath.deg2rad(degreeAngle);
+                double angleRad = PixelFarm.CpuBlit.AggMath.deg2rad(degreeAngle);
                 stopPoint = new PointF(
                    rect.Left + (float)(Math.Cos(angleRad) * radius),
                    rect.Top + (float)(Math.Sin(angleRad) * radius));
@@ -519,7 +553,7 @@ namespace LayoutFarm.HtmlBoxes
 
                 if (isFirst)
                 {
-                    var bgImageBinder = this.BackgroundImageBinder;
+                    ImageBinder bgImageBinder = this.BackgroundImageBinder;
                     if (bgImageBinder != null && bgImageBinder.Image != null)
                     {
                         BackgroundImagePaintHelper.DrawBackgroundImage(g, this, bgImageBinder, rect);
@@ -567,7 +601,7 @@ namespace LayoutFarm.HtmlBoxes
                 x2 -= ActualPaddingRight + ActualBorderRightWidth;
             }
 
-            var prevColor = g.StrokeColor;
+            Color prevColor = g.StrokeColor;
             g.StrokeColor = ActualColor;
             g.DrawLine(x1, y, x2, y);
             g.StrokeColor = prevColor;

@@ -11,7 +11,7 @@ namespace LayoutFarm
         {
             ////==================================================
             //html box
-            var htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(host, null, null);
+            HtmlBoxes.HtmlHost htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(host, null, null);
             var htmlBox = new HtmlBox(htmlHost, 800, 400);
             StringBuilder stbuilder = new StringBuilder();
             stbuilder.Append("<html><head></head><body>");

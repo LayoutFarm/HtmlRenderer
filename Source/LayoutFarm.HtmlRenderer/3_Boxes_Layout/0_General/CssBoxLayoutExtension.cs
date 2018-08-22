@@ -33,13 +33,13 @@ namespace LayoutFarm.HtmlBoxes
             //calculate inner content height
             if (startBox.LineBoxCount > 0)
             {
-                var lastLine = startBox.GetLastLineBox();
+                CssLineBox lastLine = startBox.GetLastLineBox();
                 return lastLine.CachedLineBottom;
             }
             else
             {
                 float maxBottom = 0;
-                foreach (var childBox in startBox.GetChildBoxIter())
+                foreach (CssBox childBox in startBox.GetChildBoxIter())
                 {
                     float top = childBox.LocalY;
                     float contentH = CalculateInnerContentHeight(childBox);

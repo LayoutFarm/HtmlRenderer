@@ -19,7 +19,7 @@ namespace LayoutFarm
             var contentMx = new LayoutFarm.ContentManagers.ImageContentManager();
             contentMx.ImageLoadingRequest += contentMx_ImageLoadingRequest;
 
-            var htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(host,
+            HtmlBoxes.HtmlHost htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(host,
                 (s, e) => contentMx.AddRequestImage(e.ImageBinder),
                 contentMx_LoadStyleSheet);
             htmlBox = new HtmlBox(htmlHost, 1024, 800);
@@ -32,7 +32,7 @@ namespace LayoutFarm
 
             htmlBox.LoadHtmlString(htmltext);
         }
-       
+
         void contentMx_ImageLoadingRequest(object sender, LayoutFarm.ContentManagers.ImageRequestEventArgs e)
         {
             //load resource -- sync or async? 

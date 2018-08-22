@@ -181,7 +181,7 @@ namespace LayoutFarm.HtmlBoxes
             Color leftColor = box.BorderLeftColor;
             Color rightColor = box.BorderRightColor;
             Color bottomColor = box.BorderBottomColor;
-            var g = this.InnerCanvas;
+            DrawBoard g = this.InnerCanvas;
             // var b1 = RenderUtils.GetSolidBrush(topColor);
             BorderPaintHelper.DrawBorder(CssSide.Top, borderPoints, g, box, topColor, rect);
             // var b2 = RenderUtils.GetSolidBrush(leftColor);
