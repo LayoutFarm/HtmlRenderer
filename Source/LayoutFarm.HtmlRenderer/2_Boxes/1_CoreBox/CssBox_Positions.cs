@@ -415,6 +415,7 @@ namespace LayoutFarm.HtmlBoxes
         void dbugBeforeSetHeight(float height)
         {
         }
+
 #endif
         /// <summary>
         /// set box width related to its boxsizing model  and recalcualte visual width 
@@ -426,6 +427,14 @@ namespace LayoutFarm.HtmlBoxes
             //depend on box-sizing model  ***
 
 #if DEBUG
+            //if (this.__aa_dbugId == 3)
+            //{
+
+            //}
+            //if (width > 310)
+            //{
+
+            //}
             dbugBeforeSetWidth(width);
 #endif
             this._cssBoxWidth = width;
@@ -446,15 +455,22 @@ namespace LayoutFarm.HtmlBoxes
 #if DEBUG
             dbugBeforeSetWidth(containerClientWidth);
 
-            if (this.LocalX > 0)
-            {
+            //if (this.LocalX > 0)
+            //{
 
-            }
+            //}
 #endif
             this._visualWidth = containerClientWidth;
             this._cssBoxWidth = containerClientWidth - (
                        this.ActualPaddingLeft + this.ActualPaddingRight +
                        this.ActualBorderLeftWidth + this.ActualBorderRightWidth);//not include margin
+#if DEBUG
+            //if (_cssBoxWidth > 380 || _visualWidth > 380)
+            //{
+
+            //}
+#endif
+
         }
         internal void SetCssBoxHeight(float height)
         {
@@ -482,6 +498,15 @@ namespace LayoutFarm.HtmlBoxes
         {
 #if DEBUG
             dbugBeforeSetWidth(width);
+
+            //if (this.__aa_dbugId == 3)
+            //{
+
+            //}
+            //if (width > 310)
+            //{
+
+            //}
 #endif
             if (!this.FreezeWidth)
             {
@@ -508,9 +533,12 @@ namespace LayoutFarm.HtmlBoxes
         {
 #if DEBUG
             dbugBeforeSetWidth(width);
-#endif
-#if DEBUG
             dbugBeforeSetHeight(height);
+
+            //if (width > 310)
+            //{
+
+            //}
 #endif
             if (!this.FreezeWidth)
             {
