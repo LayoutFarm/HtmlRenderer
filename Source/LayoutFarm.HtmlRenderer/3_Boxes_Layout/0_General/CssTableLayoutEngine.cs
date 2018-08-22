@@ -1049,7 +1049,7 @@ namespace LayoutFarm.HtmlBoxes
         /// </remarks>
         private float GetMaxTableWidth()
         {
-            float tblen = _tableBox.MaxWidth;
+            CssLength tblen = _tableBox.MaxWidth;
             if (tblen.Number > 0)
             {
                 return CssValueParser.ConvertToPx(_tableBox.MaxWidth, _tableBox.ParentBox.GetClientWidth(), _tableBox);
