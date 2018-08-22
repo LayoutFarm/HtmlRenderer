@@ -36,17 +36,16 @@ namespace LayoutFarm.Composers
             }
             else
             {
-                RenderElement re;
-                object controller;
-                lazyCreator(parentCssBox.GetInternalRootGfx(), out re, out controller);
-                CssBox wrapper = CustomCssBoxGenerator.CreateWrapper(controller, re, this.Spec, false);
+
+                lazyCreator(parentCssBox.GetInternalRootGfx(), out RenderElement re, out object controller);
+                CssBox wrapper = CustomCssBoxGenerator.CreateWrapper(((HtmlDocument)this.OwnerDocument).Host, controller, re, this.Spec, false);
                 this.SetPrincipalBox(wrapper);
                 return wrapper;
             }
         }
     }
 
-    
+
 
     sealed class ShadowRootElement : HtmlElement
     {
@@ -56,7 +55,7 @@ namespace LayoutFarm.Composers
         public ShadowRootElement(HtmlDocument owner, int prefix, int localNameIndex)
             : base(owner, prefix, localNameIndex)
         {
-            shadowDoc = new HtmlShadowDocument(owner);
+            shadowDoc = new HtmlShadowDocument(owner.Host, owner);
             shadowDoc.SetDomUpdateHandler(owner.DomUpdateHandler);
         }
         internal override bool HasCustomPrincipalBoxGenerator

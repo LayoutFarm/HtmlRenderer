@@ -74,7 +74,7 @@ namespace LayoutFarm.Demo
         /// </summary>
         WebDom.CssActiveSheet _baseCssData;
         Timer timer01 = new Timer();
-        LayoutFarm.HtmlBoxes.LayoutVisitor htmlLayoutVisitor;
+        //
         PixelFarm.Drawing.DrawBoard renderCanvas;
 
 
@@ -119,10 +119,7 @@ namespace LayoutFarm.Demo
                 myHtmlContainer_NeedUpdateDom,
                 OnRefresh,
                 null);
-            //------------------------------------------------------- 
-            htmlLayoutVisitor = new LayoutVisitor(htmlhost.GetTextService());
-            htmlLayoutVisitor.Bind(htmlContainer);
-            //------------------------------------------------------- 
+
             timer01.Interval = 20;//20ms?
             timer01.Tick += (s, e) =>
             {
@@ -153,7 +150,10 @@ namespace LayoutFarm.Demo
         void myHtmlContainer_NeedUpdateDom(object sender, EventArgs e)
         {
             this.htmlhost.GetRenderTreeBuilder().RefreshCssTree(this.currentDoc.RootNode);
-            this.htmlContainer.PerformLayout(this.htmlLayoutVisitor);
+
+            LayoutFarm.HtmlBoxes.LayoutVisitor htmlLayoutVisitor = htmlhost.GetSharedHtmlLayoutVisitor(htmlContainer);
+            this.htmlContainer.PerformLayout(htmlLayoutVisitor);
+            htmlhost.ReleaseHtmlLayoutVisitor(htmlLayoutVisitor);
         }
 
 
@@ -271,6 +271,7 @@ namespace LayoutFarm.Demo
             //-----------------------------------------------------------------
             var htmldoc = this.currentDoc =
                 LayoutFarm.Composers.WebDocumentParser.ParseDocument(
+                    htmlhost,
                     new WebDom.Parser.TextSource(html.ToCharArray()));
             //build rootbox from htmldoc
             var rootBox = this.htmlhost.GetRenderTreeBuilder().BuildCssRenderTree(htmldoc,
@@ -378,7 +379,11 @@ namespace LayoutFarm.Demo
             {
                 //htmlContainer.MaxSize = new PixelFarm.Drawing.SizeF(ClientSize.Width, 0);
                 htmlContainer.SetMaxSize(ClientSize.Width, 0);
-                htmlContainer.PerformLayout(this.htmlLayoutVisitor);
+                 
+                LayoutFarm.HtmlBoxes.LayoutVisitor htmlLayoutVisitor = htmlhost.GetSharedHtmlLayoutVisitor(htmlContainer);
+                this.htmlContainer.PerformLayout(htmlLayoutVisitor);
+                htmlhost.ReleaseHtmlLayoutVisitor(htmlLayoutVisitor);
+
                 var asize = htmlContainer.ActualSize;
                 AutoScrollMinSize = Size.Round(new SizeF(asize.Width, asize.Height));
             }

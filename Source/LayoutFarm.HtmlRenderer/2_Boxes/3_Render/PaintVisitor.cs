@@ -16,6 +16,7 @@ namespace LayoutFarm.HtmlBoxes
         MultiLayerStack<CssBox> latePaintStack = new MultiLayerStack<CssBox>();
         float viewportWidth;
         float viewportHeight;
+        Color _cssBoxSelectionColor = Color.LightGray;
         public PaintVisitor()
         {
         }
@@ -24,6 +25,8 @@ namespace LayoutFarm.HtmlBoxes
             this.htmlContainer = htmlCont;
             this.canvas = canvas;
         }
+
+        public Color CssBoxSelectionColor { get { return _cssBoxSelectionColor; } }
 
         public void UnBind()
         {
@@ -121,7 +124,9 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         /// <param name="binder"></param>
         /// <param name="requestFrom"></param>
-        public void RequestImageAsync(ImageBinder binder, CssImageRun imgRun, object requestFrom)
+        public void RequestImageAsync(ImageBinder binder,
+            CssImageRun imgRun,
+            object requestFrom)
         {
             if (htmlContainer != null)
             {
@@ -148,15 +153,7 @@ namespace LayoutFarm.HtmlBoxes
                 }
             }
         }
-        //internal void RequestImage(ImageBinder binder, CssBox requestFrom, ReadyStateChangedHandler handler)
-        //{
-        //    HtmlRenderer.HtmlContainer.RaiseRequestImage(
-        //           this.container,
-        //           binder,
-        //           requestFrom,
-        //           false);
-        //}
-        //=========================================================
+
 
         public int CanvasOriginX
         {
@@ -184,7 +181,7 @@ namespace LayoutFarm.HtmlBoxes
             Color leftColor = box.BorderLeftColor;
             Color rightColor = box.BorderRightColor;
             Color bottomColor = box.BorderBottomColor;
-            var g = this.InnerCanvas;
+            DrawBoard g = this.InnerCanvas;
             // var b1 = RenderUtils.GetSolidBrush(topColor);
             BorderPaintHelper.DrawBorder(CssSide.Top, borderPoints, g, box, topColor, rect);
             // var b2 = RenderUtils.GetSolidBrush(leftColor);
@@ -230,7 +227,7 @@ namespace LayoutFarm.HtmlBoxes
         /// <summary>
         /// turn on/off wire frame
         /// </summary>
-        public static bool dbugDrawWireFrame = false;
+        public static bool dbugDrawWireFrame = true;
         public void dbugDrawDiagonalBox(Color color, float x1, float y1, float x2, float y2)
         {
             if (!dbugDrawWireFrame)
@@ -314,7 +311,7 @@ namespace LayoutFarm.HtmlBoxes
         }
 #if DEBUG
 
-       
+
 
         int dbugIndentLevel;
         internal bool dbugEnableLogRecord;

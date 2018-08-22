@@ -56,7 +56,7 @@ namespace LayoutFarm.HtmlBoxes
         /// <summary>
         /// absolute position layer
         /// </summary>
-        CssBoxCollection _absPosLayer;
+        CssBoxAbsoluteLayer _absPosLayer;
         CssBlockRun justBlockRun;
         //----------------------------------------------------   
         //only in condition 3
@@ -65,6 +65,9 @@ namespace LayoutFarm.HtmlBoxes
         CssBoxDecorator decorator;
         bool mayHasViewport;
         bool isOutOfFlowBox;
+
+        CssBox _absLayerOwner;
+
         internal bool IsOutOfFlowBox
         {
             get { return this.isOutOfFlowBox; }
@@ -96,13 +99,32 @@ namespace LayoutFarm.HtmlBoxes
         {
             return this._aa_boxes.GetChildBoxIter();
         }
+        public IEnumerable<CssBox> GetChildBoxBackwardIter()
+        {
+            return this._aa_boxes.GetChildBoxBackwardIter();
+        }
         public IEnumerable<CssBox> GetAbsoluteChildBoxIter()
         {
-            return this._absPosLayer.GetChildBoxIter();
+            if (_absPosLayer != null)
+            {
+                int j = _absPosLayer.Count;
+                for (int i = 0; i < j; ++i)
+                {
+                    yield return _absPosLayer.GetBox(i);
+                }
+            }
+
         }
         public IEnumerable<CssBox> GetAbsoluteChildBoxBackwardIter()
         {
-            return this._absPosLayer.GetChildBoxBackwardIter();
+            if (_absPosLayer != null)
+            {
+                int j = _absPosLayer.Count;
+                for (int i = _absPosLayer.Count - 1; i >= 0; --i)
+                {
+                    yield return _absPosLayer.GetBox(i);
+                }
+            }
         }
         internal CssBox GetNextNode()
         {
@@ -124,7 +146,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             if (this._aa_contentRuns != null)
             {
-                var tmpRuns = this._aa_contentRuns;
+                List<CssRun> tmpRuns = this._aa_contentRuns;
                 int j = tmpRuns.Count;
                 for (int i = 0; i < j; ++i)
                 {
@@ -154,8 +176,8 @@ namespace LayoutFarm.HtmlBoxes
                 case Css.CssPosition.Fixed:
                 case Css.CssPosition.Relative:
                     {
+                        //TODO: review here again
                         this._absPosLayer.Remove(box);
-                        //this._absLayer2.Remove(box);
                     }
                     break;
                 default:
@@ -166,8 +188,22 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
 
+#if DEBUG
+        public bool dbug_hasParent;
+#endif
         public void AppendChild(CssBox box)
         {
+#if DEBUG
+            if (box.dbug_hasParent)
+            {
+
+            }
+            else
+            {
+
+            }
+            dbug_hasParent = true;
+#endif
             switch (box.Position)
             {
                 case Css.CssPosition.Absolute:
@@ -180,7 +216,7 @@ namespace LayoutFarm.HtmlBoxes
                         //absolute position box is removed from the normal flow entirely
                         //(it has no impact on later sibling)
 
-                        var ancester = FindContainerForAbsoluteBox();
+                        CssBox ancester = FindContainerForAbsoluteBox();
                         if (box.ParentBox != null)
                         {
                             if (box.ParentBox != ancester)
@@ -205,7 +241,7 @@ namespace LayoutFarm.HtmlBoxes
 
                         //removed from the normal flow entirely***
 
-                        var ancester = FindContainerForFixedBox();
+                        CssBox ancester = FindContainerForFixedBox();
                         if (box.ParentBox != null)
                         {
                             if (box.ParentBox != ancester)
@@ -227,7 +263,7 @@ namespace LayoutFarm.HtmlBoxes
                         //a box is explicitly centerer with respect to its containing box
                         //removed from the normal flow entirely***
                         //TODO: err, revise here again
-                        var ancester = FindContainerForCenteredBox();
+                        CssBox ancester = FindContainerForCenteredBox();
                         if (box.ParentBox != null)
                         {
                             if (box.ParentBox != ancester)
@@ -321,26 +357,21 @@ namespace LayoutFarm.HtmlBoxes
             //find proper ancestor node for absolute position 
             if (this._absPosLayer == null)
             {
-                this._absPosLayer = new CssBoxCollection();
+                this._absPosLayer = new CssBoxAbsoluteLayer();
             }
+            box._absLayerOwner = this;
+
             if (box.ParentBox != null)
             {
-                box.ParentBox.RemoveChild(box);
+
+                //box.ParentBox.RemoveChild(box);
             }
-
-            this._absPosLayer.AddChild(this, box);
-            //if (this._absLayer2 == null)
-            //{
-            //    this._absLayer2 = new List<CssBox>();
-            //}
-            //TODO: fix here again 
-            //if (!_absLayer2.Contains(box))
-            //{
-            //    this._absLayer2.Add(box);
-            //}
-
+            this._absPosLayer.AddChild(box);
         }
-
+        internal bool IsAddedToAbsLayer
+        {
+            get { return _absLayerOwner != null; }
+        }
         //-------------------------------------
         internal void ResetLineBoxes()
         {

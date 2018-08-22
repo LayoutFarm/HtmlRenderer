@@ -1,107 +1,115 @@
 ﻿//Apache2, 2014-present, WinterDev
 
 using System;
-using LayoutFarm.CustomWidgets;
 using LayoutFarm.WebDom;
 using LayoutFarm.WebDom.Extension;
 namespace LayoutFarm.HtmlWidgets
 {
-    public class CheckBox : HtmlWidgetBase
+    public class ChoiceBox : HtmlWidgetBase
     {
+        string buttonText = "";
         DomElement pnode;
-        bool isChecked;
-        string checkBoxText = "";
-        public event EventHandler WhenChecked;
-        public CheckBox(int w, int h)
+        bool _checked;
+        DomElement imgNode;
+
+        public event EventHandler<EventArgs> CheckValueAssigned;
+
+        public ChoiceBox(int w, int h)
             : base(w, h)
         {
         }
         //---------------------------------------------------------------------------
-        public string Text
-        {
-            get { return this.checkBoxText; }
-            set
-            {
-                this.checkBoxText = value;
-            }
-        }
         public bool Checked
         {
-            get { return this.isChecked; }
+            get { return _checked; }
             set
             {
-                if (value != this.isChecked)
+                _checked = value;
+                if (CheckValueAssigned != null)
                 {
-                    this.isChecked = value;
-                    //check check image too!
-                    ImageBinder imgBinder = null;
-                    if (this.isChecked)
+                    CheckValueAssigned(this, EventArgs.Empty);
+                }
+
+                if (imgNode != null)
+                {
+                    if (value)
                     {
-                        imgBinder = ResImageList.GetImageBinder(ImageName.CheckBoxChecked);
+                        imgNode.SetAttribute("src", OnlyOne ? "opt_checked.png" : "chk_checked.png");
                     }
                     else
                     {
-                        imgBinder = ResImageList.GetImageBinder(ImageName.CheckBoxUnChecked);
+                        imgNode.SetAttribute("src", OnlyOne ? "opt_unchecked.png" : "chk_unchecked.png");
                     }
-
-                    if (value && this.WhenChecked != null)
-                    {
-                        this.WhenChecked(this, EventArgs.Empty);
-                    }
-                }
+                }               
+            }
+        }
+        public string Text
+        {
+            get { return this.buttonText; }
+            set
+            {
+                this.buttonText = value;
             }
         }
 
+        public bool OnlyOne
+        {
+            get;
+            set;
+        }
         public override DomElement GetPresentationDomNode(WebDom.Impl.HtmlDocument htmldoc)
         {
-            //TODO: use template engine, 
-            //ideas:  AngularJS style ?
-
-            //1. create body node             
-            // and content   
-            //style 2, lambda and adhoc attach event  
             if (pnode != null) return pnode;
-            //---------------------------------------------------
+            //----------------------------------
             pnode = htmldoc.CreateElement("div");
-            pnode.AddChild("img", img =>
+            pnode.SetAttribute("style", "display:inline-block;width:" + Width + "px;height:" + this.Height + "px;cursor:pointer");
+            pnode.AddChild("div", div2 =>
             {
-                //init 
-                bool is_close = true;
-                img.SetAttribute("src", "../Test3_MixHtml/Demo/arrow_close.png");
-                img.AttachMouseDownEvent(e =>
+                //init
+                div2.SetAttribute("style", "background-color:#dddddd;color:black;");
+                imgNode = div2.AddChild("img");
+
+                imgNode.SetAttribute("src", OnlyOne ? "opt_unchecked.png" : "chk_unchecked.png");
+
+                imgNode.AttachMouseDownEvent(e =>
                 {
-                    img.SetAttribute("src", is_close ?
-                        "../Test3_MixHtml/Demo/arrow_open.png" :
-                        "../Test3_MixHtml/Demo/arrow_close.png");
-                    is_close = !is_close;
+
+                    Checked = !Checked; //toggle 
                     e.StopPropagation();
                 });
-            });
-            //pnode.AddChild("img", img =>
-            //{
 
-            //    //change style
-            //    bool is_close = true;
-            //    img.SetAttribute("src", "../../Demo/arrow_close.png");
-            //    //3. attach event to specific span 
-            //    img.AttachMouseDownEvent(e =>
-            //    {
-            //        img.SetAttribute("src", is_close ?
-            //            "../../Demo/arrow_open.png" :
-            //            "../../Demo/arrow_close.png");
-
-            //        is_close = !is_close;
-            //        e.StopPropagation();
-
-            //        this.InvalidateGraphics();
-            //    });
-
-            //});
-            pnode.AddChild("span", span =>
-            {
-                span.AddTextContent(this.checkBoxText);
+#if DEBUG
+                div2.dbugMark = 10;
+#endif
+                div2.AttachMouseDownEvent(e =>
+                {
+#if DEBUG
+                    //                    div2.dbugMark = 1;
+#endif
+                    // div2.SetAttribute("style", "padding:5px;background-color:#aaaaaa;");
+                    //EaseScriptElement ee = new EaseScriptElement(div2);
+                    //ee.ChangeBackgroundColor(Color.FromArgb(0xaa, 0xaa, 0xaa));
+                    //div2.SetAttribute("style", "padding:5px;background-color:yellow;");
+                    //imgNode.SetAttribute("src", "opt_checked.png");
+                    //imgNode.SetAttribute("src", "chk_unchecked.png");
+                    e.StopPropagation();
+                });
+                div2.AttachMouseUpEvent(e =>
+                {
+#if DEBUG
+                    //                    div2.dbugMark = 2;
+#endif
+                    //imgNode.SetAttribute("src", "chk_unchecked.png");
+                    //imgNode.SetAttribute("src", "opt_unchecked.png");
+                    //div2.SetAttribute("style", "padding:5px;background-color:#dddddd;");
+                    //                    //EaseScriptElement ee = new EaseScriptElement(div2);
+                    //                    //ee.ChangeBackgroundColor(Color.FromArgb(0xdd, 0xdd, 0xdd));
+                    e.StopPropagation();
+                });
             });
             return pnode;
         }
     }
+
+
 }

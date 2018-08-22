@@ -48,6 +48,7 @@ namespace LayoutFarm.Composers
             //TODO: implement background position from combination value
             throw new NotSupportedException();
         }
+
         static void SetBackgroundPosition(this BoxSpec box, WebDom.CssCodeValueExpression value)
         {
             //TODO: implement background position from combination value
@@ -132,21 +133,42 @@ namespace LayoutFarm.Composers
                 case WellknownCssPropertyName.BoxShadow:
                     SetBoxShadow(spec, decl);
                     break;
-                case WellknownCssPropertyName.CornerRadius:
+                case WellknownCssPropertyName.BorderRadius:
 
                     SetCornerRadius(spec, cssValue);
                     break;
-                case WellknownCssPropertyName.CornerNWRadius:
+                case WellknownCssPropertyName.BorderNWRadius:
                     spec.CornerNWRadius = cssValue.AsLength();
                     break;
-                case WellknownCssPropertyName.CornerNERadius:
+                case WellknownCssPropertyName.BorderNERadius:
                     spec.CornerNERadius = cssValue.AsLength();
                     break;
-                case WellknownCssPropertyName.CornerSERadius:
+                case WellknownCssPropertyName.BorderSERadius:
                     spec.CornerSERadius = cssValue.AsLength();
                     break;
-                case WellknownCssPropertyName.CornerSWRadius:
+                case WellknownCssPropertyName.BorderSWRadius:
                     spec.CornerSWRadius = cssValue.AsLength();
+                    break;
+                case WellknownCssPropertyName.Cursor:
+                    {
+                        string str = cssValue.GetTranslatedStringValue();
+                        switch (str)
+                        {
+                            default: break;
+                            case "hand":
+                            case "pointer":
+                                spec.CursorName = CssCursorName.Hand;
+                                break;
+                            case "arrow":
+                            case "default":
+                                spec.CursorName = CssCursorName.Default;
+                                break;
+                            case "ibeam":
+                                spec.CursorName = CssCursorName.IBeam;
+                                break;
+                        }
+                    }
+
                     break;
                 //------------------------------------------------
                 case WellknownCssPropertyName.MarginBottom:
@@ -495,23 +517,23 @@ namespace LayoutFarm.Composers
                     spec.BorderCollapse = parentSpec.BorderCollapse;
                     break;
                 //------------------------------------------------
-                case WellknownCssPropertyName.CornerRadius:
+                case WellknownCssPropertyName.BorderRadius:
                     spec.CornerNERadius = parentSpec.CornerNERadius;
                     spec.CornerNWRadius = parentSpec.CornerNWRadius;
                     spec.CornerSERadius = parentSpec.CornerSERadius;
                     spec.CornerSWRadius = parentSpec.CornerSWRadius;
                     break;
-                case WellknownCssPropertyName.CornerNWRadius:
+                case WellknownCssPropertyName.BorderNWRadius:
 
                     spec.CornerNWRadius = parentSpec.CornerNWRadius;
                     break;
-                case WellknownCssPropertyName.CornerNERadius:
+                case WellknownCssPropertyName.BorderNERadius:
                     spec.CornerNERadius = parentSpec.CornerNERadius;
                     break;
-                case WellknownCssPropertyName.CornerSERadius:
+                case WellknownCssPropertyName.BorderSERadius:
                     spec.CornerSERadius = parentSpec.CornerSERadius;
                     break;
-                case WellknownCssPropertyName.CornerSWRadius:
+                case WellknownCssPropertyName.BorderSWRadius:
                     spec.CornerSWRadius = parentSpec.CornerSWRadius;
                     break;
                 //------------------------------------------------
@@ -573,9 +595,7 @@ namespace LayoutFarm.Composers
                     spec.BackgroundGradient = parentSpec.BackgroundGradient;
                     break;
                 case WellknownCssPropertyName.BackgroundGradientAngle:
-                    {
-                        spec.BackgroundGradientAngle = parentSpec.BackgroundGradientAngle;
-                    }
+                    spec.BackgroundGradientAngle = parentSpec.BackgroundGradientAngle;
                     break;
                 case WellknownCssPropertyName.Color:
                     spec.Color = parentSpec.Color;

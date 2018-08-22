@@ -7,6 +7,10 @@ namespace LayoutFarm.HtmlBoxes
 {
     public class LayoutVisitor : BoxVisitor
     {
+        //---------
+        //reusable
+        //---------
+
         HtmlContainer htmlContainer;
         float totalMarginLeftAndRight;
         Queue<Dictionary<CssBox, PartialBoxStrip>> dicStripPool;
@@ -17,11 +21,11 @@ namespace LayoutFarm.HtmlBoxes
         static int totalLayoutIdEpisode = 0;
         int episodeId = 1;
         ITextService fontService;
-        public LayoutVisitor(ITextService fontService)
+        internal LayoutVisitor(ITextService fontService)
         {
             this.fontService = fontService;
         }
-        public void Bind(HtmlContainer htmlCont)
+        internal void Bind(HtmlContainer htmlCont)
         {
             this.htmlContainer = htmlCont;
             if (episodeId == ushort.MaxValue - 1)
@@ -31,7 +35,7 @@ namespace LayoutFarm.HtmlBoxes
                 episodeId = totalLayoutIdEpisode++;
             }
         }
-        public void UnBind()
+        internal void UnBind()
         {
             this.htmlContainer = null;
             if (dicStripPool != null) dicStripPool.Clear();
@@ -39,8 +43,11 @@ namespace LayoutFarm.HtmlBoxes
             readyDicStrip.Clear();
             readyListStrip.Clear();
             totalMarginLeftAndRight = 0;
-        }
+            floatingContextStack.Reset();
+            InAbsoluteLayerMode = false;
 
+        }
+        internal bool InAbsoluteLayerMode { get; set; }
         internal ITextService SampleIFonts
         {
             get { return this.fontService; }
@@ -152,7 +159,7 @@ namespace LayoutFarm.HtmlBoxes
         internal float MeasureStringWidth(char[] buffer, int startIndex, int len, RequestFont f)
         {
             TextBufferSpan textSpan = new TextBufferSpan(buffer, startIndex, len);
-            return this.SampleIFonts.MeasureString(ref textSpan, f).Width; 
+            return this.SampleIFonts.MeasureString(ref textSpan, f).Width;
 
         }
         internal Size MeasureStringSize(char[] buffer, int startIndex, int len, RequestFont f)
@@ -251,7 +258,7 @@ namespace LayoutFarm.HtmlBoxes
         int dbugIndentLevel;
         internal bool dbugEnableLogRecord;
         internal List<string> logRecords = new List<string>();
-        public enum PaintVisitorContextName
+        public enum dbugPaintVisitorContextName
         {
             Init
         }
@@ -260,7 +267,7 @@ namespace LayoutFarm.HtmlBoxes
             this.dbugIndentLevel = 0;
             logRecords.Clear();
         }
-        public void dbugEnterNewContext(CssBox box, PaintVisitorContextName contextName)
+        public void dbugEnterNewContext(CssBox box, dbugPaintVisitorContextName contextName)
         {
             if (this.dbugEnableLogRecord)
             {

@@ -28,7 +28,12 @@ namespace LayoutFarm.HtmlBoxes
 
             var renderVxDocBuilder = new SvgRenderVxDocBuilder();
             renderVxDocBuilder.SetContainerSize(containingBlock.VisualWidth, containingBlock.VisualHeight);
-            _renderVx = renderVxDocBuilder.CreateRenderVx(SvgDoc);
+            _renderVx = renderVxDocBuilder.CreateRenderVx(SvgDoc, svgElem =>
+            {
+                _renderVx.SetBitmapSnapshot(null);
+                _renderVx.InvalidateBounds();
+                this.InvalidateGraphics();
+            });
 
 
 
@@ -56,23 +61,20 @@ namespace LayoutFarm.HtmlBoxes
             if (_renderVx.HasBitmapSnapshot)
             {
                 Image backimg = _renderVx.BackingImage;
+
                 drawBoard.DrawImage(backimg, new RectangleF(0, 0, backimg.Width, backimg.Height));
             }
             else
             {
 
                 PixelFarm.CpuBlit.RectD bound = _renderVx.GetBounds();
-
-                //create 
-                PixelFarm.CpuBlit.ActualBitmap backimg = new PixelFarm.CpuBlit.ActualBitmap((int)bound.Width + 200, (int)bound.Height + 200);
+                //create
+                PixelFarm.CpuBlit.ActualBitmap backimg = new PixelFarm.CpuBlit.ActualBitmap((int)bound.Width + 10, (int)bound.Height + 10);
                 PixelFarm.CpuBlit.AggPainter painter = PixelFarm.CpuBlit.AggPainter.Create(backimg);
-
-
                 //TODO: review here
                 //temp fix
                 if (s_openfontTextService == null)
                 {
-
                     s_openfontTextService = new OpenFontTextService();
                 }
 
@@ -85,6 +87,7 @@ namespace LayoutFarm.HtmlBoxes
                 //Color fillColor = painter.FillColor;
                 //painter.StrokeWidth = 1;//default 
                 //painter.FillColor = Color.Black;
+
                 VgPainterArgsPool.GetFreePainterArgs(painter, out VgPaintArgs paintArgs);
                 _renderVx._renderE.Paint(paintArgs);
                 VgPainterArgsPool.ReleasePainterArgs(ref paintArgs);

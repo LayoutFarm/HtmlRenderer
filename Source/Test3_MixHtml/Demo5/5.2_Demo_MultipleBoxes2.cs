@@ -5,7 +5,7 @@ namespace LayoutFarm.WebWidgets
     [DemoNote("5.2 MultpleBox2")]
     class Demo_MultipleBox2 : HtmlDemoBase
     {
-        LayoutFarm.HtmlWidgets.CheckBox currentSingleCheckedBox;
+        LayoutFarm.HtmlWidgets.ChoiceBox currentSingleCheckedBox;
         protected override void OnHtmlHostCreated()
         {
             int boxHeight = 35;
@@ -22,14 +22,14 @@ namespace LayoutFarm.WebWidgets
             int boxY = 70;
             for (int i = 0; i < 2; ++i)
             {
-                var statedBox = new LayoutFarm.HtmlWidgets.CheckBox(100, boxHeight);
+                var statedBox = new LayoutFarm.HtmlWidgets.ChoiceBox(100, boxHeight);
                 statedBox.Text = "chk" + i;
                 statedBox.SetLocation(10, boxY);
                 boxY += boxHeight + 5;
                 AddToViewport(statedBox);
-                statedBox.WhenChecked += (s, e) =>
+                statedBox.CheckValueAssigned += (s, e) =>
                 {
-                    var selectedBox = (LayoutFarm.HtmlWidgets.CheckBox)s;
+                    var selectedBox = (LayoutFarm.HtmlWidgets.ChoiceBox)s;
                     if (selectedBox != currentSingleCheckedBox)
                     {
                         if (currentSingleCheckedBox != null)

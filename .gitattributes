@@ -21,6 +21,6 @@
 *.rtf	 diff=astextplain
 *.RTF	 diff=astextplain
 
-Source/Test8_HtmlRenderer.Demo/* linguist-vendored
+Source/Test8_HtmlRenderer.Demo/Samples/* linguist-vendored
 Source/Deps_HtmlKit/UnitTests/* linguist-vendored
 Source/Deps_HtmlKit/UnitTests_Net20/* linguist-vendored

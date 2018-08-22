@@ -35,6 +35,10 @@ namespace LayoutFarm.Composers
             this.htmlHost = htmlHost;
             this.contentTextSplitter = new HtmlContentTextSplitter();
         }
+        internal HtmlContentTextSplitter ContentTextSplitter
+        {
+            get { return contentTextSplitter; }
+        }
         string RaiseRequestStyleSheet(string hrefSource)
         {
             if (hrefSource == null || RequestStyleSheet == null)
@@ -68,7 +72,7 @@ namespace LayoutFarm.Composers
                     case WebDom.HtmlNodeKind.ShortElement:
                         {
                             HtmlElement htmlElement = (HtmlElement)node;
-                            htmlElement.WellknownElementName = UserMapUtil.EvaluateTagName(htmlElement.LocalName);
+                            htmlElement.WellknownElementName = WellKnownDomNodeMap.EvaluateTagName(htmlElement.LocalName);
                             switch (htmlElement.WellknownElementName)
                             {
                                 case WellKnownDomNodeName.style:
@@ -145,15 +149,7 @@ namespace LayoutFarm.Composers
                         break;
                     case WebDom.HtmlNodeKind.TextNode:
                         {
-                            HtmlTextNode textnode = (HtmlTextNode)node;
-                            //inner content is parsed here 
-
-                            var parentSpec = parentElement.Spec;
-                            char[] originalBuffer = textnode.GetOriginalBuffer();
-                            List<CssRun> runlist = new List<CssRun>();
-                            bool hasSomeCharacter;
-                            contentTextSplitter.ParseWordContent(originalBuffer, parentSpec, isblockContext, runlist, out hasSomeCharacter);
-                            textnode.SetSplitParts(runlist, hasSomeCharacter);
+                            UpdateTextNode(parentElement, (HtmlTextNode)node, isblockContext);
                         }
                         break;
                 }
@@ -161,7 +157,16 @@ namespace LayoutFarm.Composers
                 activeCssTemplate.ExitLevel();
             }
         }
+        internal void UpdateTextNode(HtmlElement parentElement, HtmlTextNode textnode, bool isblockContext)
+        {
 
+            var parentSpec = parentElement.Spec;
+            char[] originalBuffer = textnode.GetOriginalBuffer();
+            List<CssRun> runlist = new List<CssRun>();
+            bool hasSomeCharacter;
+            contentTextSplitter.ParseWordContent(originalBuffer, parentSpec, isblockContext, runlist, out hasSomeCharacter);
+            textnode.SetSplitParts(runlist, hasSomeCharacter);
+        }
         public CssBox BuildCssRenderTree(WebDocument webdoc,
             CssActiveSheet cssActiveSheet,
             RenderElement containerElement)
@@ -180,10 +185,10 @@ namespace LayoutFarm.Composers
             PrepareStylesAndContentOfChildNodes((HtmlElement)htmldoc.RootNode, activeTemplate);
             //----------------------------------------------------------------  
             RootGraphic rootgfx = (containerElement != null) ? containerElement.Root : null;
-            
+
             //TODO: review here, we should create cssbox at  document.body? 
             CssBox bridgeBox = HtmlHost.CreateBridgeBox(htmlHost.GetTextService(), containerElement, rootgfx);
-            ((HtmlElement)htmldoc.RootNode).SetPrincipalBox(bridgeBox);
+            ((HtmlElement)htmldoc.RootNode).SetPrincipalBox(bridgeBox);//set bridgeBox as principal box of root node
             htmlHost.UpdateChildBoxes((HtmlRootElement)htmldoc.RootNode, true);
             htmldoc.SetDocumentState(DocumentState.Idle);
             //----------------------------------------------------------------  
@@ -814,14 +819,14 @@ namespace LayoutFarm.Composers
                                     //ImageBinder imgBinder = null;
                                     if (tag.TryGetAttribute(WellknownName.Src, out imgsrc))
                                     {
-                                        var cssBoxImage1 = HtmlElement.InternalGetPrincipalBox(tag) as CssBoxImage;
-                                        var imgbinder1 = cssBoxImage1.ImageBinder;
+                                        CssBoxImage cssBoxImage1 = HtmlElement.InternalGetPrincipalBox(tag) as CssBoxImage;
+                                        ImageBinder imgbinder1 = cssBoxImage1.ImageBinder;
                                         if (imgbinder1.ImageSource != imgsrc)
                                         {
-                                            var clientImageBinder = new ClientImageBinder(imgsrc);
-                                            imgbinder1 = clientImageBinder;
+                                            //var clientImageBinder = new ClientImageBinder(imgsrc);
+                                            //imgbinder1 = clientImageBinder;
                                             //clientImageBinder.SetOwner(tag);
-                                            cssBoxImage1.ImageBinder = clientImageBinder;
+                                            cssBoxImage1.ImageBinder = new ClientImageBinder(imgsrc);
                                         }
                                     }
                                     else

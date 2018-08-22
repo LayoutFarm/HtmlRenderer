@@ -73,6 +73,9 @@ namespace LayoutFarm.HtmlBoxes
             this._mousedownX = x;
             this._mousedownY = y;
             CssBoxHitChain hitChain = GetFreeHitChain();
+#if DEBUG
+            hitChain.debugEventPhase = CssBoxHitChain.dbugEventPhase.MouseDown;
+#endif
             hitChain.SetRootGlobalPosition(x, y);
             //1. hittest 
             BoxHitUtils.HitTest(startAt, x, y, hitChain);
@@ -121,8 +124,12 @@ namespace LayoutFarm.HtmlBoxes
                 //dragging *** , if changed
                 if (this._mousedownX != x || this._mousedownY != y)
                 {
+
                     //handle mouse drag
                     CssBoxHitChain hitChain = GetFreeHitChain();
+#if DEBUG
+                    hitChain.debugEventPhase = CssBoxHitChain.dbugEventPhase.MouseMove;
+#endif
                     hitChain.SetRootGlobalPosition(x, y);
                     BoxHitUtils.HitTest(startAt, x, y, hitChain);
                     SetEventOrigin(e, hitChain);
@@ -185,6 +192,9 @@ namespace LayoutFarm.HtmlBoxes
                 //mouse move  
                 //---------------------------------------------------------
                 CssBoxHitChain hitChain = GetFreeHitChain();
+#if DEBUG
+                hitChain.debugEventPhase = CssBoxHitChain.dbugEventPhase.MouseMove;
+#endif
                 hitChain.SetRootGlobalPosition(x, y);
                 BoxHitUtils.HitTest(startAt, x, y, hitChain);
                 SetEventOrigin(e, hitChain);
@@ -203,6 +213,54 @@ namespace LayoutFarm.HtmlBoxes
                         e.CurrentContextElement.ListenMouseMove(e);
                         return true;
                     });
+                }
+
+                var cssbox = e.ExactHitObject as HtmlBoxes.CssBox;
+                if (cssbox != null)
+                {
+                    switch (cssbox.CursorName)
+                    {
+                        case Css.CssCursorName.IBeam:
+                            if (e.MouseCursorStyle != MouseCursorStyle.IBeam)
+                            {
+                                e.MouseCursorStyle = MouseCursorStyle.IBeam;
+                            }
+                            break;
+                        case Css.CssCursorName.Hand:
+                        case Css.CssCursorName.Pointer:
+                            if (e.MouseCursorStyle != MouseCursorStyle.Pointer)
+                            {
+                                e.MouseCursorStyle = MouseCursorStyle.Pointer;
+                            }
+                            break;
+                        case Css.CssCursorName.Default:
+                            if (e.MouseCursorStyle != MouseCursorStyle.Default)
+                            {
+                                e.MouseCursorStyle = MouseCursorStyle.Default;
+                            }
+                            break;
+                    }
+                }
+                else
+                {
+                    var cssspan = e.ExactHitObject as HtmlBoxes.CssTextRun;
+                    if (cssspan != null)
+                    {
+                        cssbox = cssspan.OwnerBox;
+                        switch (cssbox.CursorName)
+                        {
+                            default:
+                                e.MouseCursorStyle = MouseCursorStyle.IBeam;
+                                break;
+                            case Css.CssCursorName.Hand:
+                            case Css.CssCursorName.Pointer:
+                                if (e.MouseCursorStyle != MouseCursorStyle.Pointer)
+                                {
+                                    e.MouseCursorStyle = MouseCursorStyle.Pointer;
+                                }
+                                break;
+                        }
+                    }
                 }
                 ReleaseHitChain(hitChain);
             }
@@ -225,6 +283,9 @@ namespace LayoutFarm.HtmlBoxes
             this.lastimeMouseUp = snapMouseUpTime;
             //----------------------------------------- 
             CssBoxHitChain hitChain = GetFreeHitChain();
+#if DEBUG
+            hitChain.debugEventPhase = CssBoxHitChain.dbugEventPhase.MouseUp;
+#endif
             hitChain.SetRootGlobalPosition(e.X, e.Y);
             //1. prob hit chain only 
             BoxHitUtils.HitTest(startAt, e.X, e.Y, hitChain);

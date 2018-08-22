@@ -91,7 +91,40 @@ namespace LayoutFarm.HtmlBoxes
             run._hostline = hostline;
         }
 
+        internal void InvalidateGraphics()
+        {
+            switch (this._runKind)
+            {
+                case CssRunKind.BlockRun:
+                    {
+                        //TODO: review here again
 
+                        CssBlockRun blockRun = (CssBlockRun)this;
+                        CssLineBox ownerLine = blockRun.HostLine;
+                        Rectangle r = new Rectangle(
+                           (int)(this.Left + blockRun.Left),
+                           (int)(this.Top + blockRun.Top + ownerLine.CachedLineTop),
+                           (int)this.Width,
+                           (int)this.Height);
+                        CssBox ownerBox = ownerLine.OwnerBox;
+                        ownerBox.InvalidateGraphics(r);
+                    }
+                    break;
+                default:
+                    //fine owner
+                    {
+                        CssLineBox ownerLine = this.HostLine;
+                        Rectangle r = new Rectangle(
+                           (int)(this.Left),
+                           (int)(this.Top + ownerLine.CachedLineTop),
+                           (int)this.Width,
+                           (int)this.Height);
+                        CssBox ownerBox = ownerLine.OwnerBox;
+                        ownerBox.InvalidateGraphics(r);
+                    }
+                    break;
+            }
+        }
 #if DEBUG
         //int dbugPaintCount;
         //int dbugSnapPass;
@@ -263,7 +296,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             int charFit;
             int charFitWidth;
-            var maxWidth = offset;
+            int maxWidth = offset;
             switch (this.Kind)
             {
                 case CssRunKind.BlockRun:
@@ -330,14 +363,14 @@ namespace LayoutFarm.HtmlBoxes
         }
 
 
-        public CssBox GetGlobalLocation(out float globalX, out float globalY)
-        {
-            //get global location              
-            float x2, y2;
-            var root = this._hostline.OwnerBox.GetGlobalLocation(out x2, out y2);
-            globalX = x2 + this._x;
-            globalY = y2 + this._y;
-            return root;
-        }
+        //public CssBox GetGlobalLocation(out float globalX, out float globalY)
+        //{
+        //    //get global location              
+        //    float x2, y2;
+        //    var root = this._hostline.OwnerBox.GetGlobalLocation(out x2, out y2);
+        //    globalX = x2 + this._x;
+        //    globalY = y2 + this._y;
+        //    return root;
+        //}
     }
 }

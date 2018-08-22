@@ -44,18 +44,18 @@ namespace LayoutFarm.HtmlBoxes
         {
             //send to container element
             clientArea.Offset(containerElement.X, containerElement.Y);
-            this.containerElement.InvalidateGraphicBounds(clientArea);
+            this.containerElement.InvalidateParentGraphics(clientArea);
         }
         public LayoutFarm.RenderElement ContainerElement
         {
             get { return this.containerElement; }
         }
-        protected override CssBox GetGlobalLocationImpl(out float globalX, out float globalY)
+        protected override void GetGlobalLocationImpl(out float globalX, out float globalY)
         {
             Point p = containerElement.GetGlobalLocation();
             globalX = p.X;
             globalY = p.Y;
-            return this;
+            //return this;
         }
     }
 }

@@ -1,33 +1,95 @@
-﻿//BSD, 2014-present, WinterDev 
+﻿//BSD, 2014-present, WinterDev +
 //ArthurHub, Jose Manuel Menendez Poo
 
 using System;
+using System.Collections.Generic;
 using PixelFarm.Drawing;
-using PixelFarm.Drawing.Fonts;
 namespace LayoutFarm.HtmlBoxes
 {
     partial class CssBox
     {
+
+        Rectangle GetVisualRectBounds()
+        {
+            return new Rectangle((int)this.LocalX, (int)this.LocalY, (int)this.VisualWidth, (int)this.VisualHeight);
+        }
         public void InvalidateGraphics()
         {
             //bubble invalidate area to to parent?
-            var parentBox = this.ParentBox;
+
+
+            if (this.justBlockRun != null)
+            {
+
+                Rectangle clientArea = this.GetVisualRectBounds();
+
+#if DEBUG
+                if (this._viewportY != 0)
+                {
+                    //TODO review here again***
+                    //clientArea.Offset(0, -_viewportY);
+                    //clientArea.Intersect(justBlockRun.HostLine.OwnerBox.GetVisualRectBounds());
+                    ////#if DEBUG
+                    ////                    Console.WriteLine(this.__aa_dbugId + ":i2_" + _viewportY.ToString());
+                    ////#endif
+                }
+#endif
+
+                clientArea.Offset(
+                  (int)(justBlockRun.Left),
+                  (int)(justBlockRun.Top + justBlockRun.HostLine.CachedLineTop));
+
+                justBlockRun.HostLine.OwnerBox.InvalidateGraphics(clientArea);
+
+                return;
+            }
+
+            CssBox parentBox = _absLayerOwner ?? this.ParentBox;
             if (parentBox != null)
             {
-                parentBox.InvalidateGraphics(new Rectangle(
-                    (int)this.LocalX,
-                    (int)this.LocalY,
-                    (int)this.VisualWidth,
-                    (int)this.VisualHeight));
+                Rectangle clientArea = this.GetVisualRectBounds();
+#if DEBUG
+                if (this._viewportY != 0)
+                {
+                    ////TODO review here again***
+                    //clientArea = new Rectangle(0, 0, (int)parentBox.VisualWidth, (int)parentBox.VisualHeight);
+                    ////clientArea.Offset(0, -_viewportY);
+                    ////clientArea.Intersect(parentBox.GetVisualRectBounds());
+                    ////#if DEBUG
+                    ////                    Console.WriteLine(this.__aa_dbugId + ":i2_" + _viewportY.ToString());
+                    ////#endif
+                }
+#endif
+
+                parentBox.InvalidateGraphics(clientArea);
             }
         }
+
         public virtual void InvalidateGraphics(Rectangle clientArea)
         {
             //bubble up to parent
             //clientArea => area relative to this element
             //adjust to 
             //adjust client area 
-            var parentBox = this.ParentBox;
+
+            if (this._viewportY != 0)
+            {
+#if DEBUG
+                Console.WriteLine(this.__aa_dbugId + ":i1_" + _viewportY.ToString());
+#endif
+            }
+            if (this.justBlockRun != null)
+            {
+
+                clientArea.Offset(
+                    (int)(justBlockRun.Left),
+                    (int)(justBlockRun.Top + justBlockRun.HostLine.CachedLineTop));
+                justBlockRun.HostLine.OwnerBox.InvalidateGraphics(clientArea);
+
+                return;
+            }
+
+            CssBox parentBox = _absLayerOwner ?? this.ParentBox;
             if (parentBox != null)
             {
                 clientArea.Offset((int)this.LocalX, (int)this.LocalY);
@@ -37,6 +99,10 @@ namespace LayoutFarm.HtmlBoxes
         public void Paint(PaintVisitor p)
         {
 #if DEBUG
+            //if (this.__aa_dbugId == 5)
+            //{
+
+            //}
             dbugCounter.dbugBoxPaintCount++;
 #endif
             if (this._isVisible)
@@ -89,12 +155,16 @@ namespace LayoutFarm.HtmlBoxes
 #endif
         protected virtual void PaintImp(PaintVisitor p)
         {
-            //if (this.dbugMark2 == 10 || this.dbugMark2 == 12)
-            //{
 
+#if DEBUG
+
+#endif
+            //if (this.dbugMark2 == 10 || this.dbugMark2 == 12)
+            //{ 
             //}
 
             Css.CssDisplay display = this.CssDisplay;
+            //
             if (display == Css.CssDisplay.TableCell &&
                 this.EmptyCells == Css.CssEmptyCell.Hide &&
                 this.IsSpaceOrEmpty)
@@ -184,7 +254,7 @@ namespace LayoutFarm.HtmlBoxes
                     while (node != null)
                     {
                         CssBox b = node.Value;
-                        if (b.CssDisplay == Css.CssDisplay.None)
+                        if (b.CssDisplay == Css.CssDisplay.None || b.IsAddedToAbsLayer)
                         {
                             node = node.Next;
                             continue;
@@ -230,7 +300,7 @@ namespace LayoutFarm.HtmlBoxes
                     while (node != null)
                     {
                         CssBox b = node.Value;
-                        if (b.CssDisplay == Css.CssDisplay.None)
+                        if (b.CssDisplay == Css.CssDisplay.None || b.IsAddedToAbsLayer)
                         {
                             node = node.Next;
                             continue;
@@ -254,19 +324,30 @@ namespace LayoutFarm.HtmlBoxes
                 p.PushContaingBlock(this);
                 int ox = p.CanvasOriginX;
                 int oy = p.CanvasOriginY;
-                var node = this._absPosLayer.GetFirstLinkedNode();
-                while (node != null)
+                int j = _absPosLayer.Count;
+                for (int i = 0; i < j; ++i)
                 {
-                    CssBox b = node.Value;
+                    CssBox b = this._absPosLayer.GetBox(i);
                     if (b.CssDisplay == Css.CssDisplay.None)
                     {
-                        node = node.Next;
                         continue;
                     }
                     p.SetCanvasOrigin(ox + (int)b.LocalX, oy + (int)b.LocalY);
                     b.Paint(p);
-                    node = node.Next;
                 }
+                //var node = this._absPosLayer.GetFirstLinkedNode();
+                //while (node != null)
+                //{
+                //    CssBox b = node.Value;
+                //    if (b.CssDisplay == Css.CssDisplay.None)
+                //    {
+                //        node = node.Next;
+                //        continue;
+                //    }
+                //    p.SetCanvasOrigin(ox + (int)b.LocalX, oy + (int)b.LocalY);
+                //    b.Paint(p);
+                //    node = node.Next;
+                //}
                 p.SetCanvasOrigin(ox, oy);
                 p.PopContainingBlock();
             }
@@ -336,7 +417,7 @@ namespace LayoutFarm.HtmlBoxes
             else if (degreeAngle < 90)
             {
                 startPoint = new PointF(rect.Left, rect.Bottom);
-                var angleRad = PixelFarm.CpuBlit.AggMath.deg2rad(degreeAngle);
+                double angleRad = PixelFarm.CpuBlit.AggMath.deg2rad(degreeAngle);
 
                 stopPoint = new PointF(
                    rect.Left + (float)(Math.Cos(angleRad) * radius),
@@ -351,8 +432,8 @@ namespace LayoutFarm.HtmlBoxes
             {
 
                 startPoint = new PointF(rect.Right, rect.Bottom);
-                var angleRad = PixelFarm.CpuBlit.AggMath.deg2rad(degreeAngle);
-                var pos = (float)(Math.Cos(angleRad) * radius);
+                double angleRad = PixelFarm.CpuBlit.AggMath.deg2rad(degreeAngle);
+                float pos = (float)(Math.Cos(angleRad) * radius);
                 stopPoint = new PointF(
                    rect.Right + (float)(Math.Cos(angleRad) * radius),
                    rect.Bottom - (float)(Math.Sin(angleRad) * radius));
@@ -365,7 +446,7 @@ namespace LayoutFarm.HtmlBoxes
             else if (degreeAngle < 270)
             {
                 startPoint = new PointF(rect.Right, rect.Top);
-                var angleRad = PixelFarm.CpuBlit.AggMath.deg2rad(degreeAngle);
+                double angleRad = PixelFarm.CpuBlit.AggMath.deg2rad(degreeAngle);
                 stopPoint = new PointF(
                    rect.Right - (float)(Math.Cos(angleRad) * radius),
                    rect.Top + (float)(Math.Sin(angleRad) * radius));
@@ -378,7 +459,7 @@ namespace LayoutFarm.HtmlBoxes
             else if (degreeAngle < 360)
             {
                 startPoint = new PointF(rect.Left, rect.Top);
-                var angleRad = PixelFarm.CpuBlit.AggMath.deg2rad(degreeAngle);
+                double angleRad = PixelFarm.CpuBlit.AggMath.deg2rad(degreeAngle);
                 stopPoint = new PointF(
                    rect.Left + (float)(Math.Cos(angleRad) * radius),
                    rect.Top + (float)(Math.Sin(angleRad) * radius));
@@ -472,7 +553,7 @@ namespace LayoutFarm.HtmlBoxes
 
                 if (isFirst)
                 {
-                    var bgImageBinder = this.BackgroundImageBinder;
+                    ImageBinder bgImageBinder = this.BackgroundImageBinder;
                     if (bgImageBinder != null && bgImageBinder.Image != null)
                     {
                         BackgroundImagePaintHelper.DrawBackgroundImage(g, this, bgImageBinder, rect);
@@ -520,7 +601,7 @@ namespace LayoutFarm.HtmlBoxes
                 x2 -= ActualPaddingRight + ActualBorderRightWidth;
             }
 
-            var prevColor = g.StrokeColor;
+            Color prevColor = g.StrokeColor;
             g.StrokeColor = ActualColor;
             g.DrawLine(x1, y, x2, y);
             g.StrokeColor = prevColor;

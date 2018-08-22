@@ -45,17 +45,21 @@ namespace LayoutFarm.HtmlBoxes
 #endif
         public CssBox(BoxSpec spec, IRootGraphics rootgfx)
         {
+
+
             this.rootgfx = rootgfx;
             this._aa_boxes = new CssBoxCollection();
 #if DEBUG
-            //if (this.__aa_dbugId == 6)
+
+            //if (this.__aa_dbugId == 13)
             //{
             //}
-            if (!spec.IsFreezed)
-            {
-                //must be freezed
-                throw new NotSupportedException();
-            }
+            //if (!spec.IsFreezed)
+            //{
+            //    //must be freezed
+            //    throw new NotSupportedException();
+            //}
+
 #endif
 
             //assign spec 
@@ -68,7 +72,7 @@ namespace LayoutFarm.HtmlBoxes
             this.rootgfx = rootgfx;
             this._aa_boxes = new CssBoxCollection();
 #if DEBUG
-            //if (this.__aa_dbugId == 6)
+            //if (this.__aa_dbugId == 13)
             //{
             //}
             if (!spec.IsFreezed)
@@ -89,6 +93,12 @@ namespace LayoutFarm.HtmlBoxes
         public void SetController(object controller)
         {
             this._controller = controller;
+        }
+        public bool IsReplacement { get; set; }
+        internal bool IsBody
+        {
+            get;
+            set;
         }
         public IRootGraphics RootGfx
         {
@@ -294,7 +304,7 @@ namespace LayoutFarm.HtmlBoxes
         internal static void GetSplitInfo(CssBox box, CssLineBox lineBox, out bool isFirstLine, out bool isLastLine)
         {
             CssLineBox firstHostLine, lastHostLine;
-            var runList = box.Runs;
+            List<CssRun> runList = box.Runs;
             if (runList == null)
             {
                 firstHostLine = lastHostLine = null;
@@ -401,6 +411,10 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="g">Device context to use</param>
         public void PerformLayout(LayoutVisitor lay)
         {
+            //if (this.dbugMark1 > 0)
+            //{
+
+            //}
             //derived class can perform its own layout algo            
             //by override performContentLayout 
             PerformContentLayout(lay);
@@ -494,9 +508,7 @@ namespace LayoutFarm.HtmlBoxes
                 float fontHeight = (actualFont.AscentInPixels - actualFont.DescentInPixels + actualFont.LineGapInPixels);
                 fontHeight += 4;
 
-
-
-                var tmpRuns = this.Runs;
+                List<CssRun> tmpRuns = this.Runs;
                 for (int i = tmpRuns.Count - 1; i >= 0; --i)
                 {
                     CssRun run = tmpRuns[i];
@@ -570,7 +582,7 @@ namespace LayoutFarm.HtmlBoxes
                 if (maxWidthRun != null)
                 {
                     //bubble up***
-                    var box = maxWidthRun.OwnerBox;
+                    CssBox box = maxWidthRun.OwnerBox;
                     while (box != null)
                     {
                         padding += (box.ActualBorderRightWidth + box.ActualPaddingRight) +
@@ -604,8 +616,8 @@ namespace LayoutFarm.HtmlBoxes
                 while (lineNode != null)
                 {
                     //------------------------
-                    var line = lineNode.Value;
-                    var tmpRun = line.FindMaxWidthRun(maxRunWidth);
+                    CssLineBox line = lineNode.Value;
+                    CssRun tmpRun = line.FindMaxWidthRun(maxRunWidth);
                     if (tmpRun != null)
                     {
                         maxRunWidth = tmpRun.Width;
@@ -632,9 +644,9 @@ namespace LayoutFarm.HtmlBoxes
             if (targetBox.LineBoxCount > 0)
             {
                 float maxWidth = 0;
-                foreach (var line in targetBox._clientLineBoxes)
+                foreach (CssLineBox line in targetBox._clientLineBoxes)
                 {
-                    var lineContentW = line.CachedLineContentWidth;
+                    float lineContentW = line.CachedLineContentWidth;
                     if (maxWidth < lineContentW)
                     {
                         maxWidth = lineContentW;
@@ -650,14 +662,14 @@ namespace LayoutFarm.HtmlBoxes
                     //special for table element
                     if (targetBox._aa_boxes != null)
                     {
-                        foreach (var tr in targetBox._aa_boxes)
+                        foreach (CssBox tr in targetBox._aa_boxes)
                         {
                             //td
                             float trW = 0;
                             int j = tr._aa_boxes.Count;
                             if (j > 0)
                             {
-                                var lastTd = tr._aa_boxes.GetLastChild();
+                                CssBox lastTd = tr._aa_boxes.GetLastChild();
                                 //TODO: review here again-> how to get rightmost position
                                 trW = (lastTd.LocalX + lastTd.VisualWidth + lastTd._actualPaddingRight);
                             }
@@ -672,7 +684,7 @@ namespace LayoutFarm.HtmlBoxes
                 {
                     if (targetBox._aa_boxes != null)
                     {
-                        foreach (var box in targetBox._aa_boxes)
+                        foreach (CssBox box in targetBox._aa_boxes)
                         {
                             float w = GetLatestCachedMinWidth(box);
                             if (w > minWidth)
@@ -729,7 +741,7 @@ namespace LayoutFarm.HtmlBoxes
             float margin = 0;
             if (ParentBox != null && this.IsLastChild && containerBox.ActualMarginBottom < 0.1)
             {
-                var lastChildBottomMargin = _aa_boxes.GetLastChild().ActualMarginBottom;
+                float lastChildBottomMargin = _aa_boxes.GetLastChild().ActualMarginBottom;
                 //margin = (Height.IsAuto) ?
                 //    Math.Max(ActualMarginBottom, lastChildBottomMargin)
                 //    : lastChildBottomMargin;
@@ -813,8 +825,8 @@ namespace LayoutFarm.HtmlBoxes
         //-----------------------------------------------------------------
         public static CssBox AddNewAnonInline(CssBox parent)
         {
-            var spec = CssBox.UnsafeGetBoxSpec(parent);
-            var newBox = new CssBox(spec.GetAnonVersion(), parent.rootgfx);
+            BoxSpec spec = CssBox.UnsafeGetBoxSpec(parent);
+            CssBox newBox = new CssBox(spec.GetAnonVersion(), parent.rootgfx);
             parent.AppendChild(newBox);
             CssBox.ChangeDisplayType(newBox, Css.CssDisplay.Inline);
             return newBox;

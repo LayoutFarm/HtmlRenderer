@@ -12,7 +12,7 @@
 // 
 // - Sun Tsu,
 // "The Art of War"
-//MIT, 2018, WinterDev
+//MIT, 2018-present, WinterDev
 namespace LayoutFarm.HtmlDiagnostics
 {
     /// <summary>

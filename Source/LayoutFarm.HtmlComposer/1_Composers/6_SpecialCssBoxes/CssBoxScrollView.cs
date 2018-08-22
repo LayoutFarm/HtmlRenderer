@@ -16,10 +16,13 @@ namespace LayoutFarm.HtmlBoxes
         ScrollingRelation hscRelation;
         ScrollBar hscbar;
         CssBox innerBox;
-        public CssScrollView(Css.BoxSpec boxSpec,
+        HtmlHost _htmlhost;
+
+        public CssScrollView(HtmlHost htmlhost, Css.BoxSpec boxSpec,
             IRootGraphics rootgfx)
             : base(boxSpec, rootgfx)
         {
+            _htmlhost = htmlhost;
         }
         public CssBox InnerBox
         {
@@ -68,10 +71,11 @@ namespace LayoutFarm.HtmlBoxes
                 //add relation between viewpanel and scroll bar 
                 vscRelation = new ScrollingRelation(vscbar.SliderBox, scrollView);
                 //---------------------- 
-                var scBarWrapCssBox = LayoutFarm.Composers.CustomCssBoxGenerator.CreateWrapper(
-                           this.vscbar,
-                           this.vscbar.GetPrimaryRenderElement((RootGraphic)this.GetInternalRootGfx()),
-                           CssBox.UnsafeGetBoxSpec(this), false);
+                CssBox scBarWrapCssBox = LayoutFarm.Composers.CustomCssBoxGenerator.CreateWrapper(
+                            _htmlhost,
+                             this.vscbar,
+                             this.vscbar.GetPrimaryRenderElement((RootGraphic)this.GetInternalRootGfx()),
+                             CssBox.UnsafeGetBoxSpec(this), false);
                 scBarWrapCssBox.SetLocation(newW, 0);
                 this.AppendToAbsoluteLayer(scBarWrapCssBox);
             }
@@ -86,8 +90,9 @@ namespace LayoutFarm.HtmlBoxes
                 //add relation between viewpanel and scroll bar 
                 hscRelation = new ScrollingRelation(hscbar.SliderBox, scrollView);
                 //---------------------- 
-                var renderE = this.hscbar.GetPrimaryRenderElement((RootGraphic)this.GetInternalRootGfx());
-                var scBarWrapCssBox = LayoutFarm.Composers.CustomCssBoxGenerator.CreateWrapper(
+
+                CssBox scBarWrapCssBox = LayoutFarm.Composers.CustomCssBoxGenerator.CreateWrapper(
+                        _htmlhost,
                          this.hscbar,
                          this.hscbar.GetPrimaryRenderElement((RootGraphic)this.GetInternalRootGfx()),
                          CssBox.UnsafeGetBoxSpec(this), false);
@@ -100,58 +105,95 @@ namespace LayoutFarm.HtmlBoxes
 
         class CssScrollWrapper : IScrollable
         {
-            CssBox cssbox;
+            CssBox _cssbox;
+            EventHandler _layoutFinish;
+            EventHandler _viewportChanged;
             public CssScrollWrapper(CssBox cssbox)
             {
-                this.cssbox = cssbox;
+                this._cssbox = cssbox;
             }
             void IScrollable.SetViewport(int x, int y, object reqBy)
             {
-                this.cssbox.SetViewport(x, y);
+                this._cssbox.SetViewport(x, y);
             }
 
             int IScrollable.ViewportX
             {
-                get { return this.cssbox.ViewportX; }
+                get { return this._cssbox.ViewportX; }
             }
 
             int IScrollable.ViewportY
             {
-                get { return this.cssbox.ViewportY; }
+                get { return this._cssbox.ViewportY; }
             }
 
             int IScrollable.ViewportWidth
             {
-                get { return (int)this.cssbox.VisualWidth; }
+                get { return (int)this._cssbox.VisualWidth; }
             }
 
             int IScrollable.ViewportHeight
             {
-                get { return (int)this.cssbox.VisualHeight; }
+                get { return (int)this._cssbox.VisualHeight; }
             }
             int IScrollable.InnerHeight
             {
                 //content height of the cssbox
-                get { return (int)cssbox.InnerContentHeight; }
+                get { return (int)_cssbox.InnerContentHeight; }
             }
 
             int IScrollable.InnerWidth
             {
                 //content width of the cssbox
-                get { return (int)cssbox.InnerContentWidth; }
+                get { return (int)_cssbox.InnerContentWidth; }
             }
 
             event EventHandler IScrollable.LayoutFinished
             {
                 //TODO: review this
-                add { }
-                remove { }
+                add
+                {
+                    if (_layoutFinish == null)
+                    {
+                        _layoutFinish = value;
+                    }
+                    else
+                    {
+                        _layoutFinish += value;
+
+                    }
+                }
+                remove
+                {
+                    if (_layoutFinish != null)
+                    {
+                        _layoutFinish -= value;
+                    }
+                }
             }
             event EventHandler IScrollable.ViewportChanged
             {
                 //TODO: review this
-                add { }
-                remove { }
+                add
+                {
+                    if (_layoutFinish == null)
+                    {
+                        _viewportChanged = value;
+                    }
+                    else
+                    {
+                        _viewportChanged += value;
+
+                    }
+                }
+                remove
+                {
+                    if (_viewportChanged != null)
+                    {
+                        _viewportChanged -= value;
+                    }
+
+                }
             }
         }
     }

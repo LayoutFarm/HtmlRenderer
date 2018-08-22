@@ -21,21 +21,33 @@ namespace LayoutFarm.HtmlBoxes
     {
         public static bool HitTest(CssBox box, float x, float y, CssBoxHitChain hitChain)
         {
+
+#if DEBUG
+            //if (box.ViewportY != 0 && hitChain.debugEventPhase == CssBoxHitChain.dbugEventPhase.MouseDown)
+            //{
+            //}
+#endif
             //--------------------------------------
-            float boxHitLocalX = x - box.LocalX;
-            float boxHitLocalY = y - box.LocalY;
             bool isPointInArea = box.IsPointInArea(x, y);
-            //----------------------------------------------------------------------
+            float boxHitLocalX = x - box.LocalX;  //**
+            float boxHitLocalY = y - box.LocalY; //**
+            //---------------------------------------------------------------------- 
             if (isPointInArea)
             {
                 hitChain.AddHit(box, (int)boxHitLocalX, (int)boxHitLocalY);
             }
 
+            //---------------------------------------------------------------------- 
+            //enter children space -> offset with its viewport
+            boxHitLocalX += box.ViewportX;
+            boxHitLocalY += box.ViewportY;
+
+
             //check absolute layer first ***
             if (box.HasAbsoluteLayer)
             {
                 hitChain.PushContextBox(box);
-                foreach (var absBox in box.GetAbsoluteChildBoxBackwardIter())
+                foreach (CssBox absBox in box.GetAbsoluteChildBoxBackwardIter())
                 {
                     if (HitTest(absBox, boxHitLocalX, boxHitLocalY, hitChain))
                     {
@@ -53,9 +65,9 @@ namespace LayoutFarm.HtmlBoxes
                 {
                     case Css.CssDisplay.TableRow:
                         {
-                            foreach (var childBox in box.GetChildBoxIter())
+                            foreach (CssBox childBox in box.GetChildBoxIter())
                             {
-                                if (HitTest(childBox, x, y, hitChain))
+                                if (HitTest(childBox, boxHitLocalX, boxHitLocalY, hitChain))
                                 {
                                     return true;
                                 }
@@ -67,14 +79,13 @@ namespace LayoutFarm.HtmlBoxes
                 return false;
             }
             //----------------------------------------------------------------------
-            //at here point is in the area*** 
-
+            //at here point is in the area***  
             hitChain.PushContextBox(box);
             if (box.IsCustomCssBox)
             {
                 //custom css box
                 //return true= stop here
-                if (box.CustomContentHitTest(x, y, hitChain))
+                if (box.CustomContentHitTest(boxHitLocalX, boxHitLocalY, hitChain))
                 {
                     hitChain.PopContextBox(box);
                     return true;
@@ -83,8 +94,9 @@ namespace LayoutFarm.HtmlBoxes
 
             if (box.LineBoxCount > 0)
             {
+
                 bool foundSomeLine = false;
-                foreach (var lineBox in box.GetLineBoxIter())
+                foreach (CssLineBox lineBox in box.GetLineBoxIter())
                 {
                     //line box not overlap
                     if (lineBox.HitTest(boxHitLocalX, boxHitLocalY))
@@ -93,7 +105,10 @@ namespace LayoutFarm.HtmlBoxes
                         float lineBoxLocalY = boxHitLocalY - lineBox.CachedLineTop;
                         //2.
                         hitChain.AddHit(lineBox, (int)boxHitLocalX, (int)lineBoxLocalY);
-                        var foundRun = BoxHitUtils.GetCssRunOnLocation(lineBox, (int)boxHitLocalX, (int)lineBoxLocalY);
+
+
+                        CssRun foundRun = BoxHitUtils.GetCssRunOnLocation(lineBox, (int)boxHitLocalX, (int)lineBoxLocalY);
+                        //CssRun foundRun = BoxHitUtils.GetCssRunOnLocation(lineBox, (int)x, (int)y);
                         if (foundRun != null)
                         {
                             //3.
@@ -101,11 +116,13 @@ namespace LayoutFarm.HtmlBoxes
                             //4. go deeper for block run
                             if (foundRun.Kind == CssRunKind.BlockRun)
                             {
-                                var blockRun = (CssBlockRun)foundRun;
+                                CssBlockRun blockRun = (CssBlockRun)foundRun;
                                 CssLineBox hostLine = blockRun.HostLine;
                                 //adjust with hostline 
-
-                                HitTest(((CssBlockRun)foundRun).ContentBox, (int)(boxHitLocalX - foundRun.Left), boxHitLocalY - hostLine.CachedLineTop, hitChain);
+                                HitTest(blockRun.ContentBox,
+                                    (int)(boxHitLocalX + blockRun.ContentBox.LocalX - foundRun.Left),
+                                    (int)(boxHitLocalY - hostLine.CachedLineTop),
+                                    hitChain);
                             }
                         }
                         //found line box
@@ -121,7 +138,8 @@ namespace LayoutFarm.HtmlBoxes
             else
             {
                 //iterate in child 
-                foreach (var childBox in box.GetChildBoxIter())
+                //foreach (var childBox in box.GetChildBoxIter())
+                foreach (CssBox childBox in box.GetChildBoxBackwardIter())
                 {
                     if (HitTest(childBox, boxHitLocalX, boxHitLocalY, hitChain))
                     {
@@ -225,7 +243,7 @@ namespace LayoutFarm.HtmlBoxes
             foreach (CssRun word in lineBox.GetRunIter())
             {
                 // add word spacing to word width so sentance won't have hols in it when moving the mouse
-                var rect = word.Rectangle;
+                RectangleF rect = word.Rectangle;
                 //rect.Width += word.OwnerBox.ActualWordSpacing;
                 if (rect.Contains(x, y))
                 {
@@ -244,9 +262,8 @@ namespace LayoutFarm.HtmlBoxes
                 return startBox; //This is the initial containing block.
             }
 
-            var box = startBox.ParentBox;
-            while (box.HasContainerProperty &&
-                box.ParentBox != null)
+            CssBox box = startBox.ParentBox;
+            while (box.HasContainerProperty && box.ParentBox != null)
             {
                 box = box.ParentBox;
             }

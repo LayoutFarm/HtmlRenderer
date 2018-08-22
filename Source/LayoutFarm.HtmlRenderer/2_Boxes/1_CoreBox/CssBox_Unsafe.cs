@@ -18,6 +18,9 @@ namespace LayoutFarm.HtmlBoxes
         }
         internal static void UnsafeSetNodes(CssBox childNode, CssBox parent, LinkedListNode<CssBox> linkNode)
         {
+#if DEBUG
+            if (parent == null) childNode.dbug_hasParent = false;
+#endif
             childNode._parentBox = parent;
             childNode._linkedNode = linkNode;
         }
@@ -39,7 +42,18 @@ namespace LayoutFarm.HtmlBoxes
         }
         public static void UnsafeSetParent(CssBox box, CssBox parent)
         {
-            box._parentBox = parent;
+            if (parent == null)
+            {
+#if DEBUG
+                box.dbug_hasParent = false;
+#endif
+                box._linkedNode = null;
+                box._parentBox = null;
+            }
+            else
+            {
+                box._parentBox = parent;
+            }
         }
         public static object UnsafeGetController(CssBox box)
         {
@@ -93,7 +107,6 @@ namespace LayoutFarm.HtmlBoxes
                     return "!a " + " " + this.CssDisplay + " c=" + this.ChildCount;
                 }
             }
-            return base.ToString();
         }
 #endif
     }

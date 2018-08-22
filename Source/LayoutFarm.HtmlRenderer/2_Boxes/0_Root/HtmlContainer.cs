@@ -33,7 +33,7 @@ namespace LayoutFarm.HtmlBoxes
     }
     public abstract class HtmlContainer : IDisposable
     {
-
+        
         ITextService _textService;
         /// <summary>
         /// the root css box of the parsed html
@@ -46,12 +46,10 @@ namespace LayoutFarm.HtmlBoxes
         float _actualHeight;
         float _maxWidth;
         float _maxHeight;
-        
 
-        /// <summary>
-        /// 99999
-        /// </summary>
-        const int MAX_WIDTH = 99999;
+
+
+
         public float MaxWidth { get { return this._maxHeight; } }
         public abstract void ClearPreviousSelection();
         public abstract void SetSelection(SelectionRange selRange);
@@ -72,15 +70,16 @@ namespace LayoutFarm.HtmlBoxes
         {
             return _textService;
         }
+
 #if DEBUG
         public static int dbugCount02 = 0;
 #endif
         public CssBox RootCssBox
         {
             get { return this._rootBox; }
-
         }
-        
+        public RenderElement RootRenderElement { get; set; }
+
         public void SetRootCssBox(CssBox rootCssBox)
         {
             if (_rootBox != null)
@@ -109,16 +108,16 @@ namespace LayoutFarm.HtmlBoxes
         }
         public float ActualWidth
         {
-            get { return (int)this._actualWidth; }
+            get { return this._actualWidth; }
         }
         public float ActualHeight
         {
-            get { return (int)this._actualHeight; }
+            get { return this._actualHeight; }
         }
         public void SetMaxSize(float maxWidth, float maxHeight)
         {
             this._maxWidth = maxWidth;
-            this._maxHeight = maxHeight;
+            this._maxHeight = maxHeight; //init maxHeight = 0
         }
         int layoutVersion;
         public int LayoutVersion
@@ -139,7 +138,7 @@ namespace LayoutFarm.HtmlBoxes
             _actualWidth = _actualHeight = 0;
             // if width is not restricted we set it to large value to get the actual later    
             _rootBox.SetLocation(0, 0);
-            _rootBox.SetVisualSize(this._maxWidth > 0 ? this._maxWidth : MAX_WIDTH, 0);
+            _rootBox.SetVisualSize(this._maxWidth > 0 ? this._maxWidth : CssBoxConstConfig.BOX_MAX_WIDTH, 0);
             CssBox.ValidateComputeValues(_rootBox);
             //----------------------- 
             //LayoutVisitor layoutArgs = new LayoutVisitor(this.GraphicsPlatform, this);
@@ -149,7 +148,8 @@ namespace LayoutFarm.HtmlBoxes
             _rootBox.PerformLayout(lay);
             if (this._maxWidth <= 0.1)
             {
-                // in case the width is not restricted we need to double layout, first will find the width so second can layout by it (center alignment)
+                // in case the width is not restricted we need to double layout,
+                //first will find the width so second can layout by it (center alignment)
                 _rootBox.SetVisualWidth((int)Math.Ceiling(this._actualWidth));
                 _actualWidth = _actualHeight = 0;
                 _rootBox.PerformLayout(lay);
@@ -165,7 +165,7 @@ namespace LayoutFarm.HtmlBoxes
                 FloatingContext floatingContext = totalContexts[i];
                 int floatBoxCount = floatingContext.FloatBoxCount;
                 if (floatBoxCount == 0) { continue; }
-
+                //-----------------------------------------------------------
 
                 CssBox floatingOwner = floatingContext.Owner;
                 float rfx, rfy;
@@ -178,7 +178,8 @@ namespace LayoutFarm.HtmlBoxes
                     float bfx, bfy;
                     CssBox box = floatingContext.GetBox(n);
                     box.GetGlobalLocation(out bfx, out bfy);
-                    //diff
+
+                    //diff, find relative offset between floating container and its child
                     float nx = bfx - rfx;
                     float ny = bfy - rfy;
                     if (prevParent != null && prevParent != box.ParentBox)
@@ -203,57 +204,62 @@ namespace LayoutFarm.HtmlBoxes
             unchecked { layoutVersion++; }
             //----------------------- 
         }
-#if DEBUG
-        void dbugAddToProperContainer(CssBox box)
-        {
-            var rectChild = new RectangleF(box.LocalX, box.LocalY,
-                box.InnerContentWidth,
-                box.InnerContentHeight);
-            CssBox parent = box.ParentBox;
-            bool found = false;
-            while (parent != null)
-            {
-                var rectParent = new RectangleF(0, 0, parent.VisualWidth, parent.VisualHeight);
-                if (rectParent.Contains(rectChild))
-                {
-                    found = true;
-                    //add to here
-                    float bfx, bfy;
-                    box.GetGlobalLocation(out bfx, out bfy);
-                    float rfx, rfy;
-                    parent.GetGlobalLocation(out rfx, out rfy);
-                    //diff
-                    float nx = bfx - rfx;
-                    float ny = bfy - rfy;
-                    box.SetLocation(nx, ny);
-                    parent.AppendToAbsoluteLayer(box);
-                    break;
-                }
-                else
-                {
-                    rectChild.Offset(parent.LocalX, parent.LocalY);
-                    parent = parent.ParentBox;
-                }
-            }
-            if (!found)
-            {
-                //add to root top 
-                float bfx, bfy;
-                box.GetGlobalLocation(out bfx, out bfy);
-                float rfx, rfy;
-                this._rootBox.GetGlobalLocation(out rfx, out rfy);
-                //diff
-                float nx = bfx - rfx;
-                float ny = bfy - rfy;
-                box.SetLocation(nx, ny);
-                this._rootBox.AppendToAbsoluteLayer(box);
-            }
-        }
-#endif
+        //#if DEBUG
+        //        void dbugAddToProperContainer(CssBox box)
+        //        {
+        //            var rectChild = new RectangleF(box.LocalX, box.LocalY,
+        //                box.InnerContentWidth,
+        //                box.InnerContentHeight);
+        //            CssBox parent = box.ParentBox;
+        //            bool found = false;
+        //            while (parent != null)
+        //            {
+        //                var rectParent = new RectangleF(0, 0, parent.VisualWidth, parent.VisualHeight);
+        //                if (rectParent.Contains(rectChild))
+        //                {
+        //                    found = true;
+        //                    //add to here
+        //                    float bfx, bfy;
+        //                    box.GetGlobalLocation(out bfx, out bfy);
+        //                    float rfx, rfy;
+        //                    parent.GetGlobalLocation(out rfx, out rfy);
+        //                    //diff
+        //                    float nx = bfx - rfx;
+        //                    float ny = bfy - rfy;
+        //                    box.SetLocation(nx, ny);
+        //                    parent.AppendToAbsoluteLayer(box);
+        //                    break;
+        //                }
+        //                else
+        //                {
+        //                    rectChild.Offset(parent.LocalX, parent.LocalY);
+        //                    parent = parent.ParentBox;
+        //                }
+        //            }
+        //            if (!found)
+        //            {
+        //                //add to root top 
+        //                float bfx, bfy;
+        //                box.GetGlobalLocation(out bfx, out bfy);
+        //                float rfx, rfy;
+        //                this._rootBox.GetGlobalLocation(out rfx, out rfy);
+        //                //diff
+        //                float nx = bfx - rfx;
+        //                float ny = bfy - rfy;
+        //                box.SetLocation(nx, ny);
+        //                this._rootBox.AppendToAbsoluteLayer(box);
+        //            }
+        //        }
+        //#endif
         public bool IsInUpdateQueue { get; set; }
         protected virtual void OnLayoutFinished()
         {
         }
+
+
+#if DEBUG
+        public static int dbugPaintN;
+#endif
         public void PerformPaint(PaintVisitor p)
         {
             if (_rootBox == null)
@@ -265,10 +271,12 @@ namespace LayoutFarm.HtmlBoxes
 #if DEBUG
             p.dbugEnableLogRecord = false;
             p.dbugResetLogRecords();
+            dbugPaintN++;
 #endif
             _rootBox.Paint(p);
             p.PopContainingBlock();
 #if DEBUG
+
             if (p.dbugEnableLogRecord)
             {
                 //var logs = p.logRecords;

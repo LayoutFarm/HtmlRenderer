@@ -4,9 +4,10 @@
 using System.Text;
 namespace LayoutFarm.WebDom.Impl
 {
-    public partial class HtmlElement : DomElement, IHtmlElement
+    public abstract partial class HtmlElement : DomElement
     {
         CssRuleSet elementRuleSet;
+
         public HtmlElement(HtmlDocument owner, int prefix, int localNameIndex)
             : base(owner, prefix, localNameIndex)
         {
@@ -26,6 +27,7 @@ namespace LayoutFarm.WebDom.Impl
                 return false;
             }
         }
+
         public bool TryGetAttribute(WellknownName wellknownHtmlName, out string value)
         {
             DomAttribute found;
@@ -59,7 +61,7 @@ namespace LayoutFarm.WebDom.Impl
             this.OwnerDocument.SetDocumentState(DocumentState.ChangedAfterIdle);
             if (this.OwnerDocument.IsDocFragment) return;
             HtmlDocument owner = this.OwnerDocument as HtmlDocument;
-            owner.DomUpdateVersion++;
+            owner.IncDomVersion();
         }
 
         public CssRuleSet ElementRuleSet
@@ -74,6 +76,9 @@ namespace LayoutFarm.WebDom.Impl
             }
         }
 
+        public bool HasSpecialPresentation { get; set; }
+
+        public System.Action<object> SpecialPresentationUpdate;
 
         protected override void OnElementChanged()
         {
@@ -99,19 +104,12 @@ namespace LayoutFarm.WebDom.Impl
             }
             return stbuilder.ToString();
         }
+
         public virtual void SetInnerHtml(string innerHtml)
         {
             //parse html and create dom node
             //clear content of this node
             this.ClearAllElements();
-            //parse 
-            //throw new NotSupportedException();
-            //then apply new content ***
-
-            //WebDocumentParser.ParseHtmlDom(
-            //    new LayoutFarm.WebDom.Parser.TextSource(innerHtml.ToCharArray()),
-            //    (HtmlDocument)this.OwnerDocument,
-            //    this); 
 
         }
         public virtual void WriteNode(DomTextWriter writer)
@@ -150,6 +148,10 @@ namespace LayoutFarm.WebDom.Impl
         {
             x = y = 0;
         }
+        public override void GetGlobalLocationRelativeToRoot(out int x, out int y)
+        {
+            x = y = 0;
+        }
         public override void GetViewport(out int x, out int y)
         {
             x = y = 0;//temp
@@ -172,5 +174,7 @@ namespace LayoutFarm.WebDom.Impl
                 return 0;
             }
         }
+
+
     }
 }

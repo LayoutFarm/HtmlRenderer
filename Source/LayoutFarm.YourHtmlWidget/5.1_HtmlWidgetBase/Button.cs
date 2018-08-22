@@ -28,37 +28,41 @@ namespace LayoutFarm.HtmlWidgets
             if (pnode != null) return pnode;
             //----------------------------------
             pnode = htmldoc.CreateElement("div");
-            pnode.SetAttribute("style", "display:inline-block;width:" + Width + "px;height:" + this.Height + "px;");
+            pnode.SetAttribute("style", "display:inline-block;width:" + Width + "px;height:" + this.Height + "px;cursor:pointer");
             pnode.AddChild("div", div2 =>
             {
                 //init
-                div2.SetAttribute("style", "padding:5px;background-color:#dddddd;");
-                div2.AddChild("span", span =>
-                {
-                    span.AddTextContent(this.buttonText);
-                });
-                //------------------------------
+                div2.SetAttribute("style", "padding:5px;background-color:#dddddd;color:black;");
+                DomElement imgNode = div2.AddChild("img");
+                imgNode.SetAttribute("src", "chk_unchecked.png");
 
+                //div2.AddChild("span", span =>
+                //{
+                //    span.AddTextContent(this.buttonText);
+                //});
+                //------------------------------
+#if DEBUG
+                div2.dbugMark = 10;
+#endif
                 div2.AttachMouseDownEvent(e =>
                 {
 #if DEBUG
-                    div2.dbugMark = 1;
+                    //                    div2.dbugMark = 1;
 #endif
                     // div2.SetAttribute("style", "padding:5px;background-color:#aaaaaa;");
-                    EaseScriptElement ee = new EaseScriptElement(div2);
-                    ee.ChangeBackgroundColor(Color.FromArgb(0xaa, 0xaa, 0xaa));
-                    //div2.SetAttribute("style", "padding:5px;background-color:#aaaaaa;");
+                    //EaseScriptElement ee = new EaseScriptElement(div2);
+                    //ee.ChangeBackgroundColor(Color.FromArgb(0xaa, 0xaa, 0xaa));
+                    div2.SetAttribute("style", "padding:5px;background-color:yellow;");
                     e.StopPropagation();
                 });
                 div2.AttachMouseUpEvent(e =>
                 {
 #if DEBUG
-                    div2.dbugMark = 2;
+                    //                    div2.dbugMark = 2;
 #endif
-                    //div2.SetAttribute("style", "padding:5px;background-color:#dddddd;");
-
-                    EaseScriptElement ee = new EaseScriptElement(div2);
-                    ee.ChangeBackgroundColor(Color.FromArgb(0xdd, 0xdd, 0xdd));
+                    div2.SetAttribute("style", "padding:5px;background-color:#dddddd;");
+                    //                    //EaseScriptElement ee = new EaseScriptElement(div2);
+                    //                    //ee.ChangeBackgroundColor(Color.FromArgb(0xdd, 0xdd, 0xdd));
                     e.StopPropagation();
                 });
             });

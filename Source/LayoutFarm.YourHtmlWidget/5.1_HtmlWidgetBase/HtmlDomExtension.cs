@@ -9,20 +9,20 @@ namespace LayoutFarm.WebDom.Extension
         //level 1
         public static DomElement AddChild(this DomElement elem, string elementName)
         {
-            var newchild = elem.OwnerDocument.CreateElement(elementName);
+            DomElement newchild = elem.OwnerDocument.CreateElement(elementName);
             elem.AddChild(newchild);
             return newchild;
         }
         public static DomElement AddChild(this DomElement elem, string elementName, out DomElement elemExit)
         {
-            var newchild = elem.OwnerDocument.CreateElement(elementName);
+            DomElement newchild = elem.OwnerDocument.CreateElement(elementName);
             elem.AddChild(newchild);
             elemExit = newchild;
             return newchild;
         }
         public static DomElement AddChild(this DomElement elem, string elementName, Decorate d)
         {
-            var newchild = elem.OwnerDocument.CreateElement(elementName);
+            DomElement newchild = elem.OwnerDocument.CreateElement(elementName);
             elem.AddChild(newchild);
             if (d != null)
             {
@@ -35,8 +35,8 @@ namespace LayoutFarm.WebDom.Extension
 
         public static void AddTextContent(this DomElement elem, string text)
         {
-            var newTextNode = elem.OwnerDocument.CreateTextNode(text.ToCharArray());
-            elem.AddChild(newTextNode);
+            DomTextNode newTextNode = elem.OwnerDocument.CreateTextNode(text.ToCharArray());
+            elem.AddChild(newTextNode); 
         }
         //------------------------------------------------------------------------------
 

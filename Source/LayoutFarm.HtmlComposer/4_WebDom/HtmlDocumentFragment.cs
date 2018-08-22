@@ -6,7 +6,7 @@ namespace LayoutFarm.Composers
     {
         HtmlDocument primaryHtmlDoc;
         internal HtmlDocumentFragment(HtmlDocument primaryHtmlDoc)
-            : base(primaryHtmlDoc.UniqueStringTable)
+            : base(primaryHtmlDoc.Host, primaryHtmlDoc.UniqueStringTable)
         {
             //share string table with primary html doc
             this.primaryHtmlDoc = primaryHtmlDoc;

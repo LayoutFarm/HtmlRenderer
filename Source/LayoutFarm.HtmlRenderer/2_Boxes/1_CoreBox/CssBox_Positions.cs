@@ -96,6 +96,17 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="localY"></param>
         public void SetLocation(float localX, float localY)
         {
+#if DEBUG
+            //if (this.__aa_dbugId == 5)
+            //{
+
+            //    this._localX = localX;
+            //    this._localY = localY;
+            //    this._boxCompactFlags |= BoxFlags.HAS_ASSIGNED_LOCATION;
+            //    return;
+            //}
+#endif
+
             this._localX = localX;
             this._localY = localY;
             this._boxCompactFlags |= BoxFlags.HAS_ASSIGNED_LOCATION;
@@ -159,8 +170,8 @@ namespace LayoutFarm.HtmlBoxes
             }
             else
             {
-                this._actualWordSpacing = iFonts.MeasureWhitespace(_resolvedFont)
-                    + CssValueParser.ConvertToPx(_myspec.WordSpacing, 1, this);
+                this._actualWordSpacing = iFonts.MeasureWhitespace(_resolvedFont) +
+                                          CssValueParser.ConvertToPx(_myspec.WordSpacing, 1, this);
             }
         }
 
@@ -174,7 +185,17 @@ namespace LayoutFarm.HtmlBoxes
             //1. fonts 
             if (this.ParentBox != null)
             {
-                ReEvaluateFont(iFonts, this.ParentBox.ResolvedFont.SizeInPixels);
+                if (this.ParentBox.ResolvedFont == null)
+                {
+                    //TODO: review this ... WHY?
+                    ReEvaluateFont(iFonts, containingBlock.ResolvedFont.SizeInPixels);
+                }
+                else
+                {
+                    ReEvaluateFont(iFonts, this.ParentBox.ResolvedFont.SizeInPixels);
+                }
+
+
                 //2. actual word spacing
                 //this._actualWordSpacing = this.NoEms(this.InitSpec.LineHeight);
                 //3. font size 
@@ -193,7 +214,7 @@ namespace LayoutFarm.HtmlBoxes
             //www.w3.org/TR/CSS2/box.html#margin-properties
             //w3c: margin applies to all elements except elements table display type
             //other than table-caption,table and inline table
-            var cssDisplay = this.CssDisplay;
+            CssDisplay cssDisplay = this.CssDisplay;
             BoxSpec spec = _myspec;
             switch (cssDisplay)
             {
@@ -420,15 +441,19 @@ namespace LayoutFarm.HtmlBoxes
 
             this.specificUserContentSizeWidth = true;
         }
-        internal void SetCssBoxFromContainerAvailableWidth(float containerClientWidth)
+        internal void SetCssBoxWidthLimitToContainerAvailableWidth(float containerClientWidth)
         {
 #if DEBUG
             dbugBeforeSetWidth(containerClientWidth);
 #endif
+            if (this.LocalX > 0)
+            {
+
+            }
             this._visualWidth = containerClientWidth;
             this._cssBoxWidth = containerClientWidth - (
                        this.ActualPaddingLeft + this.ActualPaddingRight +
-                       +this.ActualBorderLeftWidth + this.ActualBorderRightWidth);
+                       this.ActualBorderLeftWidth + this.ActualBorderRightWidth);//not include margin
         }
         internal void SetCssBoxHeight(float height)
         {
@@ -504,6 +529,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
+
                 return this._visualWidth;
             }
         }
@@ -871,51 +897,78 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
 
-        protected virtual CssBox GetGlobalLocationImpl(out float globalX, out float globalY)
+        protected virtual void GetGlobalLocationImpl(out float globalX, out float globalY)
         {
-            globalX = this._localX;
-            globalY = this._localY;
-            CssBox foundRoot = null;
+#if DEBUG
+            if (this._viewportX != 0 || this._viewportY != 0)
+            {
+
+            }
+#endif
+
+            //TODO: review here again***
+            globalX = this._localX - _viewportX;
+            globalY = this._localY - _viewportY; 
+
+            //CssBox foundRoot = null;
             if (this.ParentBox != null)
             {
                 float p_left, p_top;
-                foundRoot = this.ParentBox.GetGlobalLocation(out p_left, out p_top);
+                /* foundRoot = */
+                this.ParentBox.GetGlobalLocation(out p_left, out p_top);
                 globalX += p_left;
                 globalY += p_top;
             }
-            return foundRoot;
+            //return foundRoot;
         }
-        internal CssBox GetGlobalLocationRelativeToRoot(out float globalX, out float globalY)
+        public void GetGlobalLocation(out float globalX, out float globalY)
         {
-            if (this.justBlockRun != null)
-            {
-                var hostLineOfThisRun = this.justBlockRun.HostLine;
-                var hostBox = hostLineOfThisRun.OwnerBox;
-                CssBox foundRoot = hostBox.GetGlobalLocationRelativeToRoot(out globalX, out globalY);
-                globalX += this.justBlockRun.Left;
-                globalY += this.justBlockRun.Top + hostLineOfThisRun.CachedLineTop;
-                return foundRoot;
-            }
-            else
-            {
-                globalX = this._localX;
-                globalY = this._localY;
-                CssBox foundRoot = null;
-                if (this.ParentBox != null)
-                {
-                    float p_left, p_top;
-                    foundRoot = this.ParentBox.GetGlobalLocationRelativeToRoot(out p_left, out p_top);
-                    globalX += p_left;
-                    globalY += p_top;
-                }
-                return foundRoot;
-            }
-        }
-        public CssBox GetGlobalLocation(out float globalX, out float globalY)
-        {
-            return this.GetGlobalLocationImpl(out globalX, out globalY);
+            this.GetGlobalLocationImpl(out globalX, out globalY);
         }
 
+        void GetGlobalLocationRelativeToRoot(ref PointF location)
+        {
+
+            if (this.justBlockRun != null)
+            {
+                //recursive
+                if (this._viewportX != 0 || this._viewportY != 0)
+                {
+
+                }
+
+                location.Offset(
+                    (int)(justBlockRun.Left),
+                    (int)(justBlockRun.Top + justBlockRun.HostLine.CachedLineTop));
+
+                //recursive
+                justBlockRun.HostLine.OwnerBox.GetGlobalLocationRelativeToRoot(ref location);
+                return;//***
+            }
+
+            CssBox parentBox = _absLayerOwner ?? this.ParentBox;
+            if (parentBox != null)
+            {
+
+
+#if DEBUG
+                if (_viewportX != 0 || _viewportY != 0)
+                {
+
+                }
+#endif
+                location.Offset((int)this.LocalX - _viewportX, (int)this.LocalY - _viewportY);
+                //recursive
+                parentBox.GetGlobalLocationRelativeToRoot(ref location);
+            }
+        }
+        public void GetGlobalLocationRelativeToRoot(out float globalX, out float globalY)
+        {
+            PointF location = new PointF(0, 0);
+            GetGlobalLocationRelativeToRoot(ref location);
+            globalX = location.X;
+            globalY = location.Y;
+        }
         /// <summary>
         /// inner content width
         /// </summary>

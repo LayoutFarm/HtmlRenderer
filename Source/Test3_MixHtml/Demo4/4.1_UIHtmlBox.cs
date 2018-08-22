@@ -11,6 +11,7 @@ namespace LayoutFarm
         string htmltext;
         string documentRootPath;
         AppHost _host;
+
         protected override void OnStart(AppHost host)
         {
             //html box
@@ -18,10 +19,10 @@ namespace LayoutFarm
             var contentMx = new LayoutFarm.ContentManagers.ImageContentManager();
             contentMx.ImageLoadingRequest += contentMx_ImageLoadingRequest;
 
-            var htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(host,
+            HtmlBoxes.HtmlHost htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(host,
                 (s, e) => contentMx.AddRequestImage(e.ImageBinder),
                 contentMx_LoadStyleSheet);
-            htmlBox = new HtmlBox(htmlHost, 400, 800);
+            htmlBox = new HtmlBox(htmlHost, 1024, 800);
             //htmlBox.SetLocation(100, 0); //test
             host.AddChild(htmlBox);
             if (htmltext == null)
@@ -31,11 +32,7 @@ namespace LayoutFarm
 
             htmlBox.LoadHtmlString(htmltext);
         }
-        public void LoadHtml(string documentRootPath, string htmltext)
-        {
-            this.documentRootPath = System.IO.Path.GetDirectoryName(documentRootPath);
-            this.htmltext = htmltext;
-        }
+
         void contentMx_ImageLoadingRequest(object sender, LayoutFarm.ContentManagers.ImageRequestEventArgs e)
         {
             //load resource -- sync or async? 
@@ -57,6 +54,13 @@ namespace LayoutFarm
             }
             //if found
             e.TextContent = System.IO.File.ReadAllText(absolutePath);
+        }
+
+
+        public void LoadHtml(string documentRootPath, string htmltext)
+        {
+            this.documentRootPath = System.IO.Path.GetDirectoryName(documentRootPath);
+            this.htmltext = htmltext;
         }
     }
 }
