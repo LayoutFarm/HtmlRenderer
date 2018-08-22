@@ -1291,8 +1291,7 @@ namespace LayoutFarm.HtmlBoxes
         static float CalculateActualWidth(CssBox box)
         {
             //if (box.__aa_dbugId == 3)
-            //{
-
+            //{ 
             //}
             float maxRight = 0;
             CssBoxCollection boxes = CssBox.UnsafeGetChildren(box);
@@ -1312,8 +1311,10 @@ namespace LayoutFarm.HtmlBoxes
                 //
                 cnode = cnode.Next;
             }
-            return maxRight + (box.ActualBorderLeftWidth + box.ActualPaddingLeft +
-                box.ActualPaddingRight + box.ActualBorderRightWidth);
+            return maxRight + box.ActualPaddingRight + box.ActualBorderRightWidth;
+
+            //return maxRight + (box.ActualBorderLeftWidth + box.ActualPaddingLeft +
+            //    box.ActualPaddingRight + box.ActualBorderRightWidth);
         }
 
         static CssBox CreateAnonBlock(CssBox parent, CssBox insertBefore)
