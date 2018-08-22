@@ -22,15 +22,27 @@ namespace LayoutFarm.HtmlBoxes
         public static bool HitTest(CssBox box, float x, float y, CssBoxHitChain hitChain)
         {
 
+#if DEBUG
+            //if (box.ViewportY != 0 && hitChain.debugEventPhase == CssBoxHitChain.dbugEventPhase.MouseDown)
+            //{
+            //}
+#endif
             //--------------------------------------
-            float boxHitLocalX = x - box.LocalX;
-            float boxHitLocalY = y - box.LocalY;
             bool isPointInArea = box.IsPointInArea(x, y);
-            //----------------------------------------------------------------------
+            float boxHitLocalX = x - box.LocalX;  //**
+            float boxHitLocalY = y - box.LocalY; //**
+            //---------------------------------------------------------------------- 
             if (isPointInArea)
             {
                 hitChain.AddHit(box, (int)boxHitLocalX, (int)boxHitLocalY);
             }
+
+            //---------------------------------------------------------------------- 
+            //enter children space -> offset with its viewport
+            boxHitLocalX += box.ViewportX;
+            boxHitLocalY += box.ViewportY; 
+
+
             //check absolute layer first ***
             if (box.HasAbsoluteLayer)
             {
@@ -55,7 +67,7 @@ namespace LayoutFarm.HtmlBoxes
                         {
                             foreach (var childBox in box.GetChildBoxIter())
                             {
-                                if (HitTest(childBox, x, y, hitChain))
+                                if (HitTest(childBox, boxHitLocalX, boxHitLocalY, hitChain))
                                 {
                                     return true;
                                 }
@@ -73,7 +85,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 //custom css box
                 //return true= stop here
-                if (box.CustomContentHitTest(x, y, hitChain))
+                if (box.CustomContentHitTest(boxHitLocalX, boxHitLocalY, hitChain))
                 {
                     hitChain.PopContextBox(box);
                     return true;

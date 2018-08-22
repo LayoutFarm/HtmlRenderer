@@ -899,9 +899,17 @@ namespace LayoutFarm.HtmlBoxes
 
         protected virtual void GetGlobalLocationImpl(out float globalX, out float globalY)
         {
+#if DEBUG
+            if (this._viewportX != 0 || this._viewportY != 0)
+            {
+
+            }
+#endif
+
             //TODO: review here again***
-            globalX = this._localX;
-            globalY = this._localY;
+            globalX = this._localX - _viewportX;
+            globalY = this._localY - _viewportY; 
+
             //CssBox foundRoot = null;
             if (this.ParentBox != null)
             {
@@ -920,10 +928,15 @@ namespace LayoutFarm.HtmlBoxes
 
         void GetGlobalLocationRelativeToRoot(ref PointF location)
         {
-            //recursive
 
             if (this.justBlockRun != null)
             {
+                //recursive
+                if (this._viewportX != 0 || this._viewportY != 0)
+                {
+
+                }
+
                 location.Offset(
                     (int)(justBlockRun.Left),
                     (int)(justBlockRun.Top + justBlockRun.HostLine.CachedLineTop));
@@ -936,7 +949,15 @@ namespace LayoutFarm.HtmlBoxes
             CssBox parentBox = _absLayerOwner ?? this.ParentBox;
             if (parentBox != null)
             {
-                location.Offset((int)this.LocalX, (int)this.LocalY);
+
+
+#if DEBUG
+                if (_viewportX != 0 || _viewportY != 0)
+                {
+
+                }
+#endif
+                location.Offset((int)this.LocalX - _viewportX, (int)this.LocalY - _viewportY);
                 //recursive
                 parentBox.GetGlobalLocationRelativeToRoot(ref location);
             }
