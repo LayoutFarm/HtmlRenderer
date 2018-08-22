@@ -33,14 +33,14 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="rectangle">the rectangle to draw image in</param>
         public static void DrawBackgroundImage(DrawBoard g, CssBox box, ImageBinder imageBinder, RectangleF rectangle)
         {
-            var image = imageBinder.Image;
+            Image image = imageBinder.Image;
             //temporary comment image scale code 
-            var imgSize = image.Size;
+            Size imgSize = image.Size;
             //new Size(imageLoadHandler.Rectangle == Rectangle.Empty ? imageLoadHandler.Image.Width : imageLoadHandler.Rectangle.Width,
             //                 imageLoadHandler.Rectangle == Rectangle.Empty ? imageLoadHandler.Image.Height : imageLoadHandler.Rectangle.Height);
 
             // get the location by BackgroundPosition value
-            var location = GetLocation(box.BackgroundPositionX, box.BackgroundPositionY, rectangle, imgSize);
+            Point location = GetLocation(box.BackgroundPositionX, box.BackgroundPositionY, rectangle, imgSize);
             //var srcRect = imageLoadHandler.Rectangle == Rectangle.Empty
             //                  ? new Rectangle(0, 0, imgSize.Width, imgSize.Height)
             //                  : new Rectangle(imageLoadHandler.Rectangle.Left, imageLoadHandler.Rectangle.Top, imgSize.Width, imgSize.Height);

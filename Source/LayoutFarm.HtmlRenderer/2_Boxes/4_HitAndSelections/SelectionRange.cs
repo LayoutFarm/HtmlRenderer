@@ -30,7 +30,7 @@ namespace LayoutFarm.HtmlBoxes
                 if (endChain.RootGlobalX < startChain.RootGlobalX)
                 {
                     //swap
-                    var tmp = endChain;
+                    CssBoxHitChain tmp = endChain;
                     endChain = startChain;
                     startChain = tmp;
                 }
@@ -40,7 +40,7 @@ namespace LayoutFarm.HtmlBoxes
                 //across line 
                 if (endChain.RootGlobalY < startChain.RootGlobalY)
                 {    //swap
-                    var tmp = endChain;
+                    CssBoxHitChain tmp = endChain;
                     endChain = startChain;
                     startChain = tmp;
                 }
@@ -93,14 +93,14 @@ namespace LayoutFarm.HtmlBoxes
             int j = selectedLines.Count;
             for (int i = 0; i < j; ++i)
             {
-                var selLine = selectedLines[i];
-                var selSeg = selLine.SelectionSegment;
+                CssLineBox selLine = selectedLines[i];
+                SelectionSegment selSeg = selLine.SelectionSegment;
                 switch (selSeg.Kind)
                 {
                     case SelectionSegmentKind.Partial:
                         {
-                            var startRun = selSeg.StartHitRun;
-                            var endHitRun = selSeg.EndHitRun;
+                            CssRun startRun = selSeg.StartHitRun;
+                            CssRun endHitRun = selSeg.EndHitRun;
                             bool autoFirstRun = false;
                             bool autoLastRun = false;
                             if (startRun == null)
@@ -119,8 +119,8 @@ namespace LayoutFarm.HtmlBoxes
                                 var rr = startRun as CssTextRun;
                                 if (rr != null && this.startHitRunCharIndex >= 0)
                                 {
-                                    var alltext = rr.Text;
-                                    var sub1 = alltext.Substring(this.startHitRunCharIndex, this.endHitRunCharIndex - this.startHitRunCharIndex);
+                                    string alltext = rr.Text;
+                                    string sub1 = alltext.Substring(this.startHitRunCharIndex, this.endHitRunCharIndex - this.startHitRunCharIndex);
                                     stbuilder.Append(sub1);
                                 }
                             }
@@ -147,14 +147,14 @@ namespace LayoutFarm.HtmlBoxes
                                         {
                                             if (this.startHitRunCharIndex >= 0)
                                             {
-                                                var sub1 = alltext.Substring(this.startHitRunCharIndex);
+                                                string sub1 = alltext.Substring(this.startHitRunCharIndex);
                                                 stbuilder.Append(sub1);
                                             }
                                         }
                                     }
                                     else if (rr == endHitRun)
                                     {
-                                        var alltext = rr.Text;
+                                        string alltext = rr.Text;
                                         if (autoLastRun)
                                         {
                                             stbuilder.Append(alltext);
@@ -163,7 +163,7 @@ namespace LayoutFarm.HtmlBoxes
                                         {
                                             if (this.endHitRunCharIndex >= 0)
                                             {
-                                                var sub1 = alltext.Substring(0, this.endHitRunCharIndex);
+                                                string sub1 = alltext.Substring(0, this.endHitRunCharIndex);
                                                 stbuilder.Append(sub1);
                                             }
                                         }
@@ -330,8 +330,8 @@ namespace LayoutFarm.HtmlBoxes
             int breakAtLevel;
             if (FindCommonGround(startChain, endChain, out breakAtLevel) && breakAtLevel > 0)
             {
-                var hit1 = endChain.GetHitInfo(breakAtLevel).hitObject;
-                var hitBlockRun = hit1 as CssBlockRun;
+                object hit1 = endChain.GetHitInfo(breakAtLevel).hitObject;
+                CssBlockRun hitBlockRun = hit1 as CssBlockRun;
                 //multiple select 
                 //1. first part        
                 if (hitBlockRun != null)
@@ -394,8 +394,8 @@ namespace LayoutFarm.HtmlBoxes
             breakAtLevel = 0;
             for (int i = 0; i < lim; ++i)
             {
-                var startHitInfo = startChain.GetHitInfo(i);
-                var endHitInfo = endChain.GetHitInfo(i);
+                HitInfo startHitInfo = startChain.GetHitInfo(i);
+                HitInfo endHitInfo = endChain.GetHitInfo(i);
                 if (startHitInfo.hitObject != endHitInfo.hitObject)
                 {
                     //found diff here
@@ -564,10 +564,8 @@ namespace LayoutFarm.HtmlBoxes
             }
             void InnerWalk(CssLineBox endLineBox, VisitLineDelegate del, IEnumerable<CssLineBox> lineIter)
             {
-                //recursive
-
-
-                foreach (var ln in lineIter)
+                //recursive 
+                foreach (CssLineBox ln in lineIter)
                 {
                     this.currentVisitLineBox = ln;
                     if (ln == endLineBox)
@@ -636,7 +634,7 @@ namespace LayoutFarm.HtmlBoxes
                     level1Sibling.GetGlobalLocation(out sx, out sy);
                     visitor.globalY = sy;
                     //walk down
-                    foreach (var line in GetLineWalkDownIter(visitor, level1Sibling))
+                    foreach (CssLineBox line in GetLineWalkDownIter(visitor, level1Sibling))
                     {
                         yield return line;
                     }
@@ -661,7 +659,7 @@ namespace LayoutFarm.HtmlBoxes
                 float y = visitor.globalY;
                 if (box.LineBoxCount > 0)
                 {
-                    foreach (var linebox in box.GetLineBoxIter())
+                    foreach (CssLineBox linebox in box.GetLineBoxIter())
                     {
                         visitor.globalY = y + linebox.CachedLineTop;
                         yield return linebox;
@@ -670,7 +668,7 @@ namespace LayoutFarm.HtmlBoxes
                 else
                 {
                     //element based
-                    foreach (var childbox in box.GetChildBoxIter())
+                    foreach (CssBox childbox in box.GetChildBoxIter())
                     {
                         visitor.globalY = y + childbox.LocalY;
                         //recursive

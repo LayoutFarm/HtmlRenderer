@@ -45,7 +45,7 @@ namespace LayoutFarm.WebWidgets
         protected void AddToViewport(HtmlWidgets.HtmlWidgetBase htmlWidget)
         {
             //
-            var presentationDomNode = htmlWidget.GetPresentationDomNode(this._groundHtmlDoc);
+            WebDom.DomElement presentationDomNode = htmlWidget.GetPresentationDomNode(this._groundHtmlDoc);
             this._groundHtmlDoc.BodyElement.AddChild(presentationDomNode);
             //this.groundHtmlDoc.RootNode.AddChild(presentationDomNode);
             //sampleViewport.AddContent(htmlWidget.GetPrimaryUIElement(myHtmlHost));

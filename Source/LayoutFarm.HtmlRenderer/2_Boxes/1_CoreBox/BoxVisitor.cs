@@ -34,7 +34,7 @@ namespace LayoutFarm.HtmlBoxes
                 case 1:
                     {
                         //last on
-                        var box = this.containgBlockStack.Pop();
+                        CssBox box = this.containgBlockStack.Pop();
                         OnPopContainingBlock();
                         if (this.latestContainingBlock != box)
                         {
@@ -47,7 +47,7 @@ namespace LayoutFarm.HtmlBoxes
                     break;
                 default:
                     {
-                        var box = this.containgBlockStack.Pop();
+                        CssBox box = this.containgBlockStack.Pop();
                         OnPopContainingBlock();
                         if (this.latestContainingBlock != box)
                         {

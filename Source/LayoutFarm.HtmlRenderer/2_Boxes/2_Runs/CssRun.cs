@@ -296,7 +296,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             int charFit;
             int charFitWidth;
-            var maxWidth = offset;
+            int maxWidth = offset;
             switch (this.Kind)
             {
                 case CssRunKind.BlockRun:

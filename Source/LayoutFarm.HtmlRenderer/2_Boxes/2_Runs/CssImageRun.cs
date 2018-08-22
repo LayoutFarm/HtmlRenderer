@@ -52,7 +52,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-                var img = this.Image;
+                Image img = this.Image;
                 if (img != null)
                 {
                     return img.Width;
@@ -64,7 +64,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-                var img = this.Image;
+                Image img = this.Image;
                 if (img != null)
                 {
                     return img.Height;

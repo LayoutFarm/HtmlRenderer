@@ -40,9 +40,9 @@ namespace LayoutFarm.HtmlBoxes
 
             if (lay.HasFloatBoxInContext)
             {
-                var recentLeftFloatBox = lay.LatestLeftFloatBox;
-                var recentRightFloatBox = lay.LatestRightFloatBox;
-                var latestSibling = lay.LatestSiblingBox;
+                CssBox recentLeftFloatBox = lay.LatestLeftFloatBox;
+                CssBox recentRightFloatBox = lay.LatestRightFloatBox;
+                CssBox latestSibling = lay.LatestSiblingBox;
                 if (latestSibling != null)
                 {
                     //check latest sibling first 
@@ -157,7 +157,7 @@ namespace LayoutFarm.HtmlBoxes
             bool hostBoxIsB = hostBox == b;
             if (bWhiteSpace == CssWhiteSpace.NoWrap && cx > firstRunStartX)
             {
-                var tmpRight = cx;
+                float tmpRight = cx;
                 for (int i = runs.Count - 1; i >= 0; --i)
                 {
                     tmpRight += runs[i].Width;
@@ -174,7 +174,7 @@ namespace LayoutFarm.HtmlBoxes
             int lim = runs.Count - 1;
             for (int i = 0; i <= lim; ++i)
             {
-                var run = runs[i];
+                CssRun run = runs[i];
                 //---------------------------------------------------
                 //check if need to start new line ? 
                 if ((cx + run.Width + rightMostSpace > limitRight &&
@@ -280,7 +280,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             //recursive *** 
             //-------------------------------------------------------------------- 
-            var oX = cx;
+            float oX = cx;
             if (srcBox.HasOnlyRuns)
             {
                 //condition 3 
@@ -1337,7 +1337,8 @@ namespace LayoutFarm.HtmlBoxes
             float containerW = lay.LatestContainingBlock.VisualWidth;
             float maxRight = 0;
             float maxBottom = 0;
-            foreach (var b in srcBox.GetAbsoluteChildBoxIter())
+            //
+            foreach (CssBox b in srcBox.GetAbsoluteChildBoxIter())
             {
                 if (b.JustTempContainer)
                 {
@@ -1359,8 +1360,8 @@ namespace LayoutFarm.HtmlBoxes
                 b.SetLocation(
                      CssValueParser.ConvertToPx(b.Left, containerW, b),
                      CssValueParser.ConvertToPx(b.Top, containerW, b));
-                var localRight = b.LocalVisualRight;
-                var localBottom = b.LocalVisualBottom;
+                float localRight = b.LocalVisualRight;
+                float localBottom = b.LocalVisualBottom;
                 if (maxRight < localRight)
                 {
                     maxRight = localRight;
@@ -1382,7 +1383,7 @@ namespace LayoutFarm.HtmlBoxes
         static void RearrangeWithFlexContext(CssBox box, LayoutVisitor lay)
         {
             //this is an experiment!,  
-            var children = CssBox.UnsafeGetChildren(box);
+            CssBoxCollection children = CssBox.UnsafeGetChildren(box);
             var cnode = children.GetFirstLinkedNode();
             List<FlexItem> simpleFlexLine = new List<FlexItem>();
             FlexLine flexLine = new FlexLine(box);

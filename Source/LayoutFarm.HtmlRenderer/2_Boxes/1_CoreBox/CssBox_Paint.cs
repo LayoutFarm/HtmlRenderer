@@ -417,7 +417,7 @@ namespace LayoutFarm.HtmlBoxes
             else if (degreeAngle < 90)
             {
                 startPoint = new PointF(rect.Left, rect.Bottom);
-                var angleRad = PixelFarm.CpuBlit.AggMath.deg2rad(degreeAngle);
+                double angleRad = PixelFarm.CpuBlit.AggMath.deg2rad(degreeAngle);
 
                 stopPoint = new PointF(
                    rect.Left + (float)(Math.Cos(angleRad) * radius),
@@ -432,8 +432,8 @@ namespace LayoutFarm.HtmlBoxes
             {
 
                 startPoint = new PointF(rect.Right, rect.Bottom);
-                var angleRad = PixelFarm.CpuBlit.AggMath.deg2rad(degreeAngle);
-                var pos = (float)(Math.Cos(angleRad) * radius);
+                double angleRad = PixelFarm.CpuBlit.AggMath.deg2rad(degreeAngle);
+                float pos = (float)(Math.Cos(angleRad) * radius);
                 stopPoint = new PointF(
                    rect.Right + (float)(Math.Cos(angleRad) * radius),
                    rect.Bottom - (float)(Math.Sin(angleRad) * radius));
@@ -446,7 +446,7 @@ namespace LayoutFarm.HtmlBoxes
             else if (degreeAngle < 270)
             {
                 startPoint = new PointF(rect.Right, rect.Top);
-                var angleRad = PixelFarm.CpuBlit.AggMath.deg2rad(degreeAngle);
+                double angleRad = PixelFarm.CpuBlit.AggMath.deg2rad(degreeAngle);
                 stopPoint = new PointF(
                    rect.Right - (float)(Math.Cos(angleRad) * radius),
                    rect.Top + (float)(Math.Sin(angleRad) * radius));
@@ -459,7 +459,7 @@ namespace LayoutFarm.HtmlBoxes
             else if (degreeAngle < 360)
             {
                 startPoint = new PointF(rect.Left, rect.Top);
-                var angleRad = PixelFarm.CpuBlit.AggMath.deg2rad(degreeAngle);
+                double angleRad = PixelFarm.CpuBlit.AggMath.deg2rad(degreeAngle);
                 stopPoint = new PointF(
                    rect.Left + (float)(Math.Cos(angleRad) * radius),
                    rect.Top + (float)(Math.Sin(angleRad) * radius));
@@ -553,7 +553,7 @@ namespace LayoutFarm.HtmlBoxes
 
                 if (isFirst)
                 {
-                    var bgImageBinder = this.BackgroundImageBinder;
+                    ImageBinder bgImageBinder = this.BackgroundImageBinder;
                     if (bgImageBinder != null && bgImageBinder.Image != null)
                     {
                         BackgroundImagePaintHelper.DrawBackgroundImage(g, this, bgImageBinder, rect);
@@ -601,7 +601,7 @@ namespace LayoutFarm.HtmlBoxes
                 x2 -= ActualPaddingRight + ActualBorderRightWidth;
             }
 
-            var prevColor = g.StrokeColor;
+            Color prevColor = g.StrokeColor;
             g.StrokeColor = ActualColor;
             g.DrawLine(x1, y, x2, y);
             g.StrokeColor = prevColor;

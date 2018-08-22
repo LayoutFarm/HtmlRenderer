@@ -54,7 +54,7 @@ namespace LayoutFarm.HtmlBoxes
         public void ExitCurrentContext()
         {
             //clear all item in prev layer
-            var prevLayerInfo = this.levelInfoStack.Pop();
+            LevelInfo prevLayerInfo = this.levelInfoStack.Pop();
             this.currentLayerStartAt = prevLayerInfo.currentLayerStartAt;
             this.currentLayerItemCount = prevLayerInfo.currentLeyerCount;
         }

@@ -214,7 +214,7 @@ namespace LayoutFarm.HtmlBoxes
             //www.w3.org/TR/CSS2/box.html#margin-properties
             //w3c: margin applies to all elements except elements table display type
             //other than table-caption,table and inline table
-            var cssDisplay = this.CssDisplay;
+            CssDisplay cssDisplay = this.CssDisplay;
             BoxSpec spec = _myspec;
             switch (cssDisplay)
             {
