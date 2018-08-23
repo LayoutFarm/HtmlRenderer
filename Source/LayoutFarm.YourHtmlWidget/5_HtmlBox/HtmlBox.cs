@@ -182,7 +182,7 @@ namespace LayoutFarm.CustomWidgets
             else
             {
                 //just parse content and load 
-                this.myHtmlCont = HtmlContainerHelper.CreateHtmlContainer(this.htmlhost, htmldoc, htmlRenderBox);
+                this.myHtmlCont = HtmlHostExtensions.CreateHtmlContainer(this.htmlhost, htmldoc, htmlRenderBox);
                 SetHtmlContainerEventHandlers();
                 ClearWaitingContent();
                 RaiseLayoutFinished();
@@ -198,7 +198,7 @@ namespace LayoutFarm.CustomWidgets
             else
             {
                 //just parse content and load 
-                this.myHtmlCont = HtmlContainerHelper.CreateHtmlContainerFromFullHtml(this.htmlhost, htmlString, htmlRenderBox);
+                this.myHtmlCont = HtmlHostExtensions.CreateHtmlContainerFromFullHtml(this.htmlhost, htmlString, htmlRenderBox);
                 SetHtmlContainerEventHandlers();
                 ClearWaitingContent();
             }
@@ -213,7 +213,7 @@ namespace LayoutFarm.CustomWidgets
             else
             {
                 //just parse content and load 
-                this.myHtmlCont = HtmlContainerHelper.CreateHtmlContainerFromFragmentHtml(this.htmlhost, fragmentHtmlString, htmlRenderBox);
+                this.myHtmlCont = HtmlHostExtensions.CreateHtmlContainerFromFragmentHtml(this.htmlhost, fragmentHtmlString, htmlRenderBox);
                 SetHtmlContainerEventHandlers();
                 ClearWaitingContent();
             }

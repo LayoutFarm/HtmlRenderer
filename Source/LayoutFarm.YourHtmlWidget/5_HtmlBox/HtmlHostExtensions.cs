@@ -3,7 +3,7 @@
 using LayoutFarm.Composers;
 namespace LayoutFarm.HtmlBoxes
 {
-    static class HtmlContainerHelper
+    static class HtmlHostExtensions
     {
         public static MyHtmlVisualRoot CreateHtmlContainerFromFullHtml(
             HtmlHost htmlHost,

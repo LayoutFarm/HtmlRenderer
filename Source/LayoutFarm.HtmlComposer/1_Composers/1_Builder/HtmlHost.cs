@@ -10,18 +10,25 @@ using LayoutFarm.Css;
 using LayoutFarm.WebDom;
 namespace LayoutFarm.HtmlBoxes
 {
+
+
     public class HtmlHost
     {
-        List<LayoutFarm.Composers.CustomCssBoxGenerator> generators = new List<LayoutFarm.Composers.CustomCssBoxGenerator>();
-        HtmlVisualRootUpdateHandler htmlContainerUpdateHandler;
-        EventHandler<ImageRequestEventArgs> requestImage;
-        EventHandler<TextRequestEventArgs> requestStyleSheet;
+
+        //a HtmlHost 
+        //  1. manages multiple HtmlVisual roots
+        //  2. controls shared I/O
+
+        List<CustomCssBoxGenerator> generators = new List<CustomCssBoxGenerator>();
+        HtmlVisualRootUpdateHandler _visualHtmlRootUpdateHandler;
+        EventHandler<ImageRequestEventArgs> _requestImage;
+        EventHandler<TextRequestEventArgs> _requestStyleSheet;
         List<CssBox> waitForUpdateBoxes = new List<CssBox>();
 
         HtmlDocument commonHtmlDoc;
         RootGraphic rootgfx;
-        Queue<LayoutFarm.HtmlBoxes.LayoutVisitor> htmlLayoutVisitorStock = new Queue<LayoutVisitor>();
-        LayoutFarm.Composers.RenderTreeBuilder renderTreeBuilder;
+        Queue<LayoutVisitor> htmlLayoutVisitorStock = new Queue<LayoutVisitor>();
+        RenderTreeBuilder renderTreeBuilder;
 
         ITextService _textservice;
         Svg.SvgCreator _svgCreator;
@@ -32,7 +39,6 @@ namespace LayoutFarm.HtmlBoxes
             this.BaseStylesheet = activeSheet;
             this.commonHtmlDoc = new HtmlDocument(this);
             this.commonHtmlDoc.CssActiveSheet = activeSheet;
-
 
             this._textservice = MyFontServices.GetTextService();
             HtmlContainerTextService.SetTextService(this._textservice);
@@ -47,14 +53,15 @@ namespace LayoutFarm.HtmlBoxes
         {
             //use default style sheet
         }
-        public ITextService GetTextService()
+        internal ITextService GetTextService()
         {
             return _textservice;
         }
-        public void EnqueueCssUpdate(CssBox box)
+        internal void EnqueueCssUpdate(CssBox box)
         {
             waitForUpdateBoxes.Add(box);
         }
+        //----------------------
         public void ClearUpdateWaitingCssBoxes()
         {
             int j = waitForUpdateBoxes.Count;
@@ -71,42 +78,40 @@ namespace LayoutFarm.HtmlBoxes
         }
         public void SetRootGraphics(RootGraphic rootgfx)
         {
-
             this.rootgfx = rootgfx;
         }
         public RootGraphic RootGfx { get { return this.rootgfx; } }
-        public RenderBoxBase TopWindowRenderBox { get { return this.rootgfx.TopWindowRenderBox; } }
 
-
+        //----------------------
         public void AttachEssentailHandlers(
             EventHandler<ImageRequestEventArgs> reqImageHandler,
             EventHandler<TextRequestEventArgs> reqStyleSheetHandler)
         {
-            this.requestImage = reqImageHandler;
-            this.requestStyleSheet = reqStyleSheetHandler;
+            _requestImage = reqImageHandler;
+            _requestStyleSheet = reqStyleSheetHandler;
         }
-        public void DetachEssentailHanlders()
+        internal void DetachEssentailHanlders()
         {
-            this.requestImage = null;
-            this.requestStyleSheet = null;
+            _requestImage = null;
+            _requestStyleSheet = null;
         }
-        public void SetHtmlContainerUpdateHandler(HtmlVisualRootUpdateHandler htmlContainerUpdateHandler)
+        //----------------------
+
+        public void SetHtmlVisualRootUpdateHandler(HtmlVisualRootUpdateHandler visualHtmlRootUpdateHandler)
         {
-            this.htmlContainerUpdateHandler = htmlContainerUpdateHandler;
+            this._visualHtmlRootUpdateHandler = visualHtmlRootUpdateHandler;
         }
-
-        public WebDom.CssActiveSheet BaseStylesheet { get; private set; }
-
-
-        public void ChildRequestImage(ImageBinder binder, object reqFrom, bool _sync)
+        internal void ChildRequestImage(ImageBinder binder, HtmlVisualRoot visualRoot, object reqFrom, bool _sync)
         {
-            if (this.requestImage != null)
+            if (this._requestImage != null)
             {
                 ImageRequestEventArgs resReq = new ImageRequestEventArgs(binder);
                 resReq.requestBy = reqFrom;
-                requestImage(this, resReq);
+                _requestImage(this, resReq);
             }
         }
+
+        //---
         public HtmlDocument CreateNewDocumentFragment()
         {
             return new HtmlDocumentFragment(this.commonHtmlDoc);
@@ -119,6 +124,9 @@ namespace LayoutFarm.HtmlBoxes
             sharedDocument.CssActiveSheet = this.commonHtmlDoc.CssActiveSheet;
             return sharedDocument;
         }
+
+        public WebDom.CssActiveSheet BaseStylesheet { get; private set; }
+        //---
         public LayoutVisitor GetSharedHtmlLayoutVisitor(HtmlVisualRoot htmlVisualRoot)
         {
             LayoutVisitor lay = null;
@@ -138,12 +146,13 @@ namespace LayoutFarm.HtmlBoxes
             lay.UnBind();
             this.htmlLayoutVisitorStock.Enqueue(lay);
         }
-
+        // 
+        //-------------
         public HtmlInputEventAdapter GetNewInputEventAdapter()
         {
             return new HtmlInputEventAdapter();
         }
-
+        //-----------------------
 
         public LayoutFarm.Composers.RenderTreeBuilder GetRenderTreeBuilder()
         {
@@ -152,44 +161,38 @@ namespace LayoutFarm.HtmlBoxes
                 renderTreeBuilder = new Composers.RenderTreeBuilder(this);
                 this.renderTreeBuilder.RequestStyleSheet += (e) =>
                 {
-                    if (requestStyleSheet != null)
+                    if (_requestStyleSheet != null)
                     {
-                        requestStyleSheet(this, e);
+                        _requestStyleSheet(this, e);
                     }
                 };
             }
             return renderTreeBuilder;
         }
-        internal void NotifyHtmlContainerUpdate(HtmlVisualRoot htmlVisualRoot)
-        {
-            if (htmlContainerUpdateHandler != null)
-            {
-                htmlContainerUpdateHandler(htmlVisualRoot);
-            }
-        }
         public void RegisterCssBoxGenerator(LayoutFarm.Composers.CustomCssBoxGenerator cssBoxGenerator)
         {
             this.generators.Add(cssBoxGenerator);
-        }
-
-        CssBox CreateCustomCssBox(CssBox parent,
-          LayoutFarm.WebDom.DomElement tag,
-          BoxSpec boxspec)
-        {
-            for (int i = generators.Count - 1; i >= 0; --i)
-            {
-                CssBox newbox = generators[i].CreateCssBox(tag, parent, boxspec, this);
-                if (newbox != null)
-                {
-                    return newbox;
-                }
-            }
-            return null;
         }
         public void UpdateChildBoxes(WebDom.Impl.HtmlElement parentElement, bool fullmode)
         {
             //for public 
             UpdateChildBoxes((HtmlElement)parentElement, fullmode);
+        }
+        public CssBox CreateBox(CssBox parentBox, WebDom.Impl.HtmlElement childElement, bool fullmode)
+        {
+            return CreateBoxInternal(parentBox, (HtmlElement)childElement, fullmode);
+        }
+        //-------------
+
+
+
+
+        internal void NotifyHtmlVisualRootUpdate(HtmlVisualRoot htmlVisualRoot)
+        {
+            if (_visualHtmlRootUpdateHandler != null)
+            {
+                _visualHtmlRootUpdateHandler(htmlVisualRoot);
+            }
         }
         /// update some or generate all cssbox
         /// </summary>
@@ -376,10 +379,7 @@ namespace LayoutFarm.HtmlBoxes
             //that will be used on layout process 
             //---------------------------------- 
         }
-        public CssBox CreateBox(CssBox parentBox, WebDom.Impl.HtmlElement childElement, bool fullmode)
-        {
-            return CreateBoxInternal(parentBox, (HtmlElement)childElement, fullmode);
-        }
+
         CssBox CreateBoxInternal(HtmlElement parentElement, HtmlElement childElement, bool fullmode)
         {
             CssBox hostBox = HtmlElement.InternalGetPrincipalBox(parentElement);
@@ -564,10 +564,23 @@ namespace LayoutFarm.HtmlBoxes
             return boxImage;
         }
 
-        public LayoutFarm.WebDom.Impl.HtmlDocument CreatePresentationHtmlDoc()
+
+        CssBox CreateCustomCssBox(CssBox parent,
+          LayoutFarm.WebDom.DomElement tag,
+          BoxSpec boxspec)
         {
-            return new HtmlDocument(this);
+            for (int i = generators.Count - 1; i >= 0; --i)
+            {
+                CssBox newbox = generators[i].CreateCssBox(tag, parent, boxspec, this);
+                if (newbox != null)
+                {
+                    return newbox;
+                }
+            }
+            return null;
         }
+
+
         internal static CssBox CreateBridgeBox(ITextService iFonts, LayoutFarm.RenderElement containerElement, RootGraphic rootgfx)
         {
             var spec = new BoxSpec();

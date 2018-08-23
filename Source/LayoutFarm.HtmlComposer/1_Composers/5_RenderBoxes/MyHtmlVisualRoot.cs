@@ -77,7 +77,7 @@ namespace LayoutFarm.HtmlBoxes
                     {
                         //when update
                         //add to update queue
-                        this.htmlhost.NotifyHtmlContainerUpdate(this);
+                        this.htmlhost.NotifyHtmlVisualRootUpdate(this);
                     });
                 }
             }
@@ -159,7 +159,7 @@ namespace LayoutFarm.HtmlBoxes
             //send request to host
             if (binder.State == BinderState.Unload)
             {
-                this.htmlhost.ChildRequestImage(binder, reqFrom, _sync);
+                this.htmlhost.ChildRequestImage(binder, this, reqFrom, _sync);
             }
         }
         protected override void OnRequestScrollView(CssBox box)
@@ -205,9 +205,5 @@ namespace LayoutFarm.HtmlBoxes
         {
         }
 
-        public void GetHtml(StringBuilder stbuilder)
-        {
-            throw new NotSupportedException();
-        }
     }
 }
