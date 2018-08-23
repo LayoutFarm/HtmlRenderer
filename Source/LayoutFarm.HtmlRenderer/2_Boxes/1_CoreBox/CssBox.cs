@@ -42,6 +42,8 @@ namespace LayoutFarm.HtmlBoxes
         public readonly int __aa_dbugId = dbugTotalId++;
         static int dbugTotalId;
         public int dbugMark2;
+        public bool dbugIsInAbsLayer;
+
 #endif
         public CssBox(BoxSpec spec, IRootGraphics rootgfx)
         {

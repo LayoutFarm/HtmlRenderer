@@ -157,11 +157,15 @@ namespace LayoutFarm.HtmlBoxes
         {
 
 #if DEBUG
+            //if (this.__aa_dbugId == 19)
+            //{
 
-#endif
+            //}
             //if (this.dbugMark2 == 10 || this.dbugMark2 == 12)
             //{ 
             //}
+#endif
+
 
             Css.CssDisplay display = this.CssDisplay;
             //
@@ -254,7 +258,7 @@ namespace LayoutFarm.HtmlBoxes
                     while (node != null)
                     {
                         CssBox b = node.Value;
-                        if (b.CssDisplay == Css.CssDisplay.None || b.IsAddedToAbsLayer)
+                        if (b.CssDisplay == Css.CssDisplay.None || b.IsAddedToAbsoluteLayer)
                         {
                             node = node.Next;
                             continue;
@@ -300,7 +304,7 @@ namespace LayoutFarm.HtmlBoxes
                     while (node != null)
                     {
                         CssBox b = node.Value;
-                        if (b.CssDisplay == Css.CssDisplay.None || b.IsAddedToAbsLayer)
+                        if (b.CssDisplay == Css.CssDisplay.None || b.IsAddedToAbsoluteLayer)
                         {
                             node = node.Next;
                             continue;

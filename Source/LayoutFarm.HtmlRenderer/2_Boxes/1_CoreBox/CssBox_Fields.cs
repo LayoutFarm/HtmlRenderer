@@ -177,7 +177,11 @@ namespace LayoutFarm.HtmlBoxes
                 case Css.CssPosition.Relative:
                     {
                         //TODO: review here again
-                        this._absPosLayer.Remove(box);
+                        bool result = this._absPosLayer.Remove(box);
+                        if (!result)
+                        {
+
+                        }
                     }
                     break;
                 default:
@@ -359,8 +363,19 @@ namespace LayoutFarm.HtmlBoxes
             {
                 this._absPosLayer = new CssBoxAbsoluteLayer();
             }
+            if (box._absLayerOwner != null)
+            {
+                if (box._absLayerOwner == this)
+                {
+                    //ok , already in abs layer
+                    return;
+                }
+                else
+                {
+                    //?
+                }
+            }
             box._absLayerOwner = this;
-
             if (box.ParentBox != null)
             {
 
@@ -368,9 +383,13 @@ namespace LayoutFarm.HtmlBoxes
             }
             this._absPosLayer.AddChild(box);
         }
-        internal bool IsAddedToAbsLayer
+        internal bool IsAddedToAbsoluteLayer
         {
             get { return _absLayerOwner != null; }
+        }
+        internal void ResetAbsoluteLayerOwner()
+        {
+            _absLayerOwner = null;
         }
         //-------------------------------------
         internal void ResetLineBoxes()
