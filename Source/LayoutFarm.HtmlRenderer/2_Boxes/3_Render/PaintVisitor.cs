@@ -10,7 +10,7 @@ namespace LayoutFarm.HtmlBoxes
     {
         Stack<Rectangle> clipStacks = new Stack<Rectangle>();
         PointF[] borderPoints = new PointF[4];
-        HtmlContainer htmlContainer;
+        HtmlVisualRoot htmlContainer;
         DrawBoard canvas;
         Rectangle latestClip = new Rectangle(0, 0, CssBoxConstConfig.BOX_MAX_RIGHT, CssBoxConstConfig.BOX_MAX_BOTTOM);
         MultiLayerStack<CssBox> latePaintStack = new MultiLayerStack<CssBox>();
@@ -20,7 +20,7 @@ namespace LayoutFarm.HtmlBoxes
         public PaintVisitor()
         {
         }
-        public void Bind(HtmlContainer htmlCont, DrawBoard canvas)
+        public void Bind(HtmlVisualRoot htmlCont, DrawBoard canvas)
         {
             this.htmlContainer = htmlCont;
             this.canvas = canvas;

@@ -14,7 +14,7 @@ namespace LayoutFarm
             HtmlBoxes.HtmlHost htmlhost = new HtmlBoxes.HtmlHost();
             htmlhost.SetRootGraphics(appHost.RootGfx);
 
-            List<HtmlBoxes.HtmlContainer> htmlContUpdateList = new List<HtmlBoxes.HtmlContainer>();
+            List<HtmlBoxes.HtmlVisualRoot> htmlContUpdateList = new List<HtmlBoxes.HtmlVisualRoot>();
             appHost.RootGfx.ClearingBeforeRender += (s, e) =>
             {
 

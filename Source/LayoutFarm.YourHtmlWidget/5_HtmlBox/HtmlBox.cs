@@ -21,7 +21,7 @@ namespace LayoutFarm.CustomWidgets
         }
 
         HtmlHost htmlhost;
-        MyHtmlContainer myHtmlCont;
+        MyHtmlVisualRoot myHtmlCont;
         //presentation
         HtmlRenderBox htmlRenderBox;
         HtmlInputEventAdapter inputEventAdapter;
@@ -241,7 +241,7 @@ namespace LayoutFarm.CustomWidgets
                 //4
                 (s, e) => { this.RaiseLayoutFinished(); });
         }
-        public MyHtmlContainer HtmlContainer
+        public MyHtmlVisualRoot HtmlContainer
         {
             get { return this.myHtmlCont; }
         }

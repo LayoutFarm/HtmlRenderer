@@ -1,15 +1,20 @@
 ﻿//MIT, 2014-present, WinterDev
 using LayoutFarm.UI;
+using LayoutFarm.WebWidgets;
 namespace LayoutFarm.Demo
 {
-    class Demo02_CreateHtmlDomStyle2 : DemoBase
+    [DemoNote("6.3 Demo03_DynamicContent1")]
+    class Demo03_DynamicContent1 : HtmlDemoBase
     {
-        public Demo02_CreateHtmlDomStyle2()
+        public Demo03_DynamicContent1()
         {
         }
-        protected override void OnStartDemo(HtmlPanel panel)
+        protected override void OnStart(AppHost host)
         {
-            var htmldoc = panel.HtmlHost.CreatePresentationHtmlDoc();
+            base.OnStart(host);//setup
+
+            //
+            var htmldoc = this._groundHtmlDoc;
             var rootNode = htmldoc.RootNode;
             //1. create body node             
             // and content  
@@ -25,19 +30,26 @@ namespace LayoutFarm.Demo
                         //3. attach event to specific span
                         span.AttachEvent(UIEventName.MouseDown, e =>
                         {
-                            //-------------------------------
-                            //mousedown on specific span !
-                            //-------------------------------
 #if DEBUG
-                            // System.Diagnostics.Debugger.Break();
-                            //Console.WriteLine("span");
-#endif                                              
+                            // System.Diagnostics.Debugger.Break();                           
+                            //test change span property
 
-                            //test stop propagation 
+                            //clear prev content and add new  text content 
+                            span.ClearAllElements();
+                            span.AddTextContent("XYZ0001");
+                            //affect layout of html dom  
+
+#endif
+
                             e.StopPropagation();
                         });
                     });
+                    div.AddChild("span", span =>
+                    {
+                        span.AddTextContent("EFGHIJK");
+                    });
                     //----------------------
+
                     div.AttachEvent(UIEventName.MouseDown, e =>
                     {
 #if DEBUG
@@ -50,9 +62,9 @@ namespace LayoutFarm.Demo
                     });
                 });
             });
-            //2. add to view 
-            panel.LoadHtmlDom(htmldoc,
-               LayoutFarm.Composers.CssDefaults.DefaultStyleSheet);
+
+
         }
+
     }
 }

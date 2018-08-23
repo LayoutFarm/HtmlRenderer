@@ -8,7 +8,7 @@ namespace LayoutFarm.HtmlBoxes
 {
     public class HtmlRenderBox : RenderBoxBase
     {
-        MyHtmlContainer myHtmlCont;
+        MyHtmlVisualRoot myHtmlCont;
         CssBox cssBox;
 
         public HtmlRenderBox(RootGraphic rootgfx,
@@ -21,7 +21,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             get { return this.cssBox; }
         }
-        public void SetHtmlContainer(MyHtmlContainer htmlCont, CssBox box)
+        public void SetHtmlContainer(MyHtmlVisualRoot htmlCont, CssBox box)
         {
             this.myHtmlCont = htmlCont;
             this.cssBox = box;
@@ -64,7 +64,7 @@ namespace LayoutFarm.HtmlBoxes
 
     static class PaintVisitorStock
     {
-        internal static PaintVisitor GetSharedPaintVisitor(HtmlContainer htmlCont, DrawBoard canvas)
+        internal static PaintVisitor GetSharedPaintVisitor(HtmlVisualRoot htmlCont, DrawBoard canvas)
         {
             PaintVisitor painter = null;
             if (s_paintVisitorStock.Count == 0)
