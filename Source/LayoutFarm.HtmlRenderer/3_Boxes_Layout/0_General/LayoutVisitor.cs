@@ -11,7 +11,7 @@ namespace LayoutFarm.HtmlBoxes
         //reusable
         //---------
 
-        HtmlContainer htmlContainer;
+        HtmlVisualRoot htmlContainer;
         float totalMarginLeftAndRight;
         Queue<Dictionary<CssBox, PartialBoxStrip>> dicStripPool;
         Queue<List<PartialBoxStrip>> listStripPool;
@@ -25,7 +25,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             this.fontService = fontService;
         }
-        internal void Bind(HtmlContainer htmlCont)
+        internal void Bind(HtmlVisualRoot htmlCont)
         {
             this.htmlContainer = htmlCont;
             if (episodeId == ushort.MaxValue - 1)

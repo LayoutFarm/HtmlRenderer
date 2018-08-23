@@ -187,8 +187,8 @@
     <Compile Include="..\LayoutFarm.HtmlRenderer\2_Boxes\0_Root\CssBoxConstConfig.cs">
       <Link>8_REF_LayoutFarm.HtmlRenderer\2_Boxes\0_Root\CssBoxConstConfig.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\2_Boxes\0_Root\HtmlContainer.cs">
-      <Link>8_REF_LayoutFarm.HtmlRenderer\2_Boxes\0_Root\HtmlContainer.cs</Link>
+    <Compile Include="..\LayoutFarm.HtmlRenderer\2_Boxes\0_Root\HtmlVisualRoot.cs">
+      <Link>8_REF_LayoutFarm.HtmlRenderer\2_Boxes\0_Root\HtmlVisualRoot.cs</Link>
     </Compile>
     <Compile Include="..\LayoutFarm.HtmlRenderer\2_Boxes\0_Root\IRootGraphics.cs">
       <Link>8_REF_LayoutFarm.HtmlRenderer\2_Boxes\0_Root\IRootGraphics.cs</Link>
@@ -450,7 +450,7 @@
     <Compile Include="4_WebDom\HtmlElements.cs" />
     <Compile Include="4_WebDom\SpecialHtmlElements.cs" />
     <Compile Include="6_Svg\SvgCreator.cs" />
-    <Compile Include="1_Composers\5_RenderBoxes\MyHtmlContainer.cs" />
+    <Compile Include="1_Composers\5_RenderBoxes\MyHtmlVisualRoot.cs" />
     <Compile Include="6_Svg\SvgRootEventPortal_IEventPortal.cs" />
     <Compile Include="6_Svg\SvgRootEventPortal.cs" />
     <Compile Include="7_Events\RenderElementEventPortal.cs" />

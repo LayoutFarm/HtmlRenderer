@@ -206,7 +206,7 @@
     <Compile Include="2_Boxes\3_Render\BackgroundImagePaintHelper.cs" />
     <Compile Include="2_Boxes\3_Render\BorderPaintHelper.cs" />
     <Compile Include="2_Boxes\1_CoreBox\CssValueParser.cs" />
-    <Compile Include="2_Boxes\0_Root\HtmlContainer.cs" />
+    <Compile Include="2_Boxes\0_Root\HtmlVisualRoot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="3_Boxes_Layout\0_General\BoxHitUtils.cs" />
     <Compile Include="Platform\RenderUtils.cs" />

@@ -12,18 +12,45 @@ namespace LayoutFarm.HtmlBoxes
         }
         public void AddChild(CssBox box)
         {
-          
+#if DEBUG
+            if (box.dbugIsInAbsLayer)
+            {
+
+            }
+            else
+            {
+                box.dbugIsInAbsLayer = true;
+            }
+#endif
             _boxes.Add(box);
+
         }
         public CssBox GetBox(int index) { return _boxes[index]; }
         public int Count { get { return _boxes.Count; } }
         public void Clear()
         {
+            //clear abs owner
+            for (int i = _boxes.Count - 1; i >= 0; --i)
+            {
+                _boxes[i].ResetAbsoluteLayerOwner();
+#if DEBUG
+                _boxes[i].dbugIsInAbsLayer = false;
+#endif
+            }
+
             _boxes.Clear();
         }
         public bool Remove(CssBox box)
         {
-            return _boxes.Remove(box);
+            if (_boxes.Remove(box))
+            {
+#if DEBUG
+                box.dbugIsInAbsLayer = false;
+#endif
+                box.ResetAbsoluteLayerOwner();
+                return true;
+            }
+            return false;
         }
 
     }
@@ -92,7 +119,7 @@ namespace LayoutFarm.HtmlBoxes
         public void Remove(CssBox box)
         {
             var linkedNode = CssBox.UnsafeGetLinkedNode(box);
-            this._boxes.Remove(linkedNode); 
+            this._boxes.Remove(linkedNode);
             CssBox.UnsafeSetNodes(box, null, null);
         }
         public CssBox GetFirstChild()

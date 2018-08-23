@@ -12,7 +12,7 @@ namespace LayoutFarm.HtmlBoxes
     /// </summary>
     public class HtmlInputEventAdapter
     {
-        HtmlContainer _htmlContainer;
+        HtmlVisualRoot _htmlContainer;
         CssBoxHitChain _latestMouseDownChain = null;
         //-----------------------------------------------
         DateTime lastimeMouseUp;
@@ -34,7 +34,7 @@ namespace LayoutFarm.HtmlBoxes
 
             //this.ifonts = TextServices.IFonts;
         }
-        public void Bind(HtmlContainer htmlCont)
+        public void Bind(HtmlVisualRoot htmlCont)
         {
             this._htmlContainer = htmlCont;
             _isBinded = htmlCont != null;

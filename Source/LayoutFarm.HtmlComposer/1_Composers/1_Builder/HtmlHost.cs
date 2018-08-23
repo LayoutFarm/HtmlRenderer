@@ -13,7 +13,7 @@ namespace LayoutFarm.HtmlBoxes
     public class HtmlHost
     {
         List<LayoutFarm.Composers.CustomCssBoxGenerator> generators = new List<LayoutFarm.Composers.CustomCssBoxGenerator>();
-        HtmlContainerUpdateHandler htmlContainerUpdateHandler;
+        HtmlVisualRootUpdateHandler htmlContainerUpdateHandler;
         EventHandler<ImageRequestEventArgs> requestImage;
         EventHandler<TextRequestEventArgs> requestStyleSheet;
         List<CssBox> waitForUpdateBoxes = new List<CssBox>();
@@ -90,7 +90,7 @@ namespace LayoutFarm.HtmlBoxes
             this.requestImage = null;
             this.requestStyleSheet = null;
         }
-        public void SetHtmlContainerUpdateHandler(HtmlContainerUpdateHandler htmlContainerUpdateHandler)
+        public void SetHtmlContainerUpdateHandler(HtmlVisualRootUpdateHandler htmlContainerUpdateHandler)
         {
             this.htmlContainerUpdateHandler = htmlContainerUpdateHandler;
         }
@@ -98,7 +98,7 @@ namespace LayoutFarm.HtmlBoxes
         public WebDom.CssActiveSheet BaseStylesheet { get; private set; }
 
 
-        public void ChildRequestImage(ImageBinder binder, HtmlContainer htmlCont, object reqFrom, bool _sync)
+        public void ChildRequestImage(ImageBinder binder, HtmlVisualRoot htmlCont, object reqFrom, bool _sync)
         {
             if (this.requestImage != null)
             {
@@ -119,7 +119,7 @@ namespace LayoutFarm.HtmlBoxes
             sharedDocument.CssActiveSheet = this.commonHtmlDoc.CssActiveSheet;
             return sharedDocument;
         }
-        public LayoutVisitor GetSharedHtmlLayoutVisitor(HtmlContainer htmlCont)
+        public LayoutVisitor GetSharedHtmlLayoutVisitor(HtmlVisualRoot htmlCont)
         {
             LayoutVisitor lay = null;
             if (htmlLayoutVisitorStock.Count == 0)
@@ -160,7 +160,7 @@ namespace LayoutFarm.HtmlBoxes
             }
             return renderTreeBuilder;
         }
-        internal void NotifyHtmlContainerUpdate(HtmlContainer htmlCont)
+        internal void NotifyHtmlContainerUpdate(HtmlVisualRoot htmlCont)
         {
             if (htmlContainerUpdateHandler != null)
             {

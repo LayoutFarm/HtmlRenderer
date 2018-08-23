@@ -1,16 +1,19 @@
 ﻿//MIT, 2014-present, WinterDev
-using LayoutFarm.Composers;
 using LayoutFarm.UI;
+using LayoutFarm.WebWidgets;
 namespace LayoutFarm.Demo
 {
-    class Demo05_Dynamic_BoxSpec : DemoBase
+    [DemoNote("6.4 Demo04_DynamicContent2")]
+    class Demo04_DynamicContent2 : HtmlDemoBase
     {
-        public Demo05_Dynamic_BoxSpec()
+        public Demo04_DynamicContent2()
         {
         }
-        protected override void OnStartDemo(HtmlPanel panel)
+        protected override void OnStart(AppHost host)
         {
-            var htmldoc = panel.HtmlHost.CreatePresentationHtmlDoc();
+            base.OnStart(host); //setup
+
+            var htmldoc = this._groundHtmlDoc;
             var rootNode = htmldoc.RootNode;
             //1. create body node             
             // and content  
@@ -27,9 +30,11 @@ namespace LayoutFarm.Demo
                         span.AttachMouseDownEvent(e =>
                         {
 #if DEBUG
-
-                            var s_span = new EaseScriptElement(span);
-                            s_span.ChangeFontColor(PixelFarm.Drawing.Color.Blue);
+                            // System.Diagnostics.Debugger.Break();                           
+                            //test change span property 
+                            //clear prev content and add new  text content 
+                            span.ClearAllElements();
+                            span.AddTextContent("XYZ0001");
 #endif
 
                             e.StopPropagation();
@@ -42,15 +47,6 @@ namespace LayoutFarm.Demo
                         {
                             span.ClearAllElements();
                             span.AddTextContent("LMNOP0003");
-                            var s_span = new EaseScriptElement(span);
-                            s_span.ChangeFontColor(PixelFarm.Drawing.Color.Red);
-                            s_span.ChangeBackgroundColor(PixelFarm.Drawing.Color.Yellow);
-                        });
-                        span.AttachMouseUpEvent(e =>
-                        {
-                            var s_span = new EaseScriptElement(span);
-                            s_span.ChangeFontColor(PixelFarm.Drawing.Color.Black);
-                            s_span.ChangeBackgroundColor(PixelFarm.Drawing.Color.White);
                         });
                     });
                     //----------------------
@@ -66,9 +62,9 @@ namespace LayoutFarm.Demo
                     });
                 });
             });
-            //2. add to view 
-            panel.LoadHtmlDom(htmldoc,
-               LayoutFarm.Composers.CssDefaults.DefaultStyleSheet);
+
+
         }
+
     }
 }

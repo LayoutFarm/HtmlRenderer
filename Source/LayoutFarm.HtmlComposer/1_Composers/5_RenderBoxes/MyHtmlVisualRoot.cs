@@ -7,8 +7,8 @@ using PixelFarm.Drawing;
 using LayoutFarm.WebDom;
 namespace LayoutFarm.HtmlBoxes
 {
-    public delegate void HtmlContainerUpdateHandler(HtmlContainer htmlCont);
-    public sealed class MyHtmlContainer : HtmlContainer
+    public delegate void HtmlVisualRootUpdateHandler(HtmlVisualRoot htmlCont);
+    public sealed class MyHtmlVisualRoot : HtmlVisualRoot
     {
 
         WebDocument webdoc;
@@ -21,7 +21,7 @@ namespace LayoutFarm.HtmlBoxes
         EventHandler domFinished;
         Rectangle _currentSelectionArea;
         bool hasSomeSelectedArea;
-        public MyHtmlContainer(HtmlHost htmlhost)
+        public MyHtmlVisualRoot(HtmlHost htmlhost)
         {
             this.htmlhost = htmlhost;
         }

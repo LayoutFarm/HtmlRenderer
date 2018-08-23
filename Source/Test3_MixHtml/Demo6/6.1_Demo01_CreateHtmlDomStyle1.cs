@@ -1,16 +1,22 @@
 ﻿//MIT, 2014-present, WinterDev
 using LayoutFarm.WebDom;
 using LayoutFarm.UI;
+using LayoutFarm.WebWidgets;
+
 namespace LayoutFarm.Demo
 {
-    class Demo01_CreateHtmlDomStyle1 : DemoBase
+    [DemoNote("6.1 Demo01_CreateHtmlDomStyle1")]
+    class Demo01_CreateHtmlDomStyle1 : HtmlDemoBase
     {
+
         public Demo01_CreateHtmlDomStyle1()
         {
         }
-        protected override void OnStartDemo(HtmlPanel panel)
+        protected override void OnStart(AppHost host)
         {
-            var htmldoc = panel.HtmlHost.CreatePresentationHtmlDoc();
+            base.OnStart(host);//setup
+            
+            var htmldoc = this._groundHtmlDoc;
             var rootNode = htmldoc.RootNode;
             //1. create body node             
             // and content 
@@ -23,8 +29,7 @@ namespace LayoutFarm.Demo
             //-------------------------------------------- 
             span.AddTextContent("ABCD");
             //2. add to view 
-            panel.LoadHtmlDom(htmldoc,
-               LayoutFarm.Composers.CssDefaults.DefaultStyleSheet);
+
             //3. attach event to specific span
             span.AttachEvent(UIEventName.MouseDown, e =>
             {
@@ -48,6 +53,8 @@ namespace LayoutFarm.Demo
 #endif
 
             });
+
         }
+
     }
 }
