@@ -182,7 +182,7 @@ namespace LayoutFarm.CustomWidgets
             else
             {
                 //just parse content and load 
-                this._htmlVisualRoot = HtmlHostExtensions.CreateHtmlContainer(this.htmlhost, htmldoc, htmlRenderBox);
+                this._htmlVisualRoot = HtmlHostExtensions.CreateHtmlVisualRoot(this.htmlhost, htmldoc, htmlRenderBox);
                 SetHtmlContainerEventHandlers();
                 ClearWaitingContent();
                 RaiseLayoutFinished();
@@ -198,7 +198,7 @@ namespace LayoutFarm.CustomWidgets
             else
             {
                 //just parse content and load 
-                this._htmlVisualRoot = HtmlHostExtensions.CreateHtmlContainerFromFullHtml(this.htmlhost, htmlString, htmlRenderBox);
+                this._htmlVisualRoot = HtmlHostExtensions.CreateHtmlVisualRootFromFullHtml(this.htmlhost, htmlString, htmlRenderBox);
                 SetHtmlContainerEventHandlers();
                 ClearWaitingContent();
             }
@@ -213,7 +213,7 @@ namespace LayoutFarm.CustomWidgets
             else
             {
                 //just parse content and load 
-                this._htmlVisualRoot = HtmlHostExtensions.CreateHtmlContainerFromFragmentHtml(this.htmlhost, fragmentHtmlString, htmlRenderBox);
+                this._htmlVisualRoot = HtmlHostExtensions.CreateHtmlVisualRootFromFragmentHtml(this.htmlhost, fragmentHtmlString, htmlRenderBox);
                 SetHtmlContainerEventHandlers();
                 ClearWaitingContent();
             }
@@ -241,10 +241,14 @@ namespace LayoutFarm.CustomWidgets
                 //4
                 (s, e) => { this.RaiseLayoutFinished(); });
         }
-        public MyHtmlVisualRoot HtmlContainer
+        public WebDom.IHtmlDocument HtmlDoc
         {
-            get { return this._htmlVisualRoot; }
+            get
+            {
+                return this._htmlVisualRoot.WebDocument as WebDom.IHtmlDocument;
+            }
         }
+        
         public override void SetViewport(int x, int y, object reqBy)
         {
             base.SetViewport(x, y, reqBy);

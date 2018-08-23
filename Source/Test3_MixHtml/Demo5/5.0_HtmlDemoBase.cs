@@ -32,7 +32,7 @@ namespace LayoutFarm.WebWidgets
             this._host.AddChild(groundHtmlBox);
             //----------------------------------------------------- 
             groundHtmlBox.LoadHtmlFragmentString(html);
-            this._groundHtmlDoc = groundHtmlBox.HtmlContainer.WebDocument as HtmlDocument;
+            this._groundHtmlDoc = groundHtmlBox.HtmlDoc as HtmlDocument;
 
             OnHtmlHostCreated();
         }

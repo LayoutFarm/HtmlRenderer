@@ -42,7 +42,7 @@ namespace LayoutFarm
             </body></html>";
             htmlMenuBox.LoadHtmlString(html);
             //set event handlers
-            var htmldoc = htmlMenuBox.HtmlContainer.WebDocument as IHtmlDocument;
+            var htmldoc = htmlMenuBox.HtmlDoc;
             var div_menuBox = htmldoc.getElementById("menubox") as IHtmlElement;
             if (div_menuBox == null) return;
             //test set innerHTML
@@ -54,7 +54,7 @@ namespace LayoutFarm
                     case "test_dom1":
                         {
                             //test toggle with innerHTML
-                            var testHtmlDoc = testHtmlBox.HtmlContainer.WebDocument as IHtmlDocument;
+                            IHtmlDocument testHtmlDoc = testHtmlBox.HtmlDoc;
                             var div1 = testHtmlDoc.getElementById("div1") as IHtmlElement;
                             if (div1 != null)
                             {
@@ -69,7 +69,8 @@ namespace LayoutFarm
                     case "test_dom2":
                         {
                             //test toggle with DocumentFragment
-                            var testHtmlDoc = testHtmlBox.HtmlContainer.WebDocument as IHtmlDocument;
+                            IHtmlDocument testHtmlDoc = testHtmlBox.HtmlDoc;
+
                             var div1 = testHtmlDoc.getElementById("div1") as IHtmlElement;
                             if (div1 != null)
                             {
@@ -97,7 +98,7 @@ namespace LayoutFarm
                     case "test_dom3":
                         {
                             //shadow dom!
-                            var testHtmlDoc = testHtmlBox.HtmlContainer.WebDocument as IHtmlDocument;
+                            IHtmlDocument testHtmlDoc = testHtmlBox.HtmlDoc;
                             var div1 = testHtmlDoc.getElementById("div1") as IHtmlElement;
                             if (div1 != null)
                             {

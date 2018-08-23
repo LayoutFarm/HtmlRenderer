@@ -5,7 +5,7 @@ namespace LayoutFarm.HtmlBoxes
 {
     static class HtmlHostExtensions
     {
-        public static MyHtmlVisualRoot CreateHtmlContainerFromFullHtml(
+        public static MyHtmlVisualRoot CreateHtmlVisualRootFromFullHtml(
             HtmlHost htmlHost,
             string fullHtmlString,
             HtmlRenderBox htmlFrgmentRenderBox)
@@ -35,7 +35,7 @@ namespace LayoutFarm.HtmlBoxes
             htmlFrgmentRenderBox.SetHtmlContainer(htmlContainer, rootElement);
             return htmlContainer;
         }
-        public static MyHtmlVisualRoot CreateHtmlContainerFromFragmentHtml(
+        public static MyHtmlVisualRoot CreateHtmlVisualRootFromFragmentHtml(
             HtmlHost htmlHost,
             string htmlFragment,
             HtmlRenderBox htmlFrgmentRenderBox)
@@ -75,7 +75,7 @@ namespace LayoutFarm.HtmlBoxes
             return htmlContainer;
         }
 
-        public static MyHtmlVisualRoot CreateHtmlContainer(
+        public static MyHtmlVisualRoot CreateHtmlVisualRoot(
             HtmlHost htmlHost,
             WebDom.WebDocument htmldoc,
             HtmlRenderBox htmlFrgmentRenderBox)
