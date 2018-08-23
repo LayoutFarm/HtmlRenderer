@@ -11,7 +11,7 @@ namespace LayoutFarm.HtmlBoxes
         //reusable
         //---------
 
-        HtmlVisualRoot htmlContainer;
+        HtmlVisualRoot _htmlVisualRoot;
         float totalMarginLeftAndRight;
         Queue<Dictionary<CssBox, PartialBoxStrip>> dicStripPool;
         Queue<List<PartialBoxStrip>> listStripPool;
@@ -25,9 +25,9 @@ namespace LayoutFarm.HtmlBoxes
         {
             this.fontService = fontService;
         }
-        internal void Bind(HtmlVisualRoot htmlCont)
+        internal void Bind(HtmlVisualRoot htmlVisualRoot)
         {
-            this.htmlContainer = htmlCont;
+            this._htmlVisualRoot = htmlVisualRoot;
             if (episodeId == ushort.MaxValue - 1)
             {
                 //reset
@@ -37,7 +37,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         internal void UnBind()
         {
-            this.htmlContainer = null;
+            this._htmlVisualRoot = null;
             if (dicStripPool != null) dicStripPool.Clear();
             if (listStripPool != null) listStripPool.Clear();
             readyDicStrip.Clear();
@@ -116,7 +116,7 @@ namespace LayoutFarm.HtmlBoxes
             float candidateRootWidth = Math.Max(
                 box.CalculateMinimumWidth(this.episodeId) + CalculateWidthMarginTotalUp(box),
                 (box.VisualWidth + this.ContainerBlockGlobalX) < CssBoxConstConfig.BOX_MAX_RIGHT ? box.VisualWidth : 0);
-            this.htmlContainer.UpdateSizeIfWiderOrHigher(
+            this._htmlVisualRoot.UpdateSizeIfWiderOrHigher(
                 this.ContainerBlockGlobalX + candidateRootWidth,
                 this.ContainerBlockGlobalY + box.VisualHeight);
         }
@@ -138,13 +138,13 @@ namespace LayoutFarm.HtmlBoxes
 
         internal void RequestImage(ImageBinder binder, CssBox requestFrom)
         {
-            this.htmlContainer.RaiseImageRequest(binder,
+            this._htmlVisualRoot.RaiseImageRequest(binder,
                 requestFrom,
                 false);
         }
         internal void RequestScrollView(CssBox requestFrom)
         {
-            this.htmlContainer.RequestScrollView(requestFrom);
+            this._htmlVisualRoot.RequestScrollView(requestFrom);
         }
         internal float MeasureWhiteSpace(CssBox box)
         {

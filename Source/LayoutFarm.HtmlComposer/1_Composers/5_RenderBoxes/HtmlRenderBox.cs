@@ -64,7 +64,7 @@ namespace LayoutFarm.HtmlBoxes
 
     static class PaintVisitorStock
     {
-        internal static PaintVisitor GetSharedPaintVisitor(HtmlVisualRoot htmlCont, DrawBoard canvas)
+        internal static PaintVisitor GetSharedPaintVisitor(HtmlVisualRoot htmlVisualRoot, DrawBoard canvas)
         {
             PaintVisitor painter = null;
             if (s_paintVisitorStock.Count == 0)
@@ -76,7 +76,7 @@ namespace LayoutFarm.HtmlBoxes
                 painter = s_paintVisitorStock.Dequeue();
             }
 
-            painter.Bind(htmlCont, canvas);
+            painter.Bind(htmlVisualRoot, canvas);
             return painter;
         }
         internal static void ReleaseSharedPaintVisitor(PaintVisitor p)

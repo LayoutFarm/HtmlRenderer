@@ -14,22 +14,22 @@ namespace LayoutFarm
             HtmlBoxes.HtmlHost htmlhost = new HtmlBoxes.HtmlHost();
             htmlhost.SetRootGraphics(appHost.RootGfx);
 
-            List<HtmlBoxes.HtmlVisualRoot> htmlContUpdateList = new List<HtmlBoxes.HtmlVisualRoot>();
+            List<HtmlBoxes.HtmlVisualRoot> htmlVisualRootUpdateList = new List<HtmlBoxes.HtmlVisualRoot>();
             appHost.RootGfx.ClearingBeforeRender += (s, e) =>
             {
 
                 //1.
                 htmlhost.ClearUpdateWaitingCssBoxes();
-                 
-                int j = htmlContUpdateList.Count;
+
+                int j = htmlVisualRootUpdateList.Count;
                 for (int i = 0; i < j; ++i)
                 {
 
-                    var htmlCont = htmlContUpdateList[i];
-                    htmlCont.RefreshDomIfNeed();
-                    htmlCont.IsInUpdateQueue = false;
+                    HtmlBoxes.HtmlVisualRoot htmlVisualRoot = htmlVisualRootUpdateList[i];
+                    htmlVisualRoot.RefreshDomIfNeed();
+                    htmlVisualRoot.IsInUpdateQueue = false;
                 }
-                htmlContUpdateList.Clear();
+                htmlVisualRootUpdateList.Clear();
             };
             htmlhost.RegisterCssBoxGenerator(new LayoutFarm.CustomWidgets.MyCustomCssBoxGenerator(htmlhost));
             htmlhost.AttachEssentailHandlers(imageReqHandler, textReq);
@@ -38,7 +38,7 @@ namespace LayoutFarm
                 if (!htmlCont.IsInUpdateQueue)
                 {
                     htmlCont.IsInUpdateQueue = true;
-                    htmlContUpdateList.Add(htmlCont);
+                    htmlVisualRootUpdateList.Add(htmlCont);
                 }
             });
 
@@ -88,7 +88,7 @@ namespace LayoutFarm
 
                 return new PixelFarm.CpuBlit.ActualBitmap(gdiBmp.Width, gdiBmp.Height, buffer);
             }
-           
+
         }
     }
 }

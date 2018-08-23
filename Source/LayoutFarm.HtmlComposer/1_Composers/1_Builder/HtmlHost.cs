@@ -98,7 +98,7 @@ namespace LayoutFarm.HtmlBoxes
         public WebDom.CssActiveSheet BaseStylesheet { get; private set; }
 
 
-        public void ChildRequestImage(ImageBinder binder, HtmlVisualRoot htmlCont, object reqFrom, bool _sync)
+        public void ChildRequestImage(ImageBinder binder, object reqFrom, bool _sync)
         {
             if (this.requestImage != null)
             {
@@ -119,7 +119,7 @@ namespace LayoutFarm.HtmlBoxes
             sharedDocument.CssActiveSheet = this.commonHtmlDoc.CssActiveSheet;
             return sharedDocument;
         }
-        public LayoutVisitor GetSharedHtmlLayoutVisitor(HtmlVisualRoot htmlCont)
+        public LayoutVisitor GetSharedHtmlLayoutVisitor(HtmlVisualRoot htmlVisualRoot)
         {
             LayoutVisitor lay = null;
             if (htmlLayoutVisitorStock.Count == 0)
@@ -130,7 +130,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 lay = this.htmlLayoutVisitorStock.Dequeue();
             }
-            lay.Bind(htmlCont);
+            lay.Bind(htmlVisualRoot);
             return lay;
         }
         public void ReleaseHtmlLayoutVisitor(LayoutVisitor lay)
@@ -160,11 +160,11 @@ namespace LayoutFarm.HtmlBoxes
             }
             return renderTreeBuilder;
         }
-        internal void NotifyHtmlContainerUpdate(HtmlVisualRoot htmlCont)
+        internal void NotifyHtmlContainerUpdate(HtmlVisualRoot htmlVisualRoot)
         {
             if (htmlContainerUpdateHandler != null)
             {
-                htmlContainerUpdateHandler(htmlCont);
+                htmlContainerUpdateHandler(htmlVisualRoot);
             }
         }
         public void RegisterCssBoxGenerator(LayoutFarm.Composers.CustomCssBoxGenerator cssBoxGenerator)

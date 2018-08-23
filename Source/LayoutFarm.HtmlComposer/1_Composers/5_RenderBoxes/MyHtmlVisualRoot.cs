@@ -7,7 +7,7 @@ using PixelFarm.Drawing;
 using LayoutFarm.WebDom;
 namespace LayoutFarm.HtmlBoxes
 {
-    public delegate void HtmlVisualRootUpdateHandler(HtmlVisualRoot htmlCont);
+    public delegate void HtmlVisualRootUpdateHandler(HtmlVisualRoot htmlVisualRoot);
     public sealed class MyHtmlVisualRoot : HtmlVisualRoot
     {
 
@@ -159,7 +159,7 @@ namespace LayoutFarm.HtmlBoxes
             //send request to host
             if (binder.State == BinderState.Unload)
             {
-                this.htmlhost.ChildRequestImage(binder, this, reqFrom, _sync);
+                this.htmlhost.ChildRequestImage(binder, reqFrom, _sync);
             }
         }
         protected override void OnRequestScrollView(CssBox box)
