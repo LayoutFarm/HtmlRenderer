@@ -17,6 +17,8 @@ namespace LayoutFarm.HtmlWidgets
         HingeFloatPartStyle floatPartStyle;
         List<MenuItem> childItems;
 
+        int _width;
+        int _height;
 #if DEBUG
         static int s_dbugTotalId;
         public readonly int dbug_id = s_dbugTotalId++;
@@ -24,13 +26,21 @@ namespace LayoutFarm.HtmlWidgets
 
         public MenuItem(int width, int height)
         {
+            //size of each item
+            _width = width;
+            _height = height;
         }
+
+        public int Width { get { return _width; } }
+        public int Height { get { return _height; } }
+
         public DomElement GetPresentationDomNode(DomElement hostNode)
         {
             if (pnode != null) return pnode;
             //-----------------------------------
             var doc = hostNode.OwnerDocument;
             this.pnode = doc.CreateElement("div");
+
             pnode.AddChild("img", item_icon =>
             {
                 menuIcon = item_icon;
@@ -255,7 +265,7 @@ namespace LayoutFarm.HtmlWidgets
             //TODO: review IsLandPart again, this is temp fixed 
             if (!this.IsLandPart)
             {
-                _presentation.SetAttribute("style", "position:absolute;width:200px;height:300px");
+                _presentation.SetAttribute("style", "position:absolute;width:" + this.Width + "px;height:" + this.Height + "px");
             }
 
             if (menuItems != null)
@@ -289,16 +299,16 @@ namespace LayoutFarm.HtmlWidgets
             mnuItem.OwnerMenuBox = this;
         }
 
-        int dbugY = 0;
+
 
         public void ShowMenu(MenuItem relativeToMenuItem)
         {
 #if DEBUG
-            if (this.dbug_id == 1)
-            {
+            //if (this.dbug_id == 1)
+            //{
 
-            }
-            dbugY += 5;
+            //}
+
 #endif
             //add to topmost box 
             if (!showing)
@@ -312,17 +322,15 @@ namespace LayoutFarm.HtmlWidgets
                 var relativeMenuItemElement = relativeToMenuItem.CurrentDomElement as IHtmlElement;
                 int x, y;
                 relativeMenuItemElement.getGlobalLocation(out x, out y);
-
-
                 var pHtmlNode = _presentation as WebDom.Impl.HtmlElement;
 
                 if (relativeToMenuItem.OwnerMenuBox.IsLandPart)
                 {
-                    pHtmlNode.SetLocation(x, y + dbugY);
+                    pHtmlNode.SetLocation(x, y);
                 }
                 else
                 {
-                    pHtmlNode.SetLocation(x + relativeToMenuItem.OwnerMenuBox.Width, y + dbugY);
+                    pHtmlNode.SetLocation(x + relativeToMenuItem.OwnerMenuBox.Width, y);
                 }
 
 
