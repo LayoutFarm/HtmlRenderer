@@ -20,10 +20,18 @@ namespace LayoutFarm.CustomWidgets
                 //1. image req
                 (s, e) =>
                 {
+                    //------
+                    //only 1 manager that handle the img req
+                    //------
+                    //TODO: review 
                     foreach (ImageContentManager imgContentMx in imageContentManList.Keys)
                     {
-                        imgContentMx.AddRequestImage(e.ImageBinder);
+                        if (imgContentMx.AddRequestImage(e.ImageBinder))
+                        {
+                            break;
+                        }
                     }
+
                 },
                 //2. stylesheet request
                 (s, e) =>
@@ -32,7 +40,10 @@ namespace LayoutFarm.CustomWidgets
 
                 });
         }
-
+        /// <summary>
+        /// add text content manager
+        /// </summary>
+        /// <param name="textMan"></param>
         public void AddTextContentMan(TextContentManager textMan)
         {
             if (this.textContentManList.ContainsKey(textMan))
@@ -41,6 +52,10 @@ namespace LayoutFarm.CustomWidgets
             }
             this.textContentManList.Add(textMan, 0);
         }
+        /// <summary>
+        /// add image content manageer
+        /// </summary>
+        /// <param name="imageMan"></param>
         public void AddImageContentMan(ImageContentManager imageMan)
         {
             if (this.imageContentManList.ContainsKey(imageMan))
