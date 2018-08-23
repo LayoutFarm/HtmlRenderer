@@ -60,10 +60,10 @@ namespace LayoutFarm.Demo
     /// </summary>
     public class HtmlPanel : ScrollableControl
     {
-        List<MyHtmlContainer> waitingUpdateList = new List<MyHtmlContainer>();
+        List<MyHtmlVisualRoot> waitingUpdateList = new List<MyHtmlVisualRoot>();
         LayoutFarm.WebDom.WebDocument currentDoc;
         LayoutFarm.HtmlBoxes.HtmlHost htmlhost;
-        LayoutFarm.HtmlBoxes.MyHtmlContainer htmlContainer;
+        LayoutFarm.HtmlBoxes.MyHtmlVisualRoot htmlContainer;
         HtmlInputEventAdapter _htmlInputEventAdapter;
         /// <summary>
         /// the raw base stylesheet data used in the control
@@ -106,14 +106,14 @@ namespace LayoutFarm.Demo
             this.htmlhost = htmlhost;//***
             htmlhost.SetHtmlContainerUpdateHandler(htmlCont =>
             {
-                var updatedHtmlCont = htmlCont as MyHtmlContainer;
+                var updatedHtmlCont = htmlCont as MyHtmlVisualRoot;
                 if (updatedHtmlCont != null && !updatedHtmlCont.IsInUpdateQueue)
                 {
                     updatedHtmlCont.IsInUpdateQueue = true;
                     waitingUpdateList.Add(updatedHtmlCont);
                 }
             });
-            htmlContainer = new MyHtmlContainer(htmlhost);
+            htmlContainer = new MyHtmlVisualRoot(htmlhost);
             htmlContainer.AttachEssentialHandlers(
                 OnRefresh,
                 myHtmlContainer_NeedUpdateDom,
@@ -266,7 +266,7 @@ namespace LayoutFarm.Demo
                 }
             }
         }
-        void SetHtml(LayoutFarm.HtmlBoxes.MyHtmlContainer htmlContainer, string html, CssActiveSheet cssData)
+        void SetHtml(LayoutFarm.HtmlBoxes.MyHtmlVisualRoot htmlContainer, string html, CssActiveSheet cssData)
         {
             //-----------------------------------------------------------------
             var htmldoc = this.currentDoc =
@@ -295,7 +295,7 @@ namespace LayoutFarm.Demo
             Invalidate();
         }
 
-        void BuildCssBoxTree(MyHtmlContainer htmlCont, CssActiveSheet cssData)
+        void BuildCssBoxTree(MyHtmlVisualRoot htmlCont, CssActiveSheet cssData)
         {
             var rootBox = this.htmlhost.GetRenderTreeBuilder().BuildCssRenderTree(
                 this.currentDoc,
@@ -309,7 +309,7 @@ namespace LayoutFarm.Demo
             myHtmlContainer_NeedUpdateDom(this, EventArgs.Empty);
             this.PaintMe();
         }
-        public HtmlContainer GetHtmlContainer()
+        public HtmlVisualRoot GetHtmlContainer()
         {
             return this.htmlContainer;
         }
@@ -625,7 +625,7 @@ namespace LayoutFarm.Demo
         /// </summary>
         private void OnRefresh(object sender, EventArgs e)
         {
-            MyHtmlContainer htmlCont = (MyHtmlContainer)sender;
+            MyHtmlVisualRoot htmlCont = (MyHtmlVisualRoot)sender;
             if (htmlCont.NeedLayout)
             {
                 if (InvokeRequired)
@@ -760,7 +760,7 @@ namespace LayoutFarm.Demo
         #endregion
 
 
-        static PaintVisitor GetSharedPainter(LayoutFarm.HtmlBoxes.HtmlContainer htmlCont, PixelFarm.Drawing.DrawBoard canvas)
+        static PaintVisitor GetSharedPainter(LayoutFarm.HtmlBoxes.HtmlVisualRoot htmlCont, PixelFarm.Drawing.DrawBoard canvas)
         {
             PaintVisitor painter = null;
             if (painterStock.Count == 0)

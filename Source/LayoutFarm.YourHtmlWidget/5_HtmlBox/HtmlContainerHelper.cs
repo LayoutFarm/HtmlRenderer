@@ -5,7 +5,7 @@ namespace LayoutFarm.HtmlBoxes
 {
     static class HtmlContainerHelper
     {
-        public static MyHtmlContainer CreateHtmlContainerFromFullHtml(
+        public static MyHtmlVisualRoot CreateHtmlContainerFromFullHtml(
             HtmlHost htmlHost,
             string fullHtmlString,
             HtmlRenderBox htmlFrgmentRenderBox)
@@ -24,7 +24,7 @@ namespace LayoutFarm.HtmlBoxes
                 htmlFrgmentRenderBox);
             //3. create small htmlContainer
 
-            MyHtmlContainer htmlContainer = new MyHtmlContainer(htmlHost);
+            MyHtmlVisualRoot htmlContainer = new MyHtmlVisualRoot(htmlHost);
             htmlContainer.WebDocument = htmldoc;
             htmlContainer.SetRootCssBox(rootElement);
             htmlContainer.SetMaxSize(htmlFrgmentRenderBox.Width, 0);
@@ -35,7 +35,7 @@ namespace LayoutFarm.HtmlBoxes
             htmlFrgmentRenderBox.SetHtmlContainer(htmlContainer, rootElement);
             return htmlContainer;
         }
-        public static MyHtmlContainer CreateHtmlContainerFromFragmentHtml(
+        public static MyHtmlVisualRoot CreateHtmlContainerFromFragmentHtml(
             HtmlHost htmlHost,
             string htmlFragment,
             HtmlRenderBox htmlFrgmentRenderBox)
@@ -61,7 +61,7 @@ namespace LayoutFarm.HtmlBoxes
                  htmlFrgmentRenderBox);
             //3. create small htmlContainer
 
-            MyHtmlContainer htmlContainer = new MyHtmlContainer(htmlHost);
+            MyHtmlVisualRoot htmlContainer = new MyHtmlVisualRoot(htmlHost);
             htmlContainer.WebDocument = newDivHost.OwnerDocument;
             htmlContainer.SetRootCssBox(rootElement);
             htmlContainer.SetMaxSize(htmlFrgmentRenderBox.Width, 0);
@@ -75,7 +75,7 @@ namespace LayoutFarm.HtmlBoxes
             return htmlContainer;
         }
 
-        public static MyHtmlContainer CreateHtmlContainer(
+        public static MyHtmlVisualRoot CreateHtmlContainer(
             HtmlHost htmlHost,
             WebDom.WebDocument htmldoc,
             HtmlRenderBox htmlFrgmentRenderBox)
@@ -93,7 +93,7 @@ namespace LayoutFarm.HtmlBoxes
                 htmlFrgmentRenderBox);
             //3. create small htmlContainer
 
-            MyHtmlContainer htmlContainer = new MyHtmlContainer(htmlHost);
+            MyHtmlVisualRoot htmlContainer = new MyHtmlVisualRoot(htmlHost);
             htmlContainer.WebDocument = htmldoc;
             htmlContainer.SetRootCssBox(rootElement);
             htmlContainer.SetMaxSize(htmlFrgmentRenderBox.Width, 0);

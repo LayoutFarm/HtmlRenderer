@@ -28,12 +28,11 @@ namespace LayoutFarm.HtmlBoxes
         {
             s_textservice = textservice;
         }
-
-
     }
-    public abstract class HtmlContainer : IDisposable
+
+    public abstract class HtmlVisualRoot : IDisposable
     {
-        
+
         ITextService _textService;
         /// <summary>
         /// the root css box of the parsed html
@@ -48,13 +47,11 @@ namespace LayoutFarm.HtmlBoxes
         float _maxHeight;
 
 
-
-
         public float MaxWidth { get { return this._maxHeight; } }
         public abstract void ClearPreviousSelection();
         public abstract void SetSelection(SelectionRange selRange);
         public abstract void CopySelection(System.Text.StringBuilder stbuilder);
-        public HtmlContainer()
+        public HtmlVisualRoot()
         {
             //TODO: review here again
 
