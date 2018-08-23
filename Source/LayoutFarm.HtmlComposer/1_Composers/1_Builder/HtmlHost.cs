@@ -95,8 +95,8 @@ namespace LayoutFarm.HtmlBoxes
                      LayoutFarm.Composers.CssDefaults.DefaultCssData,
                     true);
             }
+            this.rootgfx = config.RootGraphic;
 
-            SetRootGraphics(config.RootGraphic);
             this._textservice = config.TextService;
             _svgCreator = new Svg.SvgCreator();
 
@@ -125,10 +125,7 @@ namespace LayoutFarm.HtmlBoxes
             }
             waitForUpdateBoxes.Clear();
         }
-        void SetRootGraphics(RootGraphic rootgfx)
-        {
-            this.rootgfx = rootgfx;
-        }
+
         public RootGraphic RootGfx { get { return this.rootgfx; } }
 
         //----------------------

@@ -5,21 +5,23 @@ using System.Collections.Generic;
 
 namespace LayoutFarm
 {
+    //YOUR IMPLEMENTATION ...
+
     public static class HtmlHostCreatorHelper
     {
         public static HtmlBoxes.HtmlHost CreateHtmlHost(AppHost appHost,
             EventHandler<ContentManagers.ImageRequestEventArgs> imageReqHandler,
             EventHandler<ContentManagers.TextRequestEventArgs> textReq)
         {
+            List<HtmlBoxes.HtmlVisualRoot> htmlVisualRootUpdateList = new List<HtmlBoxes.HtmlVisualRoot>();
+
             var config = new HtmlBoxes.HtmlHostCreationConfig()
             {
                 RootGraphic = appHost.RootGfx,
                 TextService = appHost.RootGfx.TextServices
             };
 
-            HtmlBoxes.HtmlHost htmlhost = new HtmlBoxes.HtmlHost(config);  //create html host with config
-
-            List<HtmlBoxes.HtmlVisualRoot> htmlVisualRootUpdateList = new List<HtmlBoxes.HtmlVisualRoot>();
+            HtmlBoxes.HtmlHost htmlhost = new HtmlBoxes.HtmlHost(config);  //create html host with config 
             appHost.RootGfx.ClearingBeforeRender += (s, e) =>
             {
                 //1.
