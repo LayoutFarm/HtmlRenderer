@@ -20,21 +20,33 @@ namespace LayoutFarm.CustomWidgets
             HtmlDocument
         }
 
-        HtmlHost htmlhost;
+        HtmlHost _htmlhost;
         MyHtmlVisualRoot _htmlVisualRoot;
         //presentation
         HtmlRenderBox htmlRenderBox;
         HtmlInputEventAdapter inputEventAdapter;
+
+
         public HtmlBox(HtmlHost htmlHost, int width, int height)
             : base(width, height)
         {
-            this.htmlhost = htmlHost;
+            this._htmlhost = htmlHost;
         }
         internal HtmlHost HtmlHost
         {
-            get { return this.htmlhost; }
+            get { return this._htmlhost; }
         }
-
+        public string BaseUrl
+        {
+            get
+            {
+                return _htmlhost.BaseUrl;
+            }
+            set
+            {
+                _htmlhost.BaseUrl = value;
+            }
+        }
         protected override void OnContentLayout()
         {
             this.PerformContentLayout();
@@ -182,7 +194,7 @@ namespace LayoutFarm.CustomWidgets
             else
             {
                 //just parse content and load 
-                this._htmlVisualRoot = HtmlHostExtensions.CreateHtmlVisualRoot(this.htmlhost, htmldoc, htmlRenderBox);
+                this._htmlVisualRoot = HtmlHostExtensions.CreateHtmlVisualRoot(this._htmlhost, htmldoc, htmlRenderBox);
                 SetHtmlContainerEventHandlers();
                 ClearWaitingContent();
                 RaiseLayoutFinished();
@@ -198,7 +210,7 @@ namespace LayoutFarm.CustomWidgets
             else
             {
                 //just parse content and load 
-                this._htmlVisualRoot = HtmlHostExtensions.CreateHtmlVisualRootFromFullHtml(this.htmlhost, htmlString, htmlRenderBox);
+                this._htmlVisualRoot = HtmlHostExtensions.CreateHtmlVisualRootFromFullHtml(this._htmlhost, htmlString, htmlRenderBox);
                 SetHtmlContainerEventHandlers();
                 ClearWaitingContent();
             }
@@ -213,7 +225,7 @@ namespace LayoutFarm.CustomWidgets
             else
             {
                 //just parse content and load 
-                this._htmlVisualRoot = HtmlHostExtensions.CreateHtmlVisualRootFromFragmentHtml(this.htmlhost, fragmentHtmlString, htmlRenderBox);
+                this._htmlVisualRoot = HtmlHostExtensions.CreateHtmlVisualRootFromFragmentHtml(this._htmlhost, fragmentHtmlString, htmlRenderBox);
                 SetHtmlContainerEventHandlers();
                 ClearWaitingContent();
             }
@@ -231,10 +243,10 @@ namespace LayoutFarm.CustomWidgets
                     //---------------------------
                     if (htmlRenderBox == null) return;
                     //--------------------------- 
-                    htmlhost.GetRenderTreeBuilder().RefreshCssTree(_htmlVisualRoot.RootElement);
-                    LayoutVisitor lay = this.htmlhost.GetSharedHtmlLayoutVisitor(_htmlVisualRoot);
+                    _htmlhost.GetRenderTreeBuilder().RefreshCssTree(_htmlVisualRoot.RootElement);
+                    LayoutVisitor lay = this._htmlhost.GetSharedHtmlLayoutVisitor(_htmlVisualRoot);
                     _htmlVisualRoot.PerformLayout(lay);
-                    this.htmlhost.ReleaseHtmlLayoutVisitor(lay);
+                    this._htmlhost.ReleaseHtmlLayoutVisitor(lay);
                 },
                 //3.
                 (s, e) => this.InvalidateGraphics(),
@@ -248,7 +260,7 @@ namespace LayoutFarm.CustomWidgets
                 return this._htmlVisualRoot.WebDocument as WebDom.IHtmlDocument;
             }
         }
-        
+
         public override void SetViewport(int x, int y, object reqBy)
         {
             base.SetViewport(x, y, reqBy);

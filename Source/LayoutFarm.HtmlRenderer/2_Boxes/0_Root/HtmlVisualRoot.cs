@@ -278,6 +278,7 @@ namespace LayoutFarm.HtmlBoxes
             bool _sync = false)
         {
             //async by default
+
             OnRequestImage(binder, reqBy, false);
         }
 

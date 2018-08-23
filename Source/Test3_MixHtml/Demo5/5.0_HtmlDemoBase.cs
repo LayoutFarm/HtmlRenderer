@@ -39,16 +39,11 @@ namespace LayoutFarm.WebWidgets
         protected virtual void OnHtmlHostCreated()
         {
         }
-
-
-
         protected void AddToViewport(HtmlWidgets.HtmlWidgetBase htmlWidget)
         {
             //
             WebDom.DomElement presentationDomNode = htmlWidget.GetPresentationDomNode(this._groundHtmlDoc);
             this._groundHtmlDoc.BodyElement.AddChild(presentationDomNode);
-            //this.groundHtmlDoc.RootNode.AddChild(presentationDomNode);
-            //sampleViewport.AddContent(htmlWidget.GetPrimaryUIElement(myHtmlHost));
         }
     }
 }

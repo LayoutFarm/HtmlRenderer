@@ -69,7 +69,7 @@ namespace LayoutFarm.HtmlBoxes
 
         ITextService _textservice;
         Svg.SvgCreator _svgCreator;
-
+        string _baseUrl;
 
         public HtmlHost(HtmlHostCreationConfig config)
         {
@@ -103,6 +103,14 @@ namespace LayoutFarm.HtmlBoxes
 
         }
 
+        public string BaseUrl
+        {
+            get { return _baseUrl; }
+            set
+            {
+                _baseUrl = value;
+            }
+        }
         //----------------------
         public void ClearUpdateWaitingCssBoxes()
         {
@@ -176,7 +184,7 @@ namespace LayoutFarm.HtmlBoxes
             lay.UnBind();
             this.htmlLayoutVisitorStock.Enqueue(lay);
         }
-         
+
         public LayoutFarm.Composers.RenderTreeBuilder GetRenderTreeBuilder()
         {
             if (this.renderTreeBuilder == null)
