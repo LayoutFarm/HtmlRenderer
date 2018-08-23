@@ -26,8 +26,7 @@ namespace LayoutFarm.HtmlBoxes
         bool _isBinded;
         int lastDomLayoutVersion;
         const int DOUBLE_CLICK_SENSE = 150;//ms 
-        Stack<CssBoxHitChain> hitChainPools = new Stack<CssBoxHitChain>();
-
+        Stack<CssBoxHitChain> hitChainPools = new Stack<CssBoxHitChain>(); 
 
         public HtmlInputEventAdapter()
         {

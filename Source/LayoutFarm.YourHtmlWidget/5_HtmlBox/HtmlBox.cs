@@ -21,7 +21,7 @@ namespace LayoutFarm.CustomWidgets
         }
 
         HtmlHost htmlhost;
-        MyHtmlVisualRoot myHtmlCont;
+        MyHtmlVisualRoot _htmlVisualRoot;
         //presentation
         HtmlRenderBox htmlRenderBox;
         HtmlInputEventAdapter inputEventAdapter;
@@ -56,8 +56,8 @@ namespace LayoutFarm.CustomWidgets
         {
             if (inputEventAdapter == null)
             {
-                inputEventAdapter = this.htmlhost.GetNewInputEventAdapter();
-                inputEventAdapter.Bind(myHtmlCont);
+                inputEventAdapter = new HtmlInputEventAdapter();
+                inputEventAdapter.Bind(_htmlVisualRoot);
             }
             return inputEventAdapter;
         }
@@ -121,7 +121,7 @@ namespace LayoutFarm.CustomWidgets
                         {
                             //ctrl+ c => copy to clipboard
                             StringBuilder stbuilder = new StringBuilder();
-                            this.myHtmlCont.CopySelection(stbuilder);
+                            this._htmlVisualRoot.CopySelection(stbuilder);
                             LayoutFarm.UI.Clipboard.SetText(stbuilder.ToString());
                         }
                         break;
@@ -182,7 +182,7 @@ namespace LayoutFarm.CustomWidgets
             else
             {
                 //just parse content and load 
-                this.myHtmlCont = HtmlHostExtensions.CreateHtmlContainer(this.htmlhost, htmldoc, htmlRenderBox);
+                this._htmlVisualRoot = HtmlHostExtensions.CreateHtmlContainer(this.htmlhost, htmldoc, htmlRenderBox);
                 SetHtmlContainerEventHandlers();
                 ClearWaitingContent();
                 RaiseLayoutFinished();
@@ -198,7 +198,7 @@ namespace LayoutFarm.CustomWidgets
             else
             {
                 //just parse content and load 
-                this.myHtmlCont = HtmlHostExtensions.CreateHtmlContainerFromFullHtml(this.htmlhost, htmlString, htmlRenderBox);
+                this._htmlVisualRoot = HtmlHostExtensions.CreateHtmlContainerFromFullHtml(this.htmlhost, htmlString, htmlRenderBox);
                 SetHtmlContainerEventHandlers();
                 ClearWaitingContent();
             }
@@ -213,7 +213,7 @@ namespace LayoutFarm.CustomWidgets
             else
             {
                 //just parse content and load 
-                this.myHtmlCont = HtmlHostExtensions.CreateHtmlContainerFromFragmentHtml(this.htmlhost, fragmentHtmlString, htmlRenderBox);
+                this._htmlVisualRoot = HtmlHostExtensions.CreateHtmlContainerFromFragmentHtml(this.htmlhost, fragmentHtmlString, htmlRenderBox);
                 SetHtmlContainerEventHandlers();
                 ClearWaitingContent();
             }
@@ -222,7 +222,7 @@ namespace LayoutFarm.CustomWidgets
 
         void SetHtmlContainerEventHandlers()
         {
-            myHtmlCont.AttachEssentialHandlers(
+            _htmlVisualRoot.AttachEssentialHandlers(
                 //1.
                 (s, e) => this.InvalidateGraphics(),
                 //2.
@@ -231,9 +231,9 @@ namespace LayoutFarm.CustomWidgets
                     //---------------------------
                     if (htmlRenderBox == null) return;
                     //--------------------------- 
-                    htmlhost.GetRenderTreeBuilder().RefreshCssTree(myHtmlCont.RootElement);
-                    LayoutVisitor lay = this.htmlhost.GetSharedHtmlLayoutVisitor(myHtmlCont);
-                    myHtmlCont.PerformLayout(lay);
+                    htmlhost.GetRenderTreeBuilder().RefreshCssTree(_htmlVisualRoot.RootElement);
+                    LayoutVisitor lay = this.htmlhost.GetSharedHtmlLayoutVisitor(_htmlVisualRoot);
+                    _htmlVisualRoot.PerformLayout(lay);
                     this.htmlhost.ReleaseHtmlLayoutVisitor(lay);
                 },
                 //3.
@@ -243,7 +243,7 @@ namespace LayoutFarm.CustomWidgets
         }
         public MyHtmlVisualRoot HtmlContainer
         {
-            get { return this.myHtmlCont; }
+            get { return this._htmlVisualRoot; }
         }
         public override void SetViewport(int x, int y, object reqBy)
         {

@@ -102,14 +102,7 @@ namespace LayoutFarm.HtmlBoxes
 
 
         }
-        internal ITextService GetTextService()
-        {
-            return _textservice;
-        }
-        internal void EnqueueCssUpdate(CssBox box)
-        {
-            waitForUpdateBoxes.Add(box);
-        }
+
         //----------------------
         public void ClearUpdateWaitingCssBoxes()
         {
@@ -147,15 +140,6 @@ namespace LayoutFarm.HtmlBoxes
         {
             this._visualHtmlRootUpdateHandler = visualHtmlRootUpdateHandler;
         }
-        internal void ChildRequestImage(ImageBinder binder, HtmlVisualRoot visualRoot, object reqFrom, bool _sync)
-        {
-            if (this._requestImage != null)
-            {
-                ImageRequestEventArgs resReq = new ImageRequestEventArgs(binder);
-                resReq.requestBy = reqFrom;
-                _requestImage(this, resReq);
-            }
-        }
 
         //---
         public HtmlDocument CreateNewDocumentFragment()
@@ -192,14 +176,7 @@ namespace LayoutFarm.HtmlBoxes
             lay.UnBind();
             this.htmlLayoutVisitorStock.Enqueue(lay);
         }
-        // 
-        //-------------
-        public HtmlInputEventAdapter GetNewInputEventAdapter()
-        {
-            return new HtmlInputEventAdapter();
-        }
-        //-----------------------
-
+         
         public LayoutFarm.Composers.RenderTreeBuilder GetRenderTreeBuilder()
         {
             if (this.renderTreeBuilder == null)
@@ -232,7 +209,24 @@ namespace LayoutFarm.HtmlBoxes
 
 
 
-
+        //
+        internal void ChildRequestImage(ImageBinder binder, HtmlVisualRoot visualRoot, object reqFrom, bool _sync)
+        {
+            if (this._requestImage != null)
+            {
+                ImageRequestEventArgs resReq = new ImageRequestEventArgs(binder);
+                resReq.requestBy = reqFrom;
+                _requestImage(this, resReq);
+            }
+        }
+        internal ITextService GetTextService()
+        {
+            return _textservice;
+        }
+        internal void EnqueueCssUpdate(CssBox box)
+        {
+            waitForUpdateBoxes.Add(box);
+        }
         internal void NotifyHtmlVisualRootUpdate(HtmlVisualRoot htmlVisualRoot)
         {
             if (_visualHtmlRootUpdateHandler != null)

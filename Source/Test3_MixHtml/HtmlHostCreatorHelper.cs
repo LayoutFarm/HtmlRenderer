@@ -21,12 +21,13 @@ namespace LayoutFarm
                 TextService = appHost.RootGfx.TextServices
             };
 
+            //1.
             HtmlBoxes.HtmlHost htmlhost = new HtmlBoxes.HtmlHost(config);  //create html host with config 
             appHost.RootGfx.ClearingBeforeRender += (s, e) =>
             {
-                //1.
+                //
                 htmlhost.ClearUpdateWaitingCssBoxes();
-                //2. remaining 
+                //
                 int j = htmlVisualRootUpdateList.Count;
                 for (int i = 0; i < j; ++i)
                 {
@@ -37,8 +38,11 @@ namespace LayoutFarm
                 }
                 htmlVisualRootUpdateList.Clear();
             };
+            //2.
             htmlhost.RegisterCssBoxGenerator(new LayoutFarm.CustomWidgets.MyCustomCssBoxGenerator(htmlhost));
+            //3.
             htmlhost.AttachEssentailHandlers(imageReqHandler, textReq);
+            //4.
             htmlhost.SetHtmlVisualRootUpdateHandler(htmlVisualRoot =>
             {
                 if (!htmlVisualRoot.IsInUpdateQueue)
@@ -46,9 +50,7 @@ namespace LayoutFarm
                     htmlVisualRoot.IsInUpdateQueue = true;
                     htmlVisualRootUpdateList.Add(htmlVisualRoot);
                 }
-            });
-
-
+            }); 
 
             PaintLab.Svg.VgResourceIO.VgImgIOHandler = RequestImgAync;
             return htmlhost;
