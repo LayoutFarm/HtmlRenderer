@@ -24,8 +24,9 @@ namespace LayoutFarm.HtmlBoxes
         public MyHtmlVisualRoot(HtmlHost htmlhost)
         {
             this.htmlhost = htmlhost;
-        }
+            _textService = htmlhost.GetTextService();
 
+        }
         public void AttachEssentialHandlers(EventHandler domVisualRefreshHandler,
             EventHandler domRequestRebuildHandler,
             EventHandler containerInvalidateGfxHanlder,

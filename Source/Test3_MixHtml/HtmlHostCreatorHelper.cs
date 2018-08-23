@@ -11,8 +11,13 @@ namespace LayoutFarm
             EventHandler<ContentManagers.ImageRequestEventArgs> imageReqHandler,
             EventHandler<ContentManagers.TextRequestEventArgs> textReq)
         {
-            HtmlBoxes.HtmlHost htmlhost = new HtmlBoxes.HtmlHost();
-            htmlhost.SetRootGraphics(appHost.RootGfx);
+            var config = new HtmlBoxes.HtmlHostCreationConfig()
+            {
+                RootGraphic = appHost.RootGfx,
+                TextService = appHost.RootGfx.TextServices
+            };
+
+            HtmlBoxes.HtmlHost htmlhost = new HtmlBoxes.HtmlHost(config);  //create html host with config
 
             List<HtmlBoxes.HtmlVisualRoot> htmlVisualRootUpdateList = new List<HtmlBoxes.HtmlVisualRoot>();
             appHost.RootGfx.ClearingBeforeRender += (s, e) =>
@@ -21,6 +26,7 @@ namespace LayoutFarm
                 //1.
                 htmlhost.ClearUpdateWaitingCssBoxes();
 
+                //2. remaining 
                 int j = htmlVisualRootUpdateList.Count;
                 for (int i = 0; i < j; ++i)
                 {
@@ -33,23 +39,25 @@ namespace LayoutFarm
             };
             htmlhost.RegisterCssBoxGenerator(new LayoutFarm.CustomWidgets.MyCustomCssBoxGenerator(htmlhost));
             htmlhost.AttachEssentailHandlers(imageReqHandler, textReq);
-            htmlhost.SetHtmlVisualRootUpdateHandler(htmlCont =>
+            htmlhost.SetHtmlVisualRootUpdateHandler(htmlVisualRoot =>
             {
-                if (!htmlCont.IsInUpdateQueue)
+                if (!htmlVisualRoot.IsInUpdateQueue)
                 {
-                    htmlCont.IsInUpdateQueue = true;
-                    htmlVisualRootUpdateList.Add(htmlCont);
+                    htmlVisualRoot.IsInUpdateQueue = true;
+                    htmlVisualRootUpdateList.Add(htmlVisualRoot);
                 }
             });
 
-            PaintLab.Svg.VgResourceIO._vgIODelegate = RequestImgAyncs;
+
+            //set vg io delegate 
+            PaintLab.Svg.VgResourceIO._vgIODelegate = RequestImgAync;
 
             return htmlhost;
         }
 
 
         static ContentManagers.ImageContentManager _contentMx;
-        static void RequestImgAyncs(LayoutFarm.ImageBinder binder, PaintLab.Svg.SvgRenderElement imgRun, object requestFrom)
+        static void RequestImgAync(LayoutFarm.ImageBinder binder, PaintLab.Svg.SvgRenderElement imgRun, object requestFrom)
         {
             if (_contentMx == null)
             {

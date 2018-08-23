@@ -3,13 +3,50 @@
 
 using System;
 using System.Collections.Generic;
+using System.Text;
+
 using PixelFarm.Drawing;
-using LayoutFarm.ContentManagers;
+
 using LayoutFarm.Composers;
+using LayoutFarm.ContentManagers;
 using LayoutFarm.Css;
 using LayoutFarm.WebDom;
+
 namespace LayoutFarm.HtmlBoxes
 {
+
+    public class HtmlHostCreationConfig
+    {
+        StringBuilder _validateResult;
+        public HtmlHostCreationConfig()
+        {
+
+        }
+        public CssActiveSheet ActiveSheet { get; set; }
+        public ITextService TextService { get; set; }
+        public RootGraphic RootGraphic { get; set; }
+        public bool ValidateConfig()
+        {
+            _validateResult = new StringBuilder();
+            bool validatePass = true;
+            if (TextService == null)
+            {
+                _validateResult.AppendLine("No TextService");
+                validatePass = false;
+            }
+            if (RootGraphic == null)
+            {
+                _validateResult.AppendLine("No RootGraphics");
+                validatePass = false;
+            }
+
+            return validatePass;
+        }
+        public string GetValidationResult()
+        {
+            return (_validateResult == null) ? null : _validateResult.ToString();
+        }
+    }
 
 
     public class HtmlHost
@@ -33,25 +70,37 @@ namespace LayoutFarm.HtmlBoxes
         ITextService _textservice;
         Svg.SvgCreator _svgCreator;
 
-        private HtmlHost(WebDom.CssActiveSheet activeSheet)
-        {
 
-            this.BaseStylesheet = activeSheet;
-            this.commonHtmlDoc = new HtmlDocument(this);
-            this.commonHtmlDoc.CssActiveSheet = activeSheet;
-
-            this._textservice = MyFontServices.GetTextService();
-            HtmlContainerTextService.SetTextService(this._textservice);
-            _svgCreator = new Svg.SvgCreator();
-
-        }
-        public HtmlHost()
-            : this(
-              LayoutFarm.WebDom.Parser.CssParserHelper.ParseStyleSheet(null,
-              LayoutFarm.Composers.CssDefaults.DefaultCssData,
-             true))
+        public HtmlHost(HtmlHostCreationConfig config)
         {
             //use default style sheet
+
+#if DEBUG
+            if (!config.ValidateConfig())
+            {
+                throw new NotSupportedException();
+            }
+#endif
+
+            this.commonHtmlDoc = new HtmlDocument(this);
+            if (config.ActiveSheet != null)
+            {
+                this.commonHtmlDoc.CssActiveSheet = this.BaseStylesheet = config.ActiveSheet;
+            }
+            else
+            {
+                //use default
+                this.commonHtmlDoc.CssActiveSheet = this.BaseStylesheet =
+                     LayoutFarm.WebDom.Parser.CssParserHelper.ParseStyleSheet(null,
+                     LayoutFarm.Composers.CssDefaults.DefaultCssData,
+                    true);
+            }
+
+            SetRootGraphics(config.RootGraphic);
+            this._textservice = config.TextService;
+            _svgCreator = new Svg.SvgCreator();
+
+
         }
         internal ITextService GetTextService()
         {
@@ -76,7 +125,7 @@ namespace LayoutFarm.HtmlBoxes
             }
             waitForUpdateBoxes.Clear();
         }
-        public void SetRootGraphics(RootGraphic rootgfx)
+        void SetRootGraphics(RootGraphic rootgfx)
         {
             this.rootgfx = rootgfx;
         }
