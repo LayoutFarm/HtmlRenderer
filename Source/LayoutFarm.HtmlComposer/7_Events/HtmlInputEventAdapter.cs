@@ -22,7 +22,7 @@ namespace LayoutFarm.HtmlBoxes
         CssBox _mouseDownStartAt;
         //-----------------------------------------------
 
-        ITextService ifonts;
+        ITextService _textService;
         bool _isBinded;
         int lastDomLayoutVersion;
         const int DOUBLE_CLICK_SENSE = 150;//ms 
@@ -31,14 +31,12 @@ namespace LayoutFarm.HtmlBoxes
 
         public HtmlInputEventAdapter()
         {
-
-            //this.ifonts = TextServices.IFonts;
         }
         public void Bind(HtmlVisualRoot htmlVisualRoot)
         {
             this._htmlVisualRoot = htmlVisualRoot;
             _isBinded = htmlVisualRoot != null;
-            this.ifonts = htmlVisualRoot.GetTextService();// ((RootGraphic)htmlCont.RootCssBox.GetInternalRootGfx()).IFonts;
+            this._textService = htmlVisualRoot.GetTextService();// ((RootGraphic)htmlCont.RootCssBox.GetInternalRootGfx()).IFonts;
         }
         public void Unbind()
         {
@@ -50,8 +48,7 @@ namespace LayoutFarm.HtmlBoxes
             int count = hitChain.Count;
             if (count > 0)
             {
-                var hitInfo = hitChain.GetHitInfo(count - 1);
-                e.ExactHitObject = hitInfo.hitObject;
+                e.ExactHitObject = hitChain.GetHitInfo(count - 1).hitObject;
             }
         }
         public void MouseDown(UIMouseEventArgs e, CssBox startAt)
@@ -161,7 +158,7 @@ namespace LayoutFarm.HtmlBoxes
                             var newSelectionRange = new SelectionRange(
                                   _latestMouseDownChain,
                                    hitChain,
-                                   this.ifonts);
+                                   this._textService);
                             if (newSelectionRange.IsValid)
                             {
                                 this._htmlVisualRoot.SetSelection(newSelectionRange);
