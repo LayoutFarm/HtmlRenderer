@@ -22,10 +22,8 @@ namespace LayoutFarm
             List<HtmlBoxes.HtmlVisualRoot> htmlVisualRootUpdateList = new List<HtmlBoxes.HtmlVisualRoot>();
             appHost.RootGfx.ClearingBeforeRender += (s, e) =>
             {
-
                 //1.
                 htmlhost.ClearUpdateWaitingCssBoxes();
-
                 //2. remaining 
                 int j = htmlVisualRootUpdateList.Count;
                 for (int i = 0; i < j; ++i)
@@ -49,9 +47,8 @@ namespace LayoutFarm
             });
 
 
-            //set vg io delegate 
-            PaintLab.Svg.VgResourceIO._vgIODelegate = RequestImgAync;
 
+            PaintLab.Svg.VgResourceIO.VgImgIOHandler = RequestImgAync;
             return htmlhost;
         }
 
@@ -59,6 +56,7 @@ namespace LayoutFarm
         static ContentManagers.ImageContentManager _contentMx;
         static void RequestImgAync(LayoutFarm.ImageBinder binder, PaintLab.Svg.SvgRenderElement imgRun, object requestFrom)
         {
+            //create default
             if (_contentMx == null)
             {
                 _contentMx = new ContentManagers.ImageContentManager();
@@ -82,7 +80,6 @@ namespace LayoutFarm
             {
 
             }
-
 
             using (System.Drawing.Bitmap gdiBmp = new System.Drawing.Bitmap(imgName))
             {
