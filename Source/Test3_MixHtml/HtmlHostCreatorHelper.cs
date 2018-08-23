@@ -50,26 +50,23 @@ namespace LayoutFarm
                     htmlVisualRoot.IsInUpdateQueue = true;
                     htmlVisualRootUpdateList.Add(htmlVisualRoot);
                 }
-            }); 
+            });
 
-            PaintLab.Svg.VgResourceIO.VgImgIOHandler = RequestImgAync;
-            return htmlhost;
-        }
-
-
-        static ContentManagers.ImageContentManager _contentMx;
-        static void RequestImgAync(LayoutFarm.ImageBinder binder, PaintLab.Svg.SvgRenderElement imgRun, object requestFrom)
-        {
-            //create default
-            if (_contentMx == null)
+            //-----------------------------------------------------------------
+            //each HtmlHost has its own image content manager
+            var imgContentMx = new ContentManagers.ImageContentManager();
+            imgContentMx.ImageLoadingRequest += (s, e) =>
             {
-                _contentMx = new ContentManagers.ImageContentManager();
-                _contentMx.ImageLoadingRequest += (s, e) =>
-                {
-                    e.SetResultImage(LoadImgForSvgElem(e.ImagSource));
-                };
-            }
-            _contentMx.AddRequestImage(binder);
+                //check loading policy here  
+                //
+                e.SetResultImage(LoadImgForSvgElem(e.ImagSource));
+            };
+
+            PaintLab.Svg.VgResourceIO.VgImgIOHandler = (LayoutFarm.ImageBinder binder, PaintLab.Svg.SvgRenderElement imgRun, object requestFrom) =>
+            {
+                imgContentMx.AddRequestImage(binder);
+            };
+            return htmlhost;
         }
         static PixelFarm.Drawing.Image LoadImgForSvgElem(string imgName)
         {
