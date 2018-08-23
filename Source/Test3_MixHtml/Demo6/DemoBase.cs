@@ -4,26 +4,27 @@ using PixelFarm.Drawing;
 
 namespace LayoutFarm.Demo
 {
-    public abstract class DemoBase
-    {
-        public void StartDemo(HtmlPanel panel)
-        {
-            this.OnStartDemo(panel);
-        }
-        protected virtual void OnStartDemo(HtmlPanel panel)
-        {
-        }
-        public static PixelFarm.Drawing.Image LoadBitmap(string filename)
-        {
-            System.Drawing.Bitmap gdiBmp = new System.Drawing.Bitmap(filename);
-            DemoBitmap bmp = new DemoBitmap(gdiBmp.Width, gdiBmp.Height, gdiBmp);
-            return bmp;
-        }
-        public static PixelFarm.Drawing.Image LoadBitmap(System.Drawing.Bitmap bmp)
-        {
-            return new DemoBitmap(bmp.Width, bmp.Height, bmp);
-        }
-    }
+    //public abstract class DemoBase
+    //{
+    //    public void StartDemo(HtmlPanel panel)
+    //    {
+    //        this.OnStartDemo(panel);
+    //    }
+    //    protected virtual void OnStartDemo(HtmlPanel panel)
+    //    {
+    //    }
+    //    public static PixelFarm.Drawing.Image LoadBitmap(string filename)
+    //    {
+    //        System.Drawing.Bitmap gdiBmp = new System.Drawing.Bitmap(filename);
+    //        DemoBitmap bmp = new DemoBitmap(gdiBmp.Width, gdiBmp.Height, gdiBmp);
+    //        return bmp;
+    //    }
+    //    public static PixelFarm.Drawing.Image LoadBitmap(System.Drawing.Bitmap bmp)
+    //    {
+    //        return new DemoBitmap(bmp.Width, bmp.Height, bmp);
+    //    }
+    //}
+
     sealed class DemoBitmap : PixelFarm.Drawing.Image
     {
         int width;
