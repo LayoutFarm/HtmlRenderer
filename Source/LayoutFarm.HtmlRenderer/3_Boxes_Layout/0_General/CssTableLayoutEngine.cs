@@ -358,6 +358,7 @@ namespace LayoutFarm.HtmlBoxes
                                             }
                                         }
                                     }
+#if DEBUG
                                     if (childBox.ActualBorderLeftWidth > 0 ||
                                         childBox.ActualBorderRightWidth > 0 ||
                                         childBox.ActualPaddingRight > 0 ||
@@ -365,6 +366,7 @@ namespace LayoutFarm.HtmlBoxes
                                     {
 
                                     }
+#endif
 
                                 }
                             }
@@ -421,7 +423,7 @@ namespace LayoutFarm.HtmlBoxes
                                col.MaxContentWidth);
                             col.SetWidth(newW, ColumnSpecificWidthLevel.Adjust);
                             occupiedSpace += (newW - c_width);
-                        } 
+                        }
                     }
                 }
                 //----------
