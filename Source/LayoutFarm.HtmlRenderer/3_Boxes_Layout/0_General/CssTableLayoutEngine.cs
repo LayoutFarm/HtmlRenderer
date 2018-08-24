@@ -100,7 +100,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 float box_fontsize = box.ResolvedFont.SizeInPixels;
                 ITextService ifonts = lay.SampleIFonts;
-                foreach (var childBox in box.GetChildBoxIter())
+                foreach (CssBox childBox in box.GetChildBoxIter())
                 {
                     childBox.ReEvaluateFont(ifonts, box_fontsize);
                     childBox.MeasureRunsSize(lay);
