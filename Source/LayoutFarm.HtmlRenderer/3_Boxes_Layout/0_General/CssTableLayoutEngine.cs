@@ -349,27 +349,20 @@ namespace LayoutFarm.HtmlBoxes
                                     }
                                     else
                                     {
-                                        float cellBoxWidth = CssValueParser.ConvertToPx(childBox.Width, availbleWidthForAllCells, childBox);
+                                        float cellBoxWidth = CssValueParser.ConvertToPx(childBox.Width, availbleWidthForAllCells, childBox) +
+                                                             childBox.ActualPaddingLeft + childBox.ActualPaddingRight;
+
                                         if (cellBoxWidth > 0) //If some width specified
                                         {
                                             int colspan = childBox.ColSpan;
                                             cellBoxWidth /= colspan;
                                             for (int n = i; n < i + colspan; n++)
                                             {
+                                                //update back
                                                 columnCollection[n].S3_UpdateIfWider(cellBoxWidth, ColumnSpecificWidthLevel.FromCellConstraint);
                                             }
                                         }
                                     }
-#if DEBUG
-                                    if (childBox.ActualBorderLeftWidth > 0 ||
-                                        childBox.ActualBorderRightWidth > 0 ||
-                                        childBox.ActualPaddingRight > 0 ||
-                                        childBox.ActualPaddingLeft > 0)
-                                    {
-
-                                    }
-#endif
-
                                 }
                             }
                         }
@@ -790,7 +783,7 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
 
-       
+
         /// <summary>
         /// Layout the cells by the calculated table layout
         /// </summary>

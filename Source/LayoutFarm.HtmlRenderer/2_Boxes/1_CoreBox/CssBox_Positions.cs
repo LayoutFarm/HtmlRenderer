@@ -407,33 +407,31 @@ namespace LayoutFarm.HtmlBoxes
 #if DEBUG
         void dbugBeforeSetWidth(float width)
         {
-            if (width == 37)
-            {
+            //if (width == 37)
+            //{
 
-            }
+            //}
             //Console.WriteLine(this.__aa_dbugId + " :" + width);
             //if (this.__aa_dbugId == 3)
             //{
             //}
         }
-        void dbugAferSetVisualWidth()
-        {
-            if (this._visualWidth == 37)
-            {
-
-            }
-        }
-        void dbugAfterSetCssWidth()
-        {
-            if (this._cssBoxWidth == 37)
-            {
-
-            }
-        }
         void dbugBeforeSetHeight(float height)
         {
         }
 
+        void dbugAferSetVisualWidth()
+        {
+            //if (this._visualWidth == 37)
+            //{ 
+            //}
+        }
+        void dbugAfterSetCssWidth()
+        {
+            //if (this._cssBoxWidth == 37)
+            //{ 
+            //}
+        }
 #endif
         /// <summary>
         /// set box width related to its boxsizing model  and recalcualte visual width 
