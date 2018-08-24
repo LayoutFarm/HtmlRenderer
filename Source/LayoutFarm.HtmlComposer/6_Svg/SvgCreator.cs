@@ -14,14 +14,9 @@ namespace LayoutFarm.Svg
     class SvgCreator
     {
 
-
-
         SvgDocBuilder _svgDocBuilder = new SvgDocBuilder();
         SvgElementSpecEvaluator _svgSpecEval = new SvgElementSpecEvaluator();
         SvgDocument _currentDoc;
-
-
-
         public CssBoxSvgRoot CreateSvgBox(CssBox parentBox,
             HtmlElement elementNode,
             Css.BoxSpec spec)
@@ -54,7 +49,7 @@ namespace LayoutFarm.Svg
         }
 
         static LayoutFarm.ContentManagers.ImageContentManager _contentMx;
-       
+
         void CreateBoxContent(HtmlElement elem)
         {
             //recursive ***

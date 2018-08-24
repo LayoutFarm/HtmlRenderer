@@ -11,7 +11,11 @@ namespace LayoutFarm.Composers
             CssBox parentBox,
             BoxSpec spec,
             HtmlHost host);
-        public static CssBox CreateWrapper(HtmlHost htmlhost, object owner, RenderElement renderElement, BoxSpec spec, bool isInline)
+        public static CssBox CreateWrapper(HtmlHost htmlhost,
+            object owner, 
+            RenderElement renderElement, 
+            BoxSpec spec,
+            bool isInline)
         {
             var portalEvent = owner as IEventPortal;
             if (portalEvent == null)

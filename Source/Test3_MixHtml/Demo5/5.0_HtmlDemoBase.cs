@@ -32,23 +32,18 @@ namespace LayoutFarm.WebWidgets
             this._host.AddChild(groundHtmlBox);
             //----------------------------------------------------- 
             groundHtmlBox.LoadHtmlFragmentString(html);
-            this._groundHtmlDoc = groundHtmlBox.HtmlContainer.WebDocument as HtmlDocument;
+            this._groundHtmlDoc = groundHtmlBox.HtmlDoc as HtmlDocument;
 
             OnHtmlHostCreated();
         }
         protected virtual void OnHtmlHostCreated()
         {
         }
-
-
-
         protected void AddToViewport(HtmlWidgets.HtmlWidgetBase htmlWidget)
         {
             //
             WebDom.DomElement presentationDomNode = htmlWidget.GetPresentationDomNode(this._groundHtmlDoc);
             this._groundHtmlDoc.BodyElement.AddChild(presentationDomNode);
-            //this.groundHtmlDoc.RootNode.AddChild(presentationDomNode);
-            //sampleViewport.AddContent(htmlWidget.GetPrimaryUIElement(myHtmlHost));
         }
     }
 }

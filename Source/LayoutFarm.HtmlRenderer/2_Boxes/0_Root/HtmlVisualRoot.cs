@@ -19,21 +19,10 @@ using PixelFarm.Drawing;
 namespace LayoutFarm.HtmlBoxes
 {
 
-
-    public static class HtmlContainerTextService
-    {
-
-        internal static ITextService s_textservice;
-        public static void SetTextService(ITextService textservice)
-        {
-            s_textservice = textservice;
-        }
-    }
-
     public abstract class HtmlVisualRoot : IDisposable
     {
 
-        ITextService _textService;
+        protected ITextService _textService;
         /// <summary>
         /// the root css box of the parsed html
         /// </summary>
@@ -53,15 +42,6 @@ namespace LayoutFarm.HtmlBoxes
         public abstract void CopySelection(System.Text.StringBuilder stbuilder);
         public HtmlVisualRoot()
         {
-            //TODO: review here again
-
-            _textService = HtmlContainerTextService.s_textservice;
-#if DEBUG
-            if (_textService == null)
-            {
-                throw new NotSupportedException();
-            }
-#endif
         }
         public ITextService GetTextService()
         {
@@ -298,6 +278,7 @@ namespace LayoutFarm.HtmlBoxes
             bool _sync = false)
         {
             //async by default
+
             OnRequestImage(binder, reqBy, false);
         }
 

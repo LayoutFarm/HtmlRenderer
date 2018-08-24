@@ -10,7 +10,7 @@ namespace LayoutFarm.HtmlBoxes
     {
         Stack<Rectangle> clipStacks = new Stack<Rectangle>();
         PointF[] borderPoints = new PointF[4];
-        HtmlVisualRoot htmlContainer;
+        HtmlVisualRoot _htmlVisualRoot;
         DrawBoard canvas;
         Rectangle latestClip = new Rectangle(0, 0, CssBoxConstConfig.BOX_MAX_RIGHT, CssBoxConstConfig.BOX_MAX_BOTTOM);
         MultiLayerStack<CssBox> latePaintStack = new MultiLayerStack<CssBox>();
@@ -20,9 +20,9 @@ namespace LayoutFarm.HtmlBoxes
         public PaintVisitor()
         {
         }
-        public void Bind(HtmlVisualRoot htmlCont, DrawBoard canvas)
+        public void Bind(HtmlVisualRoot htmlVisualRoot, DrawBoard canvas)
         {
-            this.htmlContainer = htmlCont;
+            this._htmlVisualRoot = htmlVisualRoot;
             this.canvas = canvas;
         }
 
@@ -32,7 +32,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             //clear
             this.canvas = null;
-            this.htmlContainer = null;
+            this._htmlVisualRoot = null;
             this.clipStacks.Clear();
             this.latestClip = new Rectangle(0, 0, CssBoxConstConfig.BOX_MAX_RIGHT, CssBoxConstConfig.BOX_MAX_BOTTOM);
         }
@@ -128,9 +128,9 @@ namespace LayoutFarm.HtmlBoxes
             CssImageRun imgRun,
             object requestFrom)
         {
-            if (htmlContainer != null)
+            if (_htmlVisualRoot != null)
             {
-                this.htmlContainer.RaiseImageRequest(
+                this._htmlVisualRoot.RaiseImageRequest(
                     binder,
                     requestFrom,
                     false);

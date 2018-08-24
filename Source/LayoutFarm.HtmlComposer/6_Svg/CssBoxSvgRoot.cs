@@ -20,14 +20,13 @@ namespace LayoutFarm.HtmlBoxes
             this.SvgDoc = svgdoc;
             //convert svgElem to agg-based 
             ChangeDisplayType(this, Css.CssDisplay.Block);
-
-
         }
         public override void CustomRecomputedValue(CssBox containingBlock)
         {
 
             var renderVxDocBuilder = new SvgRenderVxDocBuilder();
             renderVxDocBuilder.SetContainerSize(containingBlock.VisualWidth, containingBlock.VisualHeight);
+            //
             _renderVx = renderVxDocBuilder.CreateRenderVx(SvgDoc, svgElem =>
             {
                 _renderVx.SetBitmapSnapshot(null);

@@ -28,7 +28,7 @@ namespace LayoutFarm.DzBoardSample
                 <span id='cmd_img' style='padding:2px'>Image</span>                 
             </body></html>";
             htmlBox.LoadHtmlString(htmltext);
-            var dom1 = htmlBox.HtmlContainer.WebDocument as LayoutFarm.WebDom.IHtmlDocument;
+            WebDom.IHtmlDocument dom1 = htmlBox.HtmlDoc;
             if (dom1 != null)
             {
                 var bodyElemet = dom1.getElementById("body_elem");
