@@ -508,7 +508,7 @@ namespace LayoutFarm.HtmlBoxes
 
 
                 float fontHeight = (actualFont.AscentInPixels - actualFont.DescentInPixels + actualFont.LineGapInPixels);
-                fontHeight += 4;
+                fontHeight += 4; //TODO: why +4 ????***
 
                 List<CssRun> tmpRuns = this.Runs;
                 for (int i = tmpRuns.Count - 1; i >= 0; --i)
@@ -520,12 +520,7 @@ namespace LayoutFarm.HtmlBoxes
                     {
                         case CssRunKind.Text:
                             {
-                                CssTextRun textRun = (CssTextRun)run;
-                                //run.Width = lay.MeasureStringWidth(
-                                //    CssBox.UnsafeGetTextBuffer(this),
-                                //    textRun.TextStartIndex,
-                                //    textRun.TextLength,
-                                //    actualFont);
+                                CssTextRun textRun = (CssTextRun)run; 
                                 Size ss = lay.MeasureStringSize(CssBox.UnsafeGetTextBuffer(this),
                                     textRun.TextStartIndex,
                                     textRun.TextLength,
