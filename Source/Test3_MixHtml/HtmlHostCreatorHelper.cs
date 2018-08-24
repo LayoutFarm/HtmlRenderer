@@ -5,61 +5,68 @@ using System.Collections.Generic;
 
 namespace LayoutFarm
 {
+    //YOUR IMPLEMENTATION ...
+
     public static class HtmlHostCreatorHelper
     {
         public static HtmlBoxes.HtmlHost CreateHtmlHost(AppHost appHost,
             EventHandler<ContentManagers.ImageRequestEventArgs> imageReqHandler,
             EventHandler<ContentManagers.TextRequestEventArgs> textReq)
         {
-            HtmlBoxes.HtmlHost htmlhost = new HtmlBoxes.HtmlHost();
-            htmlhost.SetRootGraphics(appHost.RootGfx);
+            List<HtmlBoxes.HtmlVisualRoot> htmlVisualRootUpdateList = new List<HtmlBoxes.HtmlVisualRoot>();
 
-            List<HtmlBoxes.HtmlVisualRoot> htmlContUpdateList = new List<HtmlBoxes.HtmlVisualRoot>();
+            var config = new HtmlBoxes.HtmlHostCreationConfig()
+            {
+                RootGraphic = appHost.RootGfx,
+                TextService = appHost.RootGfx.TextServices
+            };
+
+            //1.
+            HtmlBoxes.HtmlHost htmlhost = new HtmlBoxes.HtmlHost(config);  //create html host with config 
             appHost.RootGfx.ClearingBeforeRender += (s, e) =>
             {
-
-                //1.
+                //
                 htmlhost.ClearUpdateWaitingCssBoxes();
-                 
-                int j = htmlContUpdateList.Count;
+                //
+                int j = htmlVisualRootUpdateList.Count;
                 for (int i = 0; i < j; ++i)
                 {
 
-                    var htmlCont = htmlContUpdateList[i];
-                    htmlCont.RefreshDomIfNeed();
-                    htmlCont.IsInUpdateQueue = false;
+                    HtmlBoxes.HtmlVisualRoot htmlVisualRoot = htmlVisualRootUpdateList[i];
+                    htmlVisualRoot.RefreshDomIfNeed();
+                    htmlVisualRoot.IsInUpdateQueue = false;
                 }
-                htmlContUpdateList.Clear();
+                htmlVisualRootUpdateList.Clear();
             };
+            //2.
             htmlhost.RegisterCssBoxGenerator(new LayoutFarm.CustomWidgets.MyCustomCssBoxGenerator(htmlhost));
+            //3.
             htmlhost.AttachEssentailHandlers(imageReqHandler, textReq);
-            htmlhost.SetHtmlContainerUpdateHandler(htmlCont =>
+            //4.
+            htmlhost.SetHtmlVisualRootUpdateHandler(htmlVisualRoot =>
             {
-                if (!htmlCont.IsInUpdateQueue)
+                if (!htmlVisualRoot.IsInUpdateQueue)
                 {
-                    htmlCont.IsInUpdateQueue = true;
-                    htmlContUpdateList.Add(htmlCont);
+                    htmlVisualRoot.IsInUpdateQueue = true;
+                    htmlVisualRootUpdateList.Add(htmlVisualRoot);
                 }
             });
 
-            PaintLab.Svg.VgResourceIO._vgIODelegate = RequestImgAyncs;
-
-            return htmlhost;
-        }
-
-
-        static ContentManagers.ImageContentManager _contentMx;
-        static void RequestImgAyncs(LayoutFarm.ImageBinder binder, PaintLab.Svg.SvgRenderElement imgRun, object requestFrom)
-        {
-            if (_contentMx == null)
+            //-----------------------------------------------------------------
+            //each HtmlHost has its own image content manager
+            var imgContentMx = new ContentManagers.ImageContentManager();
+            imgContentMx.ImageLoadingRequest += (s, e) =>
             {
-                _contentMx = new ContentManagers.ImageContentManager();
-                _contentMx.ImageLoadingRequest += (s, e) =>
-                {
-                    e.SetResultImage(LoadImgForSvgElem(e.ImagSource));
-                };
-            }
-            _contentMx.AddRequestImage(binder);
+                //check loading policy here  
+                //
+                e.SetResultImage(LoadImgForSvgElem(e.ImagSource));
+            };
+
+            PaintLab.Svg.VgResourceIO.VgImgIOHandler = (LayoutFarm.ImageBinder binder, PaintLab.Svg.SvgRenderElement imgRun, object requestFrom) =>
+            {
+                imgContentMx.AddRequestImage(binder);
+            };
+            return htmlhost;
         }
         static PixelFarm.Drawing.Image LoadImgForSvgElem(string imgName)
         {
@@ -75,7 +82,6 @@ namespace LayoutFarm
 
             }
 
-
             using (System.Drawing.Bitmap gdiBmp = new System.Drawing.Bitmap(imgName))
             {
                 int w = gdiBmp.Width;
@@ -88,7 +94,7 @@ namespace LayoutFarm
 
                 return new PixelFarm.CpuBlit.ActualBitmap(gdiBmp.Width, gdiBmp.Height, buffer);
             }
-           
+
         }
     }
 }

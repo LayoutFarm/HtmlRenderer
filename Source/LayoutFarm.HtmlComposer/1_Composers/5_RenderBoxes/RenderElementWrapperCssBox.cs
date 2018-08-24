@@ -104,14 +104,17 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
         CssExternalRun externalRun;
         HtmlHost _htmlhost;
 
-        public WrapperInlineCssBox(HtmlHost htmlhost, object controller, Css.BoxSpec boxSpec,
+        public WrapperInlineCssBox(
+            HtmlHost htmlhost,
+            object controller, Css.BoxSpec boxSpec,
             RootGraphic rootgfx, RenderElement re)
             : base(controller, boxSpec, re.Root, CssDisplay.Inline)
         {
             _htmlhost = htmlhost;
 
-            int w = re.Width;
-            int h = re.Height;
+            //int w = re.Width;
+            //int h = re.Height;
+
             ChangeDisplayType(this, CssDisplay.Inline);
             this.externalRun = new CssExternalRun(re);
             this.externalRun.SetOwner(this);
@@ -187,7 +190,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
                 {
                     if (cbox.ParentBox == null)
                     {
-                        return _htmlhost.TopWindowRenderBox;
+                        return _htmlhost.RootGfx.TopWindowRenderBox;
                     }
                 }
                 cbox = cbox.ParentBox;
@@ -278,7 +281,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
                 {
                     if (cbox.ParentBox == null)
                     {
-                        return _htmlHost.TopWindowRenderBox;
+                        return _htmlHost.RootGfx.TopWindowRenderBox;
                     }
                 }
                 cbox = cbox.ParentBox;

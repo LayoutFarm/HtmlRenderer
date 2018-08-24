@@ -32,6 +32,12 @@ namespace LayoutFarm.HtmlBoxes
             }
             public void SetWidth(float width, ColumnSpecificWidthLevel specificWidthLevel)
             {
+#if DEBUG
+                if (width > 360)
+                {
+
+                }
+#endif
                 this.SpecificWidthLevel = specificWidthLevel;
                 this.actualWidth = width;
             }

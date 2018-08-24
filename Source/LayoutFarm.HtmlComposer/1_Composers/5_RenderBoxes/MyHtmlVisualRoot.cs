@@ -7,7 +7,7 @@ using PixelFarm.Drawing;
 using LayoutFarm.WebDom;
 namespace LayoutFarm.HtmlBoxes
 {
-    public delegate void HtmlVisualRootUpdateHandler(HtmlVisualRoot htmlCont);
+    public delegate void HtmlVisualRootUpdateHandler(HtmlVisualRoot htmlVisualRoot);
     public sealed class MyHtmlVisualRoot : HtmlVisualRoot
     {
 
@@ -24,8 +24,9 @@ namespace LayoutFarm.HtmlBoxes
         public MyHtmlVisualRoot(HtmlHost htmlhost)
         {
             this.htmlhost = htmlhost;
-        }
+            _textService = htmlhost.GetTextService();
 
+        }
         public void AttachEssentialHandlers(EventHandler domVisualRefreshHandler,
             EventHandler domRequestRebuildHandler,
             EventHandler containerInvalidateGfxHanlder,
@@ -77,7 +78,7 @@ namespace LayoutFarm.HtmlBoxes
                     {
                         //when update
                         //add to update queue
-                        this.htmlhost.NotifyHtmlContainerUpdate(this);
+                        this.htmlhost.NotifyHtmlVisualRootUpdate(this);
                     });
                 }
             }
@@ -205,9 +206,5 @@ namespace LayoutFarm.HtmlBoxes
         {
         }
 
-        public void GetHtml(StringBuilder stbuilder)
-        {
-            throw new NotSupportedException();
-        }
     }
 }
