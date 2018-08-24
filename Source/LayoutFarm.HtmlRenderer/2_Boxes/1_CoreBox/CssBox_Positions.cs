@@ -407,6 +407,10 @@ namespace LayoutFarm.HtmlBoxes
 #if DEBUG
         void dbugBeforeSetWidth(float width)
         {
+            //if (width == 37)
+            //{
+
+            //}
             //Console.WriteLine(this.__aa_dbugId + " :" + width);
             //if (this.__aa_dbugId == 3)
             //{
@@ -416,6 +420,18 @@ namespace LayoutFarm.HtmlBoxes
         {
         }
 
+        void dbugAferSetVisualWidth()
+        {
+            //if (this._visualWidth == 37)
+            //{ 
+            //}
+        }
+        void dbugAfterSetCssWidth()
+        {
+            //if (this._cssBoxWidth == 37)
+            //{ 
+            //}
+        }
 #endif
         /// <summary>
         /// set box width related to its boxsizing model  and recalcualte visual width 
@@ -426,19 +442,18 @@ namespace LayoutFarm.HtmlBoxes
             //TODO: review here again 
             //depend on box-sizing model  ***
 
-#if DEBUG
-            //if (this.__aa_dbugId == 3)
-            //{
-
-            //}
-            //if (width > 310)
-            //{
-
-            //}
+#if DEBUG 
             dbugBeforeSetWidth(width);
 #endif
             this._cssBoxWidth = width;
+#if DEBUG
+            dbugAfterSetCssWidth();
+#endif
             this._visualWidth = width;
+#if DEBUG             
+            dbugAferSetVisualWidth();
+#endif
+
             // must be separate because the margin can be calculated by percentage of the width
             //(again, because actual padding or margin may need css box with first)
             if (_boxSizing == CssBoxSizing.ContentBox)
@@ -446,29 +461,28 @@ namespace LayoutFarm.HtmlBoxes
                 this._visualWidth = width +
                        this.ActualPaddingLeft + this.ActualPaddingRight +
                        +this.ActualBorderLeftWidth + this.ActualBorderRightWidth;
+#if DEBUG
+                dbugAferSetVisualWidth();
+#endif
             }
-
             this.specificUserContentSizeWidth = true;
+
+
         }
         internal void SetCssBoxWidthLimitToContainerAvailableWidth(float containerClientWidth)
         {
 #if DEBUG
             dbugBeforeSetWidth(containerClientWidth);
-
-            //if (this.LocalX > 0)
-            //{
-
-            //}
 #endif
             this._visualWidth = containerClientWidth;
+#if DEBUG
+            dbugAferSetVisualWidth();
+#endif
             this._cssBoxWidth = containerClientWidth - (
                        this.ActualPaddingLeft + this.ActualPaddingRight +
                        this.ActualBorderLeftWidth + this.ActualBorderRightWidth);//not include margin
 #if DEBUG
-            //if (_cssBoxWidth > 380 || _visualWidth > 380)
-            //{
-
-            //}
+            dbugAfterSetCssWidth();
 #endif
 
         }
@@ -498,19 +512,13 @@ namespace LayoutFarm.HtmlBoxes
         {
 #if DEBUG
             dbugBeforeSetWidth(width);
-
-            //if (this.__aa_dbugId == 3)
-            //{
-
-            //}
-            //if (width > 310)
-            //{
-
-            //}
 #endif
             if (!this.FreezeWidth)
             {
                 this._visualWidth = width;
+#if DEBUG
+                dbugAferSetVisualWidth();
+#endif
             }
             else
             {
@@ -535,10 +543,10 @@ namespace LayoutFarm.HtmlBoxes
             dbugBeforeSetWidth(width);
             dbugBeforeSetHeight(height);
 
-            //if (width > 310)
-            //{
+            if (width == 37)
+            {
 
-            //}
+            }
 #endif
             if (!this.FreezeWidth)
             {
