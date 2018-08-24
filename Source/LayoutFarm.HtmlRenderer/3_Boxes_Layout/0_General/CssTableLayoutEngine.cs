@@ -103,6 +103,7 @@ namespace LayoutFarm.HtmlBoxes
                 foreach (CssBox childBox in box.GetChildBoxIter())
                 {
                     childBox.ReEvaluateFont(ifonts, box_fontsize);
+                    childBox.ReEvaluateComputedValues(ifonts, box);
                     childBox.MeasureRunsSize(lay);
                     S1_RecursiveMeasureRunContentSize(childBox, lay); //recursive
                 }
@@ -324,6 +325,7 @@ namespace LayoutFarm.HtmlBoxes
                 // Fill ColumnWidths array by scanning width in table-cell definitions
                 List<CssBox> tmpRows = this._allRowBoxes;
                 int rowCount = tmpRows.Count;
+
                 for (int rr = 0; rr < rowCount; ++rr)
                 {
                     CssBox row = tmpRows[rr];
@@ -622,6 +624,37 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
 
+        /// <summary>
+        /// Check for minimum sizes (increment widths if necessary)
+        /// </summary>
+        void S6_EnforceMinimumSize()
+        {
+            int col_count = this.columnCollection.Count;
+            foreach (CssBox row in _allRowBoxes)
+            {
+                int grid_index = 0;
+                foreach (CssBox cellBox in row.GetChildBoxIter())
+                {
+                    if (grid_index < col_count)
+                    {
+                        TableColumn col = this.columnCollection[grid_index];
+                        if (col.Width < col.MinContentWidth)
+                        {
+                            int affect_col = grid_index + cellBox.ColSpan - 1;
+                            this.columnCollection[affect_col].UseMinWidth();
+                            if (grid_index < col_count - 1)
+                            {
+                                this.columnCollection[grid_index + 1].AddMoreWidthValue(-(col.Width - col.MinContentWidth), ColumnSpecificWidthLevel.Adjust);
+                            }
+                        }
+                    }
+
+                    //------------------------------
+                    grid_index += cellBox.ColSpan; //****
+                }
+            }
+        }
+
 
         /// <summary>
         /// While table width is larger than it should, and width is reductable.<br/>
@@ -757,38 +790,7 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
 
-        /// <summary>
-        /// Check for minimum sizes (increment widths if necessary)
-        /// </summary>
-        void S6_EnforceMinimumSize()
-        {
-            int col_count = this.columnCollection.Count;
-            foreach (CssBox row in _allRowBoxes)
-            {
-                int grid_index = 0;
-                foreach (CssBox cellBox in row.GetChildBoxIter())
-                {
-                    if (grid_index < col_count)
-                    {
-                        TableColumn col = this.columnCollection[grid_index];
-                        if (col.Width < col.MinContentWidth)
-                        {
-                            int affect_col = grid_index + cellBox.ColSpan - 1;
-                            this.columnCollection[affect_col].UseMinWidth();
-                            if (grid_index < col_count - 1)
-                            {
-                                this.columnCollection[grid_index + 1].AddMoreWidthValue(-(col.Width - col.MinContentWidth), ColumnSpecificWidthLevel.Adjust);
-                            }
-                        }
-                    }
-
-                    //------------------------------
-                    grid_index += cellBox.ColSpan; //****
-                }
-            }
-        }
-
-
+       
         /// <summary>
         /// Layout the cells by the calculated table layout
         /// </summary>
