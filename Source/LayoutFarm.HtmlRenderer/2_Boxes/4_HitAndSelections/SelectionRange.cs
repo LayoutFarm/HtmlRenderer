@@ -66,7 +66,7 @@ namespace LayoutFarm.HtmlBoxes
             get { return this.isValid; }
         }
 
-        public void ClearSelection()
+        internal void ClearSelection()
         {
             if (this.selectedLines != null)
             {
@@ -87,7 +87,7 @@ namespace LayoutFarm.HtmlBoxes
             this.startHitRunCharIndex = this.endHitRunCharIndex = 0;
         }
 
-        public void CopyText(StringBuilder stbuilder)
+        internal void CopyText(StringBuilder stbuilder)
         {
             //copy selected text to stbuilder 
             //this version just copy a plain text
@@ -692,23 +692,7 @@ namespace LayoutFarm.HtmlBoxes
             PartialLine
         }
 
-
-        /// <summary>
-        /// create html selection base on 'raw' html source
-        /// </summary>
-        /// <param name="startline"></param>
-        /// <param name="startCol"></param>
-        /// <param name="endLine"></param>
-        /// <param name="endCol"></param>
-        /// <returns></returns>
-        public static SelectionRange CreateManualSelectionRange(int startline, int startCol, int endLine, int endCol)
-        {
-            return null;
-        }
-        public static SelectionRange CreateManualSelectionAll()
-        {
-            return null;
-        }
+ 
     }
 
 
