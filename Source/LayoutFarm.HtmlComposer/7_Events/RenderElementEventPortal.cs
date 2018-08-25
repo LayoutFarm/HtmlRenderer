@@ -440,7 +440,7 @@ namespace LayoutFarm.UI
                         e.SourceHitElement = listener;
                     }
 
-                    var hitPoint = hitInfo.point;
+                    Point hitPoint = hitInfo.point;
                     e.SetLocation(hitPoint.X, hitPoint.Y);
                     e.CurrentContextElement = listener;
                     if (listenerAction(listener))

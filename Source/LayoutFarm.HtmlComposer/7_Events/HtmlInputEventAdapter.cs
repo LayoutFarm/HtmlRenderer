@@ -35,7 +35,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             this._htmlVisualRoot = htmlVisualRoot;
             _isBinded = htmlVisualRoot != null;
-            this._textService = htmlVisualRoot.GetTextService();// ((RootGraphic)htmlCont.RootCssBox.GetInternalRootGfx()).IFonts;
+            this._textService = htmlVisualRoot.GetTextService(); 
         }
         public void Unbind()
         {

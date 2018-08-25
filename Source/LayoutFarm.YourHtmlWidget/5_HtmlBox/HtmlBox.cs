@@ -112,8 +112,7 @@ namespace LayoutFarm.CustomWidgets
         bool IEventPortal.PortalProcessDialogKey(UIKeyEventArgs e)
         {
             e.CurrentContextElement = this;
-            var result = GetInputEventAdapter().ProcessDialogKey(e, htmlRenderBox.CssBox);
-            return result;
+            return GetInputEventAdapter().ProcessDialogKey(e, htmlRenderBox.CssBox);
         }
         void IEventPortal.PortalGotFocus(UIFocusEventArgs e)
         {
@@ -133,8 +132,41 @@ namespace LayoutFarm.CustomWidgets
                         {
                             //ctrl+ c => copy to clipboard
                             StringBuilder stbuilder = new StringBuilder();
+                            //copy only text ***
+                            //TODO: copy 'portable' html text***
                             this._htmlVisualRoot.CopySelection(stbuilder);
                             LayoutFarm.UI.Clipboard.SetText(stbuilder.ToString());
+                        }
+                        break;
+                    case UIKeys.A:
+                        {
+
+                            //ctrl+a=> select all
+                            //simulate mouse selection
+                            HtmlInputEventAdapter evAdapter = GetInputEventAdapter();
+                            float w = _htmlVisualRoot.RootCssBox.VisualWidth;
+                            float h = _htmlVisualRoot.RootCssBox.VisualHeight;
+
+                            {
+                                UIMouseEventArgs mouseDown = new UIMouseEventArgs();
+                                mouseDown.SetLocation(0, 0);
+                                evAdapter.MouseDown(mouseDown);
+                            }
+
+                            {
+                                UIMouseEventArgs mouseDrag = new UIMouseEventArgs();
+                                mouseDrag.IsDragging = true;
+                                mouseDrag.SetLocation((int)w - 5, (int)h - 5);
+                                evAdapter.MouseMove(mouseDrag);
+                            }
+                            {
+                                UIMouseEventArgs mouseUp = new UIMouseEventArgs();
+                                mouseUp.SetLocation((int)w, (int)h);
+                                evAdapter.MouseUp(mouseUp);
+                            }
+
+                            //----------------
+
                         }
                         break;
                 }
