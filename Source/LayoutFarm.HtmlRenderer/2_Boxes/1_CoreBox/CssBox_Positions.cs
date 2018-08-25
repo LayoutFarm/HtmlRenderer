@@ -543,10 +543,6 @@ namespace LayoutFarm.HtmlBoxes
             dbugBeforeSetWidth(width);
             dbugBeforeSetHeight(height);
 
-            if (width == 37)
-            {
-
-            }
 #endif
             if (!this.FreezeWidth)
             {

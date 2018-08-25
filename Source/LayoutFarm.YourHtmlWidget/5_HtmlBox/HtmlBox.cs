@@ -20,6 +20,9 @@ namespace LayoutFarm.CustomWidgets
             HtmlDocument
         }
 
+        int _latestMouseDownX;
+        int _latestMouseDownY;
+
         HtmlHost _htmlhost;
         MyHtmlVisualRoot _htmlVisualRoot;
         //presentation
@@ -81,12 +84,26 @@ namespace LayoutFarm.CustomWidgets
         }
         void IEventPortal.PortalMouseDown(UIMouseEventArgs e)
         {
+
             this.Focus();
             e.CurrentContextElement = this;
             GetInputEventAdapter().MouseDown(e, htmlRenderBox.CssBox);
+
+            if (e.Shift && !e.CancelBubbling)
+            {
+                //simulate html selection
+                SimulateMouseSelection(_latestMouseDownX, _latestMouseDownY,
+                    e.X,
+                    e.Y);
+            }
+
+            _latestMouseDownX = e.X;
+            _latestMouseDownY = e.Y;
+
         }
         void IEventPortal.PortalMouseMove(UIMouseEventArgs e)
         {
+
             e.CurrentContextElement = this;
             GetInputEventAdapter().MouseMove(e, htmlRenderBox.CssBox);
         }
@@ -106,14 +123,14 @@ namespace LayoutFarm.CustomWidgets
         }
         void IEventPortal.PortalKeyUp(UIKeyEventArgs e)
         {
+
             e.CurrentContextElement = this;
             GetInputEventAdapter().KeyUp(e, htmlRenderBox.CssBox);
         }
         bool IEventPortal.PortalProcessDialogKey(UIKeyEventArgs e)
         {
             e.CurrentContextElement = this;
-            var result = GetInputEventAdapter().ProcessDialogKey(e, htmlRenderBox.CssBox);
-            return result;
+            return GetInputEventAdapter().ProcessDialogKey(e, htmlRenderBox.CssBox);
         }
         void IEventPortal.PortalGotFocus(UIFocusEventArgs e)
         {
@@ -122,6 +139,29 @@ namespace LayoutFarm.CustomWidgets
         void IEventPortal.PortalLostFocus(UIFocusEventArgs e)
         {
             e.CurrentContextElement = this;
+        }
+
+        void SimulateMouseSelection(int startX, int startY, int endX, int endY)
+        {
+            HtmlInputEventAdapter evAdapter = GetInputEventAdapter();
+            {
+                UIMouseEventArgs mouseDown = new UIMouseEventArgs();
+                mouseDown.SetLocation(startX, startY);
+                evAdapter.MouseDown(mouseDown);
+            }
+
+            {
+                UIMouseEventArgs mouseDrag = new UIMouseEventArgs();
+                mouseDrag.IsDragging = true;
+                mouseDrag.SetLocation(endX, endY);
+                evAdapter.MouseMove(mouseDrag);
+            }
+            {
+                UIMouseEventArgs mouseUp = new UIMouseEventArgs();
+                mouseUp.SetLocation(endX, endY);
+                evAdapter.MouseUp(mouseUp);
+            }
+
         }
         protected override void OnKeyUp(UIKeyEventArgs e)
         {
@@ -133,8 +173,22 @@ namespace LayoutFarm.CustomWidgets
                         {
                             //ctrl+ c => copy to clipboard
                             StringBuilder stbuilder = new StringBuilder();
+                            //copy only text ***
+                            //TODO: copy 'portable' html text***
                             this._htmlVisualRoot.CopySelection(stbuilder);
                             LayoutFarm.UI.Clipboard.SetText(stbuilder.ToString());
+                        }
+                        break;
+                    case UIKeys.A:
+                        {
+
+                            //ctrl+a=> select all
+                            //simulate mouse selection
+
+                            SimulateMouseSelection(0, 0,
+                                (int)_htmlVisualRoot.RootCssBox.VisualWidth - 2,
+                                (int)_htmlVisualRoot.RootCssBox.VisualHeight - 2);
+
                         }
                         break;
                 }

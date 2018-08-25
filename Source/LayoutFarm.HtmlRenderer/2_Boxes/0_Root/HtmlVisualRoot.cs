@@ -1,4 +1,4 @@
-﻿//BSD, 2014-present, WinterDev 
+﻿//BSD, 2014-present, WinterDev
 //ArthurHub, Jose Manuel Menendez Poo
 
 // "Therefore those skilled at the unorthodox
@@ -39,7 +39,9 @@ namespace LayoutFarm.HtmlBoxes
         public float MaxWidth { get { return this._maxHeight; } }
         public abstract void ClearPreviousSelection();
         public abstract void SetSelection(SelectionRange selRange);
+        public abstract SelectionRange CurrentSelectionRange { get; }
         public abstract void CopySelection(System.Text.StringBuilder stbuilder);
+
         public HtmlVisualRoot()
         {
         }
