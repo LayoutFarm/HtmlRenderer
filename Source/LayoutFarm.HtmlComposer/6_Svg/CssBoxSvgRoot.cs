@@ -21,6 +21,11 @@ namespace LayoutFarm.HtmlBoxes
             //convert svgElem to agg-based 
             ChangeDisplayType(this, Css.CssDisplay.Block);
         }
+        public bool DisableBmpCache
+        {
+            get;
+            set;
+        }
         public override void CustomRecomputedValue(CssBox containingBlock)
         {
 
@@ -34,21 +39,6 @@ namespace LayoutFarm.HtmlBoxes
                 this.InvalidateGraphics();
             });
 
-
-
-            //var svgElement = this.SvgSpec;
-            ////recompute value if need  
-            //var cnode = svgElement.GetFirstNode();
-            //ReEvaluateArgs reEvalArgs = new ReEvaluateArgs(
-            //    containingBlock.VisualWidth,
-            //    100,//temp 
-            //    containingBlock.GetEmHeight());
-            //while (cnode != null)
-            //{
-            //    cnode.Value.ReEvaluateComputeValue(ref reEvalArgs);
-            //    cnode = cnode.Next;
-            //}
-
             this.SetVisualSize(500, 500); //TODO: review here
         }
         protected override void PaintImp(PaintVisitor p)
@@ -57,6 +47,40 @@ namespace LayoutFarm.HtmlBoxes
             p.dbugEnterNewContext(this, PaintVisitor.PaintVisitorContextName.Init);
 #endif
             DrawBoard drawBoard = p.InnerCanvas;
+
+            if (DisableBmpCache)
+            {
+
+
+                PixelFarm.CpuBlit.AggPainter painter = (PixelFarm.CpuBlit.AggPainter)drawBoard.GetPainter();
+                //TODO: review here
+                //temp fix
+                if (s_openfontTextService == null)
+                {
+                    s_openfontTextService = new OpenFontTextService();
+                }
+
+                //painter.CurrentFont = new RequestFont("tahoma", 14);
+                //var textPrinter = new PixelFarm.Drawing.Fonts.VxsTextPrinter(painter, s_openfontTextService);
+                //painter.TextPrinter = textPrinter;
+                //painter.Clear(Color.White);
+                //
+                double prevStrokeW = painter.StrokeWidth;
+                //Color fillColor = painter.FillColor;
+                //painter.StrokeWidth = 1;//default 
+                //painter.FillColor = Color.Black;
+
+                VgPainterArgsPool.GetFreePainterArgs(painter, out VgPaintArgs paintArgs);
+                _renderVx._renderE.Paint(paintArgs);
+                VgPainterArgsPool.ReleasePainterArgs(ref paintArgs);
+                painter.StrokeWidth = prevStrokeW;//restore
+                //painter.FillColor = fillColor;////restore
+
+                return;
+            }
+
+
+
             if (_renderVx.HasBitmapSnapshot)
             {
                 Image backimg = _renderVx.BackingImage;
@@ -77,16 +101,9 @@ namespace LayoutFarm.HtmlBoxes
                     s_openfontTextService = new OpenFontTextService();
                 }
 
-                painter.CurrentFont = new RequestFont("tahoma", 14);
-                var textPrinter = new PixelFarm.Drawing.Fonts.VxsTextPrinter(painter, s_openfontTextService);
-                painter.TextPrinter = textPrinter;
-                painter.Clear(Color.White);
+
                 //
                 double prevStrokeW = painter.StrokeWidth;
-                //Color fillColor = painter.FillColor;
-                //painter.StrokeWidth = 1;//default 
-                //painter.FillColor = Color.Black;
-
                 VgPainterArgsPool.GetFreePainterArgs(painter, out VgPaintArgs paintArgs);
                 _renderVx._renderE.Paint(paintArgs);
                 VgPainterArgsPool.ReleasePainterArgs(ref paintArgs);
