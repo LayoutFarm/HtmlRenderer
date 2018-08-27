@@ -14,13 +14,17 @@ namespace LayoutFarm
         LayoutFarm.CustomWidgets.RectBoxController rectBoxController = new CustomWidgets.RectBoxController();
         LayoutFarm.CustomWidgets.Box box1;
         BackDrawBoardUI _backBoard;
+        AppHost _host;
 
         protected override void OnStart(AppHost host)
         {
+            _host = host;
 
             _backBoard = new BackDrawBoardUI(800, 600);
             _backBoard.BackColor = Color.White;
             host.AddChild(_backBoard);
+
+            //
             box1 = new LayoutFarm.CustomWidgets.Box(50, 50);
             box1.BackColor = Color.Red;
             box1.SetLocation(10, 10);
@@ -42,6 +46,8 @@ namespace LayoutFarm
             uiSprite.LoadSvg(svgRenderVx);
             _backBoard.AddChild(uiSprite);
 
+
+
             //-------- 
             rectBoxController.Init();
             //------------
@@ -53,11 +59,9 @@ namespace LayoutFarm
             //}
 
             //--------
-            var evListener = new GeneralEventListener();
-            uiSprite.AttachExternalEventListener(evListener);
-
-
-            evListener.MouseDown += (e) =>
+            var svgEvListener = new GeneralEventListener();
+            uiSprite.AttachExternalEventListener(svgEvListener);
+            svgEvListener.MouseDown += (e) =>
             {
 
                 //e.MouseCursorStyle = MouseCursorStyle.Pointer;
@@ -69,26 +73,39 @@ namespace LayoutFarm
             };
             rectBoxController.ControllerBoxMain.KeyDown += (s1, e1) =>
             {
-                if (e1.Ctrl && e1.KeyCode == UIKeys.X)
+                if (e1.KeyCode == UIKeys.C && e1.Ctrl)
                 {
                     //test copy back image buffer from current rect area
 
 #if DEBUG
-                    //test save some area
-                    //int w = rectBoxController.ControllerBoxMain.Width;
-                    //int h = rectBoxController.ControllerBoxMain.Height;
 
-                    //using (DrawBoard gdiDrawBoard = DrawBoardCreator.CreateNewDrawBoard(1, w, h))
-                    //{
-                    //    gdiDrawBoard.OffsetCanvasOrigin(rectBoxController.ControllerBoxMain.Left, rectBoxController.ControllerBoxMain.Top);
-                    //    _backBoard.CurrentPrimaryRenderElement.CustomDrawToThisCanvas(gdiDrawBoard, new Rectangle(0, 0, w, h));
-                    //    var img2 = new ActualBitmap(w, h);
-                    //    //copy content from drawboard to target image and save
-                    //    gdiDrawBoard.RenderTo(img2, 0, 0, w, h);
+                    int left = rectBoxController.ControllerBoxMain.Left;
+                    int top = rectBoxController.ControllerBoxMain.Top;
+                    int width = rectBoxController.ControllerBoxMain.Width;
+                    int height = rectBoxController.ControllerBoxMain.Height;
 
-                    //    img2.dbugSaveToPngFile("d:\\WImageTest\\ddd001.png");
-                    //}
-#endif                    
+                    using (DrawBoard drawBoard = DrawBoardCreator.CreateNewDrawBoard(1, width, height))
+                    {
+
+                        //create new draw board
+                        drawBoard.OffsetCanvasOrigin(left, top);
+                        _backBoard.CurrentPrimaryRenderElement.CustomDrawToThisCanvas(drawBoard, new Rectangle(0, 0, width, height));
+                        using (var img2 = new PixelFarm.CpuBlit.ActualBitmap(width, height))
+                        {
+                            //copy content from drawboard to target image and save
+                            drawBoard.RenderTo(img2, 0, 0, width, height);
+
+                            PixelFarm.CpuBlit.Imaging.PngImageWriter.SaveImgBufferToPngFile(
+                                PixelFarm.CpuBlit.ActualBitmap.GetBufferPtr(img2),
+                                img2.Stride,
+                                img2.Width,
+                                img2.Height,
+                                "d:\\WImageTest\\tiger.png");
+                        }
+                        //copy content from drawboard to target image and save
+                    }
+
+#endif
 
                 }
             };
@@ -110,6 +127,7 @@ namespace LayoutFarm
         }
         void SetupActiveBoxProperties(LayoutFarm.CustomWidgets.Box box)
         {
+
             //1. mouse down         
             box.MouseDown += (s, e) =>
             {
@@ -118,7 +136,7 @@ namespace LayoutFarm
                 //--------------------------------------------
                 e.SetMouseCapture(rectBoxController.ControllerBoxMain);
                 rectBoxController.UpdateControllerBoxes(box);
-
+                rectBoxController.Focus();
             };
             //2. mouse up
             box.MouseUp += (s, e) =>
