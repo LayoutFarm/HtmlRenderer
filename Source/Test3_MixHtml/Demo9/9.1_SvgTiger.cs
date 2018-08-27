@@ -79,31 +79,31 @@ namespace LayoutFarm
 
 #if DEBUG
 
-                    int left = rectBoxController.ControllerBoxMain.Left;
-                    int top = rectBoxController.ControllerBoxMain.Top;
-                    int width = rectBoxController.ControllerBoxMain.Width;
-                    int height = rectBoxController.ControllerBoxMain.Height;
+                    //int left = rectBoxController.ControllerBoxMain.Left;
+                    //int top = rectBoxController.ControllerBoxMain.Top;
+                    //int width = rectBoxController.ControllerBoxMain.Width;
+                    //int height = rectBoxController.ControllerBoxMain.Height;
 
-                    using (DrawBoard drawBoard = DrawBoardCreator.CreateNewDrawBoard(1, width, height))
-                    {
+                    //using (DrawBoard drawBoard = DrawBoardCreator.CreateNewDrawBoard(1, width, height))
+                    //{
 
-                        //create new draw board
-                        drawBoard.OffsetCanvasOrigin(left, top);
-                        _backBoard.CurrentPrimaryRenderElement.CustomDrawToThisCanvas(drawBoard, new Rectangle(0, 0, width, height));
-                        using (var img2 = new PixelFarm.CpuBlit.ActualBitmap(width, height))
-                        {
-                            //copy content from drawboard to target image and save
-                            drawBoard.RenderTo(img2, 0, 0, width, height);
+                    //    //create new draw board
+                    //    drawBoard.OffsetCanvasOrigin(left, top);
+                    //    _backBoard.CurrentPrimaryRenderElement.CustomDrawToThisCanvas(drawBoard, new Rectangle(0, 0, width, height));
+                    //    using (var img2 = new PixelFarm.CpuBlit.ActualBitmap(width, height))
+                    //    {
+                    //        //copy content from drawboard to target image and save
+                    //        drawBoard.RenderTo(img2, 0, 0, width, height);
 
-                            PixelFarm.CpuBlit.Imaging.PngImageWriter.SaveImgBufferToPngFile(
-                                PixelFarm.CpuBlit.ActualBitmap.GetBufferPtr(img2),
-                                img2.Stride,
-                                img2.Width,
-                                img2.Height,
-                                "d:\\WImageTest\\tiger.png");
-                        }
-                        //copy content from drawboard to target image and save
-                    }
+                    //        PixelFarm.CpuBlit.Imaging.PngImageWriter.SaveImgBufferToPngFile(
+                    //            PixelFarm.CpuBlit.ActualBitmap.GetBufferPtr(img2),
+                    //            img2.Stride,
+                    //            img2.Width,
+                    //            img2.Height,
+                    //            "d:\\WImageTest\\tiger.png");
+                    //    }
+                    //    //copy content from drawboard to target image and save
+                    //}
 
 #endif
 
