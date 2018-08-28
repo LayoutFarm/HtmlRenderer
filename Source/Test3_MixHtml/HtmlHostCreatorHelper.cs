@@ -53,19 +53,22 @@ namespace LayoutFarm
             });
 
             //-----------------------------------------------------------------
-            //each HtmlHost has its own image content manager
-            var imgContentMx = new ContentManagers.ImageContentManager();
-            imgContentMx.ImageLoadingRequest += (s, e) =>
+            
+            if (PaintLab.Svg.VgResourceIO.VgImgIOHandler == null)
             {
-                //check loading policy here  
-                //
-                e.SetResultImage(LoadImgForSvgElem(e.ImagSource));
-            };
+                var imgContentMx = new ContentManagers.ImageContentManager();
+                imgContentMx.ImageLoadingRequest += (s, e) =>
+                {
+                    //check loading policy here  
+                    //
+                    e.SetResultImage(LoadImgForSvgElem(e.ImagSource));
+                };
+                PaintLab.Svg.VgResourceIO.VgImgIOHandler = (LayoutFarm.ImageBinder binder, PaintLab.Svg.SvgRenderElement imgRun, object requestFrom) =>
+                {
+                    imgContentMx.AddRequestImage(binder);
+                };
+            }
 
-            PaintLab.Svg.VgResourceIO.VgImgIOHandler = (LayoutFarm.ImageBinder binder, PaintLab.Svg.SvgRenderElement imgRun, object requestFrom) =>
-            {
-                imgContentMx.AddRequestImage(binder);
-            };
             return htmlhost;
         }
         static PixelFarm.Drawing.Image LoadImgForSvgElem(string imgName)

@@ -26,7 +26,7 @@ namespace LayoutFarm.HtmlBoxes
         bool _isBinded;
         int lastDomLayoutVersion;
         const int DOUBLE_CLICK_SENSE = 150;//ms 
-        Stack<CssBoxHitChain> hitChainPools = new Stack<CssBoxHitChain>(); 
+        Stack<CssBoxHitChain> hitChainPools = new Stack<CssBoxHitChain>();
 
         public HtmlInputEventAdapter()
         {
@@ -35,7 +35,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             this._htmlVisualRoot = htmlVisualRoot;
             _isBinded = htmlVisualRoot != null;
-            this._textService = htmlVisualRoot.GetTextService(); 
+            this._textService = htmlVisualRoot.GetTextService();
         }
         public void Unbind()
         {
@@ -55,7 +55,11 @@ namespace LayoutFarm.HtmlBoxes
             if (!_isBinded) return;
             if (startAt == null) return;
             //---------------------------------------------------- 
-            ClearPreviousSelection();
+            if (!e.Shift)
+            {
+                ClearPreviousSelection();
+            }
+
             if (_latestMouseDownChain != null)
             {
                 ReleaseHitChain(_latestMouseDownChain);

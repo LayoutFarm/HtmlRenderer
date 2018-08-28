@@ -13,10 +13,10 @@ namespace LayoutFarm.Svg
     partial class SvgRootEventPortal
     {
         Stack<SvgHitChain> hitChainPools = new Stack<SvgHitChain>();
-        HtmlElement elementNode;
+        HtmlElement _elementNode;
         public SvgRootEventPortal(HtmlElement elementNode)
         {
-            this.elementNode = elementNode;
+            this._elementNode = elementNode;
         }
         public CssBoxSvgRoot SvgRoot
         {

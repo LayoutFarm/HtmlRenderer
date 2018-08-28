@@ -128,6 +128,7 @@ namespace LayoutFarm.UI
             else
             {
 
+                
                 PixelFarm.CpuBlit.RectD bounds = _vgRenderVx.GetBounds();
                 int width = (int)Math.Ceiling(bounds.Width);
                 int height = (int)Math.Ceiling(bounds.Height);
@@ -157,12 +158,9 @@ namespace LayoutFarm.UI
                 painter.StrokeWidth = prevStrokeW;//restore
                 //painter.FillColor = prevFill;
                 //painter.StrokeColor = prevStrokeColor;
-
-
-
+                 
                 _vgRenderVx.SetBitmapSnapshot(backimg);
-                canvas.DrawImage(backimg, new RectangleF(0, 0, backimg.Width, backimg.Height));
-
+                canvas.DrawImage(backimg, new RectangleF(0, 0, backimg.Width, backimg.Height)); 
             }
         }
         public override void ResetRootGraphics(RootGraphic rootgfx)

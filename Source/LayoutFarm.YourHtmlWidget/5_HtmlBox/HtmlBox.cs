@@ -20,8 +20,10 @@ namespace LayoutFarm.CustomWidgets
             HtmlDocument
         }
 
-        int _latestMouseDownX;
-        int _latestMouseDownY;
+
+        //
+        int _latest_selMouseDownX;
+        int _latest_selMouseDownY;
 
         HtmlHost _htmlhost;
         MyHtmlVisualRoot _htmlVisualRoot;
@@ -92,14 +94,37 @@ namespace LayoutFarm.CustomWidgets
             if (e.Shift && !e.CancelBubbling)
             {
                 //simulate html selection
-                SimulateMouseSelection(_latestMouseDownX, _latestMouseDownY,
-                    e.X,
-                    e.Y);
+                if (_htmlVisualRoot.CurrentSelectionRange != null)
+                {
+                    //extend from existing selection
+                    SelectionRange selRange = _htmlVisualRoot.CurrentSelectionRange;
+
+                    PixelFarm.Drawing.Rectangle existingArea = _htmlVisualRoot.CurrentSelectionRange.SnapSelectionArea;
+                    //
+                    SimulateMouseSelection(
+                        _latest_selMouseDownX,
+                        _latest_selMouseDownY,
+                        e.X,
+                        e.Y);
+                    //not set _latest_selMouseDownX,Y
+                }
+                else
+                {
+                    SimulateMouseSelection(
+                        _latest_selMouseDownX,
+                        _latest_selMouseDownY,
+                        e.X,
+                        e.Y);
+
+                    _latest_selMouseDownX = e.X; //set new
+                    _latest_selMouseDownY = e.Y; //set new
+                }
             }
-
-            _latestMouseDownX = e.X;
-            _latestMouseDownY = e.Y;
-
+            else
+            {
+                _latest_selMouseDownX = e.X; //set new
+                _latest_selMouseDownY = e.Y; //set new
+            }
         }
         void IEventPortal.PortalMouseMove(UIMouseEventArgs e)
         {
