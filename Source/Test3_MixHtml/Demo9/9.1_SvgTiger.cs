@@ -11,7 +11,7 @@ namespace LayoutFarm
     [DemoNote("9.1 DemoSvgTiger")]
     class Demo_SvgTiger : App
     {
-        LayoutFarm.CustomWidgets.RectBoxController rectBoxController = new CustomWidgets.RectBoxController();
+        LayoutFarm.CustomWidgets.RectBoxController rectBoxController;
         LayoutFarm.CustomWidgets.Box box1;
         BackDrawBoardUI _backBoard;
         AppHost _host;
@@ -49,8 +49,8 @@ namespace LayoutFarm
 
 
             //-------- 
+            rectBoxController = new CustomWidgets.RectBoxController();
             rectBoxController.Init();
-            //------------
             host.AddChild(rectBoxController);
 
             //foreach (var ui in rectBoxController.GetControllerIter())
