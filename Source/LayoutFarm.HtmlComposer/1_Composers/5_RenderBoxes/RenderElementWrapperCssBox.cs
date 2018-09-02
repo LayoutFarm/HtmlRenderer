@@ -41,7 +41,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
         /// <returns></returns>
         public override string ToString()
         {
-            return "extRun";
+            return "extRun:" + externalRenderE.ToString();
         }
 #endif
     }

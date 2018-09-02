@@ -162,16 +162,25 @@ namespace LayoutFarm.CustomWidgets
             {
                 switch (typeAttr.Value)
                 {
-                    //case "textbox":
-                    //    {
-                    //        var textbox = new LayoutFarm.CustomWidgets.TextBox(100, 17, false);
-                    //        CssBox wrapperBox = CreateWrapper(
-                    //             textbox,
-                    //             textbox.GetPrimaryRenderElement(rootgfx),
-                    //             spec, true);
-                    //        parentBox.AppendChild(wrapperBox);
-                    //        return wrapperBox;
-                    //    }
+
+                    case "password":
+                        {
+
+                            var textbox = new LayoutFarm.CustomWidgets.TextBoxContainer(100, 20, false, true);
+                            CssBox wrapperBox = CreateWrapper(
+                                 host,
+                                 textbox,
+                                 textbox.GetPrimaryRenderElement(rootgfx),
+                                 spec, true);
+                            //place holder support
+                            DomAttribute placeHolderAttr = domE.FindAttribute("placeholder");
+                            if (placeHolderAttr != null)
+                            {
+                                textbox.PlaceHolderText = placeHolderAttr.Value;
+                            }
+                            parentBox.AppendChild(wrapperBox);
+                            return wrapperBox;
+                        }
                     case "text":
                         {
                             // user can specific width of textbox 
