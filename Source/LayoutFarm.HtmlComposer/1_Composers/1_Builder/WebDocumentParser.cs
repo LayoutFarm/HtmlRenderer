@@ -29,19 +29,20 @@ namespace LayoutFarm.Composers
         {
             HtmlParser parser = GetHtmlParser();
             //------------------------
-            HtmlDocument blankHtmlDoc = new HtmlDocument(htmlHost);
-            parser.Parse(snapSource, blankHtmlDoc, blankHtmlDoc.RootNode);
+            HtmlDocument newdoc = new HtmlDocument(htmlHost);
+            parser.Parse(snapSource, newdoc, newdoc.RootNode);
             FreeHtmlParser(parser);
-            return blankHtmlDoc;
+            return newdoc;
         }
 
         public static void ParseHtmlDom(TextSource snapSource, IHtmlDocument htmldoc, WebDom.DomElement parentElement)
         {
-            var parser = GetHtmlParser();
+            HtmlParser parser = GetHtmlParser();
             //------------------------ 
             parser.Parse(snapSource, (LayoutFarm.WebDom.Impl.HtmlDocument)htmldoc, parentElement);
             FreeHtmlParser(parser);
         }
+
         static Queue<HtmlParser> sharedParsers = new Queue<HtmlParser>();
         static object sharedParserLock1 = new object();
         static HtmlParser GetHtmlParser()

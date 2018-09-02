@@ -139,6 +139,10 @@ namespace LayoutFarm.HtmlBoxes
 
             this.RootCssBox.InvalidateGraphics(_currentSelectionArea);
         }
+        public override SelectionRange CurrentSelectionRange
+        {
+            get { return _currentSelectionRange; }
+        }
         public override void CopySelection(StringBuilder stbuilder)
         {
             if (this._currentSelectionRange != null)

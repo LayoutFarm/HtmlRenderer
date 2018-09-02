@@ -49,10 +49,11 @@ namespace LayoutFarm.HtmlBoxes
         int rootGlobalX;
         int rootGlobalY;
         List<HitInfo> hitInfoList = new List<HitInfo>();
-        public CssBoxHitChain()
+
+        internal CssBoxHitChain()
         {
         }
-        public void SetRootGlobalPosition(int globalX, int globalY)
+        internal void SetRootGlobalPosition(int globalX, int globalY)
         {
             this.rootGlobalX = globalX;
             this.rootGlobalY = globalY;

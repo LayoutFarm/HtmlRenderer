@@ -19,6 +19,8 @@ namespace LayoutFarm.HtmlBoxes
         CssRun endHitRun;
         int endHitRunCharIndex;
         Rectangle snapSelectionArea;
+
+
         internal SelectionRange(
             CssBoxHitChain startChain,
             CssBoxHitChain endChain,
@@ -53,8 +55,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 this.isValid = false;
                 return;
-            }
-
+            } 
 
             this.SetupEndHitPoint(startChain, endChain, ifonts);
             this.snapSelectionArea = this.GetSelectionRectArea();
@@ -65,7 +66,7 @@ namespace LayoutFarm.HtmlBoxes
             get { return this.isValid; }
         }
 
-        public void ClearSelection()
+        internal void ClearSelection()
         {
             if (this.selectedLines != null)
             {
@@ -86,7 +87,7 @@ namespace LayoutFarm.HtmlBoxes
             this.startHitRunCharIndex = this.endHitRunCharIndex = 0;
         }
 
-        public void CopyText(StringBuilder stbuilder)
+        internal void CopyText(StringBuilder stbuilder)
         {
             //copy selected text to stbuilder 
             //this version just copy a plain text
@@ -201,7 +202,7 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
 
-        void SetupStartHitPoint(CssBoxHitChain startChain, ITextService ifonts)
+        void SetupStartHitPoint(CssBoxHitChain startChain, ITextService textService)
         {
             //find global location of start point
             HitInfo startHit = startChain.GetLastHit();
@@ -216,7 +217,7 @@ namespace LayoutFarm.HtmlBoxes
                         //-------------------------------------------------------
                         int sel_index;
                         int sel_offset;
-                        run.FindSelectionPoint(ifonts,
+                        run.FindSelectionPoint(textService,
                              startHit.localX,
                              out sel_index,
                              out sel_offset);
@@ -259,7 +260,7 @@ namespace LayoutFarm.HtmlBoxes
         }
 
 
-        void SetupEndHitPoint(CssBoxHitChain startChain, CssBoxHitChain endChain, ITextService ifonts)
+        void SetupEndHitPoint(CssBoxHitChain startChain, CssBoxHitChain endChain, ITextService textService)
         {
             //find global location of end point 
             HitInfo endHit = endChain.GetLastHit();
@@ -283,7 +284,7 @@ namespace LayoutFarm.HtmlBoxes
                         //}
 
                         int run_sel_index;
-                        endRun.FindSelectionPoint(ifonts,
+                        endRun.FindSelectionPoint(textService,
                              endHit.localX,
                              out run_sel_index,
                              out run_sel_offset);
@@ -690,6 +691,8 @@ namespace LayoutFarm.HtmlBoxes
             EndLine,
             PartialLine
         }
+
+ 
     }
 
 
@@ -698,18 +701,13 @@ namespace LayoutFarm.HtmlBoxes
     {
         public static void SelectFull(this CssLineBox lineBox)
         {
-            //full line selection 
-            //lineBox.SelectionStartAt = 0;
-            //lineBox.SelectionWidth = (int)lineBox.CachedLineContentWidth;
+            //full line selection  
             lineBox.SelectionSegment = SelectionSegment.FullLine;
         }
 
         public static void SelectPartialToEnd(this CssLineBox lineBox, int startAtPx, CssRun startRun, int startRunIndex)
         {
-            //from startAt to end of line
-
-            //lineBox.SelectionStartAt = startAtPx;
-            //lineBox.SelectionWidth = (int)lineBox.CachedLineContentWidth - startAtPx;
+            //from startAt to end of line 
 
             lineBox.SelectionSegment = new SelectionSegment(startAtPx, (int)lineBox.CachedLineContentWidth - startAtPx)
             {
@@ -719,10 +717,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         public static void SelectPartialFromStart(this CssLineBox lineBox, int endAtPx, CssRun endRun, int endRunIndex)
         {
-            //from start of line to endAt              
-
-            //lineBox.SelectionStartAt = 0;
-            //lineBox.SelectionWidth = endAtPx;
+            //from start of line to endAt             
 
             lineBox.SelectionSegment = new SelectionSegment(0, endAtPx)
             {

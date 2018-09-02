@@ -46,10 +46,10 @@ namespace LayoutFarm.HtmlBoxes
             //                  : new Rectangle(imageLoadHandler.Rectangle.Left, imageLoadHandler.Rectangle.Top, imgSize.Width, imgSize.Height);
             var srcRect = new Rectangle(0, 0, image.Width, image.Height);
             // initial image destination rectangle
-            var destRect = new Rectangle(location, imgSize);
+            Rectangle destRect = new Rectangle(location, imgSize);
             // need to clip so repeated image will be cut on rectangle
 
-            var prevClip = g.CurrentClipRect;
+            Rectangle prevClip = g.CurrentClipRect;
             PixelFarm.Drawing.Rectangle copyRect = new PixelFarm.Drawing.Rectangle(
                (int)rectangle.X,
                (int)rectangle.Y,
