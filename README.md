@@ -26,11 +26,28 @@ also, please note the text selection on the Html Surface.
 
 Typography => https://github.com/LayoutFarm/Typography)
 
+
+---
+
+ **Work In Progrss ... : Html-input**
+ 
+ Html input elements are built with 'html-fragment (sub dom)'
+
+ see more at https://github.com/LayoutFarm/HtmlRenderer/issues/18
+
+![html_input_test1](https://user-images.githubusercontent.com/7447159/44319466-3a81ba80-a466-11e8-81c8-c95993b261d5.gif)
+
+_pic3 : developing Html-input, click to view full  size img_
+
+
+
 ---
 The classic image.
 ![html_renderer_s01](https://cloud.githubusercontent.com/assets/7447159/24077194/3da7a684-0c78-11e7-8b83-98ebf77d5fdc.png)
 
- _pic 3: HtmlRenderer's Classic, Gdi+_
+ _pic 4: HtmlRenderer's Classic, Gdi+_
+ 
+
 
 **MORE info / screen capture imgs** -> [see wiki](../../wiki/1.-Some-Screen-Captures)
 
