@@ -48,14 +48,28 @@ namespace LayoutFarm.HtmlBoxes
 
         private void Binder_ImageChanged(object sender, EventArgs e)
         {
+            //TODO: ...
 
-            SetVisualSize(
-                this._imgRun.ImageBinder.ImageWidth,
-                this._imgRun.ImageBinder.ImageHeight);
-            _imgRun.SetSize(this._imgRun.ImageBinder.ImageWidth,
-                 this._imgRun.ImageBinder.ImageHeight); 
+            float newW = this.Width.IsEmptyOrAuto ?
+                            this._imgRun.ImageBinder.ImageWidth :
+                            CssValueParser.ConvertToPx(Width, VisualWidth, this);
+
+            float newH = this.Height.IsEmptyOrAuto ?
+                            this._imgRun.ImageBinder.ImageHeight :
+                            CssValueParser.ConvertToPx(Width, VisualWidth, this);
+
+
+            SetVisualSize(newW, newH);
+            //SetVisualSize(
+            // this._imgRun.ImageBinder.ImageWidth,
+            // this._imgRun.ImageBinder.ImageHeight); 
+            //------------------------
+            _imgRun.SetSize(
+                 this._imgRun.ImageBinder.ImageWidth,
+                 this._imgRun.ImageBinder.ImageHeight);
+            //------------------------
             _imgRun.InvalidateGraphics();
-           
+
         }
 
         public override void Clear()
@@ -116,18 +130,37 @@ namespace LayoutFarm.HtmlBoxes
                 case BinderState.Loaded:
                     {
                         Image img;
-                        if ((img = (Image)_imgRun.ImageBinder.Image) != null)
+                        if ((img = (Image)_imgRun.ImageBinder.Image) != null) //assign and test
                         {
-                            if (_imgRun.ImageRectangle == Rectangle.Empty)
+                            if (this.VisualWidth != 0)
                             {
-                                p.DrawImage(img,
-                                      r.Left, r.Top,
-                                      img.Width, img.Height);
+                                //TODO: review here
+
+                                if (_imgRun.ImageRectangle == Rectangle.Empty)
+                                {
+                                    p.DrawImage(img,
+                                          r.Left, r.Top,
+                                          this.VisualWidth, this.VisualHeight);
+                                }
+                                else
+                                {
+                                    p.DrawImage(img, _imgRun.ImageRectangle);
+                                }
                             }
                             else
                             {
-                                p.DrawImage(img, _imgRun.ImageRectangle);
+                                if (_imgRun.ImageRectangle == Rectangle.Empty)
+                                {
+                                    p.DrawImage(img,
+                                          r.Left, r.Top,
+                                          img.Width, img.Height);
+                                }
+                                else
+                                {
+                                    p.DrawImage(img, _imgRun.ImageRectangle);
+                                }
                             }
+
                         }
                         else
                         {
