@@ -81,7 +81,6 @@
     <Compile Include="Demo9\9.3_Demo_SvgViewer.cs" />
     <Compile Include="Demo9\SpriteElement.cs" />
     <Compile Include="Demo9\UISprite.cs" />
-    <Compile Include="ExampleFolderConfig.cs" />
     <Compile Include="HtmlHostCreatorHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
