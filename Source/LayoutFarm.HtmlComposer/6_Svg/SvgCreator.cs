@@ -48,7 +48,6 @@ namespace LayoutFarm.Svg
             return svgRoot;
         }
 
-        static LayoutFarm.ContentManagers.ImageContentManager _contentMx;
 
         void CreateBoxContent(HtmlElement elem)
         {

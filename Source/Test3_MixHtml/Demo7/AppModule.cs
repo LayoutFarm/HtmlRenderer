@@ -18,7 +18,7 @@ namespace LayoutFarm.DzBoardSample
             dzBoardModule = new DesignBoardModule();
             menuModule = new MenuBoardModule();
             menuModule.menuItemClick += new EventHandler<MenuItemClickEventArgs>(menuModule_menuItemClick);
-            var contentMx = new LayoutFarm.ContentManagers.ImageContentManager();
+            var contentMx = new LayoutFarm.ContentManagers.ImageLoadingQueueManager();
             contentMx.AskForImage += contentMx_AskForImg;
             //app specific here
             documentRootPath = System.Windows.Forms.Application.ExecutablePath;

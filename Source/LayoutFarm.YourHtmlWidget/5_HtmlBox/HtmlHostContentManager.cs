@@ -9,7 +9,7 @@ namespace LayoutFarm.CustomWidgets
     {
         HtmlBoxes.HtmlHost htmlHost;
         Dictionary<TextContentManager, int> textContentManList = new Dictionary<TextContentManager, int>();
-        Dictionary<ImageContentManager, int> imageContentManList = new Dictionary<ImageContentManager, int>();
+        Dictionary<ImageLoadingQueueManager, int> imageContentManList = new Dictionary<ImageLoadingQueueManager, int>();
         public HtmlHostContentManager()
         {
         }
@@ -24,7 +24,7 @@ namespace LayoutFarm.CustomWidgets
                     //only 1 manager that handle the img req
                     //------
                     //TODO: review 
-                    foreach (ImageContentManager imgContentMx in imageContentManList.Keys)
+                    foreach (ImageLoadingQueueManager imgContentMx in imageContentManList.Keys)
                     {
                         if (imgContentMx.AddRequestImage(e.ImageBinder))
                         {
@@ -56,7 +56,7 @@ namespace LayoutFarm.CustomWidgets
         /// add image content manageer
         /// </summary>
         /// <param name="imageMan"></param>
-        public void AddImageContentMan(ImageContentManager imageMan)
+        public void AddImageContentMan(ImageLoadingQueueManager imageMan)
         {
             if (this.imageContentManList.ContainsKey(imageMan))
             {
