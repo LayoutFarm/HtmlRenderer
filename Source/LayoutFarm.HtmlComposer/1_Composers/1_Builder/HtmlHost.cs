@@ -597,13 +597,12 @@ namespace LayoutFarm.HtmlBoxes
             {
                 var clientImageBinder = new ClientImageBinder(imgsrc);
                 imgBinder = clientImageBinder;
-                //clientImageBinder.SetOwner(childElement);
+
             }
             else
             {
                 var clientImageBinder = new ClientImageBinder(null);
                 imgBinder = clientImageBinder;
-                //clientImageBinder.SetOwner(childElement);
             }
 
             CssBoxImage boxImage = new CssBoxImage(childElement.Spec, parent.RootGfx, imgBinder);

@@ -109,12 +109,10 @@ namespace LayoutFarm.DzBoardSample
         }
         ImageBinder LoadImage(string filename)
         {
-            return _host.GetImageBinder(filename);
-
-            //ImageBinder binder = new ClientImageBinder(filename);
-            //binder.SetImage(App.LoadBitmap(filename));
-            //binder.State = ImageBinderState.Loaded;
-            //return binder;
+            ImageBinder binder = new ClientImageBinder(filename);
+            binder.SetImage(_host.LoadImage(filename));
+            binder.State = BinderState.Loaded;
+            return binder;
         }
         void contentMx_AskForImg(object sender, LayoutFarm.ContentManagers.ImageRequestEventArgs e)
         {
