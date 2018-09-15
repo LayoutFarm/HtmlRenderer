@@ -6,33 +6,33 @@ namespace LayoutFarm.WebWidgets
 {
     abstract class HtmlDemoBase : App
     {
-        LayoutFarm.ContentManagers.ImageContentManager imageContentMan;
-        protected LayoutFarm.HtmlBoxes.HtmlHost myHtmlHost;
-        protected HtmlBox groundHtmlBox;
+        LayoutFarm.ContentManagers.ImageContentManager _imageContentMan;
+        protected LayoutFarm.HtmlBoxes.HtmlHost _myHtmlHost;
+        protected HtmlBox _groundHtmlBox;
         protected AppHost _host;
         protected HtmlDocument _groundHtmlDoc;
         protected override void OnStart(AppHost host)
         {
             this._host = host;
-            imageContentMan = new ContentManagers.ImageContentManager();
-            imageContentMan.ImageLoadingRequest += (s, e) =>
+            _imageContentMan = new ContentManagers.ImageContentManager();
+            _imageContentMan.AskForImage += (s, e) =>
             {
                 e.SetResultImage(host.LoadImage(e.ImagSource));
             };
             //init host 
-            myHtmlHost = HtmlHostCreatorHelper.CreateHtmlHost(host,
-              (s, e) => this.imageContentMan.AddRequestImage(e.ImageBinder),
+            _myHtmlHost = HtmlHostCreatorHelper.CreateHtmlHost(host,
+              (s, e) => this._imageContentMan.AddRequestImage(e.ImageBinder),
               (s, e) => { });
             //-----------------------------------------------------
 
-            this.groundHtmlBox = new HtmlBox(myHtmlHost, 800, 600);
+            this._groundHtmlBox = new HtmlBox(_myHtmlHost, 800, 600);
             string html = @"<div></div>";
             //if you want to use full html-> use HtmlBox instead  
 
-            this._host.AddChild(groundHtmlBox);
+            this._host.AddChild(_groundHtmlBox);
             //----------------------------------------------------- 
-            groundHtmlBox.LoadHtmlFragmentString(html);
-            this._groundHtmlDoc = groundHtmlBox.HtmlDoc as HtmlDocument;
+            _groundHtmlBox.LoadHtmlFragmentString(html);
+            this._groundHtmlDoc = _groundHtmlBox.HtmlDoc as HtmlDocument;
 
             OnHtmlHostCreated();
         }

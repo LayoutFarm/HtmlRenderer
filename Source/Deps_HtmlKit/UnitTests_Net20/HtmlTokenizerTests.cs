@@ -52,8 +52,8 @@ namespace UnitTests
 
         static void VerifyHtmlTokenizerOutput(string path)
         {
-            var tokens = Path.ChangeExtension(path, ".tokens");
-            var expected = File.Exists(tokens) ? File.ReadAllText(tokens) : string.Empty;
+            string tokens = Path.ChangeExtension(path, ".tokens");
+            string expected = File.Exists(tokens) ? File.ReadAllText(tokens) : string.Empty;
             var actual = new StringBuilder();
             using (var textReader = File.OpenText(path))
             {

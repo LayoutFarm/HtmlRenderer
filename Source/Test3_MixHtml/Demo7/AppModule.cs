@@ -19,7 +19,7 @@ namespace LayoutFarm.DzBoardSample
             menuModule = new MenuBoardModule();
             menuModule.menuItemClick += new EventHandler<MenuItemClickEventArgs>(menuModule_menuItemClick);
             var contentMx = new LayoutFarm.ContentManagers.ImageContentManager();
-            contentMx.ImageLoadingRequest += contentMx_ImageLoadingRequest;
+            contentMx.AskForImage += contentMx_AskForImg;
             //app specific here
             documentRootPath = System.Windows.Forms.Application.ExecutablePath;
             this.htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(_host,
@@ -116,7 +116,7 @@ namespace LayoutFarm.DzBoardSample
             //binder.State = ImageBinderState.Loaded;
             //return binder;
         }
-        void contentMx_ImageLoadingRequest(object sender, LayoutFarm.ContentManagers.ImageRequestEventArgs e)
+        void contentMx_AskForImg(object sender, LayoutFarm.ContentManagers.ImageRequestEventArgs e)
         {
             //load resource -- sync or async? 
             string absolutePath = documentRootPath + "\\" + e.ImagSource;
