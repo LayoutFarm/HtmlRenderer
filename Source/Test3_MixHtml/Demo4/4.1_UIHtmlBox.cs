@@ -22,6 +22,7 @@ namespace LayoutFarm
             HtmlBoxes.HtmlHost htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(host,
                 (s, e) => contentMx.AddRequestImage(e.ImageBinder),
                 contentMx_LoadStyleSheet);
+            //
             htmlBox = new HtmlBox(htmlHost, 1024, 800);
             //htmlBox.SetLocation(100, 0); //test
             host.AddChild(htmlBox);
@@ -42,7 +43,7 @@ namespace LayoutFarm
                 return;
             }
             //load
-
+            //lets host do img loading... 
             e.SetResultImage(_host.LoadImage(absolutePath));
         }
         void contentMx_LoadStyleSheet(object sender, LayoutFarm.ContentManagers.TextRequestEventArgs e)
@@ -55,8 +56,6 @@ namespace LayoutFarm
             //if found
             e.TextContent = System.IO.File.ReadAllText(absolutePath);
         }
-
-
         public void LoadHtml(string documentRootPath, string htmltext)
         {
             this.documentRootPath = System.IO.Path.GetDirectoryName(documentRootPath);
