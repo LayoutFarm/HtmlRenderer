@@ -56,8 +56,8 @@ namespace LayoutFarm
 
             if (PaintLab.Svg.VgResourceIO.VgImgIOHandler == null)
             {
-                var imgContentMx = new ContentManagers.ImageLoadingQueueManager();
-                imgContentMx.AskForImage += (s, e) =>
+                var imgLoadingQ = new ContentManagers.ImageLoadingQueueManager(); 
+                imgLoadingQ.AskForImage += (s, e) =>
                 {
                     //check loading policy here  
                     //
@@ -65,7 +65,7 @@ namespace LayoutFarm
                 };
                 PaintLab.Svg.VgResourceIO.VgImgIOHandler = (LayoutFarm.ImageBinder binder, PaintLab.Svg.SvgRenderElement imgRun, object requestFrom) =>
                 {
-                    imgContentMx.AddRequestImage(binder);
+                    imgLoadingQ.AddRequestImage(binder);
                 };
             }
 

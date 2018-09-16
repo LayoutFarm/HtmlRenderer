@@ -15,9 +15,9 @@ namespace LayoutFarm
             {
                 htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(host, null, null);
                 var htmlBoxContentMx = new HtmlHostContentManager();
-                var contentMx = new LayoutFarm.ContentManagers.ImageLoadingQueueManager();
-                contentMx.AskForImage += contentMx_AskForImg;
-                htmlBoxContentMx.AddImageContentMan(contentMx);
+                var imgLoadingQ = new LayoutFarm.ContentManagers.ImageLoadingQueueManager();
+                imgLoadingQ.AskForImage += contentMx_AskForImg;
+                htmlBoxContentMx.ImgLoadingQueue = imgLoadingQ;
                 htmlBoxContentMx.Bind(htmlHost);
             }
             return htmlHost;

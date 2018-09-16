@@ -6,7 +6,7 @@ namespace LayoutFarm.WebWidgets
 {
     abstract class HtmlDemoBase : App
     {
-        LayoutFarm.ContentManagers.ImageLoadingQueueManager _imgLoadingQueue;
+        LayoutFarm.ContentManagers.ImageLoadingQueueManager _imgLoadingQ;
         protected LayoutFarm.HtmlBoxes.HtmlHost _myHtmlHost;
         protected HtmlBox _groundHtmlBox;
         protected AppHost _host;
@@ -14,14 +14,14 @@ namespace LayoutFarm.WebWidgets
         protected override void OnStart(AppHost host)
         {
             this._host = host;
-            _imgLoadingQueue = new ContentManagers.ImageLoadingQueueManager();
-            _imgLoadingQueue.AskForImage += (s, e) =>
+            _imgLoadingQ = new ContentManagers.ImageLoadingQueueManager(); 
+            _imgLoadingQ.AskForImage += (s, e) =>
             {
                 e.SetResultImage(host.LoadImage(e.ImagSource));
             };
             //init host 
             _myHtmlHost = HtmlHostCreatorHelper.CreateHtmlHost(host,
-              (s, e) => this._imgLoadingQueue.AddRequestImage(e.ImageBinder),
+              (s, e) => this._imgLoadingQ.AddRequestImage(e.ImageBinder),
               (s, e) => { });
             //-----------------------------------------------------
 

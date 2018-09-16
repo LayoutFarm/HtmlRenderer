@@ -7,16 +7,17 @@ namespace LayoutFarm.CustomWidgets
 {
     public class HtmlHostContentManager
     {
-        HtmlBoxes.HtmlHost htmlHost;
-        Dictionary<TextContentManager, int> textContentManList = new Dictionary<TextContentManager, int>();
-        Dictionary<ImageLoadingQueueManager, int> imageContentManList = new Dictionary<ImageLoadingQueueManager, int>();
+        HtmlBoxes.HtmlHost _htmlHost;
+        Dictionary<TextContentManager, int> _textContentManList = new Dictionary<TextContentManager, int>();
+
+
         public HtmlHostContentManager()
         {
         }
         public void Bind(HtmlBoxes.HtmlHost htmlHost)
         {
-            this.htmlHost = htmlHost;
-            this.htmlHost.AttachEssentailHandlers(
+            this._htmlHost = htmlHost;
+            this._htmlHost.AttachEssentailHandlers(
                 //1. image req
                 (s, e) =>
                 {
@@ -24,14 +25,10 @@ namespace LayoutFarm.CustomWidgets
                     //only 1 manager that handle the img req
                     //------
                     //TODO: review 
-                    foreach (ImageLoadingQueueManager imgContentMx in imageContentManList.Keys)
+                    if (ImgLoadingQueue != null)
                     {
-                        if (imgContentMx.AddRequestImage(e.ImageBinder))
-                        {
-                            break;
-                        }
+                        ImgLoadingQueue.AddRequestImage(e.ImageBinder);
                     }
-
                 },
                 //2. stylesheet request
                 (s, e) =>
@@ -46,23 +43,16 @@ namespace LayoutFarm.CustomWidgets
         /// <param name="textMan"></param>
         public void AddTextContentMan(TextContentManager textMan)
         {
-            if (this.textContentManList.ContainsKey(textMan))
+            if (this._textContentManList.ContainsKey(textMan))
             {
                 return;
             }
-            this.textContentManList.Add(textMan, 0);
+            this._textContentManList.Add(textMan, 0);
         }
-        /// <summary>
-        /// add image content manageer
-        /// </summary>
-        /// <param name="imageMan"></param>
-        public void AddImageContentMan(ImageLoadingQueueManager imageMan)
+        public ImageLoadingQueueManager ImgLoadingQueue
         {
-            if (this.imageContentManList.ContainsKey(imageMan))
-            {
-                return;
-            }
-            this.imageContentManList.Add(imageMan, 0);
+            get;
+            set;
         }
     }
 }
