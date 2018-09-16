@@ -73,13 +73,7 @@ namespace LayoutFarm
         }
         static PixelFarm.Drawing.Image LoadImgForSvgElem(string imgName)
         {
-            //temp fix
-            //if (imgName == "html32.png")
-            //{
-            //    //TODO: review document root
-            //    imgName = @"D:\projects\HtmlRenderer\Source\Test8_HtmlRenderer.Demo\Samples\SvgSamples\" + imgName;
-            //}
-            //handle resource load
+            
             if (!System.IO.File.Exists(imgName))
             {
                 return null;
