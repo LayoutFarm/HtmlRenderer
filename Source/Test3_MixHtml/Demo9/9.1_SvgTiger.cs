@@ -11,8 +11,8 @@ namespace LayoutFarm
     [DemoNote("9.1 DemoSvgTiger")]
     class Demo_SvgTiger : App
     {
-        LayoutFarm.CustomWidgets.RectBoxController rectBoxController;
-        LayoutFarm.CustomWidgets.Box box1;
+        LayoutFarm.CustomWidgets.RectBoxController _rectBoxController;
+        LayoutFarm.CustomWidgets.Box _redBox;
         BackDrawBoardUI _backBoard;
         AppHost _host;
 
@@ -24,15 +24,7 @@ namespace LayoutFarm
             _backBoard.BackColor = Color.White;
             host.AddChild(_backBoard);
 
-            //
-            box1 = new LayoutFarm.CustomWidgets.Box(50, 50);
-            box1.BackColor = Color.Red;
-            box1.SetLocation(10, 10);
-            //box1.dbugTag = 1;
-            SetupActiveBoxProperties(box1);
-            _backBoard.AddChild(box1);
 
-            //----------------------
 
             //load lion svg
 
@@ -47,11 +39,21 @@ namespace LayoutFarm
             _backBoard.AddChild(uiSprite);
 
 
+            //
+            _redBox = new LayoutFarm.CustomWidgets.Box(50, 50); //visual rect box
+            _redBox.BackColor = Color.Red;
+            _redBox.SetLocation(10, 10);
+            //box1.dbugTag = 1;
+            SetupActiveBoxProperties(_redBox);
+            _backBoard.AddChild(_redBox);
+
+            //----------------------
+
 
             //-------- 
-            rectBoxController = new CustomWidgets.RectBoxController();
-            rectBoxController.Init();
-            host.AddChild(rectBoxController);
+            _rectBoxController = new CustomWidgets.RectBoxController();
+            _rectBoxController.Init();
+            _backBoard.AddChild(_rectBoxController);
 
             //foreach (var ui in rectBoxController.GetControllerIter())
             //{
@@ -60,18 +62,18 @@ namespace LayoutFarm
 
             //--------
             var svgEvListener = new GeneralEventListener();
-            uiSprite.AttachExternalEventListener(svgEvListener);
+            //uiSprite.AttachExternalEventListener(svgEvListener);
             svgEvListener.MouseDown += (e) =>
             {
 
                 //e.MouseCursorStyle = MouseCursorStyle.Pointer;
                 ////--------------------------------------------
                 //e.SetMouseCapture(rectBoxController.ControllerBoxMain);
-                rectBoxController.UpdateControllerBoxes(box1);
-                rectBoxController.Focus();
+                _rectBoxController.UpdateControllerBoxes(_redBox);
+                _rectBoxController.Focus();
                 //System.Console.WriteLine("click :" + (count++));
             };
-            rectBoxController.ControllerBoxMain.KeyDown += (s1, e1) =>
+            _rectBoxController.ControllerBoxMain.KeyDown += (s1, e1) =>
             {
                 if (e1.KeyCode == UIKeys.C && e1.Ctrl)
                 {
@@ -134,9 +136,9 @@ namespace LayoutFarm
                 box.BackColor = KnownColors.FromKnownColor(KnownColor.DeepSkyBlue);
                 e.MouseCursorStyle = MouseCursorStyle.Pointer;
                 //--------------------------------------------
-                e.SetMouseCapture(rectBoxController.ControllerBoxMain);
-                rectBoxController.UpdateControllerBoxes(box);
-                rectBoxController.Focus();
+                e.SetMouseCapture(_rectBoxController.ControllerBoxMain);
+                _rectBoxController.UpdateControllerBoxes(box);
+                _rectBoxController.Focus();
             };
             //2. mouse up
             box.MouseUp += (s, e) =>

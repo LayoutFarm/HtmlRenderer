@@ -14,37 +14,28 @@ namespace LayoutFarm
     {
         LayoutFarm.CustomWidgets.PolygonController polygonController = new CustomWidgets.PolygonController();
         LayoutFarm.CustomWidgets.RectBoxController rectBoxController = new CustomWidgets.RectBoxController();
-        LayoutFarm.CustomWidgets.Box box1;
-
 
         protected override void OnStart(AppHost host)
         {
 
-            Svg.SvgPathSpec spec = new Svg.SvgPathSpec();
-            spec.FillColor = Color.Red;
-
+            var spec = new Svg.SvgPathSpec() { FillColor = Color.Red };
             SvgRenderRootElement renderRoot = new SvgRenderRootElement();
             SvgRenderElement renderE = new SvgRenderElement(WellknownSvgElementName.Path, spec, renderRoot);
             VgRenderVx svgRenderVx = new VgRenderVx(renderE);
             using (VxsContext.Temp(out VertexStore vxs))
             {
+                //red-triangle ***
                 vxs.AddMoveTo(100, 20);
                 vxs.AddLineTo(150, 50);
                 vxs.AddLineTo(110, 80);
                 vxs.AddCloseFigure();
-
                 renderE._vxsPath = vxs.CreateTrim();
             }
 
-            //VgRenderVx svgRenderVx = new VgRenderVx(new VgCmd[] {
-            //    new VgCmdFillColor(Color.Red),
-            //    path });
-
             svgRenderVx.DisableBackingImage = true;
-
-
             var uiSprite = new UISprite(10, 10); //init size = (10,10), location=(0,0) 
-            uiSprite.LoadSvg(svgRenderVx);
+            uiSprite.DisableBmpCache = true;
+            uiSprite.LoadSvg(svgRenderVx);//
             host.AddChild(uiSprite);
 
             var spriteEvListener = new GeneralEventListener();
