@@ -113,12 +113,10 @@ namespace LayoutFarm.UI
 
             SvgRenderElement renderE = _svgRenderVx._vgRenderVx._renderE;
             renderE.HitTest(hitChain);
-            return hitChain.Count > 0;//found some             
-
+            return hitChain.Count > 0;//found some    
         }
-        public override void CustomDrawToThisCanvas(DrawBoard canvas, Rectangle updateArea)
+        void CustomDrawToThisPageWithBmpCache(DrawBoard canvas, Rectangle updateArea)
         {
-            if (_vgRenderVx == null) return;
 
             if (_vgRenderVx.HasBitmapSnapshot)
             {
@@ -128,7 +126,7 @@ namespace LayoutFarm.UI
             else
             {
 
-                
+
                 PixelFarm.CpuBlit.RectD bounds = _vgRenderVx.GetBounds();
                 int width = (int)Math.Ceiling(bounds.Width);
                 int height = (int)Math.Ceiling(bounds.Height);
@@ -156,11 +154,40 @@ namespace LayoutFarm.UI
                 VgPainterArgsPool.ReleasePainterArgs(ref paintArgs);
 
                 painter.StrokeWidth = prevStrokeW;//restore
-                //painter.FillColor = prevFill;
-                //painter.StrokeColor = prevStrokeColor;
-                 
+                                                  //painter.FillColor = prevFill;
+                                                  //painter.StrokeColor = prevStrokeColor;
+
                 _vgRenderVx.SetBitmapSnapshot(backimg);
-                canvas.DrawImage(backimg, new RectangleF(0, 0, backimg.Width, backimg.Height)); 
+                canvas.DrawImage(backimg, new RectangleF(0, 0, backimg.Width, backimg.Height));
+            }
+        }
+
+        public bool DisableBitmapCache { get; set; } //default = false => EnableBitmapCache
+        public override void CustomDrawToThisCanvas(DrawBoard canvas, Rectangle updateArea)
+        {
+            if (_vgRenderVx == null) return;
+            //-----------------------
+            PixelFarm.CpuBlit.AggPainter painter = null;
+            if (DisableBitmapCache &&
+               ((painter = canvas.GetPainter() as PixelFarm.CpuBlit.AggPainter) != null))
+            {
+                //temp fix***
+
+                float prev_x = painter.OriginX;
+                float prev_y = painter.OriginY;
+
+                painter.SetOrigin(prev_x + X, prev_y + Y);
+                double prevStrokeW = painter.StrokeWidth;
+                VgPainterArgsPool.GetFreePainterArgs(painter, out VgPaintArgs paintArgs);
+                _vgRenderVx._renderE.Paint(paintArgs);
+                VgPainterArgsPool.ReleasePainterArgs(ref paintArgs);
+                painter.StrokeWidth = prevStrokeW;
+                painter.SetOrigin(prev_x, prev_y);
+            }
+            else
+            {
+                //enable bitmap cache
+                CustomDrawToThisPageWithBmpCache(canvas, updateArea);
             }
         }
         public override void ResetRootGraphics(RootGraphic rootgfx)
@@ -174,6 +201,7 @@ namespace LayoutFarm.UI
         bool _enableSubSvgTest;
         VgBridgeRenderElement _vgRenderElemBridge;
         VgRenderVx _renderVx;
+        bool _disableBmpCache;
 #if DEBUG
         static int dbugTotalId;
         public readonly int dbugId = dbugTotalId++;
@@ -198,7 +226,18 @@ namespace LayoutFarm.UI
                 }
             }
         }
-
+        public bool DisableBmpCache
+        {
+            get => _disableBmpCache;
+            set
+            {
+                _disableBmpCache = value;
+                if (_vgRenderElemBridge != null)
+                {
+                    _vgRenderElemBridge.DisableBitmapCache = value;
+                }
+            }
+        }
         public void LoadSvg(PaintLab.Svg.VgRenderVx renderVx)
         {
             _renderVx = renderVx;
@@ -258,6 +297,7 @@ namespace LayoutFarm.UI
                 _vgRenderElemBridge.SetController(this);
                 _vgRenderElemBridge.VgRenderVx = _renderVx;
                 _vgRenderElemBridge.EnableSubSvgTest = this.EnableSubSvgTest;
+                _vgRenderElemBridge.DisableBitmapCache = this.DisableBmpCache;
                 //
                 RectD bounds = _renderVx.GetBounds();
                 this.SetSize((int)bounds.Width, (int)bounds.Height);
@@ -265,6 +305,7 @@ namespace LayoutFarm.UI
             }
             return _vgRenderElemBridge;
         }
+
         public virtual void SetLocation(float left, float top)
         {
             SetElementBoundsLT(left, top);
