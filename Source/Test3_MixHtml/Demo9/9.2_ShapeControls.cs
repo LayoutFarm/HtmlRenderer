@@ -173,8 +173,7 @@ namespace LayoutFarm
                 typeface = reader.Read(fs);
             }
             //_glyphMaskStore.FlipGlyphUpward = true;
-            _glyphMaskStore.SetFont(typeface, 72);
-
+            _glyphMaskStore.SetFont(typeface, 128);
             //-----------------
             VertexStore vxs = _glyphMaskStore.GetGlyphMesh(typeface.LookupIndex('a'));
 
@@ -197,7 +196,7 @@ namespace LayoutFarm
 
             svgRenderVx.DisableBackingImage = true;
             var _uiSprite = new UISprite(10, 10); //init size = (10,10), location=(0,0) 
-        
+
             _uiSprite.DisableBmpCache = true;
             _uiSprite.LoadSvg(svgRenderVx);//
             host.AddChild(_uiSprite);
