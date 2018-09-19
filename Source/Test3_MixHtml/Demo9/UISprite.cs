@@ -50,7 +50,6 @@ namespace LayoutFarm.UI
             svgHitChain.SetHitTestPos(x, y);
 
             HitTestOnSubPart(this, svgHitChain);
-
             int hitCount = svgHitChain.Count;
 
             SvgHitInfo hitInfo;
@@ -67,6 +66,12 @@ namespace LayoutFarm.UI
             return hitInfo;
 
         }
+        public void FindRenderElementAtPos(float x, float y, Action<SvgRenderElement, float, float, VertexStore> onHitSvg)
+        {
+            SvgRenderElement renderE = this._vgRenderVx._renderE;
+            renderE.HitTest(x, y, onHitSvg);
+        }
+
         public override void ChildrenHitTestCore(HitChain hitChain)
         {
             RectD bound = _vgRenderVx.GetBounds();
@@ -127,7 +132,6 @@ namespace LayoutFarm.UI
         }
         static bool HitTestOnSubPart(VgBridgeRenderElement _svgRenderVx, SvgHitChain hitChain)
         {
-
             SvgRenderElement renderE = _svgRenderVx._vgRenderVx._renderE;
             renderE.HitTest(hitChain);
             return hitChain.Count > 0;//found some    
@@ -269,6 +273,10 @@ namespace LayoutFarm.UI
         public SvgHitInfo FindRenderElementAtPos(float x, float y, bool makeCopyOfVxs)
         {
             return _vgRenderElemBridge.FindRenderElementAtPos(x, y, makeCopyOfVxs);
+        }
+        public void FindRenderElementAtPos(float x, float y, Action<SvgRenderElement, float, float, VertexStore> onHitSvg)
+        {
+            _vgRenderElemBridge.FindRenderElementAtPos(x, y, onHitSvg);
         }
         protected override void OnElementChanged()
         {

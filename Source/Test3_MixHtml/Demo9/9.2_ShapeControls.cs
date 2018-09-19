@@ -187,6 +187,7 @@ namespace LayoutFarm
             {
                 //mousedown on ui sprite 
                 //find exact part ...
+               
 
                 SvgHitInfo hitInfo = uiSprite.FindRenderElementAtPos(e1.X, e1.Y, true);
                 if (hitInfo.svg != null &&
