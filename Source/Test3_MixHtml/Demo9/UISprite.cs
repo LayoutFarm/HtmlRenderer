@@ -66,8 +66,8 @@ namespace LayoutFarm.UI
             this._vgRenderVx._renderE.HitTest(x, y, onHitSvg);
         }
 
-        public float RenderOriginX { get; set; }
-        public float RenderOriginY { get; set; }
+        public float RenderOriginXOffset { get; set; }
+        public float RenderOriginYOffset { get; set; }
 
 
         public override void ChildrenHitTestCore(HitChain hitChain)
@@ -195,7 +195,7 @@ namespace LayoutFarm.UI
                 float prev_x = painter.OriginX;
                 float prev_y = painter.OriginY;
 
-                painter.SetOrigin(prev_x + X + RenderOriginX, prev_y + Y + RenderOriginY);
+                painter.SetOrigin(prev_x + X + RenderOriginXOffset, prev_y + Y + RenderOriginYOffset);
                 double prevStrokeW = painter.StrokeWidth;
                 VgPainterArgsPool.GetFreePainterArgs(painter, out VgPaintArgs paintArgs);
                 _vgRenderVx._renderE.Paint(paintArgs);
@@ -324,8 +324,8 @@ namespace LayoutFarm.UI
                 this.SetLocation((int)(this.Left + _actualXOffset), (int)(this.Top + _actualYOffset));
                 _vgRenderElemBridge = new VgBridgeRenderElement(rootgfx, 10, 10)
                 {
-                    RenderOriginX = _actualXOffset,
-                    RenderOriginY = _actualYOffset,
+                    RenderOriginXOffset = _actualXOffset,
+                    RenderOriginYOffset = _actualYOffset,
                     VgRenderVx = _renderVx,
                     DisableBitmapCache = this.DisableBmpCache,
                     EnableSubSvgHitTest = this.EnableSubSvgTest
