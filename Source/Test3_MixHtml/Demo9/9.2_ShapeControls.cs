@@ -122,8 +122,8 @@ namespace LayoutFarm
 
         VgRenderVx CreateTestRenderVx()
         {
-            string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/others/cat_simple.svg";
-            //string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/others/tiger.svg";
+            //string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/others/cat_simple.svg";
+            string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/others/tiger.svg";
             //string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/freepik/dog1.svg";
             //string svgfile = "1f30b.svg";
             //string svgfile = "../Data/Svg/twemoji/1f30b.svg";
