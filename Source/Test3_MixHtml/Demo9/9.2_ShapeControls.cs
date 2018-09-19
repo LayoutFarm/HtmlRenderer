@@ -186,14 +186,12 @@ namespace LayoutFarm
             spriteEvListener.MouseDown += e1 =>
             {
                 //mousedown on ui sprite 
-                //find exact part ...
-               
-
+                //find exact part ... 
                 SvgHitInfo hitInfo = uiSprite.FindRenderElementAtPos(e1.X, e1.Y, true);
                 if (hitInfo.svg != null &&
                     hitInfo.svg._vxsPath != null)
                 {
-                    //polygonController.UpdateControlPoints(hitInfo.svg._vxsPath, 0, 0);
+
                     polygonController.UpdateControlPoints(hitInfo.copyOfVxs);
                 }
                 //polygonController.SetPosition((int)uiSprite.Left, (int)uiSprite.Top);

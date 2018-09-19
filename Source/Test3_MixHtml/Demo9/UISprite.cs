@@ -44,7 +44,8 @@ namespace LayoutFarm.UI
         /// <returns></returns>
         public SvgHitInfo FindRenderElementAtPos(float x, float y, bool makeCopyOfHitVxs)
         {
-            VgHitChainPool.GetFreeHitTestArgs(out SvgHitChain svgHitChain);
+
+            VgHitChainPool.GetFreeHitTestArgs(out SvgHitChain svgHitChain); //get chain from pool
             svgHitChain.WithSubPartTest = true;
             svgHitChain.MakeCopyOfHitVxs = makeCopyOfHitVxs;
             svgHitChain.SetHitTestPos(x, y);
@@ -52,24 +53,17 @@ namespace LayoutFarm.UI
             HitTestOnSubPart(this, svgHitChain);
             int hitCount = svgHitChain.Count;
 
-            SvgHitInfo hitInfo;
-            if (hitCount > 0)
-            {
-                hitInfo = svgHitChain.GetHitInfo(hitCount - 1);//get latest hit info
-            }
-            else
-            {
-                hitInfo = new SvgHitInfo();
-            }
+            SvgHitInfo hitInfo = hitCount > 0 ?
+                svgHitChain.GetHitInfo(hitCount - 1) ://get latest hit info, or
+                new SvgHitInfo(); //empty hit info
 
-            VgHitChainPool.ReleaseHitTestArgs(ref svgHitChain);
+            VgHitChainPool.ReleaseHitTestArgs(ref svgHitChain); //release chain
             return hitInfo;
 
         }
         public void FindRenderElementAtPos(float x, float y, Action<SvgRenderElement, float, float, VertexStore> onHitSvg)
         {
-            SvgRenderElement renderE = this._vgRenderVx._renderE;
-            renderE.HitTest(x, y, onHitSvg);
+            this._vgRenderVx._renderE.HitTest(x, y, onHitSvg);
         }
 
         public override void ChildrenHitTestCore(HitChain hitChain)
