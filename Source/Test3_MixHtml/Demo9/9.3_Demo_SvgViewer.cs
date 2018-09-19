@@ -93,7 +93,7 @@ namespace LayoutFarm.ColorBlenderSample
             evListener.MouseDown += (e) =>
             {
                 //hit on svg color- area
-                SvgHitInfo hitInfo = uiSprite.FindRenderElementAtPos(e.X, e.Y);
+                SvgHitInfo hitInfo = uiSprite.FindRenderElementAtPos(e.X, e.Y, false);
 #if DEBUG
                 if (hitInfo.svg != null)
                 {

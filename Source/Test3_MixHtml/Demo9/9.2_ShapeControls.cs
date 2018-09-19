@@ -66,7 +66,7 @@ namespace LayoutFarm
                 //mousedown on ui sprite
                 polygonController.SetPosition((int)uiSprite.Left, (int)uiSprite.Top);
                 polygonController.SetTargetUISprite(uiSprite);
-                polygonController.UpdateControlPoints(renderE._vxsPath, 0, 0);
+                polygonController.UpdateControlPoints(renderE._vxsPath);
 
             };
             spriteEvListener.MouseMove += e1 =>
@@ -122,8 +122,8 @@ namespace LayoutFarm
 
         VgRenderVx CreateTestRenderVx()
         {
-            //string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/others/tiger.svg";
-            string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/freepik/dog.svg";
+            string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/others/tiger.svg";
+            //string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/freepik/dog1.svg";
             //string svgfile = "1f30b.svg";
             //string svgfile = "../Data/Svg/twemoji/1f30b.svg";
             //string svgfile = "../Data/1f30b.svg";
@@ -187,12 +187,12 @@ namespace LayoutFarm
                 //mousedown on ui sprite 
                 //find exact part ...
 
-                SvgHitInfo hitInfo = uiSprite.FindRenderElementAtPos(e1.X, e1.Y);
+                SvgHitInfo hitInfo = uiSprite.FindRenderElementAtPos(e1.X, e1.Y, true);
                 if (hitInfo.svg != null &&
                     hitInfo.svg._vxsPath != null)
                 {
-
-                    polygonController.UpdateControlPoints(hitInfo.svg._vxsPath, hitInfo.svgRelX, hitInfo.svgRelY);
+                    //polygonController.UpdateControlPoints(hitInfo.svg._vxsPath, 0, 0);
+                    polygonController.UpdateControlPoints(hitInfo.copyOfVxs);
                 }
                 //polygonController.SetPosition((int)uiSprite.Left, (int)uiSprite.Top);
                 //polygonController.SetTargetUISprite(uiSprite);
