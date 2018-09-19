@@ -66,6 +66,10 @@ namespace LayoutFarm.UI
             this._vgRenderVx._renderE.HitTest(x, y, onHitSvg);
         }
 
+        public float RenderOriginX { get; set; }
+        public float RenderOriginY { get; set; }
+
+
         public override void ChildrenHitTestCore(HitChain hitChain)
         {
             RectD bound = _vgRenderVx.GetBounds();
@@ -191,7 +195,7 @@ namespace LayoutFarm.UI
                 float prev_x = painter.OriginX;
                 float prev_y = painter.OriginY;
 
-                painter.SetOrigin(prev_x + X, prev_y + Y);
+                painter.SetOrigin(prev_x + X + RenderOriginX, prev_y + Y + RenderOriginY);
                 double prevStrokeW = painter.StrokeWidth;
                 VgPainterArgsPool.GetFreePainterArgs(painter, out VgPaintArgs paintArgs);
                 _vgRenderVx._renderE.Paint(paintArgs);
@@ -217,6 +221,9 @@ namespace LayoutFarm.UI
         VgBridgeRenderElement _vgRenderElemBridge;
         VgRenderVx _renderVx;
         bool _disableBmpCache;
+        float _actualXOffset;
+        float _actualYOffset;
+
 #if DEBUG
         static int dbugTotalId;
         public readonly int dbugId = dbugTotalId++;
@@ -259,7 +266,6 @@ namespace LayoutFarm.UI
             if (_vgRenderElemBridge != null)
             {
                 _vgRenderElemBridge.VgRenderVx = renderVx;
-
                 RectD bounds = _renderVx.GetBounds();
                 this.SetSize((int)bounds.Width, (int)bounds.Height);
             }
@@ -307,16 +313,28 @@ namespace LayoutFarm.UI
         {
             if (_vgRenderElemBridge == null)
             {
-                _vgRenderElemBridge = new VgBridgeRenderElement(rootgfx, 10, 10);
-                _vgRenderElemBridge.SetLocation((int)this.Left, (int)this.Top);
-                _vgRenderElemBridge.SetController(this);
-                _vgRenderElemBridge.VgRenderVx = _renderVx;
-                _vgRenderElemBridge.EnableSubSvgHitTest = this.EnableSubSvgTest;
-                _vgRenderElemBridge.DisableBitmapCache = this.DisableBmpCache;
-                //
                 RectD bounds = _renderVx.GetBounds();
-                this.SetSize((int)bounds.Width, (int)bounds.Height);
 
+
+                //****
+                _actualXOffset = (float)-bounds.Left;
+                _actualYOffset = (float)-bounds.Bottom;
+
+                //offset to 0,0
+                this.SetLocation((int)(this.Left + _actualXOffset), (int)(this.Top + _actualYOffset));
+                _vgRenderElemBridge = new VgBridgeRenderElement(rootgfx, 10, 10)
+                {
+                    RenderOriginX = _actualXOffset,
+                    RenderOriginY = _actualYOffset,
+                    VgRenderVx = _renderVx,
+                    DisableBitmapCache = this.DisableBmpCache,
+                    EnableSubSvgHitTest = this.EnableSubSvgTest
+                };
+
+                _vgRenderElemBridge.SetLocation((int)(this.Left), (int)(this.Top ));
+                _vgRenderElemBridge.SetController(this);
+                //
+                this.SetSize((int)bounds.Width, (int)bounds.Height); 
             }
             return _vgRenderElemBridge;
         }

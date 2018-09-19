@@ -192,8 +192,7 @@ namespace LayoutFarm
 
         protected override void OnStart(AppHost host)
         {
-            VgRenderVx svgRenderVx = CreateTestRenderVx3();
-
+            VgRenderVx svgRenderVx = CreateTestRenderVx3(); //create from glyph
             //VgRenderVx svgRenderVx = CreateTestRenderVx();
 
             svgRenderVx.DisableBackingImage = true;
