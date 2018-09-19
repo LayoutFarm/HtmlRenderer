@@ -38,7 +38,7 @@ namespace LayoutFarm
             svgRenderVx.DisableBackingImage = true;
             var uiSprite = new UISprite(10, 10); //init size = (10,10), location=(0,0) 
             uiSprite.DisableBmpCache = true;
-            uiSprite.LoadSvg(svgRenderVx);//
+            uiSprite.LoadVg(svgRenderVx);//
             host.AddChild(uiSprite);
 
             var spriteEvListener = new GeneralEventListener();
@@ -172,13 +172,12 @@ namespace LayoutFarm
                 Typography.OpenFont.OpenFontReader reader = new Typography.OpenFont.OpenFontReader();
                 typeface = reader.Read(fs);
             }
-            //_glyphMaskStore.FlipGlyphUpward = true;
+            _glyphMaskStore.FlipGlyphUpward = true;
             _glyphMaskStore.SetFont(typeface, 128);
             //-----------------
+
+
             VertexStore vxs = _glyphMaskStore.GetGlyphMesh(typeface.LookupIndex('a'));
-
-
-
             var spec = new Svg.SvgPathSpec() { FillColor = Color.Red };
             SvgRenderRootElement renderRoot = new SvgRenderRootElement();
             SvgRenderElement renderE = new SvgRenderElement(WellknownSvgElementName.Path, spec, renderRoot);
@@ -198,7 +197,7 @@ namespace LayoutFarm
             var _uiSprite = new UISprite(10, 10); //init size = (10,10), location=(0,0) 
 
             _uiSprite.DisableBmpCache = true;
-            _uiSprite.LoadSvg(svgRenderVx);//
+            _uiSprite.LoadVg(svgRenderVx);//
             host.AddChild(_uiSprite);
 
             var spriteEvListener = new GeneralEventListener();

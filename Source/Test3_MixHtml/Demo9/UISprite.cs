@@ -260,7 +260,7 @@ namespace LayoutFarm.UI
                 }
             }
         }
-        public void LoadSvg(PaintLab.Svg.VgRenderVx renderVx)
+        public void LoadVg(PaintLab.Svg.VgRenderVx renderVx)
         {
             _renderVx = renderVx;
             if (_vgRenderElemBridge != null)

@@ -35,7 +35,7 @@ namespace LayoutFarm
             //string svgfile = "../Data/Svg/twemoji/1f370.svg";
             VgRenderVx svgRenderVx = ReadSvgFile(svgfile);
             var uiSprite = new UISprite(10, 10);
-            uiSprite.LoadSvg(svgRenderVx);
+            uiSprite.LoadVg(svgRenderVx);
             _backBoard.AddChild(uiSprite);
 
 
