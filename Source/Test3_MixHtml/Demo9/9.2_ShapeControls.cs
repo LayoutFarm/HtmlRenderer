@@ -1,6 +1,7 @@
 ﻿//MIT, 2014-present, WinterDev
 
 using System.Collections.Generic;
+using System.IO;
 
 using PixelFarm.Drawing;
 using PaintLab.Svg;
@@ -159,14 +160,45 @@ namespace LayoutFarm
         }
 
 
+        Typography.Contours.GlyphMeshStore _glyphMaskStore = new Typography.Contours.GlyphMeshStore();
+        VgRenderVx CreateTestRenderVx3()
+        {
+            //create vgrender vx from font-glyph
+            string fontfile = "../Test8_HtmlRenderer.Demo/Samples/Fonts/SOV_Thanamas.ttf";
+
+            Typography.OpenFont.Typeface typeface = null;
+            using (System.IO.FileStream fs = new FileStream(fontfile, FileMode.Open))
+            {
+                Typography.OpenFont.OpenFontReader reader = new Typography.OpenFont.OpenFontReader();
+                typeface = reader.Read(fs);
+            }
+            //_glyphMaskStore.FlipGlyphUpward = true;
+            _glyphMaskStore.SetFont(typeface, 72);
+
+            //-----------------
+            VertexStore vxs = _glyphMaskStore.GetGlyphMesh(typeface.LookupIndex('a'));
+
+
+
+            var spec = new Svg.SvgPathSpec() { FillColor = Color.Red };
+            SvgRenderRootElement renderRoot = new SvgRenderRootElement();
+            SvgRenderElement renderE = new SvgRenderElement(WellknownSvgElementName.Path, spec, renderRoot);
+            VgRenderVx svgRenderVx = new VgRenderVx(renderE);
+            renderE._vxsPath = vxs.CreateTrim();
+
+            return svgRenderVx;
+        }
         bool _hitTestOnSubPath = false;
 
         protected override void OnStart(AppHost host)
         {
-            VgRenderVx svgRenderVx = CreateTestRenderVx();
+            VgRenderVx svgRenderVx = CreateTestRenderVx3();
+
+            //VgRenderVx svgRenderVx = CreateTestRenderVx();
 
             svgRenderVx.DisableBackingImage = true;
             var _uiSprite = new UISprite(10, 10); //init size = (10,10), location=(0,0) 
+        
             _uiSprite.DisableBmpCache = true;
             _uiSprite.LoadSvg(svgRenderVx);//
             host.AddChild(_uiSprite);
@@ -272,7 +304,7 @@ namespace LayoutFarm
                     _rectBoundsWidgetBox.SetLocation(new_left, new_top);
                     _rectBoxController.SetPosition(new_left, new_top);
 
-                    
+
                 }
             };
 
