@@ -66,7 +66,7 @@ namespace LayoutFarm
                 //mousedown on ui sprite
                 polygonController.SetPosition((int)uiSprite.Left, (int)uiSprite.Top);
                 polygonController.SetTargetUISprite(uiSprite);
-                polygonController.UpdateControlPoints(renderE._vxsPath);
+                polygonController.UpdateControlPoints(renderE._vxsPath, 0, 0);
 
             };
             spriteEvListener.MouseMove += e1 =>
@@ -122,7 +122,8 @@ namespace LayoutFarm
 
         VgRenderVx CreateTestRenderVx()
         {
-            string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/others/tiger.svg";
+            //string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/others/tiger.svg";
+            string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/freepik/dog.svg";
             //string svgfile = "1f30b.svg";
             //string svgfile = "../Data/Svg/twemoji/1f30b.svg";
             //string svgfile = "../Data/1f30b.svg";
@@ -130,7 +131,7 @@ namespace LayoutFarm
             return ReadSvgFile(svgfile);
         }
         VgRenderVx CreateTestRenderVx2()
-        {   
+        {
             var spec = new Svg.SvgPathSpec() { FillColor = Color.Red };
             SvgRenderRootElement renderRoot = new SvgRenderRootElement();
             SvgRenderElement renderE = new SvgRenderElement(WellknownSvgElementName.Path, spec, renderRoot);
@@ -183,10 +184,19 @@ namespace LayoutFarm
 
             spriteEvListener.MouseDown += e1 =>
             {
-                //mousedown on ui sprite
-                polygonController.SetPosition((int)uiSprite.Left, (int)uiSprite.Top);
-                polygonController.SetTargetUISprite(uiSprite);
-                polygonController.UpdateControlPoints(svgRenderVx._renderE._vxsPath);
+                //mousedown on ui sprite 
+                //find exact part ...
+
+                SvgHitInfo hitInfo = uiSprite.FindRenderElementAtPos(e1.X, e1.Y);
+                if (hitInfo.svg != null &&
+                    hitInfo.svg._vxsPath != null)
+                {
+
+                    polygonController.UpdateControlPoints(hitInfo.svg._vxsPath, hitInfo.svgRelX, hitInfo.svgRelY);
+                }
+                //polygonController.SetPosition((int)uiSprite.Left, (int)uiSprite.Top);
+                //polygonController.SetTargetUISprite(uiSprite);
+                //polygonController.UpdateControlPoints(svgRenderVx._renderE._vxsPath);
 
             };
             spriteEvListener.MouseMove += e1 =>

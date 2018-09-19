@@ -34,7 +34,7 @@ namespace LayoutFarm.UI
                 _vgRenderVx = value;
             }
         }
-        public bool EnableSubSvgTest { get; set; }
+        public bool EnableSubSvgHitTest { get; set; }
         public SvgHitInfo FindRenderElementAtPos(float x, float y)
         {
             VgHitChainPool.GetFreeHitTestArgs(out SvgHitChain svgHitChain);
@@ -65,21 +65,30 @@ namespace LayoutFarm.UI
             if (bound.Contains(hitChain.TestPoint.x, hitChain.TestPoint.y))
             {
                 //we hit in svg bounds area  
-                VgHitChainPool.GetFreeHitTestArgs(out SvgHitChain svgHitChain);
-                //check if we hit on some part of the svg 
-#if DEBUG
-                if (hitChain.dbugHitPhase == dbugHitChainPhase.MouseDown)
-                {
 
-                }
-#endif
-                svgHitChain.WithSubPartTest = this.EnableSubSvgTest;
-                svgHitChain.SetHitTestPos(hitChain.TextPointX, hitChain.TextPointY);
-                if (HitTestOnSubPart(this, svgHitChain))
+                if (!EnableSubSvgHitTest)
                 {
+                    //not test further
                     hitChain.AddHitObject(this);
                 }
-                VgHitChainPool.ReleaseHitTestArgs(ref svgHitChain);
+                else
+                {
+                    VgHitChainPool.GetFreeHitTestArgs(out SvgHitChain svgHitChain);
+                    //check if we hit on some part of the svg 
+#if DEBUG
+                    if (hitChain.dbugHitPhase == dbugHitChainPhase.MouseDown)
+                    {
+
+                    }
+#endif
+                    svgHitChain.WithSubPartTest = this.EnableSubSvgHitTest;
+                    svgHitChain.SetHitTestPos(hitChain.TextPointX, hitChain.TextPointY);
+                    if (HitTestOnSubPart(this, svgHitChain))
+                    {
+                        hitChain.AddHitObject(this);
+                    }
+                    VgHitChainPool.ReleaseHitTestArgs(ref svgHitChain);
+                }
             }
         }
 
@@ -222,7 +231,7 @@ namespace LayoutFarm.UI
                 _enableSubSvgTest = value;
                 if (_vgRenderElemBridge != null)
                 {
-                    _vgRenderElemBridge.EnableSubSvgTest = value;
+                    _vgRenderElemBridge.EnableSubSvgHitTest = value;
                 }
             }
         }
@@ -296,7 +305,7 @@ namespace LayoutFarm.UI
                 _vgRenderElemBridge.SetLocation((int)this.Left, (int)this.Top);
                 _vgRenderElemBridge.SetController(this);
                 _vgRenderElemBridge.VgRenderVx = _renderVx;
-                _vgRenderElemBridge.EnableSubSvgTest = this.EnableSubSvgTest;
+                _vgRenderElemBridge.EnableSubSvgHitTest = this.EnableSubSvgTest;
                 _vgRenderElemBridge.DisableBitmapCache = this.DisableBmpCache;
                 //
                 RectD bounds = _renderVx.GetBounds();
