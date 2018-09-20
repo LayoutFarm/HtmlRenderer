@@ -223,7 +223,7 @@ namespace LayoutFarm
 
 
         Typography.Contours.GlyphMeshStore _glyphMaskStore = new Typography.Contours.GlyphMeshStore();
-        VgRenderVx CreateTestRenderVx3()
+        VgRenderVx CreateTestRenderVx3(char c, float sizeInPts)
         {
             //create vgrender vx from font-glyph
             string fontfile = "../Test8_HtmlRenderer.Demo/Samples/Fonts/SOV_Thanamas.ttf";
@@ -235,11 +235,11 @@ namespace LayoutFarm
                 typeface = reader.Read(fs);
             }
             _glyphMaskStore.FlipGlyphUpward = true;
-            _glyphMaskStore.SetFont(typeface, 128);
+            _glyphMaskStore.SetFont(typeface, sizeInPts);
             //-----------------
 
 
-            VertexStore vxs = _glyphMaskStore.GetGlyphMesh(typeface.LookupIndex('a'));
+            VertexStore vxs = _glyphMaskStore.GetGlyphMesh(typeface.LookupIndex(c));
             var spec = new Svg.SvgPathSpec() { FillColor = Color.Red };
             SvgRenderRootElement renderRoot = new SvgRenderRootElement();
             SvgRenderElement renderE = new SvgRenderElement(WellknownSvgElementName.Path, spec, renderRoot);
@@ -253,18 +253,9 @@ namespace LayoutFarm
 
         protected override void OnStart(AppHost host)
         {
-            VgRenderVx svgRenderVx = CreateTestRenderVx3(); //create from glyph
-            //VgRenderVx svgRenderVx = CreateTestRenderVx();
 
-            svgRenderVx.DisableBackingImage = true;
-            var _uiSprite = new UISprite(10, 10); //init size = (10,10), location=(0,0) 
 
-            _uiSprite.DisableBmpCache = true;
-            _uiSprite.LoadVg(svgRenderVx);//
-            host.AddChild(_uiSprite);
 
-            var spriteEvListener = new GeneralEventListener();
-            _uiSprite.AttachExternalEventListener(spriteEvListener);
 
             //
             _rectBoundsWidgetBox = new Box2(50, 50); //visual rect box
@@ -275,23 +266,26 @@ namespace LayoutFarm
             SetupActiveBoxProperties(_rectBoundsWidgetBox);
             host.AddChild(_rectBoundsWidgetBox);
 
-            //box1 = new LayoutFarm.CustomWidgets.SimpleBox(50, 50);
-            //box1.BackColor = Color.Red;
-            //box1.SetLocation(10, 10);
-            ////box1.dbugTag = 1;
-            //SetupActiveBoxProperties(box1);
-            //viewport.AddContent(box1);
-            //-------- 
             _rectBoxController.Init();
             //polygonController.Visible = false;
             host.AddChild(_polygonController);
-            //-------------------------------------------
             host.AddChild(_rectBoxController);
 
-            //foreach (var ui in rectBoxController.GetControllerIter())
-            //{
-            //    viewport.AddContent(ui);
-            //}
+
+
+
+            VgRenderVx svgRenderVx = CreateTestRenderVx3('a', 128); //create from glyph
+            //VgRenderVx svgRenderVx = CreateTestRenderVx();
+            svgRenderVx.DisableBackingImage = true;
+            var _uiSprite = new UISprite(10, 10); //init size = (10,10), location=(0,0) 
+
+            _uiSprite.DisableBmpCache = true;
+            _uiSprite.LoadVg(svgRenderVx);//
+            host.AddChild(_uiSprite);
+            var spriteEvListener = new GeneralEventListener();
+            _uiSprite.AttachExternalEventListener(spriteEvListener);
+
+
 
             spriteEvListener.MouseDown += e1 =>
             {
