@@ -118,13 +118,75 @@ namespace LayoutFarm
     }
 
 
+    sealed class Box2 : LayoutFarm.CustomWidgets.AbstractBox
+    {
+        public Box2(int w, int h)
+            : base(w, h)
+        {
 
+        }
+        public LayoutFarm.CustomWidgets.AbstractBox FriendBox { get; private set; }
+        public UISprite FriendSprite { get; private set; }
+
+        public void SetTarget(LayoutFarm.CustomWidgets.AbstractBox target)
+        {
+            Clear();
+            FriendBox = target;
+
+        }
+        public void SetTarget(UISprite target)
+        {
+            Clear();
+            FriendSprite = target;
+        }
+        void Clear()
+        {
+            FriendSprite = null;
+            FriendBox = null;
+        }
+        public override void SetLocation(int left, int top)
+        {
+            int xdiff = left - this.Left;
+            int ydiff = top - this.Top;
+            if (FriendBox != null)
+            {
+                FriendBox.SetLocation(FriendBox.Left + xdiff, FriendBox.Top + ydiff);
+            }
+            else if (FriendSprite != null)
+            {
+                FriendSprite.SetLocation(FriendSprite.Left + xdiff, FriendSprite.Top + ydiff);
+            }
+            base.SetLocation(left, top);
+        }
+        public override void Walk(UIVisitor visitor)
+        {
+            visitor.BeginElement(this, "box2");
+            this.Describe(visitor);
+            //descrube child 
+            visitor.EndElement();
+        }
+
+        public override void NotifyContentUpdate(UIElement childContent)
+        {
+            //set propersize
+
+            //if (childContent is ImageBox)
+            //{
+            //    ImageBox imgBox = (ImageBox)childContent;
+            //    this.SetSize(imgBox.Width, imgBox.Height); 
+            //}
+
+            this.InvalidateLayout();
+            //this.ParentUI?.NotifyContentUpdate(this);
+            this.ParentUI?.InvalidateLayout();
+        }
+    }
     [DemoNote("9.2.1 ShapeControls")]
     class DemoShapeControl2 : App
     {
         LayoutFarm.CustomWidgets.PolygonController _polygonController = new CustomWidgets.PolygonController();
         LayoutFarm.CustomWidgets.RectBoxController _rectBoxController = new CustomWidgets.RectBoxController();
-        LayoutFarm.CustomWidgets.Box _rectBoundsWidgetBox;
+        Box2 _rectBoundsWidgetBox;
 
 
         VgRenderVx CreateTestRenderVx()
@@ -177,7 +239,7 @@ namespace LayoutFarm
             //-----------------
 
 
-            VertexStore vxs = _glyphMaskStore.GetGlyphMesh(typeface.LookupIndex('a'));
+            VertexStore vxs = _glyphMaskStore.GetGlyphMesh(typeface.LookupIndex('A'));
             var spec = new Svg.SvgPathSpec() { FillColor = Color.Red };
             SvgRenderRootElement renderRoot = new SvgRenderRootElement();
             SvgRenderElement renderE = new SvgRenderElement(WellknownSvgElementName.Path, spec, renderRoot);
@@ -186,6 +248,7 @@ namespace LayoutFarm
 
             return svgRenderVx;
         }
+
         bool _hitTestOnSubPath = false;
 
         protected override void OnStart(AppHost host)
@@ -204,7 +267,7 @@ namespace LayoutFarm
             _uiSprite.AttachExternalEventListener(spriteEvListener);
 
             //
-            _rectBoundsWidgetBox = new LayoutFarm.CustomWidgets.Box(50, 50); //visual rect box
+            _rectBoundsWidgetBox = new Box2(50, 50); //visual rect box
             Color c = KnownColors.FromKnownColor(KnownColor.DeepSkyBlue);
             _rectBoundsWidgetBox.BackColor = Color.FromArgb(100, c);
             _rectBoundsWidgetBox.SetLocation(10, 10);
@@ -233,9 +296,7 @@ namespace LayoutFarm
             spriteEvListener.MouseDown += e1 =>
             {
                 //mousedown on ui sprite 
-                //find exact part ... 
-
-
+                //find exact part ...  
                 if (_hitTestOnSubPath)
                 {
                     SvgHitInfo hitInfo = _uiSprite.FindRenderElementAtPos(e1.X, e1.Y, true);
@@ -247,11 +308,11 @@ namespace LayoutFarm
                             PixelFarm.CpuBlit.VertexProcessing.BoundingRect.GetBoundingRect(
                                 hitInfo.copyOfVxs);
 
-                        _polygonController.UpdateControlPoints(hitInfo.copyOfVxs);
+                        _polygonController.UpdateControlPoints(hitInfo.copyOfVxs, _uiSprite.ActualXOffset, _uiSprite.ActualYOffset);
 
                         //move redbox and its controller
                         _rectBoundsWidgetBox.SetLocationAndSize(
-                            (int)bounds.Left, (int)(bounds.Top - bounds.Height),
+                            (int)(bounds.Left + _uiSprite.ActualXOffset), (int)(bounds.Top - bounds.Height + _uiSprite.ActualYOffset),
                             (int)bounds.Width, (int)bounds.Height);
                         _rectBoxController.UpdateControllerBoxes(_rectBoundsWidgetBox);
 
@@ -269,12 +330,17 @@ namespace LayoutFarm
                 {
                     //hit on sprite
 
-                    _rectBoundsWidgetBox.SetLocationAndSize(
+                    _rectBoundsWidgetBox.SetTarget(_uiSprite);
+
+                    _rectBoundsWidgetBox.SetLocationAndSize(    //blue
                           (int)_uiSprite.Left, (int)_uiSprite.Top,
                           (int)_uiSprite.Width, (int)_uiSprite.Height);
-                    _rectBoxController.UpdateControllerBoxes(_rectBoundsWidgetBox);
+
+                    _rectBoxController.UpdateControllerBoxes(_rectBoundsWidgetBox);  //control 4 corners
                     _rectBoundsWidgetBox.Visible = true;
                     _rectBoxController.Visible = true;
+
+
 
                     //polygonController.SetPosition((int)uiSprite.Left, (int)uiSprite.Top);
                     //polygonController.SetTargetUISprite(uiSprite);
@@ -283,30 +349,30 @@ namespace LayoutFarm
 
 
             };
-            spriteEvListener.MouseMove += e1 =>
-            {
-                if (e1.IsDragging)
-                {
-                    //drag event on uisprite 
-                    int left = (int)_uiSprite.Left;
-                    int top = (int)_uiSprite.Top;
+            //spriteEvListener.MouseMove += e1 =>
+            //{
+            //    if (e1.IsDragging)
+            //    {
+            //        //drag event on uisprite 
+            //        int left = (int)_uiSprite.Left;
+            //        int top = (int)_uiSprite.Top;
 
-                    int new_left = left + e1.DiffCapturedX;
-                    int new_top = top + e1.DiffCapturedY;
-                    _uiSprite.SetLocation(new_left, new_top);
-                    //-----
-                    //also update controller position
+            //        int new_left = left + e1.DiffCapturedX;
+            //        int new_top = top + e1.DiffCapturedY;
+            //        _uiSprite.SetLocation(new_left, new_top);
+            //        //-----
+            //        //also update controller position
 
-                    _polygonController.SetPosition(new_left, new_top);
-                    _rectBoundsWidgetBox.SetLocation(new_left, new_top);
-                    _rectBoxController.SetPosition(new_left, new_top);
+            //        _polygonController.SetPosition(new_left, new_top);
+            //        _rectBoundsWidgetBox.SetLocation(new_left, new_top);
+            //        _rectBoxController.SetPosition(new_left, new_top);
 
 
-                }
-            };
+            //    }
+            //};
 
         }
-        void SetupActiveBoxProperties(LayoutFarm.CustomWidgets.Box box)
+        void SetupActiveBoxProperties(LayoutFarm.CustomWidgets.AbstractBox box)
         {
             //1. mouse down         
             box.MouseDown += (s, e) =>

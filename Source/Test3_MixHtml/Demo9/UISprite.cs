@@ -48,7 +48,7 @@ namespace LayoutFarm.UI
             VgHitChainPool.GetFreeHitTestArgs(out SvgHitChain svgHitChain); //get chain from pool
             svgHitChain.WithSubPartTest = true;
             svgHitChain.MakeCopyOfHitVxs = makeCopyOfHitVxs;
-            svgHitChain.SetHitTestPos(x, y);
+            svgHitChain.SetHitTestPos(x - RenderOriginXOffset, y - RenderOriginYOffset);
 
             HitTestOnSubPart(this, svgHitChain);
             int hitCount = svgHitChain.Count;
@@ -271,6 +271,9 @@ namespace LayoutFarm.UI
                 this.SetSize((int)bounds.Width, (int)bounds.Height);
             }
         }
+        public float ActualXOffset => _actualXOffset;
+        public float ActualYOffset => _actualYOffset;
+
         public SvgHitInfo FindRenderElementAtPos(float x, float y, bool makeCopyOfVxs)
         {
             return _vgRenderElemBridge.FindRenderElementAtPos(x, y, makeCopyOfVxs);
