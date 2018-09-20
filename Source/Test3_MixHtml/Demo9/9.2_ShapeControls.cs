@@ -239,7 +239,7 @@ namespace LayoutFarm
             //-----------------
 
 
-            VertexStore vxs = _glyphMaskStore.GetGlyphMesh(typeface.LookupIndex('A'));
+            VertexStore vxs = _glyphMaskStore.GetGlyphMesh(typeface.LookupIndex('a'));
             var spec = new Svg.SvgPathSpec() { FillColor = Color.Red };
             SvgRenderRootElement renderRoot = new SvgRenderRootElement();
             SvgRenderElement renderE = new SvgRenderElement(WellknownSvgElementName.Path, spec, renderRoot);
