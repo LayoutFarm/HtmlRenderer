@@ -73,6 +73,7 @@ namespace LayoutFarm.UI
         public override void ChildrenHitTestCore(HitChain hitChain)
         {
             RectD bound = _vgRenderVx.GetBounds();
+            bound.Offset(RenderOriginXOffset, RenderOriginYOffset);
             if (bound.Contains(hitChain.TestPoint.x, hitChain.TestPoint.y))
             {
                 //we hit in svg bounds area  
@@ -331,10 +332,10 @@ namespace LayoutFarm.UI
                     EnableSubSvgHitTest = this.EnableSubSvgTest
                 };
 
-                _vgRenderElemBridge.SetLocation((int)(this.Left), (int)(this.Top ));
+                _vgRenderElemBridge.SetLocation((int)(this.Left), (int)(this.Top));
                 _vgRenderElemBridge.SetController(this);
                 //
-                this.SetSize((int)bounds.Width, (int)bounds.Height); 
+                this.SetSize((int)bounds.Width, (int)bounds.Height);
             }
             return _vgRenderElemBridge;
         }
