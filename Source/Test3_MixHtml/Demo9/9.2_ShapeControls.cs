@@ -25,7 +25,7 @@ namespace LayoutFarm
             SvgRenderRootElement renderRoot = new SvgRenderRootElement();
             SvgRenderElement renderE = new SvgRenderElement(WellknownSvgElementName.Path, spec, renderRoot);
             VgRenderVx svgRenderVx = new VgRenderVx(renderE);
-            using (VxsContext.Temp(out VertexStore vxs))
+            using (VxsTemp.Borrow(out VertexStore vxs))
             {
                 //red-triangle ***
                 vxs.AddMoveTo(100, 20);
@@ -208,7 +208,7 @@ namespace LayoutFarm
             SvgRenderElement renderE = new SvgRenderElement(WellknownSvgElementName.Path, spec, renderRoot);
             VgRenderVx svgRenderVx = new VgRenderVx(renderE);
 
-            using (VxsContext.Temp(out VertexStore vxs))
+            using (VxsTemp.Borrow(out VertexStore vxs))
             {
                 //red-triangle ***
                 vxs.AddMoveTo(100, 20);
