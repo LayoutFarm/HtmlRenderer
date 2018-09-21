@@ -168,10 +168,13 @@ namespace LayoutFarm.UI
 
                 painter.StrokeWidth = 1;//default 
                 //painter.FillColor = Color.Black;
-                //painter.StrokeColor = Color.Black;
-                VgPainterArgsPool.GetFreePainterArgs(painter, out VgPaintArgs paintArgs);
-                _vgRenderVx._renderE.Paint(paintArgs);
-                VgPainterArgsPool.ReleasePainterArgs(ref paintArgs);
+                //painter.StrokeColor = Color.Black; 
+
+                using (VgPainterArgsPool.Borrow(painter, out VgPaintArgs paintArgs))
+                {
+                    _vgRenderVx._renderE.Paint(paintArgs);
+                }
+
 
                 painter.StrokeWidth = prevStrokeW;//restore
                                                   //painter.FillColor = prevFill;
@@ -198,9 +201,13 @@ namespace LayoutFarm.UI
 
                 painter.SetOrigin(prev_x + X + RenderOriginXOffset, prev_y + Y + RenderOriginYOffset);
                 double prevStrokeW = painter.StrokeWidth;
-                VgPainterArgsPool.GetFreePainterArgs(painter, out VgPaintArgs paintArgs);
-                _vgRenderVx._renderE.Paint(paintArgs);
-                VgPainterArgsPool.ReleasePainterArgs(ref paintArgs);
+                
+                using (VgPainterArgsPool.Borrow(painter, out VgPaintArgs paintArgs))
+                {
+                    _vgRenderVx._renderE.Paint(paintArgs);
+                }
+
+
                 painter.StrokeWidth = prevStrokeW;
                 painter.SetOrigin(prev_x, prev_y);
             }
