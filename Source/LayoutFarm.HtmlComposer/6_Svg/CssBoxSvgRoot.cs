@@ -73,6 +73,10 @@ namespace LayoutFarm.HtmlBoxes
 
                 using (VgPainterArgsPool.Borrow(painter, out var paintArgs))
                 {
+                    if (_renderVx._coordTx != null)
+                    {
+
+                    }
                     _renderVx._renderE.Paint(paintArgs);
                 }
 
@@ -111,8 +115,12 @@ namespace LayoutFarm.HtmlBoxes
 
                 using (VgPainterArgsPool.Borrow(painter, out VgPaintArgs paintArgs))
                 {
+                    if (_renderVx._coordTx != null)
+                    {
+
+                    }
                     _renderVx._renderE.Paint(paintArgs);
-                } 
+                }
 
                 painter.StrokeWidth = prevStrokeW;//restore
                 //painter.FillColor = fillColor;////restore

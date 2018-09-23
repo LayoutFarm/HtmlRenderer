@@ -172,6 +172,10 @@ namespace LayoutFarm.UI
 
                 using (VgPainterArgsPool.Borrow(painter, out VgPaintArgs paintArgs))
                 {
+                    if (_vgRenderVx._coordTx != null)
+                    {
+
+                    }
                     _vgRenderVx._renderE.Paint(paintArgs);
                 }
 
@@ -201,9 +205,14 @@ namespace LayoutFarm.UI
 
                 painter.SetOrigin(prev_x + X + RenderOriginXOffset, prev_y + Y + RenderOriginYOffset);
                 double prevStrokeW = painter.StrokeWidth;
-                
+
                 using (VgPainterArgsPool.Borrow(painter, out VgPaintArgs paintArgs))
                 {
+                    if (_vgRenderVx._coordTx != null)
+                    {
+
+                    }
+                    paintArgs._currentTx = _vgRenderVx._coordTx;
                     _vgRenderVx._renderE.Paint(paintArgs);
                 }
 
@@ -268,7 +277,7 @@ namespace LayoutFarm.UI
                 }
             }
         }
-        public void LoadVg(PaintLab.Svg.VgRenderVx renderVx)
+        public virtual void LoadVg(PaintLab.Svg.VgRenderVx renderVx)
         {
             _renderVx = renderVx;
             if (_vgRenderElemBridge != null)
@@ -278,9 +287,10 @@ namespace LayoutFarm.UI
                 this.SetSize((int)bounds.Width, (int)bounds.Height);
             }
         }
+        //
         public float ActualXOffset => _actualXOffset;
         public float ActualYOffset => _actualYOffset;
-
+        //
         public SvgHitInfo FindRenderElementAtPos(float x, float y, bool makeCopyOfVxs)
         {
             return _vgRenderElemBridge.FindRenderElementAtPos(x, y, makeCopyOfVxs);
