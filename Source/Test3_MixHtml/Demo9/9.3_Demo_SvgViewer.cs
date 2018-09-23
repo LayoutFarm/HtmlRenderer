@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using LayoutFarm.CustomWidgets;
 using LayoutFarm.UI;
-using LayoutFarm.Svg;
 using PaintLab.Svg;
 namespace LayoutFarm.ColorBlenderSample
 {

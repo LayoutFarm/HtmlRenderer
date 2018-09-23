@@ -3,8 +3,6 @@
 using PixelFarm.Drawing;
 using PaintLab.Svg;
 using LayoutFarm.UI;
-using LayoutFarm.Svg;
-
 
 namespace LayoutFarm
 {
@@ -45,7 +43,7 @@ namespace LayoutFarm
             _redBox.SetLocation(10, 10);
             //box1.dbugTag = 1;
             SetupActiveBoxProperties(_redBox);
-            _backBoard.AddChild(_redBox); 
+            _backBoard.AddChild(_redBox);
             //----------------------
 
 

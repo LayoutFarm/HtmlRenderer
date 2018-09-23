@@ -6,7 +6,6 @@ using System.IO;
 using PixelFarm.Drawing;
 using PixelFarm.CpuBlit.VertexProcessing;
 using PaintLab.Svg;
-using LayoutFarm.Svg;
 using LayoutFarm.UI;
 
 namespace LayoutFarm
@@ -22,7 +21,7 @@ namespace LayoutFarm
         protected override void OnStart(AppHost host)
         {
 
-            var spec = new Svg.SvgPathSpec() { FillColor = Color.Red };
+            var spec = new SvgPathSpec() { FillColor = Color.Red };
             SvgRenderRootElement renderRoot = new SvgRenderRootElement();
             SvgRenderElement renderE = new SvgRenderElement(WellknownSvgElementName.Path, spec, renderRoot);
             VgRenderVx svgRenderVx = new VgRenderVx(renderE);
@@ -212,7 +211,7 @@ namespace LayoutFarm
         }
         VgRenderVx CreateTestRenderVx2()
         {
-            var spec = new Svg.SvgPathSpec() { FillColor = Color.Red };
+            var spec = new SvgPathSpec() { FillColor = Color.Red };
             SvgRenderRootElement renderRoot = new SvgRenderRootElement();
             SvgRenderElement renderE = new SvgRenderElement(WellknownSvgElementName.Path, spec, renderRoot);
             VgRenderVx svgRenderVx = new VgRenderVx(renderE);
@@ -249,7 +248,7 @@ namespace LayoutFarm
 
 
             VertexStore vxs = _glyphMaskStore.GetGlyphMesh(typeface.LookupIndex(c));
-            var spec = new Svg.SvgPathSpec() { FillColor = Color.Red };
+            var spec = new SvgPathSpec() { FillColor = Color.Red };
             SvgRenderRootElement renderRoot = new SvgRenderRootElement();
             SvgRenderElement renderE = new SvgRenderElement(WellknownSvgElementName.Path, spec, renderRoot);
             VgRenderVx svgRenderVx = new VgRenderVx(renderE);
@@ -486,7 +485,7 @@ namespace LayoutFarm
 
         VgRenderVx CreateQuadVgFromSrcRect()
         {
-            var spec = new Svg.SvgPathSpec() { FillColor = Color.Aqua };
+            var spec = new SvgPathSpec() { FillColor = Color.Aqua };
             SvgRenderRootElement renderRoot = new SvgRenderRootElement();
             SvgRenderElement renderE = new SvgRenderElement(WellknownSvgElementName.Path, spec, renderRoot);
             VgRenderVx svgRenderVx = new VgRenderVx(renderE);
@@ -509,7 +508,7 @@ namespace LayoutFarm
 
         VgRenderVx CreateQuadVgFromDestQuad()
         {
-            var spec = new Svg.SvgPathSpec() { FillColor = Color.Green };
+            var spec = new SvgPathSpec() { FillColor = Color.Green };
             SvgRenderRootElement renderRoot = new SvgRenderRootElement();
             SvgRenderElement renderE = new SvgRenderElement(WellknownSvgElementName.Path, spec, renderRoot);
             VgRenderVx svgRenderVx = new VgRenderVx(renderE);
