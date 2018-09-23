@@ -252,8 +252,17 @@ namespace LayoutFarm
             SvgRenderRootElement renderRoot = new SvgRenderRootElement();
             SvgRenderElement renderE = new SvgRenderElement(WellknownSvgElementName.Path, spec, renderRoot);
             VgRenderVx svgRenderVx = new VgRenderVx(renderE);
-            renderE._vxsPath = vxs.CreateTrim();
 
+
+            //offset the original vxs to (0,0) bounds
+            //PixelFarm.CpuBlit.RectD bounds = vxs.GetBoundingRect();
+            //Affine translate = Affine.NewTranslation(-bounds.Left, -bounds.Bottom);
+            //renderE._vxsPath = vxs.CreateTrim(translate);
+
+
+            //PixelFarm.CpuBlit.RectD bounds = vxs.GetBoundingRect();
+            //Affine translate = Affine.NewTranslation(-bounds.Left, -bounds.Bottom);
+            renderE._vxsPath = vxs.CreateTrim();
             return svgRenderVx;
         }
 
@@ -262,9 +271,14 @@ namespace LayoutFarm
         protected override void OnStart(AppHost host)
         {
 
-
+            float dest_scale = 4f;
             _quadController.SetSrcRect(0, 0, 20, 20);
-            _quadController.SetDestQuad(0, 0, 20, 20, 30, 50, 10, 30);
+            _quadController.SetDestQuad(
+                0 * dest_scale, 0 * dest_scale,
+                20 * dest_scale, 20 * dest_scale,
+                30 * dest_scale, 50 * dest_scale,
+                10 * dest_scale, 30 * dest_scale);
+
             _quadPolygonController.UpdateControlPoints(_quadController.OutlineVxs);
 
 
@@ -313,29 +327,67 @@ namespace LayoutFarm
             host.AddChild(_rectBoxController);
 
             //
-            host.AddChild(_quadController);
-            host.AddChild(_quadPolygonController);
+
 
             // 
             VgRenderVx svgRenderVx = CreateTestRenderVx3('a', 128); //create from glyph
-            svgRenderVx._coordTx = _bilinearTx;
+            //VgRenderVx svgRenderVx = CreateTestRenderVx(); //create from svg
+            //test...
+            //1. scale svg to fix the 'src rect'  
+            //2. then transform to the 'dest rect' 
 
+            PixelFarm.CpuBlit.RectD svg_bounds = svgRenderVx.GetBounds();
+
+            double w_scale = src_w / svg_bounds.Width;
+            double h_scale = src_h / svg_bounds.Height;
+
+            double actualXOffset = -svg_bounds.Left;
+            double actualYOffset = -svg_bounds.Bottom;
+
+            Affine scaleMat = Affine.NewMatix(
+                AffinePlan.Translate(
+                    actualXOffset - svg_bounds.Width / 2, //move to its middle point
+                    actualYOffset - svg_bounds.Height / 2),//move to its middle point
+                AffinePlan.Scale(w_scale, h_scale),
+                AffinePlan.Translate(
+                    -(actualXOffset - svg_bounds.Width / 2) * w_scale,//move back
+                    -(actualYOffset - svg_bounds.Height / 2) * h_scale)); //move back
+
+            ICoordTransformer tx = ((ICoordTransformer)_bilinearTx).MultiplyWith(scaleMat);
+            //svgRenderVx._coordTx = tx;
+
+            //svgRenderVx._coordTx = ((ICoordTransformer)_bilinearTx).MultiplyWith(scaleMat);
+
+            host.AddChild(_quadController);
+            host.AddChild(_quadPolygonController);
             //VgRenderVx svgRenderVx = CreateTestRenderVx(); 
-            //test transform svgRenderVx
-
-
+            //test transform svgRenderVx 
             svgRenderVx.DisableBackingImage = true;
-            var _uiSprite = new UISprite(10, 10); //init size = (10,10), location=(0,0) 
-
+            var _uiSprite = new UISprite(10, 10); //init size = (10,10), location=(0,0)                                  
             _uiSprite.DisableBmpCache = true;
             _uiSprite.LoadVg(svgRenderVx);//
+
+            _uiSprite.SetTransformation(tx); //set transformation
+
+            //***
+            //tx.Transform(ref actualXOffset, ref actualYOffset); //we need to translate actual offset too!
+            //_uiSprite.SetActualLeftTop(actualXOffset, actualYOffset);
+
+            //double newXOffset = (-svg_bounds.Left + svg_bounds.Width) * w_scale;// - svg_bounds.Width / 2) * w_scale + (svg_bounds.Width * w_scale / 2);
+            //double newYOffset = (-svg_bounds.Top + svg_bounds.Height) * h_scale;
+
+            //_uiSprite.SetActualLeftTop(newXOffset, newYOffset);
+
+            //_uiSprite.SetBounds(
+            //   (float)(svg_bounds.Left * w_scale), (float)(svg_bounds.Top * h_scale),
+            //   (float)(svg_bounds.Width * w_scale), (float)(svg_bounds.Height * h_scale));
+
+
 
             host.AddChild(_uiSprite);
 
             var spriteEvListener = new GeneralEventListener();
-            _uiSprite.AttachExternalEventListener(spriteEvListener);
-
-
+            _uiSprite.AttachExternalEventListener(spriteEvListener); 
 
             spriteEvListener.MouseDown += e1 =>
             {

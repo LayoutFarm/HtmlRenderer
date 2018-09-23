@@ -16,6 +16,7 @@ namespace LayoutFarm.UI
     {
         PaintLab.Svg.VgRenderVx _vgRenderVx;
 
+
         public VgBridgeRenderElement(RootGraphic rootGfx, int width, int height)
             : base(rootGfx, width, height)
         {
@@ -26,6 +27,7 @@ namespace LayoutFarm.UI
             this.TransparentForAllEvents = true;
         }
 
+        public PixelFarm.CpuBlit.VertexProcessing.ICoordTransformer Tx { get; set; }
         public PaintLab.Svg.VgRenderVx VgRenderVx
         {
             get { return _vgRenderVx; }
@@ -238,8 +240,8 @@ namespace LayoutFarm.UI
         VgBridgeRenderElement _vgRenderElemBridge;
         VgRenderVx _renderVx;
         bool _disableBmpCache;
-        float _actualXOffset;
-        float _actualYOffset;
+        double _actualXOffset;
+        double _actualYOffset;
 
 #if DEBUG
         static int dbugTotalId;
@@ -284,12 +286,45 @@ namespace LayoutFarm.UI
             {
                 _vgRenderElemBridge.VgRenderVx = renderVx;
                 RectD bounds = _renderVx.GetBounds();
+                _actualXOffset = (float)-bounds.Left;
+                _actualYOffset = (float)-bounds.Bottom;
+
                 this.SetSize((int)bounds.Width, (int)bounds.Height);
             }
         }
         //
-        public float ActualXOffset => _actualXOffset;
-        public float ActualYOffset => _actualYOffset;
+        public float ActualXOffset
+        {
+            get
+            {
+                if (_vgRenderElemBridge != null)
+                {
+                    return _vgRenderElemBridge.RenderOriginXOffset;
+                }
+                else
+                {
+                    return (float)_actualXOffset;
+                }
+            }
+
+        }
+        public float ActualYOffset
+        {
+            get
+            {
+                if (_vgRenderElemBridge != null)
+                {
+                    return _vgRenderElemBridge.RenderOriginYOffset;
+                }
+                else
+                {
+                    return (float)_actualYOffset;
+                }
+            }
+
+        }
+
+
         //
         public SvgHitInfo FindRenderElementAtPos(float x, float y, bool makeCopyOfVxs)
         {
@@ -335,18 +370,14 @@ namespace LayoutFarm.UI
             if (_vgRenderElemBridge == null)
             {
                 RectD bounds = _renderVx.GetBounds();
-
-
                 //****
-                _actualXOffset = (float)-bounds.Left;
-                _actualYOffset = (float)-bounds.Bottom;
 
                 //offset to 0,0
-                this.SetLocation((int)(this.Left + _actualXOffset), (int)(this.Top + _actualYOffset));
+                //this.SetLocation((int)(this.Left + _actualXOffset), (int)(this.Top + _actualYOffset));
                 _vgRenderElemBridge = new VgBridgeRenderElement(rootgfx, 10, 10)
                 {
-                    RenderOriginXOffset = _actualXOffset,
-                    RenderOriginYOffset = _actualYOffset,
+                    RenderOriginXOffset = (float)_actualXOffset,
+                    RenderOriginYOffset = (float)_actualYOffset,
                     VgRenderVx = _renderVx,
                     DisableBitmapCache = this.DisableBmpCache,
                     EnableSubSvgHitTest = this.EnableSubSvgTest
@@ -379,11 +410,32 @@ namespace LayoutFarm.UI
             }
         }
 
-        public void SetBounds(float left, float top, float width, float height)
+
+        PixelFarm.CpuBlit.VertexProcessing.ICoordTransformer _tx;
+        public void SetTransformation(PixelFarm.CpuBlit.VertexProcessing.ICoordTransformer tx)
         {
-            SetLocation(left, top);
-            SetSize(width, height);
+            _tx = tx;
+
+            RectD bounds = _renderVx.GetBounds();
+            _actualXOffset = -bounds.Left;
+            _actualYOffset = -bounds.Bottom;
+            tx.Transform(ref _actualXOffset, ref _actualYOffset); //we need to translate actual offset too! 
+            if (_renderVx != null)
+            {
+                _renderVx._coordTx = tx;
+            }
         }
+        //public void SetActualLeftTop(double left, double top)
+        //{
+        //    _actualXOffset = (float)left;
+        //    _actualYOffset = (float)top;
+        //    if (_vgRenderElemBridge != null)
+        //    {
+        //        _vgRenderElemBridge.RenderOriginXOffset = (float)_actualXOffset;
+        //        _vgRenderElemBridge.RenderOriginYOffset = (float)_actualYOffset;
+        //    }
+        //}
+
         public float Left
         {
             get
