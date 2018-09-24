@@ -71,7 +71,7 @@ namespace LayoutFarm
             {
                 //mousedown on ui sprite
                 polygonController.SetPosition((int)uiSprite.Left, (int)uiSprite.Top);
-                polygonController.SetTargetUISprite(uiSprite);
+                polygonController.SetTargetListener(uiSprite);
                 polygonController.UpdateControlPoints(renderE._vxsPath);
 
             };
@@ -267,21 +267,88 @@ namespace LayoutFarm
         }
 
         bool _hitTestOnSubPath = false;
+        VgRenderVx _svgRenderVx;
+
+        void UpdateTransformedShape(object sender, System.EventArgs e)
+        {
+            _quadController.GetInnerCoords(
+              //src
+              out double src_left, out double src_top,
+              out double src_w, out double src_h,
+              //dest
+              out double dst_x0, out double dst_y0,
+              out double dst_x1, out double dst_y1,
+              out double dst_x2, out double dst_y2,
+              out double dst_x3, out double dst_y3);
+
+            _bilinearTx = Bilinear.RectToQuad(src_left, src_top, src_left + src_w, src_top + src_h,
+                new double[] {
+                    dst_x0, dst_y0,
+                    dst_x1, dst_y1,
+                    dst_x2, dst_y2,
+                    dst_x3, dst_y3
+                });
+
+            PixelFarm.CpuBlit.RectD svg_bounds = _svgRenderVx.GetBounds();
+
+            double w_scale = src_w / svg_bounds.Width;
+            double h_scale = src_h / svg_bounds.Height;
+
+            double actualXOffset = -svg_bounds.Left;
+            double actualYOffset = -svg_bounds.Bottom;
+
+            Affine scaleMat = Affine.NewMatix(
+                AffinePlan.Translate(
+                    actualXOffset - svg_bounds.Width / 2, //move to its middle point
+                    actualYOffset - svg_bounds.Height / 2),//move to its middle point
+                AffinePlan.Scale(w_scale, h_scale),
+                AffinePlan.Translate(
+                    -(actualXOffset - svg_bounds.Width / 2) * w_scale,//move back
+                    -(actualYOffset - svg_bounds.Height / 2) * h_scale)); //move back
+
+            ICoordTransformer tx = ((ICoordTransformer)_bilinearTx).MultiplyWith(scaleMat);
+            _uiSprite.SetTransformation(tx); //set transformation
+        }
+
+        UISprite _uiSprite;
 
         protected override void OnStart(AppHost host)
         {
+            _svgRenderVx = CreateTestRenderVx3('a', 128); //create from glyph
+            PixelFarm.CpuBlit.RectD org_rectD = _svgRenderVx.GetBounds();
+            org_rectD.Offset(-org_rectD.Left, -org_rectD.Bottom);
 
-            float dest_scale = 4f;
-            _quadController.SetSrcRect(0, 0, 20, 20);
+            //float dest_scale = 4f;
+            //_quadController.SetSrcRect(org_rectD.Left, org_rectD.Top, org_rectD.Width, org_rectD.Height);
+            //_quadController.SetSrcRect(0,0, 20, 30);
+
+            double m_left = org_rectD.Left;
+            double m_top = org_rectD.Bottom; //**
+            double m_w = org_rectD.Width;
+            double m_h = org_rectD.Height;
+
+            _quadController.SetSrcRect(m_left, m_top, m_w, m_h);
             _quadController.SetDestQuad(
-                0 * dest_scale, 0 * dest_scale,
-                20 * dest_scale, 20 * dest_scale,
-                30 * dest_scale, 50 * dest_scale,
-                10 * dest_scale, 30 * dest_scale);
+                m_left, m_top,
+                m_left + m_w, m_top,
+                m_left + m_w, m_top + m_h,
+                m_left, m_top + m_h);
+
+            //_quadController.SetDestQuad(
+            //    0 * dest_scale, 0 * dest_scale,
+            //    20 * dest_scale, 0 * dest_scale,
+            //    20 * dest_scale, 30 * dest_scale,
+            //    0 * dest_scale, 30 * dest_scale);
+            //_quadController.SetDestQuad(
+            //   org_rectD.Left, org_rectD.Top,
+            //  org_rectD.Right, org_rectD.Top,
+            //  org_rectD.Right, org_rectD.Bottom,
+            //  org_rectD.Left, org_rectD.Bottom);
 
             _quadPolygonController.UpdateControlPoints(_quadController.OutlineVxs);
-
-
+            _quadController.SetPolygonController(_quadPolygonController);
+            _quadPolygonController.SetTargetListener(_quadController);
+            //
             _quadController.GetInnerCoords(
                //src
                out double src_left, out double src_top,
@@ -292,20 +359,12 @@ namespace LayoutFarm
                out double dst_x2, out double dst_y2,
                out double dst_x3, out double dst_y3);
 
-            //_quadPolygonControl.SetXN(0, lionBound.Left);
-            //_quadPolygonControl.SetYN(0, lionBound.Top);
-            //_quadPolygonControl.SetXN(1, lionBound.Right);
-            //_quadPolygonControl.SetYN(1, lionBound.Top);
-            //_quadPolygonControl.SetXN(2, lionBound.Right);
-            //_quadPolygonControl.SetYN(2, lionBound.Bottom);
-            //_quadPolygonControl.SetXN(3, lionBound.Left);
-            //_quadPolygonControl.SetYN(3, lionBound.Bottom);
             _bilinearTx = Bilinear.RectToQuad(src_left, src_top, src_left + src_w, src_top + src_h,
                 new double[] {
                     dst_x0, dst_y0,
-                    dst_x1,dst_y1,
+                    dst_x1, dst_y1,
                     dst_x2, dst_y2,
-                    dst_x3,dst_y3
+                    dst_x3, dst_y3
                 });
             if (!_bilinearTx.IsValid)
             {
@@ -330,13 +389,13 @@ namespace LayoutFarm
 
 
             // 
-            VgRenderVx svgRenderVx = CreateTestRenderVx3('a', 128); //create from glyph
+
             //VgRenderVx svgRenderVx = CreateTestRenderVx(); //create from svg
             //test...
             //1. scale svg to fix the 'src rect'  
             //2. then transform to the 'dest rect' 
 
-            PixelFarm.CpuBlit.RectD svg_bounds = svgRenderVx.GetBounds();
+            PixelFarm.CpuBlit.RectD svg_bounds = _svgRenderVx.GetBounds();
 
             double w_scale = src_w / svg_bounds.Width;
             double h_scale = src_h / svg_bounds.Height;
@@ -362,12 +421,16 @@ namespace LayoutFarm
             host.AddChild(_quadPolygonController);
             //VgRenderVx svgRenderVx = CreateTestRenderVx(); 
             //test transform svgRenderVx 
-            svgRenderVx.DisableBackingImage = true;
-            var _uiSprite = new UISprite(10, 10); //init size = (10,10), location=(0,0)                                  
-            _uiSprite.DisableBmpCache = true;
-            _uiSprite.LoadVg(svgRenderVx);//
+            _svgRenderVx.DisableBackingImage = true;
+            _uiSprite = new UISprite(10, 10); //init size = (10,10), location=(0,0)                                  
 
+            _uiSprite.DisableBmpCache = true;
+            _uiSprite.LoadVg(_svgRenderVx);// 
             _uiSprite.SetTransformation(tx); //set transformation
+
+
+            _quadController.ElemUpdate += UpdateTransformedShape;
+
 
             //***
             //tx.Transform(ref actualXOffset, ref actualYOffset); //we need to translate actual offset too!
@@ -387,7 +450,7 @@ namespace LayoutFarm
             host.AddChild(_uiSprite);
 
             var spriteEvListener = new GeneralEventListener();
-            _uiSprite.AttachExternalEventListener(spriteEvListener); 
+            _uiSprite.AttachExternalEventListener(spriteEvListener);
 
             spriteEvListener.MouseDown += e1 =>
             {
@@ -460,6 +523,9 @@ namespace LayoutFarm
             };
 
         }
+
+
+
         void SetupActiveBoxProperties(LayoutFarm.CustomWidgets.AbstractBox box)
         {
             //1. mouse down         
@@ -510,12 +576,37 @@ namespace LayoutFarm
                _x1, _y1,
                _x2, _y2,
                _x3, _y3;
+        public event System.EventHandler ElemUpdate;
 
         public QuadController()
             : base(100, 100)
         {
 
         }
+
+        LayoutFarm.CustomWidgets.PolygonController _polygonController;
+        public void SetPolygonController(LayoutFarm.CustomWidgets.PolygonController polygonController)
+        {
+            _polygonController = polygonController;
+        }
+        protected override void OnElementChanged()
+        {
+            //base.OnElementChanged();
+            //update dest quad
+            List<CustomWidgets.UIControllerBox> controlBoxes = _polygonController.ControlBoxes;
+
+            SetDestQuad(
+                controlBoxes[0].Left, controlBoxes[0].Top,
+                controlBoxes[1].Left, controlBoxes[1].Top,
+                controlBoxes[2].Left, controlBoxes[2].Top,
+                controlBoxes[3].Left, controlBoxes[3].Top
+                );
+            _polygonController.UpdateControlPoints(_outlineVxs);
+
+            ElemUpdate?.Invoke(this, System.EventArgs.Empty);
+            //
+        }
+
         public void SetSrcRect(double left, double top, double w, double h)
         {
             _src_left = left;

@@ -324,8 +324,6 @@ namespace LayoutFarm.UI
 
         }
 
-
-        //
         public SvgHitInfo FindRenderElementAtPos(float x, float y, bool makeCopyOfVxs)
         {
             return _vgRenderElemBridge.FindRenderElementAtPos(x, y, makeCopyOfVxs);
