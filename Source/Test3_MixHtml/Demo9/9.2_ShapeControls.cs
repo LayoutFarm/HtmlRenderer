@@ -200,7 +200,8 @@ namespace LayoutFarm
         VgRenderVx CreateTestRenderVx()
         {
             //string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/others/cat_simple.svg";
-            string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/others/cat_complex.svg";
+            //string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/others/cat_complex.svg";
+            string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/others/lion.svg";
             //string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/others/tiger.svg";
             //string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/freepik/dog1.svg";
             //string svgfile = "1f30b.svg";
@@ -208,6 +209,26 @@ namespace LayoutFarm
             //string svgfile = "../Data/1f30b.svg";
             //string svgfile = "../Data/Svg/twemoji/1f370.svg";
             return ReadSvgFile(svgfile);
+        }
+        VgRenderVx CreateEllipseVxs(PixelFarm.CpuBlit.RectD newBounds)
+        {
+            using (VxsTemp.Borrow(out var v1))
+            using (VectorToolBox.Borrow(out Ellipse ellipse))
+            {
+                ellipse.Set((newBounds.Left + newBounds.Right) * 0.5,
+                                             (newBounds.Bottom + newBounds.Top) * 0.5,
+                                             (newBounds.Right - newBounds.Left) * 0.5,
+                                             (newBounds.Top - newBounds.Bottom) * 0.5);
+
+
+                var spec = new SvgPathSpec() { FillColor = Color.Red };
+                SvgRenderRootElement renderRoot = new SvgRenderRootElement();
+                SvgRenderElement renderE = new SvgRenderElement(WellknownSvgElementName.Path, spec, renderRoot);
+                VgRenderVx svgRenderVx = new VgRenderVx(renderE);
+                renderE._vxsPath = ellipse.MakeVxs(v1).CreateTrim();
+                return svgRenderVx;
+            }
+
         }
         VgRenderVx CreateTestRenderVx2()
         {
@@ -260,9 +281,9 @@ namespace LayoutFarm
             //renderE._vxsPath = vxs.CreateTrim(translate);
 
 
-            //PixelFarm.CpuBlit.RectD bounds = vxs.GetBoundingRect();
-            //Affine translate = Affine.NewTranslation(-bounds.Left, -bounds.Bottom);
-            renderE._vxsPath = vxs.CreateTrim();
+            PixelFarm.CpuBlit.RectD bounds = vxs.GetBoundingRect();
+            Affine translate = Affine.NewTranslation(-bounds.Left, -bounds.Bottom);
+            renderE._vxsPath = vxs.CreateTrim(translate);
             return svgRenderVx;
         }
 
@@ -271,42 +292,60 @@ namespace LayoutFarm
 
         void UpdateTransformedShape(object sender, System.EventArgs e)
         {
+            //_quadController.GetInnerCoords(
+            //  //src
+            //  out double src_left, out double src_top,
+            //  out double src_w, out double src_h,
+            //  //dest
+            //  out double dst_x0, out double dst_y0,
+            //  out double dst_x1, out double dst_y1,
+            //  out double dst_x2, out double dst_y2,
+            //  out double dst_x3, out double dst_y3);
+
             _quadController.GetInnerCoords(
-              //src
-              out double src_left, out double src_top,
-              out double src_w, out double src_h,
-              //dest
-              out double dst_x0, out double dst_y0,
-              out double dst_x1, out double dst_y1,
-              out double dst_x2, out double dst_y2,
-              out double dst_x3, out double dst_y3);
+                //src
+                out double src_left, out double src_bottom,
+                out double src_right, out double src_top,
+                //dest
+                out double dst_x0, out double dst_y0, //left,top
+                out double dst_x1, out double dst_y1, //right,top
+                out double dst_x2, out double dst_y2, //right,bottom
+                out double dst_x3, out double dst_y3); //left,bottom
 
-            _bilinearTx = Bilinear.RectToQuad(src_left, src_top, src_left + src_w, src_top + src_h,
-                new double[] {
-                    dst_x0, dst_y0,
-                    dst_x1, dst_y1,
+            //_bilinearTx = Bilinear.RectToQuad(src_left, src_bottom, src_right, src_top,
+            //    new double[] {
+            //        dst_x0, dst_y0,
+            //        dst_x1, dst_y1,
+            //        dst_x2, dst_y2,
+            //        dst_x3, dst_y3
+            //    });
+            _bilinearTx = Bilinear.RectToQuad(src_left, src_bottom, src_right, src_top,
+             new double[] {
+                    dst_x3, dst_y3,
                     dst_x2, dst_y2,
-                    dst_x3, dst_y3
-                });
+                    dst_x1, dst_y1,
+                    dst_x0, dst_y0
+             });
 
-            PixelFarm.CpuBlit.RectD svg_bounds = _svgRenderVx.GetBounds();
+            //PixelFarm.CpuBlit.RectD svg_bounds = _svgRenderVx.GetBounds();
 
-            double w_scale = src_w / svg_bounds.Width;
-            double h_scale = src_h / svg_bounds.Height;
+            //double w_scale = src_w / svg_bounds.Width;
+            //double h_scale = src_h / svg_bounds.Height;
 
-            double actualXOffset = -svg_bounds.Left;
-            double actualYOffset = -svg_bounds.Bottom;
+            //double actualXOffset = -svg_bounds.Left;
+            //double actualYOffset = -svg_bounds.Bottom;
 
-            Affine scaleMat = Affine.NewMatix(
-                AffinePlan.Translate(
-                    actualXOffset - svg_bounds.Width / 2, //move to its middle point
-                    actualYOffset - svg_bounds.Height / 2),//move to its middle point
-                AffinePlan.Scale(w_scale, h_scale),
-                AffinePlan.Translate(
-                    -(actualXOffset - svg_bounds.Width / 2) * w_scale,//move back
-                    -(actualYOffset - svg_bounds.Height / 2) * h_scale)); //move back
+            //Affine scaleMat = Affine.NewMatix(
+            //    AffinePlan.Translate(
+            //        actualXOffset - svg_bounds.Width / 2, //move to its middle point
+            //        actualYOffset - svg_bounds.Height / 2),//move to its middle point
+            //    AffinePlan.Scale(w_scale, h_scale),
+            //    AffinePlan.Translate(
+            //        -(actualXOffset - svg_bounds.Width / 2) * w_scale,//move back
+            //        -(actualYOffset - svg_bounds.Height / 2) * h_scale)); //move back
 
-            ICoordTransformer tx = ((ICoordTransformer)_bilinearTx).MultiplyWith(scaleMat);
+            //ICoordTransformer tx = ((ICoordTransformer)_bilinearTx).MultiplyWith(scaleMat);
+            ICoordTransformer tx = _bilinearTx;
             _uiSprite.SetTransformation(tx); //set transformation
         }
 
@@ -314,36 +353,46 @@ namespace LayoutFarm
 
         protected override void OnStart(AppHost host)
         {
-            _svgRenderVx = CreateTestRenderVx3('a', 128); //create from glyph
+            _svgRenderVx = CreateTestRenderVx();
+            //_svgRenderVx = CreateTestRenderVx3('a', 128); //create from glyph
             PixelFarm.CpuBlit.RectD org_rectD = _svgRenderVx.GetBounds();
+
+            //_svgRenderVx = CreateEllipseVxs(org_rectD);
+            //org_rectD = _svgRenderVx.GetBounds();
+
             org_rectD.Offset(-org_rectD.Left, -org_rectD.Bottom);
-
-            //float dest_scale = 4f;
             //_quadController.SetSrcRect(org_rectD.Left, org_rectD.Top, org_rectD.Width, org_rectD.Height);
-            //_quadController.SetSrcRect(0,0, 20, 30);
+            _quadController.SetSrcRect(org_rectD.Left, org_rectD.Bottom, org_rectD.Right, org_rectD.Top);
+            //_quadController.SetSrcRect(0, 0, 20, 20);
 
-            double m_left = org_rectD.Left;
-            double m_top = org_rectD.Bottom; //**
-            double m_w = org_rectD.Width;
-            double m_h = org_rectD.Height;
+            //double m_left = org_rectD.Left;
+            //double m_top = org_rectD.Bottom; //**
+            //double m_w = org_rectD.Width;
+            //double m_h = org_rectD.Height;
 
-            _quadController.SetSrcRect(m_left, m_top, m_w, m_h);
-            _quadController.SetDestQuad(
-                m_left, m_top,
-                m_left + m_w, m_top,
-                m_left + m_w, m_top + m_h,
-                m_left, m_top + m_h);
+            //_quadController.SetSrcRect(m_left, m_top, m_w, m_h);
+            //_quadController.SetDestQuad(
+            //    m_left, m_top,
+            //    m_left + m_w, m_top,
+            //    m_left + m_w, m_top + m_h,
+            //    m_left, m_top + m_h);
 
+            float dest_scale = 4f;
             //_quadController.SetDestQuad(
             //    0 * dest_scale, 0 * dest_scale,
             //    20 * dest_scale, 0 * dest_scale,
-            //    20 * dest_scale, 30 * dest_scale,
-            //    0 * dest_scale, 30 * dest_scale);
+            //    50 * dest_scale, 30 * dest_scale,
+            //    30 * dest_scale, 30 * dest_scale);
+            _quadController.SetDestQuad(
+              org_rectD.Left, org_rectD.Top,
+              org_rectD.Right, org_rectD.Top,
+              org_rectD.Right, org_rectD.Bottom,
+              org_rectD.Left, org_rectD.Bottom);
             //_quadController.SetDestQuad(
-            //   org_rectD.Left, org_rectD.Top,
-            //  org_rectD.Right, org_rectD.Top,
-            //  org_rectD.Right, org_rectD.Bottom,
-            //  org_rectD.Left, org_rectD.Bottom);
+            // org_rectD.Left, org_rectD.Bottom,
+            // org_rectD.Right, org_rectD.Bottom,
+            // org_rectD.Right, org_rectD.Top,
+            // org_rectD.Left, org_rectD.Top);
 
             _quadPolygonController.UpdateControlPoints(_quadController.OutlineVxs);
             _quadController.SetPolygonController(_quadPolygonController);
@@ -412,7 +461,8 @@ namespace LayoutFarm
                     -(actualXOffset - svg_bounds.Width / 2) * w_scale,//move back
                     -(actualYOffset - svg_bounds.Height / 2) * h_scale)); //move back
 
-            ICoordTransformer tx = ((ICoordTransformer)_bilinearTx).MultiplyWith(scaleMat);
+            //ICoordTransformer tx = ((ICoordTransformer)_bilinearTx).MultiplyWith(scaleMat);
+            ICoordTransformer tx = _bilinearTx;
             //svgRenderVx._coordTx = tx;
 
             //svgRenderVx._coordTx = ((ICoordTransformer)_bilinearTx).MultiplyWith(scaleMat);
@@ -430,7 +480,7 @@ namespace LayoutFarm
 
 
             _quadController.ElemUpdate += UpdateTransformedShape;
-
+            UpdateTransformedShape(this, System.EventArgs.Empty);
 
             //***
             //tx.Transform(ref actualXOffset, ref actualYOffset); //we need to translate actual offset too!
