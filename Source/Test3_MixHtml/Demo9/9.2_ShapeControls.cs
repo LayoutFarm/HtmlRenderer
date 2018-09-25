@@ -201,8 +201,8 @@ namespace LayoutFarm
         {
             //string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/others/cat_simple.svg";
             //string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/others/cat_complex.svg";
-            string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/others/lion.svg";
-            //string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/others/tiger.svg";
+            //string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/others/lion.svg";
+            string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/others/tiger.svg";
             //string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/freepik/dog1.svg";
             //string svgfile = "1f30b.svg";
             //string svgfile = "../Data/Svg/twemoji/1f30b.svg";
@@ -287,7 +287,7 @@ namespace LayoutFarm
             return svgRenderVx;
         }
 
-        bool _hitTestOnSubPath = false;
+        bool _hitTestOnSubPath = true;
         VgRenderVx _svgRenderVx;
 
         void UpdateTransformedShape(object sender, System.EventArgs e)
@@ -353,46 +353,21 @@ namespace LayoutFarm
 
         protected override void OnStart(AppHost host)
         {
-            _svgRenderVx = CreateTestRenderVx();
-            //_svgRenderVx = CreateTestRenderVx3('a', 128); //create from glyph
+            //_svgRenderVx = CreateTestRenderVx();
+            _svgRenderVx = CreateTestRenderVx3('a', 128); //create from glyph
+            //PixelFarm.CpuBlit.RectD org_rectD = _svgRenderVx.GetBounds(); 
+            //_svgRenderVx = CreateEllipseVxs(org_rectD);
+
             PixelFarm.CpuBlit.RectD org_rectD = _svgRenderVx.GetBounds();
 
-            //_svgRenderVx = CreateEllipseVxs(org_rectD);
-            //org_rectD = _svgRenderVx.GetBounds();
-
             org_rectD.Offset(-org_rectD.Left, -org_rectD.Bottom);
-            //_quadController.SetSrcRect(org_rectD.Left, org_rectD.Top, org_rectD.Width, org_rectD.Height);
             _quadController.SetSrcRect(org_rectD.Left, org_rectD.Bottom, org_rectD.Right, org_rectD.Top);
-            //_quadController.SetSrcRect(0, 0, 20, 20);
 
-            //double m_left = org_rectD.Left;
-            //double m_top = org_rectD.Bottom; //**
-            //double m_w = org_rectD.Width;
-            //double m_h = org_rectD.Height;
-
-            //_quadController.SetSrcRect(m_left, m_top, m_w, m_h);
-            //_quadController.SetDestQuad(
-            //    m_left, m_top,
-            //    m_left + m_w, m_top,
-            //    m_left + m_w, m_top + m_h,
-            //    m_left, m_top + m_h);
-
-            float dest_scale = 4f;
-            //_quadController.SetDestQuad(
-            //    0 * dest_scale, 0 * dest_scale,
-            //    20 * dest_scale, 0 * dest_scale,
-            //    50 * dest_scale, 30 * dest_scale,
-            //    30 * dest_scale, 30 * dest_scale);
             _quadController.SetDestQuad(
               org_rectD.Left, org_rectD.Top,
               org_rectD.Right, org_rectD.Top,
               org_rectD.Right, org_rectD.Bottom,
               org_rectD.Left, org_rectD.Bottom);
-            //_quadController.SetDestQuad(
-            // org_rectD.Left, org_rectD.Bottom,
-            // org_rectD.Right, org_rectD.Bottom,
-            // org_rectD.Right, org_rectD.Top,
-            // org_rectD.Left, org_rectD.Top);
 
             _quadPolygonController.UpdateControlPoints(_quadController.OutlineVxs);
             _quadController.SetPolygonController(_quadPolygonController);
@@ -430,14 +405,6 @@ namespace LayoutFarm
             host.AddChild(_rectBoundsWidgetBox);
 
             _rectBoxController.Init();
-            //polygonController.Visible = false;
-            host.AddChild(_polygonController);
-            host.AddChild(_rectBoxController);
-
-            //
-
-
-            // 
 
             //VgRenderVx svgRenderVx = CreateTestRenderVx(); //create from svg
             //test...
@@ -467,8 +434,8 @@ namespace LayoutFarm
 
             //svgRenderVx._coordTx = ((ICoordTransformer)_bilinearTx).MultiplyWith(scaleMat);
 
-            host.AddChild(_quadController);
-            host.AddChild(_quadPolygonController);
+            //host.AddChild(_quadController);
+            //host.AddChild(_quadPolygonController);
             //VgRenderVx svgRenderVx = CreateTestRenderVx(); 
             //test transform svgRenderVx 
             _svgRenderVx.DisableBackingImage = true;
@@ -496,6 +463,9 @@ namespace LayoutFarm
             //   (float)(svg_bounds.Width * w_scale), (float)(svg_bounds.Height * h_scale));
 
 
+            host.AddChild(_polygonController);
+            host.AddChild(_rectBoxController);
+
 
             host.AddChild(_uiSprite);
 
@@ -506,6 +476,10 @@ namespace LayoutFarm
             {
                 //mousedown on ui sprite 
                 //find exact part ...  
+
+                //_quadController.BringToTopMost();
+                _polygonController.BringToTopMost();
+
                 if (_hitTestOnSubPath)
                 {
                     SvgHitInfo hitInfo = _uiSprite.FindRenderElementAtPos(e1.X, e1.Y, true);
@@ -525,6 +499,9 @@ namespace LayoutFarm
 
                         _rectBoundsWidgetBox.Visible = true;
                         _rectBoxController.Visible = true;
+
+
+
                         //show bounds
                     }
                     else
@@ -571,6 +548,8 @@ namespace LayoutFarm
                     //polygonController.UpdateControlPoints(svgRenderVx._renderE._vxsPath);
                 }
             };
+
+
 
         }
 

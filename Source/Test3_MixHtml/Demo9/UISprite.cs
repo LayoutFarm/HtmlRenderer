@@ -15,8 +15,6 @@ namespace LayoutFarm.UI
     class VgBridgeRenderElement : RenderElement
     {
         PaintLab.Svg.VgRenderVx _vgRenderVx;
-
-
         public VgBridgeRenderElement(RootGraphic rootGfx, int width, int height)
             : base(rootGfx, width, height)
         {
@@ -82,7 +80,14 @@ namespace LayoutFarm.UI
             {
             }
         }
-
+        //public float RenderOriginXOffset
+        //{
+        //    get; set;
+        //}
+        //public float RenderOriginYOffset
+        //{
+        //    get; set;
+        //}
 
         public override void ChildrenHitTestCore(HitChain hitChain)
         {
@@ -338,6 +343,38 @@ namespace LayoutFarm.UI
                 this.SetSize((int)bounds.Width, (int)bounds.Height);
             }
         }
+
+        //--------------------
+        public void BringToTopMost()
+        {
+            CustomWidgets.AbstractBox parentBox = this.ParentUI as CustomWidgets.AbstractBox;
+            if (parentBox != null)
+            {
+                this.RemoveSelf();
+                parentBox.AddChild(this);
+            }
+            else
+            {
+                if (_vgBridgeRenderElement != null && _vgBridgeRenderElement.HasParent)
+                {
+
+                }
+            }
+        }
+        public void RemoveSelf()
+        {
+            if (CurrentPrimaryRenderElement == null) { return; }
+
+            var parentBox = this.CurrentPrimaryRenderElement.ParentRenderElement as LayoutFarm.RenderElement;
+            if (parentBox != null)
+            {
+                parentBox.RemoveChild(this.CurrentPrimaryRenderElement);
+            }
+            this.InvalidateOuterGraphics();
+        }
+
+        //--------------------
+
         //
         public float ActualXOffset
         {
@@ -506,7 +543,7 @@ namespace LayoutFarm.UI
                 //set this data to vgRenderElemBridge too
 
                 //_post_TransformRectBounds.Offset(-_post_TransformRectBounds.Left, -_post_TransformRectBounds.Bottom);
-                _vgBridgeRenderElement.RenderOriginXOffset = 0;// -(int)_actualXOffset;
+                _vgBridgeRenderElement.RenderOriginXOffset = -(int)_actualXOffset;
                 _vgBridgeRenderElement.RenderOriginYOffset = -(int)_actualYOffset;
                 _vgBridgeRenderElement.SetPostTransformationBounds(_post_TransformRectBounds);
                 _vgBridgeRenderElement.SetPostTransformCorners(
