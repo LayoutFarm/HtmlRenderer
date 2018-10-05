@@ -1,6 +1,5 @@
 ﻿//MS-PL, Apache2, 2014-present, WinterDev
 using PixelFarm.Drawing;
-using LayoutFarm.Svg;
 using PaintLab.Svg;
 
 namespace LayoutFarm.HtmlBoxes
@@ -70,9 +69,17 @@ namespace LayoutFarm.HtmlBoxes
                 //painter.StrokeWidth = 1;//default 
                 //painter.FillColor = Color.Black;
 
-                VgPainterArgsPool.GetFreePainterArgs(painter, out VgPaintArgs paintArgs);
-                _renderVx._renderE.Paint(paintArgs);
-                VgPainterArgsPool.ReleasePainterArgs(ref paintArgs);
+
+                using (VgPainterArgsPool.Borrow(painter, out var paintArgs))
+                {
+                    if (_renderVx._coordTx != null)
+                    {
+
+                    }
+                    _renderVx._renderE.Paint(paintArgs);
+                }
+
+
                 painter.StrokeWidth = prevStrokeW;//restore
                 //painter.FillColor = fillColor;////restore
 
@@ -104,9 +111,16 @@ namespace LayoutFarm.HtmlBoxes
 
                 //
                 double prevStrokeW = painter.StrokeWidth;
-                VgPainterArgsPool.GetFreePainterArgs(painter, out VgPaintArgs paintArgs);
-                _renderVx._renderE.Paint(paintArgs);
-                VgPainterArgsPool.ReleasePainterArgs(ref paintArgs);
+
+                using (VgPainterArgsPool.Borrow(painter, out VgPaintArgs paintArgs))
+                {
+                    if (_renderVx._coordTx != null)
+                    {
+
+                    }
+                    _renderVx._renderE.Paint(paintArgs);
+                }
+
                 painter.StrokeWidth = prevStrokeW;//restore
                 //painter.FillColor = fillColor;////restore
 #if DEBUG

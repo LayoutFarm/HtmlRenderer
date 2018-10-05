@@ -68,7 +68,7 @@ namespace LayoutFarm.HtmlBoxes
         RenderTreeBuilder renderTreeBuilder;
 
         ITextService _textservice;
-        Svg.SvgCreator _svgCreator;
+        PaintLab.Svg.SvgCreator _svgCreator;
         string _baseUrl;
 
         public HtmlHost(HtmlHostCreationConfig config)
@@ -98,7 +98,7 @@ namespace LayoutFarm.HtmlBoxes
             this.rootgfx = config.RootGraphic;
 
             this._textservice = config.TextService;
-            _svgCreator = new Svg.SvgCreator();
+            _svgCreator = new PaintLab.Svg.SvgCreator();
 
 
         }
