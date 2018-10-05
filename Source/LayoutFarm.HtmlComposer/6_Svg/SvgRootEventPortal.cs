@@ -6,9 +6,8 @@ using System.Collections.Generic;
 using LayoutFarm.Composers;
 using LayoutFarm.HtmlBoxes;
 using LayoutFarm.UI;
-using PaintLab.Svg;
 
-namespace LayoutFarm.Svg
+namespace PaintLab.Svg
 {
     partial class SvgRootEventPortal
     {

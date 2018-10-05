@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using LayoutFarm.CustomWidgets;
 using LayoutFarm.UI;
-using LayoutFarm.Svg;
 using PaintLab.Svg;
 namespace LayoutFarm.ColorBlenderSample
 {
@@ -104,7 +103,7 @@ namespace LayoutFarm.ColorBlenderSample
             };
 
 
-            uiSprite.LoadSvg(svgRenderVx);
+            uiSprite.LoadVg(svgRenderVx);
 
             _backBoard.ClearChildren();
             _backBoard.AddChild(uiSprite);

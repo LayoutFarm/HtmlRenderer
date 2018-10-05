@@ -3,9 +3,8 @@
 
 
 using LayoutFarm.UI;
-using PaintLab.Svg;
 
-namespace LayoutFarm.Svg
+namespace PaintLab.Svg
 {
     partial class SvgRootEventPortal : IEventPortal
     {

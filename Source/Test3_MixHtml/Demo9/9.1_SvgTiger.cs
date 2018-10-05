@@ -3,8 +3,6 @@
 using PixelFarm.Drawing;
 using PaintLab.Svg;
 using LayoutFarm.UI;
-using LayoutFarm.Svg;
-
 
 namespace LayoutFarm
 {
@@ -35,7 +33,7 @@ namespace LayoutFarm
             //string svgfile = "../Data/Svg/twemoji/1f370.svg";
             VgRenderVx svgRenderVx = ReadSvgFile(svgfile);
             var uiSprite = new UISprite(10, 10);
-            uiSprite.LoadSvg(svgRenderVx);
+            uiSprite.LoadVg(svgRenderVx);
             _backBoard.AddChild(uiSprite);
 
 
@@ -46,7 +44,6 @@ namespace LayoutFarm
             //box1.dbugTag = 1;
             SetupActiveBoxProperties(_redBox);
             _backBoard.AddChild(_redBox);
-
             //----------------------
 
 
