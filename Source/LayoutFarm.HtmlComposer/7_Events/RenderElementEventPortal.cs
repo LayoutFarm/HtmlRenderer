@@ -9,9 +9,8 @@ namespace LayoutFarm.UI
 {
     class RenderElementEventPortal : IEventPortal
     {
-        //current hit chain        
-        HitChain _previousChain = new HitChain();
-        Stack<HitChain> hitChainStack = new Stack<HitChain>();
+        //current hit chain         
+        Stack<HitChain> _hitChainStack = new Stack<HitChain>();
 #if DEBUG
         int dbugMsgChainVersion;
 #endif
@@ -26,37 +25,19 @@ namespace LayoutFarm.UI
 
         HitChain GetFreeHitChain()
         {
-            return new HitChain();
-            //            if (hitChainStack.Count > 0)
-            //            {                    
-            //                return hitChainStack.Pop();
-            //            }
-            //            else
-            //            {
-
-            //#if DEBUG
-            //                var hitChain = new HitChain();
-            //                hitChain.dbugHitTracker = this.dbugRootGraphics.dbugHitTracker;
-            //                return hitChain;
-            //#else
-            //                return new HitChain();
-            //#endif
-
-            //            }
+            if (_hitChainStack.Count > 0)
+            {
+                return _hitChainStack.Pop();
+            }
+            else
+            {
+                return new HitChain();
+            }
         }
-        void SwapHitChain(HitChain hitChain)
+        void ReleaseHitChain(HitChain hitChain)
         {
-            this._previousChain = hitChain;
-            //temp fix here 
-            this._previousChain.ClearAll();
-            // hitChain.ClearAll();
-            //if (isDragging && hitChain.Count < 2)
-            //{
-
-            //}
-            //hitChain.ClearAll();
-            //this.hitChainStack.Push(hitChain);
-
+            hitChain.ClearAll();
+            _hitChainStack.Push(hitChain);
         }
 
         static void SetEventOrigin(UIEventArgs e, HitChain hitChain)
@@ -70,106 +51,14 @@ namespace LayoutFarm.UI
         }
 
 
-        static RenderElement HitTestOnPreviousChain(HitChain hitPointChain, HitChain previousChain, int x, int y)
+
+
+        void HitTestCoreWithChain(HitChain hitPointChain, int x, int y)
         {
-#if DEBUG
-            if (hitPointChain == previousChain)
-            {
-                throw new NotSupportedException();
-            }
-#endif
-
-            if (previousChain.Count > 0)
-            {
-                previousChain.SetStartTestPoint(x, y);
-                //test on prev chain top to bottom
-                int j = previousChain.Count;
-                for (int i = 0; i < j; ++i)
-                {
-                    HitInfo hitInfo = previousChain.GetHitInfo(i);
-                    RenderElement elem = hitInfo.HitElemAsRenderElement;
-                    if (elem != null && elem.VisibleAndHasParent)
-                    {
-                        if (elem.Contains(hitInfo.point))
-                        {
-                            RenderElement found = elem.FindUnderlyingSiblingAtPoint(hitInfo.point);
-                            if (found == null)
-                            {
-                                Point leftTop = elem.Location;
-                                hitPointChain.OffsetTestPoint(leftTop.X, leftTop.Y);
-                                hitPointChain.AddHitObject(elem);
-                                //add to chain
-                            }
-                            else
-                            {
-                                break;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-            }
-            //---------------------------------
-            if (hitPointChain.Count > 0)
-            {
-                RenderElement commonElement = hitPointChain.GetHitInfo(hitPointChain.Count - 1).HitElemAsRenderElement;
-                hitPointChain.RemoveCurrentHit();
-                return commonElement;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-
-        void HitTestCoreWithPrevChainHint(HitChain hitPointChain, HitChain previousChain, int x, int y)
-        {
-            //---------------------------------
-            //test on previous chain first , find common element 
             hitPointChain.ClearAll();
             hitPointChain.SetStartTestPoint(x, y);
-            //if (this.dbugId > 0 && isDragging && previousChain.Count > 1)
-            //{
-
-            //}
-
-            //RenderElement commonElement = HitTestOnPreviousChain(hitPointChain, previousChain, x, y);
-
-            //temp fix
-            //TODO: fix bug on HitTestOnPreviousChain()
             RenderElement commonElement = this.topRenderElement;
-            ////use root 
-            //if (isDragging)
-            //{
-            //    if (commonElement != this.topRenderElement)
-            //    {
-
-            //    }
-            //}
-
-
-            //if (lastCommonElement != null && commonElement != null &&
-            //    lastCommonElement != commonElement && isDragging)
-            //{
-            //    Console.WriteLine(commonElement.dbug_GetBoundInfo());
-            //}
-            //if (commonElement == null)
-            //{
-            //    commonElement = this.topRenderElement;
-            //}
-
-            //if (commonElement != this.topRenderElement)
-            //{
-
-            //}
-
-            //lastCommonElement = commonElement;
             commonElement.HitTestCore(hitPointChain);
-            //this.topRenderElement.HitTestCore(hitPointChain);
         }
 
         void IEventPortal.PortalMouseWheel(UIMouseEventArgs e)
@@ -190,9 +79,9 @@ namespace LayoutFarm.UI
 
 
             HitChain hitPointChain = GetFreeHitChain();
-            HitTestCoreWithPrevChainHint(hitPointChain, this._previousChain, e.X, e.Y);
+            HitTestCoreWithChain(hitPointChain, e.X, e.Y);
             int hitCount = hitPointChain.Count;
-            
+
             if (hitCount > 0)
             {
                 //------------------------------
@@ -263,7 +152,7 @@ namespace LayoutFarm.UI
                 }
             }
 #endif
-            SwapHitChain(hitPointChain);
+            ReleaseHitChain(hitPointChain);
             e.StopPropagation();
 #if DEBUG
             if (local_msgVersion != dbugMsgChainVersion)
@@ -277,8 +166,7 @@ namespace LayoutFarm.UI
         void IEventPortal.PortalMouseMove(UIMouseEventArgs e)
         {
             HitChain hitPointChain = GetFreeHitChain();
-            HitTestCoreWithPrevChainHint(hitPointChain, this._previousChain, e.X, e.Y);
-            this._previousChain.ClearAll();
+            HitTestCoreWithChain(hitPointChain, e.X, e.Y);
             SetEventOrigin(e, hitPointChain);
             //-------------------------------------------------------
             ForEachOnlyEventPortalBubbleUp(e, hitPointChain, (portal) =>
@@ -320,7 +208,7 @@ namespace LayoutFarm.UI
                     }
                 }
             }
-            SwapHitChain(hitPointChain);
+            ReleaseHitChain(hitPointChain);
             e.StopPropagation();
         }
         void IEventPortal.PortalGotFocus(UIFocusEventArgs e)
@@ -342,7 +230,7 @@ namespace LayoutFarm.UI
 #endif
 
             HitChain hitPointChain = GetFreeHitChain();
-            HitTestCoreWithPrevChainHint(hitPointChain, this._previousChain, e.X, e.Y);
+            HitTestCoreWithChain(hitPointChain, e.X, e.Y);
             int hitCount = hitPointChain.Count;
             if (hitCount > 0)
             {
@@ -387,7 +275,7 @@ namespace LayoutFarm.UI
                     }
                 }
             }
-            SwapHitChain(hitPointChain);
+            ReleaseHitChain(hitPointChain);
             e.StopPropagation();
         }
         void IEventPortal.PortalKeyDown(UIKeyEventArgs e)
@@ -712,7 +600,6 @@ namespace LayoutFarm.UI
             set
             {
                 this.dbugRootGfx = value;
-                this._previousChain.dbugHitTracker = this.dbugRootGraphics.dbugHitTracker;
             }
         }
 #endif
