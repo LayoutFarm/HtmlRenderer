@@ -74,7 +74,7 @@ namespace LayoutFarm.UI
                 this.dbugRootGraphics.dbugGraphicInvalidateTracer.WriteInfo("================");
             }
             dbugMsgChainVersion = 1;
-            int local_msgVersion = 1;
+            int local_msgVersion = 1; 
 #endif
 
 

@@ -181,6 +181,7 @@ namespace LayoutFarm.UI
                 {
                     height = (int)Math.Ceiling(bounds.Top);
                 }
+
                 PixelFarm.CpuBlit.ActualBitmap backimg = new PixelFarm.CpuBlit.ActualBitmap(width, height);
                 PixelFarm.CpuBlit.AggPainter painter = PixelFarm.CpuBlit.AggPainter.Create(backimg);
 
