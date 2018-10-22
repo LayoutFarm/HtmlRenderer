@@ -1,29 +1,30 @@
 ﻿//Apache2, 2014-present, WinterDev
 
-using PixelFarm.Drawing;
+
 using LayoutFarm.CustomWidgets;
 namespace LayoutFarm
 {
     [DemoNote("4.3.2 UIHtmlBox with ContentMx")]
     class Demo_UIHtmlBox_ContentMx : App
     {
-        HtmlBoxes.HtmlHost htmlHost;
+        HtmlBoxes.HtmlHost _htmlHost;
         AppHost _host;
+        string _imgFolderPath = null;
         HtmlBoxes.HtmlHost GetHtmlHost(AppHost host)
         {
-            if (htmlHost == null)
+            if (_htmlHost == null)
             {
-                htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(host, null, null);
+                _htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(host, null, null);
                 var htmlBoxContentMx = new HtmlHostContentManager();
-                var contentMx = new LayoutFarm.ContentManagers.ImageContentManager();
-                contentMx.ImageLoadingRequest += contentMx_ImageLoadingRequest;
-                htmlBoxContentMx.AddImageContentMan(contentMx);
-                htmlBoxContentMx.Bind(htmlHost);
+                var imgLoadingQ = new LayoutFarm.ContentManagers.ImageLoadingQueueManager();
+                imgLoadingQ.AskForImage += contentMx_AskForImg;
+                htmlBoxContentMx.ImgLoadingQueue = imgLoadingQ;
+                htmlBoxContentMx.Bind(_htmlHost);
             }
-            return htmlHost;
+            return _htmlHost;
         }
 
-        string imgFolderPath = null;
+
         protected override void OnStart(AppHost host)
         {
             _host = host;
@@ -32,7 +33,7 @@ namespace LayoutFarm
             if (pos > -1)
             {
                 string sub01 = appPath.Substring(0, pos);
-                imgFolderPath = sub01 + "\\images";
+                _imgFolderPath = sub01 + "\\images";
             }
             //==================================================
             //html box
@@ -42,10 +43,10 @@ namespace LayoutFarm
             htmlBox.LoadHtmlString(html);
         }
 
-        void contentMx_ImageLoadingRequest(object sender, LayoutFarm.ContentManagers.ImageRequestEventArgs e)
+        void contentMx_AskForImg(object sender, LayoutFarm.ContentManagers.ImageRequestEventArgs e)
         {
             //load resource -- sync or async? 
-            string absolutePath = imgFolderPath + "\\" + e.ImagSource;
+            string absolutePath = _imgFolderPath + "\\" + e.ImagSource;
             if (!System.IO.File.Exists(absolutePath))
             {
                 return;

@@ -4,13 +4,9 @@
 using System;
 using LayoutFarm.Composers;
 using LayoutFarm.HtmlBoxes;
-using PaintLab.Svg;
 
-namespace LayoutFarm.Svg
+namespace PaintLab.Svg
 {
-
-
-
     class SvgCreator
     {
 
@@ -19,7 +15,7 @@ namespace LayoutFarm.Svg
         SvgDocument _currentDoc;
         public CssBoxSvgRoot CreateSvgBox(CssBox parentBox,
             HtmlElement elementNode,
-            Css.BoxSpec spec)
+            LayoutFarm.Css.BoxSpec spec)
         {
 
 
@@ -29,7 +25,7 @@ namespace LayoutFarm.Svg
             //create blank svg document
             SvgDocument svgdoc = new SvgDocument();
             _currentDoc = svgdoc;
-            svgdoc.CssActiveSheet = new WebDom.CssActiveSheet();
+            svgdoc.CssActiveSheet = new LayoutFarm.WebDom.CssActiveSheet();
             _svgDocBuilder.ResultDocument = svgdoc;
             _svgDocBuilder.OnBegin();
             CreateBoxContent(elementNode);
@@ -48,7 +44,6 @@ namespace LayoutFarm.Svg
             return svgRoot;
         }
 
-        static LayoutFarm.ContentManagers.ImageContentManager _contentMx;
 
         void CreateBoxContent(HtmlElement elem)
         {
@@ -60,7 +55,7 @@ namespace LayoutFarm.Svg
 
             //some nodes have special content
             //linear gradient  
-            foreach (WebDom.DomAttribute attr in elem.GetAttributeIterForward())
+            foreach (LayoutFarm.WebDom.DomAttribute attr in elem.GetAttributeIterForward())
             {
                 _svgDocBuilder.OnAttribute(attr.Name, attr.Value);
             }
@@ -68,10 +63,10 @@ namespace LayoutFarm.Svg
             int j = elem.ChildrenCount;
             for (int i = 0; i < j; ++i)
             {
-                WebDom.DomNode childNode = elem.GetChildNode(i);
+                LayoutFarm.WebDom.DomNode childNode = elem.GetChildNode(i);
                 switch (childNode.NodeKind)
                 {
-                    case WebDom.HtmlNodeKind.OpenElement:
+                    case LayoutFarm.WebDom.HtmlNodeKind.OpenElement:
                         {
 
                             HtmlElement htmlElem = childNode as HtmlElement;
@@ -82,12 +77,12 @@ namespace LayoutFarm.Svg
                             }
                         }
                         break;
-                    case WebDom.HtmlNodeKind.TextNode:
+                    case LayoutFarm.WebDom.HtmlNodeKind.TextNode:
                         {
                             HtmlTextNode textnode = childNode as HtmlTextNode;
                             if (textnode != null)
                             {
-                                if (elem.WellknownElementName == WebDom.WellKnownDomNodeName.style)
+                                if (elem.WellknownElementName == LayoutFarm.WebDom.WellKnownDomNodeName.style)
                                 {
                                     //content of style node 
                                     SvgStyleSpec styleSpec = (SvgStyleSpec)_svgDocBuilder.CurrentSvgElem.ElemSpec;
@@ -96,7 +91,7 @@ namespace LayoutFarm.Svg
                                     styleSpec.RawTextContent = new string(textnode.GetOriginalBuffer());
                                     //parse css content of the style element
 
-                                    LayoutFarm.WebDom.Parser.CssParserHelper.ParseStyleSheet(styleSpec.CssSheet = new WebDom.CssActiveSheet(), styleSpec.RawTextContent);
+                                    LayoutFarm.WebDom.Parser.CssParserHelper.ParseStyleSheet(styleSpec.CssSheet = new LayoutFarm.WebDom.CssActiveSheet(), styleSpec.RawTextContent);
                                     _currentDoc.CssActiveSheet.Combine(styleSpec.CssSheet);
                                     //TODO: review Combine again 
                                 }

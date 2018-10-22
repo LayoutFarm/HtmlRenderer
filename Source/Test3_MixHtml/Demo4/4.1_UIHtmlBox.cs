@@ -16,12 +16,13 @@ namespace LayoutFarm
         {
             //html box
             _host = host;
-            var contentMx = new LayoutFarm.ContentManagers.ImageContentManager();
-            contentMx.ImageLoadingRequest += contentMx_ImageLoadingRequest;
+            var contentMx = new LayoutFarm.ContentManagers.ImageLoadingQueueManager();
+            contentMx.AskForImage += contentMx_AskForImg;
 
             HtmlBoxes.HtmlHost htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(host,
                 (s, e) => contentMx.AddRequestImage(e.ImageBinder),
                 contentMx_LoadStyleSheet);
+            //
             htmlBox = new HtmlBox(htmlHost, 1024, 800);
             //htmlBox.SetLocation(100, 0); //test
             host.AddChild(htmlBox);
@@ -33,7 +34,7 @@ namespace LayoutFarm
             htmlBox.LoadHtmlString(htmltext);
         }
 
-        void contentMx_ImageLoadingRequest(object sender, LayoutFarm.ContentManagers.ImageRequestEventArgs e)
+        void contentMx_AskForImg(object sender, LayoutFarm.ContentManagers.ImageRequestEventArgs e)
         {
             //load resource -- sync or async? 
             string absolutePath = documentRootPath + "\\" + e.ImagSource;
@@ -42,7 +43,7 @@ namespace LayoutFarm
                 return;
             }
             //load
-
+            //lets host do img loading... 
             e.SetResultImage(_host.LoadImage(absolutePath));
         }
         void contentMx_LoadStyleSheet(object sender, LayoutFarm.ContentManagers.TextRequestEventArgs e)
@@ -55,8 +56,6 @@ namespace LayoutFarm
             //if found
             e.TextContent = System.IO.File.ReadAllText(absolutePath);
         }
-
-
         public void LoadHtml(string documentRootPath, string htmltext)
         {
             this.documentRootPath = System.IO.Path.GetDirectoryName(documentRootPath);

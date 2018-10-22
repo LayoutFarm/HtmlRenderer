@@ -4,14 +4,13 @@ using System;
 using System.Collections.Generic;
 using LayoutFarm.CustomWidgets;
 using LayoutFarm.UI;
-using LayoutFarm.Svg;
 using PaintLab.Svg;
 namespace LayoutFarm.ColorBlenderSample
 {
     [DemoNote("9.3 SvgViewer")]
     class DemoSvgViewer : App
     {
-        AppHost host;
+        AppHost _host;
 
         ListView _lstvw_svgFiles;
         BackDrawBoardUI _backBoard;
@@ -21,15 +20,15 @@ namespace LayoutFarm.ColorBlenderSample
 
         protected override void OnStart(AppHost host)
         {
-            this.host = host;
-            base.OnStart(host);
+            _host = host;
 
+            base.OnStart(host);
 
             {
                 _backBoard = new BackDrawBoardUI(800, 600);
                 _backBoard.SetLocation(100, 100);
-
                 _backBoard.BackColor = PixelFarm.Drawing.Color.White;
+
                 host.AddChild(_backBoard);
             }
             {
@@ -93,7 +92,7 @@ namespace LayoutFarm.ColorBlenderSample
             evListener.MouseDown += (e) =>
             {
                 //hit on svg color- area
-                SvgHitInfo hitInfo = uiSprite.FindRenderElementAtPos(e.X, e.Y);
+                SvgHitInfo hitInfo = uiSprite.FindRenderElementAtPos(e.X, e.Y, false);
 #if DEBUG
                 if (hitInfo.svg != null)
                 {
@@ -104,7 +103,7 @@ namespace LayoutFarm.ColorBlenderSample
             };
 
 
-            uiSprite.LoadSvg(svgRenderVx);
+            uiSprite.LoadVg(svgRenderVx);
 
             _backBoard.ClearChildren();
             _backBoard.AddChild(uiSprite);

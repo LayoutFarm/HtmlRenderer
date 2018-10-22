@@ -21,8 +21,14 @@ namespace LayoutFarm.UI
         protected override void DrawBoxContent(DrawBoard canvas, Rectangle updateArea)
         {
             _canvas = canvas;
-            base.DrawBoxContent(canvas, updateArea);
+#if DEBUG
+            if (this.debugDefaultLayerHasChild)
+            {
 
+            }
+#endif
+            
+            base.DrawBoxContent(canvas, updateArea); 
         }
     }
     public class BackDrawBoardUI : LayoutFarm.CustomWidgets.AbstractBox
@@ -46,7 +52,6 @@ namespace LayoutFarm.UI
             _backboardRenderE = new BackBoardRenderElement(rootgfx, this.Width, this.Height);
             _backboardRenderE.SetLocation(this.Left, this.Top);
             _backboardRenderE.NeedClipArea = true;
-
             SetPrimaryRenderElement(_backboardRenderE);
             BuildChildrenRenderElement(_backboardRenderE);
 
