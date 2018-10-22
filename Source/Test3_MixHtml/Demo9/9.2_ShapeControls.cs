@@ -207,27 +207,7 @@ namespace LayoutFarm
             _uiSprite.LoadVg(_svgRenderVx);// 
             _uiSprite.SetTransformation(tx); //set transformation
 
-#if DEBUG
-
-#endif
-
-
-            //***
-            //tx.Transform(ref actualXOffset, ref actualYOffset); //we need to translate actual offset too!
-            //_uiSprite.SetActualLeftTop(actualXOffset, actualYOffset);
-
-            //double newXOffset = (-svg_bounds.Left + svg_bounds.Width) * w_scale;// - svg_bounds.Width / 2) * w_scale + (svg_bounds.Width * w_scale / 2);
-            //double newYOffset = (-svg_bounds.Top + svg_bounds.Height) * h_scale;
-
-            //_uiSprite.SetActualLeftTop(newXOffset, newYOffset);
-
-            //_uiSprite.SetBounds(
-            //   (float)(svg_bounds.Left * w_scale), (float)(svg_bounds.Top * h_scale),
-            //   (float)(svg_bounds.Width * w_scale), (float)(svg_bounds.Height * h_scale));
-
-
-
-            //host.AddChild(_rectBoxController);
+ 
 
 
             host.AddChild(_uiSprite);
@@ -1424,10 +1404,6 @@ namespace LayoutFarm
 
         public int Left => _simpleBox.Left;
         public int Top => _simpleBox.Top;
-
-
-
-
 
         IUIEventListener _uiListener;
         PixelFarm.Drawing.VertexStore _vxs;
