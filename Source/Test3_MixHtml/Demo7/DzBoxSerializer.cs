@@ -112,10 +112,10 @@ namespace LayoutFarm.DzBoardSample
             var s_top = elemNode.GetAttribute("top");
             var s_width = elemNode.GetAttribute("width");
             var s_height = elemNode.GetAttribute("height");
-            left = int.Parse(s_left);
-            top = int.Parse(s_top);
-            width = int.Parse(s_width);
-            height = int.Parse(s_height);
+            left = int.Parse(s_left, System.Globalization.CultureInfo.InvariantCulture);
+            top = int.Parse(s_top, System.Globalization.CultureInfo.InvariantCulture);
+            width = int.Parse(s_width, System.Globalization.CultureInfo.InvariantCulture);
+            height = int.Parse(s_height, System.Globalization.CultureInfo.InvariantCulture);
         }
     }
 
@@ -124,7 +124,7 @@ namespace LayoutFarm.DzBoardSample
     {
         static Dictionary<Type, string> registerTypeNames = new Dictionary<Type, string>();
         static DzBoxSerializerHelper()
-        {
+        {   
             registerTypeNames.Add(typeof(LayoutFarm.CustomWidgets.Box), "panel");
         }
 

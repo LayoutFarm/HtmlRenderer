@@ -36,7 +36,7 @@ namespace TestGraphicPackage2
 #endif
 
 
-            ExampleFolderConfig.InitData();
+            
             //-------------------------------
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
