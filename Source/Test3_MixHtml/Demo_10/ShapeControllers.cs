@@ -1276,4 +1276,23 @@ namespace LayoutFarm
 
     }
 
+    static class VgRenderVxHelper
+    {
+
+        public static VgRenderVx ReadSvgFile(string filename)
+        {
+
+            string svgContent = System.IO.File.ReadAllText(filename);
+            SvgDocBuilder docBuidler = new SvgDocBuilder();
+            SvgParser parser = new SvgParser(docBuidler);
+            WebLexer.TextSnapshot textSnapshot = new WebLexer.TextSnapshot(svgContent);
+            parser.ParseDocument(textSnapshot);
+            //TODO: review this step again
+            SvgRenderVxDocBuilder builder = new SvgRenderVxDocBuilder();
+            return builder.CreateRenderVx(docBuidler.ResultDocument, svgElem =>
+            {
+
+            });
+        }
+    }
 }

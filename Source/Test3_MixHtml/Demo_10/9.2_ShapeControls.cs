@@ -32,7 +32,7 @@ namespace LayoutFarm
             //string svgfile = "../Data/Svg/twemoji/1f30b.svg";
             //string svgfile = "../Data/1f30b.svg";
             //string svgfile = "../Data/Svg/twemoji/1f370.svg";
-            return ReadSvgFile(svgfile);
+            return VgRenderVxHelper.ReadSvgFile(svgfile);
         }
         VgRenderVx CreateEllipseVxs(PixelFarm.CpuBlit.RectD newBounds)
         {
@@ -335,21 +335,7 @@ namespace LayoutFarm
         }
 
 
-        VgRenderVx ReadSvgFile(string filename)
-        {
 
-            string svgContent = System.IO.File.ReadAllText(filename);
-            SvgDocBuilder docBuidler = new SvgDocBuilder();
-            SvgParser parser = new SvgParser(docBuidler);
-            WebLexer.TextSnapshot textSnapshot = new WebLexer.TextSnapshot(svgContent);
-            parser.ParseDocument(textSnapshot);
-            //TODO: review this step again
-            SvgRenderVxDocBuilder builder = new SvgRenderVxDocBuilder();
-            return builder.CreateRenderVx(docBuidler.ResultDocument, svgElem =>
-            {
-
-            });
-        }
     }
 
 
