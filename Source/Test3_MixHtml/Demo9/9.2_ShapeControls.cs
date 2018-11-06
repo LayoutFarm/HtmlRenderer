@@ -21,7 +21,7 @@ namespace LayoutFarm
         PolygonController _quadPolygonController = new PolygonController();
 
 
-        VgRenderVx CreateTestRenderVx()
+        VgRenderVx CreateTestRenderVx_FromSvg()
         {
             //string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/others/cat_simple.svg";
             //string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/others/cat_complex.svg";
@@ -54,7 +54,7 @@ namespace LayoutFarm
             }
 
         }
-        VgRenderVx CreateTestRenderVx2()
+        VgRenderVx CreateTestRenderVx_BasicShape()
         {
             var spec = new SvgPathSpec() { FillColor = Color.Red };
             SvgRenderRootElement renderRoot = new SvgRenderRootElement();
@@ -77,7 +77,7 @@ namespace LayoutFarm
 
 
         Typography.Contours.GlyphMeshStore _glyphMaskStore = new Typography.Contours.GlyphMeshStore();
-        VgRenderVx CreateTestRenderVx3(char c, float sizeInPts)
+        VgRenderVx CreateTestRenderVx_FromGlyph(char c, float sizeInPts)
         {
             //create vgrender vx from font-glyph
             string fontfile = "../Test8_HtmlRenderer.Demo/Samples/Fonts/SOV_Thanamas.ttf";
@@ -117,13 +117,14 @@ namespace LayoutFarm
 
         UISprite _uiSprite;
 
+
         protected override void OnStart(AppHost host)
         {
 
 
-            //_svgRenderVx = CreateTestRenderVx();
-            _svgRenderVx = CreateTestRenderVx2();
-            //_svgRenderVx = CreateTestRenderVx3('a', 256); //create from glyph
+            _svgRenderVx = CreateTestRenderVx_FromSvg();
+            //_svgRenderVx = CreateTestRenderVx_BasicShape();
+            //_svgRenderVx = CreateTestRenderVx_FromGlyph('a', 256); //create from glyph
             //PixelFarm.CpuBlit.RectD org_rectD = _svgRenderVx.GetBounds(); 
             //_svgRenderVx = CreateEllipseVxs(org_rectD);
 
@@ -207,7 +208,7 @@ namespace LayoutFarm
             _uiSprite.LoadVg(_svgRenderVx);// 
             _uiSprite.SetTransformation(tx); //set transformation
 
- 
+
 
 
             host.AddChild(_uiSprite);
@@ -265,8 +266,9 @@ namespace LayoutFarm
                     {
 
                         PixelFarm.CpuBlit.RectD bounds = hitInfo.copyOfVxs.GetBoundingRect();
-
-                        //// _polygonController.UpdateControlPoints(hitInfo.copyOfVxs, _uiSprite.ActualXOffset, _uiSprite.ActualYOffset);
+                        _quadPolygonController.ClearControlPoints();
+                        _quadPolygonController.UpdateControlPoints(hitInfo.copyOfVxs,
+                            _uiSprite.ActualXOffset, _uiSprite.ActualYOffset);
 
                         ////move redbox and its controller
                         //_rectBoundsWidgetBox.SetLocationAndSize(

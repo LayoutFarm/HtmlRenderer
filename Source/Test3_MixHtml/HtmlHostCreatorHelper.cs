@@ -56,7 +56,7 @@ namespace LayoutFarm
 
             if (PaintLab.Svg.VgResourceIO.VgImgIOHandler == null)
             {
-                var imgLoadingQ = new ContentManagers.ImageLoadingQueueManager(); 
+                var imgLoadingQ = new ContentManagers.ImageLoadingQueueManager();
                 imgLoadingQ.AskForImage += (s, e) =>
                 {
                     //check loading policy here  
@@ -73,7 +73,7 @@ namespace LayoutFarm
         }
         static PixelFarm.Drawing.Image LoadImgForSvgElem(string imgName)
         {
-            
+
             if (!System.IO.File.Exists(imgName))
             {
                 return null;
@@ -85,11 +85,13 @@ namespace LayoutFarm
                 int h = gdiBmp.Height;
 
                 var bmpData = gdiBmp.LockBits(new System.Drawing.Rectangle(0, 0, w, h), System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+                //TODO: copy from bmpData to internal buffer of actual bitmap
                 int[] buffer = new int[w * h];
                 System.Runtime.InteropServices.Marshal.Copy(bmpData.Scan0, buffer, 0, w * h);
                 gdiBmp.UnlockBits(bmpData);
 
-                return new PixelFarm.CpuBlit.ActualBitmap(gdiBmp.Width, gdiBmp.Height, buffer);
+                return PixelFarm.CpuBlit.ActualBitmap.CreateFromCopy(gdiBmp.Width, gdiBmp.Height, buffer);
             }
 
         }
