@@ -22,7 +22,7 @@ namespace LayoutFarm.UI
             //this.dbug_ObjectNote = "AAA";
             //this.NeedClipArea = false;
             this.MayHasChild = true;
-            this.TransparentForAllEvents = true;
+            //this.TransparentForAllEvents = true;
         }
 
         public PixelFarm.CpuBlit.VertexProcessing.ICoordTransformer Tx { get; set; }
@@ -103,7 +103,11 @@ namespace LayoutFarm.UI
                 if (!EnableSubSvgHitTest)
                 {
                     //not test further
-                    hitChain.AddHitObject(this);
+                    if (hitChain.TopMostElement != this)
+                    {
+                        hitChain.AddHitObject(this);
+                    }
+                    
                 }
                 else
                 {
