@@ -70,7 +70,7 @@ namespace LayoutFarm
     }
 
 
-    public class QuadController : UISprite
+    public class QuadControllerUI : UISprite
     {
         public enum QuadTransformStyle
         {
@@ -104,7 +104,7 @@ namespace LayoutFarm
 
 
         List<UIControllerBox> _controlBoxes;
-        public QuadController()
+        public QuadControllerUI()
             : base(100, 100)
         {
 
@@ -121,7 +121,7 @@ namespace LayoutFarm
 
 
         QuadTransformStyle _currentTransformStyle = QuadTransformStyle.Affine_ScaleAndTranslate;
-        PolygonController _polygonController;
+        PolygonControllerUI _polygonController;
 
         double _rotateAngle = PixelFarm.CpuBlit.AggMath.deg2rad(0);
 
@@ -151,7 +151,7 @@ namespace LayoutFarm
             }
         }
 
-        public void SetPolygonController(PolygonController polygonController)
+        public void SetPolygonController(PolygonControllerUI polygonController)
         {
             _polygonController = polygonController;
             polygonController.SetTargetListener(this);
@@ -1006,13 +1006,13 @@ namespace LayoutFarm
 #endif
 
     }
-    public class PolygonController : UIElement
+    public class PolygonControllerUI : UIElement
     {
         Box _simpleBox;
         bool _hasPrimRenderE;
 
         List<UIControllerBox> _controls = new List<UIControllerBox>();
-        public PolygonController()
+        public PolygonControllerUI()
         {
 
             _simpleBox = new Box(10, 10);
@@ -1286,13 +1286,26 @@ namespace LayoutFarm
             SvgDocBuilder docBuidler = new SvgDocBuilder();
             SvgParser parser = new SvgParser(docBuidler);
             WebLexer.TextSnapshot textSnapshot = new WebLexer.TextSnapshot(svgContent);
-            parser.ParseDocument(textSnapshot);
+            parser.ParseDocument(textSnapshot);//start document parsing
+
             //TODO: review this step again
             SvgRenderVxDocBuilder builder = new SvgRenderVxDocBuilder();
-            return builder.CreateRenderVx(docBuidler.ResultDocument, svgElem =>
-            {
+            SvgDocument svgDoc = docBuidler.ResultDocument;
 
+            //optional 
+            svgDoc.OriginalContent = svgContent;
+            svgDoc.OriginalFilename = filename;
+
+
+            //-------------------------------------------------------------
+            VgRenderVx renderVx = builder.CreateRenderVx(svgDoc, svgElem =>
+            {
             });
+            //
+            renderVx.OwnerDocument = svgDoc;//tmp
+
+
+            return renderVx;
         }
     }
 }

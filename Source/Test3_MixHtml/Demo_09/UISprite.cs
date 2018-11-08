@@ -386,17 +386,7 @@ namespace LayoutFarm.UI
                 }
             }
         }
-        public void RemoveSelf()
-        {
-            if (CurrentPrimaryRenderElement == null) { return; }
-
-            var parentBox = this.CurrentPrimaryRenderElement.ParentRenderElement as LayoutFarm.RenderElement;
-            if (parentBox != null)
-            {
-                parentBox.RemoveChild(this.CurrentPrimaryRenderElement);
-            }
-            this.InvalidateOuterGraphics();
-        }
+        
 
         //--------------------
 
