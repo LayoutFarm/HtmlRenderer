@@ -17,8 +17,8 @@ namespace LayoutFarm
     class DemoShapeControl3 : App
     {
 
-        QuadController _quadController = new QuadController();
-        PolygonController _quadPolygonController = new PolygonController();
+        QuadControllerUI _quadController = new QuadControllerUI();
+        PolygonControllerUI _quadPolygonController = new PolygonControllerUI();
 
 
         VgRenderVx CreateTestRenderVx_FromSvg()
