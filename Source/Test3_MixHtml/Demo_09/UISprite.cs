@@ -107,7 +107,7 @@ namespace LayoutFarm.UI
                     {
                         hitChain.AddHitObject(this);
                     }
-                    
+
                 }
                 else
                 {
@@ -171,7 +171,8 @@ namespace LayoutFarm.UI
             }
             else
             {
-
+                //convert vg to bitmap 
+                //**
 
                 PixelFarm.CpuBlit.RectD bounds = _vgRenderVx.GetBounds();
                 int width = (int)Math.Ceiling(bounds.Width);
@@ -386,7 +387,7 @@ namespace LayoutFarm.UI
                 }
             }
         }
-        
+
 
         //--------------------
 
