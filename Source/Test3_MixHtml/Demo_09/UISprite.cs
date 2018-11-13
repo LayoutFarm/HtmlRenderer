@@ -161,63 +161,9 @@ namespace LayoutFarm.UI
             renderE.HitTest(hitChain);
             return hitChain.Count > 0;//found some    
         }
-        void CustomDrawToThisPageWithBmpCache(DrawBoard canvas, Rectangle updateArea)
-        {
-
-            if (_vgRenderVx.HasBitmapSnapshot)
-            {
-                Image backimg = _vgRenderVx.BackingImage;
-                canvas.DrawImage(backimg, new RectangleF(0, 0, backimg.Width, backimg.Height));
-            }
-            else
-            {
-                //convert vg to bitmap 
-                //**
-
-                PixelFarm.CpuBlit.RectD bounds = _vgRenderVx.GetBounds();
-                int width = (int)Math.Ceiling(bounds.Width);
-                int height = (int)Math.Ceiling(bounds.Height);
-                //create 
-                if (bounds.Left > 0)
-                {
-                    width = (int)Math.Ceiling(bounds.Right);
-                }
-                if (bounds.Bottom > 0)
-                {
-                    height = (int)Math.Ceiling(bounds.Top);
-                }
-
-                PixelFarm.CpuBlit.ActualBitmap backimg = new PixelFarm.CpuBlit.ActualBitmap(width, height);
-                PixelFarm.CpuBlit.AggPainter painter = PixelFarm.CpuBlit.AggPainter.Create(backimg);
-
-                double prevStrokeW = painter.StrokeWidth;
-                Color prevFill = painter.FillColor;
-                Color prevStrokeColor = painter.StrokeColor;
-
-                painter.StrokeWidth = 1;//default 
-                //painter.FillColor = Color.Black;
-                //painter.StrokeColor = Color.Black; 
-
-                using (VgPainterArgsPool.Borrow(painter, out VgPaintArgs paintArgs))
-                {
-                    if (_vgRenderVx._coordTx != null)
-                    {
-
-                    }
-                    _vgRenderVx._renderE.Paint(paintArgs);
-                }
 
 
-                painter.StrokeWidth = prevStrokeW;//restore
-                                                  //painter.FillColor = prevFill;
-                                                  //painter.StrokeColor = prevStrokeColor;
-
-                _vgRenderVx.SetBitmapSnapshot(backimg);
-                canvas.DrawImage(backimg, new RectangleF(0, 0, backimg.Width, backimg.Height));
-            }
-        }
-
-        public bool DisableBitmapCache { get; set; } //default = false => EnableBitmapCache
+        public bool DisableBitmapCache { get; set; }
 
         public override void CustomDrawToThisCanvas(DrawBoard canvas, Rectangle updateArea)
         {
@@ -234,38 +180,80 @@ namespace LayoutFarm.UI
                 }
             }
 #endif
-            PixelFarm.CpuBlit.AggPainter painter = null;
+            AggPainter painter = null;
             if (DisableBitmapCache &&
                ((painter = canvas.GetPainter() as PixelFarm.CpuBlit.AggPainter) != null))
             {
-                //temp fix***
-
+                //temp fix*** 
                 float prev_x = painter.OriginX;
                 float prev_y = painter.OriginY;
-
+                //
                 painter.SetOrigin(prev_x + X + RenderOriginXOffset, prev_y + Y + RenderOriginYOffset);
-                double prevStrokeW = painter.StrokeWidth;
-
-                using (VgPainterArgsPool.Borrow(painter, out VgPaintArgs paintArgs))
-                {
-                    if (_vgRenderVx._coordTx != null)
-                    {
-
-                    }
-                    paintArgs._currentTx = _vgRenderVx._coordTx;
-                    _vgRenderVx._renderE.Paint(paintArgs);
-                }
-
-
-                painter.StrokeWidth = prevStrokeW;
+                //
+                PaintVgWithPainter(painter, _vgRenderVx);
+                //
                 painter.SetOrigin(prev_x, prev_y);
             }
             else
             {
                 //enable bitmap cache
-                CustomDrawToThisPageWithBmpCache(canvas, updateArea);
+                if (_vgRenderVx.HasBitmapSnapshot)
+                {
+                    Image backimg = _vgRenderVx.BackingImage;
+                    canvas.DrawImage(backimg, new RectangleF(0, 0, backimg.Width, backimg.Height));
+                }
+                else
+                {
+                    //convert vg to bitmap 
+                    //**
+
+                    PixelFarm.CpuBlit.RectD bounds = _vgRenderVx.GetBounds();
+                    int width = (int)Math.Ceiling(bounds.Width);
+                    int height = (int)Math.Ceiling(bounds.Height);
+                    //create 
+                    if (bounds.Left > 0)
+                    {
+                        width = (int)Math.Ceiling(bounds.Right);
+                    }
+                    if (bounds.Bottom > 0)
+                    {
+                        height = (int)Math.Ceiling(bounds.Top);
+                    }
+
+                    //--------------------
+                    //TODO: use reusable agg painter***
+                    ActualBitmap backimg = new ActualBitmap(width, height);
+                    painter = AggPainter.Create(backimg);
+                    painter.Clear(Color.FromArgb(0, Color.White));
+                    //
+                    PaintVgWithPainter(painter, _vgRenderVx);
+                    //
+                    _vgRenderVx.SetBitmapSnapshot(backimg);
+                    canvas.DrawImage(backimg, new RectangleF(0, 0, backimg.Width, backimg.Height));
+                }
             }
         }
+
+
+        static void PaintVgWithPainter(Painter painter, VgRenderVx vgRenderVx)
+        {
+
+            double prevStrokeW = painter.StrokeWidth; 
+            painter.StrokeWidth = 1;//default  
+
+            using (VgPainterArgsPool.Borrow(painter, out VgPaintArgs paintArgs))
+            {
+                if (vgRenderVx._coordTx != null)
+                {
+
+                }
+                vgRenderVx._renderE.Paint(paintArgs);
+            }
+            painter.StrokeWidth = prevStrokeW;//restore 
+
+        }
+
+
         public override void ResetRootGraphics(RootGraphic rootgfx)
         {
 
