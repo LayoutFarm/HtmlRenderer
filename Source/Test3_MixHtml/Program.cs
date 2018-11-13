@@ -17,11 +17,13 @@ namespace TestGraphicPackage2
             YourImplementation.BootStrapWinGdi.SetupDefaultValues();
 
 #if GL_ENABLE
+            YourImplementation.LocalFileStorageProvider file_storageProvider = new YourImplementation.LocalFileStorageProvider();
+            PixelFarm.Platforms.StorageService.RegisterProvider(file_storageProvider);
             YourImplementation.BootStrapOpenGLES2.SetupDefaultValues();
 #endif
 
-            
 
+            
 #if DEBUG
             PixelFarm.CpuBlit.Imaging.PngImageWriter.InstallImageSaveToFileService((IntPtr imgBuffer, int stride, int width, int height, string filename) =>
             {
