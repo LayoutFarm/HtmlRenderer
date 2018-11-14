@@ -50,6 +50,9 @@
     <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.YourImplementation\0_Bootstrap\StorageProviderImpl.cs">
       <Link>StorageProviderImpl.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Typography\Typography.TextBreak\TextBreakerTest\IcuSimpleTextFileDictionaryProvider.cs">
+      <Link>IcuSimpleTextFileDictionaryProvider.cs</Link>
+    </Compile>
     <Compile Include="Demo_04\4.6_DynamicDom1.cs" />
     <Compile Include="Demo_05\5.9_Demo_TreeView.cs" />
     <Compile Include="Demo_05\5.0_HtmlDemoBase.cs" />
