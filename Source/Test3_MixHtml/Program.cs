@@ -13,7 +13,7 @@ namespace TestGraphicPackage2
         [STAThread]
         static void Main()
         {
-           
+
             YourImplementation.BootStrapWinGdi.SetupDefaultValues();
 
 #if GL_ENABLE
@@ -51,7 +51,7 @@ namespace TestGraphicPackage2
 #endif
 
 
-            
+
             //-------------------------------
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -103,8 +103,8 @@ namespace TestGraphicPackage2
             if (filename != null)
             {
                 //load html from file 
-                var fileContent = System.IO.File.ReadAllText(filename);
-                LayoutFarm.Demo_UIHtmlBox demoHtmlBox = new LayoutFarm.Demo_UIHtmlBox();
+                string fileContent = System.IO.File.ReadAllText(filename);
+                var demoHtmlBox = new LayoutFarm.Demo_UIHtmlBox();
                 demoHtmlBox.LoadHtml(filename, fileContent);
                 formDemoList.RunDemo(demoHtmlBox);
             }

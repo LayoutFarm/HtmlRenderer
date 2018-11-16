@@ -636,17 +636,10 @@ namespace LayoutFarm.UI
         {
             if (this.HasReadyRenderElement)
             {
-
                 _vgBridgeRenderElement.InvalidateGraphics();
             }
         }
-        public void InvalidateOuterGraphics()
-        {
-            if (this.CurrentPrimaryRenderElement != null)
-            {
-                _vgBridgeRenderElement.InvalidateParentGraphics();
-            }
-        }
+        
         public virtual void PerformContentLayout()
         {
         }
