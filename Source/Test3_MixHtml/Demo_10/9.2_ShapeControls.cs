@@ -1,15 +1,11 @@
 ﻿//MIT, 2014-present, WinterDev
-
-using System.Collections.Generic;
+ 
 using System.IO;
 
 using PixelFarm.Drawing;
 using PixelFarm.CpuBlit.VertexProcessing;
 using PaintLab.Svg;
-using LayoutFarm.UI;
-using LayoutFarm.CustomWidgets;
-
-using PixelFarm.VectorMath;
+using LayoutFarm.UI; 
 
 namespace LayoutFarm
 {
