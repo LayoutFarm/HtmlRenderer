@@ -56,12 +56,12 @@ namespace LayoutFarm
 
             if (PaintLab.Svg.VgResourceIO.VgImgIOHandler == null)
             {
-                var imgLoadingQ = new ContentManagers.ImageLoadingQueueManager(); 
+                var imgLoadingQ = new ContentManagers.ImageLoadingQueueManager();
                 imgLoadingQ.AskForImage += (s, e) =>
                 {
                     //check loading policy here  
                     //
-                    e.SetResultImage(LoadImgForSvgElem(e.ImagSource));
+                    e.SetResultImage(LoadImage(e.ImagSource));
                 };
                 PaintLab.Svg.VgResourceIO.VgImgIOHandler = (LayoutFarm.ImageBinder binder, PaintLab.Svg.SvgRenderElement imgRun, object requestFrom) =>
                 {
@@ -71,9 +71,10 @@ namespace LayoutFarm
 
             return htmlhost;
         }
-        static PixelFarm.Drawing.Image LoadImgForSvgElem(string imgName)
+
+        public static PixelFarm.CpuBlit.ActualBitmap LoadImage(string imgName)
         {
-            
+
             if (!System.IO.File.Exists(imgName))
             {
                 return null;
@@ -84,12 +85,16 @@ namespace LayoutFarm
                 int w = gdiBmp.Width;
                 int h = gdiBmp.Height;
 
-                var bmpData = gdiBmp.LockBits(new System.Drawing.Rectangle(0, 0, w, h), System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-                int[] buffer = new int[w * h];
-                System.Runtime.InteropServices.Marshal.Copy(bmpData.Scan0, buffer, 0, w * h);
+                var bmpData = gdiBmp.LockBits(new System.Drawing.Rectangle(0, 0, w, h),
+                    System.Drawing.Imaging.ImageLockMode.ReadOnly,
+                    System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+                PixelFarm.CpuBlit.ActualBitmap newBmp = PixelFarm.CpuBlit.ActualBitmap.CreateFromCopy(w, h,
+                     w * h * 4,
+                    bmpData.Scan0);
                 gdiBmp.UnlockBits(bmpData);
 
-                return new PixelFarm.CpuBlit.ActualBitmap(gdiBmp.Width, gdiBmp.Height, buffer);
+                return newBmp;
             }
 
         }

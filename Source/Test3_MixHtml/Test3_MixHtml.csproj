@@ -19,7 +19,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;GL_ENABLE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
@@ -47,40 +47,47 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Demo4\4.6_DynamicDom1.cs" />
-    <Compile Include="Demo5\5.9_Demo_TreeView.cs" />
-    <Compile Include="Demo5\5.0_HtmlDemoBase.cs" />
-    <Compile Include="Demo5\5.2_Demo_MultipleBoxes2.cs" />
-    <Compile Include="Demo5\5.3_Demo_TabPage.cs" />
-    <Compile Include="Demo4\4.1_UIHtmlBox.cs" />
-    <Compile Include="Demo4\4.2_MixHtml.cs" />
-    <Compile Include="Demo4\4.3.2_UIHtmlBox_ContentMx.cs" />
-    <Compile Include="Demo4\4.3.1_UIHtmlBoxWithResReq.cs" />
-    <Compile Include="Demo4\4.4_CssLeanBox.cs" />
-    <Compile Include="Demo4\4.5_LightHtmlBox.cs" />
-    <Compile Include="Demo5\5.1_Demo_MenuItems.cs" />
-    <Compile Include="Demo5\5.8_Demo_Hinge.cs" />
-    <Compile Include="Demo5\5.7_Demo_ListView.cs" />
-    <Compile Include="Demo6\6.1_Demo01_CreateHtmlDomStyle1.cs" />
-    <Compile Include="Demo6\6.2_Demo02_CreateHtmlDomStyle2.cs" />
-    <Compile Include="Demo6\6.3_Demo03_DynamicContent1.cs" />
-    <Compile Include="Demo6\6.4_Demo04_DynamicContent2.cs" />
-    <Compile Include="Demo6\6.5_Demo05_Dynamic_BoxSpec.cs" />
-    <Compile Include="Demo6\HtmlDomExtension.cs" />
-    <Compile Include="Demo7\7.1_DemoDzBoard.cs" />
-    <Compile Include="Demo7\AppModule.cs" />
-    <Compile Include="Demo7\CompoModule.cs" />
-    <Compile Include="Demo7\DesignBoardActions.cs" />
-    <Compile Include="Demo7\DesignBoardController.cs" />
-    <Compile Include="Demo7\DesignBoardModule.cs" />
-    <Compile Include="Demo7\DzBoxSerializer.cs" />
-    <Compile Include="Demo7\GraphicShapeElements.cs" />
-    <Compile Include="Demo7\MenuBoardModule.cs" />
-    <Compile Include="Demo9\9.1_SvgTiger.cs" />
-    <Compile Include="Demo9\9.2_ShapeControls.cs" />
-    <Compile Include="Demo9\9.3_Demo_SvgViewer.cs" />
-    <Compile Include="Demo9\SpriteElement.cs" />
-    <Compile Include="Demo9\UISprite.cs" />
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.YourImplementation\0_Bootstrap\StorageProviderImpl.cs">
+      <Link>StorageProviderImpl.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Typography\Typography.TextBreak\TextBreakerTest\IcuSimpleTextFileDictionaryProvider.cs">
+      <Link>IcuSimpleTextFileDictionaryProvider.cs</Link>
+    </Compile>
+    <Compile Include="Demo_04\4.6_DynamicDom1.cs" />
+    <Compile Include="Demo_05\5.9_Demo_TreeView.cs" />
+    <Compile Include="Demo_05\5.0_HtmlDemoBase.cs" />
+    <Compile Include="Demo_05\5.2_Demo_MultipleBoxes2.cs" />
+    <Compile Include="Demo_05\5.3_Demo_TabPage.cs" />
+    <Compile Include="Demo_04\4.1_UIHtmlBox.cs" />
+    <Compile Include="Demo_04\4.2_MixHtml.cs" />
+    <Compile Include="Demo_04\4.3.2_UIHtmlBox_ContentMx.cs" />
+    <Compile Include="Demo_04\4.3.1_UIHtmlBoxWithResReq.cs" />
+    <Compile Include="Demo_04\4.4_CssLeanBox.cs" />
+    <Compile Include="Demo_04\4.5_LightHtmlBox.cs" />
+    <Compile Include="Demo_05\5.1_Demo_MenuItems.cs" />
+    <Compile Include="Demo_05\5.8_Demo_Hinge.cs" />
+    <Compile Include="Demo_05\5.7_Demo_ListView.cs" />
+    <Compile Include="Demo_06\6.1_Demo01_CreateHtmlDomStyle1.cs" />
+    <Compile Include="Demo_06\6.2_Demo02_CreateHtmlDomStyle2.cs" />
+    <Compile Include="Demo_06\6.3_Demo03_DynamicContent1.cs" />
+    <Compile Include="Demo_06\6.4_Demo04_DynamicContent2.cs" />
+    <Compile Include="Demo_06\6.5_Demo05_Dynamic_BoxSpec.cs" />
+    <Compile Include="Demo_06\HtmlDomExtension.cs" />
+    <Compile Include="Demo_07\7.1_DemoDzBoard.cs" />
+    <Compile Include="Demo_07\AppModule.cs" />
+    <Compile Include="Demo_07\CompoModule.cs" />
+    <Compile Include="Demo_07\DesignBoardActions.cs" />
+    <Compile Include="Demo_07\DesignBoardController.cs" />
+    <Compile Include="Demo_07\DesignBoardModule.cs" />
+    <Compile Include="Demo_07\DzBoxSerializer.cs" />
+    <Compile Include="Demo_07\GraphicShapeElements.cs" />
+    <Compile Include="Demo_07\MenuBoardModule.cs" />
+    <Compile Include="Demo_09\9.1_SvgTiger.cs" />
+    <Compile Include="Demo_10\9.2_ShapeControls.cs" />
+    <Compile Include="Demo_09\9.3_Demo_SvgViewer.cs" />
+    <Compile Include="Demo_09\SpriteElement.cs" />
+    <Compile Include="Demo_09\UISprite.cs" />
+    <Compile Include="Demo_10\ShapeControllers.cs" />
     <Compile Include="HtmlHostCreatorHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

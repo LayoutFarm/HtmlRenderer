@@ -51,7 +51,11 @@ namespace LayoutFarm.HtmlBoxes
             {
 
 
-                PixelFarm.CpuBlit.AggPainter painter = (PixelFarm.CpuBlit.AggPainter)drawBoard.GetPainter();
+                PixelFarm.CpuBlit.AggPainter painter = drawBoard.GetPainter() as PixelFarm.CpuBlit.AggPainter;
+                if (painter == null)
+                {
+                    return;
+                }
                 //TODO: review here
                 //temp fix
                 if (s_openfontTextService == null)
@@ -67,8 +71,7 @@ namespace LayoutFarm.HtmlBoxes
                 double prevStrokeW = painter.StrokeWidth;
                 //Color fillColor = painter.FillColor;
                 //painter.StrokeWidth = 1;//default 
-                //painter.FillColor = Color.Black;
-
+                //painter.FillColor = Color.Black; 
 
                 using (VgPainterArgsPool.Borrow(painter, out var paintArgs))
                 {
