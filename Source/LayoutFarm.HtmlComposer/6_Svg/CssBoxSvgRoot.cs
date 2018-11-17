@@ -45,11 +45,10 @@ namespace LayoutFarm.HtmlBoxes
 #if DEBUG
             p.dbugEnterNewContext(this, PaintVisitor.PaintVisitorContextName.Init);
 #endif
-            DrawBoard drawBoard = p.InnerCanvas;
+            DrawBoard drawBoard = p.InnerDrawBoard;
 
             if (DisableBmpCache)
             {
-
 
                 PixelFarm.CpuBlit.AggPainter painter = drawBoard.GetPainter() as PixelFarm.CpuBlit.AggPainter;
                 if (painter == null)
@@ -90,11 +89,9 @@ namespace LayoutFarm.HtmlBoxes
             }
 
 
-
             if (_renderVx.HasBitmapSnapshot)
             {
                 Image backimg = _renderVx.BackingImage;
-
                 drawBoard.DrawImage(backimg, new RectangleF(0, 0, backimg.Width, backimg.Height));
             }
             else
