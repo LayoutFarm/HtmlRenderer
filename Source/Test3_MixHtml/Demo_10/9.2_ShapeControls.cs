@@ -1,15 +1,11 @@
 ﻿//MIT, 2014-present, WinterDev
-
-using System.Collections.Generic;
+ 
 using System.IO;
 
 using PixelFarm.Drawing;
 using PixelFarm.CpuBlit.VertexProcessing;
 using PaintLab.Svg;
-using LayoutFarm.UI;
-using LayoutFarm.CustomWidgets;
-
-using PixelFarm.VectorMath;
+using LayoutFarm.UI; 
 
 namespace LayoutFarm
 {
@@ -17,8 +13,8 @@ namespace LayoutFarm
     class DemoShapeControl3 : App
     {
 
-        QuadController _quadController = new QuadController();
-        PolygonController _quadPolygonController = new PolygonController();
+        QuadControllerUI _quadController = new QuadControllerUI();
+        PolygonControllerUI _quadPolygonController = new PolygonControllerUI();
 
 
         VgRenderVx CreateTestRenderVx_FromSvg()
@@ -32,7 +28,7 @@ namespace LayoutFarm
             //string svgfile = "../Data/Svg/twemoji/1f30b.svg";
             //string svgfile = "../Data/1f30b.svg";
             //string svgfile = "../Data/Svg/twemoji/1f370.svg";
-            return ReadSvgFile(svgfile);
+            return VgRenderVxHelper.ReadSvgFile(svgfile);
         }
         VgRenderVx CreateEllipseVxs(PixelFarm.CpuBlit.RectD newBounds)
         {
@@ -335,21 +331,7 @@ namespace LayoutFarm
         }
 
 
-        VgRenderVx ReadSvgFile(string filename)
-        {
 
-            string svgContent = System.IO.File.ReadAllText(filename);
-            SvgDocBuilder docBuidler = new SvgDocBuilder();
-            SvgParser parser = new SvgParser(docBuidler);
-            WebLexer.TextSnapshot textSnapshot = new WebLexer.TextSnapshot(svgContent);
-            parser.ParseDocument(textSnapshot);
-            //TODO: review this step again
-            SvgRenderVxDocBuilder builder = new SvgRenderVxDocBuilder();
-            return builder.CreateRenderVx(docBuidler.ResultDocument, svgElem =>
-            {
-
-            });
-        }
     }
 
 

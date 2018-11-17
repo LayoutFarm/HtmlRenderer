@@ -61,7 +61,7 @@ namespace LayoutFarm
                 {
                     //check loading policy here  
                     //
-                    e.SetResultImage(LoadImgForSvgElem(e.ImagSource));
+                    e.SetResultImage(LoadImage(e.ImagSource));
                 };
                 PaintLab.Svg.VgResourceIO.VgImgIOHandler = (LayoutFarm.ImageBinder binder, PaintLab.Svg.SvgRenderElement imgRun, object requestFrom) =>
                 {
@@ -71,7 +71,8 @@ namespace LayoutFarm
 
             return htmlhost;
         }
-        static PixelFarm.Drawing.Image LoadImgForSvgElem(string imgName)
+
+        public static PixelFarm.CpuBlit.ActualBitmap LoadImage(string imgName)
         {
 
             if (!System.IO.File.Exists(imgName))
@@ -84,14 +85,16 @@ namespace LayoutFarm
                 int w = gdiBmp.Width;
                 int h = gdiBmp.Height;
 
-                var bmpData = gdiBmp.LockBits(new System.Drawing.Rectangle(0, 0, w, h), System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                var bmpData = gdiBmp.LockBits(new System.Drawing.Rectangle(0, 0, w, h),
+                    System.Drawing.Imaging.ImageLockMode.ReadOnly,
+                    System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
-                //TODO: copy from bmpData to internal buffer of actual bitmap
-                int[] buffer = new int[w * h];
-                System.Runtime.InteropServices.Marshal.Copy(bmpData.Scan0, buffer, 0, w * h);
+                PixelFarm.CpuBlit.ActualBitmap newBmp = PixelFarm.CpuBlit.ActualBitmap.CreateFromCopy(w, h,
+                     w * h * 4,
+                    bmpData.Scan0);
                 gdiBmp.UnlockBits(bmpData);
 
-                return PixelFarm.CpuBlit.ActualBitmap.CreateFromCopy(gdiBmp.Width, gdiBmp.Height, buffer);
+                return newBmp;
             }
 
         }

@@ -13,14 +13,29 @@ namespace TestGraphicPackage2
         [STAThread]
         static void Main()
         {
-           
+
             YourImplementation.BootStrapWinGdi.SetupDefaultValues();
 
 #if GL_ENABLE
+            YourImplementation.LocalFileStorageProvider file_storageProvider = new YourImplementation.LocalFileStorageProvider();
+            PixelFarm.Platforms.StorageService.RegisterProvider(file_storageProvider);
             YourImplementation.BootStrapOpenGLES2.SetupDefaultValues();
+
+            //2.2 Icu Text Break info
+            //test Typography's custom text break,
+            //check if we have that data?            
+            //------------------------------------------- 
+            //string typographyDir = @"brkitr_src/dictionaries";
+            string icu_datadir = @"D:\projects\Typography\Typography.TextBreak\icu62\brkitr";
+            if (!System.IO.Directory.Exists(icu_datadir))
+            {
+                throw new System.NotSupportedException("dic");
+            }
+            var dicProvider = new Typography.TextBreak.IcuSimpleTextFileDictionaryProvider() { DataDir = icu_datadir };
+            Typography.TextBreak.CustomBreakerBuilder.Setup(dicProvider);
 #endif
 
-            
+
 
 #if DEBUG
             PixelFarm.CpuBlit.Imaging.PngImageWriter.InstallImageSaveToFileService((IntPtr imgBuffer, int stride, int width, int height, string filename) =>
@@ -36,7 +51,7 @@ namespace TestGraphicPackage2
 #endif
 
 
-            
+
             //-------------------------------
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -88,8 +103,8 @@ namespace TestGraphicPackage2
             if (filename != null)
             {
                 //load html from file 
-                var fileContent = System.IO.File.ReadAllText(filename);
-                LayoutFarm.Demo_UIHtmlBox demoHtmlBox = new LayoutFarm.Demo_UIHtmlBox();
+                string fileContent = System.IO.File.ReadAllText(filename);
+                var demoHtmlBox = new LayoutFarm.Demo_UIHtmlBox();
                 demoHtmlBox.LoadHtml(filename, fileContent);
                 formDemoList.RunDemo(demoHtmlBox);
             }

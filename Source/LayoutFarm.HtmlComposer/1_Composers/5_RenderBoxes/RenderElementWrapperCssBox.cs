@@ -190,7 +190,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
                 {
                     if (cbox.ParentBox == null)
                     {
-                        return _htmlhost.RootGfx.TopWindowRenderBox;
+                        return (RenderElement)_htmlhost.RootGfx.TopWindowRenderBox;
                     }
                 }
                 cbox = cbox.ParentBox;
@@ -281,7 +281,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
                 {
                     if (cbox.ParentBox == null)
                     {
-                        return _htmlHost.RootGfx.TopWindowRenderBox;
+                        return (RenderElement)_htmlHost.RootGfx.TopWindowRenderBox;
                     }
                 }
                 cbox = cbox.ParentBox;
