@@ -222,7 +222,7 @@ namespace LayoutFarm.UI
 
                     //--------------------
                     //TODO: use reusable agg painter***
-                    ActualBitmap backimg = new ActualBitmap(width, height);
+                    MemBitmap backimg = new MemBitmap(width, height);
                     painter = AggPainter.Create(backimg);
                     painter.Clear(Color.FromArgb(0, Color.White));
                     //

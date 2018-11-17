@@ -72,7 +72,7 @@ namespace LayoutFarm
             return htmlhost;
         }
 
-        public static PixelFarm.CpuBlit.ActualBitmap LoadImage(string imgName)
+        public static PixelFarm.CpuBlit.MemBitmap LoadImage(string imgName)
         {
 
             if (!System.IO.File.Exists(imgName))
@@ -89,7 +89,7 @@ namespace LayoutFarm
                     System.Drawing.Imaging.ImageLockMode.ReadOnly,
                     System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
-                PixelFarm.CpuBlit.ActualBitmap newBmp = PixelFarm.CpuBlit.ActualBitmap.CreateFromCopy(w, h,
+                PixelFarm.CpuBlit.MemBitmap newBmp = PixelFarm.CpuBlit.MemBitmap.CreateFromCopy(w, h,
                      w * h * 4,
                     bmpData.Scan0);
                 gdiBmp.UnlockBits(bmpData);
