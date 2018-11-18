@@ -140,7 +140,7 @@ namespace LayoutFarm.HtmlBoxes
             Color borderColor;
             CssBorderStyle style;
             GetBorderBorderDrawingInfo(box, borderSide, out style, out borderColor, out actualBorderWidth);
-            DrawBoard g = p.InnerCanvas;
+            DrawBoard g = p.InnerDrawBoard;
             if (box.HasSomeRoundCorner)
             {
                 GraphicsPath borderPath = GetRoundedBorderPath(p, borderSide, box, rect);

@@ -8,22 +8,23 @@ namespace LayoutFarm.HtmlBoxes
     //----------------------------------------------------------------------------
     public class PaintVisitor : BoxVisitor
     {
-        Stack<Rectangle> clipStacks = new Stack<Rectangle>();
-        PointF[] borderPoints = new PointF[4];
+        Stack<Rectangle> _clipStacks = new Stack<Rectangle>();
+        PointF[] _borderPoints = new PointF[4];
         HtmlVisualRoot _htmlVisualRoot;
-        DrawBoard canvas;
-        Rectangle latestClip = new Rectangle(0, 0, CssBoxConstConfig.BOX_MAX_RIGHT, CssBoxConstConfig.BOX_MAX_BOTTOM);
-        MultiLayerStack<CssBox> latePaintStack = new MultiLayerStack<CssBox>();
-        float viewportWidth;
-        float viewportHeight;
+        DrawBoard _drawBoard;
+        Rectangle _latestClip = new Rectangle(0, 0, CssBoxConstConfig.BOX_MAX_RIGHT, CssBoxConstConfig.BOX_MAX_BOTTOM);
+        MultiLayerStack<CssBox> _latePaintStack = new MultiLayerStack<CssBox>();
+
+        float _viewportWidth;
+        float _viewportHeight;
         Color _cssBoxSelectionColor = Color.LightGray;
         public PaintVisitor()
         {
         }
-        public void Bind(HtmlVisualRoot htmlVisualRoot, DrawBoard canvas)
+        public void Bind(HtmlVisualRoot htmlVisualRoot, DrawBoard drawBoard)
         {
             this._htmlVisualRoot = htmlVisualRoot;
-            this.canvas = canvas;
+            this._drawBoard = drawBoard;
         }
 
         public Color CssBoxSelectionColor { get { return _cssBoxSelectionColor; } }
@@ -31,23 +32,21 @@ namespace LayoutFarm.HtmlBoxes
         public void UnBind()
         {
             //clear
-            this.canvas = null;
+            this._drawBoard = null;
             this._htmlVisualRoot = null;
-            this.clipStacks.Clear();
-            this.latestClip = new Rectangle(0, 0, CssBoxConstConfig.BOX_MAX_RIGHT, CssBoxConstConfig.BOX_MAX_BOTTOM);
+            this._clipStacks.Clear();
+            this._latestClip = new Rectangle(0, 0, CssBoxConstConfig.BOX_MAX_RIGHT, CssBoxConstConfig.BOX_MAX_BOTTOM);
         }
-
         public void SetViewportSize(float width, float height)
         {
-            this.viewportWidth = width;
-            this.viewportHeight = height;
+            this._viewportWidth = width;
+            this._viewportHeight = height;
         }
-
-        public DrawBoard InnerCanvas
+        public DrawBoard InnerDrawBoard
         {
             get
             {
-                return this.canvas;
+                return this._drawBoard;
             }
         }
         public bool AvoidGeometryAntialias
@@ -63,7 +62,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         internal float ViewportBottom
         {
-            get { return this.viewportHeight; }
+            get { return this._viewportHeight; }
         }
         //=========================================================
         /// <summary>
@@ -76,17 +75,17 @@ namespace LayoutFarm.HtmlBoxes
         {
             //return true;
             //store lastest clip 
-            this.latestClip = canvas.CurrentClipRect;
-            clipStacks.Push(this.latestClip);
+            this._latestClip = _drawBoard.CurrentClipRect;
+            _clipStacks.Push(this._latestClip);
             ////make new clip global  
             Rectangle intersectResult = Rectangle.Intersect(
-                latestClip,
+                _latestClip,
                 new Rectangle(0, 0, (int)w, (int)h));
-            this.latestClip = intersectResult;
+            this._latestClip = intersectResult;
 #if DEBUG
             if (this.dbugEnableLogRecord)
             {
-                canvas.DrawRectangle(Color.DeepPink,
+                _drawBoard.DrawRectangle(Color.DeepPink,
                     intersectResult.X, intersectResult.Y,
                     intersectResult.Width, intersectResult.Height);
                 logRecords.Add(new string('>', dbugIndentLevel) + dbugIndentLevel.ToString() +
@@ -94,7 +93,7 @@ namespace LayoutFarm.HtmlBoxes
             }
 #endif
 
-            canvas.SetClipRect(intersectResult);
+            _drawBoard.SetClipRect(intersectResult);
             return !intersectResult.IsEmpty;
         }
         internal void PopLocalClipArea()
@@ -106,10 +105,10 @@ namespace LayoutFarm.HtmlBoxes
                 logRecords.Add(new string('<', dbugIndentLevel) + dbugIndentLevel.ToString() + " pop[]");
             }
 #endif
-            if (clipStacks.Count > 0)
+            if (_clipStacks.Count > 0)
             {
-                Rectangle prevClip = this.latestClip = clipStacks.Pop();
-                canvas.SetClipRect(prevClip);
+                Rectangle prevClip = this._latestClip = _clipStacks.Pop();
+                _drawBoard.SetClipRect(prevClip);
             }
             else
             {
@@ -117,7 +116,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         internal Rectangle CurrentClipRect
         {
-            get { return this.latestClip; }
+            get { return this._latestClip; }
         }
         /// <summary>
         /// async request for image
@@ -157,19 +156,19 @@ namespace LayoutFarm.HtmlBoxes
 
         public int CanvasOriginX
         {
-            get { return this.canvas.OriginX; }
+            get { return this._drawBoard.OriginX; }
         }
         public int CanvasOriginY
         {
-            get { return this.canvas.OriginY; }
+            get { return this._drawBoard.OriginY; }
         }
         public void SetCanvasOrigin(int x, int y)
         {
-            this.canvas.SetCanvasOrigin(x, y);
+            this._drawBoard.SetCanvasOrigin(x, y);
         }
         public void OffsetCanvasOrigin(int dx, int dy)
         {
-            this.canvas.OffsetCanvasOrigin(dx, dy);
+            this._drawBoard.OffsetCanvasOrigin(dx, dy);
         }
         internal void PaintBorders(CssBox box, RectangleF stripArea, bool isFirstLine, bool isLastLine)
         {
@@ -181,20 +180,20 @@ namespace LayoutFarm.HtmlBoxes
             Color leftColor = box.BorderLeftColor;
             Color rightColor = box.BorderRightColor;
             Color bottomColor = box.BorderBottomColor;
-            DrawBoard g = this.InnerCanvas;
+            DrawBoard g = this.InnerDrawBoard;
             // var b1 = RenderUtils.GetSolidBrush(topColor);
-            BorderPaintHelper.DrawBorder(CssSide.Top, borderPoints, g, box, topColor, rect);
+            BorderPaintHelper.DrawBorder(CssSide.Top, _borderPoints, g, box, topColor, rect);
             // var b2 = RenderUtils.GetSolidBrush(leftColor);
-            BorderPaintHelper.DrawBorder(CssSide.Left, borderPoints, g, box, leftColor, rect);
+            BorderPaintHelper.DrawBorder(CssSide.Left, _borderPoints, g, box, leftColor, rect);
             // var b3 = RenderUtils.GetSolidBrush(rightColor);
-            BorderPaintHelper.DrawBorder(CssSide.Right, borderPoints, g, box, rightColor, rect);
+            BorderPaintHelper.DrawBorder(CssSide.Right, _borderPoints, g, box, rightColor, rect);
             //var b4 = RenderUtils.GetSolidBrush(bottomColor);
-            BorderPaintHelper.DrawBorder(CssSide.Bottom, borderPoints, g, box, bottomColor, rect);
+            BorderPaintHelper.DrawBorder(CssSide.Bottom, _borderPoints, g, box, bottomColor, rect);
         }
         internal void PaintBorder(CssBox box, CssSide border, Color solidColor, RectangleF rect)
         {
-            PointF[] borderPoints = new PointF[4];
-            BorderPaintHelper.DrawBorder(solidColor, border, borderPoints, this.canvas, box, rect);
+
+            BorderPaintHelper.DrawBorder(solidColor, border, _borderPoints, this._drawBoard, box, rect);
         }
         //-------------------------------------
         //painting context for canvas , svg
@@ -235,7 +234,7 @@ namespace LayoutFarm.HtmlBoxes
                 return;
             }
             //--
-            var g = this.canvas;
+            var g = this._drawBoard;
             var prevColor = g.StrokeColor;
             g.StrokeColor = color;
             g.DrawRectangle(color, x1, y1, x2 - x1, y2 - y1);
@@ -249,18 +248,18 @@ namespace LayoutFarm.HtmlBoxes
             {
                 return;
             }
-            var g = this.canvas;
+            var g = this._drawBoard;
             this.dbugDrawDiagonalBox(color, rect.Left, rect.Top, rect.Right, rect.Bottom);
         }
 #endif
         //-------
         public void FillPath(GraphicsPath path, Color fillColor)
         {
-            this.canvas.FillPath(fillColor, path);
+            this._drawBoard.FillPath(fillColor, path);
         }
         public void DrawPath(GraphicsPath path, Color strokeColor, float strokeW)
         {
-            var g = this.canvas;
+            var g = this._drawBoard;
             var prevW = g.StrokeWidth;
             var prevColor = g.StrokeColor;
             g.StrokeColor = strokeColor;
@@ -271,7 +270,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         public void DrawLine(float x1, float y1, float x2, float y2, Color strokeColor, float strokeW)
         {
-            var g = this.canvas;
+            var g = this._drawBoard;
             var prevW = g.StrokeWidth;
             g.StrokeWidth = strokeW;
             var prevColor = g.StrokeColor;
@@ -282,20 +281,20 @@ namespace LayoutFarm.HtmlBoxes
         //------
         public void FillRectangle(Color c, float x, float y, float w, float h)
         {
-            this.canvas.FillRectangle(c, x, y, w, h);
+            this._drawBoard.FillRectangle(c, x, y, w, h);
         }
         public void DrawRectangle(Color c, float x, float y, float w, float h)
         {
-            this.canvas.DrawRectangle(c, x, y, w, h);
+            this._drawBoard.DrawRectangle(c, x, y, w, h);
         }
         //------
         public void DrawImage(Image img, float x, float y, float w, float h)
         {
-            this.canvas.DrawImage(img, new RectangleF(x, y, w, h));
+            this._drawBoard.DrawImage(img, new RectangleF(x, y, w, h));
         }
         public void DrawImage(Image img, RectangleF r)
         {
-            this.canvas.DrawImage(img, r);
+            this._drawBoard.DrawImage(img, r);
         }
         //---------
         public void DrawText(char[] str, int startAt, int len, PointF point, SizeF size)
@@ -303,7 +302,7 @@ namespace LayoutFarm.HtmlBoxes
 #if DEBUG
             dbugCounter.dbugDrawStringCount++;
 #endif
-            var g = this.canvas;
+            var g = this._drawBoard;
             g.DrawText(str, startAt, len, new Rectangle(
                   (int)point.X, (int)point.Y,
                   (int)size.Width, (int)size.Height), 0
@@ -334,7 +333,7 @@ namespace LayoutFarm.HtmlBoxes
                 //{
                 //}
                 logRecords.Add(new string('>', dbugIndentLevel) + dbugIndentLevel.ToString() +
-                    "[" + this.canvas.CurrentClipRect + "] " +
+                    "[" + this._drawBoard.CurrentClipRect + "] " +
                     "(" + this.CanvasOriginX + "," + this.CanvasOriginY + ") " +
                     "x:" + box.Left + ",y:" + box.Top + ",w:" + box.VisualWidth + "h:" + box.VisualHeight +
                     " " + box.ToString() + ",id:" + box.__aa_dbugId);
@@ -358,27 +357,27 @@ namespace LayoutFarm.HtmlBoxes
         //-----------------------------------------------------
         internal void AddToLatePaintList(CssBox box)
         {
-            this.latePaintStack.AddLayerItem(box);
+            this._latePaintStack.AddLayerItem(box);
         }
         internal int LatePaintItemCount
         {
-            get { return this.latePaintStack.CurrentLayerItemCount; }
+            get { return this._latePaintStack.CurrentLayerItemCount; }
         }
         internal CssBox GetLatePaintItem(int index)
         {
-            return this.latePaintStack.GetItem(index);
+            return this._latePaintStack.GetItem(index);
         }
         internal void ClearLatePaintItems()
         {
-            this.latePaintStack.ClearLayerItems();
+            this._latePaintStack.ClearLayerItems();
         }
         internal void EnterNewLatePaintContext()
         {
-            this.latePaintStack.EnterNewContext();
+            this._latePaintStack.EnterNewContext();
         }
         internal void ExitCurrentLatePaintContext()
         {
-            this.latePaintStack.ExitCurrentContext();
+            this._latePaintStack.ExitCurrentContext();
         }
         //-----------------------------------------------------
     }

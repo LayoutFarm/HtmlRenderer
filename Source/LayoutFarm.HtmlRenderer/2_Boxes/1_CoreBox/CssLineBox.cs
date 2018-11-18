@@ -470,7 +470,7 @@ namespace LayoutFarm.HtmlBoxes
 
             //iterate from each words 
             CssBox latestOwner = null;
-            DrawBoard innerCanvas = p.InnerCanvas;
+            DrawBoard innerCanvas = p.InnerDrawBoard;
             RequestFont enterFont = innerCanvas.CurrentFont;
             Color enterColor = innerCanvas.CurrentTextColor;
 
@@ -510,8 +510,8 @@ namespace LayoutFarm.HtmlBoxes
                                 latestOwner = w.OwnerBox;
                                 //change font when change owner 
 
-                                p.InnerCanvas.CurrentFont = latestOwner.ResolvedFont;
-                                p.InnerCanvas.CurrentTextColor = latestOwner.ActualColor;
+                                p.InnerDrawBoard.CurrentFont = latestOwner.ResolvedFont;
+                                p.InnerDrawBoard.CurrentTextColor = latestOwner.ActualColor;
                             }
 
                             CssTextRun textRun = (CssTextRun)w;
@@ -622,7 +622,7 @@ namespace LayoutFarm.HtmlBoxes
                 CssBox ownerBox = strip.owner;
                 bool isFirstLine, isLastLine;
                 CssBox.GetSplitInfo(ownerBox, this, out isFirstLine, out isLastLine);
-                ownerBox.PaintDecoration(p.InnerCanvas, strip.Bound, isFirstLine, isLastLine);
+                ownerBox.PaintDecoration(p.InnerDrawBoard, strip.Bound, isFirstLine, isLastLine);
             }
         }
 
