@@ -184,15 +184,7 @@ namespace LayoutFarm.UI
             if (DisableBitmapCache &&
                ((painter = canvas.GetPainter() as PixelFarm.CpuBlit.AggPainter) != null))
             {
-                //temp fix*** 
-                float prev_x = painter.OriginX;
-                float prev_y = painter.OriginY;
-                //
-                painter.SetOrigin(prev_x + X + RenderOriginXOffset, prev_y + Y + RenderOriginYOffset);
-                //
                 PaintVgWithPainter(painter, _vgRenderVx);
-                //
-                painter.SetOrigin(prev_x, prev_y);
             }
             else
             {
