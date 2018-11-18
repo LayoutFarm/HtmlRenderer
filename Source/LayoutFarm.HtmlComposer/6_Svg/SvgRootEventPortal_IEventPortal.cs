@@ -11,7 +11,7 @@ namespace PaintLab.Svg
         void IEventPortal.PortalMouseDown(UIMouseEventArgs e)
         {
             //find hit svg graphics....
-            SvgHitChain hitChain = GetFreeHitChain();
+            VgHitChain hitChain = GetFreeHitChain();
             hitChain.SetRootGlobalPosition(e.X, e.Y);
             //1. hit test
             HitTestCore(this.SvgRoot.SvgDoc.Root, hitChain, e.X, e.Y);
@@ -45,7 +45,7 @@ namespace PaintLab.Svg
         void IEventPortal.PortalMouseUp(UIMouseEventArgs e)
         {
             //find hit svg graphics....
-            SvgHitChain hitChain = GetFreeHitChain();
+            VgHitChain hitChain = GetFreeHitChain();
             hitChain.SetRootGlobalPosition(e.X, e.Y);
             //1. hit test
             HitTestCore(this.SvgRoot.SvgDoc.Root, hitChain, e.X, e.Y);
@@ -78,7 +78,7 @@ namespace PaintLab.Svg
                 //dragging *** , if changed
 
                 //handle mouse drag
-                SvgHitChain hitChain = GetFreeHitChain();
+                VgHitChain hitChain = GetFreeHitChain();
                 hitChain.SetRootGlobalPosition(x, y);
                 HitTestCore(this.SvgRoot.SvgDoc.Root, hitChain, e.X, e.Y);
                 SetEventOrigin(e, hitChain);
@@ -123,7 +123,7 @@ namespace PaintLab.Svg
             {
                 //mouse move  
                 //---------------------------------------------------------
-                SvgHitChain hitChain = GetFreeHitChain();
+                VgHitChain hitChain = GetFreeHitChain();
                 hitChain.SetRootGlobalPosition(x, y);
                 HitTestCore(this.SvgRoot.SvgDoc.Root, hitChain, e.X, e.Y);
                 SetEventOrigin(e, hitChain);

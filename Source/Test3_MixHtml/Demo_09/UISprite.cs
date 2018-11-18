@@ -42,10 +42,10 @@ namespace LayoutFarm.UI
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        public SvgHitInfo FindRenderElementAtPos(float x, float y, bool makeCopyOfHitVxs)
+        public VgHitInfo FindRenderElementAtPos(float x, float y, bool makeCopyOfHitVxs)
         {
 
-            VgHitChainPool.GetFreeHitTestArgs(out SvgHitChain svgHitChain); //get chain from pool
+            VgHitChainPool.GetFreeHitTestArgs(out VgHitChain svgHitChain); //get chain from pool
             svgHitChain.WithSubPartTest = true;
             svgHitChain.MakeCopyOfHitVxs = makeCopyOfHitVxs;
             svgHitChain.SetHitTestPos(x - RenderOriginXOffset, y - RenderOriginYOffset);
@@ -53,15 +53,15 @@ namespace LayoutFarm.UI
             HitTestOnSubPart(this, svgHitChain);
             int hitCount = svgHitChain.Count;
 
-            SvgHitInfo hitInfo = hitCount > 0 ?
+            VgHitInfo hitInfo = hitCount > 0 ?
                 svgHitChain.GetHitInfo(hitCount - 1) ://get latest hit info, or
-                new SvgHitInfo(); //empty hit info
+                new VgHitInfo(); //empty hit info
 
             VgHitChainPool.ReleaseHitTestArgs(ref svgHitChain); //release chain
             return hitInfo;
 
         }
-        public void FindRenderElementAtPos(float x, float y, Action<SvgRenderElement, float, float, VertexStore> onHitSvg)
+        public void FindRenderElementAtPos(float x, float y, Action<VgVisualElement, float, float, VertexStore> onHitSvg)
         {
             this._vgRenderVx._renderE.HitTest(x, y, onHitSvg);
         }
@@ -111,7 +111,7 @@ namespace LayoutFarm.UI
                 }
                 else
                 {
-                    VgHitChainPool.GetFreeHitTestArgs(out SvgHitChain svgHitChain);
+                    VgHitChainPool.GetFreeHitTestArgs(out VgHitChain svgHitChain);
                     //check if we hit on some part of the svg 
 #if DEBUG
                     if (hitChain.dbugHitPhase == dbugHitChainPhase.MouseDown)
@@ -136,8 +136,8 @@ namespace LayoutFarm.UI
             //
             //
             [System.ThreadStatic]
-            static Stack<SvgHitChain> s_hitChains = new Stack<SvgHitChain>();
-            public static void GetFreeHitTestArgs(out SvgHitChain hitTestArgs)
+            static Stack<VgHitChain> s_hitChains = new Stack<VgHitChain>();
+            public static void GetFreeHitTestArgs(out VgHitChain hitTestArgs)
             {
                 if (s_hitChains.Count > 0)
                 {
@@ -145,19 +145,19 @@ namespace LayoutFarm.UI
                 }
                 else
                 {
-                    hitTestArgs = new SvgHitChain();
+                    hitTestArgs = new VgHitChain();
                 }
             }
-            public static void ReleaseHitTestArgs(ref SvgHitChain hitTestArgs)
+            public static void ReleaseHitTestArgs(ref VgHitChain hitTestArgs)
             {
                 hitTestArgs.Clear();
                 s_hitChains.Push(hitTestArgs);
                 hitTestArgs = null;
             }
         }
-        static bool HitTestOnSubPart(VgBridgeRenderElement _svgRenderVx, SvgHitChain hitChain)
+        static bool HitTestOnSubPart(VgBridgeRenderElement _svgRenderVx, VgHitChain hitChain)
         {
-            SvgRenderElement renderE = _svgRenderVx._vgRenderVx._renderE;
+            VgVisualElement renderE = _svgRenderVx._vgRenderVx._renderE;
             renderE.HitTest(hitChain);
             return hitChain.Count > 0;//found some    
         }
@@ -403,11 +403,11 @@ namespace LayoutFarm.UI
 
         }
 
-        public SvgHitInfo FindRenderElementAtPos(float x, float y, bool makeCopyOfVxs)
+        public VgHitInfo FindRenderElementAtPos(float x, float y, bool makeCopyOfVxs)
         {
             return _vgBridgeRenderElement.FindRenderElementAtPos(x, y, makeCopyOfVxs);
         }
-        public void FindRenderElementAtPos(float x, float y, Action<SvgRenderElement, float, float, VertexStore> onHitSvg)
+        public void FindRenderElementAtPos(float x, float y, Action<VgVisualElement, float, float, VertexStore> onHitSvg)
         {
             _vgBridgeRenderElement.FindRenderElementAtPos(x, y, onHitSvg);
         }

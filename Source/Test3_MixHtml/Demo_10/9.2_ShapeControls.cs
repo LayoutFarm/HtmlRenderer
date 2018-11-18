@@ -1,11 +1,11 @@
 ﻿//MIT, 2014-present, WinterDev
- 
+
 using System.IO;
 
 using PixelFarm.Drawing;
 using PixelFarm.CpuBlit.VertexProcessing;
 using PaintLab.Svg;
-using LayoutFarm.UI; 
+using LayoutFarm.UI;
 
 namespace LayoutFarm
 {
@@ -42,8 +42,8 @@ namespace LayoutFarm
 
 
                 var spec = new SvgPathSpec() { FillColor = Color.Red };
-                SvgRenderRootElement renderRoot = new SvgRenderRootElement();
-                SvgRenderElement renderE = new SvgRenderElement(WellknownSvgElementName.Path, spec, renderRoot);
+                VgVisualRootElement renderRoot = new VgVisualRootElement();
+                VgVisualElement renderE = new VgVisualElement(WellknownSvgElementName.Path, spec, renderRoot);
                 VgRenderVx svgRenderVx = new VgRenderVx(renderE);
                 renderE._vxsPath = ellipse.MakeVxs(v1).CreateTrim();
                 return svgRenderVx;
@@ -53,8 +53,8 @@ namespace LayoutFarm
         VgRenderVx CreateTestRenderVx_BasicShape()
         {
             var spec = new SvgPathSpec() { FillColor = Color.Red };
-            SvgRenderRootElement renderRoot = new SvgRenderRootElement();
-            SvgRenderElement renderE = new SvgRenderElement(WellknownSvgElementName.Path, spec, renderRoot);
+            VgVisualRootElement renderRoot = new VgVisualRootElement();
+            VgVisualElement renderE = new VgVisualElement(WellknownSvgElementName.Path, spec, renderRoot);
             VgRenderVx svgRenderVx = new VgRenderVx(renderE);
 
             using (VxsTemp.Borrow(out VertexStore vxs))
@@ -91,8 +91,8 @@ namespace LayoutFarm
 
             VertexStore vxs = _glyphMaskStore.GetGlyphMesh(typeface.LookupIndex(c));
             var spec = new SvgPathSpec() { FillColor = Color.Red };
-            SvgRenderRootElement renderRoot = new SvgRenderRootElement();
-            SvgRenderElement renderE = new SvgRenderElement(WellknownSvgElementName.Path, spec, renderRoot);
+            VgVisualRootElement renderRoot = new VgVisualRootElement();
+            VgVisualElement renderE = new VgVisualElement(WellknownSvgElementName.Path, spec, renderRoot);
             VgRenderVx svgRenderVx = new VgRenderVx(renderE);
 
 
@@ -256,7 +256,7 @@ namespace LayoutFarm
 
                 if (_hitTestOnSubPath)
                 {
-                    SvgHitInfo hitInfo = _uiSprite.FindRenderElementAtPos(e1.X, e1.Y, true);
+                    VgHitInfo hitInfo = _uiSprite.FindRenderElementAtPos(e1.X, e1.Y, true);
                     if (hitInfo.svg != null &&
                         hitInfo.svg._vxsPath != null)
                     {

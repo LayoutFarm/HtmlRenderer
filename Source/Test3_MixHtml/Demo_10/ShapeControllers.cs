@@ -856,15 +856,15 @@ namespace LayoutFarm
         }
         //
         VgRenderVx _svgRenderVx;
-        SvgRenderElement _renderE;
+        VgVisualElement _renderE;
         VertexStore _outlineVxs;
         internal VertexStore OutlineVxs => _outlineVxs;
 
         VgRenderVx CreateQuadVgFromSrcRect()
         {
             var spec = new SvgPathSpec() { FillColor = Color.Aqua };
-            SvgRenderRootElement renderRoot = new SvgRenderRootElement();
-            SvgRenderElement renderE = new SvgRenderElement(WellknownSvgElementName.Path, spec, renderRoot);
+            VgVisualRootElement renderRoot = new VgVisualRootElement();
+            VgVisualElement renderE = new VgVisualElement(WellknownSvgElementName.Path, spec, renderRoot);
             VgRenderVx svgRenderVx = new VgRenderVx(renderE);
 
             using (VectorToolBox.Borrow(out SimpleRect rect))
@@ -886,8 +886,8 @@ namespace LayoutFarm
         VgRenderVx CreateQuadVgFromDestQuad()
         {
             var spec = new SvgPathSpec() { FillColor = Color.Green };
-            SvgRenderRootElement renderRoot = new SvgRenderRootElement();
-            SvgRenderElement renderE = new SvgRenderElement(WellknownSvgElementName.Path, spec, renderRoot);
+            VgVisualRootElement renderRoot = new VgVisualRootElement();
+            VgVisualElement renderE = new VgVisualElement(WellknownSvgElementName.Path, spec, renderRoot);
             VgRenderVx svgRenderVx = new VgRenderVx(renderE);
 
 
@@ -1287,7 +1287,7 @@ namespace LayoutFarm
             parser.ParseDocument(textSnapshot);//start document parsing
 
             //TODO: review this step again
-            SvgRenderVxDocBuilder builder = new SvgRenderVxDocBuilder();
+            VgRenderVxDocBuilder builder = new VgRenderVxDocBuilder();
             SvgDocument svgDoc = docBuidler.ResultDocument;
             //optional 
             svgDoc.OriginalContent = svgContent;

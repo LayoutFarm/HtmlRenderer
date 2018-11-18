@@ -28,7 +28,7 @@ namespace LayoutFarm.HtmlBoxes
         public override void CustomRecomputedValue(CssBox containingBlock)
         {
 
-            var renderVxDocBuilder = new SvgRenderVxDocBuilder();
+            var renderVxDocBuilder = new VgRenderVxDocBuilder();
             renderVxDocBuilder.SetContainerSize(containingBlock.VisualWidth, containingBlock.VisualHeight);
             //
             _renderVx = renderVxDocBuilder.CreateRenderVx(SvgDoc, svgElem =>

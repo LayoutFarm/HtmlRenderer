@@ -83,7 +83,7 @@ namespace LayoutFarm.ColorBlenderSample
             WebLexer.TextSnapshot textSnapshot = new WebLexer.TextSnapshot(svgContent);
             parser.ParseDocument(textSnapshot);
             //
-            SvgRenderVxDocBuilder builder = new SvgRenderVxDocBuilder();
+            VgRenderVxDocBuilder builder = new VgRenderVxDocBuilder();
             VgRenderVx svgRenderVx = builder.CreateRenderVx(docBuilder.ResultDocument, null);
 
             var uiSprite = new UISprite(10, 10);
@@ -92,7 +92,7 @@ namespace LayoutFarm.ColorBlenderSample
             evListener.MouseDown += (e) =>
             {
                 //hit on svg color- area
-                SvgHitInfo hitInfo = uiSprite.FindRenderElementAtPos(e.X, e.Y, false);
+                VgHitInfo hitInfo = uiSprite.FindRenderElementAtPos(e.X, e.Y, false);
 #if DEBUG
                 if (hitInfo.svg != null)
                 {
