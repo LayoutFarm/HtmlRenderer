@@ -238,7 +238,7 @@ namespace LayoutFarm.UI
         static void PaintVgWithPainter(Painter painter, VgRenderVx vgRenderVx)
         {
 
-            double prevStrokeW = painter.StrokeWidth; 
+            double prevStrokeW = painter.StrokeWidth;
             painter.StrokeWidth = 1;//default  
 
             using (VgPainterArgsPool.Borrow(painter, out VgPaintArgs paintArgs))
@@ -459,7 +459,9 @@ namespace LayoutFarm.UI
 
                 //offset to 0,0
                 //this.SetLocation((int)(this.Left + _actualXOffset), (int)(this.Top + _actualYOffset));
-                _vgBridgeRenderElement = new VgBridgeRenderElement(rootgfx, 10, 10)
+
+
+                var vgBridgeRenderElem = new VgBridgeRenderElement(rootgfx, 10, 10)
                 {
                     RenderOriginXOffset = (float)_actualXOffset,
                     RenderOriginYOffset = (float)_actualYOffset,
@@ -468,11 +470,13 @@ namespace LayoutFarm.UI
                     EnableSubSvgHitTest = this.EnableSubSvgTest
                 };
 
-                _vgBridgeRenderElement.DisableBitmapCache = true;
-                _vgBridgeRenderElement.SetLocation((int)(this.Left), (int)(this.Top));
-                _vgBridgeRenderElement.SetController(this);
-                //_vgBridgeRenderElement.TransparentForAllEvents = this.TransparentAllMouseEvents;
+                vgBridgeRenderElem.DisableBitmapCache = true;
+                vgBridgeRenderElem.SetLocation((int)(this.Left), (int)(this.Top));
+                vgBridgeRenderElem.SetController(this);
 
+                _vgBridgeRenderElement = vgBridgeRenderElem;//set to field after init-setting.
+
+                //_vgBridgeRenderElement.TransparentForAllEvents = this.TransparentAllMouseEvents;
                 this.SetSize((int)bounds.Width, (int)bounds.Height);
             }
             return _vgBridgeRenderElement;
@@ -639,7 +643,7 @@ namespace LayoutFarm.UI
                 _vgBridgeRenderElement.InvalidateGraphics();
             }
         }
-        
+
         public virtual void PerformContentLayout()
         {
         }
