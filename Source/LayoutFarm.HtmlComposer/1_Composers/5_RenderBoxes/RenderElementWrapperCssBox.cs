@@ -141,7 +141,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
             var updateArea = new Rectangle((int)r.Left, (int)r.Top, (int)r.Width, (int)r.Height);
             int x = (int)updateArea.Left;
             int y = (int)updateArea.Top;
-            DrawBoard canvasPage = p.InnerCanvas;
+            DrawBoard canvasPage = p.InnerDrawBoard;
             canvasPage.OffsetCanvasOrigin(x, y);
             updateArea.Offset(-x, -y);
             externalRun.RenderElement.DrawToThisCanvas(canvasPage, updateArea);
@@ -253,7 +253,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
             p.dbugEnterNewContext(this, PaintVisitor.PaintVisitorContextName.Init);
 #endif
             Rectangle rect = new Rectangle(0, 0, renderE.Width, renderE.Height);
-            this.renderE.DrawToThisCanvas(p.InnerCanvas, rect);
+            this.renderE.DrawToThisCanvas(p.InnerDrawBoard, rect);
 #if DEBUG
             p.dbugExitContext();
 #endif

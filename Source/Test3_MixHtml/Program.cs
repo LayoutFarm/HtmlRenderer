@@ -14,12 +14,12 @@ namespace TestGraphicPackage2
         static void Main()
         {
 
-            YourImplementation.BootStrapWinGdi.SetupDefaultValues();
+            YourImplementation.FrameworkInitWinGDI.SetupDefaultValues();
 
 #if GL_ENABLE
             YourImplementation.LocalFileStorageProvider file_storageProvider = new YourImplementation.LocalFileStorageProvider();
             PixelFarm.Platforms.StorageService.RegisterProvider(file_storageProvider);
-            YourImplementation.BootStrapOpenGLES2.SetupDefaultValues();
+            YourImplementation.FrameworkInitGLES.SetupDefaultValues();
 
             //2.2 Icu Text Break info
             //test Typography's custom text break,

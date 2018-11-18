@@ -45,11 +45,10 @@ namespace LayoutFarm.HtmlBoxes
 #if DEBUG
             p.dbugEnterNewContext(this, PaintVisitor.PaintVisitorContextName.Init);
 #endif
-            DrawBoard drawBoard = p.InnerCanvas;
+            DrawBoard drawBoard = p.InnerDrawBoard;
 
             if (DisableBmpCache)
             {
-
 
                 PixelFarm.CpuBlit.AggPainter painter = drawBoard.GetPainter() as PixelFarm.CpuBlit.AggPainter;
                 if (painter == null)
@@ -90,11 +89,9 @@ namespace LayoutFarm.HtmlBoxes
             }
 
 
-
             if (_renderVx.HasBitmapSnapshot)
             {
                 Image backimg = _renderVx.BackingImage;
-
                 drawBoard.DrawImage(backimg, new RectangleF(0, 0, backimg.Width, backimg.Height));
             }
             else
@@ -102,7 +99,7 @@ namespace LayoutFarm.HtmlBoxes
 
                 PixelFarm.CpuBlit.RectD bound = _renderVx.GetBounds();
                 //create
-                PixelFarm.CpuBlit.ActualBitmap backimg = new PixelFarm.CpuBlit.ActualBitmap((int)bound.Width + 10, (int)bound.Height + 10);
+                PixelFarm.CpuBlit.MemBitmap backimg = new PixelFarm.CpuBlit.MemBitmap((int)bound.Width + 10, (int)bound.Height + 10);
                 PixelFarm.CpuBlit.AggPainter painter = PixelFarm.CpuBlit.AggPainter.Create(backimg);
                 //TODO: review here
                 //temp fix

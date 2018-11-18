@@ -47,9 +47,6 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.YourImplementation\0_Bootstrap\StorageProviderImpl.cs">
-      <Link>StorageProviderImpl.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Typography\Typography.TextBreak\TextBreakerTest\IcuSimpleTextFileDictionaryProvider.cs">
       <Link>IcuSimpleTextFileDictionaryProvider.cs</Link>
     </Compile>
