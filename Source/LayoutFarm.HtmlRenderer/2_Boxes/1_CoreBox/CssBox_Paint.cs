@@ -522,7 +522,7 @@ namespace LayoutFarm.HtmlBoxes
                 }
 
 
-                DrawBoard g = p.InnerCanvas;
+                DrawBoard g = p.InnerDrawBoard;
                 SmoothingMode smooth = g.SmoothingMode;
                 if (brush != null)
                 {

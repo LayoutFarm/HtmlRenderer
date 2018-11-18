@@ -1276,13 +1276,11 @@ namespace LayoutFarm
 
     }
 
-    static class VgRenderVxHelper
+    public static class VgRenderVxHelper
     {
-
-        public static VgRenderVx ReadSvgFile(string filename)
+        public static VgRenderVx CreateVgRenderVxFromSvgContent(string svgContent)
         {
 
-            string svgContent = System.IO.File.ReadAllText(filename);
             SvgDocBuilder docBuidler = new SvgDocBuilder();
             SvgParser parser = new SvgParser(docBuidler);
             WebLexer.TextSnapshot textSnapshot = new WebLexer.TextSnapshot(svgContent);
@@ -1291,12 +1289,8 @@ namespace LayoutFarm
             //TODO: review this step again
             SvgRenderVxDocBuilder builder = new SvgRenderVxDocBuilder();
             SvgDocument svgDoc = docBuidler.ResultDocument;
-
             //optional 
             svgDoc.OriginalContent = svgContent;
-            svgDoc.OriginalFilename = filename;
-
-
             //-------------------------------------------------------------
             VgRenderVx renderVx = builder.CreateRenderVx(svgDoc, svgElem =>
             {
@@ -1306,6 +1300,13 @@ namespace LayoutFarm
 
 
             return renderVx;
+        }
+        public static VgRenderVx ReadSvgFile(string filename)
+        {
+
+            VgRenderVx vgx = CreateVgRenderVxFromSvgContent(System.IO.File.ReadAllText(filename));
+            vgx.OwnerDocument.OriginalFilename = filename;
+            return vgx;
         }
     }
 }
