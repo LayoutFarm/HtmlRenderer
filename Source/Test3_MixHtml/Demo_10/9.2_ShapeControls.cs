@@ -124,7 +124,7 @@ namespace LayoutFarm
             //PixelFarm.CpuBlit.RectD org_rectD = _svgRenderVx.GetBounds(); 
             //_svgRenderVx = CreateEllipseVxs(org_rectD);
 
-            PixelFarm.CpuBlit.RectD org_rectD = _svgRenderVx.GetBounds();
+            PixelFarm.CpuBlit.RectD org_rectD = _svgRenderVx.GetRectBounds();
 
             org_rectD.Offset(-org_rectD.Left, -org_rectD.Bottom);
             _quadController.SetSrcRect(org_rectD.Left, org_rectD.Bottom, org_rectD.Right, org_rectD.Top);
@@ -171,7 +171,7 @@ namespace LayoutFarm
             //1. scale svg to fix the 'src rect'  
             //2. then transform to the 'dest rect' 
 
-            PixelFarm.CpuBlit.RectD svg_bounds = _svgRenderVx.GetBounds();
+            PixelFarm.CpuBlit.RectD svg_bounds = _svgRenderVx.GetRectBounds();
 
             //double w_scale = src_w / svg_bounds.Width;
             //double h_scale = src_h / svg_bounds.Height;

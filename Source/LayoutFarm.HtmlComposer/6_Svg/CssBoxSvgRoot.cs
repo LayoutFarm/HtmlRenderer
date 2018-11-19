@@ -97,7 +97,7 @@ namespace LayoutFarm.HtmlBoxes
             else
             {
 
-                PixelFarm.CpuBlit.RectD bound = _renderVx.GetBounds();
+                PixelFarm.CpuBlit.RectD bound = _renderVx.GetRectBounds();
                 //create
                 PixelFarm.CpuBlit.MemBitmap backimg = new PixelFarm.CpuBlit.MemBitmap((int)bound.Width + 10, (int)bound.Height + 10);
                 PixelFarm.CpuBlit.AggPainter painter = PixelFarm.CpuBlit.AggPainter.Create(backimg);

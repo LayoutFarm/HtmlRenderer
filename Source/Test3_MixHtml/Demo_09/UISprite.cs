@@ -94,7 +94,7 @@ namespace LayoutFarm.UI
         public override void ChildrenHitTestCore(HitChain hitChain)
         {
 
-            RectD bound = _vgRenderVx.GetBounds();
+            RectD bound = _vgRenderVx.GetRectBounds();
             bound.Offset(RenderOriginXOffset, RenderOriginYOffset);
             if (bound.Contains(hitChain.TestPoint.X, hitChain.TestPoint.Y))
             {
@@ -199,7 +199,7 @@ namespace LayoutFarm.UI
                     //convert vg to bitmap 
                     //**
 
-                    PixelFarm.CpuBlit.RectD bounds = _vgRenderVx.GetBounds();
+                    PixelFarm.CpuBlit.RectD bounds = _vgRenderVx.GetRectBounds();
                     int width = (int)Math.Ceiling(bounds.Width);
                     int height = (int)Math.Ceiling(bounds.Height);
                     //create 
@@ -337,7 +337,7 @@ namespace LayoutFarm.UI
             if (_vgBridgeRenderElement != null)
             {
                 _vgBridgeRenderElement.VgRenderVx = renderVx;
-                RectD bounds = _vgRenderVx.GetBounds();
+                RectD bounds = _vgRenderVx.GetRectBounds();
                 _actualXOffset = (float)-bounds.Left;
                 _actualYOffset = (float)-bounds.Bottom;
 
@@ -421,7 +421,7 @@ namespace LayoutFarm.UI
                 //_svgRenderVx.SetBitmapSnapshot(null); 
                 //_svgRenderElement.RenderVx = _svgRenderVx;
                 //_svgRenderVx.InvalidateBounds(); 
-                RectD bounds = _vgRenderVx.GetBounds();
+                RectD bounds = _vgRenderVx.GetRectBounds();
                 this.SetSize((int)bounds.Width, (int)bounds.Height);
 
             }
@@ -446,7 +446,7 @@ namespace LayoutFarm.UI
         {
             if (_vgBridgeRenderElement == null)
             {
-                RectD bounds = _vgRenderVx.GetBounds();
+                RectD bounds = _vgRenderVx.GetRectBounds();
                 //****
 
                 //offset to 0,0
@@ -510,7 +510,7 @@ namespace LayoutFarm.UI
         public void SetTransformation(PixelFarm.CpuBlit.VertexProcessing.ICoordTransformer tx)
         {
             _tx = tx;
-            RectD bounds = _vgRenderVx.GetBounds(); //org bounds
+            RectD bounds = _vgRenderVx.GetRectBounds(); //org bounds
             _actualXOffset = -bounds.Left;
             _actualYOffset = -bounds.Bottom;
             _post_TransformRectBounds = bounds;
