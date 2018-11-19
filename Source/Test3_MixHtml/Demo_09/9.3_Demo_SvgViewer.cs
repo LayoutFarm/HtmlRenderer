@@ -35,17 +35,15 @@ namespace LayoutFarm.ColorBlenderSample
                 _lstvw_svgFiles = new ListView(200, 400);
                 _lstvw_svgFiles.SetLocation(500, 20);
                 host.AddChild(_lstvw_svgFiles);
+                //
                 _lstvw_svgFiles.ListItemMouseEvent += (s, e) =>
                 {
                     if (_lstvw_svgFiles.SelectedIndex > -1)
                     {
-                        if (_lstvw_svgFiles.SelectedIndex > -1)
+                        string filename = _lstvw_svgFiles.GetItem(_lstvw_svgFiles.SelectedIndex).Tag as string;
+                        if (filename != null)
                         {
-                            string filename = _lstvw_svgFiles.GetItem(_lstvw_svgFiles.SelectedIndex).Tag as string;
-                            if (filename != null)
-                            {
-                                ParseAndRenderSvgFile(filename);
-                            }
+                            ParseAndRenderSvgFile(filename);
                         }
                     }
                 };
