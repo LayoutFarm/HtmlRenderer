@@ -1080,7 +1080,7 @@ namespace LayoutFarm
             AbstractBox parentBox = this.ParentUI as AbstractBox;
             if (parentBox != null)
             {
-                this.RemoveSelf();
+                RemoveSelf();
                 parentBox.AddChild(this);
             }
             else
@@ -1095,22 +1095,6 @@ namespace LayoutFarm
                 InvalidateOuterGraphics();
             }
         }
-        public void RemoveSelf()
-        {
-            if (CurrentPrimaryRenderElement == null) { return; }
-
-            var parentBox = this.CurrentPrimaryRenderElement.ParentRenderElement as LayoutFarm.RenderElement;
-            if (parentBox != null)
-            {
-                parentBox.RemoveChild(this.CurrentPrimaryRenderElement);
-            }
-            this.InvalidateOuterGraphics();
-        }
-        public void InvalidateOuterGraphics()
-        {
-            CurrentPrimaryRenderElement?.InvalidateParentGraphics();
-        }
-        //--------------------
         public List<UIControllerBox> ControlBoxes => _controls;
 
         public override bool Visible
