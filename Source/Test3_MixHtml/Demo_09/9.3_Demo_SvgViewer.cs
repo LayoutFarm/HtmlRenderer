@@ -26,7 +26,7 @@ namespace LayoutFarm.ColorBlenderSample
 
             {
                 _backBoard = new BackDrawBoardUI(800, 600);
-                _backBoard.SetLocation(100, 100);
+                _backBoard.SetLocation(10, 10);
                 _backBoard.BackColor = PixelFarm.Drawing.Color.White;
 
                 host.AddChild(_backBoard);
