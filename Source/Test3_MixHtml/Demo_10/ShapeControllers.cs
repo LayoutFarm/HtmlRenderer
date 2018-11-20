@@ -82,7 +82,7 @@ namespace LayoutFarm
         }
 
 
-        double _src_left, _src_top, _src_w, _src_h; 
+        double _src_left, _src_top, _src_w, _src_h;
         bool _setDestRect;
 
         //-------------------
@@ -866,7 +866,7 @@ namespace LayoutFarm
         VgRenderVx CreateQuadVgFromSrcRect()
         {
             var spec = new SvgPathSpec() { FillColor = Color.Aqua };
-            VgVisualRootElement renderRoot = new VgVisualRootElement();
+            VgDocRoot renderRoot = new VgDocRoot();
             VgVisualElement renderE = new VgVisualElement(WellknownSvgElementName.Path, spec, renderRoot);
             VgRenderVx svgRenderVx = new VgRenderVx(renderE);
 
@@ -889,7 +889,7 @@ namespace LayoutFarm
         VgRenderVx CreateQuadVgFromDestQuad()
         {
             var spec = new SvgPathSpec() { FillColor = Color.Green };
-            VgVisualRootElement renderRoot = new VgVisualRootElement();
+            VgDocRoot renderRoot = new VgDocRoot();
             VgVisualElement renderE = new VgVisualElement(WellknownSvgElementName.Path, spec, renderRoot);
             VgRenderVx svgRenderVx = new VgRenderVx(renderE);
 
