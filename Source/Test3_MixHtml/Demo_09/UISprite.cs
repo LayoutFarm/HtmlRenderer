@@ -216,6 +216,7 @@ namespace LayoutFarm.UI
                     //TODO: use reusable agg painter***
                     MemBitmap backimg = new MemBitmap(width, height);
                     painter = AggPainter.Create(backimg);
+                    painter.CurrentFont = canvas.CurrentFont;
                     painter.Clear(Color.FromArgb(0, Color.White));
                     //
                     PaintVgWithPainter(painter, _vgRenderVx);
@@ -462,7 +463,7 @@ namespace LayoutFarm.UI
                     EnableSubSvgHitTest = this.EnableSubSvgTest
                 };
 
-                vgBridgeRenderElem.DisableBitmapCache = true;
+                //vgBridgeRenderElem.DisableBitmapCache = true;
                 vgBridgeRenderElem.SetLocation((int)(this.Left), (int)(this.Top));
                 vgBridgeRenderElem.SetController(this);
 
