@@ -440,6 +440,11 @@ namespace LayoutFarm
             x = box.TargetX;
             y = box.TargetY;
         }
+        protected override void OnMouseDown(UIMouseEventArgs e)
+        {
+            base.OnMouseDown(e);
+            this.Focus(); //if we not focus => we can't get keyboard input**
+        }
         protected override void OnKeyDown(UIKeyEventArgs e)
         {
             switch (e.KeyCode)

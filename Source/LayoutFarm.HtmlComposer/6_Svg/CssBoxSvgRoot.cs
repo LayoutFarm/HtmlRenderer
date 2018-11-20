@@ -29,6 +29,11 @@ namespace LayoutFarm.HtmlBoxes
         {
 
             var renderVxDocBuilder = new VgRenderVxDocBuilder();
+            renderVxDocBuilder.SetLoadImageHandler((ImageBinder reqImgBinder, VgVisualElement vgVisualE, object o) =>
+            {
+
+            });
+            //
             renderVxDocBuilder.SetContainerSize(containingBlock.VisualWidth, containingBlock.VisualHeight);
             //
             _renderVx = renderVxDocBuilder.CreateRenderVx(SvgDoc, svgElem =>
@@ -78,7 +83,7 @@ namespace LayoutFarm.HtmlBoxes
                     {
 
                     }
-                    _renderVx._renderE.Paint(paintArgs);
+                    _renderVx._vgVisualElement.Paint(paintArgs);
                 }
 
 
@@ -118,7 +123,7 @@ namespace LayoutFarm.HtmlBoxes
                     {
 
                     }
-                    _renderVx._renderE.Paint(paintArgs);
+                    _renderVx._vgVisualElement.Paint(paintArgs);
                 }
 
                 painter.StrokeWidth = prevStrokeW;//restore

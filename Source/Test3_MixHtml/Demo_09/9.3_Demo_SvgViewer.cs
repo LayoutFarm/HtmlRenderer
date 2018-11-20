@@ -72,6 +72,12 @@ namespace LayoutFarm.ColorBlenderSample
 
             }
         }
+        void ImgBinderLoadImg(ImageBinder reqImgBinder, VgVisualElement vgVisualE, object o)
+        {
+            PixelFarm.Drawing.Image img = _host.LoadImage(reqImgBinder.ImageSource);
+            reqImgBinder.SetImage(img);
+            reqImgBinder.State = BinderState.Loaded;
+        }
         void ParseAndRenderSvgFile(string svgFile)
         {
             var docBuilder = new SvgDocBuilder();
@@ -82,7 +88,11 @@ namespace LayoutFarm.ColorBlenderSample
             parser.ParseDocument(textSnapshot);
             //
             VgRenderVxDocBuilder builder = new VgRenderVxDocBuilder();
+            builder.SetLoadImageHandler(ImgBinderLoadImg);
+            //
+            //
             VgRenderVx svgRenderVx = builder.CreateRenderVx(docBuilder.ResultDocument, null);
+
 
             var uiSprite = new UISprite(10, 10);
             var evListener = new GeneralEventListener();

@@ -71,6 +71,47 @@ namespace LayoutFarm
             return svgRenderVx;
         }
 
+        static void LoadRawImg(ImageBinder binder, VgVisualElement vg, object o)
+        {
+            string imgsrc = binder.ImageSource;
+            if (imgsrc != null)
+            {
+
+            }
+        }
+        VgRenderVx CreateTestRenderVx_FromImg(string filename)
+        {
+
+            var spec = new SvgImageSpec()
+            {
+                ImageSrc = filename,
+                Width = new Css.CssLength(50, Css.CssUnitOrNames.Pixels),
+                Height = new Css.CssLength(50, Css.CssUnitOrNames.Pixels),
+            };
+
+            VgVisualRootElement renderRoot = new VgVisualRootElement();
+            renderRoot.ImgRequestHandler = LoadRawImg;
+
+
+            VgVisualElement vgimg = new VgVisualElement(WellknownSvgElementName.Image, spec, renderRoot);
+            vgimg.ImageBinder = _appHost.LoadImageAndBind(filename);
+
+
+            VgRenderVx svgRenderVx = new VgRenderVx(vgimg);
+            svgRenderVx.GetRectBounds();
+            //using (VxsTemp.Borrow(out VertexStore vxs))
+            //{
+            //    //red-triangle ***
+            //    vxs.AddMoveTo(10, 10);
+            //    vxs.AddLineTo(60, 10);
+            //    vxs.AddLineTo(60, 30);
+            //    vxs.AddLineTo(10, 30);
+            //    vxs.AddCloseFigure();
+            //    renderE._vxsPath = vxs.CreateTrim();
+            //}
+
+            return svgRenderVx;
+        }
 
         Typography.Contours.GlyphMeshStore _glyphMaskStore = new Typography.Contours.GlyphMeshStore();
         VgRenderVx CreateTestRenderVx_FromGlyph(char c, float sizeInPts)
@@ -110,39 +151,34 @@ namespace LayoutFarm
 
         bool _hitTestOnSubPath = false;
         VgRenderVx _svgRenderVx;
-
         UISprite _uiSprite;
 
-
+        AppHost _appHost;
         protected override void OnStart(AppHost host)
         {
-
-
-            _svgRenderVx = CreateTestRenderVx_FromSvg();
+            _appHost = host;//** 
+            //_svgRenderVx = CreateTestRenderVx_FromSvg();
             //_svgRenderVx = CreateTestRenderVx_BasicShape();
+            _svgRenderVx = CreateTestRenderVx_FromImg("d:\\WImageTest\\alpha1.png");
+
             //_svgRenderVx = CreateTestRenderVx_FromGlyph('a', 256); //create from glyph
             //PixelFarm.CpuBlit.RectD org_rectD = _svgRenderVx.GetBounds(); 
             //_svgRenderVx = CreateEllipseVxs(org_rectD);
 
             PixelFarm.CpuBlit.RectD org_rectD = _svgRenderVx.GetRectBounds();
-
             org_rectD.Offset(-org_rectD.Left, -org_rectD.Bottom);
+            //
             _quadController.SetSrcRect(org_rectD.Left, org_rectD.Bottom, org_rectD.Right, org_rectD.Top);
             _quadController.SetDestQuad(
-              org_rectD.Left, org_rectD.Top,
-              org_rectD.Right, org_rectD.Top,
-              org_rectD.Right, org_rectD.Bottom,
-              org_rectD.Left, org_rectD.Bottom);
-
-
-
-            //---------
+                  org_rectD.Left, org_rectD.Top,
+                  org_rectD.Right, org_rectD.Top,
+                  org_rectD.Right, org_rectD.Bottom,
+                  org_rectD.Left, org_rectD.Bottom);
             //create control point
             _quadController.SetPolygonController(_quadPolygonController);
             _quadController.BuildControlBoxes();
             _quadController.UpdateTransformTarget += (s1, e1) =>
             {
-
                 _uiSprite.SetTransformation(_quadController.GetCoordTransformer()); //set transformation 
                 if (_quadController.Left != 0 || _quadController.Top != 0)
                 {
@@ -161,9 +197,7 @@ namespace LayoutFarm
 
 
 
-            _quadController.Visible = _quadPolygonController.Visible = false;
-
-
+            //_quadController.Visible = _quadPolygonController.Visible = false;
             //_rectBoxController.Init();
 
             //VgRenderVx svgRenderVx = CreateTestRenderVx(); //create from svg
@@ -190,10 +224,8 @@ namespace LayoutFarm
 
             //ICoordTransformer tx = ((ICoordTransformer)_bilinearTx).MultiplyWith(scaleMat);
             ICoordTransformer tx = _quadController.GetCoordTransformer();
-            //svgRenderVx._coordTx = tx;
-
-            //svgRenderVx._coordTx = ((ICoordTransformer)_bilinearTx).MultiplyWith(scaleMat);
-
+            //svgRenderVx._coordTx = tx; 
+            //svgRenderVx._coordTx = ((ICoordTransformer)_bilinearTx).MultiplyWith(scaleMat); 
             //host.AddChild(_quadController);
             //host.AddChild(_quadPolygonController);
             //VgRenderVx svgRenderVx = CreateTestRenderVx(); 
@@ -208,12 +240,9 @@ namespace LayoutFarm
 
 
             host.AddChild(_uiSprite);
-
-
             //-----------------------------------------
             host.AddChild(_quadController);
             host.AddChild(_quadPolygonController);
-
             //-----------------------------------------
 
 
@@ -222,18 +251,23 @@ namespace LayoutFarm
             _uiSprite.AttachExternalEventListener(spriteEvListener);
             spriteEvListener.MouseMove += e1 =>
             {
+
                 if (e1.IsDragging)
                 {
+                    //when drag on sprie 
                     _uiSprite.InvalidateOuterGraphics();
                     _uiSprite.SetLocation(
                         _uiSprite.Left + e1.XDiff,
                         _uiSprite.Top + e1.YDiff
                         );
+                    //we also move quadController and _quadPolygonController
+                    //
                     _quadController.InvalidateOuterGraphics();
                     _quadController.SetLocation(
                         _quadController.Left + e1.XDiff,
                         _quadController.Top + e1.YDiff);
                     _quadController.InvalidateOuterGraphics();
+                    //
                     _quadPolygonController.InvalidateOuterGraphics();
                     _quadPolygonController.SetPosition(
                         _quadPolygonController.Left + e1.XDiff,
@@ -284,11 +318,7 @@ namespace LayoutFarm
                 }
                 else
                 {
-                    //hit on sprite 
-
-
-
-
+                    //hit on sprite  
                     if (e1.Ctrl)
                     {
                         //test*** 
@@ -323,19 +353,6 @@ namespace LayoutFarm
                     }
                 }
             };
-
-            //-
-
-            //_rectBoxController.UpdatedShape += (s3, e3) => UpdateTransformedShape2();
-
         }
-
-
-
     }
-
-
-
-
-
 }
