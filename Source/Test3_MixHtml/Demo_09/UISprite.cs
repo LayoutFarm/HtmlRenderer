@@ -18,14 +18,10 @@ namespace LayoutFarm.UI
         public VgBridgeRenderElement(RootGraphic rootGfx, int width, int height)
             : base(rootGfx, width, height)
         {
-
-            //this.dbug_ObjectNote = "AAA";
-            //this.NeedClipArea = false;
             this.MayHasChild = true;
             //this.TransparentForAllEvents = true;
         }
 
-        //public PixelFarm.CpuBlit.VertexProcessing.ICoordTransformer Tx { get; set; }
         public PaintLab.Svg.VgRenderVx VgRenderVx
         {
             get { return _vgRenderVx; }
@@ -161,8 +157,6 @@ namespace LayoutFarm.UI
             renderE.HitTest(hitChain);
             return hitChain.Count > 0;//found some    
         }
-
-
         public bool DisableBitmapCache { get; set; }
 
         public override void CustomDrawToThisCanvas(DrawBoard canvas, Rectangle updateArea)
@@ -238,7 +232,7 @@ namespace LayoutFarm.UI
                     }
                     else
                     {
-                      
+
                     }
 
                     //--------------------
@@ -336,6 +330,7 @@ namespace LayoutFarm.UI
             SetElementBoundsWH(width, height);
             this.AutoStopMouseEventPropagation = true;
         }
+    
         public bool EnableSubSvgTest
         {
             get
@@ -455,7 +450,6 @@ namespace LayoutFarm.UI
                 //_svgRenderVx.InvalidateBounds(); 
                 RectD bounds = _vgRenderVx.GetRectBounds();
                 this.SetSize((int)bounds.Width, (int)bounds.Height);
-
             }
         }
         protected override void OnMouseDown(UIMouseEventArgs e)
@@ -488,7 +482,7 @@ namespace LayoutFarm.UI
                 }
                 //------------------------------------------------
 
-
+                this.DisableBmpCache = true;
                 var vgBridgeRenderElem = new VgBridgeRenderElement(rootgfx, 10, 10)
                 {
                     RenderOriginXOffset = (float)_actualXOffset,
@@ -546,6 +540,10 @@ namespace LayoutFarm.UI
         {
 
             _tx = tx;
+            _vgRenderVx._coordTx = tx;
+            _vgRenderVx.InvalidateBounds();
+
+
             RectD bounds = _vgRenderVx.GetRectBounds(); //org bounds
             _actualXOffset = -bounds.Left;
             _actualYOffset = -bounds.Bottom;
@@ -574,7 +572,7 @@ namespace LayoutFarm.UI
 
             if (_vgRenderVx != null)
             {
-                _vgRenderVx._coordTx = tx;
+
             }
 
             if (_vgBridgeRenderElement != null)

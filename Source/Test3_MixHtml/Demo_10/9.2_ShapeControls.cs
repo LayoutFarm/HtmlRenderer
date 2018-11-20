@@ -152,16 +152,19 @@ namespace LayoutFarm
         bool _hitTestOnSubPath = false;
         VgRenderVx _svgRenderVx;
         UISprite _uiSprite;
-
         AppHost _appHost;
+
+
+
         protected override void OnStart(AppHost host)
         {
             _appHost = host;//** 
+
+
             //_svgRenderVx = CreateTestRenderVx_FromSvg();
             //_svgRenderVx = CreateTestRenderVx_BasicShape();
-            _svgRenderVx = CreateTestRenderVx_FromImg("d:\\WImageTest\\alpha1.png");
-
-            //_svgRenderVx = CreateTestRenderVx_FromGlyph('a', 256); //create from glyph
+            //_svgRenderVx = CreateTestRenderVx_FromImg("d:\\WImageTest\\alpha1.png"); 
+            _svgRenderVx = CreateTestRenderVx_FromGlyph('a', 256); //create from glyph
             //PixelFarm.CpuBlit.RectD org_rectD = _svgRenderVx.GetBounds(); 
             //_svgRenderVx = CreateEllipseVxs(org_rectD);
 
@@ -179,10 +182,16 @@ namespace LayoutFarm
             _quadController.BuildControlBoxes();
             _quadController.UpdateTransformTarget += (s1, e1) =>
             {
-                _uiSprite.SetTransformation(_quadController.GetCoordTransformer()); //set transformation 
+                 
+
+                //after quadController is updated then 
+                //we use the coordTransformer to transform target uiSprite
+                _uiSprite.SetTransformation(_quadController.GetCoordTransformer());
+                _uiSprite.InvalidateOuterGraphics();
                 if (_quadController.Left != 0 || _quadController.Top != 0)
                 {
                     _uiSprite.SetLocation(_quadController.Left, _quadController.Top);
+                    _uiSprite.InvalidateOuterGraphics();
                 }
             };
 
@@ -193,35 +202,11 @@ namespace LayoutFarm
             //_rectBoundsWidgetBox.SetLocation(10, 10);
             /////box1.dbugTag = 1;
             //SetupActiveBoxProperties(_rectBoundsWidgetBox);
-            //host.AddChild(_rectBoundsWidgetBox);
-
-
-
+            //host.AddChild(_rectBoundsWidgetBox); 
             //_quadController.Visible = _quadPolygonController.Visible = false;
             //_rectBoxController.Init();
 
-            //VgRenderVx svgRenderVx = CreateTestRenderVx(); //create from svg
-            //test...
-            //1. scale svg to fix the 'src rect'  
-            //2. then transform to the 'dest rect' 
-
             PixelFarm.CpuBlit.RectD svg_bounds = _svgRenderVx.GetRectBounds();
-
-            //double w_scale = src_w / svg_bounds.Width;
-            //double h_scale = src_h / svg_bounds.Height;
-
-            //double actualXOffset = -svg_bounds.Left;
-            //double actualYOffset = -svg_bounds.Bottom;
-
-            //Affine scaleMat = Affine.NewMatix(
-            //    AffinePlan.Translate(
-            //        actualXOffset - svg_bounds.Width / 2, //move to its middle point
-            //        actualYOffset - svg_bounds.Height / 2),//move to its middle point
-            //    AffinePlan.Scale(w_scale, h_scale),
-            //    AffinePlan.Translate(
-            //        -(actualXOffset - svg_bounds.Width / 2) * w_scale,//move back
-            //        -(actualYOffset - svg_bounds.Height / 2) * h_scale)); //move back
-
             //ICoordTransformer tx = ((ICoordTransformer)_bilinearTx).MultiplyWith(scaleMat);
             ICoordTransformer tx = _quadController.GetCoordTransformer();
             //svgRenderVx._coordTx = tx; 
@@ -229,16 +214,17 @@ namespace LayoutFarm
             //host.AddChild(_quadController);
             //host.AddChild(_quadPolygonController);
             //VgRenderVx svgRenderVx = CreateTestRenderVx(); 
+
             //test transform svgRenderVx 
+
             _svgRenderVx.DisableBackingImage = true;
+
+
+            //-----------------------------------------             
             _uiSprite = new UISprite(10, 10); //init size = (10,10), location=(0,0)       
             _uiSprite.DisableBmpCache = true;
             _uiSprite.LoadVg(_svgRenderVx);// 
             _uiSprite.SetTransformation(tx); //set transformation
-
-
-
-
             host.AddChild(_uiSprite);
             //-----------------------------------------
             host.AddChild(_quadController);
@@ -255,6 +241,8 @@ namespace LayoutFarm
                 if (e1.IsDragging)
                 {
                     //when drag on sprie 
+                   
+
                     _uiSprite.InvalidateOuterGraphics();
                     _uiSprite.SetLocation(
                         _uiSprite.Left + e1.XDiff,
@@ -290,14 +278,18 @@ namespace LayoutFarm
 
                 if (_hitTestOnSubPath)
                 {
+                    //find which part ...
                     VgHitInfo hitInfo = _uiSprite.FindRenderElementAtPos(e1.X, e1.Y, true);
+
                     if (hitInfo.svg != null &&
                         hitInfo.svg._vxsPath != null)
                     {
 
                         PixelFarm.CpuBlit.RectD bounds = hitInfo.copyOfVxs.GetBoundingRect();
-                        _quadPolygonController.ClearControlPoints();
-                        _quadPolygonController.UpdateControlPoints(hitInfo.copyOfVxs,
+
+                        _quadPolygonController.ClearControlPoints();//clear old control points
+                        _quadPolygonController.UpdateControlPoints( //create new control points
+                            hitInfo.copyOfVxs,
                             _uiSprite.ActualXOffset, _uiSprite.ActualYOffset);
 
                         ////move redbox and its controller

@@ -82,9 +82,7 @@ namespace LayoutFarm
         }
 
 
-        double _src_left, _src_top, _src_w, _src_h;
-
-
+        double _src_left, _src_top, _src_w, _src_h; 
         bool _setDestRect;
 
         //-------------------
