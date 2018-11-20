@@ -11,7 +11,9 @@ using PaintLab.Svg;
 namespace LayoutFarm.UI
 {
 
-
+    /// <summary>
+    /// RenderElement that wrap VgVisualElement 
+    /// </summary>
     class VgBridgeRenderElement : RenderElement
     {
         PaintLab.Svg.VgRenderVx _vgRenderVx;
@@ -330,7 +332,7 @@ namespace LayoutFarm.UI
             SetElementBoundsWH(width, height);
             this.AutoStopMouseEventPropagation = true;
         }
-    
+
         public bool EnableSubSvgTest
         {
             get
