@@ -857,18 +857,16 @@ namespace LayoutFarm
                 LoadVg(CreateQuadVgFromSrcRect());
             }
         }
-        //
-        VgRenderVx _svgRenderVx;
+
         VgVisualElement _renderE;
         VertexStore _outlineVxs;
         internal VertexStore OutlineVxs => _outlineVxs;
 
-        VgRenderVx CreateQuadVgFromSrcRect()
+        VgVisualElement CreateQuadVgFromSrcRect()
         {
             var spec = new SvgPathSpec() { FillColor = Color.Aqua };
             VgDocRoot renderRoot = new VgDocRoot();
             VgVisualElement renderE = new VgVisualElement(WellknownSvgElementName.Path, spec, renderRoot);
-            VgRenderVx svgRenderVx = new VgRenderVx(renderE);
 
             using (VectorToolBox.Borrow(out SimpleRect rect))
             using (VxsTemp.Borrow(out VertexStore v1))
@@ -880,18 +878,16 @@ namespace LayoutFarm
                 //
                 _outlineVxs = renderE._vxsPath = v1.CreateTrim();
                 _renderE = renderE;
-                _svgRenderVx = svgRenderVx;
 
             }
-            return svgRenderVx;
+            return _renderE;
         }
 
-        VgRenderVx CreateQuadVgFromDestQuad()
+        VgVisualElement CreateQuadVgFromDestQuad()
         {
             var spec = new SvgPathSpec() { FillColor = Color.Green };
             VgDocRoot renderRoot = new VgDocRoot();
             VgVisualElement renderE = new VgVisualElement(WellknownSvgElementName.Path, spec, renderRoot);
-            VgRenderVx svgRenderVx = new VgRenderVx(renderE);
 
 
             using (VxsTemp.Borrow(out var v1, out var v2))
@@ -911,9 +907,9 @@ namespace LayoutFarm
                 //
                 renderE._vxsPath = v2.CreateTrim();
                 _renderE = renderE;
-                _svgRenderVx = svgRenderVx;
+
             }
-            return svgRenderVx;
+            return _renderE;
         }
         public void SetDestQuad(
             double x0, double y0,
@@ -1263,9 +1259,9 @@ namespace LayoutFarm
 
     }
 
-    public static class VgRenderVxHelper
+    public static class VgVisualElemHelper
     {
-        public static VgRenderVx CreateVgRenderVxFromSvgContent(string svgContent)
+        public static VgVisualElement CreateVgVisualElemFromSvgContent(string svgContent)
         {
 
             SvgDocBuilder docBuidler = new SvgDocBuilder();
@@ -1274,12 +1270,12 @@ namespace LayoutFarm
             parser.ParseDocument(textSnapshot);//start document parsing
 
             //TODO: review this step again
-            VgRenderVxDocBuilder builder = new VgRenderVxDocBuilder();
+            VgDocBuilder builder = new VgDocBuilder();
             SvgDocument svgDoc = docBuidler.ResultDocument;
             //optional 
             svgDoc.OriginalContent = svgContent;
             //-------------------------------------------------------------
-            VgRenderVx renderVx = builder.CreateRenderVx(svgDoc, svgElem =>
+            VgVisualElement renderVx = builder.CreateVgVisualElem(svgDoc, svgElem =>
             {
             });
             //
@@ -1288,10 +1284,10 @@ namespace LayoutFarm
 
             return renderVx;
         }
-        public static VgRenderVx ReadSvgFile(string filename)
+        public static VgVisualElement ReadSvgFile(string filename)
         {
 
-            VgRenderVx vgx = CreateVgRenderVxFromSvgContent(System.IO.File.ReadAllText(filename));
+            VgVisualElement vgx = CreateVgVisualElemFromSvgContent(System.IO.File.ReadAllText(filename));
             vgx.OwnerDocument.OriginalFilename = filename;
             return vgx;
         }

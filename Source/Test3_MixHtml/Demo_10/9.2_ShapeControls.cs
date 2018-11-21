@@ -17,7 +17,7 @@ namespace LayoutFarm
         PolygonControllerUI _quadPolygonController = new PolygonControllerUI();
 
 
-        VgRenderVx CreateTestRenderVx_FromSvg()
+        VgVisualElement CreateTestRenderVx_FromSvg()
         {
             //string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/others/cat_simple.svg";
             //string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/others/cat_complex.svg";
@@ -27,10 +27,10 @@ namespace LayoutFarm
             //string svgfile = "1f30b.svg";
             //string svgfile = "../Data/Svg/twemoji/1f30b.svg";
             //string svgfile = "../Data/1f30b.svg";
-            //string svgfile = "../Data/Svg/twemoji/1f370.svg";
-            return VgRenderVxHelper.ReadSvgFile(svgfile);
+            //string svgfile = "../Data/Svg/twemoji/1f370.svg"; 
+            return VgVisualElemHelper.ReadSvgFile(svgfile);
         }
-        VgRenderVx CreateEllipseVxs(PixelFarm.CpuBlit.RectD newBounds)
+        VgVisualElement CreateEllipseVxs(PixelFarm.CpuBlit.RectD newBounds)
         {
             using (VxsTemp.Borrow(out var v1))
             using (VectorToolBox.Borrow(out Ellipse ellipse))
@@ -44,18 +44,17 @@ namespace LayoutFarm
                 var spec = new SvgPathSpec() { FillColor = Color.Red };
                 VgDocRoot renderRoot = new VgDocRoot();
                 VgVisualElement renderE = new VgVisualElement(WellknownSvgElementName.Path, spec, renderRoot);
-                VgRenderVx svgRenderVx = new VgRenderVx(renderE);
                 renderE._vxsPath = ellipse.MakeVxs(v1).CreateTrim();
-                return svgRenderVx;
+                return renderE;
             }
 
         }
-        VgRenderVx CreateTestRenderVx_BasicShape()
+        VgVisualElement CreateTestRenderVx_BasicShape()
         {
             var spec = new SvgPathSpec() { FillColor = Color.Red };
             VgDocRoot renderRoot = new VgDocRoot();
             VgVisualElement renderE = new VgVisualElement(WellknownSvgElementName.Path, spec, renderRoot);
-            VgRenderVx svgRenderVx = new VgRenderVx(renderE);
+
 
             using (VxsTemp.Borrow(out VertexStore vxs))
             {
@@ -68,7 +67,7 @@ namespace LayoutFarm
                 renderE._vxsPath = vxs.CreateTrim();
             }
 
-            return svgRenderVx;
+            return renderE;
         }
 
         static void LoadRawImg(ImageBinder binder, VgVisualElement vg, object o)
@@ -79,7 +78,7 @@ namespace LayoutFarm
 
             }
         }
-        VgRenderVx CreateTestRenderVx_FromImg(string filename)
+        VgVisualElement CreateTestRenderVx_FromImg(string filename)
         {
 
             var spec = new SvgImageSpec()
@@ -97,8 +96,8 @@ namespace LayoutFarm
             vgimg.ImageBinder = _appHost.LoadImageAndBind(filename);
 
 
-            VgRenderVx svgRenderVx = new VgRenderVx(vgimg);
-            svgRenderVx.GetRectBounds();
+            //VgRenderVx svgRenderVx = new VgRenderVx(vgimg);
+            //svgRenderVx.GetRectBounds();
             //using (VxsTemp.Borrow(out VertexStore vxs))
             //{
             //    //red-triangle ***
@@ -110,11 +109,11 @@ namespace LayoutFarm
             //    renderE._vxsPath = vxs.CreateTrim();
             //}
 
-            return svgRenderVx;
+            return vgimg;
         }
 
         Typography.Contours.GlyphMeshStore _glyphMaskStore = new Typography.Contours.GlyphMeshStore();
-        VgRenderVx CreateTestRenderVx_FromGlyph(char c, float sizeInPts)
+        VgVisualElement CreateTestRenderVx_FromGlyph(char c, float sizeInPts)
         {
             //create vgrender vx from font-glyph
             string fontfile = "../Test8_HtmlRenderer.Demo/Samples/Fonts/SOV_Thanamas.ttf";
@@ -134,7 +133,6 @@ namespace LayoutFarm
             var spec = new SvgPathSpec() { FillColor = Color.Red };
             VgDocRoot renderRoot = new VgDocRoot();
             VgVisualElement renderE = new VgVisualElement(WellknownSvgElementName.Path, spec, renderRoot);
-            VgRenderVx svgRenderVx = new VgRenderVx(renderE);
 
 
             //offset the original vxs to (0,0) bounds
@@ -146,15 +144,13 @@ namespace LayoutFarm
             PixelFarm.CpuBlit.RectD bounds = vxs.GetBoundingRect();
             Affine translate = Affine.NewTranslation(-bounds.Left, -bounds.Bottom);
             renderE._vxsPath = vxs.CreateTrim(translate);
-            return svgRenderVx;
+            return renderE;
         }
 
         bool _hitTestOnSubPath = false;
-        VgRenderVx _svgRenderVx;
         UISprite _uiSprite;
         AppHost _appHost;
-
-
+        VgVisualElement _vgVisualElem;
 
         protected override void OnStart(AppHost host)
         {
@@ -164,11 +160,11 @@ namespace LayoutFarm
             //_svgRenderVx = CreateTestRenderVx_FromSvg();
             //_svgRenderVx = CreateTestRenderVx_BasicShape();
             //_svgRenderVx = CreateTestRenderVx_FromImg("d:\\WImageTest\\alpha1.png"); 
-            _svgRenderVx = CreateTestRenderVx_FromGlyph('a', 256); //create from glyph
+            _vgVisualElem = CreateTestRenderVx_FromGlyph('a', 256); //create from glyph
             //PixelFarm.CpuBlit.RectD org_rectD = _svgRenderVx.GetBounds(); 
             //_svgRenderVx = CreateEllipseVxs(org_rectD);
 
-            PixelFarm.CpuBlit.RectD org_rectD = _svgRenderVx.GetRectBounds();
+            PixelFarm.CpuBlit.RectD org_rectD = _vgVisualElem.GetRectBounds();
             org_rectD.Offset(-org_rectD.Left, -org_rectD.Bottom);
             //
             _quadController.SetSrcRect(org_rectD.Left, org_rectD.Bottom, org_rectD.Right, org_rectD.Top);
@@ -182,7 +178,7 @@ namespace LayoutFarm
             _quadController.BuildControlBoxes();
             _quadController.UpdateTransformTarget += (s1, e1) =>
             {
-                 
+
 
                 //after quadController is updated then 
                 //we use the coordTransformer to transform target uiSprite
@@ -206,7 +202,7 @@ namespace LayoutFarm
             //_quadController.Visible = _quadPolygonController.Visible = false;
             //_rectBoxController.Init();
 
-            PixelFarm.CpuBlit.RectD svg_bounds = _svgRenderVx.GetRectBounds();
+            PixelFarm.CpuBlit.RectD svg_bounds = _vgVisualElem.GetRectBounds();
             //ICoordTransformer tx = ((ICoordTransformer)_bilinearTx).MultiplyWith(scaleMat);
             ICoordTransformer tx = _quadController.GetCoordTransformer();
             //svgRenderVx._coordTx = tx; 
@@ -217,13 +213,13 @@ namespace LayoutFarm
 
             //test transform svgRenderVx 
 
-            _svgRenderVx.DisableBackingImage = true;
+            _vgVisualElem.DisableBackingImage = true;
 
 
             //-----------------------------------------             
             _uiSprite = new UISprite(10, 10); //init size = (10,10), location=(0,0)       
             _uiSprite.DisableBmpCache = true;
-            _uiSprite.LoadVg(_svgRenderVx);// 
+            _uiSprite.LoadVg(_vgVisualElem);// 
             _uiSprite.SetTransformation(tx); //set transformation
             host.AddChild(_uiSprite);
             //-----------------------------------------
@@ -241,7 +237,7 @@ namespace LayoutFarm
                 if (e1.IsDragging)
                 {
                     //when drag on sprie 
-                   
+
 
                     _uiSprite.InvalidateOuterGraphics();
                     _uiSprite.SetLocation(
