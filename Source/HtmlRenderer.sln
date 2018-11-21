@@ -62,6 +62,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaintLab.Svg", "..\..\Pixel
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "WinFormTestBed2", "..\..\PixelFarm\src\Tests\WinFormTestBed2\WinFormTestBed2.shproj", "{5CF69768-3249-45D4-8BE3-B686F88C4EA0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaintLab.Sprite", "PaintLab.Sprite\PaintLab.Sprite.csproj", "{5C694901-F73A-4AB7-9FA6-024DD591C33E}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		..\..\PixelFarm\src\Tests\WinFormTestBed2\WinFormTestBed2.projitems*{14840a73-6d38-4a2a-a71c-f84dc4fb4620}*SharedItemsImports = 4
@@ -425,6 +427,24 @@ Global
 		{466DD2AE-EADC-4E20-82B3-DA6D018006C5}.Release64|Mixed Platforms.Build.0 = Release|Any CPU
 		{466DD2AE-EADC-4E20-82B3-DA6D018006C5}.Release64|x86.ActiveCfg = Release|Any CPU
 		{466DD2AE-EADC-4E20-82B3-DA6D018006C5}.Release64|x86.Build.0 = Release|Any CPU
+		{5C694901-F73A-4AB7-9FA6-024DD591C33E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C694901-F73A-4AB7-9FA6-024DD591C33E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C694901-F73A-4AB7-9FA6-024DD591C33E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{5C694901-F73A-4AB7-9FA6-024DD591C33E}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{5C694901-F73A-4AB7-9FA6-024DD591C33E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5C694901-F73A-4AB7-9FA6-024DD591C33E}.Debug|x86.Build.0 = Debug|Any CPU
+		{5C694901-F73A-4AB7-9FA6-024DD591C33E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C694901-F73A-4AB7-9FA6-024DD591C33E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C694901-F73A-4AB7-9FA6-024DD591C33E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{5C694901-F73A-4AB7-9FA6-024DD591C33E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{5C694901-F73A-4AB7-9FA6-024DD591C33E}.Release|x86.ActiveCfg = Release|Any CPU
+		{5C694901-F73A-4AB7-9FA6-024DD591C33E}.Release|x86.Build.0 = Release|Any CPU
+		{5C694901-F73A-4AB7-9FA6-024DD591C33E}.Release64|Any CPU.ActiveCfg = Release|Any CPU
+		{5C694901-F73A-4AB7-9FA6-024DD591C33E}.Release64|Any CPU.Build.0 = Release|Any CPU
+		{5C694901-F73A-4AB7-9FA6-024DD591C33E}.Release64|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{5C694901-F73A-4AB7-9FA6-024DD591C33E}.Release64|Mixed Platforms.Build.0 = Release|Any CPU
+		{5C694901-F73A-4AB7-9FA6-024DD591C33E}.Release64|x86.ActiveCfg = Release|Any CPU
+		{5C694901-F73A-4AB7-9FA6-024DD591C33E}.Release64|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -451,6 +471,7 @@ Global
 		{15E44653-B4A9-40D5-9FCD-4BA476D80B12} = {C65EA1B4-7D9E-4AD0-AAA7-A6A105139866}
 		{466DD2AE-EADC-4E20-82B3-DA6D018006C5} = {7C48D8C8-22E8-43DB-9118-DB8A849B9D70}
 		{5CF69768-3249-45D4-8BE3-B686F88C4EA0} = {C3BA1377-B139-4BD6-A0D1-F486FB6E29BE}
+		{5C694901-F73A-4AB7-9FA6-024DD591C33E} = {C3BA1377-B139-4BD6-A0D1-F486FB6E29BE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8E122BCF-9C21-4ED3-ADDC-19E7F173F4BF}

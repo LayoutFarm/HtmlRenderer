@@ -73,9 +73,6 @@
     <Compile Include="Demo_09\9.1_SvgTiger.cs" />
     <Compile Include="Demo_10\9.2_ShapeControls.cs" />
     <Compile Include="Demo_09\9.3_Demo_SvgViewer.cs" />
-    <Compile Include="Demo_09\SpriteElement.cs" />
-    <Compile Include="Demo_09\UISprite.cs" />
-    <Compile Include="Demo_10\ShapeControllers.cs" />
     <Compile Include="HtmlHostCreatorHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -92,6 +89,10 @@
     <ProjectReference Include="..\LayoutFarm.YourHtmlWidget\LayoutFarm.YourHtmlWidget.csproj">
       <Project>{9a73d7be-c7f0-47a8-8fd4-2906c4917148}</Project>
       <Name>LayoutFarm.YourHtmlWidget</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PaintLab.Sprite\PaintLab.Sprite.csproj">
+      <Project>{5c694901-f73a-4ab7-9fa6-024dd591c33e}</Project>
+      <Name>PaintLab.Sprite</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

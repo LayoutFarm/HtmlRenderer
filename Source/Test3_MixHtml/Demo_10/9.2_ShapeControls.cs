@@ -21,19 +21,6 @@ namespace LayoutFarm
         VgVisualElement _vgVisualElem;
 
 
-        VgVisualElement CreateTestRenderVx_FromSvg()
-        {
-            //string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/others/cat_simple.svg";
-            //string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/others/cat_complex.svg";
-            //string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/others/lion.svg";
-            string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/others/tiger.svg";
-            //string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/freepik/dog1.svg";
-            //string svgfile = "1f30b.svg";
-            //string svgfile = "../Data/Svg/twemoji/1f30b.svg";
-            //string svgfile = "../Data/1f30b.svg";
-            //string svgfile = "../Data/Svg/twemoji/1f370.svg"; 
-            return VgVisualElemHelper.ReadSvgFile(svgfile);
-        }
         VgVisualElement CreateEllipseVxs(PixelFarm.CpuBlit.RectD newBounds)
         {
             using (VxsTemp.Borrow(out var v1))
@@ -94,25 +81,8 @@ namespace LayoutFarm
 
             VgDocRoot renderRoot = new VgDocRoot();
             renderRoot.ImgRequestHandler = LoadRawImg;
-
-
             VgVisualElement vgimg = new VgVisualElement(WellknownSvgElementName.Image, spec, renderRoot);
             vgimg.ImageBinder = _appHost.LoadImageAndBind(filename);
-
-
-            //VgRenderVx svgRenderVx = new VgRenderVx(vgimg);
-            //svgRenderVx.GetRectBounds();
-            //using (VxsTemp.Borrow(out VertexStore vxs))
-            //{
-            //    //red-triangle ***
-            //    vxs.AddMoveTo(10, 10);
-            //    vxs.AddLineTo(60, 10);
-            //    vxs.AddLineTo(60, 30);
-            //    vxs.AddLineTo(10, 30);
-            //    vxs.AddCloseFigure();
-            //    renderE._vxsPath = vxs.CreateTrim();
-            //}
-
             return vgimg;
         }
 
@@ -151,12 +121,23 @@ namespace LayoutFarm
             return renderE;
         }
 
-      
+
 
         protected override void OnStart(AppHost host)
         {
             _appHost = host;//** 
 
+            //string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/others/cat_simple.svg";
+            //string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/others/cat_complex.svg";
+            //string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/others/lion.svg";
+            string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/others/tiger.svg";
+            //return VgVisualElemHelper.ReadSvgFile(svgfile);
+
+            //string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/freepik/dog1.svg";
+            //string svgfile = "1f30b.svg";
+            //string svgfile = "../Data/Svg/twemoji/1f30b.svg";
+            //string svgfile = "../Data/1f30b.svg";
+            //string svgfile = "../Data/Svg/twemoji/1f370.svg";  
 
             //_svgRenderVx = CreateTestRenderVx_FromSvg();
             //_svgRenderVx = CreateTestRenderVx_BasicShape();
