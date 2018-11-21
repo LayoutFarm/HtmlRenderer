@@ -79,7 +79,7 @@ namespace LayoutFarm.HtmlBoxes
 
                 using (VgPainterArgsPool.Borrow(painter, out var paintArgs))
                 {
-                    if (_vgVisualElem._coordTx != null)
+                    if (_vgVisualElem.CoordTx != null)
                     {
 
                     }
@@ -119,7 +119,7 @@ namespace LayoutFarm.HtmlBoxes
 
                 using (VgPainterArgsPool.Borrow(painter, out VgPaintArgs paintArgs))
                 {
-                    if (_vgVisualElem._coordTx != null)
+                    if (_vgVisualElem.CoordTx != null)
                     {
 
                     }

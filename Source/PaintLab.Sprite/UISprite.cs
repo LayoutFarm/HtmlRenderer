@@ -257,16 +257,16 @@ namespace LayoutFarm.UI
 
             using (VgPainterArgsPool.Borrow(painter, out VgPaintArgs paintArgs))
             {
-                if (vgVisualElem._coordTx != null)
+                if (vgVisualElem.CoordTx != null)
                 {
                     //transform ?
                     if (paintArgs._currentTx == null)
                     {
-                        paintArgs._currentTx = vgVisualElem._coordTx;
+                        paintArgs._currentTx = vgVisualElem.CoordTx;
                     }
                     else
                     {
-                        paintArgs._currentTx = paintArgs._currentTx.MultiplyWith(vgVisualElem._coordTx);
+                        paintArgs._currentTx = paintArgs._currentTx.MultiplyWith(vgVisualElem.CoordTx);
                     }
 
                 }
@@ -540,7 +540,7 @@ namespace LayoutFarm.UI
         {
 
             _tx = tx;
-            _vgVisualElem._coordTx = tx;
+            _vgVisualElem.CoordTx = tx;
             _vgVisualElem.InvalidateBounds();
 
 

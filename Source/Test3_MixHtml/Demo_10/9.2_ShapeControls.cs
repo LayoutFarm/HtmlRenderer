@@ -35,7 +35,7 @@ namespace LayoutFarm
                 var spec = new SvgPathSpec() { FillColor = Color.Red };
                 VgDocRoot renderRoot = new VgDocRoot();
                 VgVisualElement renderE = new VgVisualElement(WellknownSvgElementName.Path, spec, renderRoot);
-                renderE._vxsPath = ellipse.MakeVxs(v1).CreateTrim();
+                renderE.VxsPath = ellipse.MakeVxs(v1).CreateTrim();
                 return renderE;
             }
 
@@ -55,7 +55,7 @@ namespace LayoutFarm
                 vxs.AddLineTo(60, 30);
                 vxs.AddLineTo(10, 30);
                 vxs.AddCloseFigure();
-                renderE._vxsPath = vxs.CreateTrim();
+                renderE.VxsPath = vxs.CreateTrim();
             }
 
             return renderE;
@@ -117,7 +117,7 @@ namespace LayoutFarm
 
             PixelFarm.CpuBlit.RectD bounds = vxs.GetBoundingRect();
             Affine translate = Affine.NewTranslation(-bounds.Left, -bounds.Bottom);
-            renderE._vxsPath = vxs.CreateTrim(translate);
+            renderE.VxsPath = vxs.CreateTrim(translate);
             return renderE;
         }
 
@@ -260,7 +260,7 @@ namespace LayoutFarm
                     VgHitInfo hitInfo = _uiSprite.FindRenderElementAtPos(e1.X, e1.Y, true);
 
                     if (hitInfo.hitElem != null &&
-                        hitInfo.hitElem._vxsPath != null)
+                        hitInfo.hitElem.VxsPath != null)
                     {
 
                         PixelFarm.CpuBlit.RectD bounds = hitInfo.copyOfVxs.GetBoundingRect();

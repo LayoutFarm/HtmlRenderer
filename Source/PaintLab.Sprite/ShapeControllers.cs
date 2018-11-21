@@ -876,7 +876,7 @@ namespace LayoutFarm
                 rect.MakeVxs(v1);
 
                 //
-                _outlineVxs = renderE._vxsPath = v1.CreateTrim();
+                _outlineVxs = renderE.VxsPath = v1.CreateTrim();
                 _renderE = renderE;
 
             }
@@ -905,7 +905,7 @@ namespace LayoutFarm
                 stroke.MakeVxs(v1, v2); //create stroke path around v1
 
                 //
-                renderE._vxsPath = v2.CreateTrim();
+                renderE.VxsPath = v2.CreateTrim();
                 _renderE = renderE;
 
             }
