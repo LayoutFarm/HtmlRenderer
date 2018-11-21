@@ -376,7 +376,7 @@ namespace LayoutFarm.UI
 
 
 
-        internal VgBridgeRenderElement VgBridgeRenderElement => _vgBridgeRenderElement;
+
         public VgVisualElement VgVisualElem => _vgVisualElem;
 
 
@@ -538,6 +538,7 @@ namespace LayoutFarm.UI
                _b_x3, _b_y3; //bottom -left
 
         //post transform bounds
+        public PixelFarm.CpuBlit.VertexProcessing.ICoordTransformer TransformMatrix => _tx;
         RectD _post_TransformRectBounds;
         public void SetTransformation(PixelFarm.CpuBlit.VertexProcessing.ICoordTransformer tx)
         {
@@ -572,11 +573,7 @@ namespace LayoutFarm.UI
                 PixelFarm.CpuBlit.VertexProcessing.BoundingRect.GetBoundingRect(_b_x3, _b_y3, ref _post_TransformRectBounds);
 
             }
-
-            if (_vgVisualElem != null)
-            {
-
-            }
+             
 
             if (_vgBridgeRenderElement != null)
             {
