@@ -374,11 +374,7 @@ namespace LayoutFarm.UI
             }
         }
 
-
-
-
-        public VgVisualElement VgVisualElem => _vgVisualElem;
-
+         
 
         //--------------------
         public void BringToTopMost()

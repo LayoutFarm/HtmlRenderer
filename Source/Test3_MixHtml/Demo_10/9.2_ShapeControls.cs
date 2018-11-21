@@ -259,8 +259,8 @@ namespace LayoutFarm
                     //find which part ...
                     VgHitInfo hitInfo = _uiSprite.FindRenderElementAtPos(e1.X, e1.Y, true);
 
-                    if (hitInfo.svg != null &&
-                        hitInfo.svg._vxsPath != null)
+                    if (hitInfo.hitElem != null &&
+                        hitInfo.hitElem._vxsPath != null)
                     {
 
                         PixelFarm.CpuBlit.RectD bounds = hitInfo.copyOfVxs.GetBoundingRect();
