@@ -1275,14 +1275,14 @@ namespace LayoutFarm
             //optional 
             svgDoc.OriginalContent = svgContent;
             //-------------------------------------------------------------
-            VgVisualElement renderVx = builder.CreateVgVisualElem(svgDoc, svgElem =>
+            VgVisualElement vgVisRootElem = builder.CreateVgVisualElem(svgDoc, svgElem =>
             {
-            });
+            }).VgRootElem;
             //
-            renderVx.OwnerDocument = svgDoc;//tmp
+            vgVisRootElem.OwnerDocument = svgDoc;//tmp
 
 
-            return renderVx;
+            return vgVisRootElem;
         }
         public static VgVisualElement ReadSvgFile(string filename)
         {

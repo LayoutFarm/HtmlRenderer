@@ -332,6 +332,7 @@ namespace LayoutFarm.UI
             SetElementBoundsWH(width, height);
             this.AutoStopMouseEventPropagation = true;
         }
+        public VgVisualElement VgVisualElem => _vgVisualElem;
 
         public bool EnableSubSvgTest
         {
@@ -374,7 +375,7 @@ namespace LayoutFarm.UI
             }
         }
 
-         
+
 
         //--------------------
         public void BringToTopMost()
@@ -569,7 +570,7 @@ namespace LayoutFarm.UI
                 PixelFarm.CpuBlit.VertexProcessing.BoundingRect.GetBoundingRect(_b_x3, _b_y3, ref _post_TransformRectBounds);
 
             }
-             
+
 
             if (_vgBridgeRenderElement != null)
             {

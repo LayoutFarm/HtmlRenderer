@@ -32,7 +32,8 @@ namespace LayoutFarm
             //string svgfile = "../Data/1f30b.svg";
             //string svgfile = "../Data/Svg/twemoji/1f370.svg";
 
-            VgVisualElement vgVisElem = ReadSvgFile(svgfile);
+            VgDocRoot vgDocRoot = ReadSvgFile(svgfile);
+            VgVisualElement vgVisElem = vgDocRoot.VgRootElem;
             var uiSprite = new UISprite(10, 10);
             uiSprite.LoadVg(vgVisElem);
             _backBoard.AddChild(uiSprite);
@@ -110,7 +111,7 @@ namespace LayoutFarm
                 }
             };
         }
-        VgVisualElement ReadSvgFile(string filename)
+        VgDocRoot ReadSvgFile(string filename)
         {
 
             string svgContent = System.IO.File.ReadAllText(filename);

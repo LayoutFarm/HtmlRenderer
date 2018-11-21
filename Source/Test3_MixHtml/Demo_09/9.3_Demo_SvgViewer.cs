@@ -14,7 +14,7 @@ namespace LayoutFarm.ColorBlenderSample
 
         ListView _lstvw_svgFiles;
         BackDrawBoardUI _backBoard;
-        SvgParser parser;
+
 
 
 
@@ -81,7 +81,7 @@ namespace LayoutFarm.ColorBlenderSample
         void ParseAndRenderSvgFile(string svgFile)
         {
             var docBuilder = new SvgDocBuilder();
-            parser = new SvgParser(docBuilder);
+            var parser = new SvgParser(docBuilder);
 
             string svgContent = System.IO.File.ReadAllText(svgFile);
             WebLexer.TextSnapshot textSnapshot = new WebLexer.TextSnapshot(svgContent);
@@ -91,7 +91,7 @@ namespace LayoutFarm.ColorBlenderSample
             builder.SetLoadImageHandler(ImgBinderLoadImg);
             //
             //
-            VgVisualElement vgVisElem = builder.CreateVgVisualElem(docBuilder.ResultDocument, null);
+            VgVisualElement vgVisElem = builder.CreateVgVisualElem(docBuilder.ResultDocument, null).VgRootElem;
 
             var uiSprite = new UISprite(10, 10);
             var evListener = new GeneralEventListener();

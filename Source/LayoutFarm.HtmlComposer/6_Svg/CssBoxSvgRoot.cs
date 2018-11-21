@@ -27,7 +27,11 @@ namespace LayoutFarm.HtmlBoxes
         }
         public override void CustomRecomputedValue(CssBox containingBlock)
         {
-            //TODO: review here => why we need to re-create all 
+            //TODO: review here again***
+            //recreate entire dom?
+            //why we need to re-create all 
+
+
             var vgDocBuilder = new VgDocBuilder();
             vgDocBuilder.SetLoadImageHandler((ImageBinder reqImgBinder, VgVisualElement vgVisualE, object o) =>
             {
@@ -35,13 +39,14 @@ namespace LayoutFarm.HtmlBoxes
             });
             //
             vgDocBuilder.SetContainerSize(containingBlock.VisualWidth, containingBlock.VisualHeight);
-            //
+
+
             _vgVisualElem = vgDocBuilder.CreateVgVisualElem(SvgDoc, svgElem =>
             {
                 _vgVisualElem.SetBitmapSnapshot(null);
                 _vgVisualElem.InvalidateBounds();
                 this.InvalidateGraphics();
-            });
+            }).VgRootElem;
 
             this.SetVisualSize(500, 500); //TODO: review here
         }
