@@ -87,12 +87,11 @@ namespace LayoutFarm.ColorBlenderSample
             WebLexer.TextSnapshot textSnapshot = new WebLexer.TextSnapshot(svgContent);
             parser.ParseDocument(textSnapshot);
             //
-            VgRenderVxDocBuilder builder = new VgRenderVxDocBuilder();
+            VgDocBuilder builder = new VgDocBuilder();
             builder.SetLoadImageHandler(ImgBinderLoadImg);
             //
             //
-            VgRenderVx svgRenderVx = builder.CreateRenderVx(docBuilder.ResultDocument, null);
-
+            VgVisualElement vgVisElem = builder.CreateVgVisualElem(docBuilder.ResultDocument, null);
 
             var uiSprite = new UISprite(10, 10);
             var evListener = new GeneralEventListener();
@@ -111,7 +110,7 @@ namespace LayoutFarm.ColorBlenderSample
             };
 
 
-            uiSprite.LoadVg(svgRenderVx);
+            uiSprite.LoadVg(vgVisElem);
 
             _backBoard.ClearChildren();
             _backBoard.AddChild(uiSprite);

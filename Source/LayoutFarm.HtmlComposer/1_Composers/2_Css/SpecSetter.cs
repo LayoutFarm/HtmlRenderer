@@ -356,8 +356,10 @@ namespace LayoutFarm.Composers
             //line height in <percentage> : 
             //The computed value if the property is percentage multiplied by the 
             //element's computed font size. 
+
+            
             return CssLength.MakePixelLength(
-                 CssValueParser.ConvertToPx(len, box.GetEmHeight(), box));
+                 LayoutFarm.WebDom.Parser.CssValueParser.ConvertToPx(len, box.GetEmHeight(), box));
         }
         static void SetCornerRadius(BoxSpec box, WebDom.CssCodeValueExpression value)
         {

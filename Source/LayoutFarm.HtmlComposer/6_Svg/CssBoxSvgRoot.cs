@@ -7,7 +7,7 @@ namespace LayoutFarm.HtmlBoxes
 
     public sealed class CssBoxSvgRoot : CssBox
     {
-        VgRenderVx _renderVx;
+        VgVisualElement _vgVisualElem;
         static LayoutFarm.OpenFontTextService s_openfontTextService;
 
 
@@ -28,18 +28,18 @@ namespace LayoutFarm.HtmlBoxes
         public override void CustomRecomputedValue(CssBox containingBlock)
         {
 
-            var renderVxDocBuilder = new VgRenderVxDocBuilder();
-            renderVxDocBuilder.SetLoadImageHandler((ImageBinder reqImgBinder, VgVisualElement vgVisualE, object o) =>
+            var vgDocBuilder = new VgDocBuilder();
+            vgDocBuilder.SetLoadImageHandler((ImageBinder reqImgBinder, VgVisualElement vgVisualE, object o) =>
             {
 
             });
             //
-            renderVxDocBuilder.SetContainerSize(containingBlock.VisualWidth, containingBlock.VisualHeight);
+            vgDocBuilder.SetContainerSize(containingBlock.VisualWidth, containingBlock.VisualHeight);
             //
-            _renderVx = renderVxDocBuilder.CreateRenderVx(SvgDoc, svgElem =>
+            _vgVisualElem = vgDocBuilder.CreateVgVisualElem(SvgDoc, svgElem =>
             {
-                _renderVx.SetBitmapSnapshot(null);
-                _renderVx.InvalidateBounds();
+                _vgVisualElem.SetBitmapSnapshot(null);
+                _vgVisualElem.InvalidateBounds();
                 this.InvalidateGraphics();
             });
 
@@ -79,11 +79,11 @@ namespace LayoutFarm.HtmlBoxes
 
                 using (VgPainterArgsPool.Borrow(painter, out var paintArgs))
                 {
-                    if (_renderVx._coordTx != null)
+                    if (_vgVisualElem._coordTx != null)
                     {
 
                     }
-                    _renderVx._vgVisualElement.Paint(paintArgs);
+                    _vgVisualElem.Paint(paintArgs);
                 }
 
 
@@ -94,15 +94,15 @@ namespace LayoutFarm.HtmlBoxes
             }
 
 
-            if (_renderVx.HasBitmapSnapshot)
+            if (_vgVisualElem.HasBitmapSnapshot)
             {
-                Image backimg = _renderVx.BackingImage;
+                Image backimg = _vgVisualElem.BackingImage;
                 drawBoard.DrawImage(backimg, new RectangleF(0, 0, backimg.Width, backimg.Height));
             }
             else
             {
 
-                PixelFarm.CpuBlit.RectD bound = _renderVx.GetRectBounds();
+                PixelFarm.CpuBlit.RectD bound = _vgVisualElem.GetRectBounds();
                 //create
                 PixelFarm.CpuBlit.MemBitmap backimg = new PixelFarm.CpuBlit.MemBitmap((int)bound.Width + 10, (int)bound.Height + 10);
                 PixelFarm.CpuBlit.AggPainter painter = PixelFarm.CpuBlit.AggPainter.Create(backimg);
@@ -119,11 +119,11 @@ namespace LayoutFarm.HtmlBoxes
 
                 using (VgPainterArgsPool.Borrow(painter, out VgPaintArgs paintArgs))
                 {
-                    if (_renderVx._coordTx != null)
+                    if (_vgVisualElem._coordTx != null)
                     {
 
                     }
-                    _renderVx._vgVisualElement.Paint(paintArgs);
+                    _vgVisualElem.Paint(paintArgs);
                 }
 
                 painter.StrokeWidth = prevStrokeW;//restore
@@ -132,7 +132,7 @@ namespace LayoutFarm.HtmlBoxes
                 //test 
                 //PixelFarm.CpuBlit.Imaging.PngImageWriter.dbugSaveToPngFile(backimg, "d:\\WImageTest\\subimg1.png");
 #endif
-                _renderVx.SetBitmapSnapshot(backimg);
+                _vgVisualElem.SetBitmapSnapshot(backimg);
                 drawBoard.DrawImage(backimg, new RectangleF(0, 0, backimg.Width, backimg.Height));
 
             }

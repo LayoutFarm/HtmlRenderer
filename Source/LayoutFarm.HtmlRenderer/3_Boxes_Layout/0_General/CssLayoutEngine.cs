@@ -16,6 +16,8 @@
 using System;
 using System.Collections.Generic;
 using LayoutFarm.Css;
+using LayoutFarm.WebDom.Parser;
+
 namespace LayoutFarm.HtmlBoxes
 {
     static class LinesFormattingEngine

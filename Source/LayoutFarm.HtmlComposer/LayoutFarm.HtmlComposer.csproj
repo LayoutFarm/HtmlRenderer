@@ -235,9 +235,6 @@
     <Compile Include="..\LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssSideAndOrientation.cs">
       <Link>8_REF_LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssSideAndOrientation.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssValueParser.cs">
-      <Link>8_REF_LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssValueParser.cs</Link>
-    </Compile>
     <Compile Include="..\LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\SelectionSegment.cs">
       <Link>8_REF_LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\SelectionSegment.cs</Link>
     </Compile>
