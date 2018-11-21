@@ -33,7 +33,7 @@ namespace LayoutFarm
 
 
                 var spec = new SvgPathSpec() { FillColor = Color.Red };
-                VgDocRoot renderRoot = new VgDocRoot();
+                VgRoot renderRoot = new VgRoot();
                 VgVisualElement renderE = new VgVisualElement(WellknownSvgElementName.Path, spec, renderRoot);
                 renderE.VxsPath = ellipse.MakeVxs(v1).CreateTrim();
                 return renderE;
@@ -43,7 +43,7 @@ namespace LayoutFarm
         VgVisualElement CreateTestRenderVx_BasicShape()
         {
             var spec = new SvgPathSpec() { FillColor = Color.Red };
-            VgDocRoot renderRoot = new VgDocRoot();
+            VgRoot renderRoot = new VgRoot();
             VgVisualElement renderE = new VgVisualElement(WellknownSvgElementName.Path, spec, renderRoot);
 
 
@@ -79,8 +79,9 @@ namespace LayoutFarm
                 Height = new Css.CssLength(50, Css.CssUnitOrNames.Pixels),
             };
 
-            VgDocRoot renderRoot = new VgDocRoot();
-            renderRoot.ImgRequestHandler = LoadRawImg;
+            VgRoot renderRoot = new VgRoot();
+            renderRoot.SetImgRequestDelgate(LoadRawImg);
+
             VgVisualElement vgimg = new VgVisualElement(WellknownSvgElementName.Image, spec, renderRoot);
             vgimg.ImageBinder = _appHost.LoadImageAndBind(filename);
             return vgimg;
@@ -105,7 +106,7 @@ namespace LayoutFarm
 
             VertexStore vxs = _glyphMaskStore.GetGlyphMesh(typeface.LookupIndex(c));
             var spec = new SvgPathSpec() { FillColor = Color.Red };
-            VgDocRoot renderRoot = new VgDocRoot();
+            VgRoot renderRoot = new VgRoot();
             VgVisualElement renderE = new VgVisualElement(WellknownSvgElementName.Path, spec, renderRoot);
 
 
