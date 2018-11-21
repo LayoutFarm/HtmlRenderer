@@ -27,7 +27,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         public override void CustomRecomputedValue(CssBox containingBlock)
         {
-
+            //TODO: review here => why we need to re-create all 
             var vgDocBuilder = new VgDocBuilder();
             vgDocBuilder.SetLoadImageHandler((ImageBinder reqImgBinder, VgVisualElement vgVisualE, object o) =>
             {
