@@ -15,6 +15,10 @@ namespace LayoutFarm
 
         QuadControllerUI _quadController = new QuadControllerUI();
         PolygonControllerUI _quadPolygonController = new PolygonControllerUI();
+        bool _hitTestOnSubPath = false;
+        UISprite _uiSprite;
+        AppHost _appHost;
+        VgVisualElement _vgVisualElem;
 
 
         VgVisualElement CreateTestRenderVx_FromSvg()
@@ -147,10 +151,7 @@ namespace LayoutFarm
             return renderE;
         }
 
-        bool _hitTestOnSubPath = false;
-        UISprite _uiSprite;
-        AppHost _appHost;
-        VgVisualElement _vgVisualElem;
+      
 
         protected override void OnStart(AppHost host)
         {
