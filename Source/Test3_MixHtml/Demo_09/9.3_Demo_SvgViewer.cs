@@ -91,7 +91,7 @@ namespace LayoutFarm.ColorBlenderSample
             builder.SetLoadImageHandler(ImgBinderLoadImg);
             //
             //
-            VgVisualElement vgVisElem = builder.CreateVgVisualElem(docBuilder.ResultDocument, null).VgRootElem;
+            VgVisualElement vgVisElem = builder.CreateVgVisualDoc(docBuilder.ResultDocument, null).VgRootElem;
 
             var uiSprite = new UISprite(10, 10);
             var evListener = new GeneralEventListener();

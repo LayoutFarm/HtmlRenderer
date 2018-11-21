@@ -41,7 +41,7 @@ namespace LayoutFarm.HtmlBoxes
             vgDocBuilder.SetContainerSize(containingBlock.VisualWidth, containingBlock.VisualHeight);
 
 
-            _vgVisualElem = vgDocBuilder.CreateVgVisualElem(SvgDoc, svgElem =>
+            _vgVisualElem = vgDocBuilder.CreateVgVisualDoc(SvgDoc, svgElem =>
             {
                 _vgVisualElem.SetBitmapSnapshot(null);
                 _vgVisualElem.InvalidateBounds();

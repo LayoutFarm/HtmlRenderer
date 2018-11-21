@@ -865,7 +865,7 @@ namespace LayoutFarm
         VgVisualElement CreateQuadVgFromSrcRect()
         {
             var spec = new SvgPathSpec() { FillColor = Color.Aqua };
-            VgDocRoot renderRoot = new VgDocRoot();
+            VgVisualDoc renderRoot = new VgVisualDoc();
             VgVisualElement renderE = new VgVisualElement(WellknownSvgElementName.Path, spec, renderRoot);
 
             using (VectorToolBox.Borrow(out SimpleRect rect))
@@ -886,7 +886,7 @@ namespace LayoutFarm
         VgVisualElement CreateQuadVgFromDestQuad()
         {
             var spec = new SvgPathSpec() { FillColor = Color.Green };
-            VgDocRoot renderRoot = new VgDocRoot();
+            VgVisualDoc renderRoot = new VgVisualDoc();
             VgVisualElement renderE = new VgVisualElement(WellknownSvgElementName.Path, spec, renderRoot);
 
 
@@ -1275,7 +1275,7 @@ namespace LayoutFarm
             //optional 
             svgDoc.OriginalContent = svgContent;
             //-------------------------------------------------------------
-            VgVisualElement vgVisRootElem = builder.CreateVgVisualElem(svgDoc, svgElem =>
+            VgVisualElement vgVisRootElem = builder.CreateVgVisualDoc(svgDoc, svgElem =>
             {
             }).VgRootElem;
             //
