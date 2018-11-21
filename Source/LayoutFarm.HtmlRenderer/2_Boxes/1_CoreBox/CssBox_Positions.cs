@@ -4,6 +4,8 @@
 using System;
 using PixelFarm.Drawing;
 using LayoutFarm.Css;
+using LayoutFarm.WebDom.Parser;
+
 
 namespace LayoutFarm.HtmlBoxes
 {

@@ -26,7 +26,7 @@ namespace LayoutFarm.ColorBlenderSample
 
             {
                 _backBoard = new BackDrawBoardUI(800, 600);
-                _backBoard.SetLocation(100, 100);
+                _backBoard.SetLocation(10, 10);
                 _backBoard.BackColor = PixelFarm.Drawing.Color.White;
 
                 host.AddChild(_backBoard);
@@ -35,17 +35,15 @@ namespace LayoutFarm.ColorBlenderSample
                 _lstvw_svgFiles = new ListView(200, 400);
                 _lstvw_svgFiles.SetLocation(500, 20);
                 host.AddChild(_lstvw_svgFiles);
+                //
                 _lstvw_svgFiles.ListItemMouseEvent += (s, e) =>
                 {
                     if (_lstvw_svgFiles.SelectedIndex > -1)
                     {
-                        if (_lstvw_svgFiles.SelectedIndex > -1)
+                        string filename = _lstvw_svgFiles.GetItem(_lstvw_svgFiles.SelectedIndex).Tag as string;
+                        if (filename != null)
                         {
-                            string filename = _lstvw_svgFiles.GetItem(_lstvw_svgFiles.SelectedIndex).Tag as string;
-                            if (filename != null)
-                            {
-                                ParseAndRenderSvgFile(filename);
-                            }
+                            ParseAndRenderSvgFile(filename);
                         }
                     }
                 };
@@ -74,6 +72,12 @@ namespace LayoutFarm.ColorBlenderSample
 
             }
         }
+        void ImgBinderLoadImg(ImageBinder reqImgBinder, VgVisualElement vgVisualE, object o)
+        {
+            PixelFarm.Drawing.Image img = _host.LoadImage(reqImgBinder.ImageSource);
+            reqImgBinder.SetImage(img);
+            reqImgBinder.State = BinderState.Loaded;
+        }
         void ParseAndRenderSvgFile(string svgFile)
         {
             var docBuilder = new SvgDocBuilder();
@@ -83,8 +87,11 @@ namespace LayoutFarm.ColorBlenderSample
             WebLexer.TextSnapshot textSnapshot = new WebLexer.TextSnapshot(svgContent);
             parser.ParseDocument(textSnapshot);
             //
-            SvgRenderVxDocBuilder builder = new SvgRenderVxDocBuilder();
-            VgRenderVx svgRenderVx = builder.CreateRenderVx(docBuilder.ResultDocument, null);
+            VgDocBuilder builder = new VgDocBuilder();
+            builder.SetLoadImageHandler(ImgBinderLoadImg);
+            //
+            //
+            VgVisualElement vgVisElem = builder.CreateVgVisualElem(docBuilder.ResultDocument, null);
 
             var uiSprite = new UISprite(10, 10);
             var evListener = new GeneralEventListener();
@@ -92,7 +99,7 @@ namespace LayoutFarm.ColorBlenderSample
             evListener.MouseDown += (e) =>
             {
                 //hit on svg color- area
-                SvgHitInfo hitInfo = uiSprite.FindRenderElementAtPos(e.X, e.Y, false);
+                VgHitInfo hitInfo = uiSprite.FindRenderElementAtPos(e.X, e.Y, false);
 #if DEBUG
                 if (hitInfo.svg != null)
                 {
@@ -103,7 +110,7 @@ namespace LayoutFarm.ColorBlenderSample
             };
 
 
-            uiSprite.LoadVg(svgRenderVx);
+            uiSprite.LoadVg(vgVisElem);
 
             _backBoard.ClearChildren();
             _backBoard.AddChild(uiSprite);

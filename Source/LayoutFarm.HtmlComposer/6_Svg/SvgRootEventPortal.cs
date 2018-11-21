@@ -11,7 +11,7 @@ namespace PaintLab.Svg
 {
     partial class SvgRootEventPortal
     {
-        Stack<SvgHitChain> hitChainPools = new Stack<SvgHitChain>();
+        Stack<VgHitChain> hitChainPools = new Stack<VgHitChain>();
         HtmlElement _elementNode;
         public SvgRootEventPortal(HtmlElement elementNode)
         {
@@ -25,7 +25,7 @@ namespace PaintLab.Svg
 
 
         //==================================================
-        SvgHitChain GetFreeHitChain()
+        VgHitChain GetFreeHitChain()
         {
             if (hitChainPools.Count > 0)
             {
@@ -33,16 +33,16 @@ namespace PaintLab.Svg
             }
             else
             {
-                return new SvgHitChain();
+                return new VgHitChain();
             }
         }
-        void ReleaseHitChain(SvgHitChain hitChain)
+        void ReleaseHitChain(VgHitChain hitChain)
         {
             hitChain.Clear();
             this.hitChainPools.Push(hitChain);
         }
 
-        public static void HitTestCore(SvgElement root, SvgHitChain chain, float x, float y)
+        public static void HitTestCore(SvgElement root, VgHitChain chain, float x, float y)
         {
             ////1. 
             //chain.AddHit(root, x, y); 
@@ -67,7 +67,7 @@ namespace PaintLab.Svg
             //}
         }
 
-        static void ForEachOnlyEventPortalBubbleUp(UIEventArgs e, SvgHitChain hitPointChain, EventPortalAction eventPortalAction)
+        static void ForEachOnlyEventPortalBubbleUp(UIEventArgs e, VgHitChain hitPointChain, EventPortalAction eventPortalAction)
         {
             //only listener that need tunnel down 
             for (int i = hitPointChain.Count - 1; i >= 0; --i)
@@ -90,12 +90,12 @@ namespace PaintLab.Svg
             }
         }
 
-        static void ForEachEventListenerBubbleUp(UIEventArgs e, SvgHitChain hitChain, EventListenerAction listenerAction)
+        static void ForEachEventListenerBubbleUp(UIEventArgs e, VgHitChain hitChain, EventListenerAction listenerAction)
         {
             for (int i = hitChain.Count - 1; i >= 0; --i)
             {
                 //propagate up 
-                SvgHitInfo hitInfo = hitChain.GetHitInfo(i);
+                VgHitInfo hitInfo = hitChain.GetHitInfo(i);
 
                 IUIEventListener controller = SvgElement.UnsafeGetController(hitInfo.GetSvgElement()) as IUIEventListener;
                 //switch (hitInfo.hitObjectKind)
@@ -132,7 +132,7 @@ namespace PaintLab.Svg
             }
         }
 
-        static void ForEachSvgElementBubbleUp(UIEventArgs e, SvgHitChain hitChain, EventListenerAction listenerAction)
+        static void ForEachSvgElementBubbleUp(UIEventArgs e, VgHitChain hitChain, EventListenerAction listenerAction)
         {
             for (int i = hitChain.Count - 1; i >= 0; --i)
             {
@@ -148,7 +148,7 @@ namespace PaintLab.Svg
                 }
             }
         }
-        static void SetEventOrigin(UIEventArgs e, SvgHitChain hitChain)
+        static void SetEventOrigin(UIEventArgs e, VgHitChain hitChain)
         {
             int count = hitChain.Count;
             if (count > 0)

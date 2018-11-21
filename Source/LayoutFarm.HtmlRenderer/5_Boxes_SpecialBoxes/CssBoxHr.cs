@@ -81,7 +81,7 @@ namespace LayoutFarm.HtmlBoxes
             //Check width if not auto
             if (!this.Width.IsEmptyOrAuto)
             {
-                width = CssValueParser.ConvertToPx(Width, width, this);
+                width = LayoutFarm.WebDom.Parser.CssValueParser.ConvertToPx(Width, width, this);
             }
 
 

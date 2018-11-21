@@ -70,15 +70,6 @@
     <Compile Include="Demo_06\6.4_Demo04_DynamicContent2.cs" />
     <Compile Include="Demo_06\6.5_Demo05_Dynamic_BoxSpec.cs" />
     <Compile Include="Demo_06\HtmlDomExtension.cs" />
-    <Compile Include="Demo_07\7.1_DemoDzBoard.cs" />
-    <Compile Include="Demo_07\AppModule.cs" />
-    <Compile Include="Demo_07\CompoModule.cs" />
-    <Compile Include="Demo_07\DesignBoardActions.cs" />
-    <Compile Include="Demo_07\DesignBoardController.cs" />
-    <Compile Include="Demo_07\DesignBoardModule.cs" />
-    <Compile Include="Demo_07\DzBoxSerializer.cs" />
-    <Compile Include="Demo_07\GraphicShapeElements.cs" />
-    <Compile Include="Demo_07\MenuBoardModule.cs" />
     <Compile Include="Demo_09\9.1_SvgTiger.cs" />
     <Compile Include="Demo_10\9.2_ShapeControls.cs" />
     <Compile Include="Demo_09\9.3_Demo_SvgViewer.cs" />

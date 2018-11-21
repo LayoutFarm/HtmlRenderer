@@ -11,27 +11,25 @@ using PaintLab.Svg;
 namespace LayoutFarm.UI
 {
 
-
+    /// <summary>
+    /// RenderElement that wrap VgVisualElement 
+    /// </summary>
     class VgBridgeRenderElement : RenderElement
     {
-        PaintLab.Svg.VgRenderVx _vgRenderVx;
+        VgVisualElement _vgVisualElem;
         public VgBridgeRenderElement(RootGraphic rootGfx, int width, int height)
             : base(rootGfx, width, height)
         {
-
-            //this.dbug_ObjectNote = "AAA";
-            //this.NeedClipArea = false;
             this.MayHasChild = true;
             //this.TransparentForAllEvents = true;
         }
 
-        public PixelFarm.CpuBlit.VertexProcessing.ICoordTransformer Tx { get; set; }
-        public PaintLab.Svg.VgRenderVx VgRenderVx
+        public VgVisualElement VgVisualElem
         {
-            get { return _vgRenderVx; }
+            get { return _vgVisualElem; }
             set
             {
-                _vgRenderVx = value;
+                _vgVisualElem = value;
             }
         }
         public bool EnableSubSvgHitTest { get; set; }
@@ -42,10 +40,10 @@ namespace LayoutFarm.UI
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        public SvgHitInfo FindRenderElementAtPos(float x, float y, bool makeCopyOfHitVxs)
+        public VgHitInfo FindRenderElementAtPos(float x, float y, bool makeCopyOfHitVxs)
         {
 
-            VgHitChainPool.GetFreeHitTestArgs(out SvgHitChain svgHitChain); //get chain from pool
+            VgHitChainPool.GetFreeHitTestArgs(out VgHitChain svgHitChain); //get chain from pool
             svgHitChain.WithSubPartTest = true;
             svgHitChain.MakeCopyOfHitVxs = makeCopyOfHitVxs;
             svgHitChain.SetHitTestPos(x - RenderOriginXOffset, y - RenderOriginYOffset);
@@ -53,17 +51,17 @@ namespace LayoutFarm.UI
             HitTestOnSubPart(this, svgHitChain);
             int hitCount = svgHitChain.Count;
 
-            SvgHitInfo hitInfo = hitCount > 0 ?
+            VgHitInfo hitInfo = hitCount > 0 ?
                 svgHitChain.GetHitInfo(hitCount - 1) ://get latest hit info, or
-                new SvgHitInfo(); //empty hit info
+                new VgHitInfo(); //empty hit info
 
             VgHitChainPool.ReleaseHitTestArgs(ref svgHitChain); //release chain
             return hitInfo;
 
         }
-        public void FindRenderElementAtPos(float x, float y, Action<SvgRenderElement, float, float, VertexStore> onHitSvg)
+        public void FindRenderElementAtPos(float x, float y, Action<VgVisualElement, float, float, VertexStore> onHitSvg)
         {
-            this._vgRenderVx._renderE.HitTest(x, y, onHitSvg);
+            this._vgVisualElem.HitTest(x, y, onHitSvg);
         }
 
         public float RenderOriginXOffset
@@ -94,7 +92,7 @@ namespace LayoutFarm.UI
         public override void ChildrenHitTestCore(HitChain hitChain)
         {
 
-            RectD bound = _vgRenderVx.GetBounds();
+            RectD bound = _vgVisualElem.GetRectBounds();
             bound.Offset(RenderOriginXOffset, RenderOriginYOffset);
             if (bound.Contains(hitChain.TestPoint.X, hitChain.TestPoint.Y))
             {
@@ -111,7 +109,7 @@ namespace LayoutFarm.UI
                 }
                 else
                 {
-                    VgHitChainPool.GetFreeHitTestArgs(out SvgHitChain svgHitChain);
+                    VgHitChainPool.GetFreeHitTestArgs(out VgHitChain svgHitChain);
                     //check if we hit on some part of the svg 
 #if DEBUG
                     if (hitChain.dbugHitPhase == dbugHitChainPhase.MouseDown)
@@ -136,8 +134,8 @@ namespace LayoutFarm.UI
             //
             //
             [System.ThreadStatic]
-            static Stack<SvgHitChain> s_hitChains = new Stack<SvgHitChain>();
-            public static void GetFreeHitTestArgs(out SvgHitChain hitTestArgs)
+            static Stack<VgHitChain> s_hitChains = new Stack<VgHitChain>();
+            public static void GetFreeHitTestArgs(out VgHitChain hitTestArgs)
             {
                 if (s_hitChains.Count > 0)
                 {
@@ -145,34 +143,32 @@ namespace LayoutFarm.UI
                 }
                 else
                 {
-                    hitTestArgs = new SvgHitChain();
+                    hitTestArgs = new VgHitChain();
                 }
             }
-            public static void ReleaseHitTestArgs(ref SvgHitChain hitTestArgs)
+            public static void ReleaseHitTestArgs(ref VgHitChain hitTestArgs)
             {
                 hitTestArgs.Clear();
                 s_hitChains.Push(hitTestArgs);
                 hitTestArgs = null;
             }
         }
-        static bool HitTestOnSubPart(VgBridgeRenderElement _svgRenderVx, SvgHitChain hitChain)
+        static bool HitTestOnSubPart(VgBridgeRenderElement _svgRenderVx, VgHitChain hitChain)
         {
-            SvgRenderElement renderE = _svgRenderVx._vgRenderVx._renderE;
-            renderE.HitTest(hitChain);
+            VgVisualElement vgVisElem = _svgRenderVx.VgVisualElem;
+            vgVisElem.HitTest(hitChain);
             return hitChain.Count > 0;//found some    
         }
-
-
         public bool DisableBitmapCache { get; set; }
 
         public override void CustomDrawToThisCanvas(DrawBoard canvas, Rectangle updateArea)
         {
 
-            if (_vgRenderVx == null) return;
+            if (_vgVisualElem == null) return;
             //-----------------------
 
 #if DEBUG
-            if (_vgRenderVx.dbugId == 0)
+            if (_vgVisualElem.dbugId == 0)
             {
                 if (X != 0)
                 {
@@ -184,22 +180,23 @@ namespace LayoutFarm.UI
             if (DisableBitmapCache &&
                ((painter = canvas.GetPainter() as PixelFarm.CpuBlit.AggPainter) != null))
             {
-                PaintVgWithPainter(painter, _vgRenderVx);
+                PaintVgWithPainter(painter, _vgVisualElem);
             }
             else
             {
+
                 //enable bitmap cache
-                if (_vgRenderVx.HasBitmapSnapshot)
+                if (_vgVisualElem.HasBitmapSnapshot)
                 {
-                    Image backimg = _vgRenderVx.BackingImage;
+                    Image backimg = _vgVisualElem.BackingImage;
                     canvas.DrawImage(backimg, new RectangleF(0, 0, backimg.Width, backimg.Height));
                 }
                 else
                 {
                     //convert vg to bitmap 
                     //**
-
-                    PixelFarm.CpuBlit.RectD bounds = _vgRenderVx.GetBounds();
+                    PixelFarm.CpuBlit.RectD bounds = _vgVisualElem.GetRectBounds();
+                    //
                     int width = (int)Math.Ceiling(bounds.Width);
                     int height = (int)Math.Ceiling(bounds.Height);
                     //create 
@@ -214,20 +211,45 @@ namespace LayoutFarm.UI
 
                     //--------------------
                     //TODO: use reusable agg painter***
+                    if (width < 1)
+                    {
+                        width = this.Width;
+                    }
+                    if (height < 1)
+                    {
+                        height = this.Height;
+                    }
+                    //--------------------
+                    painter = canvas.GetPainter() as PixelFarm.CpuBlit.AggPainter;
+
                     MemBitmap backimg = new MemBitmap(width, height);
-                    painter = AggPainter.Create(backimg);
-                    painter.Clear(Color.FromArgb(0, Color.White));
+                    AggPainter painter2 = AggPainter.Create(backimg);
+                    painter2.CurrentFont = canvas.CurrentFont;
+                    painter2.Clear(Color.FromArgb(0, Color.White));
+
+                    if (painter != null)
+                    {
+                        painter2.TextPrinter = painter.TextPrinter;
+                        painter2.FillColor = painter.FillColor;
+                    }
+                    else
+                    {
+
+                    }
+
+                    //--------------------
                     //
-                    PaintVgWithPainter(painter, _vgRenderVx);
+                    PaintVgWithPainter(painter2, _vgVisualElem);
+
                     //
-                    _vgRenderVx.SetBitmapSnapshot(backimg);
+                    _vgVisualElem.SetBitmapSnapshot(backimg);
                     canvas.DrawImage(backimg, new RectangleF(0, 0, backimg.Width, backimg.Height));
                 }
             }
         }
 
 
-        static void PaintVgWithPainter(Painter painter, VgRenderVx vgRenderVx)
+        static void PaintVgWithPainter(Painter painter, VgVisualElement vgVisualElem)
         {
 
             double prevStrokeW = painter.StrokeWidth;
@@ -235,17 +257,23 @@ namespace LayoutFarm.UI
 
             using (VgPainterArgsPool.Borrow(painter, out VgPaintArgs paintArgs))
             {
-                if (vgRenderVx._coordTx != null)
+                if (vgVisualElem._coordTx != null)
                 {
+                    //transform ?
+                    if (paintArgs._currentTx == null)
+                    {
+                        paintArgs._currentTx = vgVisualElem._coordTx;
+                    }
+                    else
+                    {
+                        paintArgs._currentTx = paintArgs._currentTx.MultiplyWith(vgVisualElem._coordTx);
+                    }
 
                 }
-                vgRenderVx._renderE.Paint(paintArgs);
+                vgVisualElem.Paint(paintArgs);
             }
-            painter.StrokeWidth = prevStrokeW;//restore 
-
+            painter.StrokeWidth = prevStrokeW;//restore  
         }
-
-
         public override void ResetRootGraphics(RootGraphic rootgfx)
         {
 
@@ -288,7 +316,7 @@ namespace LayoutFarm.UI
     {
         bool _enableSubSvgTest;
 
-        VgRenderVx _vgRenderVx;
+        VgVisualElement _vgVisualElem;
         VgBridgeRenderElement _vgBridgeRenderElement;
 
         bool _disableBmpCache;
@@ -304,6 +332,7 @@ namespace LayoutFarm.UI
             SetElementBoundsWH(width, height);
             this.AutoStopMouseEventPropagation = true;
         }
+
         public bool EnableSubSvgTest
         {
             get
@@ -331,13 +360,13 @@ namespace LayoutFarm.UI
                 }
             }
         }
-        public void LoadVg(PaintLab.Svg.VgRenderVx renderVx)
+        public void LoadVg(VgVisualElement vgVisualElem)
         {
-            _vgRenderVx = renderVx;
+            _vgVisualElem = vgVisualElem;
             if (_vgBridgeRenderElement != null)
             {
-                _vgBridgeRenderElement.VgRenderVx = renderVx;
-                RectD bounds = _vgRenderVx.GetBounds();
+                _vgBridgeRenderElement.VgVisualElem = vgVisualElem;
+                RectD bounds = _vgVisualElem.GetRectBounds();
                 _actualXOffset = (float)-bounds.Left;
                 _actualYOffset = (float)-bounds.Bottom;
 
@@ -346,8 +375,9 @@ namespace LayoutFarm.UI
         }
 
 
-        internal PaintLab.Svg.VgRenderVx RenderVx => _vgRenderVx;
+
         internal VgBridgeRenderElement VgBridgeRenderElement => _vgBridgeRenderElement;
+        public VgVisualElement VgVisualElem => _vgVisualElem;
 
 
         //--------------------
@@ -403,11 +433,11 @@ namespace LayoutFarm.UI
 
         }
 
-        public SvgHitInfo FindRenderElementAtPos(float x, float y, bool makeCopyOfVxs)
+        public VgHitInfo FindRenderElementAtPos(float x, float y, bool makeCopyOfVxs)
         {
             return _vgBridgeRenderElement.FindRenderElementAtPos(x, y, makeCopyOfVxs);
         }
-        public void FindRenderElementAtPos(float x, float y, Action<SvgRenderElement, float, float, VertexStore> onHitSvg)
+        public void FindRenderElementAtPos(float x, float y, Action<VgVisualElement, float, float, VertexStore> onHitSvg)
         {
             _vgBridgeRenderElement.FindRenderElementAtPos(x, y, onHitSvg);
         }
@@ -416,14 +446,13 @@ namespace LayoutFarm.UI
 
             if (_vgBridgeRenderElement != null)
             {
-                _vgRenderVx.SetBitmapSnapshot(null);//clear
-                _vgRenderVx.InvalidateBounds();
+                _vgVisualElem.SetBitmapSnapshot(null);//clear
+                _vgVisualElem.InvalidateBounds();
                 //_svgRenderVx.SetBitmapSnapshot(null); 
                 //_svgRenderElement.RenderVx = _svgRenderVx;
                 //_svgRenderVx.InvalidateBounds(); 
-                RectD bounds = _vgRenderVx.GetBounds();
+                RectD bounds = _vgVisualElem.GetRectBounds();
                 this.SetSize((int)bounds.Width, (int)bounds.Height);
-
             }
         }
         protected override void OnMouseDown(UIMouseEventArgs e)
@@ -446,23 +475,27 @@ namespace LayoutFarm.UI
         {
             if (_vgBridgeRenderElement == null)
             {
-                RectD bounds = _vgRenderVx.GetBounds();
+                RectD bounds = _vgVisualElem.GetRectBounds();
+
                 //****
+                //temp fix
+                if (bounds.Width == 0 || bounds.Height == 0)
+                {
+                    bounds.SetRect(0, 0, this.Width, this.Height);
+                }
+                //------------------------------------------------
 
-                //offset to 0,0
-                //this.SetLocation((int)(this.Left + _actualXOffset), (int)(this.Top + _actualYOffset));
-
-
+                this.DisableBmpCache = true;
                 var vgBridgeRenderElem = new VgBridgeRenderElement(rootgfx, 10, 10)
                 {
                     RenderOriginXOffset = (float)_actualXOffset,
                     RenderOriginYOffset = (float)_actualYOffset,
-                    VgRenderVx = _vgRenderVx,
+                    VgVisualElem = _vgVisualElem,
                     DisableBitmapCache = this.DisableBmpCache,
                     EnableSubSvgHitTest = this.EnableSubSvgTest
                 };
 
-                vgBridgeRenderElem.DisableBitmapCache = true;
+                //vgBridgeRenderElem.DisableBitmapCache = true;
                 vgBridgeRenderElem.SetLocation((int)(this.Left), (int)(this.Top));
                 vgBridgeRenderElem.SetController(this);
 
@@ -506,11 +539,15 @@ namespace LayoutFarm.UI
 
         //post transform bounds
         RectD _post_TransformRectBounds;
-
         public void SetTransformation(PixelFarm.CpuBlit.VertexProcessing.ICoordTransformer tx)
         {
+
             _tx = tx;
-            RectD bounds = _vgRenderVx.GetBounds(); //org bounds
+            _vgVisualElem._coordTx = tx;
+            _vgVisualElem.InvalidateBounds();
+
+
+            RectD bounds = _vgVisualElem.GetRectBounds(); //org bounds
             _actualXOffset = -bounds.Left;
             _actualYOffset = -bounds.Bottom;
             _post_TransformRectBounds = bounds;
@@ -536,9 +573,9 @@ namespace LayoutFarm.UI
 
             }
 
-            if (_vgRenderVx != null)
+            if (_vgVisualElem != null)
             {
-                _vgRenderVx._coordTx = tx;
+
             }
 
             if (_vgBridgeRenderElement != null)
@@ -546,6 +583,8 @@ namespace LayoutFarm.UI
                 //set this data to vgRenderElemBridge too
 
                 //_post_TransformRectBounds.Offset(-_post_TransformRectBounds.Left, -_post_TransformRectBounds.Bottom);
+                //_vgBridgeRenderElement.Tx = tx;
+
                 _vgBridgeRenderElement.RenderOriginXOffset = -(int)_actualXOffset;
                 _vgBridgeRenderElement.RenderOriginYOffset = -(int)_actualYOffset;
                 _vgBridgeRenderElement.SetPostTransformationBounds(_post_TransformRectBounds);
