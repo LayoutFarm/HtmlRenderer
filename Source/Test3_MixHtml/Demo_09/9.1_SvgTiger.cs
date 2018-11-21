@@ -31,9 +31,10 @@ namespace LayoutFarm
             //string svgfile = "../Data/Svg/twemoji/1f30b.svg";
             //string svgfile = "../Data/1f30b.svg";
             //string svgfile = "../Data/Svg/twemoji/1f370.svg";
-            VgRenderVx svgRenderVx = ReadSvgFile(svgfile);
+
+            VgVisualElement vgVisElem = ReadSvgFile(svgfile);
             var uiSprite = new UISprite(10, 10);
-            uiSprite.LoadVg(svgRenderVx);
+            uiSprite.LoadVg(vgVisElem);
             _backBoard.AddChild(uiSprite);
 
 
@@ -109,7 +110,7 @@ namespace LayoutFarm
                 }
             };
         }
-        VgRenderVx ReadSvgFile(string filename)
+        VgVisualElement ReadSvgFile(string filename)
         {
 
             string svgContent = System.IO.File.ReadAllText(filename);
@@ -118,8 +119,8 @@ namespace LayoutFarm
             WebLexer.TextSnapshot textSnapshot = new WebLexer.TextSnapshot(svgContent);
             parser.ParseDocument(textSnapshot);
             //TODO: review this step again
-            SvgRenderVxDocBuilder builder = new SvgRenderVxDocBuilder();
-            return builder.CreateRenderVx(docBuidler.ResultDocument, svgElem =>
+            VgDocBuilder builder = new VgDocBuilder();
+            return builder.CreateVgVisualElem(docBuidler.ResultDocument, svgElem =>
             {
 
             });

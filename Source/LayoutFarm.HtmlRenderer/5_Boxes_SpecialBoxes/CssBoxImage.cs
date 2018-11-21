@@ -52,11 +52,11 @@ namespace LayoutFarm.HtmlBoxes
 
             float newW = this.Width.IsEmptyOrAuto ?
                             this._imgRun.ImageBinder.ImageWidth :
-                            CssValueParser.ConvertToPx(Width, VisualWidth, this);
+                            LayoutFarm.WebDom.Parser.CssValueParser.ConvertToPx(Width, VisualWidth, this);
 
             float newH = this.Height.IsEmptyOrAuto ?
-                            this._imgRun.ImageBinder.ImageHeight :
-                            CssValueParser.ConvertToPx(Width, VisualWidth, this);
+                           this._imgRun.ImageBinder.ImageHeight :
+                           LayoutFarm.WebDom.Parser.CssValueParser.ConvertToPx(Width, VisualWidth, this);
 
 
             SetVisualSize(newW, newH);

@@ -63,7 +63,7 @@ namespace LayoutFarm
                     //
                     e.SetResultImage(LoadImage(e.ImagSource));
                 };
-                PaintLab.Svg.VgResourceIO.VgImgIOHandler = (LayoutFarm.ImageBinder binder, PaintLab.Svg.SvgRenderElement imgRun, object requestFrom) =>
+                PaintLab.Svg.VgResourceIO.VgImgIOHandler = (LayoutFarm.ImageBinder binder, PaintLab.Svg.VgVisualElement imgRun, object requestFrom) =>
                 {
                     imgLoadingQ.AddRequestImage(binder);
                 };

@@ -32,7 +32,7 @@ namespace LayoutFarm.HtmlBoxes
     /// To know more about boxes visit CSS spec:
     /// http://www.w3.org/TR/CSS21/box.html
     /// </remarks>
-    public partial class CssBox
+    public partial class CssBox : IHasGetEmHeight
     {
         readonly Css.BoxSpec _myspec;
         object _controller;
@@ -520,7 +520,7 @@ namespace LayoutFarm.HtmlBoxes
                     {
                         case CssRunKind.Text:
                             {
-                                CssTextRun textRun = (CssTextRun)run; 
+                                CssTextRun textRun = (CssTextRun)run;
                                 Size ss = lay.MeasureStringSize(CssBox.UnsafeGetTextBuffer(this),
                                     textRun.TextStartIndex,
                                     textRun.TextLength,

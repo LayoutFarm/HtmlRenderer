@@ -1,11 +1,11 @@
 ﻿//MIT, 2014-present, WinterDev
- 
+
 using System.IO;
 
 using PixelFarm.Drawing;
 using PixelFarm.CpuBlit.VertexProcessing;
 using PaintLab.Svg;
-using LayoutFarm.UI; 
+using LayoutFarm.UI;
 
 namespace LayoutFarm
 {
@@ -15,9 +15,13 @@ namespace LayoutFarm
 
         QuadControllerUI _quadController = new QuadControllerUI();
         PolygonControllerUI _quadPolygonController = new PolygonControllerUI();
+        bool _hitTestOnSubPath = false;
+        UISprite _uiSprite;
+        AppHost _appHost;
+        VgVisualElement _vgVisualElem;
 
 
-        VgRenderVx CreateTestRenderVx_FromSvg()
+        VgVisualElement CreateTestRenderVx_FromSvg()
         {
             //string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/others/cat_simple.svg";
             //string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/others/cat_complex.svg";
@@ -27,10 +31,10 @@ namespace LayoutFarm
             //string svgfile = "1f30b.svg";
             //string svgfile = "../Data/Svg/twemoji/1f30b.svg";
             //string svgfile = "../Data/1f30b.svg";
-            //string svgfile = "../Data/Svg/twemoji/1f370.svg";
-            return VgRenderVxHelper.ReadSvgFile(svgfile);
+            //string svgfile = "../Data/Svg/twemoji/1f370.svg"; 
+            return VgVisualElemHelper.ReadSvgFile(svgfile);
         }
-        VgRenderVx CreateEllipseVxs(PixelFarm.CpuBlit.RectD newBounds)
+        VgVisualElement CreateEllipseVxs(PixelFarm.CpuBlit.RectD newBounds)
         {
             using (VxsTemp.Borrow(out var v1))
             using (VectorToolBox.Borrow(out Ellipse ellipse))
@@ -42,20 +46,19 @@ namespace LayoutFarm
 
 
                 var spec = new SvgPathSpec() { FillColor = Color.Red };
-                SvgRenderRootElement renderRoot = new SvgRenderRootElement();
-                SvgRenderElement renderE = new SvgRenderElement(WellknownSvgElementName.Path, spec, renderRoot);
-                VgRenderVx svgRenderVx = new VgRenderVx(renderE);
+                VgDocRoot renderRoot = new VgDocRoot();
+                VgVisualElement renderE = new VgVisualElement(WellknownSvgElementName.Path, spec, renderRoot);
                 renderE._vxsPath = ellipse.MakeVxs(v1).CreateTrim();
-                return svgRenderVx;
+                return renderE;
             }
 
         }
-        VgRenderVx CreateTestRenderVx_BasicShape()
+        VgVisualElement CreateTestRenderVx_BasicShape()
         {
             var spec = new SvgPathSpec() { FillColor = Color.Red };
-            SvgRenderRootElement renderRoot = new SvgRenderRootElement();
-            SvgRenderElement renderE = new SvgRenderElement(WellknownSvgElementName.Path, spec, renderRoot);
-            VgRenderVx svgRenderVx = new VgRenderVx(renderE);
+            VgDocRoot renderRoot = new VgDocRoot();
+            VgVisualElement renderE = new VgVisualElement(WellknownSvgElementName.Path, spec, renderRoot);
+
 
             using (VxsTemp.Borrow(out VertexStore vxs))
             {
@@ -68,12 +71,53 @@ namespace LayoutFarm
                 renderE._vxsPath = vxs.CreateTrim();
             }
 
-            return svgRenderVx;
+            return renderE;
         }
 
+        static void LoadRawImg(ImageBinder binder, VgVisualElement vg, object o)
+        {
+            string imgsrc = binder.ImageSource;
+            if (imgsrc != null)
+            {
+
+            }
+        }
+        VgVisualElement CreateTestRenderVx_FromImg(string filename)
+        {
+
+            var spec = new SvgImageSpec()
+            {
+                ImageSrc = filename,
+                Width = new Css.CssLength(50, Css.CssUnitOrNames.Pixels),
+                Height = new Css.CssLength(50, Css.CssUnitOrNames.Pixels),
+            };
+
+            VgDocRoot renderRoot = new VgDocRoot();
+            renderRoot.ImgRequestHandler = LoadRawImg;
+
+
+            VgVisualElement vgimg = new VgVisualElement(WellknownSvgElementName.Image, spec, renderRoot);
+            vgimg.ImageBinder = _appHost.LoadImageAndBind(filename);
+
+
+            //VgRenderVx svgRenderVx = new VgRenderVx(vgimg);
+            //svgRenderVx.GetRectBounds();
+            //using (VxsTemp.Borrow(out VertexStore vxs))
+            //{
+            //    //red-triangle ***
+            //    vxs.AddMoveTo(10, 10);
+            //    vxs.AddLineTo(60, 10);
+            //    vxs.AddLineTo(60, 30);
+            //    vxs.AddLineTo(10, 30);
+            //    vxs.AddCloseFigure();
+            //    renderE._vxsPath = vxs.CreateTrim();
+            //}
+
+            return vgimg;
+        }
 
         Typography.Contours.GlyphMeshStore _glyphMaskStore = new Typography.Contours.GlyphMeshStore();
-        VgRenderVx CreateTestRenderVx_FromGlyph(char c, float sizeInPts)
+        VgVisualElement CreateTestRenderVx_FromGlyph(char c, float sizeInPts)
         {
             //create vgrender vx from font-glyph
             string fontfile = "../Test8_HtmlRenderer.Demo/Samples/Fonts/SOV_Thanamas.ttf";
@@ -91,9 +135,8 @@ namespace LayoutFarm
 
             VertexStore vxs = _glyphMaskStore.GetGlyphMesh(typeface.LookupIndex(c));
             var spec = new SvgPathSpec() { FillColor = Color.Red };
-            SvgRenderRootElement renderRoot = new SvgRenderRootElement();
-            SvgRenderElement renderE = new SvgRenderElement(WellknownSvgElementName.Path, spec, renderRoot);
-            VgRenderVx svgRenderVx = new VgRenderVx(renderE);
+            VgDocRoot renderRoot = new VgDocRoot();
+            VgVisualElement renderE = new VgVisualElement(WellknownSvgElementName.Path, spec, renderRoot);
 
 
             //offset the original vxs to (0,0) bounds
@@ -105,48 +148,47 @@ namespace LayoutFarm
             PixelFarm.CpuBlit.RectD bounds = vxs.GetBoundingRect();
             Affine translate = Affine.NewTranslation(-bounds.Left, -bounds.Bottom);
             renderE._vxsPath = vxs.CreateTrim(translate);
-            return svgRenderVx;
+            return renderE;
         }
 
-        bool _hitTestOnSubPath = false;
-        VgRenderVx _svgRenderVx;
-
-        UISprite _uiSprite;
-
+      
 
         protected override void OnStart(AppHost host)
         {
+            _appHost = host;//** 
 
 
-            _svgRenderVx = CreateTestRenderVx_FromSvg();
+            //_svgRenderVx = CreateTestRenderVx_FromSvg();
             //_svgRenderVx = CreateTestRenderVx_BasicShape();
-            //_svgRenderVx = CreateTestRenderVx_FromGlyph('a', 256); //create from glyph
+            //_svgRenderVx = CreateTestRenderVx_FromImg("d:\\WImageTest\\alpha1.png"); 
+            _vgVisualElem = CreateTestRenderVx_FromGlyph('a', 256); //create from glyph
             //PixelFarm.CpuBlit.RectD org_rectD = _svgRenderVx.GetBounds(); 
             //_svgRenderVx = CreateEllipseVxs(org_rectD);
 
-            PixelFarm.CpuBlit.RectD org_rectD = _svgRenderVx.GetBounds();
-
+            PixelFarm.CpuBlit.RectD org_rectD = _vgVisualElem.GetRectBounds();
             org_rectD.Offset(-org_rectD.Left, -org_rectD.Bottom);
+            //
             _quadController.SetSrcRect(org_rectD.Left, org_rectD.Bottom, org_rectD.Right, org_rectD.Top);
             _quadController.SetDestQuad(
-              org_rectD.Left, org_rectD.Top,
-              org_rectD.Right, org_rectD.Top,
-              org_rectD.Right, org_rectD.Bottom,
-              org_rectD.Left, org_rectD.Bottom);
-
-
-
-            //---------
+                  org_rectD.Left, org_rectD.Top,
+                  org_rectD.Right, org_rectD.Top,
+                  org_rectD.Right, org_rectD.Bottom,
+                  org_rectD.Left, org_rectD.Bottom);
             //create control point
             _quadController.SetPolygonController(_quadPolygonController);
             _quadController.BuildControlBoxes();
             _quadController.UpdateTransformTarget += (s1, e1) =>
             {
 
-                _uiSprite.SetTransformation(_quadController.GetCoordTransformer()); //set transformation 
+
+                //after quadController is updated then 
+                //we use the coordTransformer to transform target uiSprite
+                _uiSprite.SetTransformation(_quadController.GetCoordTransformer());
+                _uiSprite.InvalidateOuterGraphics();
                 if (_quadController.Left != 0 || _quadController.Top != 0)
                 {
                     _uiSprite.SetLocation(_quadController.Left, _quadController.Top);
+                    _uiSprite.InvalidateOuterGraphics();
                 }
             };
 
@@ -157,63 +199,33 @@ namespace LayoutFarm
             //_rectBoundsWidgetBox.SetLocation(10, 10);
             /////box1.dbugTag = 1;
             //SetupActiveBoxProperties(_rectBoundsWidgetBox);
-            //host.AddChild(_rectBoundsWidgetBox);
-
-
-
-            _quadController.Visible = _quadPolygonController.Visible = false;
-
-
+            //host.AddChild(_rectBoundsWidgetBox); 
+            //_quadController.Visible = _quadPolygonController.Visible = false;
             //_rectBoxController.Init();
 
-            //VgRenderVx svgRenderVx = CreateTestRenderVx(); //create from svg
-            //test...
-            //1. scale svg to fix the 'src rect'  
-            //2. then transform to the 'dest rect' 
-
-            PixelFarm.CpuBlit.RectD svg_bounds = _svgRenderVx.GetBounds();
-
-            //double w_scale = src_w / svg_bounds.Width;
-            //double h_scale = src_h / svg_bounds.Height;
-
-            //double actualXOffset = -svg_bounds.Left;
-            //double actualYOffset = -svg_bounds.Bottom;
-
-            //Affine scaleMat = Affine.NewMatix(
-            //    AffinePlan.Translate(
-            //        actualXOffset - svg_bounds.Width / 2, //move to its middle point
-            //        actualYOffset - svg_bounds.Height / 2),//move to its middle point
-            //    AffinePlan.Scale(w_scale, h_scale),
-            //    AffinePlan.Translate(
-            //        -(actualXOffset - svg_bounds.Width / 2) * w_scale,//move back
-            //        -(actualYOffset - svg_bounds.Height / 2) * h_scale)); //move back
-
+            PixelFarm.CpuBlit.RectD svg_bounds = _vgVisualElem.GetRectBounds();
             //ICoordTransformer tx = ((ICoordTransformer)_bilinearTx).MultiplyWith(scaleMat);
             ICoordTransformer tx = _quadController.GetCoordTransformer();
-            //svgRenderVx._coordTx = tx;
-
-            //svgRenderVx._coordTx = ((ICoordTransformer)_bilinearTx).MultiplyWith(scaleMat);
-
+            //svgRenderVx._coordTx = tx; 
+            //svgRenderVx._coordTx = ((ICoordTransformer)_bilinearTx).MultiplyWith(scaleMat); 
             //host.AddChild(_quadController);
             //host.AddChild(_quadPolygonController);
             //VgRenderVx svgRenderVx = CreateTestRenderVx(); 
+
             //test transform svgRenderVx 
-            _svgRenderVx.DisableBackingImage = true;
+
+            _vgVisualElem.DisableBackingImage = true;
+
+
+            //-----------------------------------------             
             _uiSprite = new UISprite(10, 10); //init size = (10,10), location=(0,0)       
             _uiSprite.DisableBmpCache = true;
-            _uiSprite.LoadVg(_svgRenderVx);// 
+            _uiSprite.LoadVg(_vgVisualElem);// 
             _uiSprite.SetTransformation(tx); //set transformation
-
-
-
-
             host.AddChild(_uiSprite);
-
-
             //-----------------------------------------
             host.AddChild(_quadController);
             host.AddChild(_quadPolygonController);
-
             //-----------------------------------------
 
 
@@ -222,18 +234,25 @@ namespace LayoutFarm
             _uiSprite.AttachExternalEventListener(spriteEvListener);
             spriteEvListener.MouseMove += e1 =>
             {
+
                 if (e1.IsDragging)
                 {
+                    //when drag on sprie 
+
+
                     _uiSprite.InvalidateOuterGraphics();
                     _uiSprite.SetLocation(
                         _uiSprite.Left + e1.XDiff,
                         _uiSprite.Top + e1.YDiff
                         );
+                    //we also move quadController and _quadPolygonController
+                    //
                     _quadController.InvalidateOuterGraphics();
                     _quadController.SetLocation(
                         _quadController.Left + e1.XDiff,
                         _quadController.Top + e1.YDiff);
                     _quadController.InvalidateOuterGraphics();
+                    //
                     _quadPolygonController.InvalidateOuterGraphics();
                     _quadPolygonController.SetPosition(
                         _quadPolygonController.Left + e1.XDiff,
@@ -256,14 +275,18 @@ namespace LayoutFarm
 
                 if (_hitTestOnSubPath)
                 {
-                    SvgHitInfo hitInfo = _uiSprite.FindRenderElementAtPos(e1.X, e1.Y, true);
+                    //find which part ...
+                    VgHitInfo hitInfo = _uiSprite.FindRenderElementAtPos(e1.X, e1.Y, true);
+
                     if (hitInfo.svg != null &&
                         hitInfo.svg._vxsPath != null)
                     {
 
                         PixelFarm.CpuBlit.RectD bounds = hitInfo.copyOfVxs.GetBoundingRect();
-                        _quadPolygonController.ClearControlPoints();
-                        _quadPolygonController.UpdateControlPoints(hitInfo.copyOfVxs,
+
+                        _quadPolygonController.ClearControlPoints();//clear old control points
+                        _quadPolygonController.UpdateControlPoints( //create new control points
+                            hitInfo.copyOfVxs,
                             _uiSprite.ActualXOffset, _uiSprite.ActualYOffset);
 
                         ////move redbox and its controller
@@ -284,11 +307,7 @@ namespace LayoutFarm
                 }
                 else
                 {
-                    //hit on sprite 
-
-
-
-
+                    //hit on sprite  
                     if (e1.Ctrl)
                     {
                         //test*** 
@@ -323,19 +342,6 @@ namespace LayoutFarm
                     }
                 }
             };
-
-            //-
-
-            //_rectBoxController.UpdatedShape += (s3, e3) => UpdateTransformedShape2();
-
         }
-
-
-
     }
-
-
-
-
-
 }
