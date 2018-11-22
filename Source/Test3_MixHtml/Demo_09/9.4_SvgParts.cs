@@ -21,39 +21,46 @@ namespace LayoutFarm
 
         VgVisualDoc _vgVisualDoc;
 
-        UISprite CreateUISpriteFromVgVisualElem(VgVisualElement vgVisualElem)
+        UISprite CreateUISpriteFromVgVisualElem(VgVisualElement vgVisualElem, bool wrapWithVgVisualUse = false)
         {
-            //
+            if (wrapWithVgVisualUse)
+            {
+                //then we create a 'svg use' element
+                //and wrap the original vgVisualElement
+                vgVisualElem = _vgVisualDoc.CreateVgUseVisualElement(vgVisualElem);
+
+            }
+
             PixelFarm.CpuBlit.RectD org_rectD = vgVisualElem.GetRectBounds();
             org_rectD.Offset(-org_rectD.Left, -org_rectD.Bottom);
             vgVisualElem.DisableBackingImage = true;
             //-----------------------------------------             
             UISprite uiSprite = new UISprite(10, 10); //init size = (10,10), location=(0,0)       
             uiSprite.DisableBmpCache = true;
+
+
+
             uiSprite.LoadVg(vgVisualElem);//  
+
+
+
             _appHost.AddChild(uiSprite);
 
             var spriteEvListener = new GeneralEventListener();
             uiSprite.AttachExternalEventListener(spriteEvListener);
             spriteEvListener.MouseMove += e1 =>
             {
-
                 if (e1.IsDragging)
                 {
-                    //when drag on sprie 
-
-
+                    //when drag on sprie  
                     uiSprite.InvalidateOuterGraphics();
                     uiSprite.SetLocation(
                         uiSprite.Left + e1.XDiff,
                         uiSprite.Top + e1.YDiff);
-
                 }
             };
             spriteEvListener.MouseDown += e1 =>
             {
-
-
                 if (_hitTestOnSubPath)
                 {
                     //find which part ...
@@ -89,7 +96,7 @@ namespace LayoutFarm
                                 bottom - uiSprite.ActualYOffset,
                                 right - uiSprite.ActualXOffset,
                                 top - uiSprite.ActualYOffset);
-                            s.MakeVxs(v1);
+                            //s.MakeVxs(v1);
                             //_polygonController.UpdateControlPoints(v1.CreateTrim());
                         }
                     }
@@ -122,16 +129,14 @@ namespace LayoutFarm
             VgVisualElement vgVisualElem = _vgVisualDoc.VgRootElem;
             {
                 UISprite wholeImgSprite = CreateUISpriteFromVgVisualElem(vgVisualElem);
-
             }
-            //
-
+            // 
             if (_vgVisualDoc.TryGetVgVisualElementById("path62_larva3", out VgVisualElement vgPart))
             {
-                UISprite larvaSprite = CreateUISpriteFromVgVisualElem(vgPart);
+                UISprite larvaSprite = CreateUISpriteFromVgVisualElem(vgPart, true);
+                larvaSprite.SetTransformation(Affine.NewScaling(4));//scale
                 larvaSprite.SetLocation(100, 100);
             }
-
         }
     }
 
