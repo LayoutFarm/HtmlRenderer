@@ -10,7 +10,7 @@ using LayoutFarm.UI;
 namespace LayoutFarm
 {
     [DemoNote("9.2.2 ShapeControls")]
-    class DemoShapeControl3 : App
+    class DemoShapeControl9_2 : App
     {
 
         QuadControllerUI _quadController = new QuadControllerUI();
@@ -326,4 +326,6 @@ namespace LayoutFarm
             };
         }
     }
+
+
 }

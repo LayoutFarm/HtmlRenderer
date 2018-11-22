@@ -71,7 +71,8 @@
     <Compile Include="Demo_06\6.5_Demo05_Dynamic_BoxSpec.cs" />
     <Compile Include="Demo_06\HtmlDomExtension.cs" />
     <Compile Include="Demo_09\9.1_SvgTiger.cs" />
-    <Compile Include="Demo_10\9.2_ShapeControls.cs" />
+    <Compile Include="Demo_09\9.4_SvgParts.cs" />
+    <Compile Include="Demo_09\9.2_ShapeControls.cs" />
     <Compile Include="Demo_09\9.3_Demo_SvgViewer.cs" />
     <Compile Include="HtmlHostCreatorHelper.cs" />
     <Compile Include="Program.cs" />
