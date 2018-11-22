@@ -122,5 +122,9 @@ namespace LayoutFarm.ColorBlenderSample
             _backBoard.ClearChildren();
             _backBoard.AddChild(uiSprite);
         }
+
+
+    
+
     }
 }
