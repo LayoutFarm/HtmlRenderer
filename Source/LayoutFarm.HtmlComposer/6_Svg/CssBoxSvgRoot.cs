@@ -40,6 +40,7 @@ namespace LayoutFarm.HtmlBoxes
             //
             vgDocBuilder.SetContainerSize(containingBlock.VisualWidth, containingBlock.VisualHeight);
 
+            //create visual svg doc from current SvgDoc object
 
             _vgVisualElem = vgDocBuilder.CreateVgVisualDoc(SvgDoc, svgElem =>
             {

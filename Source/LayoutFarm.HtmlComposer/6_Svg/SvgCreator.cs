@@ -24,9 +24,10 @@ namespace PaintLab.Svg
 
             //create blank svg document
             SvgDocument svgdoc = new SvgDocument();
-            _currentDoc = svgdoc;
             svgdoc.CssActiveSheet = new LayoutFarm.WebDom.CssActiveSheet();
+            _currentDoc = svgdoc;
             _svgDocBuilder.ResultDocument = svgdoc;
+            //
             _svgDocBuilder.OnBegin();
             CreateBoxContent(elementNode);
             _svgDocBuilder.OnEnd();
