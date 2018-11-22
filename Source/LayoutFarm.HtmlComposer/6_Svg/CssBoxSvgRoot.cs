@@ -32,7 +32,7 @@ namespace LayoutFarm.HtmlBoxes
             //why we need to re-create all 
 
 
-            var vgDocBuilder = new VgDocBuilder();
+            var vgDocBuilder = new VgVisualDocBuilder();
             vgDocBuilder.SetLoadImageHandler((ImageBinder reqImgBinder, VgVisualElement vgVisualE, object o) =>
             {
 

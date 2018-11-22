@@ -120,7 +120,7 @@ namespace LayoutFarm
             WebLexer.TextSnapshot textSnapshot = new WebLexer.TextSnapshot(svgContent);
             parser.ParseDocument(textSnapshot);
             //TODO: review this step again
-            VgDocBuilder builder = new VgDocBuilder();
+            VgVisualDocBuilder builder = new VgVisualDocBuilder();
             return builder.CreateVgVisualDoc(docBuidler.ResultDocument, svgElem =>
             {
 

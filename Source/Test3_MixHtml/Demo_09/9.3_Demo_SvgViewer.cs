@@ -87,7 +87,7 @@ namespace LayoutFarm.ColorBlenderSample
             WebLexer.TextSnapshot textSnapshot = new WebLexer.TextSnapshot(svgContent);
             parser.ParseDocument(textSnapshot);
             //
-            VgDocBuilder builder = new VgDocBuilder();
+            VgVisualDocBuilder builder = new VgVisualDocBuilder();
             builder.SetLoadImageHandler(ImgBinderLoadImg);
             //
             //

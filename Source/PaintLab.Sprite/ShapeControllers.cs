@@ -1270,7 +1270,7 @@ namespace LayoutFarm
             parser.ParseDocument(textSnapshot);//start document parsing
 
             //TODO: review this step again
-            VgDocBuilder builder = new VgDocBuilder();
+            VgVisualDocBuilder builder = new VgVisualDocBuilder();
             SvgDocument svgDoc = docBuidler.ResultDocument;
             //optional 
             svgDoc.OriginalContent = svgContent;
