@@ -38,6 +38,7 @@
     <Compile Include="ShapeControllers.cs" />
     <Compile Include="SpriteElement.cs" />
     <Compile Include="UISprite.cs" />
+    <Compile Include="VgVisualElemHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\PixelFarm.One.HtmlRenderer.csproj">

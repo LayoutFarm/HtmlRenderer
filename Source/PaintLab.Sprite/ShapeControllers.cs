@@ -1255,41 +1255,8 @@ namespace LayoutFarm
             };
 
         }
-
-
+         
     }
 
-    public static class VgVisualElemHelper
-    {
-        public static VgVisualElement CreateVgVisualElemFromSvgContent(string svgContent)
-        {
-
-            SvgDocBuilder docBuidler = new SvgDocBuilder();
-            SvgParser parser = new SvgParser(docBuidler);
-            WebLexer.TextSnapshot textSnapshot = new WebLexer.TextSnapshot(svgContent);
-            parser.ParseDocument(textSnapshot);//start document parsing
-
-            //TODO: review this step again
-            VgVisualDocBuilder builder = new VgVisualDocBuilder();
-            SvgDocument svgDoc = docBuidler.ResultDocument;
-            //optional 
-            svgDoc.OriginalContent = svgContent;
-            //-------------------------------------------------------------
-            VgVisualElement vgVisRootElem = builder.CreateVgVisualDoc(svgDoc, svgElem =>
-            {
-            }).VgRootElem;
-            //
-            vgVisRootElem.OwnerDocument = svgDoc;//tmp
-
-
-            return vgVisRootElem;
-        }
-        public static VgVisualElement ReadSvgFile(string filename)
-        {
-
-            VgVisualElement vgx = CreateVgVisualElemFromSvgContent(System.IO.File.ReadAllText(filename));
-            vgx.OwnerDocument.OriginalFilename = filename;
-            return vgx;
-        }
-    }
+   
 }

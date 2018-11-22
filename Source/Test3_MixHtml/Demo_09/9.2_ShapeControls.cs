@@ -87,41 +87,6 @@ namespace LayoutFarm
             return vgimg;
         }
 
-        Typography.Contours.GlyphMeshStore _glyphMaskStore = new Typography.Contours.GlyphMeshStore();
-        VgVisualElement CreateTestRenderVx_FromGlyph(char c, float sizeInPts)
-        {
-            //create vgrender vx from font-glyph
-            string fontfile = "../Test8_HtmlRenderer.Demo/Samples/Fonts/SOV_Thanamas.ttf";
-
-            Typography.OpenFont.Typeface typeface = null;
-            using (System.IO.FileStream fs = new FileStream(fontfile, FileMode.Open))
-            {
-                Typography.OpenFont.OpenFontReader reader = new Typography.OpenFont.OpenFontReader();
-                typeface = reader.Read(fs);
-            }
-            _glyphMaskStore.FlipGlyphUpward = true;
-            _glyphMaskStore.SetFont(typeface, sizeInPts);
-            //-----------------
-
-
-            VertexStore vxs = _glyphMaskStore.GetGlyphMesh(typeface.LookupIndex(c));
-            var spec = new SvgPathSpec() { FillColor = Color.Red };
-            VgVisualDoc renderRoot = new VgVisualDoc();
-            VgVisualElement renderE = new VgVisualElement(WellknownSvgElementName.Path, spec, renderRoot);
-
-
-            //offset the original vxs to (0,0) bounds
-            //PixelFarm.CpuBlit.RectD bounds = vxs.GetBoundingRect();
-            //Affine translate = Affine.NewTranslation(-bounds.Left, -bounds.Bottom);
-            //renderE._vxsPath = vxs.CreateTrim(translate);
-
-
-            PixelFarm.CpuBlit.RectD bounds = vxs.GetBoundingRect();
-            Affine translate = Affine.NewTranslation(-bounds.Left, -bounds.Bottom);
-            renderE.VxsPath = vxs.CreateTrim(translate);
-            return renderE;
-        }
-
 
 
         protected override void OnStart(AppHost host)
@@ -143,7 +108,10 @@ namespace LayoutFarm
             //_svgRenderVx = CreateTestRenderVx_FromSvg();
             //_svgRenderVx = CreateTestRenderVx_BasicShape();
             //_svgRenderVx = CreateTestRenderVx_FromImg("d:\\WImageTest\\alpha1.png"); 
-            _vgVisualElem = CreateTestRenderVx_FromGlyph('a', 256); //create from glyph
+
+            string fontfile = "../Test8_HtmlRenderer.Demo/Samples/Fonts/SOV_Thanamas.ttf";
+            _vgVisualElem = VgVisualElemHelper.CreateVgVisualElementFromGlyph(fontfile, 256, 'a'); //create from glyph
+
             //PixelFarm.CpuBlit.RectD org_rectD = _svgRenderVx.GetBounds(); 
             //_svgRenderVx = CreateEllipseVxs(org_rectD);
 
@@ -324,6 +292,61 @@ namespace LayoutFarm
                     }
                 }
             };
+        }
+    }
+
+    class BackBoardRenderElement : LayoutFarm.CustomWidgets.CustomRenderBox
+    {
+
+        DrawBoard _canvas;
+        public BackBoardRenderElement(RootGraphic rootgfx, int width, int height)
+           : base(rootgfx, width, height)
+        {
+
+        }
+        protected override void DrawBoxContent(DrawBoard canvas, Rectangle updateArea)
+        {
+            _canvas = canvas;
+#if DEBUG
+            if (this.debugDefaultLayerHasChild)
+            {
+
+            }
+#endif
+
+            base.DrawBoxContent(canvas, updateArea);
+        }
+    }
+    public class BackDrawBoardUI : LayoutFarm.CustomWidgets.AbstractBox
+    {
+        BackBoardRenderElement _backboardRenderE;
+        public BackDrawBoardUI(int w, int h)
+            : base(w, h)
+        {
+
+        }
+        public override void Walk(UIVisitor visitor)
+        {
+
+        }
+        public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
+        {
+            if (_backboardRenderE != null)
+            {
+                return _backboardRenderE;
+            }
+            _backboardRenderE = new BackBoardRenderElement(rootgfx, this.Width, this.Height);
+            _backboardRenderE.SetLocation(this.Left, this.Top);
+            _backboardRenderE.NeedClipArea = true;
+            SetPrimaryRenderElement(_backboardRenderE);
+            BuildChildrenRenderElement(_backboardRenderE);
+
+            return _backboardRenderE;
+        }
+        public void CopyImageBuffer(DrawBoard canvas, int x, int y, int w, int h)
+        {
+            //copy content image to specific img buffer
+
         }
     }
 
