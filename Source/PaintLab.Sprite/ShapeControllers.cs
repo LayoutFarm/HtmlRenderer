@@ -865,7 +865,7 @@ namespace LayoutFarm
         VgVisualElement CreateQuadVgFromSrcRect()
         {
             var spec = new SvgPathSpec() { FillColor = Color.Aqua };
-            VgDocRoot renderRoot = new VgDocRoot();
+            VgVisualDoc renderRoot = new VgVisualDoc();
             VgVisualElement renderE = new VgVisualElement(WellknownSvgElementName.Path, spec, renderRoot);
 
             using (VectorToolBox.Borrow(out SimpleRect rect))
@@ -876,7 +876,7 @@ namespace LayoutFarm
                 rect.MakeVxs(v1);
 
                 //
-                _outlineVxs = renderE._vxsPath = v1.CreateTrim();
+                _outlineVxs = renderE.VxsPath = v1.CreateTrim();
                 _renderE = renderE;
 
             }
@@ -886,7 +886,7 @@ namespace LayoutFarm
         VgVisualElement CreateQuadVgFromDestQuad()
         {
             var spec = new SvgPathSpec() { FillColor = Color.Green };
-            VgDocRoot renderRoot = new VgDocRoot();
+            VgVisualDoc renderRoot = new VgVisualDoc();
             VgVisualElement renderE = new VgVisualElement(WellknownSvgElementName.Path, spec, renderRoot);
 
 
@@ -905,7 +905,7 @@ namespace LayoutFarm
                 stroke.MakeVxs(v1, v2); //create stroke path around v1
 
                 //
-                renderE._vxsPath = v2.CreateTrim();
+                renderE.VxsPath = v2.CreateTrim();
                 _renderE = renderE;
 
             }
@@ -1255,41 +1255,8 @@ namespace LayoutFarm
             };
 
         }
-
-
+         
     }
 
-    public static class VgVisualElemHelper
-    {
-        public static VgVisualElement CreateVgVisualElemFromSvgContent(string svgContent)
-        {
-
-            SvgDocBuilder docBuidler = new SvgDocBuilder();
-            SvgParser parser = new SvgParser(docBuidler);
-            WebLexer.TextSnapshot textSnapshot = new WebLexer.TextSnapshot(svgContent);
-            parser.ParseDocument(textSnapshot);//start document parsing
-
-            //TODO: review this step again
-            VgDocBuilder builder = new VgDocBuilder();
-            SvgDocument svgDoc = docBuidler.ResultDocument;
-            //optional 
-            svgDoc.OriginalContent = svgContent;
-            //-------------------------------------------------------------
-            VgVisualElement renderVx = builder.CreateVgVisualElem(svgDoc, svgElem =>
-            {
-            });
-            //
-            renderVx.OwnerDocument = svgDoc;//tmp
-
-
-            return renderVx;
-        }
-        public static VgVisualElement ReadSvgFile(string filename)
-        {
-
-            VgVisualElement vgx = CreateVgVisualElemFromSvgContent(System.IO.File.ReadAllText(filename));
-            vgx.OwnerDocument.OriginalFilename = filename;
-            return vgx;
-        }
-    }
+   
 }

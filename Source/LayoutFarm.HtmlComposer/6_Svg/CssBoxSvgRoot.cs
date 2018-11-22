@@ -27,21 +27,27 @@ namespace LayoutFarm.HtmlBoxes
         }
         public override void CustomRecomputedValue(CssBox containingBlock)
         {
+            //TODO: review here again***
+            //recreate entire dom?
+            //why we need to re-create all 
 
-            var vgDocBuilder = new VgDocBuilder();
+
+            var vgDocBuilder = new VgVisualDocBuilder();
             vgDocBuilder.SetLoadImageHandler((ImageBinder reqImgBinder, VgVisualElement vgVisualE, object o) =>
             {
 
             });
             //
             vgDocBuilder.SetContainerSize(containingBlock.VisualWidth, containingBlock.VisualHeight);
-            //
-            _vgVisualElem = vgDocBuilder.CreateVgVisualElem(SvgDoc, svgElem =>
+
+            //create visual svg doc from current SvgDoc object
+
+            _vgVisualElem = vgDocBuilder.CreateVgVisualDoc(SvgDoc, svgElem =>
             {
                 _vgVisualElem.SetBitmapSnapshot(null);
                 _vgVisualElem.InvalidateBounds();
                 this.InvalidateGraphics();
-            });
+            }).VgRootElem;
 
             this.SetVisualSize(500, 500); //TODO: review here
         }
@@ -79,7 +85,7 @@ namespace LayoutFarm.HtmlBoxes
 
                 using (VgPainterArgsPool.Borrow(painter, out var paintArgs))
                 {
-                    if (_vgVisualElem._coordTx != null)
+                    if (_vgVisualElem.CoordTx != null)
                     {
 
                     }
@@ -119,7 +125,7 @@ namespace LayoutFarm.HtmlBoxes
 
                 using (VgPainterArgsPool.Borrow(painter, out VgPaintArgs paintArgs))
                 {
-                    if (_vgVisualElem._coordTx != null)
+                    if (_vgVisualElem.CoordTx != null)
                     {
 
                     }

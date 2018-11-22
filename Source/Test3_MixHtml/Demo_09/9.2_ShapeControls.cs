@@ -10,7 +10,7 @@ using LayoutFarm.UI;
 namespace LayoutFarm
 {
     [DemoNote("9.2.2 ShapeControls")]
-    class DemoShapeControl3 : App
+    class DemoShapeControl9_2 : App
     {
 
         QuadControllerUI _quadController = new QuadControllerUI();
@@ -21,19 +21,6 @@ namespace LayoutFarm
         VgVisualElement _vgVisualElem;
 
 
-        VgVisualElement CreateTestRenderVx_FromSvg()
-        {
-            //string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/others/cat_simple.svg";
-            //string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/others/cat_complex.svg";
-            //string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/others/lion.svg";
-            string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/others/tiger.svg";
-            //string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/freepik/dog1.svg";
-            //string svgfile = "1f30b.svg";
-            //string svgfile = "../Data/Svg/twemoji/1f30b.svg";
-            //string svgfile = "../Data/1f30b.svg";
-            //string svgfile = "../Data/Svg/twemoji/1f370.svg"; 
-            return VgVisualElemHelper.ReadSvgFile(svgfile);
-        }
         VgVisualElement CreateEllipseVxs(PixelFarm.CpuBlit.RectD newBounds)
         {
             using (VxsTemp.Borrow(out var v1))
@@ -46,9 +33,9 @@ namespace LayoutFarm
 
 
                 var spec = new SvgPathSpec() { FillColor = Color.Red };
-                VgDocRoot renderRoot = new VgDocRoot();
+                VgVisualDoc renderRoot = new VgVisualDoc();
                 VgVisualElement renderE = new VgVisualElement(WellknownSvgElementName.Path, spec, renderRoot);
-                renderE._vxsPath = ellipse.MakeVxs(v1).CreateTrim();
+                renderE.VxsPath = ellipse.MakeVxs(v1).CreateTrim();
                 return renderE;
             }
 
@@ -56,7 +43,7 @@ namespace LayoutFarm
         VgVisualElement CreateTestRenderVx_BasicShape()
         {
             var spec = new SvgPathSpec() { FillColor = Color.Red };
-            VgDocRoot renderRoot = new VgDocRoot();
+            VgVisualDoc renderRoot = new VgVisualDoc();
             VgVisualElement renderE = new VgVisualElement(WellknownSvgElementName.Path, spec, renderRoot);
 
 
@@ -68,7 +55,7 @@ namespace LayoutFarm
                 vxs.AddLineTo(60, 30);
                 vxs.AddLineTo(10, 30);
                 vxs.AddCloseFigure();
-                renderE._vxsPath = vxs.CreateTrim();
+                renderE.VxsPath = vxs.CreateTrim();
             }
 
             return renderE;
@@ -92,76 +79,39 @@ namespace LayoutFarm
                 Height = new Css.CssLength(50, Css.CssUnitOrNames.Pixels),
             };
 
-            VgDocRoot renderRoot = new VgDocRoot();
-            renderRoot.ImgRequestHandler = LoadRawImg;
-
+            VgVisualDoc renderRoot = new VgVisualDoc();
+            renderRoot.SetImgRequestDelgate(LoadRawImg);
 
             VgVisualElement vgimg = new VgVisualElement(WellknownSvgElementName.Image, spec, renderRoot);
             vgimg.ImageBinder = _appHost.LoadImageAndBind(filename);
-
-
-            //VgRenderVx svgRenderVx = new VgRenderVx(vgimg);
-            //svgRenderVx.GetRectBounds();
-            //using (VxsTemp.Borrow(out VertexStore vxs))
-            //{
-            //    //red-triangle ***
-            //    vxs.AddMoveTo(10, 10);
-            //    vxs.AddLineTo(60, 10);
-            //    vxs.AddLineTo(60, 30);
-            //    vxs.AddLineTo(10, 30);
-            //    vxs.AddCloseFigure();
-            //    renderE._vxsPath = vxs.CreateTrim();
-            //}
-
             return vgimg;
         }
 
-        Typography.Contours.GlyphMeshStore _glyphMaskStore = new Typography.Contours.GlyphMeshStore();
-        VgVisualElement CreateTestRenderVx_FromGlyph(char c, float sizeInPts)
-        {
-            //create vgrender vx from font-glyph
-            string fontfile = "../Test8_HtmlRenderer.Demo/Samples/Fonts/SOV_Thanamas.ttf";
 
-            Typography.OpenFont.Typeface typeface = null;
-            using (System.IO.FileStream fs = new FileStream(fontfile, FileMode.Open))
-            {
-                Typography.OpenFont.OpenFontReader reader = new Typography.OpenFont.OpenFontReader();
-                typeface = reader.Read(fs);
-            }
-            _glyphMaskStore.FlipGlyphUpward = true;
-            _glyphMaskStore.SetFont(typeface, sizeInPts);
-            //-----------------
-
-
-            VertexStore vxs = _glyphMaskStore.GetGlyphMesh(typeface.LookupIndex(c));
-            var spec = new SvgPathSpec() { FillColor = Color.Red };
-            VgDocRoot renderRoot = new VgDocRoot();
-            VgVisualElement renderE = new VgVisualElement(WellknownSvgElementName.Path, spec, renderRoot);
-
-
-            //offset the original vxs to (0,0) bounds
-            //PixelFarm.CpuBlit.RectD bounds = vxs.GetBoundingRect();
-            //Affine translate = Affine.NewTranslation(-bounds.Left, -bounds.Bottom);
-            //renderE._vxsPath = vxs.CreateTrim(translate);
-
-
-            PixelFarm.CpuBlit.RectD bounds = vxs.GetBoundingRect();
-            Affine translate = Affine.NewTranslation(-bounds.Left, -bounds.Bottom);
-            renderE._vxsPath = vxs.CreateTrim(translate);
-            return renderE;
-        }
-
-      
 
         protected override void OnStart(AppHost host)
         {
             _appHost = host;//** 
 
+            //string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/others/cat_simple.svg";
+            //string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/others/cat_complex.svg";
+            //string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/others/lion.svg";
+            string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/others/tiger.svg";
+            //return VgVisualElemHelper.ReadSvgFile(svgfile);
+
+            //string svgfile = "../Test8_HtmlRenderer.Demo/Samples/Svg/freepik/dog1.svg";
+            //string svgfile = "1f30b.svg";
+            //string svgfile = "../Data/Svg/twemoji/1f30b.svg";
+            //string svgfile = "../Data/1f30b.svg";
+            //string svgfile = "../Data/Svg/twemoji/1f370.svg";  
 
             //_svgRenderVx = CreateTestRenderVx_FromSvg();
             //_svgRenderVx = CreateTestRenderVx_BasicShape();
             //_svgRenderVx = CreateTestRenderVx_FromImg("d:\\WImageTest\\alpha1.png"); 
-            _vgVisualElem = CreateTestRenderVx_FromGlyph('a', 256); //create from glyph
+
+            string fontfile = "../Test8_HtmlRenderer.Demo/Samples/Fonts/SOV_Thanamas.ttf";
+            _vgVisualElem = VgVisualElemHelper.CreateVgVisualElementFromGlyph(fontfile, 256, 'a'); //create from glyph
+
             //PixelFarm.CpuBlit.RectD org_rectD = _svgRenderVx.GetBounds(); 
             //_svgRenderVx = CreateEllipseVxs(org_rectD);
 
@@ -278,8 +228,8 @@ namespace LayoutFarm
                     //find which part ...
                     VgHitInfo hitInfo = _uiSprite.FindRenderElementAtPos(e1.X, e1.Y, true);
 
-                    if (hitInfo.svg != null &&
-                        hitInfo.svg._vxsPath != null)
+                    if (hitInfo.hitElem != null &&
+                        hitInfo.hitElem.VxsPath != null)
                     {
 
                         PixelFarm.CpuBlit.RectD bounds = hitInfo.copyOfVxs.GetBoundingRect();
@@ -344,4 +294,6 @@ namespace LayoutFarm
             };
         }
     }
+
+  
 }
