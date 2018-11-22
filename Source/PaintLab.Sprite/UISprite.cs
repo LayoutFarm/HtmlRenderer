@@ -525,18 +525,17 @@ namespace LayoutFarm.UI
         }
 
 
-        PixelFarm.CpuBlit.VertexProcessing.ICoordTransformer _tx;
-
-
+        PixelFarm.CpuBlit.VertexProcessing.ICoordTransformer _tx; 
         //post transform corners
         double _b_x0, _b_y0, //top-left
                _b_x1, _b_y1, //top-right
                _b_x2, _b_y2, //bottom-right
-               _b_x3, _b_y3; //bottom -left
+               _b_x3, _b_y3; //bottom -left 
+        RectD _post_TransformRectBounds;
 
         //post transform bounds
         public PixelFarm.CpuBlit.VertexProcessing.ICoordTransformer TransformMatrix => _tx;
-        RectD _post_TransformRectBounds;
+    
         public void SetTransformation(PixelFarm.CpuBlit.VertexProcessing.ICoordTransformer tx)
         {
 

@@ -129,6 +129,7 @@ namespace LayoutFarm
             VgVisualElement vgVisualElem = _vgVisualDoc.VgRootElem;
             {
                 UISprite wholeImgSprite = CreateUISpriteFromVgVisualElem(vgVisualElem);
+                
             }
             // 
             if (_vgVisualDoc.TryGetVgVisualElementById("path62_larva3", out VgVisualElement vgPart))
