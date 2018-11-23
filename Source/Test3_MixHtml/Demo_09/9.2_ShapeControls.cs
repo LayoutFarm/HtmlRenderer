@@ -72,6 +72,25 @@ namespace LayoutFarm
         }
         VgVisualElement CreateTestRenderVx_FromImg(string filename)
         {
+            ImageBinder imgBinder = _appHost.LoadImageAndBind(filename);
+
+            var spec = new SvgImageSpec()
+            {
+                ImageSrc = filename,
+                Width = new Css.CssLength(imgBinder.ImageWidth, Css.CssUnitOrNames.Pixels),
+                Height = new Css.CssLength(imgBinder.ImageHeight, Css.CssUnitOrNames.Pixels),
+            };
+
+            VgVisualDoc renderRoot = new VgVisualDoc();
+            renderRoot.SetImgRequestDelgate(LoadRawImg);
+
+
+            VgVisualElement vgimg = new VgVisualElement(WellknownSvgElementName.Image, spec, renderRoot);
+            vgimg.ImageBinder = imgBinder;
+            return vgimg;
+        }
+        VgVisualElement CreateTestRenderVx_FromImg2(string filename)
+        {
 
             var spec = new SvgImageSpec()
             {
@@ -83,11 +102,11 @@ namespace LayoutFarm
             VgVisualDoc renderRoot = new VgVisualDoc();
             renderRoot.SetImgRequestDelgate(LoadRawImg);
 
+
             VgVisualElement vgimg = new VgVisualElement(WellknownSvgElementName.Image, spec, renderRoot);
             vgimg.ImageBinder = _appHost.LoadImageAndBind(filename);
             return vgimg;
         }
-
 
         void UpdateRotationPoints(RotationUI _rotationUI)
         {
@@ -114,7 +133,8 @@ namespace LayoutFarm
             //_svgRenderVx = CreateTestRenderVx_FromImg("d:\\WImageTest\\alpha1.png"); 
 
             string fontfile = "../Test8_HtmlRenderer.Demo/Samples/Fonts/SOV_Thanamas.ttf";
-            _vgVisualElem = VgVisualElemHelper.CreateVgVisualElementFromGlyph(fontfile, 256, 'a'); //create from glyph
+            //_vgVisualElem = VgVisualElemHelper.CreateVgVisualElementFromGlyph(fontfile, 256, 'a'); //create from glyph
+            _vgVisualElem = CreateTestRenderVx_FromImg("d:\\WImageTest\\fenec.png");
 
             //PixelFarm.CpuBlit.RectD org_rectD = _svgRenderVx.GetBounds(); 
             //_svgRenderVx = CreateEllipseVxs(org_rectD);
