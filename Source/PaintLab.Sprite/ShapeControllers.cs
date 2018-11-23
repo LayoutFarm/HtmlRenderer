@@ -70,8 +70,318 @@ namespace LayoutFarm
     }
 
 
+    public class RotationUI : UISprite
+    {
+
+        double _rotateAngle = PixelFarm.CpuBlit.AggMath.deg2rad(0);
+        VertexStore _outlineVxs;
+        List<UIControllerBox> _controlBoxes = new List<UIControllerBox>();
+
+
+        SvgPathSpec _pathSpec;
+        VgVisualDoc _vgVisualDoc;
+
+        UIControllerBox _centerPoint;
+        UIControllerBox _radiusPoint;
+
+        public event System.EventHandler AngleUpdated;
+
+        public RotationUI()
+        : base(100, 100)
+        {
+            _pathSpec = new SvgPathSpec() { FillColor = Color.Red };
+            _vgVisualDoc = new VgVisualDoc();
+            _vgVisualElem = new VgVisualElement(WellknownSvgElementName.Path, _pathSpec, _vgVisualDoc);
+        }
+        public double GetAngleInRad()
+        {
+            return System.Math.Atan2(_radiusPoint.Top - _centerPoint.Top, _radiusPoint.Left - _centerPoint.Left);
+
+        }
+        UISprite _refOwner;
+        public void SetReferenceOwner(UISprite ui)
+        {
+            _refOwner = ui;
+        }
+        public void SetCenter(double x, double y)
+        {
+            _centerPoint.SetLocation((int)x, (int)y);
+        }
+        public void SetRadius(double x, double y)
+        {
+            _radiusPoint.SetLocation((int)x, (int)y);
+        }
+        public void AddControlPoints(
+            UIControllerBox centerPoint,
+            UIControllerBox radiusPoint)
+        {
+            _controlBoxes.Add(centerPoint);
+            _controlBoxes.Add(radiusPoint);
+
+            _centerPoint = centerPoint;
+            _radiusPoint = radiusPoint;
+            centerPoint.MouseDrag += (s, e) =>
+            {
+
+            };
+            _radiusPoint.MouseDrag += (s, e) =>
+            {
+                radiusPoint.SetLocation(
+                    radiusPoint.Left + e.XDiff,
+                    radiusPoint.Top + e.YDiff);
+
+                UpdateLineShapes();
+                AngleUpdated?.Invoke(this, System.EventArgs.Empty);
+
+                this.InvalidateGraphics();
+            };
+        }
+
+        internal VertexStore OutlineVxs => _outlineVxs;
+
+        public override void SetLocation(float left, float top)
+        {
+            float xdiff = left - this.Left;
+            float ydiff = top - this.Top;
+            base.SetLocation(left, top);
+            _centerPoint.SetLocation((int)(_centerPoint.Left + xdiff), (int)(_centerPoint.Top + ydiff));
+            _radiusPoint.SetLocation((int)(_radiusPoint.Left + xdiff), (int)(_radiusPoint.Top + ydiff));
+
+        }
+        protected override void OnUpdateVgVisualElement()
+        {
+            //TODO: review here, can we use shared vgvisual doc?
+            //...
+            //_simpleBox = new Box(100, 100);
+
+            using (VxsTemp.Borrow(out var v1, out var v2))
+            using (VectorToolBox.Borrow(out Stroke stroke))
+            {
+                stroke.Width = 2;
+
+                v1.AddMoveTo(_centerPoint.Left, _centerPoint.Top);
+                v1.AddLineTo(_radiusPoint.Left, _radiusPoint.Top);
+
+                v1.AddNoMore();
+                //
+                _outlineVxs = v1.CreateTrim();//outline vxs***
+                stroke.MakeVxs(v1, v2); //create stroke path around v1 
+                _vgVisualElem.VxsPath = v2.CreateTrim();
+
+            }
+            //*** after set dest 
+            CreateNewControlPoints(_controlBoxes, this.OutlineVxs);
+
+            //SetCornerLocation(0, _controlBoxes[0].TargetX, _controlBoxes[0].TargetY);
+            //SetCornerLocation(1, _controlBoxes[1].TargetX, _controlBoxes[1].TargetY);
+            //SetCornerLocation(2, _controlBoxes[2].TargetX, _controlBoxes[2].TargetY);
+            //SetCornerLocation(3, _controlBoxes[3].TargetX, _controlBoxes[3].TargetY);
+            base.OnUpdateVgVisualElement();
+        }
+
+
+        void UpdateLineShapes()
+        {
+            using (VxsTemp.Borrow(out var v1, out var v2))
+            using (VectorToolBox.Borrow(out Stroke stroke))
+            {
+                stroke.Width = 2;
+                //vxs is relative to  left and top of this UI
+
+                v1.AddMoveTo(_centerPoint.Left - this.Left, _centerPoint.Top - this.Top);
+                v1.AddLineTo(_radiusPoint.Left - this.Left, _radiusPoint.Top - this.Top);
+
+                v1.AddNoMore();
+                //
+                _outlineVxs = v1.CreateTrim();//outline vxs***
+                stroke.MakeVxs(v1, v2); //create stroke path around v1 
+                _vgVisualElem.VxsPath = v2.CreateTrim();
+            }
+        }
+
+        void SetupCornerBoxController(UIControllerBox box)
+        {
+            Color c = KnownColors.FromKnownColor(KnownColor.Orange);
+            box.BackColor = new Color(100, c.R, c.G, c.B);
+            //controllerBox1.dbugTag = 3;
+            box.Visible = true;
+            //for controller box    
+            box.MouseDown += (s, e) =>
+            {
+                //UpdateRotationCenter(box.Index);
+                //_affineFinalTx = UpdateAffineMatrix();
+
+            };
+
+            box.MouseDrag += (s, e) =>
+            {
+
+                //_eventSrcControlBox = box;
+                double newX = box.TargetX + e.XDiff;// pos.X + e.XDiff;
+                double newY = box.TargetY + e.YDiff; //pos.Y + e.YDiff;
+                //_xdiff = e.XDiff;
+                //_ydiff = e.YDiff;
+                box.SetLocationRelativeToTarget(newX, newY);
+
+
+
+                this.InvalidateGraphics();
+                foreach (UIElement ui in _controlBoxes)
+                {
+                    ui.InvalidateGraphics();
+                }
+
+                UpdateLineShapes();
+                this.InvalidateGraphics();
+                foreach (UIElement ui in _controlBoxes)
+                {
+                    ui.InvalidateGraphics();
+                }
+                //need to update vg shape ***
+
+
+
+                //switch (_currentTransformStyle)
+                //{
+                //    default: throw new System.NotSupportedException();
+
+                //    case QuadTransformStyle.Bilinear:
+                //        {
+                //            box.SetLocationRelativeToTarget(newX, newY);
+                //            //var targetBox = cornerBox.TargetBox;
+                //            //if (targetBox != null)
+                //            //{
+                //            //    //move target box too
+                //            //    targetBox.SetLocation(newX + 5, newY + 5);
+                //            //}
+                //            e.CancelBubbling = true;
+                //        }
+                //        break;
+                //    case QuadTransformStyle.Affine_ScaleAndTranslate:
+                //        {
+                //            _affineFinalTx = UpdateAffineMatrix();
+                //            box.SetLocationRelativeToTarget(newX, newY);
+                //        }
+                //        break;
+                //    case QuadTransformStyle.Affine_Rotation:
+                //        {
+
+                //            switch (box.Index)
+                //            {
+                //                case 0:
+                //                    {
+                //                        _rotateAngle = System.Math.Atan2(_controlBoxes[1].TargetY - newY, _controlBoxes[1].TargetX - newX);
+                //                    }
+                //                    break;
+                //                case 1:
+                //                    {
+                //                        //find new angle  
+                //                        _rotateAngle = System.Math.Atan2(newY - _controlBoxes[0].TargetY, newX - _controlBoxes[0].TargetX);
+                //                    }
+                //                    break;
+                //                case 2:
+                //                    {
+                //                        //find new angle   
+                //                        _rotateAngle = System.Math.Atan2(newY - _controlBoxes[3].TargetY, newX - _controlBoxes[3].TargetX);
+                //                    }
+                //                    break;
+                //                case 3:
+                //                    {
+                //                        _rotateAngle = System.Math.Atan2(_controlBoxes[2].TargetY - newY, _controlBoxes[2].TargetX - newX);
+
+                //                    }
+                //                    break;
+                //            }
+
+                //            //update affine matrix
+                //            _affineFinalTx = UpdateAffineMatrix();
+                //            box.SetLocationRelativeToTarget(newX, newY);
+                //        }
+                //        break;
+                //}
+
+                //--------------------------------- 
+                //_simpleBox.InvalidateOuterGraphics();
+                foreach (UIControllerBox ctrl in _controlBoxes)
+                {
+                    //update before move 
+                    ctrl.InvalidateOuterGraphics();
+                }
+                //then update the vxs shape 
+                //_vxs.ReplaceVertex(box.Index, newX, newY);
+                //this.UpdateRelatedControls();
+                //_uiListener?.HandleElementUpdate();
+            };
+        }
+
+
+        void CreateNewControlPoints(List<UIControllerBox> controls, VertexStore vxs)
+        {
+            float offsetX = 0;
+            float offsetY = 0;
+            int j = vxs.Count;
+            for (int i = 0; i < j; ++i)
+            {
+                switch (vxs.GetVertex(i, out double x, out double y))
+                {
+                    case PixelFarm.CpuBlit.VertexCmd.NoMore:
+                        break;
+                    case PixelFarm.CpuBlit.VertexCmd.MoveTo:
+                        {
+                            var ctrlPoint = new UIControllerBox(8, 8);
+                            ctrlPoint.Index = i;
+
+                            x += offsetX;
+                            y += offsetY;
+
+                            ctrlPoint.SrcX = x;
+                            ctrlPoint.SrcY = y;
+                            ctrlPoint.SetLocationRelativeToTarget(x, y);
+
+                            SetupCornerBoxController(ctrlPoint);
+                            controls.Add(ctrlPoint);
+                        }
+                        break;
+                    case PixelFarm.CpuBlit.VertexCmd.LineTo:
+                        {
+                            var ctrlPoint = new UIControllerBox(8, 8);
+                            ctrlPoint.Index = i;
+                            x += offsetX;
+                            y += offsetY;
+
+                            ctrlPoint.SrcX = x;
+                            ctrlPoint.SrcY = y;
+
+                            ctrlPoint.SetLocationRelativeToTarget(x, y);
+
+                            SetupCornerBoxController(ctrlPoint);
+                            controls.Add(ctrlPoint);
+                        }
+                        break;
+                    case PixelFarm.CpuBlit.VertexCmd.Close:
+                        break;
+                }
+            }
+        }
+
+        public void BuildControlBoxes()
+        {
+            ////*** after set dest
+            //_controlBoxes = new List<UIControllerBox>();
+            //CreateNewControlPoints(_controlBoxes, this.OutlineVxs);
+            ////---------
+            //this._polygonController.LoadControlPoints(_controlBoxes);// _quadController.OutlineVxs);
+            //SetCornerLocation(0, _controlBoxes[0].TargetX, _controlBoxes[0].TargetY);
+            //SetCornerLocation(1, _controlBoxes[1].TargetX, _controlBoxes[1].TargetY);
+            //SetCornerLocation(2, _controlBoxes[2].TargetX, _controlBoxes[2].TargetY);
+            //SetCornerLocation(3, _controlBoxes[3].TargetX, _controlBoxes[3].TargetY);
+        }
+    }
+
     public class QuadControllerUI : UISprite
     {
+
+
         public enum QuadTransformStyle
         {
             None,
@@ -120,6 +430,7 @@ namespace LayoutFarm
 
         QuadTransformStyle _currentTransformStyle = QuadTransformStyle.Affine_ScaleAndTranslate;
         PolygonControllerUI _polygonController;
+
 
         double _rotateAngle = PixelFarm.CpuBlit.AggMath.deg2rad(0);
 
@@ -217,8 +528,25 @@ namespace LayoutFarm
                     UpdateRotationCenter(2, 1, 0);
                     break;
             }
-
         }
+
+        public void UpdateRotationAngle(double newAngle)
+        {
+
+            _rotateAngle = newAngle;
+            _affineFinalTx = UpdateAffineMatrix();
+            //--------------------------------- 
+            //_simpleBox.InvalidateOuterGraphics(); 
+            foreach (UIControllerBox ctrl in _controlBoxes)
+            {
+                //update before move 
+                ctrl.InvalidateOuterGraphics();
+            }
+            //then update the vxs shape 
+            //_vxs.ReplaceVertex(box.Index, newX, newY);
+            this.UpdateRelatedControls();
+        }
+
         void SetupCornerBoxController(UIControllerBox box)
         {
             Color c = KnownColors.FromKnownColor(KnownColor.Orange);
@@ -422,15 +750,6 @@ namespace LayoutFarm
                         break;
                 }
             }
-
-
-            //---------------------
-            //create a drag control
-
-            //---------------------
-            //create rotation box
-
-
         }
 
         static void AssignXY(UIControllerBox box, out double x, out double y)
@@ -445,6 +764,7 @@ namespace LayoutFarm
         }
         protected override void OnKeyDown(UIKeyEventArgs e)
         {
+            //TODO: remove thiss
             switch (e.KeyCode)
             {
                 case UIKeys.NumPad0:
@@ -459,6 +779,12 @@ namespace LayoutFarm
             }
 
             base.OnKeyDown(e);
+        }
+
+        public QuadTransformStyle TransformStyle
+        {
+            get => _currentTransformStyle;
+            set => _currentTransformStyle = value;
         }
         void SetCornerLocation(int index, double x, double y)
         {
@@ -816,6 +1142,9 @@ namespace LayoutFarm
             UpdateRelatedControls();
         }
 
+
+        public event UIEventHandler<UIMouseEventArgs> Drag;
+
         protected override void OnMouseMove(UIMouseEventArgs e)
         {
             if (e.IsDragging)
@@ -829,7 +1158,11 @@ namespace LayoutFarm
                     _polygonController.Left + e.XDiff,
                     _polygonController.Top + e.YDiff);
                 _polygonController.InvalidateOuterGraphics();
+
                 UpdateTransformedShape(this, System.EventArgs.Empty);
+                //
+                //
+                Drag?.Invoke(e);
             }
             base.OnMouseMove(e);
         }
@@ -858,15 +1191,16 @@ namespace LayoutFarm
             }
         }
 
-        VgVisualElement _renderE;
+
+        VgVisualElement _vgVisElem;//*** 
         VertexStore _outlineVxs;
         internal VertexStore OutlineVxs => _outlineVxs;
 
         VgVisualElement CreateQuadVgFromSrcRect()
         {
             var spec = new SvgPathSpec() { FillColor = Color.Aqua };
-            VgVisualDoc renderRoot = new VgVisualDoc();
-            VgVisualElement renderE = new VgVisualElement(WellknownSvgElementName.Path, spec, renderRoot);
+            VgVisualDoc vgVisualDoc = new VgVisualDoc();
+            VgVisualElement vgVisElem = new VgVisualElement(WellknownSvgElementName.Path, spec, vgVisualDoc);
 
             using (VectorToolBox.Borrow(out SimpleRect rect))
             using (VxsTemp.Borrow(out VertexStore v1))
@@ -876,18 +1210,19 @@ namespace LayoutFarm
                 rect.MakeVxs(v1);
 
                 //
-                _outlineVxs = renderE.VxsPath = v1.CreateTrim();
-                _renderE = renderE;
+                _outlineVxs = vgVisElem.VxsPath = v1.CreateTrim();
+                _vgVisElem = vgVisElem;
 
             }
-            return _renderE;
+            return _vgVisElem;
         }
 
         VgVisualElement CreateQuadVgFromDestQuad()
         {
+            //create 4 side of quad (green line)
             var spec = new SvgPathSpec() { FillColor = Color.Green };
-            VgVisualDoc renderRoot = new VgVisualDoc();
-            VgVisualElement renderE = new VgVisualElement(WellknownSvgElementName.Path, spec, renderRoot);
+            VgVisualDoc vgVisualDoc = new VgVisualDoc();
+            VgVisualElement vgVisElem = new VgVisualElement(WellknownSvgElementName.Path, spec, vgVisualDoc);
 
 
             using (VxsTemp.Borrow(out var v1, out var v2))
@@ -905,11 +1240,11 @@ namespace LayoutFarm
                 stroke.MakeVxs(v1, v2); //create stroke path around v1
 
                 //
-                renderE.VxsPath = v2.CreateTrim();
-                _renderE = renderE;
+                vgVisElem.VxsPath = v2.CreateTrim();
+                _vgVisElem = vgVisElem;
 
             }
-            return _renderE;
+            return _vgVisElem;
         }
         public void SetDestQuad(
             double x0, double y0,
@@ -933,7 +1268,6 @@ namespace LayoutFarm
             _y3 = y3;
 
             LoadVg(CreateQuadVgFromDestQuad());
-
 
         }
         public void BuildControlBoxes()
@@ -1007,7 +1341,7 @@ namespace LayoutFarm
     }
     public class PolygonControllerUI : UIElement
     {
-        Box _simpleBox;
+        Box _simpleBox;//primary render elemenet
         bool _hasPrimRenderE;
 
         List<UIControllerBox> _controls = new List<UIControllerBox>();
@@ -1255,8 +1589,8 @@ namespace LayoutFarm
             };
 
         }
-         
+
     }
 
-   
+
 }

@@ -309,14 +309,16 @@ namespace LayoutFarm.UI
             _b_x2 = b_x2; _b_y2 = b_y2;
             _b_x3 = b_x3; _b_y3 = b_y3;
         }
-
     }
+
+
+
 
     public class UISprite : UIElement
     {
         bool _enableSubSvgTest;
 
-        VgVisualElement _vgVisualElem;
+        protected VgVisualElement _vgVisualElem;
         VgBridgeRenderElement _vgBridgeRenderElement;
 
         bool _disableBmpCache;
@@ -452,6 +454,12 @@ namespace LayoutFarm.UI
                 this.SetSize((int)bounds.Width, (int)bounds.Height);
             }
         }
+
+        /// <summary>
+        /// derived class should prepare _vgVisualElem ***
+        /// </summary>
+        protected virtual void OnUpdateVgVisualElement() { }
+
         protected override void OnMouseDown(UIMouseEventArgs e)
         {
             base.OnMouseDown(e);
@@ -472,6 +480,9 @@ namespace LayoutFarm.UI
         {
             if (_vgBridgeRenderElement == null)
             {
+
+                OnUpdateVgVisualElement(); //**
+
                 RectD bounds = _vgVisualElem.GetRectBounds();
 
                 //****
@@ -525,7 +536,7 @@ namespace LayoutFarm.UI
         }
 
 
-        PixelFarm.CpuBlit.VertexProcessing.ICoordTransformer _tx; 
+        PixelFarm.CpuBlit.VertexProcessing.ICoordTransformer _tx;
         //post transform corners
         double _b_x0, _b_y0, //top-left
                _b_x1, _b_y1, //top-right
@@ -535,7 +546,7 @@ namespace LayoutFarm.UI
 
         //post transform bounds
         public PixelFarm.CpuBlit.VertexProcessing.ICoordTransformer TransformMatrix => _tx;
-    
+
         public void SetTransformation(PixelFarm.CpuBlit.VertexProcessing.ICoordTransformer tx)
         {
 
