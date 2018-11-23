@@ -32,7 +32,7 @@ namespace LayoutFarm.HtmlBoxes
     /// To know more about boxes visit CSS spec:
     /// http://www.w3.org/TR/CSS21/box.html
     /// </remarks>
-    public partial class CssBox : IHasGetEmHeight
+    public partial class CssBox : IHasEmHeight
     {
         readonly Css.BoxSpec _myspec;
         object _controller;
