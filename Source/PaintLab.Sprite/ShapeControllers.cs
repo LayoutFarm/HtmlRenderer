@@ -529,7 +529,10 @@ namespace LayoutFarm
                     break;
             }
         }
-
+        public void ClearCurrentEventSourceBox()
+        {
+            _eventSrcControlBox = null;
+        }
         public void UpdateRotationAngle(double newAngle)
         {
 
@@ -1333,7 +1336,14 @@ namespace LayoutFarm
             this.TargetY = targetBoxY;
             this.SetLocation((int)System.Math.Round(targetBoxX), (int)System.Math.Round(targetBoxY));
         }
-
+        public override void InvalidateGraphics()
+        {
+            CurrentPrimaryRenderElement?.InvalidateGraphics();
+        }
+        public override void InvalidateOuterGraphics()
+        {
+            CurrentPrimaryRenderElement?.InvalidateGraphics();
+        }
 #if DEBUG
         public override string ToString() => Left + "," + Top;
 #endif

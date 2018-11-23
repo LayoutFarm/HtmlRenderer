@@ -348,7 +348,6 @@ namespace LayoutFarm
                 }
             };
         }
-
         private void _rotationUI_AngleUpdated(object sender, System.EventArgs e)
         {
             //when angle update 
@@ -356,6 +355,7 @@ namespace LayoutFarm
             QuadControllerUI.QuadTransformStyle prevStyle = _quadController.TransformStyle;
             _quadController.TransformStyle = QuadControllerUI.QuadTransformStyle.Affine_Rotation;
             double angle = _rotationUI.GetAngleInRad();
+            _quadController.ClearCurrentEventSourceBox();
             _quadController.UpdateRotationAngle(angle);
             _quadController.TransformStyle = prevStyle;
 
