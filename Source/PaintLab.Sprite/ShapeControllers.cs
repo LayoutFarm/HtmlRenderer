@@ -443,52 +443,52 @@ namespace LayoutFarm
             {
                 //change
 
-                if (_currentTransformStyle != value)
-                {
-                    switch (value)
-                    {
-                        default: throw new System.NotSupportedException();
-                        case QuadTransformStyle.Bilinear:
-                            {
-                                //how to deal with this
+                //if (_currentTransformStyle != value)
+                //{
+                //    switch (value)
+                //    {
+                //        default: throw new System.NotSupportedException();
+                //        case QuadTransformStyle.Bilinear:
+                //            {
+                //                //how to deal with this
 
-                            }
-                            break;
-                        case QuadTransformStyle.Affine_ScaleAndTranslate:
-                            {
+                //            }
+                //            break;
+                //        case QuadTransformStyle.Affine_ScaleAndTranslate:
+                //            {
 
-                            }
-                            break;
-                        case QuadTransformStyle.Affine_Rotation:
-                            {
-                                switch (_currentTransformStyle)
-                                {
-                                    case QuadTransformStyle.Affine_Rotation:
-                                    case QuadTransformStyle.Affine_ScaleAndTranslate:
-                                        {
-                                            //do nothing
-                                        }
-                                        break;
-                                    case QuadTransformStyle.Bilinear:
-                                        {
+                //            }
+                //            break;
+                //        case QuadTransformStyle.Affine_Rotation:
+                //            {
+                //                switch (_currentTransformStyle)
+                //                {
+                //                    case QuadTransformStyle.Affine_Rotation:
+                //                    case QuadTransformStyle.Affine_ScaleAndTranslate:
+                //                        {
+                //                            //do nothing
+                //                        }
+                //                        break;
+                //                    case QuadTransformStyle.Bilinear:
+                //                        {
 
-                                        }
-                                        break;
-                                    case QuadTransformStyle.Perspective:
-                                        {
+                //                        }
+                //                        break;
+                //                    case QuadTransformStyle.Perspective:
+                //                        {
 
-                                        }
-                                        break;
-                                }
-                            }
-                            break;
-                        case QuadTransformStyle.Perspective:
-                            {
+                //                        }
+                //                        break;
+                //                }
+                //            }
+                //            break;
+                //        case QuadTransformStyle.Perspective:
+                //            {
 
-                            }
-                            break;
-                    }
-                }
+                //            }
+                //            break;
+                //    }
+                //}
 
 
                 _currentTransformStyle = value;
