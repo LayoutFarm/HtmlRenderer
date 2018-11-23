@@ -363,19 +363,6 @@ namespace LayoutFarm
                 }
             }
         }
-
-        public void BuildControlBoxes()
-        {
-            ////*** after set dest
-            //_controlBoxes = new List<UIControllerBox>();
-            //CreateNewControlPoints(_controlBoxes, this.OutlineVxs);
-            ////---------
-            //this._polygonController.LoadControlPoints(_controlBoxes);// _quadController.OutlineVxs);
-            //SetCornerLocation(0, _controlBoxes[0].TargetX, _controlBoxes[0].TargetY);
-            //SetCornerLocation(1, _controlBoxes[1].TargetX, _controlBoxes[1].TargetY);
-            //SetCornerLocation(2, _controlBoxes[2].TargetX, _controlBoxes[2].TargetY);
-            //SetCornerLocation(3, _controlBoxes[3].TargetX, _controlBoxes[3].TargetY);
-        }
     }
 
     public class QuadControllerUI : UISprite
@@ -412,11 +399,6 @@ namespace LayoutFarm
 
 
         List<UIControllerBox> _controlBoxes;
-        public QuadControllerUI()
-            : base(100, 100)
-        {
-
-        }
 
 
         double _srcCenterX = 0;
@@ -442,16 +424,81 @@ namespace LayoutFarm
 
         double _scaleW = 1;
         double _scaleH = 1;
-
-
         UIControllerBox _eventSrcControlBox;
 
+
+
+        public QuadControllerUI()
+          : base(100, 100)
+        {
+
+        }
+
+
+
+        public QuadTransformStyle TransformStyle
+        {
+            get => _currentTransformStyle;
+            set
+            {
+                //change
+
+                if (_currentTransformStyle != value)
+                {
+                    switch (value)
+                    {
+                        default: throw new System.NotSupportedException();
+                        case QuadTransformStyle.Bilinear:
+                            {
+                                //how to deal with this
+
+                            }
+                            break;
+                        case QuadTransformStyle.Affine_ScaleAndTranslate:
+                            {
+
+                            }
+                            break;
+                        case QuadTransformStyle.Affine_Rotation:
+                            {
+                                switch (_currentTransformStyle)
+                                {
+                                    case QuadTransformStyle.Affine_Rotation:
+                                    case QuadTransformStyle.Affine_ScaleAndTranslate:
+                                        {
+                                            //do nothing
+                                        }
+                                        break;
+                                    case QuadTransformStyle.Bilinear:
+                                        {
+
+                                        }
+                                        break;
+                                    case QuadTransformStyle.Perspective:
+                                        {
+
+                                        }
+                                        break;
+                                }
+                            }
+                            break;
+                        case QuadTransformStyle.Perspective:
+                            {
+
+                            }
+                            break;
+                    }
+                }
+
+
+                _currentTransformStyle = value;
+            }
+        }
         public ICoordTransformer GetCoordTransformer()
         {
             switch (_currentTransformStyle)
             {
                 case QuadTransformStyle.Affine_ScaleAndTranslate:
-                    return _affineFinalTx;
                 case QuadTransformStyle.Affine_Rotation:
                     return _affineFinalTx;
                 case QuadTransformStyle.Bilinear:
@@ -773,22 +820,11 @@ namespace LayoutFarm
                 case UIKeys.NumPad0:
                     _currentTransformStyle = QuadTransformStyle.Bilinear;
                     break;
-                case UIKeys.NumPad1:
-                    _currentTransformStyle = QuadTransformStyle.Affine_Rotation;
-                    break;
-                case UIKeys.NumPad2:
-                    _currentTransformStyle = QuadTransformStyle.Affine_ScaleAndTranslate;
-                    break;
             }
-
             base.OnKeyDown(e);
         }
 
-        public QuadTransformStyle TransformStyle
-        {
-            get => _currentTransformStyle;
-            set => _currentTransformStyle = value;
-        }
+
         void SetCornerLocation(int index, double x, double y)
         {
 
@@ -1349,8 +1385,13 @@ namespace LayoutFarm
 #endif
 
     }
+
+
     public class PolygonControllerUI : UIElement
     {
+
+
+
         Box _simpleBox;//primary render elemenet
         bool _hasPrimRenderE;
 
