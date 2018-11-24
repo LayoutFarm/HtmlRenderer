@@ -302,8 +302,8 @@ namespace LayoutFarm.HtmlBoxes
 #if DEBUG
             dbugCounter.dbugDrawStringCount++;
 #endif
-            var g = this._drawBoard;
-            g.DrawText(str, startAt, len, new Rectangle(
+
+            _drawBoard.DrawText(str, startAt, len, new Rectangle(
                   (int)point.X, (int)point.Y,
                   (int)size.Width, (int)size.Height), 0
                   );

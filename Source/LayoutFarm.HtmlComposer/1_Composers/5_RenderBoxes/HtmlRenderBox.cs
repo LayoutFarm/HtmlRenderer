@@ -40,6 +40,9 @@ namespace LayoutFarm.HtmlBoxes
             }
 
             _myHtmlCont.CheckDocUpdate();
+
+
+            DrawBoard cpuBlit = canvas.GetCpuBlitDrawBoard();
             PaintVisitor painter = PaintVisitorStock.GetSharedPaintVisitor(this._myHtmlCont, canvas);
             painter.SetViewportSize(this.Width, this.Height);
 #if DEBUG
