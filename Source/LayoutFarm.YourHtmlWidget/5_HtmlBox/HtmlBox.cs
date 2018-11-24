@@ -29,11 +29,25 @@ namespace LayoutFarm.CustomWidgets
         MyHtmlVisualRoot _htmlVisualRoot;
         //presentation
         HtmlRenderBox _htmlRenderBox;
-        HtmlInputEventAdapter _inputEventAdapter; 
+        HtmlInputEventAdapter _inputEventAdapter;
+        bool _preferSoftwareRenderer;
+
         public HtmlBox(HtmlHost htmlHost, int width, int height)
             : base(width, height)
         {
             this._htmlhost = htmlHost;
+        }
+        public bool PreferSoftwareRenderer
+        {
+            get => _preferSoftwareRenderer;
+            set
+            {
+                _preferSoftwareRenderer = value;
+                if (_htmlRenderBox != null)
+                {
+                    _htmlRenderBox.PreferSoftwareRenderer = value;
+                }
+            }
         }
         internal HtmlHost HtmlHost
         {
@@ -223,12 +237,13 @@ namespace LayoutFarm.CustomWidgets
         {
             if (_htmlRenderBox == null)
             {
-                var newFrRenderBox = new HtmlRenderBox(rootgfx, this.Width, this.Height);
-                newFrRenderBox.SetController(this);
-                newFrRenderBox.HasSpecificWidthAndHeight = true;
-                newFrRenderBox.SetLocation(this.Left, this.Top);
+                var newHtmlRenderBox = new HtmlRenderBox(rootgfx, this.Width, this.Height);
+                newHtmlRenderBox.SetController(this);
+                newHtmlRenderBox.HasSpecificWidthAndHeight = true;
+                newHtmlRenderBox.SetLocation(this.Left, this.Top);
+                newHtmlRenderBox.PreferSoftwareRenderer = this.PreferSoftwareRenderer;
                 //set to this field if ready
-                this._htmlRenderBox = newFrRenderBox;
+                this._htmlRenderBox = newHtmlRenderBox;
             }
             switch (this._waitingContentKind)
             {

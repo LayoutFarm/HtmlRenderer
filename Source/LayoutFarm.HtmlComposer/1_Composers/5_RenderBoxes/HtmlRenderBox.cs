@@ -42,11 +42,14 @@ namespace LayoutFarm.HtmlBoxes
 
             DrawBoard cpuDrawBoard = null;
 
-            if (canvas.IsGpuDrawBoard &&
+            if (PreferSoftwareRenderer &&
+                canvas.IsGpuDrawBoard &&
                (cpuDrawBoard = canvas.GetCpuBlitDrawBoard()) != null)
             {
                 //TODO: review this again ***
                 //test built-in 'shared' software rendering surface
+
+                cpuDrawBoard.Clear(Color.White);
                 PaintVisitor painter = PaintVisitorStock.GetSharedPaintVisitor(this._myHtmlCont, cpuDrawBoard);
                 painter.SetViewportSize(this.Width, this.Height);
 
