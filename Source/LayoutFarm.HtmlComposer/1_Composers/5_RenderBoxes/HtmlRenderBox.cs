@@ -42,15 +42,38 @@ namespace LayoutFarm.HtmlBoxes
             _myHtmlCont.CheckDocUpdate();
 
 
-            DrawBoard cpuBlit = canvas.GetCpuBlitDrawBoard();
-            PaintVisitor painter = PaintVisitorStock.GetSharedPaintVisitor(this._myHtmlCont, canvas);
-            painter.SetViewportSize(this.Width, this.Height);
+            DrawBoard cpuDrawBoard = canvas.GetCpuBlitDrawBoard();
+            if (cpuDrawBoard != null && canvas.IsGpuDrawBoard)
+            {
+                //TEST, developing
+                //use cpu drawboard
+
+                PaintVisitor painter = PaintVisitorStock.GetSharedPaintVisitor(this._myHtmlCont, cpuDrawBoard);
+                painter.SetViewportSize(this.Width, this.Height);
+
 #if DEBUG
-            painter.dbugDrawDiagonalBox(Color.Blue, this.X, this.Y, this.Width, this.Height);
+                painter.dbugDrawDiagonalBox(Color.Blue, this.X, this.Y, this.Width, this.Height);
 #endif
 
-            _myHtmlCont.PerformPaint(painter);
-            PaintVisitorStock.ReleaseSharedPaintVisitor(painter);
+                _myHtmlCont.PerformPaint(painter);
+                PaintVisitorStock.ReleaseSharedPaintVisitor(painter);
+
+                //then copy from cpu to gpu
+                canvas.BlitFrom(cpuDrawBoard, X, Y, this.Width, this.Height);
+            }
+            else
+            {
+                PaintVisitor painter = PaintVisitorStock.GetSharedPaintVisitor(this._myHtmlCont, canvas);
+                painter.SetViewportSize(this.Width, this.Height);
+#if DEBUG
+                painter.dbugDrawDiagonalBox(Color.Blue, this.X, this.Y, this.Width, this.Height);
+#endif
+
+                _myHtmlCont.PerformPaint(painter);
+                PaintVisitorStock.ReleaseSharedPaintVisitor(painter);
+            }
+
+
         }
         public override void ChildrenHitTestCore(HitChain hitChain)
         {
