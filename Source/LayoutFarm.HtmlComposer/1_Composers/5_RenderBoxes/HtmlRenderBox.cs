@@ -61,7 +61,7 @@ namespace LayoutFarm.HtmlBoxes
                 PaintVisitorStock.ReleaseSharedPaintVisitor(painter);
 
                 //then copy from cpu to gpu
-                canvas.BlitFrom(cpuDrawBoard, X, Y, this.Width, this.Height);
+                canvas.BlitFrom(cpuDrawBoard, 0, 0, this.Width, this.Height, X, Y);
             }
             else
             {
