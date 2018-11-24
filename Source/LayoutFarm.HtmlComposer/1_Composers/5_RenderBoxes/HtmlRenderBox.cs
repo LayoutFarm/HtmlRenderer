@@ -15,7 +15,6 @@ namespace LayoutFarm.HtmlBoxes
             int width, int height)
             : base(rootgfx, width, height)
         {
-
         }
         public CssBox CssBox
         {
@@ -41,8 +40,10 @@ namespace LayoutFarm.HtmlBoxes
 
             _myHtmlCont.CheckDocUpdate();
 
-            DrawBoard cpuDrawBoard = canvas.GetCpuBlitDrawBoard();
-            if (cpuDrawBoard != null && canvas.IsGpuDrawBoard)
+            DrawBoard cpuDrawBoard = null;
+
+            if (canvas.IsGpuDrawBoard &&
+               (cpuDrawBoard = canvas.GetCpuBlitDrawBoard()) != null)
             {
                 //TODO: review this again ***
                 //test built-in 'shared' software rendering surface

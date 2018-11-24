@@ -29,9 +29,7 @@ namespace LayoutFarm.CustomWidgets
         MyHtmlVisualRoot _htmlVisualRoot;
         //presentation
         HtmlRenderBox _htmlRenderBox;
-        HtmlInputEventAdapter _inputEventAdapter;
-
-
+        HtmlInputEventAdapter _inputEventAdapter; 
         public HtmlBox(HtmlHost htmlHost, int width, int height)
             : base(width, height)
         {
