@@ -41,13 +41,11 @@ namespace LayoutFarm.HtmlBoxes
 
             _myHtmlCont.CheckDocUpdate();
 
-
             DrawBoard cpuDrawBoard = canvas.GetCpuBlitDrawBoard();
             if (cpuDrawBoard != null && canvas.IsGpuDrawBoard)
             {
-                //TEST, developing
-                //use cpu drawboard
-
+                //TODO: review this again ***
+                //test built-in 'shared' software rendering surface
                 PaintVisitor painter = PaintVisitorStock.GetSharedPaintVisitor(this._myHtmlCont, cpuDrawBoard);
                 painter.SetViewportSize(this.Width, this.Height);
 
