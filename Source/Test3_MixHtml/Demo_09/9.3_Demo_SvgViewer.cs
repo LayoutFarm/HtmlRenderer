@@ -14,7 +14,7 @@ namespace LayoutFarm.ColorBlenderSample
 
         ListView _lstvw_svgFiles;
         BackDrawBoardUI _backBoard;
-        SvgParser parser;
+
 
 
 
@@ -26,7 +26,7 @@ namespace LayoutFarm.ColorBlenderSample
 
             {
                 _backBoard = new BackDrawBoardUI(800, 600);
-                _backBoard.SetLocation(10, 10);
+                _backBoard.SetLocation(0, 0);
                 _backBoard.BackColor = PixelFarm.Drawing.Color.White;
 
                 host.AddChild(_backBoard);
@@ -81,17 +81,17 @@ namespace LayoutFarm.ColorBlenderSample
         void ParseAndRenderSvgFile(string svgFile)
         {
             var docBuilder = new SvgDocBuilder();
-            parser = new SvgParser(docBuilder);
+            var parser = new SvgParser(docBuilder);
 
             string svgContent = System.IO.File.ReadAllText(svgFile);
             WebLexer.TextSnapshot textSnapshot = new WebLexer.TextSnapshot(svgContent);
             parser.ParseDocument(textSnapshot);
             //
-            VgDocBuilder builder = new VgDocBuilder();
+            VgVisualDocBuilder builder = new VgVisualDocBuilder();
             builder.SetLoadImageHandler(ImgBinderLoadImg);
             //
             //
-            VgVisualElement vgVisElem = builder.CreateVgVisualElem(docBuilder.ResultDocument, null);
+            VgVisualElement vgVisElem = builder.CreateVgVisualDoc(docBuilder.ResultDocument, null).VgRootElem;
 
             var uiSprite = new UISprite(10, 10);
             var evListener = new GeneralEventListener();
@@ -101,9 +101,16 @@ namespace LayoutFarm.ColorBlenderSample
                 //hit on svg color- area
                 VgHitInfo hitInfo = uiSprite.FindRenderElementAtPos(e.X, e.Y, false);
 #if DEBUG
-                if (hitInfo.svg != null)
+                if (hitInfo.hitElem != null)
                 {
-                    Console.WriteLine(hitInfo.svg.dbugId);
+
+                    SvgElement domElem = hitInfo.hitElem.DomElem;
+                    if (domElem != null && domElem.ElemId != null)
+                    {
+
+                        Console.WriteLine(domElem.ElemId);
+                    }
+
                 }
 #endif
 
@@ -115,5 +122,9 @@ namespace LayoutFarm.ColorBlenderSample
             _backBoard.ClearChildren();
             _backBoard.AddChild(uiSprite);
         }
+
+
+    
+
     }
 }

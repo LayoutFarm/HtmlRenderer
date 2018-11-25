@@ -74,7 +74,7 @@ namespace PaintLab.Svg
             {
                 //propagate up 
                 var hitInfo = hitPointChain.GetHitInfo(i);
-                SvgElement svg = hitInfo.svg.GetController() as SvgElement;
+                SvgElement svg = hitInfo.hitElem.GetController() as SvgElement;
                 if (svg != null)
                 {
                     var controller = SvgElement.UnsafeGetController(svg) as IEventPortal;

@@ -257,16 +257,16 @@ namespace LayoutFarm.UI
 
             using (VgPainterArgsPool.Borrow(painter, out VgPaintArgs paintArgs))
             {
-                if (vgVisualElem._coordTx != null)
+                if (vgVisualElem.CoordTx != null)
                 {
                     //transform ?
                     if (paintArgs._currentTx == null)
                     {
-                        paintArgs._currentTx = vgVisualElem._coordTx;
+                        paintArgs._currentTx = vgVisualElem.CoordTx;
                     }
                     else
                     {
-                        paintArgs._currentTx = paintArgs._currentTx.MultiplyWith(vgVisualElem._coordTx);
+                        paintArgs._currentTx = paintArgs._currentTx.MultiplyWith(vgVisualElem.CoordTx);
                     }
 
                 }
@@ -309,14 +309,16 @@ namespace LayoutFarm.UI
             _b_x2 = b_x2; _b_y2 = b_y2;
             _b_x3 = b_x3; _b_y3 = b_y3;
         }
-
     }
+
+
+
 
     public class UISprite : UIElement
     {
         bool _enableSubSvgTest;
 
-        VgVisualElement _vgVisualElem;
+        protected VgVisualElement _vgVisualElem;
         VgBridgeRenderElement _vgBridgeRenderElement;
 
         bool _disableBmpCache;
@@ -332,6 +334,7 @@ namespace LayoutFarm.UI
             SetElementBoundsWH(width, height);
             this.AutoStopMouseEventPropagation = true;
         }
+        public VgVisualElement VgVisualElem => _vgVisualElem;
 
         public bool EnableSubSvgTest
         {
@@ -374,10 +377,6 @@ namespace LayoutFarm.UI
             }
         }
 
-
-
-        internal VgBridgeRenderElement VgBridgeRenderElement => _vgBridgeRenderElement;
-        public VgVisualElement VgVisualElem => _vgVisualElem;
 
 
         //--------------------
@@ -455,6 +454,12 @@ namespace LayoutFarm.UI
                 this.SetSize((int)bounds.Width, (int)bounds.Height);
             }
         }
+
+        /// <summary>
+        /// derived class should prepare _vgVisualElem ***
+        /// </summary>
+        protected virtual void OnUpdateVgVisualElement() { }
+
         protected override void OnMouseDown(UIMouseEventArgs e)
         {
             base.OnMouseDown(e);
@@ -475,6 +480,9 @@ namespace LayoutFarm.UI
         {
             if (_vgBridgeRenderElement == null)
             {
+
+                OnUpdateVgVisualElement(); //**
+
                 RectD bounds = _vgVisualElem.GetRectBounds();
 
                 //****
@@ -529,21 +537,34 @@ namespace LayoutFarm.UI
 
 
         PixelFarm.CpuBlit.VertexProcessing.ICoordTransformer _tx;
-
-
         //post transform corners
         double _b_x0, _b_y0, //top-left
                _b_x1, _b_y1, //top-right
                _b_x2, _b_y2, //bottom-right
-               _b_x3, _b_y3; //bottom -left
+               _b_x3, _b_y3; //bottom -left 
+        RectD _post_TransformRectBounds;
 
         //post transform bounds
-        RectD _post_TransformRectBounds;
+        public PixelFarm.CpuBlit.VertexProcessing.ICoordTransformer TransformMatrix => _tx;
+
         public void SetTransformation(PixelFarm.CpuBlit.VertexProcessing.ICoordTransformer tx)
         {
 
+            //if (_tx != null)
+            //{
+            //    //we already has the old tx transformation
+            //    if (_tx.Kind != tx.Kind)
+            //    {
+            //        //then we need to bind the 2 together
+            //        PixelFarm.CpuBlit.VertexProcessing.ICoordTransformer newTx = tx.MultiplyWith(_tx);
+            //        _tx = newTx;
+            //    }
+            //}
+
+
+
             _tx = tx;
-            _vgVisualElem._coordTx = tx;
+            _vgVisualElem.CoordTx = tx;
             _vgVisualElem.InvalidateBounds();
 
 
@@ -573,10 +594,6 @@ namespace LayoutFarm.UI
 
             }
 
-            if (_vgVisualElem != null)
-            {
-
-            }
 
             if (_vgBridgeRenderElement != null)
             {
