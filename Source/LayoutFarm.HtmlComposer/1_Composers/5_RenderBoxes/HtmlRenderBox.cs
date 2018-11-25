@@ -8,24 +8,23 @@ namespace LayoutFarm.HtmlBoxes
 {
     public class HtmlRenderBox : RenderBoxBase
     {
-        MyHtmlVisualRoot myHtmlCont;
-        CssBox cssBox;
+        MyHtmlVisualRoot _myHtmlCont;
+        CssBox _cssBox;
 
         public HtmlRenderBox(RootGraphic rootgfx,
             int width, int height)
             : base(rootgfx, width, height)
         {
-             
-        } 
+        }
         public CssBox CssBox
         {
-            get { return this.cssBox; }
+            get { return this._cssBox; }
         }
         public void SetHtmlContainer(MyHtmlVisualRoot htmlCont, CssBox box)
         {
-            this.myHtmlCont = htmlCont;
-            this.cssBox = box;
-            myHtmlCont.RootRenderElement = this;
+            this._myHtmlCont = htmlCont;
+            this._cssBox = box;
+            _myHtmlCont.RootRenderElement = this;
         }
         public override void ClearAllChildren()
         {
@@ -34,31 +33,60 @@ namespace LayoutFarm.HtmlBoxes
         {
             //TODO: review here, 
             //
-            if (myHtmlCont == null)
+            if (_myHtmlCont == null)
             {
                 return;
             }
 
-            myHtmlCont.CheckDocUpdate();
-            PaintVisitor painter = PaintVisitorStock.GetSharedPaintVisitor(this.myHtmlCont, canvas);
-            painter.SetViewportSize(this.Width, this.Height);
+            _myHtmlCont.CheckDocUpdate();
+
+            DrawBoard cpuDrawBoard = null;
+
+            if (PreferSoftwareRenderer &&
+                canvas.IsGpuDrawBoard &&
+               (cpuDrawBoard = canvas.GetCpuBlitDrawBoard()) != null)
+            {
+                //TODO: review this again ***
+                //test built-in 'shared' software rendering surface
+
+                cpuDrawBoard.Clear(Color.White);
+                PaintVisitor painter = PaintVisitorStock.GetSharedPaintVisitor(this._myHtmlCont, cpuDrawBoard);
+                painter.SetViewportSize(this.Width, this.Height);
+
 #if DEBUG
-            painter.dbugDrawDiagonalBox(Color.Blue, this.X, this.Y, this.Width, this.Height);
+                painter.dbugDrawDiagonalBox(Color.Blue, this.X, this.Y, this.Width, this.Height);
 #endif
 
-            myHtmlCont.PerformPaint(painter);
-            PaintVisitorStock.ReleaseSharedPaintVisitor(painter);
+                _myHtmlCont.PerformPaint(painter);
+                PaintVisitorStock.ReleaseSharedPaintVisitor(painter);
+
+                //then copy from cpu to gpu
+                canvas.BlitFrom(cpuDrawBoard, 0, 0, this.Width, this.Height, X, Y);
+            }
+            else
+            {
+                PaintVisitor painter = PaintVisitorStock.GetSharedPaintVisitor(this._myHtmlCont, canvas);
+                painter.SetViewportSize(this.Width, this.Height);
+#if DEBUG
+                painter.dbugDrawDiagonalBox(Color.Blue, this.X, this.Y, this.Width, this.Height);
+#endif
+
+                _myHtmlCont.PerformPaint(painter);
+                PaintVisitorStock.ReleaseSharedPaintVisitor(painter);
+            }
+
+
         }
         public override void ChildrenHitTestCore(HitChain hitChain)
         {
         }
         public int HtmlWidth
         {
-            get { return (int)this.myHtmlCont.ActualWidth; }
+            get { return (int)this._myHtmlCont.ActualWidth; }
         }
         public int HtmlHeight
         {
-            get { return (int)this.myHtmlCont.ActualHeight; }
+            get { return (int)this._myHtmlCont.ActualHeight; }
         }
     }
 
