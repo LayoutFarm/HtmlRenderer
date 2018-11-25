@@ -8,21 +8,39 @@ namespace LayoutFarm
     {
         protected override void OnStart(AppHost host)
         {
-            HtmlBoxes.HtmlHost htmlhost = HtmlHostCreatorHelper.CreateHtmlHost(host, null, null);
-            ////==================================================
-            //html box
-            var htmlBox = new HtmlBox(htmlhost, 800, 400);
-            htmlBox.SetLocation(30, 30);
-            host.AddChild(htmlBox);
-            string html = @"<html><head></head><body><div>OK1</div><div>OK2</div></body></html>";
-            htmlBox.LoadHtmlString(html);
-            //================================================== 
+            {
+                //html box1
+                HtmlBoxes.HtmlHost htmlhost = HtmlHostCreatorHelper.CreateHtmlHost(host, null, null);
+                //html box             
+                var htmlBox = new HtmlBox(htmlhost, 800, 400);
+                htmlBox.SetLocation(0, 0);
+                //htmlBox.PreferSoftwareRenderer = true;
+                host.AddChild(htmlBox);
+                string html = @"<html><head></head><body><div>OK1</div><div>OK2</div></body></html>";
+                htmlBox.LoadHtmlString(html);
+                //================================================== 
+            }
+            {
+                //html box2
 
-            //textbox
-            var textbox = new LayoutFarm.CustomWidgets.TextBox(400, 100, true);
-            textbox.SetLocation(0, 200);
-            host.AddChild(textbox);
-            textbox.Focus();
+                HtmlBoxes.HtmlHost htmlhost = HtmlHostCreatorHelper.CreateHtmlHost(host, null, null);
+                //html box             
+                var htmlBox = new HtmlBox(htmlhost, 800, 400);
+                htmlBox.PreferSoftwareRenderer = true;
+                htmlBox.SetLocation(0, 420);//**
+                host.AddChild(htmlBox);
+                string html = @"<html><head></head><body><div>OK3</div><div>OK4</div></body></html>";
+                htmlBox.LoadHtmlString(html);
+                //================================================== 
+            }
+
+            //{
+            //    //textbox
+            //    var textbox = new LayoutFarm.CustomWidgets.TextBox(400, 25, true);
+            //    textbox.SetLocation(0, 0);
+            //    host.AddChild(textbox);
+            //    textbox.Focus();
+            //}
         }
     }
 }

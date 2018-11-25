@@ -550,6 +550,19 @@ namespace LayoutFarm.UI
         public void SetTransformation(PixelFarm.CpuBlit.VertexProcessing.ICoordTransformer tx)
         {
 
+            //if (_tx != null)
+            //{
+            //    //we already has the old tx transformation
+            //    if (_tx.Kind != tx.Kind)
+            //    {
+            //        //then we need to bind the 2 together
+            //        PixelFarm.CpuBlit.VertexProcessing.ICoordTransformer newTx = tx.MultiplyWith(_tx);
+            //        _tx = newTx;
+            //    }
+            //}
+
+
+
             _tx = tx;
             _vgVisualElem.CoordTx = tx;
             _vgVisualElem.InvalidateBounds();
