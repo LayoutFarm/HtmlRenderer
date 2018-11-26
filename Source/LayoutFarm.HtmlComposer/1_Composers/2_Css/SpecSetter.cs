@@ -216,7 +216,7 @@ namespace LayoutFarm.Composers
                     spec.BackgroundColor = AsColor(cssValue);
                     break;
                 case WellknownCssPropertyName.BackgroundImage:
-                    spec.BackgroundImageBinder = new ClientImageBinder(cssValue.GetTranslatedStringValue());
+                    spec.BackgroundImageBinder = new ImageBinder(cssValue.GetTranslatedStringValue());
                     break;
                 case WellknownCssPropertyName.BackgroundPosition:
                     SetBackgroundPosition(spec, cssValue);
