@@ -43,7 +43,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 if (this.imgBinder != null)
                 {
-                    return imgBinder.Image;
+                    return imgBinder.LocalImage;
                 }
                 return null;
             }

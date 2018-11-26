@@ -142,7 +142,7 @@ namespace LayoutFarm.HtmlBoxes
             //--------------------------------------------------
             if (binder.State == BinderState.Loaded)
             {
-                Image img = binder.Image;
+                Image img = binder.LocalImage;
                 if (img != null)
                 {
                     //set real image info

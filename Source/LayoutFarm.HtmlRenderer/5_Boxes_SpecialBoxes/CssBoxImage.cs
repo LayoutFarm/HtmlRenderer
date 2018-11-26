@@ -130,7 +130,7 @@ namespace LayoutFarm.HtmlBoxes
                 case BinderState.Loaded:
                     {
                         Image img;
-                        if ((img = (Image)_imgRun.ImageBinder.Image) != null) //assign and test
+                        if ((img = (Image)_imgRun.ImageBinder.LocalImage) != null) //assign and test
                         {
                             if (this.VisualWidth != 0)
                             {
