@@ -601,7 +601,7 @@ namespace LayoutFarm.HtmlBoxes
             }
             else
             {
-                var clientImageBinder = new ImageBinder(null);
+                var clientImageBinder = new ImageBinder(null as string);
                 imgBinder = clientImageBinder;
             }
 
