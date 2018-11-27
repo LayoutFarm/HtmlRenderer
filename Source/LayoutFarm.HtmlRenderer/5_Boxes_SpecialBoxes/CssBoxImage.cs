@@ -51,11 +51,11 @@ namespace LayoutFarm.HtmlBoxes
             //TODO: ...
 
             float newW = this.Width.IsEmptyOrAuto ?
-                            this._imgRun.ImageBinder.ImageWidth :
+                            this._imgRun.ImageBinder.Width :
                             LayoutFarm.WebDom.Parser.CssValueParser.ConvertToPx(Width, VisualWidth, this);
 
             float newH = this.Height.IsEmptyOrAuto ?
-                           this._imgRun.ImageBinder.ImageHeight :
+                           this._imgRun.ImageBinder.Height :
                            LayoutFarm.WebDom.Parser.CssValueParser.ConvertToPx(Width, VisualWidth, this);
 
 
@@ -65,8 +65,8 @@ namespace LayoutFarm.HtmlBoxes
             // this._imgRun.ImageBinder.ImageHeight); 
             //------------------------
             _imgRun.SetSize(
-                 this._imgRun.ImageBinder.ImageWidth,
-                 this._imgRun.ImageBinder.ImageHeight);
+                 this._imgRun.ImageBinder.Width,
+                 this._imgRun.ImageBinder.Height);
             //------------------------
             _imgRun.InvalidateGraphics();
 
@@ -130,7 +130,7 @@ namespace LayoutFarm.HtmlBoxes
                 case BinderState.Loaded:
                     {
                         Image img;
-                        if ((img = (Image)_imgRun.ImageBinder.Image) != null) //assign and test
+                        if ((img = (Image)_imgRun.ImageBinder.LocalImage) != null) //assign and test
                         {
                             if (this.VisualWidth != 0)
                             {

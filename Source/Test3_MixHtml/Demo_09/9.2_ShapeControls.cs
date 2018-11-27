@@ -77,8 +77,8 @@ namespace LayoutFarm
             var spec = new SvgImageSpec()
             {
                 ImageSrc = filename,
-                Width = new Css.CssLength(imgBinder.ImageWidth, Css.CssUnitOrNames.Pixels),
-                Height = new Css.CssLength(imgBinder.ImageHeight, Css.CssUnitOrNames.Pixels),
+                Width = new Css.CssLength(imgBinder.Width, Css.CssUnitOrNames.Pixels),
+                Height = new Css.CssLength(imgBinder.Height, Css.CssUnitOrNames.Pixels),
             };
 
             VgVisualDoc renderRoot = new VgVisualDoc();

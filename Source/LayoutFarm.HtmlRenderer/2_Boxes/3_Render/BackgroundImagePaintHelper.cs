@@ -33,7 +33,7 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="rectangle">the rectangle to draw image in</param>
         public static void DrawBackgroundImage(DrawBoard g, CssBox box, ImageBinder imageBinder, RectangleF rectangle)
         {
-            Image image = imageBinder.Image;
+            Image image = imageBinder.LocalImage;
             //temporary comment image scale code 
             Size imgSize = image.Size;
             //new Size(imageLoadHandler.Rectangle == Rectangle.Empty ? imageLoadHandler.Image.Width : imageLoadHandler.Rectangle.Width,

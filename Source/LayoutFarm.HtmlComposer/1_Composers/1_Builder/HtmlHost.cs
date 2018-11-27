@@ -595,13 +595,13 @@ namespace LayoutFarm.HtmlBoxes
             ImageBinder imgBinder = null;
             if (childElement.TryGetAttribute(WellknownName.Src, out imgsrc))
             {
-                var clientImageBinder = new ClientImageBinder(imgsrc);
+                var clientImageBinder = new ImageBinder(imgsrc);
                 imgBinder = clientImageBinder;
 
             }
             else
             {
-                var clientImageBinder = new ClientImageBinder(null);
+                var clientImageBinder = new ImageBinder(null as string);
                 imgBinder = clientImageBinder;
             }
 

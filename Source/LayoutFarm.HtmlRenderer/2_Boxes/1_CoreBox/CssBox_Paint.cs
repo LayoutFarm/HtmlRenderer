@@ -558,7 +558,7 @@ namespace LayoutFarm.HtmlBoxes
                 if (isFirst)
                 {
                     ImageBinder bgImageBinder = this.BackgroundImageBinder;
-                    if (bgImageBinder != null && bgImageBinder.Image != null)
+                    if (bgImageBinder != null && bgImageBinder.LocalImage != null)
                     {
                         BackgroundImagePaintHelper.DrawBackgroundImage(g, this, bgImageBinder, rect);
                     }
