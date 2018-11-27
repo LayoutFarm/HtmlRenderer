@@ -826,7 +826,7 @@ namespace LayoutFarm.Composers
                                             //var clientImageBinder = new ClientImageBinder(imgsrc);
                                             //imgbinder1 = clientImageBinder;
                                             //clientImageBinder.SetOwner(tag);
-                                            cssBoxImage1.ImageBinder = new ClientImageBinder(imgsrc);
+                                            cssBoxImage1.ImageBinder = new ImageBinder(imgsrc);
                                         }
                                     }
                                     else
