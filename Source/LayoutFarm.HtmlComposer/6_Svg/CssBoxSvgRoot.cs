@@ -111,6 +111,9 @@ namespace LayoutFarm.HtmlBoxes
                 PixelFarm.CpuBlit.RectD bound = _vgVisualElem.GetRectBounds();
                 //create
                 PixelFarm.CpuBlit.MemBitmap backimg = new PixelFarm.CpuBlit.MemBitmap((int)bound.Width + 10, (int)bound.Height + 10);
+#if DEBUG
+                backimg._dbugNote = "cssBoxSvgRoot";
+#endif
                 PixelFarm.CpuBlit.AggPainter painter = PixelFarm.CpuBlit.AggPainter.Create(backimg);
                 //TODO: review here
                 //temp fix

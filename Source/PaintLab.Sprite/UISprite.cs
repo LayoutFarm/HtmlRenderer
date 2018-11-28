@@ -223,6 +223,9 @@ namespace LayoutFarm.UI
                     painter = canvas.GetPainter() as PixelFarm.CpuBlit.AggPainter;
 
                     MemBitmap backimg = new MemBitmap(width, height);
+#if DEBUG
+                    backimg._dbugNote = "vg_bridge_renderElement";
+#endif
                     AggPainter painter2 = AggPainter.Create(backimg);
                     painter2.CurrentFont = canvas.CurrentFont;
                     painter2.Clear(Color.FromArgb(0, Color.White));
