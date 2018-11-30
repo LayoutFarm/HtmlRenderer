@@ -163,6 +163,7 @@ namespace LayoutFarm.UI
 
 
         MemBitmap _latestBackupMemBmp;
+        bool _useAggPainter; //use CpuBlit painter or not
 
         public override void CustomDrawToThisCanvas(DrawBoard canvas, Rectangle updateArea)
         {
@@ -179,88 +180,108 @@ namespace LayoutFarm.UI
                 }
             }
 #endif
-            AggPainter painter = null;
-            if (DisableBitmapCache &&
-               ((painter = canvas.GetPainter() as PixelFarm.CpuBlit.AggPainter) != null))
+
+            if (!_useAggPainter)
             {
-                PaintVgWithPainter(painter, _vgVisualElem);
+                //the use default canvas
+                Painter canvas_p = canvas.GetPainter();
+                if (canvas_p != null)
+                {
+                    PaintVgWithPainter(canvas_p, _vgVisualElem);
+                }
+                //no painter
+                //check if we want to switch back to AggPainter?
             }
             else
             {
+                //
+                //use agg painter
+                //...
 
-                //enable bitmap cache
-                if (_vgVisualElem.HasBitmapSnapshot)
+                AggPainter painter = null;
+                if (DisableBitmapCache &&
+                   ((painter = canvas.GetPainter() as PixelFarm.CpuBlit.AggPainter) != null))
                 {
-                    Image backimg = _vgVisualElem.BackingImage;
-                    canvas.DrawImage(backimg, new RectangleF(0, 0, backimg.Width, backimg.Height));
+                    PaintVgWithPainter(painter, _vgVisualElem);
                 }
                 else
                 {
-                    //convert vg to bitmap 
-                    //**
-                    PixelFarm.CpuBlit.RectD bounds = _vgVisualElem.GetRectBounds();
-                    //
-                    int width = (int)Math.Ceiling(bounds.Width);
-                    int height = (int)Math.Ceiling(bounds.Height);
-                    //create 
-                    if (bounds.Left > 0)
-                    {
-                        width = (int)Math.Ceiling(bounds.Right);
-                    }
-                    if (bounds.Bottom > 0)
-                    {
-                        height = (int)Math.Ceiling(bounds.Top);
-                    }
 
-                    //--------------------
-                    //TODO: use reusable agg painter***
-                    if (width < 1)
+                    //enable bitmap cache
+                    if (_vgVisualElem.HasBitmapSnapshot)
                     {
-                        width = this.Width;
-                    }
-                    if (height < 1)
-                    {
-                        height = this.Height;
-                    }
-                    //--------------------
-                    painter = canvas.GetPainter() as PixelFarm.CpuBlit.AggPainter;
-
-                    MemBitmap backimg = new MemBitmap(width, height);
-#if DEBUG
-                    backimg._dbugNote = "vg_bridge_renderElement " + this.dbug_obj_id;
-#endif
-                    AggPainter painter2 = AggPainter.Create(backimg);
-                    painter2.CurrentFont = canvas.CurrentFont;
-                    painter2.Clear(Color.FromArgb(0, Color.White));
-
-                    if (painter != null)
-                    {
-                        painter2.TextPrinter = painter.TextPrinter;
-                        painter2.FillColor = painter.FillColor;
+                        Image backimg = _vgVisualElem.BackingImage;
+                        canvas.DrawImage(backimg, new RectangleF(0, 0, backimg.Width, backimg.Height));
                     }
                     else
                     {
+                        //convert vg to bitmap 
+                        //**
+                        PixelFarm.CpuBlit.RectD bounds = _vgVisualElem.GetRectBounds();
+                        //
+                        int width = (int)Math.Ceiling(bounds.Width);
+                        int height = (int)Math.Ceiling(bounds.Height);
+                        //create 
+                        if (bounds.Left > 0)
+                        {
+                            width = (int)Math.Ceiling(bounds.Right);
+                        }
+                        if (bounds.Bottom > 0)
+                        {
+                            height = (int)Math.Ceiling(bounds.Top);
+                        }
 
+                        //--------------------
+                        //TODO: use reusable agg painter***
+                        if (width < 1)
+                        {
+                            width = this.Width;
+                        }
+                        if (height < 1)
+                        {
+                            height = this.Height;
+                        }
+                        //--------------------
+                        painter = canvas.GetPainter() as PixelFarm.CpuBlit.AggPainter;
+
+                        MemBitmap backimg = new MemBitmap(width, height);
+#if DEBUG
+                        backimg._dbugNote = "vg_bridge_renderElement " + this.dbug_obj_id;
+#endif
+                        AggPainter painter2 = AggPainter.Create(backimg);
+                        painter2.CurrentFont = canvas.CurrentFont;
+                        painter2.Clear(Color.FromArgb(0, Color.White));
+
+                        if (painter != null)
+                        {
+                            painter2.TextPrinter = painter.TextPrinter;
+                            painter2.FillColor = painter.FillColor;
+                        }
+                        else
+                        {
+
+                        }
+
+
+
+                        //--------------------
+                        //
+                        PaintVgWithPainter(painter2, _vgVisualElem);
+
+                        canvas.DrawImage(backimg, new RectangleF(0, 0, backimg.Width, backimg.Height));
+                        //
+                        _vgVisualElem.SetBitmapSnapshot(backimg, true);
+                        //temp fix ....
+                        if (_latestBackupMemBmp != null)
+                        {
+                            (Image.GetCacheInnerImage(_latestBackupMemBmp) as IDisposable)?.Dispose();
+                            _latestBackupMemBmp.Dispose();
+                        }
+                        _latestBackupMemBmp = backimg;
                     }
-
-
-
-                    //--------------------
-                    //
-                    PaintVgWithPainter(painter2, _vgVisualElem);
-
-                    canvas.DrawImage(backimg, new RectangleF(0, 0, backimg.Width, backimg.Height));
-                    //
-                    _vgVisualElem.SetBitmapSnapshot(backimg, true);
-                    //temp fix ....
-                    if (_latestBackupMemBmp != null)
-                    {
-                        (Image.GetCacheInnerImage(_latestBackupMemBmp) as IDisposable)?.Dispose();
-                        _latestBackupMemBmp.Dispose();
-                    }
-                    _latestBackupMemBmp = backimg;
                 }
             }
+
         }
 
 
