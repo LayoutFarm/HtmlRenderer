@@ -161,6 +161,9 @@ namespace LayoutFarm.UI
         }
         public bool DisableBitmapCache { get; set; }
 
+
+        MemBitmap _latestBackupMemBmp;
+
         public override void CustomDrawToThisCanvas(DrawBoard canvas, Rectangle updateArea)
         {
 
@@ -224,7 +227,7 @@ namespace LayoutFarm.UI
 
                     MemBitmap backimg = new MemBitmap(width, height);
 #if DEBUG
-                    backimg._dbugNote = "vg_bridge_renderElement";
+                    backimg._dbugNote = "vg_bridge_renderElement " + this.dbug_obj_id;
 #endif
                     AggPainter painter2 = AggPainter.Create(backimg);
                     painter2.CurrentFont = canvas.CurrentFont;
@@ -240,13 +243,22 @@ namespace LayoutFarm.UI
 
                     }
 
+
+
                     //--------------------
                     //
                     PaintVgWithPainter(painter2, _vgVisualElem);
+
                     canvas.DrawImage(backimg, new RectangleF(0, 0, backimg.Width, backimg.Height));
                     //
                     _vgVisualElem.SetBitmapSnapshot(backimg, true);
-
+                    //temp fix ....
+                    if (_latestBackupMemBmp != null)
+                    {
+                        (Image.GetCacheInnerImage(_latestBackupMemBmp) as IDisposable)?.Dispose();
+                        _latestBackupMemBmp.Dispose();
+                    }
+                    _latestBackupMemBmp = backimg;
                 }
             }
         }
