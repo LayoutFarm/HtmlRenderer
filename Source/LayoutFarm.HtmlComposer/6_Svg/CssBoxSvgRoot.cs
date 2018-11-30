@@ -44,7 +44,7 @@ namespace LayoutFarm.HtmlBoxes
 
             _vgVisualElem = vgDocBuilder.CreateVgVisualDoc(SvgDoc, svgElem =>
             {
-                _vgVisualElem.SetBitmapSnapshot(null, true);
+                _vgVisualElem.ClearBitmapSnapshot();
                 _vgVisualElem.InvalidateBounds();
                 this.InvalidateGraphics();
             }).VgRootElem;

@@ -448,7 +448,7 @@ namespace LayoutFarm.UI
 
             if (_vgBridgeRenderElement != null)
             {
-                _vgVisualElem.SetBitmapSnapshot(null, true);//clear
+                _vgVisualElem.ClearBitmapSnapshot();
                 _vgVisualElem.InvalidateBounds();
                 //_svgRenderVx.SetBitmapSnapshot(null); 
                 //_svgRenderElement.RenderVx = _svgRenderVx;
