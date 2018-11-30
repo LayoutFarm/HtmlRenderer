@@ -44,7 +44,7 @@ namespace LayoutFarm.HtmlBoxes
 
             _vgVisualElem = vgDocBuilder.CreateVgVisualDoc(SvgDoc, svgElem =>
             {
-                _vgVisualElem.SetBitmapSnapshot(null);
+                _vgVisualElem.SetBitmapSnapshot(null, true);
                 _vgVisualElem.InvalidateBounds();
                 this.InvalidateGraphics();
             }).VgRootElem;
@@ -141,7 +141,7 @@ namespace LayoutFarm.HtmlBoxes
                 //test 
                 //PixelFarm.CpuBlit.Imaging.PngImageWriter.dbugSaveToPngFile(backimg, "d:\\WImageTest\\subimg1.png");
 #endif
-                _vgVisualElem.SetBitmapSnapshot(backimg);
+                _vgVisualElem.SetBitmapSnapshot(backimg, true);
                 drawBoard.DrawImage(backimg, new RectangleF(0, 0, backimg.Width, backimg.Height));
 
             }

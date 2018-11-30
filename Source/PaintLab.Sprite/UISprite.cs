@@ -243,10 +243,10 @@ namespace LayoutFarm.UI
                     //--------------------
                     //
                     PaintVgWithPainter(painter2, _vgVisualElem);
-
-                    //
-                    _vgVisualElem.SetBitmapSnapshot(backimg);
                     canvas.DrawImage(backimg, new RectangleF(0, 0, backimg.Width, backimg.Height));
+                    //
+                    _vgVisualElem.SetBitmapSnapshot(backimg, true);
+
                 }
             }
         }
@@ -448,7 +448,7 @@ namespace LayoutFarm.UI
 
             if (_vgBridgeRenderElement != null)
             {
-                _vgVisualElem.SetBitmapSnapshot(null);//clear
+                _vgVisualElem.SetBitmapSnapshot(null, true);//clear
                 _vgVisualElem.InvalidateBounds();
                 //_svgRenderVx.SetBitmapSnapshot(null); 
                 //_svgRenderElement.RenderVx = _svgRenderVx;
