@@ -51,17 +51,19 @@ namespace LayoutFarm.HtmlBoxes
 
                 cpuDrawBoard.Clear(Color.White);
                 PaintVisitor painter = PaintVisitorStock.GetSharedPaintVisitor(this._myHtmlCont, cpuDrawBoard);
+
                 painter.SetViewportSize(this.Width, this.Height);
 
 #if DEBUG
                 painter.dbugDrawDiagonalBox(Color.Blue, this.X, this.Y, this.Width, this.Height);
 #endif
 
+
                 _myHtmlCont.PerformPaint(painter);
                 PaintVisitorStock.ReleaseSharedPaintVisitor(painter);
 
-                //then copy from cpu to gpu
-                canvas.BlitFrom(cpuDrawBoard, 0, 0, this.Width, this.Height, X, Y);
+                //then copy from cpu to gpu 
+                canvas.BlitFrom(cpuDrawBoard, X, Y, this.Width, this.Height, 0, 0);
             }
             else
             {

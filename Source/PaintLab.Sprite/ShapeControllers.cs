@@ -325,7 +325,7 @@ namespace LayoutFarm
                 switch (vxs.GetVertex(i, out double x, out double y))
                 {
                     case PixelFarm.CpuBlit.VertexCmd.NoMore:
-                        break;
+                        return;//**
                     case PixelFarm.CpuBlit.VertexCmd.MoveTo:
                         {
                             var ctrlPoint = new UIControllerBox(8, 8);
@@ -763,7 +763,7 @@ namespace LayoutFarm
                 switch (vxs.GetVertex(i, out double x, out double y))
                 {
                     case PixelFarm.CpuBlit.VertexCmd.NoMore:
-                        break;
+                        return;
                     case PixelFarm.CpuBlit.VertexCmd.MoveTo:
                         {
                             var ctrlPoint = new UIControllerBox(8, 8);
@@ -1280,6 +1280,10 @@ namespace LayoutFarm
 
                 //
                 vgVisElem.VxsPath = v2.CreateTrim();
+#if DEBUG
+                vgVisElem.VxsPath.dbugNote = 1;
+#endif
+
                 _vgVisElem = vgVisElem;
 
             }

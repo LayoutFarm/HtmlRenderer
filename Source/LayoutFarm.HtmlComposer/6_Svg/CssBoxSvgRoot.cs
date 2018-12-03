@@ -44,7 +44,7 @@ namespace LayoutFarm.HtmlBoxes
 
             _vgVisualElem = vgDocBuilder.CreateVgVisualDoc(SvgDoc, svgElem =>
             {
-                _vgVisualElem.SetBitmapSnapshot(null);
+                _vgVisualElem.ClearBitmapSnapshot();
                 _vgVisualElem.InvalidateBounds();
                 this.InvalidateGraphics();
             }).VgRootElem;
@@ -111,6 +111,9 @@ namespace LayoutFarm.HtmlBoxes
                 PixelFarm.CpuBlit.RectD bound = _vgVisualElem.GetRectBounds();
                 //create
                 PixelFarm.CpuBlit.MemBitmap backimg = new PixelFarm.CpuBlit.MemBitmap((int)bound.Width + 10, (int)bound.Height + 10);
+#if DEBUG
+                backimg._dbugNote = "cssBoxSvgRoot";
+#endif
                 PixelFarm.CpuBlit.AggPainter painter = PixelFarm.CpuBlit.AggPainter.Create(backimg);
                 //TODO: review here
                 //temp fix
@@ -138,7 +141,7 @@ namespace LayoutFarm.HtmlBoxes
                 //test 
                 //PixelFarm.CpuBlit.Imaging.PngImageWriter.dbugSaveToPngFile(backimg, "d:\\WImageTest\\subimg1.png");
 #endif
-                _vgVisualElem.SetBitmapSnapshot(backimg);
+                _vgVisualElem.SetBitmapSnapshot(backimg, true);
                 drawBoard.DrawImage(backimg, new RectangleF(0, 0, backimg.Width, backimg.Height));
 
             }
