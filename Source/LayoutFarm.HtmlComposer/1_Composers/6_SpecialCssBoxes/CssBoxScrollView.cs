@@ -110,31 +110,31 @@ namespace LayoutFarm.HtmlBoxes
             EventHandler _viewportChanged;
             public CssScrollWrapper(CssBox cssbox)
             {
-                this._cssbox = cssbox;
+                _cssbox = cssbox;
             }
             void IScrollable.SetViewport(int x, int y, object reqBy)
             {
-                this._cssbox.SetViewport(x, y);
+                _cssbox.SetViewport(x, y);
             }
 
             int IScrollable.ViewportX
             {
-                get { return this._cssbox.ViewportX; }
+                get { return _cssbox.ViewportX; }
             }
 
             int IScrollable.ViewportY
             {
-                get { return this._cssbox.ViewportY; }
+                get { return _cssbox.ViewportY; }
             }
 
             int IScrollable.ViewportWidth
             {
-                get { return (int)this._cssbox.VisualWidth; }
+                get { return (int)_cssbox.VisualWidth; }
             }
 
             int IScrollable.ViewportHeight
             {
-                get { return (int)this._cssbox.VisualHeight; }
+                get { return (int)_cssbox.VisualHeight; }
             }
             int IScrollable.InnerHeight
             {

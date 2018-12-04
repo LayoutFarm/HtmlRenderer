@@ -16,32 +16,32 @@ namespace LayoutFarm.HtmlBoxes
         bool _renderBGAndBorder;
         void EvaluateSpec(BoxSpec spec)
         {
-            this._isVisible = this._cssDisplay != Css.CssDisplay.None &&
+            _isVisible = _cssDisplay != Css.CssDisplay.None &&
                               spec.Visibility == CssVisibility.Visible;
-            this._cssBoxSizing = spec.BoxSizing;
-            this._borderLeftVisible = spec.BorderLeftStyle >= CssBorderStyle.Visible;
-            this._borderTopVisible = spec.BorderTopStyle >= CssBorderStyle.Visible;
-            this._borderRightVisible = spec.BorderRightStyle >= CssBorderStyle.Visible;
-            this._borderBottomVisble = spec.BorderBottomStyle >= CssBorderStyle.Visible;
-            this._renderBGAndBorder = _cssDisplay != Css.CssDisplay.Inline ||
+            _cssBoxSizing = spec.BoxSizing;
+            _borderLeftVisible = spec.BorderLeftStyle >= CssBorderStyle.Visible;
+            _borderTopVisible = spec.BorderTopStyle >= CssBorderStyle.Visible;
+            _borderRightVisible = spec.BorderRightStyle >= CssBorderStyle.Visible;
+            _borderBottomVisble = spec.BorderBottomStyle >= CssBorderStyle.Visible;
+            _renderBGAndBorder = _cssDisplay != Css.CssDisplay.Inline ||
                    this.Position == CssPosition.Absolute || //out of flow
                    this.Position == CssPosition.Fixed; //out of flow
         }
         internal bool BorderLeftVisible
         {
-            get { return this._borderLeftVisible; }
+            get { return _borderLeftVisible; }
         }
         internal bool BorderTopVisible
         {
-            get { return this._borderTopVisible; }
+            get { return _borderTopVisible; }
         }
         internal bool BorderRightVisible
         {
-            get { return this._borderRightVisible; }
+            get { return _borderRightVisible; }
         }
         internal bool BorderBottomVisible
         {
-            get { return this._borderBottomVisble; }
+            get { return _borderBottomVisble; }
         }
     }
 }

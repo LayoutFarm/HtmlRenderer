@@ -72,7 +72,7 @@ namespace LayoutFarm.WebDom.Parser
                     {
                         //create attribute node and wait for its value
                         string nodename = textSnapshot.Substring(startIndex, len);
-                        curAttr = this._resultHtmlDoc.CreateAttribute(null, nodename);
+                        curAttr = _resultHtmlDoc.CreateAttribute(null, nodename);
                     }
                     break;
                 case HtmlLexerEvent.NodeNameOrAttribute:
@@ -87,7 +87,7 @@ namespace LayoutFarm.WebDom.Parser
                             case 0:
                                 {
                                     //create element 
-                                    DomElement elem = this._resultHtmlDoc.CreateElement(null, name);
+                                    DomElement elem = _resultHtmlDoc.CreateElement(null, name);
                                     if (curHtmlNode != null)
                                     {
                                         curHtmlNode.AddChild(elem);
@@ -106,7 +106,7 @@ namespace LayoutFarm.WebDom.Parser
                                     if (waitingAttrName != null)
                                     {
                                         //push waiting attr
-                                        curAttr = this._resultHtmlDoc.CreateAttribute(null, waitingAttrName);
+                                        curAttr = _resultHtmlDoc.CreateAttribute(null, waitingAttrName);
                                         curAttr.Value = "";
                                         curHtmlNode.AddAttribute(curAttr);
                                         curAttr = null;
@@ -188,7 +188,7 @@ namespace LayoutFarm.WebDom.Parser
 
                                     parseState = 11;
                                     //after docnodename , this may be attr of the document node
-                                    this.domDocNode = (DomDocumentNode)this._resultHtmlDoc.CreateDocumentNodeElement();
+                                    this.domDocNode = (DomDocumentNode)_resultHtmlDoc.CreateDocumentNodeElement();
                                     domDocNode.DocNodeName = name;
                                 }
                                 break;
@@ -213,13 +213,13 @@ namespace LayoutFarm.WebDom.Parser
                         if (parseState == 11)
                         {
                             //add doctype to html
-                            this._resultHtmlDoc.RootNode.AddChild(this.domDocNode);
+                            _resultHtmlDoc.RootNode.AddChild(this.domDocNode);
                             domDocNode = null;
                         }
 
                         if (waitingAttrName != null)
                         {
-                            curAttr = this._resultHtmlDoc.CreateAttribute(null, waitingAttrName);
+                            curAttr = _resultHtmlDoc.CreateAttribute(null, waitingAttrName);
                             curAttr.Value = "";
                             curHtmlNode.AddAttribute(curAttr);
                             curAttr = null;
@@ -270,7 +270,7 @@ namespace LayoutFarm.WebDom.Parser
 
         public override void ResetParser()
         {
-            this._resultHtmlDoc = null;
+            _resultHtmlDoc = null;
             this.openEltStack.Clear();
             this.curHtmlNode = null;
             this.curAttr = null;
@@ -293,7 +293,7 @@ namespace LayoutFarm.WebDom.Parser
             lexer.BeginLex();
             //2. mini parser    
             this.curHtmlNode = currentNode;
-            this._resultHtmlDoc = htmldoc;
+            _resultHtmlDoc = htmldoc;
             lexer.Analyze(textSnapshot);
             lexer.EndLex();
         }

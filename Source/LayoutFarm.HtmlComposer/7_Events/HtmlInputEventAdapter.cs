@@ -354,7 +354,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         public void KeyDown(UIKeyEventArgs e)
         {
-            this.KeyDown(e, this._htmlVisualRoot.RootCssBox);
+            this.KeyDown(e, _htmlVisualRoot.RootCssBox);
         }
 
         public void KeyDown(UIKeyEventArgs e, CssBox startAt)
@@ -365,7 +365,7 @@ namespace LayoutFarm.HtmlBoxes
 
         public void KeyPress(UIKeyEventArgs e)
         {
-            this.KeyPress(e, this._htmlVisualRoot.RootCssBox);
+            this.KeyPress(e, _htmlVisualRoot.RootCssBox);
         }
         public void KeyPress(UIKeyEventArgs e, CssBox startAt)
         {
@@ -374,7 +374,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         public bool ProcessDialogKey(UIKeyEventArgs e)
         {
-            return this.ProcessDialogKey(e, this._htmlVisualRoot.RootCssBox);
+            return this.ProcessDialogKey(e, _htmlVisualRoot.RootCssBox);
         }
         public bool ProcessDialogKey(UIKeyEventArgs e, CssBox startAt)
         {

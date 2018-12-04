@@ -24,13 +24,13 @@ namespace LayoutFarm.HtmlBoxes
                 Rectangle clientArea = this.GetVisualRectBounds();
 
 #if DEBUG
-                if (this._viewportY != 0)
+                if (_viewportY != 0)
                 {
                     //TODO review here again***
                     //clientArea.Offset(0, -_viewportY);
                     //clientArea.Intersect(justBlockRun.HostLine.OwnerBox.GetVisualRectBounds());
                     ////#if DEBUG
-                    ////                    Console.WriteLine(this.__aa_dbugId + ":i2_" + _viewportY.ToString());
+                    ////                    Console.WriteLine(__aa_dbugId + ":i2_" + _viewportY.ToString());
                     ////#endif
                 }
 #endif
@@ -49,14 +49,14 @@ namespace LayoutFarm.HtmlBoxes
             {
                 Rectangle clientArea = this.GetVisualRectBounds();
 #if DEBUG
-                if (this._viewportY != 0)
+                if (_viewportY != 0)
                 {
                     ////TODO review here again***
                     //clientArea = new Rectangle(0, 0, (int)parentBox.VisualWidth, (int)parentBox.VisualHeight);
                     ////clientArea.Offset(0, -_viewportY);
                     ////clientArea.Intersect(parentBox.GetVisualRectBounds());
                     ////#if DEBUG
-                    ////                    Console.WriteLine(this.__aa_dbugId + ":i2_" + _viewportY.ToString());
+                    ////                    Console.WriteLine(__aa_dbugId + ":i2_" + _viewportY.ToString());
                     ////#endif
                 }
 #endif
@@ -72,10 +72,10 @@ namespace LayoutFarm.HtmlBoxes
             //adjust to 
             //adjust client area 
 
-            if (this._viewportY != 0)
+            if (_viewportY != 0)
             {
 #if DEBUG
-                Console.WriteLine(this.__aa_dbugId + ":i1_" + _viewportY.ToString());
+                Console.WriteLine(__aa_dbugId + ":i1_" + _viewportY.ToString());
 #endif
             }
             if (this.justBlockRun != null)
@@ -99,13 +99,13 @@ namespace LayoutFarm.HtmlBoxes
         public void Paint(PaintVisitor p)
         {
 #if DEBUG
-            //if (this.__aa_dbugId == 5)
+            //if (__aa_dbugId == 5)
             //{
 
             //}
             dbugCounter.dbugBoxPaintCount++;
 #endif
-            if (this._isVisible)
+            if (_isVisible)
             {
                 //offset 
 
@@ -134,7 +134,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 //anonymous box
                 //Font f = new Font("tahoma", 10);
-                //p.Gfx.DrawString(this.__aa_dbugId.ToString(), f, System.Drawing.Color.Black,
+                //p.Gfx.DrawString(__aa_dbugId.ToString(), f, System.Drawing.Color.Black,
                 //     new PointF(r.Left + 10, r.Top + 10), new SizeF(r.Width, r.Height));
                 //f.Dispose();
 
@@ -143,7 +143,7 @@ namespace LayoutFarm.HtmlBoxes
             else
             {
                 Color color = Color.Green;
-                switch (this._cssDisplay)
+                switch (_cssDisplay)
                 {
                     case Css.CssDisplay.TableCell:
                         color = Color.OrangeRed;
@@ -157,7 +157,7 @@ namespace LayoutFarm.HtmlBoxes
         {
 
 #if DEBUG
-            //if (this.__aa_dbugId == 6)
+            //if (__aa_dbugId == 6)
             //{
 
             //}
@@ -187,7 +187,7 @@ namespace LayoutFarm.HtmlBoxes
             //if (display != Css.CssDisplay.Inline ||
             //    this.Position == Css.CssPosition.Absolute ||
             //    this.Position == Css.CssPosition.Fixed)
-            if (this._renderBGAndBorder)
+            if (_renderBGAndBorder)
             {
                 RectangleF bound = new RectangleF(0, 0, this.VisualWidth, this.VisualHeight);
                 PaintBackground(p, bound, true, true);
@@ -206,7 +206,7 @@ namespace LayoutFarm.HtmlBoxes
                 float viewport_top = p.ViewportTop;
                 float viewport_bottom = p.ViewportBottom;
                 int drawState = 0;
-                var c_lineNode = this._clientLineBoxes.First;
+                var c_lineNode = _clientLineBoxes.First;
                 while (c_lineNode != null)
                 {
                     CssLineBox line = c_lineNode.Value;
@@ -254,7 +254,7 @@ namespace LayoutFarm.HtmlBoxes
                     p.PushContaingBlock(this);
                     int ox = p.CanvasOriginX;
                     int oy = p.CanvasOriginY;
-                    var node = this._aa_boxes.GetFirstLinkedNode();
+                    var node = _aa_boxes.GetFirstLinkedNode();
                     while (node != null)
                     {
                         CssBox b = node.Value;
@@ -300,7 +300,7 @@ namespace LayoutFarm.HtmlBoxes
                     //if not
                     int ox = p.CanvasOriginX;
                     int oy = p.CanvasOriginY;
-                    var node = this._aa_boxes.GetFirstLinkedNode();
+                    var node = _aa_boxes.GetFirstLinkedNode();
                     while (node != null)
                     {
                         CssBox b = node.Value;
@@ -331,7 +331,7 @@ namespace LayoutFarm.HtmlBoxes
                 int j = _absPosLayer.Count;
                 for (int i = 0; i < j; ++i)
                 {
-                    CssBox b = this._absPosLayer.GetBox(i);
+                    CssBox b = _absPosLayer.GetBox(i);
                     if (b.CssDisplay == Css.CssDisplay.None)
                     {
                         continue;
@@ -339,7 +339,7 @@ namespace LayoutFarm.HtmlBoxes
                     p.SetCanvasOrigin(ox + (int)b.LocalX, oy + (int)b.LocalY);
                     b.Paint(p);
                 }
-                //var node = this._absPosLayer.GetFirstLinkedNode();
+                //var node = _absPosLayer.GetFirstLinkedNode();
                 //while (node != null)
                 //{
                 //    CssBox b = node.Value;

@@ -10,7 +10,7 @@ namespace LayoutFarm.WebDom.Parser
         HtmlStack openEltStack = new HtmlStack();
         public override void Parse(TextSource textSnapshot, WebDocument htmldoc, DomElement currentNode)
         {
-            this._resultHtmlDoc = htmldoc;
+            _resultHtmlDoc = htmldoc;
             char[] copyBuffer = textSnapshot.ActualSnapshot.Copy(0, textSnapshot.ActualSnapshot.Length);
             using (var ms = new System.IO.MemoryStream(System.Text.Encoding.UTF8.GetBytes(copyBuffer)))
             using (var textReader = new System.IO.StreamReader(ms))
@@ -33,11 +33,11 @@ namespace LayoutFarm.WebDom.Parser
                                 if (!tag.IsEndTag)
                                 {
                                     //open tag 
-                                    DomElement elem = this._resultHtmlDoc.CreateElement(null, tag.Name);
+                                    DomElement elem = _resultHtmlDoc.CreateElement(null, tag.Name);
                                     currentNode.AddChild(elem);
                                     foreach (var attribute in tag.Attributes)
                                     {
-                                        var attr = this._resultHtmlDoc.CreateAttribute(null, attribute.Name);
+                                        var attr = _resultHtmlDoc.CreateAttribute(null, attribute.Name);
                                         if (attribute.Value != null)
                                         {
                                             attr.Value = attribute.Value;
@@ -129,7 +129,7 @@ namespace LayoutFarm.WebDom.Parser
         }
         public override void ResetParser()
         {
-            this._resultHtmlDoc = null;
+            _resultHtmlDoc = null;
             this.openEltStack.Clear();
         }
     }

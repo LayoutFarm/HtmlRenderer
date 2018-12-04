@@ -50,10 +50,10 @@ namespace LayoutFarm.HtmlBoxes
 
 
             this.rootgfx = rootgfx;
-            this._aa_boxes = new CssBoxCollection();
+            _aa_boxes = new CssBoxCollection();
 #if DEBUG
 
-            //if (this.__aa_dbugId == 13)
+            //if (__aa_dbugId == 13)
             //{
             //}
             //if (!spec.IsFreezed)
@@ -65,16 +65,16 @@ namespace LayoutFarm.HtmlBoxes
 #endif
 
             //assign spec 
-            this._myspec = spec;
+            _myspec = spec;
             EvaluateSpec(spec);
             ChangeDisplayType(this, _myspec.CssDisplay);
         }
         public CssBox(BoxSpec spec, IRootGraphics rootgfx, CssDisplay displayType)
         {
             this.rootgfx = rootgfx;
-            this._aa_boxes = new CssBoxCollection();
+            _aa_boxes = new CssBoxCollection();
 #if DEBUG
-            //if (this.__aa_dbugId == 13)
+            //if (__aa_dbugId == 13)
             //{
             //}
             if (!spec.IsFreezed)
@@ -85,16 +85,16 @@ namespace LayoutFarm.HtmlBoxes
 #endif
 
             //assign spec             
-            this._boxCompactFlags |= BoxFlags.DONT_CHANGE_DISPLAY_TYPE;
-            this._cssDisplay = displayType;
-            this._myspec = spec;
+            _boxCompactFlags |= BoxFlags.DONT_CHANGE_DISPLAY_TYPE;
+            _cssDisplay = displayType;
+            _myspec = spec;
             //---------------------------- 
             EvaluateSpec(spec);
             ChangeDisplayType(this, _myspec.CssDisplay);
         }
         public void SetController(object controller)
         {
-            this._controller = controller;
+            _controller = controller;
         }
         public bool IsReplacement { get; set; }
         internal bool IsBody
@@ -120,7 +120,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-                switch (this._cssDisplay)
+                switch (_cssDisplay)
                 {
                     case Css.CssDisplay.Block:
                     case Css.CssDisplay.Table:
@@ -158,14 +158,14 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-                return (this._boxCompactFlags & BoxFlags.IS_BR_ELEM) != 0;
+                return (_boxCompactFlags & BoxFlags.IS_BR_ELEM) != 0;
             }
         }
         public bool IsCustomCssBox
         {
             get
             {
-                return (this._boxCompactFlags & BoxFlags.IS_CUSTOM_CSSBOX) != 0;
+                return (_boxCompactFlags & BoxFlags.IS_CUSTOM_CSSBOX) != 0;
             }
         }
 
@@ -176,17 +176,17 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-                return (this._boxCompactFlags & BoxFlags.IS_INLINE_BOX) != 0;
+                return (_boxCompactFlags & BoxFlags.IS_INLINE_BOX) != 0;
             }
             set
             {
                 if (value)
                 {
-                    this._boxCompactFlags |= BoxFlags.IS_INLINE_BOX;
+                    _boxCompactFlags |= BoxFlags.IS_INLINE_BOX;
                 }
                 else
                 {
-                    this._boxCompactFlags &= ~BoxFlags.IS_INLINE_BOX;
+                    _boxCompactFlags &= ~BoxFlags.IS_INLINE_BOX;
                 }
             }
         }
@@ -208,7 +208,7 @@ namespace LayoutFarm.HtmlBoxes
             get
             {
                 //this flags is evaluated when call ChangeDisplay ****
-                return (this._boxCompactFlags & BoxFlags.HAS_CONTAINER_PROP) != 0;
+                return (_boxCompactFlags & BoxFlags.HAS_CONTAINER_PROP) != 0;
             }
         }
 
@@ -232,24 +232,24 @@ namespace LayoutFarm.HtmlBoxes
             {
                 //TODO: review here
 
-                if (this._aa_boxes.Count != 0)
+                if (_aa_boxes.Count != 0)
                 {
                     return false;
                 }
-                else if (this._aa_contentRuns != null)
+                else if (_aa_contentRuns != null)
                 {
-                    return this._aa_contentRuns.Count == 0;
+                    return _aa_contentRuns.Count == 0;
                 }
                 return true;
             }
         }
         void ResetTextFlags()
         {
-            int tmpFlags = this._boxCompactFlags;
+            int tmpFlags = _boxCompactFlags;
             tmpFlags &= ~BoxFlags.HAS_EVAL_WHITESPACE;
             tmpFlags &= ~BoxFlags.TEXT_IS_ALL_WHITESPACE;
             tmpFlags &= ~BoxFlags.TEXT_IS_EMPTY;
-            this._boxCompactFlags = tmpFlags;
+            _boxCompactFlags = tmpFlags;
         }
 
         internal static char[] UnsafeGetTextBuffer(CssBox box)
@@ -261,9 +261,9 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-                if (this._aa_contentRuns != null)
+                if (_aa_contentRuns != null)
                 {
-                    return (this._boxCompactFlags & BoxFlags.TEXT_IS_ALL_WHITESPACE) != 0;
+                    return (_boxCompactFlags & BoxFlags.TEXT_IS_ALL_WHITESPACE) != 0;
                 }
                 else
                 {
@@ -274,9 +274,9 @@ namespace LayoutFarm.HtmlBoxes
 #if DEBUG
         internal string dbugCopyTextContent()
         {
-            if (this._aa_contentRuns != null)
+            if (_aa_contentRuns != null)
             {
-                return new string(this._buffer);
+                return new string(_buffer);
             }
             else
             {
@@ -286,19 +286,19 @@ namespace LayoutFarm.HtmlBoxes
 #endif
         internal void AddLineBox(CssLineBox linebox)
         {
-            linebox.linkedNode = this._clientLineBoxes.AddLast(linebox);
+            linebox.linkedNode = _clientLineBoxes.AddLast(linebox);
         }
         internal int LineBoxCount
         {
             get
             {
-                if (this._clientLineBoxes == null)
+                if (_clientLineBoxes == null)
                 {
                     return 0;
                 }
                 else
                 {
-                    return this._clientLineBoxes.Count;
+                    return _clientLineBoxes.Count;
                 }
             }
         }
@@ -346,9 +346,9 @@ namespace LayoutFarm.HtmlBoxes
 
         internal IEnumerable<CssLineBox> GetLineBoxIter()
         {
-            if (this._clientLineBoxes != null)
+            if (_clientLineBoxes != null)
             {
-                var node = this._clientLineBoxes.First;
+                var node = _clientLineBoxes.First;
                 while (node != null)
                 {
                     yield return node.Value;
@@ -358,9 +358,9 @@ namespace LayoutFarm.HtmlBoxes
         }
         internal IEnumerable<CssLineBox> GetLineBoxBackwardIter()
         {
-            if (this._clientLineBoxes != null)
+            if (_clientLineBoxes != null)
             {
-                var node = this._clientLineBoxes.Last;
+                var node = _clientLineBoxes.Last;
                 while (node != null)
                 {
                     yield return node.Value;
@@ -370,11 +370,11 @@ namespace LayoutFarm.HtmlBoxes
         }
         internal CssLineBox GetFirstLineBox()
         {
-            return this._clientLineBoxes.First.Value;
+            return _clientLineBoxes.First.Value;
         }
         internal CssLineBox GetLastLineBox()
         {
-            return this._clientLineBoxes.Last.Value;
+            return _clientLineBoxes.Last.Value;
         }
 
 
@@ -385,7 +385,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-                return this._aa_contentRuns;
+                return _aa_contentRuns;
             }
         }
         /// <summary>
@@ -395,7 +395,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-                return this._aa_contentRuns != null;
+                return _aa_contentRuns != null;
             }
         }
 
@@ -486,7 +486,7 @@ namespace LayoutFarm.HtmlBoxes
         public virtual void MeasureRunsSize(LayoutVisitor lay)
         {
             //measure once !
-            if ((this._boxCompactFlags & BoxFlags.LAY_RUNSIZE_MEASURE) != 0)
+            if ((_boxCompactFlags & BoxFlags.LAY_RUNSIZE_MEASURE) != 0)
             {
                 return;
             }
@@ -503,7 +503,7 @@ namespace LayoutFarm.HtmlBoxes
             if (this.RunCount > 0)
             {
                 //find word spacing  
-                float actualWordspacing = this._actualWordSpacing;
+                float actualWordspacing = _actualWordSpacing;
                 RequestFont actualFont = this.ResolvedFont;
 
 
@@ -548,13 +548,13 @@ namespace LayoutFarm.HtmlBoxes
                     }
                 }
             }
-            this._boxCompactFlags |= BoxFlags.LAY_RUNSIZE_MEASURE;
+            _boxCompactFlags |= BoxFlags.LAY_RUNSIZE_MEASURE;
         }
 
 
         internal float LatestCacheMinimumWidth
         {
-            get { return this._cachedMinimumWidth; }
+            get { return _cachedMinimumWidth; }
         }
         /// <summary>
         /// Gets the minimum width that the box can be.
@@ -565,7 +565,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             float maxWidth = 0;
             float padding = 0f;
-            if (this._lastCalculationEpisodeNum == calculationEpisode)
+            if (_lastCalculationEpisodeNum == calculationEpisode)
             {
                 return _cachedMinimumWidth;
             }
@@ -596,7 +596,7 @@ namespace LayoutFarm.HtmlBoxes
                     }
                 }
             }
-            this._lastCalculationEpisodeNum = calculationEpisode;
+            _lastCalculationEpisodeNum = calculationEpisode;
             return _cachedMinimumWidth = maxWidth + padding;
         }
 
@@ -776,7 +776,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         internal void OffsetLocalTop(float dy)
         {
-            this._localY += dy;
+            _localY += dy;
         }
         internal bool CanBeReferenceSibling
         {

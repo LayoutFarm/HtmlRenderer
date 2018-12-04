@@ -34,22 +34,22 @@ namespace LayoutFarm.HtmlBoxes
             int start, int len)
             : base(rectKind)
         {
-            this._textStartIndex = start;
-            this._textLength = len;
+            _textStartIndex = start;
+            _textLength = len;
         }
 
         private CssTextRun(CssRunKind kind)
             : base(kind)
         {
             //for single space only 
-            this._textLength = 1;
+            _textLength = 1;
         }
 
         private CssTextRun(int whiteSpaceLength)
             : base(CssRunKind.Space)
         {
             //for space only
-            this._textLength = whiteSpaceLength;
+            _textLength = whiteSpaceLength;
         }
 
         //================================================================
@@ -80,7 +80,7 @@ namespace LayoutFarm.HtmlBoxes
 
         public void MakeLength1()
         {
-            this._textLength = 1;
+            _textLength = 1;
         }
 
 
@@ -88,14 +88,14 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-                return this._textLength;
+                return _textLength;
             }
         }
         internal int TextStartIndex
         {
             get
             {
-                return this._textStartIndex;
+                return _textStartIndex;
             }
         }
         /// <summary>
@@ -109,12 +109,12 @@ namespace LayoutFarm.HtmlBoxes
                 {
                     case CssRunKind.Space:
                         {
-                            return new string(' ', this._textLength);
+                            return new string(' ', _textLength);
                         }
                     case CssRunKind.Text:
                         {
                             char[] ownerTextBuff = CssBox.UnsafeGetTextBuffer(this.OwnerBox);
-                            return new string(ownerTextBuff, this._textStartIndex, this._textLength);
+                            return new string(ownerTextBuff, _textStartIndex, _textLength);
                         }
                     case CssRunKind.SingleSpace:
                         {
@@ -141,13 +141,13 @@ namespace LayoutFarm.HtmlBoxes
             {
                 case CssRunKind.Space:
                     {
-                        stbuilder.Append(new string(' ', this._textLength));
+                        stbuilder.Append(new string(' ', _textLength));
                     }
                     break;
                 case CssRunKind.Text:
                     {
                         char[] ownerTextBuff = CssBox.UnsafeGetTextBuffer(this.OwnerBox);
-                        stbuilder.Append(ownerTextBuff, this._textStartIndex, this._textLength);
+                        stbuilder.Append(ownerTextBuff, _textStartIndex, _textLength);
                     }
                     break;
                 case CssRunKind.SingleSpace:

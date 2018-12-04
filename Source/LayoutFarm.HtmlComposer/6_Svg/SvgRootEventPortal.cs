@@ -15,7 +15,7 @@ namespace PaintLab.Svg
         HtmlElement _elementNode;
         public SvgRootEventPortal(HtmlElement elementNode)
         {
-            this._elementNode = elementNode;
+            _elementNode = elementNode;
         }
         public CssBoxSvgRoot SvgRoot
         {

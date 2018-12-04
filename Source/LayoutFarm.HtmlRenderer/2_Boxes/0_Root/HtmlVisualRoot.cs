@@ -36,7 +36,7 @@ namespace LayoutFarm.HtmlBoxes
         float _maxHeight;
 
 
-        public float MaxWidth { get { return this._maxHeight; } }
+        public float MaxWidth { get { return _maxHeight; } }
         public abstract void ClearPreviousSelection();
         public abstract void SetSelection(SelectionRange selRange);
         public abstract SelectionRange CurrentSelectionRange { get; }
@@ -55,7 +55,7 @@ namespace LayoutFarm.HtmlBoxes
 #endif
         public CssBox RootCssBox
         {
-            get { return this._rootBox; }
+            get { return _rootBox; }
         }
         public RenderElement RootRenderElement { get; set; }
 
@@ -76,27 +76,27 @@ namespace LayoutFarm.HtmlBoxes
 
         public abstract bool RefreshDomIfNeed();
 
-        public bool HasRootBox { get { return this._rootBox != null; } }
+        public bool HasRootBox { get { return _rootBox != null; } }
 
         /// <summary>
         /// The actual size of the rendered html (after layout)
         /// </summary>
         public SizeF ActualSize
         {
-            get { return new SizeF(this._actualWidth, this._actualHeight); }
+            get { return new SizeF(_actualWidth, _actualHeight); }
         }
         public float ActualWidth
         {
-            get { return this._actualWidth; }
+            get { return _actualWidth; }
         }
         public float ActualHeight
         {
-            get { return this._actualHeight; }
+            get { return _actualHeight; }
         }
         public void SetMaxSize(float maxWidth, float maxHeight)
         {
-            this._maxWidth = maxWidth;
-            this._maxHeight = maxHeight; //init maxHeight = 0
+            _maxWidth = maxWidth;
+            _maxHeight = maxHeight; //init maxHeight = 0
         }
         int layoutVersion;
         public int LayoutVersion
@@ -108,7 +108,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         public void PerformLayout(LayoutVisitor lay)
         {
-            if (this._rootBox == null)
+            if (_rootBox == null)
             {
                 return;
             }
@@ -117,7 +117,7 @@ namespace LayoutFarm.HtmlBoxes
             _actualWidth = _actualHeight = 0;
             // if width is not restricted we set it to large value to get the actual later    
             _rootBox.SetLocation(0, 0);
-            _rootBox.SetVisualSize(this._maxWidth > 0 ? this._maxWidth : CssBoxConstConfig.BOX_MAX_WIDTH, 0);
+            _rootBox.SetVisualSize(_maxWidth > 0 ? _maxWidth : CssBoxConstConfig.BOX_MAX_WIDTH, 0);
             CssBox.ValidateComputeValues(_rootBox);
             //----------------------- 
             //LayoutVisitor layoutArgs = new LayoutVisitor(this.GraphicsPlatform, this);
@@ -125,11 +125,11 @@ namespace LayoutFarm.HtmlBoxes
             //----------------------- 
 
             _rootBox.PerformLayout(lay);
-            if (this._maxWidth <= 0.1)
+            if (_maxWidth <= 0.1)
             {
                 // in case the width is not restricted we need to double layout,
                 //first will find the width so second can layout by it (center alignment)
-                _rootBox.SetVisualWidth((int)Math.Ceiling(this._actualWidth));
+                _rootBox.SetVisualWidth((int)Math.Ceiling(_actualWidth));
                 _actualWidth = _actualHeight = 0;
                 _rootBox.PerformLayout(lay);
             }
@@ -221,12 +221,12 @@ namespace LayoutFarm.HtmlBoxes
         //                float bfx, bfy;
         //                box.GetGlobalLocation(out bfx, out bfy);
         //                float rfx, rfy;
-        //                this._rootBox.GetGlobalLocation(out rfx, out rfy);
+        //                _rootBox.GetGlobalLocation(out rfx, out rfy);
         //                //diff
         //                float nx = bfx - rfx;
         //                float ny = bfy - rfy;
         //                box.SetLocation(nx, ny);
-        //                this._rootBox.AppendToAbsoluteLayer(box);
+        //                _rootBox.AppendToAbsoluteLayer(box);
         //            }
         //        }
         //#endif
@@ -286,13 +286,13 @@ namespace LayoutFarm.HtmlBoxes
         public abstract void ContainerInvalidateGraphics();
         internal void UpdateSizeIfWiderOrHigher(float newWidth, float newHeight)
         {
-            if (newWidth > this._actualWidth)
+            if (newWidth > _actualWidth)
             {
-                this._actualWidth = newWidth;
+                _actualWidth = newWidth;
             }
-            if (newHeight > this._actualHeight)
+            if (newHeight > _actualHeight)
             {
-                this._actualHeight = newHeight;
+                _actualHeight = newHeight;
             }
         }
 

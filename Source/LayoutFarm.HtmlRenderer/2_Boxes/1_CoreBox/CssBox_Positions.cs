@@ -71,14 +71,14 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         public float LocalX
         {
-            get { return this._localX; }
+            get { return _localX; }
         }
         /// <summary>
         /// local visual y 
         /// </summary>
         public float LocalY
         {
-            get { return this._localY; }
+            get { return _localY; }
         }
         public float LocalVisualRight
         {
@@ -99,19 +99,19 @@ namespace LayoutFarm.HtmlBoxes
         public void SetLocation(float localX, float localY)
         {
 #if DEBUG
-            //if (this.__aa_dbugId == 5)
+            //if (__aa_dbugId == 5)
             //{
 
-            //    this._localX = localX;
-            //    this._localY = localY;
-            //    this._boxCompactFlags |= BoxFlags.HAS_ASSIGNED_LOCATION;
+            //    _localX = localX;
+            //    _localY = localY;
+            //    _boxCompactFlags |= BoxFlags.HAS_ASSIGNED_LOCATION;
             //    return;
             //}
 #endif
 
-            this._localX = localX;
-            this._localY = localY;
-            this._boxCompactFlags |= BoxFlags.HAS_ASSIGNED_LOCATION;
+            _localX = localX;
+            _localY = localY;
+            _boxCompactFlags |= BoxFlags.HAS_ASSIGNED_LOCATION;
         }
 
         //=============================================================
@@ -156,23 +156,23 @@ namespace LayoutFarm.HtmlBoxes
         }
         internal bool NeedComputedValueEvaluation
         {
-            get { return (this._boxCompactFlags & BoxFlags.LAY_EVAL_COMPUTE_VALUES) == 0; }
+            get { return (_boxCompactFlags & BoxFlags.LAY_EVAL_COMPUTE_VALUES) == 0; }
         }
 
         public void ReEvaluateFont(ITextService iFonts, float parentFontSize)
         {
-            RequestFont fontInfo = this._myspec.GetFont(parentFontSize);
+            RequestFont fontInfo = _myspec.GetFont(parentFontSize);
 
-            this._resolvedFont = fontInfo;
+            _resolvedFont = fontInfo;
 
 
             if (_myspec.WordSpacing.IsNormalWordSpacing)
             {
-                this._actualWordSpacing = iFonts.MeasureWhitespace(_resolvedFont);
+                _actualWordSpacing = iFonts.MeasureWhitespace(_resolvedFont);
             }
             else
             {
-                this._actualWordSpacing = iFonts.MeasureWhitespace(_resolvedFont) +
+                _actualWordSpacing = iFonts.MeasureWhitespace(_resolvedFont) +
                                           CssValueParser.ConvertToPx(_myspec.WordSpacing, 1, this);
             }
         }
@@ -199,20 +199,20 @@ namespace LayoutFarm.HtmlBoxes
 
 
                 //2. actual word spacing
-                //this._actualWordSpacing = this.NoEms(this.InitSpec.LineHeight);
+                //_actualWordSpacing = this.NoEms(this.InitSpec.LineHeight);
                 //3. font size 
                 //len = len.ConvertEmToPoints(parentBox.ActualFont.SizeInPoints);
             }
             else
             {
                 ReEvaluateFont(iFonts, containingBlock.ResolvedFont.SizeInPixels);
-                //this._actualFont = this.Spec.GetFont(containingBlock.Spec);
+                //_actualFont = this.Spec.GetFont(containingBlock.Spec);
             }
 
             //-----------------------------------------------------------------------
             float cbWidth = containingBlock.VisualWidth;
-            int tmpBoxCompactFlags = this._boxCompactFlags;
-            this._boxCompactFlags |= BoxFlags.LAY_EVAL_COMPUTE_VALUES;
+            int tmpBoxCompactFlags = _boxCompactFlags;
+            _boxCompactFlags |= BoxFlags.LAY_EVAL_COMPUTE_VALUES;
             //www.w3.org/TR/CSS2/box.html#margin-properties
             //w3c: margin applies to all elements except elements table display type
             //other than table-caption,table and inline table
@@ -238,16 +238,16 @@ namespace LayoutFarm.HtmlBoxes
                     break;
                 default:
                     {
-                        //if (this.__aa_dbugId == 5)
+                        //if (__aa_dbugId == 5)
                         //{
                         //    int a = spec.__aa_dbugId;
 
                         //}
 
-                        this._actualMarginLeft = RecalculateMargin(spec.MarginLeft, cbWidth);
-                        this._actualMarginTop = RecalculateMargin(spec.MarginTop, cbWidth);
-                        this._actualMarginRight = RecalculateMargin(spec.MarginRight, cbWidth);
-                        this._actualMarginBottom = RecalculateMargin(spec.MarginBottom, cbWidth);
+                        _actualMarginLeft = RecalculateMargin(spec.MarginLeft, cbWidth);
+                        _actualMarginTop = RecalculateMargin(spec.MarginTop, cbWidth);
+                        _actualMarginRight = RecalculateMargin(spec.MarginRight, cbWidth);
+                        _actualMarginBottom = RecalculateMargin(spec.MarginBottom, cbWidth);
                     }
                     break;
             }
@@ -268,10 +268,10 @@ namespace LayoutFarm.HtmlBoxes
                     {
                         //-----------------------------------------------------------------------
                         //padding
-                        this._actualPaddingLeft = RecalculatePadding(spec.PaddingLeft, cbWidth);
-                        this._actualPaddingTop = RecalculatePadding(spec.PaddingTop, cbWidth);
-                        this._actualPaddingRight = RecalculatePadding(spec.PaddingRight, cbWidth);
-                        this._actualPaddingBottom = RecalculatePadding(spec.PaddingBottom, cbWidth);
+                        _actualPaddingLeft = RecalculatePadding(spec.PaddingLeft, cbWidth);
+                        _actualPaddingTop = RecalculatePadding(spec.PaddingTop, cbWidth);
+                        _actualPaddingRight = RecalculatePadding(spec.PaddingRight, cbWidth);
+                        _actualPaddingBottom = RecalculatePadding(spec.PaddingBottom, cbWidth);
                     }
                     break;
             }
@@ -279,16 +279,16 @@ namespace LayoutFarm.HtmlBoxes
             //-----------------------------------------------------------------------
             //borders         
             float a1, a2, a3, a4;
-            this._actualBorderLeftWidth = a1 = (spec.BorderLeftStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(spec.BorderLeftWidth, this);
-            this._actualBorderTopWidth = a2 = (spec.BorderTopStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(spec.BorderTopWidth, this);
-            this._actualBorderRightWidth = a3 = (spec.BorderRightStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(spec.BorderRightWidth, this);
-            this._actualBorderBottomWidth = a4 = (spec.BorderBottomStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(spec.BorderBottomWidth, this);
+            _actualBorderLeftWidth = a1 = (spec.BorderLeftStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(spec.BorderLeftWidth, this);
+            _actualBorderTopWidth = a2 = (spec.BorderTopStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(spec.BorderTopWidth, this);
+            _actualBorderRightWidth = a3 = (spec.BorderRightStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(spec.BorderRightWidth, this);
+            _actualBorderBottomWidth = a4 = (spec.BorderBottomStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(spec.BorderBottomWidth, this);
             //---------------------------------------------------------------------------
 
-            this._borderLeftVisible = a1 > 0 && spec.BorderLeftStyle >= CssBorderStyle.Visible;
-            this._borderTopVisible = a2 > 0 && spec.BorderTopStyle >= CssBorderStyle.Visible;
-            this._borderRightVisible = a3 > 0 && spec.BorderRightStyle >= CssBorderStyle.Visible;
-            this._borderBottomVisble = a4 > 0 && spec.BorderBottomStyle >= CssBorderStyle.Visible;
+            _borderLeftVisible = a1 > 0 && spec.BorderLeftStyle >= CssBorderStyle.Visible;
+            _borderTopVisible = a2 > 0 && spec.BorderTopStyle >= CssBorderStyle.Visible;
+            _borderRightVisible = a3 > 0 && spec.BorderRightStyle >= CssBorderStyle.Visible;
+            _borderBottomVisble = a4 > 0 && spec.BorderBottomStyle >= CssBorderStyle.Visible;
             //extension ***
             if (a1 + a2 + a3 + a4 > 0)
             {
@@ -302,10 +302,10 @@ namespace LayoutFarm.HtmlBoxes
             }
             //---------------------------------------------------------------------------
 
-            this._actualCornerNE = a1 = CssValueParser.ConvertToPx(spec.CornerNERadius, 0, this);
-            this._actualCornerNW = a2 = CssValueParser.ConvertToPx(spec.CornerNWRadius, 0, this);
-            this._actualCornerSE = a3 = CssValueParser.ConvertToPx(spec.CornerSERadius, 0, this);
-            this._actualCornerSW = a4 = CssValueParser.ConvertToPx(spec.CornerSWRadius, 0, this);
+            _actualCornerNE = a1 = CssValueParser.ConvertToPx(spec.CornerNERadius, 0, this);
+            _actualCornerNW = a2 = CssValueParser.ConvertToPx(spec.CornerNWRadius, 0, this);
+            _actualCornerSE = a3 = CssValueParser.ConvertToPx(spec.CornerSERadius, 0, this);
+            _actualCornerSW = a4 = CssValueParser.ConvertToPx(spec.CornerSWRadius, 0, this);
             if ((a1 + a2 + a3 + a4) > 0)
             {
                 //evaluate 
@@ -333,26 +333,26 @@ namespace LayoutFarm.HtmlBoxes
 
             if (spec.WordSpacing.IsNormalWordSpacing)
             {
-                this._actualWordSpacing = iFonts.MeasureWhitespace(_resolvedFont);
+                _actualWordSpacing = iFonts.MeasureWhitespace(_resolvedFont);
             }
             else
             {
-                this._actualWordSpacing = iFonts.MeasureWhitespace(_resolvedFont)
+                _actualWordSpacing = iFonts.MeasureWhitespace(_resolvedFont)
                     + CssValueParser.ConvertToPx(spec.WordSpacing, 1, this);
             }
             //---------------------------------------------- 
-            this._boxCompactFlags = tmpBoxCompactFlags;
+            _boxCompactFlags = tmpBoxCompactFlags;
             //---------------------------------------------- 
 
             //text indent   
-            this._actualTextIndent = CssValueParser.ConvertToPx(spec.TextIndent, containingBlock.VisualWidth, this);
-            this._actualBorderSpacingHorizontal = spec.BorderSpacingHorizontal.Number;
-            this._actualBorderSpacingVertical = spec.BorderSpacingVertical.Number;
+            _actualTextIndent = CssValueParser.ConvertToPx(spec.TextIndent, containingBlock.VisualWidth, this);
+            _actualBorderSpacingHorizontal = spec.BorderSpacingHorizontal.Number;
+            _actualBorderSpacingVertical = spec.BorderSpacingVertical.Number;
             //-----------------------
-            //this._actualLineHeight = 0.9f * CssValueParser.ConvertToPx(LineHeight, this.GetEmHeight(), this); 
+            //_actualLineHeight = 0.9f * CssValueParser.ConvertToPx(LineHeight, this.GetEmHeight(), this); 
             //expected width expected height
-            //this._expectedWidth = CssValueParser.ParseLength(Width, cbWidth, this);
-            //this._expectedHight = CssValueParser.ParseLength(Height, containingBlock.SizeHeight, this);
+            //_expectedWidth = CssValueParser.ParseLength(Width, cbWidth, this);
+            //_expectedHight = CssValueParser.ParseLength(Height, containingBlock.SizeHeight, this);
             ////---------------------------------------------- 
 
 
@@ -370,7 +370,7 @@ namespace LayoutFarm.HtmlBoxes
             //} 
 
 
-            if (this._myspec.HasBoxShadow)
+            if (_myspec.HasBoxShadow)
             {
                 //temp fix here
                 //TODO: review move shadow to external decoration object/box
@@ -392,16 +392,16 @@ namespace LayoutFarm.HtmlBoxes
         internal bool FreezeWidth
         {
             //temporary fix table cell width problem
-            get { return (this._boxCompactFlags & BoxFlags.LAY_WIDTH_FREEZE) != 0; }
+            get { return (_boxCompactFlags & BoxFlags.LAY_WIDTH_FREEZE) != 0; }
             set
             {
                 if (value)
                 {
-                    this._boxCompactFlags |= BoxFlags.LAY_WIDTH_FREEZE;
+                    _boxCompactFlags |= BoxFlags.LAY_WIDTH_FREEZE;
                 }
                 else
                 {
-                    this._boxCompactFlags &= ~BoxFlags.LAY_WIDTH_FREEZE;
+                    _boxCompactFlags &= ~BoxFlags.LAY_WIDTH_FREEZE;
                 }
             }
         }
@@ -413,8 +413,8 @@ namespace LayoutFarm.HtmlBoxes
             //{
 
             //}
-            //Console.WriteLine(this.__aa_dbugId + " :" + width);
-            //if (this.__aa_dbugId == 3)
+            //Console.WriteLine(__aa_dbugId + " :" + width);
+            //if (__aa_dbugId == 3)
             //{
             //}
         }
@@ -424,13 +424,13 @@ namespace LayoutFarm.HtmlBoxes
 
         void dbugAferSetVisualWidth()
         {
-            //if (this._visualWidth == 37)
+            //if (_visualWidth == 37)
             //{ 
             //}
         }
         void dbugAfterSetCssWidth()
         {
-            //if (this._cssBoxWidth == 37)
+            //if (_cssBoxWidth == 37)
             //{ 
             //}
         }
@@ -447,11 +447,11 @@ namespace LayoutFarm.HtmlBoxes
 #if DEBUG 
             dbugBeforeSetWidth(width);
 #endif
-            this._cssBoxWidth = width;
+            _cssBoxWidth = width;
 #if DEBUG
             dbugAfterSetCssWidth();
 #endif
-            this._visualWidth = width;
+            _visualWidth = width;
 #if DEBUG             
             dbugAferSetVisualWidth();
 #endif
@@ -460,7 +460,7 @@ namespace LayoutFarm.HtmlBoxes
             //(again, because actual padding or margin may need css box with first)
             if (_boxSizing == CssBoxSizing.ContentBox)
             {
-                this._visualWidth = width +
+                _visualWidth = width +
                        this.ActualPaddingLeft + this.ActualPaddingRight +
                        +this.ActualBorderLeftWidth + this.ActualBorderRightWidth;
 #if DEBUG
@@ -476,11 +476,11 @@ namespace LayoutFarm.HtmlBoxes
 #if DEBUG
             dbugBeforeSetWidth(containerClientWidth);
 #endif
-            this._visualWidth = containerClientWidth;
+            _visualWidth = containerClientWidth;
 #if DEBUG
             dbugAferSetVisualWidth();
 #endif
-            this._cssBoxWidth = containerClientWidth - (
+            _cssBoxWidth = containerClientWidth - (
                        this.ActualPaddingLeft + this.ActualPaddingRight +
                        this.ActualBorderLeftWidth + this.ActualBorderRightWidth);//not include margin
 #if DEBUG
@@ -497,13 +497,13 @@ namespace LayoutFarm.HtmlBoxes
             dbugBeforeSetHeight(height);
 #endif
 
-            this._cssBoxHeight = height;
-            this._visualHeight = height;
+            _cssBoxHeight = height;
+            _visualHeight = height;
             // must be separate because the margin can be calculated by percentage of the width
             //(again, because actual padding or margin may need css box with first)
             if (_boxSizing == CssBoxSizing.ContentBox)
             {
-                this._visualHeight = height +
+                _visualHeight = height +
                        this.ActualPaddingTop + this.ActualPaddingBottom +
                        +this.ActualBorderTopWidth + this.ActualBorderBottomWidth;
             }
@@ -517,7 +517,7 @@ namespace LayoutFarm.HtmlBoxes
 #endif
             if (!this.FreezeWidth)
             {
-                this._visualWidth = width;
+                _visualWidth = width;
 #if DEBUG
                 dbugAferSetVisualWidth();
 #endif
@@ -532,7 +532,7 @@ namespace LayoutFarm.HtmlBoxes
 #if DEBUG
             dbugBeforeSetHeight(height);
 #endif
-            this._visualHeight = height;
+            _visualHeight = height;
         }
         /// <summary>
         /// set presentation (visual) size width,height
@@ -548,14 +548,14 @@ namespace LayoutFarm.HtmlBoxes
 #endif
             if (!this.FreezeWidth)
             {
-                this._visualWidth = width;
+                _visualWidth = width;
             }
             else
             {
                 throw new NotSupportedException();
             }
 
-            this._visualHeight = height;
+            _visualHeight = height;
         }
         /// <summary>
         /// presentation width (border+ padding+ content), for clip area, not include margin
@@ -565,7 +565,7 @@ namespace LayoutFarm.HtmlBoxes
             get
             {
 
-                return this._visualWidth;
+                return _visualWidth;
             }
         }
         /// <summary>
@@ -575,7 +575,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-                return this._visualHeight;
+                return _visualHeight;
             }
         }
         //-------------------------------------------------------
@@ -586,7 +586,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-                return this._expectedHight;
+                return _expectedHight;
             }
         }
         /// <summary>
@@ -596,7 +596,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-                return this._expectedWidth;
+                return _expectedWidth;
             }
         }
         internal bool HasClipArea
@@ -607,8 +607,8 @@ namespace LayoutFarm.HtmlBoxes
         public void SetExpectedSize(float expectedW, float expectedH)
         {
             this.HasClipArea = true;
-            this._expectedWidth = expectedW;
-            this._expectedHight = expectedH;
+            _expectedWidth = expectedW;
+            _expectedHight = expectedH;
         }
 
         //---------------------------------------------------------
@@ -625,16 +625,16 @@ namespace LayoutFarm.HtmlBoxes
             get
             {
 #if DEBUG
-                //if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
+                //if ((_boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
                 //{
                 //    //if not evaluate
                 //    System.Diagnostics.Debugger.Break();
                 //}
-                //if (this._actualPaddingBottom > 10)
+                //if (_actualPaddingBottom > 10)
                 //{
                 //}
 #endif
-                return this._actualPaddingTop;
+                return _actualPaddingTop;
             }
         }
 
@@ -646,17 +646,17 @@ namespace LayoutFarm.HtmlBoxes
             get
             {
 #if DEBUG
-                //if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
+                //if ((_boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
                 //{
                 //    //if not evaluate
                 //    System.Diagnostics.Debugger.Break();
                 //}
-                //if (this._actualPaddingLeft > 10)
+                //if (_actualPaddingLeft > 10)
                 //{
 
                 //}
 #endif
-                return this._actualPaddingLeft;
+                return _actualPaddingLeft;
             }
         }
         /// <summary>
@@ -667,16 +667,16 @@ namespace LayoutFarm.HtmlBoxes
             get
             {
 #if DEBUG
-                //if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
+                //if ((_boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
                 //{
                 //    //if not evaluate
                 //    System.Diagnostics.Debugger.Break();
                 //}
-                //if (this._actualPaddingLeft > 10)
+                //if (_actualPaddingLeft > 10)
                 //{ 
                 //}
 #endif
-                return this._actualPaddingRight;
+                return _actualPaddingRight;
                 //return _actualPaddingRight;
             }
         }
@@ -688,16 +688,16 @@ namespace LayoutFarm.HtmlBoxes
             get
             {
 #if DEBUG
-                //if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
+                //if ((_boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
                 //{
                 //    //if not evaluate
                 //    System.Diagnostics.Debugger.Break();
                 //}
-                //if (this._actualPaddingBottom > 10)
+                //if (_actualPaddingBottom > 10)
                 //{
                 //}
 #endif
-                return this._actualPaddingBottom;
+                return _actualPaddingBottom;
             }
         }
 
@@ -710,13 +710,13 @@ namespace LayoutFarm.HtmlBoxes
             get
             {
 #if DEBUG
-                //if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
+                //if ((_boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
                 //{
                 //    //if not evaluate
                 //    System.Diagnostics.Debugger.Break();
                 //}
 #endif
-                return this._actualMarginTop;
+                return _actualMarginTop;
             }
         }
 
@@ -729,13 +729,13 @@ namespace LayoutFarm.HtmlBoxes
             get
             {
 #if DEBUG
-                //if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
+                //if ((_boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
                 //{
                 //    //if not evaluate
                 //    System.Diagnostics.Debugger.Break();
                 //}
 #endif
-                return this._actualMarginLeft;
+                return _actualMarginLeft;
             }
         }
 
@@ -746,7 +746,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-                return this._actualMarginBottom;
+                return _actualMarginBottom;
             }
         }
 
@@ -757,7 +757,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-                return this._actualMarginRight;
+                return _actualMarginRight;
             }
         }
         //====================================================
@@ -769,7 +769,7 @@ namespace LayoutFarm.HtmlBoxes
             get
             {
 #if DEBUG
-                //if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
+                //if ((_boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
                 //{
                 //    //if not evaluate
                 //    System.Diagnostics.Debugger.Break();
@@ -864,14 +864,14 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-                return (this._boxCompactFlags & BoxFlags.HAS_ROUND_CORNER) != 0;
+                return (_boxCompactFlags & BoxFlags.HAS_ROUND_CORNER) != 0;
             }
         }
         internal bool HasVisibleBgColor
         {
             get
             {
-                return (this._boxCompactFlags & BoxFlags.HAS_VISIBLE_BG) != 0;
+                return (_boxCompactFlags & BoxFlags.HAS_VISIBLE_BG) != 0;
             }
         }
 
@@ -879,7 +879,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-                return (this._boxCompactFlags & BoxFlags.HAS_SOME_VISIBLE_BORDER) != 0;
+                return (_boxCompactFlags & BoxFlags.HAS_SOME_VISIBLE_BORDER) != 0;
             }
         }
 
@@ -888,17 +888,17 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-                return (this._boxCompactFlags & BoxFlags.LAY_RUNSIZE_MEASURE) != 0;
+                return (_boxCompactFlags & BoxFlags.LAY_RUNSIZE_MEASURE) != 0;
             }
             set
             {
                 if (value)
                 {
-                    this._boxCompactFlags |= BoxFlags.LAY_RUNSIZE_MEASURE;
+                    _boxCompactFlags |= BoxFlags.LAY_RUNSIZE_MEASURE;
                 }
                 else
                 {
-                    this._boxCompactFlags &= ~BoxFlags.LAY_RUNSIZE_MEASURE;
+                    _boxCompactFlags &= ~BoxFlags.LAY_RUNSIZE_MEASURE;
                 }
             }
         }
@@ -917,17 +917,17 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-                return (this._boxCompactFlags & BoxFlags.LAY_TABLE_FIXED) != 0;
+                return (_boxCompactFlags & BoxFlags.LAY_TABLE_FIXED) != 0;
             }
             set
             {
                 if (value)
                 {
-                    this._boxCompactFlags |= BoxFlags.LAY_TABLE_FIXED;
+                    _boxCompactFlags |= BoxFlags.LAY_TABLE_FIXED;
                 }
                 else
                 {
-                    this._boxCompactFlags &= ~BoxFlags.LAY_TABLE_FIXED;
+                    _boxCompactFlags &= ~BoxFlags.LAY_TABLE_FIXED;
                 }
             }
         }
@@ -935,15 +935,15 @@ namespace LayoutFarm.HtmlBoxes
         protected virtual void GetGlobalLocationImpl(out float globalX, out float globalY)
         {
 #if DEBUG
-            if (this._viewportX != 0 || this._viewportY != 0)
+            if (_viewportX != 0 || _viewportY != 0)
             {
 
             }
 #endif
 
             //TODO: review here again***
-            globalX = this._localX - _viewportX;
-            globalY = this._localY - _viewportY;
+            globalX = _localX - _viewportX;
+            globalY = _localY - _viewportY;
 
             //CssBox foundRoot = null;
             if (this.ParentBox != null)
@@ -967,7 +967,7 @@ namespace LayoutFarm.HtmlBoxes
             if (this.justBlockRun != null)
             {
                 //recursive
-                if (this._viewportX != 0 || this._viewportY != 0)
+                if (_viewportX != 0 || _viewportY != 0)
                 {
 
                 }
@@ -1009,10 +1009,10 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         public float InnerContentWidth
         {
-            get { return this._innerContentW; }
+            get { return _innerContentW; }
             internal set
             {
-                this._innerContentW = value;
+                _innerContentW = value;
             }
         }
         /// <summary>
@@ -1020,10 +1020,10 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         public float InnerContentHeight
         {
-            get { return this._innerContentH; }
+            get { return _innerContentH; }
             internal set
             {
-                this._innerContentH = value;
+                _innerContentH = value;
             }
         }
 
@@ -1040,12 +1040,12 @@ namespace LayoutFarm.HtmlBoxes
         }
 
 
-        public int ViewportX { get { return this._viewportX; } }
-        public int ViewportY { get { return this._viewportY; } }
+        public int ViewportX { get { return _viewportX; } }
+        public int ViewportY { get { return _viewportY; } }
         public void SetViewport(int viewportX, int viewportY)
         {
-            this._viewportX = viewportX;
-            this._viewportY = viewportY;
+            _viewportX = viewportX;
+            _viewportY = viewportY;
             this.mayHasViewport = true;
             this.InvalidateGraphics();
         }
