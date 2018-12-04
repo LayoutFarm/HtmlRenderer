@@ -16,8 +16,8 @@ namespace LayoutFarm.CustomWidgets
         }
         public void Bind(HtmlBoxes.HtmlHost htmlHost)
         {
-            this._htmlHost = htmlHost;
-            this._htmlHost.AttachEssentailHandlers(
+            _htmlHost = htmlHost;
+            _htmlHost.AttachEssentailHandlers(
                 //1. image req
                 (s, e) =>
                 {
@@ -43,11 +43,11 @@ namespace LayoutFarm.CustomWidgets
         /// <param name="textMan"></param>
         public void AddTextContentMan(TextContentManager textMan)
         {
-            if (this._textContentManList.ContainsKey(textMan))
+            if (_textContentManList.ContainsKey(textMan))
             {
                 return;
             }
-            this._textContentManList.Add(textMan, 0);
+            _textContentManList.Add(textMan, 0);
         }
         public ImageLoadingQueueManager ImgLoadingQueue
         {

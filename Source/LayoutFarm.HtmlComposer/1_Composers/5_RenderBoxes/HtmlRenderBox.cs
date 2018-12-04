@@ -18,12 +18,12 @@ namespace LayoutFarm.HtmlBoxes
         }
         public CssBox CssBox
         {
-            get { return this._cssBox; }
+            get { return _cssBox; }
         }
         public void SetHtmlContainer(MyHtmlVisualRoot htmlCont, CssBox box)
         {
-            this._myHtmlCont = htmlCont;
-            this._cssBox = box;
+            _myHtmlCont = htmlCont;
+            _cssBox = box;
             _myHtmlCont.RootRenderElement = this;
         }
         public override void ClearAllChildren()
@@ -50,7 +50,7 @@ namespace LayoutFarm.HtmlBoxes
                 //test built-in 'shared' software rendering surface
 
                 cpuDrawBoard.Clear(Color.White);
-                PaintVisitor painter = PaintVisitorStock.GetSharedPaintVisitor(this._myHtmlCont, cpuDrawBoard);
+                PaintVisitor painter = PaintVisitorStock.GetSharedPaintVisitor(_myHtmlCont, cpuDrawBoard);
 
                 painter.SetViewportSize(this.Width, this.Height);
 
@@ -67,7 +67,7 @@ namespace LayoutFarm.HtmlBoxes
             }
             else
             {
-                PaintVisitor painter = PaintVisitorStock.GetSharedPaintVisitor(this._myHtmlCont, canvas);
+                PaintVisitor painter = PaintVisitorStock.GetSharedPaintVisitor(_myHtmlCont, canvas);
                 painter.SetViewportSize(this.Width, this.Height);
 #if DEBUG
                 painter.dbugDrawDiagonalBox(Color.Blue, this.X, this.Y, this.Width, this.Height);
@@ -84,11 +84,11 @@ namespace LayoutFarm.HtmlBoxes
         }
         public int HtmlWidth
         {
-            get { return (int)this._myHtmlCont.ActualWidth; }
+            get { return (int)_myHtmlCont.ActualWidth; }
         }
         public int HtmlHeight
         {
-            get { return (int)this._myHtmlCont.ActualHeight; }
+            get { return (int)_myHtmlCont.ActualHeight; }
         }
     }
 

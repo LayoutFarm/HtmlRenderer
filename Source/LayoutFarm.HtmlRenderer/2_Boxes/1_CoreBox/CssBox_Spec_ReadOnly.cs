@@ -30,60 +30,60 @@ namespace LayoutFarm.HtmlBoxes
     {
         public CssLength Height
         {
-            get { return this._myspec.Height; }
+            get { return _myspec.Height; }
         }
 
         public CssDirection CssDirection
         {
-            get { return this._myspec.CssDirection; }
+            get { return _myspec.CssDirection; }
         }
 
         //----------------------------------------------- 
         public CssBorderStyle BorderLeftStyle
         {
-            get { return this._myspec.BorderLeftStyle; }
+            get { return _myspec.BorderLeftStyle; }
         }
         public CssBorderStyle BorderTopStyle
         {
-            get { return this._myspec.BorderTopStyle; }
+            get { return _myspec.BorderTopStyle; }
         }
         public CssBorderStyle BorderRightStyle
         {
-            get { return this._myspec.BorderRightStyle; }
+            get { return _myspec.BorderRightStyle; }
         }
         public CssBorderStyle BorderBottomStyle
         {
-            get { return this._myspec.BorderBottomStyle; }
+            get { return _myspec.BorderBottomStyle; }
         }
         //--------------------------------------------
         public Color BorderLeftColor
         {
-            get { return this._myspec.BorderLeftColor; }
+            get { return _myspec.BorderLeftColor; }
         }
         public Color BorderTopColor
         {
-            get { return this._myspec.BorderTopColor; }
+            get { return _myspec.BorderTopColor; }
         }
         public Color BorderRightColor
         {
-            get { return this._myspec.BorderRightColor; }
+            get { return _myspec.BorderRightColor; }
         }
         public Color BorderBottomColor
         {
-            get { return this._myspec.BorderBottomColor; }
+            get { return _myspec.BorderBottomColor; }
         }
         //--------------------------------------------
         public CssLength BorderSpacingVertical
         {
-            get { return this._myspec.BorderSpacingVertical; }
+            get { return _myspec.BorderSpacingVertical; }
         }
         public CssLength BorderSpacingHorizontal
         {
-            get { return this._myspec.BorderSpacingHorizontal; }
+            get { return _myspec.BorderSpacingHorizontal; }
         }
         public CssBorderCollapse BorderCollapse
         {
-            get { return this._myspec.BorderCollapse; }
+            get { return _myspec.BorderCollapse; }
         }
 
         public bool IsBorderCollapse
@@ -94,111 +94,111 @@ namespace LayoutFarm.HtmlBoxes
         //------------------------------------------------------ 
         public CssLength Left
         {
-            get { return this._myspec.Left; }
+            get { return _myspec.Left; }
         }
         public CssLength Top
         {
-            get { return this._myspec.Top; }
+            get { return _myspec.Top; }
         }
 
         public CssLength Width
         {
-            get { return this._myspec.Width; }
+            get { return _myspec.Width; }
         }
         public CssFloat Float
         {
-            get { return this._myspec.Float; }
+            get { return _myspec.Float; }
         }
         public CssLength MaxWidth
         {
-            get { return this._myspec.MaxWidth; }
+            get { return _myspec.MaxWidth; }
         }
 
         //------------------------------------------------------ 
         Color BackgroundColor
         {
-            get { return this._myspec.BackgroundColor; }
+            get { return _myspec.BackgroundColor; }
         }
         public ImageBinder BackgroundImageBinder
         {
-            get { return this._myspec.BackgroundImageBinder; }
+            get { return _myspec.BackgroundImageBinder; }
         }
         public CssLength BackgroundPositionX
         {
-            get { return this._myspec.BackgroundPositionX; }
+            get { return _myspec.BackgroundPositionX; }
         }
         public CssLength BackgroundPositionY
         {
-            get { return this._myspec.BackgroundPositionY; }
+            get { return _myspec.BackgroundPositionY; }
         }
         public CssBackgroundRepeat BackgroundRepeat
         {
-            get { return this._myspec.BackgroundRepeat; }
+            get { return _myspec.BackgroundRepeat; }
         }
         public Color BackgroundGradient
         {
-            get { return this._myspec.BackgroundGradient; }
+            get { return _myspec.BackgroundGradient; }
         }
 
         public float BackgroundGradientAngle
         {
-            get { return this._myspec.ActualBackgroundGradientAngle; }
+            get { return _myspec.ActualBackgroundGradientAngle; }
         }
 
         CssEmptyCell EmptyCells
         {
-            get { return this._myspec.EmptyCells; }
+            get { return _myspec.EmptyCells; }
         }
 
         public CssPosition Position
         {
-            get { return this._myspec.Position; }
+            get { return _myspec.Position; }
         }
         //----------------------------------------------------
 
         public CssVerticalAlign VerticalAlign
         {
-            get { return this._myspec.VerticalAlign; }
+            get { return _myspec.VerticalAlign; }
         }
         CssLength TextIndent
         {
-            get { return this._myspec.TextIndent; }
+            get { return _myspec.TextIndent; }
         }
         CssLength LineHeight
         {
-            get { return this._myspec.LineHeight; }
+            get { return _myspec.LineHeight; }
         }
 
         public CssTextAlign CssTextAlign
         {
-            get { return this._myspec.CssTextAlign; }
+            get { return _myspec.CssTextAlign; }
         }
         public CssTextDecoration TextDecoration
         {
-            get { return this._myspec.TextDecoration; }
+            get { return _myspec.TextDecoration; }
         }
         //-----------------------------------
         public CssWhiteSpace WhiteSpace
         {
-            get { return this._myspec.WhiteSpace; }
+            get { return _myspec.WhiteSpace; }
         }
         //----------------------------------- 
         CssVisibility Visibility
         {
-            get { return this._myspec.Visibility; }
+            get { return _myspec.Visibility; }
         }
         public CssLength WordSpacing
         {
-            get { return this._myspec.WordSpacing; }
+            get { return _myspec.WordSpacing; }
         }
         CssWordBreak WordBreak
         {
-            get { return this._myspec.WordBreak; }
+            get { return _myspec.WordBreak; }
         }
         //-----------------------------------  
         public CssOverflow Overflow
         {
-            get { return this._myspec.Overflow; }
+            get { return _myspec.Overflow; }
         }
         //----------------------------------- 
 
@@ -210,7 +210,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-                return this._myspec.BackgroundGradient;
+                return _myspec.BackgroundGradient;
             }
         }
 
@@ -221,7 +221,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-                return this._myspec.BackgroundGradientAngle;
+                return _myspec.BackgroundGradientAngle;
             }
         }
 
@@ -233,7 +233,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-                return this._myspec.ActualColor;
+                return _myspec.ActualColor;
             }
         }
 
@@ -244,14 +244,14 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-                return this._myspec.ActualBackgroundColor;
+                return _myspec.ActualBackgroundColor;
             }
         }
         public CssCursorName CursorName
         {
             get
             {
-                return this._myspec.CursorName;
+                return _myspec.CursorName;
             }
         }
         /// <summary>
@@ -261,7 +261,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-                return this._resolvedFont;
+                return _resolvedFont;
             }
         }
         /// <summary>
@@ -274,7 +274,7 @@ namespace LayoutFarm.HtmlBoxes
             //temp fixed here
             //TODO: review here
             return 16;
-            //return this._actualEmHeight;//  
+            //return _actualEmHeight;//  
         }
     }
 }

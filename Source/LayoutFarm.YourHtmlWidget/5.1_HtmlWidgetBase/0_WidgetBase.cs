@@ -4,52 +4,47 @@ namespace LayoutFarm.HtmlWidgets
 {
     public abstract class WidgetBase
     {
-        int width;
-        int height;
-        int left;
-        int top;
-        int viewportX;
-        int viewportY;
+        int _width;
+        int _height;
+        int _left;
+        int _top;
+        int _viewportX;
+        int _viewportY;
         public WidgetBase(int w, int h)
         {
-            this.width = w;
-            this.height = h;
+            _width = w;
+            _height = h;
         }
-        public virtual int Width
-        {
-            get { return this.width; }
-        }
-        public virtual int Height
-        {
-            get { return this.height; }
-        }
-        public int Left
-        {
-            get { return this.left; }
-        }
-        public int Top
-        {
-            get { return this.top; }
-        }
+        //
+        public virtual int Width => _width;
+        //
+        public virtual int Height => _height;
+        //
+        public int Left => _left;
+        //
+        public int Top => _top;
+        //
+        public int ViewportX => _viewportX;
+        public int ViewportY => _viewportY;
+        //
+        public int ViewportWidth => this.Width;
+        public int ViewportHeight => this.Height;
+        //
         public virtual void SetLocation(int left, int top)
         {
-            this.left = left;
-            this.top = top;
+            _left = left;
+            _top = top;
         }
         public virtual void SetSize(int width, int height)
         {
-            this.width = width;
-            this.height = height;
+            _width = width;
+            _height = height;
         }
         public virtual void SetViewport(int x, int y)
         {
-            this.viewportX = x;
-            this.viewportY = y;
+            _viewportX = x;
+            _viewportY = y;
         }
-        public int ViewportX { get { return this.viewportX; } }
-        public int ViewportY { get { return this.viewportY; } }
-        public int ViewportWidth { get { return this.Width; } }
-        public int ViewportHeight { get { return this.Height; } }
     }
     public abstract class HtmlWidgetBase : WidgetBase
     {
@@ -58,6 +53,6 @@ namespace LayoutFarm.HtmlWidgets
         {
         }
         public abstract WebDom.DomElement GetPresentationDomNode(WebDom.Impl.HtmlDocument htmldoc);
-        
+
     }
 }

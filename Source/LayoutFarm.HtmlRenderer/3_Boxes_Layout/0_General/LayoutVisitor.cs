@@ -27,7 +27,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         internal void Bind(HtmlVisualRoot htmlVisualRoot)
         {
-            this._htmlVisualRoot = htmlVisualRoot;
+            _htmlVisualRoot = htmlVisualRoot;
             if (episodeId == ushort.MaxValue - 1)
             {
                 //reset
@@ -37,7 +37,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         internal void UnBind()
         {
-            this._htmlVisualRoot = null;
+            _htmlVisualRoot = null;
             if (dicStripPool != null) dicStripPool.Clear();
             if (listStripPool != null) listStripPool.Clear();
             readyDicStrip.Clear();
@@ -116,7 +116,7 @@ namespace LayoutFarm.HtmlBoxes
             float candidateRootWidth = Math.Max(
                 box.CalculateMinimumWidth(this.episodeId) + CalculateWidthMarginTotalUp(box),
                 (box.VisualWidth + this.ContainerBlockGlobalX) < CssBoxConstConfig.BOX_MAX_RIGHT ? box.VisualWidth : 0);
-            this._htmlVisualRoot.UpdateSizeIfWiderOrHigher(
+            _htmlVisualRoot.UpdateSizeIfWiderOrHigher(
                 this.ContainerBlockGlobalX + candidateRootWidth,
                 this.ContainerBlockGlobalY + box.VisualHeight);
         }
@@ -138,13 +138,13 @@ namespace LayoutFarm.HtmlBoxes
 
         internal void RequestImage(ImageBinder binder, CssBox requestFrom)
         {
-            this._htmlVisualRoot.RaiseImageRequest(binder,
+            _htmlVisualRoot.RaiseImageRequest(binder,
                 requestFrom,
                 false);
         }
         internal void RequestScrollView(CssBox requestFrom)
         {
-            this._htmlVisualRoot.RequestScrollView(requestFrom);
+            _htmlVisualRoot.RequestScrollView(requestFrom);
         }
         internal float MeasureWhiteSpace(CssBox box)
         {

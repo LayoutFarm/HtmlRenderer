@@ -69,22 +69,22 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="owner">the CSS box owner of the word</param>
         protected CssRun(CssRunKind rectKind)
         {
-            this._runKind = rectKind;
+            _runKind = rectKind;
         }
         public void SetOwner(CssBox owner)
         {
-            this._owner = owner;
+            _owner = owner;
         }
         /// <summary>
         /// Gets the Box where this word belongs.
         /// </summary>
         public CssBox OwnerBox
         {
-            get { return this._owner; }
+            get { return _owner; }
         }
         internal CssLineBox HostLine
         {
-            get { return this._hostline; }
+            get { return _hostline; }
         }
         internal static void SetHostLine(CssRun run, CssLineBox hostline)
         {
@@ -93,7 +93,7 @@ namespace LayoutFarm.HtmlBoxes
 
         internal void InvalidateGraphics()
         {
-            switch (this._runKind)
+            switch (_runKind)
             {
                 case CssRunKind.BlockRun:
                     {
@@ -150,7 +150,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-                return this._runKind;
+                return _runKind;
             }
         }
 
@@ -160,7 +160,7 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         public RectangleF Rectangle
         {
-            get { return new RectangleF(this._x, this._y, this._width, this._height); }
+            get { return new RectangleF(_x, _y, _width, _height); }
         }
 
         /// <summary>
@@ -168,10 +168,10 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         public float Left
         {
-            get { return this._x; }
+            get { return _x; }
             set
             {
-                this._x = value;
+                _x = value;
             }
         }
         /// <summary>
@@ -179,37 +179,37 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         public float Top
         {
-            get { return this._y; }
-            set { this._y = value; }
+            get { return _y; }
+            set { _y = value; }
         }
         internal void SetLocation(float x, float y)
         {
-            this._x = x;
-            this._y = y;
+            _x = x;
+            _y = y;
         }
         internal void Offset(float xdiff, float ydiff)
         {
-            this._x += xdiff;
-            this._y += ydiff;
+            _x += xdiff;
+            _y += ydiff;
         }
         internal void OffsetY(float ydiff)
         {
-            this._y += ydiff;
+            _y += ydiff;
         }
         internal void SetSize(float w, float h)
         {
-            this._width = w;
-            this._height = h;
+            _width = w;
+            _height = h;
         }
         /// <summary>
         /// Width of the rectangle
         /// </summary>
         public float Width
         {
-            get { return this._width; }
+            get { return _width; }
             set
             {
-                this._width = value;
+                _width = value;
             }
         }
 
@@ -218,8 +218,8 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         public float Height
         {
-            get { return this._height; }
-            set { this._height = value; }
+            get { return _height; }
+            set { _height = value; }
         }
 
         /// <summary>
@@ -227,7 +227,7 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         public float Right
         {
-            get { return this._x + this._width; }
+            get { return _x + _width; }
         }
 
         /// <summary>
@@ -235,7 +235,7 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         public float Bottom
         {
-            get { return this._y + this._height; }
+            get { return _y + _height; }
         }
 
 
@@ -244,7 +244,7 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         public bool IsSolidContent
         {
-            get { return this._runKind == CssRunKind.SolidContent; }
+            get { return _runKind == CssRunKind.SolidContent; }
         }
 
         /// <summary>
@@ -256,7 +256,7 @@ namespace LayoutFarm.HtmlBoxes
             get
             {
                 //eval once
-                return this._runKind >= CssRunKind.SingleSpace;
+                return _runKind >= CssRunKind.SingleSpace;
             }
         }
         /// <summary>
@@ -267,7 +267,7 @@ namespace LayoutFarm.HtmlBoxes
             get
             {
                 //eval once
-                return this._runKind == CssRunKind.LineBreak;
+                return _runKind == CssRunKind.LineBreak;
             }
         }
         /// <summary>
@@ -367,9 +367,9 @@ namespace LayoutFarm.HtmlBoxes
         //{
         //    //get global location              
         //    float x2, y2;
-        //    var root = this._hostline.OwnerBox.GetGlobalLocation(out x2, out y2);
-        //    globalX = x2 + this._x;
-        //    globalY = y2 + this._y;
+        //    var root = _hostline.OwnerBox.GetGlobalLocation(out x2, out y2);
+        //    globalX = x2 + _x;
+        //    globalY = y2 + _y;
         //    return root;
         //}
     }

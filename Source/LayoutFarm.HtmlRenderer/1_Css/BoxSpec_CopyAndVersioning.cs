@@ -38,7 +38,7 @@ namespace LayoutFarm.Css
             //=====================================
             //if (s._fontFeats.Owner == s)
             //{
-            //    //this._fontFeats = s._fontFeats;
+            //    //_fontFeats = s._fontFeats;
             //}
             target._fontFeats = source._fontFeats;
             target._listFeats = source._listFeats;
@@ -111,45 +111,45 @@ namespace LayoutFarm.Css
 
         CssBorderFeature CheckBorderVersion()
         {
-            return this._borderFeats = this._borderFeats.GetMyOwnVersion(this);
+            return _borderFeats = _borderFeats.GetMyOwnVersion(this);
         }
         CssMarginFeature CheckMarginVersion()
         {
 #if DEBUG
-            if (this.__aa_dbugId == 9)
+            if (__aa_dbugId == 9)
             {
             }
 #endif
-            return this._marginFeats = this._marginFeats.GetMyOwnVersion(this);
+            return _marginFeats = _marginFeats.GetMyOwnVersion(this);
         }
         CssPaddingFeature CheckPaddingVersion()
         {
-            return this._paddingFeats = this._paddingFeats.GetMyOwnVersion(this);
+            return _paddingFeats = _paddingFeats.GetMyOwnVersion(this);
         }
         CssCornerFeature CheckCornerVersion()
         {
-            return this._cornerFeats = this._cornerFeats.GetMyOwnVersion(this);
+            return _cornerFeats = _cornerFeats.GetMyOwnVersion(this);
         }
         CssFontFeature CheckFontVersion()
         {
-            return this._fontFeats = this._fontFeats.GetMyOwnVersion(this);
+            return _fontFeats = _fontFeats.GetMyOwnVersion(this);
         }
         CssListFeature CheckListPropVersion()
         {
-            return this._listFeats = this._listFeats.GetMyOwnVersion(this);
+            return _listFeats = _listFeats.GetMyOwnVersion(this);
         }
         CssBackgroundFeature CheckBgVersion()
         {
-            return this._backgroundFeats = this._backgroundFeats.GetMyOwnVersion(this);
+            return _backgroundFeats = _backgroundFeats.GetMyOwnVersion(this);
         }
 
         CssBoxShadowFeature CheckBoxShadowVersion()
         {
-            return this._boxShadow = this._boxShadow.GetMyOwnVersion(this);
+            return _boxShadow = _boxShadow.GetMyOwnVersion(this);
         }
         CssFlexFeature CheckFlexVersion()
         {
-            return this._flexFeats = this._flexFeats.GetMyOwnVersion(this);
+            return _flexFeats = _flexFeats.GetMyOwnVersion(this);
         }
     }
 }

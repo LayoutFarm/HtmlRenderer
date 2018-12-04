@@ -35,7 +35,7 @@ namespace LayoutFarm.CustomWidgets
         public HtmlBox(HtmlHost htmlHost, int width, int height)
             : base(width, height)
         {
-            this._htmlhost = htmlHost;
+            _htmlhost = htmlHost;
         }
         public bool PreferSoftwareRenderer
         {
@@ -49,20 +49,14 @@ namespace LayoutFarm.CustomWidgets
                 }
             }
         }
-        internal HtmlHost HtmlHost
-        {
-            get { return this._htmlhost; }
-        }
+        //
+        internal HtmlHost HtmlHost => _htmlhost;
+        //
         public string BaseUrl
         {
-            get
-            {
-                return _htmlhost.BaseUrl;
-            }
-            set
-            {
-                _htmlhost.BaseUrl = value;
-            }
+            get => _htmlhost.BaseUrl;
+            set => _htmlhost.BaseUrl = value;
+
         }
         protected override void OnContentLayout()
         {
@@ -72,15 +66,11 @@ namespace LayoutFarm.CustomWidgets
         {
             this.RaiseLayoutFinished();
         }
-        public override RenderElement CurrentPrimaryRenderElement
-        {
-            get { return this._htmlRenderBox; }
-        }
-        protected override bool HasReadyRenderElement
-        {
-            get { return this._htmlRenderBox != null; }
-        }
-
+        //
+        public override RenderElement CurrentPrimaryRenderElement => _htmlRenderBox;
+        //
+        protected override bool HasReadyRenderElement => _htmlRenderBox != null;
+        //
         HtmlInputEventAdapter GetInputEventAdapter()
         {
             if (_inputEventAdapter == null)
@@ -212,7 +202,7 @@ namespace LayoutFarm.CustomWidgets
                             StringBuilder stbuilder = new StringBuilder();
                             //copy only text ***
                             //TODO: copy 'portable' html text***
-                            this._htmlVisualRoot.CopySelection(stbuilder);
+                            _htmlVisualRoot.CopySelection(stbuilder);
                             LayoutFarm.UI.Clipboard.SetText(stbuilder.ToString());
                         }
                         break;
@@ -243,26 +233,26 @@ namespace LayoutFarm.CustomWidgets
                 newHtmlRenderBox.SetLocation(this.Left, this.Top);
                 newHtmlRenderBox.PreferSoftwareRenderer = this.PreferSoftwareRenderer;
                 //set to this field if ready
-                this._htmlRenderBox = newHtmlRenderBox;
+                _htmlRenderBox = newHtmlRenderBox;
             }
-            switch (this._waitingContentKind)
+            switch (_waitingContentKind)
             {
                 default:
                 case WaitingContentKind.NoWaitingContent:
                     break;
                 case WaitingContentKind.HtmlDocument:
                     {
-                        LoadHtmlDom(this._waitingHtmlDoc);
+                        LoadHtmlDom(_waitingHtmlDoc);
                     }
                     break;
                 case WaitingContentKind.HtmlFragmentString:
                     {
-                        LoadHtmlFragmentString(this._waitingHtmlString);
+                        LoadHtmlFragmentString(_waitingHtmlString);
                     }
                     break;
                 case WaitingContentKind.HtmlString:
                     {
-                        LoadHtmlString(this._waitingHtmlString);
+                        LoadHtmlString(_waitingHtmlString);
                     }
                     break;
             }
@@ -272,21 +262,21 @@ namespace LayoutFarm.CustomWidgets
         //-----------------------------------------------------------------------------------------------------
         void ClearWaitingContent()
         {
-            this._waitingHtmlDoc = null;
-            this._waitingHtmlString = null;
+            _waitingHtmlDoc = null;
+            _waitingHtmlString = null;
             _waitingContentKind = WaitingContentKind.NoWaitingContent;
         }
         public void LoadHtmlDom(HtmlDocument htmldoc)
         {
             if (_htmlRenderBox == null)
             {
-                this._waitingContentKind = WaitingContentKind.HtmlDocument;
-                this._waitingHtmlDoc = htmldoc;
+                _waitingContentKind = WaitingContentKind.HtmlDocument;
+                _waitingHtmlDoc = htmldoc;
             }
             else
             {
                 //just parse content and load 
-                this._htmlVisualRoot = HtmlHostExtensions.CreateHtmlVisualRoot(this._htmlhost, htmldoc, _htmlRenderBox);
+                _htmlVisualRoot = HtmlHostExtensions.CreateHtmlVisualRoot(_htmlhost, htmldoc, _htmlRenderBox);
                 SetHtmlContainerEventHandlers();
                 ClearWaitingContent();
                 RaiseLayoutFinished();
@@ -296,13 +286,13 @@ namespace LayoutFarm.CustomWidgets
         {
             if (_htmlRenderBox == null)
             {
-                this._waitingContentKind = WaitingContentKind.HtmlString;
-                this._waitingHtmlString = htmlString;
+                _waitingContentKind = WaitingContentKind.HtmlString;
+                _waitingHtmlString = htmlString;
             }
             else
             {
                 //just parse content and load 
-                this._htmlVisualRoot = HtmlHostExtensions.CreateHtmlVisualRootFromFullHtml(this._htmlhost, htmlString, _htmlRenderBox);
+                _htmlVisualRoot = HtmlHostExtensions.CreateHtmlVisualRootFromFullHtml(_htmlhost, htmlString, _htmlRenderBox);
                 SetHtmlContainerEventHandlers();
                 ClearWaitingContent();
             }
@@ -311,13 +301,13 @@ namespace LayoutFarm.CustomWidgets
         {
             if (_htmlRenderBox == null)
             {
-                this._waitingContentKind = WaitingContentKind.HtmlFragmentString;
-                this._waitingHtmlString = fragmentHtmlString;
+                _waitingContentKind = WaitingContentKind.HtmlFragmentString;
+                _waitingHtmlString = fragmentHtmlString;
             }
             else
             {
                 //just parse content and load 
-                this._htmlVisualRoot = HtmlHostExtensions.CreateHtmlVisualRootFromFragmentHtml(this._htmlhost, fragmentHtmlString, _htmlRenderBox);
+                _htmlVisualRoot = HtmlHostExtensions.CreateHtmlVisualRootFromFragmentHtml(_htmlhost, fragmentHtmlString, _htmlRenderBox);
                 SetHtmlContainerEventHandlers();
                 ClearWaitingContent();
             }
@@ -336,22 +326,17 @@ namespace LayoutFarm.CustomWidgets
                     if (_htmlRenderBox == null) return;
                     //--------------------------- 
                     _htmlhost.GetRenderTreeBuilder().RefreshCssTree(_htmlVisualRoot.RootElement);
-                    LayoutVisitor lay = this._htmlhost.GetSharedHtmlLayoutVisitor(_htmlVisualRoot);
+                    LayoutVisitor lay = _htmlhost.GetSharedHtmlLayoutVisitor(_htmlVisualRoot);
                     _htmlVisualRoot.PerformLayout(lay);
-                    this._htmlhost.ReleaseHtmlLayoutVisitor(lay);
+                    _htmlhost.ReleaseHtmlLayoutVisitor(lay);
                 },
                 //3.
                 (s, e) => this.InvalidateGraphics(),
                 //4
                 (s, e) => { this.RaiseLayoutFinished(); });
         }
-        public WebDom.IHtmlDocument HtmlDoc
-        {
-            get
-            {
-                return this._htmlVisualRoot.WebDocument as WebDom.IHtmlDocument;
-            }
-        }
+        //
+        public WebDom.IHtmlDocument HtmlDoc => _htmlVisualRoot.WebDocument as WebDom.IHtmlDocument;
 
         public override void SetViewport(int x, int y, object reqBy)
         {
@@ -361,20 +346,10 @@ namespace LayoutFarm.CustomWidgets
                 _htmlRenderBox.SetViewport(x, y);
             }
         }
-        public override int InnerWidth
-        {
-            get
-            {
-                return this._htmlRenderBox.HtmlWidth;
-            }
-        }
-        public override int InnerHeight
-        {
-            get
-            {
-                return this._htmlRenderBox.HtmlHeight;
-            }
-        }
+        //
+
+        public override int InnerWidth => _htmlRenderBox.HtmlWidth;
+        public override int InnerHeight => _htmlRenderBox.HtmlHeight;
 
         public override void Walk(UIVisitor visitor)
         {

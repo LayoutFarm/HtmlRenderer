@@ -36,7 +36,7 @@ namespace LayoutFarm.WebDom.Extension
         public static void AddTextContent(this DomElement elem, string text)
         {
             DomTextNode newTextNode = elem.OwnerDocument.CreateTextNode(text.ToCharArray());
-            elem.AddChild(newTextNode); 
+            elem.AddChild(newTextNode);
         }
         //------------------------------------------------------------------------------
 

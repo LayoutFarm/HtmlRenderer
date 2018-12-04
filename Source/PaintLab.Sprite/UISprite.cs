@@ -21,16 +21,12 @@ namespace LayoutFarm.UI
             : base(rootGfx, width, height)
         {
             this.MayHasChild = true;
-            //this.TransparentForAllEvents = true;
         }
 
         public VgVisualElement VgVisualElem
         {
-            get { return _vgVisualElem; }
-            set
-            {
-                _vgVisualElem = value;
-            }
+            get => _vgVisualElem;
+            set => _vgVisualElem = value;
         }
         public bool EnableSubSvgHitTest { get; set; }
 
@@ -61,7 +57,7 @@ namespace LayoutFarm.UI
         }
         public void FindRenderElementAtPos(float x, float y, Action<VgVisualElement, float, float, VertexStore> onHitSvg)
         {
-            this._vgVisualElem.HitTest(x, y, onHitSvg);
+            _vgVisualElem.HitTest(x, y, onHitSvg);
         }
 
         public float RenderOriginXOffset
@@ -80,15 +76,6 @@ namespace LayoutFarm.UI
                 //_renderOffsetY = value;
             }
         }
-
-        //float _renderOffsetX;
-        //float _renderOffsetY;
-        //public void SetRenderOffset(float renderOffsetX, float renderOffsetY)
-        //{
-        //    _renderOffsetX = renderOffsetX;
-        //    _renderOffsetY = renderOffsetY;
-        //}
-
         public override void ChildrenHitTestCore(HitChain hitChain)
         {
 
@@ -374,10 +361,7 @@ namespace LayoutFarm.UI
 
         public bool EnableSubSvgTest
         {
-            get
-            {
-                return _enableSubSvgTest;
-            }
+            get => _enableSubSvgTest;
             set
             {
                 _enableSubSvgTest = value;
@@ -413,9 +397,6 @@ namespace LayoutFarm.UI
             }
         }
 
-
-
-        //--------------------
         public void BringToTopMost()
         {
             CustomWidgets.AbstractBox parentBox = this.ParentUI as CustomWidgets.AbstractBox;
@@ -434,9 +415,6 @@ namespace LayoutFarm.UI
         }
 
 
-        //--------------------
-
-        //
         public float ActualXOffset
         {
             get
@@ -496,22 +474,16 @@ namespace LayoutFarm.UI
         /// </summary>
         protected virtual void OnUpdateVgVisualElement() { }
 
-        protected override void OnMouseDown(UIMouseEventArgs e)
-        {
-            base.OnMouseDown(e);
-        }
+
         public override void Walk(UIVisitor visitor)
         {
 
         }
-        protected override bool HasReadyRenderElement
-        {
-            get { return _vgBridgeRenderElement != null; }
-        }
-        public override RenderElement CurrentPrimaryRenderElement
-        {
-            get { return _vgBridgeRenderElement; }
-        }
+        //
+        protected override bool HasReadyRenderElement => _vgBridgeRenderElement != null;
+        //
+        public override RenderElement CurrentPrimaryRenderElement => _vgBridgeRenderElement;
+        //
         public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
         {
             if (_vgBridgeRenderElement == null)
@@ -544,8 +516,8 @@ namespace LayoutFarm.UI
                 vgBridgeRenderElem.SetController(this);
 
                 _vgBridgeRenderElement = vgBridgeRenderElem;//set to field after init-setting.
+                _vgBridgeRenderElement.TransparentForAllEvents = this.TransparentAllMouseEvents;
 
-                //_vgBridgeRenderElement.TransparentForAllEvents = this.TransparentAllMouseEvents;
                 this.SetSize((int)bounds.Width, (int)bounds.Height);
             }
             return _vgBridgeRenderElement;
@@ -581,8 +553,9 @@ namespace LayoutFarm.UI
         RectD _post_TransformRectBounds;
 
         //post transform bounds
+        //
         public PixelFarm.CpuBlit.VertexProcessing.ICoordTransformer TransformMatrix => _tx;
-
+        //
         public void SetTransformation(PixelFarm.CpuBlit.VertexProcessing.ICoordTransformer tx)
         {
 
@@ -682,15 +655,11 @@ namespace LayoutFarm.UI
                 }
             }
         }
-        public float Right
-        {
-            get { return this.Left + Width; }
-        }
-        public float Bottom
-        {
-            get { return this.Top + Height; }
-        }
-
+        //
+        public float Right => this.Left + Width;
+        //
+        public float Bottom => this.Top + Height;
+        //
         public float Width
         {
             get

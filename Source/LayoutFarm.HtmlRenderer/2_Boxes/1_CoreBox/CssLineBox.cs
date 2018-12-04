@@ -29,54 +29,54 @@ namespace LayoutFarm.HtmlBoxes
         public PartialBoxStrip(CssBox owner, float x, float y, float w, float h)
         {
             this.owner = owner;
-            this._x = x;
-            this._y = y;
-            this._width = w;
-            this._height = h;
+            _x = x;
+            _y = y;
+            _width = w;
+            _height = h;
         }
 
         public float Left
         {
-            get { return this._x; }
+            get { return _x; }
         }
         public float Top
         {
-            get { return this._y; }
+            get { return _y; }
         }
         public float Width
         {
-            get { return this._width; }
+            get { return _width; }
         }
         public float Right
         {
-            get { return this._x + this._width; }
+            get { return _x + _width; }
         }
         public float Height
         {
-            get { return this._height; }
+            get { return _height; }
         }
 
         public float Bottom
         {
-            get { return this._y + _height; }
+            get { return _y + _height; }
         }
 
         public RectangleF Bound
         {
-            get { return new RectangleF(this._x, this._y, this.Width, this.Height); }
+            get { return new RectangleF(_x, _y, this.Width, this.Height); }
         }
 
         public void MergeBound(float left, float top, float right, float bottom)
         {
             float sR = this.Right;
             float sB = this.Bottom;
-            if (left < this._x)
+            if (left < _x)
             {
-                this._x = left;
+                _x = left;
             }
-            if (top < this._y)
+            if (top < _y)
             {
-                this._y = top;
+                _y = top;
             }
             if (right > sR)
             {
@@ -87,8 +87,8 @@ namespace LayoutFarm.HtmlBoxes
                 sB = bottom;
             }
 
-            this._width = sR - this._x;
-            this._height = sB - this._y;
+            _width = sR - _x;
+            _height = sB - _y;
         }
 
 #if DEBUG
@@ -178,7 +178,7 @@ namespace LayoutFarm.HtmlBoxes
         internal float CalculateLineHeight()
         {
             float maxBottom = 0;
-            List<CssRun> myruns = this._runs;
+            List<CssRun> myruns = _runs;
             int j = myruns.Count;
             for (int i = 0; i < j; ++i)
             {
@@ -199,8 +199,8 @@ namespace LayoutFarm.HtmlBoxes
             //part 1: MakeStrips()
             //=============================================================
             //***
-            List<CssRun> myruns = this._runs;
-            CssBox lineOwner = this._ownerBox;
+            List<CssRun> myruns = _runs;
+            CssBox lineOwner = _ownerBox;
             List<PartialBoxStrip> tmpStrips = lay.GetReadyStripList();
             //--------------------------------------------------------------------------- 
             //first level 
@@ -237,7 +237,7 @@ namespace LayoutFarm.HtmlBoxes
                 numNewStripCreate = StepUpRegisterStrips(unqiueStrips, lineOwner, tmpStrips, newStripIndex);
             }
 
-            this._bottomUpBoxStrips = tmpStrips.ToArray();
+            _bottomUpBoxStrips = tmpStrips.ToArray();
             lay.ReleaseStripList(tmpStrips);
             lay.ReleaseStripDic(unqiueStrips);
             //=============================================================
@@ -258,7 +258,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         internal bool CanDoMoreLeftOffset(float newOffset, float rightLimit)
         {
-            int j = this._runs.Count;
+            int j = _runs.Count;
             if (j > 0)
             {
                 //last run right position
@@ -274,9 +274,9 @@ namespace LayoutFarm.HtmlBoxes
         }
         internal void DoLeftOffset(float diff)
         {
-            for (int i = this._runs.Count - 1; i >= 0; --i)
+            for (int i = _runs.Count - 1; i >= 0; --i)
             {
-                this._runs[i].Left += diff;
+                _runs[i].Left += diff;
             }
         }
         internal float GetRightOfLastRun()
@@ -284,7 +284,7 @@ namespace LayoutFarm.HtmlBoxes
             int j = this.RunCount;
             if (j > 0)
             {
-                return this._runs[j - 1].Right;
+                return _runs[j - 1].Right;
             }
             return 0;
         }
@@ -302,9 +302,9 @@ namespace LayoutFarm.HtmlBoxes
             //not correct !! 
             float maxRunHeight = 0;
             CssRun maxRun = null;
-            for (int i = this._runs.Count - 1; i >= 0; --i)
+            for (int i = _runs.Count - 1; i >= 0; --i)
             {
-                CssRun run = this._runs[i];
+                CssRun run = _runs[i];
                 if (run.Height > maxRunHeight)
                 {
                     maxRun = run;
@@ -321,8 +321,8 @@ namespace LayoutFarm.HtmlBoxes
                 //return fontHeight* fontAscent / lineSpacing )
             }
             return 0;
-            //int j = this._runs.Count;
-            //for (int i = this._runs.Count - 1; i >= 0; --i)
+            //int j = _runs.Count;
+            //for (int i = _runs.Count - 1; i >= 0; --i)
             //{
             //    Font ownerFont = _runs[i].OwnerBox.ActualFont;
             //    HtmlRenderer.Drawing.FontsUtils.GetDescent(
@@ -343,14 +343,14 @@ namespace LayoutFarm.HtmlBoxes
             //In a single LineBox ,  CssBox:RectStrip => 1:1 relation   
 
 
-            for (int i = this._runs.Count - 1; i >= 0; --i)
+            for (int i = _runs.Count - 1; i >= 0; --i)
             {
-                CssRun run = this._runs[i];
+                CssRun run = _runs[i];
                 //adjust base line
                 run.SetLocation(run.Left, baseline);
             }
 
-            //if (this._bottomUpBoxStrips == null)
+            //if (_bottomUpBoxStrips == null)
             //{
             //    return;
             //}
@@ -392,20 +392,20 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-                return this._runs.Count;
+                return _runs.Count;
             }
         }
         internal CssRun GetRun(int index)
         {
-            return this._runs[index];
+            return _runs[index];
         }
         internal CssRun GetFirstRun()
         {
-            return this._runs[0];
+            return _runs[0];
         }
         internal CssRun GetLastRun()
         {
-            return this._runs[this._runs.Count - 1];
+            return _runs[_runs.Count - 1];
         }
 
         /// <summary>
@@ -435,12 +435,12 @@ namespace LayoutFarm.HtmlBoxes
 
             //    }
             //}
-            this._runs.Add(run);//each word has only one owner linebox! 
+            _runs.Add(run);//each word has only one owner linebox! 
             CssRun.SetHostLine(run, this);
         }
         internal IEnumerable<CssRun> GetRunIter(CssBox box)
         {
-            List<CssRun> tmpRuns = this._runs;
+            List<CssRun> tmpRuns = _runs;
             int j = tmpRuns.Count;
             CssRun run = null;
             for (int i = 0; i < j; ++i)
@@ -453,7 +453,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         internal IEnumerable<CssRun> GetRunIter()
         {
-            List<CssRun> tmpRuns = this._runs;
+            List<CssRun> tmpRuns = _runs;
             int j = tmpRuns.Count;
             for (int i = 0; i < j; ++i)
             {
@@ -462,7 +462,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         internal void PaintRuns(PaintVisitor p)
         {
-            List<CssRun> tmpRuns = this._runs;
+            List<CssRun> tmpRuns = _runs;
             int j = tmpRuns.Count;
             if (j < 1) { return; }
             //-----------------------
@@ -556,14 +556,14 @@ namespace LayoutFarm.HtmlBoxes
             //    this.CachedLineTop,
             //    this.CachedLineContentWidth,
             //    this.CacheLineHeight);
-            //foreach (var strip in this._boxStrips.Values)
+            //foreach (var strip in _boxStrips.Values)
             //{
             //    var bound = strip.Bound;
             //    bound.Offset(offset);
             //    dbugDrawDiagnalBox(g, Pens.Green, bound.X, bound.Y, bound.Right, bound.Bottom);
             //} 
             //return; 
-            foreach (CssRun w in this._runs)
+            foreach (CssRun w in _runs)
             {
                 p.DrawRectangle(Color.DeepPink, w.Left, w.Top, w.Width, w.Height);
                 //p.dbugDrawDiagonalBox(Color.DeepPink, w.Left, w.Top, w.Width, w.Height);
@@ -707,7 +707,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             float max = minimum;
             CssRun maxRun = null;
-            for (int i = this._runs.Count - 1; i >= 0; --i)
+            for (int i = _runs.Count - 1; i >= 0; --i)
             {
                 CssRun r = _runs[i];
                 if (r.Width > max)

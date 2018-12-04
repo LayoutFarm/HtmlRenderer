@@ -319,25 +319,25 @@ namespace LayoutFarm.WebDom.Parser
             {
 #if DEBUG
                 //Console.WriteLine(lexerEvent.ToString() + " : " +
-                //    new string(this.textSnapshot.Copy(this._firstAppendAt, (this._readIndex - this._firstAppendAt) + 1)));
+                //    new string(this.textSnapshot.Copy(_firstAppendAt, (_readIndex - _firstAppendAt) + 1)));
 #endif
 
-                RaiseStateChanged(lexerEvent, this._firstAppendAt, (this._readIndex - this._firstAppendAt) + 1);
+                RaiseStateChanged(lexerEvent, _firstAppendAt, (_readIndex - _firstAppendAt) + 1);
             }
 
-            this._lastFlushAt = lastFlushAtIndex;
-            this._appendCount = 0;
+            _lastFlushAt = lastFlushAtIndex;
+            _appendCount = 0;
         }
 
         void AppendBuffer(char c, int index)
         {
             if (_appendCount == 0)
             {
-                this._firstAppendAt = index;
-                this._appendCount++;
+                _firstAppendAt = index;
+                _appendCount++;
             }
 
-            this._readIndex = index;
+            _readIndex = index;
         }
     }
 }

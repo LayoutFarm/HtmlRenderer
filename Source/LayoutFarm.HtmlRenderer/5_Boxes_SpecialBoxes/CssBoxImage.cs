@@ -36,10 +36,10 @@ namespace LayoutFarm.HtmlBoxes
             IRootGraphics rootgfx, ImageBinder binder)
             : base(boxSpec, rootgfx)
         {
-            this._imgRun = new CssImageRun();
-            this._imgRun.ImageBinder = binder;
+            _imgRun = new CssImageRun();
+            _imgRun.ImageBinder = binder;
             binder.ImageChanged += Binder_ImageChanged;
-            this._imgRun.SetOwner(this);
+            _imgRun.SetOwner(this);
             //
             var runlist = new List<CssRun>(1);
             runlist.Add(_imgRun);
@@ -51,22 +51,22 @@ namespace LayoutFarm.HtmlBoxes
             //TODO: ...
 
             float newW = this.Width.IsEmptyOrAuto ?
-                            this._imgRun.ImageBinder.Width :
+                            _imgRun.ImageBinder.Width :
                             LayoutFarm.WebDom.Parser.CssValueParser.ConvertToPx(Width, VisualWidth, this);
 
             float newH = this.Height.IsEmptyOrAuto ?
-                           this._imgRun.ImageBinder.Height :
+                           _imgRun.ImageBinder.Height :
                            LayoutFarm.WebDom.Parser.CssValueParser.ConvertToPx(Width, VisualWidth, this);
 
 
             SetVisualSize(newW, newH);
             //SetVisualSize(
-            // this._imgRun.ImageBinder.ImageWidth,
-            // this._imgRun.ImageBinder.ImageHeight); 
+            // _imgRun.ImageBinder.ImageWidth,
+            // _imgRun.ImageBinder.ImageHeight); 
             //------------------------
             _imgRun.SetSize(
-                 this._imgRun.ImageBinder.Width,
-                 this._imgRun.ImageBinder.Height);
+                 _imgRun.ImageBinder.Width,
+                 _imgRun.ImageBinder.Height);
             //------------------------
             _imgRun.InvalidateGraphics();
 
@@ -82,10 +82,10 @@ namespace LayoutFarm.HtmlBoxes
 
         public ImageBinder ImageBinder
         {
-            get { return this._imgRun.ImageBinder; }
+            get { return _imgRun.ImageBinder; }
             set
             {
-                this._imgRun.ImageBinder = value;
+                _imgRun.ImageBinder = value;
                 this.RunSizeMeasurePass = false;
                 if (value != null)
                 {
@@ -115,7 +115,7 @@ namespace LayoutFarm.HtmlBoxes
                         //async request image
                         if (!tryLoadOnce)
                         {
-                            p.RequestImageAsync(_imgRun.ImageBinder, this._imgRun, this);
+                            p.RequestImageAsync(_imgRun.ImageBinder, _imgRun, this);
                             //retry again
                             tryLoadOnce = true;
                             goto EVAL_STATE;
