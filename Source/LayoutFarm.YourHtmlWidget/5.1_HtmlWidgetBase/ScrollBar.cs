@@ -26,8 +26,10 @@ namespace LayoutFarm.HtmlWidgets
             : base(width, height)
         {
         }
+        //
         public override RenderElement CurrentPrimaryRenderElement => _mainBox;
         protected override bool HasReadyRenderElement => _mainBox != null;
+        //
         public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
         {
             if (_mainBox == null)
@@ -624,12 +626,12 @@ namespace LayoutFarm.HtmlWidgets
         {
             _scBar.SetCustomScrollBarEvaluator((ScrollBar sc, out double onePixelFor, out int scrollBoxLength) =>
            {
-                //horizontal scroll bar
-                int physicalScrollLength = sc.PhysicalScrollLength;
+               //horizontal scroll bar
+               int physicalScrollLength = sc.PhysicalScrollLength;
                onePixelFor = 1;
                scrollBoxLength = 1;
-                //1. 
-                int contentLength = _scrollableSurface.InnerWidth;
+               //1. 
+               int contentLength = _scrollableSurface.InnerWidth;
                scrollBoxLength = (int)((physicalScrollLength * _scrollableSurface.ViewportWidth) / contentLength);
                if (scrollBoxLength < sc.ScrollBoxSizeLimit)
                {

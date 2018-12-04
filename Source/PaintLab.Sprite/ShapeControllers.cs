@@ -1419,13 +1419,15 @@ namespace LayoutFarm
                 this.CurrentPrimaryRenderElement.InvalidateGraphics();
             }
         }
+        //
         protected override bool HasReadyRenderElement => _hasPrimRenderE;
+        public override RenderElement CurrentPrimaryRenderElement => _simpleBox.CurrentPrimaryRenderElement;
+        //
         public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
         {
             _hasPrimRenderE = true;
             RenderElement renderE = _simpleBox.GetPrimaryRenderElement(rootgfx);
             renderE.TransparentForAllEvents = this.TransparentAllMouseEvents;
-
             return renderE;
         }
         public override void Walk(UIVisitor visitor)
@@ -1433,7 +1435,7 @@ namespace LayoutFarm
 
         }
 
-        public override RenderElement CurrentPrimaryRenderElement => _simpleBox.CurrentPrimaryRenderElement;
+
 
         public void SetPosition(int x, int y)
         {
