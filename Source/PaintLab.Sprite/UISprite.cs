@@ -474,10 +474,7 @@ namespace LayoutFarm.UI
         /// </summary>
         protected virtual void OnUpdateVgVisualElement() { }
 
-        protected override void OnMouseDown(UIMouseEventArgs e)
-        {
-            base.OnMouseDown(e);
-        }
+
         public override void Walk(UIVisitor visitor)
         {
 
