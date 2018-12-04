@@ -1319,7 +1319,7 @@ namespace LayoutFarm
             _controlBoxes = new List<UIControllerBox>();
             CreateNewControlPoints(_controlBoxes, this.OutlineVxs);
             //---------
-            this._polygonController.LoadControlPoints(_controlBoxes);// _quadController.OutlineVxs);
+            _polygonController.LoadControlPoints(_controlBoxes);// _quadController.OutlineVxs);
             SetCornerLocation(0, _controlBoxes[0].TargetX, _controlBoxes[0].TargetY);
             SetCornerLocation(1, _controlBoxes[1].TargetX, _controlBoxes[1].TargetY);
             SetCornerLocation(2, _controlBoxes[2].TargetX, _controlBoxes[2].TargetY);

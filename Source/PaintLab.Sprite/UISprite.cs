@@ -61,7 +61,7 @@ namespace LayoutFarm.UI
         }
         public void FindRenderElementAtPos(float x, float y, Action<VgVisualElement, float, float, VertexStore> onHitSvg)
         {
-            this._vgVisualElem.HitTest(x, y, onHitSvg);
+            _vgVisualElem.HitTest(x, y, onHitSvg);
         }
 
         public float RenderOriginXOffset
