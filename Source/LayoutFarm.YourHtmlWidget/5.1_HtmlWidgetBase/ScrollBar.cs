@@ -142,7 +142,7 @@ namespace LayoutFarm.HtmlWidgets
             //ScrollButton
             SetupVerticalScrollButtonProperties(bgBox);
             //--------------
-            this._mainBox = bgBox;
+            _mainBox = bgBox;
         }
         void CreateHScrollbarContent(RootGraphic rootgfx)
         {
@@ -160,12 +160,12 @@ namespace LayoutFarm.HtmlWidgets
             //ScrollButton
             SetupHorizontalScrollButtonProperties(bgBox);
             //--------------
-            this._mainBox = bgBox;
+            _mainBox = bgBox;
         }
 
         //----------------------------------------------------------------------- 
         //
-        int CalculateThumbPosition() => (int)(this._scrollValue / this._onePixelFor);
+        int CalculateThumbPosition() => (int)(_scrollValue / _onePixelFor);
         //
         void SetupMinButtonProperties(RenderElement container)
         {
@@ -181,7 +181,7 @@ namespace LayoutFarm.HtmlWidgets
             min_button.BackColor = KnownColors.FromKnownColor(KnownColor.DarkGray);
             min_button.MouseUp += (s, e) => this.StepSmallToMin();
             container.AddChild(min_button);
-            this._minButton = min_button;
+            _minButton = min_button;
         }
         void SetupMaxButtonProperties(RenderElement container)
         {
@@ -202,7 +202,7 @@ namespace LayoutFarm.HtmlWidgets
             max_button.BackColor = KnownColors.FromKnownColor(KnownColor.DarkGray);
             max_button.MouseUp += (s, e) => this.StepSmallToMax();
             container.AddChild(max_button);
-            this._maxButton = max_button;
+            _maxButton = max_button;
         }
 
         //---------------------------------------------------------------------------
@@ -210,7 +210,7 @@ namespace LayoutFarm.HtmlWidgets
 
         internal void ReEvaluateScrollBar()
         {
-            if (this._scrollButton == null)
+            if (_scrollButton == null)
             {
                 return;
             }
@@ -241,16 +241,16 @@ namespace LayoutFarm.HtmlWidgets
             //if use external evaluator
             if (_customeScrollBarEvaluator != null)
             {
-                _customeScrollBarEvaluator(this, out this._onePixelFor, out scrollBoxLength);
+                _customeScrollBarEvaluator(this, out _onePixelFor, out scrollBoxLength);
             }
             else
             {
                 //--------------------------
                 //calculate scroll length ratio
                 //scroll button height is ratio with real scroll length
-                float contentLength = this._maxValue - this._minValue;
+                float contentLength = _maxValue - _minValue;
                 //2. 
-                float physicalScrollLength = this.Height - (this._minmax_boxHeight + this._minmax_boxHeight);
+                float physicalScrollLength = this.Height - (_minmax_boxHeight + _minmax_boxHeight);
                 //3.  
                 if (contentLength < physicalScrollLength)
                 {
@@ -258,7 +258,7 @@ namespace LayoutFarm.HtmlWidgets
                     //small change value reflect thumbbox size 
                     int eachStepLength = (int)(physicalScrollLength / (float)(nsteps + 2));
                     scrollBoxLength = eachStepLength * 2;
-                    this._onePixelFor = contentLength / (physicalScrollLength - scrollBoxLength);
+                    _onePixelFor = contentLength / (physicalScrollLength - scrollBoxLength);
                 }
                 else
                 {
@@ -269,13 +269,13 @@ namespace LayoutFarm.HtmlWidgets
                     if (scrollBoxLength < SCROLL_BOX_SIZE_LIMIT)
                     {
                         scrollBoxLength = SCROLL_BOX_SIZE_LIMIT;
-                        this._onePixelFor = contentLength / (physicalScrollLength - scrollBoxLength);
+                        _onePixelFor = contentLength / (physicalScrollLength - scrollBoxLength);
                     }
                     else
                     {
                         //float physicalSmallEach = (physicalScrollLength / contentLength) * smallChange;
                         //this.onePixelFor = contentLength / (physicalScrollLength - physicalSmallEach);
-                        this._onePixelFor = contentLength / (physicalScrollLength - scrollBoxLength);
+                        _onePixelFor = contentLength / (physicalScrollLength - scrollBoxLength);
                     }
                 }
             }
@@ -345,7 +345,7 @@ namespace LayoutFarm.HtmlWidgets
             //if use external evaluator
             if (_customeScrollBarEvaluator != null)
             {
-                _customeScrollBarEvaluator(this, out this._onePixelFor, out scrollBoxLength);
+                _customeScrollBarEvaluator(this, out _onePixelFor, out scrollBoxLength);
             }
             else
             {

@@ -39,7 +39,7 @@ namespace LayoutFarm.HtmlWidgets
             if (_pnode != null) return _pnode;
             //-----------------------------------
             var doc = hostNode.OwnerDocument;
-            this._pnode = doc.CreateElement("div");
+            _pnode = doc.CreateElement("div");
 
             _pnode.AddChild("img", item_icon =>
             {

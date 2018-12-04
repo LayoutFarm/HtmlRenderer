@@ -202,7 +202,7 @@ namespace LayoutFarm.CustomWidgets
                             StringBuilder stbuilder = new StringBuilder();
                             //copy only text ***
                             //TODO: copy 'portable' html text***
-                            this._htmlVisualRoot.CopySelection(stbuilder);
+                            _htmlVisualRoot.CopySelection(stbuilder);
                             LayoutFarm.UI.Clipboard.SetText(stbuilder.ToString());
                         }
                         break;
@@ -233,9 +233,9 @@ namespace LayoutFarm.CustomWidgets
                 newHtmlRenderBox.SetLocation(this.Left, this.Top);
                 newHtmlRenderBox.PreferSoftwareRenderer = this.PreferSoftwareRenderer;
                 //set to this field if ready
-                this._htmlRenderBox = newHtmlRenderBox;
+                _htmlRenderBox = newHtmlRenderBox;
             }
-            switch (this._waitingContentKind)
+            switch (_waitingContentKind)
             {
                 default:
                 case WaitingContentKind.NoWaitingContent:

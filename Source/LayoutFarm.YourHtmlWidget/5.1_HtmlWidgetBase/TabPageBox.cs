@@ -67,7 +67,7 @@ namespace LayoutFarm.HtmlWidgets
             if (_contentNode != null) return _contentNode;
             WebDocument ownerdoc = hostNode.OwnerDocument;
             _contentNode = ownerdoc.CreateElement("div");
-            if (this._contentUI != null)
+            if (_contentUI != null)
             {
                 //add content ui to the body of page
                 //creat html wrapper for this ...        
@@ -172,14 +172,14 @@ namespace LayoutFarm.HtmlWidgets
         }
         public int SelectedIndex
         {
-            get { return this._currentSelectedIndex; }
+            get { return _currentSelectedIndex; }
             set
             {
-                if (value > -1 && value < this._tabPageCollection.Count
-                    && this._currentSelectedIndex != value)
+                if (value > -1 && value < _tabPageCollection.Count
+                    && _currentSelectedIndex != value)
                 {
-                    this._currentSelectedIndex = value;
-                    TabPage selectednedSelectedPage = this._tabPageCollection[value];
+                    _currentSelectedIndex = value;
+                    TabPage selectednedSelectedPage = _tabPageCollection[value];
                     //if (currentPage != null)
                     //{
                     //    this.panel.RemoveChildBox(currentPage);

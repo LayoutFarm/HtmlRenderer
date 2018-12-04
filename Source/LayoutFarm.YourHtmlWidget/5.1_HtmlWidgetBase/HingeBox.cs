@@ -171,7 +171,7 @@ namespace LayoutFarm.HtmlWidgets
             });
             //-------------------
 
-            this._floatPartDomElement = this.CreateFloatPartDom(htmldoc);
+            _floatPartDomElement = this.CreateFloatPartDom(htmldoc);
             return _presentationNode;
         }
         //
@@ -199,7 +199,7 @@ namespace LayoutFarm.HtmlWidgets
                         var landPartE = _presentationNode as WebDom.Impl.HtmlElement;
 
                         //add the floating part to root node**
-                        htmldoc.RootNode.AddChild(this._div_glassCover);
+                        htmldoc.RootNode.AddChild(_div_glassCover);
                         //find location relate to the landing point 
                         _div_landingPoint.GetGlobalLocationRelativeToRoot(out int x, out int y);
                         //and set its location 

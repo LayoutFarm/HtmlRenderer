@@ -16,8 +16,8 @@ namespace LayoutFarm.CustomWidgets
         }
         public void Bind(HtmlBoxes.HtmlHost htmlHost)
         {
-            this._htmlHost = htmlHost;
-            this._htmlHost.AttachEssentailHandlers(
+            _htmlHost = htmlHost;
+            _htmlHost.AttachEssentailHandlers(
                 //1. image req
                 (s, e) =>
                 {

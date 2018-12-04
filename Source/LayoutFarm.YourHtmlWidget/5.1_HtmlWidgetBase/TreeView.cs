@@ -91,7 +91,7 @@ namespace LayoutFarm.HtmlWidgets
         }
         public DomElement GetPrimaryPresentationNode(DomElement hostNode)
         {
-            if (this._pnode != null) return _pnode;
+            if (_pnode != null) return _pnode;
             //---------------------------------
             var ownerdoc = hostNode.OwnerDocument;
             _pnode = ownerdoc.CreateElement("div");
@@ -99,15 +99,15 @@ namespace LayoutFarm.HtmlWidgets
             //bar part
             _pnode.AddChild("div", node_bar =>
             {
-                this._nodeBar = node_bar;
+                _nodeBar = node_bar;
                 node_bar.AddChild("img", node_icon =>
                 {
-                    this._nodeIcon = node_icon;
+                    _nodeIcon = node_icon;
                     SetupNodeIconBehaviour(node_icon);
                 });
                 node_bar.AddChild("span", node_span =>
                 {
-                    this._nodeSpan = node_span;
+                    _nodeSpan = node_span;
                     if (NodeText != null)
                     {
                         node_span.AddTextContent(NodeText);
@@ -308,7 +308,7 @@ namespace LayoutFarm.HtmlWidgets
             _isOpen = false;
             if (_nodeBody != null)
             {
-                var htmlPNode = this._pnode as IHtmlElement;
+                var htmlPNode = _pnode as IHtmlElement;
                 if (htmlPNode != null)
                 {
                     htmlPNode.removeChild(_nodeBody);
