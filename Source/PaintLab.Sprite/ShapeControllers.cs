@@ -398,7 +398,7 @@ namespace LayoutFarm
         public event System.EventHandler UpdateTransformTarget;
 
 
-        List<UIControllerBox> _controlBoxes;
+        protected List<UIControllerBox> _controlBoxes;
 
 
         double _srcCenterX = 0;
@@ -1324,9 +1324,8 @@ namespace LayoutFarm
             SetCornerLocation(1, _controlBoxes[1].TargetX, _controlBoxes[1].TargetY);
             SetCornerLocation(2, _controlBoxes[2].TargetX, _controlBoxes[2].TargetY);
             SetCornerLocation(3, _controlBoxes[3].TargetX, _controlBoxes[3].TargetY);
-
-
         }
+
         public void GetInnerCoords(
                 out double src_left, out double src_top,
                 out double src_w, out double src_h,
