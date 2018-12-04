@@ -15,8 +15,8 @@ namespace LayoutFarm.HtmlBoxes
         HtmlVisualRoot _htmlVisualRoot;
         CssBoxHitChain _latestMouseDownChain = null;
         //-----------------------------------------------
-        DateTime lastimeMouseUp;
-        IUIEventListener currentMouseDown;
+        DateTime _lastimeMouseUp;
+        IUIEventListener _currentMouseDown;
         int _mousedownX;
         int _mousedownY;
         CssBox _mouseDownStartAt;
@@ -24,23 +24,23 @@ namespace LayoutFarm.HtmlBoxes
 
         ITextService _textService;
         bool _isBinded;
-        int lastDomLayoutVersion;
+        int _lastDomLayoutVersion;
         const int DOUBLE_CLICK_SENSE = 150;//ms 
-        Stack<CssBoxHitChain> hitChainPools = new Stack<CssBoxHitChain>();
+        Stack<CssBoxHitChain> _hitChainPools = new Stack<CssBoxHitChain>();
 
         public HtmlInputEventAdapter()
         {
         }
         public void Bind(HtmlVisualRoot htmlVisualRoot)
         {
-            this._htmlVisualRoot = htmlVisualRoot;
+            _htmlVisualRoot = htmlVisualRoot;
             _isBinded = htmlVisualRoot != null;
-            this._textService = htmlVisualRoot.GetTextService();
+            _textService = htmlVisualRoot.GetTextService();
         }
         public void Unbind()
         {
-            this._htmlVisualRoot = null;
-            this._isBinded = false;
+            _htmlVisualRoot = null;
+            _isBinded = false;
         }
         static void SetEventOrigin(UIEventArgs e, CssBoxHitChain hitChain)
         {
@@ -65,13 +65,13 @@ namespace LayoutFarm.HtmlBoxes
                 ReleaseHitChain(_latestMouseDownChain);
                 _latestMouseDownChain = null;
             }
-            this.lastDomLayoutVersion = this._htmlVisualRoot.LayoutVersion;
+            _lastDomLayoutVersion = _htmlVisualRoot.LayoutVersion;
             //----------------------------------------------------
             int x = e.X;
             int y = e.Y;
-            this._mouseDownStartAt = startAt;
-            this._mousedownX = x;
-            this._mousedownY = y;
+            _mouseDownStartAt = startAt;
+            _mousedownX = x;
+            _mousedownY = y;
             CssBoxHitChain hitChain = GetFreeHitChain();
 #if DEBUG
             hitChain.debugEventPhase = CssBoxHitChain.dbugEventPhase.MouseDown;
@@ -88,15 +88,15 @@ namespace LayoutFarm.HtmlBoxes
             });
             if (!e.CancelBubbling)
             {
-                var prevMouseDownElement = this.currentMouseDown;
-                e.CurrentContextElement = this.currentMouseDown = null; //clear
+                var prevMouseDownElement = _currentMouseDown;
+                e.CurrentContextElement = _currentMouseDown = null; //clear
                 ForEachEventListenerBubbleUp(e, hitChain, () =>
                 {
                     //TODO: check accept keyboard
-                    this.currentMouseDown = e.CurrentContextElement;
+                    _currentMouseDown = e.CurrentContextElement;
                     e.CurrentContextElement.ListenMouseDown(e);
                     if (prevMouseDownElement != null &&
-                        prevMouseDownElement != currentMouseDown)
+                        prevMouseDownElement != _currentMouseDown)
                     {
                         prevMouseDownElement.ListenLostMouseFocus(e);
                     }
@@ -106,7 +106,7 @@ namespace LayoutFarm.HtmlBoxes
             }
             //----------------------------------
             //save mousedown hitchain
-            this._latestMouseDownChain = hitChain;
+            _latestMouseDownChain = hitChain;
         }
         public void MouseDown(UIMouseEventArgs e)
         {
@@ -122,7 +122,7 @@ namespace LayoutFarm.HtmlBoxes
             if (e.IsDragging && _latestMouseDownChain != null)
             {
                 //dragging *** , if changed
-                if (this._mousedownX != x || this._mousedownY != y)
+                if (_mousedownX != x || _mousedownY != y)
                 {
 
                     //handle mouse drag
@@ -146,7 +146,7 @@ namespace LayoutFarm.HtmlBoxes
                         ClearPreviousSelection();
                         if (_latestMouseDownChain.Count > 0 && hitChain.Count > 0)
                         {
-                            if (this._htmlVisualRoot.LayoutVersion != this.lastDomLayoutVersion)
+                            if (_htmlVisualRoot.LayoutVersion != _lastDomLayoutVersion)
                             {
                                 //the dom has been changed so...
                                 //need to evaluate hitchain at mousedown position again
@@ -161,19 +161,19 @@ namespace LayoutFarm.HtmlBoxes
                             var newSelectionRange = new SelectionRange(
                                   _latestMouseDownChain,
                                    hitChain,
-                                   this._textService);
+                                    _textService);
                             if (newSelectionRange.IsValid)
                             {
-                                this._htmlVisualRoot.SetSelection(newSelectionRange);
+                                _htmlVisualRoot.SetSelection(newSelectionRange);
                             }
                             else
                             {
-                                this._htmlVisualRoot.SetSelection(null);
+                                _htmlVisualRoot.SetSelection(null);
                             }
                         }
                         else
                         {
-                            this._htmlVisualRoot.SetSelection(null);
+                            _htmlVisualRoot.SetSelection(null);
                         }
 
                         ForEachEventListenerBubbleUp(e, hitChain, () =>
@@ -269,7 +269,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             if (!_isBinded) return;
             //---------------------------------------------------- 
-            this.MouseMove(e, this._htmlVisualRoot.RootCssBox);
+            this.MouseMove(e, _htmlVisualRoot.RootCssBox);
         }
         public void MouseUp(UIMouseEventArgs e, CssBox startAt)
         {
@@ -278,9 +278,9 @@ namespace LayoutFarm.HtmlBoxes
             //---------------------------------------------------- 
 
             DateTime snapMouseUpTime = DateTime.Now;
-            TimeSpan timediff = snapMouseUpTime - lastimeMouseUp;
+            TimeSpan timediff = snapMouseUpTime - _lastimeMouseUp;
             bool isAlsoDoubleClick = timediff.Milliseconds < DOUBLE_CLICK_SENSE;
-            this.lastimeMouseUp = snapMouseUpTime;
+            _lastimeMouseUp = snapMouseUpTime;
             //----------------------------------------- 
             CssBoxHitChain hitChain = GetFreeHitChain();
 #if DEBUG
@@ -329,28 +329,28 @@ namespace LayoutFarm.HtmlBoxes
             }
 
             ReleaseHitChain(hitChain);
-            if (this._latestMouseDownChain != null)
+            if (_latestMouseDownChain != null)
             {
-                this._latestMouseDownChain.Clear();
+                _latestMouseDownChain.Clear();
                 //Console.WriteLine(dbugNN++);
-                this._latestMouseDownChain = null;
+                _latestMouseDownChain = null;
             }
         }
         //int dbugNN = 0;
         public void MouseUp(UIMouseEventArgs e)
         {
-            MouseUp(e, this._htmlVisualRoot.RootCssBox);
+            MouseUp(e, _htmlVisualRoot.RootCssBox);
         }
         public void MouseWheel(UIMouseEventArgs e)
         {
-            this.MouseWheel(e, this._htmlVisualRoot.RootCssBox);
+            this.MouseWheel(e, _htmlVisualRoot.RootCssBox);
         }
         public void MouseWheel(UIMouseEventArgs e, CssBox startAt)
         {
         }
         void ClearPreviousSelection()
         {
-            this._htmlVisualRoot.ClearPreviousSelection();
+            _htmlVisualRoot.ClearPreviousSelection();
         }
         public void KeyDown(UIKeyEventArgs e)
         {
@@ -383,7 +383,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         public void KeyUp(UIKeyEventArgs e)
         {
-            this.KeyUp(e, this._htmlVisualRoot.RootCssBox);
+            this.KeyUp(e, _htmlVisualRoot.RootCssBox);
         }
         public void KeyUp(UIKeyEventArgs e, CssBox startAt)
         {
@@ -478,9 +478,9 @@ namespace LayoutFarm.HtmlBoxes
 
         CssBoxHitChain GetFreeHitChain()
         {
-            if (hitChainPools.Count > 0)
+            if (_hitChainPools.Count > 0)
             {
-                return hitChainPools.Pop();
+                return _hitChainPools.Pop();
             }
             else
             {
@@ -490,7 +490,7 @@ namespace LayoutFarm.HtmlBoxes
         void ReleaseHitChain(CssBoxHitChain hitChain)
         {
             hitChain.Clear();
-            this.hitChainPools.Push(hitChain);
+            _hitChainPools.Push(hitChain);
         }
     }
 }
