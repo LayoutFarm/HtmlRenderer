@@ -1,8 +1,8 @@
 ﻿//Apache2, 2014-present, WinterDev
 
 using System;
- 
-using System.Collections.Generic; 
+
+using System.Collections.Generic;
 using PixelFarm.Drawing;
 using LayoutFarm.CustomWidgets;
 using LayoutFarm.WebDom;
@@ -12,8 +12,8 @@ namespace LayoutFarm.HtmlWidgets
     public class TreeView : HtmlWidgetBase
     {
         //composite          
-        List<TreeNode> treeNodes = new List<TreeNode>();
-        DomElement pnode;
+        List<TreeNode> _treeNodes = new List<TreeNode>();
+        DomElement _pnode;
         //content 
         public TreeView(int width, int height)
             : base(width, height)
@@ -21,22 +21,22 @@ namespace LayoutFarm.HtmlWidgets
         }
         public override DomElement GetPresentationDomNode(WebDom.Impl.HtmlDocument htmldoc)
         {
-            if (pnode != null) return pnode;
+            if (_pnode != null) return _pnode;
             //create primary presentation node
 
-            pnode = htmldoc.CreateElement("div");
-            pnode.SetAttribute("style", "font:10pt tahoma");
-            int j = treeNodes.Count;
+            _pnode = htmldoc.CreateElement("div");
+            _pnode.SetAttribute("style", "font:10pt tahoma");
+            int j = _treeNodes.Count;
             for (int i = 0; i < j; ++i)
             {
-                pnode.AddChild(treeNodes[i].GetPrimaryPresentationNode(pnode));
+                _pnode.AddChild(_treeNodes[i].GetPrimaryPresentationNode(_pnode));
             }
-            return pnode;
+            return _pnode;
         }
         public void AddItem(TreeNode treeNode)
         {
-            treeNodes.Add(treeNode);
-            if (pnode != null)
+            _treeNodes.Add(treeNode);
+            if (_pnode != null)
             {
             }
         }
@@ -48,38 +48,31 @@ namespace LayoutFarm.HtmlWidgets
     public class TreeNode
     {
         const int NODE_DEFAULT_HEIGHT = 17;
-        Color backColor;
-        bool isOpen = true;//test, open by default
-        int newChildNodeY = NODE_DEFAULT_HEIGHT;
-        int indentWidth = 17;
-        int desiredHeight = 0; //after layout
-        List<TreeNode> childNodes;
-        TreeNode parentNode;
-        TreeView ownerTreeView;
+        Color _backColor;
+        bool _isOpen = true;//test, open by default
+        int _newChildNodeY = NODE_DEFAULT_HEIGHT;
+        int _indentWidth = 17;
+        int _desiredHeight = 0; //after layout
+        List<TreeNode> _childNodes;
+        TreeNode _parentNode;
+        TreeView _ownerTreeView;
         //-------------------------- 
 
-        DomElement pnode;
-        DomElement nodeBar;
-        DomElement nodeIcon;
-        DomElement nodeSpan;
-        DomElement nodeBody;
-        DomElement nodeContent;
-        string nodeString;
-        int width;
-        int height;
+        DomElement _pnode;
+        DomElement _nodeBar;
+        DomElement _nodeIcon;
+        DomElement _nodeSpan;
+        DomElement _nodeBody;
+        DomElement _nodeContent;
+
+        int _width;
+        int _height;
         public TreeNode(int width, int height)
         {
-            this.width = width;
-            this.height = height;
+            _width = width;
+            _height = height;
         }
-        public string NodeText
-        {
-            get { return this.nodeString; }
-            set
-            {
-                this.nodeString = value;
-            }
-        }
+        public string NodeText { get; set; }
 
         void SetupNodeIconBehaviour(DomElement uiNodeIcon)
         {
@@ -98,86 +91,86 @@ namespace LayoutFarm.HtmlWidgets
         }
         public DomElement GetPrimaryPresentationNode(DomElement hostNode)
         {
-            if (this.pnode != null) return pnode;
+            if (this._pnode != null) return _pnode;
             //---------------------------------
             var ownerdoc = hostNode.OwnerDocument;
-            pnode = ownerdoc.CreateElement("div");
+            _pnode = ownerdoc.CreateElement("div");
             //---------------------------------
             //bar part
-            pnode.AddChild("div", node_bar =>
+            _pnode.AddChild("div", node_bar =>
             {
-                this.nodeBar = node_bar;
+                this._nodeBar = node_bar;
                 node_bar.AddChild("img", node_icon =>
                 {
-                    this.nodeIcon = node_icon;
+                    this._nodeIcon = node_icon;
                     SetupNodeIconBehaviour(node_icon);
                 });
                 node_bar.AddChild("span", node_span =>
                 {
-                    this.nodeSpan = node_span;
-                    if (this.nodeString != null)
+                    this._nodeSpan = node_span;
+                    if (NodeText != null)
                     {
-                        node_span.AddTextContent(this.nodeString);
+                        node_span.AddTextContent(NodeText);
                     }
                 });
             });
             //---------------------------------
             //content part
             //indent  
-            pnode.AddChild("div", node_body =>
+            _pnode.AddChild("div", node_body =>
             {
-                this.nodeBody = node_body;
+                _nodeBody = node_body;
                 node_body.SetAttribute("style", "padding-left:17px");
                 node_body.AddChild("div", node_content =>
                 {
-                    this.nodeContent = node_content;
-                    if (childNodes != null)
+                    _nodeContent = node_content;
+                    if (_childNodes != null)
                     {
-                        nodeContent.SetAttribute("style", "padding-left:0px");
-                        int j = childNodes.Count;
+                        _nodeContent.SetAttribute("style", "padding-left:0px");
+                        int j = _childNodes.Count;
                         for (int i = 0; i < j; ++i)
                         {
-                            var childnode = childNodes[i].GetPrimaryPresentationNode(nodeContent);
+                            var childnode = _childNodes[i].GetPrimaryPresentationNode(_nodeContent);
                             node_content.AddChild(childnode);
                         }
                     }
                 });
             });
-            return pnode;
+            return _pnode;
         }
         DomElement GetPrimaryPresentationNode2(DomElement hostNode)
         {
             //implement wth table
 
-            if (this.pnode != null) return pnode;
+            if (_pnode != null) return _pnode;
             //---------------------------------
             var ownerdoc = hostNode.OwnerDocument;
-            pnode = ownerdoc.CreateElement("div");
+            _pnode = ownerdoc.CreateElement("div");
             //---------------------------------
             //bar part
-            pnode.AddChild("div", node_bar =>
+            _pnode.AddChild("div", node_bar =>
             {
-                this.nodeBar = node_bar;
+                _nodeBar = node_bar;
                 node_bar.AddChild("img", node_icon =>
                 {
-                    this.nodeIcon = node_icon;
+                    _nodeIcon = node_icon;
                     SetupNodeIconBehaviour(node_icon);
                 });
                 node_bar.AddChild("span", node_span =>
                 {
-                    this.nodeSpan = node_span;
-                    if (this.nodeString != null)
+                    _nodeSpan = node_span;
+                    if (NodeText != null)
                     {
-                        node_span.AddTextContent(this.nodeString);
+                        node_span.AddTextContent(NodeText);
                     }
                 });
             });
             //---------------------------------
             //content part
             //indent  
-            pnode.AddChild("div", node_body =>
+            _pnode.AddChild("div", node_body =>
             {
-                this.nodeBody = node_body;
+                _nodeBody = node_body;
                 //implement with table
                 //plan: => implement with inline div***
 
@@ -192,14 +185,14 @@ namespace LayoutFarm.HtmlWidgets
                         });
                         tr.AddChild("td", td1 =>
                         {
-                            this.nodeContent = td1;
-                            if (childNodes != null)
+                            _nodeContent = td1;
+                            if (_childNodes != null)
                             {
-                                int j = childNodes.Count;
+                                int j = _childNodes.Count;
                                 for (int i = 0; i < j; ++i)
                                 {
-                                    var childnode = childNodes[i].GetPrimaryPresentationNode(nodeContent);
-                                    nodeContent.AddChild(childnode);
+                                    var childnode = _childNodes[i].GetPrimaryPresentationNode(_nodeContent);
+                                    _nodeContent.AddChild(childnode);
                                 }
                             }
                         });
@@ -230,40 +223,37 @@ namespace LayoutFarm.HtmlWidgets
                 //});
             });
             //---------------------
-            return pnode;
+            return _pnode;
         }
-
-        public bool IsOpen
-        {
-            get { return this.isOpen; }
-        }
+        //
+        public bool IsOpen => _isOpen;
+        //
         public int ChildCount
         {
             get
             {
-                if (childNodes == null) return 0;
-                return childNodes.Count;
+                if (_childNodes == null) return 0;
+                return _childNodes.Count;
             }
         }
-        public TreeNode ParentNode
-        {
-            get { return this.parentNode; }
-        }
+        //
+        public TreeNode ParentNode => _parentNode;
+        //
         public TreeView TreeView
         {
             get
             {
-                if (this.ownerTreeView != null)
+                if (_ownerTreeView != null)
                 {
                     //top node
-                    return this.ownerTreeView;
+                    return _ownerTreeView;
                 }
                 else
                 {
-                    if (this.parentNode != null)
+                    if (_parentNode != null)
                     {
                         //recursive
-                        return this.parentNode.TreeView;
+                        return _parentNode.TreeView;
                     }
                     else
                     {
@@ -275,38 +265,38 @@ namespace LayoutFarm.HtmlWidgets
 
         internal void SetOwnerTreeView(TreeView ownerTreeView)
         {
-            this.ownerTreeView = ownerTreeView;
+            _ownerTreeView = ownerTreeView;
         }
         public void AddChildNode(TreeNode treeNode)
         {
-            if (childNodes == null)
+            if (_childNodes == null)
             {
-                childNodes = new List<TreeNode>();
+                _childNodes = new List<TreeNode>();
             }
-            this.childNodes.Add(treeNode);
-            treeNode.parentNode = this;
+            _childNodes.Add(treeNode);
+            treeNode._parentNode = this;
             //---------------------------
             //add treenode presentaion
-            if (this.isOpen)
+            if (_isOpen)
             {
-                if (this.nodeContent != null)
+                if (_nodeContent != null)
                 {
                     //add child presentation 
-                    nodeContent.AddChild(
-                        treeNode.GetPrimaryPresentationNode(nodeContent));
+                    _nodeContent.AddChild(
+                        treeNode.GetPrimaryPresentationNode(_nodeContent));
                 }
             }
             //---------------------------
         }
         public void Expand()
         {
-            if (this.isOpen) return;
-            this.isOpen = true;
-            if (this.nodeBody != null)
+            if (_isOpen) return;
+            _isOpen = true;
+            if (_nodeBody != null)
             {
-                if (nodeBody.ParentNode == null)
+                if (_nodeBody.ParentNode == null)
                 {
-                    pnode.AddChild(nodeBody);
+                    _pnode.AddChild(_nodeBody);
                 }
             }
 
@@ -314,14 +304,14 @@ namespace LayoutFarm.HtmlWidgets
         }
         public void Collapse()
         {
-            if (!this.isOpen) return;
-            this.isOpen = false;
-            if (this.nodeBody != null)
+            if (!_isOpen) return;
+            _isOpen = false;
+            if (_nodeBody != null)
             {
-                var htmlPNode = this.pnode as IHtmlElement;
+                var htmlPNode = this._pnode as IHtmlElement;
                 if (htmlPNode != null)
                 {
-                    htmlPNode.removeChild(this.nodeBody);
+                    htmlPNode.removeChild(_nodeBody);
                 }
             }
             //this.TreeView.PerformContentLayout();
