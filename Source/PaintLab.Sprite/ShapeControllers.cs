@@ -945,7 +945,7 @@ namespace LayoutFarm
             //===============
 
 
-            List<UIControllerBox> controlBoxes = _polygonController.ControlBoxes;
+            List<UIControllerBox> controlBoxes = _controlBoxes;
             switch (_currentTransformStyle)
             {
                 case QuadTransformStyle.Bilinear:
@@ -1193,7 +1193,7 @@ namespace LayoutFarm
                     this.Left + e.XDiff,
                     this.Top + e.YDiff);
                 _polygonController.InvalidateOuterGraphics();
-                _polygonController.SetPosition(
+                _polygonController.SetLocation(
                     _polygonController.Left + e.XDiff,
                     _polygonController.Top + e.YDiff);
                 _polygonController.InvalidateOuterGraphics();
@@ -1313,6 +1313,10 @@ namespace LayoutFarm
             LoadVg(CreateQuadVgFromDestQuad());
 
         }
+        public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
+        {
+            return base.GetPrimaryRenderElement(rootgfx);
+        }
         public void BuildControlBoxes()
         {
             //*** after set dest
@@ -1350,6 +1354,12 @@ namespace LayoutFarm
 
     public class UIControllerBox : LayoutFarm.CustomWidgets.AbstractBox
     {
+#if DEBUG
+
+        static int s_total;
+        public readonly int dbugControllerId = s_total++;
+
+#endif
         public UIControllerBox(int w, int h)
             : base(w, h)
         {
@@ -1369,6 +1379,10 @@ namespace LayoutFarm
         public double TargetX { get; set; }
         public double TargetY { get; set; }
 
+        public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
+        {
+            return base.GetPrimaryRenderElement(rootgfx);
+        }
         public void SetLocationRelativeToTarget(double targetBoxX, double targetBoxY)
         {
             this.TargetX = targetBoxX;
@@ -1384,7 +1398,7 @@ namespace LayoutFarm
             CurrentPrimaryRenderElement?.InvalidateGraphics();
         }
 #if DEBUG
-        public override string ToString() => Left + "," + Top;
+        public override string ToString() => this.dbugControllerId + " ," + Left + "," + Top;
 #endif
 
     }
@@ -1433,10 +1447,13 @@ namespace LayoutFarm
         {
 
         }
+        public void AddChild(UIElement ui)
+        {
+            _simpleBox.AddChild(ui);
+        }
 
 
-
-        public void SetPosition(int x, int y)
+        public void SetLocation(int x, int y)
         {
             //TODO: review here again***
             //temp fix for invalidate area of overlap children
@@ -1478,7 +1495,7 @@ namespace LayoutFarm
                 InvalidateOuterGraphics();
             }
         }
-        public List<UIControllerBox> ControlBoxes => _controls;
+
 
         public override bool Visible
         {
@@ -1587,6 +1604,7 @@ namespace LayoutFarm
                             ctrlPoint.SetLocation((int)(x + offsetX), (int)(y + offsetY));
                             SetupCornerBoxController(ctrlPoint);
                             _controls.Add(ctrlPoint);
+                            //...
                             _simpleBox.AddChild(ctrlPoint);
                         }
                         break;
@@ -1597,6 +1615,7 @@ namespace LayoutFarm
                             ctrlPoint.SetLocation((int)(x + offsetX), (int)(y + offsetY));
                             SetupCornerBoxController(ctrlPoint);
                             _controls.Add(ctrlPoint);
+                            //...
                             _simpleBox.AddChild(ctrlPoint);
                         }
                         break;
