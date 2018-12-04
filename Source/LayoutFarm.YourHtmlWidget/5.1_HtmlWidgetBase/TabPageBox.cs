@@ -149,14 +149,14 @@ namespace LayoutFarm.HtmlWidgets
                 {
                     _currentPage = tabPage;
                     //add tab button into list
-                    this._tabTitleList.AddChild(tabPage.GetTitleNode(_pnode));
+                    _tabTitleList.AddChild(tabPage.GetTitleNode(_pnode));
                     //add page body
                     _contentNode.AddChild(tabPage.GetPageBody(_pnode));
                 }
                 else
                 {
                     //add tab button into list
-                    this._tabTitleList.AddChild(tabPage.GetTitleNode(_pnode));
+                    _tabTitleList.AddChild(tabPage.GetTitleNode(_pnode));
                 }
             }
         }
