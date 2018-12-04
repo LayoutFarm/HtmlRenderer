@@ -1,15 +1,14 @@
 ﻿//Apache2, 2014-present, WinterDev
 
-using PixelFarm.Drawing;
-using LayoutFarm.Composers;
+
 using LayoutFarm.WebDom;
 using LayoutFarm.WebDom.Extension;
 namespace LayoutFarm.HtmlWidgets
 {
     public class Button : HtmlWidgetBase
     {
-        string buttonText = "";
-        DomElement pnode;
+        string _buttonText = "";
+        DomElement _pnode;
         public Button(int w, int h)
             : base(w, h)
         {
@@ -17,19 +16,16 @@ namespace LayoutFarm.HtmlWidgets
         //---------------------------------------------------------------------------
         public string Text
         {
-            get { return this.buttonText; }
-            set
-            {
-                this.buttonText = value;
-            }
+            get => _buttonText;
+            set => _buttonText = value;
         }
         public override DomElement GetPresentationDomNode(WebDom.Impl.HtmlDocument htmldoc)
         {
-            if (pnode != null) return pnode;
+            if (_pnode != null) return _pnode;
             //----------------------------------
-            pnode = htmldoc.CreateElement("div");
-            pnode.SetAttribute("style", "display:inline-block;width:" + Width + "px;height:" + this.Height + "px;cursor:pointer");
-            pnode.AddChild("div", div2 =>
+            _pnode = htmldoc.CreateElement("div");
+            _pnode.SetAttribute("style", "display:inline-block;width:" + Width + "px;height:" + this.Height + "px;cursor:pointer");
+            _pnode.AddChild("div", div2 =>
             {
                 //init
                 div2.SetAttribute("style", "padding:5px;background-color:#dddddd;color:black;");
@@ -66,7 +62,7 @@ namespace LayoutFarm.HtmlWidgets
                     e.StopPropagation();
                 });
             });
-            return pnode;
+            return _pnode;
         }
     }
 }
