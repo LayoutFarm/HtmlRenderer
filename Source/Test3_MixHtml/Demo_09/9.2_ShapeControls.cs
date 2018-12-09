@@ -266,7 +266,7 @@ namespace LayoutFarm
                     _quadController.InvalidateOuterGraphics();
                     //
                     _quadPolygonController.InvalidateOuterGraphics();
-                    _quadPolygonController.SetPosition(
+                    _quadPolygonController.SetLocation(
                         _quadPolygonController.Left + e1.XDiff,
                         _quadPolygonController.Top + e1.YDiff
                         );
