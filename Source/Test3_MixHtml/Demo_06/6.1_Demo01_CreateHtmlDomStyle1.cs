@@ -16,7 +16,7 @@ namespace LayoutFarm.Demo
         {
             base.OnStart(host);//setup
             
-            var htmldoc = this._groundHtmlDoc;
+            var htmldoc = _groundHtmlDoc;
             var rootNode = htmldoc.RootNode;
             //1. create body node             
             // and content 

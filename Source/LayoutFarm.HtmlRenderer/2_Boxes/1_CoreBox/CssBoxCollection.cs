@@ -96,58 +96,58 @@ namespace LayoutFarm.HtmlBoxes
         {
             var beforeLinkedNode = CssBox.UnsafeGetLinkedNode(beforeBox);
             CssBox.UnsafeSetNodes(box, owner,
-                this._boxes.AddBefore(beforeLinkedNode, box));
+                _boxes.AddBefore(beforeLinkedNode, box));
         }
         public void Clear()
         {
-            var linkNode = this._boxes.First;
+            var linkNode = _boxes.First;
             while (linkNode != null)
             {
                 var box = linkNode.Value;
                 CssBox.UnsafeSetParent(box, null);
                 linkNode = linkNode.Next;
             }
-            this._boxes.Clear();
+            _boxes.Clear();
         }
         public int Count
         {
             get
             {
-                return this._boxes.Count;
+                return _boxes.Count;
             }
         }
         public void Remove(CssBox box)
         {
             var linkedNode = CssBox.UnsafeGetLinkedNode(box);
-            this._boxes.Remove(linkedNode);
+            _boxes.Remove(linkedNode);
             CssBox.UnsafeSetNodes(box, null, null);
         }
         public CssBox GetFirstChild()
         {
-            return this._boxes.First.Value;
+            return _boxes.First.Value;
         }
         public LinkedListNode<CssBox> GetFirstLinkedNode()
         {
-            return this._boxes.First;
+            return _boxes.First;
         }
         public LinkedListNode<CssBox> GetLastLinkedNode()
         {
-            return this._boxes.Last;
+            return _boxes.Last;
         }
 
         public CssBox GetLastChild()
         {
-            return this._boxes.Last.Value;
+            return _boxes.Last.Value;
         }
         public IEnumerator<CssBox> GetEnumerator()
         {
-            return this._boxes.GetEnumerator();
+            return _boxes.GetEnumerator();
         }
 
 #if DEBUG
         public bool dbugContains(CssBox box)
         {
-            return this._boxes.Contains(box);
+            return _boxes.Contains(box);
         }
         internal LinkedListNode<CssBox> dbugGetNodeAtIndex(int index)
         {
@@ -157,24 +157,24 @@ namespace LayoutFarm.HtmlBoxes
                 //hint
                 case 0:
                     {
-                        return this._boxes.First;//0
+                        return _boxes.First;//0
                     }
                 case 1:
                     {
-                        return this._boxes.First.Next;//0,1
+                        return _boxes.First.Next;//0,1
                     }
                 case 2:
                     {
-                        return this._boxes.First.Next.Next;//0,1,2 
+                        return _boxes.First.Next.Next;//0,1,2 
                     }
                 case 3:
                     {
-                        return this._boxes.First.Next.Next.Next;//0,1,2,3
+                        return _boxes.First.Next.Next.Next;//0,1,2,3
                     }
                 default:
                     {
-                        int j = this._boxes.Count;
-                        var cnode = this._boxes.First;
+                        int j = _boxes.Count;
+                        var cnode = _boxes.First;
                         for (int i = 0; i < j; ++i)
                         {
                             if (i == index)
@@ -200,7 +200,7 @@ namespace LayoutFarm.HtmlBoxes
             //1. remove from current box
             this.Remove(box);
             //2. 
-            CssBox.UnsafeSetNodes(box, owner, this._boxes.AddBefore(foundNode, box));
+            CssBox.UnsafeSetNodes(box, owner, _boxes.AddBefore(foundNode, box));
         }
 #endif
     }

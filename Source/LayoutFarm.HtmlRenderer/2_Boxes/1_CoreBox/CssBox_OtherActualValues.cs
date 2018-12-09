@@ -23,16 +23,16 @@ namespace LayoutFarm.HtmlBoxes
             get
             {
                 //TODO review here
-                return this._cssDisplay;
+                return _cssDisplay;
             }
         }
         public CssDisplayOutside CssDisplayOutside
         {
-            get { return this._displayOutside; }
+            get { return _displayOutside; }
         }
         public CssDisplayInside CssDisplayInside
         {
-            get { return this._displayInside; }
+            get { return _displayInside; }
         }
         /// <summary>
         /// Gets the text indentation (on first line only)
@@ -81,22 +81,22 @@ namespace LayoutFarm.HtmlBoxes
             {
                 case CssSide.Left:
                     {
-                        this._actualBorderLeftWidth = w;
+                        _actualBorderLeftWidth = w;
                     }
                     break;
                 case CssSide.Top:
                     {
-                        this._actualBorderTopWidth = w;
+                        _actualBorderTopWidth = w;
                     }
                     break;
                 case CssSide.Right:
                     {
-                        this._actualBorderRightWidth = w;
+                        _actualBorderRightWidth = w;
                     }
                     break;
                 case CssSide.Bottom:
                     {
-                        this._actualBorderBottomWidth = w;
+                        _actualBorderBottomWidth = w;
                     }
                     break;
             }

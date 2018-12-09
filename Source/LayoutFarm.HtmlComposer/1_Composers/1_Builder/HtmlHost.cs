@@ -97,7 +97,7 @@ namespace LayoutFarm.HtmlBoxes
             }
             this.rootgfx = config.RootGraphic;
 
-            this._textservice = config.TextService;
+            _textservice = config.TextService;
             _svgCreator = new PaintLab.Svg.SvgCreator();
 
 
@@ -146,7 +146,7 @@ namespace LayoutFarm.HtmlBoxes
 
         public void SetHtmlVisualRootUpdateHandler(HtmlVisualRootUpdateHandler visualHtmlRootUpdateHandler)
         {
-            this._visualHtmlRootUpdateHandler = visualHtmlRootUpdateHandler;
+            _visualHtmlRootUpdateHandler = visualHtmlRootUpdateHandler;
         }
 
         //---
@@ -220,7 +220,7 @@ namespace LayoutFarm.HtmlBoxes
         //
         internal void ChildRequestImage(ImageBinder binder, HtmlVisualRoot visualRoot, object reqFrom, bool _sync)
         {
-            if (this._requestImage != null)
+            if (_requestImage != null)
             {
                 ImageRequestEventArgs resReq = new ImageRequestEventArgs(binder);
                 resReq.requestBy = reqFrom;

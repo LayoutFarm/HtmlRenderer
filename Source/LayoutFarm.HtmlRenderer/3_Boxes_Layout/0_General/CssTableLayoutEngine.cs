@@ -325,7 +325,7 @@ namespace LayoutFarm.HtmlBoxes
                 //mode 2:  anonymous column definitions, 
 
                 // Fill ColumnWidths array by scanning width in table-cell definitions
-                List<CssBox> tmpRows = this._allRowBoxes;
+                List<CssBox> tmpRows = _allRowBoxes;
                 int rowCount = tmpRows.Count;
 
                 for (int rr = 0; rr < rowCount; ++rr)
@@ -598,7 +598,7 @@ namespace LayoutFarm.HtmlBoxes
         void S5_CalculateColumnMinWidths(int layoutIdEpisode)
         {
             int col_count = this.columnCollection.Count;
-            float horizontal_spacing = GetHorizontalSpacing(this._tableBox);
+            float horizontal_spacing = GetHorizontalSpacing(_tableBox);
             foreach (CssBox row in _allRowBoxes)
             {
                 int gridIndex = 0;

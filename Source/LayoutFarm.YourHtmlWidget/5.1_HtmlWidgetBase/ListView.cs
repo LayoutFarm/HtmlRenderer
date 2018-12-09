@@ -9,45 +9,43 @@ namespace LayoutFarm.HtmlWidgets
     public class ListView : HtmlWidgetBase
     {
         //composite           
-        Color backColor = Color.LightGray;
-        List<UICollection> layers = new List<UICollection>(1);
-        List<ListItem> items = new List<ListItem>();
-        int selectedIndex = -1;//default = no selection
-        WebDom.DomElement pnode;
+        Color _backColor = Color.LightGray;
+        List<UICollection> _layers = new List<UICollection>(1);
+        List<ListItem> _items = new List<ListItem>();
+        int _selectedIndex = -1;//default = no selection
+        WebDom.DomElement _pnode;
         public ListView(int w, int h)
             : base(w, h)
         {
         }
         public override WebDom.DomElement GetPresentationDomNode(WebDom.Impl.HtmlDocument htmldoc)
         {
-            if (pnode != null) return pnode;
+            if (_pnode != null) return _pnode;
             //--------------------------------
-            pnode = htmldoc.CreateElement("div");
-            pnode.SetAttribute("style", "font:10pt tahoma;overflow:scroll;height:300px;");
-            int j = items.Count;
+            _pnode = htmldoc.CreateElement("div");
+            _pnode.SetAttribute("style", "font:10pt tahoma;overflow:scroll;height:300px;");
+            int j = _items.Count;
             if (j > 0)
             {
                 for (int i = 0; i < j; ++i)
                 {
                     //itemnode
-                    pnode.AddChild(items[i].GetPresentationNode(pnode));
+                    _pnode.AddChild(_items[i].GetPresentationNode(_pnode));
                 }
             }
-            return pnode;
+            return _pnode;
         }
         public void AddItem(ListItem ui)
         {
-            items.Add(ui);
-            if (pnode != null)
+            _items.Add(ui);
+            if (_pnode != null)
             {
-                pnode.AddChild(ui.GetPresentationNode(pnode));
+                _pnode.AddChild(ui.GetPresentationNode(_pnode));
             }
         }
-        public int ItemCount
-        {
-            get { return this.items.Count; }
-        }
-
+        //
+        public int ItemCount => _items.Count;
+        //
         public ListItem GetItem(int index)
         {
             if (index < 0)
@@ -56,42 +54,42 @@ namespace LayoutFarm.HtmlWidgets
             }
             else
             {
-                return items[index];
+                return _items[index];
             }
         }
         public void Remove(ListItem item)
         {
-            items.Remove(item);
+            _items.Remove(item);
         }
         public void RemoveAt(int index)
         {
-            var item = items[index];
-            items.RemoveAt(index);
+            var item = _items[index];
+            _items.RemoveAt(index);
         }
         public void ClearItems()
         {
-            this.selectedIndex = -1;
-            this.items.Clear();
+            _selectedIndex = -1;
+            _items.Clear();
         }
         //----------------------------------------------------
 
         public int SelectedIndex
         {
-            get { return this.selectedIndex; }
+            get => _selectedIndex;
             set
             {
                 if (value < this.ItemCount)
                 {
-                    if (this.selectedIndex != value)
+                    if (_selectedIndex != value)
                     {
                         //1. current item
-                        if (selectedIndex > -1)
+                        if (_selectedIndex > -1)
                         {
                             //switch back
-                            GetItem(this.selectedIndex).BackColor = Color.LightGray;
+                            GetItem(_selectedIndex).BackColor = Color.LightGray;
                         }
 
-                        this.selectedIndex = value;
+                        _selectedIndex = value;
                         if (value == -1)
                         {
                             //no selection
@@ -112,49 +110,33 @@ namespace LayoutFarm.HtmlWidgets
     }
     public class ListItem
     {
-        WebDom.DomElement pnode;
-        WebDom.DomElement textSpanNode;
-        string itemText;
-        Color backColor;
+        WebDom.DomElement _pnode;
+        WebDom.DomElement _textSpanNode;
+
+
         int width;
         int height;
         public ListItem(int width, int height)
         {
             this.width = width;
             this.height = height;
+            Text = "";
         }
-        public Color BackColor
-        {
-            get { return this.backColor; }
-            set
-            {
-                this.backColor = value;
-            }
-        }
-        public string Text
-        {
-            get { return this.itemText; }
-            set
-            {
-                this.itemText = value;
-            }
-        }
+        public Color BackColor { get; set; }
+        public string Text { get; set; }
         public WebDom.DomElement GetPresentationNode(WebDom.DomElement hostNode)
         {
-            if (pnode != null) return pnode;
+            if (_pnode != null) return _pnode;
             //------------------------------
-            if (itemText == null)
-            {
-                itemText = "";
-            }
+          
             var ownerdoc = hostNode.OwnerDocument;
-            pnode = ownerdoc.CreateElement("div");
+            _pnode = ownerdoc.CreateElement("div");
             // pnode.SetAttribute("style", "font:10pt tahoma");
 
-            textSpanNode = ownerdoc.CreateElement("span");
-            textSpanNode.AddChild(ownerdoc.CreateTextNode(itemText.ToCharArray()));
-            pnode.AddChild(textSpanNode);
-            return pnode;
+            _textSpanNode = ownerdoc.CreateElement("span");
+            _textSpanNode.AddChild(ownerdoc.CreateTextNode(Text.ToCharArray()));
+            _pnode.AddChild(_textSpanNode);
+            return _pnode;
         }
     }
 }

@@ -135,7 +135,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         public CssBox Owner
         {
-            get { return this._owner; }
+            get { return _owner; }
         }
         public void AddFloatBox(CssBox box)
         {

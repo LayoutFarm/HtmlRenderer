@@ -15,11 +15,11 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-                return this._listItemBulletBox;
+                return _listItemBulletBox;
             }
             set
             {
-                this._listItemBulletBox = value;
+                _listItemBulletBox = value;
             }
         }
         protected override void PerformContentLayout(LayoutVisitor lay)

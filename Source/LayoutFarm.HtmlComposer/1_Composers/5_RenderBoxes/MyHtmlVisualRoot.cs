@@ -110,11 +110,11 @@ namespace LayoutFarm.HtmlBoxes
         }
         public override void ClearPreviousSelection()
         {
-            if (this._currentSelectionRange != null)
+            if (_currentSelectionRange != null)
             {
                 _currentSelectionRange.ClearSelection();
                 _currentSelectionRange = null;
-                this.RootCssBox.InvalidateGraphics(this._currentSelectionArea);
+                this.RootCssBox.InvalidateGraphics(_currentSelectionArea);
                 _currentSelectionArea = Rectangle.Empty;
             }
             hasSomeSelectedArea = false;
@@ -135,7 +135,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 hasSomeSelectedArea = false;
             }
-            this._currentSelectionRange = selRange;
+            _currentSelectionRange = selRange;
 
             this.RootCssBox.InvalidateGraphics(_currentSelectionArea);
         }
@@ -145,9 +145,9 @@ namespace LayoutFarm.HtmlBoxes
         }
         public override void CopySelection(StringBuilder stbuilder)
         {
-            if (this._currentSelectionRange != null)
+            if (_currentSelectionRange != null)
             {
-                this._currentSelectionRange.CopyText(stbuilder);
+                _currentSelectionRange.CopyText(stbuilder);
             }
         }
         public bool NeedLayout
@@ -203,7 +203,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         protected override void OnRootCreated(CssBox root)
         {
-            //this._selectionHandler = new SelectionHandler(root, this);
+            //_selectionHandler = new SelectionHandler(root, this);
             base.OnRootCreated(root);
         }
         protected override void OnAllDisposed()

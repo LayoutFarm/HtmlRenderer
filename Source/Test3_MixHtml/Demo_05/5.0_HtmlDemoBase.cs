@@ -13,7 +13,7 @@ namespace LayoutFarm.WebWidgets
         protected HtmlDocument _groundHtmlDoc;
         protected override void OnStart(AppHost host)
         {
-            this._host = host;
+            _host = host;
             _imgLoadingQ = new ContentManagers.ImageLoadingQueueManager(); 
             _imgLoadingQ.AskForImage += (s, e) =>
             {
@@ -21,18 +21,18 @@ namespace LayoutFarm.WebWidgets
             };
             //init host 
             _myHtmlHost = HtmlHostCreatorHelper.CreateHtmlHost(host,
-              (s, e) => this._imgLoadingQ.AddRequestImage(e.ImageBinder),
+              (s, e) => _imgLoadingQ.AddRequestImage(e.ImageBinder),
               (s, e) => { });
             //-----------------------------------------------------
 
-            this._groundHtmlBox = new HtmlBox(_myHtmlHost, 800, 600);
+            _groundHtmlBox = new HtmlBox(_myHtmlHost, 800, 600);
             string html = @"<div></div>";
             //if you want to use full html-> use HtmlBox instead  
 
-            this._host.AddChild(_groundHtmlBox);
+            _host.AddChild(_groundHtmlBox);
             //----------------------------------------------------- 
             _groundHtmlBox.LoadHtmlFragmentString(html);
-            this._groundHtmlDoc = _groundHtmlBox.HtmlDoc as HtmlDocument;
+            _groundHtmlDoc = _groundHtmlBox.HtmlDoc as HtmlDocument;
 
             OnHtmlHostCreated();
         }
@@ -42,8 +42,8 @@ namespace LayoutFarm.WebWidgets
         protected void AddToViewport(HtmlWidgets.HtmlWidgetBase htmlWidget)
         {
             //
-            WebDom.DomElement presentationDomNode = htmlWidget.GetPresentationDomNode(this._groundHtmlDoc);
-            this._groundHtmlDoc.BodyElement.AddChild(presentationDomNode);
+            WebDom.DomElement presentationDomNode = htmlWidget.GetPresentationDomNode(_groundHtmlDoc);
+            _groundHtmlDoc.BodyElement.AddChild(presentationDomNode);
         }
     }
 }

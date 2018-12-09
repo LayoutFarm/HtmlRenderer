@@ -85,7 +85,7 @@ namespace LayoutFarm.Css
         public BoxSpec()
         {
 #if DEBUG
-            //if (this.__aa_dbugId == 9 || this.__aa_dbugId == 16)
+            //if (__aa_dbugId == 9 || __aa_dbugId == 16)
             //{
             //}
 #endif
@@ -93,10 +93,10 @@ namespace LayoutFarm.Css
         public bool IsTemplate { get; set; }
         public void Freeze()
         {
-            //if (this.__aa_dbugId == 9 || this.__aa_dbugId == 16)
+            //if (__aa_dbugId == 9 || __aa_dbugId == 16)
             //{
             //}
-            this._freezed = true;
+            _freezed = true;
             _fontFeats.Freeze(); //1.
             _listFeats.Freeze(); //2. 
             _borderFeats.Freeze();//3.
@@ -110,7 +110,7 @@ namespace LayoutFarm.Css
 
         public void Defreeze()
         {
-            this._freezed = false;
+            _freezed = false;
             _fontFeats.DeFreeze(); //1.
             _listFeats.DeFreeze(); //2. 
             _borderFeats.DeFreeze();//3.
@@ -123,7 +123,7 @@ namespace LayoutFarm.Css
         }
         public bool IsFreezed
         {
-            get { return this._freezed; }
+            get { return _freezed; }
         }
         bool Assignable()
         {
@@ -139,39 +139,39 @@ namespace LayoutFarm.Css
 
         public CssDisplay CssDisplay
         {
-            get { return this._cssDisplay; }
+            get { return _cssDisplay; }
             set
             {
-                if (Assignable()) { this._cssDisplay = value; }
+                if (Assignable()) { _cssDisplay = value; }
             }
         }
         public CssDirection CssDirection
         {
-            get { return this._cssDirection; }
-            set { if (Assignable()) this._cssDirection = value; }
+            get { return _cssDirection; }
+            set { if (Assignable()) _cssDirection = value; }
         }
 
         public CssBoxSizing BoxSizing
         {
-            get { return this._boxSizing; }
+            get { return _boxSizing; }
             set
             {
                 if (Assignable())
                 {
-                    this._boxSizing = value;
+                    _boxSizing = value;
                 }
             }
         }
         //-------------------------------------------------------------------------------------- 
         public CssLength BorderLeftWidth
         {
-            get { return this._borderFeats.LeftWidth; }
+            get { return _borderFeats.LeftWidth; }
             set { if (Assignable()) CheckBorderVersion().LeftWidth = value; }
         }
 
         public CssLength BorderRightWidth
         {
-            get { return this._borderFeats.RightWidth; }
+            get { return _borderFeats.RightWidth; }
             set
             {
                 if (Assignable()) CheckBorderVersion().RightWidth = value;
@@ -180,7 +180,7 @@ namespace LayoutFarm.Css
 
         public CssLength BorderBottomWidth
         {
-            get { return this._borderFeats.BottomWidth; }
+            get { return _borderFeats.BottomWidth; }
             set
             {
                 if (Assignable()) CheckBorderVersion().BottomWidth = value;
@@ -190,7 +190,7 @@ namespace LayoutFarm.Css
 
         public CssLength BorderTopWidth
         {
-            get { return this._borderFeats.TopWidth; }
+            get { return _borderFeats.TopWidth; }
             set
             {
                 if (Assignable()) CheckBorderVersion().TopWidth = value;
@@ -199,12 +199,12 @@ namespace LayoutFarm.Css
         //--------------------------------------------------------------------------------------
         public CssBorderStyle BorderTopStyle
         {
-            get { return this._borderFeats.TopStyle; }
+            get { return _borderFeats.TopStyle; }
             set { if (Assignable()) CheckBorderVersion().TopStyle = value; }
         }
         public CssBorderStyle BorderLeftStyle
         {
-            get { return this._borderFeats.LeftStyle; }
+            get { return _borderFeats.LeftStyle; }
             set
             {
                 if (Assignable()) CheckBorderVersion().LeftStyle = value;
@@ -212,31 +212,31 @@ namespace LayoutFarm.Css
         }
         public CssBorderStyle BorderRightStyle
         {
-            get { return this._borderFeats.RightStyle; }
+            get { return _borderFeats.RightStyle; }
             set { if (Assignable()) CheckBorderVersion().RightStyle = value; }
         }
 
         public CssBorderStyle BorderBottomStyle
         {
-            get { return this._borderFeats.BottomStyle; }
+            get { return _borderFeats.BottomStyle; }
             set { if (Assignable()) CheckBorderVersion().BottomStyle = value; }
         }
 
         //--------------------------------------------
         public Color BorderBottomColor
         {
-            get { return this._borderFeats.BottomColor; }
+            get { return _borderFeats.BottomColor; }
             set { if (Assignable()) CheckBorderVersion().BottomColor = value; }
         }
         public Color BorderLeftColor
         {
-            get { return this._borderFeats.LeftColor; }
+            get { return _borderFeats.LeftColor; }
             set { if (Assignable()) CheckBorderVersion().LeftColor = value; }
         }
         //--------------------------------------------
         public Color BorderRightColor
         {
-            get { return this._borderFeats.RightColor; }
+            get { return _borderFeats.RightColor; }
             set
             {
                 if (Assignable()) CheckBorderVersion().RightColor = value;
@@ -245,7 +245,7 @@ namespace LayoutFarm.Css
 
         public Color BorderTopColor
         {
-            get { return this._borderFeats.TopColor; }
+            get { return _borderFeats.TopColor; }
             set
             {
                 if (Assignable()) CheckBorderVersion().TopColor = value;
@@ -253,17 +253,17 @@ namespace LayoutFarm.Css
         }
         public CssLength BorderSpacingVertical
         {
-            get { return this._borderFeats.BorderSpacingV; }
+            get { return _borderFeats.BorderSpacingV; }
             set { if (Assignable()) CheckBorderVersion().BorderSpacingV = value; }
         }
         public CssLength BorderSpacingHorizontal
         {
-            get { return this._borderFeats.BorderSpacingH; }
+            get { return _borderFeats.BorderSpacingH; }
             set { if (Assignable()) CheckBorderVersion().BorderSpacingH = value; }
         }
         public CssBorderCollapse BorderCollapse
         {
-            get { return this._borderFeats.BorderCollapse; }
+            get { return _borderFeats.BorderCollapse; }
             set { if (Assignable()) CheckBorderVersion().BorderCollapse = value; }
         }
 
@@ -274,7 +274,7 @@ namespace LayoutFarm.Css
         //------------------------------------------------------
         public CssLength CornerNERadius
         {
-            get { return this._cornerFeats.NERadius; }
+            get { return _cornerFeats.NERadius; }
             set
             {
                 if (Assignable()) CheckCornerVersion().NERadius = value;
@@ -282,7 +282,7 @@ namespace LayoutFarm.Css
         }
         public CssLength CornerNWRadius
         {
-            get { return this._cornerFeats.NWRadius; }
+            get { return _cornerFeats.NWRadius; }
             set
             {
                 if (Assignable()) CheckCornerVersion().NWRadius = value;
@@ -290,7 +290,7 @@ namespace LayoutFarm.Css
         }
         public CssLength CornerSERadius
         {
-            get { return this._cornerFeats.SERadius; }
+            get { return _cornerFeats.SERadius; }
             set
             {
                 if (Assignable()) CheckCornerVersion().SERadius = value;
@@ -298,7 +298,7 @@ namespace LayoutFarm.Css
         }
         public CssLength CornerSWRadius
         {
-            get { return this._cornerFeats.SWRadius; }
+            get { return _cornerFeats.SWRadius; }
             set
             {
                 if (Assignable()) CheckCornerVersion().SWRadius = value;
@@ -307,17 +307,17 @@ namespace LayoutFarm.Css
         //------------------------------------------------------
         public CssLength MarginBottom
         {
-            get { return this._marginFeats.Bottom; }
+            get { return _marginFeats.Bottom; }
             set { if (Assignable()) CheckMarginVersion().Bottom = value; }
         }
 
         public CssLength MarginLeft
         {
-            get { return this._marginFeats.Left; }
+            get { return _marginFeats.Left; }
             set
             {
 #if DEBUG
-                if (this.__aa_dbugId == 9)
+                if (__aa_dbugId == 9)
                 {
                 }
 #endif
@@ -327,19 +327,19 @@ namespace LayoutFarm.Css
 
         public CssLength MarginRight
         {
-            get { return this._marginFeats.Right; }
+            get { return _marginFeats.Right; }
             set { if (Assignable()) CheckMarginVersion().Right = value; }
         }
 
         public CssLength MarginTop
         {
-            get { return this._marginFeats.Top; }
+            get { return _marginFeats.Top; }
             set { if (Assignable()) CheckMarginVersion().Top = value; }
         }
 
         public CssLength PaddingBottom
         {
-            get { return this._paddingFeats.Bottom; }
+            get { return _paddingFeats.Bottom; }
             set
             {
                 if (Assignable()) CheckPaddingVersion().Bottom = value;
@@ -348,7 +348,7 @@ namespace LayoutFarm.Css
 
         public CssLength PaddingLeft
         {
-            get { return this._paddingFeats.Left; }
+            get { return _paddingFeats.Left; }
             set
             {
                 if (Assignable()) CheckPaddingVersion().Left = value;
@@ -357,7 +357,7 @@ namespace LayoutFarm.Css
 
         public CssLength PaddingRight
         {
-            get { return this._paddingFeats.Right; }
+            get { return _paddingFeats.Right; }
             set
             {
                 if (Assignable()) CheckPaddingVersion().Right = value;
@@ -368,7 +368,7 @@ namespace LayoutFarm.Css
         {
             get
             {
-                return this._paddingFeats.Top;
+                return _paddingFeats.Top;
             }
             set
             {
@@ -389,8 +389,8 @@ namespace LayoutFarm.Css
 
         public CssLength Width
         {
-            get { return this._width; }
-            set { if (Assignable()) this._width = value; }
+            get { return _width; }
+            set { if (Assignable()) _width = value; }
         }
         public CssLength MaxWidth
         {
@@ -399,49 +399,49 @@ namespace LayoutFarm.Css
         }
         public CssLength Height
         {
-            get { return this._height; }
-            set { if (Assignable()) this._height = value; }
+            get { return _height; }
+            set { if (Assignable()) _height = value; }
         }
         public Color BackgroundColor
         {
-            get { return this._backgroundFeats.BackgroundColor; }
+            get { return _backgroundFeats.BackgroundColor; }
             set { if (Assignable()) this.CheckBgVersion().BackgroundColor = value; }
         }
         public ImageBinder BackgroundImageBinder
         {
-            get { return this._backgroundFeats.BackgroundImageBinder; }
+            get { return _backgroundFeats.BackgroundImageBinder; }
             set { if (Assignable()) CheckBgVersion().BackgroundImageBinder = value; }
         }
         public CssLength BackgroundPositionX
         {
-            get { return this._backgroundFeats.BackgroundPosX; }
+            get { return _backgroundFeats.BackgroundPosX; }
             set { if (Assignable()) CheckBgVersion().BackgroundPosX = value; }
         }
         public CssLength BackgroundPositionY
         {
-            get { return this._backgroundFeats.BackgroundPosY; }
+            get { return _backgroundFeats.BackgroundPosY; }
             set { if (Assignable()) CheckBgVersion().BackgroundPosY = value; }
         }
         public CssBackgroundRepeat BackgroundRepeat
         {
-            get { return this._backgroundFeats.BackgroundRepeat; }
+            get { return _backgroundFeats.BackgroundRepeat; }
             set { if (Assignable()) CheckBgVersion().BackgroundRepeat = value; }
         }
         public CssCursorName CursorName
         {
-            get { return this._backgroundFeats.CursorName; }
+            get { return _backgroundFeats.CursorName; }
             set { if (Assignable()) CheckBgVersion().CursorName = value; }
 
         }
         public Color BackgroundGradient
         {
-            get { return this._backgroundFeats.BackgroundGradient; }
+            get { return _backgroundFeats.BackgroundGradient; }
             set { if (Assignable()) CheckBgVersion().BackgroundGradient = value; }
         }
 
         public float BackgroundGradientAngle
         {
-            get { return this._backgroundFeats.BackgroundGradientAngle; }
+            get { return _backgroundFeats.BackgroundGradientAngle; }
             set { CheckBgVersion().BackgroundGradientAngle = value; }
         }
         /// <summary>
@@ -465,7 +465,7 @@ namespace LayoutFarm.Css
         }
         public CssPosition Position
         {
-            get { return this._position; }
+            get { return _position; }
             set
             {
                 //if (value == CssPosition.Absolute)
@@ -475,10 +475,10 @@ namespace LayoutFarm.Css
 
                 if (Assignable())
                 {
-                    //if (this.__aa_dbugId == 12)
+                    //if (__aa_dbugId == 12)
                     //{
                     //}
-                    this._position = value;
+                    _position = value;
                 }
             }
         }
@@ -495,8 +495,8 @@ namespace LayoutFarm.Css
         }
         public CssVerticalAlign VerticalAlign
         {
-            get { return this._verticalAlign; }
-            set { if (Assignable()) this._verticalAlign = value; }
+            get { return _verticalAlign; }
+            set { if (Assignable()) _verticalAlign = value; }
         }
         public CssLength TextIndent
         {
@@ -505,8 +505,8 @@ namespace LayoutFarm.Css
         }
         public CssTextAlign CssTextAlign
         {
-            get { return this._textAlign; }
-            set { if (Assignable()) this._textAlign = value; }
+            get { return _textAlign; }
+            set { if (Assignable()) _textAlign = value; }
         }
 
         public CssTextDecoration TextDecoration
@@ -518,36 +518,36 @@ namespace LayoutFarm.Css
         //-----------------------------------
         public CssWhiteSpace WhiteSpace
         {
-            get { return this._whitespace; }
-            set { if (Assignable()) this._whitespace = value; }
+            get { return _whitespace; }
+            set { if (Assignable()) _whitespace = value; }
         }
         //----------------------------------- 
         public CssVisibility Visibility
         {
-            get { return this._visibility; }
-            set { if (Assignable()) this._visibility = value; }
+            get { return _visibility; }
+            set { if (Assignable()) _visibility = value; }
         }
         public CssLength WordSpacing
         {
-            get { return this._wordSpacing; }
-            set { if (Assignable()) this._wordSpacing = value; }
+            get { return _wordSpacing; }
+            set { if (Assignable()) _wordSpacing = value; }
         }
 
         public CssWordBreak WordBreak
         {
-            get { return this._wordBreak; }
-            set { if (Assignable()) this._wordBreak = value; }
+            get { return _wordBreak; }
+            set { if (Assignable()) _wordBreak = value; }
         }
 
         public string FontFamily
         {
-            get { return this._fontFeats.FontFamily; }
+            get { return _fontFeats.FontFamily; }
             set { if (Assignable()) CheckFontVersion().FontFamily = value; }
         }
 
         public CssLength FontSize
         {
-            get { return this._fontFeats.FontSize; }
+            get { return _fontFeats.FontSize; }
             set
             {
                 if (Assignable()) CheckFontVersion().FontSize = value;
@@ -556,48 +556,48 @@ namespace LayoutFarm.Css
 
         public CssFontStyle FontStyle
         {
-            get { return this._fontFeats.FontStyle; }
+            get { return _fontFeats.FontStyle; }
             set { if (Assignable()) CheckFontVersion().FontStyle = value; }
         }
 
         public CssFontVariant FontVariant
         {
-            get { return this._fontFeats.FontVariant; }
+            get { return _fontFeats.FontVariant; }
             set { if (Assignable()) CheckFontVersion().FontVariant = value; }
         }
 
         public CssFontWeight FontWeight
         {
-            get { return this._fontFeats.FontWeight; }
+            get { return _fontFeats.FontWeight; }
             set { if (Assignable()) CheckFontVersion().FontWeight = value; }
         }
         public CssOverflow Overflow
         {
-            get { return this._overflow; }
-            set { if (Assignable()) this._overflow = value; }
+            get { return _overflow; }
+            set { if (Assignable()) _overflow = value; }
         }
 
 
         public CssListStylePosition ListStylePosition
         {
-            get { return this._listFeats.ListStylePosition; }
+            get { return _listFeats.ListStylePosition; }
             set { if (Assignable()) CheckListPropVersion().ListStylePosition = value; }
         }
 
         public string ListStyle
         {
-            get { return this._listFeats.ListStyle; }
+            get { return _listFeats.ListStyle; }
             set { if (Assignable()) CheckListPropVersion().ListStyle = value; }
         }
         public string ListStyleImage
         {
-            get { return this._listFeats.ListStyleImage; }
+            get { return _listFeats.ListStyleImage; }
             set { if (Assignable()) CheckListPropVersion().ListStyleImage = value; }
         }
 
         public CssListStyleType ListStyleType
         {
-            get { return this._listFeats.ListStyleType; }
+            get { return _listFeats.ListStyleType; }
             set { if (Assignable()) CheckListPropVersion().ListStyleType = value; }
         }
 
@@ -611,7 +611,7 @@ namespace LayoutFarm.Css
         {
             get
             {
-                return this._backgroundFeats.BackgroundGradient;
+                return _backgroundFeats.BackgroundGradient;
             }
         }
 
@@ -622,11 +622,11 @@ namespace LayoutFarm.Css
         {
             get
             {
-                return this._backgroundFeats.BackgroundGradientAngle;
+                return _backgroundFeats.BackgroundGradientAngle;
             }
             set
             {
-                if (Assignable()) this._backgroundFeats.BackgroundGradientAngle = value;
+                if (Assignable()) _backgroundFeats.BackgroundGradientAngle = value;
             }
         }
 
@@ -649,7 +649,7 @@ namespace LayoutFarm.Css
         {
             get
             {
-                return this._backgroundFeats.BackgroundColor;
+                return _backgroundFeats.BackgroundColor;
             }
         }
         internal RequestFont GetFont(float parentFontSize)
@@ -773,11 +773,11 @@ namespace LayoutFarm.Css
         //----------------------------------------------------------------------
         public bool HasBoxShadow
         {
-            get { return this._boxShadow != CssBoxShadowFeature.Default; }
+            get { return _boxShadow != CssBoxShadowFeature.Default; }
         }
         public CssLength BoxShadowHOffset
         {
-            get { return this._boxShadow.HOffset; }
+            get { return _boxShadow.HOffset; }
             set
             {
                 if (Assignable()) CheckBoxShadowVersion().HOffset = value;
@@ -785,7 +785,7 @@ namespace LayoutFarm.Css
         }
         public CssLength BoxShadowVOffset
         {
-            get { return this._boxShadow.VOffset; }
+            get { return _boxShadow.VOffset; }
             set
             {
                 if (Assignable()) CheckBoxShadowVersion().VOffset = value;
@@ -793,7 +793,7 @@ namespace LayoutFarm.Css
         }
         public CssLength BoxShadowBlurRadius
         {
-            get { return this._boxShadow.BlurRadius; }
+            get { return _boxShadow.BlurRadius; }
             set
             {
                 if (Assignable()) CheckBoxShadowVersion().BlurRadius = value;
@@ -801,7 +801,7 @@ namespace LayoutFarm.Css
         }
         public CssLength BoxShadowSpreadDistance
         {
-            get { return this._boxShadow.SpreadDistance; }
+            get { return _boxShadow.SpreadDistance; }
             set
             {
                 if (Assignable()) CheckBoxShadowVersion().SpreadDistance = value;
@@ -809,7 +809,7 @@ namespace LayoutFarm.Css
         }
         public Color BoxShadowColor
         {
-            get { return this._boxShadow.ShadowColor; }
+            get { return _boxShadow.ShadowColor; }
             set
             {
                 if (Assignable()) CheckBoxShadowVersion().ShadowColor = value;
@@ -818,7 +818,7 @@ namespace LayoutFarm.Css
         //----------------------------------------------------------------------
         public FlexFlowDirection FlexFlowDirection
         {
-            get { return this._flexFeats.FlowDirection; }
+            get { return _flexFeats.FlowDirection; }
             set
             {
                 if (Assignable()) CheckFlexVersion().FlowDirection = value;
@@ -826,7 +826,7 @@ namespace LayoutFarm.Css
         }
         public FlexJustifyContent FlexJustifyContent
         {
-            get { return this._flexFeats.JustifyContent; }
+            get { return _flexFeats.JustifyContent; }
             set
             {
                 if (Assignable()) CheckFlexVersion().JustifyContent = value;
@@ -834,7 +834,7 @@ namespace LayoutFarm.Css
         }
         public FlexWrap FlexWrap
         {
-            get { return this._flexFeats.FlexWrap; }
+            get { return _flexFeats.FlexWrap; }
             set
             {
                 if (Assignable()) CheckFlexVersion().FlexWrap = value;
@@ -842,7 +842,7 @@ namespace LayoutFarm.Css
         }
         public FlexAlignContent FlexAlignContent
         {
-            get { return this._flexFeats.AlignContent; }
+            get { return _flexFeats.AlignContent; }
             set
             {
                 if (Assignable()) CheckFlexVersion().AlignContent = value;
@@ -850,7 +850,7 @@ namespace LayoutFarm.Css
         }
         public FlexAlignSelf FlexAlignSelf
         {
-            get { return this._flexFeats.AlignSelf; }
+            get { return _flexFeats.AlignSelf; }
             set
             {
                 if (Assignable()) CheckFlexVersion().AlignSelf = value;
@@ -858,7 +858,7 @@ namespace LayoutFarm.Css
         }
         public FlexAlignItem FlexAlignItem
         {
-            get { return this._flexFeats.AlignItem; }
+            get { return _flexFeats.AlignItem; }
             set
             {
                 if (Assignable()) CheckFlexVersion().AlignItem = value;
@@ -867,7 +867,7 @@ namespace LayoutFarm.Css
         //----------------------------------------------------------------------
         public int FlexGrow
         {
-            get { return this._flexFeats.FlexGrow; }
+            get { return _flexFeats.FlexGrow; }
             set
             {
                 if (Assignable()) CheckFlexVersion().FlexGrow = value;
@@ -875,7 +875,7 @@ namespace LayoutFarm.Css
         }
         public int FlexShrink
         {
-            get { return this._flexFeats.FlexShrink; }
+            get { return _flexFeats.FlexShrink; }
             set
             {
                 if (Assignable()) CheckFlexVersion().FlexShrink = value;
@@ -883,7 +883,7 @@ namespace LayoutFarm.Css
         }
         public int FlexOrder
         {
-            get { return this._flexFeats.FlexOrder; }
+            get { return _flexFeats.FlexOrder; }
             set
             {
                 if (Assignable()) CheckFlexVersion().FlexOrder = value;
@@ -891,7 +891,7 @@ namespace LayoutFarm.Css
         }
         public CssLength FlexBasis
         {
-            get { return this._flexFeats.FlexBasis; }
+            get { return _flexFeats.FlexBasis; }
             set
             {
                 if (Assignable()) CheckFlexVersion().FlexBasis = value;
@@ -900,7 +900,7 @@ namespace LayoutFarm.Css
         //--------------------------------------------------------------
         public int FlexExtensionNum
         {
-            get { return this._flexFeats.FlexExtensionNum; }
+            get { return _flexFeats.FlexExtensionNum; }
             set
             {
                 if (Assignable()) CheckFlexVersion().FlexExtensionNum = value;
@@ -908,7 +908,7 @@ namespace LayoutFarm.Css
         }
         public int FlexExtensionPart
         {
-            get { return this._flexFeats.FlexExtensionPart; }
+            get { return _flexFeats.FlexExtensionPart; }
             set
             {
                 if (Assignable()) CheckFlexVersion().FlexExtensionPart = value;

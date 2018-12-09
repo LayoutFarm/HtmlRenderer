@@ -79,7 +79,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-                return this._aa_contentRuns != null ? this._aa_contentRuns.Count : 0;
+                return _aa_contentRuns != null ? _aa_contentRuns.Count : 0;
             }
         }
         internal CssBoxDecorator Decorator
@@ -97,11 +97,11 @@ namespace LayoutFarm.HtmlBoxes
         }
         public IEnumerable<CssBox> GetChildBoxIter()
         {
-            return this._aa_boxes.GetChildBoxIter();
+            return _aa_boxes.GetChildBoxIter();
         }
         public IEnumerable<CssBox> GetChildBoxBackwardIter()
         {
-            return this._aa_boxes.GetChildBoxBackwardIter();
+            return _aa_boxes.GetChildBoxBackwardIter();
         }
         public IEnumerable<CssBox> GetAbsoluteChildBoxIter()
         {
@@ -144,9 +144,9 @@ namespace LayoutFarm.HtmlBoxes
         }
         public IEnumerable<CssRun> GetRunIter()
         {
-            if (this._aa_contentRuns != null)
+            if (_aa_contentRuns != null)
             {
-                List<CssRun> tmpRuns = this._aa_contentRuns;
+                List<CssRun> tmpRuns = _aa_contentRuns;
                 int j = tmpRuns.Count;
                 for (int i = 0; i < j; ++i)
                 {
@@ -160,13 +160,13 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-                return this._aa_boxes.Count;
+                return _aa_boxes.Count;
             }
         }
         //-----------------------------------
         public CssBox GetFirstChild()
         {
-            return this._aa_boxes.GetFirstChild();
+            return _aa_boxes.GetFirstChild();
         }
         public void RemoveChild(CssBox box)
         {
@@ -177,7 +177,7 @@ namespace LayoutFarm.HtmlBoxes
                 case Css.CssPosition.Relative:
                     {
                         //TODO: review here again
-                        bool result = this._absPosLayer.Remove(box);
+                        bool result = _absPosLayer.Remove(box);
                         if (!result)
                         {
 
@@ -186,7 +186,7 @@ namespace LayoutFarm.HtmlBoxes
                     break;
                 default:
                     {
-                        this._aa_boxes.Remove(box);
+                        _aa_boxes.Remove(box);
                     }
                     break;
             }
@@ -285,7 +285,7 @@ namespace LayoutFarm.HtmlBoxes
                     break;
                 default:
                     {
-                        this._aa_boxes.AddChild(this, box);
+                        _aa_boxes.AddChild(this, box);
                     }
                     break;
             }
@@ -294,20 +294,20 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-                return this._absPosLayer != null;
+                return _absPosLayer != null;
             }
         }
         public void InsertChild(CssBox beforeBox, CssBox box)
         {
-            this._aa_boxes.InsertBefore(this, beforeBox, box);
+            _aa_boxes.InsertBefore(this, beforeBox, box);
         }
         public virtual void Clear()
         {
             //_aa_contentRuns may come from other data source
             //so just set it to null 
-            this._clientLineBoxes = null;
-            this._aa_contentRuns = null;
-            this._aa_boxes.Clear();
+            _clientLineBoxes = null;
+            _aa_contentRuns = null;
+            _aa_boxes.Clear();
         }
         CssBox FindContainerForAbsoluteBox()
         {
@@ -359,9 +359,9 @@ namespace LayoutFarm.HtmlBoxes
         public void AppendToAbsoluteLayer(CssBox box)
         {
             //find proper ancestor node for absolute position 
-            if (this._absPosLayer == null)
+            if (_absPosLayer == null)
             {
-                this._absPosLayer = new CssBoxAbsoluteLayer();
+                _absPosLayer = new CssBoxAbsoluteLayer();
             }
             if (box._absLayerOwner != null)
             {
@@ -381,7 +381,7 @@ namespace LayoutFarm.HtmlBoxes
 
                 //box.ParentBox.RemoveChild(box);
             }
-            this._absPosLayer.AddChild(box);
+            _absPosLayer.AddChild(box);
         }
         internal bool IsAddedToAbsoluteLayer
         {
@@ -394,7 +394,7 @@ namespace LayoutFarm.HtmlBoxes
         //-------------------------------------
         internal void ResetLineBoxes()
         {
-            if (this._clientLineBoxes != null)
+            if (_clientLineBoxes != null)
             {
                 _clientLineBoxes.Clear();
             }
@@ -408,21 +408,21 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-                return this._rowSpan;
+                return _rowSpan;
             }
         }
         internal int ColSpan
         {
             get
             {
-                return this._colSpan;
+                return _colSpan;
             }
         }
 
         public void SetRowSpanAndColSpan(int rowSpan, int colSpan)
         {
-            this._rowSpan = rowSpan;
-            this._colSpan = colSpan;
+            _rowSpan = rowSpan;
+            _colSpan = colSpan;
         }
         /// <summary>
         /// The margin top value if was effected by margin collapse.
@@ -436,17 +436,17 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-                return (this._boxCompactFlags & BoxFlags.HAS_CUSTOM_RENDER_TECHNIQUE) != 0;
+                return (_boxCompactFlags & BoxFlags.HAS_CUSTOM_RENDER_TECHNIQUE) != 0;
             }
             set
             {
                 if (value)
                 {
-                    this._boxCompactFlags |= BoxFlags.HAS_CUSTOM_RENDER_TECHNIQUE;
+                    _boxCompactFlags |= BoxFlags.HAS_CUSTOM_RENDER_TECHNIQUE;
                 }
                 else
                 {
-                    this._boxCompactFlags &= ~BoxFlags.HAS_CUSTOM_RENDER_TECHNIQUE;
+                    _boxCompactFlags &= ~BoxFlags.HAS_CUSTOM_RENDER_TECHNIQUE;
                 }
             }
         }
@@ -461,7 +461,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 throw new Exception("before box doesn't exist on parent");
             }
-            this._parentBox._aa_boxes.dbugChangeSiblingIndex(_parentBox, this, siblingIndex);
+            _parentBox._aa_boxes.dbugChangeSiblingIndex(_parentBox, this, siblingIndex);
         }
 #endif
 

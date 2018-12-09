@@ -7,15 +7,15 @@ namespace LayoutFarm.HtmlWidgets
 {
     public class MenuItem
     {
-        string menuItemText;
-        DomElement pnode;
-        DomElement menuIcon;
-        MenuBox ownerMenuBox;
-        bool thisMenuOpened;
+
+        DomElement _pnode;
+        DomElement _menuIcon;
+        MenuBox _ownerMenuBox;
+        bool _thisMenuOpened;
         //2. float part   
-        MenuBox floatPart;
-        HingeFloatPartStyle floatPartStyle;
-        List<MenuItem> childItems;
+        MenuBox _floatPart;
+        HingeFloatPartStyle _floatPartStyle;
+        List<MenuItem> _childItems;
 
         int _width;
         int _height;
@@ -30,21 +30,21 @@ namespace LayoutFarm.HtmlWidgets
             _width = width;
             _height = height;
         }
-
-        public int Width { get { return _width; } }
-        public int Height { get { return _height; } }
-
+        //
+        public int Width => _width;
+        public int Height => _height;
+        //
         public DomElement GetPresentationDomNode(DomElement hostNode)
         {
-            if (pnode != null) return pnode;
+            if (_pnode != null) return _pnode;
             //-----------------------------------
             var doc = hostNode.OwnerDocument;
-            this.pnode = doc.CreateElement("div");
+            _pnode = doc.CreateElement("div");
 
-            pnode.AddChild("img", item_icon =>
+            _pnode.AddChild("img", item_icon =>
             {
-                menuIcon = item_icon;
-                menuIcon.AttachMouseDownEvent(e =>
+                _menuIcon = item_icon;
+                _menuIcon.AttachMouseDownEvent(e =>
                 {
                     //****
                     this.MaintainParentOpenState();
@@ -58,12 +58,12 @@ namespace LayoutFarm.HtmlWidgets
                     }
                     e.StopPropagation();
                 });
-                menuIcon.AttachMouseUpEvent(e =>
+                _menuIcon.AttachMouseUpEvent(e =>
                 {
                     this.UnmaintenanceParentOpenState();
                     e.StopPropagation();
                 });
-                menuIcon.AttachEventOnMouseLostFocus(e =>
+                _menuIcon.AttachEventOnMouseLostFocus(e =>
                 {
                     if (!this.MaintainOpenState)
                     {
@@ -71,59 +71,52 @@ namespace LayoutFarm.HtmlWidgets
                     }
                 });
             });
-            pnode.AddChild("span", content =>
+            _pnode.AddChild("span", content =>
             {
-                if (menuItemText != null)
+                if (MenuItemText != null)
                 {
-                    pnode.AddTextContent(this.menuItemText);
+                    _pnode.AddTextContent(this.MenuItemText);
                 }
             });
             //--------------------------------------------------------
             //create simple menu item box 
 
-            if (childItems != null)
+            if (_childItems != null)
             {
-                floatPart = new MenuBox(200, 200);
-                int j = childItems.Count;
+                _floatPart = new MenuBox(200, 200);
+                int j = _childItems.Count;
                 for (int i = 0; i < j; ++i)
                 {
-                    floatPart.AddChildBox(childItems[i]);
+                    _floatPart.AddChildBox(_childItems[i]);
                 }
             }
-            return pnode;
+            return _pnode;
         }
-        public DomElement CurrentDomElement { get { return this.pnode; } }
-        public string MenuItemText
-        {
-            get { return this.menuItemText; }
-            set
-            {
-                this.menuItemText = value;
-            }
-        }
-
-        public bool IsOpened
-        {
-            get { return this.thisMenuOpened; }
-        }
+        //
+        public DomElement CurrentDomElement => _pnode;
+        //
+        public string MenuItemText { get; set; }
+        //
+        public bool IsOpened => _thisMenuOpened;
+        //
         public void Open()
         {
-            if (thisMenuOpened) return;
-            this.thisMenuOpened = true;
+            if (_thisMenuOpened) return;
+            _thisMenuOpened = true;
             //-----------------------------------
-            if (pnode == null) return;
-            if (floatPart == null) return;
-            this.ownerMenuBox.CurrentActiveMenuItem = this;
-            switch (floatPartStyle)
+            if (_pnode == null) return;
+            if (_floatPart == null) return;
+            _ownerMenuBox.CurrentActiveMenuItem = this;
+            switch (_floatPartStyle)
             {
                 default:
                 case HingeFloatPartStyle.Popup:
                     {
                         //add float part to top window layer
-                        if (this.ownerMenuBox == null) return;
-                        if (floatPart != null)
+                        if (_ownerMenuBox == null) return;
+                        if (_floatPart != null)
                         {
-                            floatPart.ShowMenu(this);
+                            _floatPart.ShowMenu(this);
                         }
                     }
                     break;
@@ -135,13 +128,13 @@ namespace LayoutFarm.HtmlWidgets
         }
         public void Close()
         {
-            if (!thisMenuOpened) return;
+            if (!_thisMenuOpened) return;
             //
-            this.thisMenuOpened = false;
-            if (pnode == null) return;
-            if (floatPart == null) return;
-            this.ownerMenuBox.CurrentActiveMenuItem = null;
-            switch (floatPartStyle)
+            _thisMenuOpened = false;
+            if (_pnode == null) return;
+            if (_floatPart == null) return;
+            _ownerMenuBox.CurrentActiveMenuItem = null;
+            switch (_floatPartStyle)
             {
                 default:
                     {
@@ -149,10 +142,10 @@ namespace LayoutFarm.HtmlWidgets
                     break;
                 case HingeFloatPartStyle.Popup:
                     {
-                        if (this.ownerMenuBox == null) return;
-                        if (floatPart != null)
+                        if (_ownerMenuBox == null) return;
+                        if (_floatPart != null)
                         {
-                            floatPart.HideMenu();
+                            _floatPart.HideMenu();
                         }
                     }
                     break;
@@ -165,14 +158,12 @@ namespace LayoutFarm.HtmlWidgets
 
         internal MenuBox OwnerMenuBox
         {
-            get { return this.ownerMenuBox; }
-            set { this.ownerMenuBox = value; }
+            get => _ownerMenuBox;
+            set => _ownerMenuBox = value;
         }
         public void MaintainParentOpenState()
         {
-            //recursive
-
-
+            //recursive 
             if (this.ParentMenuItem != null)
             {
                 this.ParentMenuItem.MaintainOpenState = true;
@@ -210,34 +201,31 @@ namespace LayoutFarm.HtmlWidgets
         }
         public HingeFloatPartStyle FloatPartStyle
         {
-            get { return this.floatPartStyle; }
-            set
-            {
-                this.floatPartStyle = value;
-            }
+            get => _floatPartStyle;
+            set => _floatPartStyle = value;
         }
         public void AddSubMenuItem(MenuItem childItem)
         {
-            if (childItems == null)
+            if (_childItems == null)
             {
-                childItems = new List<MenuItem>();
+                _childItems = new List<MenuItem>();
             }
-            this.childItems.Add(childItem);
+            _childItems.Add(childItem);
             childItem.ParentMenuItem = this;
-            if (floatPart != null)
+            if (_floatPart != null)
             {
-                floatPart.AddChildBox(childItem);
+                _floatPart.AddChildBox(childItem);
             }
         }
     }
 
     public class MenuBox : HtmlWidgetBase
     {
-        bool showing;
-        List<MenuItem> menuItems;
+        bool _showing;
+        List<MenuItem> _menuItems;
         DomElement _presentation;
-        MenuItem currentActiveMenuItem;
-        WebDom.Impl.HtmlDocument htmldoc;
+        MenuItem _currentActiveMenuItem;
+        WebDom.Impl.HtmlDocument _htmldoc;
 
 #if DEBUG
         static int s_dbugTotalId;
@@ -248,17 +236,13 @@ namespace LayoutFarm.HtmlWidgets
         {
 
         }
-        public bool IsLandPart
-        {
-            get;
-            set;
-        }
+        public bool IsLandPart { get; set; }
 
         public override DomElement GetPresentationDomNode(WebDom.Impl.HtmlDocument htmldoc)
         {
 
             if (_presentation != null) return _presentation;
-            this.htmldoc = htmldoc;
+            _htmldoc = htmldoc;
             //presentation main node
             _presentation = htmldoc.CreateElement("div");
 
@@ -268,30 +252,32 @@ namespace LayoutFarm.HtmlWidgets
                 _presentation.SetAttribute("style", "position:absolute;width:" + this.Width + "px;height:" + this.Height + "px");
             }
 
-            if (menuItems != null)
+            if (_menuItems != null)
             {
-                int j = menuItems.Count;
+                int j = _menuItems.Count;
                 for (int i = 0; i < j; ++i)
                 {
-                    _presentation.AddChild(menuItems[i].GetPresentationDomNode(_presentation));
+                    _presentation.AddChild(_menuItems[i].GetPresentationDomNode(_presentation));
                 }
             }
-
-
-
             return _presentation;
         }
-        internal WebDom.Impl.HtmlDocument HtmlDoc
+        //
+        internal WebDom.Impl.HtmlDocument HtmlDoc => _htmldoc;
+        //
+        internal MenuItem CurrentActiveMenuItem
         {
-            get { return this.htmldoc; }
+            get => _currentActiveMenuItem;
+            set => _currentActiveMenuItem = value;
         }
+        //
         public void AddChildBox(MenuItem mnuItem)
         {
-            if (menuItems == null)
+            if (_menuItems == null)
             {
-                menuItems = new List<MenuItem>();
+                _menuItems = new List<MenuItem>();
             }
-            this.menuItems.Add(mnuItem);
+            _menuItems.Add(mnuItem);
             if (_presentation != null)
             {
                 _presentation.AddChild(mnuItem.GetPresentationDomNode(_presentation));
@@ -311,13 +297,13 @@ namespace LayoutFarm.HtmlWidgets
 
 #endif
             //add to topmost box 
-            if (!showing)
+            if (!_showing)
             {
                 //create presentation node
-                if (this._presentation == null)
+                if (_presentation == null)
                 {
-                    this.htmldoc = relativeToMenuItem.OwnerMenuBox.HtmlDoc;
-                    this._presentation = this.GetPresentationDomNode(htmldoc);
+                    _htmldoc = relativeToMenuItem.OwnerMenuBox.HtmlDoc;
+                    _presentation = this.GetPresentationDomNode(_htmldoc);
                 }
                 var relativeMenuItemElement = relativeToMenuItem.CurrentDomElement as IHtmlElement;
                 int x, y;
@@ -335,9 +321,9 @@ namespace LayoutFarm.HtmlWidgets
 
 
                 //pHtmlNode.SetLocation(x, y);
-                htmldoc.RootNode.AddChild(_presentation);
+                _htmldoc.RootNode.AddChild(_presentation);
 
-                showing = true;
+                _showing = true;
             }
         }
 
@@ -350,15 +336,14 @@ namespace LayoutFarm.HtmlWidgets
             //}
 #endif
 
-            if (showing)
+            if (_showing)
             {
 
-                if (this.currentActiveMenuItem != null)
-                {
-                    this.currentActiveMenuItem.Close();
-                }
+
+                _currentActiveMenuItem?.Close();
+
                 //remove from parent
-                if (this._presentation != null)
+                if (_presentation != null)
                 {
                     var parent = _presentation.ParentNode as IHtmlElement;
                     if (parent != null)
@@ -366,14 +351,9 @@ namespace LayoutFarm.HtmlWidgets
                         parent.removeChild(_presentation);
                     }
                 }
-                showing = false;
+                _showing = false;
             }
         }
 
-        internal MenuItem CurrentActiveMenuItem
-        {
-            get { return this.currentActiveMenuItem; }
-            set { this.currentActiveMenuItem = value; }
-        }
     }
 }

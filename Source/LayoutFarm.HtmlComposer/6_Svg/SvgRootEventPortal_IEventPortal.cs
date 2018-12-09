@@ -97,14 +97,14 @@ namespace PaintLab.Svg
                     //if (hitChain.Count > 0)
                     //{
                     //    //create selection range 
-                    //    this._htmlContainer.SetSelection(new SelectionRange(
+                    //    _htmlContainer.SetSelection(new SelectionRange(
                     //        _latestMouseDownChain,
                     //        hitChain,
                     //        this.ifonts));
                     //}
                     //else
                     //{
-                    //    this._htmlContainer.SetSelection(null);
+                    //    _htmlContainer.SetSelection(null);
                     //}
 
 

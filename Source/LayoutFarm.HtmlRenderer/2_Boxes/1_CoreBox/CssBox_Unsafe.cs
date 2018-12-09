@@ -85,15 +85,15 @@ namespace LayoutFarm.HtmlBoxes
 #if DEBUG
         public override string ToString()
         {
-            if (this._controller != null)
+            if (_controller != null)
             {
                 if (this.HasOnlyRuns)
                 {
-                    return this._controller.ToString() + " " + this.CssDisplay + " r=" + this.RunCount;
+                    return _controller.ToString() + " " + this.CssDisplay + " r=" + this.RunCount;
                 }
                 else
                 {
-                    return this._controller.ToString() + " " + this.CssDisplay + " c=" + this.ChildCount;
+                    return _controller.ToString() + " " + this.CssDisplay + " c=" + this.ChildCount;
                 }
             }
             else

@@ -136,15 +136,15 @@ namespace LayoutFarm.UI
             {
                 visualroot.dbug_rootHitChainMsg.Clear();
                 HitInfo hitInfo;
-                for (int tt = hitPointChain.Count - 1; tt >= 0; --tt)
+                for (int i = hitPointChain.Count - 1; i >= 0; --i)
                 {
-                    hitInfo = hitPointChain.GetHitInfo(tt);
+                    hitInfo = hitPointChain.GetHitInfo(i);
                     RenderElement ve = hitInfo.HitElemAsRenderElement;
                     if (ve != null)
                     {
-                        ve.dbug_WriteOwnerLayerInfo(visualroot, tt);
-                        ve.dbug_WriteOwnerLineInfo(visualroot, tt);
-                        string hit_info = new string('.', tt) + " [" + tt + "] "
+                        ve.dbug_WriteOwnerLayerInfo(visualroot, i);
+                        ve.dbug_WriteOwnerLineInfo(visualroot, i);
+                        string hit_info = new string('.', i) + " [" + i + "] "
                             + "(" + hitInfo.point.X + "," + hitInfo.point.Y + ") "
                             + ve.dbug_FullElementDescription();
                         visualroot.dbug_rootHitChainMsg.AddLast(new dbugLayoutMsg(ve, hit_info));

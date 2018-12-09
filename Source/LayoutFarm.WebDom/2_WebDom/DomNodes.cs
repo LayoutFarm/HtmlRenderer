@@ -68,11 +68,11 @@ namespace LayoutFarm.WebDom
         }
         public void SetSubParentNode(DomNode subParentNode)
         {
-            this._subParentNode = subParentNode;
+            _subParentNode = subParentNode;
         }
         protected void SetNodeType(HtmlNodeKind nodekind)
         {
-            this._nodeKind = nodekind;
+            _nodeKind = nodekind;
         }
         public HtmlNodeKind NodeKind
         {

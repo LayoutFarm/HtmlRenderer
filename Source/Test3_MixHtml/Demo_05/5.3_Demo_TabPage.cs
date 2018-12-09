@@ -22,7 +22,7 @@ namespace LayoutFarm.WebWidgets
                 //panel01.BackColor = Color.OrangeRed;
                 //tabPage.ContentUI = panel01;
 
-                var lightHtmlBox = new CustomWidgets.HtmlBox(this._myHtmlHost, 300, 200);
+                var lightHtmlBox = new CustomWidgets.HtmlBox(_myHtmlHost, 300, 200);
                 lightHtmlBox.LoadHtmlDom(CreateSampleHtmlDoc(tabPage.PageTitle));
                 tabPage.ContentUI = lightHtmlBox;
                 tabContainer.AddItem(tabPage);
@@ -32,7 +32,7 @@ namespace LayoutFarm.WebWidgets
         }
         HtmlDocument CreateSampleHtmlDoc(string pageNote)
         {
-            HtmlDocument htmldoc = this._myHtmlHost.CreateNewSharedHtmlDoc();// new HtmlDocument();
+            HtmlDocument htmldoc = _myHtmlHost.CreateNewSharedHtmlDoc();// new HtmlDocument();
             var rootNode = htmldoc.RootNode;
             //1. create body node             
             // and content  

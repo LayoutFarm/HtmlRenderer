@@ -7,10 +7,10 @@ namespace LayoutFarm.HtmlWidgets
 {
     public class ChoiceBox : HtmlWidgetBase
     {
-        string buttonText = "";
-        DomElement pnode;
+        string _buttonText = "";
+        DomElement _pnode;
         bool _checked;
-        DomElement imgNode;
+        DomElement _imgNode;
 
         public event EventHandler<EventArgs> CheckValueAssigned;
 
@@ -21,35 +21,30 @@ namespace LayoutFarm.HtmlWidgets
         //---------------------------------------------------------------------------
         public bool Checked
         {
-            get { return _checked; }
+            get => _checked;
             set
             {
                 _checked = value;
-                if (CheckValueAssigned != null)
-                {
-                    CheckValueAssigned(this, EventArgs.Empty);
-                }
-
-                if (imgNode != null)
+                //
+                CheckValueAssigned?.Invoke(this, EventArgs.Empty);
+                //
+                if (_imgNode != null)
                 {
                     if (value)
                     {
-                        imgNode.SetAttribute("src", OnlyOne ? "opt_checked.png" : "chk_checked.png");
+                        _imgNode.SetAttribute("src", OnlyOne ? "opt_checked.png" : "chk_checked.png");
                     }
                     else
                     {
-                        imgNode.SetAttribute("src", OnlyOne ? "opt_unchecked.png" : "chk_unchecked.png");
+                        _imgNode.SetAttribute("src", OnlyOne ? "opt_unchecked.png" : "chk_unchecked.png");
                     }
-                }               
+                }
             }
         }
         public string Text
         {
-            get { return this.buttonText; }
-            set
-            {
-                this.buttonText = value;
-            }
+            get => _buttonText;
+            set => _buttonText = value;
         }
 
         public bool OnlyOne
@@ -59,19 +54,19 @@ namespace LayoutFarm.HtmlWidgets
         }
         public override DomElement GetPresentationDomNode(WebDom.Impl.HtmlDocument htmldoc)
         {
-            if (pnode != null) return pnode;
+            if (_pnode != null) return _pnode;
             //----------------------------------
-            pnode = htmldoc.CreateElement("div");
-            pnode.SetAttribute("style", "display:inline-block;width:" + Width + "px;height:" + this.Height + "px;cursor:pointer");
-            pnode.AddChild("div", div2 =>
+            _pnode = htmldoc.CreateElement("div");
+            _pnode.SetAttribute("style", "display:inline-block;width:" + Width + "px;height:" + this.Height + "px;cursor:pointer");
+            _pnode.AddChild("div", div2 =>
             {
                 //init
                 div2.SetAttribute("style", "background-color:#dddddd;color:black;");
-                imgNode = div2.AddChild("img");
+                _imgNode = div2.AddChild("img");
 
-                imgNode.SetAttribute("src", OnlyOne ? "opt_unchecked.png" : "chk_unchecked.png");
+                _imgNode.SetAttribute("src", OnlyOne ? "opt_unchecked.png" : "chk_unchecked.png");
 
-                imgNode.AttachMouseDownEvent(e =>
+                _imgNode.AttachMouseDownEvent(e =>
                 {
 
                     Checked = !Checked; //toggle 
@@ -107,7 +102,7 @@ namespace LayoutFarm.HtmlWidgets
                     e.StopPropagation();
                 });
             });
-            return pnode;
+            return _pnode;
         }
     }
 

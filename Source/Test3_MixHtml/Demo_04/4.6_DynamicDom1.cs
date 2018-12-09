@@ -14,7 +14,7 @@ namespace LayoutFarm
         bool testToggle;
         protected override void OnStart(AppHost host)
         {
-            this._host = host;
+            _host = host;
             this.htmlhost = HtmlHostCreatorHelper.CreateHtmlHost(host, null, null);
             SetupHtmlMenuBox();
             //==================================================

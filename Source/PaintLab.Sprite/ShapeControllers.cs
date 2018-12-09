@@ -398,7 +398,7 @@ namespace LayoutFarm
         public event System.EventHandler UpdateTransformTarget;
 
 
-        List<UIControllerBox> _controlBoxes;
+        protected List<UIControllerBox> _controlBoxes;
 
 
         double _srcCenterX = 0;
@@ -945,7 +945,7 @@ namespace LayoutFarm
             //===============
 
 
-            List<UIControllerBox> controlBoxes = _polygonController.ControlBoxes;
+            List<UIControllerBox> controlBoxes = _controlBoxes;
             switch (_currentTransformStyle)
             {
                 case QuadTransformStyle.Bilinear:
@@ -1193,7 +1193,7 @@ namespace LayoutFarm
                     this.Left + e.XDiff,
                     this.Top + e.YDiff);
                 _polygonController.InvalidateOuterGraphics();
-                _polygonController.SetPosition(
+                _polygonController.SetLocation(
                     _polygonController.Left + e.XDiff,
                     _polygonController.Top + e.YDiff);
                 _polygonController.InvalidateOuterGraphics();
@@ -1313,20 +1313,23 @@ namespace LayoutFarm
             LoadVg(CreateQuadVgFromDestQuad());
 
         }
+        public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
+        {
+            return base.GetPrimaryRenderElement(rootgfx);
+        }
         public void BuildControlBoxes()
         {
             //*** after set dest
             _controlBoxes = new List<UIControllerBox>();
             CreateNewControlPoints(_controlBoxes, this.OutlineVxs);
             //---------
-            this._polygonController.LoadControlPoints(_controlBoxes);// _quadController.OutlineVxs);
+            _polygonController.LoadControlPoints(_controlBoxes);// _quadController.OutlineVxs);
             SetCornerLocation(0, _controlBoxes[0].TargetX, _controlBoxes[0].TargetY);
             SetCornerLocation(1, _controlBoxes[1].TargetX, _controlBoxes[1].TargetY);
             SetCornerLocation(2, _controlBoxes[2].TargetX, _controlBoxes[2].TargetY);
             SetCornerLocation(3, _controlBoxes[3].TargetX, _controlBoxes[3].TargetY);
-
-
         }
+
         public void GetInnerCoords(
                 out double src_left, out double src_top,
                 out double src_w, out double src_h,
@@ -1351,6 +1354,12 @@ namespace LayoutFarm
 
     public class UIControllerBox : LayoutFarm.CustomWidgets.AbstractBox
     {
+#if DEBUG
+
+        static int s_total;
+        public readonly int dbugControllerId = s_total++;
+
+#endif
         public UIControllerBox(int w, int h)
             : base(w, h)
         {
@@ -1370,6 +1379,10 @@ namespace LayoutFarm
         public double TargetX { get; set; }
         public double TargetY { get; set; }
 
+        public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
+        {
+            return base.GetPrimaryRenderElement(rootgfx);
+        }
         public void SetLocationRelativeToTarget(double targetBoxX, double targetBoxY)
         {
             this.TargetX = targetBoxX;
@@ -1385,7 +1398,7 @@ namespace LayoutFarm
             CurrentPrimaryRenderElement?.InvalidateGraphics();
         }
 #if DEBUG
-        public override string ToString() => Left + "," + Top;
+        public override string ToString() => this.dbugControllerId + " ," + Left + "," + Top;
 #endif
 
     }
@@ -1419,29 +1432,28 @@ namespace LayoutFarm
                 this.CurrentPrimaryRenderElement.InvalidateGraphics();
             }
         }
-        protected override bool HasReadyRenderElement
-        {
-            get { return _hasPrimRenderE; }
-        }
+        //
+        protected override bool HasReadyRenderElement => _hasPrimRenderE;
+        public override RenderElement CurrentPrimaryRenderElement => _simpleBox.CurrentPrimaryRenderElement;
+        //
         public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
         {
             _hasPrimRenderE = true;
-            return _simpleBox.GetPrimaryRenderElement(rootgfx);
+            RenderElement renderE = _simpleBox.GetPrimaryRenderElement(rootgfx);
+            renderE.TransparentForAllEvents = this.TransparentAllMouseEvents;
+            return renderE;
         }
         public override void Walk(UIVisitor visitor)
         {
 
         }
-        protected override void OnMouseDown(UIMouseEventArgs e)
+        public void AddChild(UIElement ui)
         {
-            base.OnMouseDown(e);
-        }
-        public override RenderElement CurrentPrimaryRenderElement
-        {
-            get { return _simpleBox.CurrentPrimaryRenderElement; }
+            _simpleBox.AddChild(ui);
         }
 
-        public void SetPosition(int x, int y)
+
+        public void SetLocation(int x, int y)
         {
             //TODO: review here again***
             //temp fix for invalidate area of overlap children
@@ -1483,7 +1495,7 @@ namespace LayoutFarm
                 InvalidateOuterGraphics();
             }
         }
-        public List<UIControllerBox> ControlBoxes => _controls;
+
 
         public override bool Visible
         {
@@ -1592,6 +1604,7 @@ namespace LayoutFarm
                             ctrlPoint.SetLocation((int)(x + offsetX), (int)(y + offsetY));
                             SetupCornerBoxController(ctrlPoint);
                             _controls.Add(ctrlPoint);
+                            //...
                             _simpleBox.AddChild(ctrlPoint);
                         }
                         break;
@@ -1602,6 +1615,7 @@ namespace LayoutFarm
                             ctrlPoint.SetLocation((int)(x + offsetX), (int)(y + offsetY));
                             SetupCornerBoxController(ctrlPoint);
                             _controls.Add(ctrlPoint);
+                            //...
                             _simpleBox.AddChild(ctrlPoint);
                         }
                         break;

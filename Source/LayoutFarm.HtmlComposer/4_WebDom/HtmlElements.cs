@@ -29,7 +29,7 @@ namespace LayoutFarm.Composers
         internal HtmlElement(HtmlDocument owner, int prefix, int localNameIndex)
             : base(owner, prefix, localNameIndex)
         {
-            this._boxSpec = new Css.BoxSpec();
+            _boxSpec = new Css.BoxSpec();
         }
         public override void AddChild(DomNode childNode)
         {
@@ -138,7 +138,7 @@ namespace LayoutFarm.Composers
 
         protected override void OnElementChanged()
         {
-            CssBox box = this._principalBox;
+            CssBox box = _principalBox;
             if (box is CssScrollView)
             {
                 return;
@@ -159,7 +159,7 @@ namespace LayoutFarm.Composers
             //scrollbar width= 10
             scrollView.SetInnerBox(box);
             //change primary render element
-            this._principalBox = scrollView;
+            _principalBox = scrollView;
             scrollView.InvalidateGraphics();
         }
         public override void SetInnerHtml(string innerHtml)
@@ -176,14 +176,14 @@ namespace LayoutFarm.Composers
         public override void GetGlobalLocation(out int x, out int y)
         {
             float globalX, globalY;
-            this._principalBox.GetGlobalLocation(out globalX, out globalY);
+            _principalBox.GetGlobalLocation(out globalX, out globalY);
             x = (int)globalX;
             y = (int)globalY;
         }
         public override void GetGlobalLocationRelativeToRoot(out int x, out int y)
         {
             float globalX, globalY;
-            this._principalBox.GetGlobalLocationRelativeToRoot(out globalX, out globalY);
+            _principalBox.GetGlobalLocationRelativeToRoot(out globalX, out globalY);
             x = (int)globalX;
             y = (int)globalY;
         }
@@ -209,21 +209,21 @@ namespace LayoutFarm.Composers
         }
         internal void SetPrincipalBox(CssBox box)
         {
-            this._principalBox = box;
+            _principalBox = box;
             this.SkipPrincipalBoxEvalulation = true;
         }
         public override float ActualWidth
         {
             get
             {
-                return this._principalBox.VisualWidth;
+                return _principalBox.VisualWidth;
             }
         }
         public override float ActualHeight
         {
             get
             {
-                return this._principalBox.VisualHeight;
+                return _principalBox.VisualHeight;
             }
         }
 
@@ -257,12 +257,12 @@ namespace LayoutFarm.Composers
         }
         internal Css.BoxSpec Spec
         {
-            get { return this._boxSpec; }
+            get { return _boxSpec; }
             //set { this.boxSpec = value; }
         }
         internal CssBox CurrentPrincipalBox
         {
-            get { return this._principalBox; }
+            get { return _principalBox; }
         }
 
         public override bool RemoveChild(DomNode childNode)
@@ -271,7 +271,7 @@ namespace LayoutFarm.Composers
             var childElement = childNode as HtmlElement;
             if (childElement != null && childElement.ParentNode == this)
             {
-                if (this._principalBox != null)
+                if (_principalBox != null)
                 {
                     var cssbox = childElement.CurrentPrincipalBox;
                     if (cssbox != null)
