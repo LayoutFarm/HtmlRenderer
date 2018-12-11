@@ -212,20 +212,12 @@ namespace LayoutFarm.Composers
             _principalBox = box;
             this.SkipPrincipalBoxEvalulation = true;
         }
-        public override float ActualWidth
-        {
-            get
-            {
-                return _principalBox.VisualWidth;
-            }
-        }
-        public override float ActualHeight
-        {
-            get
-            {
-                return _principalBox.VisualHeight;
-            }
-        }
+        public override float ActualWidth => _principalBox.VisualWidth;
+
+
+        public override float ActualHeight => _principalBox.VisualHeight;
+
+
 
 
         //-------------------------------------------
@@ -234,13 +226,8 @@ namespace LayoutFarm.Composers
             //this method is called when HasCustomPrincipalBoxGenerator = true
             throw new NotImplementedException();
         }
-        internal virtual bool HasCustomPrincipalBoxGenerator
-        {
-            //use builtin cssbox generator***
-            get { return false; }
-        }
-
-
+        //
+        internal virtual bool HasCustomPrincipalBoxGenerator => false;//use builtin cssbox generator***
         internal bool IsStyleEvaluated
         {
             get;
@@ -251,19 +238,12 @@ namespace LayoutFarm.Composers
             get;
             set;
         }
-        internal static CssBox InternalGetPrincipalBox(HtmlElement element)
-        {
-            return element._principalBox;
-        }
-        internal Css.BoxSpec Spec
-        {
-            get { return _boxSpec; }
-            //set { this.boxSpec = value; }
-        }
-        internal CssBox CurrentPrincipalBox
-        {
-            get { return _principalBox; }
-        }
+        //
+        internal static CssBox InternalGetPrincipalBox(HtmlElement element) => element._principalBox;
+        //
+        internal Css.BoxSpec Spec => _boxSpec;
+        //
+        internal CssBox CurrentPrincipalBox => _principalBox;
 
         public override bool RemoveChild(DomNode childNode)
         {

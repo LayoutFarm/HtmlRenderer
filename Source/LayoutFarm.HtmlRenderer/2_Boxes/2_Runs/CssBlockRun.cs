@@ -4,16 +4,14 @@ namespace LayoutFarm.HtmlBoxes
 {
     public class CssBlockRun : CssRun
     {
-        CssBox contentBlockBox;
+        CssBox _contentBlockBox;
         public CssBlockRun(CssBox contentBlockBox)
             : base(CssRunKind.BlockRun)
         {
-            this.contentBlockBox = contentBlockBox;
+            _contentBlockBox = contentBlockBox;
         }
-        public CssBox ContentBox
-        {
-            get { return this.contentBlockBox; }
-        }
+        public CssBox ContentBox=>_contentBlockBox; 
+        
         public override void WriteContent(System.Text.StringBuilder stbuilder, int start, int length)
         {
             throw new System.NotImplementedException();

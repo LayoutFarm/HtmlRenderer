@@ -23,32 +23,32 @@ namespace LayoutFarm.WebDom.Parser
         /// <summary>
         /// List of html tags that don't have content 
         /// </summary>
-        static readonly Dictionary<WellknownName, byte> noContentTags = new Dictionary<WellknownName, byte>(); //void element
-        static readonly Dictionary<WellknownName, byte> canbeOmittedTags = new Dictionary<WellknownName, byte>();
+        static readonly Dictionary<WellknownName, byte> _noContentTags = new Dictionary<WellknownName, byte>(); //void element
+        static readonly Dictionary<WellknownName, byte> _canbeOmittedTags = new Dictionary<WellknownName, byte>();
         static HtmlTagMatching()
         {
             //html5 (//BSD, 2014-present, WinterDev -04-24) void elements
             //void elements: no endtag, no content ***
-            noContentTags.Add(WebDom.WellknownName.Area, 0);
-            noContentTags.Add(WebDom.WellknownName.Base, 0);
-            noContentTags.Add(WebDom.WellknownName.Br, 0);
-            noContentTags.Add(WebDom.WellknownName.Col, 0);
-            noContentTags.Add(WebDom.WellknownName.Embed, 0);
-            noContentTags.Add(WebDom.WellknownName.Hr, 0);
-            noContentTags.Add(WebDom.WellknownName.Img, 0);
-            noContentTags.Add(WebDom.WellknownName.Input, 0);
-            noContentTags.Add(WebDom.WellknownName.KeyGen, 0);
-            noContentTags.Add(WebDom.WellknownName.Link, 0);
-            noContentTags.Add(WebDom.WellknownName.MenuItem, 0);
-            noContentTags.Add(WebDom.WellknownName.Meta, 0);
-            noContentTags.Add(WebDom.WellknownName.Param, 0);
-            noContentTags.Add(WebDom.WellknownName.Source, 0);
-            noContentTags.Add(WebDom.WellknownName.Track, 0);
-            noContentTags.Add(WebDom.WellknownName.Wbr, 0);
+            _noContentTags.Add(WebDom.WellknownName.Area, 0);
+            _noContentTags.Add(WebDom.WellknownName.Base, 0);
+            _noContentTags.Add(WebDom.WellknownName.Br, 0);
+            _noContentTags.Add(WebDom.WellknownName.Col, 0);
+            _noContentTags.Add(WebDom.WellknownName.Embed, 0);
+            _noContentTags.Add(WebDom.WellknownName.Hr, 0);
+            _noContentTags.Add(WebDom.WellknownName.Img, 0);
+            _noContentTags.Add(WebDom.WellknownName.Input, 0);
+            _noContentTags.Add(WebDom.WellknownName.KeyGen, 0);
+            _noContentTags.Add(WebDom.WellknownName.Link, 0);
+            _noContentTags.Add(WebDom.WellknownName.MenuItem, 0);
+            _noContentTags.Add(WebDom.WellknownName.Meta, 0);
+            _noContentTags.Add(WebDom.WellknownName.Param, 0);
+            _noContentTags.Add(WebDom.WellknownName.Source, 0);
+            _noContentTags.Add(WebDom.WellknownName.Track, 0);
+            _noContentTags.Add(WebDom.WellknownName.Wbr, 0);
             //*** not in spec, from previous version?
-            noContentTags.Add(WebDom.WellknownName.BaseFont, 0);
-            noContentTags.Add(WebDom.WellknownName.Frame, 0);
-            noContentTags.Add(WebDom.WellknownName.IsIndex, 0);
+            _noContentTags.Add(WebDom.WellknownName.BaseFont, 0);
+            _noContentTags.Add(WebDom.WellknownName.Frame, 0);
+            _noContentTags.Add(WebDom.WellknownName.IsIndex, 0);
             //-----------------------------------------------------------
             //raw text elements:             
             //script,style
@@ -68,9 +68,9 @@ namespace LayoutFarm.WebDom.Parser
 
             //-----------------------------------------------------------
             //12.1.2.4 Optional tags
-            canbeOmittedTags.Add(WellknownName.TD, 0);
-            canbeOmittedTags.Add(WellknownName.TR, 0);
-            canbeOmittedTags.Add(WellknownName.P, 0);
+            _canbeOmittedTags.Add(WellknownName.TD, 0);
+            _canbeOmittedTags.Add(WellknownName.TR, 0);
+            _canbeOmittedTags.Add(WellknownName.P, 0);
             //-----------------------------------------------------------
         }
         /// <summary>
@@ -80,7 +80,7 @@ namespace LayoutFarm.WebDom.Parser
         /// <returns>true - is single tag, false - otherwise</returns>
         public static bool IsSingleTag(int nameIndex)// HtmlRenderer.Dom.WellknownHtmlTagName tagName)
         {
-            return noContentTags.ContainsKey((WellknownName)nameIndex);
+            return _noContentTags.ContainsKey((WellknownName)nameIndex);
         }
         /// <summary>
         /// test if tag can auto close when there is no more content in the parent element
@@ -90,7 +90,7 @@ namespace LayoutFarm.WebDom.Parser
         public static bool CanAutoClose(int nameIndex)
         {
             byte found;
-            if (canbeOmittedTags.TryGetValue((WellknownName)nameIndex, out found))
+            if (_canbeOmittedTags.TryGetValue((WellknownName)nameIndex, out found))
             {
                 return true;
             }

@@ -9,25 +9,23 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
 {
     sealed class CssExternalRun : CssRun
     {
-        RenderElement externalRenderE;
-        Rectangle renderElementRect;
+        RenderElement _externalRenderE;
+        Rectangle _renderElementRect;
         public CssExternalRun(RenderElement externalRenderE)
             : base(CssRunKind.SolidContent) //act as image run****
         {
             //in this version we make it as as image run
-            this.externalRenderE = externalRenderE;
+            _externalRenderE = externalRenderE;
         }
-        public RenderElement RenderElement
-        {
-            get { return this.externalRenderE; }
-        }
+        public RenderElement RenderElement => _externalRenderE;
+
         /// <summary>
         /// the image rectange restriction as returned from image load event
         /// </summary>
         public Rectangle ExternalRunRect
         {
-            get { return renderElementRect; }
-            set { renderElementRect = value; }
+            get => _renderElementRect;
+            set => _renderElementRect = value;
         }
 
         public override void WriteContent(StringBuilder stbuilder, int start, int length)
@@ -41,7 +39,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
         /// <returns></returns>
         public override string ToString()
         {
-            return "extRun:" + externalRenderE.ToString();
+            return "extRun:" + _externalRenderE.ToString();
         }
 #endif
     }
@@ -51,11 +49,11 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
         /// <summary>
         /// offset x from nearest ancester render element 
         /// </summary>
-        protected int adjustX;
+        protected int _adjustX;
         /// <summary>
         /// offset y from nearest ancester render element 
         /// </summary>
-        protected int adjustY;
+        protected int _adjustY;
         public WrapperCssBoxBase(object controller,
              BoxSpec spec,
              RootGraphic rootgfx, CssDisplay display)
@@ -65,23 +63,18 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
         }
 
         internal abstract RenderElement GetParentRenderElement(out int globalX, out int globalY);
-        RenderElement RenderBoxes.IParentLink.ParentRenderElement
-        {
-            get
-            {
-
-                return this.GetParentRenderElement(out int globalX, out int globalY);
-            }
-        }
+        //
+        RenderElement RenderBoxes.IParentLink.ParentRenderElement => this.GetParentRenderElement(out int globalX, out int globalY);
+        //
         protected abstract void AdjustLocalLocation(ref Point p);
         void RenderBoxes.IParentLink.AdjustLocation(ref Point p)
         {
             AdjustLocalLocation(ref p);
             this.GetGlobalLocationRelativeToRoot(out float gx, out float gy);
-            adjustX = (int)gx;
-            adjustY = (int)gy;
+            _adjustX = (int)gx;
+            _adjustY = (int)gy;
 
-            p.Offset(adjustX, adjustY);
+            p.Offset(_adjustX, _adjustY);
         }
         RenderElement RenderBoxes.IParentLink.FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
         {
@@ -101,7 +94,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
     /// </summary>
     sealed class WrapperInlineCssBox : WrapperCssBoxBase
     {
-        CssExternalRun externalRun;
+        CssExternalRun _externalRun;
         HtmlHost _htmlhost;
 
         public WrapperInlineCssBox(
@@ -116,10 +109,10 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
             //int h = re.Height;
 
             ChangeDisplayType(this, CssDisplay.Inline);
-            this.externalRun = new CssExternalRun(re);
-            this.externalRun.SetOwner(this);
+            _externalRun = new CssExternalRun(re);
+            _externalRun.SetOwner(this);
             var runlist = new List<CssRun>(1);
-            runlist.Add(externalRun);
+            runlist.Add(_externalRun);
             CssBox.UnsafeSetContentRuns(this, runlist, false);
             ChangeDisplayType(this, Css.CssDisplay.Inline);
             //---------------------------------------------------  
@@ -127,13 +120,13 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
         }
         protected override void AdjustLocalLocation(ref Point p)
         {
-            p.Offset((int)externalRun.Left, (int)externalRun.Top);
+            p.Offset((int)_externalRun.Left, (int)_externalRun.Top);
         }
         public override void Clear()
         {
             base.Clear();
             var runlist = new List<CssRun>(1);
-            runlist.Add(externalRun);
+            runlist.Add(_externalRun);
             CssBox.UnsafeSetContentRuns(this, runlist, false);
         }
         public override void Paint(PaintVisitor p, RectangleF r)
@@ -144,7 +137,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
             DrawBoard canvasPage = p.InnerDrawBoard;
             canvasPage.OffsetCanvasOrigin(x, y);
             updateArea.Offset(-x, -y);
-            externalRun.RenderElement.DrawToThisCanvas(canvasPage, updateArea);
+            _externalRun.RenderElement.DrawToThisCanvas(canvasPage, updateArea);
             canvasPage.OffsetCanvasOrigin(-x, -y);
         }
 
@@ -165,16 +158,16 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
                 return;
             }
             this.RunSizeMeasurePass = true;
-            this.externalRun.Width = this.externalRun.RenderElement.Width;
-            this.externalRun.Height = this.externalRun.RenderElement.Height;
+            _externalRun.Width = _externalRun.RenderElement.Width;
+            _externalRun.Height = _externalRun.RenderElement.Height;
         }
         //---------------------------------------------------------------------------------------
         internal override RenderElement GetParentRenderElement(out int globalX, out int globalY)
         {
             CssBox cbox = this;
             //start  
-            globalX = (int)this.externalRun.Left;
-            globalY = (int)this.externalRun.Top;
+            globalX = (int)_externalRun.Left;
+            globalY = (int)_externalRun.Top;
             while (cbox != null)
             {
                 globalX += (int)cbox.LocalX;
@@ -182,8 +175,8 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
                 var renderRoot = cbox as LayoutFarm.HtmlBoxes.RenderElementBridgeCssBox;
                 if (renderRoot != null)
                 {
-                    this.adjustX = globalX;
-                    this.adjustY = globalY;
+                    _adjustX = globalX;
+                    _adjustY = globalY;
                     return renderRoot.ContainerElement;
                 }
                 else
@@ -205,7 +198,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
     sealed class WrapperBlockCssBox : WrapperCssBoxBase
     {
         HtmlHost _htmlHost;
-        RenderElement renderE;
+        RenderElement _renderE;
         public WrapperBlockCssBox(
              HtmlHost htmlHost,
              object controller,
@@ -217,7 +210,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
             SetAsCustomCssBox(this);
             int w = renderElement.Width;
             int h = renderElement.Height;
-            this.renderE = renderElement;
+            _renderE = renderElement;
             ChangeDisplayType(this, CssDisplay.Block);
             this.SetVisualSize(w, h);
             LayoutFarm.RenderElement.SetParentLink(renderElement, this);
@@ -252,8 +245,8 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
 #if DEBUG
             p.dbugEnterNewContext(this, PaintVisitor.PaintVisitorContextName.Init);
 #endif
-            Rectangle rect = new Rectangle(0, 0, renderE.Width, renderE.Height);
-            this.renderE.DrawToThisCanvas(p.InnerDrawBoard, rect);
+            Rectangle rect = new Rectangle(0, 0, _renderE.Width, _renderE.Height);
+            _renderE.DrawToThisCanvas(p.InnerDrawBoard, rect);
 #if DEBUG
             p.dbugExitContext();
 #endif
@@ -273,8 +266,8 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
                 var renderRoot = cbox as LayoutFarm.HtmlBoxes.RenderElementBridgeCssBox;
                 if (renderRoot != null)
                 {
-                    this.adjustX = globalX;
-                    this.adjustY = globalY;
+                    _adjustX = globalX;
+                    _adjustY = globalY;
                     return renderRoot.ContainerElement;
                 }
                 else

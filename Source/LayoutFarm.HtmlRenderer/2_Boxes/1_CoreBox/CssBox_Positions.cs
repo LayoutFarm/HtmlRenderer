@@ -69,27 +69,14 @@ namespace LayoutFarm.HtmlBoxes
         /// <summary>
         /// local visual X
         /// </summary>
-        public float LocalX
-        {
-            get { return _localX; }
-        }
+        public float LocalX => _localX;
         /// <summary>
         /// local visual y 
         /// </summary>
-        public float LocalY
-        {
-            get { return _localY; }
-        }
-        public float LocalVisualRight
-        {
-            //from parent view
-            get { return this.LocalX + this.VisualWidth; }
-        }
-        public float LocalVisualBottom
-        {
-            //from parent view 
-            get { return this.LocalY + this.VisualHeight; }
-        }
+        public float LocalY => _localY;
+        public float LocalVisualRight => this.LocalX + this.VisualWidth;   //from parent view 
+        public float LocalVisualBottom => this.LocalY + this.VisualHeight;   //from parent view 
+
         //--------------------------------
         /// <summary>
         /// set location relative to container box
@@ -154,10 +141,9 @@ namespace LayoutFarm.HtmlBoxes
             //box values need to recompute value again 
             box._boxCompactFlags &= ~BoxFlags.LAY_EVAL_COMPUTE_VALUES;
         }
-        internal bool NeedComputedValueEvaluation
-        {
-            get { return (_boxCompactFlags & BoxFlags.LAY_EVAL_COMPUTE_VALUES) == 0; }
-        }
+        //
+        internal bool NeedComputedValueEvaluation => (_boxCompactFlags & BoxFlags.LAY_EVAL_COMPUTE_VALUES) == 0;
+
 
         public void ReEvaluateFont(ITextService iFonts, float parentFontSize)
         {
@@ -374,17 +360,17 @@ namespace LayoutFarm.HtmlBoxes
             {
                 //temp fix here
                 //TODO: review move shadow to external decoration object/box
-                if (decorator == null)
+                if (_decorator == null)
                 {
-                    decorator = new CssBoxDecorator();
+                    _decorator = new CssBoxDecorator();
                 }
-                decorator.HBoxShadowOffset = (int)CssValueParser.ConvertToPx(spec.BoxShadowHOffset, 0, this);
-                decorator.VBoxShadowOffset = (int)CssValueParser.ConvertToPx(spec.BoxShadowVOffset, 0, this);
-                decorator.Color = spec.BoxShadowColor;
+                _decorator.HBoxShadowOffset = (int)CssValueParser.ConvertToPx(spec.BoxShadowHOffset, 0, this);
+                _decorator.VBoxShadowOffset = (int)CssValueParser.ConvertToPx(spec.BoxShadowVOffset, 0, this);
+                _decorator.Color = spec.BoxShadowColor;
             }
             else
             {
-                this.decorator = null;
+                _decorator = null;
             }
         }
 
@@ -560,45 +546,20 @@ namespace LayoutFarm.HtmlBoxes
         /// <summary>
         /// presentation width (border+ padding+ content), for clip area, not include margin
         /// </summary>
-        public float VisualWidth
-        {
-            get
-            {
-
-                return _visualWidth;
-            }
-        }
+        public float VisualWidth => _visualWidth;
         /// <summary>
         /// presentaion height (border+padding+ content), for clip area,not include margin
         /// </summary>
-        public float VisualHeight
-        {
-            get
-            {
-                return _visualHeight;
-            }
-        }
+        public float VisualHeight => _visualHeight;
         //-------------------------------------------------------
         /// <summary>
         /// Gets the actual height
         /// </summary>
-        public float ExpectedHeight
-        {
-            get
-            {
-                return _expectedHight;
-            }
-        }
+        public float ExpectedHeight => _expectedHight;
         /// <summary>
         /// Gets the actual width 
         /// </summary>
-        public float ExpectedWidth
-        {
-            get
-            {
-                return _expectedWidth;
-            }
-        }
+        public float ExpectedWidth => _expectedWidth;
         internal bool HasClipArea
         {
             get;
@@ -620,268 +581,129 @@ namespace LayoutFarm.HtmlBoxes
         /// <summary>
         /// Gets the actual top's padding
         /// </summary>
-        public float ActualPaddingTop
-        {
-            get
-            {
-#if DEBUG
-                //if ((_boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
-                //{
-                //    //if not evaluate
-                //    System.Diagnostics.Debugger.Break();
-                //}
-                //if (_actualPaddingBottom > 10)
-                //{
-                //}
-#endif
-                return _actualPaddingTop;
-            }
-        }
+        public float ActualPaddingTop => _actualPaddingTop;
+
+
 
         /// <summary>
         /// Gets the actual padding on the left
         /// </summary>
-        public float ActualPaddingLeft
-        {
-            get
-            {
-#if DEBUG
-                //if ((_boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
-                //{
-                //    //if not evaluate
-                //    System.Diagnostics.Debugger.Break();
-                //}
-                //if (_actualPaddingLeft > 10)
-                //{
+        public float ActualPaddingLeft => _actualPaddingLeft;
 
-                //}
-#endif
-                return _actualPaddingLeft;
-            }
-        }
+
         /// <summary>
         /// Gets the actual padding on the right
         /// </summary>
-        public float ActualPaddingRight
-        {
-            get
-            {
-#if DEBUG
-                //if ((_boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
-                //{
-                //    //if not evaluate
-                //    System.Diagnostics.Debugger.Break();
-                //}
-                //if (_actualPaddingLeft > 10)
-                //{ 
-                //}
-#endif
-                return _actualPaddingRight;
-                //return _actualPaddingRight;
-            }
-        }
+        public float ActualPaddingRight => _actualPaddingRight;
+        //return _actualPaddingRight;
+
+
         /// <summary>
         /// Gets the actual Padding of the bottom
         /// </summary>
-        public float ActualPaddingBottom
-        {
-            get
-            {
-#if DEBUG
-                //if ((_boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
-                //{
-                //    //if not evaluate
-                //    System.Diagnostics.Debugger.Break();
-                //}
-                //if (_actualPaddingBottom > 10)
-                //{
-                //}
-#endif
-                return _actualPaddingBottom;
-            }
-        }
+        public float ActualPaddingBottom => _actualPaddingBottom;
+
+
 
         //============================================================
         /// <summary>
         /// Gets the actual top's Margin
         /// </summary>
-        public float ActualMarginTop
-        {
-            get
-            {
-#if DEBUG
-                //if ((_boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
-                //{
-                //    //if not evaluate
-                //    System.Diagnostics.Debugger.Break();
-                //}
-#endif
-                return _actualMarginTop;
-            }
-        }
+        public float ActualMarginTop => _actualMarginTop;
+
+
 
 
         /// <summary>
         /// Gets the actual Margin on the left
         /// </summary>
-        public float ActualMarginLeft
-        {
-            get
-            {
-#if DEBUG
-                //if ((_boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
-                //{
-                //    //if not evaluate
-                //    System.Diagnostics.Debugger.Break();
-                //}
-#endif
-                return _actualMarginLeft;
-            }
-        }
+        public float ActualMarginLeft => _actualMarginLeft;
+
+
 
         /// <summary>
         /// Gets the actual Margin of the bottom
         /// </summary>
-        internal float ActualMarginBottom
-        {
-            get
-            {
-                return _actualMarginBottom;
-            }
-        }
+        internal float ActualMarginBottom => _actualMarginBottom;
+
+
 
         /// <summary>
         /// Gets the actual Margin on the right
         /// </summary>
-        internal float ActualMarginRight
-        {
-            get
-            {
-                return _actualMarginRight;
-            }
-        }
+        internal float ActualMarginRight => _actualMarginRight;
+
+
         //====================================================
         /// <summary>
         /// Gets the actual top border width
         /// </summary>
-        internal float ActualBorderTopWidth
-        {
-            get
-            {
-#if DEBUG
-                //if ((_boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
-                //{
-                //    //if not evaluate
-                //    System.Diagnostics.Debugger.Break();
-                //}
-#endif
+        internal float ActualBorderTopWidth => _actualBorderTopWidth;
 
-                return _actualBorderTopWidth;
-            }
-        }
+
 
         /// <summary>
         /// Gets the actual Left border width
         /// </summary>
-        internal float ActualBorderLeftWidth
-        {
-            get
-            {
-                return _actualBorderLeftWidth;
-            }
-        }
+        internal float ActualBorderLeftWidth => _actualBorderLeftWidth;
+
+
 
         /// <summary>
         /// Gets the actual Bottom border width
         /// </summary>
-        internal float ActualBorderBottomWidth
-        {
-            get
-            {
-                return _actualBorderBottomWidth;
-            }
-        }
+        internal float ActualBorderBottomWidth => _actualBorderBottomWidth;
+
+
 
         /// <summary>
         /// Gets the actual Right border width
         /// </summary>
-        internal float ActualBorderRightWidth
-        {
-            get
-            {
-                return _actualBorderRightWidth;
-            }
-        }
+        internal float ActualBorderRightWidth => _actualBorderRightWidth;
+
+
         //=======================================
         /// <summary>
         /// Gets the actual lenght of the north west corner
         /// </summary>
-        internal float ActualCornerNW
-        {
-            get
-            {
-                return _actualCornerNW;
-            }
-        }
+        internal float ActualCornerNW => _actualCornerNW;
+
+
 
         /// <summary>
         /// Gets the actual lenght of the north east corner
         /// </summary>
-        internal float ActualCornerNE
-        {
-            get
-            {
-                return _actualCornerNE;
-            }
-        }
+        internal float ActualCornerNE => _actualCornerNE;
+
+
 
         /// <summary>
         /// Gets the actual lenght of the south east corner
         /// </summary>
-        internal float ActualCornerSE
-        {
-            get
-            {
-                return _actualCornerSE;
-            }
-        }
+        internal float ActualCornerSE => _actualCornerSE;
+
+
 
         /// <summary>
         /// Gets the actual lenght of the south west corner
         /// </summary>
-        internal float ActualCornerSW
-        {
-            get
-            {
-                return _actualCornerSW;
-            }
-        }
+        internal float ActualCornerSW => _actualCornerSW;
+
+
 
         /// <summary>
         /// Gets a value indicating if at least one of the corners of the box is rounded
         /// </summary>
-        internal bool HasSomeRoundCorner
-        {
-            get
-            {
-                return (_boxCompactFlags & BoxFlags.HAS_ROUND_CORNER) != 0;
-            }
-        }
-        internal bool HasVisibleBgColor
-        {
-            get
-            {
-                return (_boxCompactFlags & BoxFlags.HAS_VISIBLE_BG) != 0;
-            }
-        }
+        internal bool HasSomeRoundCorner => (_boxCompactFlags & BoxFlags.HAS_ROUND_CORNER) != 0;
 
-        internal bool HasSomeVisibleBorder
-        {
-            get
-            {
-                return (_boxCompactFlags & BoxFlags.HAS_SOME_VISIBLE_BORDER) != 0;
-            }
-        }
+
+        internal bool HasVisibleBgColor => (_boxCompactFlags & BoxFlags.HAS_VISIBLE_BG) != 0;
+
+
+
+        internal bool HasSomeVisibleBorder => (_boxCompactFlags & BoxFlags.HAS_SOME_VISIBLE_BORDER) != 0;
+
+
 
 
         protected bool RunSizeMeasurePass
@@ -964,7 +786,7 @@ namespace LayoutFarm.HtmlBoxes
         void GetGlobalLocationRelativeToRoot(ref PointF location)
         {
 
-            if (this.justBlockRun != null)
+            if (_justBlockRun != null)
             {
                 //recursive
                 if (_viewportX != 0 || _viewportY != 0)
@@ -973,11 +795,11 @@ namespace LayoutFarm.HtmlBoxes
                 }
 
                 location.Offset(
-                    (int)(justBlockRun.Left),
-                    (int)(justBlockRun.Top + justBlockRun.HostLine.CachedLineTop));
+                    (int)(_justBlockRun.Left),
+                    (int)(_justBlockRun.Top + _justBlockRun.HostLine.CachedLineTop));
 
                 //recursive
-                justBlockRun.HostLine.OwnerBox.GetGlobalLocationRelativeToRoot(ref location);
+                _justBlockRun.HostLine.OwnerBox.GetGlobalLocationRelativeToRoot(ref location);
                 return;//***
             }
 
@@ -1009,22 +831,18 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         public float InnerContentWidth
         {
-            get { return _innerContentW; }
-            internal set
-            {
-                _innerContentW = value;
-            }
+            get => _innerContentW;
+            internal set => _innerContentW = value;
+
         }
         /// <summary>
         /// inner content height
         /// </summary>
         public float InnerContentHeight
         {
-            get { return _innerContentH; }
-            internal set
-            {
-                _innerContentH = value;
-            }
+            get => _innerContentH;
+            internal set => _innerContentH = value;
+
         }
 
         //-----------
@@ -1040,13 +858,14 @@ namespace LayoutFarm.HtmlBoxes
         }
 
 
-        public int ViewportX { get { return _viewportX; } }
-        public int ViewportY { get { return _viewportY; } }
+        public int ViewportX => _viewportX;
+        public int ViewportY => _viewportY;
+        //
         public void SetViewport(int viewportX, int viewportY)
         {
             _viewportX = viewportX;
             _viewportY = viewportY;
-            this.mayHasViewport = true;
+            _mayHasViewport = true;
             this.InvalidateGraphics();
         }
     }

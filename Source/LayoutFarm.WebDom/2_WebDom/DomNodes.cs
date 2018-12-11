@@ -22,8 +22,8 @@ namespace LayoutFarm.WebDom
 
     public abstract class DomNode : INode
     {
-        WebDocument ownerDoc;
-        DomNode parentNode;
+        WebDocument _ownerDoc;
+        DomNode _parentNode;
         HtmlNodeKind _nodeKind;
 #if DEBUG
         static int dbugTotalId;
@@ -33,7 +33,7 @@ namespace LayoutFarm.WebDom
 
         internal DomNode(WebDocument ownerDoc)
         {
-            this.ownerDoc = ownerDoc;
+            _ownerDoc = ownerDoc;
 #if DEBUG
             this.dbugId = dbugTotalId;
             dbugTotalId++;
@@ -44,28 +44,16 @@ namespace LayoutFarm.WebDom
 #endif
 
         }
-        public DocumentState DocState
-        {
-            get
-            {
-                return this.ownerDoc.DocumentState;
-            }
-        }
-        public DomNode ParentNode
-        {
-            get
-            {
-                return this.parentNode;
-            }
-        }
+        public DocumentState DocState => _ownerDoc.DocumentState;
+
+
+        public DomNode ParentNode => _parentNode;
+
+
         DomNode _subParentNode;
-        public DomNode SubParentNode
-        {
-            get
-            {
-                return _subParentNode;
-            }
-        }
+        public DomNode SubParentNode => _subParentNode;
+
+
         public void SetSubParentNode(DomNode subParentNode)
         {
             _subParentNode = subParentNode;
@@ -74,68 +62,54 @@ namespace LayoutFarm.WebDom
         {
             _nodeKind = nodekind;
         }
-        public HtmlNodeKind NodeKind
-        {
-            get
-            {
-                return _nodeKind;
-            }
-        }
+        //
+        public HtmlNodeKind NodeKind => _nodeKind;
 
-        public WebDocument OwnerDocument
-        {
-            get
-            {
-                return ownerDoc;
-            }
-        }
-
+        public WebDocument OwnerDocument => _ownerDoc;
 
         internal void SetParent(DomNode parentNode)
         {
 
-            this.parentNode = parentNode;
+            _parentNode = parentNode;
         }
     }
 
 
     public abstract class DomTextNode : DomNode, ITextNode
     {
-        char[] copyBuffer;
+        char[] _copyBuffer;
         public DomTextNode(WebDocument ownerDoc, char[] copyBuffer)
             : base(ownerDoc)
         {
             SetNodeType(HtmlNodeKind.TextNode);
-            this.copyBuffer = copyBuffer;
+            _copyBuffer = copyBuffer;
         }
         public void AppendTextContent(char[] newCopyBuffer)
         {
-            if (copyBuffer != null)
+            if (_copyBuffer != null)
             {
-                char[] newbuffer = new char[copyBuffer.Length + newCopyBuffer.Length];
-                Array.Copy(copyBuffer, newbuffer, copyBuffer.Length);
-                Array.Copy(newCopyBuffer, 0, newbuffer, copyBuffer.Length, newCopyBuffer.Length);
-                this.copyBuffer = newbuffer;
+                char[] newbuffer = new char[_copyBuffer.Length + newCopyBuffer.Length];
+                Array.Copy(_copyBuffer, newbuffer, _copyBuffer.Length);
+                Array.Copy(newCopyBuffer, 0, newbuffer, _copyBuffer.Length, newCopyBuffer.Length);
+                _copyBuffer = newbuffer;
             }
             else
             {
-                this.copyBuffer = newCopyBuffer;
+                _copyBuffer = newCopyBuffer;
             }
         }
-        public char[] GetOriginalBuffer()
-        {
-            return copyBuffer;
-        }
+        public char[] GetOriginalBuffer() => _copyBuffer;
+
 #if DEBUG
         public override string ToString()
         {
-            if (copyBuffer != null)
+            if (_copyBuffer != null)
             {
                 return "t-node" + string.Empty;
             }
             else
             {
-                return "t-node " + new string(this.copyBuffer);
+                return "t-node " + new string(_copyBuffer);
             }
         }
 #endif
@@ -148,15 +122,11 @@ namespace LayoutFarm.WebDom
         {
             SetNodeType(HtmlNodeKind.Comment);
         }
-        public StringBuilder Content
-        {
-            get;
-            set;
-        }
+        public StringBuilder Content { get; set; }
     }
     public class DomDocumentNode : DomNode
     {
-        List<string> docNodeAttrList;
+        List<string> _docNodeAttrList;
         public DomDocumentNode(WebDocument ownerDoc)
             : base(ownerDoc)
         {
@@ -165,11 +135,11 @@ namespace LayoutFarm.WebDom
         public string DocNodeName { get; set; }
         public void AddParameter(string nodeParameter)
         {
-            if (docNodeAttrList == null)
+            if (_docNodeAttrList == null)
             {
-                docNodeAttrList = new List<string>();
+                _docNodeAttrList = new List<string>();
             }
-            docNodeAttrList.Add(nodeParameter);
+            _docNodeAttrList.Add(nodeParameter);
         }
 #if DEBUG
         public override string ToString()
@@ -177,9 +147,9 @@ namespace LayoutFarm.WebDom
             StringBuilder stbuilder = new StringBuilder();
             stbuilder.Append("<!");
             stbuilder.Append(this.DocNodeName);
-            if (docNodeAttrList != null)
+            if (_docNodeAttrList != null)
             {
-                foreach (var str in docNodeAttrList)
+                foreach (var str in _docNodeAttrList)
                 {
                     stbuilder.Append(' ');
                     stbuilder.Append(str);
@@ -192,18 +162,14 @@ namespace LayoutFarm.WebDom
     }
     public class DomProcessInstructionNode : DomNode
     {
-        int procName;
+        int _procName;
         internal DomProcessInstructionNode(WebDocument ownerDoc, int procName)
             : base(ownerDoc)
         {
-            this.procName = procName;
+            _procName = procName;
             SetNodeType(HtmlNodeKind.ProcessInstruction);
         }
-        public StringBuilder Content
-        {
-            get;
-            set;
-        }
+        public StringBuilder Content { get; set; }
     }
     public class DomCDataNode : DomNode
     {
@@ -212,11 +178,7 @@ namespace LayoutFarm.WebDom
         {
             SetNodeType(HtmlNodeKind.CData);
         }
-        public string Content
-        {
-            get;
-            set;
-        }
+        public StringBuilder Content { get; set; }
     }
 
     /// <summary>
@@ -224,59 +186,43 @@ namespace LayoutFarm.WebDom
     /// </summary>
     public class DomAttribute : DomNode
     {
-        internal int nodePrefixNameIndex;
-        internal int nodeLocalNameIndex;
-        string attrValue;
+        internal int _nodePrefixNameIndex;
+        internal int _nodeLocalNameIndex;
+        string _attrValue;
         public DomAttribute(WebDocument ownerDoc,
             int nodePrefixNameIndex,
             int nodeLocalNameIndex)
             : base(ownerDoc)
         {
             SetNodeType(HtmlNodeKind.Attribute);
-            this.nodePrefixNameIndex = nodePrefixNameIndex;
-            this.nodeLocalNameIndex = nodeLocalNameIndex;
+            _nodePrefixNameIndex = nodePrefixNameIndex;
+            _nodeLocalNameIndex = nodeLocalNameIndex;
         }
 
         public string Value
         {
-            get { return this.attrValue; }
-            set { this.attrValue = value; }
+            get => _attrValue;
+            set => _attrValue = value;
         }
 
-        public string Prefix
-        {
-            get
-            {
-                return OwnerDocument.GetString(this.nodePrefixNameIndex);
-            }
-        }
-        public string LocalName
-        {
-            get
-            {
-                return OwnerDocument.GetString(this.nodeLocalNameIndex);
-            }
-        }
-        public int LocalNameIndex
-        {
-            get
-            {
-                return this.nodeLocalNameIndex;
-            }
-        }
-        public int PrefixNameIndex
-        {
-            get
-            {
-                return this.nodePrefixNameIndex;
-            }
-        }
+        public string Prefix => OwnerDocument.GetString(_nodePrefixNameIndex);
+
+
+        public string LocalName => OwnerDocument.GetString(_nodeLocalNameIndex);
+
+
+        public int LocalNameIndex => _nodeLocalNameIndex;
+
+
+        public int PrefixNameIndex => _nodePrefixNameIndex;
+
+
 
 #if DEBUG
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            if (this.nodePrefixNameIndex > 0)
+            if (_nodePrefixNameIndex > 0)
             {
                 sb.Append(Prefix);
                 sb.Append(':');
@@ -297,22 +243,18 @@ namespace LayoutFarm.WebDom
 #endif
         //-------------------------------
 
-        public string Name
-        {
-            get
-            {
-                return this.LocalName;
-            }
-        }
+        public string Name => this.LocalName;
+
+
     }
 
 
     public static class WellKnownDomNodeMap
     {
-        static readonly ValueMap<WellKnownDomNodeName> _wellknownHtmlTagNameMap = new ValueMap<WellKnownDomNodeName>();
+        static readonly ValueMap<WellKnownDomNodeName> s_wellknownHtmlTagNameMap = new ValueMap<WellKnownDomNodeName>();
         public static WellKnownDomNodeName EvaluateTagName(string name)
         {
-            return _wellknownHtmlTagNameMap.GetValueFromString(name, WellKnownDomNodeName.Unknown);
+            return s_wellknownHtmlTagNameMap.GetValueFromString(name, WellKnownDomNodeName.Unknown);
         }
 
     }

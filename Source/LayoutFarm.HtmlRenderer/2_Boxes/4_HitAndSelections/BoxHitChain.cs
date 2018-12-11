@@ -44,78 +44,68 @@ namespace LayoutFarm.HtmlBoxes
 
     public class CssBoxHitChain
     {
-        float globalOffsetX;
-        float globalOffsetY;
-        int rootGlobalX;
-        int rootGlobalY;
-        List<HitInfo> hitInfoList = new List<HitInfo>();
+        float _globalOffsetX;
+        float _globalOffsetY;
+        int _rootGlobalX;
+        int _rootGlobalY;
+        List<HitInfo> _hitInfoList = new List<HitInfo>();
 
         internal CssBoxHitChain()
         {
         }
         internal void SetRootGlobalPosition(int globalX, int globalY)
         {
-            this.rootGlobalX = globalX;
-            this.rootGlobalY = globalY;
+            _rootGlobalX = globalX;
+            _rootGlobalY = globalY;
         }
-        public int RootGlobalX
-        {
-            get { return this.rootGlobalX; }
-        }
-        public int RootGlobalY
-        {
-            get { return this.rootGlobalY; }
-        }
+        //
+        public int RootGlobalX => _rootGlobalX;
 
+        public int RootGlobalY => _rootGlobalY;
+
+        public int Count => _hitInfoList.Count;
+        //
         public void Clear()
         {
-            this.hitInfoList.Clear();
-            globalOffsetX = globalOffsetY = rootGlobalX = rootGlobalY = 0;
+            _hitInfoList.Clear();
+            _globalOffsetX = _globalOffsetY = _rootGlobalX = _rootGlobalY = 0;
         }
-        public int Count
-        {
-            get
-            {
-                return this.hitInfoList.Count;
-            }
-        }
+        //
 
         internal void PushContextBox(CssBox box)
         {
             //TODO: review here 
-            globalOffsetX += box.LocalX;
-            globalOffsetY += box.LocalY;
+            _globalOffsetX += box.LocalX;
+            _globalOffsetY += box.LocalY;
         }
         internal void PopContextBox(CssBox box)
         {
-            globalOffsetX -= box.LocalX;
-            globalOffsetY -= box.LocalY;
+            _globalOffsetX -= box.LocalX;
+            _globalOffsetY -= box.LocalY;
         }
         internal void AddHit(CssBox box, int x, int y)
         {
             //position x,y relate with (0,0) of its box
-            hitInfoList.Add(new HitInfo(box, x, y));
+            _hitInfoList.Add(new HitInfo(box, x, y));
         }
 
         internal void AddHit(CssLineBox lineBox, int x, int y)
         {
             //position x,y relate with (0,0) of its linebox
-            hitInfoList.Add(new HitInfo(lineBox, x, y));
+            _hitInfoList.Add(new HitInfo(lineBox, x, y));
         }
         internal void AddHit(CssRun run, int x, int y)
         {
             //position x,y relate with (0,0) of its run
 
-            hitInfoList.Add(new HitInfo(run, x, y));
+            _hitInfoList.Add(new HitInfo(run, x, y));
         }
 
-        public HitInfo GetHitInfo(int index)
-        {
-            return this.hitInfoList[index];
-        }
+        public HitInfo GetHitInfo(int index) => _hitInfoList[index];
+
         public HitInfo GetLastHit()
         {
-            int j = hitInfoList.Count;
+            int j = _hitInfoList.Count;
             if (j == 0)
             {
                 //empty
@@ -123,17 +113,14 @@ namespace LayoutFarm.HtmlBoxes
             }
             else
             {
-                return hitInfoList[j - 1];
+                return _hitInfoList[j - 1];
             }
         }
-        internal float GlobalOffsetX
-        {
-            get { return this.globalOffsetX; }
-        }
-        internal float GlobalOffsetY
-        {
-            get { return this.globalOffsetY; }
-        }
+        //
+        internal float GlobalOffsetX => _globalOffsetX;
+
+        internal float GlobalOffsetY => _globalOffsetY;
+
 
 #if DEBUG
 

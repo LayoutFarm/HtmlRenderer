@@ -75,21 +75,14 @@ namespace LayoutFarm.HtmlBoxes
                     break;
             }
         }
-        internal CssBox LatestLeftFloatBox
-        {
-            get { return _latestFloatingContext.LatestLeftFloatBox; }
-        }
-        public CssBox LatestRightFloatBox
-        {
-            get
-            {
-                return _latestFloatingContext.LatestRightFloatBox;
-            }
-        }
-        public bool HasFloatBoxInContext
-        {
-            get { return _latestFloatingContext != null && _latestFloatingContext.HasFloatBox; }
-        }
+        //
+        internal CssBox LatestLeftFloatBox => _latestFloatingContext.LatestLeftFloatBox;
+
+        public CssBox LatestRightFloatBox => _latestFloatingContext.LatestRightFloatBox;
+
+
+        public bool HasFloatBoxInContext => _latestFloatingContext != null && _latestFloatingContext.HasFloatBox;
+
 
         public void AddFloatBox(CssBox floatBox)
         {
@@ -117,10 +110,8 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
 
-        public List<FloatingContext> GetTotalContexts()
-        {
-            return _totalContexts;
-        }
+        public List<FloatingContext> GetTotalContexts() => _totalContexts;
+
     }
 
     class FloatingContext
@@ -133,10 +124,8 @@ namespace LayoutFarm.HtmlBoxes
         {
             _owner = owner;
         }
-        public CssBox Owner
-        {
-            get { return _owner; }
-        }
+        public CssBox Owner => _owner;
+
         public void AddFloatBox(CssBox box)
         {
             if (_floatBoxes == null)
@@ -156,26 +145,16 @@ namespace LayoutFarm.HtmlBoxes
                     throw new NotSupportedException();
             }
         }
-        public CssBox LatestLeftFloatBox
-        {
-            get { return _latestLeftFloatBox; }
-        }
-        public CssBox LatestRightFloatBox
-        {
-            get { return _latestRightFloatBox; }
-        }
-        public bool HasFloatBox
-        {
-            get { return _latestLeftFloatBox != null || _latestRightFloatBox != null; }
-        }
+        public CssBox LatestLeftFloatBox => _latestLeftFloatBox;
 
-        public bool OwnerIsFloat
-        {
-            get
-            {
-                return _owner.Float != Css.CssFloat.None;
-            }
-        }
+        public CssBox LatestRightFloatBox => _latestRightFloatBox;
+
+        public bool HasFloatBox => _latestLeftFloatBox != null || _latestRightFloatBox != null;
+
+
+        public bool OwnerIsFloat => _owner.Float != Css.CssFloat.None;
+
+
 
         public int FloatBoxCount
         {

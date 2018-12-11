@@ -10,12 +10,6 @@ namespace LayoutFarm.HtmlBoxes
             : base(boxSpec, rootgfx, display)
         {
         }
-        internal override bool JustTempContainer
-        {
-            get
-            {
-                return true;
-            }
-        }
+        internal override bool JustTempContainer => true; 
     }
 }

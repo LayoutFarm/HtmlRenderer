@@ -18,7 +18,7 @@ namespace LayoutFarm.HtmlBoxes
             //bubble invalidate area to to parent?
 
 
-            if (this.justBlockRun != null)
+            if (_justBlockRun != null)
             {
 
                 Rectangle clientArea = this.GetVisualRectBounds();
@@ -36,10 +36,10 @@ namespace LayoutFarm.HtmlBoxes
 #endif
 
                 clientArea.Offset(
-                  (int)(justBlockRun.Left),
-                  (int)(justBlockRun.Top + justBlockRun.HostLine.CachedLineTop));
+                  (int)(_justBlockRun.Left),
+                  (int)(_justBlockRun.Top + _justBlockRun.HostLine.CachedLineTop));
 
-                justBlockRun.HostLine.OwnerBox.InvalidateGraphics(clientArea);
+                _justBlockRun.HostLine.OwnerBox.InvalidateGraphics(clientArea);
 
                 return;
             }
@@ -78,13 +78,13 @@ namespace LayoutFarm.HtmlBoxes
                 Console.WriteLine(__aa_dbugId + ":i1_" + _viewportY.ToString());
 #endif
             }
-            if (this.justBlockRun != null)
+            if (_justBlockRun != null)
             {
 
                 clientArea.Offset(
-                    (int)(justBlockRun.Left),
-                    (int)(justBlockRun.Top + justBlockRun.HostLine.CachedLineTop));
-                justBlockRun.HostLine.OwnerBox.InvalidateGraphics(clientArea);
+                    (int)(_justBlockRun.Left),
+                    (int)(_justBlockRun.Top + _justBlockRun.HostLine.CachedLineTop));
+                _justBlockRun.HostLine.OwnerBox.InvalidateGraphics(clientArea);
 
                 return;
             }
@@ -109,7 +109,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 //offset 
 
-                if (this.mayHasViewport)
+                if (_mayHasViewport)
                 {
                     p.OffsetCanvasOrigin(-this.ViewportX, -this.ViewportY);
                     PaintImp(p);
@@ -272,9 +272,9 @@ namespace LayoutFarm.HtmlBoxes
                         }
                         //move to left-top of client box 
                         p.SetCanvasOrigin(ox + (int)b.LocalX, oy + (int)b.LocalY);
-                        if (b.decorator != null)
+                        if (b._decorator != null)
                         {
-                            b.decorator.Paint(b, p);
+                            b._decorator.Paint(b, p);
                         }
 
                         if (b.HasClipArea)

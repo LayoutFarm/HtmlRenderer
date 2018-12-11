@@ -6,10 +6,10 @@ namespace LayoutFarm.WebDom.Impl
 {
     public partial class HtmlDocument : WebDocument
     {
-        DomElement bodyElement;
-        DomElement rootNode;
-        int domUpdateVersion;
-        EventHandler domUpdatedHandler;
+        DomElement _bodyElement;
+        DomElement _rootNode;
+        int _domUpdateVersion;
+        EventHandler _domUpdatedHandler;
         public HtmlDocument()
             : this(HtmlPredefineNames.CreateUniqueStringTableClone())
         {
@@ -18,36 +18,32 @@ namespace LayoutFarm.WebDom.Impl
             : base(sharedUniqueStringTable)
         {
             //auto create root doc
-            rootNode = new HtmlRootElement(this);
+            _rootNode = new HtmlRootElement(this);
         }
         protected void SetRootElement(DomElement rootE)
         {
-            this.rootNode = rootE;
+            _rootNode = rootE;
         }
-        public override DomElement RootNode
-        {
-            get
-            {
-                return rootNode;
-            }
-        }
+        public override DomElement RootNode => _rootNode;
+
+
         public DomElement BodyElement
         {
             get
             {
-                if (bodyElement == null)
+                if (_bodyElement == null)
                 {
                     //TODO: review here again!!!
                     //
-                    int j = rootNode.ChildrenCount;
+                    int j = _rootNode.ChildrenCount;
                     for (int i = 0; i < j; ++i)
                     {
-                        HtmlElement node = rootNode.GetChildNode(i) as HtmlElement;
+                        HtmlElement node = _rootNode.GetChildNode(i) as HtmlElement;
                         if (node != null)
                         {
                             if (node.Name == "body")
                             {
-                                bodyElement = node;
+                                _bodyElement = node;
                                 break;
                             }
                             else if (node.Name == "html")
@@ -57,7 +53,7 @@ namespace LayoutFarm.WebDom.Impl
                                     HtmlElement childNodeE = childNode as HtmlElement;
                                     if (childNodeE != null && childNodeE.Name == "body")
                                     {
-                                        return bodyElement = childNodeE;
+                                        return _bodyElement = childNodeE;
                                     }
                                 }
                             }
@@ -65,19 +61,18 @@ namespace LayoutFarm.WebDom.Impl
                     }
                 }
 
-                return bodyElement;
+                return _bodyElement;
             }
         }
-        public override int DomUpdateVersion
-        {
-            get { return this.domUpdateVersion; }
-        }
+        //
+        public override int DomUpdateVersion => _domUpdateVersion;
+
         public override void IncDomVersion()
         {
-            this.domUpdateVersion++;
-            if (domUpdatedHandler != null)
+            _domUpdateVersion++;
+            if (_domUpdatedHandler != null)
             {
-                domUpdatedHandler(this, EventArgs.Empty);
+                _domUpdatedHandler(this, EventArgs.Empty);
             }
         }
 
@@ -115,9 +110,6 @@ namespace LayoutFarm.WebDom.Impl
             return new HtmlTextNode(this, strBufferForElement);
         }
 
-
-
-
         public virtual WebDocument CreateDocumentFragment()
         {
             return new HtmlDocumentFragment(this);
@@ -126,23 +118,18 @@ namespace LayoutFarm.WebDom.Impl
         //---------------------------------------------------------
         public void SetDomUpdateHandler(EventHandler h)
         {
-            this.domUpdatedHandler = h;
+            _domUpdatedHandler = h;
         }
         public CssActiveSheet CssActiveSheet
         {
             get;
             set;
         }
-        public EventHandler DomUpdateHandler
-        {
-            get { return this.domUpdatedHandler; }
-        }
+        public EventHandler DomUpdateHandler => _domUpdatedHandler;
+
         protected void RaiseUpdateEvent()
         {
-            if (this.domUpdatedHandler != null)
-            {
-                this.domUpdatedHandler(this, EventArgs.Empty);
-            }
+            _domUpdatedHandler?.Invoke(this, EventArgs.Empty);
         }
     }
 }

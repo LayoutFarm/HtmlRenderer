@@ -5,27 +5,27 @@ namespace LayoutFarm.HtmlBoxes
 {
     public abstract class BoxVisitor
     {
-        Stack<CssBox> containgBlockStack = new Stack<CssBox>();
-        CssBox latestContainingBlock = null;
-        float globalXOffset;
-        float globalYOffset;
+        Stack<CssBox> _containgBlockStack = new Stack<CssBox>();
+        CssBox _latestContainingBlock = null;
+        float _globalXOffset;
+        float _globalYOffset;
         internal void PushContaingBlock(CssBox box)
         {
             //enter new containing block
             OnPushContainingBlock(box);
-            if (box != latestContainingBlock)
+            if (box != _latestContainingBlock)
             {
-                this.globalXOffset += box.LocalX;
-                this.globalYOffset += box.LocalY;
+                _globalXOffset += box.LocalX;
+                _globalYOffset += box.LocalY;
                 OnPushDifferentContainingBlock(box);
             }
-            this.containgBlockStack.Push(box);
-            this.latestContainingBlock = box;
+            _containgBlockStack.Push(box);
+            _latestContainingBlock = box;
         }
 
         internal void PopContainingBlock()
         {
-            switch (this.containgBlockStack.Count)
+            switch (_containgBlockStack.Count)
             {
                 case 0:
                     {
@@ -34,40 +34,36 @@ namespace LayoutFarm.HtmlBoxes
                 case 1:
                     {
                         //last on
-                        CssBox box = this.containgBlockStack.Pop();
+                        CssBox box = _containgBlockStack.Pop();
                         OnPopContainingBlock();
-                        if (this.latestContainingBlock != box)
+                        if (_latestContainingBlock != box)
                         {
-                            this.globalXOffset -= box.LocalX;
-                            this.globalYOffset -= box.LocalY;
+                            _globalXOffset -= box.LocalX;
+                            _globalYOffset -= box.LocalY;
                             OnPopDifferentContaingBlock(box);
                         }
-                        this.latestContainingBlock = null;
+                        _latestContainingBlock = null;
                     }
                     break;
                 default:
                     {
-                        CssBox box = this.containgBlockStack.Pop();
+                        CssBox box = _containgBlockStack.Pop();
                         OnPopContainingBlock();
-                        if (this.latestContainingBlock != box)
+                        if (_latestContainingBlock != box)
                         {
-                            this.globalXOffset -= box.LocalX;
-                            this.globalYOffset -= box.LocalY;
+                            _globalXOffset -= box.LocalX;
+                            _globalYOffset -= box.LocalY;
                             OnPopDifferentContaingBlock(box);
                         }
-                        this.latestContainingBlock = containgBlockStack.Peek();
+                        _latestContainingBlock = _containgBlockStack.Peek();
                     }
                     break;
             }
         }
-        internal float ContainerBlockGlobalX
-        {
-            get { return this.globalXOffset; }
-        }
-        internal float ContainerBlockGlobalY
-        {
-            get { return this.globalYOffset; }
-        }
+        internal float ContainerBlockGlobalX => _globalXOffset;
+
+        internal float ContainerBlockGlobalY => _globalYOffset;
+
         //-----------------------------------------
         protected virtual void OnPushContainingBlock(CssBox box)
         {
@@ -81,9 +77,6 @@ namespace LayoutFarm.HtmlBoxes
         protected virtual void OnPopDifferentContaingBlock(CssBox box)
         {
         }
-        internal CssBox LatestContainingBlock
-        {
-            get { return this.latestContainingBlock; }
-        }
-    }
+        internal CssBox LatestContainingBlock => _latestContainingBlock;
+    } 
 }

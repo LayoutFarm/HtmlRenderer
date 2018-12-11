@@ -15,11 +15,11 @@ namespace LayoutFarm.Composers
 
     sealed class ExternalHtmlElement : HtmlElement
     {
-        LazyCssBoxCreator lazyCreator;
+        LazyCssBoxCreator _lazyCreator;
         public ExternalHtmlElement(HtmlDocument owner, int prefix, int localNameIndex, LazyCssBoxCreator lazyCreator)
             : base(owner, prefix, localNameIndex)
         {
-            this.lazyCreator = lazyCreator;
+            _lazyCreator = lazyCreator;
         }
         internal override bool HasCustomPrincipalBoxGenerator
         {
@@ -37,7 +37,7 @@ namespace LayoutFarm.Composers
             else
             {
 
-                lazyCreator(parentCssBox.GetInternalRootGfx(), out RenderElement re, out object controller);
+                _lazyCreator(parentCssBox.GetInternalRootGfx(), out RenderElement re, out object controller);
                 CssBox wrapper = CustomCssBoxGenerator.CreateWrapper(((HtmlDocument)this.OwnerDocument).Host, controller, re, this.Spec, false);
                 this.SetPrincipalBox(wrapper);
                 return wrapper;
@@ -50,45 +50,41 @@ namespace LayoutFarm.Composers
     sealed class ShadowRootElement : HtmlElement
     {
         //note: this version is not conform with w3c  
-        HtmlShadowDocument shadowDoc;
-        CssBox rootbox;
+        HtmlShadowDocument _shadowDoc;
+        CssBox _rootbox;
         public ShadowRootElement(HtmlDocument owner, int prefix, int localNameIndex)
             : base(owner, prefix, localNameIndex)
         {
-            shadowDoc = new HtmlShadowDocument(owner.Host, owner);
-            shadowDoc.SetDomUpdateHandler(owner.DomUpdateHandler);
+            _shadowDoc = new HtmlShadowDocument(owner.Host, owner);
+            _shadowDoc.SetDomUpdateHandler(owner.DomUpdateHandler);
         }
-        internal override bool HasCustomPrincipalBoxGenerator
-        {
-            get
-            {
-                return true;
-            }
-        }
+        //
+        internal override bool HasCustomPrincipalBoxGenerator => true;
+        //
         internal override CssBox GetPrincipalBox(CssBox parentCssBox, HtmlHost htmlHost)
         {
-            if (rootbox != null)
+            if (_rootbox != null)
             {
-                return this.rootbox;
+                return _rootbox;
             }
             else
             {
-                var root = (HtmlElement)shadowDoc.RootNode;
+                var root = (HtmlElement)_shadowDoc.RootNode;
                 //1. builder 
                 var renderTreeBuilder = htmlHost.GetRenderTreeBuilder();
                 //------------------------------------------------------------------- 
                 //2. generate render tree
                 ////build rootbox from htmldoc
 
-                var rootElement = renderTreeBuilder.BuildCssRenderTree2(shadowDoc,
+                var rootElement = renderTreeBuilder.BuildCssRenderTree2(_shadowDoc,
                     htmlHost.BaseStylesheet,
                     htmlHost.RootGfx);
                 //3. create small htmlContainer
 
-                rootbox = new CssBox(this.Spec, parentCssBox.RootGfx);
-                root.SetPrincipalBox(rootbox);
+                _rootbox = new CssBox(this.Spec, parentCssBox.RootGfx);
+                root.SetPrincipalBox(_rootbox);
                 htmlHost.UpdateChildBoxes(root, true);
-                return rootbox;
+                return _rootbox;
             }
         }
         public override void AddChild(DomNode childNode)
@@ -98,7 +94,7 @@ namespace LayoutFarm.Composers
             {
                 throw new NotSupportedException("remove from its parent first");
             }
-            shadowDoc.RootNode.AddChild(childNode);
+            _shadowDoc.RootNode.AddChild(childNode);
         }
     }
 }

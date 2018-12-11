@@ -23,12 +23,12 @@ namespace LayoutFarm.WebDom.Impl
     sealed class ShadowRootElement : HtmlElement
     {
         //note: this version is not conform with w3c  
-        HtmlShadowDocument shadowDoc;
+        HtmlShadowDocument _shadowDoc;
         public ShadowRootElement(HtmlDocument owner, int prefix, int localNameIndex)
             : base(owner, prefix, localNameIndex)
         {
-            shadowDoc = new HtmlShadowDocument(owner);
-            shadowDoc.SetDomUpdateHandler(owner.DomUpdateHandler);
+            _shadowDoc = new HtmlShadowDocument(owner);
+            _shadowDoc.SetDomUpdateHandler(owner.DomUpdateHandler);
         }
         public override void AddChild(DomNode childNode)
         {
@@ -37,7 +37,7 @@ namespace LayoutFarm.WebDom.Impl
             {
                 throw new NotSupportedException("remove from its parent first");
             }
-            shadowDoc.RootNode.AddChild(childNode);
+            _shadowDoc.RootNode.AddChild(childNode);
         }
 #if DEBUG
         public override string ToString()

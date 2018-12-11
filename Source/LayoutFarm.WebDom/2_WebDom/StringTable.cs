@@ -6,14 +6,14 @@ namespace LayoutFarm.WebDom
 {
     public class UniqueStringTable
     {
-        Dictionary<string, int> dic;
-        List<string> list;
+        Dictionary<string, int> _dic;
+        List<string> _list;
         public UniqueStringTable()
         {
-            dic = new Dictionary<string, int>();
-            list = new List<string>();
-            dic.Add(string.Empty, 0);//empty string
-            list.Add(string.Empty);
+            _dic = new Dictionary<string, int>();
+            _list = new List<string>();
+            _dic.Add(string.Empty, 0);//empty string
+            _list.Add(string.Empty);
         }
         /// <summary>
         /// get index for specific str, if not found return -1
@@ -27,7 +27,7 @@ namespace LayoutFarm.WebDom
                 return 0;
             }
             int foundIndex;
-            if (dic.TryGetValue(str, out foundIndex))
+            if (_dic.TryGetValue(str, out foundIndex))
             {
                 return foundIndex;
             }
@@ -45,60 +45,51 @@ namespace LayoutFarm.WebDom
             }
             //---------------------------------------
             int foundIndex;
-            if (dic.TryGetValue(str, out foundIndex))
+            if (_dic.TryGetValue(str, out foundIndex))
             {
                 return foundIndex;
             }
             else
             {
-                int index = dic.Count;
-                dic.Add(str, index);
-                list.Add(str);
+                int index = _dic.Count;
+                _dic.Add(str, index);
+                _list.Add(str);
                 return index;
             }
         }
-        public bool Contains(string str)
-        {
-            return dic.ContainsKey(str);
-        }
-        public int Count
-        {
-            get
-            {
-                return dic.Count;
-            }
-        }
-        public string GetString(int index)
-        {
-            return list[index];
-        }
+        //
+        public bool Contains(string str) => _dic.ContainsKey(str);
+        //
+        public int Count => _dic.Count;
+        //
+        public string GetString(int index) => _list[index];
+        //
         public IEnumerable<string> WordIter
         {
             get
             {
-                foreach (string str in dic.Keys)
+                foreach (string str in _dic.Keys)
                 {
                     yield return str;
                 }
             }
         }
-        internal List<string> GetStringList()
-        {
-            return list;
-        }
+        //
+        internal List<string> GetStringList() => _list;
+
 
 
         public UniqueStringTable Clone()
         {
             UniqueStringTable newClone = new UniqueStringTable();
-            Dictionary<string, int> cloneDic = newClone.dic;
+            Dictionary<string, int> cloneDic = newClone._dic;
             cloneDic.Clear();
-            foreach (KeyValuePair<string, int> kp in this.dic)
+            foreach (KeyValuePair<string, int> kp in _dic)
             {
                 cloneDic.Add(kp.Key, kp.Value);
             }
-            newClone.list.Clear();
-            newClone.list.AddRange(list);
+            newClone._list.Clear();
+            newClone._list.AddRange(_list);
             return newClone;
         }
     }

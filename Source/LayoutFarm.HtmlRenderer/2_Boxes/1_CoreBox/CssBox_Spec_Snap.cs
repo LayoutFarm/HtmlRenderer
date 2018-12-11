@@ -27,21 +27,9 @@ namespace LayoutFarm.HtmlBoxes
                    this.Position == CssPosition.Absolute || //out of flow
                    this.Position == CssPosition.Fixed; //out of flow
         }
-        internal bool BorderLeftVisible
-        {
-            get { return _borderLeftVisible; }
-        }
-        internal bool BorderTopVisible
-        {
-            get { return _borderTopVisible; }
-        }
-        internal bool BorderRightVisible
-        {
-            get { return _borderRightVisible; }
-        }
-        internal bool BorderBottomVisible
-        {
-            get { return _borderBottomVisble; }
-        }
+        internal bool BorderLeftVisible => _borderLeftVisible;
+        internal bool BorderTopVisible => _borderTopVisible;
+        internal bool BorderRightVisible => _borderRightVisible;
+        internal bool BorderBottomVisible => _borderBottomVisble;
     }
 }

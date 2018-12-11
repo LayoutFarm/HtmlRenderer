@@ -4,11 +4,7 @@ namespace LayoutFarm.HtmlBoxes
 {
     partial class CssBox
     {
-        bool hasFlexContext;
-        internal bool HasFlexContext
-        {
-            get { return this.hasFlexContext; }
-            set { this.hasFlexContext = value; }
-        }
+
+        internal bool HasFlexContext { get; set; }
     }
 }

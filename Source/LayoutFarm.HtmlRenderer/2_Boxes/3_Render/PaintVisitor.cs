@@ -42,28 +42,16 @@ namespace LayoutFarm.HtmlBoxes
             _viewportWidth = width;
             _viewportHeight = height;
         }
-        public DrawBoard InnerDrawBoard
-        {
-            get
-            {
-                return _drawBoard;
-            }
-        }
-        public bool AvoidGeometryAntialias
-        {
-            get;
-            set;
-        }
+        public DrawBoard InnerDrawBoard => _drawBoard;
+
+
+        public bool AvoidGeometryAntialias { get; set; }
         //-----------------------------------------------------
 
-        internal float ViewportTop
-        {
-            get { return 0; }
-        }
-        internal float ViewportBottom
-        {
-            get { return _viewportHeight; }
-        }
+        internal float ViewportTop => 0;//?
+
+        internal float ViewportBottom => _viewportHeight;
+
         //=========================================================
         /// <summary>
         /// push clip area relative to (0,0) of current CssBox
@@ -88,7 +76,7 @@ namespace LayoutFarm.HtmlBoxes
                 _drawBoard.DrawRectangle(Color.DeepPink,
                     intersectResult.X, intersectResult.Y,
                     intersectResult.Width, intersectResult.Height);
-                logRecords.Add(new string('>', dbugIndentLevel) + dbugIndentLevel.ToString() +
+                dbugLogRecords.Add(new string('>', dbugIndentLevel) + dbugIndentLevel.ToString() +
                    " clip[" + intersectResult + "] ");
             }
 #endif
@@ -102,7 +90,7 @@ namespace LayoutFarm.HtmlBoxes
 #if DEBUG
             if (this.dbugEnableLogRecord)
             {
-                logRecords.Add(new string('<', dbugIndentLevel) + dbugIndentLevel.ToString() + " pop[]");
+                dbugLogRecords.Add(new string('<', dbugIndentLevel) + dbugIndentLevel.ToString() + " pop[]");
             }
 #endif
             if (_clipStacks.Count > 0)
@@ -114,10 +102,9 @@ namespace LayoutFarm.HtmlBoxes
             {
             }
         }
-        internal Rectangle CurrentClipRect
-        {
-            get { return _latestClip; }
-        }
+        //
+        internal Rectangle CurrentClipRect => _latestClip;
+        //
         /// <summary>
         /// async request for image
         /// </summary>
@@ -153,15 +140,11 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
 
-
-        public int CanvasOriginX
-        {
-            get { return _drawBoard.OriginX; }
-        }
-        public int CanvasOriginY
-        {
-            get { return _drawBoard.OriginY; }
-        }
+        //
+        public int CanvasOriginX => _drawBoard.OriginX;
+        //
+        public int CanvasOriginY => _drawBoard.OriginY;
+        //
         public void SetCanvasOrigin(int x, int y)
         {
             _drawBoard.SetCanvasOrigin(x, y);
@@ -197,30 +180,11 @@ namespace LayoutFarm.HtmlBoxes
         }
         //-------------------------------------
         //painting context for canvas , svg
-        Color currentContextFillColor = Color.Black;
-        Color currentContextPenColor = Color.Transparent;
-        float currentContextPenWidth = 1;
-        public bool UseCurrentContext
-        {
-            get;
-            set;
-        }
-        public Color CurrentContextFillColor
-        {
-            get { return this.currentContextFillColor; }
-            set { this.currentContextFillColor = value; }
-        }
-        public Color CurrentContextPenColor
-        {
-            get { return this.currentContextPenColor; }
-            set { this.currentContextPenColor = value; }
-        }
-        public float CurrentContextPenWidth
-        {
-            get { return this.currentContextPenWidth; }
-            set { this.currentContextPenWidth = value; }
-        }
 
+        public bool UseCurrentContext { get; set; }
+        public Color CurrentContextFillColor { get; set; }
+        public Color CurrentContextPenColor { get; set; }
+        public float CurrentContextPenWidth { get; set; }
         //-------------------------------------
 #if DEBUG
         /// <summary>
@@ -314,7 +278,7 @@ namespace LayoutFarm.HtmlBoxes
 
         int dbugIndentLevel;
         internal bool dbugEnableLogRecord;
-        internal List<string> logRecords = new List<string>();
+        internal List<string> dbugLogRecords = new List<string>();
         public enum PaintVisitorContextName
         {
             Init
@@ -322,7 +286,7 @@ namespace LayoutFarm.HtmlBoxes
         public void dbugResetLogRecords()
         {
             this.dbugIndentLevel = 0;
-            logRecords.Clear();
+            dbugLogRecords.Clear();
         }
         public void dbugEnterNewContext(CssBox box, PaintVisitorContextName contextName)
         {
@@ -332,7 +296,7 @@ namespace LayoutFarm.HtmlBoxes
                 //if (box.__aa_dbugId == 7)
                 //{
                 //}
-                logRecords.Add(new string('>', dbugIndentLevel) + dbugIndentLevel.ToString() +
+                dbugLogRecords.Add(new string('>', dbugIndentLevel) + dbugIndentLevel.ToString() +
                     "[" + _drawBoard.CurrentClipRect + "] " +
                     "(" + this.CanvasOriginX + "," + this.CanvasOriginY + ") " +
                     "x:" + box.Left + ",y:" + box.Top + ",w:" + box.VisualWidth + "h:" + box.VisualHeight +
@@ -344,7 +308,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             if (this.dbugEnableLogRecord)
             {
-                logRecords.Add(new string('<', dbugIndentLevel) + dbugIndentLevel.ToString());
+                dbugLogRecords.Add(new string('<', dbugIndentLevel) + dbugIndentLevel.ToString());
                 dbugIndentLevel--;
                 if (dbugIndentLevel < 0)
                 {
@@ -359,26 +323,16 @@ namespace LayoutFarm.HtmlBoxes
         {
             _latePaintStack.AddLayerItem(box);
         }
-        internal int LatePaintItemCount
-        {
-            get { return _latePaintStack.CurrentLayerItemCount; }
-        }
-        internal CssBox GetLatePaintItem(int index)
-        {
-            return _latePaintStack.GetItem(index);
-        }
-        internal void ClearLatePaintItems()
-        {
-            _latePaintStack.ClearLayerItems();
-        }
-        internal void EnterNewLatePaintContext()
-        {
-            _latePaintStack.EnterNewContext();
-        }
-        internal void ExitCurrentLatePaintContext()
-        {
-            _latePaintStack.ExitCurrentContext();
-        }
+        internal int LatePaintItemCount => _latePaintStack.CurrentLayerItemCount;
+
+        internal CssBox GetLatePaintItem(int index) => _latePaintStack.GetItem(index);
+
+        internal void ClearLatePaintItems() => _latePaintStack.ClearLayerItems();
+
+        internal void EnterNewLatePaintContext() => _latePaintStack.EnterNewContext();
+
+        internal void ExitCurrentLatePaintContext() => _latePaintStack.ExitCurrentContext();
+
         //-----------------------------------------------------
     }
 }

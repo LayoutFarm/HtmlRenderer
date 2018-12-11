@@ -43,28 +43,28 @@ namespace LayoutFarm.Composers
             FreeHtmlParser(parser);
         }
 
-        static Queue<HtmlParser> sharedParsers = new Queue<HtmlParser>();
-        static object sharedParserLock1 = new object();
+        static Queue<HtmlParser> s_sharedParsers = new Queue<HtmlParser>();
+        static object s_sharedParserLock1 = new object();
         static HtmlParser GetHtmlParser()
         {
-            lock (sharedParserLock1)
+            lock (s_sharedParserLock1)
             {
-                if (sharedParsers.Count == 0)
+                if (s_sharedParsers.Count == 0)
                 {
                     return HtmlParser.CreateHtmlParser(ParseEngineKind.HtmlKitParser);
                 }
                 else
                 {
-                    return sharedParsers.Dequeue();
+                    return s_sharedParsers.Dequeue();
                 }
             }
         }
         static void FreeHtmlParser(HtmlParser parser)
         {
             parser.ResetParser();
-            lock (sharedParserLock1)
+            lock (s_sharedParserLock1)
             {
-                sharedParsers.Enqueue(parser);
+                s_sharedParsers.Enqueue(parser);
             }
         }
     }

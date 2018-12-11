@@ -8,14 +8,14 @@ namespace LayoutFarm.HtmlBoxes
 {
     class CssScrollView : CssBox
     {
-        CssScrollWrapper scrollView;
+        CssScrollWrapper _scrollView;
         //vertical scrollbar
-        ScrollingRelation vscRelation;
-        ScrollBar vscbar;
+        ScrollingRelation _vscRelation;
+        ScrollBar _vscbar;
         //horizontal scrollbar
-        ScrollingRelation hscRelation;
-        ScrollBar hscbar;
-        CssBox innerBox;
+        ScrollingRelation _hscRelation;
+        ScrollBar _hscbar;
+        CssBox _innerBox;
         HtmlHost _htmlhost;
 
         public CssScrollView(HtmlHost htmlhost, Css.BoxSpec boxSpec,
@@ -24,19 +24,17 @@ namespace LayoutFarm.HtmlBoxes
         {
             _htmlhost = htmlhost;
         }
-        public CssBox InnerBox
-        {
-            get { return this.innerBox; }
-        }
+        public CssBox InnerBox => _innerBox;
+
         public void SetInnerBox(CssBox innerBox)
         {
-            if (this.innerBox != null)
+            if (_innerBox != null)
             {
                 return;
             }
 
-            this.innerBox = innerBox;
-            this.scrollView = new CssScrollWrapper(innerBox);
+            _innerBox = innerBox;
+            _scrollView = new CssScrollWrapper(innerBox);
             //scroll barwidth = 10;
             bool needHScrollBar = false;
             bool needVScrollBar = false;
@@ -63,18 +61,18 @@ namespace LayoutFarm.HtmlBoxes
             //vertical scrollbar
             if (needVScrollBar)
             {
-                this.vscbar = new ScrollBar(scBarWidth, needHScrollBar ? newH : originalBoxH);
-                vscbar.ScrollBarType = ScrollBarType.Vertical;
-                vscbar.MinValue = 0;
-                vscbar.MaxValue = innerBox.VisualHeight;
-                vscbar.SmallChange = 20;
+                _vscbar = new ScrollBar(scBarWidth, needHScrollBar ? newH : originalBoxH);
+                _vscbar.ScrollBarType = ScrollBarType.Vertical;
+                _vscbar.MinValue = 0;
+                _vscbar.MaxValue = innerBox.VisualHeight;
+                _vscbar.SmallChange = 20;
                 //add relation between viewpanel and scroll bar 
-                vscRelation = new ScrollingRelation(vscbar.SliderBox, scrollView);
+                _vscRelation = new ScrollingRelation(_vscbar.SliderBox, _scrollView);
                 //---------------------- 
                 CssBox scBarWrapCssBox = LayoutFarm.Composers.CustomCssBoxGenerator.CreateWrapper(
                             _htmlhost,
-                             this.vscbar,
-                             this.vscbar.GetPrimaryRenderElement((RootGraphic)this.GetInternalRootGfx()),
+                             _vscbar,
+                             _vscbar.GetPrimaryRenderElement((RootGraphic)this.GetInternalRootGfx()),
                              CssBox.UnsafeGetBoxSpec(this), false);
                 scBarWrapCssBox.SetLocation(newW, 0);
                 this.AppendToAbsoluteLayer(scBarWrapCssBox);
@@ -82,19 +80,19 @@ namespace LayoutFarm.HtmlBoxes
 
             if (needHScrollBar)
             {
-                this.hscbar = new ScrollBar(needVScrollBar ? newW : originalBoxW, scBarWidth);
-                hscbar.ScrollBarType = ScrollBarType.Horizontal;
-                hscbar.MinValue = 0;
-                hscbar.MaxValue = innerBox.VisualHeight;
-                hscbar.SmallChange = 20;
+                _hscbar = new ScrollBar(needVScrollBar ? newW : originalBoxW, scBarWidth);
+                _hscbar.ScrollBarType = ScrollBarType.Horizontal;
+                _hscbar.MinValue = 0;
+                _hscbar.MaxValue = innerBox.VisualHeight;
+                _hscbar.SmallChange = 20;
                 //add relation between viewpanel and scroll bar 
-                hscRelation = new ScrollingRelation(hscbar.SliderBox, scrollView);
+                _hscRelation = new ScrollingRelation(_hscbar.SliderBox, _scrollView);
                 //---------------------- 
 
                 CssBox scBarWrapCssBox = LayoutFarm.Composers.CustomCssBoxGenerator.CreateWrapper(
                         _htmlhost,
-                         this.hscbar,
-                         this.hscbar.GetPrimaryRenderElement((RootGraphic)this.GetInternalRootGfx()),
+                         _hscbar,
+                         _hscbar.GetPrimaryRenderElement((RootGraphic)this.GetInternalRootGfx()),
                          CssBox.UnsafeGetBoxSpec(this), false);
                 scBarWrapCssBox.SetLocation(0, newH);
                 this.AppendToAbsoluteLayer(scBarWrapCssBox);
@@ -117,36 +115,13 @@ namespace LayoutFarm.HtmlBoxes
                 _cssbox.SetViewport(x, y);
             }
 
-            int IScrollable.ViewportX
-            {
-                get { return _cssbox.ViewportX; }
-            }
+            int IScrollable.ViewportX => _cssbox.ViewportX;
+            int IScrollable.ViewportY => _cssbox.ViewportY;
+            int IScrollable.ViewportWidth => (int)_cssbox.VisualWidth;
+            int IScrollable.ViewportHeight => (int)_cssbox.VisualHeight;
 
-            int IScrollable.ViewportY
-            {
-                get { return _cssbox.ViewportY; }
-            }
-
-            int IScrollable.ViewportWidth
-            {
-                get { return (int)_cssbox.VisualWidth; }
-            }
-
-            int IScrollable.ViewportHeight
-            {
-                get { return (int)_cssbox.VisualHeight; }
-            }
-            int IScrollable.InnerHeight
-            {
-                //content height of the cssbox
-                get { return (int)_cssbox.InnerContentHeight; }
-            }
-
-            int IScrollable.InnerWidth
-            {
-                //content width of the cssbox
-                get { return (int)_cssbox.InnerContentWidth; }
-            }
+            int IScrollable.InnerHeight => (int)_cssbox.InnerContentHeight;   //content height of the cssbox
+            int IScrollable.InnerWidth => (int)_cssbox.InnerContentWidth;    //content width of the cssbox
 
             event EventHandler IScrollable.LayoutFinished
             {

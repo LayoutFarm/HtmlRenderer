@@ -56,16 +56,16 @@ namespace LayoutFarm.HtmlBoxes
         //  1. manages multiple HtmlVisual roots
         //  2. controls shared I/O
 
-        List<CustomCssBoxGenerator> generators = new List<CustomCssBoxGenerator>();
+        List<CustomCssBoxGenerator> _generators = new List<CustomCssBoxGenerator>();
         HtmlVisualRootUpdateHandler _visualHtmlRootUpdateHandler;
         EventHandler<ImageRequestEventArgs> _requestImage;
         EventHandler<TextRequestEventArgs> _requestStyleSheet;
-        List<CssBox> waitForUpdateBoxes = new List<CssBox>();
+        List<CssBox> _waitForUpdateBoxes = new List<CssBox>();
 
-        HtmlDocument commonHtmlDoc;
-        RootGraphic rootgfx;
-        Queue<LayoutVisitor> htmlLayoutVisitorStock = new Queue<LayoutVisitor>();
-        RenderTreeBuilder renderTreeBuilder;
+        HtmlDocument _commonHtmlDoc;
+        RootGraphic _rootgfx;
+        Queue<LayoutVisitor> _htmlLayoutVisitorStock = new Queue<LayoutVisitor>();
+        RenderTreeBuilder _renderTreeBuilder;
 
         ITextService _textservice;
         PaintLab.Svg.SvgCreator _svgCreator;
@@ -82,20 +82,20 @@ namespace LayoutFarm.HtmlBoxes
             }
 #endif
 
-            this.commonHtmlDoc = new HtmlDocument(this);
+            _commonHtmlDoc = new HtmlDocument(this);
             if (config.ActiveSheet != null)
             {
-                this.commonHtmlDoc.CssActiveSheet = this.BaseStylesheet = config.ActiveSheet;
+                _commonHtmlDoc.CssActiveSheet = this.BaseStylesheet = config.ActiveSheet;
             }
             else
             {
                 //use default
-                this.commonHtmlDoc.CssActiveSheet = this.BaseStylesheet =
+                _commonHtmlDoc.CssActiveSheet = this.BaseStylesheet =
                      LayoutFarm.WebDom.Parser.CssParserHelper.ParseStyleSheet(null,
                      LayoutFarm.Composers.CssDefaults.DefaultCssData,
                     true);
             }
-            this.rootgfx = config.RootGraphic;
+            _rootgfx = config.RootGraphic;
 
             _textservice = config.TextService;
             _svgCreator = new PaintLab.Svg.SvgCreator();
@@ -105,29 +105,26 @@ namespace LayoutFarm.HtmlBoxes
 
         public string BaseUrl
         {
-            get { return _baseUrl; }
-            set
-            {
-                _baseUrl = value;
-            }
+            get => _baseUrl;
+            set => _baseUrl = value;
         }
         //----------------------
         public void ClearUpdateWaitingCssBoxes()
         {
-            int j = waitForUpdateBoxes.Count;
+            int j = _waitForUpdateBoxes.Count;
             for (int i = 0; i < j; ++i)
             {
-                CssBox cssbox = this.waitForUpdateBoxes[i];
+                CssBox cssbox = _waitForUpdateBoxes[i];
                 var controller = HtmlBoxes.CssBox.UnsafeGetController(cssbox) as UI.IUIEventListener;
                 if (controller != null)
                 {
                     controller.HandleElementUpdate();
                 }
             }
-            waitForUpdateBoxes.Clear();
+            _waitForUpdateBoxes.Clear();
         }
 
-        public RootGraphic RootGfx { get { return this.rootgfx; } }
+        public RootGraphic RootGfx => _rootgfx;
 
         //----------------------
         public void AttachEssentailHandlers(
@@ -152,14 +149,14 @@ namespace LayoutFarm.HtmlBoxes
         //---
         public HtmlDocument CreateNewDocumentFragment()
         {
-            return new HtmlDocumentFragment(this.commonHtmlDoc);
+            return new HtmlDocumentFragment(_commonHtmlDoc);
         }
         public HtmlDocument CreateNewSharedHtmlDoc()
         {
             //!!! this is my extension *** 
-            HtmlDocument sharedDocument = new HtmlSharedDocument(this.commonHtmlDoc);
-            sharedDocument.SetDomUpdateHandler(this.commonHtmlDoc.DomUpdateHandler);
-            sharedDocument.CssActiveSheet = this.commonHtmlDoc.CssActiveSheet;
+            HtmlDocument sharedDocument = new HtmlSharedDocument(_commonHtmlDoc);
+            sharedDocument.SetDomUpdateHandler(_commonHtmlDoc.DomUpdateHandler);
+            sharedDocument.CssActiveSheet = _commonHtmlDoc.CssActiveSheet;
             return sharedDocument;
         }
 
@@ -168,13 +165,13 @@ namespace LayoutFarm.HtmlBoxes
         public LayoutVisitor GetSharedHtmlLayoutVisitor(HtmlVisualRoot htmlVisualRoot)
         {
             LayoutVisitor lay = null;
-            if (htmlLayoutVisitorStock.Count == 0)
+            if (_htmlLayoutVisitorStock.Count == 0)
             {
                 lay = new LayoutVisitor(this.GetTextService());
             }
             else
             {
-                lay = this.htmlLayoutVisitorStock.Dequeue();
+                lay = _htmlLayoutVisitorStock.Dequeue();
             }
             lay.Bind(htmlVisualRoot);
             return lay;
@@ -182,15 +179,15 @@ namespace LayoutFarm.HtmlBoxes
         public void ReleaseHtmlLayoutVisitor(LayoutVisitor lay)
         {
             lay.UnBind();
-            this.htmlLayoutVisitorStock.Enqueue(lay);
+            _htmlLayoutVisitorStock.Enqueue(lay);
         }
 
         public LayoutFarm.Composers.RenderTreeBuilder GetRenderTreeBuilder()
         {
-            if (this.renderTreeBuilder == null)
+            if (_renderTreeBuilder == null)
             {
-                renderTreeBuilder = new Composers.RenderTreeBuilder(this);
-                this.renderTreeBuilder.RequestStyleSheet += (e) =>
+                _renderTreeBuilder = new Composers.RenderTreeBuilder(this);
+                _renderTreeBuilder.RequestStyleSheet += (e) =>
                 {
                     if (_requestStyleSheet != null)
                     {
@@ -198,11 +195,11 @@ namespace LayoutFarm.HtmlBoxes
                     }
                 };
             }
-            return renderTreeBuilder;
+            return _renderTreeBuilder;
         }
         public void RegisterCssBoxGenerator(LayoutFarm.Composers.CustomCssBoxGenerator cssBoxGenerator)
         {
-            this.generators.Add(cssBoxGenerator);
+            _generators.Add(cssBoxGenerator);
         }
         public void UpdateChildBoxes(WebDom.Impl.HtmlElement parentElement, bool fullmode)
         {
@@ -233,7 +230,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         internal void EnqueueCssUpdate(CssBox box)
         {
-            waitForUpdateBoxes.Add(box);
+            _waitForUpdateBoxes.Add(box);
         }
         internal void NotifyHtmlVisualRootUpdate(HtmlVisualRoot htmlVisualRoot)
         {
@@ -269,7 +266,7 @@ namespace LayoutFarm.HtmlBoxes
                                     {
                                         CssBox principalCssBox = parentElement.CurrentPrincipalBox;
                                         bool isblockContext = (principalCssBox != null) ? principalCssBox.IsBlock : false;
-                                        renderTreeBuilder.UpdateTextNode(parentElement, singleTextNode, isblockContext);
+                                        _renderTreeBuilder.UpdateTextNode(parentElement, singleTextNode, isblockContext);
                                     }
                                     RunListHelper.AddRunList(hostBox, parentElement.Spec, singleTextNode);
                                 }
@@ -616,9 +613,9 @@ namespace LayoutFarm.HtmlBoxes
           LayoutFarm.WebDom.DomElement tag,
           BoxSpec boxspec)
         {
-            for (int i = generators.Count - 1; i >= 0; --i)
+            for (int i = _generators.Count - 1; i >= 0; --i)
             {
-                CssBox newbox = generators[i].CreateCssBox(tag, parent, boxspec, this);
+                CssBox newbox = _generators[i].CreateCssBox(tag, parent, boxspec, this);
                 if (newbox != null)
                 {
                     return newbox;
