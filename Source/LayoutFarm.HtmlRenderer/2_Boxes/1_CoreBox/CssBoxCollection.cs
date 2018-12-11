@@ -25,8 +25,10 @@ namespace LayoutFarm.HtmlBoxes
             _boxes.Add(box);
 
         }
-        public CssBox GetBox(int index) { return _boxes[index]; }
-        public int Count { get { return _boxes.Count; } }
+        //
+        public CssBox GetBox(int index) => _boxes[index];
+        public int Count => _boxes.Count;
+        //
         public void Clear()
         {
             //clear abs owner
@@ -98,6 +100,12 @@ namespace LayoutFarm.HtmlBoxes
             CssBox.UnsafeSetNodes(box, owner,
                 _boxes.AddBefore(beforeLinkedNode, box));
         }
+        public void Remove(CssBox box)
+        {
+            var linkedNode = CssBox.UnsafeGetLinkedNode(box);
+            _boxes.Remove(linkedNode);
+            CssBox.UnsafeSetNodes(box, null, null);
+        }
         public void Clear()
         {
             var linkNode = _boxes.First;
@@ -109,41 +117,16 @@ namespace LayoutFarm.HtmlBoxes
             }
             _boxes.Clear();
         }
-        public int Count
-        {
-            get
-            {
-                return _boxes.Count;
-            }
-        }
-        public void Remove(CssBox box)
-        {
-            var linkedNode = CssBox.UnsafeGetLinkedNode(box);
-            _boxes.Remove(linkedNode);
-            CssBox.UnsafeSetNodes(box, null, null);
-        }
-        public CssBox GetFirstChild()
-        {
-            return _boxes.First.Value;
-        }
-        public LinkedListNode<CssBox> GetFirstLinkedNode()
-        {
-            return _boxes.First;
-        }
-        public LinkedListNode<CssBox> GetLastLinkedNode()
-        {
-            return _boxes.Last;
-        }
+        public int Count => _boxes.Count;
 
-        public CssBox GetLastChild()
-        {
-            return _boxes.Last.Value;
-        }
-        public IEnumerator<CssBox> GetEnumerator()
-        {
-            return _boxes.GetEnumerator();
-        }
-
+        //
+        public CssBox GetFirstChild() => _boxes.First.Value;
+        public LinkedListNode<CssBox> GetFirstLinkedNode() => _boxes.First;
+        public LinkedListNode<CssBox> GetLastLinkedNode() => _boxes.Last;
+        //
+        public CssBox GetLastChild() => _boxes.Last.Value;
+        public IEnumerator<CssBox> GetEnumerator() => _boxes.GetEnumerator();
+        //
 #if DEBUG
         public bool dbugContains(CssBox box)
         {

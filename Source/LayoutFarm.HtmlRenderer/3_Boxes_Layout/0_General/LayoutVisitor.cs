@@ -12,109 +12,88 @@ namespace LayoutFarm.HtmlBoxes
         //---------
 
         HtmlVisualRoot _htmlVisualRoot;
-        float totalMarginLeftAndRight;
-        Queue<Dictionary<CssBox, PartialBoxStrip>> dicStripPool;
-        Queue<List<PartialBoxStrip>> listStripPool;
-        Dictionary<CssBox, PartialBoxStrip> readyDicStrip = new Dictionary<CssBox, PartialBoxStrip>();
-        List<PartialBoxStrip> readyListStrip = new List<PartialBoxStrip>();
-        FloatingContextStack floatingContextStack = new FloatingContextStack();
-        static int totalLayoutIdEpisode = 0;
-        int episodeId = 1;
-        ITextService fontService;
+        float _totalMarginLeftAndRight;
+        Queue<Dictionary<CssBox, PartialBoxStrip>> _dicStripPool;
+        Queue<List<PartialBoxStrip>> _listStripPool;
+        Dictionary<CssBox, PartialBoxStrip> _readyDicStrip = new Dictionary<CssBox, PartialBoxStrip>();
+        List<PartialBoxStrip> _readyListStrip = new List<PartialBoxStrip>();
+        FloatingContextStack _floatingContextStack = new FloatingContextStack();
+        static int s_totalLayoutIdEpisode = 0;
+        int _episodeId = 1;
+        ITextService _fontService;
         internal LayoutVisitor(ITextService fontService)
         {
-            this.fontService = fontService;
+            this._fontService = fontService;
         }
         internal void Bind(HtmlVisualRoot htmlVisualRoot)
         {
             _htmlVisualRoot = htmlVisualRoot;
-            if (episodeId == ushort.MaxValue - 1)
+            if (_episodeId == ushort.MaxValue - 1)
             {
                 //reset
-                totalLayoutIdEpisode = 1;
-                episodeId = totalLayoutIdEpisode++;
+                s_totalLayoutIdEpisode = 1;
+                _episodeId = s_totalLayoutIdEpisode++;
             }
         }
         internal void UnBind()
         {
             _htmlVisualRoot = null;
-            if (dicStripPool != null) dicStripPool.Clear();
-            if (listStripPool != null) listStripPool.Clear();
-            readyDicStrip.Clear();
-            readyListStrip.Clear();
-            totalMarginLeftAndRight = 0;
-            floatingContextStack.Reset();
+            if (_dicStripPool != null) _dicStripPool.Clear();
+            if (_listStripPool != null) _listStripPool.Clear();
+            _readyDicStrip.Clear();
+            _readyListStrip.Clear();
+            _totalMarginLeftAndRight = 0;
+            _floatingContextStack.Reset();
             InAbsoluteLayerMode = false;
 
         }
         internal bool InAbsoluteLayerMode { get; set; }
-        internal ITextService SampleIFonts
-        {
-            get { return this.fontService; }
-        }
+        internal ITextService SampleIFonts => this._fontService;
+
         protected override void OnPushDifferentContainingBlock(CssBox box)
         {
-            this.totalMarginLeftAndRight += (box.ActualMarginLeft + box.ActualMarginRight);
+            this._totalMarginLeftAndRight += (box.ActualMarginLeft + box.ActualMarginRight);
         }
-        internal CssBox FloatingContextOwner
-        {
-            get
-            {
-                return floatingContextStack.CurrentTopOwner;
-            }
-        }
+        //
+        internal CssBox FloatingContextOwner => _floatingContextStack.CurrentTopOwner;
+
+
         protected override void OnPushContainingBlock(CssBox box)
         {
-            floatingContextStack.PushContainingBlock(box);
+            _floatingContextStack.PushContainingBlock(box);
             base.OnPushContainingBlock(box);
         }
 
         protected override void OnPopContainingBlock()
         {
-            floatingContextStack.PopContainingBlock();
+            _floatingContextStack.PopContainingBlock();
             base.OnPopContainingBlock();
         }
 
         protected override void OnPopDifferentContaingBlock(CssBox box)
         {
-            this.totalMarginLeftAndRight -= (box.ActualMarginLeft + box.ActualMarginRight);
+            this._totalMarginLeftAndRight -= (box.ActualMarginLeft + box.ActualMarginRight);
         }
-        internal CssBox LatestSiblingBox
-        {
-            get;
-            set;
-        }
-        internal CssBox LatestLeftFloatBox
-        {
-            get { return floatingContextStack.LatestLeftFloatBox; }
-        }
-        internal CssBox LatestRightFloatBox
-        {
-            get
-            {
-                return floatingContextStack.LatestRightFloatBox;
-            }
-        }
-        internal bool HasFloatBoxInContext
-        {
-            get
-            {
-                return floatingContextStack.HasFloatBoxInContext;
-            }
-        }
-        internal FloatingContextStack GetFloatingContextStack()
-        {
-            return floatingContextStack;
-        }
+        internal CssBox LatestSiblingBox { get; set; }
+        internal CssBox LatestLeftFloatBox => _floatingContextStack.LatestLeftFloatBox;
+
+        internal CssBox LatestRightFloatBox => _floatingContextStack.LatestRightFloatBox;
+
+
+        internal bool HasFloatBoxInContext => _floatingContextStack.HasFloatBoxInContext;
+
+
+        internal FloatingContextStack GetFloatingContextStack() => _floatingContextStack;
+
 
         internal void AddFloatBox(CssBox floatBox)
         {
-            floatingContextStack.AddFloatBox(floatBox);
+            _floatingContextStack.AddFloatBox(floatBox);
         }
         internal void UpdateRootSize(CssBox box)
         {
             float candidateRootWidth = Math.Max(
-                box.CalculateMinimumWidth(this.episodeId) + CalculateWidthMarginTotalUp(box),
+                box.CalculateMinimumWidth(this._episodeId) + CalculateWidthMarginTotalUp(box),
                 (box.VisualWidth + this.ContainerBlockGlobalX) < CssBoxConstConfig.BOX_MAX_RIGHT ? box.VisualWidth : 0);
             _htmlVisualRoot.UpdateSizeIfWiderOrHigher(
                 this.ContainerBlockGlobalX + candidateRootWidth,
@@ -130,7 +109,7 @@ namespace LayoutFarm.HtmlBoxes
             if ((box.VisualWidth + this.ContainerBlockGlobalX) > CssBoxConstConfig.BOX_MAX_RIGHT ||
                 (box.ParentBox != null && (box.ParentBox.VisualWidth + this.ContainerBlockGlobalX) > CssBoxConstConfig.BOX_MAX_RIGHT))
             {
-                return (box.ActualMarginLeft + box.ActualMarginRight) + totalMarginLeftAndRight;
+                return (box.ActualMarginLeft + box.ActualMarginRight) + _totalMarginLeftAndRight;
             }
             return 0;
         }
@@ -170,21 +149,21 @@ namespace LayoutFarm.HtmlBoxes
         //---------------------------------------------------------------
         internal Dictionary<CssBox, PartialBoxStrip> GetReadyStripDic()
         {
-            if (readyDicStrip == null)
+            if (_readyDicStrip == null)
             {
-                if (this.dicStripPool == null || this.dicStripPool.Count == 0)
+                if (this._dicStripPool == null || this._dicStripPool.Count == 0)
                 {
                     return new Dictionary<CssBox, PartialBoxStrip>();
                 }
                 else
                 {
-                    return this.dicStripPool.Dequeue();
+                    return this._dicStripPool.Dequeue();
                 }
             }
             else
             {
-                var tmpReadyStripDic = this.readyDicStrip;
-                this.readyDicStrip = null;
+                var tmpReadyStripDic = this._readyDicStrip;
+                this._readyDicStrip = null;
                 return tmpReadyStripDic;
             }
         }
@@ -192,39 +171,39 @@ namespace LayoutFarm.HtmlBoxes
         {
             //clear before add to pool
             dic.Clear();
-            if (this.readyDicStrip == null)
+            if (this._readyDicStrip == null)
             {
-                this.readyDicStrip = dic;
+                this._readyDicStrip = dic;
             }
             else
             {
-                if (this.dicStripPool == null)
+                if (this._dicStripPool == null)
                 {
-                    this.dicStripPool = new Queue<Dictionary<CssBox, PartialBoxStrip>>();
+                    this._dicStripPool = new Queue<Dictionary<CssBox, PartialBoxStrip>>();
                 }
 
 
-                this.dicStripPool.Enqueue(dic);
+                this._dicStripPool.Enqueue(dic);
             }
         }
         //---------------------------------------------------------------
         internal List<PartialBoxStrip> GetReadyStripList()
         {
-            if (readyListStrip == null)
+            if (_readyListStrip == null)
             {
-                if (this.dicStripPool == null || this.dicStripPool.Count == 0)
+                if (this._dicStripPool == null || this._dicStripPool.Count == 0)
                 {
                     return new List<PartialBoxStrip>();
                 }
                 else
                 {
-                    return this.listStripPool.Dequeue();
+                    return this._listStripPool.Dequeue();
                 }
             }
             else
             {
-                var tmpReadyListStrip = this.readyListStrip;
-                this.readyListStrip = null;
+                var tmpReadyListStrip = this._readyListStrip;
+                this._readyListStrip = null;
                 return tmpReadyListStrip;
             }
         }
@@ -232,32 +211,30 @@ namespace LayoutFarm.HtmlBoxes
         {
             //clear before add to pool
             list.Clear();
-            if (this.readyListStrip == null)
+            if (this._readyListStrip == null)
             {
-                this.readyListStrip = list;
+                this._readyListStrip = list;
             }
             else
             {
-                if (this.listStripPool == null)
+                if (this._listStripPool == null)
                 {
-                    this.listStripPool = new Queue<List<PartialBoxStrip>>();
+                    this._listStripPool = new Queue<List<PartialBoxStrip>>();
                 }
-                this.listStripPool.Enqueue(list);
+                this._listStripPool.Enqueue(list);
             }
         }
 
 
         //--------------------------------------------------------------- 
-        internal int EpisodeId
-        {
-            get { return this.episodeId; }
-        }
+        internal int EpisodeId => this._episodeId;
+
         //---------------------------------------------------------------
 
 #if DEBUG
         int dbugIndentLevel;
         internal bool dbugEnableLogRecord;
-        internal List<string> logRecords = new List<string>();
+        internal List<string> dbuglogRecords = new List<string>();
         public enum dbugPaintVisitorContextName
         {
             Init
@@ -265,7 +242,7 @@ namespace LayoutFarm.HtmlBoxes
         public void dbugResetLogRecords()
         {
             this.dbugIndentLevel = 0;
-            logRecords.Clear();
+            dbuglogRecords.Clear();
         }
         public void dbugEnterNewContext(CssBox box, dbugPaintVisitorContextName contextName)
         {
@@ -275,7 +252,7 @@ namespace LayoutFarm.HtmlBoxes
                 //if (box.__aa_dbugId == 7)
                 //{
                 //}
-                logRecords.Add(new string('>', dbugIndentLevel) + dbugIndentLevel.ToString() +
+                dbuglogRecords.Add(new string('>', dbugIndentLevel) + dbugIndentLevel.ToString() +
                     "x:" + box.Left + ",y:" + box.Top + ",w:" + box.VisualWidth + "h:" + box.VisualHeight +
                     " " + box.ToString() + ",id:" + box.__aa_dbugId);
                 dbugIndentLevel++;
@@ -285,7 +262,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             if (this.dbugEnableLogRecord)
             {
-                logRecords.Add(new string('<', dbugIndentLevel) + dbugIndentLevel.ToString());
+                dbuglogRecords.Add(new string('<', dbugIndentLevel) + dbugIndentLevel.ToString());
                 dbugIndentLevel--;
                 if (dbugIndentLevel < 0)
                 {

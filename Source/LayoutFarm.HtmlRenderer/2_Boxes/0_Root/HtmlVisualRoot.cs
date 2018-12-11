@@ -36,7 +36,7 @@ namespace LayoutFarm.HtmlBoxes
         float _maxHeight;
 
 
-        public float MaxWidth { get { return _maxHeight; } }
+        public float MaxWidth => _maxHeight;
         public abstract void ClearPreviousSelection();
         public abstract void SetSelection(SelectionRange selRange);
         public abstract SelectionRange CurrentSelectionRange { get; }
@@ -45,18 +45,14 @@ namespace LayoutFarm.HtmlBoxes
         public HtmlVisualRoot()
         {
         }
-        public ITextService GetTextService()
-        {
-            return _textService;
-        }
+        public ITextService GetTextService() => _textService;
+
 
 #if DEBUG
         public static int dbugCount02 = 0;
 #endif
-        public CssBox RootCssBox
-        {
-            get { return _rootBox; }
-        }
+        public CssBox RootCssBox => _rootBox;
+
         public RenderElement RootRenderElement { get; set; }
 
         public void SetRootCssBox(CssBox rootCssBox)
@@ -76,36 +72,27 @@ namespace LayoutFarm.HtmlBoxes
 
         public abstract bool RefreshDomIfNeed();
 
-        public bool HasRootBox { get { return _rootBox != null; } }
+        public bool HasRootBox => _rootBox != null;
 
         /// <summary>
         /// The actual size of the rendered html (after layout)
         /// </summary>
-        public SizeF ActualSize
-        {
-            get { return new SizeF(_actualWidth, _actualHeight); }
-        }
-        public float ActualWidth
-        {
-            get { return _actualWidth; }
-        }
-        public float ActualHeight
-        {
-            get { return _actualHeight; }
-        }
+        public SizeF ActualSize => new SizeF(_actualWidth, _actualHeight);
+
+        public float ActualWidth => _actualWidth;
+
+        public float ActualHeight => _actualHeight;
+
         public void SetMaxSize(float maxWidth, float maxHeight)
         {
             _maxWidth = maxWidth;
             _maxHeight = maxHeight; //init maxHeight = 0
         }
-        int layoutVersion;
-        public int LayoutVersion
-        {
-            get
-            {
-                return this.layoutVersion;
-            }
-        }
+
+        int _layoutVersion;
+        public int LayoutVersion => this._layoutVersion;
+
+
         public void PerformLayout(LayoutVisitor lay)
         {
             if (_rootBox == null)
@@ -180,7 +167,7 @@ namespace LayoutFarm.HtmlBoxes
 
             OnLayoutFinished();
             //----------------------- 
-            unchecked { layoutVersion++; }
+            unchecked { _layoutVersion++; }
             //----------------------- 
         }
         //#if DEBUG
@@ -258,7 +245,7 @@ namespace LayoutFarm.HtmlBoxes
 
             if (p.dbugEnableLogRecord)
             {
-                 
+
             }
 #endif
 

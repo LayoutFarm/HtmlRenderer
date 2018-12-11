@@ -17,46 +17,41 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
 
-        List<T> itemCollection = new List<T>();
-        Stack<LevelInfo> levelInfoStack = new Stack<LevelInfo>();
-        int currentLayerStartAt = 0;
-        int currentLayerItemCount = 0;
+        List<T> _itemCollection = new List<T>();
+        Stack<LevelInfo> _levelInfoStack = new Stack<LevelInfo>();
+        int _currentLayerStartAt = 0;
+        int _currentLayerItemCount = 0;
         public void AddLayerItem(T item)
         {
-            itemCollection.Add(item);
-            this.currentLayerItemCount++;
+            _itemCollection.Add(item);
+            this._currentLayerItemCount++;
         }
         public void ClearLayerItems()
         {
             //clear in current layer  
-            for (int i = 0; i < currentLayerItemCount; ++i)
+            for (int i = 0; i < _currentLayerItemCount; ++i)
             {
-                itemCollection.RemoveAt(i);
+                _itemCollection.RemoveAt(i);
             }
-            this.currentLayerItemCount = 0;
+            this._currentLayerItemCount = 0;
         }
-        public int CurrentLayerItemCount
-        {
-            get { return this.currentLayerItemCount; }
-        }
-        public T GetItem(int index)
-        {
-            //get item at current layer
-            return itemCollection[currentLayerStartAt + index];
-        }
+        public int CurrentLayerItemCount => this._currentLayerItemCount;
+        //
+        public T GetItem(int index) => _itemCollection[_currentLayerStartAt + index];
+        //
         public void EnterNewContext()
         {
             //store last info
-            levelInfoStack.Push(new LevelInfo(this.currentLayerStartAt, this.currentLayerItemCount));
-            this.currentLayerItemCount = 0;
-            this.currentLayerStartAt = itemCollection.Count;
+            _levelInfoStack.Push(new LevelInfo(this._currentLayerStartAt, this._currentLayerItemCount));
+            this._currentLayerItemCount = 0;
+            this._currentLayerStartAt = _itemCollection.Count;
         }
         public void ExitCurrentContext()
         {
             //clear all item in prev layer
-            LevelInfo prevLayerInfo = this.levelInfoStack.Pop();
-            this.currentLayerStartAt = prevLayerInfo.currentLayerStartAt;
-            this.currentLayerItemCount = prevLayerInfo.currentLeyerCount;
+            LevelInfo prevLayerInfo = this._levelInfoStack.Pop();
+            this._currentLayerStartAt = prevLayerInfo.currentLayerStartAt;
+            this._currentLayerItemCount = prevLayerInfo.currentLeyerCount;
         }
     }
 }

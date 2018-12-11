@@ -34,37 +34,21 @@ namespace LayoutFarm.HtmlBoxes
             _width = w;
             _height = h;
         }
-
-        public float Left
-        {
-            get { return _x; }
-        }
-        public float Top
-        {
-            get { return _y; }
-        }
-        public float Width
-        {
-            get { return _width; }
-        }
-        public float Right
-        {
-            get { return _x + _width; }
-        }
-        public float Height
-        {
-            get { return _height; }
-        }
-
-        public float Bottom
-        {
-            get { return _y + _height; }
-        }
-
-        public RectangleF Bound
-        {
-            get { return new RectangleF(_x, _y, this.Width, this.Height); }
-        }
+        //
+        public float Left => _x;
+        //
+        public float Top => _y;
+        //
+        public float Width => _width;
+        //
+        public float Right => _x + _width;
+        //
+        public float Height => _height;
+        //
+        public float Bottom => _y + _height;
+        //
+        public RectangleF Bound => new RectangleF(_x, _y, this.Width, this.Height);
+        //
 
         public void MergeBound(float left, float top, float right, float bottom)
         {
@@ -149,32 +133,13 @@ namespace LayoutFarm.HtmlBoxes
                 }
             }
         }
-        internal float CachedLineBottom
-        {
-            get { return this.CachedLineTop + this.CacheLineHeight; }
-        }
-        internal float CacheLineHeight
-        {
-            get;
-            private set;
-        }
-        internal float CachedLineTop
-        {
-            //relative top compare to its parent
-            get;
-            set;
-        }
-
-        internal float CachedLineContentWidth
-        {
-            get;
-            set;
-        }
-        internal float CachedExactContentWidth
-        {
-            get;
-            set;
-        }
+        internal float CachedLineBottom => this.CachedLineTop + this.CacheLineHeight;
+        internal float CacheLineHeight { get; private set; }
+        internal float CachedLineTop { get; set; }//relative top compare to its parent
+        //
+        internal float CachedLineContentWidth { get; set; }
+        internal float CachedExactContentWidth { get; set; }
+        //
         internal float CalculateLineHeight()
         {
             float maxBottom = 0;
@@ -388,33 +353,18 @@ namespace LayoutFarm.HtmlBoxes
                 yield return _bottomUpBoxStrips[i].Top;
             }
         }
-        internal int RunCount
-        {
-            get
-            {
-                return _runs.Count;
-            }
-        }
-        internal CssRun GetRun(int index)
-        {
-            return _runs[index];
-        }
-        internal CssRun GetFirstRun()
-        {
-            return _runs[0];
-        }
-        internal CssRun GetLastRun()
-        {
-            return _runs[_runs.Count - 1];
-        }
-
+        //
+        internal int RunCount => _runs.Count;
+        //
+        internal CssRun GetRun(int index) => _runs[index];
+        //
+        internal CssRun GetFirstRun() => _runs[0];
+        //
+        internal CssRun GetLastRun() => _runs[_runs.Count - 1];
         /// <summary>
         /// Gets the owner box
         /// </summary>
-        public CssBox OwnerBox
-        {
-            get { return _ownerBox; }
-        }
+        public CssBox OwnerBox => _ownerBox;
         /// <summary>
         /// Lets the linebox add the word an its box to their lists if necessary.
         /// </summary>
@@ -574,11 +524,7 @@ namespace LayoutFarm.HtmlBoxes
 
 #endif
 
-        internal SelectionSegment SelectionSegment
-        {
-            get;
-            set;
-        }
+        internal SelectionSegment SelectionSegment { get; set; }
 
 
         internal void PaintBackgroundAndBorder(PaintVisitor p)
@@ -694,14 +640,8 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
         //---------------------------------
-        internal bool IsFirstLine
-        {
-            get { return this.linkedNode.Previous == null; }
-        }
-        internal bool IsLastLine
-        {
-            get { return this.linkedNode.Next == null; }
-        }
+        internal bool IsFirstLine => this.linkedNode.Previous == null;
+        internal bool IsLastLine => this.linkedNode.Next == null;
         //--------------------------------- 
         internal CssRun FindMaxWidthRun(float minimum)
         {

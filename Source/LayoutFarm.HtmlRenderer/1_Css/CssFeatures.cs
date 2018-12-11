@@ -11,24 +11,24 @@ namespace LayoutFarm.Css
         int __aa_dbugId = dbugIdTotal++;
 #endif
 
-        protected readonly object owner;
-        bool freezed;
+        protected readonly object _owner;
+        bool _freezed;
         public CssFeatureBase(object owner)
         {
-            this.owner = owner;
+            this._owner = owner;
         }
-        public object Owner { get { return this.owner; } }
-        public bool IsFreezed { get { return this.freezed; } }
+        public object Owner => this._owner;
+        public bool IsFreezed => this._freezed;
         public void Freeze()
         {
-            this.freezed = true;
+            this._freezed = true;
         }
-        public void DeFreeze() { this.freezed = false; }
+        public void DeFreeze() { this._freezed = false; }
 
 
         protected bool Assignable()
         {
-            return !this.freezed;
+            return !this._freezed;
         }
     }
 
@@ -91,87 +91,87 @@ namespace LayoutFarm.Css
         }
         public CssLength LeftWidth
         {
-            get { return _leftWidth; }
+            get => _leftWidth;
             set { if (Assignable()) _leftWidth = value; }
         }
         public CssLength TopWidth
         {
-            get { return _topWidth; }
+            get => _topWidth;
             set { if (Assignable()) _topWidth = value; }
         }
         public CssLength RightWidth
         {
-            get { return _rightWidth; }
+            get => _rightWidth;
             set { if (Assignable()) _rightWidth = value; }
         }
         public CssLength BottomWidth
         {
-            get { return _bottomWidth; }
+            get => _bottomWidth;
             set { if (Assignable()) _bottomWidth = value; }
         }
 
         public CssBorderStyle LeftStyle
         {
-            get { return _leftStyle; }
+            get => _leftStyle;
             set { if (Assignable()) _leftStyle = value; }
         }
         public CssBorderStyle TopStyle
         {
-            get { return _topStyle; }
+            get => _topStyle;
             set { if (Assignable()) _topStyle = value; }
         }
         public CssBorderStyle RightStyle
         {
-            get { return _rightStyle; }
+            get => _rightStyle;
             set { if (Assignable()) _rightStyle = value; }
         }
         public CssBorderStyle BottomStyle
         {
-            get { return _bottomStyle; }
+            get => _bottomStyle;
             set { if (Assignable()) _bottomStyle = value; }
         }
 
         public Color LeftColor
         {
-            get { return _leftColor; }
+            get => _leftColor;
             set { if (Assignable()) _leftColor = value; }
         }
         public Color TopColor
         {
-            get { return _topColor; }
+            get => _topColor;
             set { if (Assignable()) _topColor = value; }
         }
         public Color RightColor
         {
-            get { return _rightColor; }
+            get => _rightColor;
             set { if (Assignable()) _rightColor = value; }
         }
         public Color BottomColor
         {
-            get { return _bottomColor; }
+            get => _bottomColor;
             set { if (Assignable()) _bottomColor = value; }
         }
 
         public CssBorderCollapse BorderCollapse
         {
-            get { return _borderCollapse; }
+            get => _borderCollapse;
             set { if (Assignable()) _borderCollapse = value; }
         }
 
         public CssLength BorderSpacingH
         {
-            get { return _borderSpacingH; }
+            get => _borderSpacingH;
             set { if (Assignable()) _borderSpacingH = value; }
         }
         public CssLength BorderSpacingV
         {
-            get { return _borderSpacingV; }
+            get => _borderSpacingV;
             set { if (Assignable()) _borderSpacingV = value; }
         }
 
         public CssBorderFeature GetMyOwnVersion(object checkOwner)
         {
-            if (this.owner == checkOwner)
+            if (this._owner == checkOwner)
             {
                 return this;
             }
@@ -236,29 +236,29 @@ namespace LayoutFarm.Css
 
         public CssLength Left
         {
-            get { return _left; }
+            get => _left;
             set { if (Assignable()) _left = value; }
         }
         public CssLength Top
         {
-            get { return _top; }
+            get => _top;
             set { if (Assignable()) _top = value; }
         }
         public CssLength Right
         {
-            get { return _right; }
+            get => _right;
             set { if (Assignable()) _right = value; }
         }
 
         public CssLength Bottom
         {
-            get { return _bottom; }
+            get => _bottom;
             set { if (Assignable()) _bottom = value; }
         }
 
         public CssMarginFeature GetMyOwnVersion(object checkOwner)
         {
-            if (this.owner == checkOwner)
+            if (this._owner == checkOwner)
             {
                 return this;
             }
@@ -308,29 +308,29 @@ namespace LayoutFarm.Css
         }
         public CssLength Left
         {
-            get { return _left; }
+            get => _left;
             set { if (Assignable()) _left = value; }
         }
         public CssLength Top
         {
-            get { return _top; }
+            get => _top;
             set { if (Assignable()) _top = value; }
         }
         public CssLength Right
         {
-            get { return _right; }
+            get => _right;
             set { if (Assignable()) _right = value; }
         }
 
         public CssLength Bottom
         {
-            get { return _bottom; }
+            get => _bottom;
             set { if (Assignable()) _bottom = value; }
         }
 
         public CssPaddingFeature GetMyOwnVersion(object checkOwner)
         {
-            if (this.owner == checkOwner)
+            if (this._owner == checkOwner)
             {
                 return this;
             }
@@ -385,7 +385,7 @@ namespace LayoutFarm.Css
         }
         public CssListFeature GetMyOwnVersion(object checkOwner)
         {
-            if (this.owner == checkOwner)
+            if (this._owner == checkOwner)
             {
                 return this;
             }
@@ -397,10 +397,8 @@ namespace LayoutFarm.Css
 
         public CssListStyleType ListStyleType
         {
-            get
-            {
-                return _listStyleType;
-            }
+            get => _listStyleType;
+
             set
             {
                 if (Assignable()) _listStyleType = value;
@@ -408,10 +406,8 @@ namespace LayoutFarm.Css
         }
         public string ListStyleImage
         {
-            get
-            {
-                return _listStyleImage;
-            }
+            get => _listStyleImage;
+
             set
             {
                 if (Assignable()) _listStyleImage = value;
@@ -419,10 +415,8 @@ namespace LayoutFarm.Css
         }
         public CssListStylePosition ListStylePosition
         {
-            get
-            {
-                return _listStylePosition;
-            }
+            get => _listStylePosition;
+
             set
             {
                 if (Assignable()) _listStylePosition = value;
@@ -430,10 +424,8 @@ namespace LayoutFarm.Css
         }
         public string ListStyle
         {
-            get
-            {
-                return _listStyle;
-            }
+            get => _listStyle;
+
             set
             {
                 if (Assignable()) _listStyle = value;
@@ -481,34 +473,34 @@ namespace LayoutFarm.Css
         }
         public CssCornerFeature GetMyOwnVersion(object checkOwner)
         {
-            if (this.owner == checkOwner)
+            if (this._owner == checkOwner)
             {
                 return this;
             }
             else
             {
-                return new CssCornerFeature(owner, this);
+                return new CssCornerFeature(_owner, this);
             }
         }
 
         public CssLength NERadius
         {
-            get { return _ne; }
+            get => _ne;
             set { if (Assignable()) _ne = value; }
         }
         public CssLength NWRadius
         {
-            get { return _nw; }
+            get => _nw;
             set { if (Assignable()) _nw = value; }
         }
         public CssLength SERadius
         {
-            get { return _se; }
+            get => _se;
             set { if (Assignable()) _se = value; }
         }
         public CssLength SWRadius
         {
-            get { return _sw; }
+            get => _sw;
             set { if (Assignable()) _sw = value; }
         }
 
@@ -560,13 +552,13 @@ namespace LayoutFarm.Css
 
         public string FontFamily
         {
-            get { return _fontFam; }
+            get => _fontFam;
             set { if (Assignable()) _fontFam = value; }
         }
 
         public CssLength FontSize
         {
-            get { return _fontSize; }
+            get => _fontSize;
             set
             {
                 if (Assignable()) _fontSize = value;
@@ -574,7 +566,7 @@ namespace LayoutFarm.Css
         }
         public CssFontStyle FontStyle
         {
-            get { return _fontStyle; }
+            get => _fontStyle;
             set
             {
                 if (Assignable()) _fontStyle = value;
@@ -582,7 +574,7 @@ namespace LayoutFarm.Css
         }
         public CssFontVariant FontVariant
         {
-            get { return _fontVariant; }
+            get => _fontVariant;
             set
             {
                 if (Assignable()) _fontVariant = value;
@@ -590,7 +582,7 @@ namespace LayoutFarm.Css
         }
         public CssFontWeight FontWeight
         {
-            get { return _fontWeight; }
+            get => _fontWeight;
             set
             {
                 if (Assignable()) _fontWeight = value;
@@ -601,7 +593,7 @@ namespace LayoutFarm.Css
         //------------------------------------------------------------
         public CssFontFeature GetMyOwnVersion(object checkOwner)
         {
-            if (this.owner == checkOwner)
+            if (this._owner == checkOwner)
             {
                 return this;
             }
@@ -683,7 +675,7 @@ namespace LayoutFarm.Css
 
         public CssBackgroundFeature GetMyOwnVersion(object checkOwner)
         {
-            if (this.owner == checkOwner)
+            if (this._owner == checkOwner)
             {
                 return this;
             }
@@ -695,51 +687,51 @@ namespace LayoutFarm.Css
         //---------------------------------
         public Color BackgroundColor
         {
-            get { return _bgColor; }
+            get => _bgColor;
             set { if (Assignable()) _bgColor = value; }
         }
         public Color BackgroundGradient
         {
-            get { return _bgGradient; }
+            get => _bgGradient;
             set { if (Assignable()) _bgGradient = value; }
         }
         public float BackgroundGradientAngle
         {
-            get { return _bgGradientAngle; }
+            get => _bgGradientAngle;
             set { if (Assignable()) _bgGradientAngle = value; }
         }
 
         public ImageBinder BackgroundImageBinder
         {
-            get { return _imgBinder; }
+            get => _imgBinder;
             set { if (Assignable()) _imgBinder = value; }
         }
         public string BackgroundPosition
         {
-            get { return _bgPosition; }
+            get => _bgPosition;
             set { if (Assignable()) _bgPosition = value; }
         }
 
         public CssLength BackgroundPosX
         {
-            get { return _bgPosX; }
+            get => _bgPosX;
             set { if (Assignable()) _bgPosX = value; }
         }
         public CssLength BackgroundPosY
         {
-            get { return _bgPosY; }
+            get => _bgPosY;
             set { if (Assignable()) _bgPosY = value; }
         }
         public CssBackgroundRepeat BackgroundRepeat
         {
-            get { return _bgRepeat; }
+            get => _bgRepeat;
             set { if (Assignable()) _bgRepeat = value; }
         }
 
 
         public CssCursorName CursorName
         {
-            get { return _cursorName; }
+            get => _cursorName;
             set { if (Assignable()) _cursorName = value; }
         }
         //---------------------------------
@@ -806,38 +798,38 @@ namespace LayoutFarm.Css
         }
         public CssLength HOffset
         {
-            get { return _hOffset; }
+            get => _hOffset;
             set { if (Assignable()) _hOffset = value; }
         }
         public CssLength VOffset
         {
-            get { return _vOffset; }
+            get => _vOffset;
             set { if (Assignable()) _vOffset = value; }
         }
         public CssLength BlurRadius
         {
-            get { return _blurRadius; }
+            get => _blurRadius;
             set { if (Assignable()) _blurRadius = value; }
         }
         public CssLength SpreadDistance
         {
-            get { return _spreadDistance; }
+            get => _spreadDistance;
             set { if (Assignable()) _spreadDistance = value; }
         }
         public Color ShadowColor
         {
-            get { return _shadowColor; }
+            get => _shadowColor;
             set { if (Assignable()) _shadowColor = value; }
         }
         public bool Inset
         {
-            get { return _inset; }
+            get => _inset;
             set { if (Assignable()) _inset = value; }
         }
 
         public CssBoxShadowFeature GetMyOwnVersion(object checkOwner)
         {
-            if (this.owner == checkOwner)
+            if (this._owner == checkOwner)
             {
                 return this;
             }
@@ -894,7 +886,7 @@ namespace LayoutFarm.Css
         }
         public CssFlexFeature GetMyOwnVersion(object checkOwner)
         {
-            if (this.owner == checkOwner)
+            if (this._owner == checkOwner)
             {
                 return this;
             }
@@ -906,61 +898,61 @@ namespace LayoutFarm.Css
 
         public FlexFlowDirection FlowDirection
         {
-            get { return _flexFlowDirection; }
+            get => _flexFlowDirection;
             set { if (Assignable()) _flexFlowDirection = value; }
         }
         public FlexWrap FlexWrap
         {
-            get { return _flexLineWrapping; }
+            get => _flexLineWrapping;
             set { if (Assignable()) _flexLineWrapping = value; }
         }
 
         public int FlexOrder
         {
-            get { return _flexOrder; }
+            get => _flexOrder;
             set { if (Assignable()) _flexOrder = value; }
         }
 
         public int FlexGrow
         {
-            get { return _flexGrow; }
+            get => _flexGrow;
             set { if (Assignable()) _flexGrow = value; }
         }
         public int FlexShrink
         {
-            get { return _flexShrink; }
+            get => _flexShrink;
             set { if (Assignable()) _flexShrink = value; }
         }
         public CssLength FlexBasis
         {
-            get { return _flexBasis; }
+            get => _flexBasis;
             set { if (Assignable()) _flexBasis = value; }
         }
 
         public FlexJustifyContent JustifyContent
         {
-            get { return _justifyContent; }
+            get => _justifyContent;
             set { if (Assignable()) _justifyContent = value; }
         }
         public FlexAlignItem AlignItem
         {
-            get { return _alignItem; }
+            get => _alignItem;
             set { if (Assignable()) _alignItem = value; }
         }
         public FlexAlignSelf AlignSelf
         {
-            get { return _alignSelf; }
+            get => _alignSelf;
             set { if (Assignable()) _alignSelf = value; }
         }
         public FlexAlignContent AlignContent
         {
-            get { return _alignContent; }
+            get => _alignContent;
             set { if (Assignable()) _alignContent = value; }
         }
 
         public int FlexExtensionNum
         {
-            get { return _flexExtensionNum; }
+            get => _flexExtensionNum;
             set { if (Assignable()) _flexExtensionNum = value; }
         }
         /// <summary>
@@ -968,7 +960,7 @@ namespace LayoutFarm.Css
         /// </summary>
         public int FlexExtensionPart
         {
-            get { return _flexExtensionPartNo; }
+            get => _flexExtensionPartNo;
             set { if (Assignable()) _flexExtensionPartNo = value; }
         }
     }

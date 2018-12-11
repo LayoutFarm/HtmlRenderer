@@ -634,24 +634,16 @@ namespace LayoutFarm.Css
         /// 
         /// Gets the actual color for the text.
         /// </summary>
-        public Color ActualColor
-        {
-            get
-            {
-                return _actualColor;
-            }
-        }
+        public Color ActualColor => _actualColor;
+
+
 
         /// <summary>
         /// Gets the actual background color of the box
         /// </summary>
-        public Color ActualBackgroundColor
-        {
-            get
-            {
-                return _backgroundFeats.BackgroundColor;
-            }
-        }
+        public Color ActualBackgroundColor => _backgroundFeats.BackgroundColor;
+
+
         internal RequestFont GetFont(float parentFontSize)
         {
 
@@ -771,13 +763,11 @@ namespace LayoutFarm.Css
         }
 
         //----------------------------------------------------------------------
-        public bool HasBoxShadow
-        {
-            get { return _boxShadow != CssBoxShadowFeature.Default; }
-        }
+        public bool HasBoxShadow => _boxShadow != CssBoxShadowFeature.Default;
+
         public CssLength BoxShadowHOffset
         {
-            get { return _boxShadow.HOffset; }
+            get => _boxShadow.HOffset;
             set
             {
                 if (Assignable()) CheckBoxShadowVersion().HOffset = value;
@@ -785,7 +775,7 @@ namespace LayoutFarm.Css
         }
         public CssLength BoxShadowVOffset
         {
-            get { return _boxShadow.VOffset; }
+            get => _boxShadow.VOffset;
             set
             {
                 if (Assignable()) CheckBoxShadowVersion().VOffset = value;
@@ -793,7 +783,7 @@ namespace LayoutFarm.Css
         }
         public CssLength BoxShadowBlurRadius
         {
-            get { return _boxShadow.BlurRadius; }
+            get => _boxShadow.BlurRadius;
             set
             {
                 if (Assignable()) CheckBoxShadowVersion().BlurRadius = value;
@@ -801,7 +791,7 @@ namespace LayoutFarm.Css
         }
         public CssLength BoxShadowSpreadDistance
         {
-            get { return _boxShadow.SpreadDistance; }
+            get => _boxShadow.SpreadDistance;
             set
             {
                 if (Assignable()) CheckBoxShadowVersion().SpreadDistance = value;
@@ -809,7 +799,7 @@ namespace LayoutFarm.Css
         }
         public Color BoxShadowColor
         {
-            get { return _boxShadow.ShadowColor; }
+            get => _boxShadow.ShadowColor;
             set
             {
                 if (Assignable()) CheckBoxShadowVersion().ShadowColor = value;
@@ -818,7 +808,7 @@ namespace LayoutFarm.Css
         //----------------------------------------------------------------------
         public FlexFlowDirection FlexFlowDirection
         {
-            get { return _flexFeats.FlowDirection; }
+            get => _flexFeats.FlowDirection;
             set
             {
                 if (Assignable()) CheckFlexVersion().FlowDirection = value;
@@ -826,7 +816,7 @@ namespace LayoutFarm.Css
         }
         public FlexJustifyContent FlexJustifyContent
         {
-            get { return _flexFeats.JustifyContent; }
+            get => _flexFeats.JustifyContent;
             set
             {
                 if (Assignable()) CheckFlexVersion().JustifyContent = value;
@@ -834,7 +824,7 @@ namespace LayoutFarm.Css
         }
         public FlexWrap FlexWrap
         {
-            get { return _flexFeats.FlexWrap; }
+            get => _flexFeats.FlexWrap;
             set
             {
                 if (Assignable()) CheckFlexVersion().FlexWrap = value;
@@ -842,7 +832,7 @@ namespace LayoutFarm.Css
         }
         public FlexAlignContent FlexAlignContent
         {
-            get { return _flexFeats.AlignContent; }
+            get => _flexFeats.AlignContent;
             set
             {
                 if (Assignable()) CheckFlexVersion().AlignContent = value;
@@ -850,7 +840,7 @@ namespace LayoutFarm.Css
         }
         public FlexAlignSelf FlexAlignSelf
         {
-            get { return _flexFeats.AlignSelf; }
+            get => _flexFeats.AlignSelf;
             set
             {
                 if (Assignable()) CheckFlexVersion().AlignSelf = value;
@@ -858,7 +848,7 @@ namespace LayoutFarm.Css
         }
         public FlexAlignItem FlexAlignItem
         {
-            get { return _flexFeats.AlignItem; }
+            get => _flexFeats.AlignItem;
             set
             {
                 if (Assignable()) CheckFlexVersion().AlignItem = value;
@@ -867,7 +857,7 @@ namespace LayoutFarm.Css
         //----------------------------------------------------------------------
         public int FlexGrow
         {
-            get { return _flexFeats.FlexGrow; }
+            get => _flexFeats.FlexGrow;
             set
             {
                 if (Assignable()) CheckFlexVersion().FlexGrow = value;
@@ -875,7 +865,7 @@ namespace LayoutFarm.Css
         }
         public int FlexShrink
         {
-            get { return _flexFeats.FlexShrink; }
+            get => _flexFeats.FlexShrink;
             set
             {
                 if (Assignable()) CheckFlexVersion().FlexShrink = value;
@@ -883,7 +873,7 @@ namespace LayoutFarm.Css
         }
         public int FlexOrder
         {
-            get { return _flexFeats.FlexOrder; }
+            get => _flexFeats.FlexOrder;
             set
             {
                 if (Assignable()) CheckFlexVersion().FlexOrder = value;
@@ -891,7 +881,7 @@ namespace LayoutFarm.Css
         }
         public CssLength FlexBasis
         {
-            get { return _flexFeats.FlexBasis; }
+            get => _flexFeats.FlexBasis;
             set
             {
                 if (Assignable()) CheckFlexVersion().FlexBasis = value;
@@ -900,7 +890,7 @@ namespace LayoutFarm.Css
         //--------------------------------------------------------------
         public int FlexExtensionNum
         {
-            get { return _flexFeats.FlexExtensionNum; }
+            get => _flexFeats.FlexExtensionNum;
             set
             {
                 if (Assignable()) CheckFlexVersion().FlexExtensionNum = value;
@@ -908,7 +898,7 @@ namespace LayoutFarm.Css
         }
         public int FlexExtensionPart
         {
-            get { return _flexFeats.FlexExtensionPart; }
+            get => _flexFeats.FlexExtensionPart;
             set
             {
                 if (Assignable()) CheckFlexVersion().FlexExtensionPart = value;
@@ -961,26 +951,21 @@ namespace LayoutFarm.Css
 #if DEBUG
     public class dbugPropCheckReport
     {
-        System.Collections.Generic.List<string> msgs = new System.Collections.Generic.List<string>();
+        System.Collections.Generic.List<string> _msgs = new System.Collections.Generic.List<string>();
         public void Check(string propName, bool testResult)
         {
             if (!testResult)
             {
-                msgs.Add(propName);
+                _msgs.Add(propName);
             }
         }
-        public int Count
-        {
-            get { return this.msgs.Count; }
-        }
+        public int Count => this._msgs.Count;
         public void ClearMsgs()
         {
-            this.msgs.Clear();
+            this._msgs.Clear();
         }
-        public System.Collections.Generic.List<string> GetList()
-        {
-            return this.msgs;
-        }
+        public System.Collections.Generic.List<string> GetList() => this._msgs;
+
     }
 #endif
 }

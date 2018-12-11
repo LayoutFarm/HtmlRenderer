@@ -9,71 +9,48 @@ namespace LayoutFarm.HtmlBoxes
     partial class CssBox
     {
         RequestFont _resolvedFont;
-      
+
         float _actualWordSpacing; //assign for whitespace run ?
         float _actualTextIndent;
-         
+
         float _actualBorderSpacingHorizontal;
         float _actualBorderSpacingVertical;
         CssDisplayOutside _displayOutside;
         CssDisplayInside _displayInside;
-        
-        public CssDisplay CssDisplay
-        {
-            get
-            {
-                //TODO review here
-                return _cssDisplay;
-            }
-        }
-        public CssDisplayOutside CssDisplayOutside
-        {
-            get { return _displayOutside; }
-        }
-        public CssDisplayInside CssDisplayInside
-        {
-            get { return _displayInside; }
-        }
+
+        //TODO: review CssDisplay
+        public CssDisplay CssDisplay => _cssDisplay;
+        //
+        public CssDisplayOutside CssDisplayOutside => _displayOutside;
+
+        public CssDisplayInside CssDisplayInside => _displayInside;
+
         /// <summary>
         /// Gets the text indentation (on first line only)
         /// </summary>
-        public float ActualTextIndent
-        {
-            get
-            {
-                return _actualTextIndent;
-            }
-        }
+        public float ActualTextIndent => _actualTextIndent;
+
+
 
         /// <summary>
         /// Gets the actual width of whitespace between words.
         /// </summary>
-        float ActualWordSpacing
-        {
-            get { return _actualWordSpacing; }
-        }
+        float ActualWordSpacing => _actualWordSpacing;
+
 
         /// <summary>
         /// Gets the actual horizontal border spacing for tables
         /// </summary>
-        public float ActualBorderSpacingHorizontal
-        {
-            get
-            {
-                return _actualBorderSpacingHorizontal;
-            }
-        }
+        public float ActualBorderSpacingHorizontal => _actualBorderSpacingHorizontal;
+
+
 
         /// <summary>
         /// Gets the actual vertical border spacing for tables
         /// </summary>
-        public float ActualBorderSpacingVertical
-        {
-            get
-            {
-                return _actualBorderSpacingVertical;
-            }
-        }
+        public float ActualBorderSpacingVertical => _actualBorderSpacingVertical;
+
+
         //========================================================================
         internal void DirectSetBorderWidth(CssSide side, float w)
         {
