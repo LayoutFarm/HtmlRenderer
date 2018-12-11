@@ -9,7 +9,7 @@ namespace LayoutFarm.Composers
     public class HtmlDocument : LayoutFarm.WebDom.Impl.HtmlDocument
     {
         //foc custom elements 
-        Dictionary<string, CreateCssBoxDelegate> registedCustomElemenGens = new Dictionary<string, CreateCssBoxDelegate>();
+        Dictionary<string, CreateCssBoxDelegate> _registeredCustomElemenGens = new Dictionary<string, CreateCssBoxDelegate>();
         internal HtmlDocument(HtmlBoxes.HtmlHost host)
         {
             this.Host = host;
@@ -72,11 +72,11 @@ namespace LayoutFarm.Composers
         public void RegisterCustomElement(string customElementName, CreateCssBoxDelegate cssBoxGen)
         {
             //replace
-            registedCustomElemenGens[customElementName] = cssBoxGen;
+            _registeredCustomElemenGens[customElementName] = cssBoxGen;
         }
         public bool TryGetCustomBoxGenerator(string customElementName, out CreateCssBoxDelegate cssBoxGen)
         {
-            return this.registedCustomElemenGens.TryGetValue(customElementName, out cssBoxGen);
+            return _registeredCustomElemenGens.TryGetValue(customElementName, out cssBoxGen);
         }
     }
 }

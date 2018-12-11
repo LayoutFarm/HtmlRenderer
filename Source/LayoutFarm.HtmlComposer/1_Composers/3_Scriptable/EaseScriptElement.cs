@@ -8,67 +8,65 @@ namespace LayoutFarm.Composers
 {
     public struct EaseScriptElement
     {
-        HtmlElement elem;
+        HtmlElement _elem;
         public EaseScriptElement(DomElement elem)
         {
-            this.elem = elem as HtmlElement;
+            _elem = elem as HtmlElement;
         }
-        public bool IsScriptable
-        {
-            get { return this.elem != null; }
-        }
+        //
+        public bool IsScriptable => _elem != null;
 
-
+        //
         public void ChangeFontColor(Color newcolor)
         {
             //change prop
             //then need to evaluate 
-            if (elem == null)
+            if (_elem == null)
             {
                 return;
             }
-            BoxSpec boxSpec = elem.Spec;
+            BoxSpec boxSpec = _elem.Spec;
             if (boxSpec.ActualColor == newcolor)
             {
                 return;
             }
 
             HtmlElement.InvokeNotifyChangeOnIdleState(
-                elem,
+                _elem,
                 ElementChangeKind.Spec);
             //-------------------------------------
-            var existingRuleSet = elem.ElementRuleSet;
+            var existingRuleSet = _elem.ElementRuleSet;
             if (existingRuleSet == null)
             {
                 //create new one                     
-                elem.ElementRuleSet = existingRuleSet = new CssRuleSet();
-                elem.IsStyleEvaluated = true;
+                _elem.ElementRuleSet = existingRuleSet = new CssRuleSet();
+                _elem.IsStyleEvaluated = true;
             }
             existingRuleSet.AddCssCodeProperty(
                 new CssPropertyDeclaration(
                     WellknownCssPropertyName.Color,
                     new CssCodeColor(newcolor)));
-            HtmlElement.InvokeNotifyChangeOnIdleState(elem, ElementChangeKind.Spec);
+            HtmlElement.InvokeNotifyChangeOnIdleState(_elem, ElementChangeKind.Spec);
         }
         public void ChangeBackgroundColor(Color backgroundColor)
         {
-            if (elem == null)
+            if (_elem == null)
             {
                 return;
             }
-            BoxSpec boxSpec = elem.Spec;
+            BoxSpec boxSpec = _elem.Spec;
             if (boxSpec.BackgroundColor == backgroundColor)
             {
                 return;
             }
 
 
-            var existingRuleSet = elem.ElementRuleSet;
+            var existingRuleSet = _elem.ElementRuleSet;
             if (existingRuleSet == null)
             {
                 //create new one                     
-                elem.ElementRuleSet = existingRuleSet = new CssRuleSet();
-                elem.IsStyleEvaluated = false;
+                _elem.ElementRuleSet = existingRuleSet = new CssRuleSet();
+                _elem.IsStyleEvaluated = false;
             }
 
             //-------------------------------------
@@ -77,19 +75,19 @@ namespace LayoutFarm.Composers
                new CssPropertyDeclaration(
                    WellknownCssPropertyName.BackgroundColor,
                    new CssCodeColor(backgroundColor)));
-            elem.SkipPrincipalBoxEvalulation = false;
-            CssBox cssbox = HtmlElement.InternalGetPrincipalBox(elem);
+            _elem.SkipPrincipalBoxEvalulation = false;
+            CssBox cssbox = HtmlElement.InternalGetPrincipalBox(_elem);
             if (cssbox != null)
             {
-//#if DEBUG
-//                cssbox.dbugMark1++;
-//#endif
+                //#if DEBUG
+                //                cssbox.dbugMark1++;
+                //#endif
 
                 CssBox.InvalidateComputeValue(cssbox);
             }
 
             HtmlElement.InvokeNotifyChangeOnIdleState(
-               elem,
+               _elem,
                ElementChangeKind.Spec);
             InvalidateCssBox(cssbox);
         }

@@ -5,7 +5,7 @@ namespace LayoutFarm.InternalUI
 {
     class CustomRenderBox : RenderBoxBase
     {
-        Color backColor;
+        Color _backColor;
 #if DEBUG
         public bool dbugBreak;
 #endif
@@ -17,10 +17,10 @@ namespace LayoutFarm.InternalUI
 
         public Color BackColor
         {
-            get { return this.backColor; }
+            get => _backColor;
             set
             {
-                this.backColor = value;
+                _backColor = value;
                 if (this.HasParentLink)
                 {
                     this.InvalidateGraphics();

@@ -11,37 +11,29 @@ namespace LayoutFarm.Composers
     {
         //---------------------------------
         //this node may be simple text node  
-        bool freeze;
-        bool hasSomeChar;
-        List<CssRun> runs;
+        bool _freeze;
+        bool _hasSomeChar;
+        List<CssRun> _runs;
         bool _setSplitParts;
 
         public HtmlTextNode(WebDocument ownerDoc, char[] buffer)
             : base(ownerDoc, buffer)
         {
         }
-        public bool IsWhiteSpace
-        {
-            get
-            {
-                return !this.hasSomeChar;
-            }
-        }
+        //
+        public bool IsWhiteSpace => !_hasSomeChar;
+        //
         internal void SetSplitParts(List<CssRun> runs, bool hasSomeChar)
         {
-            this.freeze = false;
-            this.runs = runs;
-            this.hasSomeChar = hasSomeChar;
+            _freeze = false;
+            _runs = runs;
+            _hasSomeChar = hasSomeChar;
             _setSplitParts = true;
         }
-        internal bool HasSetSplitPart
-        {
-            get { return _setSplitParts; }
-        }
-        public bool IsFreeze
-        {
-            get { return this.freeze; }
-        }
+        internal bool HasSetSplitPart => _setSplitParts;
+
+        public bool IsFreeze => _freeze;
+
 #if DEBUG
         public override string ToString()
         {
@@ -51,8 +43,8 @@ namespace LayoutFarm.Composers
 
         internal List<CssRun> InternalGetRuns()
         {
-            this.freeze = true;
-            return this.runs;
+            _freeze = true;
+            return _runs;
         }
         public void WriteTextNode(DomTextWriter writer)
         {

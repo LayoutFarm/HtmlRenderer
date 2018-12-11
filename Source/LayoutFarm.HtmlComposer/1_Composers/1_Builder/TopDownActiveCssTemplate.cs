@@ -27,92 +27,86 @@ namespace LayoutFarm.Composers
 
     class TopDownActiveCssTemplate
     {
-        CssActiveSheet activeSheet;
-        bool isCloneOnce = false;
-        UniqueStringTable ustrTable = new UniqueStringTable();
-        List<BoxSpecLevel> specLevels = new List<BoxSpecLevel>();
-        int currentSpecLevel = 0;
+        CssActiveSheet _activeSheet;
+        bool _isCloneOnce = false;
+        UniqueStringTable _ustrTable = new UniqueStringTable();
+        List<BoxSpecLevel> _specLevels = new List<BoxSpecLevel>();
+        int _currentSpecLevel = 0;
         public TopDownActiveCssTemplate(CssActiveSheet activeSheet)
         {
-            this.activeSheet = activeSheet;
-            specLevels.Add(new BoxSpecLevel(0));
+            _activeSheet = activeSheet;
+            _specLevels.Add(new BoxSpecLevel(0));
         }
         public void EnterLevel()
         {
-            currentSpecLevel++;
-            specLevels.Add(new BoxSpecLevel(currentSpecLevel));
+            _currentSpecLevel++;
+            _specLevels.Add(new BoxSpecLevel(_currentSpecLevel));
         }
         public void ExitLevel()
         {
-            currentSpecLevel--;
-            specLevels.RemoveAt(specLevels.Count - 1);//remove last level
+            _currentSpecLevel--;
+            _specLevels.RemoveAt(_specLevels.Count - 1);//remove last level
         }
         public CssActiveSheet ActiveSheet
         {
-            get
-            {
-                return this.activeSheet;
-            }
-            set
-            {
-                this.activeSheet = value;
-            }
+            get => _activeSheet;
+
+            set => _activeSheet = value;
+
         }
         public void ClearCacheContent()
         {
-            specLevels.Clear();
-            this.currentSpecLevel = 0;
-            specLevels.Add(new BoxSpecLevel(0));
-            this.ustrTable = new UniqueStringTable();
+            _specLevels.Clear();
+            _currentSpecLevel = 0;
+            _specLevels.Add(new BoxSpecLevel(0));
+            _ustrTable = new UniqueStringTable();
         }
         void CloneActiveCssSheetOnce()
         {
-            if (!isCloneOnce)
+            if (!_isCloneOnce)
             {
                 //clone 
-                activeSheet = activeSheet.Clone();
-                isCloneOnce = true;
+                _activeSheet = _activeSheet.Clone();
+                _isCloneOnce = true;
             }
         }
         public void LoadRawStyleElementContent(string rawStyleElementContent)
         {
             CloneActiveCssSheetOnce();
-            LayoutFarm.WebDom.Parser.CssParserHelper.ParseStyleSheet(activeSheet, rawStyleElementContent);
+            LayoutFarm.WebDom.Parser.CssParserHelper.ParseStyleSheet(_activeSheet, rawStyleElementContent);
         }
         public void LoadAnotherStylesheet(WebDom.CssActiveSheet anotherActiveSheet)
         {
             CloneActiveCssSheetOnce();
-            activeSheet.Combine(anotherActiveSheet);
+            _activeSheet.Combine(anotherActiveSheet);
         }
-
-
 
 
         class BoxSpecLevel
         {
-            readonly int level;
-            Dictionary<CssTemplateKey, BoxSpec> specCollections;
+            readonly int _level;
+            Dictionary<CssTemplateKey, BoxSpec> _specCollections;
             public BoxSpecLevel(int level)
             {
-                this.level = level;
+                _level = level;
             }
             public void AddBoxSpec(CssTemplateKey key, BoxSpec spec)
             {
                 //add box spec at this level
-                if (specCollections == null)
+                if (_specCollections == null)
                 {
-                    specCollections = new Dictionary<CssTemplateKey, BoxSpec>();
+                    _specCollections = new Dictionary<CssTemplateKey, BoxSpec>();
                 }
                 //add or replace if exists
-                specCollections[key] = spec;
+                _specCollections[key] = spec;
             }
             public BoxSpec SearchUp(CssTemplateKey key)
             {
                 //recursive search up
                 BoxSpec found = null;
-                if (specCollections != null)
+                if (_specCollections != null)
                 {
-                    if (specCollections.TryGetValue(key, out found))
+                    if (_specCollections.TryGetValue(key, out found))
                     {
                         return found;
                     }
@@ -126,14 +120,14 @@ namespace LayoutFarm.Composers
         void CacheBoxSpec(CssTemplateKey key, BoxSpec spec)
         {
             //add at last(top) level
-            specLevels[specLevels.Count - 1].AddBoxSpec(key, spec);
+            _specLevels[_specLevels.Count - 1].AddBoxSpec(key, spec);
         }
         BoxSpec SearchUpBoxSpec(CssTemplateKey templateKey)
         {
             //bottom up 
-            for (int i = specLevels.Count - 1; i >= 0; --i)
+            for (int i = _specLevels.Count - 1; i >= 0; --i)
             {
-                BoxSpecLevel boxSpecLevel = specLevels[i];
+                BoxSpecLevel boxSpecLevel = _specLevels[i];
                 BoxSpec found = boxSpecLevel.SearchUp(templateKey);
                 if (found != null)
                 {
@@ -150,12 +144,12 @@ namespace LayoutFarm.Composers
              BoxSpec parentSpec)
         {
             //1. tag name key
-            int tagNameKey = ustrTable.AddStringIfNotExist(elemName);
+            int tagNameKey = _ustrTable.AddStringIfNotExist(elemName);
             //2. class name key
             int classNameKey = 0;
             if (class_value != null)
             {
-                classNameKey = ustrTable.AddStringIfNotExist(class_value);
+                classNameKey = _ustrTable.AddStringIfNotExist(class_value);
             }
             //find cache in the same level
             var templateKey = new CssTemplateKey(tagNameKey, classNameKey);
@@ -174,7 +168,7 @@ namespace LayoutFarm.Composers
                 //*** 
                 //----------------------------
                 //1. tag name
-                CssRuleSetGroup ruleGroup = activeSheet.GetRuleSetForTagName(elemName);
+                CssRuleSetGroup ruleGroup = _activeSheet.GetRuleSetForTagName(elemName);
                 if (ruleGroup != null)
                 {
                     //currentBoxSpec.VersionNumber++;
@@ -194,7 +188,7 @@ namespace LayoutFarm.Composers
                     {
                         for (int i = 0; i < j; ++i)
                         {
-                            CssRuleSetGroup ruleSetGroup = activeSheet.GetRuleSetForClassName(classNames[i]);
+                            CssRuleSetGroup ruleSetGroup = _activeSheet.GetRuleSetForClassName(classNames[i]);
                             if (ruleSetGroup != null)
                             {
                                 foreach (var propDecl in ruleSetGroup.GetPropertyDeclIter())
@@ -303,7 +297,7 @@ namespace LayoutFarm.Composers
 
         internal void ApplyActiveTemplateForSpecificElementId(DomElement element)
         {
-            var ruleset = activeSheet.GetRuleSetForId(element.AttrElementId);
+            var ruleset = _activeSheet.GetRuleSetForId(element.AttrElementId);
             if (ruleset != null)
             {
                 //TODO:  implement this

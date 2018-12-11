@@ -16,10 +16,8 @@ namespace LayoutFarm.HtmlBoxes
             : base(rootgfx, width, height)
         {
         }
-        public CssBox CssBox
-        {
-            get { return _cssBox; }
-        }
+        public CssBox CssBox => _cssBox;
+
         public void SetHtmlContainer(MyHtmlVisualRoot htmlCont, CssBox box)
         {
             _myHtmlCont = htmlCont;
@@ -82,14 +80,11 @@ namespace LayoutFarm.HtmlBoxes
         public override void ChildrenHitTestCore(HitChain hitChain)
         {
         }
-        public int HtmlWidth
-        {
-            get { return (int)_myHtmlCont.ActualWidth; }
-        }
-        public int HtmlHeight
-        {
-            get { return (int)_myHtmlCont.ActualHeight; }
-        }
+        //
+        public int HtmlWidth => (int)_myHtmlCont.ActualWidth;
+        //
+        public int HtmlHeight => (int)_myHtmlCont.ActualHeight;
+        //
     }
 
     static class PaintVisitorStock
