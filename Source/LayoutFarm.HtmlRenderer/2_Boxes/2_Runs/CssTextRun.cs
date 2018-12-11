@@ -83,21 +83,12 @@ namespace LayoutFarm.HtmlBoxes
             _textLength = 1;
         }
 
+        //
+        public int TextLength => _textLength;
+        //         
+        internal int TextStartIndex => _textStartIndex;
 
-        public int TextLength
-        {
-            get
-            {
-                return _textLength;
-            }
-        }
-        internal int TextStartIndex
-        {
-            get
-            {
-                return _textStartIndex;
-            }
-        }
+
         /// <summary>
         /// Gets the text of the word
         /// </summary>

@@ -90,7 +90,7 @@ namespace LayoutFarm.HtmlBoxes
         }
 
         int _layoutVersion;
-        public int LayoutVersion => this._layoutVersion;
+        public int LayoutVersion => _layoutVersion;
 
 
         public void PerformLayout(LayoutVisitor lay)

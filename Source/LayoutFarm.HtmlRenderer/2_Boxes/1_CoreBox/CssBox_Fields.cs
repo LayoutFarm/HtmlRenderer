@@ -70,8 +70,8 @@ namespace LayoutFarm.HtmlBoxes
 
         internal bool IsOutOfFlowBox
         {
-            get => this._isOutOfFlowBox;
-            set => this._isOutOfFlowBox = value;
+            get => _isOutOfFlowBox;
+            set => _isOutOfFlowBox = value;
         }
 
 
@@ -80,13 +80,13 @@ namespace LayoutFarm.HtmlBoxes
 
         internal CssBoxDecorator Decorator
         {
-            get => this._decorator;
-            set => this._decorator = value;
+            get => _decorator;
+            set => _decorator = value;
         }
         public CssBlockRun JustBlockRun
         {
-            get => this._justBlockRun;
-            set => this._justBlockRun = value;
+            get => _justBlockRun;
+            set => _justBlockRun = value;
 
         }
         public IEnumerable<CssBox> GetChildBoxIter() => _aa_boxes.GetChildBoxIter();

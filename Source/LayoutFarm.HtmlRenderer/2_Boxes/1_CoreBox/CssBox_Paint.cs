@@ -18,7 +18,7 @@ namespace LayoutFarm.HtmlBoxes
             //bubble invalidate area to to parent?
 
 
-            if (this._justBlockRun != null)
+            if (_justBlockRun != null)
             {
 
                 Rectangle clientArea = this.GetVisualRectBounds();
@@ -78,7 +78,7 @@ namespace LayoutFarm.HtmlBoxes
                 Console.WriteLine(__aa_dbugId + ":i1_" + _viewportY.ToString());
 #endif
             }
-            if (this._justBlockRun != null)
+            if (_justBlockRun != null)
             {
 
                 clientArea.Offset(
@@ -109,7 +109,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 //offset 
 
-                if (this._mayHasViewport)
+                if (_mayHasViewport)
                 {
                     p.OffsetCanvasOrigin(-this.ViewportX, -this.ViewportY);
                     PaintImp(p);

@@ -78,14 +78,10 @@ namespace LayoutFarm.HtmlBoxes
         /// <summary>
         /// Gets the Box where this word belongs.
         /// </summary>
-        public CssBox OwnerBox
-        {
-            get { return _owner; }
-        }
-        internal CssLineBox HostLine
-        {
-            get { return _hostline; }
-        }
+        public CssBox OwnerBox => _owner;
+
+        internal CssLineBox HostLine => _hostline;
+
         internal static void SetHostLine(CssRun run, CssLineBox hostline)
         {
             run._hostline = hostline;
@@ -146,41 +142,32 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
 #endif
-        public CssRunKind Kind
-        {
-            get
-            {
-                return _runKind;
-            }
-        }
+        public CssRunKind Kind => _runKind;
+
 
 
         /// <summary>
         /// Gets or sets the bounds of the rectangle
         /// </summary>
-        public RectangleF Rectangle
-        {
-            get { return new RectangleF(_x, _y, _width, _height); }
-        }
+        public RectangleF Rectangle => new RectangleF(_x, _y, _width, _height);
+
 
         /// <summary>
         /// Left of the rectangle
         /// </summary>
         public float Left
         {
-            get { return _x; }
-            set
-            {
-                _x = value;
-            }
+            get => _x;
+            set => _x = value;
+
         }
         /// <summary>
         /// Top of the rectangle
         /// </summary>
         public float Top
         {
-            get { return _y; }
-            set { _y = value; }
+            get => _y;
+            set => _y = value;
         }
         internal void SetLocation(float x, float y)
         {
@@ -206,11 +193,9 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         public float Width
         {
-            get { return _width; }
-            set
-            {
-                _width = value;
-            }
+            get => _width;
+            set => _width = value;
+
         }
 
         /// <summary>
@@ -218,65 +203,47 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         public float Height
         {
-            get { return _height; }
-            set { _height = value; }
+            get => _height;
+            set => _height = value;
         }
 
         /// <summary>
         /// Gets or sets the right of the rectangle. When setting, it only affects the Width of the rectangle.
         /// </summary>
-        public float Right
-        {
-            get { return _x + _width; }
-        }
+        public float Right => _x + _width;
+
 
         /// <summary>
         /// Gets or sets the bottom of the rectangle. When setting, it only affects the Height of the rectangle.
         /// </summary>
-        public float Bottom
-        {
-            get { return _y + _height; }
-        }
+        public float Bottom => _y + _height;
+
 
 
         /// <summary>
         /// Gets if the word represents solid content like  image, input control
         /// </summary>
-        public bool IsSolidContent
-        {
-            get { return _runKind == CssRunKind.SolidContent; }
-        }
+        public bool IsSolidContent => _runKind == CssRunKind.SolidContent;
+
 
         /// <summary>
         /// Gets a bool indicating if this word is composed only by spaces.
         /// Spaces include tabs and line breaks
         /// </summary>
-        public bool IsSpaces
-        {
-            get
-            {
-                //eval once
-                return _runKind >= CssRunKind.SingleSpace;
-            }
-        }
+        public bool IsSpaces => _runKind >= CssRunKind.SingleSpace; //eval once
+
+
         /// <summary>
         /// Gets if the word is composed by only a line break
         /// </summary>
-        public bool IsLineBreak
-        {
-            get
-            {
-                //eval once
-                return _runKind == CssRunKind.LineBreak;
-            }
-        }
+        public bool IsLineBreak => _runKind == CssRunKind.LineBreak;//eval once
+
+
         /// <summary>
         /// Gets the text of the word
         /// </summary>
-        public virtual string Text
-        {
-            get { return null; }
-        }
+        public virtual string Text => null;
+        //
 
         public abstract void WriteContent(System.Text.StringBuilder stbuilder, int start, int length);
         /// <summary>

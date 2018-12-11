@@ -24,7 +24,7 @@ namespace LayoutFarm.HtmlBoxes
         public void AddLayerItem(T item)
         {
             _itemCollection.Add(item);
-            this._currentLayerItemCount++;
+            _currentLayerItemCount++;
         }
         public void ClearLayerItems()
         {
@@ -33,25 +33,25 @@ namespace LayoutFarm.HtmlBoxes
             {
                 _itemCollection.RemoveAt(i);
             }
-            this._currentLayerItemCount = 0;
+            _currentLayerItemCount = 0;
         }
-        public int CurrentLayerItemCount => this._currentLayerItemCount;
+        public int CurrentLayerItemCount => _currentLayerItemCount;
         //
         public T GetItem(int index) => _itemCollection[_currentLayerStartAt + index];
         //
         public void EnterNewContext()
         {
             //store last info
-            _levelInfoStack.Push(new LevelInfo(this._currentLayerStartAt, this._currentLayerItemCount));
-            this._currentLayerItemCount = 0;
-            this._currentLayerStartAt = _itemCollection.Count;
+            _levelInfoStack.Push(new LevelInfo(_currentLayerStartAt, _currentLayerItemCount));
+            _currentLayerItemCount = 0;
+            _currentLayerStartAt = _itemCollection.Count;
         }
         public void ExitCurrentContext()
         {
             //clear all item in prev layer
-            LevelInfo prevLayerInfo = this._levelInfoStack.Pop();
-            this._currentLayerStartAt = prevLayerInfo.currentLayerStartAt;
-            this._currentLayerItemCount = prevLayerInfo.currentLeyerCount;
+            LevelInfo prevLayerInfo = _levelInfoStack.Pop();
+            _currentLayerStartAt = prevLayerInfo.currentLayerStartAt;
+            _currentLayerItemCount = prevLayerInfo.currentLeyerCount;
         }
     }
 }

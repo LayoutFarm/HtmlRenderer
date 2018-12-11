@@ -24,9 +24,9 @@ namespace LayoutFarm.HtmlBoxes
             float _maxContentWidth;
             public TableColumn(int index)
             {
-                this._index = index;
+                _index = index;
             }
-            public float Width => this._actualWidth;
+            public float Width => _actualWidth;
 
             public void SetWidth(float width, ColumnSpecificWidthLevel specificWidthLevel)
             {
@@ -37,28 +37,28 @@ namespace LayoutFarm.HtmlBoxes
                 }
 #endif
                 this.SpecificWidthLevel = specificWidthLevel;
-                this._actualWidth = width;
+                _actualWidth = width;
             }
-            public float MinContentWidth => this._minContentWidth;
+            public float MinContentWidth => _minContentWidth;
 
-            public float MaxContentWidth => this._maxContentWidth;
+            public float MaxContentWidth => _maxContentWidth;
 
-            public bool HasSpecificWidth => this._spWidthLevel == ColumnSpecificWidthLevel.FromCellConstraint;
+            public bool HasSpecificWidth => _spWidthLevel == ColumnSpecificWidthLevel.FromCellConstraint;
 
             public ColumnSpecificWidthLevel SpecificWidthLevel
             {
-                get => this._spWidthLevel;
+                get => _spWidthLevel;
                 private set
                 {
                     //if (this.index == 1 && value == ColumnSpecificWidthLevel.FromCellConstraint)
                     //{ 
                     //}
-                    if (this._spWidthLevel == ColumnSpecificWidthLevel.FromCellConstraint)
+                    if (_spWidthLevel == ColumnSpecificWidthLevel.FromCellConstraint)
                     {
                     }
                     else
                     {
-                        this._spWidthLevel = value;
+                        _spWidthLevel = value;
                     }
                 }
             }
@@ -66,51 +66,51 @@ namespace LayoutFarm.HtmlBoxes
             public void S3_UpdateIfWider(float newWidth, ColumnSpecificWidthLevel level)
             {
                 //called at state3 only
-                if (newWidth > this._actualWidth)
+                if (newWidth > _actualWidth)
                 {
-                    this._actualWidth = newWidth;
+                    _actualWidth = newWidth;
                     this.SpecificWidthLevel = level;
                 }
             }
             public void S5_SetMinWidth(float minWidth)
             {
-                this._minContentWidth = minWidth;
+                _minContentWidth = minWidth;
             }
             public void UpdateMinMaxContentWidthIfWider(float newMinContentWidth, float newMaxContentWidth)
             {
-                if (newMinContentWidth > this._minContentWidth)
+                if (newMinContentWidth > _minContentWidth)
                 {
-                    this._minContentWidth = newMinContentWidth;
+                    _minContentWidth = newMinContentWidth;
                 }
 
-                if (newMaxContentWidth > this._maxContentWidth)
+                if (newMaxContentWidth > _maxContentWidth)
                 {
-                    this._maxContentWidth = newMaxContentWidth;
+                    _maxContentWidth = newMaxContentWidth;
                 }
             }
-            public bool TouchLowerLimit => this._actualWidth <= this._minContentWidth;
+            public bool TouchLowerLimit => _actualWidth <= _minContentWidth;
 
-            public bool TouchUpperLimit => return this._actualWidth >= this._maxContentWidth; 
+            public bool TouchUpperLimit => return _actualWidth >= _maxContentWidth; 
             
 
             public void AddMoreWidthValue(float offset, ColumnSpecificWidthLevel level)
             {
-                this._actualWidth += offset;
+                _actualWidth += offset;
                 this.SpecificWidthLevel = level;
             }
             public void UseMinWidth()
             {
-                this._actualWidth = this._minContentWidth;
+                _actualWidth = _minContentWidth;
                 this.SpecificWidthLevel = ColumnSpecificWidthLevel.StartAtMin;
             }
             public void UseMaxWidth()
             {
-                this._actualWidth = this.MaxContentWidth;
+                _actualWidth = this.MaxContentWidth;
                 this.SpecificWidthLevel = ColumnSpecificWidthLevel.ExpandToMax;
             }
             public void AdjustDecrByOne()
             {
-                this._actualWidth--;
+                _actualWidth--;
                 this.SpecificWidthLevel = ColumnSpecificWidthLevel.Adjust;
             }
         }
@@ -119,17 +119,17 @@ namespace LayoutFarm.HtmlBoxes
             TableColumn[] _columns;
             public TableColumnCollection(int columnCount)
             {
-                this._columns = new TableColumn[columnCount];
+                _columns = new TableColumn[columnCount];
                 for (int i = columnCount - 1; i >= 0; --i)
                 {
-                    this._columns[i] = new TableColumn(i);
+                    _columns[i] = new TableColumn(i);
                 }
             }
             public void SetColumnWidth(int colIndex, float width)
             {
                 _columns[colIndex].SetWidth(width, ColumnSpecificWidthLevel.FromCellConstraint);
             }
-            public TableColumn this[int index] => this._columns[index];
+            public TableColumn this[int index] => _columns[index];
 
 
             public void CountUnspecificWidthColumnAndOccupiedSpace(out int numOfUnspecificColWidth, out float occupiedSpace)
@@ -177,7 +177,7 @@ namespace LayoutFarm.HtmlBoxes
                 foundAtIndex = -1;
                 return false;
             }
-            public int Count => this._columns.Length;
+            public int Count => _columns.Length;
 
 
             public float CalculateTotalWidth()
@@ -233,10 +233,10 @@ namespace LayoutFarm.HtmlBoxes
             public float GetSpannedMinWidth(int rowCellCount, int realcolindex, int colspan)
             {
                 float w = 0f;
-                int min_widths_len = this._columns.Length;
+                int min_widths_len = _columns.Length;
                 for (int i = realcolindex; (i < min_widths_len) && (i < rowCellCount || i < realcolindex + colspan - 1); ++i)
                 {
-                    w += this._columns[i].MinContentWidth;
+                    w += _columns[i].MinContentWidth;
                 }
                 return w;
             }
@@ -250,15 +250,15 @@ namespace LayoutFarm.HtmlBoxes
             {
                 if (colspan == 1)
                 {
-                    return this._columns[cIndex].Width;
+                    return _columns[cIndex].Width;
                 }
                 else
                 {
                     float sum = 0f;
-                    int col_count = this._columns.Length;
+                    int col_count = _columns.Length;
                     for (int i = cIndex; (i < cIndex + colspan) && (i < col_count); ++i)
                     {
-                        sum += this._columns[i].Width;
+                        sum += _columns[i].Width;
                     }
                     sum += (colspan - 1) * horizontal_spacing;
                     return sum;

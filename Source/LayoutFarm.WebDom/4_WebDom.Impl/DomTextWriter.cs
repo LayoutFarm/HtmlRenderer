@@ -7,37 +7,37 @@ namespace LayoutFarm.WebDom
 {
     public class DomTextWriter
     {
-        StringBuilder stbuilder;
+        StringBuilder _stbuilder;
         public DomTextWriter(StringBuilder stbuilder)
         {
-            this.stbuilder = stbuilder;
+            _stbuilder = stbuilder;
         }
         public StringBuilder InnerStringBuilder
         {
-            get { return this.stbuilder; }
+            get { return _stbuilder; }
         }
         public void Write(string s1)
         {
-            stbuilder.Append(s1);
+            _stbuilder.Append(s1);
         }
         public void Write(char c1)
         {
-            stbuilder.Append(c1);
+            _stbuilder.Append(c1);
         }
         public void Write(string s1, string s2)
         {
-            stbuilder.Append(s1);
-            stbuilder.Append(s2);
+            _stbuilder.Append(s1);
+            _stbuilder.Append(s2);
         }
         public void Write(string s1, string s2, string s3)
         {
-            stbuilder.Append(s1);
-            stbuilder.Append(s2);
-            stbuilder.Append(s3);
+            _stbuilder.Append(s1);
+            _stbuilder.Append(s2);
+            _stbuilder.Append(s3);
         }
         public void NewLine()
         {
-            stbuilder.AppendLine();
+            _stbuilder.AppendLine();
         }
     }
 }

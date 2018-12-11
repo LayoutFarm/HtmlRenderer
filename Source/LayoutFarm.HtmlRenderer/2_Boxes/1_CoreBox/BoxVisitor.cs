@@ -15,17 +15,17 @@ namespace LayoutFarm.HtmlBoxes
             OnPushContainingBlock(box);
             if (box != _latestContainingBlock)
             {
-                this._globalXOffset += box.LocalX;
-                this._globalYOffset += box.LocalY;
+                _globalXOffset += box.LocalX;
+                _globalYOffset += box.LocalY;
                 OnPushDifferentContainingBlock(box);
             }
-            this._containgBlockStack.Push(box);
-            this._latestContainingBlock = box;
+            _containgBlockStack.Push(box);
+            _latestContainingBlock = box;
         }
 
         internal void PopContainingBlock()
         {
-            switch (this._containgBlockStack.Count)
+            switch (_containgBlockStack.Count)
             {
                 case 0:
                     {
@@ -34,35 +34,35 @@ namespace LayoutFarm.HtmlBoxes
                 case 1:
                     {
                         //last on
-                        CssBox box = this._containgBlockStack.Pop();
+                        CssBox box = _containgBlockStack.Pop();
                         OnPopContainingBlock();
-                        if (this._latestContainingBlock != box)
+                        if (_latestContainingBlock != box)
                         {
-                            this._globalXOffset -= box.LocalX;
-                            this._globalYOffset -= box.LocalY;
+                            _globalXOffset -= box.LocalX;
+                            _globalYOffset -= box.LocalY;
                             OnPopDifferentContaingBlock(box);
                         }
-                        this._latestContainingBlock = null;
+                        _latestContainingBlock = null;
                     }
                     break;
                 default:
                     {
-                        CssBox box = this._containgBlockStack.Pop();
+                        CssBox box = _containgBlockStack.Pop();
                         OnPopContainingBlock();
-                        if (this._latestContainingBlock != box)
+                        if (_latestContainingBlock != box)
                         {
-                            this._globalXOffset -= box.LocalX;
-                            this._globalYOffset -= box.LocalY;
+                            _globalXOffset -= box.LocalX;
+                            _globalYOffset -= box.LocalY;
                             OnPopDifferentContaingBlock(box);
                         }
-                        this._latestContainingBlock = _containgBlockStack.Peek();
+                        _latestContainingBlock = _containgBlockStack.Peek();
                     }
                     break;
             }
         }
-        internal float ContainerBlockGlobalX => this._globalXOffset;
+        internal float ContainerBlockGlobalX => _globalXOffset;
 
-        internal float ContainerBlockGlobalY => this._globalYOffset;
+        internal float ContainerBlockGlobalY => _globalYOffset;
 
         //-----------------------------------------
         protected virtual void OnPushContainingBlock(CssBox box)
@@ -77,7 +77,7 @@ namespace LayoutFarm.HtmlBoxes
         protected virtual void OnPopDifferentContaingBlock(CssBox box)
         {
         }
-        internal CssBox LatestContainingBlock => this._latestContainingBlock;
+        internal CssBox LatestContainingBlock => _latestContainingBlock;
     }
 }
 }

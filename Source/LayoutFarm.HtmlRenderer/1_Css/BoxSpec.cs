@@ -121,10 +121,9 @@ namespace LayoutFarm.Css
             _boxShadow.DeFreeze(); //8
             _flexFeats.DeFreeze(); //9.
         }
-        public bool IsFreezed
-        {
-            get { return _freezed; }
-        }
+        //
+        public bool IsFreezed => _freezed;
+
         bool Assignable()
         {
 #if DEBUG
@@ -139,7 +138,7 @@ namespace LayoutFarm.Css
 
         public CssDisplay CssDisplay
         {
-            get { return _cssDisplay; }
+            get => _cssDisplay;
             set
             {
                 if (Assignable()) { _cssDisplay = value; }
@@ -147,13 +146,13 @@ namespace LayoutFarm.Css
         }
         public CssDirection CssDirection
         {
-            get { return _cssDirection; }
+            get => _cssDirection;
             set { if (Assignable()) _cssDirection = value; }
         }
 
         public CssBoxSizing BoxSizing
         {
-            get { return _boxSizing; }
+            get => _boxSizing;
             set
             {
                 if (Assignable())
@@ -165,13 +164,13 @@ namespace LayoutFarm.Css
         //-------------------------------------------------------------------------------------- 
         public CssLength BorderLeftWidth
         {
-            get { return _borderFeats.LeftWidth; }
+            get => _borderFeats.LeftWidth;
             set { if (Assignable()) CheckBorderVersion().LeftWidth = value; }
         }
 
         public CssLength BorderRightWidth
         {
-            get { return _borderFeats.RightWidth; }
+            get => _borderFeats.RightWidth;
             set
             {
                 if (Assignable()) CheckBorderVersion().RightWidth = value;
@@ -180,7 +179,7 @@ namespace LayoutFarm.Css
 
         public CssLength BorderBottomWidth
         {
-            get { return _borderFeats.BottomWidth; }
+            get => _borderFeats.BottomWidth;
             set
             {
                 if (Assignable()) CheckBorderVersion().BottomWidth = value;
@@ -190,7 +189,7 @@ namespace LayoutFarm.Css
 
         public CssLength BorderTopWidth
         {
-            get { return _borderFeats.TopWidth; }
+            get => _borderFeats.TopWidth;
             set
             {
                 if (Assignable()) CheckBorderVersion().TopWidth = value;
@@ -199,12 +198,12 @@ namespace LayoutFarm.Css
         //--------------------------------------------------------------------------------------
         public CssBorderStyle BorderTopStyle
         {
-            get { return _borderFeats.TopStyle; }
+            get => _borderFeats.TopStyle;
             set { if (Assignable()) CheckBorderVersion().TopStyle = value; }
         }
         public CssBorderStyle BorderLeftStyle
         {
-            get { return _borderFeats.LeftStyle; }
+            get => _borderFeats.LeftStyle;
             set
             {
                 if (Assignable()) CheckBorderVersion().LeftStyle = value;
@@ -212,31 +211,31 @@ namespace LayoutFarm.Css
         }
         public CssBorderStyle BorderRightStyle
         {
-            get { return _borderFeats.RightStyle; }
+            get => _borderFeats.RightStyle;
             set { if (Assignable()) CheckBorderVersion().RightStyle = value; }
         }
 
         public CssBorderStyle BorderBottomStyle
         {
-            get { return _borderFeats.BottomStyle; }
+            get => _borderFeats.BottomStyle;
             set { if (Assignable()) CheckBorderVersion().BottomStyle = value; }
         }
 
         //--------------------------------------------
         public Color BorderBottomColor
         {
-            get { return _borderFeats.BottomColor; }
+            get => _borderFeats.BottomColor;
             set { if (Assignable()) CheckBorderVersion().BottomColor = value; }
         }
         public Color BorderLeftColor
         {
-            get { return _borderFeats.LeftColor; }
+            get => _borderFeats.LeftColor;
             set { if (Assignable()) CheckBorderVersion().LeftColor = value; }
         }
         //--------------------------------------------
         public Color BorderRightColor
         {
-            get { return _borderFeats.RightColor; }
+            get => _borderFeats.RightColor;
             set
             {
                 if (Assignable()) CheckBorderVersion().RightColor = value;
@@ -245,7 +244,7 @@ namespace LayoutFarm.Css
 
         public Color BorderTopColor
         {
-            get { return _borderFeats.TopColor; }
+            get => _borderFeats.TopColor;
             set
             {
                 if (Assignable()) CheckBorderVersion().TopColor = value;
@@ -253,28 +252,25 @@ namespace LayoutFarm.Css
         }
         public CssLength BorderSpacingVertical
         {
-            get { return _borderFeats.BorderSpacingV; }
+            get => _borderFeats.BorderSpacingV;
             set { if (Assignable()) CheckBorderVersion().BorderSpacingV = value; }
         }
         public CssLength BorderSpacingHorizontal
         {
-            get { return _borderFeats.BorderSpacingH; }
+            get => _borderFeats.BorderSpacingH;
             set { if (Assignable()) CheckBorderVersion().BorderSpacingH = value; }
         }
         public CssBorderCollapse BorderCollapse
         {
-            get { return _borderFeats.BorderCollapse; }
+            get => _borderFeats.BorderCollapse;
             set { if (Assignable()) CheckBorderVersion().BorderCollapse = value; }
         }
 
-        public bool IsBorderCollapse
-        {
-            get { return this.BorderCollapse == CssBorderCollapse.Collapse; }
-        }
+        public bool IsBorderCollapse => this.BorderCollapse == CssBorderCollapse.Collapse;
         //------------------------------------------------------
         public CssLength CornerNERadius
         {
-            get { return _cornerFeats.NERadius; }
+            get => _cornerFeats.NERadius;
             set
             {
                 if (Assignable()) CheckCornerVersion().NERadius = value;
@@ -282,7 +278,7 @@ namespace LayoutFarm.Css
         }
         public CssLength CornerNWRadius
         {
-            get { return _cornerFeats.NWRadius; }
+            get => _cornerFeats.NWRadius;
             set
             {
                 if (Assignable()) CheckCornerVersion().NWRadius = value;
@@ -290,7 +286,7 @@ namespace LayoutFarm.Css
         }
         public CssLength CornerSERadius
         {
-            get { return _cornerFeats.SERadius; }
+            get => _cornerFeats.SERadius;
             set
             {
                 if (Assignable()) CheckCornerVersion().SERadius = value;
@@ -298,7 +294,7 @@ namespace LayoutFarm.Css
         }
         public CssLength CornerSWRadius
         {
-            get { return _cornerFeats.SWRadius; }
+            get => _cornerFeats.SWRadius;
             set
             {
                 if (Assignable()) CheckCornerVersion().SWRadius = value;
@@ -307,13 +303,13 @@ namespace LayoutFarm.Css
         //------------------------------------------------------
         public CssLength MarginBottom
         {
-            get { return _marginFeats.Bottom; }
+            get => _marginFeats.Bottom;
             set { if (Assignable()) CheckMarginVersion().Bottom = value; }
         }
 
         public CssLength MarginLeft
         {
-            get { return _marginFeats.Left; }
+            get => _marginFeats.Left;
             set
             {
 #if DEBUG
@@ -327,19 +323,19 @@ namespace LayoutFarm.Css
 
         public CssLength MarginRight
         {
-            get { return _marginFeats.Right; }
+            get => _marginFeats.Right;
             set { if (Assignable()) CheckMarginVersion().Right = value; }
         }
 
         public CssLength MarginTop
         {
-            get { return _marginFeats.Top; }
+            get => _marginFeats.Top;
             set { if (Assignable()) CheckMarginVersion().Top = value; }
         }
 
         public CssLength PaddingBottom
         {
-            get { return _paddingFeats.Bottom; }
+            get => _paddingFeats.Bottom;
             set
             {
                 if (Assignable()) CheckPaddingVersion().Bottom = value;
@@ -348,7 +344,7 @@ namespace LayoutFarm.Css
 
         public CssLength PaddingLeft
         {
-            get { return _paddingFeats.Left; }
+            get => _paddingFeats.Left;
             set
             {
                 if (Assignable()) CheckPaddingVersion().Left = value;
@@ -357,7 +353,7 @@ namespace LayoutFarm.Css
 
         public CssLength PaddingRight
         {
-            get { return _paddingFeats.Right; }
+            get => _paddingFeats.Right;
             set
             {
                 if (Assignable()) CheckPaddingVersion().Right = value;
@@ -366,10 +362,7 @@ namespace LayoutFarm.Css
 
         public CssLength PaddingTop
         {
-            get
-            {
-                return _paddingFeats.Top;
-            }
+            get => _paddingFeats.Top;
             set
             {
                 if (Assignable()) CheckPaddingVersion().Top = value;
@@ -377,71 +370,71 @@ namespace LayoutFarm.Css
         }
         public CssLength Left
         {
-            get { return _left; }
+            get => _left;
             set { if (Assignable()) _left = value; }
         }
 
         public CssLength Top
         {
-            get { return _top; }
+            get => _top;
             set { if (Assignable()) _top = value; }
         }
 
         public CssLength Width
         {
-            get { return _width; }
+            get => _width;
             set { if (Assignable()) _width = value; }
         }
         public CssLength MaxWidth
         {
-            get { return _maxWidth; }
+            get => _maxWidth;
             set { if (Assignable()) _maxWidth = value; }
         }
         public CssLength Height
         {
-            get { return _height; }
+            get => _height;
             set { if (Assignable()) _height = value; }
         }
         public Color BackgroundColor
         {
-            get { return _backgroundFeats.BackgroundColor; }
+            get => _backgroundFeats.BackgroundColor;
             set { if (Assignable()) this.CheckBgVersion().BackgroundColor = value; }
         }
         public ImageBinder BackgroundImageBinder
         {
-            get { return _backgroundFeats.BackgroundImageBinder; }
+            get => _backgroundFeats.BackgroundImageBinder;
             set { if (Assignable()) CheckBgVersion().BackgroundImageBinder = value; }
         }
         public CssLength BackgroundPositionX
         {
-            get { return _backgroundFeats.BackgroundPosX; }
+            get => _backgroundFeats.BackgroundPosX;
             set { if (Assignable()) CheckBgVersion().BackgroundPosX = value; }
         }
         public CssLength BackgroundPositionY
         {
-            get { return _backgroundFeats.BackgroundPosY; }
+            get => _backgroundFeats.BackgroundPosY;
             set { if (Assignable()) CheckBgVersion().BackgroundPosY = value; }
         }
         public CssBackgroundRepeat BackgroundRepeat
         {
-            get { return _backgroundFeats.BackgroundRepeat; }
+            get => _backgroundFeats.BackgroundRepeat;
             set { if (Assignable()) CheckBgVersion().BackgroundRepeat = value; }
         }
         public CssCursorName CursorName
         {
-            get { return _backgroundFeats.CursorName; }
+            get => _backgroundFeats.CursorName;
             set { if (Assignable()) CheckBgVersion().CursorName = value; }
 
         }
         public Color BackgroundGradient
         {
-            get { return _backgroundFeats.BackgroundGradient; }
+            get => _backgroundFeats.BackgroundGradient;
             set { if (Assignable()) CheckBgVersion().BackgroundGradient = value; }
         }
 
         public float BackgroundGradientAngle
         {
-            get { return _backgroundFeats.BackgroundGradientAngle; }
+            get => _backgroundFeats.BackgroundGradientAngle;
             set { CheckBgVersion().BackgroundGradientAngle = value; }
         }
         /// <summary>
@@ -449,23 +442,23 @@ namespace LayoutFarm.Css
         /// </summary>
         public Color Color
         {
-            get { return _actualColor; }
+            get => _actualColor;
             set { if (Assignable()) _actualColor = value; }
         }
         public CssEmptyCell EmptyCells
         {
-            get { return _emptyCells; }
+            get => _emptyCells;
             set { if (Assignable()) _emptyCells = value; }
         }
 
         public CssFloat Float
         {
-            get { return _float; }
+            get => _float;
             set { if (Assignable()) _float = value; }
         }
         public CssPosition Position
         {
-            get { return _position; }
+            get => _position;
             set
             {
                 //if (value == CssPosition.Absolute)
@@ -487,7 +480,7 @@ namespace LayoutFarm.Css
         //----------------------------------------------------
         public CssLength LineHeight
         {
-            get { return _lineHeight; }
+            get => _lineHeight;
             set
             {
                 if (Assignable()) _lineHeight = value;
@@ -495,59 +488,59 @@ namespace LayoutFarm.Css
         }
         public CssVerticalAlign VerticalAlign
         {
-            get { return _verticalAlign; }
+            get => _verticalAlign;
             set { if (Assignable()) _verticalAlign = value; }
         }
         public CssLength TextIndent
         {
-            get { return _textIndent; }
+            get => _textIndent;
             set { if (Assignable()) _textIndent = value; }
         }
         public CssTextAlign CssTextAlign
         {
-            get { return _textAlign; }
+            get => _textAlign;
             set { if (Assignable()) _textAlign = value; }
         }
 
         public CssTextDecoration TextDecoration
         {
-            get { return _textDecoration; }
+            get => _textDecoration;
             set { if (Assignable()) _textDecoration = value; }
         }
 
         //-----------------------------------
         public CssWhiteSpace WhiteSpace
         {
-            get { return _whitespace; }
+            get => _whitespace;
             set { if (Assignable()) _whitespace = value; }
         }
         //----------------------------------- 
         public CssVisibility Visibility
         {
-            get { return _visibility; }
+            get => _visibility;
             set { if (Assignable()) _visibility = value; }
         }
         public CssLength WordSpacing
         {
-            get { return _wordSpacing; }
+            get => _wordSpacing;
             set { if (Assignable()) _wordSpacing = value; }
         }
 
         public CssWordBreak WordBreak
         {
-            get { return _wordBreak; }
+            get => _wordBreak;
             set { if (Assignable()) _wordBreak = value; }
         }
 
         public string FontFamily
         {
-            get { return _fontFeats.FontFamily; }
+            get => _fontFeats.FontFamily;
             set { if (Assignable()) CheckFontVersion().FontFamily = value; }
         }
 
         public CssLength FontSize
         {
-            get { return _fontFeats.FontSize; }
+            get => _fontFeats.FontSize;
             set
             {
                 if (Assignable()) CheckFontVersion().FontSize = value;
@@ -556,48 +549,48 @@ namespace LayoutFarm.Css
 
         public CssFontStyle FontStyle
         {
-            get { return _fontFeats.FontStyle; }
+            get => _fontFeats.FontStyle;
             set { if (Assignable()) CheckFontVersion().FontStyle = value; }
         }
 
         public CssFontVariant FontVariant
         {
-            get { return _fontFeats.FontVariant; }
+            get => _fontFeats.FontVariant;
             set { if (Assignable()) CheckFontVersion().FontVariant = value; }
         }
 
         public CssFontWeight FontWeight
         {
-            get { return _fontFeats.FontWeight; }
+            get => _fontFeats.FontWeight;
             set { if (Assignable()) CheckFontVersion().FontWeight = value; }
         }
         public CssOverflow Overflow
         {
-            get { return _overflow; }
+            get => _overflow;
             set { if (Assignable()) _overflow = value; }
         }
 
 
         public CssListStylePosition ListStylePosition
         {
-            get { return _listFeats.ListStylePosition; }
+            get => _listFeats.ListStylePosition;
             set { if (Assignable()) CheckListPropVersion().ListStylePosition = value; }
         }
 
         public string ListStyle
         {
-            get { return _listFeats.ListStyle; }
+            get => _listFeats.ListStyle;
             set { if (Assignable()) CheckListPropVersion().ListStyle = value; }
         }
         public string ListStyleImage
         {
-            get { return _listFeats.ListStyleImage; }
+            get => _listFeats.ListStyleImage;
             set { if (Assignable()) CheckListPropVersion().ListStyleImage = value; }
         }
 
         public CssListStyleType ListStyleType
         {
-            get { return _listFeats.ListStyleType; }
+            get => _listFeats.ListStyleType;
             set { if (Assignable()) CheckListPropVersion().ListStyleType = value; }
         }
 
@@ -607,23 +600,14 @@ namespace LayoutFarm.Css
         /// <summary>
         /// Gets the second color that creates a gradient for the background
         /// </summary>
-        public Color ActualBackgroundGradient
-        {
-            get
-            {
-                return _backgroundFeats.BackgroundGradient;
-            }
-        }
-
+        public Color ActualBackgroundGradient => _backgroundFeats.BackgroundGradient;
         /// <summary>
         /// Gets the actual angle specified for the background gradient
         /// </summary>
         public float ActualBackgroundGradientAngle
         {
-            get
-            {
-                return _backgroundFeats.BackgroundGradientAngle;
-            }
+            get => _backgroundFeats.BackgroundGradientAngle;
+
             set
             {
                 if (Assignable()) _backgroundFeats.BackgroundGradientAngle = value;
@@ -959,12 +943,12 @@ namespace LayoutFarm.Css
                 _msgs.Add(propName);
             }
         }
-        public int Count => this._msgs.Count;
+        public int Count => _msgs.Count;
         public void ClearMsgs()
         {
-            this._msgs.Clear();
+            _msgs.Clear();
         }
-        public System.Collections.Generic.List<string> GetList() => this._msgs;
+        public System.Collections.Generic.List<string> GetList() => _msgs;
 
     }
 #endif

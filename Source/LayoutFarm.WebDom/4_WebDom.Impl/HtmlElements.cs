@@ -6,7 +6,7 @@ namespace LayoutFarm.WebDom.Impl
 {
     public abstract partial class HtmlElement : DomElement
     {
-        CssRuleSet elementRuleSet;
+        CssRuleSet _elementRuleSet;
 
         public HtmlElement(HtmlDocument owner, int prefix, int localNameIndex)
             : base(owner, prefix, localNameIndex)
@@ -68,11 +68,11 @@ namespace LayoutFarm.WebDom.Impl
         {
             get
             {
-                return this.elementRuleSet;
+                return _elementRuleSet;
             }
             set
             {
-                this.elementRuleSet = value;
+                _elementRuleSet = value;
             }
         }
 
@@ -160,20 +160,8 @@ namespace LayoutFarm.WebDom.Impl
         public virtual void SetLocation(int x, int y)
         {
         }
-        public virtual float ActualHeight
-        {
-            get
-            {
-                return 0;
-            }
-        }
-        public virtual float ActualWidth
-        {
-            get
-            {
-                return 0;
-            }
-        }
+        public virtual float ActualHeight => 0;
+        public virtual float ActualWidth => 0;
 
 
     }

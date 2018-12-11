@@ -15,20 +15,20 @@ namespace LayoutFarm.Css
         bool _freezed;
         public CssFeatureBase(object owner)
         {
-            this._owner = owner;
+            _owner = owner;
         }
-        public object Owner => this._owner;
-        public bool IsFreezed => this._freezed;
+        public object Owner => _owner;
+        public bool IsFreezed => _freezed;
         public void Freeze()
         {
-            this._freezed = true;
+            _freezed = true;
         }
-        public void DeFreeze() { this._freezed = false; }
+        public void DeFreeze() { _freezed = false; }
 
 
         protected bool Assignable()
         {
-            return !this._freezed;
+            return !_freezed;
         }
     }
 
@@ -171,7 +171,7 @@ namespace LayoutFarm.Css
 
         public CssBorderFeature GetMyOwnVersion(object checkOwner)
         {
-            if (this._owner == checkOwner)
+            if (_owner == checkOwner)
             {
                 return this;
             }
@@ -258,7 +258,7 @@ namespace LayoutFarm.Css
 
         public CssMarginFeature GetMyOwnVersion(object checkOwner)
         {
-            if (this._owner == checkOwner)
+            if (_owner == checkOwner)
             {
                 return this;
             }
@@ -330,7 +330,7 @@ namespace LayoutFarm.Css
 
         public CssPaddingFeature GetMyOwnVersion(object checkOwner)
         {
-            if (this._owner == checkOwner)
+            if (_owner == checkOwner)
             {
                 return this;
             }
@@ -385,7 +385,7 @@ namespace LayoutFarm.Css
         }
         public CssListFeature GetMyOwnVersion(object checkOwner)
         {
-            if (this._owner == checkOwner)
+            if (_owner == checkOwner)
             {
                 return this;
             }
@@ -473,7 +473,7 @@ namespace LayoutFarm.Css
         }
         public CssCornerFeature GetMyOwnVersion(object checkOwner)
         {
-            if (this._owner == checkOwner)
+            if (_owner == checkOwner)
             {
                 return this;
             }
@@ -593,7 +593,7 @@ namespace LayoutFarm.Css
         //------------------------------------------------------------
         public CssFontFeature GetMyOwnVersion(object checkOwner)
         {
-            if (this._owner == checkOwner)
+            if (_owner == checkOwner)
             {
                 return this;
             }
@@ -675,7 +675,7 @@ namespace LayoutFarm.Css
 
         public CssBackgroundFeature GetMyOwnVersion(object checkOwner)
         {
-            if (this._owner == checkOwner)
+            if (_owner == checkOwner)
             {
                 return this;
             }
@@ -829,7 +829,7 @@ namespace LayoutFarm.Css
 
         public CssBoxShadowFeature GetMyOwnVersion(object checkOwner)
         {
-            if (this._owner == checkOwner)
+            if (_owner == checkOwner)
             {
                 return this;
             }
@@ -886,7 +886,7 @@ namespace LayoutFarm.Css
         }
         public CssFlexFeature GetMyOwnVersion(object checkOwner)
         {
-            if (this._owner == checkOwner)
+            if (_owner == checkOwner)
             {
                 return this;
             }

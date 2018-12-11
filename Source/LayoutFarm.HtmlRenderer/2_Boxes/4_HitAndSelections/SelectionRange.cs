@@ -51,38 +51,38 @@ namespace LayoutFarm.HtmlBoxes
             //1.
             this.SetupStartHitPoint(startChain, ifonts);
             //2. 
-            if (this._startHitHostLine == null)
+            if (_startHitHostLine == null)
             {
-                this._isValid = false;
+                _isValid = false;
                 return;
             }
 
             this.SetupEndHitPoint(startChain, endChain, ifonts);
-            this._snapSelectionArea = this.GetSelectionRectArea();
+            _snapSelectionArea = this.GetSelectionRectArea();
         }
-        public Rectangle SnapSelectionArea => this._snapSelectionArea;
-        public bool IsValid => this._isValid;
+        public Rectangle SnapSelectionArea => _snapSelectionArea;
+        public bool IsValid => _isValid;
         //
 
         internal void ClearSelection()
         {
-            if (this._selectedLines != null)
+            if (_selectedLines != null)
             {
                 for (int i = _selectedLines.Count - 1; i >= 0; --i)
                 {
-                    this._selectedLines[i].SelectionSegment = null;
+                    _selectedLines[i].SelectionSegment = null;
                 }
-                this._selectedLines.Clear();
+                _selectedLines.Clear();
             }
             else
             {
-                if (this._startHitHostLine != null)
+                if (_startHitHostLine != null)
                 {
-                    this._startHitHostLine.SelectionSegment = null;
+                    _startHitHostLine.SelectionSegment = null;
                 }
             }
-            this._startHitRun = this._endHitRun = null;
-            this._startHitRunCharIndex = this._endHitRunCharIndex = 0;
+            _startHitRun = _endHitRun = null;
+            _startHitRunCharIndex = _endHitRunCharIndex = 0;
         }
 
         internal void CopyText(StringBuilder stbuilder)
@@ -116,10 +116,10 @@ namespace LayoutFarm.HtmlBoxes
                             if (startRun == endHitRun)
                             {
                                 var rr = startRun as CssTextRun;
-                                if (rr != null && this._startHitRunCharIndex >= 0)
+                                if (rr != null && _startHitRunCharIndex >= 0)
                                 {
                                     string alltext = rr.Text;
-                                    string sub1 = alltext.Substring(this._startHitRunCharIndex, this._endHitRunCharIndex - this._startHitRunCharIndex);
+                                    string sub1 = alltext.Substring(_startHitRunCharIndex, _endHitRunCharIndex - _startHitRunCharIndex);
                                     stbuilder.Append(sub1);
                                 }
                             }
@@ -144,9 +144,9 @@ namespace LayoutFarm.HtmlBoxes
                                         }
                                         else
                                         {
-                                            if (this._startHitRunCharIndex >= 0)
+                                            if (_startHitRunCharIndex >= 0)
                                             {
-                                                string sub1 = alltext.Substring(this._startHitRunCharIndex);
+                                                string sub1 = alltext.Substring(_startHitRunCharIndex);
                                                 stbuilder.Append(sub1);
                                             }
                                         }
@@ -160,9 +160,9 @@ namespace LayoutFarm.HtmlBoxes
                                         }
                                         else
                                         {
-                                            if (this._endHitRunCharIndex >= 0)
+                                            if (_endHitRunCharIndex >= 0)
                                             {
-                                                string sub1 = alltext.Substring(0, this._endHitRunCharIndex);
+                                                string sub1 = alltext.Substring(0, _endHitRunCharIndex);
                                                 stbuilder.Append(sub1);
                                             }
                                         }
@@ -205,8 +205,8 @@ namespace LayoutFarm.HtmlBoxes
             //find global location of start point
             HitInfo startHit = startChain.GetLastHit();
             //-----------------------------
-            this._startHitRun = null;
-            this._startHitRunCharIndex = 0;
+            _startHitRun = null;
+            _startHitRunCharIndex = 0;
             switch (startHit.hitObjectKind)
             {
                 case HitObjectKind.Run:
@@ -219,17 +219,17 @@ namespace LayoutFarm.HtmlBoxes
                              startHit.localX,
                              out sel_index,
                              out sel_offset);
-                        this._startHitRunCharIndex = sel_index;
+                        _startHitRunCharIndex = sel_index;
                         //modify hitpoint
-                        this._startHitHostLine = (CssLineBox)startChain.GetHitInfo(startChain.Count - 2).hitObject;
-                        this._startLineBeginSelectionAtPixel = (int)(run.Left + sel_offset);
-                        this._startHitRun = run;
+                        _startHitHostLine = (CssLineBox)startChain.GetHitInfo(startChain.Count - 2).hitObject;
+                        _startLineBeginSelectionAtPixel = (int)(run.Left + sel_offset);
+                        _startHitRun = run;
                     }
                     break;
                 case HitObjectKind.LineBox:
                     {
-                        this._startHitHostLine = (CssLineBox)startHit.hitObject;
-                        this._startLineBeginSelectionAtPixel = startHit.localX;
+                        _startHitHostLine = (CssLineBox)startHit.hitObject;
+                        _startLineBeginSelectionAtPixel = startHit.localX;
                         //make global            
                     }
                     break;
@@ -238,15 +238,15 @@ namespace LayoutFarm.HtmlBoxes
                         CssBox box = (CssBox)startHit.hitObject;
                         //find first nearest line at point   
                         CssLineBox startHitLine = FindNearestLine(box, startChain.RootGlobalY, 5);
-                        this._startLineBeginSelectionAtPixel = 0;
+                        _startLineBeginSelectionAtPixel = 0;
                         if (startHitLine != null)
                         {
-                            this._startHitHostLine = startHitLine;
+                            _startHitHostLine = startHitLine;
                         }
                         else
                         {
                             //if not found?
-                            this._startHitHostLine = null;
+                            _startHitHostLine = null;
                         }
                     }
                     break;
@@ -266,8 +266,8 @@ namespace LayoutFarm.HtmlBoxes
             CssLineBox endline = null;
             int run_sel_offset = 0;
             //find endline first
-            this._endHitRunCharIndex = 0;
-            this._endHitRun = null;
+            _endHitRunCharIndex = 0;
+            _endHitRun = null;
             switch (endHit.hitObjectKind)
             {
                 default:
@@ -288,8 +288,8 @@ namespace LayoutFarm.HtmlBoxes
                              out run_sel_offset);
                         endline = endRun.HostLine;
                         xposOnEndLine = (int)(endRun.Left + run_sel_offset);
-                        this._endHitRunCharIndex = run_sel_index;
-                        this._endHitRun = endRun;
+                        _endHitRunCharIndex = run_sel_index;
+                        _endHitRun = endRun;
                     }
                     break;
                 case HitObjectKind.LineBox:
@@ -314,13 +314,13 @@ namespace LayoutFarm.HtmlBoxes
 #endif
 
             //----------------------------------
-            this._selectedLines = new List<CssLineBox>();
+            _selectedLines = new List<CssLineBox>();
             if (_startHitHostLine == endline)
             {
-                this._selectedLines.Add(endline);
+                _selectedLines.Add(endline);
                 _startHitHostLine.Select(_startLineBeginSelectionAtPixel, xposOnEndLine,
-                        this._startHitRun, this._startHitRunCharIndex,
-                        this._endHitRun, this._endHitRunCharIndex);
+                        _startHitRun, _startHitRunCharIndex,
+                        _endHitRun, _endHitRunCharIndex);
                 return; //early exit here ***
             }
             //---------------------------------- 
@@ -336,22 +336,22 @@ namespace LayoutFarm.HtmlBoxes
                 if (hitBlockRun != null)
                 {
                     _startHitHostLine.Select(_startLineBeginSelectionAtPixel, (int)hitBlockRun.Left,
-                     this._startHitRun, this._startHitRunCharIndex,
-                     this._endHitRun, this._endHitRunCharIndex);
-                    _selectedLines.Add(this._startHitHostLine);
+                     _startHitRun, _startHitRunCharIndex,
+                     _endHitRun, _endHitRunCharIndex);
+                    _selectedLines.Add(_startHitHostLine);
                     lineWalkVisitor = new LineWalkVisitor(hitBlockRun);
                 }
                 else
                 {
-                    _startHitHostLine.SelectPartialToEnd(_startLineBeginSelectionAtPixel, this._startHitRun, this._startHitRunCharIndex);
-                    _selectedLines.Add(this._startHitHostLine);
+                    _startHitHostLine.SelectPartialToEnd(_startLineBeginSelectionAtPixel, _startHitRun, _startHitRunCharIndex);
+                    _selectedLines.Add(_startHitHostLine);
                     lineWalkVisitor = new LineWalkVisitor(_startHitHostLine);
                 }
             }
             else
             {
-                _startHitHostLine.SelectPartialToEnd(_startLineBeginSelectionAtPixel, this._startHitRun, this._startHitRunCharIndex);
-                _selectedLines.Add(this._startHitHostLine);
+                _startHitHostLine.SelectPartialToEnd(_startLineBeginSelectionAtPixel, _startHitRun, _startHitRunCharIndex);
+                _selectedLines.Add(_startHitHostLine);
                 lineWalkVisitor = new LineWalkVisitor(_startHitHostLine);
             }
 
@@ -363,13 +363,13 @@ namespace LayoutFarm.HtmlBoxes
                     case LineCoverage.EndLine:
                         {
                             //found end line  
-                            linebox.SelectPartialFromStart(xposOnEndLine, this._endHitRun, this._endHitRunCharIndex);
+                            linebox.SelectPartialFromStart(xposOnEndLine, _endHitRun, _endHitRunCharIndex);
                             _selectedLines.Add(linebox);
                         }
                         break;
                     case LineCoverage.PartialLine:
                         {
-                            linebox.SelectPartialFromStart((int)partialLineRun.Right, this._endHitRun, this._endHitRunCharIndex);
+                            linebox.SelectPartialFromStart((int)partialLineRun.Right, _endHitRun, _endHitRunCharIndex);
                             _selectedLines.Add(linebox);
                         }
                         break;
@@ -532,24 +532,24 @@ namespace LayoutFarm.HtmlBoxes
 
             public LineWalkVisitor(CssLineBox startLineBox)
             {
-                this._startLineBox = startLineBox;
+                _startLineBox = startLineBox;
                 float endElemX = 0, endElemY = 0;
                 startLineBox.OwnerBox.GetGlobalLocation(out endElemX, out endElemY);
-                this._globalX = endElemX;
-                this._globalY = endElemY + startLineBox.CachedLineTop;
+                _globalX = endElemX;
+                _globalY = endElemY + startLineBox.CachedLineTop;
             }
             public LineWalkVisitor(CssBlockRun startBlockRun)
             {
                 float endElemX = 0, endElemY = 0;
                 startBlockRun.ContentBox.GetGlobalLocation(out endElemX, out endElemY);
-                this._globalX = endElemX;
-                this._globalY = endElemY;
-                this._startBlockRun = startBlockRun;
+                _globalX = endElemX;
+                _globalY = endElemY;
+                _startBlockRun = startBlockRun;
             }
             public void SetWalkTargetPosition(float x, float y)
             {
-                this._targetX = x;
-                this._targetY = y;
+                _targetX = x;
+                _targetY = y;
             }
             public void Walk(CssLineBox endLineBox, VisitLineDelegate del)
             {
@@ -567,7 +567,7 @@ namespace LayoutFarm.HtmlBoxes
                 //recursive 
                 foreach (CssLineBox ln in lineIter)
                 {
-                    this._currentVisitLineBox = ln;
+                    _currentVisitLineBox = ln;
                     if (ln == endLineBox)
                     {
                         del(LineCoverage.EndLine, ln, null);
@@ -601,10 +601,10 @@ namespace LayoutFarm.HtmlBoxes
 
             public bool IsWalkTargetInCurrentLineArea()
             {
-                return _targetY >= this._globalY &&
-                        _targetY < this._globalY + _currentVisitLineBox.CacheLineHeight &&
-                        _targetX >= this._globalX &&
-                        _targetX < this._globalX + _currentVisitLineBox.CachedLineContentWidth;
+                return _targetY >= _globalY &&
+                        _targetY < _globalY + _currentVisitLineBox.CacheLineHeight &&
+                        _targetX >= _globalX &&
+                        _targetX < _globalX + _currentVisitLineBox.CachedLineContentWidth;
             }
             /// walk down and up
             /// </summary>

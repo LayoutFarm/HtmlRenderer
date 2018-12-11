@@ -55,19 +55,19 @@ namespace LayoutFarm.HtmlBoxes
         }
         internal void SetRootGlobalPosition(int globalX, int globalY)
         {
-            this._rootGlobalX = globalX;
-            this._rootGlobalY = globalY;
+            _rootGlobalX = globalX;
+            _rootGlobalY = globalY;
         }
         //
-        public int RootGlobalX => this._rootGlobalX;
+        public int RootGlobalX => _rootGlobalX;
 
-        public int RootGlobalY => this._rootGlobalY;
+        public int RootGlobalY => _rootGlobalY;
 
-        public int Count => this._hitInfoList.Count;
+        public int Count => _hitInfoList.Count;
         //
         public void Clear()
         {
-            this._hitInfoList.Clear();
+            _hitInfoList.Clear();
             _globalOffsetX = _globalOffsetY = _rootGlobalX = _rootGlobalY = 0;
         }
         //
@@ -101,7 +101,7 @@ namespace LayoutFarm.HtmlBoxes
             _hitInfoList.Add(new HitInfo(run, x, y));
         }
 
-        public HitInfo GetHitInfo(int index) => this._hitInfoList[index];
+        public HitInfo GetHitInfo(int index) => _hitInfoList[index];
 
         public HitInfo GetLastHit()
         {
@@ -117,9 +117,9 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
         //
-        internal float GlobalOffsetX => this._globalOffsetX;
+        internal float GlobalOffsetX => _globalOffsetX;
 
-        internal float GlobalOffsetY => return this._globalOffsetY; 
+        internal float GlobalOffsetY => return _globalOffsetY; 
         
 
 #if DEBUG

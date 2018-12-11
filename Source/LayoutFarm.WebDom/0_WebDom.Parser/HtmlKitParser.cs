@@ -7,7 +7,7 @@ namespace LayoutFarm.WebDom.Parser
     class HtmlKitParser : HtmlParser
     {
         WebDocument _resultHtmlDoc;
-        HtmlStack openEltStack = new HtmlStack();
+        HtmlStack _openEltStack = new HtmlStack();
         public override void Parse(TextSource textSnapshot, WebDocument htmldoc, DomElement currentNode)
         {
             _resultHtmlDoc = htmldoc;
@@ -46,7 +46,7 @@ namespace LayoutFarm.WebDom.Parser
                                     }
                                     if (!tag.IsEmptyElement)
                                     {
-                                        openEltStack.Push(currentNode);
+                                        _openEltStack.Push(currentNode);
                                         currentNode = elem;
                                     }
                                 }
@@ -57,7 +57,7 @@ namespace LayoutFarm.WebDom.Parser
                                     int tagNameIndex = _resultHtmlDoc.AddStringIfNotExists(tag.Name);
                                     if (currentNode.Name == tag.Name)
                                     {
-                                        currentNode = openEltStack.Pop();
+                                        currentNode = _openEltStack.Pop();
                                     }
                                     else
                                     {
@@ -68,15 +68,15 @@ namespace LayoutFarm.WebDom.Parser
                                         {
                                             if (HtmlTagMatching.IsSingleTag(currentNode.LocalNameIndex))
                                             {
-                                                if (openEltStack.Count > 0)
+                                                if (_openEltStack.Count > 0)
                                                 {
-                                                    currentNode = openEltStack.Pop();
+                                                    currentNode = _openEltStack.Pop();
                                                 }
                                                 if (currentNode.LocalName == tag.Name)
                                                 {
-                                                    if (openEltStack.Count > 0)
+                                                    if (_openEltStack.Count > 0)
                                                     {
-                                                        currentNode = openEltStack.Pop();
+                                                        currentNode = _openEltStack.Pop();
                                                         ok = true;
                                                         break;
                                                     }
@@ -84,15 +84,15 @@ namespace LayoutFarm.WebDom.Parser
                                             }
                                             else if (HtmlTagMatching.CanAutoClose(currentNode.LocalNameIndex))
                                             {
-                                                if (openEltStack.Count > 0)
+                                                if (_openEltStack.Count > 0)
                                                 {
-                                                    currentNode = openEltStack.Pop();
+                                                    currentNode = _openEltStack.Pop();
                                                 }
                                                 if (currentNode.LocalName == tag.Name)
                                                 {
-                                                    if (openEltStack.Count > 0)
+                                                    if (_openEltStack.Count > 0)
                                                     {
-                                                        currentNode = openEltStack.Pop();
+                                                        currentNode = _openEltStack.Pop();
                                                         ok = true;
                                                         break;
                                                     }
@@ -130,7 +130,7 @@ namespace LayoutFarm.WebDom.Parser
         public override void ResetParser()
         {
             _resultHtmlDoc = null;
-            this.openEltStack.Clear();
+            _openEltStack.Clear();
         }
     }
 }

@@ -30,7 +30,7 @@ namespace LayoutFarm.HtmlBoxes
         const int MAXSIZE_H = 99999;
         public FlexItem(CssBox box)
         {
-            this._box = box;
+            _box = box;
             this.MinWidth = CssLength.AutoLength;
             this.MinHeight = CssLength.AutoLength;
             if (box.Width.IsEmptyOrAuto)
@@ -55,19 +55,19 @@ namespace LayoutFarm.HtmlBoxes
             this.PlanWidth = _minSizeW;
             this.PlanHeight = _minSizeH;
         }
-        public int FlexShrink => CssBox.UnsafeGetBoxSpec(this._box).FlexShrink;
+        public int FlexShrink => CssBox.UnsafeGetBoxSpec(_box).FlexShrink;
 
 
-        public int FlexGrow => CssBox.UnsafeGetBoxSpec(this._box).FlexGrow;
+        public int FlexGrow => CssBox.UnsafeGetBoxSpec(_box).FlexGrow;
 
 
-        public float MinSizeW => this._minSizeW;
+        public float MinSizeW => _minSizeW;
 
-        public float MinSizeH => this._minSizeH;
+        public float MinSizeH => _minSizeH;
 
-        public float MaxSizeW => this._maxSizeW;
+        public float MaxSizeW => _maxSizeW;
 
-        public float MaxSizeH => this._maxSizeH;
+        public float MaxSizeH => _maxSizeH;
 
         public float PlanWidth { get; set; }
         public float PlanHeight { get; set; }
@@ -79,7 +79,7 @@ namespace LayoutFarm.HtmlBoxes
 
         public bool ReachMaxHeight => this.PlanHeight >= _maxSizeH;
 
-        public CssBox Box => this._box;
+        public CssBox Box => _box;
 
         public CssLength FlexBasis { get; set; }
 
@@ -94,21 +94,21 @@ namespace LayoutFarm.HtmlBoxes
         CssBox _flexCssBox;
         public FlexLine(CssBox flexCssBox)
         {
-            this._flexCssBox = flexCssBox;
+            _flexCssBox = flexCssBox;
             AvaliableParentWidth = flexCssBox.VisualWidth;
             AvaliableParentHeight = flexCssBox.VisualHeight;
         }
         public void AddChild(FlexItem item)
         {
-            this._flexItems.Add(item);
+            _flexItems.Add(item);
         }
         public void Clear()
         {
-            this._flexItems.Clear();
+            _flexItems.Clear();
         }
-        public int Count => this._flexItems.Count;
+        public int Count => _flexItems.Count;
 
-        public FlexItem GetItem(int index) => this._flexItems[index];
+        public FlexItem GetItem(int index) => _flexItems[index];
 
 
         float AvaliableParentWidth { get; set; }
@@ -201,7 +201,7 @@ namespace LayoutFarm.HtmlBoxes
             if (maxHeight < this.AvaliableParentHeight)
             {
                 //expand item or shrink
-                if (this._flexCssBox.Height.IsEmptyOrAuto)
+                if (_flexCssBox.Height.IsEmptyOrAuto)
                 {
                     //autoheight 
                     //then set new height for parent

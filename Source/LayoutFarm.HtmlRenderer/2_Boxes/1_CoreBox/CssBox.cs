@@ -49,7 +49,7 @@ namespace LayoutFarm.HtmlBoxes
         {
 
 
-            this._rootgfx = rootgfx;
+            _rootgfx = rootgfx;
             _aa_boxes = new CssBoxCollection();
 #if DEBUG
 
@@ -71,7 +71,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         public CssBox(BoxSpec spec, IRootGraphics rootgfx, CssDisplay displayType)
         {
-            this._rootgfx = rootgfx;
+            _rootgfx = rootgfx;
             _aa_boxes = new CssBoxCollection();
 #if DEBUG
             //if (__aa_dbugId == 13)

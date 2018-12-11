@@ -23,7 +23,7 @@ namespace LayoutFarm.HtmlBoxes
         ITextService _fontService;
         internal LayoutVisitor(ITextService fontService)
         {
-            this._fontService = fontService;
+            _fontService = fontService;
         }
         internal void Bind(HtmlVisualRoot htmlVisualRoot)
         {
@@ -48,11 +48,11 @@ namespace LayoutFarm.HtmlBoxes
 
         }
         internal bool InAbsoluteLayerMode { get; set; }
-        internal ITextService SampleIFonts => this._fontService;
+        internal ITextService SampleIFonts => _fontService;
 
         protected override void OnPushDifferentContainingBlock(CssBox box)
         {
-            this._totalMarginLeftAndRight += (box.ActualMarginLeft + box.ActualMarginRight);
+            _totalMarginLeftAndRight += (box.ActualMarginLeft + box.ActualMarginRight);
         }
         //
         internal CssBox FloatingContextOwner => _floatingContextStack.CurrentTopOwner;
@@ -72,7 +72,7 @@ namespace LayoutFarm.HtmlBoxes
 
         protected override void OnPopDifferentContaingBlock(CssBox box)
         {
-            this._totalMarginLeftAndRight -= (box.ActualMarginLeft + box.ActualMarginRight);
+            _totalMarginLeftAndRight -= (box.ActualMarginLeft + box.ActualMarginRight);
         }
         internal CssBox LatestSiblingBox { get; set; }
         internal CssBox LatestLeftFloatBox => _floatingContextStack.LatestLeftFloatBox;
@@ -93,7 +93,7 @@ namespace LayoutFarm.HtmlBoxes
         internal void UpdateRootSize(CssBox box)
         {
             float candidateRootWidth = Math.Max(
-                box.CalculateMinimumWidth(this._episodeId) + CalculateWidthMarginTotalUp(box),
+                box.CalculateMinimumWidth(_episodeId) + CalculateWidthMarginTotalUp(box),
                 (box.VisualWidth + this.ContainerBlockGlobalX) < CssBoxConstConfig.BOX_MAX_RIGHT ? box.VisualWidth : 0);
             _htmlVisualRoot.UpdateSizeIfWiderOrHigher(
                 this.ContainerBlockGlobalX + candidateRootWidth,
@@ -151,19 +151,19 @@ namespace LayoutFarm.HtmlBoxes
         {
             if (_readyDicStrip == null)
             {
-                if (this._dicStripPool == null || this._dicStripPool.Count == 0)
+                if (_dicStripPool == null || _dicStripPool.Count == 0)
                 {
                     return new Dictionary<CssBox, PartialBoxStrip>();
                 }
                 else
                 {
-                    return this._dicStripPool.Dequeue();
+                    return _dicStripPool.Dequeue();
                 }
             }
             else
             {
-                var tmpReadyStripDic = this._readyDicStrip;
-                this._readyDicStrip = null;
+                var tmpReadyStripDic = _readyDicStrip;
+                _readyDicStrip = null;
                 return tmpReadyStripDic;
             }
         }
@@ -171,19 +171,19 @@ namespace LayoutFarm.HtmlBoxes
         {
             //clear before add to pool
             dic.Clear();
-            if (this._readyDicStrip == null)
+            if (_readyDicStrip == null)
             {
-                this._readyDicStrip = dic;
+                _readyDicStrip = dic;
             }
             else
             {
-                if (this._dicStripPool == null)
+                if (_dicStripPool == null)
                 {
-                    this._dicStripPool = new Queue<Dictionary<CssBox, PartialBoxStrip>>();
+                    _dicStripPool = new Queue<Dictionary<CssBox, PartialBoxStrip>>();
                 }
 
 
-                this._dicStripPool.Enqueue(dic);
+                _dicStripPool.Enqueue(dic);
             }
         }
         //---------------------------------------------------------------
@@ -191,19 +191,19 @@ namespace LayoutFarm.HtmlBoxes
         {
             if (_readyListStrip == null)
             {
-                if (this._dicStripPool == null || this._dicStripPool.Count == 0)
+                if (_dicStripPool == null || _dicStripPool.Count == 0)
                 {
                     return new List<PartialBoxStrip>();
                 }
                 else
                 {
-                    return this._listStripPool.Dequeue();
+                    return _listStripPool.Dequeue();
                 }
             }
             else
             {
-                var tmpReadyListStrip = this._readyListStrip;
-                this._readyListStrip = null;
+                var tmpReadyListStrip = _readyListStrip;
+                _readyListStrip = null;
                 return tmpReadyListStrip;
             }
         }
@@ -211,23 +211,23 @@ namespace LayoutFarm.HtmlBoxes
         {
             //clear before add to pool
             list.Clear();
-            if (this._readyListStrip == null)
+            if (_readyListStrip == null)
             {
-                this._readyListStrip = list;
+                _readyListStrip = list;
             }
             else
             {
-                if (this._listStripPool == null)
+                if (_listStripPool == null)
                 {
-                    this._listStripPool = new Queue<List<PartialBoxStrip>>();
+                    _listStripPool = new Queue<List<PartialBoxStrip>>();
                 }
-                this._listStripPool.Enqueue(list);
+                _listStripPool.Enqueue(list);
             }
         }
 
 
         //--------------------------------------------------------------- 
-        internal int EpisodeId => this._episodeId;
+        internal int EpisodeId => _episodeId;
 
         //---------------------------------------------------------------
 

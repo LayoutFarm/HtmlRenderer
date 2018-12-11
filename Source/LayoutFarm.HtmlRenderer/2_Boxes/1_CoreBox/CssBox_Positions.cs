@@ -370,7 +370,7 @@ namespace LayoutFarm.HtmlBoxes
             }
             else
             {
-                this._decorator = null;
+                _decorator = null;
             }
         }
 
@@ -786,7 +786,7 @@ namespace LayoutFarm.HtmlBoxes
         void GetGlobalLocationRelativeToRoot(ref PointF location)
         {
 
-            if (this._justBlockRun != null)
+            if (_justBlockRun != null)
             {
                 //recursive
                 if (_viewportX != 0 || _viewportY != 0)
@@ -865,7 +865,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             _viewportX = viewportX;
             _viewportY = viewportY;
-            this._mayHasViewport = true;
+            _mayHasViewport = true;
             this.InvalidateGraphics();
         }
     }

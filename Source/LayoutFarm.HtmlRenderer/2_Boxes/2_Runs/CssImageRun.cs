@@ -21,7 +21,7 @@ namespace LayoutFarm.HtmlBoxes
     /// </summary>
     public sealed class CssImageRun : CssRun
     {
-        ImageBinder imgBinder;
+        ImageBinder _imgBinder;
         /// <summary>
         /// the image rectange restriction as returned from image load event
         /// </summary>
@@ -41,9 +41,9 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-                if (this.imgBinder != null)
+                if (_imgBinder != null)
                 {
-                    return imgBinder.LocalImage;
+                    return _imgBinder.LocalImage;
                 }
                 return null;
             }
@@ -72,29 +72,20 @@ namespace LayoutFarm.HtmlBoxes
                 return 1; //default image width
             }
         }
-        public bool HasUserImageContent
-        {
-            get
-            {
-                return this.Image != null;
-            }
-        }
-
+        public bool HasUserImageContent => this.Image != null; 
         public ImageBinder ImageBinder
         {
-            get { return this.imgBinder; }
-            set
-            {
-                this.imgBinder = value;
-            }
+            get => _imgBinder;
+            set => _imgBinder = value;
+
         }
         /// <summary>
         /// the image rectange restriction as returned from image load event
         /// </summary>
         public Rectangle ImageRectangle
         {
-            get { return _imageRectangle; }
-            set { _imageRectangle = value; }
+            get => _imageRectangle;
+            set => _imageRectangle = value;
         }
 
         public override void WriteContent(System.Text.StringBuilder stbuilder, int start, int length)

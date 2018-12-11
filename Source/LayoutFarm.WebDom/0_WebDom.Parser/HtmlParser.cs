@@ -29,45 +29,42 @@ namespace LayoutFarm.WebDom.Parser
 
     class HtmlStack
     {
-        List<DomElement> nodes = new List<DomElement>();
-        int count;
+        List<DomElement> _nodes = new List<DomElement>();
+        int _count;
         public HtmlStack()
         {
         }
         public void Push(DomElement node)
         {
-            count++;
-            this.nodes.Add(node);
+            _count++;
+            _nodes.Add(node);
         }
         public DomElement Pop()
         {
-            DomElement node = this.nodes[count - 1];
-            this.nodes.RemoveAt(count - 1);
-            count--;
+            DomElement node = _nodes[_count - 1];
+            _nodes.RemoveAt(_count - 1);
+            _count--;
             return node;
         }
         public DomElement Peek()
         {
-            if (count > 1)
+            if (_count > 1)
             {
-                return nodes[count - 1];
+                return _nodes[_count - 1];
             }
             else
             {
                 return null;
             }
         }
-        public int Count
-        {
-            get
-            {
-                return this.count;
-            }
-        }
+        //
+        public int Count => _count;
+
+
         public void Clear()
         {
-            this.nodes.Clear();
-            this.count = 0;
+            _nodes.Clear();
+            _count = 0;
         }
     }
 }

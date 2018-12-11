@@ -14,12 +14,12 @@ namespace LayoutFarm.WebDom
             {
                 case UIEventName.MouseDown:
                     {
-                        this.evhMouseDown += handler;
+                        _evhMouseDown += handler;
                     }
                     break;
                 case UIEventName.MouseUp:
                     {
-                        this.evhMouseUp += handler;
+                        _evhMouseUp += handler;
                     }
                     break;
             }
@@ -31,12 +31,12 @@ namespace LayoutFarm.WebDom
             {
                 case UIEventName.MouseDown:
                     {
-                        this.evhMouseDown -= handler;
+                        _evhMouseDown -= handler;
                     }
                     break;
                 case UIEventName.MouseUp:
                     {
-                        this.evhMouseUp -= handler;
+                        _evhMouseUp -= handler;
                     }
                     break;
             }
@@ -44,7 +44,7 @@ namespace LayoutFarm.WebDom
         //-------------------------------------------------------
         public void AttachEventOnMouseLostFocus(HtmlEventHandler handler)
         {
-            this.evhMouseLostFocus += handler;
+            _evhMouseLostFocus += handler;
         }
 
         //-------------------------------------------------------
@@ -61,16 +61,16 @@ namespace LayoutFarm.WebDom
         }
         protected virtual void OnLostMouseFocus(UIMouseEventArgs e)
         {
-            if (this.evhMouseLostFocus != null)
+            if (_evhMouseLostFocus != null)
             {
-                this.evhMouseLostFocus(e);
+                _evhMouseLostFocus(e);
             }
         }
         protected virtual void OnMouseDown(UIMouseEventArgs e)
         {
-            if (this.evhMouseDown != null)
+            if (_evhMouseDown != null)
             {
-                evhMouseDown(e);
+                _evhMouseDown(e);
             }
             if (!e.CancelBubbling)
             {
@@ -86,9 +86,9 @@ namespace LayoutFarm.WebDom
         }
         protected virtual void OnMouseUp(UIMouseEventArgs e)
         {
-            if (evhMouseUp != null)
+            if (_evhMouseUp != null)
             {
-                evhMouseUp(e);
+                _evhMouseUp(e);
             }
             if (!e.CancelBubbling)
             {
