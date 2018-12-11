@@ -24,9 +24,8 @@ namespace TestGraphicPackage2
             //2.2 Icu Text Break info
             //test Typography's custom text break,
             //check if we have that data?            
-            //------------------------------------------- 
-            //string typographyDir = @"brkitr_src/dictionaries";
-            string icu_datadir = @"D:\projects\Typography\Typography.TextBreak\icu62\brkitr";
+            //-------------------------------------------  
+            string icu_datadir = YourImplementation.RelativePathBuilder.SearchBackAndBuildFolderPath(System.IO.Directory.GetCurrentDirectory(), "HtmlRenderer", @"..\Typography\Typography.TextBreak\icu62\brkitr");
             if (!System.IO.Directory.Exists(icu_datadir))
             {
                 throw new System.NotSupportedException("dic");
