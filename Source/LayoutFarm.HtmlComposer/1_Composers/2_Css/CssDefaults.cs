@@ -8,7 +8,7 @@ namespace LayoutFarm.Composers
         /// <summary>
         /// default CSS parsed data singleton
         /// </summary>
-        static WebDom.CssActiveSheet _defaultCssData;
+        static WebDom.CssActiveSheet s_defaultCssData;
         /// <summary>
         /// default CSS parsed data singleton
         /// </summary>
@@ -16,12 +16,12 @@ namespace LayoutFarm.Composers
         {
             get
             {
-                if (_defaultCssData == null)
+                if (s_defaultCssData == null)
                 {
-                    _defaultCssData = new WebDom.CssActiveSheet();
-                    LayoutFarm.WebDom.Parser.CssParserHelper.ParseStyleSheet(_defaultCssData, CssDefaults.DefaultStyleSheet);
+                    s_defaultCssData = new WebDom.CssActiveSheet();
+                    LayoutFarm.WebDom.Parser.CssParserHelper.ParseStyleSheet(s_defaultCssData, CssDefaults.DefaultStyleSheet);
                 }
-                return _defaultCssData;
+                return s_defaultCssData;
             }
         }
 

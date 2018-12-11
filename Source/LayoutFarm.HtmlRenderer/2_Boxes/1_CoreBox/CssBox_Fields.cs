@@ -57,52 +57,42 @@ namespace LayoutFarm.HtmlBoxes
         /// absolute position layer
         /// </summary>
         CssBoxAbsoluteLayer _absPosLayer;
-        CssBlockRun justBlockRun;
+        CssBlockRun _justBlockRun;
         //----------------------------------------------------   
         //only in condition 3
         char[] _buffer;
         //----------------------------------------------------    
-        CssBoxDecorator decorator;
-        bool mayHasViewport;
-        bool isOutOfFlowBox;
+        CssBoxDecorator _decorator;
+        bool _mayHasViewport;
+        bool _isOutOfFlowBox;
 
         CssBox _absLayerOwner;
 
         internal bool IsOutOfFlowBox
         {
-            get { return this.isOutOfFlowBox; }
-            set { this.isOutOfFlowBox = value; }
+            get => _isOutOfFlowBox;
+            set => _isOutOfFlowBox = value;
         }
 
 
-        internal int RunCount
-        {
-            get
-            {
-                return _aa_contentRuns != null ? _aa_contentRuns.Count : 0;
-            }
-        }
+        internal int RunCount => _aa_contentRuns != null ? _aa_contentRuns.Count : 0;
+
+
         internal CssBoxDecorator Decorator
         {
-            get { return this.decorator; }
-            set { this.decorator = value; }
+            get => _decorator;
+            set => _decorator = value;
         }
         public CssBlockRun JustBlockRun
         {
-            get { return this.justBlockRun; }
-            set
-            {
-                this.justBlockRun = value;
-            }
+            get => _justBlockRun;
+            set => _justBlockRun = value;
+
         }
-        public IEnumerable<CssBox> GetChildBoxIter()
-        {
-            return _aa_boxes.GetChildBoxIter();
-        }
-        public IEnumerable<CssBox> GetChildBoxBackwardIter()
-        {
-            return _aa_boxes.GetChildBoxBackwardIter();
-        }
+        public IEnumerable<CssBox> GetChildBoxIter() => _aa_boxes.GetChildBoxIter();
+        //
+        public IEnumerable<CssBox> GetChildBoxBackwardIter() => _aa_boxes.GetChildBoxBackwardIter();
+        //
         public IEnumerable<CssBox> GetAbsoluteChildBoxIter()
         {
             if (_absPosLayer != null)
@@ -156,18 +146,12 @@ namespace LayoutFarm.HtmlBoxes
         }
 
 
-        public int ChildCount
-        {
-            get
-            {
-                return _aa_boxes.Count;
-            }
-        }
+        public int ChildCount => _aa_boxes.Count;
+
+
         //-----------------------------------
-        public CssBox GetFirstChild()
-        {
-            return _aa_boxes.GetFirstChild();
-        }
+        public CssBox GetFirstChild() => _aa_boxes.GetFirstChild();
+
         public void RemoveChild(CssBox box)
         {
             switch (box.Position)
@@ -290,13 +274,9 @@ namespace LayoutFarm.HtmlBoxes
                     break;
             }
         }
-        internal bool HasAbsoluteLayer
-        {
-            get
-            {
-                return _absPosLayer != null;
-            }
-        }
+        //
+        internal bool HasAbsoluteLayer => _absPosLayer != null;
+
         public void InsertChild(CssBox beforeBox, CssBox box)
         {
             _aa_boxes.InsertBefore(this, beforeBox, box);
@@ -383,10 +363,7 @@ namespace LayoutFarm.HtmlBoxes
             }
             _absPosLayer.AddChild(box);
         }
-        internal bool IsAddedToAbsoluteLayer
-        {
-            get { return _absLayerOwner != null; }
-        }
+        internal bool IsAddedToAbsoluteLayer => _absLayerOwner != null;
         internal void ResetAbsoluteLayerOwner()
         {
             _absLayerOwner = null;
@@ -404,20 +381,10 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
         //-------------------------------------
-        internal int RowSpan
-        {
-            get
-            {
-                return _rowSpan;
-            }
-        }
-        internal int ColSpan
-        {
-            get
-            {
-                return _colSpan;
-            }
-        }
+        internal int RowSpan => _rowSpan;
+        internal int ColSpan => _colSpan;
+
+
 
         public void SetRowSpanAndColSpan(int rowSpan, int colSpan)
         {
@@ -427,17 +394,10 @@ namespace LayoutFarm.HtmlBoxes
         /// <summary>
         /// The margin top value if was effected by margin collapse.
         /// </summary>
-        float CollapsedMarginTop
-        {
-            get;
-            set;
-        }
+        float CollapsedMarginTop { get; set; }
         protected bool HasCustomRenderTechnique
         {
-            get
-            {
-                return (_boxCompactFlags & BoxFlags.HAS_CUSTOM_RENDER_TECHNIQUE) != 0;
-            }
+            get => (_boxCompactFlags & BoxFlags.HAS_CUSTOM_RENDER_TECHNIQUE) != 0;
             set
             {
                 if (value)

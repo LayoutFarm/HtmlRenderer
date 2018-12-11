@@ -28,253 +28,153 @@ namespace LayoutFarm.HtmlBoxes
 
     partial class CssBox
     {
-        public CssLength Height
-        {
-            get { return _myspec.Height; }
-        }
+        public CssLength Height => _myspec.Height;
 
-        public CssDirection CssDirection
-        {
-            get { return _myspec.CssDirection; }
-        }
+
+        public CssDirection CssDirection => _myspec.CssDirection;
+
 
         //----------------------------------------------- 
-        public CssBorderStyle BorderLeftStyle
-        {
-            get { return _myspec.BorderLeftStyle; }
-        }
-        public CssBorderStyle BorderTopStyle
-        {
-            get { return _myspec.BorderTopStyle; }
-        }
-        public CssBorderStyle BorderRightStyle
-        {
-            get { return _myspec.BorderRightStyle; }
-        }
-        public CssBorderStyle BorderBottomStyle
-        {
-            get { return _myspec.BorderBottomStyle; }
-        }
-        //--------------------------------------------
-        public Color BorderLeftColor
-        {
-            get { return _myspec.BorderLeftColor; }
-        }
-        public Color BorderTopColor
-        {
-            get { return _myspec.BorderTopColor; }
-        }
-        public Color BorderRightColor
-        {
-            get { return _myspec.BorderRightColor; }
-        }
-        public Color BorderBottomColor
-        {
-            get { return _myspec.BorderBottomColor; }
-        }
-        //--------------------------------------------
-        public CssLength BorderSpacingVertical
-        {
-            get { return _myspec.BorderSpacingVertical; }
-        }
-        public CssLength BorderSpacingHorizontal
-        {
-            get { return _myspec.BorderSpacingHorizontal; }
-        }
-        public CssBorderCollapse BorderCollapse
-        {
-            get { return _myspec.BorderCollapse; }
-        }
+        public CssBorderStyle BorderLeftStyle => _myspec.BorderLeftStyle;
 
-        public bool IsBorderCollapse
-        {
-            get { return this.BorderCollapse == CssBorderCollapse.Collapse; }
-        }
+        public CssBorderStyle BorderTopStyle => _myspec.BorderTopStyle;
+
+        public CssBorderStyle BorderRightStyle => _myspec.BorderRightStyle;
+
+        public CssBorderStyle BorderBottomStyle => _myspec.BorderBottomStyle;
+
+        //--------------------------------------------
+        public Color BorderLeftColor => _myspec.BorderLeftColor;
+
+        public Color BorderTopColor => _myspec.BorderTopColor;
+
+        public Color BorderRightColor => _myspec.BorderRightColor;
+
+        public Color BorderBottomColor => _myspec.BorderBottomColor;
+
+        //--------------------------------------------
+        public CssLength BorderSpacingVertical => _myspec.BorderSpacingVertical;
+
+        public CssLength BorderSpacingHorizontal => _myspec.BorderSpacingHorizontal;
+
+        public CssBorderCollapse BorderCollapse => _myspec.BorderCollapse;
+
+
+        public bool IsBorderCollapse => this.BorderCollapse == CssBorderCollapse.Collapse;
+
 
         //------------------------------------------------------ 
-        public CssLength Left
-        {
-            get { return _myspec.Left; }
-        }
-        public CssLength Top
-        {
-            get { return _myspec.Top; }
-        }
+        public CssLength Left => _myspec.Left;
 
-        public CssLength Width
-        {
-            get { return _myspec.Width; }
-        }
-        public CssFloat Float
-        {
-            get { return _myspec.Float; }
-        }
-        public CssLength MaxWidth
-        {
-            get { return _myspec.MaxWidth; }
-        }
+        public CssLength Top => _myspec.Top;
+
+
+        public CssLength Width => _myspec.Width;
+
+        public CssFloat Float => _myspec.Float;
+
+        public CssLength MaxWidth => _myspec.MaxWidth;
+
 
         //------------------------------------------------------ 
-        Color BackgroundColor
-        {
-            get { return _myspec.BackgroundColor; }
-        }
-        public ImageBinder BackgroundImageBinder
-        {
-            get { return _myspec.BackgroundImageBinder; }
-        }
-        public CssLength BackgroundPositionX
-        {
-            get { return _myspec.BackgroundPositionX; }
-        }
-        public CssLength BackgroundPositionY
-        {
-            get { return _myspec.BackgroundPositionY; }
-        }
-        public CssBackgroundRepeat BackgroundRepeat
-        {
-            get { return _myspec.BackgroundRepeat; }
-        }
-        public Color BackgroundGradient
-        {
-            get { return _myspec.BackgroundGradient; }
-        }
+        Color BackgroundColor => _myspec.BackgroundColor;
 
-        public float BackgroundGradientAngle
-        {
-            get { return _myspec.ActualBackgroundGradientAngle; }
-        }
+        public ImageBinder BackgroundImageBinder => _myspec.BackgroundImageBinder;
 
-        CssEmptyCell EmptyCells
-        {
-            get { return _myspec.EmptyCells; }
-        }
+        public CssLength BackgroundPositionX => _myspec.BackgroundPositionX;
 
-        public CssPosition Position
-        {
-            get { return _myspec.Position; }
-        }
+        public CssLength BackgroundPositionY => _myspec.BackgroundPositionY;
+
+        public CssBackgroundRepeat BackgroundRepeat => _myspec.BackgroundRepeat;
+
+        public Color BackgroundGradient => _myspec.BackgroundGradient;
+
+
+        public float BackgroundGradientAngle => _myspec.ActualBackgroundGradientAngle;
+
+
+        CssEmptyCell EmptyCells => _myspec.EmptyCells;
+
+
+        public CssPosition Position => _myspec.Position;
+
         //----------------------------------------------------
 
-        public CssVerticalAlign VerticalAlign
-        {
-            get { return _myspec.VerticalAlign; }
-        }
-        CssLength TextIndent
-        {
-            get { return _myspec.TextIndent; }
-        }
-        CssLength LineHeight
-        {
-            get { return _myspec.LineHeight; }
-        }
+        public CssVerticalAlign VerticalAlign => _myspec.VerticalAlign;
 
-        public CssTextAlign CssTextAlign
-        {
-            get { return _myspec.CssTextAlign; }
-        }
-        public CssTextDecoration TextDecoration
-        {
-            get { return _myspec.TextDecoration; }
-        }
+        CssLength TextIndent => _myspec.TextIndent;
+
+        CssLength LineHeight => _myspec.LineHeight;
+
+
+        public CssTextAlign CssTextAlign => _myspec.CssTextAlign;
+
+        public CssTextDecoration TextDecoration => _myspec.TextDecoration;
+
         //-----------------------------------
-        public CssWhiteSpace WhiteSpace
-        {
-            get { return _myspec.WhiteSpace; }
-        }
+        public CssWhiteSpace WhiteSpace => _myspec.WhiteSpace;
+
         //----------------------------------- 
-        CssVisibility Visibility
-        {
-            get { return _myspec.Visibility; }
-        }
-        public CssLength WordSpacing
-        {
-            get { return _myspec.WordSpacing; }
-        }
-        CssWordBreak WordBreak
-        {
-            get { return _myspec.WordBreak; }
-        }
+        CssVisibility Visibility => _myspec.Visibility;
+
+        public CssLength WordSpacing => _myspec.WordSpacing;
+
+        CssWordBreak WordBreak => _myspec.WordBreak;
+
         //-----------------------------------  
-        public CssOverflow Overflow
-        {
-            get { return _myspec.Overflow; }
-        }
+        public CssOverflow Overflow => _myspec.Overflow;
+
         //----------------------------------- 
 
 
         /// <summary>
         /// Gets the second color that creates a gradient for the background
         /// </summary>
-        public Color ActualBackgroundGradient
-        {
-            get
-            {
-                return _myspec.BackgroundGradient;
-            }
-        }
+        public Color ActualBackgroundGradient => _myspec.BackgroundGradient;
+
+
 
         /// <summary>
         /// Gets the actual angle specified for the background gradient
         /// </summary>
-        public float ActualBackgroundGradientAngle
-        {
-            get
-            {
-                return _myspec.BackgroundGradientAngle;
-            }
-        }
+        public float ActualBackgroundGradientAngle => _myspec.BackgroundGradientAngle;
+
+
 
         /// <summary>
         /// 
         /// Gets the actual color for the text.
         /// </summary>
-        public Color ActualColor
-        {
-            get
-            {
-                return _myspec.ActualColor;
-            }
-        }
+        public Color ActualColor => _myspec.ActualColor;
+
+
 
         /// <summary>
         /// Gets the actual background color of the box
         /// </summary>
-        public Color ActualBackgroundColor
-        {
-            get
-            {
-                return _myspec.ActualBackgroundColor;
-            }
-        }
-        public CssCursorName CursorName
-        {
-            get
-            {
-                return _myspec.CursorName;
-            }
-        }
+        public Color ActualBackgroundColor => _myspec.ActualBackgroundColor;
+
+
+        public CssCursorName CursorName => _myspec.CursorName;
+
+
         /// <summary>
         /// Gets the font that should be actually used to paint the text of the box
         /// </summary>
-        internal RequestFont ResolvedFont
-        {
-            get
-            {
-                return _resolvedFont;
-            }
-        }
+        internal RequestFont ResolvedFont => _resolvedFont;
+
+
         /// <summary>
         /// Gets the height of the font in the specified units
         /// </summary>
         /// <returns></returns>
-        public float GetEmHeight()
-        {
-            //after has actual font 
-            //temp fixed here
-            //TODO: review here
-            return 16;
-            //return _actualEmHeight;//  
-        }
+        public float GetEmHeight() => 16;
+
+        //after has actual font 
+        //temp fixed here
+        //TODO: review here
+
+        //return _actualEmHeight;//  
+
     }
 }

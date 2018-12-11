@@ -5,11 +5,11 @@ namespace LayoutFarm.WebDom
 {
     public abstract class WebDocument
     {
-        UniqueStringTable uniqueStringTable;
-        Dictionary<string, DomElement> registerElementsById;
+        UniqueStringTable _uniqueStringTable;
+        Dictionary<string, DomElement> _registerElementsById;
         public WebDocument(UniqueStringTable uniqueStringTable)
         {
-            this.uniqueStringTable = uniqueStringTable;
+            _uniqueStringTable = uniqueStringTable;
             this.DocumentState = WebDom.DocumentState.Init;
         }
         public abstract DomElement RootNode
@@ -21,22 +21,22 @@ namespace LayoutFarm.WebDom
 
         public int AddStringIfNotExists(string uniqueString)
         {
-            return uniqueStringTable.AddStringIfNotExist(uniqueString);
+            return _uniqueStringTable.AddStringIfNotExist(uniqueString);
         }
         public string GetString(int index)
         {
-            return uniqueStringTable.GetString(index);
+            return _uniqueStringTable.GetString(index);
         }
         public int FindStringIndex(string uniqueString)
         {
-            return uniqueStringTable.GetStringIndex(uniqueString);
+            return _uniqueStringTable.GetStringIndex(uniqueString);
         }
 
         public DomAttribute CreateAttribute(string prefix, string localName)
         {
             return new DomAttribute(this,
-                uniqueStringTable.AddStringIfNotExist(prefix),
-                uniqueStringTable.AddStringIfNotExist(localName));
+                _uniqueStringTable.AddStringIfNotExist(prefix),
+                _uniqueStringTable.AddStringIfNotExist(localName));
         }
         public abstract DomElement CreateElement(string prefix, string localName);
         public abstract DomNode CreateDocumentNodeElement();
@@ -63,15 +63,15 @@ namespace LayoutFarm.WebDom
         //-------------------------------------------------------
         internal void RegisterElementById(DomElement element)
         {
-            if (registerElementsById == null) this.registerElementsById = new Dictionary<string, DomElement>();
+            if (_registerElementsById == null) _registerElementsById = new Dictionary<string, DomElement>();
             //replace exisitng if exists *** 
-            registerElementsById[element.AttrElementId] = element;
+            _registerElementsById[element.AttrElementId] = element;
         }
         public DomElement GetElementById(string elementId)
         {
-            if (registerElementsById == null) return null;
+            if (_registerElementsById == null) return null;
             DomElement found;
-            registerElementsById.TryGetValue(elementId, out found);
+            _registerElementsById.TryGetValue(elementId, out found);
             return found;
         }
         //-------------------------------------------------------
@@ -84,11 +84,9 @@ namespace LayoutFarm.WebDom
         {
             this.DocumentState = docstate;
         }
-        public UniqueStringTable UniqueStringTable
-        {
-            get { return this.uniqueStringTable; }
-        }
-        public virtual bool IsDocFragment { get { return false; } }
+        public UniqueStringTable UniqueStringTable => _uniqueStringTable;
+
+        public virtual bool IsDocFragment => false;
     }
 
     public enum DocumentState

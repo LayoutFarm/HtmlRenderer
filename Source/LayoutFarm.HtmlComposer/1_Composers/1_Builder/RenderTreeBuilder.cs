@@ -26,19 +26,18 @@ namespace LayoutFarm.Composers
     /// </summary>
     public class RenderTreeBuilder
     {
-        WebDom.Parser.CssParser miniCssParser = new CssParser();
-        HtmlContentTextSplitter contentTextSplitter;
+        WebDom.Parser.CssParser _miniCssParser = new CssParser();
+        HtmlContentTextSplitter _contentTextSplitter;
         internal event ContentManagers.RequestStyleSheetEventHandler RequestStyleSheet;
-        HtmlHost htmlHost;
+        HtmlHost _htmlHost;
         internal RenderTreeBuilder(HtmlHost htmlHost)
         {
-            this.htmlHost = htmlHost;
-            this.contentTextSplitter = new HtmlContentTextSplitter();
+            _htmlHost = htmlHost;
+            _contentTextSplitter = new HtmlContentTextSplitter();
         }
-        internal HtmlContentTextSplitter ContentTextSplitter
-        {
-            get { return contentTextSplitter; }
-        }
+        //
+        internal HtmlContentTextSplitter ContentTextSplitter => _contentTextSplitter;
+        //
         string RaiseRequestStyleSheet(string hrefSource)
         {
             if (hrefSource == null || RequestStyleSheet == null)
@@ -164,7 +163,7 @@ namespace LayoutFarm.Composers
             char[] originalBuffer = textnode.GetOriginalBuffer();
             List<CssRun> runlist = new List<CssRun>();
             bool hasSomeCharacter;
-            contentTextSplitter.ParseWordContent(originalBuffer, parentSpec, isblockContext, runlist, out hasSomeCharacter);
+            _contentTextSplitter.ParseWordContent(originalBuffer, parentSpec, isblockContext, runlist, out hasSomeCharacter);
             textnode.SetSplitParts(runlist, hasSomeCharacter);
         }
         public CssBox BuildCssRenderTree(WebDocument webdoc,
@@ -187,9 +186,9 @@ namespace LayoutFarm.Composers
             RootGraphic rootgfx = (containerElement != null) ? containerElement.Root : null;
 
             //TODO: review here, we should create cssbox at  document.body? 
-            CssBox bridgeBox = HtmlHost.CreateBridgeBox(htmlHost.GetTextService(), containerElement, rootgfx);
+            CssBox bridgeBox = HtmlHost.CreateBridgeBox(_htmlHost.GetTextService(), containerElement, rootgfx);
             ((HtmlElement)htmldoc.RootNode).SetPrincipalBox(bridgeBox);//set bridgeBox as principal box of root node
-            htmlHost.UpdateChildBoxes((HtmlRootElement)htmldoc.RootNode, true);
+            _htmlHost.UpdateChildBoxes((HtmlRootElement)htmldoc.RootNode, true);
             htmldoc.SetDocumentState(DocumentState.Idle);
             //----------------------------------------------------------------  
             //SetTextSelectionStyle(htmlCont, cssData);
@@ -206,9 +205,9 @@ namespace LayoutFarm.Composers
             TopDownActiveCssTemplate activeTemplate = new TopDownActiveCssTemplate(cssActiveSheet);
             PrepareStylesAndContentOfChildNodes((HtmlElement)htmldoc.RootNode, activeTemplate);
             //TODO: review here, we should create cssbox at document.body?  
-            CssBox rootBox = HtmlHost.CreateIsolateBox(this.htmlHost.GetTextService(), rootgfx);
+            CssBox rootBox = HtmlHost.CreateIsolateBox(_htmlHost.GetTextService(), rootgfx);
             ((HtmlElement)htmldoc.RootNode).SetPrincipalBox(rootBox);
-            htmlHost.UpdateChildBoxes((HtmlRootElement)htmldoc.RootNode, true);
+            _htmlHost.UpdateChildBoxes((HtmlRootElement)htmldoc.RootNode, true);
             htmldoc.SetDocumentState(DocumentState.Idle);
             return rootBox;
         }
@@ -267,7 +266,7 @@ namespace LayoutFarm.Composers
             //----------------------------------------------------------------  
 
 
-            this.htmlHost.UpdateChildBoxes(startAtElement, false);
+            _htmlHost.UpdateChildBoxes(startAtElement, false);
             startAtElement.OwnerDocument.SetDocumentState(DocumentState.Idle);
             //----------------------------------------------------------------   
         }
@@ -352,7 +351,7 @@ namespace LayoutFarm.Composers
                 if (element.TryGetAttribute(WellknownName.Style, out attrStyleValue))
                 {
                     //parse and evaluate the ruleset
-                    parsedRuleSet = miniCssParser.ParseCssPropertyDeclarationList(attrStyleValue.ToCharArray());
+                    parsedRuleSet = _miniCssParser.ParseCssPropertyDeclarationList(attrStyleValue.ToCharArray());
                     foreach (WebDom.CssPropertyDeclaration propDecl in parsedRuleSet.GetAssignmentIter())
                     {
                         SpecSetter.AssignPropertyValue(

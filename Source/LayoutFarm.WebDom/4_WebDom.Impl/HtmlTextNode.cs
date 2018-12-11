@@ -7,24 +7,16 @@ namespace LayoutFarm.WebDom.Impl
     {
         //---------------------------------
         //this node may be simple text node  
-        bool freeze;
-        bool hasSomeChar;
+        bool _freeze;
+        bool _hasSomeChar;
         public HtmlTextNode(WebDocument ownerDoc, char[] buffer)
             : base(ownerDoc, buffer)
         {
         }
-        public bool IsWhiteSpace
-        {
-            get
-            {
-                return !this.hasSomeChar;
-            }
-        }
+        //
+        public bool IsWhiteSpace => !_hasSomeChar;
+        public bool IsFreeze => _freeze;
 
-        public bool IsFreeze
-        {
-            get { return this.freeze; }
-        }
 #if DEBUG
         public override string ToString()
         {

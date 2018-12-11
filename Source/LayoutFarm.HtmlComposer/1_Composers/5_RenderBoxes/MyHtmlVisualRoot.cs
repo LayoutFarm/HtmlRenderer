@@ -11,19 +11,20 @@ namespace LayoutFarm.HtmlBoxes
     public sealed class MyHtmlVisualRoot : HtmlVisualRoot
     {
 
-        WebDocument webdoc;
-        HtmlHost htmlhost;
+        WebDocument _webdoc;
+        HtmlHost _htmlhost;
         SelectionRange _currentSelectionRange;
-        int lastDomUpdateVersion;
-        EventHandler domVisualRefresh;
-        EventHandler domRequestRebuild;
-        EventHandler containerInvalidateGfxHandler;
-        EventHandler domFinished;
+        int _lastDomUpdateVersion;
+        EventHandler _domVisualRefresh;
+        EventHandler _domRequestRebuild;
+        EventHandler _containerInvalidateGfxHandler;
+        EventHandler _domFinished;
         Rectangle _currentSelectionArea;
-        bool hasSomeSelectedArea;
+        bool _hasSomeSelectedArea;
+        //
         public MyHtmlVisualRoot(HtmlHost htmlhost)
         {
-            this.htmlhost = htmlhost;
+            _htmlhost = htmlhost;
             _textService = htmlhost.GetTextService();
 
         }
@@ -32,43 +33,40 @@ namespace LayoutFarm.HtmlBoxes
             EventHandler containerInvalidateGfxHanlder,
             EventHandler domFinished)
         {
-            this.domVisualRefresh = domVisualRefreshHandler;
-            this.domRequestRebuild = domRequestRebuildHandler;
-            this.containerInvalidateGfxHandler = containerInvalidateGfxHanlder;
-            this.domFinished = domFinished;
+            _domVisualRefresh = domVisualRefreshHandler;
+            _domRequestRebuild = domRequestRebuildHandler;
+            _containerInvalidateGfxHandler = containerInvalidateGfxHanlder;
+            _domFinished = domFinished;
         }
         public void DetachEssentialHandlers()
         {
-            this.domVisualRefresh =
-                this.domRequestRebuild =
-                this.containerInvalidateGfxHandler =
-                 this.domFinished = null;
+            _domVisualRefresh =
+                _domRequestRebuild =
+                _containerInvalidateGfxHandler =
+                 _domFinished = null;
         }
         protected override void OnLayoutFinished()
         {
-            if (this.domFinished != null)
-            {
-                this.domFinished(this, EventArgs.Empty);
-            }
-        }
 
-        public DomElement RootElement
-        {
-            get { return webdoc.RootNode; }
+            _domFinished?.Invoke(this, EventArgs.Empty);
+
         }
+        //
+        public DomElement RootElement => _webdoc.RootNode;
+        //
         public WebDocument WebDocument
         {
-            get { return this.webdoc; }
+            get { return _webdoc; }
             set
             {
-                var htmldoc = this.webdoc as LayoutFarm.Composers.HtmlDocument;
+                var htmldoc = _webdoc as LayoutFarm.Composers.HtmlDocument;
                 if (htmldoc != null)
                 {
                     //clear
                     htmldoc.SetDomUpdateHandler(null);
                 }
                 //------------------------------------
-                this.webdoc = value;
+                _webdoc = value;
                 //when attach  
                 htmldoc = value as LayoutFarm.Composers.HtmlDocument;
                 if (htmldoc != null)
@@ -78,7 +76,7 @@ namespace LayoutFarm.HtmlBoxes
                     {
                         //when update
                         //add to update queue
-                        this.htmlhost.NotifyHtmlVisualRootUpdate(this);
+                        _htmlhost.NotifyHtmlVisualRootUpdate(this);
                     });
                 }
             }
@@ -86,18 +84,18 @@ namespace LayoutFarm.HtmlBoxes
 
         public override bool RefreshDomIfNeed()
         {
-            if (webdoc == null) return false;
+            if (_webdoc == null) return false;
             //----------------------------------
 
-            int latestDomUpdateVersion = webdoc.DomUpdateVersion;
-            if (this.lastDomUpdateVersion != latestDomUpdateVersion)
+            int latestDomUpdateVersion = _webdoc.DomUpdateVersion;
+            if (_lastDomUpdateVersion != latestDomUpdateVersion)
             {
-                this.lastDomUpdateVersion = latestDomUpdateVersion;
+                _lastDomUpdateVersion = latestDomUpdateVersion;
                 //reset 
                 this.NeedLayout = false;
-                if (domVisualRefresh != null)
+                if (_domVisualRefresh != null)
                 {
-                    domVisualRefresh(this, EventArgs.Empty);
+                    _domVisualRefresh(this, EventArgs.Empty);
                     this.ContainerInvalidateGraphics();
                 }
 #if DEBUG
@@ -117,7 +115,7 @@ namespace LayoutFarm.HtmlBoxes
                 this.RootCssBox.InvalidateGraphics(_currentSelectionArea);
                 _currentSelectionArea = Rectangle.Empty;
             }
-            hasSomeSelectedArea = false;
+            _hasSomeSelectedArea = false;
         }
         public override void SetSelection(SelectionRange selRange)
         {
@@ -126,23 +124,21 @@ namespace LayoutFarm.HtmlBoxes
 
             if (selRange != null)
             {
-                _currentSelectionArea = (hasSomeSelectedArea) ?
+                _currentSelectionArea = (_hasSomeSelectedArea) ?
                             Rectangle.Union(_currentSelectionArea, selRange.SnapSelectionArea) :
                             selRange.SnapSelectionArea;
-                hasSomeSelectedArea = true;
+                _hasSomeSelectedArea = true;
             }
             else
             {
-                hasSomeSelectedArea = false;
+                _hasSomeSelectedArea = false;
             }
             _currentSelectionRange = selRange;
 
             this.RootCssBox.InvalidateGraphics(_currentSelectionArea);
         }
-        public override SelectionRange CurrentSelectionRange
-        {
-            get { return _currentSelectionRange; }
-        }
+        public override SelectionRange CurrentSelectionRange => _currentSelectionRange;
+
         public override void CopySelection(StringBuilder stbuilder)
         {
             if (_currentSelectionRange != null)
@@ -157,21 +153,21 @@ namespace LayoutFarm.HtmlBoxes
         }
         public override void ContainerInvalidateGraphics()
         {
-            containerInvalidateGfxHandler(this, EventArgs.Empty);
+            _containerInvalidateGfxHandler(this, EventArgs.Empty);
         }
         protected override void OnRequestImage(ImageBinder binder, object reqFrom, bool _sync)
         {
             //send request to host
             if (binder.State == BinderState.Unload)
             {
-                this.htmlhost.ChildRequestImage(binder, this, reqFrom, _sync);
+                _htmlhost.ChildRequestImage(binder, this, reqFrom, _sync);
             }
         }
         protected override void OnRequestScrollView(CssBox box)
         {
             //RootGraphic rootgfx = (RootGraphic)box.RootGfx;
             //rootgfx.AddToElementUpdateQueue(box);
-            this.htmlhost.EnqueueCssUpdate(box);
+            _htmlhost.EnqueueCssUpdate(box);
 
             //    var renderE = this.elementUpdateQueue[i];
             //    var cssbox = renderE as HtmlBoxes.CssBox;
@@ -188,11 +184,11 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         public void CheckDocUpdate()
         {
-            if (webdoc != null &&
-                webdoc.DocumentState == DocumentState.ChangedAfterIdle
-                && domRequestRebuild != null)
+            if (_webdoc != null &&
+                _webdoc.DocumentState == DocumentState.ChangedAfterIdle
+                && _domRequestRebuild != null)
             {
-                domRequestRebuild(this, EventArgs.Empty);
+                _domRequestRebuild(this, EventArgs.Empty);
             }
         }
 

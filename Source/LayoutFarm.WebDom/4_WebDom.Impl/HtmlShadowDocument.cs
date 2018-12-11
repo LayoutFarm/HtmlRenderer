@@ -5,12 +5,12 @@ namespace LayoutFarm.WebDom.Impl
     class HtmlShadowDocument : HtmlDocument
     {
         //this is not document fragment ***
-        HtmlDocument primaryHtmlDoc;
+        HtmlDocument _primaryHtmlDoc;
         public HtmlShadowDocument(HtmlDocument primaryHtmlDoc)
             : base(primaryHtmlDoc.UniqueStringTable)
         {
             //share string table with primary html doc
-            this.primaryHtmlDoc = primaryHtmlDoc;
+            _primaryHtmlDoc = primaryHtmlDoc;
         }
     }
 }

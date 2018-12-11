@@ -4,19 +4,13 @@ namespace LayoutFarm.Composers
 {
     class HtmlDocumentFragment : HtmlDocument
     {
-        HtmlDocument primaryHtmlDoc;
+        HtmlDocument _primaryHtmlDoc;
         internal HtmlDocumentFragment(HtmlDocument primaryHtmlDoc)
             : base(primaryHtmlDoc.Host, primaryHtmlDoc.UniqueStringTable)
         {
             //share string table with primary html doc
-            this.primaryHtmlDoc = primaryHtmlDoc;
+            _primaryHtmlDoc = primaryHtmlDoc;
         }
-        public override bool IsDocFragment
-        {
-            get
-            {
-                return true;
-            }
-        }
+        public override bool IsDocFragment => true;
     }
 }

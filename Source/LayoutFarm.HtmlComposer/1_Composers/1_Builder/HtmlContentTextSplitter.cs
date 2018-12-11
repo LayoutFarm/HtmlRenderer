@@ -15,7 +15,7 @@ namespace LayoutFarm.Composers
     /// </summary>
     class HtmlContentTextSplitter
     {
-        List<int> breakAtList = new List<int>();
+        List<int> _breakAtList = new List<int>();
         public HtmlContentTextSplitter()
         {
 
@@ -36,18 +36,18 @@ namespace LayoutFarm.Composers
             if (TextBreaker != null)
             {
                 //use text break to parse more
-                breakAtList.Clear();
-                TextBreaker.DoBreak(textBuffer, startIndex, appendLength, breakAtList);
-                int j = breakAtList.Count;
+                _breakAtList.Clear();
+                TextBreaker.DoBreak(textBuffer, startIndex, appendLength, _breakAtList);
+                int j = _breakAtList.Count;
                 int pos = startIndex;
                 for (int i = 0; i < j; ++i)
                 {
-                    int sepAt = breakAtList[i];
+                    int sepAt = _breakAtList[i];
                     runlist.Add(
                         CssTextRun.CreateTextRun(pos, sepAt - pos));
                     pos = sepAt;
                 }
-                breakAtList.Clear();
+                _breakAtList.Clear();
                 //TextBreaker.DoBreak(textBuffer, startIndex, appendLength, bounds =>
                 //{
                 //    //iterate new split 
@@ -287,9 +287,5 @@ namespace LayoutFarm.Composers
                 }
             }
         }
-    }
-
-
-    
-
+    } 
 }

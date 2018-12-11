@@ -61,19 +61,11 @@ namespace LayoutFarm.WebDom.Impl
 
         string IHtmlElement.innerHTML
         {
-            get
-            {
-                return this.GetInnerHtml();
-            }
-            set
-            {
-                this.SetInnerHtml(value);
-            }
+            get => this.GetInnerHtml();
+            set => this.SetInnerHtml(value);
         }
 
-        string IHtmlElement.id
-        {
-            get { return this.AttrElementId; }
-        }
+        string IHtmlElement.id => this.AttrElementId;
+
     }
 }

@@ -36,7 +36,7 @@ namespace LayoutFarm.HtmlBoxes
     {
         readonly Css.BoxSpec _myspec;
         object _controller;
-        IRootGraphics rootgfx;
+        IRootGraphics _rootgfx;
 #if DEBUG
         public int dbugMark1;
         public readonly int __aa_dbugId = dbugTotalId++;
@@ -49,7 +49,7 @@ namespace LayoutFarm.HtmlBoxes
         {
 
 
-            this.rootgfx = rootgfx;
+            _rootgfx = rootgfx;
             _aa_boxes = new CssBoxCollection();
 #if DEBUG
 
@@ -71,7 +71,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         public CssBox(BoxSpec spec, IRootGraphics rootgfx, CssDisplay displayType)
         {
-            this.rootgfx = rootgfx;
+            _rootgfx = rootgfx;
             _aa_boxes = new CssBoxCollection();
 #if DEBUG
             //if (__aa_dbugId == 13)
@@ -97,25 +97,15 @@ namespace LayoutFarm.HtmlBoxes
             _controller = controller;
         }
         public bool IsReplacement { get; set; }
-        internal bool IsBody
-        {
-            get;
-            set;
-        }
-        public IRootGraphics RootGfx
-        {
-            get
-            {
-                return rootgfx;
-            }
-        }
+        internal bool IsBody { get; set; }
+        public IRootGraphics RootGfx => _rootgfx;
+
+
         /// <summary>
         /// Gets the parent box of this box
         /// </summary>
-        public CssBox ParentBox
-        {
-            get { return _parentBox; }
-        }
+        public CssBox ParentBox => _parentBox;
+
         internal bool HasContainerProperty
         {
             get
@@ -154,20 +144,12 @@ namespace LayoutFarm.HtmlBoxes
         /// <summary>
         /// Is the box is of "br" element.
         /// </summary>
-        public bool IsBrElement
-        {
-            get
-            {
-                return (_boxCompactFlags & BoxFlags.IS_BR_ELEM) != 0;
-            }
-        }
-        public bool IsCustomCssBox
-        {
-            get
-            {
-                return (_boxCompactFlags & BoxFlags.IS_CUSTOM_CSSBOX) != 0;
-            }
-        }
+        public bool IsBrElement => (_boxCompactFlags & BoxFlags.IS_BR_ELEM) != 0;
+
+
+        public bool IsCustomCssBox => (_boxCompactFlags & BoxFlags.IS_CUSTOM_CSSBOX) != 0;
+
+
 
         /// <summary>
         /// is the box "Display" is "Inline", is this is an inline box and not block.
@@ -195,33 +177,15 @@ namespace LayoutFarm.HtmlBoxes
         /// <summary>
         /// is the box "Display" is "Block", is this is an block box and not inline.
         /// </summary>
-        public bool IsBlock
-        {
-            get
-            {
-                return this.CssDisplay == Css.CssDisplay.Block;
-            }
-        }
+        public bool IsBlock => this.CssDisplay == Css.CssDisplay.Block;
 
-        internal bool HasContainingBlockProperty
-        {
-            get
-            {
-                //this flags is evaluated when call ChangeDisplay ****
-                return (_boxCompactFlags & BoxFlags.HAS_CONTAINER_PROP) != 0;
-            }
-        }
+        internal bool HasContainingBlockProperty => (_boxCompactFlags & BoxFlags.HAS_CONTAINER_PROP) != 0;
+
 
         /// <summary>
         /// Gets if this box represents an image
         /// </summary>
-        public bool IsImage
-        {
-            get
-            {
-                return this.RunCount == 1 && this.FirstRun.IsSolidContent;
-            }
-        }
+        public bool IsImage => this.RunCount == 1 && this.FirstRun.IsSolidContent;
 
         /// <summary>
         /// Tells if the box is empty or contains just blank spaces
@@ -368,44 +332,29 @@ namespace LayoutFarm.HtmlBoxes
                 }
             }
         }
-        internal CssLineBox GetFirstLineBox()
-        {
-            return _clientLineBoxes.First.Value;
-        }
-        internal CssLineBox GetLastLineBox()
-        {
-            return _clientLineBoxes.Last.Value;
-        }
+        internal CssLineBox GetFirstLineBox() => _clientLineBoxes.First.Value;
+        internal CssLineBox GetLastLineBox() => _clientLineBoxes.Last.Value;
+
 
 
         /// <summary>
         /// Gets the BoxWords of text in the box
         /// </summary>
-        List<CssRun> Runs
-        {
-            get
-            {
-                return _aa_contentRuns;
-            }
-        }
+        List<CssRun> Runs => _aa_contentRuns;
+
+
         /// <summary>
         /// box has only runs
         /// </summary>
-        internal bool HasOnlyRuns
-        {
-            get
-            {
-                return _aa_contentRuns != null;
-            }
-        }
+        internal bool HasOnlyRuns => _aa_contentRuns != null;
+
+
 
         /// <summary>
         /// Gets the first word of the box
         /// </summary>
-        internal CssRun FirstRun
-        {
-            get { return Runs[0]; }
-        }
+        internal CssRun FirstRun => Runs[0];
+
         /// <summary>
         /// Measures the bounds of box and children, recursively.<br/>
         /// Performs layout of the DOM structure creating lines by set bounds restrictions.
@@ -552,10 +501,8 @@ namespace LayoutFarm.HtmlBoxes
         }
 
 
-        internal float LatestCacheMinimumWidth
-        {
-            get { return _cachedMinimumWidth; }
-        }
+        internal float LatestCacheMinimumWidth => _cachedMinimumWidth;
+
         /// <summary>
         /// Gets the minimum width that the box can be.
         /// *** The box can be as thin as the longest word plus padding
@@ -694,13 +641,10 @@ namespace LayoutFarm.HtmlBoxes
                 return minWidth;
             }
         }
-        bool IsLastChild
-        {
-            get
-            {
-                return this.ParentBox._aa_boxes.GetLastChild() == this;
-            }
-        }
+        //
+        bool IsLastChild => this.ParentBox._aa_boxes.GetLastChild() == this;
+
+
         /// <summary>
         /// Gets the result of collapsing the vertical margins of the two boxes
         /// </summary>
@@ -774,17 +718,14 @@ namespace LayoutFarm.HtmlBoxes
             }
             return this.ActualPaddingTop + this.ActualBorderTopWidth + this.ActualPaddingBottom + ActualBorderBottomWidth;
         }
+
         internal void OffsetLocalTop(float dy)
         {
             _localY += dy;
         }
-        internal bool CanBeReferenceSibling
-        {
-            //TODO: review here, fixed position can be reference sibling?
-
-            get { return this.CssDisplay != Css.CssDisplay.None && this.Position != Css.CssPosition.Absolute; }
-        }
-
+        //
+        internal bool CanBeReferenceSibling => this.CssDisplay != Css.CssDisplay.None && this.Position != Css.CssPosition.Absolute;
+        //TODO: review here, fixed position can be reference sibling? 
 #if DEBUG
         ///// <summary>
         ///// ToString override.
@@ -823,7 +764,7 @@ namespace LayoutFarm.HtmlBoxes
         public static CssBox AddNewAnonInline(CssBox parent)
         {
             BoxSpec spec = CssBox.UnsafeGetBoxSpec(parent);
-            CssBox newBox = new CssBox(spec.GetAnonVersion(), parent.rootgfx);
+            CssBox newBox = new CssBox(spec.GetAnonVersion(), parent._rootgfx);
             parent.AppendChild(newBox);
             CssBox.ChangeDisplayType(newBox, Css.CssDisplay.Inline);
             return newBox;
