@@ -78,6 +78,5 @@ namespace LayoutFarm.HtmlBoxes
         {
         }
         internal CssBox LatestContainingBlock => _latestContainingBlock;
-    }
-}
+    } 
 }

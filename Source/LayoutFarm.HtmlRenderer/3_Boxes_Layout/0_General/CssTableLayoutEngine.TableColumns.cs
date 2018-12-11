@@ -90,8 +90,8 @@ namespace LayoutFarm.HtmlBoxes
             }
             public bool TouchLowerLimit => _actualWidth <= _minContentWidth;
 
-            public bool TouchUpperLimit => return _actualWidth >= _maxContentWidth; 
-            
+            public bool TouchUpperLimit => _actualWidth >= _maxContentWidth;
+
 
             public void AddMoreWidthValue(float offset, ColumnSpecificWidthLevel level)
             {

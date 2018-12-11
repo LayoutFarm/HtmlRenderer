@@ -119,8 +119,8 @@ namespace LayoutFarm.HtmlBoxes
         //
         internal float GlobalOffsetX => _globalOffsetX;
 
-        internal float GlobalOffsetY => return _globalOffsetY; 
-        
+        internal float GlobalOffsetY => _globalOffsetY;
+
 
 #if DEBUG
 
