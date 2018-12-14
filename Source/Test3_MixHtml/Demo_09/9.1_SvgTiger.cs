@@ -12,17 +12,19 @@ namespace LayoutFarm
         LayoutFarm.CustomWidgets.RectBoxController _rectBoxController;
         LayoutFarm.CustomWidgets.Box _redBox;
         BackDrawBoardUI _backBoard;
-        AppHost _host;
+        VgVisualDocHost _vgVisualDocHost;
 
         protected override void OnStart(AppHost host)
         {
-            _host = host;
+            _vgVisualDocHost = new VgVisualDocHost();
+            _vgVisualDocHost.SetInvalidateDelegate(vgElem =>
+            {
+                //invalidate graphic here
+            });
 
             _backBoard = new BackDrawBoardUI(800, 600);
             _backBoard.BackColor = Color.White;
             host.AddChild(_backBoard);
-
-
 
             //load lion svg
 
@@ -121,10 +123,8 @@ namespace LayoutFarm
             parser.ParseDocument(textSnapshot);
             //TODO: review this step again
             VgVisualDocBuilder builder = new VgVisualDocBuilder();
-            return builder.CreateVgVisualDoc(docBuidler.ResultDocument, svgElem =>
-            {
+            return builder.CreateVgVisualDoc(docBuidler.ResultDocument, _vgVisualDocHost);
 
-            });
         }
         void SetupActiveBoxProperties(LayoutFarm.CustomWidgets.Box box)
         {

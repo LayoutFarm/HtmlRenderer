@@ -14,21 +14,24 @@ namespace LayoutFarm.ColorBlenderSample
 
         ListView _lstvw_svgFiles;
         BackDrawBoardUI _backBoard;
-
-
-
-
+        VgVisualDocHost _vgDocHost;
         protected override void OnStart(AppHost host)
         {
             _host = host;
-
             base.OnStart(host);
 
+            _vgDocHost = new VgVisualDocHost();
+            _vgDocHost.SetImgRequestDelgate(ImgBinderLoadImg);
+            _vgDocHost.SetInvalidateDelegate(vgElem =>
+            {
+                //TODO
+
+            });
+            //
             {
                 _backBoard = new BackDrawBoardUI(800, 600);
                 _backBoard.SetLocation(0, 0);
                 _backBoard.BackColor = PixelFarm.Drawing.Color.White;
-
                 host.AddChild(_backBoard);
             }
             {
@@ -87,11 +90,9 @@ namespace LayoutFarm.ColorBlenderSample
             WebLexer.TextSnapshot textSnapshot = new WebLexer.TextSnapshot(svgContent);
             parser.ParseDocument(textSnapshot);
             //
+
             VgVisualDocBuilder builder = new VgVisualDocBuilder();
-            builder.SetLoadImageHandler(ImgBinderLoadImg);
-            //
-            //
-            VgVisualElement vgVisElem = builder.CreateVgVisualDoc(docBuilder.ResultDocument, null).VgRootElem;
+            VgVisualElement vgVisElem = builder.CreateVgVisualDoc(docBuilder.ResultDocument, _vgDocHost).VgRootElem;
 
             var uiSprite = new UISprite(10, 10);
             var evListener = new GeneralEventListener();
@@ -124,7 +125,7 @@ namespace LayoutFarm.ColorBlenderSample
         }
 
 
-    
+
 
     }
 }

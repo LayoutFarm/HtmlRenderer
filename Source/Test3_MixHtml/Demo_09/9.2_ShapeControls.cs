@@ -20,8 +20,13 @@ namespace LayoutFarm
         UISprite _uiSprite;
         AppHost _appHost;
         VgVisualElement _vgVisualElem;
+        VgVisualDocHost _vgVisualDocHost; //**
 
-
+        public DemoShapeControl9_2()
+        {
+            _vgVisualDocHost = new VgVisualDocHost();
+            _vgVisualDocHost.SetImgRequestDelgate(LoadRawImg);
+        }
         VgVisualElement CreateEllipseVxs(PixelFarm.CpuBlit.RectD newBounds)
         {
             using (VxsTemp.Borrow(out var v1))
@@ -81,10 +86,7 @@ namespace LayoutFarm
                 Height = new Css.CssLength(imgBinder.Height, Css.CssUnitOrNames.Pixels),
             };
 
-            VgVisualDoc renderRoot = new VgVisualDoc();
-            renderRoot.SetImgRequestDelgate(LoadRawImg);
-
-
+            VgVisualDoc renderRoot = new VgVisualDoc(_vgVisualDocHost);
             VgVisualElement vgimg = new VgVisualElement(WellknownSvgElementName.Image, spec, renderRoot);
             vgimg.ImageBinder = imgBinder;
             return vgimg;
@@ -99,9 +101,7 @@ namespace LayoutFarm
                 Height = new Css.CssLength(50, Css.CssUnitOrNames.Pixels),
             };
 
-            VgVisualDoc renderRoot = new VgVisualDoc();
-            renderRoot.SetImgRequestDelgate(LoadRawImg);
-
+            VgVisualDoc renderRoot = new VgVisualDoc(_vgVisualDocHost); 
 
             VgVisualElement vgimg = new VgVisualElement(WellknownSvgElementName.Image, spec, renderRoot);
             vgimg.ImageBinder = _appHost.LoadImageAndBind(filename);

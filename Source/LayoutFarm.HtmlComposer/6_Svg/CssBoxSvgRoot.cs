@@ -7,13 +7,29 @@ namespace LayoutFarm.HtmlBoxes
 
     public sealed class CssBoxSvgRoot : CssBox
     {
+        //css-box for a svg document
+
         VgVisualElement _vgVisualElem;
+        VgVisualDocHost _vgVisualDocHost;
+
         static LayoutFarm.OpenFontTextService s_openfontTextService;
-
-
         public CssBoxSvgRoot(Css.BoxSpec spec, IRootGraphics rootgfx, SvgDocument svgdoc)
             : base(spec, rootgfx, Css.CssDisplay.Block)
         {
+            //----------
+            _vgVisualDocHost = new PaintLab.Svg.VgVisualDocHost();
+            _vgVisualDocHost.SetImgRequestDelgate((ImageBinder reqImgBinder, PaintLab.Svg.VgVisualElement vgVisualE, object requestFrom) =>
+            {
+                //TODO: implementation here
+            });
+            _vgVisualDocHost.SetInvalidateDelegate(vgVisualElem =>
+            {
+                vgVisualElem.ClearBitmapSnapshot();
+                vgVisualElem.InvalidateBounds();
+                this.InvalidateGraphics();
+            });
+            //----------
+
             SetAsCustomCssBox(this);
             //create svg node 
             this.SvgDoc = svgdoc;
@@ -29,26 +45,10 @@ namespace LayoutFarm.HtmlBoxes
         {
             //TODO: review here again***
             //recreate entire dom?
-            //why we need to re-create all 
-
-
+            //why we need to re-create all  
             var vgDocBuilder = new VgVisualDocBuilder();
-            vgDocBuilder.SetLoadImageHandler((ImageBinder reqImgBinder, VgVisualElement vgVisualE, object o) =>
-            {
-
-            });
-            //
             vgDocBuilder.SetContainerSize(containingBlock.VisualWidth, containingBlock.VisualHeight);
-
-            //create visual svg doc from current SvgDoc object
-
-            _vgVisualElem = vgDocBuilder.CreateVgVisualDoc(SvgDoc, svgElem =>
-            {
-                _vgVisualElem.ClearBitmapSnapshot();
-                _vgVisualElem.InvalidateBounds();
-                this.InvalidateGraphics();
-            }).VgRootElem;
-
+            _vgVisualElem = vgDocBuilder.CreateVgVisualDoc(SvgDoc, _vgVisualDocHost).VgRootElem;
             this.SetVisualSize(500, 500); //TODO: review here
         }
         protected override void PaintImp(PaintVisitor p)

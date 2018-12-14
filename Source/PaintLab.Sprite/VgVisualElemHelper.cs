@@ -26,9 +26,7 @@ namespace LayoutFarm
             //optional 
             svgDoc.OriginalContent = svgContent;
             //-------------------------------------------------------------
-            VgVisualElement vgVisRootElem = builder.CreateVgVisualDoc(svgDoc, svgElem =>
-            {
-            }).VgRootElem;
+            VgVisualElement vgVisRootElem = builder.CreateVgVisualDoc(svgDoc, null).VgRootElem;
             //
             vgVisRootElem.OwnerDocument = svgDoc;//tmp
 
@@ -42,7 +40,6 @@ namespace LayoutFarm
             vgx.OwnerDocument.OriginalFilename = filename;
             return vgx;
         }
-
 
         static Typography.Contours.GlyphMeshStore _glyphMaskStore = null;
 
