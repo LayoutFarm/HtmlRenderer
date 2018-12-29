@@ -812,6 +812,8 @@ namespace LayoutFarm
             base.OnMouseDown(e);
             this.Focus(); //if we not focus => we can't get keyboard input**
         }
+
+
         protected override void OnKeyDown(UIKeyEventArgs e)
         {
             //TODO: remove thiss
@@ -1183,7 +1185,12 @@ namespace LayoutFarm
 
 
         public event UIEventHandler<UIMouseEventArgs> Drag;
-
+        public event UIEventHandler<UIMouseEventArgs> MouseDblClick;
+        protected override void OnDoubleClick(UIMouseEventArgs e)
+        {
+            base.OnDoubleClick(e);
+            MouseDblClick?.Invoke(e);
+        }
         protected override void OnMouseMove(UIMouseEventArgs e)
         {
             if (e.IsDragging)

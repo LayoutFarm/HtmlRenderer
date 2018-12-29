@@ -34,6 +34,7 @@ namespace LayoutFarm.WebDom.Parser
                                 {
                                     //open tag 
                                     DomElement elem = _resultHtmlDoc.CreateElement(null, tag.Name);
+                                    
                                     currentNode.AddChild(elem);
                                     foreach (var attribute in tag.Attributes)
                                     {
@@ -62,7 +63,7 @@ namespace LayoutFarm.WebDom.Parser
                                     else
                                     {
                                         //if not equal then check if current node need close tag or not
-                                        int count = 3;//?
+                                        int count = 20;//?
                                         bool ok = false;
                                         while (count > 0)
                                         {

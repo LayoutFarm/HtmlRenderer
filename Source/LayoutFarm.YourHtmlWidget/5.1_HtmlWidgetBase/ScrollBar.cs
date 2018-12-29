@@ -619,7 +619,7 @@ namespace LayoutFarm.HtmlWidgets
             };
             _scBar.UserScroll += (s, e) =>
             {
-                _scrollableSurface.SetViewport(_scrollableSurface.ViewportX, (int)_scBar.ScrollValue, _scBar);
+                _scrollableSurface.SetViewport(_scrollableSurface.ViewportLeft, (int)_scBar.ScrollValue, _scBar);
             };
         }
         void SetupHorizontalScrollRelation()
@@ -655,7 +655,7 @@ namespace LayoutFarm.HtmlWidgets
             };
             _scBar.UserScroll += (s, e) =>
             {
-                _scrollableSurface.SetViewport((int)_scBar.ScrollValue, _scrollableSurface.ViewportY, _scBar);
+                _scrollableSurface.SetViewport((int)_scBar.ScrollValue, _scrollableSurface.ViewportTop, _scBar);
             };
         }
     }

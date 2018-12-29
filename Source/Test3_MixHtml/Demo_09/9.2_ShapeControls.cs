@@ -132,9 +132,10 @@ namespace LayoutFarm
             //_svgRenderVx = CreateTestRenderVx_BasicShape();
             //_svgRenderVx = CreateTestRenderVx_FromImg("d:\\WImageTest\\alpha1.png"); 
 
-            //string fontfile = "../Test8_HtmlRenderer.Demo/Samples/Fonts/SOV_Thanamas.ttf";
-            //_vgVisualElem = VgVisualElemHelper.CreateVgVisualElementFromGlyph(fontfile, 256, 'a'); //create from glyph
-            _vgVisualElem = CreateTestRenderVx_FromImg("d:\\WImageTest\\fenec.png");
+            string fontfile = "../Test8_HtmlRenderer.Demo/Samples/Fonts/SOV_Thanamas.ttf";
+            _vgVisualElem = VgVisualElemHelper.CreateVgVisualElementFromGlyph(fontfile, 256, 'a'); //create from glyph
+            
+            //_vgVisualElem = CreateTestRenderVx_FromImg("d:\\WImageTest\\fenec.png");
 
             //PixelFarm.CpuBlit.RectD org_rectD = _svgRenderVx.GetBounds(); 
             //_svgRenderVx = CreateEllipseVxs(org_rectD);

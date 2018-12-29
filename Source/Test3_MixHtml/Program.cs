@@ -17,7 +17,7 @@ namespace TestGraphicPackage2
             YourImplementation.FrameworkInitWinGDI.SetupDefaultValues();
 
 #if GL_ENABLE
-            YourImplementation.LocalFileStorageProvider file_storageProvider = new YourImplementation.LocalFileStorageProvider();
+            YourImplementation.LocalFileStorageProvider file_storageProvider = new YourImplementation.LocalFileStorageProvider("");
             PixelFarm.Platforms.StorageService.RegisterProvider(file_storageProvider);
             YourImplementation.FrameworkInitGLES.SetupDefaultValues();
 
