@@ -14,15 +14,34 @@ namespace LayoutFarm.UI
     /// <summary>
     /// RenderElement that wrap VgVisualElement 
     /// </summary>
-    class VgBridgeRenderElement : RenderElement
+    class VgBridgeRenderElement : RenderElement, IDisposable
     {
+        MemBitmap _latestBackupMemBmp;
+        bool _useAggPainter; //use CpuBlit painter or not
         VgVisualElement _vgVisualElem;
+        //post transform corners
+        double _b_x0, _b_y0, //top-left
+               _b_x1, _b_y1, //top-right
+               _b_x2, _b_y2, //bottom-right
+               _b_x3, _b_y3; //bottom -left
+
+        //post transform bounds
+        RectD _post_TransformRectBounds;
+
         public VgBridgeRenderElement(RootGraphic rootGfx, int width, int height)
             : base(rootGfx, width, height)
         {
             this.MayHasChild = true;
         }
+        public void Dispose()
+        {
+            if (_latestBackupMemBmp != null)
+            {
+                _latestBackupMemBmp.Dispose();
+                _latestBackupMemBmp = null;
+            }
 
+        }
         public VgVisualElement VgVisualElem
         {
             get => _vgVisualElem;
@@ -149,8 +168,6 @@ namespace LayoutFarm.UI
         public bool DisableBitmapCache { get; set; }
 
 
-        MemBitmap _latestBackupMemBmp;
-        bool _useAggPainter; //use CpuBlit painter or not
 
         public override void CustomDrawToThisCanvas(DrawBoard canvas, Rectangle updateArea)
         {
@@ -301,14 +318,7 @@ namespace LayoutFarm.UI
         {
 
         }
-        //post transform corners
-        double _b_x0, _b_y0, //top-left
-               _b_x1, _b_y1, //top-right
-               _b_x2, _b_y2, //bottom-right
-               _b_x3, _b_y3; //bottom -left
 
-        //post transform bounds
-        RectD _post_TransformRectBounds;
         public void SetPostTransformationBounds(RectD postTransformationBounds)
         {
             _post_TransformRectBounds = postTransformationBounds;

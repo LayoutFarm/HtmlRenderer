@@ -1,6 +1,4 @@
 ﻿//MIT, 2014-present, WinterDev
-
-
 using LayoutFarm.UI;
 using PaintLab.Svg;
 using PixelFarm.CpuBlit.VertexProcessing;
@@ -130,12 +128,12 @@ namespace LayoutFarm
 
             //_svgRenderVx = CreateTestRenderVx_FromSvg();
             //_svgRenderVx = CreateTestRenderVx_BasicShape();
-            //_svgRenderVx = CreateTestRenderVx_FromImg("d:\\WImageTest\\alpha1.png"); 
+            //_vgVisualElem = CreateTestRenderVx_FromImg("d:\\WImageTest\\alpha1.png"); 
 
-            string fontfile = "../Test8_HtmlRenderer.Demo/Samples/Fonts/SOV_Thanamas.ttf";
-            _vgVisualElem = VgVisualElemHelper.CreateVgVisualElementFromGlyph(fontfile, 256, 'a'); //create from glyph
+            //string fontfile = "../Test8_HtmlRenderer.Demo/Samples/Fonts/SOV_Thanamas.ttf";
+            //_vgVisualElem = VgVisualElemHelper.CreateVgVisualElementFromGlyph(fontfile, 256, 'a'); //create from glyph
             
-            //_vgVisualElem = CreateTestRenderVx_FromImg("d:\\WImageTest\\fenec.png");
+            _vgVisualElem = CreateTestRenderVx_FromImg("d:\\WImageTest\\fenec.png");
 
             //PixelFarm.CpuBlit.RectD org_rectD = _svgRenderVx.GetBounds(); 
             //_svgRenderVx = CreateEllipseVxs(org_rectD);
@@ -221,8 +219,8 @@ namespace LayoutFarm
 
             {
 
-                UIControllerBox center = new UIControllerBox(10, 10);
-                UIControllerBox radius = new UIControllerBox(10, 10);
+                PointControllerBox center = new PointControllerBox(10, 10);
+                PointControllerBox radius = new PointControllerBox(10, 10);
                 host.AddChild(center);
                 host.AddChild(radius);
                 _rotationUI.AddControlPoints(center, radius);
