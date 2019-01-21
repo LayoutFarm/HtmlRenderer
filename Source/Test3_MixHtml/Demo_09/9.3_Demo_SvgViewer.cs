@@ -51,28 +51,34 @@ namespace LayoutFarm.ColorBlenderSample
                     }
                 };
 
-                foreach (string file in System.IO.Directory.GetFiles("../Test8_HtmlRenderer.Demo/Samples/Svg/others", "*.svg"))
+                //foreach (string file in System.IO.Directory.GetFiles("../Test8_HtmlRenderer.Demo/Samples/Svg/others", "*.svg"))
+                //{
+                //    ListItem listItem = new ListItem(200, 20);
+                //    listItem.Text = System.IO.Path.GetFileName(file);
+                //    listItem.Tag = file;
+                //    _lstvw_svgFiles.AddItem(listItem);
+                //}
+                //foreach (string file in System.IO.Directory.GetFiles("../Test8_HtmlRenderer.Demo/Samples/Svg/freepik", "*.svg"))
+                //{
+                //    ListItem listItem = new ListItem(200, 20);
+                //    listItem.Text = System.IO.Path.GetFileName(file);
+                //    listItem.Tag = file;
+                //    _lstvw_svgFiles.AddItem(listItem);
+                //}
+                //foreach (string file in System.IO.Directory.GetFiles("../Test8_HtmlRenderer.Demo/Samples/Svg/twemoji", "*.svg"))
+                //{
+                //    ListItem listItem = new ListItem(200, 20);
+                //    listItem.Text = System.IO.Path.GetFileName(file);
+                //    listItem.Tag = file;
+                //    _lstvw_svgFiles.AddItem(listItem);
+                //}
+                foreach (string file in System.IO.Directory.GetFiles("../Test8_HtmlRenderer.Demo/Samples/Svg/noto_emoji", "*.svg"))
                 {
                     ListItem listItem = new ListItem(200, 20);
                     listItem.Text = System.IO.Path.GetFileName(file);
                     listItem.Tag = file;
                     _lstvw_svgFiles.AddItem(listItem);
                 }
-                foreach (string file in System.IO.Directory.GetFiles("../Test8_HtmlRenderer.Demo/Samples/Svg/freepik", "*.svg"))
-                {
-                    ListItem listItem = new ListItem(200, 20);
-                    listItem.Text = System.IO.Path.GetFileName(file);
-                    listItem.Tag = file;
-                    _lstvw_svgFiles.AddItem(listItem);
-                }
-                foreach (string file in System.IO.Directory.GetFiles("../Test8_HtmlRenderer.Demo/Samples/Svg/twemoji", "*.svg"))
-                {
-                    ListItem listItem = new ListItem(200, 20);
-                    listItem.Text = System.IO.Path.GetFileName(file);
-                    listItem.Tag = file;
-                    _lstvw_svgFiles.AddItem(listItem);
-                }
-
             }
         }
         void ImgBinderLoadImg(ImageBinder reqImgBinder, VgVisualElement vgVisualE, object o)
@@ -122,10 +128,6 @@ namespace LayoutFarm.ColorBlenderSample
 
             _backBoard.ClearChildren();
             _backBoard.AddChild(uiSprite);
-        }
-
-
-
-
+        } 
     }
 }

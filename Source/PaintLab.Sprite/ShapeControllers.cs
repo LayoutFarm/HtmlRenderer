@@ -1330,7 +1330,9 @@ namespace LayoutFarm
             _controlBoxes = new List<PointControllerBox>();
             CreateNewControlPoints(_controlBoxes, this.OutlineVxs);
             //---------
+            _polygonController.ClearControlPoints();
             _polygonController.LoadControlPoints(_controlBoxes);// _quadController.OutlineVxs);
+
             SetCornerLocation(0, _controlBoxes[0].TargetX, _controlBoxes[0].TargetY);
             SetCornerLocation(1, _controlBoxes[1].TargetX, _controlBoxes[1].TargetY);
             SetCornerLocation(2, _controlBoxes[2].TargetX, _controlBoxes[2].TargetY);
@@ -1361,10 +1363,8 @@ namespace LayoutFarm
     public class PointControllerBox : LayoutFarm.CustomWidgets.AbstractBox
     {
 #if DEBUG
-
         static int s_total;
         public readonly int dbugControllerId = s_total++;
-
 #endif
         public PointControllerBox(int w, int h)
             : base(w, h)

@@ -102,16 +102,14 @@ namespace LayoutFarm.UI
             bound.Offset(RenderOriginXOffset, RenderOriginYOffset);
             if (bound.Contains(hitChain.TestPoint.X, hitChain.TestPoint.Y))
             {
-                //we hit in svg bounds area  
-
+                //we hit in svg bounds area   
                 if (!EnableSubSvgHitTest)
                 {
                     //not test further
                     if (hitChain.TopMostElement != this)
                     {
                         hitChain.AddHitObject(this);
-                    }
-
+                    } 
                 }
                 else
                 {
@@ -369,7 +367,7 @@ namespace LayoutFarm.UI
         }
         public VgVisualElement VgVisualElem => _vgVisualElem;
 
-        public bool EnableSubSvgTest
+        public bool EnableSubSvgHitTest
         {
             get => _enableSubSvgTest;
             set
@@ -518,7 +516,7 @@ namespace LayoutFarm.UI
                     RenderOriginYOffset = (float)_actualYOffset,
                     VgVisualElem = _vgVisualElem,
                     DisableBitmapCache = this.DisableBmpCache,
-                    EnableSubSvgHitTest = this.EnableSubSvgTest
+                    EnableSubSvgHitTest = this.EnableSubSvgHitTest
                 };
 
                 //vgBridgeRenderElem.DisableBitmapCache = true;
