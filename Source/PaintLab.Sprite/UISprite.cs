@@ -109,7 +109,7 @@ namespace LayoutFarm.UI
                     if (hitChain.TopMostElement != this)
                     {
                         hitChain.AddHitObject(this);
-                    } 
+                    }
                 }
                 else
                 {
@@ -292,9 +292,11 @@ namespace LayoutFarm.UI
 
             double prevStrokeW = painter.StrokeWidth;
             painter.StrokeWidth = 1;//default  
+            SmoothingMode smoothingMode = painter.SmoothingMode;
+            painter.SmoothingMode = SmoothingMode.HighQuality;
 
             using (VgPainterArgsPool.Borrow(painter, out VgPaintArgs paintArgs))
-            {
+            { 
                 if (vgVisualElem.CoordTx != null)
                 {
                     //transform ?
@@ -308,8 +310,9 @@ namespace LayoutFarm.UI
                     }
 
                 }
-                vgVisualElem.Paint(paintArgs);
+                vgVisualElem.Paint(paintArgs);               
             }
+            painter.SmoothingMode = smoothingMode;
             painter.StrokeWidth = prevStrokeW;//restore  
         }
         public override void ResetRootGraphics(RootGraphic rootgfx)

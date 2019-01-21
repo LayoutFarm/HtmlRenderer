@@ -1142,7 +1142,6 @@ namespace LayoutFarm
                         }
 
 
-
                         //ElemUpdate?.Invoke(this, System.EventArgs.Empty);
 
                         SetDestQuad(
@@ -1185,11 +1184,17 @@ namespace LayoutFarm
 
 
         public event UIEventHandler<UIMouseEventArgs> Drag;
+        public event UIEventHandler<UIMouseEventArgs> MouseUp;
         public event UIEventHandler<UIMouseEventArgs> MouseDblClick;
         protected override void OnDoubleClick(UIMouseEventArgs e)
         {
             base.OnDoubleClick(e);
             MouseDblClick?.Invoke(e);
+        }
+        protected override void OnMouseUp(UIMouseEventArgs e)
+        {
+            base.OnMouseUp(e);
+            MouseUp?.Invoke(e);
         }
         protected override void OnMouseMove(UIMouseEventArgs e)
         {
@@ -1412,8 +1417,10 @@ namespace LayoutFarm
 
     public class PolygonControllerUI : UIElement
     {
-
-
+        float _offsetX;
+        float _offsetY;
+        IUIEventListener _uiListener;
+        PixelFarm.Drawing.VertexStore _vxs;
 
         Box _simpleBox;//primary render elemenet
         bool _hasPrimRenderE;
@@ -1469,13 +1476,13 @@ namespace LayoutFarm
                 ctrl.InvalidateOuterGraphics();
             }
             _simpleBox.SetLocation(x, y);
+
         }
 
         public int Left => _simpleBox.Left;
         public int Top => _simpleBox.Top;
 
-        IUIEventListener _uiListener;
-        PixelFarm.Drawing.VertexStore _vxs;
+
         public void SetTargetListener(IUIEventListener uiListener)
         {
             _uiListener = uiListener;
@@ -1516,8 +1523,7 @@ namespace LayoutFarm
                 }
             }
         }
-        float _offsetX;
-        float _offsetY;
+
         public void UpdateControlPoints(PixelFarm.Drawing.VertexStore vxs)
         {
             UpdateControlPoints(vxs, _offsetX, _offsetY);
