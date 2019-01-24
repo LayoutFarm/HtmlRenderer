@@ -72,13 +72,22 @@ namespace LayoutFarm.ColorBlenderSample
                 //    listItem.Tag = file;
                 //    _lstvw_svgFiles.AddItem(listItem);
                 //}
-                foreach (string file in System.IO.Directory.GetFiles("../Test8_HtmlRenderer.Demo/Samples/Svg/noto_emoji", "*.svg"))
+
+
+                //string[] allFiles = System.IO.Directory.GetFiles("../Test8_HtmlRenderer.Demo/Samples/Svg/noto_emoji", "*.svg");
+                string[] allFiles = System.IO.Directory.GetFiles("../Test8_HtmlRenderer.Demo/Samples/Svg/error1", "*.svg");
+                int i = 0;
+                int lim = Math.Min(allFiles.Length, 150);
+
+                for (; i < lim; ++i)
                 {
+                    string file = allFiles[i];
                     ListItem listItem = new ListItem(200, 20);
                     listItem.Text = System.IO.Path.GetFileName(file);
                     listItem.Tag = file;
                     _lstvw_svgFiles.AddItem(listItem);
                 }
+
             }
         }
         void ImgBinderLoadImg(ImageBinder reqImgBinder, VgVisualElement vgVisualE, object o)
@@ -96,7 +105,9 @@ namespace LayoutFarm.ColorBlenderSample
             WebLexer.TextSnapshot textSnapshot = new WebLexer.TextSnapshot(svgContent);
             parser.ParseDocument(textSnapshot);
             //
-
+#if DEBUG
+            System.Diagnostics.Debug.WriteLine(svgFile);
+#endif
             VgVisualDocBuilder builder = new VgVisualDocBuilder();
             VgVisualElement vgVisElem = builder.CreateVgVisualDoc(docBuilder.ResultDocument, _vgDocHost).VgRootElem;
 
@@ -128,6 +139,6 @@ namespace LayoutFarm.ColorBlenderSample
 
             _backBoard.ClearChildren();
             _backBoard.AddChild(uiSprite);
-        } 
+        }
     }
 }
