@@ -14,15 +14,34 @@ namespace LayoutFarm.UI
     /// <summary>
     /// RenderElement that wrap VgVisualElement 
     /// </summary>
-    class VgBridgeRenderElement : RenderElement
+    class VgBridgeRenderElement : RenderElement, IDisposable
     {
+        MemBitmap _latestBackupMemBmp;
+        bool _useAggPainter; //use CpuBlit painter or not
         VgVisualElement _vgVisualElem;
+        //post transform corners
+        double _b_x0, _b_y0, //top-left
+               _b_x1, _b_y1, //top-right
+               _b_x2, _b_y2, //bottom-right
+               _b_x3, _b_y3; //bottom -left
+
+        //post transform bounds
+        RectD _post_TransformRectBounds;
+
         public VgBridgeRenderElement(RootGraphic rootGfx, int width, int height)
             : base(rootGfx, width, height)
         {
             this.MayHasChild = true;
         }
+        public void Dispose()
+        {
+            if (_latestBackupMemBmp != null)
+            {
+                _latestBackupMemBmp.Dispose();
+                _latestBackupMemBmp = null;
+            }
 
+        }
         public VgVisualElement VgVisualElem
         {
             get => _vgVisualElem;
@@ -83,8 +102,7 @@ namespace LayoutFarm.UI
             bound.Offset(RenderOriginXOffset, RenderOriginYOffset);
             if (bound.Contains(hitChain.TestPoint.X, hitChain.TestPoint.Y))
             {
-                //we hit in svg bounds area  
-
+                //we hit in svg bounds area   
                 if (!EnableSubSvgHitTest)
                 {
                     //not test further
@@ -92,7 +110,6 @@ namespace LayoutFarm.UI
                     {
                         hitChain.AddHitObject(this);
                     }
-
                 }
                 else
                 {
@@ -149,8 +166,6 @@ namespace LayoutFarm.UI
         public bool DisableBitmapCache { get; set; }
 
 
-        MemBitmap _latestBackupMemBmp;
-        bool _useAggPainter; //use CpuBlit painter or not
 
         public override void CustomDrawToThisCanvas(DrawBoard canvas, Rectangle updateArea)
         {
@@ -277,9 +292,11 @@ namespace LayoutFarm.UI
 
             double prevStrokeW = painter.StrokeWidth;
             painter.StrokeWidth = 1;//default  
+            SmoothingMode smoothingMode = painter.SmoothingMode;
+            painter.SmoothingMode = SmoothingMode.HighQuality;
 
-            using (VgPainterArgsPool.Borrow(painter, out VgPaintArgs paintArgs))
-            {
+            using (VgPaintArgsPool.Borrow(painter, out VgPaintArgs paintArgs))
+            { 
                 if (vgVisualElem.CoordTx != null)
                 {
                     //transform ?
@@ -293,22 +310,16 @@ namespace LayoutFarm.UI
                     }
 
                 }
-                vgVisualElem.Paint(paintArgs);
+                vgVisualElem.Paint(paintArgs);               
             }
+            painter.SmoothingMode = smoothingMode;
             painter.StrokeWidth = prevStrokeW;//restore  
         }
         public override void ResetRootGraphics(RootGraphic rootgfx)
         {
 
         }
-        //post transform corners
-        double _b_x0, _b_y0, //top-left
-               _b_x1, _b_y1, //top-right
-               _b_x2, _b_y2, //bottom-right
-               _b_x3, _b_y3; //bottom -left
 
-        //post transform bounds
-        RectD _post_TransformRectBounds;
         public void SetPostTransformationBounds(RectD postTransformationBounds)
         {
             _post_TransformRectBounds = postTransformationBounds;
@@ -359,7 +370,7 @@ namespace LayoutFarm.UI
         }
         public VgVisualElement VgVisualElem => _vgVisualElem;
 
-        public bool EnableSubSvgTest
+        public bool EnableSubSvgHitTest
         {
             get => _enableSubSvgTest;
             set
@@ -508,7 +519,7 @@ namespace LayoutFarm.UI
                     RenderOriginYOffset = (float)_actualYOffset,
                     VgVisualElem = _vgVisualElem,
                     DisableBitmapCache = this.DisableBmpCache,
-                    EnableSubSvgHitTest = this.EnableSubSvgTest
+                    EnableSubSvgHitTest = this.EnableSubSvgHitTest
                 };
 
                 //vgBridgeRenderElem.DisableBitmapCache = true;

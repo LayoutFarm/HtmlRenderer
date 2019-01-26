@@ -115,8 +115,8 @@ namespace LayoutFarm.HtmlBoxes
                 _cssbox.SetViewport(x, y);
             }
 
-            int IScrollable.ViewportX => _cssbox.ViewportX;
-            int IScrollable.ViewportY => _cssbox.ViewportY;
+            int IScrollable.ViewportLeft => _cssbox.ViewportX;
+            int IScrollable.ViewportTop => _cssbox.ViewportY;
             int IScrollable.ViewportWidth => (int)_cssbox.VisualWidth;
             int IScrollable.ViewportHeight => (int)_cssbox.VisualHeight;
 

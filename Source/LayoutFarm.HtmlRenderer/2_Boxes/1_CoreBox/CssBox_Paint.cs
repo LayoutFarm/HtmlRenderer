@@ -474,7 +474,7 @@ namespace LayoutFarm.HtmlBoxes
                 stopPoint = new PointF(rect.Right, rect.Bottom);
             }
 
-            return new LinearGradientBrush(startPoint, startColor, stopPoint, stopColor);
+            return new LinearGradientBrush(startPoint, stopPoint, startColor, stopColor);
         }
         /// <summary>
         /// Paints the background of the box

@@ -75,14 +75,15 @@ namespace LayoutFarm
 
         double _rotateAngle = PixelFarm.CpuBlit.AggMath.deg2rad(0);
         VertexStore _outlineVxs;
-        List<UIControllerBox> _controlBoxes = new List<UIControllerBox>();
+        List<PointControllerBox> _controlBoxes = new List<PointControllerBox>();
 
 
         SvgPathSpec _pathSpec;
         VgVisualDoc _vgVisualDoc;
 
-        UIControllerBox _centerPoint;
-        UIControllerBox _radiusPoint;
+        PointControllerBox _centerPoint;
+        PointControllerBox _radiusPoint;
+        UISprite _refOwner;
 
         public event System.EventHandler AngleUpdated;
 
@@ -98,7 +99,6 @@ namespace LayoutFarm
             return System.Math.Atan2(_radiusPoint.Top - _centerPoint.Top, _radiusPoint.Left - _centerPoint.Left);
 
         }
-        UISprite _refOwner;
         public void SetReferenceOwner(UISprite ui)
         {
             _refOwner = ui;
@@ -112,8 +112,8 @@ namespace LayoutFarm
             _radiusPoint.SetLocation((int)x, (int)y);
         }
         public void AddControlPoints(
-            UIControllerBox centerPoint,
-            UIControllerBox radiusPoint)
+            PointControllerBox centerPoint,
+            PointControllerBox radiusPoint)
         {
             _controlBoxes.Add(centerPoint);
             _controlBoxes.Add(radiusPoint);
@@ -199,7 +199,7 @@ namespace LayoutFarm
             }
         }
 
-        void SetupCornerBoxController(UIControllerBox box)
+        void SetupCornerBoxController(PointControllerBox box)
         {
             Color c = KnownColors.FromKnownColor(KnownColor.Orange);
             box.BackColor = new Color(100, c.R, c.G, c.B);
@@ -302,7 +302,7 @@ namespace LayoutFarm
 
                 //--------------------------------- 
                 //_simpleBox.InvalidateOuterGraphics();
-                foreach (UIControllerBox ctrl in _controlBoxes)
+                foreach (PointControllerBox ctrl in _controlBoxes)
                 {
                     //update before move 
                     ctrl.InvalidateOuterGraphics();
@@ -315,7 +315,7 @@ namespace LayoutFarm
         }
 
 
-        void CreateNewControlPoints(List<UIControllerBox> controls, VertexStore vxs)
+        void CreateNewControlPoints(List<PointControllerBox> controls, VertexStore vxs)
         {
             float offsetX = 0;
             float offsetY = 0;
@@ -328,7 +328,7 @@ namespace LayoutFarm
                         return;//**
                     case PixelFarm.CpuBlit.VertexCmd.MoveTo:
                         {
-                            var ctrlPoint = new UIControllerBox(8, 8);
+                            var ctrlPoint = new PointControllerBox(8, 8);
                             ctrlPoint.Index = i;
 
                             x += offsetX;
@@ -344,7 +344,7 @@ namespace LayoutFarm
                         break;
                     case PixelFarm.CpuBlit.VertexCmd.LineTo:
                         {
-                            var ctrlPoint = new UIControllerBox(8, 8);
+                            var ctrlPoint = new PointControllerBox(8, 8);
                             ctrlPoint.Index = i;
                             x += offsetX;
                             y += offsetY;
@@ -398,7 +398,7 @@ namespace LayoutFarm
         public event System.EventHandler UpdateTransformTarget;
 
 
-        protected List<UIControllerBox> _controlBoxes;
+        protected List<PointControllerBox> _controlBoxes;
 
 
         double _srcCenterX = 0;
@@ -424,7 +424,7 @@ namespace LayoutFarm
 
         double _scaleW = 1;
         double _scaleH = 1;
-        UIControllerBox _eventSrcControlBox;
+        PointControllerBox _eventSrcControlBox;
 
 
 
@@ -587,7 +587,7 @@ namespace LayoutFarm
             _affineFinalTx = UpdateAffineMatrix();
             //--------------------------------- 
             //_simpleBox.InvalidateOuterGraphics(); 
-            foreach (UIControllerBox ctrl in _controlBoxes)
+            foreach (PointControllerBox ctrl in _controlBoxes)
             {
                 //update before move 
                 ctrl.InvalidateOuterGraphics();
@@ -597,7 +597,7 @@ namespace LayoutFarm
             this.UpdateRelatedControls();
         }
 
-        void SetupCornerBoxController(UIControllerBox box)
+        void SetupCornerBoxController(PointControllerBox box)
         {
             Color c = KnownColors.FromKnownColor(KnownColor.Orange);
             box.BackColor = new Color(100, c.R, c.G, c.B);
@@ -680,7 +680,7 @@ namespace LayoutFarm
 
                 //--------------------------------- 
                 //_simpleBox.InvalidateOuterGraphics(); 
-                foreach (UIControllerBox ctrl in _controlBoxes)
+                foreach (PointControllerBox ctrl in _controlBoxes)
                 {
                     //update before move 
                     ctrl.InvalidateOuterGraphics();
@@ -753,7 +753,7 @@ namespace LayoutFarm
 
         }
 
-        void CreateNewControlPoints(List<UIControllerBox> controls, VertexStore vxs)
+        void CreateNewControlPoints(List<PointControllerBox> controls, VertexStore vxs)
         {
             float offsetX = 0;
             float offsetY = 0;
@@ -766,7 +766,7 @@ namespace LayoutFarm
                         return;
                     case PixelFarm.CpuBlit.VertexCmd.MoveTo:
                         {
-                            var ctrlPoint = new UIControllerBox(8, 8);
+                            var ctrlPoint = new PointControllerBox(8, 8);
                             ctrlPoint.Index = i;
 
                             x += offsetX;
@@ -782,7 +782,7 @@ namespace LayoutFarm
                         break;
                     case PixelFarm.CpuBlit.VertexCmd.LineTo:
                         {
-                            var ctrlPoint = new UIControllerBox(8, 8);
+                            var ctrlPoint = new PointControllerBox(8, 8);
                             ctrlPoint.Index = i;
                             x += offsetX;
                             y += offsetY;
@@ -802,7 +802,7 @@ namespace LayoutFarm
             }
         }
 
-        static void AssignXY(UIControllerBox box, out double x, out double y)
+        static void AssignXY(PointControllerBox box, out double x, out double y)
         {
             x = box.TargetX;
             y = box.TargetY;
@@ -812,6 +812,8 @@ namespace LayoutFarm
             base.OnMouseDown(e);
             this.Focus(); //if we not focus => we can't get keyboard input**
         }
+
+
         protected override void OnKeyDown(UIKeyEventArgs e)
         {
             //TODO: remove thiss
@@ -875,7 +877,7 @@ namespace LayoutFarm
             void UpdateAffineSide_Right(int left_index)
             {
                 //find cut point from current active point to related edge 
-                UIControllerBox box = _controlBoxes[left_index];
+                PointControllerBox box = _controlBoxes[left_index];
                 //
                 Vector2 edgeCutAt = MyMathHelper.FindPerpendicularCutPoint(
                                      new Vector2(box.TargetX, box.TargetY),
@@ -893,7 +895,7 @@ namespace LayoutFarm
             void UpdateAffineSide_Top(int left_index)
             {
                 //find cut point from current active point to related edge 
-                UIControllerBox box = _controlBoxes[left_index];
+                PointControllerBox box = _controlBoxes[left_index];
                 //
                 Vector2 edgeCutAt = MyMathHelper.FindPerpendicularCutPoint(
                      new Vector2(box.TargetX, box.TargetY),
@@ -913,7 +915,7 @@ namespace LayoutFarm
 
                 //find cut point from current active point to related edge 
 
-                UIControllerBox box = _controlBoxes[top_index];
+                PointControllerBox box = _controlBoxes[top_index];
                 //
                 Vector2 edgeCutAt = MyMathHelper.FindPerpendicularCutPoint(
                                           new Vector2(box.TargetX, box.TargetY),
@@ -930,7 +932,7 @@ namespace LayoutFarm
             void UpdateAffineSide_Left(int right_index)
             {
                 //find cut point from current active point to related edge 
-                UIControllerBox box = _controlBoxes[right_index];
+                PointControllerBox box = _controlBoxes[right_index];
                 //
                 Vector2 edgeCutAt = MyMathHelper.FindPerpendicularCutPoint(
                                                new Vector2(box.TargetX, box.TargetY),
@@ -945,7 +947,7 @@ namespace LayoutFarm
             //===============
 
 
-            List<UIControllerBox> controlBoxes = _controlBoxes;
+            List<PointControllerBox> controlBoxes = _controlBoxes;
             switch (_currentTransformStyle)
             {
                 case QuadTransformStyle.Bilinear:
@@ -1122,7 +1124,7 @@ namespace LayoutFarm
                         for (int i = 0; i < j; ++i)
                         {
                             //TODO: add actual position to control box
-                            UIControllerBox ctrlBox = controlBoxes[i];
+                            PointControllerBox ctrlBox = controlBoxes[i];
                             if (ctrlBox == _eventSrcControlBox) { continue; }
 
                             double x1 = ctrlBox.SrcX;
@@ -1138,7 +1140,6 @@ namespace LayoutFarm
 
                             ctrlBox.SetLocationRelativeToTarget(x1, y1); //essential to use double, prevent rounding err *** 
                         }
-
 
 
                         //ElemUpdate?.Invoke(this, System.EventArgs.Empty);
@@ -1183,7 +1184,18 @@ namespace LayoutFarm
 
 
         public event UIEventHandler<UIMouseEventArgs> Drag;
-
+        public event UIEventHandler<UIMouseEventArgs> MouseUp;
+        public event UIEventHandler<UIMouseEventArgs> MouseDblClick;
+        protected override void OnDoubleClick(UIMouseEventArgs e)
+        {
+            base.OnDoubleClick(e);
+            MouseDblClick?.Invoke(e);
+        }
+        protected override void OnMouseUp(UIMouseEventArgs e)
+        {
+            base.OnMouseUp(e);
+            MouseUp?.Invoke(e);
+        }
         protected override void OnMouseMove(UIMouseEventArgs e)
         {
             if (e.IsDragging)
@@ -1320,10 +1332,12 @@ namespace LayoutFarm
         public void BuildControlBoxes()
         {
             //*** after set dest
-            _controlBoxes = new List<UIControllerBox>();
+            _controlBoxes = new List<PointControllerBox>();
             CreateNewControlPoints(_controlBoxes, this.OutlineVxs);
             //---------
+            _polygonController.ClearControlPoints();
             _polygonController.LoadControlPoints(_controlBoxes);// _quadController.OutlineVxs);
+
             SetCornerLocation(0, _controlBoxes[0].TargetX, _controlBoxes[0].TargetY);
             SetCornerLocation(1, _controlBoxes[1].TargetX, _controlBoxes[1].TargetY);
             SetCornerLocation(2, _controlBoxes[2].TargetX, _controlBoxes[2].TargetY);
@@ -1349,18 +1363,15 @@ namespace LayoutFarm
             x2 = _x2; y2 = _y2;
             x3 = _x3; y3 = _y3;
         }
-
     }
 
-    public class UIControllerBox : LayoutFarm.CustomWidgets.AbstractBox
+    public class PointControllerBox : LayoutFarm.CustomWidgets.AbstractBox
     {
 #if DEBUG
-
         static int s_total;
         public readonly int dbugControllerId = s_total++;
-
 #endif
-        public UIControllerBox(int w, int h)
+        public PointControllerBox(int w, int h)
             : base(w, h)
         {
         }
@@ -1406,13 +1417,15 @@ namespace LayoutFarm
 
     public class PolygonControllerUI : UIElement
     {
-
-
+        float _offsetX;
+        float _offsetY;
+        IUIEventListener _uiListener;
+        PixelFarm.Drawing.VertexStore _vxs;
 
         Box _simpleBox;//primary render elemenet
         bool _hasPrimRenderE;
 
-        List<UIControllerBox> _controls = new List<UIControllerBox>();
+        List<PointControllerBox> _controls = new List<PointControllerBox>();
         public PolygonControllerUI()
         {
 
@@ -1463,13 +1476,13 @@ namespace LayoutFarm
                 ctrl.InvalidateOuterGraphics();
             }
             _simpleBox.SetLocation(x, y);
+
         }
 
         public int Left => _simpleBox.Left;
         public int Top => _simpleBox.Top;
 
-        IUIEventListener _uiListener;
-        PixelFarm.Drawing.VertexStore _vxs;
+
         public void SetTargetListener(IUIEventListener uiListener)
         {
             _uiListener = uiListener;
@@ -1510,8 +1523,7 @@ namespace LayoutFarm
                 }
             }
         }
-        float _offsetX;
-        float _offsetY;
+
         public void UpdateControlPoints(PixelFarm.Drawing.VertexStore vxs)
         {
             UpdateControlPoints(vxs, _offsetX, _offsetY);
@@ -1526,7 +1538,7 @@ namespace LayoutFarm
             _controls.Clear(); //***
             _simpleBox.ClearChildren();
         }
-        public void LoadControlPoints(List<UIControllerBox> controlPoints)
+        public void LoadControlPoints(List<PointControllerBox> controlPoints)
         {
             _controls = controlPoints;
             int m = controlPoints.Count;
@@ -1599,7 +1611,7 @@ namespace LayoutFarm
                     case PixelFarm.CpuBlit.VertexCmd.MoveTo:
                         {
 
-                            var ctrlPoint = new UIControllerBox(8, 8);
+                            var ctrlPoint = new PointControllerBox(8, 8);
                             ctrlPoint.Index = i;
                             ctrlPoint.SetLocation((int)(x + offsetX), (int)(y + offsetY));
                             SetupCornerBoxController(ctrlPoint);
@@ -1610,7 +1622,7 @@ namespace LayoutFarm
                         break;
                     case PixelFarm.CpuBlit.VertexCmd.LineTo:
                         {
-                            var ctrlPoint = new UIControllerBox(8, 8);
+                            var ctrlPoint = new PointControllerBox(8, 8);
                             ctrlPoint.Index = i;
                             ctrlPoint.SetLocation((int)(x + offsetX), (int)(y + offsetY));
                             SetupCornerBoxController(ctrlPoint);
@@ -1625,7 +1637,7 @@ namespace LayoutFarm
             }
 
         }
-        void SetupCornerBoxController(UIControllerBox box)
+        void SetupCornerBoxController(PointControllerBox box)
         {
             Color c = KnownColors.FromKnownColor(KnownColor.Orange);
             box.BackColor = new Color(100, c.R, c.G, c.B);

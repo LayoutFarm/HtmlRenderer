@@ -23,6 +23,9 @@ namespace LayoutFarm.HtmlBoxes
     /// </summary>
     static class BorderPaintHelper
     {
+        static PixelFarm.CpuBlit.VertexProcessing.SimpleRectBorderBuilder s_simpleRectBorderBuilder = new PixelFarm.CpuBlit.VertexProcessing.SimpleRectBorderBuilder();
+        static float[] s_reusableBorderCoords = new float[16];
+
         /// <summary>
         /// Draws all the border of the box with respect to style, width, etc.
         /// </summary>
@@ -188,6 +191,23 @@ namespace LayoutFarm.HtmlBoxes
                             g.StrokeColor = borderColor;
                             float prevStrokeW = g.StrokeWidth;
                             g.StrokeWidth = actualBorderWidth;
+
+
+                            //s_simpleRectBorderBuilder.SetBorderWidth(
+                            //     box.ActualBorderLeftWidth,
+                            //     box.ActualBorderTopWidth,
+                            //     box.ActualBorderRightWidth,
+                            //     box.ActualBorderBottomWidth
+                            //    );
+
+
+                            //s_simpleRectBorderBuilder.BuildOverRefBounds(
+                            //    rect.Left,
+                            //    rect.Top,
+                            //    rect.Width, 
+                            //    rect.Height,
+                            //    s_reusableBorderCoords);
+
                             switch (borderSide)
                             {
                                 case CssSide.Top:
