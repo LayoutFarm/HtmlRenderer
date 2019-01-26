@@ -1,6 +1,4 @@
 ﻿//MIT, 2014-present, WinterDev
-
-
 using LayoutFarm.UI;
 using PaintLab.Svg;
 using PixelFarm.CpuBlit.VertexProcessing;
@@ -20,8 +18,13 @@ namespace LayoutFarm
         UISprite _uiSprite;
         AppHost _appHost;
         VgVisualElement _vgVisualElem;
+        VgVisualDocHost _vgVisualDocHost; //**
 
-
+        public DemoShapeControl9_2()
+        {
+            _vgVisualDocHost = new VgVisualDocHost();
+            _vgVisualDocHost.SetImgRequestDelgate(LoadRawImg);
+        }
         VgVisualElement CreateEllipseVxs(PixelFarm.CpuBlit.RectD newBounds)
         {
             using (VxsTemp.Borrow(out var v1))
@@ -81,10 +84,7 @@ namespace LayoutFarm
                 Height = new Css.CssLength(imgBinder.Height, Css.CssUnitOrNames.Pixels),
             };
 
-            VgVisualDoc renderRoot = new VgVisualDoc();
-            renderRoot.SetImgRequestDelgate(LoadRawImg);
-
-
+            VgVisualDoc renderRoot = new VgVisualDoc(_vgVisualDocHost);
             VgVisualElement vgimg = new VgVisualElement(WellknownSvgElementName.Image, spec, renderRoot);
             vgimg.ImageBinder = imgBinder;
             return vgimg;
@@ -99,9 +99,7 @@ namespace LayoutFarm
                 Height = new Css.CssLength(50, Css.CssUnitOrNames.Pixels),
             };
 
-            VgVisualDoc renderRoot = new VgVisualDoc();
-            renderRoot.SetImgRequestDelgate(LoadRawImg);
-
+            VgVisualDoc renderRoot = new VgVisualDoc(_vgVisualDocHost); 
 
             VgVisualElement vgimg = new VgVisualElement(WellknownSvgElementName.Image, spec, renderRoot);
             vgimg.ImageBinder = _appHost.LoadImageAndBind(filename);
@@ -130,10 +128,11 @@ namespace LayoutFarm
 
             //_svgRenderVx = CreateTestRenderVx_FromSvg();
             //_svgRenderVx = CreateTestRenderVx_BasicShape();
-            //_svgRenderVx = CreateTestRenderVx_FromImg("d:\\WImageTest\\alpha1.png"); 
+            //_vgVisualElem = CreateTestRenderVx_FromImg("d:\\WImageTest\\alpha1.png"); 
 
             //string fontfile = "../Test8_HtmlRenderer.Demo/Samples/Fonts/SOV_Thanamas.ttf";
             //_vgVisualElem = VgVisualElemHelper.CreateVgVisualElementFromGlyph(fontfile, 256, 'a'); //create from glyph
+            
             _vgVisualElem = CreateTestRenderVx_FromImg("d:\\WImageTest\\fenec.png");
 
             //PixelFarm.CpuBlit.RectD org_rectD = _svgRenderVx.GetBounds(); 
@@ -220,8 +219,8 @@ namespace LayoutFarm
 
             {
 
-                UIControllerBox center = new UIControllerBox(10, 10);
-                UIControllerBox radius = new UIControllerBox(10, 10);
+                PointControllerBox center = new PointControllerBox(10, 10);
+                PointControllerBox radius = new PointControllerBox(10, 10);
                 host.AddChild(center);
                 host.AddChild(radius);
                 _rotationUI.AddControlPoints(center, radius);

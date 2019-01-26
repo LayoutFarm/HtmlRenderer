@@ -14,21 +14,24 @@ namespace LayoutFarm.ColorBlenderSample
 
         ListView _lstvw_svgFiles;
         BackDrawBoardUI _backBoard;
-
-
-
-
+        VgVisualDocHost _vgDocHost;
         protected override void OnStart(AppHost host)
         {
             _host = host;
-
             base.OnStart(host);
 
+            _vgDocHost = new VgVisualDocHost();
+            _vgDocHost.SetImgRequestDelgate(ImgBinderLoadImg);
+            _vgDocHost.SetInvalidateDelegate(vgElem =>
+            {
+                //TODO
+
+            });
+            //
             {
                 _backBoard = new BackDrawBoardUI(800, 600);
                 _backBoard.SetLocation(0, 0);
                 _backBoard.BackColor = PixelFarm.Drawing.Color.White;
-
                 host.AddChild(_backBoard);
             }
             {
@@ -48,22 +51,37 @@ namespace LayoutFarm.ColorBlenderSample
                     }
                 };
 
-                foreach (string file in System.IO.Directory.GetFiles("../Test8_HtmlRenderer.Demo/Samples/Svg/others", "*.svg"))
+                //foreach (string file in System.IO.Directory.GetFiles("../Test8_HtmlRenderer.Demo/Samples/Svg/others", "*.svg"))
+                //{
+                //    ListItem listItem = new ListItem(200, 20);
+                //    listItem.Text = System.IO.Path.GetFileName(file);
+                //    listItem.Tag = file;
+                //    _lstvw_svgFiles.AddItem(listItem);
+                //}
+                //foreach (string file in System.IO.Directory.GetFiles("../Test8_HtmlRenderer.Demo/Samples/Svg/freepik", "*.svg"))
+                //{
+                //    ListItem listItem = new ListItem(200, 20);
+                //    listItem.Text = System.IO.Path.GetFileName(file);
+                //    listItem.Tag = file;
+                //    _lstvw_svgFiles.AddItem(listItem);
+                //}
+                //foreach (string file in System.IO.Directory.GetFiles("../../../HtmlRenderer.SomeTestResources/Svg/twemoji", "*.svg"))
+                //{
+                //    ListItem listItem = new ListItem(200, 20);
+                //    listItem.Text = System.IO.Path.GetFileName(file);
+                //    listItem.Tag = file;
+                //    _lstvw_svgFiles.AddItem(listItem);
+                //}
+
+
+                //string[] allFiles = System.IO.Directory.GetFiles("../../../HtmlRenderer.SomeTestResources/Svg/noto_emoji", "*.svg");
+                string[] allFiles = System.IO.Directory.GetFiles("../../../HtmlRenderer.SomeTestResources/Svg/error1", "*.svg");
+                int i = 0;
+                int lim = Math.Min(allFiles.Length, 150);
+
+                for (; i < lim; ++i)
                 {
-                    ListItem listItem = new ListItem(200, 20);
-                    listItem.Text = System.IO.Path.GetFileName(file);
-                    listItem.Tag = file;
-                    _lstvw_svgFiles.AddItem(listItem);
-                }
-                foreach (string file in System.IO.Directory.GetFiles("../Test8_HtmlRenderer.Demo/Samples/Svg/freepik", "*.svg"))
-                {
-                    ListItem listItem = new ListItem(200, 20);
-                    listItem.Text = System.IO.Path.GetFileName(file);
-                    listItem.Tag = file;
-                    _lstvw_svgFiles.AddItem(listItem);
-                }
-                foreach (string file in System.IO.Directory.GetFiles("../Test8_HtmlRenderer.Demo/Samples/Svg/twemoji", "*.svg"))
-                {
+                    string file = allFiles[i];
                     ListItem listItem = new ListItem(200, 20);
                     listItem.Text = System.IO.Path.GetFileName(file);
                     listItem.Tag = file;
@@ -80,18 +98,21 @@ namespace LayoutFarm.ColorBlenderSample
         }
         void ParseAndRenderSvgFile(string svgFile)
         {
-            var docBuilder = new SvgDocBuilder();
-            var parser = new SvgParser(docBuilder);
 
+            var docBuilder = new VgDocBuilder();
+            var svgParser = new SvgParser(docBuilder);
+
+            //TODO: ask file content from host,
+            
             string svgContent = System.IO.File.ReadAllText(svgFile);
             WebLexer.TextSnapshot textSnapshot = new WebLexer.TextSnapshot(svgContent);
-            parser.ParseDocument(textSnapshot);
+            svgParser.ParseDocument(textSnapshot);
             //
-            VgVisualDocBuilder builder = new VgVisualDocBuilder();
-            builder.SetLoadImageHandler(ImgBinderLoadImg);
-            //
-            //
-            VgVisualElement vgVisElem = builder.CreateVgVisualDoc(docBuilder.ResultDocument, null).VgRootElem;
+#if DEBUG
+            System.Diagnostics.Debug.WriteLine(svgFile);
+#endif
+            var vgDocBuilder = new VgVisualDocBuilder();
+            VgVisualElement vgVisElem = vgDocBuilder.CreateVgVisualDoc(docBuilder.ResultDocument, _vgDocHost).VgRootElem;
 
             var uiSprite = new UISprite(10, 10);
             var evListener = new GeneralEventListener();
@@ -122,9 +143,5 @@ namespace LayoutFarm.ColorBlenderSample
             _backBoard.ClearChildren();
             _backBoard.AddChild(uiSprite);
         }
-
-
-    
-
     }
 }

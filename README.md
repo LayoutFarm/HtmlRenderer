@@ -27,6 +27,8 @@ also, please note the text selection on the Html Surface.
 Typography => https://github.com/LayoutFarm/Typography)
 
 
+How to build it, see https://github.com/PaintLab/pxdev
+
 ---
 
  **Work In Progrss ... : Html-input**

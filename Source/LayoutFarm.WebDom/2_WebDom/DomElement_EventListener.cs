@@ -97,9 +97,9 @@ namespace LayoutFarm.WebDom
         {
             this.GetGlobalLocation(out x, out y);
         }
-        void IUIEventListener.GetViewport(out int x, out int y)
+        void IUIEventListener.GetViewport(out int left, out int top)
         {
-            this.GetViewport(out x, out y);
+            this.GetViewport(out left, out top);
         }
         public abstract void GetGlobalLocation(out int x, out int y);
         public abstract void GetGlobalLocationRelativeToRoot(out int x, out int y);

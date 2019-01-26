@@ -17,7 +17,7 @@ namespace TestGraphicPackage2
             YourImplementation.FrameworkInitWinGDI.SetupDefaultValues();
 
 #if GL_ENABLE
-            YourImplementation.LocalFileStorageProvider file_storageProvider = new YourImplementation.LocalFileStorageProvider();
+            YourImplementation.LocalFileStorageProvider file_storageProvider = new YourImplementation.LocalFileStorageProvider("");
             PixelFarm.Platforms.StorageService.RegisterProvider(file_storageProvider);
             YourImplementation.FrameworkInitGLES.SetupDefaultValues();
 
@@ -34,7 +34,7 @@ namespace TestGraphicPackage2
             Typography.TextBreak.CustomBreakerBuilder.Setup(dicProvider);
 #endif
 
-
+            PixelFarm.CpuBlit.MemBitmapExtensions.DefaultMemBitmapIO = new PixelFarm.Drawing.WinGdi.GdiBitmapIO();
 
 #if DEBUG
             PixelFarm.CpuBlit.Imaging.PngImageWriter.InstallImageSaveToFileService((IntPtr imgBuffer, int stride, int width, int height, string filename) =>
