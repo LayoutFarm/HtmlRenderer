@@ -13,7 +13,7 @@ namespace LayoutFarm.HtmlBoxes
         VgVisualDocHost _vgVisualDocHost;
 
         static LayoutFarm.OpenFontTextService s_openfontTextService;
-        public CssBoxSvgRoot(Css.BoxSpec spec, IRootGraphics rootgfx, SvgDocument svgdoc)
+        public CssBoxSvgRoot(Css.BoxSpec spec, IRootGraphics rootgfx, VgDocument svgdoc)
             : base(spec, rootgfx, Css.CssDisplay.Block)
         {
             //----------
@@ -146,7 +146,7 @@ namespace LayoutFarm.HtmlBoxes
 
             }
         }
-        public SvgDocument SvgDoc
+        public VgDocument SvgDoc
         {
             get;
             set;

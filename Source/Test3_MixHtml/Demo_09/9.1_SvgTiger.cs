@@ -117,7 +117,7 @@ namespace LayoutFarm
         {
 
             string svgContent = System.IO.File.ReadAllText(filename);
-            SvgDocBuilder docBuidler = new SvgDocBuilder();
+            VgDocBuilder docBuidler = new VgDocBuilder();
             SvgParser parser = new SvgParser(docBuidler);
             WebLexer.TextSnapshot textSnapshot = new WebLexer.TextSnapshot(svgContent);
             parser.ParseDocument(textSnapshot);

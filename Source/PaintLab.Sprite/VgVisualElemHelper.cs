@@ -15,14 +15,14 @@ namespace LayoutFarm
         public static VgVisualElement CreateVgVisualElemFromSvgContent(string svgContent)
         {
 
-            SvgDocBuilder docBuidler = new SvgDocBuilder();
+            VgDocBuilder docBuidler = new VgDocBuilder();
             SvgParser parser = new SvgParser(docBuidler);
             WebLexer.TextSnapshot textSnapshot = new WebLexer.TextSnapshot(svgContent);
             parser.ParseDocument(textSnapshot);//start document parsing
 
             //TODO: review this step again
             VgVisualDocBuilder builder = new VgVisualDocBuilder();
-            SvgDocument svgDoc = docBuidler.ResultDocument;
+            VgDocument svgDoc = docBuidler.ResultDocument;
             //optional 
             svgDoc.OriginalContent = svgContent;
             //-------------------------------------------------------------

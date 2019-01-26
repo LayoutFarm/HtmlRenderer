@@ -8,11 +8,9 @@ using LayoutFarm.HtmlBoxes;
 namespace PaintLab.Svg
 {
     class SvgCreator
-    {
-
-        SvgDocBuilder _svgDocBuilder = new SvgDocBuilder();
-        SvgElementSpecEvaluator _svgSpecEval = new SvgElementSpecEvaluator();
-        SvgDocument _currentDoc;
+    { 
+        VgDocBuilder _svgDocBuilder = new VgDocBuilder();
+        VgDocument _currentDoc;
         public CssBoxSvgRoot CreateSvgBox(CssBox parentBox,
             HtmlElement elementNode,
             LayoutFarm.Css.BoxSpec spec)
@@ -23,7 +21,7 @@ namespace PaintLab.Svg
             //
 
             //create blank svg document
-            SvgDocument svgdoc = new SvgDocument();
+            VgDocument svgdoc = new VgDocument();
             svgdoc.CssActiveSheet = new LayoutFarm.WebDom.CssActiveSheet();
             _currentDoc = svgdoc;
             _svgDocBuilder.ResultDocument = svgdoc;

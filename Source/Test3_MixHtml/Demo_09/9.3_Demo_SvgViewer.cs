@@ -98,18 +98,21 @@ namespace LayoutFarm.ColorBlenderSample
         }
         void ParseAndRenderSvgFile(string svgFile)
         {
-            var docBuilder = new SvgDocBuilder();
-            var parser = new SvgParser(docBuilder);
 
+            var docBuilder = new VgDocBuilder();
+            var svgParser = new SvgParser(docBuilder);
+
+            //TODO: ask file content from host,
+            
             string svgContent = System.IO.File.ReadAllText(svgFile);
             WebLexer.TextSnapshot textSnapshot = new WebLexer.TextSnapshot(svgContent);
-            parser.ParseDocument(textSnapshot);
+            svgParser.ParseDocument(textSnapshot);
             //
 #if DEBUG
             System.Diagnostics.Debug.WriteLine(svgFile);
 #endif
-            VgVisualDocBuilder builder = new VgVisualDocBuilder();
-            VgVisualElement vgVisElem = builder.CreateVgVisualDoc(docBuilder.ResultDocument, _vgDocHost).VgRootElem;
+            var vgDocBuilder = new VgVisualDocBuilder();
+            VgVisualElement vgVisElem = vgDocBuilder.CreateVgVisualDoc(docBuilder.ResultDocument, _vgDocHost).VgRootElem;
 
             var uiSprite = new UISprite(10, 10);
             var evListener = new GeneralEventListener();
