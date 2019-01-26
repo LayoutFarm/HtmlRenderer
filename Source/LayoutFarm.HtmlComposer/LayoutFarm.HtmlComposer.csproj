@@ -55,6 +55,15 @@
     <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.svg\visuals\MyVgPathDataParser.cs">
       <Link>0_REF_LayoutFarm.HtmlRenderer\4_Svg\Visuals\MyVgPathDataParser.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.Svg\Visuals\VgDocBuilder.cs">
+      <Link>0_REF_LayoutFarm.HtmlRenderer\4_Svg\Visuals\VgDocBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.Svg\Visuals\VgDocument.cs">
+      <Link>0_REF_LayoutFarm.HtmlRenderer\4_Svg\Visuals\VgDocument.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.Svg\Visuals\VgElemCreators.cs">
+      <Link>0_REF_LayoutFarm.HtmlRenderer\4_Svg\Visuals\VgElemCreators.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.svg\visuals\VgHitChain.cs">
       <Link>0_REF_LayoutFarm.HtmlRenderer\4_Svg\Visuals\VgHitChain.cs</Link>
     </Compile>
