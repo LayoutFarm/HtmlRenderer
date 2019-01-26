@@ -63,100 +63,124 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.cssbase\cssbase\CssConstants.cs">
-      <Link>REF_CssBase\CssConstants.cs</Link>
+      <Link>0_REF_PaintLab.CssBase\CssConstants.cs</Link>
     </Compile>
     <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.cssbase\cssbase\CssLength.cs">
-      <Link>REF_CssBase\CssLength.cs</Link>
+      <Link>0_REF_PaintLab.CssBase\CssLength.cs</Link>
     </Compile>
     <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.cssbase\cssbase\CssProps.cs">
-      <Link>REF_CssBase\CssProps.cs</Link>
+      <Link>0_REF_PaintLab.CssBase\CssProps.cs</Link>
     </Compile>
     <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.cssbase\cssbase\CssUnitOrNames.cs">
-      <Link>REF_CssBase\CssUnitOrNames.cs</Link>
+      <Link>0_REF_PaintLab.CssBase\CssUnitOrNames.cs</Link>
     </Compile>
     <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.cssbase\cssbase\MapAttribute.cs">
-      <Link>REF_CssBase\MapAttribute.cs</Link>
+      <Link>0_REF_PaintLab.CssBase\MapAttribute.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.Svg\SvgRenderVxDocBuilder.cs">
-      <Link>4_Svg\SvgRenderVxDocBuilder.cs</Link>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.Svg\Visuals\MyVgPathDataParser.cs">
+      <Link>0_REF_PaintLab.Svg\Visuals\MyVgPathDataParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.Svg\Visuals\VgHitChain.cs">
+      <Link>0_REF_PaintLab.Svg\Visuals\VgHitChain.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.Svg\Visuals\VgPaintArgs.cs">
+      <Link>0_REF_PaintLab.Svg\Visuals\VgPaintArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.Svg\Visuals\VgResourceIO.cs">
+      <Link>0_REF_PaintLab.Svg\Visuals\VgResourceIO.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.Svg\Visuals\VgVisitors.cs">
+      <Link>0_REF_PaintLab.Svg\Visuals\VgVisitors.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.Svg\Visuals\VgVisualDoc.cs">
+      <Link>0_REF_PaintLab.Svg\Visuals\VgVisualDoc.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.Svg\Visuals\VgVisualDocBuilder.cs">
+      <Link>0_REF_PaintLab.Svg\Visuals\VgVisualDocBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.Svg\Visuals\VgVisualDocHost.cs">
+      <Link>0_REF_PaintLab.Svg\Visuals\VgVisualDocHost.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.Svg\Visuals\VgVisualElements.cs">
+      <Link>0_REF_PaintLab.Svg\Visuals\VgVisualElements.cs</Link>
     </Compile>
     <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.webdom\1_css\CssActiveSheet.cs">
-      <Link>REF_WebDom\1_Css\CssActiveSheet.cs</Link>
+      <Link>0_REF_PaintLab.WebDom\1_Css\CssActiveSheet.cs</Link>
     </Compile>
     <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.webdom\1_css\CssAttributeSelector.cs">
-      <Link>REF_WebDom\1_Css\CssAttributeSelector.cs</Link>
+      <Link>0_REF_PaintLab.WebDom\1_Css\CssAttributeSelector.cs</Link>
     </Compile>
     <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.webdom\1_css\CssCodeValueExpressions.cs">
-      <Link>REF_WebDom\1_Css\CssCodeValueExpressions.cs</Link>
+      <Link>0_REF_PaintLab.WebDom\1_Css\CssCodeValueExpressions.cs</Link>
     </Compile>
     <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.webdom\1_css\CssDocMembers.cs">
-      <Link>REF_WebDom\1_Css\CssDocMembers.cs</Link>
+      <Link>0_REF_PaintLab.WebDom\1_Css\CssDocMembers.cs</Link>
     </Compile>
     <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.webdom\1_css\CssDocument.cs">
-      <Link>REF_WebDom\1_Css\CssDocument.cs</Link>
+      <Link>0_REF_PaintLab.WebDom\1_Css\CssDocument.cs</Link>
     </Compile>
     <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.webdom\1_css\CssElementSelectors.cs">
-      <Link>REF_WebDom\1_Css\CssElementSelectors.cs</Link>
+      <Link>0_REF_PaintLab.WebDom\1_Css\CssElementSelectors.cs</Link>
     </Compile>
     <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.webdom\1_css\CssPropertyDeclaration.cs">
-      <Link>REF_WebDom\1_Css\CssPropertyDeclaration.cs</Link>
+      <Link>0_REF_PaintLab.WebDom\1_Css\CssPropertyDeclaration.cs</Link>
     </Compile>
     <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.webdom\1_css\UserMapUtil.cs">
-      <Link>REF_WebDom\1_Css\UserMapUtil.cs</Link>
+      <Link>0_REF_PaintLab.WebDom\1_Css\UserMapUtil.cs</Link>
     </Compile>
     <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.webdom\1_css\ValueMaps.cs">
-      <Link>REF_WebDom\1_Css\ValueMaps.cs</Link>
+      <Link>0_REF_PaintLab.WebDom\1_Css\ValueMaps.cs</Link>
     </Compile>
     <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.webdom\1_css\WellknownCssPropertyName.cs">
-      <Link>REF_WebDom\1_Css\WellknownCssPropertyName.cs</Link>
+      <Link>0_REF_PaintLab.WebDom\1_Css\WellknownCssPropertyName.cs</Link>
     </Compile>
     <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.webdom\1_css_parser\CssParser.cs">
-      <Link>REF_WebDom\1_Css_Parser\CssParser.cs</Link>
+      <Link>0_REF_PaintLab.WebDom\1_Css_Parser\CssParser.cs</Link>
     </Compile>
     <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.webdom\1_css_parser\CssParserHelper.cs">
-      <Link>REF_WebDom\1_Css_Parser\CssParserHelper.cs</Link>
+      <Link>0_REF_PaintLab.WebDom\1_Css_Parser\CssParserHelper.cs</Link>
     </Compile>
     <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.webdom\1_css_parser\CssValueParser.cs">
-      <Link>REF_WebDom\1_Css_Parser\CssValueParser.cs</Link>
+      <Link>0_REF_PaintLab.WebDom\1_Css_Parser\CssValueParser.cs</Link>
     </Compile>
     <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.webdom\2_svg\SvgElements.cs">
-      <Link>REF_WebDom\2_Svg\SvgElements.cs</Link>
+      <Link>0_REF_PaintLab.WebDom\2_Svg\SvgElements.cs</Link>
     </Compile>
     <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.webdom\2_svg\SvgParser.cs">
-      <Link>REF_WebDom\2_Svg\SvgParser.cs</Link>
+      <Link>0_REF_PaintLab.WebDom\2_Svg\SvgParser.cs</Link>
     </Compile>
     <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.webdom\2_svg\SvgPathDataParser.cs">
-      <Link>REF_WebDom\2_Svg\SvgPathDataParser.cs</Link>
+      <Link>0_REF_PaintLab.WebDom\2_Svg\SvgPathDataParser.cs</Link>
     </Compile>
     <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.webdom\2_svg\SvgSpec.cs">
-      <Link>REF_WebDom\2_Svg\SvgSpec.cs</Link>
+      <Link>0_REF_PaintLab.WebDom\2_Svg\SvgSpec.cs</Link>
     </Compile>
     <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\2_Svg\SvgTransformation.cs">
-      <Link>REF_WebDom\2_Svg\SvgTransformation.cs</Link>
+      <Link>0_REF_PaintLab.WebDom\2_Svg\SvgTransformation.cs</Link>
     </Compile>
     <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.webdom\iscriptable\JsScriptAttributes.cs">
-      <Link>REF_WebDom\IScriptable\JsScriptAttributes.cs</Link>
+      <Link>0_REF_PaintLab.WebDom\IScriptable\JsScriptAttributes.cs</Link>
     </Compile>
     <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.weblexer\CssLexer.cs">
-      <Link>REF_WebLexer\CssLexer.cs</Link>
+      <Link>0_REF_PaintLab.WebLexer\CssLexer.cs</Link>
     </Compile>
     <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.weblexer\dbugLexerReport.cs">
-      <Link>REF_WebLexer\dbugLexerReport.cs</Link>
+      <Link>0_REF_PaintLab.WebLexer\dbugLexerReport.cs</Link>
     </Compile>
     <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.weblexer\MyXmlLexer.cs">
-      <Link>REF_WebLexer\MyXmlLexer.cs</Link>
+      <Link>0_REF_PaintLab.WebLexer\MyXmlLexer.cs</Link>
     </Compile>
     <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.weblexer\TextSnapshot.cs">
-      <Link>REF_WebLexer\TextSnapshot.cs</Link>
+      <Link>0_REF_PaintLab.WebLexer\TextSnapshot.cs</Link>
     </Compile>
     <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.weblexer\XmlLexer.cs">
-      <Link>REF_WebLexer\XmlLexer.cs</Link>
+      <Link>0_REF_PaintLab.WebLexer\XmlLexer.cs</Link>
     </Compile>
     <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.weblexer\XmlLexer_debug.cs">
-      <Link>REF_WebLexer\XmlLexer_debug.cs</Link>
+      <Link>0_REF_PaintLab.WebLexer\XmlLexer_debug.cs</Link>
     </Compile>
     <Compile Include="..\..\..\pixelfarm\src\pixelfarm\pixelfarm.drawingcore\ExtensionAttribute.cs">
-      <Link>REF_WebDom\Net20\ExtensionAttribute.cs</Link>
+      <Link>0_REF_PaintLab.WebDom\Net20\ExtensionAttribute.cs</Link>
     </Compile>
     <Compile Include="1_Css\BoxSpec.cs" />
     <Compile Include="1_Css\BoxSpecNode.cs" />
@@ -209,23 +233,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="3_Boxes_Layout\0_General\BoxHitUtils.cs" />
     <Compile Include="Platform\RenderUtils.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
-      <Visible>False</Visible>
-      <ProductName>Windows Installer 3.1</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.AbstractPlatform\PaintLab.AbstractPlatform.csproj">

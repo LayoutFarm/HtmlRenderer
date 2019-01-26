@@ -34,51 +34,50 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\Deps_HtmlKit\HtmlKit\HtmlAttribute.cs">
-      <Link>5_HtmlKit\HtmlAttribute.cs</Link>
+      <Link>0_REF_HtmlKit\HtmlAttribute.cs</Link>
     </Compile>
     <Compile Include="..\Deps_HtmlKit\HtmlKit\HtmlAttributeCollection.cs">
-      <Link>5_HtmlKit\HtmlAttributeCollection.cs</Link>
+      <Link>0_REF_HtmlKit\HtmlAttributeCollection.cs</Link>
     </Compile>
     <Compile Include="..\Deps_HtmlKit\HtmlKit\HtmlEntityDecoder.cs">
-      <Link>5_HtmlKit\HtmlEntityDecoder.cs</Link>
+      <Link>0_REF_HtmlKit\HtmlEntityDecoder.cs</Link>
     </Compile>
     <Compile Include="..\Deps_HtmlKit\HtmlKit\HtmlEntityDecoder.g.cs">
-      <Link>5_HtmlKit\HtmlEntityDecoder.g.cs</Link>
-      <DependentUpon>HtmlEntityDecoder.g</DependentUpon>
+      <Link>0_REF_HtmlKit\HtmlEntityDecoder.g.cs</Link>
     </Compile>
     <Compile Include="..\Deps_HtmlKit\HtmlKit\HtmlNamespace.cs">
-      <Link>5_HtmlKit\HtmlNamespace.cs</Link>
+      <Link>0_REF_HtmlKit\HtmlNamespace.cs</Link>
     </Compile>
     <Compile Include="..\Deps_HtmlKit\HtmlKit\HtmlToken.cs">
-      <Link>5_HtmlKit\HtmlToken.cs</Link>
+      <Link>0_REF_HtmlKit\HtmlToken.cs</Link>
     </Compile>
     <Compile Include="..\Deps_HtmlKit\HtmlKit\HtmlTokenizer.cs">
-      <Link>5_HtmlKit\HtmlTokenizer.cs</Link>
+      <Link>0_REF_HtmlKit\HtmlTokenizer.cs</Link>
     </Compile>
     <Compile Include="..\Deps_HtmlKit\HtmlKit\HtmlTokenizerState.cs">
-      <Link>5_HtmlKit\HtmlTokenizerState.cs</Link>
+      <Link>0_REF_HtmlKit\HtmlTokenizerState.cs</Link>
     </Compile>
     <Compile Include="..\Deps_HtmlKit\HtmlKit\HtmlTokenKind.cs">
-      <Link>5_HtmlKit\HtmlTokenKind.cs</Link>
+      <Link>0_REF_HtmlKit\HtmlTokenKind.cs</Link>
     </Compile>
     <Compile Include="..\Deps_HtmlKit\HtmlKit\HtmlUtils.cs">
-      <Link>5_HtmlKit\HtmlUtils.cs</Link>
+      <Link>0_REF_HtmlKit\HtmlUtils.cs</Link>
     </Compile>
     <Compile Include="..\Deps_HtmlKit\HtmlKit\HtmlWriter.cs">
-      <Link>5_HtmlKit\HtmlWriter.cs</Link>
+      <Link>0_REF_HtmlKit\HtmlWriter.cs</Link>
     </Compile>
     <Compile Include="..\Deps_HtmlKit\HtmlKit\HtmlWriterState.cs">
-      <Link>5_HtmlKit\HtmlWriterState.cs</Link>
+      <Link>0_REF_HtmlKit\HtmlWriterState.cs</Link>
     </Compile>
     <Compile Include="..\Deps_HtmlKit\HtmlKit\ICharArray.cs">
-      <Link>5_HtmlKit\ICharArray.cs</Link>
+      <Link>0_REF_HtmlKit\ICharArray.cs</Link>
     </Compile>
-    <Compile Include="0_WebDom.Parser\DeprecatedAttribute.cs" />
-    <Compile Include="0_WebDom.Parser\HtmlKitParser.cs" />
-    <Compile Include="0_WebDom.Parser\MyHtmlParser.cs" />
-    <Compile Include="0_WebDom.Parser\TextSource.cs" />
-    <Compile Include="0_WebDom.Parser\HtmlParser.cs" />
-    <Compile Include="0_WebDom.Parser\HtmlUtils.cs" />
+    <Compile Include="1_WebDom.Parser\DeprecatedAttribute.cs" />
+    <Compile Include="1_WebDom.Parser\HtmlKitParser.cs" />
+    <Compile Include="1_WebDom.Parser\MyHtmlParser.cs" />
+    <Compile Include="1_WebDom.Parser\TextSource.cs" />
+    <Compile Include="1_WebDom.Parser\HtmlParser.cs" />
+    <Compile Include="1_WebDom.Parser\HtmlUtils.cs" />
     <Compile Include="3_WebDom_Interfaces\HtmlInterfaces.cs" />
     <Compile Include="4_WebDom.Impl\DomTextWriter.cs" />
     <Compile Include="4_WebDom.Impl\HtmlDocument.cs" />
@@ -90,8 +89,8 @@
     <Compile Include="4_WebDom.Impl\HtmlShadowDocument.cs" />
     <Compile Include="4_WebDom.Impl\HtmlTextNode.cs" />
     <Compile Include="4_WebDom.Impl\SpecialHtmlElements.cs" />
-    <Compile Include="5_HtmlKit\HtmlAttributeId.cs" />
-    <Compile Include="5_HtmlKit\HtmlTagId.cs" />
+    <Compile Include="0_REF_HtmlKit\HtmlAttributeId.cs" />
+    <Compile Include="0_REF_HtmlKit\HtmlTagId.cs" />
     <Compile Include="HtmlLexer\HtmlLexer.cs" />
     <Compile Include="HtmlLexer\MyHtmlLexer.cs" />
     <Compile Include="HtmlLexer\MyHtmlLexer_dbug.cs" />

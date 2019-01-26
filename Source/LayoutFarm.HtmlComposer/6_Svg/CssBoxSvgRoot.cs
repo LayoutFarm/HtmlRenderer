@@ -83,7 +83,7 @@ namespace LayoutFarm.HtmlBoxes
                 //painter.StrokeWidth = 1;//default 
                 //painter.FillColor = Color.Black; 
 
-                using (VgPainterArgsPool.Borrow(painter, out var paintArgs))
+                using (VgPaintArgsPool.Borrow(painter, out var paintArgs))
                 {
                     if (_vgVisualElem.CoordTx != null)
                     {
@@ -126,7 +126,7 @@ namespace LayoutFarm.HtmlBoxes
                 //
                 double prevStrokeW = painter.StrokeWidth;
 
-                using (VgPainterArgsPool.Borrow(painter, out VgPaintArgs paintArgs))
+                using (VgPaintArgsPool.Borrow(painter, out VgPaintArgs paintArgs))
                 {
                     if (_vgVisualElem.CoordTx != null)
                     {

@@ -295,7 +295,7 @@ namespace LayoutFarm.UI
             SmoothingMode smoothingMode = painter.SmoothingMode;
             painter.SmoothingMode = SmoothingMode.HighQuality;
 
-            using (VgPainterArgsPool.Borrow(painter, out VgPaintArgs paintArgs))
+            using (VgPaintArgsPool.Borrow(painter, out VgPaintArgs paintArgs))
             { 
                 if (vgVisualElem.CoordTx != null)
                 {
