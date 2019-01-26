@@ -65,7 +65,7 @@ namespace LayoutFarm.ColorBlenderSample
                 //    listItem.Tag = file;
                 //    _lstvw_svgFiles.AddItem(listItem);
                 //}
-                //foreach (string file in System.IO.Directory.GetFiles("../Test8_HtmlRenderer.Demo/Samples/Svg/twemoji", "*.svg"))
+                //foreach (string file in System.IO.Directory.GetFiles("../../../HtmlRenderer.SomeTestResources/Svg/twemoji", "*.svg"))
                 //{
                 //    ListItem listItem = new ListItem(200, 20);
                 //    listItem.Text = System.IO.Path.GetFileName(file);
@@ -74,8 +74,8 @@ namespace LayoutFarm.ColorBlenderSample
                 //}
 
 
-                //string[] allFiles = System.IO.Directory.GetFiles("../Test8_HtmlRenderer.Demo/Samples/Svg/noto_emoji", "*.svg");
-                string[] allFiles = System.IO.Directory.GetFiles("../Test8_HtmlRenderer.Demo/Samples/Svg/error1", "*.svg");
+                //string[] allFiles = System.IO.Directory.GetFiles("../../../HtmlRenderer.SomeTestResources/Svg/noto_emoji", "*.svg");
+                string[] allFiles = System.IO.Directory.GetFiles("../../../HtmlRenderer.SomeTestResources/Svg/error1", "*.svg");
                 int i = 0;
                 int lim = Math.Min(allFiles.Length, 150);
 
