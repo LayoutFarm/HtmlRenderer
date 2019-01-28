@@ -424,18 +424,12 @@ namespace LayoutFarm
 
         double _scaleW = 1;
         double _scaleH = 1;
-        PointControllerBox _eventSrcControlBox;
-
-
-
+        PointControllerBox _eventSrcControlBox; 
         public QuadControllerUI()
           : base(100, 100)
         {
-
+             
         }
-
-
-
         public QuadTransformStyle TransformStyle
         {
             get => _currentTransformStyle;
