@@ -808,17 +808,17 @@ namespace LayoutFarm
         }
 
 
-        protected override void OnKeyDown(UIKeyEventArgs e)
-        {
-            //TODO: remove thiss
-            switch (e.KeyCode)
-            {
-                case UIKeys.NumPad0:
-                    _currentTransformStyle = QuadTransformStyle.Bilinear;
-                    break;
-            }
-            base.OnKeyDown(e);
-        }
+        //protected override void OnKeyDown(UIKeyEventArgs e)
+        //{
+        //    //TODO: remove this
+        //    switch (e.KeyCode)
+        //    {
+        //        case UIKeys.NumPad0:
+        //            _currentTransformStyle = QuadTransformStyle.Bilinear;
+        //            break;
+        //    }
+        //    base.OnKeyDown(e);
+        //}
 
 
         void SetCornerLocation(int index, double x, double y)
