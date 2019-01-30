@@ -304,6 +304,8 @@ namespace LayoutFarm
                     ICoordTransformer tx1 = _quadController.GetCoordTransformer();
                     if (tx1 != null)
                     {
+                        //if the sprite is transformed before render
+                        //we must invert x,y back to 
                         ICoordTransformer tx1_inv = tx1.CreateInvert();
                         tx1_inv.Transform(ref e1_x, ref e1_y);
                     }
