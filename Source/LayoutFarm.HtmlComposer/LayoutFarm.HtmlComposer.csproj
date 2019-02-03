@@ -445,45 +445,6 @@
     <Compile Include="..\LayoutFarm.WebDom\HtmlLexer\MyHtmlLexer_dbug.cs">
       <Link>0_REF_LayoutFarm.WebDom\HtmlLexer\MyHtmlLexer_dbug.cs</Link>
     </Compile>
-    <Compile Include="0_Start\ComposerConfig.cs" />
-    <Compile Include="1_Composers\1_Builder\HtmlHost.cs" />
-    <Compile Include="1_Composers\1_Builder\WebDocumentParser.cs" />
-    <Compile Include="1_Composers\1_Builder\TopDownActiveCssTemplate.cs" />
-    <Compile Include="1_Composers\1_Builder\CustomCssBoxGenerator.cs" />
-    <Compile Include="1_Composers\1_Builder\RenderTreeBuilder.cs" />
-    <Compile Include="1_Composers\2_Css\CssColorConv.cs" />
-    <Compile Include="1_Composers\3_Scriptable\EaseScriptElement.cs" />
-    <Compile Include="1_Composers\4_Diagnostic\ArgCheckNotNullAttribute.cs" />
-    <Compile Include="1_Composers\4_Diagnostic\HtmlGenerationStyle.cs" />
-    <Compile Include="1_Composers\4_Diagnostic\HtmlRenderErrorType.cs" />
-    <Compile Include="1_Composers\1_Builder\BulletNumberFormatter.cs" />
-    <Compile Include="1_Composers\1_Builder\HtmlContentTextSplitter.cs" />
-    <Compile Include="1_Composers\2_Css\SpecSetter.cs" />
-    <Compile Include="1_Composers\1_Builder\SpecialBoxCreator.cs" />
-    <Compile Include="1_Composers\5_RenderBoxes\TopWindowRenderBox.cs" />
-    <Compile Include="1_Composers\6_SpecialCssBoxes\CssBoxScrollView.cs" />
-    <Compile Include="1_Composers\6_SpecialCssBoxes\CssIsolateBox.cs" />
-    <Compile Include="4_WebDom\CustomCssBoxGen.cs" />
-    <Compile Include="4_WebDom\HtmlDocumentFragment.cs" />
-    <Compile Include="4_WebDom\HtmlShadowDocument.cs" />
-    <Compile Include="4_WebDom\HtmlSharedDocument.cs" />
-    <Compile Include="5_RenderBasedUI\CustomRenderElements.cs" />
-    <Compile Include="5_RenderBasedUI\RenderElementExtension.cs" />
-    <Compile Include="4_WebDom\HtmlDocument.cs" />
-    <Compile Include="1_Composers\5_RenderBoxes\HtmlRenderBox.cs" />
-    <Compile Include="6_Svg\CssBoxSvgRoot.cs" />
-    <Compile Include="7_Events\HtmlInputEventAdapter.cs" />
-    <Compile Include="1_Composers\5_RenderBoxes\RenderElementWrapperCssBox.cs" />
-    <Compile Include="1_Composers\2_Css\CssDefaults.cs" />
-    <Compile Include="4_WebDom\HtmlTextNode.cs" />
-    <Compile Include="1_Composers\1_Builder\RunListHelper.cs" />
-    <Compile Include="4_WebDom\HtmlElements.cs" />
-    <Compile Include="4_WebDom\SpecialHtmlElements.cs" />
-    <Compile Include="6_Svg\SvgCreator.cs" />
-    <Compile Include="1_Composers\5_RenderBoxes\MyHtmlVisualRoot.cs" />
-    <Compile Include="6_Svg\SvgRootEventPortal_IEventPortal.cs" />
-    <Compile Include="6_Svg\SvgRootEventPortal.cs" />
-    <Compile Include="7_Events\RenderElementEventPortal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -492,7 +453,7 @@
       <Name>PixelFarm.One.HtmlRenderer</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <Import Project="..\LayoutFarm.HtmlComposer_SH\LayoutFarm.HtmlComposer_SH.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

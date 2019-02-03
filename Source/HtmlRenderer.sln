@@ -70,12 +70,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.3_DEP_PaintLab_Neutral", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixelFarm.One.Neutral", "..\..\PixelFarm\src\x_autogen2\PixelFarm.One.Neutral\PixelFarm.One.Neutral.csproj", "{25A19C41-B3C7-4BD1-A44B-2F95D9D88100}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test4_Neutral", "Test4_Neutral\Test4_Neutral.csproj", "{47B9575B-01AD-4E4C-9FC8-34EEF262D87A}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "LayoutFarm.HtmlComposer_SH", "LayoutFarm.HtmlComposer_SH\LayoutFarm.HtmlComposer_SH.shproj", "{C0E4605D-5835-44FD-BA6C-747438D25609}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		..\..\PixelFarm\src\Tests\WinFormTestBed2\WinFormTestBed2.projitems*{14840a73-6d38-4a2a-a71c-f84dc4fb4620}*SharedItemsImports = 4
+		LayoutFarm.HtmlComposer_SH\LayoutFarm.HtmlComposer_SH.projitems*{1af17e34-4c2d-4657-b993-e0608c555111}*SharedItemsImports = 4
 		..\..\PixelFarm\src\Tests\WinFormTestBed2\WinFormTestBed2.projitems*{24b58983-d06b-48bf-bbd3-7cb919003520}*SharedItemsImports = 4
 		..\..\PixelFarm\src\PixelFarm\BackEnd.PaintFx\PdnSharedProject\PdnSharedProject.projitems*{51d63482-5697-4b16-8401-506965624657}*SharedItemsImports = 4
 		..\..\PixelFarm\src\Tests\WinFormTestBed2\WinFormTestBed2.projitems*{5cf69768-3249-45d4-8be3-b686f88c4ea0}*SharedItemsImports = 13
+		LayoutFarm.HtmlComposer_SH\LayoutFarm.HtmlComposer_SH.projitems*{c0e4605d-5835-44fd-ba6c-747438d25609}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -487,6 +493,24 @@ Global
 		{25A19C41-B3C7-4BD1-A44B-2F95D9D88100}.Release64|Mixed Platforms.Build.0 = Release|Any CPU
 		{25A19C41-B3C7-4BD1-A44B-2F95D9D88100}.Release64|x86.ActiveCfg = Release|Any CPU
 		{25A19C41-B3C7-4BD1-A44B-2F95D9D88100}.Release64|x86.Build.0 = Release|Any CPU
+		{47B9575B-01AD-4E4C-9FC8-34EEF262D87A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47B9575B-01AD-4E4C-9FC8-34EEF262D87A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47B9575B-01AD-4E4C-9FC8-34EEF262D87A}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{47B9575B-01AD-4E4C-9FC8-34EEF262D87A}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{47B9575B-01AD-4E4C-9FC8-34EEF262D87A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{47B9575B-01AD-4E4C-9FC8-34EEF262D87A}.Debug|x86.Build.0 = Debug|Any CPU
+		{47B9575B-01AD-4E4C-9FC8-34EEF262D87A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47B9575B-01AD-4E4C-9FC8-34EEF262D87A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47B9575B-01AD-4E4C-9FC8-34EEF262D87A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{47B9575B-01AD-4E4C-9FC8-34EEF262D87A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{47B9575B-01AD-4E4C-9FC8-34EEF262D87A}.Release|x86.ActiveCfg = Release|Any CPU
+		{47B9575B-01AD-4E4C-9FC8-34EEF262D87A}.Release|x86.Build.0 = Release|Any CPU
+		{47B9575B-01AD-4E4C-9FC8-34EEF262D87A}.Release64|Any CPU.ActiveCfg = Release|Any CPU
+		{47B9575B-01AD-4E4C-9FC8-34EEF262D87A}.Release64|Any CPU.Build.0 = Release|Any CPU
+		{47B9575B-01AD-4E4C-9FC8-34EEF262D87A}.Release64|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{47B9575B-01AD-4E4C-9FC8-34EEF262D87A}.Release64|Mixed Platforms.Build.0 = Release|Any CPU
+		{47B9575B-01AD-4E4C-9FC8-34EEF262D87A}.Release64|x86.ActiveCfg = Release|Any CPU
+		{47B9575B-01AD-4E4C-9FC8-34EEF262D87A}.Release64|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -516,6 +540,8 @@ Global
 		{5C694901-F73A-4AB7-9FA6-024DD591C33E} = {C3BA1377-B139-4BD6-A0D1-F486FB6E29BE}
 		{B951FF5B-D7A0-4259-880D-CB7A0C001956} = {7C48D8C8-22E8-43DB-9118-DB8A849B9D70}
 		{25A19C41-B3C7-4BD1-A44B-2F95D9D88100} = {B1ABF6D6-22A9-41BA-A9C0-5C5F42A8D623}
+		{47B9575B-01AD-4E4C-9FC8-34EEF262D87A} = {C3BA1377-B139-4BD6-A0D1-F486FB6E29BE}
+		{C0E4605D-5835-44FD-BA6C-747438D25609} = {F7F6E774-3C8A-4263-9EE2-07E286A78BF8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8E122BCF-9C21-4ED3-ADDC-19E7F173F4BF}
