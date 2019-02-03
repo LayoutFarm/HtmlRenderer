@@ -35,6 +35,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RectBoxController.cs" />
     <Compile Include="ShapeControllers.cs" />
     <Compile Include="SpriteElement.cs" />
     <Compile Include="UISprite.cs" />

@@ -170,6 +170,7 @@ namespace LayoutFarm.CustomWidgets
 
         void SimulateMouseSelection(int startX, int startY, int endX, int endY)
         {
+            //TODO: review here again***
             HtmlInputEventAdapter evAdapter = GetInputEventAdapter();
             {
                 UIMouseEventArgs mouseDown = new UIMouseEventArgs();

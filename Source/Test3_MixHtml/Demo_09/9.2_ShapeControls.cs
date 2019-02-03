@@ -131,8 +131,8 @@ namespace LayoutFarm
             //string fontfile = "../Test8_HtmlRenderer.Demo/Samples/Fonts/SOV_Thanamas.ttf";
             //_vgVisualElem = VgVisualElemHelper.CreateVgVisualElementFromGlyph(fontfile, 256, 'a'); //create from glyph
 
-            //_vgVisualElem = CreateTestRenderVx_FromImg("d:\\WImageTest\\fenec.png");
-            _vgVisualElem = VgVisualElemHelper.ReadSvgFile(svgfile);
+            _vgVisualElem = CreateTestRenderVx_FromImg("d:\\WImageTest\\fenec.png");
+            //_vgVisualElem = VgVisualElemHelper.ReadSvgFile(svgfile);
 
 
             //PixelFarm.CpuBlit.RectD org_rectD = _svgRenderVx.GetBounds(); 
@@ -238,8 +238,8 @@ namespace LayoutFarm
                     _rotationUI.Top + ev.YDiff);
             };
 
-            var spriteEvListener = new GeneralEventListener();
 
+            var spriteEvListener = new GeneralEventListener();
             _uiSprite.AttachExternalEventListener(spriteEvListener);
             spriteEvListener.MouseMove += e1 =>
             {
@@ -268,8 +268,7 @@ namespace LayoutFarm
                         _quadPolygonController.Top + e1.YDiff
                         );
                     _quadPolygonController.InvalidateOuterGraphics();
-                    //
-
+                    // 
                     _rotationUI.InvalidateGraphics();
                     _rotationUI.SetLocation(
                         _rotationUI.Left + e1.XDiff,
