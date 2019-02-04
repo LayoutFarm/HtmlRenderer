@@ -42,44 +42,12 @@ namespace TestGraphicPackage2
                 System.Diagnostics.Debug.WriteLine("can't init glfw");
                 return;
             }
- 
-            //
 
             LayoutFarm.Demo_MixHtml mix1 = new LayoutFarm.Demo_MixHtml();
             var myApp = new MyApp(mix1);
             myApp.CreateMainForm();
             GlfwApp.RunMainLoop();
 
-            //PixelFarm.CpuBlit.MemBitmapExtensions.DefaultMemBitmapIO = new PixelFarm.Drawing.WinGdi.GdiBitmapIO();
-
-            //#if DEBUG
-            //            PixelFarm.CpuBlit.Imaging.PngImageWriter.InstallImageSaveToFileService((IntPtr imgBuffer, int stride, int width, int height, string filename) =>
-            //            {
-
-            //                using (System.Drawing.Bitmap newBmp = new System.Drawing.Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb))
-            //                {
-            //                    PixelFarm.CpuBlit.Imaging.BitmapHelper.CopyToGdiPlusBitmapSameSize(imgBuffer, newBmp);
-            //                    //save
-            //                    newBmp.Save(filename);
-            //                }
-            //            });
-            //#endif
-
-
-
-            //            //-------------------------------
-            //            Application.EnableVisualStyles();
-            //            Application.SetCompatibleTextRenderingDefault(false);
-            //            //temp
-            //            //TODO: fix this , 
-            //            //LayoutFarm.Composers.Default.TextBreaker = new LayoutFarm.Composers.MyManagedTextBreaker();
-            //            //LayoutFarm.Composers.Default.TextBreaker = new LayoutFarm.Composers.MyNativeTextBreaker();
-
-            //            ////------------------------------- 
-            //            formDemoList = new LayoutFarm.Dev.FormDemoList();
-            //            formDemoList.LoadDemoList(typeof(Program));
-            //            LoadHtmlSamples(formDemoList.SamplesTreeView);
-            //            Application.Run(formDemoList);
         }
     }
 
