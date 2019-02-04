@@ -25,9 +25,10 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE; PIXEL_FARM; PIXEL_FARM_NET20; NET20; MINIMAL; GLES; GL_ENABLE; NETSTANDARD; SHARPZIPLIB;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
