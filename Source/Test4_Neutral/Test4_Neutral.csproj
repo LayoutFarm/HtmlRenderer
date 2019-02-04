@@ -13,14 +13,15 @@
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -36,6 +37,45 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\Typography\Typography.TextBreak\TextBreakerTest\IcuSimpleTextFileDictionaryProvider.cs">
+      <Link>IcuSimpleTextFileDictionaryProvider.cs</Link>
+    </Compile>
+    <Compile Include="Demo_04\4.1_UIHtmlBox.cs" />
+    <Compile Include="Demo_04\4.2_MixHtml.cs" />
+    <Compile Include="Demo_04\4.3.1_UIHtmlBoxWithResReq.cs" />
+    <Compile Include="Demo_04\4.3.2_UIHtmlBox_ContentMx.cs" />
+    <Compile Include="Demo_04\4.4_CssLeanBox.cs" />
+    <Compile Include="Demo_04\4.5_LightHtmlBox.cs" />
+    <Compile Include="Demo_04\4.6_DynamicDom1.cs" />
+    <Compile Include="Demo_05\5.0_HtmlDemoBase.cs" />
+    <Compile Include="Demo_05\5.1_Demo_MenuItems.cs" />
+    <Compile Include="Demo_05\5.2_Demo_MultipleBoxes2.cs" />
+    <Compile Include="Demo_05\5.3_Demo_TabPage.cs" />
+    <Compile Include="Demo_05\5.7_Demo_ListView.cs" />
+    <Compile Include="Demo_05\5.8_Demo_Hinge.cs" />
+    <Compile Include="Demo_05\5.9_Demo_TreeView.cs" />
+    <Compile Include="Demo_06\6.1_Demo01_CreateHtmlDomStyle1.cs" />
+    <Compile Include="Demo_06\6.2_Demo02_CreateHtmlDomStyle2.cs" />
+    <Compile Include="Demo_06\6.3_Demo03_DynamicContent1.cs" />
+    <Compile Include="Demo_06\6.4_Demo04_DynamicContent2.cs" />
+    <Compile Include="Demo_06\6.5_Demo05_Dynamic_BoxSpec.cs" />
+    <Compile Include="Demo_06\HtmlDomExtension.cs" />
+    <Compile Include="Demo_09\9.1_SvgTiger.cs" />
+    <Compile Include="Demo_09\9.2_ShapeControls.cs" />
+    <Compile Include="Demo_09\9.3_Demo_SvgViewer.cs" />
+    <Compile Include="Demo_09\9.4_SvgParts.cs" />
+    <Compile Include="HtmlHostCreatorHelper.cs" />
+    <Compile Include="NeutralTestBed\DemoBase.cs" />
+    <Compile Include="NeutralTestBed\DemoHelper.cs" />
+    <Compile Include="NeutralTestBed\ES2Utils2.cs" />
+    <Compile Include="NeutralTestBed\AppHostNeutral.cs" />
+    <Compile Include="NeutralTestBed\TestBedStartup.cs" />
+    <Compile Include="NeutralTestBed\YourImplementation\App.cs" />
+    <Compile Include="NeutralTestBed\YourImplementation\AppHost.cs" />
+    <Compile Include="NeutralTestBed\YourImplementation\AppHostExtensions.cs" />
+    <Compile Include="NeutralTestBed\YourImplementation\DemoNote.cs" />
+    <Compile Include="NeutralTestBed\YourImplementation\MyTextBreaker.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -46,6 +86,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -57,9 +98,25 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.Neutral\PixelFarm.One.Neutral.csproj">
-      <Project>{25a19c41-b3c7-4bd1-a44b-2f95d9d88100}</Project>
-      <Name>PixelFarm.One.Neutral</Name>
+    <ProjectReference Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.Platforms.WinNeutral\PaintLab.Platforms.WinNeutral.csproj">
+      <Project>{2854a4f1-0110-4b47-b773-9a5fd462755e}</Project>
+      <Name>PaintLab.Platforms.WinNeutral</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\PixelFarm.One.HtmlRenderer.csproj">
+      <Project>{367ae189-bede-436c-8186-362a771f35b2}</Project>
+      <Name>PixelFarm.One.HtmlRenderer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.HtmlComposer\LayoutFarm.HtmlComposer.csproj">
+      <Project>{1af17e34-4c2d-4657-b993-e0608c555111}</Project>
+      <Name>LayoutFarm.HtmlComposer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.YourHtmlWidget\LayoutFarm.YourHtmlWidget.csproj">
+      <Project>{9a73d7be-c7f0-47a8-8fd4-2906c4917148}</Project>
+      <Name>LayoutFarm.YourHtmlWidget</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PaintLab.Sprite\PaintLab.Sprite.csproj">
+      <Project>{5c694901-f73a-4ab7-9fa6-024dd591c33e}</Project>
+      <Name>PaintLab.Sprite</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
