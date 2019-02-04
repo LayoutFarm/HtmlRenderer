@@ -29,7 +29,7 @@ namespace YourImplementation
     class MyApp : GlfwAppBase
     {
         LayoutFarm.App _app;
-        //static GLDemoContext _demoContext = null;
+
         static InstalledTypefaceCollection s_typefaceStore;
         static LayoutFarm.OpenFontTextService s_textServices;
 
@@ -40,9 +40,7 @@ namespace YourImplementation
             s_textServices = new LayoutFarm.OpenFontTextService();
 
             _app = app;
-        }
-
-
+        } 
         public void CreateMainForm()
         {
             int w = 800, h = 600;
@@ -56,57 +54,16 @@ namespace YourImplementation
 
             _surfaceViewport = canvasViewport;
             LayoutFarm.AppHostNeutral appHost = new LayoutFarm.AppHostNeutral(canvasViewport);
-
-            //demoContext2.LoadDemo(new T45_TextureWrap());
-            //demoContext2.LoadDemo(new T48_MultiTexture());
-            //demoContext2.LoadDemo(new T107_1_DrawImages()); 
-            //_demoBase = new T108_LionFill();//new T45_TextureWrap(),T48_MultiTexture()
-            //_demoBase = new T110_DrawText();
-            //_demoBase = new T107_1_DrawImages();
-
-            //_demoContext = new GLDemoContext(w, h);
-            //_demoContext.SetTextPrinter(painter =>
-            //{
-
-            //    var printer = new PixelFarm.DrawingGL.GLBitmapGlyphTextPrinter(painter, s_textServices);
-            //    painter.TextPrinter = printer;
-            //    //create text printer for opengl 
-            //    //----------------------
-            //    //1. win gdi based
-            //    //var printer = new WinGdiFontPrinter(canvas2d, w, h);
-            //    //canvasPainter.TextPrinter = printer;
-            //    //----------------------
-            //    //2. raw vxs
-            //    //var printer = new PixelFarm.Drawing.Fonts.VxsTextPrinter(canvasPainter);
-            //    //canvasPainter.TextPrinter = printer;
-            //    //----------------------
-            //    //3. agg texture based font texture
-            //    //var printer = new AggFontPrinter(canvasPainter, w, h);
-            //    //canvasPainter.TextPrinter = printer;
-            //    //----------------------
-            //    //4. texture atlas based font texture 
-            //    //------------
-            //    //resolve request font 
-            //    //var printer = new GLBmpGlyphTextPrinter(canvasPainter, YourImplementation.BootStrapWinGdi.myFontLoader);
-            //    //canvasPainter.TextPrinter = printer;
-
-            //});
-
-
-            //form1.SetDrawFrameDelegate(e => _demoContext.Render());
             form1.SetDrawFrameDelegate(e =>
             {
                 _surfaceViewport.PaintMeFullMode();
             });
             if (_app != null)
             {
-                // _demoContext.LoadApp(_app);
                 appHost.StartApp(_app);//start app
                 canvasViewport.TopDownRecalculateContent();
                 canvasViewport.PaintMe();
             }
-
-            //_demoContext.LoadDemo(_demoBase);
         }
         public override void UpdateViewContent(PaintEventArgs formRenderUpdateEventArgs)
         {

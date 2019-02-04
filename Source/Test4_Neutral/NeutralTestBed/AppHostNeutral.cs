@@ -3,24 +3,16 @@ using System;
 using System.IO;
 
 using PaintLab.Svg;
-using LayoutFarm.UI;
 using PixelFarm.Drawing;
 //
 using PixelFarm.DrawingGL;
-using YourImplementation;
 using LayoutFarm.UI.WinNeutral;
 
 namespace LayoutFarm
 {
     public class AppHostNeutral : AppHost
     {
-        ////if ENABLE OPENGL
-        ////-----------------------------------
-        //OpenTK.MyGLControl _glControl;
-        //CpuBlitGLESUIElement _bridgeUI; 
-        ////----------------------------------- 
-        //LayoutFarm.UI.UISurfaceViewportControl _vw;
-        //System.Windows.Forms.Form _ownerForm;
+        
         UISurfaceViewportControl _vw;
         public AppHostNeutral(UISurfaceViewportControl vw)
         {
@@ -31,58 +23,7 @@ namespace LayoutFarm
             GLPainterContext pcx = _vw.GetGLRenderSurface();
             GLPainter glPainter = _vw.GetGLPainter();
             RootGraphic rootGfx = _vw.RootGfx;
-            //
         }
-        //void SetUpGLSurface(OpenTK.MyGLControl glControl)
-        //{
-        //    if (glControl == null) return;
-        //    //TODO: review here
-        //    //Temp: 
-        //    _glControl = glControl;
-        //    _glControl.SetGLPaintHandler(null);
-        //    //
-        //    IntPtr hh1 = _glControl.Handle; //ensure that contrl handler is created
-        //    _glControl.MakeCurrent();
-
-        //    if (_vw.InnerViewportKind == InnerViewportKind.GdiPlusOnGLES)
-        //    {
-        //        _bridgeUI = new GdiOnGLESUIElement(glControl.Width, glControl.Height);
-        //    }
-        //    else
-        //    {
-        //        //pure agg's cpu blit 
-        //        _bridgeUI = new CpuBlitGLESUIElement(glControl.Width, glControl.Height);
-        //    }
-
-
-        //    //optional***
-        //    //_bridgeUI.SetUpdateCpuBlitSurfaceDelegate((p, area) =>
-        //    //{
-        //    //    _client.DrawToThisCanvas(_bridgeUI.GetDrawBoard(), area);
-        //    //});
-
-
-        //    GLPainterContext pcx = _vw.GetGLRenderSurface();
-        //    GLPainter glPainter = _vw.GetGLPainter();
-
-        //    RootGraphic rootGfx = _vw.RootGfx;
-        //    _bridgeUI.CreatePrimaryRenderElement(pcx, glPainter, rootGfx);
-
-
-
-        //    //*****
-        //    RenderBoxBase renderE = (RenderBoxBase)_bridgeUI.GetPrimaryRenderElement(rootGfx);
-        //    rootGfx.AddChild(renderE);
-        //    rootGfx.SetPrimaryContainerElement(renderE);
-        //    //***
-        //}
-
-        ////
-        //protected override UISurfaceViewportControl GetHostSurfaceViewportControl()
-        //{
-        //    return _vw;
-        //}
-
         public override string OwnerFormTitle
         {
             get => "";
@@ -161,8 +102,14 @@ namespace LayoutFarm
 
         }
 
-
-        PixelFarm.CpuBlit.MemBitmap CreateBitmap(VgVisualElement renderVx, int reqW, int reqH)
+        /// <summary>
+        /// create MemBitmap from input svg
+        /// </summary>
+        /// <param name="renderVx"></param>
+        /// <param name="reqW"></param>
+        /// <param name="reqH"></param>
+        /// <returns></returns>
+        protected PixelFarm.CpuBlit.MemBitmap CreateBitmap(VgVisualElement renderVx, int reqW, int reqH)
         {
 
             PixelFarm.CpuBlit.RectD bound = renderVx.GetRectBounds();
@@ -184,5 +131,6 @@ namespace LayoutFarm
 
             return backingBmp;
         }
+
     }
 }
