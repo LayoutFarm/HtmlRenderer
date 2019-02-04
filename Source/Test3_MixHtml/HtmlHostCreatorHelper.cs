@@ -74,7 +74,9 @@ namespace LayoutFarm
 
         public static PixelFarm.CpuBlit.MemBitmap LoadImage(string imgName)
         {
-
+            //TODO: review here again
+            //1. do not access the system file directly
+            //2.  ask for a file from 'host'
             if (!System.IO.File.Exists(imgName))
             {
                 return null;

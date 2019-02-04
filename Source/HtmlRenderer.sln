@@ -78,14 +78,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaintLab.Platforms.WinForms
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaintLab.Platforms.WinNeutral", "..\..\PixelFarm\src\PixelFarm\PaintLab.Platforms.WinNeutral\PaintLab.Platforms.WinNeutral.csproj", "{2854A4F1-0110-4B47-B773-9A5FD462755E}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Test3_MixHtml_SH", "Test3_MixHtml_SH\Test3_MixHtml_SH.shproj", "{BFF5F427-429E-4B22-ACBB-0C741EF63895}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Test3_MixHtml_SH\Test3_MixHtml_SH.projitems*{14840a73-6d38-4a2a-a71c-f84dc4fb4620}*SharedItemsImports = 4
 		..\..\PixelFarm\src\Tests\WinFormTestBed2\WinFormTestBed2.projitems*{14840a73-6d38-4a2a-a71c-f84dc4fb4620}*SharedItemsImports = 4
 		..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing.GdiPlus_SH\PixelFarm.Drawing.GdiPlus_SH.projitems*{1aa171e3-523c-4dd5-a169-de6322991ff5}*SharedItemsImports = 4
 		..\..\PixelFarm\src\Tests\WinFormTestBed2\WinFormTestBed2.projitems*{24b58983-d06b-48bf-bbd3-7cb919003520}*SharedItemsImports = 4
 		..\..\PixelFarm\src\PixelFarm\BackEnd.NativeWindows_SH\BackEnd.NativeWindows_SH.projitems*{2854a4f1-0110-4b47-b773-9a5fd462755e}*SharedItemsImports = 4
 		..\..\PixelFarm\src\PixelFarm\MiniOpenTKWinForms_SH\MiniOpenTKWinForms_SH.projitems*{4602b28b-eeec-4a69-854c-b00b8b616837}*SharedItemsImports = 4
 		..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing.GdiPlus_SH\PixelFarm.Drawing.GdiPlus_SH.projitems*{4602b28b-eeec-4a69-854c-b00b8b616837}*SharedItemsImports = 4
+		Test3_MixHtml_SH\Test3_MixHtml_SH.projitems*{47b9575b-01ad-4e4c-9fc8-34eef262d87a}*SharedItemsImports = 4
 		..\..\PixelFarm\src\PixelFarm\BackEnd.PaintFx\PdnSharedProject\PdnSharedProject.projitems*{51d63482-5697-4b16-8401-506965624657}*SharedItemsImports = 4
 		..\..\Typography\Typography.GlyphLayout\Typography.GlyphLayout.projitems*{5278fab9-33f0-40e0-adca-7237ea0e935b}*SharedItemsImports = 4
 		..\..\Typography\Typography.OpenFont\Typography.OpenFont.projitems*{5278fab9-33f0-40e0-adca-7237ea0e935b}*SharedItemsImports = 4
@@ -93,6 +97,7 @@ Global
 		..\..\Typography\Typography.TextFlow\Typography.TextFlow.projitems*{5278fab9-33f0-40e0-adca-7237ea0e935b}*SharedItemsImports = 4
 		..\..\Typography\Typography.TextServices\Typography.TextServices.projitems*{5278fab9-33f0-40e0-adca-7237ea0e935b}*SharedItemsImports = 4
 		..\..\PixelFarm\src\Tests\WinFormTestBed2\WinFormTestBed2.projitems*{5cf69768-3249-45d4-8be3-b686f88c4ea0}*SharedItemsImports = 13
+		Test3_MixHtml_SH\Test3_MixHtml_SH.projitems*{bff5f427-429e-4b22-acbb-0c741ef63895}*SharedItemsImports = 13
 		..\..\Typography\FontAtlas\FontAtlas.projitems*{ec1307c6-309f-43ea-bfcc-5219e2f5a103}*SharedItemsImports = 4
 		..\..\Typography\Typography.Contours\Typography.Contours.projitems*{ec1307c6-309f-43ea-bfcc-5219e2f5a103}*SharedItemsImports = 4
 		..\..\Typography\Typography.MsdfGen\Typography.MsdfGen.projitems*{ec1307c6-309f-43ea-bfcc-5219e2f5a103}*SharedItemsImports = 4
@@ -631,6 +636,7 @@ Global
 		{5278FAB9-33F0-40E0-ADCA-7237EA0E935B} = {7C48D8C8-22E8-43DB-9118-DB8A849B9D70}
 		{4602B28B-EEEC-4A69-854C-B00B8B616837} = {7C48D8C8-22E8-43DB-9118-DB8A849B9D70}
 		{2854A4F1-0110-4B47-B773-9A5FD462755E} = {7C48D8C8-22E8-43DB-9118-DB8A849B9D70}
+		{BFF5F427-429E-4B22-ACBB-0C741EF63895} = {C3BA1377-B139-4BD6-A0D1-F486FB6E29BE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8E122BCF-9C21-4ED3-ADDC-19E7F173F4BF}

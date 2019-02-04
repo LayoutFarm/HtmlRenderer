@@ -37,44 +37,30 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\PixelFarm\src\Tests\WinFormTestBed2\YourImplementation\App.cs">
+      <Link>NeutralTestBed\YourImplementation\App.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\Tests\WinFormTestBed2\YourImplementation\AppHost.cs">
+      <Link>NeutralTestBed\YourImplementation\AppHost.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\Tests\WinFormTestBed2\YourImplementation\AppHostExtensions.cs">
+      <Link>NeutralTestBed\YourImplementation\AppHostExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\Tests\WinFormTestBed2\YourImplementation\DemoNote.cs">
+      <Link>NeutralTestBed\YourImplementation\DemoNote.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\Tests\WinFormTestBed2\YourImplementation\MyTextBreaker.cs">
+      <Link>NeutralTestBed\YourImplementation\MyTextBreaker.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\PixelFarm\src\Tests\WinFormTestBed2\YourImplementation\RelativePathBuilder.cs">
+      <Link>NeutralTestBed\YourImplementation\RelativePathBuilder.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Typography\Typography.TextBreak\TextBreakerTest\IcuSimpleTextFileDictionaryProvider.cs">
       <Link>IcuSimpleTextFileDictionaryProvider.cs</Link>
     </Compile>
-    <Compile Include="Demo_04\4.1_UIHtmlBox.cs" />
-    <Compile Include="Demo_04\4.2_MixHtml.cs" />
-    <Compile Include="Demo_04\4.3.1_UIHtmlBoxWithResReq.cs" />
-    <Compile Include="Demo_04\4.3.2_UIHtmlBox_ContentMx.cs" />
-    <Compile Include="Demo_04\4.4_CssLeanBox.cs" />
-    <Compile Include="Demo_04\4.5_LightHtmlBox.cs" />
-    <Compile Include="Demo_04\4.6_DynamicDom1.cs" />
-    <Compile Include="Demo_05\5.0_HtmlDemoBase.cs" />
-    <Compile Include="Demo_05\5.1_Demo_MenuItems.cs" />
-    <Compile Include="Demo_05\5.2_Demo_MultipleBoxes2.cs" />
-    <Compile Include="Demo_05\5.3_Demo_TabPage.cs" />
-    <Compile Include="Demo_05\5.7_Demo_ListView.cs" />
-    <Compile Include="Demo_05\5.8_Demo_Hinge.cs" />
-    <Compile Include="Demo_05\5.9_Demo_TreeView.cs" />
-    <Compile Include="Demo_06\6.1_Demo01_CreateHtmlDomStyle1.cs" />
-    <Compile Include="Demo_06\6.2_Demo02_CreateHtmlDomStyle2.cs" />
-    <Compile Include="Demo_06\6.3_Demo03_DynamicContent1.cs" />
-    <Compile Include="Demo_06\6.4_Demo04_DynamicContent2.cs" />
-    <Compile Include="Demo_06\6.5_Demo05_Dynamic_BoxSpec.cs" />
-    <Compile Include="Demo_06\HtmlDomExtension.cs" />
-    <Compile Include="Demo_09\9.1_SvgTiger.cs" />
-    <Compile Include="Demo_09\9.2_ShapeControls.cs" />
-    <Compile Include="Demo_09\9.3_Demo_SvgViewer.cs" />
-    <Compile Include="Demo_09\9.4_SvgParts.cs" />
     <Compile Include="HtmlHostCreatorHelper.cs" />
-    <Compile Include="NeutralTestBed\DemoBase.cs" />
-    <Compile Include="NeutralTestBed\DemoHelper.cs" />
-    <Compile Include="NeutralTestBed\ES2Utils2.cs" />
     <Compile Include="NeutralTestBed\AppHostNeutral.cs" />
     <Compile Include="NeutralTestBed\TestBedStartup.cs" />
-    <Compile Include="NeutralTestBed\YourImplementation\App.cs" />
-    <Compile Include="NeutralTestBed\YourImplementation\AppHost.cs" />
-    <Compile Include="NeutralTestBed\YourImplementation\AppHostExtensions.cs" />
-    <Compile Include="NeutralTestBed\YourImplementation\DemoNote.cs" />
-    <Compile Include="NeutralTestBed\YourImplementation\MyTextBreaker.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -119,5 +105,6 @@
       <Name>PaintLab.Sprite</Name>
     </ProjectReference>
   </ItemGroup>
+  <Import Project="..\Test3_MixHtml_SH\Test3_MixHtml_SH.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,4 +1,5 @@
-﻿//Apache2, 2014-present, WinterDev
+﻿
+//Apache2, 2014-present, WinterDev
 //#define GL_ENABLE
 using System;
 using PixelFarm;
@@ -8,7 +9,6 @@ using LayoutFarm.UI;
 using LayoutFarm.UI.WinNeutral;
 using PixelFarm.CpuBlit;
 using System.IO;
-using Mini;
 namespace YourImplementation
 {
     //TODO: review this with TestGLES_GLFW_Neutral
@@ -101,7 +101,7 @@ namespace YourImplementation
             });
             if (_app != null)
             {
-               // _demoContext.LoadApp(_app);
+                // _demoContext.LoadApp(_app);
                 appHost.StartApp(_app);//start app
                 canvasViewport.TopDownRecalculateContent();
                 canvasViewport.PaintMe();
@@ -446,44 +446,5 @@ namespace YourImplementation
         }
     }
 
-    public static class RelativePathBuilder
-    {
-        public static string SearchBackAndBuildFolderPath(string currentdir, string searchBackTo, string thenAppendWith)
-        {
-            //Helper function
-            string[] dirs = currentdir.Split(new char[] { '\\', '/' });
-            //count step back
-            bool found = false;
-            int stepBackCount = 0;
-            for (int i = dirs.Length - 1; i >= 0; --i)
-            {
-                if (dirs[i] == searchBackTo)
-                {
-                    found = true;
-                    break;
-                }
-
-                stepBackCount++;
-            }
-
-            if (found)
-            {
-                //create new path
-                System.Text.StringBuilder stbuilder = new System.Text.StringBuilder();
-                for (int n = 0; n < stepBackCount; ++n)
-                {
-                    stbuilder.Append("..\\");
-                }
-                //
-                stbuilder.Append(thenAppendWith);
-                return stbuilder.ToString();
-            }
-            else
-            {
-                //not found
-                throw new NotSupportedException();//**
-            }
-        }
-
-    }
+    
 }
