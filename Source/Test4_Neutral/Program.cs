@@ -45,7 +45,7 @@ namespace TestGraphicPackage2
 
             LayoutFarm.Demo_MixHtml mix1 = new LayoutFarm.Demo_MixHtml();
             var myApp = new MyApp(mix1);
-            myApp.CreateMainForm();
+            myApp.CreateMainForm(800, 600);
             GlfwApp.RunMainLoop();
 
         }

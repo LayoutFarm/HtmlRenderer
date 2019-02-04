@@ -12,14 +12,7 @@ namespace YourImplementation
 {
     //TODO: review this with TestGLES_GLFW_Neutral
 
-    class MyGLFWForm : GlFwForm
-    {
-        public MyGLFWForm(int w, int h, string title)
-            : base(w, h, title)
-        {
-        }
-    }
-
+     
     abstract class GlfwAppBase
     {
         public abstract void UpdateViewContent(PaintEventArgs formRenderUpdateEventArgs);
@@ -40,11 +33,11 @@ namespace YourImplementation
             s_textServices = new LayoutFarm.OpenFontTextService();
 
             _app = app;
-        } 
-        public void CreateMainForm()
+        }
+        public void CreateMainForm(int w, int h)
         {
-            int w = 800, h = 600;
-            MyGLFWForm form1 = new MyGLFWForm(w, h, "PixelFarm on GLfw and GLES2");
+
+            GlFwForm form1 = new GlFwForm(w, h, "PixelFarm on GLfw and GLES2");
             MyRootGraphic myRootGfx = new MyRootGraphic(w, h, s_textServices);
             var canvasViewport = new UISurfaceViewportControl();
             canvasViewport.InitRootGraphics(myRootGfx, myRootGfx.TopWinEventPortal, InnerViewportKind.GLES);
@@ -119,7 +112,7 @@ namespace YourImplementation
             else
             {
                 var myApp = new MyApp();
-                myApp.CreateMainForm();
+                myApp.CreateMainForm(800, 600);
 
             }
             GlfwApp.RunMainLoop();

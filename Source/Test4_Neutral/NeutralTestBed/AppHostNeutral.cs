@@ -5,14 +5,14 @@ using System.IO;
 using PaintLab.Svg;
 using PixelFarm.Drawing;
 //
-using PixelFarm.DrawingGL;
+
 using LayoutFarm.UI.WinNeutral;
 
 namespace LayoutFarm
 {
     public class AppHostNeutral : AppHost
     {
-        
+
         UISurfaceViewportControl _vw;
         public AppHostNeutral(UISurfaceViewportControl vw)
         {
@@ -20,9 +20,6 @@ namespace LayoutFarm
             //this specific for WindowForm viewport
             //---------------------------------------
             _vw = vw;
-            GLPainterContext pcx = _vw.GetGLRenderSurface();
-            GLPainter glPainter = _vw.GetGLPainter();
-            RootGraphic rootGfx = _vw.RootGfx;
         }
         public override string OwnerFormTitle
         {
