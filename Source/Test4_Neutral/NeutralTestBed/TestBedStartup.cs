@@ -30,9 +30,11 @@ namespace YourImplementation
     class MyApp : GlfwAppBase
     {
         LayoutFarm.App _app;
-        static GLDemoContext _demoContext = null;
+        //static GLDemoContext _demoContext = null;
         static InstalledTypefaceCollection s_typefaceStore;
         static LayoutFarm.OpenFontTextService s_textServices;
+
+        UISurfaceViewportControl _surfaceViewport;
         public MyApp(LayoutFarm.App app = null)
         {
             s_typefaceStore = new InstalledTypefaceCollection();
@@ -52,6 +54,8 @@ namespace YourImplementation
             canvasViewport.SetBounds(0, 0, w, h);
             form1.Controls.Add(canvasViewport);
 
+
+            _surfaceViewport = canvasViewport;
             LayoutFarm.AppHostNeutral appHost = new LayoutFarm.AppHostNeutral(canvasViewport);
 
             //demoContext2.LoadDemo(new T45_TextureWrap());
@@ -61,46 +65,53 @@ namespace YourImplementation
             //_demoBase = new T110_DrawText();
             //_demoBase = new T107_1_DrawImages();
 
-            _demoContext = new GLDemoContext(w, h);
-            _demoContext.SetTextPrinter(painter =>
+            //_demoContext = new GLDemoContext(w, h);
+            //_demoContext.SetTextPrinter(painter =>
+            //{
+
+            //    var printer = new PixelFarm.DrawingGL.GLBitmapGlyphTextPrinter(painter, s_textServices);
+            //    painter.TextPrinter = printer;
+            //    //create text printer for opengl 
+            //    //----------------------
+            //    //1. win gdi based
+            //    //var printer = new WinGdiFontPrinter(canvas2d, w, h);
+            //    //canvasPainter.TextPrinter = printer;
+            //    //----------------------
+            //    //2. raw vxs
+            //    //var printer = new PixelFarm.Drawing.Fonts.VxsTextPrinter(canvasPainter);
+            //    //canvasPainter.TextPrinter = printer;
+            //    //----------------------
+            //    //3. agg texture based font texture
+            //    //var printer = new AggFontPrinter(canvasPainter, w, h);
+            //    //canvasPainter.TextPrinter = printer;
+            //    //----------------------
+            //    //4. texture atlas based font texture 
+            //    //------------
+            //    //resolve request font 
+            //    //var printer = new GLBmpGlyphTextPrinter(canvasPainter, YourImplementation.BootStrapWinGdi.myFontLoader);
+            //    //canvasPainter.TextPrinter = printer;
+
+            //});
+
+
+            //form1.SetDrawFrameDelegate(e => _demoContext.Render());
+            form1.SetDrawFrameDelegate(e =>
             {
-
-                var printer = new PixelFarm.DrawingGL.GLBitmapGlyphTextPrinter(painter, s_textServices);
-                painter.TextPrinter = printer;
-                //create text printer for opengl 
-                //----------------------
-                //1. win gdi based
-                //var printer = new WinGdiFontPrinter(canvas2d, w, h);
-                //canvasPainter.TextPrinter = printer;
-                //----------------------
-                //2. raw vxs
-                //var printer = new PixelFarm.Drawing.Fonts.VxsTextPrinter(canvasPainter);
-                //canvasPainter.TextPrinter = printer;
-                //----------------------
-                //3. agg texture based font texture
-                //var printer = new AggFontPrinter(canvasPainter, w, h);
-                //canvasPainter.TextPrinter = printer;
-                //----------------------
-                //4. texture atlas based font texture 
-                //------------
-                //resolve request font 
-                //var printer = new GLBmpGlyphTextPrinter(canvasPainter, YourImplementation.BootStrapWinGdi.myFontLoader);
-                //canvasPainter.TextPrinter = printer;
-
+                _surfaceViewport.PaintMeFullMode();
             });
-
-
-            form1.SetDrawFrameDelegate(e => _demoContext.Render());
             if (_app != null)
             {
-                _demoContext.LoadApp(_app);
-                _app.StartApp(appHost);//start app
+               // _demoContext.LoadApp(_app);
+                appHost.StartApp(_app);//start app
+                canvasViewport.TopDownRecalculateContent();
+                canvasViewport.PaintMe();
             }
 
             //_demoContext.LoadDemo(_demoBase);
         }
         public override void UpdateViewContent(PaintEventArgs formRenderUpdateEventArgs)
         {
+            _surfaceViewport.PaintMeFullMode();
         }
     }
 
@@ -209,6 +220,7 @@ namespace YourImplementation
 
     static class PngIOStorage
     {
+        //TODO: remove duplicated code here!!
 
         public static MemBitmap Read(Stream strm)
         {
