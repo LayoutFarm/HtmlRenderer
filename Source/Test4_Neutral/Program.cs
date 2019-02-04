@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using PixelFarm.Forms;
 using YourImplementation;
-using LayoutFarm;
 
 namespace TestGraphicPackage2
 {

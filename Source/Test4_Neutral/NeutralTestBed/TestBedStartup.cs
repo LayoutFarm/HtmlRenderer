@@ -1,6 +1,6 @@
 ﻿
 //Apache2, 2014-present, WinterDev
-//#define GL_ENABLE
+
 using System;
 using PixelFarm;
 using PixelFarm.Forms;
@@ -12,7 +12,7 @@ namespace YourImplementation
 {
     //TODO: review this with TestGLES_GLFW_Neutral
 
-     
+
     abstract class GlfwAppBase
     {
         public abstract void UpdateViewContent(PaintEventArgs formRenderUpdateEventArgs);
@@ -29,8 +29,11 @@ namespace YourImplementation
         UISurfaceViewportControl _surfaceViewport;
         public MyApp(LayoutFarm.App app = null)
         {
-            s_typefaceStore = new InstalledTypefaceCollection();
-            s_textServices = new LayoutFarm.OpenFontTextService();
+            if (s_typefaceStore == null)
+            {
+                s_typefaceStore = new InstalledTypefaceCollection();
+                s_textServices = new LayoutFarm.OpenFontTextService();
+            }
 
             _app = app;
         }
