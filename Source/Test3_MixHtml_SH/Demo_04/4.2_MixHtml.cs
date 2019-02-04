@@ -11,9 +11,12 @@ namespace LayoutFarm
             {
                 string html = @"<html><head></head><body><div>OK1</div><div>OK2</div></body></html>";
 
-                if (System.IO.File.Exists("..\\Test8_HtmlRenderer.Demo\\Samples\\0_acid1_dev\\00.htm"))
+
+                string testFilename = @"D:\projects\HtmlRenderer\Source\Test8_HtmlRenderer.Demo\Samples\0_acid1_dev\00.htm";
+                //string testFilename = "..\\Test8_HtmlRenderer.Demo\\Samples\\0_acid1_dev\\00.htm";
+                if (System.IO.File.Exists(testFilename))
                 {
-                    html = System.IO.File.ReadAllText("..\\Test8_HtmlRenderer.Demo\\Samples\\0_acid1_dev\\00.htm");
+                    html = System.IO.File.ReadAllText(testFilename);
                 }
 
 
