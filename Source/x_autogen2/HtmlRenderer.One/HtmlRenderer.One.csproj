@@ -233,6 +233,9 @@
     <Compile Include="..\..\..\..\Typography\Typography.GlyphLayout\UserCharToGlyphIndexMap.cs">
       <Link>Typography\Typography.GlyphLayout\UserCharToGlyphIndexMap.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\Typography\Typography.MsdfGen\BasicElements.cs">
+      <Link>Typography\Typography.MsdfGen\BasicElements.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\Typography\Typography.MsdfGen\EdgeColor.cs">
       <Link>Typography\Typography.MsdfGen\EdgeColor.cs</Link>
     </Compile>

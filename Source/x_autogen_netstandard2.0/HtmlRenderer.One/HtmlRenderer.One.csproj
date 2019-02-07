@@ -98,6 +98,7 @@
     <Compile Include="..\..\..\..\Typography\Typography.GlyphLayout\MeasureStringBox.cs" Link="Typography\Typography.GlyphLayout\MeasureStringBox.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.GlyphLayout\PixelScaleLayoutExtensions.cs" Link="Typography\Typography.GlyphLayout\PixelScaleLayoutExtensions.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.GlyphLayout\UserCharToGlyphIndexMap.cs" Link="Typography\Typography.GlyphLayout\UserCharToGlyphIndexMap.cs" />
+    <Compile Include="..\..\..\..\Typography\Typography.MsdfGen\BasicElements.cs" Link="Typography\Typography.MsdfGen\BasicElements.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.MsdfGen\EdgeColor.cs" Link="Typography\Typography.MsdfGen\EdgeColor.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.MsdfGen\EdgeColoring.cs" Link="Typography\Typography.MsdfGen\EdgeColoring.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.MsdfGen\EdgeHolder.cs" Link="Typography\Typography.MsdfGen\EdgeHolder.cs" />
