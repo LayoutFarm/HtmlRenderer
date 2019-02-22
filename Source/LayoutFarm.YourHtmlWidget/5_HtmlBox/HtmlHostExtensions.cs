@@ -32,7 +32,7 @@ namespace LayoutFarm.HtmlBoxes
             LayoutVisitor lay = htmlHost.GetSharedHtmlLayoutVisitor(htmlContainer);
             htmlContainer.PerformLayout(lay);
             htmlHost.ReleaseHtmlLayoutVisitor(lay);
-            htmlFrgmentRenderBox.SetHtmlContainer(htmlContainer, rootElement);
+            htmlFrgmentRenderBox.SetHtmlVisualRoot(htmlContainer, rootElement);
             return htmlContainer;
         }
         public static MyHtmlVisualRoot CreateHtmlVisualRootFromFragmentHtml(
@@ -71,7 +71,7 @@ namespace LayoutFarm.HtmlBoxes
             LayoutVisitor lay = htmlHost.GetSharedHtmlLayoutVisitor(htmlContainer);
             htmlContainer.PerformLayout(lay);
             htmlHost.ReleaseHtmlLayoutVisitor(lay);
-            htmlFrgmentRenderBox.SetHtmlContainer(htmlContainer, rootElement);
+            htmlFrgmentRenderBox.SetHtmlVisualRoot(htmlContainer, rootElement);
             return htmlContainer;
         }
 
@@ -102,7 +102,7 @@ namespace LayoutFarm.HtmlBoxes
             LayoutVisitor lay = htmlHost.GetSharedHtmlLayoutVisitor(htmlContainer);
             htmlContainer.PerformLayout(lay);
             htmlHost.ReleaseHtmlLayoutVisitor(lay);
-            htmlFrgmentRenderBox.SetHtmlContainer(htmlContainer, rootElement);
+            htmlFrgmentRenderBox.SetHtmlVisualRoot(htmlContainer, rootElement);
             return htmlContainer;
         }
     }
