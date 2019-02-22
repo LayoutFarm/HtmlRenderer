@@ -1,16 +1,48 @@
 ﻿//MIT, 2015-present, WinterDev  
 
+using System.Collections.Generic;
 using LayoutFarm.Scripting;
 namespace LayoutFarm.WebDom.Impl
 {
     partial class HtmlElement : IHtmlElement
     {
+        Dictionary<string, string> _userDataDic;
 
+        void IHtmlElement.setData(string key, string value)
+        {
+            if (key == null) return;
+
+            if (_userDataDic == null)
+            {
+                _userDataDic = new Dictionary<string, string>();
+            }
+
+            if (value == null)
+            {
+                //remove the key
+                _userDataDic.Remove(key);
+            }
+            else
+            {
+                _userDataDic[key] = value; //replace?
+            }
+
+        }
+        string IHtmlElement.getData(string key)
+        {
+            if (_userDataDic == null) return null;
+            //
+            _userDataDic.TryGetValue(key, out string value);
+            return value;
+        }
         void IHtmlElement.setAttribute(string attrName, string value)
         {
             this.SetAttribute(attrName, value);
         }
-
+        string IHtmlElement.getAttribute(string attrName)
+        {
+            return "";
+        }
         void IHtmlElement.appendChild(INode childNode)
         {
             this.AddChild((DomNode)childNode);
