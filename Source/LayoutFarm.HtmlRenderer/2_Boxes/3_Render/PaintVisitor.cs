@@ -190,7 +190,7 @@ namespace LayoutFarm.HtmlBoxes
         /// <summary>
         /// turn on/off wire frame
         /// </summary>
-        public static bool dbugDrawWireFrame = true;
+        public static bool dbugDrawWireFrame = false;
         public void dbugDrawDiagonalBox(Color color, float x1, float y1, float x2, float y2)
         {
             if (!dbugDrawWireFrame)
@@ -212,7 +212,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 return;
             }
-            var g = _drawBoard;
+
             this.dbugDrawDiagonalBox(color, rect.Left, rect.Top, rect.Right, rect.Bottom);
         }
 #endif
@@ -272,10 +272,15 @@ namespace LayoutFarm.HtmlBoxes
                   (int)size.Width, (int)size.Height), 0
                   );
         }
+        public RenderVxFormattedString CreateRenderVx(char[] str, int startAt, int len)
+        {
+            return _drawBoard.GetPainter().CreateRenderVx(str, startAt, len);
+        }
+        public void DrawText(RenderVxFormattedString formattedStr, PointF point, SizeF size)
+        {
+            _drawBoard.GetPainter().DrawString(formattedStr, point.X, point.Y);
+        }
 #if DEBUG
-
-
-
         int dbugIndentLevel;
         internal bool dbugEnableLogRecord;
         internal List<string> dbugLogRecords = new List<string>();

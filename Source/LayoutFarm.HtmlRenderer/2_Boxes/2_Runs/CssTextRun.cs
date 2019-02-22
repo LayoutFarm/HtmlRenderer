@@ -159,5 +159,17 @@ namespace LayoutFarm.HtmlBoxes
             string txt = this.Text;
             return string.Format("{0} ({1} char{2})", txt.Replace(' ', '-').Replace("\n", "\\n"), txt.Length, txt.Length != 1 ? "s" : string.Empty);
         }
+
+
+        PixelFarm.Drawing.RenderVxFormattedString _cacheRenderVx;
+        public static PixelFarm.Drawing.RenderVxFormattedString GetCachedFormatString(CssTextRun textrun) => textrun._cacheRenderVx;
+        public static void SetCachedFormattedString(CssTextRun textrun, PixelFarm.Drawing.RenderVxFormattedString cache)
+        {
+            if (textrun._cacheRenderVx != null && textrun._cacheRenderVx != cache)
+            {
+                textrun._cacheRenderVx.Dispose();
+            }
+            textrun._cacheRenderVx = cache;
+        }
     }
 }

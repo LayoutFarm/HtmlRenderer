@@ -142,7 +142,7 @@ namespace LayoutFarm.HtmlBoxes
             }
             else
             {
-                Color color = Color.Green;
+                Color color = Color.FromArgb(255, 0, 128, 0);
                 switch (_cssDisplay)
                 {
                     case Css.CssDisplay.TableCell:

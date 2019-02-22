@@ -213,7 +213,9 @@ namespace LayoutFarm.Composers
                     spec.Height = cssValue.AsLength();
                     break;
                 case WellknownCssPropertyName.BackgroundColor:
+                    spec.Defreeze();
                     spec.BackgroundColor = AsColor(cssValue);
+                    spec.Freeze();
                     break;
                 case WellknownCssPropertyName.BackgroundImage:
                     spec.BackgroundImageBinder = new ImageBinder(cssValue.GetTranslatedStringValue());

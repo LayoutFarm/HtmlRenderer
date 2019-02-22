@@ -465,11 +465,37 @@ namespace LayoutFarm.HtmlBoxes
                             }
 
                             CssTextRun textRun = (CssTextRun)w;
-                            p.DrawText(CssBox.UnsafeGetTextBuffer(w.OwnerBox),
+                            //p.DrawText(CssBox.UnsafeGetTextBuffer(w.OwnerBox),
+                            //                              textRun.TextStartIndex,
+                            //                              textRun.TextLength,
+                            //                              new PointF(w.Left, w.Top),
+                            //                              new SizeF(w.Width, w.Height));
+
+
+                            RenderVxFormattedString formattedStr = CssTextRun.GetCachedFormatString(textRun);
+                            if (formattedStr == null)
+                            {
+                                formattedStr = p.CreateRenderVx(CssBox.UnsafeGetTextBuffer(w.OwnerBox),
+                                                            textRun.TextStartIndex,
+                                                            textRun.TextLength);
+
+                                CssTextRun.SetCachedFormattedString(textRun, formattedStr);
+                            }
+                            if (formattedStr != null)
+                            {
+                                p.DrawText(formattedStr,
+                                                           new PointF(w.Left, w.Top),
+                                                           new SizeF(w.Width, w.Height));
+                            }
+                            else
+                            {
+                                p.DrawText(CssBox.UnsafeGetTextBuffer(w.OwnerBox),
                                                            textRun.TextStartIndex,
                                                            textRun.TextLength,
                                                            new PointF(w.Left, w.Top),
                                                            new SizeF(w.Width, w.Height));
+                            }
+
                         }
                         break;
                     default:

@@ -97,7 +97,7 @@ namespace LayoutFarm.WebDom
                     break;
             }
             //--------------------
-            var attrNameIndex = this.OwnerDocument.AddStringIfNotExists(attr.LocalName);
+            int attrNameIndex = this.OwnerDocument.AddStringIfNotExists(attr.LocalName);
             _myAttributes[attrNameIndex] = attr;//update or replace 
             attr.SetParent(this);
             NotifyChange(ElementChangeKind.AddAttribute);
