@@ -10,6 +10,7 @@ namespace LayoutFarm.HtmlBoxes
     {
         MyHtmlVisualRoot _myHtmlVisualRoot;
         CssBox _cssBox;
+        Backbuffer _builtInBackBuffer;
 
         public HtmlRenderBox(RootGraphic rootgfx,
             int width, int height)
@@ -65,21 +66,39 @@ namespace LayoutFarm.HtmlBoxes
             }
             else
             {
+
                 PaintVisitor painter = PaintVisitorStock.GetSharedPaintVisitor(_myHtmlVisualRoot, canvas);
+                if (_builtInBackBuffer == null)
+                {
+                    _builtInBackBuffer = painter.CreateOffscreenDrawBoard(this.Width, this.Height);
+                }
+
+                if (_builtInBackBuffer != null)
+                {
+                    painter.AttachTo(_builtInBackBuffer);
+                }
+
                 painter.SetViewportSize(this.Width, this.Height);
 #if DEBUG
                 painter.dbugDrawDiagonalBox(Color.Blue, this.X, this.Y, this.Width, this.Height);
 #endif
 
+                if (!_builtInBackBuffer.IsValid)
+                {
+                    _myHtmlVisualRoot.PerformPaint(painter);
+                    _builtInBackBuffer.IsValid = true;
+                }
 
-
-                _myHtmlVisualRoot.PerformPaint(painter);
+                if (_builtInBackBuffer != null)
+                {
+                    painter.AttachToNormalBuffer();
+                    Image img = _builtInBackBuffer.GetImage();
+                    painter.DrawImage(img, 0, 0, img.Width, img.Height);                    
+                }
 
 
                 PaintVisitorStock.ReleaseSharedPaintVisitor(painter);
             }
-
-
         }
         public override void ChildrenHitTestCore(HitChain hitChain)
         {

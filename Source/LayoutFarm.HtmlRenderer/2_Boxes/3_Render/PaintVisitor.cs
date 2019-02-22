@@ -26,8 +26,15 @@ namespace LayoutFarm.HtmlBoxes
             _htmlVisualRoot = htmlVisualRoot;
             _drawBoard = drawBoard;
         }
-
-        public Color CssBoxSelectionColor { get { return _cssBoxSelectionColor; } }
+        public void AttachTo(Backbuffer attachToBackbuffer)
+        {
+            _drawBoard.AttachToBackBuffer(attachToBackbuffer);
+        }
+        public void AttachToNormalBuffer()
+        {
+            _drawBoard.SwitchBackToDefaultBuffer(null);
+        }
+        public Color CssBoxSelectionColor => _cssBoxSelectionColor;
 
         public void UnBind()
         {
@@ -279,6 +286,10 @@ namespace LayoutFarm.HtmlBoxes
         public void DrawText(RenderVxFormattedString formattedStr, PointF point, SizeF size)
         {
             _drawBoard.GetPainter().DrawString(formattedStr, point.X, point.Y);
+        }
+        public Backbuffer CreateOffscreenDrawBoard(int width, int height)
+        {
+            return _drawBoard.CreateBackbuffer(width, height);
         }
 #if DEBUG
         int dbugIndentLevel;
