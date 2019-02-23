@@ -205,8 +205,9 @@ namespace LayoutFarm.HtmlBoxes
                 return;
             }
             //--
-            var g = _drawBoard;
-            var prevColor = g.StrokeColor;
+            
+            DrawBoard g = _drawBoard;
+            Color prevColor = g.StrokeColor;
             g.StrokeColor = color;
             g.DrawRectangle(color, x1, y1, x2 - x1, y2 - y1);
             g.DrawLine(x1, y1, x2, y2);
