@@ -83,11 +83,14 @@ namespace LayoutFarm.CustomWidgets
 
         void IEventPortal.PortalMouseUp(UIMouseEventArgs e)
         {
+            _htmlRenderBox?.InvalidateBackBuffer();//test
+
             e.CurrentContextElement = this;
             GetInputEventAdapter().MouseUp(e, _htmlRenderBox.CssBox);
         }
         void IEventPortal.PortalMouseDown(UIMouseEventArgs e)
         {
+            _htmlRenderBox?.InvalidateBackBuffer();//test
 
             this.Focus();
             e.CurrentContextElement = this;
@@ -130,6 +133,7 @@ namespace LayoutFarm.CustomWidgets
         }
         void IEventPortal.PortalMouseMove(UIMouseEventArgs e)
         {
+            _htmlRenderBox?.InvalidateBackBuffer(); //test
 
             e.CurrentContextElement = this;
             GetInputEventAdapter().MouseMove(e, _htmlRenderBox.CssBox);

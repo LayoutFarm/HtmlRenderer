@@ -11,7 +11,7 @@ namespace LayoutFarm.HtmlBoxes
         MyHtmlVisualRoot _myHtmlVisualRoot;
         CssBox _cssBox;
         Backbuffer _builtInBackBuffer;
-
+        bool _useBackbuffer;
 
         public HtmlRenderBox(RootGraphic rootgfx,
             int width, int height)
@@ -20,7 +20,13 @@ namespace LayoutFarm.HtmlBoxes
 
         }
         public CssBox CssBox => _cssBox;
-
+        public void InvalidateBackBuffer()
+        {
+            if (_builtInBackBuffer != null)
+            {
+                _builtInBackBuffer.IsValid = false;
+            }
+        }
         public void SetHtmlVisualRoot(MyHtmlVisualRoot htmlVisualRoot, CssBox box)
         {
             _myHtmlVisualRoot = htmlVisualRoot;
@@ -33,7 +39,8 @@ namespace LayoutFarm.HtmlBoxes
         protected override void DrawBoxContent(DrawBoard canvas, Rectangle updateArea)
         {
             //TODO: review here, 
-            //
+            _useBackbuffer = true;
+
             if (_myHtmlVisualRoot == null)
             {
                 return;
@@ -66,31 +73,9 @@ namespace LayoutFarm.HtmlBoxes
                 //then copy from cpu to gpu 
                 canvas.BlitFrom(cpuDrawBoard, X, Y, this.Width, this.Height, 0, 0);
             }
-            else
+            else if (_useBackbuffer)
             {
-                //                PaintVisitor painter = PaintVisitorStock.GetSharedPaintVisitor(_myHtmlVisualRoot, canvas);
-                //                painter.SetViewportSize(this.Width, this.Height);
-                //#if DEBUG
-                //                painter.dbugDrawDiagonalBox(Color.Blue, this.X, this.Y, this.Width, this.Height);
-                //#endif
 
-                //                _myHtmlVisualRoot.PerformPaint(painter);
-                //                PaintVisitorStock.ReleaseSharedPaintVisitor(painter);
-
-                //                if (i != 0)
-                //                {
-                //                    PaintVisitor painter = PaintVisitorStock.GetSharedPaintVisitor(_myHtmlVisualRoot, canvas);
-                //                    painter.SetViewportSize(this.Width, this.Height);
-                //#if DEBUG
-                //                    painter.dbugDrawDiagonalBox(Color.Blue, this.X, this.Y, this.Width, this.Height);
-                //#endif
-                //                    //painter.FillRectangle(Color.Blue, 0, 0, 100, 100);
-                //                   // painter.DrawText("B".ToCharArray(), 0, 1, new PointF(0, 0), new SizeF(100, 100));
-                //                    _myHtmlVisualRoot.PerformPaint(painter);
-                //                    PaintVisitorStock.ReleaseSharedPaintVisitor(painter);
-                //                }
-                //                else
-                //                {
 
                 PaintVisitor painter = PaintVisitorStock.GetSharedPaintVisitor(_myHtmlVisualRoot, canvas);
                 if (_builtInBackBuffer == null)
@@ -109,8 +94,9 @@ namespace LayoutFarm.HtmlBoxes
 
                 if (!_builtInBackBuffer.IsValid)
                 {
-                    painter.FillRectangle(Color.Red, 0, 0, 100, 100);
-                    painter.DrawText(i.ToString().ToCharArray(), 0, 1, new PointF(0, 0), new SizeF(100, 100));
+                    //painter.FillRectangle(Color.Red, 0, 0, 100, 100);
+                    painter.FillRectangle(Color.White, 0, 0, this.Width, this.Height);
+                    //painter.DrawText(i.ToString().ToCharArray(), 0, 1, new PointF(0, 0), new SizeF(100, 100));
                     painter.OffsetCanvasOrigin(-this.X, -this.Y);
                     _myHtmlVisualRoot.PerformPaint(painter);
                     painter.OffsetCanvasOrigin(this.X, this.Y);
@@ -123,7 +109,23 @@ namespace LayoutFarm.HtmlBoxes
                     painter.DrawImage(_builtInBackBuffer.GetImage(), this.X, this.Y, this.Width, this.Height);
                 }
                 PaintVisitorStock.ReleaseSharedPaintVisitor(painter);
-                //}
+
+
+            }
+            else
+            {
+                PaintVisitor painter = PaintVisitorStock.GetSharedPaintVisitor(_myHtmlVisualRoot, canvas);
+                painter.SetViewportSize(this.Width, this.Height);
+#if DEBUG
+                painter.dbugDrawDiagonalBox(Color.Blue, this.X, this.Y, this.Width, this.Height);
+#endif
+
+                _myHtmlVisualRoot.PerformPaint(painter);
+                PaintVisitorStock.ReleaseSharedPaintVisitor(painter);
+
+
+
+
 
             }
         }
