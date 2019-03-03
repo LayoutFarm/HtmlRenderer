@@ -39,7 +39,7 @@ namespace LayoutFarm.HtmlBoxes
         protected override void DrawBoxContent(DrawBoard canvas, Rectangle updateArea)
         {
             //TODO: review here, 
-            _useBackbuffer = true;
+            _useBackbuffer = false;
 
             if (_myHtmlVisualRoot == null)
             {
@@ -122,10 +122,6 @@ namespace LayoutFarm.HtmlBoxes
 
                 _myHtmlVisualRoot.PerformPaint(painter);
                 PaintVisitorStock.ReleaseSharedPaintVisitor(painter);
-
-
-
-
 
             }
         }
