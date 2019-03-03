@@ -8,7 +8,7 @@ namespace LayoutFarm.HtmlBoxes
         public static MyHtmlVisualRoot CreateHtmlVisualRootFromFullHtml(
             HtmlHost htmlHost,
             string fullHtmlString,
-            HtmlRenderBox htmlFrgmentRenderBox)
+            HtmlRenderBox htmlRenderBox)
         {
             HtmlDocument htmldoc = WebDocumentParser.ParseDocument(
                  htmlHost,
@@ -21,18 +21,18 @@ namespace LayoutFarm.HtmlBoxes
 
             CssBox rootElement = renderTreeBuilder.BuildCssRenderTree(htmldoc,
                 htmlHost.BaseStylesheet,
-                htmlFrgmentRenderBox);
+                htmlRenderBox);
             //3. create small htmlContainer
 
             MyHtmlVisualRoot htmlContainer = new MyHtmlVisualRoot(htmlHost);
             htmlContainer.WebDocument = htmldoc;
             htmlContainer.SetRootCssBox(rootElement);
-            htmlContainer.SetMaxSize(htmlFrgmentRenderBox.Width, 0);
+            htmlContainer.SetMaxSize(htmlRenderBox.Width, 0);
             //
             LayoutVisitor lay = htmlHost.GetSharedHtmlLayoutVisitor(htmlContainer);
             htmlContainer.PerformLayout(lay);
             htmlHost.ReleaseHtmlLayoutVisitor(lay);
-            htmlFrgmentRenderBox.SetHtmlVisualRoot(htmlContainer, rootElement);
+            htmlRenderBox.SetHtmlVisualRoot(htmlContainer, rootElement);
             return htmlContainer;
         }
         public static MyHtmlVisualRoot CreateHtmlVisualRootFromFragmentHtml(

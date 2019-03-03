@@ -75,7 +75,7 @@ namespace LayoutFarm.HtmlBoxes
             if (_viewportY != 0)
             {
 #if DEBUG
-                Console.WriteLine(__aa_dbugId + ":i1_" + _viewportY.ToString());
+                System.Diagnostics.Debug.WriteLine(__aa_dbugId + ":i1_" + _viewportY.ToString());
 #endif
             }
             if (_justBlockRun != null)
