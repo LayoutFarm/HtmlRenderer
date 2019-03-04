@@ -87,7 +87,30 @@ namespace LayoutFarm.HtmlBoxes
                    " clip[" + intersectResult + "] ");
             }
 #endif
-
+            _drawBoard.SetClipRect(intersectResult);
+            return !intersectResult.IsEmpty;
+        }
+        internal bool PushLocalClipArea(float left, float top, float w, float h)
+        {
+            //return true;
+            //store lastest clip 
+            _latestClip = _drawBoard.CurrentClipRect;
+            _clipStacks.Push(_latestClip);
+            ////make new clip global  
+            Rectangle intersectResult = Rectangle.Intersect(
+                _latestClip,
+                new Rectangle((int)left, (int)top, (int)w, (int)h));
+            _latestClip = intersectResult;
+#if DEBUG
+            if (this.dbugEnableLogRecord)
+            {
+                _drawBoard.DrawRectangle(Color.DeepPink,
+                    intersectResult.X, intersectResult.Y,
+                    intersectResult.Width, intersectResult.Height);
+                dbugLogRecords.Add(new string('>', dbugIndentLevel) + dbugIndentLevel.ToString() +
+                   " clip[" + intersectResult + "] ");
+            }
+#endif
             _drawBoard.SetClipRect(intersectResult);
             return !intersectResult.IsEmpty;
         }
@@ -160,6 +183,12 @@ namespace LayoutFarm.HtmlBoxes
         {
             _drawBoard.OffsetCanvasOrigin(dx, dy);
         }
+        public void SetClipRect(Rectangle rect)
+        {
+            PushLocalClipArea(rect.Width, rect.Height);
+            //_drawBoard.SetClipRect(rect);
+        }
+        public Rectangle GetCurrentClipRect() => _drawBoard.CurrentClipRect;
         internal void PaintBorders(CssBox box, RectangleF stripArea, bool isFirstLine, bool isLastLine)
         {
             LayoutFarm.HtmlBoxes.BorderPaintHelper.DrawBoxBorders(this, box, stripArea, isFirstLine, isLastLine);
@@ -205,7 +234,7 @@ namespace LayoutFarm.HtmlBoxes
                 return;
             }
             //--
-            
+
             DrawBoard g = _drawBoard;
             Color prevColor = g.StrokeColor;
             g.StrokeColor = color;
