@@ -22,13 +22,7 @@ namespace LayoutFarm.HtmlBoxes
             NeedInvalidateRectEvent = true;
         }
         public CssBox CssBox => _cssBox;
-        public void InvalidateBackBuffer()
-        {
-            //if (_builtInBackBuffer != null)
-            //{
-            //    _builtInBackBuffer.IsValid = false;
-            //}
-        }
+        
         public void SetHtmlVisualRoot(MyHtmlVisualRoot htmlVisualRoot, CssBox box)
         {
             _myHtmlVisualRoot = htmlVisualRoot;
