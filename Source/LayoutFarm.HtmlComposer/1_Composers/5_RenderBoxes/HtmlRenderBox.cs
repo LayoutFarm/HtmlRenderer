@@ -12,20 +12,22 @@ namespace LayoutFarm.HtmlBoxes
         CssBox _cssBox;
         Backbuffer _builtInBackBuffer;
         bool _useBackbuffer;
+        bool _hasAccumRect;
+        Rectangle _invalidateRect;
 
         public HtmlRenderBox(RootGraphic rootgfx,
             int width, int height)
             : base(rootgfx, width, height)
         {
-
+            NeedInvalidateRectEvent = true;
         }
         public CssBox CssBox => _cssBox;
         public void InvalidateBackBuffer()
         {
-            if (_builtInBackBuffer != null)
-            {
-                _builtInBackBuffer.IsValid = false;
-            }
+            //if (_builtInBackBuffer != null)
+            //{
+            //    _builtInBackBuffer.IsValid = false;
+            //}
         }
         public void SetHtmlVisualRoot(MyHtmlVisualRoot htmlVisualRoot, CssBox box)
         {
@@ -39,7 +41,7 @@ namespace LayoutFarm.HtmlBoxes
         protected override void DrawBoxContent(DrawBoard canvas, Rectangle updateArea)
         {
             //TODO: review here, 
-            _useBackbuffer = false;
+            _useBackbuffer = true;
 
             if (_myHtmlVisualRoot == null)
             {
@@ -76,8 +78,9 @@ namespace LayoutFarm.HtmlBoxes
             else if (_useBackbuffer)
             {
 
-
                 PaintVisitor painter = PaintVisitorStock.GetSharedPaintVisitor(_myHtmlVisualRoot, canvas);
+                Rectangle rect1 = painter.CurrentClipRect;
+
                 if (_builtInBackBuffer == null)
                 {
                     _builtInBackBuffer = painter.CreateOffscreenDrawBoard(this.Width, this.Height);
@@ -88,39 +91,74 @@ namespace LayoutFarm.HtmlBoxes
                 }
 
                 painter.SetViewportSize(this.Width, this.Height);
-#if DEBUG
                 painter.dbugDrawDiagonalBox(Color.Blue, this.X, this.Y, this.Width, this.Height);
-#endif
+
+
 
                 if (!_builtInBackBuffer.IsValid)
                 {
-                    //painter.FillRectangle(Color.Red, 0, 0, 100, 100);
-                    painter.FillRectangle(Color.White, 0, 0, this.Width, this.Height);
-                    //painter.DrawText(i.ToString().ToCharArray(), 0, 1, new PointF(0, 0), new SizeF(100, 100));
-                    painter.OffsetCanvasOrigin(-this.X, -this.Y);
-                    _myHtmlVisualRoot.PerformPaint(painter);
-                    painter.OffsetCanvasOrigin(this.X, this.Y);
+                    //painter.FillRectangle(Color.Red, 0, 0, 100, 100);//debug 
+                    //painter.DrawText(i.ToString().ToCharArray(), 0, 1, new PointF(0, 0), new SizeF(100, 100)); //debug
+
+
+                    Rectangle currentClipRect = painter.GetCurrentClipRect();
+
+                    if (_hasAccumRect)
+                    {
+
+                        //System.Diagnostics.Debug.WriteLine(_invalidateRect.ToString());
+                        //if (currentClipRect.Height < 500)
+                        //{
+                        //}
+                        //painter.SetClipRect(new Rectangle(0, 0, 200, 1024));
+                        painter.PushLocalClipArea(
+                            _invalidateRect.Left, _invalidateRect.Top,
+                            _invalidateRect.Width, _invalidateRect.Height);
+                        painter.OffsetCanvasOrigin(-this.X, -this.Y);
+                        painter.FillRectangle(Color.Red, 0, 0, this.Width, this.Height);
+                        _myHtmlVisualRoot.PerformPaint(painter);
+                        painter.OffsetCanvasOrigin(this.X, this.Y);
+                        painter.PopLocalClipArea();
+                    }
+                    else
+                    {
+                        painter.OffsetCanvasOrigin(-this.X, -this.Y);
+                        painter.FillRectangle(Color.Yellow, 0, 0, this.Width, this.Height);
+                        _myHtmlVisualRoot.PerformPaint(painter);
+                        painter.OffsetCanvasOrigin(this.X, this.Y);
+                    }
+
                     _builtInBackBuffer.IsValid = true;
+                    _hasAccumRect = false;
+
+                    // painter.SetClipRect(currentClipRect);
                 }
 
                 if (_builtInBackBuffer != null)
                 {
                     painter.AttachToNormalBuffer();
+                    painter.SetClipRect(rect1);
                     painter.DrawImage(_builtInBackBuffer.GetImage(), this.X, this.Y, this.Width, this.Height);
                 }
                 PaintVisitorStock.ReleaseSharedPaintVisitor(painter);
 
-
             }
             else
             {
+
                 PaintVisitor painter = PaintVisitorStock.GetSharedPaintVisitor(_myHtmlVisualRoot, canvas);
                 painter.SetViewportSize(this.Width, this.Height);
 #if DEBUG
+                System.Diagnostics.Debug.WriteLine(">> 500x500");
                 painter.dbugDrawDiagonalBox(Color.Blue, this.X, this.Y, this.Width, this.Height);
 #endif
 
+                //painter.SetClipRect(new Rectangle(0, 0, 200, 200));
                 _myHtmlVisualRoot.PerformPaint(painter);
+#if DEBUG
+                System.Diagnostics.Debug.WriteLine("<< 500x500");
+                painter.dbugDrawDiagonalBox(Color.Blue, this.X, this.Y, this.Width, this.Height);
+#endif
                 PaintVisitorStock.ReleaseSharedPaintVisitor(painter);
 
             }
@@ -133,6 +171,25 @@ namespace LayoutFarm.HtmlBoxes
         //
         public int HtmlHeight => (int)_myHtmlVisualRoot.ActualHeight;
         //
+        protected override void OnInvalidateParentGraphics(Rectangle totalBounds)
+        {
+            if (!_hasAccumRect)
+            {
+                _invalidateRect = totalBounds;
+                _hasAccumRect = true;
+            }
+            else
+            {
+                _invalidateRect = Rectangle.Union(_invalidateRect, totalBounds);
+            }
+            //------
+            if (_builtInBackBuffer != null)
+            {
+                _builtInBackBuffer.IsValid = false;
+            }
+            base.OnInvalidateParentGraphics(totalBounds);
+        }
+
     }
 
     static class PaintVisitorStock
