@@ -111,7 +111,7 @@ namespace LayoutFarm.HtmlBoxes
                             _invalidateRect.Left, _invalidateRect.Top,
                             _invalidateRect.Width, _invalidateRect.Height);
                         painter.OffsetCanvasOrigin(-this.X, -this.Y);
-                        painter.FillRectangle(Color.Yellow, 0, 0, this.Width, this.Height);
+                        painter.FillRectangle(Color.Red, 0, 0, this.Width, this.Height);
                         _myHtmlVisualRoot.PerformPaint(painter);
                         painter.OffsetCanvasOrigin(this.X, this.Y);
                         painter.PopLocalClipArea();
@@ -135,7 +135,7 @@ namespace LayoutFarm.HtmlBoxes
 
                     //painter.FillRectangle(Color.Red, 0, 0, this.Width, this.Height);
                     //painter.SetClipRect(new Rectangle(0, 0, 200, 200));
-                    painter.SetClipRect(rect1); 
+                    painter.SetClipRect(rect1);
                     painter.DrawImage(_builtInBackBuffer.GetImage(), this.X, this.Y, this.Width, this.Height);
                 }
                 PaintVisitorStock.ReleaseSharedPaintVisitor(painter);
