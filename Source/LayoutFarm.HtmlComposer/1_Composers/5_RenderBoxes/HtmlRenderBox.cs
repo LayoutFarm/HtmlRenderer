@@ -102,11 +102,9 @@ namespace LayoutFarm.HtmlBoxes
                     if (_hasAccumRect)
                     {
 
-                        //System.Diagnostics.Debug.WriteLine(_invalidateRect.ToString());
-                        //if (currentClipRect.Height < 500)
-                        //{
-                        //}
-                        //painter.SetClipRect(new Rectangle(0, 0, 200, 1024));
+                        _invalidateRect.OffsetY(-this.Y);
+                        System.Diagnostics.Debug.WriteLine(_invalidateRect.ToString());
+
                         painter.PushLocalClipArea(
                             _invalidateRect.Left, _invalidateRect.Top,
                             _invalidateRect.Width, _invalidateRect.Height);
