@@ -91,6 +91,9 @@ namespace LayoutFarm.HtmlBoxes
                 }
                 if (_builtInBackBuffer != null)
                 {
+                    if (!_builtInBackBuffer.IsValid && _hasAccumRect)
+                    {
+                    }
                     painter.AttachTo(_builtInBackBuffer);
                 }
 
@@ -147,7 +150,7 @@ namespace LayoutFarm.HtmlBoxes
                     {
                     }
 
-                    //painter.SetClipRect(rect1);
+                    painter.SetClipRect(rect1);
                     painter.DrawImage(_builtInBackBuffer.GetImage(), this.X, this.Y, this.Width, this.Height);
                 }
                 PaintVisitorStock.ReleaseSharedPaintVisitor(painter);
