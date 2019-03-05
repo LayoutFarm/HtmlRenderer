@@ -15,10 +15,15 @@ namespace LayoutFarm.HtmlBoxes
         bool _hasAccumRect;
         Rectangle _invalidateRect;
 
+#if DEBUG
+        public readonly int dbugHtmlRenderBoxId = dbugTotalId++;
+        static int dbugTotalId;
+#endif
         public HtmlRenderBox(RootGraphic rootgfx,
             int width, int height)
             : base(rootgfx, width, height)
         {
+
             NeedInvalidateRectEvent = true;
         }
         public CssBox CssBox => _cssBox;
@@ -111,7 +116,6 @@ namespace LayoutFarm.HtmlBoxes
                         painter.SetCanvasOrigin(0, 0);
                         painter.SetClipRect(currentClipRect);
 
-
                         painter.PushLocalClipArea(
                             _invalidateRect.Left, _invalidateRect.Top,
                             _invalidateRect.Width, _invalidateRect.Height);
@@ -140,10 +144,17 @@ namespace LayoutFarm.HtmlBoxes
                 {
                     painter.AttachToNormalBuffer();
                     //System.Diagnostics.Debug.WriteLine(rect1.ToString());
+                    if (dbugHtmlRenderBoxId > 1)
+                    {
+                    }
 
                     //painter.FillRectangle(Color.Red, 0, 0, this.Width, this.Height);
-                    //painter.SetClipRect(new Rectangle(0, 0, 200, 200));
+                    //int ox2 = painter.CanvasOriginX;
+                    //int oy2 = painter.CanvasOriginY;
+                    //painter.SetCanvasOrigin(0, 0);
                     painter.SetClipRect(rect1);
+                    //painter.SetCanvasOrigin(ox2, oy2);
+
                     painter.DrawImage(_builtInBackBuffer.GetImage(), this.X, this.Y, this.Width, this.Height);
                 }
                 PaintVisitorStock.ReleaseSharedPaintVisitor(painter);
