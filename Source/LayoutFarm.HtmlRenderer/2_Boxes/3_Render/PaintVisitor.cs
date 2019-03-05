@@ -185,7 +185,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         public void SetClipRect(Rectangle rect)
         {
-            //PushLocalClipArea(rect.Width, rect.Height);
+            
             _drawBoard.SetClipRect(rect);
         }
         public Rectangle GetCurrentClipRect() => _drawBoard.CurrentClipRect;

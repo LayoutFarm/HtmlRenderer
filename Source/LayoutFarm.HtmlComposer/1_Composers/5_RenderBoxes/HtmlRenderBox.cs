@@ -102,7 +102,6 @@ namespace LayoutFarm.HtmlBoxes
                     //painter.FillRectangle(Color.Red, 0, 0, 100, 100);//debug 
                     //painter.DrawText(i.ToString().ToCharArray(), 0, 1, new PointF(0, 0), new SizeF(100, 100)); //debug
 
-
                     Rectangle currentClipRect = painter.GetCurrentClipRect();
                     if (_hasAccumRect)
                     {
@@ -148,17 +147,10 @@ namespace LayoutFarm.HtmlBoxes
                     {
                     }
 
-                    //painter.FillRectangle(Color.Red, 0, 0, this.Width, this.Height);
-                    //int ox2 = painter.CanvasOriginX;
-                    //int oy2 = painter.CanvasOriginY;
-                    //painter.SetCanvasOrigin(0, 0);
-                    painter.SetClipRect(rect1);
-                    //painter.SetCanvasOrigin(ox2, oy2);
-
+                    //painter.SetClipRect(rect1);
                     painter.DrawImage(_builtInBackBuffer.GetImage(), this.X, this.Y, this.Width, this.Height);
                 }
                 PaintVisitorStock.ReleaseSharedPaintVisitor(painter);
-
             }
             else
             {
