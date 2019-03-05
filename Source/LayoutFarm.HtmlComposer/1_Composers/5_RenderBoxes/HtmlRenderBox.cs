@@ -105,14 +105,24 @@ namespace LayoutFarm.HtmlBoxes
                         _invalidateRect.OffsetY(-this.Y);
                         System.Diagnostics.Debug.WriteLine(_invalidateRect.ToString());
 
+                        int ox2 = painter.CanvasOriginX;
+                        int oy2 = painter.CanvasOriginY;
+
+                        painter.SetCanvasOrigin(0, 0);
+                        painter.SetClipRect(currentClipRect);
+
+
                         painter.PushLocalClipArea(
                             _invalidateRect.Left, _invalidateRect.Top,
                             _invalidateRect.Width, _invalidateRect.Height);
-                        painter.OffsetCanvasOrigin(-this.X, -this.Y);
+                        //painter.OffsetCanvasOrigin(-this.X, -this.Y);
                         painter.FillRectangle(Color.Red, 0, 0, this.Width, this.Height);
                         _myHtmlVisualRoot.PerformPaint(painter);
-                        painter.OffsetCanvasOrigin(this.X, this.Y);
+                        //painter.OffsetCanvasOrigin(this.X, this.Y);
                         painter.PopLocalClipArea();
+
+                        painter.SetCanvasOrigin(ox2, oy2);
+                        painter.SetClipRect(currentClipRect);
                     }
                     else
                     {
