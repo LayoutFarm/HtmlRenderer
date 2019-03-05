@@ -10,7 +10,7 @@ namespace LayoutFarm.HtmlBoxes
     {
         MyHtmlVisualRoot _myHtmlVisualRoot;
         CssBox _cssBox;
-        Backbuffer _builtInBackBuffer;
+        DrawboardBuffer _builtInBackBuffer;
         bool _useBackbuffer;
         bool _hasAccumRect;
         Rectangle _invalidateRect;

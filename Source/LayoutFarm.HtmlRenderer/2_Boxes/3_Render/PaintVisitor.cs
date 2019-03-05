@@ -26,7 +26,7 @@ namespace LayoutFarm.HtmlBoxes
             _htmlVisualRoot = htmlVisualRoot;
             _drawBoard = drawBoard;
         }
-        public void AttachTo(Backbuffer attachToBackbuffer)
+        public void AttachTo(DrawboardBuffer attachToBackbuffer)
         {
             _drawBoard.AttachToBackBuffer(attachToBackbuffer);
         }
@@ -317,7 +317,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             _drawBoard.GetPainter().DrawString(formattedStr, point.X, point.Y);
         }
-        public Backbuffer CreateOffscreenDrawBoard(int width, int height)
+        public DrawboardBuffer CreateOffscreenDrawBoard(int width, int height)
         {
             return _drawBoard.CreateBackbuffer(width, height);
         }
