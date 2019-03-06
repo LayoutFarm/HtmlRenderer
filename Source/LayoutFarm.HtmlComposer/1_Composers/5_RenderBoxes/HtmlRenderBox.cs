@@ -133,8 +133,11 @@ namespace LayoutFarm.HtmlBoxes
                         painter.FillRectangle(c,
                             _invalidateRect.Left, _invalidateRect.Top,
                             _invalidateRect.Width, _invalidateRect.Height);
-#else
 
+#else
+                         painter.FillRectangle(Color.White,
+                            _invalidateRect.Left, _invalidateRect.Top,
+                            _invalidateRect.Width, _invalidateRect.Height);
 #endif
 
 
