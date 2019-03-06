@@ -55,6 +55,9 @@ namespace LayoutFarm.HtmlBoxes
         }
         internal void SetRootGlobalPosition(int globalX, int globalY)
         {
+#if DEBUG
+            //System.Diagnostics.Debug.WriteLine("hitchain set root global pos:" + globalX + "," + globalY);
+#endif
             _rootGlobalX = globalX;
             _rootGlobalY = globalY;
         }

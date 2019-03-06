@@ -15,7 +15,10 @@ namespace LayoutFarm.HtmlBoxes
         bool _hasAccumRect;
         Rectangle _invalidateRect;
 
+
+
 #if DEBUG
+        System.Random dbugRandom = new System.Random();
         public readonly int dbugHtmlRenderBoxId = dbugTotalId++;
         static int dbugTotalId;
 #endif
@@ -108,11 +111,9 @@ namespace LayoutFarm.HtmlBoxes
                     Rectangle currentClipRect = painter.GetCurrentClipRect();
                     if (_hasAccumRect)
                     {
-                        System.Diagnostics.Debug.WriteLine(_invalidateRect.ToString());
-                       
+                        System.Diagnostics.Debug.WriteLine("b:" + _invalidateRect.ToString());
                         _invalidateRect.Offset(-this.X, -this.Y);
-
-                        System.Diagnostics.Debug.WriteLine(_invalidateRect.ToString());
+                        System.Diagnostics.Debug.WriteLine("a:" + _invalidateRect.ToString());
 
                         int ox2 = painter.CanvasOriginX;
                         int oy2 = painter.CanvasOriginY;
@@ -124,9 +125,17 @@ namespace LayoutFarm.HtmlBoxes
                             _invalidateRect.Left, _invalidateRect.Top,
                             _invalidateRect.Width, _invalidateRect.Height);
                         //painter.OffsetCanvasOrigin(-this.X, -this.Y);
-                        painter.FillRectangle(Color.Red,
+
+
+                        //for debug
+#if DEBUG
+                        Color c = Color.FromArgb(255, dbugRandom.Next(0, 255), dbugRandom.Next(0, 255), dbugRandom.Next(0, 255));
+                        painter.FillRectangle(c,
                             _invalidateRect.Left, _invalidateRect.Top,
                             _invalidateRect.Width, _invalidateRect.Height);
+#else
+
+#endif
 
 
                         _myHtmlVisualRoot.PerformPaint(painter);
@@ -139,9 +148,9 @@ namespace LayoutFarm.HtmlBoxes
                     else
                     {
                         _invalidateRect = new Rectangle(0, 0, 9999, 9999);
-                        System.Diagnostics.Debug.WriteLine(_invalidateRect.ToString());
+                        //System.Diagnostics.Debug.WriteLine(_invalidateRect.ToString());
                         _invalidateRect.Offset(-this.X, -this.Y);
-                        System.Diagnostics.Debug.WriteLine(_invalidateRect.ToString());
+                        //System.Diagnostics.Debug.WriteLine(_invalidateRect.ToString());
 
                         int ox2 = painter.CanvasOriginX;
                         int oy2 = painter.CanvasOriginY;

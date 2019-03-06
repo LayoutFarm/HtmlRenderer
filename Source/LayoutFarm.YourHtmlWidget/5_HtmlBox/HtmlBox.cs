@@ -100,7 +100,9 @@ namespace LayoutFarm.CustomWidgets
                     //extend from existing selection
                     SelectionRange selRange = _htmlVisualRoot.CurrentSelectionRange;
 
+#if DEBUG
                     PixelFarm.Drawing.Rectangle existingArea = _htmlVisualRoot.CurrentSelectionRange.SnapSelectionArea;
+#endif
                     //
                     SimulateMouseSelection(
                         _latest_selMouseDownX,
