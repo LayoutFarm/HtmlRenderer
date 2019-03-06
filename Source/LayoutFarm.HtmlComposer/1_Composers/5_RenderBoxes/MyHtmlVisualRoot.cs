@@ -134,7 +134,7 @@ namespace LayoutFarm.HtmlBoxes
             _currentSelectionRange = selRange;
 
 #if DEBUG
-            System.Diagnostics.Debug.WriteLine("html-sel:" + _currentSelectionArea.ToString());
+            //System.Diagnostics.Debug.WriteLine("html-sel:" + _currentSelectionArea.ToString());
 #endif
 
             this.RootCssBox.InvalidateGraphics(_currentSelectionArea);

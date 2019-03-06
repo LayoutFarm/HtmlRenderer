@@ -363,7 +363,7 @@ namespace LayoutFarm.HtmlBoxes
             lineWalkVisitor.Walk(endline, (lineCoverage, linebox, partialLineRun) =>
             {
 #if DEBUG                
-                System.Diagnostics.Debug.WriteLine("sel:" + linebox.dbugId);
+                //System.Diagnostics.Debug.WriteLine("sel:" + linebox.dbugId);
                 if (dbugExpectedId != linebox.dbugId)
                 {
 
@@ -537,21 +537,23 @@ namespace LayoutFarm.HtmlBoxes
             readonly CssBlockRun _startBlockRun;
             readonly CssLineBox _startLineBox;
             public float _globalX;
+            public float _globalY;
 
 
-            float __gy;
-            public float _globalY
-            {
-                get => __gy;
-                set
-                {
-                    if (value >= 150)
-                    {
+            //float __gy;
+            //public float _globalY
+            //{ //for debug
+            //    get => __gy;
+            //    set
+            //    {
+            //        if (value >= 150)
+            //        {
 
-                    }
-                    __gy = value;
-                }
-            }
+            //        }
+            //        __gy = value;
+            //    }
+            //}
+
             CssLineBox _currentVisitLineBox;
             float _targetX;
             float _targetY;
@@ -587,10 +589,9 @@ namespace LayoutFarm.HtmlBoxes
             }
             public void SetWalkTargetPosition(float x, float y)
             {
-                if (y >= 150)
-                {
-
-                }
+                //if (y >= 150)
+                //{
+                //}
                 _targetX = x;
                 _targetY = y;
             }
@@ -611,7 +612,7 @@ namespace LayoutFarm.HtmlBoxes
                 foreach (CssLineBox ln in lineIter)
                 {
 #if DEBUG
-                    System.Diagnostics.Debug.WriteLine("pre_sel:" + ln.dbugId);
+                    //System.Diagnostics.Debug.WriteLine("pre_sel:" + ln.dbugId);
 #endif
                     _currentVisitLineBox = ln;
                     if (ln == endLineBox)
@@ -652,20 +653,73 @@ namespace LayoutFarm.HtmlBoxes
                         _targetX >= _globalX &&
                         _targetX < _globalX + _currentVisitLineBox.CachedLineContentWidth;
             }
+
+
+            ///// walk down and up
+            ///// </summary>
+            ///// <param name="startLine"></param>
+            ///// <returns></returns>
+            //static IEnumerable<CssLineBox> GetLineWalkDownAndUpIter(LineWalkVisitor visitor, CssLineBox startLine)
+            //{
+            //    float sx, sy;
+            //    startLine.OwnerBox.GetGlobalLocation(out sx, out sy);
+            //    CssLineBox curLine = startLine;
+            //    //walk up and down the tree
+            //    CssLineBox nextline = curLine.NextLine;
+            //    while (nextline != null)
+            //    {
+            //        visitor._globalY = sy + startLine.CachedLineTop;
+            //        yield return nextline;
+            //        nextline = nextline.NextLine;
+            //    }
+            //    //--------------------
+            //    //no next line 
+            //    //then walk up  ***
+            //    CssBox curBox = startLine.OwnerBox;
+
+            //    RETRY://***
+            //    CssBox level1Sibling = BoxHitUtils.GetNextSibling(curBox);
+            //    while (level1Sibling != null)
+            //    {
+            //        level1Sibling.GetGlobalLocation(out sx, out sy);
+            //        visitor._globalY = sy;
+            //        //walk down
+            //        foreach (CssLineBox line in GetLineWalkDownIter(visitor, level1Sibling))
+            //        {
+            //            yield return line;
+            //        }
+
+            //        level1Sibling = BoxHitUtils.GetNextSibling(level1Sibling);
+            //    }
+            //    //--------------------
+            //    //other further sibling
+            //    //then step to parent of lineOwner
+            //    if (curBox.ParentBox != null)
+            //    {
+            //        //if has parent    
+            //        //walk up***
+            //        curBox = curBox.ParentBox;
+            //        goto RETRY;
+            //    }
+            //}
+
+
+
+
             /// walk down and up
             /// </summary>
             /// <param name="startLine"></param>
             /// <returns></returns>
             static IEnumerable<CssLineBox> GetLineWalkDownAndUpIter(LineWalkVisitor visitor, CssLineBox startLine)
             {
-                float sx, sy;
-                startLine.OwnerBox.GetGlobalLocation(out sx, out sy);
+                PointF p = new PointF();
+                startLine.OwnerBox.GetGlobalLocationRelativeToRoot(ref p);
                 CssLineBox curLine = startLine;
                 //walk up and down the tree
                 CssLineBox nextline = curLine.NextLine;
                 while (nextline != null)
                 {
-                    visitor._globalY = sy + startLine.CachedLineTop;
+                    visitor._globalY = p.Y + startLine.CachedLineTop;
                     yield return nextline;
                     nextline = nextline.NextLine;
                 }
@@ -678,8 +732,9 @@ namespace LayoutFarm.HtmlBoxes
                 CssBox level1Sibling = BoxHitUtils.GetNextSibling(curBox);
                 while (level1Sibling != null)
                 {
-                    level1Sibling.GetGlobalLocation(out sx, out sy);
-                    visitor._globalY = sy;
+                    p = new PointF();
+                    level1Sibling.GetGlobalLocationRelativeToRoot(ref p);
+                    visitor._globalY = p.Y;
                     //walk down
                     foreach (CssLineBox line in GetLineWalkDownIter(visitor, level1Sibling))
                     {
@@ -699,6 +754,8 @@ namespace LayoutFarm.HtmlBoxes
                     goto RETRY;
                 }
             }
+
+
 
             static IEnumerable<CssLineBox> GetLineWalkDownIter(LineWalkVisitor visitor, CssBox box)
             {

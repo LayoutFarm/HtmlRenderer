@@ -111,9 +111,9 @@ namespace LayoutFarm.HtmlBoxes
                     Rectangle currentClipRect = painter.GetCurrentClipRect();
                     if (_hasAccumRect)
                     {
-                        System.Diagnostics.Debug.WriteLine("b:" + _invalidateRect.ToString());
+                        //System.Diagnostics.Debug.WriteLine("b:" + _invalidateRect.ToString());
                         _invalidateRect.Offset(-this.X, -this.Y);
-                        System.Diagnostics.Debug.WriteLine("a:" + _invalidateRect.ToString());
+                        //System.Diagnostics.Debug.WriteLine("a:" + _invalidateRect.ToString());
 
                         int ox2 = painter.CanvasOriginX;
                         int oy2 = painter.CanvasOriginY;
