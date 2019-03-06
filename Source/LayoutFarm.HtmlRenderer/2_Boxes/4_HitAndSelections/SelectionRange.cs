@@ -126,6 +126,7 @@ namespace LayoutFarm.HtmlBoxes
                             else
                             {
                                 int runCount = selLine.RunCount;
+                                bool foundStartRun = false;
                                 for (int n = 0; n < runCount; ++n)
                                 {
                                     //temp fix here!
@@ -137,7 +138,8 @@ namespace LayoutFarm.HtmlBoxes
                                     }
                                     if (rr == startRun)
                                     {
-                                        var alltext = rr.Text;
+                                        foundStartRun = true;
+                                        string alltext = rr.Text;
                                         if (autoFirstRun)
                                         {
                                             stbuilder.Append(alltext);
@@ -171,7 +173,10 @@ namespace LayoutFarm.HtmlBoxes
                                     }
                                     else
                                     {
-                                        stbuilder.Append(rr.Text);
+                                        if (foundStartRun)
+                                        {
+                                            stbuilder.Append(rr.Text);
+                                        }
                                     }
                                 }
                             }
