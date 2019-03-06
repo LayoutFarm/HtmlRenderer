@@ -108,7 +108,7 @@ namespace LayoutFarm.HtmlBoxes
                     Rectangle currentClipRect = painter.GetCurrentClipRect();
                     if (_hasAccumRect)
                     {
-
+                        System.Diagnostics.Debug.WriteLine(_invalidateRect.ToString());
                         _invalidateRect.OffsetY(-this.Y);
                         System.Diagnostics.Debug.WriteLine(_invalidateRect.ToString());
 
@@ -122,7 +122,13 @@ namespace LayoutFarm.HtmlBoxes
                             _invalidateRect.Left, _invalidateRect.Top,
                             _invalidateRect.Width, _invalidateRect.Height);
                         //painter.OffsetCanvasOrigin(-this.X, -this.Y);
-                        painter.FillRectangle(Color.Red, 0, 0, this.Width, this.Height);
+                        painter.FillRectangle(Color.Red,
+                            _invalidateRect.Left, _invalidateRect.Top,
+                            _invalidateRect.Width, _invalidateRect.Height);
+
+
+
+
                         _myHtmlVisualRoot.PerformPaint(painter);
                         //painter.OffsetCanvasOrigin(this.X, this.Y);
                         painter.PopLocalClipArea();
@@ -146,9 +152,11 @@ namespace LayoutFarm.HtmlBoxes
                 {
                     painter.AttachToNormalBuffer();
                     //System.Diagnostics.Debug.WriteLine(rect1.ToString());
+#if DEBUG
                     if (dbugHtmlRenderBoxId > 1)
                     {
                     }
+#endif
 
                     painter.SetClipRect(rect1);
                     painter.DrawImage(_builtInBackBuffer.GetImage(), this.X, this.Y, this.Width, this.Height);
