@@ -6,7 +6,7 @@ using PixelFarm.Drawing;
 using LayoutFarm.RenderBoxes;
 namespace LayoutFarm.HtmlBoxes
 {
-    public class HtmlRenderBox : RenderBoxBase
+    public sealed class HtmlRenderBox : RenderBoxBase
     {
         MyHtmlVisualRoot _myHtmlVisualRoot;
         CssBox _cssBox;
@@ -14,8 +14,6 @@ namespace LayoutFarm.HtmlBoxes
         bool _useBackbuffer;
         bool _hasAccumRect;
         Rectangle _invalidateRect;
-
-
 
 #if DEBUG
         System.Random dbugRandom = new System.Random();
@@ -238,21 +236,23 @@ namespace LayoutFarm.HtmlBoxes
 #if DEBUG
 
 #endif
-            if (!_hasAccumRect)
-            {
-                _invalidateRect = totalBounds;
-                _hasAccumRect = true;
-            }
-            else
-            {
-                _invalidateRect = Rectangle.Union(_invalidateRect, totalBounds);
-            }
             //------
             if (_builtInBackBuffer != null)
             {
                 _builtInBackBuffer.IsValid = false;
+
+                if (!_hasAccumRect)
+                {
+                    _invalidateRect = totalBounds;
+                    _hasAccumRect = true;
+                }
+                else
+                {
+                    _invalidateRect = Rectangle.Union(_invalidateRect, totalBounds);
+                }
             }
-            base.OnInvalidateGraphicsNoti(totalBounds);
+
+            //base.OnInvalidateGraphicsNoti(totalBounds);//skip
         }
 
     }
