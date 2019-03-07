@@ -20,11 +20,11 @@ namespace LayoutFarm
         {
             //html box
             _host = host;
-            var contentMx = new LayoutFarm.ContentManagers.ImageLoadingQueueManager();
-            contentMx.AskForImage += contentMx_AskForImg;
+            var loadingQueueMx = new LayoutFarm.ContentManagers.ImageLoadingQueueManager();
+            loadingQueueMx.AskForImage += loadingQueue_AskForImg;
 
             HtmlBoxes.HtmlHost htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(host,
-                (s, e) => contentMx.AddRequestImage(e.ImageBinder),
+                (s, e) => loadingQueueMx.AddRequestImage(e.ImageBinder),
                 contentMx_LoadStyleSheet);
 
             //
@@ -37,7 +37,7 @@ namespace LayoutFarm
             }
             htmlBox.LoadHtmlString(htmltext); 
         } 
-        void contentMx_AskForImg(object sender, LayoutFarm.ContentManagers.ImageRequestEventArgs e)
+        void loadingQueue_AskForImg(object sender, LayoutFarm.ContentManagers.ImageRequestEventArgs e)
         {
             //load resource -- sync or async? 
             string absolutePath = documentRootPath + "\\" + e.ImagSource;
