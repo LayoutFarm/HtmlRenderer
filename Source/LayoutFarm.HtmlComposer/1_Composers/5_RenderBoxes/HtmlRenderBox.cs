@@ -47,6 +47,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 _useBackbuffer = true;
             }
+
             //_useBackbuffer = false;
 
             if (_myHtmlVisualRoot == null)
@@ -94,9 +95,11 @@ namespace LayoutFarm.HtmlBoxes
                 }
                 if (_builtInBackBuffer != null)
                 {
+#if DEBUG
                     if (!_builtInBackBuffer.IsValid && _hasAccumRect)
                     {
                     }
+#endif
                     painter.AttachTo(_builtInBackBuffer);
                 }
 
@@ -111,9 +114,9 @@ namespace LayoutFarm.HtmlBoxes
                     Rectangle currentClipRect = painter.GetCurrentClipRect();
                     if (_hasAccumRect)
                     {
-                        //System.Diagnostics.Debug.WriteLine("b:" + _invalidateRect.ToString());
+                        System.Diagnostics.Debug.WriteLine("b:" + _invalidateRect.ToString());
                         _invalidateRect.Offset(-this.X, -this.Y);
-                        //System.Diagnostics.Debug.WriteLine("a:" + _invalidateRect.ToString());
+                        System.Diagnostics.Debug.WriteLine("a:" + _invalidateRect.ToString());
 
                         int ox2 = painter.CanvasOriginX;
                         int oy2 = painter.CanvasOriginY;
@@ -230,8 +233,11 @@ namespace LayoutFarm.HtmlBoxes
         //
         public int HtmlHeight => (int)_myHtmlVisualRoot.ActualHeight;
         //
-        protected override void OnInvalidateParentGraphics(Rectangle totalBounds)
+        protected override void OnInvalidateGraphicsNoti(Rectangle totalBounds)
         {
+#if DEBUG
+
+#endif
             if (!_hasAccumRect)
             {
                 _invalidateRect = totalBounds;
@@ -246,7 +252,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 _builtInBackBuffer.IsValid = false;
             }
-            base.OnInvalidateParentGraphics(totalBounds);
+            base.OnInvalidateGraphicsNoti(totalBounds);
         }
 
     }

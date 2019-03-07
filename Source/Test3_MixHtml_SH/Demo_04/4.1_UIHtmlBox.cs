@@ -9,7 +9,7 @@ namespace LayoutFarm
     [DemoNote("4.1 UIHtmlBox")]
     class Demo_UIHtmlBox : App
     {
-        
+
         HtmlBox htmlBox;
         string htmltext;
         string documentRootPath;
@@ -35,8 +35,8 @@ namespace LayoutFarm
             {
                 htmltext = @"<html><head></head><body>NOT FOUND!</body></html>";
             }
-            htmlBox.LoadHtmlString(htmltext); 
-        } 
+            htmlBox.LoadHtmlString(htmltext);
+        }
         void loadingQueue_AskForImg(object sender, LayoutFarm.ContentManagers.ImageRequestEventArgs e)
         {
             //load resource -- sync or async? 
@@ -45,8 +45,13 @@ namespace LayoutFarm
             {
                 return;
             }
+
+
             //load
             //lets host do img loading... 
+
+            //we can do img resolve or caching here
+
             e.SetResultImage(_host.LoadImage(absolutePath));
         }
         void contentMx_LoadStyleSheet(object sender, LayoutFarm.ContentManagers.TextRequestEventArgs e)
