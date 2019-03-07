@@ -44,18 +44,18 @@ namespace LayoutFarm.WebDom.Impl
         }
 
 
-        public static void InvokeNotifyChangeOnIdleState(HtmlElement elem, ElementChangeKind changeKind)
+        public static void InvokeNotifyChangeOnIdleState(HtmlElement elem, ElementChangeKind changeKind, DomAttribute attr)
         {
-            elem.OnElementChangedInIdleState(changeKind);
+            elem.OnElementChangedInIdleState(changeKind, attr);
         }
 
         protected override void OnContentUpdate()
         {
             base.OnContentUpdate();
-            OnElementChangedInIdleState(ElementChangeKind.ContentUpdate);
+            OnElementChangedInIdleState(ElementChangeKind.ContentUpdate, null);
         }
 
-        protected override void OnElementChangedInIdleState(ElementChangeKind changeKind)
+        protected override void OnElementChangedInIdleState(ElementChangeKind changeKind, DomAttribute attr)
         {
             //1. 
             this.OwnerDocument.SetDocumentState(DocumentState.ChangedAfterIdle);
