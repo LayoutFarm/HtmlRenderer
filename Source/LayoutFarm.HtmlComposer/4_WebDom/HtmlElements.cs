@@ -78,7 +78,8 @@ namespace LayoutFarm.Composers
                                     if (_principalBox != null)
                                     {
                                         CssBoxImage boxImg = (CssBoxImage)_principalBox;
-                                        boxImg.ImageBinder = new ImageBinder(attr.Value);
+                                        boxImg.TempTranstionImageBinder = boxImg.ImageBinder;
+                                        boxImg.ImageBinder = new ImageBinder(attr.Value);// new ImageBinder(attr.Value);
                                         boxImg.InvalidateGraphics();
                                     }
                                 }
