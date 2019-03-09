@@ -57,30 +57,7 @@ namespace LayoutFarm.HtmlBoxes
 
             DrawBoard cpuDrawBoard = null;
 
-            if (PreferSoftwareRenderer &&
-                canvas.IsGpuDrawBoard &&
-               (cpuDrawBoard = canvas.GetCpuBlitDrawBoard()) != null)
-            {
-                //TODO: review this again ***
-                //test built-in 'shared' software rendering surface
-
-                cpuDrawBoard.Clear(Color.White);
-                PaintVisitor painter = PaintVisitorStock.GetSharedPaintVisitor(_myHtmlVisualRoot, cpuDrawBoard);
-
-                painter.SetViewportSize(this.Width, this.Height);
-
-#if DEBUG
-                painter.dbugDrawDiagonalBox(Color.Blue, this.X, this.Y, this.Width, this.Height);
-#endif
-
-
-                _myHtmlVisualRoot.PerformPaint(painter);
-                PaintVisitorStock.ReleaseSharedPaintVisitor(painter);
-
-                //then copy from cpu to gpu 
-                canvas.BlitFrom(cpuDrawBoard, X, Y, this.Width, this.Height, 0, 0);
-            }
-            else if (_useBackbuffer)
+            if (_useBackbuffer)
             {
 
                 PaintVisitor painter = PaintVisitorStock.GetSharedPaintVisitor(_myHtmlVisualRoot, canvas);
@@ -112,6 +89,12 @@ namespace LayoutFarm.HtmlBoxes
                     Rectangle currentClipRect = painter.GetCurrentClipRect();
                     if (_hasAccumRect)
                     {
+#if DEBUG
+                        //if (_invalidateRect.IsEmpty)
+                        //{
+                        //    _invalidateRect = new Rectangle(0, 0, 9999, 9999);
+                        //}
+#endif
                         //System.Diagnostics.Debug.WriteLine("b:" + _invalidateRect.ToString());
                         _invalidateRect.Offset(-this.X, -this.Y);
                         //System.Diagnostics.Debug.WriteLine("a:" + _invalidateRect.ToString());
@@ -166,9 +149,21 @@ namespace LayoutFarm.HtmlBoxes
                             _invalidateRect.Left, _invalidateRect.Top,
                             _invalidateRect.Width, _invalidateRect.Height);
                         //painter.OffsetCanvasOrigin(-this.X, -this.Y);
-                        painter.FillRectangle(Color.Yellow,
+#if DEBUG
+                        Color c = Color.FromArgb(255, dbugRandom.Next(0, 255), dbugRandom.Next(0, 255), dbugRandom.Next(0, 255));
+                        painter.FillRectangle(c,
                             _invalidateRect.Left, _invalidateRect.Top,
                             _invalidateRect.Width, _invalidateRect.Height);
+
+#else
+                         painter.FillRectangle(Color.White,
+                            _invalidateRect.Left, _invalidateRect.Top,
+                            _invalidateRect.Width, _invalidateRect.Height);
+#endif
+
+                        //painter.FillRectangle(Color.Yellow,
+                        //    _invalidateRect.Left, _invalidateRect.Top,
+                        //    _invalidateRect.Width, _invalidateRect.Height);
 
 
                         _myHtmlVisualRoot.PerformPaint(painter);
@@ -199,9 +194,32 @@ namespace LayoutFarm.HtmlBoxes
 #endif
 
                     painter.SetClipRect(rect1);
-                    painter.DrawImage(_builtInBackBuffer.GetImage(), this.X, this.Y, this.Width, this.Height);
+                    painter.DrawImage(_builtInBackBuffer.GetImage(), painter.CanvasOriginX, painter.CanvasOriginY, this.Width, this.Height);
                 }
                 PaintVisitorStock.ReleaseSharedPaintVisitor(painter);
+            }
+            else if (PreferSoftwareRenderer &&
+                 canvas.IsGpuDrawBoard &&
+                (cpuDrawBoard = canvas.GetCpuBlitDrawBoard()) != null)
+            {
+                //TODO: review this again ***
+                //test built-in 'shared' software rendering surface
+
+                cpuDrawBoard.Clear(Color.White);
+                PaintVisitor painter = PaintVisitorStock.GetSharedPaintVisitor(_myHtmlVisualRoot, cpuDrawBoard);
+
+                painter.SetViewportSize(this.Width, this.Height);
+
+#if DEBUG
+                painter.dbugDrawDiagonalBox(Color.Blue, this.X, this.Y, this.Width, this.Height);
+#endif
+
+
+                _myHtmlVisualRoot.PerformPaint(painter);
+                PaintVisitorStock.ReleaseSharedPaintVisitor(painter);
+
+                //then copy from cpu to gpu 
+                canvas.BlitFrom(cpuDrawBoard, X, Y, this.Width, this.Height, 0, 0);
             }
             else
             {
