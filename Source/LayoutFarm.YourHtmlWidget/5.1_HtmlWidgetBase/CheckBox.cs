@@ -8,6 +8,9 @@ namespace LayoutFarm.HtmlWidgets
     public class ChoiceBox : HtmlWidgetBase
     {
         string _buttonText = "";
+        /// <summary>
+        /// presentation node
+        /// </summary>
         DomElement _pnode;
         bool _checked;
         DomElement _imgNode;
