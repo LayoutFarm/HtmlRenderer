@@ -11,7 +11,7 @@ namespace LayoutFarm.HtmlBoxes
         MyHtmlVisualRoot _myHtmlVisualRoot;
         CssBox _cssBox;
         DrawboardBuffer _builtInBackBuffer;
-        bool _useBackbuffer;
+
         bool _hasAccumRect;
         Rectangle _invalidateRect;
 
@@ -41,23 +41,19 @@ namespace LayoutFarm.HtmlBoxes
         protected override void DrawBoxContent(DrawBoard canvas, Rectangle updateArea)
         {
             //TODO: review here, 
-            if (canvas.IsGpuDrawBoard)
-            {
-                _useBackbuffer = true;
-            }
+
 
             //_useBackbuffer = false;
 
-            if (_myHtmlVisualRoot == null)
-            {
-                return;
-            }
+            if (_myHtmlVisualRoot == null) { return; }
+            //
 
+            bool useBackbuffer = canvas.IsGpuDrawBoard;
             _myHtmlVisualRoot.CheckDocUpdate();
 
             DrawBoard cpuDrawBoard = null;
 
-            if (_useBackbuffer)
+            if (useBackbuffer)
             {
 
                 PaintVisitor painter = PaintVisitorStock.GetSharedPaintVisitor(_myHtmlVisualRoot, canvas);
