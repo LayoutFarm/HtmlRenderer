@@ -283,6 +283,10 @@ namespace LayoutFarm.HtmlBoxes
             g.StrokeColor = prevColor;
         }
         //------
+        public void Clear(Color c)
+        {
+            _drawBoard.Clear(c);
+        }
         public void FillRectangle(Color c, float x, float y, float w, float h)
         {
             _drawBoard.FillRectangle(c, x, y, w, h);
