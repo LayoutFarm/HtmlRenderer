@@ -57,20 +57,18 @@ namespace LayoutFarm.HtmlBoxes
             {
 
                 PaintVisitor painter = PaintVisitorStock.GetSharedPaintVisitor(_myHtmlVisualRoot, canvas);
-            
+
                 if (_builtInBackBuffer == null)
                 {
                     _builtInBackBuffer = painter.CreateOffscreenDrawBoard(this.Width, this.Height);
-                } 
+                }
 
 #if DEBUG
                 painter.dbugDrawDiagonalBox(Color.Blue, this.X, this.Y, this.Width, this.Height);
 #endif
                 if (_builtInBackBuffer.IsValid)
                 {
-                    //painter.AttachTo(_builtInBackBuffer);
-                    //painter.AttachToNormalBuffer();
-                    //painter.SetClipRect(rect1);
+                    //just draw from cache
                     painter.DrawImage(_builtInBackBuffer.GetImage(), 0, 0, this.Width, this.Height);
                 }
                 else
@@ -82,12 +80,6 @@ namespace LayoutFarm.HtmlBoxes
                     Rectangle currentClipRect = painter.GetCurrentClipRect();
                     if (_hasAccumRect)
                     {
-#if DEBUG
-                        //if (_invalidateRect.IsEmpty)
-                        //{
-                        //    _invalidateRect = new Rectangle(0, 0, 9999, 9999);
-                        //}
-#endif
                         //System.Diagnostics.Debug.WriteLine("b:" + _invalidateRect.ToString());
                         _invalidateRect.Offset(-this.X, -this.Y);
                         //System.Diagnostics.Debug.WriteLine("a:" + _invalidateRect.ToString());
@@ -101,8 +93,6 @@ namespace LayoutFarm.HtmlBoxes
                         painter.PushLocalClipArea(
                             _invalidateRect.Left, _invalidateRect.Top,
                             _invalidateRect.Width, _invalidateRect.Height);
-                        //painter.OffsetCanvasOrigin(-this.X, -this.Y);
-
 
                         //for debug
 #if DEBUG
@@ -119,7 +109,6 @@ namespace LayoutFarm.HtmlBoxes
 
 
                         _myHtmlVisualRoot.PerformPaint(painter);
-                        //painter.OffsetCanvasOrigin(this.X, this.Y);
                         painter.PopLocalClipArea();
 
                         painter.SetCanvasOrigin(ox2, oy2);
@@ -141,7 +130,6 @@ namespace LayoutFarm.HtmlBoxes
                         painter.PushLocalClipArea(
                             _invalidateRect.Left, _invalidateRect.Top,
                             _invalidateRect.Width, _invalidateRect.Height);
-                        //painter.OffsetCanvasOrigin(-this.X, -this.Y);
 #if DEBUG
                         Color c = Color.FromArgb(255, dbugRandom.Next(0, 255), dbugRandom.Next(0, 255), dbugRandom.Next(0, 255));
                         painter.FillRectangle(c,
@@ -160,16 +148,9 @@ namespace LayoutFarm.HtmlBoxes
 
 
                         _myHtmlVisualRoot.PerformPaint(painter);
-                        //painter.OffsetCanvasOrigin(this.X, this.Y);
                         painter.PopLocalClipArea();
-
                         painter.SetCanvasOrigin(ox2, oy2);
                         painter.SetClipRect(currentClipRect);
-
-                        //painter.OffsetCanvasOrigin(-this.X, -this.Y);
-                        //painter.FillRectangle(Color.Yellow, 0, 0, this.Width, this.Height);
-                        //_myHtmlVisualRoot.PerformPaint(painter);
-                        //painter.OffsetCanvasOrigin(this.X, this.Y);
                     }
 
                     _builtInBackBuffer.IsValid = true;
