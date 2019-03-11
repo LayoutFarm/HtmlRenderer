@@ -285,9 +285,7 @@ namespace LayoutFarm.CustomWidgets
         }
         public void LoadHtmlString(string htmlString)
         {
-            //if (htmlString.Length > 500)
-            //{ 
-            //}
+
             if (_htmlRenderBox == null)
             {
                 _waitingContentKind = WaitingContentKind.HtmlString;
@@ -300,8 +298,9 @@ namespace LayoutFarm.CustomWidgets
                 SetHtmlContainerEventHandlers();
                 ClearWaitingContent();
                 RaiseLayoutFinished();
+                _htmlRenderBox.InvalidateGraphics();
             }
-            _htmlRenderBox.InvalidateGraphics();
+
         }
         public void LoadHtmlFragmentString(string fragmentHtmlString)
         {

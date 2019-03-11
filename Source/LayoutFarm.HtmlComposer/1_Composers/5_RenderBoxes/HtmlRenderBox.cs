@@ -83,81 +83,86 @@ namespace LayoutFarm.HtmlBoxes
 
                     painter.AttachTo(_builtInBackBuffer);
                     Rectangle currentClipRect = painter.GetCurrentClipRect();
-                    if (_hasAccumRect)
+                    if (!_hasAccumRect)
                     {
-
-                        int ox2 = painter.CanvasOriginX;
-                        int oy2 = painter.CanvasOriginY;
-
-                        painter.SetCanvasOrigin(0, 0);
-                        painter.SetClipRect(currentClipRect);
-
-                        painter.PushLocalClipArea(
-                            _invalidateRect.Left, _invalidateRect.Top,
-                            _invalidateRect.Width, _invalidateRect.Height);
-
-                        //for debug
-                        //#if DEBUG
-                        //                        Color c = Color.FromArgb(255, dbugRandom.Next(0, 255), dbugRandom.Next(0, 255), dbugRandom.Next(0, 255));
-                        //                        painter.FillRectangle(c,
-                        //                            _invalidateRect.Left, _invalidateRect.Top,
-                        //                            _invalidateRect.Width, _invalidateRect.Height);
-
-                        //#else
-                        //                         painter.FillRectangle(Color.White,
-                        //                            _invalidateRect.Left, _invalidateRect.Top,
-                        //                            _invalidateRect.Width, _invalidateRect.Height);
-                        //#endif
-
-
-                        painter.FillRectangle(Color.White,
-                            _invalidateRect.Left, _invalidateRect.Top,
-                            _invalidateRect.Width, _invalidateRect.Height);
-
-                        _myHtmlVisualRoot.PerformPaint(painter);
-                        painter.PopLocalClipArea();
-
-                        painter.SetCanvasOrigin(ox2, oy2);
-                        painter.SetClipRect(currentClipRect);
+                        _invalidateRect = currentClipRect;
                     }
-                    else
-                    {
-                        _invalidateRect = currentClipRect;// new Rectangle(0, 0, 9999, 9999);
-                        //System.Diagnostics.Debug.WriteLine(_invalidateRect.ToString());
-                        //_invalidateRect.Offset(-this.X, -this.Y);
-                        //System.Diagnostics.Debug.WriteLine(_invalidateRect.ToString());
 
-                        int ox2 = painter.CanvasOriginX;
-                        int oy2 = painter.CanvasOriginY;
+                    //if (_hasAccumRect)
+                    //{
 
-                        painter.SetCanvasOrigin(0, 0);
-                        painter.SetClipRect(currentClipRect);
+                    int ox2 = painter.CanvasOriginX;
+                    int oy2 = painter.CanvasOriginY;
 
-                        painter.PushLocalClipArea(
-                            _invalidateRect.Left, _invalidateRect.Top,
-                            _invalidateRect.Width, _invalidateRect.Height);
-                        //#if DEBUG
-                        //                        Color c = Color.FromArgb(255, dbugRandom.Next(0, 255), dbugRandom.Next(0, 255), dbugRandom.Next(0, 255));
-                        //                        painter.FillRectangle(c,
-                        //                            _invalidateRect.Left, _invalidateRect.Top,
-                        //                            _invalidateRect.Width, _invalidateRect.Height);
+                    painter.SetCanvasOrigin(0, 0);
+                    painter.SetClipRect(currentClipRect);
 
-                        //#else
-                        //                         painter.FillRectangle(Color.White,
-                        //                            _invalidateRect.Left, _invalidateRect.Top,
-                        //                            _invalidateRect.Width, _invalidateRect.Height);
-                        //#endif
+                    painter.PushLocalClipArea(
+                        _invalidateRect.Left, _invalidateRect.Top,
+                        _invalidateRect.Width, _invalidateRect.Height);
 
-                        painter.FillRectangle(Color.White,
-                           _invalidateRect.Left, _invalidateRect.Top,
-                           _invalidateRect.Width, _invalidateRect.Height);
+                    //for debug
+                    //#if DEBUG
+                    //                        Color c = Color.FromArgb(255, dbugRandom.Next(0, 255), dbugRandom.Next(0, 255), dbugRandom.Next(0, 255));
+                    //                        painter.FillRectangle(c,
+                    //                            _invalidateRect.Left, _invalidateRect.Top,
+                    //                            _invalidateRect.Width, _invalidateRect.Height);
+
+                    //#else
+                    //                         painter.FillRectangle(Color.White,
+                    //                            _invalidateRect.Left, _invalidateRect.Top,
+                    //                            _invalidateRect.Width, _invalidateRect.Height);
+                    //#endif
 
 
-                        _myHtmlVisualRoot.PerformPaint(painter);
-                        painter.PopLocalClipArea();
-                        painter.SetCanvasOrigin(ox2, oy2);
-                        painter.SetClipRect(currentClipRect);
-                    }
+                    painter.FillRectangle(Color.White,
+                        _invalidateRect.Left, _invalidateRect.Top,
+                        _invalidateRect.Width, _invalidateRect.Height);
+
+                    _myHtmlVisualRoot.PerformPaint(painter);
+                    painter.PopLocalClipArea();
+
+                    painter.SetCanvasOrigin(ox2, oy2);
+                    painter.SetClipRect(currentClipRect);
+                    //}
+                    //else
+                    //{
+                    //    _invalidateRect = currentClipRect;// new Rectangle(0, 0, 9999, 9999);
+                    //    //System.Diagnostics.Debug.WriteLine(_invalidateRect.ToString());
+                    //    //_invalidateRect.Offset(-this.X, -this.Y);
+                    //    //System.Diagnostics.Debug.WriteLine(_invalidateRect.ToString());
+
+                    //    int ox2 = painter.CanvasOriginX;
+                    //    int oy2 = painter.CanvasOriginY;
+
+                    //    painter.SetCanvasOrigin(0, 0);
+                    //    painter.SetClipRect(currentClipRect);
+
+                    //    painter.PushLocalClipArea(
+                    //        _invalidateRect.Left, _invalidateRect.Top,
+                    //        _invalidateRect.Width, _invalidateRect.Height);
+                    //    //#if DEBUG
+                    //    //                        Color c = Color.FromArgb(255, dbugRandom.Next(0, 255), dbugRandom.Next(0, 255), dbugRandom.Next(0, 255));
+                    //    //                        painter.FillRectangle(c,
+                    //    //                            _invalidateRect.Left, _invalidateRect.Top,
+                    //    //                            _invalidateRect.Width, _invalidateRect.Height);
+
+                    //    //#else
+                    //    //                         painter.FillRectangle(Color.White,
+                    //    //                            _invalidateRect.Left, _invalidateRect.Top,
+                    //    //                            _invalidateRect.Width, _invalidateRect.Height);
+                    //    //#endif
+
+                    //    painter.FillRectangle(Color.White,
+                    //       _invalidateRect.Left, _invalidateRect.Top,
+                    //       _invalidateRect.Width, _invalidateRect.Height);
+
+
+                    //    _myHtmlVisualRoot.PerformPaint(painter);
+                    //    painter.PopLocalClipArea();
+                    //    painter.SetCanvasOrigin(ox2, oy2);
+                    //    painter.SetClipRect(currentClipRect);
+                    //}
 
                     _builtInBackBuffer.IsValid = true;
                     _hasAccumRect = false;
