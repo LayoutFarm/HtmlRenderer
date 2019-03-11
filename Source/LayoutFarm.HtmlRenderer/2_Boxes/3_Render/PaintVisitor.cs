@@ -49,6 +49,10 @@ namespace LayoutFarm.HtmlBoxes
             _viewportWidth = width;
             _viewportHeight = height;
         }
+
+        public float ViewportWidth => _viewportWidth;
+        public float ViewportHeight => _viewportHeight;
+
         public DrawBoard InnerDrawBoard => _drawBoard;
 
 
