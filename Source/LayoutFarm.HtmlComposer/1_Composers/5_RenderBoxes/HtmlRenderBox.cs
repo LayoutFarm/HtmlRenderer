@@ -74,7 +74,7 @@ namespace LayoutFarm.HtmlBoxes
                     painter.AttachTo(_builtInBackBuffer);
                 }
 
-                painter.SetViewportSize(this.Width, this.Height);
+                //painter.SetViewportSize(this.Width, this.Height);
                 painter.dbugDrawDiagonalBox(Color.Blue, this.X, this.Y, this.Width, this.Height);
 
                 if (!_builtInBackBuffer.IsValid)
