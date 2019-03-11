@@ -48,6 +48,8 @@ namespace LayoutFarm
                 if (!htmlVisualRoot.IsInUpdateQueue)
                 {
                     htmlVisualRoot.IsInUpdateQueue = true;
+
+                    //
                     htmlVisualRootUpdateList.Add(htmlVisualRoot);
                 }
             });

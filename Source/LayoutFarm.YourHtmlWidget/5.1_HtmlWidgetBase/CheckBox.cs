@@ -8,6 +8,9 @@ namespace LayoutFarm.HtmlWidgets
     public class ChoiceBox : HtmlWidgetBase
     {
         string _buttonText = "";
+        /// <summary>
+        /// presentation node
+        /// </summary>
         DomElement _pnode;
         bool _checked;
         DomElement _imgNode;
@@ -61,7 +64,8 @@ namespace LayoutFarm.HtmlWidgets
             _pnode.AddChild("div", div2 =>
             {
                 //init
-                div2.SetAttribute("style", "background-color:#dddddd;color:black;");
+                //div2.SetAttribute("style", "background-color:#dddddd;color:black;");
+                div2.SetAttribute("style", "color:black;");
                 _imgNode = div2.AddChild("img");
 
                 _imgNode.SetAttribute("src", OnlyOne ? "opt_unchecked.png" : "chk_unchecked.png");

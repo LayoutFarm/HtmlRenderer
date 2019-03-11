@@ -783,17 +783,18 @@ namespace LayoutFarm.HtmlBoxes
             this.GetGlobalLocationImpl(out globalX, out globalY);
         }
 
-        void GetGlobalLocationRelativeToRoot(ref PointF location)
+        public void GetGlobalLocationRelativeToRoot(ref PointF location)
         {
 
             if (_justBlockRun != null)
             {
                 //recursive
+#if DEBUG
                 if (_viewportX != 0 || _viewportY != 0)
                 {
 
                 }
-
+#endif
                 location.Offset(
                     (int)(_justBlockRun.Left),
                     (int)(_justBlockRun.Top + _justBlockRun.HostLine.CachedLineTop));
@@ -806,8 +807,6 @@ namespace LayoutFarm.HtmlBoxes
             CssBox parentBox = _absLayerOwner ?? this.ParentBox;
             if (parentBox != null)
             {
-
-
 #if DEBUG
                 if (_viewportX != 0 || _viewportY != 0)
                 {

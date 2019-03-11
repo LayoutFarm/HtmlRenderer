@@ -100,7 +100,9 @@ namespace LayoutFarm.CustomWidgets
                     //extend from existing selection
                     SelectionRange selRange = _htmlVisualRoot.CurrentSelectionRange;
 
+#if DEBUG
                     PixelFarm.Drawing.Rectangle existingArea = _htmlVisualRoot.CurrentSelectionRange.SnapSelectionArea;
+#endif
                     //
                     SimulateMouseSelection(
                         _latest_selMouseDownX,
@@ -283,6 +285,7 @@ namespace LayoutFarm.CustomWidgets
         }
         public void LoadHtmlString(string htmlString)
         {
+
             if (_htmlRenderBox == null)
             {
                 _waitingContentKind = WaitingContentKind.HtmlString;
@@ -294,7 +297,10 @@ namespace LayoutFarm.CustomWidgets
                 _htmlVisualRoot = HtmlHostExtensions.CreateHtmlVisualRootFromFullHtml(_htmlhost, htmlString, _htmlRenderBox);
                 SetHtmlContainerEventHandlers();
                 ClearWaitingContent();
+                RaiseLayoutFinished();
+                _htmlRenderBox.InvalidateGraphics();
             }
+
         }
         public void LoadHtmlFragmentString(string fragmentHtmlString)
         {

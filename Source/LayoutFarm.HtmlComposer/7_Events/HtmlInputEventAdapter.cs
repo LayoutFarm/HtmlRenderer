@@ -119,6 +119,8 @@ namespace LayoutFarm.HtmlBoxes
             //-----------------------------------------
             int x = e.X;
             int y = e.Y;
+
+            
             if (e.IsDragging && _latestMouseDownChain != null)
             {
                 //dragging *** , if changed

@@ -31,9 +31,10 @@ namespace LayoutFarm.Composers
                 return;
             }
 
+            //TODO: review 
             HtmlElement.InvokeNotifyChangeOnIdleState(
                 _elem,
-                ElementChangeKind.Spec);
+                ElementChangeKind.Spec, null);
             //-------------------------------------
             var existingRuleSet = _elem.ElementRuleSet;
             if (existingRuleSet == null)
@@ -46,7 +47,7 @@ namespace LayoutFarm.Composers
                 new CssPropertyDeclaration(
                     WellknownCssPropertyName.Color,
                     new CssCodeColor(newcolor)));
-            HtmlElement.InvokeNotifyChangeOnIdleState(_elem, ElementChangeKind.Spec);
+            HtmlElement.InvokeNotifyChangeOnIdleState(_elem, ElementChangeKind.Spec, null);
         }
         public void ChangeBackgroundColor(Color backgroundColor)
         {
@@ -88,7 +89,7 @@ namespace LayoutFarm.Composers
 
             HtmlElement.InvokeNotifyChangeOnIdleState(
                _elem,
-               ElementChangeKind.Spec);
+               ElementChangeKind.Spec, null);
             InvalidateCssBox(cssbox);
         }
         static void InvalidateCssBox(CssBox cssbox)
