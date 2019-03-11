@@ -57,27 +57,11 @@ namespace LayoutFarm.HtmlBoxes
             {
 
                 PaintVisitor painter = PaintVisitorStock.GetSharedPaintVisitor(_myHtmlVisualRoot, canvas);
-                Rectangle rect1 = painter.CurrentClipRect;
-                //rect1.Offset(this.X, this.Y);
-
+            
                 if (_builtInBackBuffer == null)
                 {
                     _builtInBackBuffer = painter.CreateOffscreenDrawBoard(this.Width, this.Height);
-                }
-
-
-                //                if (_builtInBackBuffer != null)
-                //                {
-                //#if DEBUG
-                //                    if (!_builtInBackBuffer.IsValid && _hasAccumRect)
-                //                    {
-                //                    }
-                //#endif
-
-                //                }
-
-                //painter.SetViewportSize(this.Width, this.Height);
-
+                } 
 
 #if DEBUG
                 painter.dbugDrawDiagonalBox(Color.Blue, this.X, this.Y, this.Width, this.Height);
@@ -91,6 +75,7 @@ namespace LayoutFarm.HtmlBoxes
                 }
                 else
                 {
+                    Rectangle rect1 = painter.CurrentClipRect;
                     //painter.FillRectangle(Color.Red, 0, 0, 100, 100);//debug 
                     //painter.DrawText(i.ToString().ToCharArray(), 0, 1, new PointF(0, 0), new SizeF(100, 100)); //debug
                     painter.AttachTo(_builtInBackBuffer);
