@@ -64,18 +64,24 @@ namespace LayoutFarm.HtmlBoxes
                 {
                     _builtInBackBuffer = painter.CreateOffscreenDrawBoard(this.Width, this.Height);
                 }
-                if (_builtInBackBuffer != null)
-                {
-#if DEBUG
-                    if (!_builtInBackBuffer.IsValid && _hasAccumRect)
-                    {
-                    }
-#endif
-                    painter.AttachTo(_builtInBackBuffer);
-                }
+
+
+                //                if (_builtInBackBuffer != null)
+                //                {
+                //#if DEBUG
+                //                    if (!_builtInBackBuffer.IsValid && _hasAccumRect)
+                //                    {
+                //                    }
+                //#endif
+
+                //                }
 
                 //painter.SetViewportSize(this.Width, this.Height);
+                painter.AttachTo(_builtInBackBuffer);
+
+#if DEBUG
                 painter.dbugDrawDiagonalBox(Color.Blue, this.X, this.Y, this.Width, this.Height);
+#endif
 
                 if (!_builtInBackBuffer.IsValid)
                 {
@@ -179,19 +185,17 @@ namespace LayoutFarm.HtmlBoxes
                     _hasAccumRect = false;
                 }
 
-                if (_builtInBackBuffer != null)
-                {
-                    painter.AttachToNormalBuffer();
-                    //System.Diagnostics.Debug.WriteLine(rect1.ToString());
+                painter.AttachToNormalBuffer();
+                //System.Diagnostics.Debug.WriteLine(rect1.ToString());
 #if DEBUG
-                    if (dbugHtmlRenderBoxId > 1)
-                    {
-                    }
+                if (dbugHtmlRenderBoxId > 1)
+                {
+                }
 #endif
 
-                    painter.SetClipRect(rect1);
-                    painter.DrawImage(_builtInBackBuffer.GetImage(), painter.CanvasOriginX, painter.CanvasOriginY, this.Width, this.Height);
-                }
+                painter.SetClipRect(rect1);
+                painter.DrawImage(_builtInBackBuffer.GetImage(), painter.CanvasOriginX, painter.CanvasOriginY, this.Width, this.Height);
+
                 PaintVisitorStock.ReleaseSharedPaintVisitor(painter);
             }
             else if (PreferSoftwareRenderer &&
