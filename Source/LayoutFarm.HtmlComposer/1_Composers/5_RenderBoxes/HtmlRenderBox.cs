@@ -16,6 +16,7 @@ namespace LayoutFarm.HtmlBoxes
         Rectangle _invalidateRect;
 
 #if DEBUG
+        public bool dbugBreak;
         System.Random dbugRandom = new System.Random();
         public readonly int dbugHtmlRenderBoxId = dbugTotalId++;
         static int dbugTotalId;
@@ -49,9 +50,11 @@ namespace LayoutFarm.HtmlBoxes
             //
 
             bool useBackbuffer = canvas.IsGpuDrawBoard;
+
+            //... TODO: review here, check doc update here?
             _myHtmlVisualRoot.CheckDocUpdate();
 
-            DrawBoard cpuDrawBoard = null;
+
 
             if (useBackbuffer)
             {
@@ -74,15 +77,14 @@ namespace LayoutFarm.HtmlBoxes
                 else
                 {
                     Rectangle rect1 = painter.CurrentClipRect;
+
                     //painter.FillRectangle(Color.Red, 0, 0, 100, 100);//debug 
                     //painter.DrawText(i.ToString().ToCharArray(), 0, 1, new PointF(0, 0), new SizeF(100, 100)); //debug
+
                     painter.AttachTo(_builtInBackBuffer);
                     Rectangle currentClipRect = painter.GetCurrentClipRect();
                     if (_hasAccumRect)
                     {
-                        //System.Diagnostics.Debug.WriteLine("b:" + _invalidateRect.ToString());
-                        _invalidateRect.Offset(-this.X, -this.Y);
-                        //System.Diagnostics.Debug.WriteLine("a:" + _invalidateRect.ToString());
 
                         int ox2 = painter.CanvasOriginX;
                         int oy2 = painter.CanvasOriginY;
@@ -95,18 +97,22 @@ namespace LayoutFarm.HtmlBoxes
                             _invalidateRect.Width, _invalidateRect.Height);
 
                         //for debug
-#if DEBUG
-                        Color c = Color.FromArgb(255, dbugRandom.Next(0, 255), dbugRandom.Next(0, 255), dbugRandom.Next(0, 255));
-                        painter.FillRectangle(c,
+                        //#if DEBUG
+                        //                        Color c = Color.FromArgb(255, dbugRandom.Next(0, 255), dbugRandom.Next(0, 255), dbugRandom.Next(0, 255));
+                        //                        painter.FillRectangle(c,
+                        //                            _invalidateRect.Left, _invalidateRect.Top,
+                        //                            _invalidateRect.Width, _invalidateRect.Height);
+
+                        //#else
+                        //                         painter.FillRectangle(Color.White,
+                        //                            _invalidateRect.Left, _invalidateRect.Top,
+                        //                            _invalidateRect.Width, _invalidateRect.Height);
+                        //#endif
+
+
+                        painter.FillRectangle(Color.White,
                             _invalidateRect.Left, _invalidateRect.Top,
                             _invalidateRect.Width, _invalidateRect.Height);
-
-#else
-                         painter.FillRectangle(Color.White,
-                            _invalidateRect.Left, _invalidateRect.Top,
-                            _invalidateRect.Width, _invalidateRect.Height);
-#endif
-
 
                         _myHtmlVisualRoot.PerformPaint(painter);
                         painter.PopLocalClipArea();
@@ -116,9 +122,9 @@ namespace LayoutFarm.HtmlBoxes
                     }
                     else
                     {
-                        _invalidateRect = new Rectangle(0, 0, 9999, 9999);
+                        _invalidateRect = currentClipRect;// new Rectangle(0, 0, 9999, 9999);
                         //System.Diagnostics.Debug.WriteLine(_invalidateRect.ToString());
-                        _invalidateRect.Offset(-this.X, -this.Y);
+                        //_invalidateRect.Offset(-this.X, -this.Y);
                         //System.Diagnostics.Debug.WriteLine(_invalidateRect.ToString());
 
                         int ox2 = painter.CanvasOriginX;
@@ -130,21 +136,21 @@ namespace LayoutFarm.HtmlBoxes
                         painter.PushLocalClipArea(
                             _invalidateRect.Left, _invalidateRect.Top,
                             _invalidateRect.Width, _invalidateRect.Height);
-#if DEBUG
-                        Color c = Color.FromArgb(255, dbugRandom.Next(0, 255), dbugRandom.Next(0, 255), dbugRandom.Next(0, 255));
-                        painter.FillRectangle(c,
-                            _invalidateRect.Left, _invalidateRect.Top,
-                            _invalidateRect.Width, _invalidateRect.Height);
+                        //#if DEBUG
+                        //                        Color c = Color.FromArgb(255, dbugRandom.Next(0, 255), dbugRandom.Next(0, 255), dbugRandom.Next(0, 255));
+                        //                        painter.FillRectangle(c,
+                        //                            _invalidateRect.Left, _invalidateRect.Top,
+                        //                            _invalidateRect.Width, _invalidateRect.Height);
 
-#else
-                         painter.FillRectangle(Color.White,
-                            _invalidateRect.Left, _invalidateRect.Top,
-                            _invalidateRect.Width, _invalidateRect.Height);
-#endif
+                        //#else
+                        //                         painter.FillRectangle(Color.White,
+                        //                            _invalidateRect.Left, _invalidateRect.Top,
+                        //                            _invalidateRect.Width, _invalidateRect.Height);
+                        //#endif
 
-                        //painter.FillRectangle(Color.Yellow,
-                        //    _invalidateRect.Left, _invalidateRect.Top,
-                        //    _invalidateRect.Width, _invalidateRect.Height);
+                        painter.FillRectangle(Color.White,
+                           _invalidateRect.Left, _invalidateRect.Top,
+                           _invalidateRect.Width, _invalidateRect.Height);
 
 
                         _myHtmlVisualRoot.PerformPaint(painter);
@@ -163,27 +169,29 @@ namespace LayoutFarm.HtmlBoxes
                 PaintVisitorStock.ReleaseSharedPaintVisitor(painter);
             }
             else if (PreferSoftwareRenderer &&
-                 canvas.IsGpuDrawBoard &&
-                (cpuDrawBoard = canvas.GetCpuBlitDrawBoard()) != null)
+                 canvas.IsGpuDrawBoard)
             {
                 //TODO: review this again ***
                 //test built-in 'shared' software rendering surface
+                DrawBoard cpuDrawBoard = null;
+                if ((cpuDrawBoard = canvas.GetCpuBlitDrawBoard()) != null)
+                {
+                    cpuDrawBoard.Clear(Color.White);
+                    PaintVisitor painter = PaintVisitorStock.GetSharedPaintVisitor(_myHtmlVisualRoot, cpuDrawBoard);
 
-                cpuDrawBoard.Clear(Color.White);
-                PaintVisitor painter = PaintVisitorStock.GetSharedPaintVisitor(_myHtmlVisualRoot, cpuDrawBoard);
-
-                painter.SetViewportSize(this.Width, this.Height);
+                    painter.SetViewportSize(this.Width, this.Height);
 
 #if DEBUG
-                painter.dbugDrawDiagonalBox(Color.Blue, this.X, this.Y, this.Width, this.Height);
+                    painter.dbugDrawDiagonalBox(Color.Blue, this.X, this.Y, this.Width, this.Height);
 #endif
 
 
-                _myHtmlVisualRoot.PerformPaint(painter);
-                PaintVisitorStock.ReleaseSharedPaintVisitor(painter);
+                    _myHtmlVisualRoot.PerformPaint(painter);
+                    PaintVisitorStock.ReleaseSharedPaintVisitor(painter);
 
-                //then copy from cpu to gpu 
-                canvas.BlitFrom(cpuDrawBoard, X, Y, this.Width, this.Height, 0, 0);
+                    //then copy from cpu to gpu 
+                    canvas.BlitFrom(cpuDrawBoard, X, Y, this.Width, this.Height, 0, 0);
+                }
             }
             else
             {
