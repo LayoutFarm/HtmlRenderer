@@ -77,17 +77,23 @@ namespace LayoutFarm.HtmlBoxes
                 //                }
 
                 //painter.SetViewportSize(this.Width, this.Height);
-                painter.AttachTo(_builtInBackBuffer);
+
 
 #if DEBUG
                 painter.dbugDrawDiagonalBox(Color.Blue, this.X, this.Y, this.Width, this.Height);
 #endif
-
-                if (!_builtInBackBuffer.IsValid)
+                if (_builtInBackBuffer.IsValid)
+                {
+                    //painter.AttachTo(_builtInBackBuffer);
+                    //painter.AttachToNormalBuffer();
+                    //painter.SetClipRect(rect1);
+                    painter.DrawImage(_builtInBackBuffer.GetImage(), 0, 0, this.Width, this.Height);
+                }
+                else
                 {
                     //painter.FillRectangle(Color.Red, 0, 0, 100, 100);//debug 
                     //painter.DrawText(i.ToString().ToCharArray(), 0, 1, new PointF(0, 0), new SizeF(100, 100)); //debug
-
+                    painter.AttachTo(_builtInBackBuffer);
                     Rectangle currentClipRect = painter.GetCurrentClipRect();
                     if (_hasAccumRect)
                     {
@@ -183,18 +189,10 @@ namespace LayoutFarm.HtmlBoxes
 
                     _builtInBackBuffer.IsValid = true;
                     _hasAccumRect = false;
+                    painter.AttachToNormalBuffer();
+                    painter.SetClipRect(rect1);
+                    painter.DrawImage(_builtInBackBuffer.GetImage(), painter.CanvasOriginX, painter.CanvasOriginY, this.Width, this.Height);
                 }
-
-                painter.AttachToNormalBuffer();
-                //System.Diagnostics.Debug.WriteLine(rect1.ToString());
-#if DEBUG
-                if (dbugHtmlRenderBoxId > 1)
-                {
-                }
-#endif
-
-                painter.SetClipRect(rect1);
-                painter.DrawImage(_builtInBackBuffer.GetImage(), painter.CanvasOriginX, painter.CanvasOriginY, this.Width, this.Height);
 
                 PaintVisitorStock.ReleaseSharedPaintVisitor(painter);
             }
