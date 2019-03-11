@@ -16,6 +16,7 @@ namespace LayoutFarm.HtmlBoxes
         Rectangle _invalidateRect;
 
 #if DEBUG
+        public bool dbugBreak;
         System.Random dbugRandom = new System.Random();
         public readonly int dbugHtmlRenderBoxId = dbugTotalId++;
         static int dbugTotalId;
@@ -41,181 +42,89 @@ namespace LayoutFarm.HtmlBoxes
         protected override void DrawBoxContent(DrawBoard canvas, Rectangle updateArea)
         {
             //TODO: review here, 
-
-
             //_useBackbuffer = false;
 
             if (_myHtmlVisualRoot == null) { return; }
-            //
 
             bool useBackbuffer = canvas.IsGpuDrawBoard;
-            _myHtmlVisualRoot.CheckDocUpdate();
 
-            DrawBoard cpuDrawBoard = null;
+            //... TODO: review here, check doc update here?
+            _myHtmlVisualRoot.CheckDocUpdate();
 
             if (useBackbuffer)
             {
-
                 PaintVisitor painter = PaintVisitorStock.GetSharedPaintVisitor(_myHtmlVisualRoot, canvas);
-                Rectangle rect1 = painter.CurrentClipRect;
-                //rect1.Offset(this.X, this.Y);
 
                 if (_builtInBackBuffer == null)
                 {
                     _builtInBackBuffer = painter.CreateOffscreenDrawBoard(this.Width, this.Height);
                 }
-                if (_builtInBackBuffer != null)
-                {
+
 #if DEBUG
-                    if (!_builtInBackBuffer.IsValid && _hasAccumRect)
-                    {
-                    }
-#endif
-                    painter.AttachTo(_builtInBackBuffer);
-                }
-
-                painter.SetViewportSize(this.Width, this.Height);
                 painter.dbugDrawDiagonalBox(Color.Blue, this.X, this.Y, this.Width, this.Height);
-
+#endif
                 if (!_builtInBackBuffer.IsValid)
                 {
                     //painter.FillRectangle(Color.Red, 0, 0, 100, 100);//debug 
                     //painter.DrawText(i.ToString().ToCharArray(), 0, 1, new PointF(0, 0), new SizeF(100, 100)); //debug
 
-                    Rectangle currentClipRect = painter.GetCurrentClipRect();
-                    if (_hasAccumRect)
+                    //painter.SetViewportSize(this.Width, this.Height);//??
+
+                    painter.AttachTo(_builtInBackBuffer); //*** switch to builtInBackbuffer 
+
+                    if (!_hasAccumRect)
                     {
-#if DEBUG
-                        //if (_invalidateRect.IsEmpty)
-                        //{
-                        //    _invalidateRect = new Rectangle(0, 0, 9999, 9999);
-                        //}
-#endif
-                        //System.Diagnostics.Debug.WriteLine("b:" + _invalidateRect.ToString());
-                        _invalidateRect.Offset(-this.X, -this.Y);
-                        //System.Diagnostics.Debug.WriteLine("a:" + _invalidateRect.ToString());
-
-                        int ox2 = painter.CanvasOriginX;
-                        int oy2 = painter.CanvasOriginY;
-
-                        painter.SetCanvasOrigin(0, 0);
-                        painter.SetClipRect(currentClipRect);
-
-                        painter.PushLocalClipArea(
-                            _invalidateRect.Left, _invalidateRect.Top,
-                            _invalidateRect.Width, _invalidateRect.Height);
-                        //painter.OffsetCanvasOrigin(-this.X, -this.Y);
-
-
-                        //for debug
-#if DEBUG
-                        Color c = Color.FromArgb(255, dbugRandom.Next(0, 255), dbugRandom.Next(0, 255), dbugRandom.Next(0, 255));
-                        painter.FillRectangle(c,
-                            _invalidateRect.Left, _invalidateRect.Top,
-                            _invalidateRect.Width, _invalidateRect.Height);
-
-#else
-                         painter.FillRectangle(Color.White,
-                            _invalidateRect.Left, _invalidateRect.Top,
-                            _invalidateRect.Width, _invalidateRect.Height);
-#endif
-
-
-                        _myHtmlVisualRoot.PerformPaint(painter);
-                        //painter.OffsetCanvasOrigin(this.X, this.Y);
-                        painter.PopLocalClipArea();
-
-                        painter.SetCanvasOrigin(ox2, oy2);
-                        painter.SetClipRect(currentClipRect);
+                        _invalidateRect = new Rectangle(0, 0, Width, Height);
                     }
-                    else
-                    {
-                        _invalidateRect = new Rectangle(0, 0, 9999, 9999);
-                        //System.Diagnostics.Debug.WriteLine(_invalidateRect.ToString());
-                        _invalidateRect.Offset(-this.X, -this.Y);
-                        //System.Diagnostics.Debug.WriteLine(_invalidateRect.ToString());
 
-                        int ox2 = painter.CanvasOriginX;
-                        int oy2 = painter.CanvasOriginY;
+                    painter.PushLocalClipArea(
+                        _invalidateRect.Left, _invalidateRect.Top,
+                        _invalidateRect.Width, _invalidateRect.Height);
 
-                        painter.SetCanvasOrigin(0, 0);
-                        painter.SetClipRect(currentClipRect);
-
-                        painter.PushLocalClipArea(
-                            _invalidateRect.Left, _invalidateRect.Top,
-                            _invalidateRect.Width, _invalidateRect.Height);
-                        //painter.OffsetCanvasOrigin(-this.X, -this.Y);
+                    //for debug , test clear with random color
 #if DEBUG
-                        Color c = Color.FromArgb(255, dbugRandom.Next(0, 255), dbugRandom.Next(0, 255), dbugRandom.Next(0, 255));
-                        painter.FillRectangle(c,
-                            _invalidateRect.Left, _invalidateRect.Top,
-                            _invalidateRect.Width, _invalidateRect.Height);
-
-#else
-                         painter.FillRectangle(Color.White,
-                            _invalidateRect.Left, _invalidateRect.Top,
-                            _invalidateRect.Width, _invalidateRect.Height);
+                    //painter.Clear(Color.FromArgb(255, dbugRandom.Next(0, 255), dbugRandom.Next(0, 255), dbugRandom.Next(0, 255)));
 #endif
+                    painter.Clear(Color.White);
 
-                        //painter.FillRectangle(Color.Yellow,
-                        //    _invalidateRect.Left, _invalidateRect.Top,
-                        //    _invalidateRect.Width, _invalidateRect.Height);
+                    _myHtmlVisualRoot.PerformPaint(painter);
 
-
-                        _myHtmlVisualRoot.PerformPaint(painter);
-                        //painter.OffsetCanvasOrigin(this.X, this.Y);
-                        painter.PopLocalClipArea();
-
-                        painter.SetCanvasOrigin(ox2, oy2);
-                        painter.SetClipRect(currentClipRect);
-
-                        //painter.OffsetCanvasOrigin(-this.X, -this.Y);
-                        //painter.FillRectangle(Color.Yellow, 0, 0, this.Width, this.Height);
-                        //_myHtmlVisualRoot.PerformPaint(painter);
-                        //painter.OffsetCanvasOrigin(this.X, this.Y);
-                    }
+                    painter.PopLocalClipArea();
 
                     _builtInBackBuffer.IsValid = true;
                     _hasAccumRect = false;
+
+                    painter.AttachToNormalBuffer();//*** switch back
                 }
 
-                if (_builtInBackBuffer != null)
-                {
-                    painter.AttachToNormalBuffer();
-                    //System.Diagnostics.Debug.WriteLine(rect1.ToString());
-#if DEBUG
-                    if (dbugHtmlRenderBoxId > 1)
-                    {
-                    }
-#endif
+                painter.DrawImage(_builtInBackBuffer.GetImage(), 0, 0, this.Width, this.Height);
 
-                    painter.SetClipRect(rect1);
-                    painter.DrawImage(_builtInBackBuffer.GetImage(), painter.CanvasOriginX, painter.CanvasOriginY, this.Width, this.Height);
-                }
                 PaintVisitorStock.ReleaseSharedPaintVisitor(painter);
             }
             else if (PreferSoftwareRenderer &&
-                 canvas.IsGpuDrawBoard &&
-                (cpuDrawBoard = canvas.GetCpuBlitDrawBoard()) != null)
+                 canvas.IsGpuDrawBoard)
             {
                 //TODO: review this again ***
                 //test built-in 'shared' software rendering surface
+                DrawBoard cpuDrawBoard = null;
+                if ((cpuDrawBoard = canvas.GetCpuBlitDrawBoard()) != null)
+                {
+                    cpuDrawBoard.Clear(Color.White);
+                    PaintVisitor painter = PaintVisitorStock.GetSharedPaintVisitor(_myHtmlVisualRoot, cpuDrawBoard);
 
-                cpuDrawBoard.Clear(Color.White);
-                PaintVisitor painter = PaintVisitorStock.GetSharedPaintVisitor(_myHtmlVisualRoot, cpuDrawBoard);
-
-                painter.SetViewportSize(this.Width, this.Height);
+                    painter.SetViewportSize(this.Width, this.Height);
 
 #if DEBUG
-                painter.dbugDrawDiagonalBox(Color.Blue, this.X, this.Y, this.Width, this.Height);
+                    painter.dbugDrawDiagonalBox(Color.Blue, this.X, this.Y, this.Width, this.Height);
 #endif
 
 
-                _myHtmlVisualRoot.PerformPaint(painter);
-                PaintVisitorStock.ReleaseSharedPaintVisitor(painter);
+                    _myHtmlVisualRoot.PerformPaint(painter);
+                    PaintVisitorStock.ReleaseSharedPaintVisitor(painter);
 
-                //then copy from cpu to gpu 
-                canvas.BlitFrom(cpuDrawBoard, X, Y, this.Width, this.Height, 0, 0);
+                    //then copy from cpu to gpu 
+                    canvas.BlitFrom(cpuDrawBoard, X, Y, this.Width, this.Height, 0, 0);
+                }
             }
             else
             {

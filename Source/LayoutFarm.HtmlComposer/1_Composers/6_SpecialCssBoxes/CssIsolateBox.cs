@@ -46,7 +46,7 @@ namespace LayoutFarm.HtmlBoxes
 //#if DEBUG
 //            System.Diagnostics.Debug.WriteLine("re-bridge_cssbox_invalidateGfx:" + clientArea.ToString());
 //#endif
-            clientArea.Offset(_containerElement.X, _containerElement.Y);
+            //clientArea.Offset(_containerElement.X, _containerElement.Y);
             _containerElement.InvalidateParentGraphics(clientArea);
         }
         public LayoutFarm.RenderElement ContainerElement => _containerElement;

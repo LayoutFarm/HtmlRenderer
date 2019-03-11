@@ -18,6 +18,10 @@ namespace LayoutFarm.HtmlBoxes
         float _viewportWidth;
         float _viewportHeight;
         Color _cssBoxSelectionColor = Color.LightGray;
+
+
+
+
         public PaintVisitor()
         {
         }
@@ -28,11 +32,14 @@ namespace LayoutFarm.HtmlBoxes
         }
         public void AttachTo(DrawboardBuffer attachToBackbuffer)
         {
+            //save  
             _drawBoard.AttachToBackBuffer(attachToBackbuffer);
+            _latestClip = _drawBoard.CurrentClipRect;
         }
         public void AttachToNormalBuffer()
         {
             _drawBoard.SwitchBackToDefaultBuffer(null);
+            _latestClip = _drawBoard.CurrentClipRect;
         }
         public Color CssBoxSelectionColor => _cssBoxSelectionColor;
 
@@ -94,6 +101,7 @@ namespace LayoutFarm.HtmlBoxes
             _drawBoard.SetClipRect(intersectResult);
             return !intersectResult.IsEmpty;
         }
+
         internal bool PushLocalClipArea(float left, float top, float w, float h)
         {
             //return true;
@@ -129,8 +137,7 @@ namespace LayoutFarm.HtmlBoxes
 #endif
             if (_clipStacks.Count > 0)
             {
-                Rectangle prevClip = _latestClip = _clipStacks.Pop();
-                _drawBoard.SetClipRect(prevClip);
+                _drawBoard.SetClipRect(_latestClip = _clipStacks.Pop());
             }
             else
             {
@@ -187,10 +194,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             _drawBoard.OffsetCanvasOrigin(dx, dy);
         }
-        public void SetClipRect(Rectangle rect)
-        {
-            _drawBoard.SetClipRect(rect);
-        }
+
         public Rectangle GetCurrentClipRect() => _drawBoard.CurrentClipRect;
         internal void PaintBorders(CssBox box, RectangleF stripArea, bool isFirstLine, bool isLastLine)
         {
@@ -283,6 +287,10 @@ namespace LayoutFarm.HtmlBoxes
             g.StrokeColor = prevColor;
         }
         //------
+        public void Clear(Color c)
+        {
+            _drawBoard.Clear(c);
+        }
         public void FillRectangle(Color c, float x, float y, float w, float h)
         {
             _drawBoard.FillRectangle(c, x, y, w, h);
