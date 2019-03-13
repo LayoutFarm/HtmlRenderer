@@ -37,6 +37,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\PixelFarm\src\Tests\TestGLES_GLFW_Neutral\LocalFileStorageProvider.cs">
+      <Link>NeutralTestBed\LocalFileStorageProvider.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\PixelFarm\src\Tests\WinFormTestBed2\YourImplementation\App.cs">
       <Link>NeutralTestBed\YourImplementation\App.cs</Link>
     </Compile>
