@@ -44,50 +44,18 @@ namespace LayoutFarm.Composers
         }
         public override void SetAttribute(DomAttribute attr)
         {
-            //bool updateBaseAttr = true;
-            //switch ((WellknownName)attr.LocalNameIndex)
-            //{
-            //    case WellknownName.Src:
-            //        {
-            //            switch (this.WellknownElementName)
-            //            {
-            //                case WellKnownDomNodeName.img:
-            //                    {
-            //                        updateBaseAttr = true;
-            //                    }
-            //                    break;
-            //            }
-            //        }
-            //        break;
-            //}
+            SetDomAttribute(attr);
+            ImplSetAttribute(attr);
+        }
 
-            ////----------------------
-            //if (updateBaseAttr)
-            //{
-            base.SetAttribute(attr); //to base
-            //} 
+        protected void ImplSetAttribute(DomAttribute attr)
+        {
+
+            //handle some attribute
+            //special for some attributes 
+
             switch ((WellknownName)attr.LocalNameIndex)
             {
-                case WellknownName.Src:
-                    {
-                        switch (this.WellknownElementName)
-                        {
-                            case WellKnownDomNodeName.img:
-                                {
-                                    if (_principalBox != null)
-                                    {
-                                        CssBoxImage boxImg = (CssBoxImage)_principalBox;
-
-                                        //implementation specific...
-                                        boxImg.TempTranstionImageBinder = boxImg.ImageBinder;
-                                        boxImg.ImageBinder = new ImageBinder(attr.Value);// new ImageBinder(attr.Value);
-                                        boxImg.InvalidateGraphics();
-                                    }
-                                }
-                                break;
-                        }
-                    }
-                    break;
                 case WellknownName.Style:
                     {
                         //TODO: parse and evaluate style here 
@@ -300,11 +268,39 @@ namespace LayoutFarm.Composers
     }
 
 
-    class HtmlImageElement : HtmlElement
+    sealed class HtmlImageElement : HtmlElement
     {
         internal HtmlImageElement(HtmlDocument owner, int prefix, int localNameIndex)
          : base(owner, prefix, localNameIndex)
-        { 
+        {
+        }
+        public override void SetAttribute(DomAttribute attr)
+        {
+            //implementation specific...
+            SetDomAttribute(attr);
+            //handle some attribute
+            switch ((WellknownName)attr.LocalNameIndex)
+            {
+                case WellknownName.Src:
+                    {
+                        if (_principalBox != null)
+                        {
+                            CssBoxImage boxImg = (CssBoxImage)_principalBox;
+                            //implementation specific...                           
+
+                            boxImg.TempTranstionImageBinder = boxImg.ImageBinder;
+                            //check cache first, if we have 
+
+
+                            boxImg.ImageBinder = new ImageBinder(attr.Value); 
+                            boxImg.InvalidateGraphics();
+                        }
+                    }
+                    break;
+                default:
+                    ImplSetAttribute(attr);
+                    break;
+            }
         }
     }
 

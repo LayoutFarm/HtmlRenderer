@@ -6,8 +6,10 @@ using System.Collections.Generic;
 using LayoutFarm.WebDom;
 namespace LayoutFarm.Composers
 {
+    
     public class HtmlDocument : LayoutFarm.WebDom.Impl.HtmlDocument
     {
+        //implementation specific...
         //foc custom elements 
         Dictionary<string, CreateCssBoxDelegate> _registeredCustomElemenGens = new Dictionary<string, CreateCssBoxDelegate>();
         internal HtmlDocument(HtmlBoxes.HtmlHost host)

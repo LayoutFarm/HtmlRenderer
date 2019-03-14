@@ -76,6 +76,10 @@ namespace LayoutFarm.WebDom
 
         public virtual void SetAttribute(DomAttribute attr)
         {
+            SetDomAttribute(attr);
+        }
+        protected void SetDomAttribute(DomAttribute attr)
+        {
             if (_myAttributes == null)
             {
                 _myAttributes = new Dictionary<int, DomAttribute>();
@@ -109,7 +113,7 @@ namespace LayoutFarm.WebDom
             domAttr.Value = value;
             SetAttribute(domAttr);
         }
-        
+
         public void AddAttribute(DomAttribute attr)
         {
             SetAttribute(attr);
