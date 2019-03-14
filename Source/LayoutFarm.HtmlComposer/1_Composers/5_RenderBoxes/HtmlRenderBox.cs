@@ -6,23 +6,35 @@ using PixelFarm.Drawing;
 using LayoutFarm.RenderBoxes;
 namespace LayoutFarm.HtmlBoxes
 {
-    public class HtmlRenderBox : RenderBoxBase
+    public sealed class HtmlRenderBox : RenderBoxBase
     {
-        MyHtmlVisualRoot _myHtmlCont;
+        MyHtmlVisualRoot _myHtmlVisualRoot;
         CssBox _cssBox;
+        DrawboardBuffer _builtInBackBuffer;
 
+        bool _hasAccumRect;
+        Rectangle _invalidateRect;
+
+#if DEBUG
+        public bool dbugBreak;
+        System.Random dbugRandom = new System.Random();
+        public readonly int dbugHtmlRenderBoxId = dbugTotalId++;
+        static int dbugTotalId;
+#endif
         public HtmlRenderBox(RootGraphic rootgfx,
             int width, int height)
             : base(rootgfx, width, height)
         {
+
+            NeedInvalidateRectEvent = true;
         }
         public CssBox CssBox => _cssBox;
 
-        public void SetHtmlContainer(MyHtmlVisualRoot htmlCont, CssBox box)
+        public void SetHtmlVisualRoot(MyHtmlVisualRoot htmlVisualRoot, CssBox box)
         {
-            _myHtmlCont = htmlCont;
+            _myHtmlVisualRoot = htmlVisualRoot;
             _cssBox = box;
-            _myHtmlCont.RootRenderElement = this;
+            _myHtmlVisualRoot.RootRenderElement = this;
         }
         public override void ClearAllChildren()
         {
@@ -30,61 +42,147 @@ namespace LayoutFarm.HtmlBoxes
         protected override void DrawBoxContent(DrawBoard canvas, Rectangle updateArea)
         {
             //TODO: review here, 
-            //
-            if (_myHtmlCont == null)
+
+
+            if (_myHtmlVisualRoot == null) { return; }
+
+            bool useBackbuffer = canvas.IsGpuDrawBoard;
+            //useBackbuffer = false;
+
+            //... TODO: review here, check doc update here?
+            _myHtmlVisualRoot.CheckDocUpdate();
+
+            if (useBackbuffer)
             {
-                return;
+                PaintVisitor painter = PaintVisitorStock.GetSharedPaintVisitor(_myHtmlVisualRoot, canvas);
+
+                if (_builtInBackBuffer == null)
+                {
+                    _builtInBackBuffer = painter.CreateOffscreenDrawBoard(this.Width, this.Height);
+                }
+
+#if DEBUG
+                painter.dbugDrawDiagonalBox(Color.Blue, this.X, this.Y, this.Width, this.Height);
+#endif
+                if (!_builtInBackBuffer.IsValid)
+                {
+                    //painter.FillRectangle(Color.Red, 0, 0, 100, 100);//debug 
+                    //painter.DrawText(i.ToString().ToCharArray(), 0, 1, new PointF(0, 0), new SizeF(100, 100)); //debug
+
+
+                    float backupViewportW = painter.ViewportWidth; //backup
+                    float backupViewportH = painter.ViewportHeight; //backup
+                    
+                    painter.AttachTo(_builtInBackBuffer); //*** switch to builtInBackbuffer 
+                    painter.SetViewportSize(this.Width, this.Height);
+
+                    if (!_hasAccumRect)
+                    {
+                        _invalidateRect = new Rectangle(0, 0, Width, Height);
+                    }
+
+                    painter.PushLocalClipArea(
+                        _invalidateRect.Left, _invalidateRect.Top,
+                        _invalidateRect.Width, _invalidateRect.Height);
+
+                    //for debug , test clear with random color
+#if DEBUG
+                    //painter.Clear(Color.FromArgb(255, dbugRandom.Next(0, 255), dbugRandom.Next(0, 255), dbugRandom.Next(0, 255)));
+#endif
+                    painter.Clear(Color.White);
+
+                    _myHtmlVisualRoot.PerformPaint(painter);
+
+                    painter.PopLocalClipArea();
+
+                    _builtInBackBuffer.IsValid = true;
+                    _hasAccumRect = false;
+
+                    painter.AttachToNormalBuffer();//*** switch back
+                    painter.SetViewportSize(backupViewportW, backupViewportH);//restore viewport size
+                }
+
+                painter.DrawImage(_builtInBackBuffer.GetImage(), 0, 0, this.Width, this.Height);
+
+                PaintVisitorStock.ReleaseSharedPaintVisitor(painter);
             }
-
-            _myHtmlCont.CheckDocUpdate();
-
-            DrawBoard cpuDrawBoard = null;
-
-            if (PreferSoftwareRenderer &&
-                canvas.IsGpuDrawBoard &&
-               (cpuDrawBoard = canvas.GetCpuBlitDrawBoard()) != null)
+            else if (PreferSoftwareRenderer &&
+                 canvas.IsGpuDrawBoard)
             {
                 //TODO: review this again ***
                 //test built-in 'shared' software rendering surface
+                DrawBoard cpuDrawBoard = null;
+                if ((cpuDrawBoard = canvas.GetCpuBlitDrawBoard()) != null)
+                {
+                    cpuDrawBoard.Clear(Color.White);
+                    PaintVisitor painter = PaintVisitorStock.GetSharedPaintVisitor(_myHtmlVisualRoot, cpuDrawBoard);
 
-                cpuDrawBoard.Clear(Color.White);
-                PaintVisitor painter = PaintVisitorStock.GetSharedPaintVisitor(_myHtmlCont, cpuDrawBoard);
-
-                painter.SetViewportSize(this.Width, this.Height);
+                    painter.SetViewportSize(this.Width, this.Height);
 
 #if DEBUG
-                painter.dbugDrawDiagonalBox(Color.Blue, this.X, this.Y, this.Width, this.Height);
+                    painter.dbugDrawDiagonalBox(Color.Blue, this.X, this.Y, this.Width, this.Height);
 #endif
 
 
-                _myHtmlCont.PerformPaint(painter);
-                PaintVisitorStock.ReleaseSharedPaintVisitor(painter);
+                    _myHtmlVisualRoot.PerformPaint(painter);
+                    PaintVisitorStock.ReleaseSharedPaintVisitor(painter);
 
-                //then copy from cpu to gpu 
-                canvas.BlitFrom(cpuDrawBoard, X, Y, this.Width, this.Height, 0, 0);
+                    //then copy from cpu to gpu 
+                    canvas.BlitFrom(cpuDrawBoard, X, Y, this.Width, this.Height, 0, 0);
+                }
             }
             else
             {
-                PaintVisitor painter = PaintVisitorStock.GetSharedPaintVisitor(_myHtmlCont, canvas);
+
+                PaintVisitor painter = PaintVisitorStock.GetSharedPaintVisitor(_myHtmlVisualRoot, canvas);
                 painter.SetViewportSize(this.Width, this.Height);
 #if DEBUG
+                //System.Diagnostics.Debug.WriteLine(">> 500x500");
                 painter.dbugDrawDiagonalBox(Color.Blue, this.X, this.Y, this.Width, this.Height);
 #endif
 
-                _myHtmlCont.PerformPaint(painter);
+                //painter.SetClipRect(new Rectangle(0, 0, 200, 200));
+                _myHtmlVisualRoot.PerformPaint(painter);
+#if DEBUG
+                //System.Diagnostics.Debug.WriteLine("<< 500x500");
+                //painter.dbugDrawDiagonalBox(Color.Blue, this.X, this.Y, this.Width, this.Height);
+#endif
                 PaintVisitorStock.ReleaseSharedPaintVisitor(painter);
+
             }
-
-
         }
         public override void ChildrenHitTestCore(HitChain hitChain)
         {
         }
         //
-        public int HtmlWidth => (int)_myHtmlCont.ActualWidth;
+        public int HtmlWidth => (int)_myHtmlVisualRoot.ActualWidth;
         //
-        public int HtmlHeight => (int)_myHtmlCont.ActualHeight;
+        public int HtmlHeight => (int)_myHtmlVisualRoot.ActualHeight;
         //
+        protected override void OnInvalidateGraphicsNoti(Rectangle totalBounds)
+        {
+#if DEBUG
+
+#endif
+            //------
+            if (_builtInBackBuffer != null)
+            {
+                _builtInBackBuffer.IsValid = false;
+
+                if (!_hasAccumRect)
+                {
+                    _invalidateRect = totalBounds;
+                    _hasAccumRect = true;
+                }
+                else
+                {
+                    _invalidateRect = Rectangle.Union(_invalidateRect, totalBounds);
+                }
+            }
+
+            //base.OnInvalidateGraphicsNoti(totalBounds);//skip
+        }
+
     }
 
     static class PaintVisitorStock

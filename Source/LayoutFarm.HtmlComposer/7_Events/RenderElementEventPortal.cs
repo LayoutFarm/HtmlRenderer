@@ -7,7 +7,7 @@ using PixelFarm.Drawing;
 using LayoutFarm.RenderBoxes;
 namespace LayoutFarm.UI
 {
-    class RenderElementEventPortal : IEventPortal
+    class RenderElementEventPortal2 : IEventPortal
     {
         //current hit chain         
         Stack<HitChain> _hitChainStack = new Stack<HitChain>();
@@ -15,7 +15,7 @@ namespace LayoutFarm.UI
         int dbugMsgChainVersion;
 #endif
         readonly RenderElement topRenderElement;
-        public RenderElementEventPortal(RenderElement topRenderElement)
+        public RenderElementEventPortal2(RenderElement topRenderElement)
         {
             this.topRenderElement = topRenderElement;
 #if DEBUG

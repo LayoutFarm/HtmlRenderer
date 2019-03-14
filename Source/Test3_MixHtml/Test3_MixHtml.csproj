@@ -50,35 +50,15 @@
     <Compile Include="..\..\..\Typography\Typography.TextBreak\TextBreakerTest\IcuSimpleTextFileDictionaryProvider.cs">
       <Link>IcuSimpleTextFileDictionaryProvider.cs</Link>
     </Compile>
-    <Compile Include="Demo_04\4.6_DynamicDom1.cs" />
-    <Compile Include="Demo_05\5.9_Demo_TreeView.cs" />
-    <Compile Include="Demo_05\5.0_HtmlDemoBase.cs" />
-    <Compile Include="Demo_05\5.2_Demo_MultipleBoxes2.cs" />
-    <Compile Include="Demo_05\5.3_Demo_TabPage.cs" />
-    <Compile Include="Demo_04\4.1_UIHtmlBox.cs" />
-    <Compile Include="Demo_04\4.2_MixHtml.cs" />
-    <Compile Include="Demo_04\4.3.2_UIHtmlBox_ContentMx.cs" />
-    <Compile Include="Demo_04\4.3.1_UIHtmlBoxWithResReq.cs" />
-    <Compile Include="Demo_04\4.4_CssLeanBox.cs" />
-    <Compile Include="Demo_04\4.5_LightHtmlBox.cs" />
-    <Compile Include="Demo_05\5.1_Demo_MenuItems.cs" />
-    <Compile Include="Demo_05\5.8_Demo_Hinge.cs" />
-    <Compile Include="Demo_05\5.7_Demo_ListView.cs" />
-    <Compile Include="Demo_06\6.1_Demo01_CreateHtmlDomStyle1.cs" />
-    <Compile Include="Demo_06\6.2_Demo02_CreateHtmlDomStyle2.cs" />
-    <Compile Include="Demo_06\6.3_Demo03_DynamicContent1.cs" />
-    <Compile Include="Demo_06\6.4_Demo04_DynamicContent2.cs" />
-    <Compile Include="Demo_06\6.5_Demo05_Dynamic_BoxSpec.cs" />
-    <Compile Include="Demo_06\HtmlDomExtension.cs" />
-    <Compile Include="Demo_09\9.1_SvgTiger.cs" />
-    <Compile Include="Demo_09\9.4_SvgParts.cs" />
-    <Compile Include="Demo_09\9.2_ShapeControls.cs" />
-    <Compile Include="Demo_09\9.3_Demo_SvgViewer.cs" />
     <Compile Include="HtmlHostCreatorHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.Platforms.WinForms\PaintLab.Platforms.WinForms.csproj">
+      <Project>{4602b28b-eeec-4a69-854c-b00b8b616837}</Project>
+      <Name>PaintLab.Platforms.WinForms</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\PixelFarm.One.HtmlRenderer.csproj">
       <Project>{367ae189-bede-436c-8186-362a771f35b2}</Project>
       <Name>PixelFarm.One.HtmlRenderer</Name>
@@ -101,6 +81,7 @@
     <None Include="app.config" />
   </ItemGroup>
   <Import Project="..\..\..\PixelFarm\src\Tests\WinFormTestBed2\WinFormTestBed2.projitems" Label="Shared" />
+  <Import Project="..\Test3_MixHtml_SH\Test3_MixHtml_SH.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

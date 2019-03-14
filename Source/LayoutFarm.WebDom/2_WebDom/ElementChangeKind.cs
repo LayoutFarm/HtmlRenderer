@@ -6,7 +6,7 @@ namespace LayoutFarm.WebDom
     {
         ClearAllChildren,
         AddChild,
-        AddAttribute,
+        SetAttribute,
         RemoveChild,
         Spec,
         ContentUpdate,

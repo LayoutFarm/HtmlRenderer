@@ -18,6 +18,10 @@ namespace LayoutFarm.HtmlBoxes
         float _viewportWidth;
         float _viewportHeight;
         Color _cssBoxSelectionColor = Color.LightGray;
+
+
+
+
         public PaintVisitor()
         {
         }
@@ -26,8 +30,18 @@ namespace LayoutFarm.HtmlBoxes
             _htmlVisualRoot = htmlVisualRoot;
             _drawBoard = drawBoard;
         }
-
-        public Color CssBoxSelectionColor { get { return _cssBoxSelectionColor; } }
+        public void AttachTo(DrawboardBuffer attachToBackbuffer)
+        {
+            //save  
+            _drawBoard.AttachToBackBuffer(attachToBackbuffer);
+            _latestClip = _drawBoard.CurrentClipRect;
+        }
+        public void AttachToNormalBuffer()
+        {
+            _drawBoard.SwitchBackToDefaultBuffer(null);
+            _latestClip = _drawBoard.CurrentClipRect;
+        }
+        public Color CssBoxSelectionColor => _cssBoxSelectionColor;
 
         public void UnBind()
         {
@@ -42,6 +56,10 @@ namespace LayoutFarm.HtmlBoxes
             _viewportWidth = width;
             _viewportHeight = height;
         }
+
+        public float ViewportWidth => _viewportWidth;
+        public float ViewportHeight => _viewportHeight;
+
         public DrawBoard InnerDrawBoard => _drawBoard;
 
 
@@ -80,7 +98,31 @@ namespace LayoutFarm.HtmlBoxes
                    " clip[" + intersectResult + "] ");
             }
 #endif
+            _drawBoard.SetClipRect(intersectResult);
+            return !intersectResult.IsEmpty;
+        }
 
+        internal bool PushLocalClipArea(float left, float top, float w, float h)
+        {
+            //return true;
+            //store lastest clip 
+            _latestClip = _drawBoard.CurrentClipRect;
+            _clipStacks.Push(_latestClip);
+            ////make new clip global  
+            Rectangle intersectResult = Rectangle.Intersect(
+                _latestClip,
+                new Rectangle((int)left, (int)top, (int)w, (int)h));
+            _latestClip = intersectResult;
+#if DEBUG
+            if (this.dbugEnableLogRecord)
+            {
+                _drawBoard.DrawRectangle(Color.DeepPink,
+                    intersectResult.X, intersectResult.Y,
+                    intersectResult.Width, intersectResult.Height);
+                dbugLogRecords.Add(new string('>', dbugIndentLevel) + dbugIndentLevel.ToString() +
+                   " clip[" + intersectResult + "] ");
+            }
+#endif
             _drawBoard.SetClipRect(intersectResult);
             return !intersectResult.IsEmpty;
         }
@@ -95,8 +137,7 @@ namespace LayoutFarm.HtmlBoxes
 #endif
             if (_clipStacks.Count > 0)
             {
-                Rectangle prevClip = _latestClip = _clipStacks.Pop();
-                _drawBoard.SetClipRect(prevClip);
+                _drawBoard.SetClipRect(_latestClip = _clipStacks.Pop());
             }
             else
             {
@@ -153,6 +194,8 @@ namespace LayoutFarm.HtmlBoxes
         {
             _drawBoard.OffsetCanvasOrigin(dx, dy);
         }
+
+        public Rectangle GetCurrentClipRect() => _drawBoard.CurrentClipRect;
         internal void PaintBorders(CssBox box, RectangleF stripArea, bool isFirstLine, bool isLastLine)
         {
             LayoutFarm.HtmlBoxes.BorderPaintHelper.DrawBoxBorders(this, box, stripArea, isFirstLine, isLastLine);
@@ -190,7 +233,7 @@ namespace LayoutFarm.HtmlBoxes
         /// <summary>
         /// turn on/off wire frame
         /// </summary>
-        public static bool dbugDrawWireFrame = true;
+        public static bool dbugDrawWireFrame = false;
         public void dbugDrawDiagonalBox(Color color, float x1, float y1, float x2, float y2)
         {
             if (!dbugDrawWireFrame)
@@ -198,8 +241,9 @@ namespace LayoutFarm.HtmlBoxes
                 return;
             }
             //--
-            var g = _drawBoard;
-            var prevColor = g.StrokeColor;
+
+            DrawBoard g = _drawBoard;
+            Color prevColor = g.StrokeColor;
             g.StrokeColor = color;
             g.DrawRectangle(color, x1, y1, x2 - x1, y2 - y1);
             g.DrawLine(x1, y1, x2, y2);
@@ -212,7 +256,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 return;
             }
-            var g = _drawBoard;
+
             this.dbugDrawDiagonalBox(color, rect.Left, rect.Top, rect.Right, rect.Bottom);
         }
 #endif
@@ -243,6 +287,10 @@ namespace LayoutFarm.HtmlBoxes
             g.StrokeColor = prevColor;
         }
         //------
+        public void Clear(Color c)
+        {
+            _drawBoard.Clear(c);
+        }
         public void FillRectangle(Color c, float x, float y, float w, float h)
         {
             _drawBoard.FillRectangle(c, x, y, w, h);
@@ -272,10 +320,19 @@ namespace LayoutFarm.HtmlBoxes
                   (int)size.Width, (int)size.Height), 0
                   );
         }
+        public RenderVxFormattedString CreateRenderVx(char[] str, int startAt, int len)
+        {
+            return _drawBoard.GetPainter().CreateRenderVx(str, startAt, len);
+        }
+        public void DrawText(RenderVxFormattedString formattedStr, PointF point, SizeF size)
+        {
+            _drawBoard.GetPainter().DrawString(formattedStr, point.X, point.Y);
+        }
+        public DrawboardBuffer CreateOffscreenDrawBoard(int width, int height)
+        {
+            return _drawBoard.CreateBackbuffer(width, height);
+        }
 #if DEBUG
-
-
-
         int dbugIndentLevel;
         internal bool dbugEnableLogRecord;
         internal List<string> dbugLogRecords = new List<string>();
