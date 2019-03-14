@@ -136,12 +136,7 @@ namespace LayoutFarm.HtmlWidgets
             _presentationNode.AddChild("div", div =>
             {
                 div.SetAttribute("style", "font:10pt tahoma;");
-                div.AddChild("span", span1 =>
-                {
-                    _span_textLabel = span1;
-                    span1.SetAttribute("style", "background-color:white;width:50px;height:20px;");
-                    span1.AddTextContent("");
-                });
+               
                 div.AddChild("img", img =>
                 {
                     //init 
@@ -162,6 +157,13 @@ namespace LayoutFarm.HtmlWidgets
                         //----------------------------- 
                         e.StopPropagation();
                     });
+                });
+
+                div.AddChild("span", span1 =>
+                {
+                    _span_textLabel = span1;
+                    span1.SetAttribute("style", "background-color:white;width:50px;height:20px;");
+                    span1.AddTextContent("");
                 });
             });
 
