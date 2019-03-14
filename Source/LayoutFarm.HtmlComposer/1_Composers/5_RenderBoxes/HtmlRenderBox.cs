@@ -42,11 +42,12 @@ namespace LayoutFarm.HtmlBoxes
         protected override void DrawBoxContent(DrawBoard canvas, Rectangle updateArea)
         {
             //TODO: review here, 
-            //_useBackbuffer = false;
+
 
             if (_myHtmlVisualRoot == null) { return; }
 
             bool useBackbuffer = canvas.IsGpuDrawBoard;
+            //useBackbuffer = false;
 
             //... TODO: review here, check doc update here?
             _myHtmlVisualRoot.CheckDocUpdate();
@@ -68,9 +69,12 @@ namespace LayoutFarm.HtmlBoxes
                     //painter.FillRectangle(Color.Red, 0, 0, 100, 100);//debug 
                     //painter.DrawText(i.ToString().ToCharArray(), 0, 1, new PointF(0, 0), new SizeF(100, 100)); //debug
 
-                    //painter.SetViewportSize(this.Width, this.Height);//??
 
+                    float backupViewportW = painter.ViewportWidth; //backup
+                    float backupViewportH = painter.ViewportHeight; //backup
+                    
                     painter.AttachTo(_builtInBackBuffer); //*** switch to builtInBackbuffer 
+                    painter.SetViewportSize(this.Width, this.Height);
 
                     if (!_hasAccumRect)
                     {
@@ -95,6 +99,7 @@ namespace LayoutFarm.HtmlBoxes
                     _hasAccumRect = false;
 
                     painter.AttachToNormalBuffer();//*** switch back
+                    painter.SetViewportSize(backupViewportW, backupViewportH);//restore viewport size
                 }
 
                 painter.DrawImage(_builtInBackBuffer.GetImage(), 0, 0, this.Width, this.Height);
