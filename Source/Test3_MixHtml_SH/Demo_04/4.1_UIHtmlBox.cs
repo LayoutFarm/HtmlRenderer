@@ -1,8 +1,5 @@
-﻿//Apache2, 2014-present, WinterDev
-
-using PixelFarm.Drawing;
-using LayoutFarm.CustomWidgets;
-using YourImplementation;
+﻿//Apache2, 2014-present, WinterDev 
+using LayoutFarm.CustomWidgets; 
 
 namespace LayoutFarm
 {
@@ -10,9 +7,9 @@ namespace LayoutFarm
     class Demo_UIHtmlBox : App
     {
 
-        HtmlBox htmlBox;
-        string htmltext;
-        string documentRootPath;
+        HtmlBox _htmlBox;
+        string _htmltext;
+        string _documentRootPath;
         AppHost _host;
 
 
@@ -28,14 +25,14 @@ namespace LayoutFarm
                 contentMx_LoadStyleSheet);
 
             //
-            htmlBox = new HtmlBox(htmlHost, 1024, 800);
+            _htmlBox = new HtmlBox(htmlHost, 1024, 800);
             //htmlBox.SetLocation(100, 0); //test
-            host.AddChild(htmlBox);
-            if (htmltext == null)
+            host.AddChild(_htmlBox);
+            if (_htmltext == null)
             {
-                htmltext = @"<html><head></head><body>NOT FOUND!</body></html>";
+                _htmltext = @"<html><head></head><body>NOT FOUND!</body></html>";
             }
-            htmlBox.LoadHtmlString(htmltext);
+            _htmlBox.LoadHtmlString(_htmltext);
         }
 
 
@@ -59,11 +56,11 @@ namespace LayoutFarm
             if (e.ImagSource.StartsWith("built_in://imgs/"))
             {
                 //substring
-                absolutePath = documentRootPath + "\\" + e.ImagSource.Substring("built_in://imgs/".Length);
+                absolutePath = _documentRootPath + "\\" + e.ImagSource.Substring("built_in://imgs/".Length);
             }
             else
             {
-                absolutePath = documentRootPath + "\\" + e.ImagSource;
+                absolutePath = _documentRootPath + "\\" + e.ImagSource;
             }
 
             if (!System.IO.File.Exists(absolutePath))
@@ -79,7 +76,7 @@ namespace LayoutFarm
         }
         void contentMx_LoadStyleSheet(object sender, LayoutFarm.ContentManagers.TextRequestEventArgs e)
         {
-            string absolutePath = documentRootPath + "\\" + e.Src;
+            string absolutePath = _documentRootPath + "\\" + e.Src;
             if (!System.IO.File.Exists(absolutePath))
             {
                 return;
@@ -89,8 +86,8 @@ namespace LayoutFarm
         }
         public void LoadHtml(string documentRootPath, string htmltext)
         {
-            this.documentRootPath = System.IO.Path.GetDirectoryName(documentRootPath);
-            this.htmltext = htmltext;
+            this._documentRootPath = System.IO.Path.GetDirectoryName(documentRootPath);
+            this._htmltext = htmltext;
         }
     }
 }
