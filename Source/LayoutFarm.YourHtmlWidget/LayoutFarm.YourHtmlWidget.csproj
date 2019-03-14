@@ -35,7 +35,7 @@
   <ItemGroup>
     <Compile Include="5.1_HtmlWidgetBase\0_WidgetBase.cs" />
     <Compile Include="5.1_HtmlWidgetBase\Button.cs" />
-    <Compile Include="5.1_HtmlWidgetBase\CheckBox.cs" />
+    <Compile Include="5.1_HtmlWidgetBase\ChoiceBox.cs" />
     <Compile Include="5.1_HtmlWidgetBase\ComboBox.cs" />
     <Compile Include="5.1_HtmlWidgetBase\HingeBox.cs" />
     <Compile Include="5.1_HtmlWidgetBase\HtmlDomExtension.cs" />

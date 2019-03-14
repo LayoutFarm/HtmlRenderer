@@ -33,13 +33,13 @@ namespace LayoutFarm.Composers
         }
         public override void AddChild(DomNode childNode)
         {
+#if DEBUG
             if (_principalBox != null && childNode.NodeKind == HtmlNodeKind.TextNode)
             {
-
             }
+#endif
             base.AddChild(childNode);
         }
-
         public override void SetAttribute(DomAttribute attr)
         {
             //bool updateBaseAttr = true;
@@ -63,10 +63,7 @@ namespace LayoutFarm.Composers
             //if (updateBaseAttr)
             //{
             base.SetAttribute(attr); //to base
-            //}
-
-
-
+            //} 
             switch ((WellknownName)attr.LocalNameIndex)
             {
                 case WellknownName.Src:
@@ -78,6 +75,8 @@ namespace LayoutFarm.Composers
                                     if (_principalBox != null)
                                     {
                                         CssBoxImage boxImg = (CssBoxImage)_principalBox;
+
+                                        //implementation specific...
                                         boxImg.TempTranstionImageBinder = boxImg.ImageBinder;
                                         boxImg.ImageBinder = new ImageBinder(attr.Value);// new ImageBinder(attr.Value);
                                         boxImg.InvalidateGraphics();

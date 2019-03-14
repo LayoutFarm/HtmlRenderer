@@ -5,6 +5,9 @@ using LayoutFarm.WebDom;
 using LayoutFarm.WebDom.Extension;
 namespace LayoutFarm.HtmlWidgets
 {
+    /// <summary>
+    /// for option box ,or check box
+    /// </summary>
     public class ChoiceBox : HtmlWidgetBase
     {
         string _buttonText = "";
@@ -12,8 +15,8 @@ namespace LayoutFarm.HtmlWidgets
         /// presentation node
         /// </summary>
         DomElement _pnode;
-        bool _checked;
         DomElement _imgNode;
+        bool _checked;
 
         public event EventHandler<EventArgs> CheckValueAssigned;
 

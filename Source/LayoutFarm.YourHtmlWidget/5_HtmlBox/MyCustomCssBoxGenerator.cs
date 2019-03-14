@@ -224,7 +224,7 @@ namespace LayoutFarm.CustomWidgets
                     case "checkbox":
                         {
                             //implement with choice box + multiple value
-                            var button = new HtmlWidgets.ChoiceBox(10, 10);
+                            var button = new HtmlWidgets.ChoiceBox(18, 10);
                             button.OnlyOne = false; //*** show as checked box 
                             var ihtmlElement = domE as LayoutFarm.WebDom.IHtmlElement;
                             WebDom.Impl.HtmlElement buttonDom = (WebDom.Impl.HtmlElement)button.GetPresentationDomNode((HtmlDocument)domE.OwnerDocument);
