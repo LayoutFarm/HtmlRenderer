@@ -1405,6 +1405,7 @@
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\ScrollBar.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\TabPageBox.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\TreeView.cs" />
+    <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\WidgetResList.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\LayoutFarm.YourHtmlWidget\5_HtmlBox\HtmlBox.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\LayoutFarm.YourHtmlWidget\5_HtmlBox\HtmlHostContentManager.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\LayoutFarm.YourHtmlWidget\5_HtmlBox\HtmlHostExtensions.cs" />

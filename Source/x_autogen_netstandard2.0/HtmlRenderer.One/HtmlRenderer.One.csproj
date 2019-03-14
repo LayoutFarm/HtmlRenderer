@@ -1406,6 +1406,7 @@
     <Compile Include="..\..\LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\ScrollBar.cs" Link="LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\ScrollBar.cs" />
     <Compile Include="..\..\LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\TabPageBox.cs" Link="LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\TabPageBox.cs" />
     <Compile Include="..\..\LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\TreeView.cs" Link="LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\TreeView.cs" />
+    <Compile Include="..\..\LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\WidgetResList.cs" Link="LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\WidgetResList.cs" />
     <Compile Include="..\..\LayoutFarm.YourHtmlWidget\5_HtmlBox\HtmlBox.cs" Link="LayoutFarm.YourHtmlWidget\5_HtmlBox\HtmlBox.cs" />
     <Compile Include="..\..\LayoutFarm.YourHtmlWidget\5_HtmlBox\HtmlHostContentManager.cs" Link="LayoutFarm.YourHtmlWidget\5_HtmlBox\HtmlHostContentManager.cs" />
     <Compile Include="..\..\LayoutFarm.YourHtmlWidget\5_HtmlBox\HtmlHostExtensions.cs" Link="LayoutFarm.YourHtmlWidget\5_HtmlBox\HtmlHostExtensions.cs" />

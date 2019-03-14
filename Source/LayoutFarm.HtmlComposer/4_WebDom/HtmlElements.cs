@@ -8,6 +8,8 @@ using LayoutFarm.WebDom;
 namespace LayoutFarm.Composers
 {
 
+    //out actual html element implementation
+
     static class CssParserPool
     {
         static Stack<WebDom.Parser.CssParser> s_pool = new Stack<WebDom.Parser.CssParser>();
@@ -24,8 +26,8 @@ namespace LayoutFarm.Composers
 
     class HtmlElement : LayoutFarm.WebDom.Impl.HtmlElement
     {
-        CssBox _principalBox;
-        Css.BoxSpec _boxSpec;
+        protected CssBox _principalBox;
+        protected Css.BoxSpec _boxSpec;
         internal HtmlElement(HtmlDocument owner, int prefix, int localNameIndex)
             : base(owner, prefix, localNameIndex)
         {
@@ -183,8 +185,7 @@ namespace LayoutFarm.Composers
 
             //create scrollbar
             //...?
-
-
+            //???
             var scrollView = new CssScrollView(((HtmlDocument)this.OwnerDocument).Host, boxSpec, box.RootGfx);
             scrollView.SetController(this);
             scrollView.SetVisualSize(box.VisualWidth, box.VisualHeight);
@@ -233,6 +234,7 @@ namespace LayoutFarm.Composers
                 DomAttribute domAttr;
                 if (this.TryGetAttribute(WellknownName.Style, out domAttr))
                 {
+                    //TODO: add to domAttr?
                     domAttr.Value += ";left:" + x + "px;top:" + y + "px;";
                 }
                 else
@@ -247,13 +249,10 @@ namespace LayoutFarm.Composers
             _principalBox = box;
             this.SkipPrincipalBoxEvalulation = true;
         }
+
         public override float ActualWidth => _principalBox.VisualWidth;
 
-
         public override float ActualHeight => _principalBox.VisualHeight;
-
-
-
 
         //-------------------------------------------
         internal virtual CssBox GetPrincipalBox(CssBox parentCssBox, HtmlHost host)
@@ -298,7 +297,15 @@ namespace LayoutFarm.Composers
             }
             return base.RemoveChild(childNode);
         }
-
-
     }
+
+
+    class HtmlImageElement : HtmlElement
+    {
+        internal HtmlImageElement(HtmlDocument owner, int prefix, int localNameIndex)
+         : base(owner, prefix, localNameIndex)
+        { 
+        }
+    }
+
 }

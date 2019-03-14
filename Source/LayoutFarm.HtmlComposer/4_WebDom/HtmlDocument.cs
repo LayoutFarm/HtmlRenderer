@@ -31,11 +31,29 @@ namespace LayoutFarm.Composers
 
         public override DomElement CreateElement(string prefix, string localName)
         {
-            //actual implementation
-            var htmlElement = new HtmlElement(this,
-                AddStringIfNotExists(prefix),
-                AddStringIfNotExists(localName));
-            htmlElement.WellknownElementName = WellKnownDomNodeMap.EvaluateTagName(htmlElement.LocalName);
+            //actual implementation ***
+
+            HtmlElement htmlElement = null;
+            switch (localName)
+            {
+                case "img":
+                    {
+                        htmlElement = new HtmlImageElement(
+                            this,
+                            AddStringIfNotExists(prefix),
+                            AddStringIfNotExists(localName));
+                        htmlElement.WellknownElementName = WellKnownDomNodeName.img;
+                    }
+                    break;
+                default:
+                    {
+                        htmlElement = new HtmlElement(this,
+                           AddStringIfNotExists(prefix),
+                           AddStringIfNotExists(localName));
+                        htmlElement.WellknownElementName = WellKnownDomNodeMap.EvaluateTagName(htmlElement.LocalName);
+                    }
+                    break;
+            }
             return htmlElement;
         }
         public override DomNode CreateDocumentNodeElement()

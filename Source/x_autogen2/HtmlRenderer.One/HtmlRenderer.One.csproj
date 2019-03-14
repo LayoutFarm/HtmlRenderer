@@ -4157,6 +4157,9 @@
     <Compile Include="..\..\LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\TreeView.cs">
       <Link>LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\TreeView.cs</Link>
     </Compile>
+    <Compile Include="..\..\LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\WidgetResList.cs">
+      <Link>LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\WidgetResList.cs</Link>
+    </Compile>
     <Compile Include="..\..\LayoutFarm.YourHtmlWidget\5_HtmlBox\HtmlBox.cs">
       <Link>LayoutFarm.YourHtmlWidget\5_HtmlBox\HtmlBox.cs</Link>
     </Compile>
