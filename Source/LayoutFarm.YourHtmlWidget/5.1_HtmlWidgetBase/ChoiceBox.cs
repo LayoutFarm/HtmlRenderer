@@ -5,6 +5,9 @@ using LayoutFarm.WebDom;
 using LayoutFarm.WebDom.Extension;
 namespace LayoutFarm.HtmlWidgets
 {
+    /// <summary>
+    /// for option box ,or check box
+    /// </summary>
     public class ChoiceBox : HtmlWidgetBase
     {
         string _buttonText = "";
@@ -12,8 +15,8 @@ namespace LayoutFarm.HtmlWidgets
         /// presentation node
         /// </summary>
         DomElement _pnode;
-        bool _checked;
         DomElement _imgNode;
+        bool _checked;
 
         public event EventHandler<EventArgs> CheckValueAssigned;
 
@@ -35,11 +38,11 @@ namespace LayoutFarm.HtmlWidgets
                 {
                     if (value)
                     {
-                        _imgNode.SetAttribute("src", OnlyOne ? "opt_checked.png" : "chk_checked.png");
+                        _imgNode.SetAttribute("src", OnlyOne ? WidgetResList.opt_checked_png : WidgetResList.chk_checked_png);
                     }
                     else
                     {
-                        _imgNode.SetAttribute("src", OnlyOne ? "opt_unchecked.png" : "chk_unchecked.png");
+                        _imgNode.SetAttribute("src", OnlyOne ? WidgetResList.opt_unchecked_png : WidgetResList.chk_unchecked_png);
                     }
                 }
             }
@@ -68,7 +71,7 @@ namespace LayoutFarm.HtmlWidgets
                 div2.SetAttribute("style", "color:black;");
                 _imgNode = div2.AddChild("img");
 
-                _imgNode.SetAttribute("src", OnlyOne ? "opt_unchecked.png" : "chk_unchecked.png");
+                _imgNode.SetAttribute("src", OnlyOne ? WidgetResList.opt_unchecked_png : WidgetResList.chk_unchecked_png);
 
                 _imgNode.AttachMouseDownEvent(e =>
                 {

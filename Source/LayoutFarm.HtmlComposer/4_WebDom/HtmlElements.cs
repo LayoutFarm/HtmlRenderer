@@ -8,6 +8,8 @@ using LayoutFarm.WebDom;
 namespace LayoutFarm.Composers
 {
 
+    //out actual html element implementation
+
     static class CssParserPool
     {
         static Stack<WebDom.Parser.CssParser> s_pool = new Stack<WebDom.Parser.CssParser>();
@@ -24,8 +26,8 @@ namespace LayoutFarm.Composers
 
     class HtmlElement : LayoutFarm.WebDom.Impl.HtmlElement
     {
-        CssBox _principalBox;
-        Css.BoxSpec _boxSpec;
+        protected CssBox _principalBox;
+        protected Css.BoxSpec _boxSpec;
         internal HtmlElement(HtmlDocument owner, int prefix, int localNameIndex)
             : base(owner, prefix, localNameIndex)
         {
@@ -33,60 +35,27 @@ namespace LayoutFarm.Composers
         }
         public override void AddChild(DomNode childNode)
         {
+#if DEBUG
             if (_principalBox != null && childNode.NodeKind == HtmlNodeKind.TextNode)
             {
-
             }
+#endif
             base.AddChild(childNode);
         }
-
         public override void SetAttribute(DomAttribute attr)
         {
-            //bool updateBaseAttr = true;
-            //switch ((WellknownName)attr.LocalNameIndex)
-            //{
-            //    case WellknownName.Src:
-            //        {
-            //            switch (this.WellknownElementName)
-            //            {
-            //                case WellKnownDomNodeName.img:
-            //                    {
-            //                        updateBaseAttr = true;
-            //                    }
-            //                    break;
-            //            }
-            //        }
-            //        break;
-            //}
+            SetDomAttribute(attr);
+            ImplSetAttribute(attr);
+        }
 
-            ////----------------------
-            //if (updateBaseAttr)
-            //{
-            base.SetAttribute(attr); //to base
-            //}
+        protected void ImplSetAttribute(DomAttribute attr)
+        {
 
-
+            //handle some attribute
+            //special for some attributes 
 
             switch ((WellknownName)attr.LocalNameIndex)
             {
-                case WellknownName.Src:
-                    {
-                        switch (this.WellknownElementName)
-                        {
-                            case WellKnownDomNodeName.img:
-                                {
-                                    if (_principalBox != null)
-                                    {
-                                        CssBoxImage boxImg = (CssBoxImage)_principalBox;
-                                        boxImg.TempTranstionImageBinder = boxImg.ImageBinder;
-                                        boxImg.ImageBinder = new ImageBinder(attr.Value);// new ImageBinder(attr.Value);
-                                        boxImg.InvalidateGraphics();
-                                    }
-                                }
-                                break;
-                        }
-                    }
-                    break;
                 case WellknownName.Style:
                     {
                         //TODO: parse and evaluate style here 
@@ -184,8 +153,7 @@ namespace LayoutFarm.Composers
 
             //create scrollbar
             //...?
-
-
+            //???
             var scrollView = new CssScrollView(((HtmlDocument)this.OwnerDocument).Host, boxSpec, box.RootGfx);
             scrollView.SetController(this);
             scrollView.SetVisualSize(box.VisualWidth, box.VisualHeight);
@@ -234,6 +202,7 @@ namespace LayoutFarm.Composers
                 DomAttribute domAttr;
                 if (this.TryGetAttribute(WellknownName.Style, out domAttr))
                 {
+                    //TODO: add to domAttr?
                     domAttr.Value += ";left:" + x + "px;top:" + y + "px;";
                 }
                 else
@@ -248,13 +217,10 @@ namespace LayoutFarm.Composers
             _principalBox = box;
             this.SkipPrincipalBoxEvalulation = true;
         }
+
         public override float ActualWidth => _principalBox.VisualWidth;
 
-
         public override float ActualHeight => _principalBox.VisualHeight;
-
-
-
 
         //-------------------------------------------
         internal virtual CssBox GetPrincipalBox(CssBox parentCssBox, HtmlHost host)
@@ -299,7 +265,43 @@ namespace LayoutFarm.Composers
             }
             return base.RemoveChild(childNode);
         }
-
-
     }
+
+
+    sealed class HtmlImageElement : HtmlElement
+    {
+        HtmlDocument _owner;
+        internal HtmlImageElement(HtmlDocument owner, int prefix, int localNameIndex)
+         : base(owner, prefix, localNameIndex)
+        {
+            _owner = owner;
+        }
+        public override void SetAttribute(DomAttribute attr)
+        {
+            //implementation specific...
+            SetDomAttribute(attr);
+            //handle some attribute
+            switch ((WellknownName)attr.LocalNameIndex)
+            {
+                case WellknownName.Src:
+                    {
+                        if (_principalBox != null)
+                        {
+                            CssBoxImage boxImg = (CssBoxImage)_principalBox;
+                            //implementation specific...                           
+                            ImageBinder found = _owner.GetImageBinder(attr.Value);
+                            //if the binder is loaded , not need TempTranstionImageBinder
+                            boxImg.TempTranstionImageBinder = (found.State == BinderState.Loaded) ? null : boxImg.ImageBinder;
+                            boxImg.ImageBinder = found;
+                            boxImg.InvalidateGraphics();
+                        }
+                    }
+                    break;
+                default:
+                    ImplSetAttribute(attr);
+                    break;
+            }
+        }
+    }
+
 }

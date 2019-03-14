@@ -35,7 +35,7 @@
   <ItemGroup>
     <Compile Include="5.1_HtmlWidgetBase\0_WidgetBase.cs" />
     <Compile Include="5.1_HtmlWidgetBase\Button.cs" />
-    <Compile Include="5.1_HtmlWidgetBase\CheckBox.cs" />
+    <Compile Include="5.1_HtmlWidgetBase\ChoiceBox.cs" />
     <Compile Include="5.1_HtmlWidgetBase\ComboBox.cs" />
     <Compile Include="5.1_HtmlWidgetBase\HingeBox.cs" />
     <Compile Include="5.1_HtmlWidgetBase\HtmlDomExtension.cs" />
@@ -44,6 +44,7 @@
     <Compile Include="5.1_HtmlWidgetBase\ScrollBar.cs" />
     <Compile Include="5.1_HtmlWidgetBase\TabPageBox.cs" />
     <Compile Include="5.1_HtmlWidgetBase\TreeView.cs" />
+    <Compile Include="5.1_HtmlWidgetBase\WidgetResList.cs" />
     <Compile Include="5_HtmlBox\HtmlBox.cs" />
     <Compile Include="5_HtmlBox\HtmlHostExtensions.cs" />
     <Compile Include="5_HtmlBox\HtmlHostContentManager.cs" />

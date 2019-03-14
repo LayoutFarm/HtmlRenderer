@@ -1397,7 +1397,7 @@
     <Compile Include="..\..\LayoutFarm.HtmlComposer\7_Events\RenderElementEventPortal.cs" Link="LayoutFarm.HtmlComposer\7_Events\RenderElementEventPortal.cs" />
     <Compile Include="..\..\LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\0_WidgetBase.cs" Link="LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\0_WidgetBase.cs" />
     <Compile Include="..\..\LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\Button.cs" Link="LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\Button.cs" />
-    <Compile Include="..\..\LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\CheckBox.cs" Link="LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\CheckBox.cs" />
+    <Compile Include="..\..\LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\ChoiceBox.cs" Link="LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\ChoiceBox.cs" />
     <Compile Include="..\..\LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\ComboBox.cs" Link="LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\ComboBox.cs" />
     <Compile Include="..\..\LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\HingeBox.cs" Link="LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\HingeBox.cs" />
     <Compile Include="..\..\LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\HtmlDomExtension.cs" Link="LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\HtmlDomExtension.cs" />
@@ -1406,6 +1406,7 @@
     <Compile Include="..\..\LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\ScrollBar.cs" Link="LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\ScrollBar.cs" />
     <Compile Include="..\..\LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\TabPageBox.cs" Link="LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\TabPageBox.cs" />
     <Compile Include="..\..\LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\TreeView.cs" Link="LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\TreeView.cs" />
+    <Compile Include="..\..\LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\WidgetResList.cs" Link="LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\WidgetResList.cs" />
     <Compile Include="..\..\LayoutFarm.YourHtmlWidget\5_HtmlBox\HtmlBox.cs" Link="LayoutFarm.YourHtmlWidget\5_HtmlBox\HtmlBox.cs" />
     <Compile Include="..\..\LayoutFarm.YourHtmlWidget\5_HtmlBox\HtmlHostContentManager.cs" Link="LayoutFarm.YourHtmlWidget\5_HtmlBox\HtmlHostContentManager.cs" />
     <Compile Include="..\..\LayoutFarm.YourHtmlWidget\5_HtmlBox\HtmlHostExtensions.cs" Link="LayoutFarm.YourHtmlWidget\5_HtmlBox\HtmlHostExtensions.cs" />

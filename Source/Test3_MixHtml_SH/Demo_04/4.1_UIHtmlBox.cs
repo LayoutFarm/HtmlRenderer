@@ -40,13 +40,21 @@ namespace LayoutFarm
         void loadingQueue_AskForImg(object sender, LayoutFarm.ContentManagers.ImageRequestEventArgs e)
         {
             //load resource -- sync or async? 
+            //if we enable cache in loadingQueue (default=> enable)
+            //if the loading queue dose not have the req img 
+            //then it will raise event to here
+
+            //we can resolve the req image to specific img
+            //eg. 
+            //1. built -in img from control may has special protocol
+            //2. check if the req want a local file
+            //3. or if req want to download from the network
+            //
             string absolutePath = documentRootPath + "\\" + e.ImagSource;
             if (!System.IO.File.Exists(absolutePath))
             {
                 return;
             }
-
-
             //load
             //lets host do img loading... 
 

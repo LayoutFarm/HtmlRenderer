@@ -4130,8 +4130,8 @@
     <Compile Include="..\..\LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\Button.cs">
       <Link>LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\Button.cs</Link>
     </Compile>
-    <Compile Include="..\..\LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\CheckBox.cs">
-      <Link>LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\CheckBox.cs</Link>
+    <Compile Include="..\..\LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\ChoiceBox.cs">
+      <Link>LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\ChoiceBox.cs</Link>
     </Compile>
     <Compile Include="..\..\LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\ComboBox.cs">
       <Link>LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\ComboBox.cs</Link>
@@ -4156,6 +4156,9 @@
     </Compile>
     <Compile Include="..\..\LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\TreeView.cs">
       <Link>LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\TreeView.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\WidgetResList.cs">
+      <Link>LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\WidgetResList.cs</Link>
     </Compile>
     <Compile Include="..\..\LayoutFarm.YourHtmlWidget\5_HtmlBox\HtmlBox.cs">
       <Link>LayoutFarm.YourHtmlWidget\5_HtmlBox\HtmlBox.cs</Link>

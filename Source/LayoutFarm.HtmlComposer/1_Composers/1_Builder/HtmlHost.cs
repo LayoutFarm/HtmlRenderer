@@ -212,10 +212,8 @@ namespace LayoutFarm.HtmlBoxes
         }
         //-------------
 
-
-
         //
-        internal void ChildRequestImage(ImageBinder binder, HtmlVisualRoot visualRoot, object reqFrom, bool _sync)
+        internal void ChildRequestImage(ImageBinder binder, object reqFrom)
         {
             if (_requestImage != null)
             {
@@ -224,10 +222,9 @@ namespace LayoutFarm.HtmlBoxes
                 _requestImage(this, resReq);
             }
         }
-        internal ITextService GetTextService()
-        {
-            return _textservice;
-        }
+        
+        internal ITextService GetTextService() => _textservice;
+
         internal void EnqueueCssUpdate(CssBox box)
         {
             _waitForUpdateBoxes.Add(box);
