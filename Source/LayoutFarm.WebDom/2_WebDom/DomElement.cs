@@ -97,10 +97,10 @@ namespace LayoutFarm.WebDom
                     break;
             }
             //--------------------
-            var attrNameIndex = this.OwnerDocument.AddStringIfNotExists(attr.LocalName);
+            int attrNameIndex = this.OwnerDocument.AddStringIfNotExists(attr.LocalName);
             _myAttributes[attrNameIndex] = attr;//update or replace 
             attr.SetParent(this);
-            NotifyChange(ElementChangeKind.AddAttribute);
+            NotifyChange(ElementChangeKind.SetAttribute, attr);
             //---------------------
         }
         public void SetAttribute(string attrName, string value)
@@ -109,32 +109,10 @@ namespace LayoutFarm.WebDom
             domAttr.Value = value;
             SetAttribute(domAttr);
         }
-
+        
         public void AddAttribute(DomAttribute attr)
         {
-            if (_myAttributes == null)
-            {
-                _myAttributes = new Dictionary<int, DomAttribute>();
-            }
-            //-----------
-            //some wellknownattr 
-            switch (attr.LocalNameIndex)
-            {
-                case (int)WellknownName.Id:
-                    {
-                        _attrElemId = attr;
-                        this.OwnerDocument.RegisterElementById(this);
-                    }
-                    break;
-                case (int)WellknownName.Class:
-                    {
-                        _attrClass = attr;
-                    }
-                    break;
-            }
-            _myAttributes.Add(attr.LocalNameIndex, attr);
-            attr.SetParent(this);
-            NotifyChange(ElementChangeKind.AddAttribute);
+            SetAttribute(attr);
         }
 
 
@@ -155,7 +133,7 @@ namespace LayoutFarm.WebDom
                         }
                         _myChildrenNodes.Add((DomNode)childNode);
                         childNode.SetParent(this);
-                        NotifyChange(ElementChangeKind.AddChild);
+                        NotifyChange(ElementChangeKind.AddChild, null);
                     }
                     break;
             }
@@ -177,7 +155,7 @@ namespace LayoutFarm.WebDom
                             if (result)
                             {
                                 childNode.SetParent(null);
-                                NotifyChange(ElementChangeKind.RemoveChild);
+                                NotifyChange(ElementChangeKind.RemoveChild, null);
                             }
                             return result;
                         }
@@ -199,11 +177,11 @@ namespace LayoutFarm.WebDom
                     _myChildrenNodes[i].SetParent(null);
                 }
                 _myChildrenNodes.Clear();
-                NotifyChange(ElementChangeKind.ClearAllChildren);
+                NotifyChange(ElementChangeKind.ClearAllChildren, null);
             }
         }
 
-        public void NotifyChange(ElementChangeKind changeKind)
+        public void NotifyChange(ElementChangeKind changeKind, DomAttribute attr)
         {
             switch (this.DocState)
             {
@@ -211,12 +189,12 @@ namespace LayoutFarm.WebDom
                 case DocumentState.Idle:
                     {
                         //notify parent 
-                        OnElementChangedInIdleState(changeKind);
+                        OnElementChangedInIdleState(changeKind, attr);
                     }
                     break;
             }
         }
-        protected virtual void OnElementChangedInIdleState(ElementChangeKind changeKind)
+        protected virtual void OnElementChangedInIdleState(ElementChangeKind changeKind, DomAttribute attr)
         {
         }
         //------------------------------------------

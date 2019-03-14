@@ -42,8 +42,30 @@ namespace LayoutFarm.Composers
 
         public override void SetAttribute(DomAttribute attr)
         {
+            //bool updateBaseAttr = true;
+            //switch ((WellknownName)attr.LocalNameIndex)
+            //{
+            //    case WellknownName.Src:
+            //        {
+            //            switch (this.WellknownElementName)
+            //            {
+            //                case WellKnownDomNodeName.img:
+            //                    {
+            //                        updateBaseAttr = true;
+            //                    }
+            //                    break;
+            //            }
+            //        }
+            //        break;
+            //}
+
+            ////----------------------
+            //if (updateBaseAttr)
+            //{
             base.SetAttribute(attr); //to base
-            //----------------------
+            //}
+
+
 
             switch ((WellknownName)attr.LocalNameIndex)
             {
@@ -56,13 +78,13 @@ namespace LayoutFarm.Composers
                                     if (_principalBox != null)
                                     {
                                         CssBoxImage boxImg = (CssBoxImage)_principalBox;
-                                        boxImg.ImageBinder = new ImageBinder(attr.Value);
+                                        boxImg.TempTranstionImageBinder = boxImg.ImageBinder;
+                                        boxImg.ImageBinder = new ImageBinder(attr.Value);// new ImageBinder(attr.Value);
                                         boxImg.InvalidateGraphics();
                                     }
                                 }
                                 break;
                         }
-
                     }
                     break;
                 case WellknownName.Style:
@@ -101,7 +123,7 @@ namespace LayoutFarm.Composers
             base.ClearAllElements();
         }
 
-        protected override void OnElementChangedInIdleState(ElementChangeKind changeKind)
+        protected override void OnElementChangedInIdleState(ElementChangeKind changeKind, DomAttribute attr)
         {
 
             //1. 
@@ -110,8 +132,22 @@ namespace LayoutFarm.Composers
             //------------------------------------------------------------------
             //2. need box evaluation again
             this.SkipPrincipalBoxEvalulation = false;
-            //3. propag
 
+
+            //-------------------
+            if (this.WellknownElementName == WellKnownDomNodeName.img)
+            {
+                if (attr != null && attr.Name == "src")
+                {
+                    //TODO: review this
+                    //has local effect
+                    //no propagation up
+                    return;
+                }
+            }
+            //-------------------
+
+            //3. propagate
             HtmlElement cnode = (HtmlElement)this.ParentNode;
             HtmlDocument owner = this.OwnerDocument as HtmlDocument;
             while (cnode != null)

@@ -3,9 +3,9 @@
 using PixelFarm.Drawing;
 namespace LayoutFarm
 {
-    public class TopWindowRenderBox : RenderBoxBase
+    public class TopWindowRenderBox2 : RenderBoxBase
     {
-        public TopWindowRenderBox(RootGraphic rootGfx, int width, int height)
+        public TopWindowRenderBox2(RootGraphic rootGfx, int width, int height)
             : base(rootGfx, width, height)
         {
             this.IsTopWindow = true;

@@ -23,6 +23,7 @@ namespace LayoutFarm.HtmlBoxes
     /// </summary>
     public class CssBoxImage : CssBox
     {
+        ImageBinder _tmpTransitionImgBinder;
         /// <summary>
         /// the image word of this image box
         /// </summary>
@@ -82,7 +83,7 @@ namespace LayoutFarm.HtmlBoxes
 
         public ImageBinder ImageBinder
         {
-            get { return _imgRun.ImageBinder; }
+            get => _imgRun.ImageBinder;
             set
             {
                 _imgRun.ImageBinder = value;
@@ -92,6 +93,52 @@ namespace LayoutFarm.HtmlBoxes
                     value.ImageChanged += Binder_ImageChanged;
                 }
             }
+        }
+        public ImageBinder TempTranstionImageBinder
+        {
+            get => _tmpTransitionImgBinder;
+            set
+            {
+                _tmpTransitionImgBinder = value;
+            }
+        }
+
+        void DrawWithTempTransitionImage(PaintVisitor p, RectangleF r)
+        {
+
+            Image img;
+            if ((img = (Image)_tmpTransitionImgBinder.LocalImage) != null) //assign and test
+            {
+                if (this.VisualWidth != 0)
+                {
+                    //TODO: review here
+
+                    if (_imgRun.ImageRectangle == Rectangle.Empty)
+                    {
+                        p.DrawImage(img,
+                              r.Left, r.Top,
+                              this.VisualWidth, this.VisualHeight);
+                    }
+                    else
+                    {
+                        p.DrawImage(img, _imgRun.ImageRectangle);
+                    }
+                }
+                else
+                {
+                    if (_imgRun.ImageRectangle == Rectangle.Empty)
+                    {
+                        p.DrawImage(img,
+                              r.Left, r.Top,
+                              img.Width, img.Height);
+                    }
+                    else
+                    {
+                        p.DrawImage(img, _imgRun.ImageRectangle);
+                    }
+                }
+            }
+
         }
         public override void Paint(PaintVisitor p, RectangleF rect)
         {
@@ -112,6 +159,12 @@ namespace LayoutFarm.HtmlBoxes
             {
                 case BinderState.Unload:
                     {
+                        if (_tmpTransitionImgBinder != null)
+                        {
+                            DrawWithTempTransitionImage(p, rect);
+                        }
+
+
                         //async request image
                         if (!tryLoadOnce)
                         {
@@ -124,11 +177,24 @@ namespace LayoutFarm.HtmlBoxes
                     break;
                 case BinderState.Loading:
                     {
+                        if (_tmpTransitionImgBinder != null)
+                        {
+                            DrawWithTempTransitionImage(p, rect);
+                        }
+
                         //RenderUtils.DrawImageLoadingIcon(g, r);
                     }
                     break;
                 case BinderState.Loaded:
                     {
+                        if (_tmpTransitionImgBinder != null)
+                        {
+                            //*** clear tmp transition img after new image is loaded
+                            _tmpTransitionImgBinder = null;
+                        }
+
+
+
                         Image img;
                         if ((img = (Image)_imgRun.ImageBinder.LocalImage) != null) //assign and test
                         {

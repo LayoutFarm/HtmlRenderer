@@ -135,7 +135,7 @@ namespace LayoutFarm
                 box.BackColor = KnownColors.FromKnownColor(KnownColor.DeepSkyBlue);
                 e.MouseCursorStyle = MouseCursorStyle.Pointer;
                 //--------------------------------------------
-                e.SetMouseCapture(_rectBoxController.ControllerBoxMain);
+                e.SetMouseCaptureElement(_rectBoxController.ControllerBoxMain);
                 _rectBoxController.UpdateControllerBoxes(box);
                 _rectBoxController.Focus();
             };

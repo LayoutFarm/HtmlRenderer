@@ -10,11 +10,9 @@ namespace LayoutFarm
     class DemoShapeControl9_2 : App
     {
         RotationUI _rotationUI = new RotationUI();
-
-
         QuadControllerUI _quadController = new QuadControllerUI();
         PolygonControllerUI _quadPolygonController = new PolygonControllerUI();
-        bool _hitTestOnSubPath = false;
+        bool _hitTestOnSubPath = true;
         UISprite _uiSprite;
         AppHost _appHost;
         VgVisualElement _vgVisualElem;
@@ -99,7 +97,7 @@ namespace LayoutFarm
                 Height = new Css.CssLength(50, Css.CssUnitOrNames.Pixels),
             };
 
-            VgVisualDoc renderRoot = new VgVisualDoc(_vgVisualDocHost); 
+            VgVisualDoc renderRoot = new VgVisualDoc(_vgVisualDocHost);
 
             VgVisualElement vgimg = new VgVisualElement(WellknownSvgElementName.Image, spec, renderRoot);
             vgimg.ImageBinder = _appHost.LoadImageAndBind(filename);
@@ -132,8 +130,10 @@ namespace LayoutFarm
 
             //string fontfile = "../Test8_HtmlRenderer.Demo/Samples/Fonts/SOV_Thanamas.ttf";
             //_vgVisualElem = VgVisualElemHelper.CreateVgVisualElementFromGlyph(fontfile, 256, 'a'); //create from glyph
-            
+
             _vgVisualElem = CreateTestRenderVx_FromImg("d:\\WImageTest\\fenec.png");
+            //_vgVisualElem = VgVisualElemHelper.ReadSvgFile(svgfile);
+
 
             //PixelFarm.CpuBlit.RectD org_rectD = _svgRenderVx.GetBounds(); 
             //_svgRenderVx = CreateEllipseVxs(org_rectD);
@@ -213,10 +213,8 @@ namespace LayoutFarm
             _uiSprite.SetTransformation(tx); //set transformation
             host.AddChild(_uiSprite);
             //-----------------------------------------
-            host.AddChild(_quadController);
+            //host.AddChild(_quadController);
             host.AddChild(_quadPolygonController);
-
-
             {
 
                 PointControllerBox center = new PointControllerBox(10, 10);
@@ -240,8 +238,8 @@ namespace LayoutFarm
                     _rotationUI.Top + ev.YDiff);
             };
 
-            var spriteEvListener = new GeneralEventListener();
 
+            var spriteEvListener = new GeneralEventListener();
             _uiSprite.AttachExternalEventListener(spriteEvListener);
             spriteEvListener.MouseMove += e1 =>
             {
@@ -270,8 +268,7 @@ namespace LayoutFarm
                         _quadPolygonController.Top + e1.YDiff
                         );
                     _quadPolygonController.InvalidateOuterGraphics();
-                    //
-
+                    // 
                     _rotationUI.InvalidateGraphics();
                     _rotationUI.SetLocation(
                         _rotationUI.Left + e1.XDiff,
@@ -300,7 +297,19 @@ namespace LayoutFarm
                 if (_hitTestOnSubPath)
                 {
                     //find which part ...
-                    VgHitInfo hitInfo = _uiSprite.FindRenderElementAtPos(e1.X, e1.Y, true);
+
+                    double e1_x = e1.X;
+                    double e1_y = e1.Y;
+                    ICoordTransformer tx1 = _quadController.GetCoordTransformer();
+                    if (tx1 != null)
+                    {
+                        //if the sprite is transformed before render
+                        //we must invert x,y back to 
+                        ICoordTransformer tx1_inv = tx1.CreateInvert();
+                        tx1_inv.Transform(ref e1_x, ref e1_y);
+                    }
+
+                    VgHitInfo hitInfo = _uiSprite.FindRenderElementAtPos((float)e1_x, (float)e1_y, true);
 
                     if (hitInfo.hitElem != null &&
                         hitInfo.hitElem.VxsPath != null)
@@ -311,7 +320,7 @@ namespace LayoutFarm
                         _quadPolygonController.ClearControlPoints();//clear old control points
                         _quadPolygonController.UpdateControlPoints( //create new control points
                             hitInfo.copyOfVxs,
-                            _uiSprite.ActualXOffset, _uiSprite.ActualYOffset);
+                            _uiSprite.ActualXOffset, _uiSprite.ActualYOffset, tx1);
 
                         ////move redbox and its controller
                         //_rectBoundsWidgetBox.SetLocationAndSize(

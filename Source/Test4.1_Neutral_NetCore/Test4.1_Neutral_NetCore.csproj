@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <RootNamespace>Test4._1_Neutral_NetCore</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <Prefer32Bit>true</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\..\PixelFarm\src\Tests\WinFormTestBed2\YourImplementation\App.cs" Link="NeutralTestBed\YourImplementation\App.cs" />
+    <Compile Include="..\..\..\PixelFarm\src\Tests\WinFormTestBed2\YourImplementation\AppHost.cs" Link="NeutralTestBed\YourImplementation\AppHost.cs" />
+    <Compile Include="..\..\..\PixelFarm\src\Tests\WinFormTestBed2\YourImplementation\AppHostExtensions.cs" Link="NeutralTestBed\YourImplementation\AppHostExtensions.cs" />
+    <Compile Include="..\..\..\PixelFarm\src\Tests\WinFormTestBed2\YourImplementation\DemoNote.cs" Link="NeutralTestBed\YourImplementation\DemoNote.cs" />
+    <Compile Include="..\..\..\PixelFarm\src\Tests\WinFormTestBed2\YourImplementation\MyTextBreaker.cs" Link="NeutralTestBed\YourImplementation\MyTextBreaker.cs" />
+    <Compile Include="..\..\..\PixelFarm\src\Tests\WinFormTestBed2\YourImplementation\RelativePathBuilder.cs" Link="NeutralTestBed\YourImplementation\RelativePathBuilder.cs" />
+    <Compile Include="..\..\..\Typography\Typography.TextBreak\TextBreakerTest\IcuSimpleTextFileDictionaryProvider.cs" Link="IcuSimpleTextFileDictionaryProvider.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\x_autogen_netstandard2.0\HtmlRenderer.One\HtmlRenderer.One.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="NeutralTestBed\YourImplementation\" />
+  </ItemGroup>
+
+  <Import Project="..\Test3_MixHtml_SH\Test3_MixHtml_SH.projitems" Label="Shared" />
+
+</Project>

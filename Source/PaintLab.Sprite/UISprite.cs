@@ -48,6 +48,47 @@ namespace LayoutFarm.UI
             set => _vgVisualElem = value;
         }
         public bool EnableSubSvgHitTest { get; set; }
+        public override bool HasCustomHitTest => true;
+        protected override bool CustomHitTest(HitChain hitChain)
+        {
+            RectD bound = _vgVisualElem.GetRectBounds();
+            bound.Offset(RenderOriginXOffset, RenderOriginYOffset);
+            if (bound.Contains(hitChain.TestPoint.X, hitChain.TestPoint.Y))
+            {
+                //we hit in svg bounds area   
+                if (!EnableSubSvgHitTest)
+                {
+                    //not test further
+                    if (hitChain.TopMostElement != this)
+                    {
+                        hitChain.AddHitObject(this);
+                        return true;
+                    }
+                }
+                else
+                {
+                    VgHitChainPool.GetFreeHitTestArgs(out VgHitChain svgHitChain);
+                    //check if we hit on some part of the svg 
+#if DEBUG
+                    if (hitChain.dbugHitPhase == dbugHitChainPhase.MouseDown)
+                    {
+
+                    }
+#endif
+                    svgHitChain.WithSubPartTest = this.EnableSubSvgHitTest;
+                    svgHitChain.SetHitTestPos(hitChain.TextPointX, hitChain.TextPointY);
+                    bool hitResult = false;
+                    if (HitTestOnSubPart(this, svgHitChain))
+                    {
+                        hitChain.AddHitObject(this);
+                        hitResult = true;
+                    }
+                    VgHitChainPool.ReleaseHitTestArgs(ref svgHitChain);
+                    return hitResult;
+                }
+            }
+            return false;
+        }
 
         /// <summary>
         /// find svg element at specific pos
@@ -95,42 +136,7 @@ namespace LayoutFarm.UI
                 //_renderOffsetY = value;
             }
         }
-        public override void ChildrenHitTestCore(HitChain hitChain)
-        {
 
-            RectD bound = _vgVisualElem.GetRectBounds();
-            bound.Offset(RenderOriginXOffset, RenderOriginYOffset);
-            if (bound.Contains(hitChain.TestPoint.X, hitChain.TestPoint.Y))
-            {
-                //we hit in svg bounds area   
-                if (!EnableSubSvgHitTest)
-                {
-                    //not test further
-                    if (hitChain.TopMostElement != this)
-                    {
-                        hitChain.AddHitObject(this);
-                    }
-                }
-                else
-                {
-                    VgHitChainPool.GetFreeHitTestArgs(out VgHitChain svgHitChain);
-                    //check if we hit on some part of the svg 
-#if DEBUG
-                    if (hitChain.dbugHitPhase == dbugHitChainPhase.MouseDown)
-                    {
-
-                    }
-#endif
-                    svgHitChain.WithSubPartTest = this.EnableSubSvgHitTest;
-                    svgHitChain.SetHitTestPos(hitChain.TextPointX, hitChain.TextPointY);
-                    if (HitTestOnSubPart(this, svgHitChain))
-                    {
-                        hitChain.AddHitObject(this);
-                    }
-                    VgHitChainPool.ReleaseHitTestArgs(ref svgHitChain);
-                }
-            }
-        }
 
 
         static class VgHitChainPool
@@ -296,7 +302,7 @@ namespace LayoutFarm.UI
             painter.SmoothingMode = SmoothingMode.HighQuality;
 
             using (VgPaintArgsPool.Borrow(painter, out VgPaintArgs paintArgs))
-            { 
+            {
                 if (vgVisualElem.CoordTx != null)
                 {
                     //transform ?
@@ -310,7 +316,7 @@ namespace LayoutFarm.UI
                     }
 
                 }
-                vgVisualElem.Paint(paintArgs);               
+                vgVisualElem.Paint(paintArgs);
             }
             painter.SmoothingMode = smoothingMode;
             painter.StrokeWidth = prevStrokeW;//restore  

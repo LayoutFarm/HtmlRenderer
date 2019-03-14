@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>bff5f427-429e-4b22-acbb-0c741ef63895</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Test3_MixHtml_SH</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Demo_04\4.1_UIHtmlBox.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Demo_04\4.2_MixHtml.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Demo_04\4.3.1_UIHtmlBoxWithResReq.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Demo_04\4.3.2_UIHtmlBox_ContentMx.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Demo_04\4.4_CssLeanBox.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Demo_04\4.5_LightHtmlBox.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Demo_04\4.6_DynamicDom1.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Demo_05\5.0_HtmlDemoBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Demo_05\5.1_Demo_MenuItems.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Demo_05\5.2_Demo_MultipleBoxes2.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Demo_05\5.3_Demo_TabPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Demo_05\5.7_Demo_ListView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Demo_05\5.8_Demo_Hinge.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Demo_05\5.9_Demo_TreeView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Demo_06\6.1_Demo01_CreateHtmlDomStyle1.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Demo_06\6.2_Demo02_CreateHtmlDomStyle2.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Demo_06\6.3_Demo03_DynamicContent1.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Demo_06\6.4_Demo04_DynamicContent2.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Demo_06\6.5_Demo05_Dynamic_BoxSpec.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Demo_06\HtmlDomExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Demo_09\9.1_SvgTiger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Demo_09\9.2_ShapeControls.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Demo_09\9.3_Demo_SvgViewer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Demo_09\9.4_SvgParts.cs" />
+  </ItemGroup>
+</Project>

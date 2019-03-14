@@ -43,7 +43,10 @@ namespace LayoutFarm.HtmlBoxes
         public override void InvalidateGraphics(Rectangle clientArea)
         {
             //send to container element
-            clientArea.Offset(_containerElement.X, _containerElement.Y);
+//#if DEBUG
+//            System.Diagnostics.Debug.WriteLine("re-bridge_cssbox_invalidateGfx:" + clientArea.ToString());
+//#endif
+            //clientArea.Offset(_containerElement.X, _containerElement.Y);
             _containerElement.InvalidateParentGraphics(clientArea);
         }
         public LayoutFarm.RenderElement ContainerElement => _containerElement;
@@ -53,7 +56,6 @@ namespace LayoutFarm.HtmlBoxes
             Point p = _containerElement.GetGlobalLocation();
             globalX = p.X;
             globalY = p.Y;
-            //return this;
         }
     }
 }

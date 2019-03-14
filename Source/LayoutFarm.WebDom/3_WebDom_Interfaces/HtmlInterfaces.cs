@@ -23,6 +23,7 @@ namespace LayoutFarm.WebDom
     [JsType]
     public interface IHtmlElement : INode
     {
+        string getAttribute(string attrName);
         void setAttribute(string attrName, string value);
         void appendChild(INode childNode);
         void attachEventListener(string eventName, HtmlEventHandler handler);
@@ -33,8 +34,12 @@ namespace LayoutFarm.WebDom
         //----------------------
         void removeChild(DomNode childNode);
         void getGlobalLocation(out int x, out int y);
+        //----------------------
+        void setData(string key, string value);
+        string getData(string key);
+        //----------------------
     }
-     [JsType]
+    [JsType]
     public interface ITextNode : INode
     {
     }

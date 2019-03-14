@@ -47,16 +47,14 @@ namespace LayoutFarm.HtmlBoxes
         }
         protected override void OnLayoutFinished()
         {
-
             _domFinished?.Invoke(this, EventArgs.Empty);
-
         }
         //
         public DomElement RootElement => _webdoc.RootNode;
         //
         public WebDocument WebDocument
         {
-            get { return _webdoc; }
+            get => _webdoc;
             set
             {
                 var htmldoc = _webdoc as LayoutFarm.Composers.HtmlDocument;
@@ -134,6 +132,10 @@ namespace LayoutFarm.HtmlBoxes
                 _hasSomeSelectedArea = false;
             }
             _currentSelectionRange = selRange;
+
+#if DEBUG
+            //System.Diagnostics.Debug.WriteLine("html-sel:" + _currentSelectionArea.ToString());
+#endif
 
             this.RootCssBox.InvalidateGraphics(_currentSelectionArea);
         }

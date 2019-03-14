@@ -425,17 +425,11 @@ namespace LayoutFarm
         double _scaleW = 1;
         double _scaleH = 1;
         PointControllerBox _eventSrcControlBox;
-
-
-
         public QuadControllerUI()
           : base(100, 100)
         {
 
         }
-
-
-
         public QuadTransformStyle TransformStyle
         {
             get => _currentTransformStyle;
@@ -814,17 +808,17 @@ namespace LayoutFarm
         }
 
 
-        protected override void OnKeyDown(UIKeyEventArgs e)
-        {
-            //TODO: remove thiss
-            switch (e.KeyCode)
-            {
-                case UIKeys.NumPad0:
-                    _currentTransformStyle = QuadTransformStyle.Bilinear;
-                    break;
-            }
-            base.OnKeyDown(e);
-        }
+        //protected override void OnKeyDown(UIKeyEventArgs e)
+        //{
+        //    //TODO: remove this
+        //    switch (e.KeyCode)
+        //    {
+        //        case UIKeys.NumPad0:
+        //            _currentTransformStyle = QuadTransformStyle.Bilinear;
+        //            break;
+        //    }
+        //    base.OnKeyDown(e);
+        //}
 
 
         void SetCornerLocation(int index, double x, double y)
@@ -1526,7 +1520,7 @@ namespace LayoutFarm
 
         public void UpdateControlPoints(PixelFarm.Drawing.VertexStore vxs)
         {
-            UpdateControlPoints(vxs, _offsetX, _offsetY);
+            UpdateControlPoints(vxs, _offsetX, _offsetY, null);
         }
         public void ClearControlPoints()
         {
@@ -1549,7 +1543,7 @@ namespace LayoutFarm
         }
 
         bool _clearAllPointsWhenUpdate = false;
-        public void UpdateControlPoints(PixelFarm.Drawing.VertexStore vxs, float offsetX, float offsetY)
+        public void UpdateControlPoints(PixelFarm.Drawing.VertexStore vxs, float offsetX, float offsetY, ICoordTransformer iCoordTx)
         {
             //1. we remove existing point from root
 
@@ -1564,10 +1558,17 @@ namespace LayoutFarm
                 if (!_clearAllPointsWhenUpdate)
                 {
                     int j2 = vxs.Count;
+
                     for (int i = 0; i < j2; ++i)
                     {
 
-                        switch (vxs.GetVertex(i, out double x, out double y))
+                        var cmd = vxs.GetVertex(i, out double x, out double y);
+                        if (iCoordTx != null)
+                        {
+                            iCoordTx.Transform(ref x, ref y);
+                        }
+
+                        switch (cmd)
                         {
                             case PixelFarm.CpuBlit.VertexCmd.NoMore:
                                 return;
@@ -1603,8 +1604,13 @@ namespace LayoutFarm
             int j = vxs.Count;
             for (int i = 0; i < j; ++i)
             {
+                var cmd = vxs.GetVertex(i, out double x, out double y);
+                if (iCoordTx != null)
+                {
+                    iCoordTx.Transform(ref x, ref y);
+                }
 
-                switch (vxs.GetVertex(i, out double x, out double y))
+                switch (cmd)
                 {
                     case PixelFarm.CpuBlit.VertexCmd.NoMore:
                         return;

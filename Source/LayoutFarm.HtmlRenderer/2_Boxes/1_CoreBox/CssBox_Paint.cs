@@ -75,7 +75,7 @@ namespace LayoutFarm.HtmlBoxes
             if (_viewportY != 0)
             {
 #if DEBUG
-                Console.WriteLine(__aa_dbugId + ":i1_" + _viewportY.ToString());
+                System.Diagnostics.Debug.WriteLine(__aa_dbugId + ":i1_" + _viewportY.ToString());
 #endif
             }
             if (_justBlockRun != null)
@@ -142,7 +142,7 @@ namespace LayoutFarm.HtmlBoxes
             }
             else
             {
-                Color color = Color.Green;
+                Color color = Color.FromArgb(255, 0, 128, 0);
                 switch (_cssDisplay)
                 {
                     case Css.CssDisplay.TableCell:
@@ -213,29 +213,40 @@ namespace LayoutFarm.HtmlBoxes
                     if (line.CachedLineBottom >= viewport_top &&
                         line.CachedLineTop <= viewport_bottom)
                     {
+                        Rectangle currentClipRect = p.CurrentClipRect;
+                        drawState = 1;//drawing in viewport area 
 #if DEBUG
                         dbugCounter.dbugLinePaintCount++;
 #endif
 
-                        drawState = 1;//drawing in viewport area
+
                         int cX = p.CanvasOriginX;
                         int cy = p.CanvasOriginY;
-                        p.SetCanvasOrigin(cX, cy + (int)line.CachedLineTop);
-                        //1.                                 
-                        line.PaintBackgroundAndBorder(p);
-                        if (line.SelectionSegment != null)
+                        int newCy = cy + (int)line.CachedLineTop;
+
+                        if (newCy + line.CacheLineHeight >= currentClipRect.Top &&
+                            newCy <= currentClipRect.Bottom)
                         {
-                            line.SelectionSegment.PaintSelection(p, line);
-                        }
-                        //2.                                
-                        line.PaintRuns(p);
-                        //3. 
-                        line.PaintDecoration(p);
+
+                            p.SetCanvasOrigin(cX, newCy);
+                            //1.                                 
+                            line.PaintBackgroundAndBorder(p);
+                            if (line.SelectionSegment != null)
+                            {
+                                line.SelectionSegment.PaintSelection(p, line);
+                            }
+                            //2.                                
+                            line.PaintRuns(p);
+                            //3. 
+                            line.PaintDecoration(p);
 #if DEBUG
-                        line.dbugPaintRuns(p);
+                            line.dbugPaintRuns(p);
 #endif
 
-                        p.SetCanvasOrigin(cX, cy);//back
+                            p.SetCanvasOrigin(cX, cy);//back
+
+                        } 
+
                     }
                     else if (drawState == 1)
                     {

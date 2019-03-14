@@ -88,7 +88,6 @@ namespace LayoutFarm.CustomWidgets
         }
         void IEventPortal.PortalMouseDown(UIMouseEventArgs e)
         {
-
             this.Focus();
             e.CurrentContextElement = this;
             GetInputEventAdapter().MouseDown(e, _htmlRenderBox.CssBox);
@@ -101,7 +100,9 @@ namespace LayoutFarm.CustomWidgets
                     //extend from existing selection
                     SelectionRange selRange = _htmlVisualRoot.CurrentSelectionRange;
 
+#if DEBUG
                     PixelFarm.Drawing.Rectangle existingArea = _htmlVisualRoot.CurrentSelectionRange.SnapSelectionArea;
+#endif
                     //
                     SimulateMouseSelection(
                         _latest_selMouseDownX,
@@ -130,7 +131,6 @@ namespace LayoutFarm.CustomWidgets
         }
         void IEventPortal.PortalMouseMove(UIMouseEventArgs e)
         {
-
             e.CurrentContextElement = this;
             GetInputEventAdapter().MouseMove(e, _htmlRenderBox.CssBox);
         }
@@ -170,6 +170,7 @@ namespace LayoutFarm.CustomWidgets
 
         void SimulateMouseSelection(int startX, int startY, int endX, int endY)
         {
+            //TODO: review here again***
             HtmlInputEventAdapter evAdapter = GetInputEventAdapter();
             {
                 UIMouseEventArgs mouseDown = new UIMouseEventArgs();
@@ -284,6 +285,7 @@ namespace LayoutFarm.CustomWidgets
         }
         public void LoadHtmlString(string htmlString)
         {
+
             if (_htmlRenderBox == null)
             {
                 _waitingContentKind = WaitingContentKind.HtmlString;
@@ -295,7 +297,10 @@ namespace LayoutFarm.CustomWidgets
                 _htmlVisualRoot = HtmlHostExtensions.CreateHtmlVisualRootFromFullHtml(_htmlhost, htmlString, _htmlRenderBox);
                 SetHtmlContainerEventHandlers();
                 ClearWaitingContent();
+                RaiseLayoutFinished();
+                _htmlRenderBox.InvalidateGraphics();
             }
+
         }
         public void LoadHtmlFragmentString(string fragmentHtmlString)
         {

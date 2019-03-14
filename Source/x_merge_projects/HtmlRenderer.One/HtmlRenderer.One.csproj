@@ -17,7 +17,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG; PIXEL_FARM; PIXEL_FARM_NET20; NET20; MINIMAL; GLES; GL_ENABLE; NETSTANDARD; SHARPZIPLIB;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -25,75 +25,34 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE; PIXEL_FARM; PIXEL_FARM_NET20; NET20; MINIMAL; GLES; GL_ENABLE; NETSTANDARD; SHARPZIPLIB;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.XML" />
-  </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Deps\LayoutFarm.BaseRenderer\LayoutFarm.BaseRenderer.csproj">
-      <Project>{20048075-a2f3-4b97-b3c6-bea794429741}</Project>
-      <Name>LayoutFarm.BaseRenderer</Name>
+    <ProjectReference Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Platforms.WinNeutral\PaintLab.Platforms.WinNeutral.csproj">
+      <Project>{2854a4f1-0110-4b47-b773-9a5fd462755e}</Project>
+      <Name>PaintLab.Platforms.WinNeutral</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Deps\LayoutFarm.ComposerCore\LayoutFarm.ComposerCore.csproj">
-      <Project>{d88d86cd-6732-45e7-8fc9-49449ea9c737}</Project>
-      <Name>LayoutFarm.ComposerCore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Deps\LayoutFarm.PlatformBase\LayoutFarm.PlatformBase.csproj">
-      <Project>{cdefd12b-956c-4686-ae8a-f89c3280c95f}</Project>
-      <Name>LayoutFarm.PlatformBase</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Deps\LayoutFarm.Platforms.WinForms\LayoutFarm.Platforms.WinForms.csproj">
-      <Project>{4602b28b-eeec-4a69-854c-b00b8b616837}</Project>
-      <Name>LayoutFarm.Platforms.WinForms</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Deps\LayoutFarm.TextEdit\LayoutFarm.TextEdit.csproj">
-      <Project>{cfb41c52-614e-476c-8bbe-d07c26fb582d}</Project>
-      <Name>LayoutFarm.TextEdit</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Deps\LayoutFarm.YourBasicCustomWidgets\LayoutFarm.YourBasicCustomWidgets.csproj">
-      <Project>{6317f5f0-bc4b-4bfd-b3c0-73c05c2aa11e}</Project>
-      <Name>LayoutFarm.YourBasicCustomWidgets</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Deps\PixelFarm.Drawing.Core\PixelFarm.Drawing.Core.csproj">
-      <Project>{51d63482-5697-4b16-8401-506965624657}</Project>
-      <Name>PixelFarm.Drawing.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Deps\PixelFarm.DrawingCanvas\PixelFarm.DrawingCanvas.csproj">
-      <Project>{0cc424d5-20ac-4849-993d-3a720dbae94f}</Project>
-      <Name>PixelFarm.DrawingCanvas</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Deps_HtmlKit\HtmlKit_Net20\HtmlKit_Net20.csproj">
-      <Project>{69c5bff6-18c2-4d29-aa07-3c8dbdc70f87}</Project>
-      <Name>HtmlKit_Net20</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\LayoutFarm.CssBase\LayoutFarm.CssBase.csproj">
-      <Project>{5164ec24-95c4-4333-bd4e-70ee625cceb4}</Project>
-      <Name>LayoutFarm.CssBase</Name>
+    <ProjectReference Include="..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\PixelFarm.One.HtmlRenderer.csproj">
+      <Project>{367ae189-bede-436c-8186-362a771f35b2}</Project>
+      <Name>PixelFarm.One.HtmlRenderer</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\LayoutFarm.HtmlComposer\LayoutFarm.HtmlComposer.csproj">
       <Project>{1af17e34-4c2d-4657-b993-e0608c555111}</Project>
       <Name>LayoutFarm.HtmlComposer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\LayoutFarm.HtmlRenderer\LayoutFarm.HtmlRenderer.csproj">
-      <Project>{9d2a40bc-fa95-454d-aef5-4dd9344bfdc3}</Project>
-      <Name>LayoutFarm.HtmlRenderer</Name>
+    <ProjectReference Include="..\..\LayoutFarm.YourHtmlWidget\LayoutFarm.YourHtmlWidget.csproj">
+      <Project>{9a73d7be-c7f0-47a8-8fd4-2906c4917148}</Project>
+      <Name>LayoutFarm.YourHtmlWidget</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\LayoutFarm.WebDom\LayoutFarm.WebDom.csproj">
-      <Project>{a7e65fd9-329d-4902-bcda-51ee4f992fd5}</Project>
-      <Name>LayoutFarm.WebDom</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Test0_PresentationDevHelper_New\Test0_PresentationDevHelper_New.csproj">
-      <Project>{05c84cab-2f5d-4d74-9a62-eaddf5b4cc0b}</Project>
-      <Name>Test0_PresentationDevHelper_New</Name>
+    <ProjectReference Include="..\..\PaintLab.Sprite\PaintLab.Sprite.csproj">
+      <Project>{5c694901-f73a-4ab7-9fa6-024dd591c33e}</Project>
+      <Name>PaintLab.Sprite</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

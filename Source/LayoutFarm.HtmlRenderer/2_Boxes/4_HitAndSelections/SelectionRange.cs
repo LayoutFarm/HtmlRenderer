@@ -126,6 +126,7 @@ namespace LayoutFarm.HtmlBoxes
                             else
                             {
                                 int runCount = selLine.RunCount;
+                                bool foundStartRun = false;
                                 for (int n = 0; n < runCount; ++n)
                                 {
                                     //temp fix here!
@@ -137,7 +138,8 @@ namespace LayoutFarm.HtmlBoxes
                                     }
                                     if (rr == startRun)
                                     {
-                                        var alltext = rr.Text;
+                                        foundStartRun = true;
+                                        string alltext = rr.Text;
                                         if (autoFirstRun)
                                         {
                                             stbuilder.Append(alltext);
@@ -171,7 +173,10 @@ namespace LayoutFarm.HtmlBoxes
                                     }
                                     else
                                     {
-                                        stbuilder.Append(rr.Text);
+                                        if (foundStartRun)
+                                        {
+                                            stbuilder.Append(rr.Text);
+                                        }
                                     }
                                 }
                             }
@@ -326,11 +331,11 @@ namespace LayoutFarm.HtmlBoxes
             //---------------------------------- 
             //select on different line 
             LineWalkVisitor lineWalkVisitor = null;
-            int breakAtLevel;
-            if (FindCommonGround(startChain, endChain, out breakAtLevel) && breakAtLevel > 0)
+
+            if (FindCommonGround(startChain, endChain, out int breakAtLevel) && breakAtLevel > 0)
             {
-                object hit1 = endChain.GetHitInfo(breakAtLevel).hitObject;
-                CssBlockRun hitBlockRun = hit1 as CssBlockRun;
+
+                CssBlockRun hitBlockRun = endChain.GetHitInfo(breakAtLevel).hitObject as CssBlockRun;
                 //multiple select 
                 //1. first part        
                 if (hitBlockRun != null)
@@ -356,8 +361,20 @@ namespace LayoutFarm.HtmlBoxes
             }
 
             lineWalkVisitor.SetWalkTargetPosition(endChain.RootGlobalX, endChain.RootGlobalY);
+
+#if DEBUG
+            int dbugExpectedId = 1;
+#endif
             lineWalkVisitor.Walk(endline, (lineCoverage, linebox, partialLineRun) =>
             {
+#if DEBUG                
+                //System.Diagnostics.Debug.WriteLine("sel:" + linebox.dbugId);
+                if (dbugExpectedId != linebox.dbugId)
+                {
+
+                }
+                dbugExpectedId++;
+#endif
                 switch (lineCoverage)
                 {
                     case LineCoverage.EndLine:
@@ -526,28 +543,60 @@ namespace LayoutFarm.HtmlBoxes
             readonly CssLineBox _startLineBox;
             public float _globalX;
             public float _globalY;
+
+
+            //float __gy;
+            //public float _globalY
+            //{ //for debug
+            //    get => __gy;
+            //    set
+            //    {
+            //        if (value >= 150)
+            //        {
+
+            //        }
+            //        __gy = value;
+            //    }
+            //}
+
             CssLineBox _currentVisitLineBox;
             float _targetX;
             float _targetY;
 
             public LineWalkVisitor(CssLineBox startLineBox)
             {
+                PointF p = new PointF();
+                startLineBox.OwnerBox.GetGlobalLocationRelativeToRoot(ref p);
                 _startLineBox = startLineBox;
-                float endElemX = 0, endElemY = 0;
-                startLineBox.OwnerBox.GetGlobalLocation(out endElemX, out endElemY);
-                _globalX = endElemX;
-                _globalY = endElemY + startLineBox.CachedLineTop;
+
+
+                //startLineBox.OwnerBox.GetGlobalLocation(out float endElemX, out float endElemY);
+                //_globalX = endElemX;
+                //_globalY = endElemY + startLineBox.CachedLineTop;
+
+                _globalX = p.X;
+                _globalY = p.Y + startLineBox.CachedLineTop;
+
             }
             public LineWalkVisitor(CssBlockRun startBlockRun)
             {
-                float endElemX = 0, endElemY = 0;
-                startBlockRun.ContentBox.GetGlobalLocation(out endElemX, out endElemY);
-                _globalX = endElemX;
-                _globalY = endElemY;
+
+                PointF p = new PointF();
+                startBlockRun.ContentBox.GetGlobalLocationRelativeToRoot(ref p);
+                _globalX = p.X;
+                _globalY = p.Y;
                 _startBlockRun = startBlockRun;
+
+                //startBlockRun.ContentBox.GetGlobalLocation(out float endElemX, out float endElemY);
+                //_globalX = endElemX;
+                //_globalY = endElemY;
+                //_startBlockRun = startBlockRun;
             }
             public void SetWalkTargetPosition(float x, float y)
             {
+                //if (y >= 150)
+                //{
+                //}
                 _targetX = x;
                 _targetY = y;
             }
@@ -567,6 +616,9 @@ namespace LayoutFarm.HtmlBoxes
                 //recursive 
                 foreach (CssLineBox ln in lineIter)
                 {
+#if DEBUG
+                    //System.Diagnostics.Debug.WriteLine("pre_sel:" + ln.dbugId);
+#endif
                     _currentVisitLineBox = ln;
                     if (ln == endLineBox)
                     {
@@ -606,20 +658,73 @@ namespace LayoutFarm.HtmlBoxes
                         _targetX >= _globalX &&
                         _targetX < _globalX + _currentVisitLineBox.CachedLineContentWidth;
             }
+
+
+            ///// walk down and up
+            ///// </summary>
+            ///// <param name="startLine"></param>
+            ///// <returns></returns>
+            //static IEnumerable<CssLineBox> GetLineWalkDownAndUpIter(LineWalkVisitor visitor, CssLineBox startLine)
+            //{
+            //    float sx, sy;
+            //    startLine.OwnerBox.GetGlobalLocation(out sx, out sy);
+            //    CssLineBox curLine = startLine;
+            //    //walk up and down the tree
+            //    CssLineBox nextline = curLine.NextLine;
+            //    while (nextline != null)
+            //    {
+            //        visitor._globalY = sy + startLine.CachedLineTop;
+            //        yield return nextline;
+            //        nextline = nextline.NextLine;
+            //    }
+            //    //--------------------
+            //    //no next line 
+            //    //then walk up  ***
+            //    CssBox curBox = startLine.OwnerBox;
+
+            //    RETRY://***
+            //    CssBox level1Sibling = BoxHitUtils.GetNextSibling(curBox);
+            //    while (level1Sibling != null)
+            //    {
+            //        level1Sibling.GetGlobalLocation(out sx, out sy);
+            //        visitor._globalY = sy;
+            //        //walk down
+            //        foreach (CssLineBox line in GetLineWalkDownIter(visitor, level1Sibling))
+            //        {
+            //            yield return line;
+            //        }
+
+            //        level1Sibling = BoxHitUtils.GetNextSibling(level1Sibling);
+            //    }
+            //    //--------------------
+            //    //other further sibling
+            //    //then step to parent of lineOwner
+            //    if (curBox.ParentBox != null)
+            //    {
+            //        //if has parent    
+            //        //walk up***
+            //        curBox = curBox.ParentBox;
+            //        goto RETRY;
+            //    }
+            //}
+
+
+
+
             /// walk down and up
             /// </summary>
             /// <param name="startLine"></param>
             /// <returns></returns>
             static IEnumerable<CssLineBox> GetLineWalkDownAndUpIter(LineWalkVisitor visitor, CssLineBox startLine)
             {
-                float sx, sy;
-                startLine.OwnerBox.GetGlobalLocation(out sx, out sy);
+                PointF p = new PointF();
+                startLine.OwnerBox.GetGlobalLocationRelativeToRoot(ref p);
                 CssLineBox curLine = startLine;
                 //walk up and down the tree
                 CssLineBox nextline = curLine.NextLine;
                 while (nextline != null)
                 {
-                    visitor._globalY = sy + startLine.CachedLineTop;
+                    visitor._globalY = p.Y + startLine.CachedLineTop;
                     yield return nextline;
                     nextline = nextline.NextLine;
                 }
@@ -627,12 +732,14 @@ namespace LayoutFarm.HtmlBoxes
                 //no next line 
                 //then walk up  ***
                 CssBox curBox = startLine.OwnerBox;
-                RETRY:
+
+                RETRY://***
                 CssBox level1Sibling = BoxHitUtils.GetNextSibling(curBox);
                 while (level1Sibling != null)
                 {
-                    level1Sibling.GetGlobalLocation(out sx, out sy);
-                    visitor._globalY = sy;
+                    p = new PointF();
+                    level1Sibling.GetGlobalLocationRelativeToRoot(ref p);
+                    visitor._globalY = p.Y;
                     //walk down
                     foreach (CssLineBox line in GetLineWalkDownIter(visitor, level1Sibling))
                     {
@@ -652,6 +759,8 @@ namespace LayoutFarm.HtmlBoxes
                     goto RETRY;
                 }
             }
+
+
 
             static IEnumerable<CssLineBox> GetLineWalkDownIter(LineWalkVisitor visitor, CssBox box)
             {
