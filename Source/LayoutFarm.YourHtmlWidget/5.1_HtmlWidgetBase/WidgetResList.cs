@@ -6,13 +6,15 @@ namespace LayoutFarm.HtmlWidgets
     static class WidgetResList
     {
         //store 'built-in' resource list for our HtmlWidgetBase
-        public const string opt_checked = "opt_checked.png";
-        public const string opt_unchecked = "opt_unchecked.png";
-        public const string chk_checked = "chk_checked.png";
-        public const string chk_unchecked = "chk_unchecked.png";
+        public const string opt_checked = "built_in://imgs/opt_checked.png";
+        public const string opt_unchecked = "built_in://imgs/opt_unchecked.png";
+        public const string chk_checked = "built_in://imgs/chk_checked.png";
+        public const string chk_unchecked = "built_in://img/chk_unchecked.png";
         //
+        public const string arrow_close = "built_in://imgs/arrow_close.png";
+        public const string arrow_open = "built_in://imgs/arrow_open.png";
 
-        public const string arrow_close = "arrow_close.png";
-        public const string arrow_open = "arrow_open.png";
+        //---------
+
     }
 }

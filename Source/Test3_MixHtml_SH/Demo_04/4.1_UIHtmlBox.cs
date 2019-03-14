@@ -37,6 +37,8 @@ namespace LayoutFarm
             }
             htmlBox.LoadHtmlString(htmltext);
         }
+
+
         void loadingQueue_AskForImg(object sender, LayoutFarm.ContentManagers.ImageRequestEventArgs e)
         {
             //load resource -- sync or async? 
@@ -50,7 +52,20 @@ namespace LayoutFarm
             //2. check if the req want a local file
             //3. or if req want to download from the network
             //
-            string absolutePath = documentRootPath + "\\" + e.ImagSource;
+
+            //examples ...
+
+            string absolutePath = null;
+            if (e.ImagSource.StartsWith("built_in://imgs/"))
+            {
+                //substring
+                absolutePath = documentRootPath + "\\" + e.ImagSource.Substring("built_in://imgs/".Length);
+            }
+            else
+            {
+                absolutePath = documentRootPath + "\\" + e.ImagSource;
+            }
+
             if (!System.IO.File.Exists(absolutePath))
             {
                 return;
