@@ -145,17 +145,17 @@ namespace LayoutFarm.HtmlWidgets
                 div.AddChild("img", img =>
                 {
                     //init 
-                    img.SetAttribute("src", "arrow_close.png");
+                    img.SetAttribute("src", WidgetResList.arrow_close);
                     img.AttachMouseDownEvent(e =>
                     {
                         if (this.IsOpen)
                         {
-                            img.SetAttribute("src", "arrow_close.png");
+                            img.SetAttribute("src", WidgetResList.arrow_close);
                             this.CloseHinge();
                         }
                         else
                         {
-                            img.SetAttribute("src", "arrow_open.png");
+                            img.SetAttribute("src", WidgetResList.arrow_open);
                             this.OpenHinge();
                         }
 

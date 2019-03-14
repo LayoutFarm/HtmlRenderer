@@ -38,11 +38,11 @@ namespace LayoutFarm.HtmlWidgets
                 {
                     if (value)
                     {
-                        _imgNode.SetAttribute("src", OnlyOne ? WidgetResList.opt_checked_png : WidgetResList.chk_checked_png);
+                        _imgNode.SetAttribute("src", OnlyOne ? WidgetResList.opt_checked : WidgetResList.chk_checked);
                     }
                     else
                     {
-                        _imgNode.SetAttribute("src", OnlyOne ? WidgetResList.opt_unchecked_png : WidgetResList.chk_unchecked_png);
+                        _imgNode.SetAttribute("src", OnlyOne ? WidgetResList.opt_unchecked : WidgetResList.chk_unchecked);
                     }
                 }
             }
@@ -71,7 +71,7 @@ namespace LayoutFarm.HtmlWidgets
                 div2.SetAttribute("style", "color:black;");
                 _imgNode = div2.AddChild("img");
 
-                _imgNode.SetAttribute("src", OnlyOne ? WidgetResList.opt_unchecked_png : WidgetResList.chk_unchecked_png);
+                _imgNode.SetAttribute("src", OnlyOne ? WidgetResList.opt_unchecked : WidgetResList.chk_unchecked);
 
                 _imgNode.AttachMouseDownEvent(e =>
                 {
