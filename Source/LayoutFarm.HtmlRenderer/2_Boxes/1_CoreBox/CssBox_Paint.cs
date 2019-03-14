@@ -214,11 +214,7 @@ namespace LayoutFarm.HtmlBoxes
                         line.CachedLineTop <= viewport_bottom)
                     {
                         Rectangle currentClipRect = p.CurrentClipRect;
-                        drawState = 1;//drawing in viewport area
-
-
-                        //                        if (p.CanvasOriginY < currentClipRect.Bottom)
-                        //                        {
+                        drawState = 1;//drawing in viewport area 
 #if DEBUG
                         dbugCounter.dbugLinePaintCount++;
 #endif
@@ -250,7 +246,6 @@ namespace LayoutFarm.HtmlBoxes
                             p.SetCanvasOrigin(cX, cy);//back
 
                         } 
-                        //}
 
                     }
                     else if (drawState == 1)
