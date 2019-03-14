@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using LayoutFarm.WebDom;
 namespace LayoutFarm.Composers
 {
-    
+
     public class HtmlDocument : LayoutFarm.WebDom.Impl.HtmlDocument
     {
         //implementation specific...
@@ -97,6 +97,12 @@ namespace LayoutFarm.Composers
         public bool TryGetCustomBoxGenerator(string customElementName, out CreateCssBoxDelegate cssBoxGen)
         {
             return _registeredCustomElemenGens.TryGetValue(customElementName, out cssBoxGen);
+        }
+        public ImageBinder GetImageBinder(string imgurl)
+        {
+            ImageBinder imgBinder = new ImageBinder(imgurl);
+            Host.ChildRequestImage(imgBinder, null);
+            return imgBinder;
         }
     }
 }

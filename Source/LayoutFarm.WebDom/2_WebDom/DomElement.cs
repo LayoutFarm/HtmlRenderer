@@ -5,8 +5,8 @@ namespace LayoutFarm.WebDom
 {
     public abstract partial class DomElement : DomNode
     {
-        internal int nodePrefixNameIndex;
-        internal int nodeLocalNameIndex;
+        internal readonly int _nodePrefixNameIndex;
+        internal readonly int _nodeLocalNameIndex;
         Dictionary<int, DomAttribute> _myAttributes;
         List<DomNode> _myChildrenNodes;
         //------------------------------------------- 
@@ -20,15 +20,15 @@ namespace LayoutFarm.WebDom
         public DomElement(WebDocument ownerDoc, int nodePrefixNameIndex, int nodeLocalNameIndex)
             : base(ownerDoc)
         {
-            this.nodePrefixNameIndex = nodePrefixNameIndex;
-            this.nodeLocalNameIndex = nodeLocalNameIndex;
+            _nodePrefixNameIndex = nodePrefixNameIndex;
+            _nodeLocalNameIndex = nodeLocalNameIndex;
             SetNodeType(HtmlNodeKind.OpenElement);
         }
 
         public static bool EqualNames(DomElement node1, DomElement node2)
         {
-            return node1.nodeLocalNameIndex == node2.nodeLocalNameIndex
-                && node1.nodePrefixNameIndex == node2.nodePrefixNameIndex;
+            return node1._nodeLocalNameIndex == node2._nodeLocalNameIndex
+                && node1._nodePrefixNameIndex == node2._nodePrefixNameIndex;
         }
 #if DEBUG
         public override string ToString()
@@ -230,13 +230,13 @@ namespace LayoutFarm.WebDom
 
 
 
-        public string Prefix => OwnerDocument.GetString(this.nodePrefixNameIndex);
+        public string Prefix => OwnerDocument.GetString(_nodePrefixNameIndex);
 
 
-        public string LocalName => OwnerDocument.GetString(this.nodeLocalNameIndex);
+        public string LocalName => OwnerDocument.GetString(_nodeLocalNameIndex);
 
 
-        public int LocalNameIndex => this.nodeLocalNameIndex;
+        public int LocalNameIndex => _nodeLocalNameIndex;
 
 
         public bool HasAttributeElementId => _attrElemId != null;

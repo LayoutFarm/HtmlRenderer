@@ -157,12 +157,12 @@ namespace LayoutFarm.HtmlBoxes
         {
             _containerInvalidateGfxHandler(this, EventArgs.Empty);
         }
-        protected override void OnRequestImage(ImageBinder binder, object reqFrom, bool _sync)
+        protected override void OnRequestImage(ImageBinder binder, object reqFrom)
         {
             //send request to host
             if (binder.State == BinderState.Unload)
             {
-                _htmlhost.ChildRequestImage(binder, this, reqFrom, _sync);
+                _htmlhost.ChildRequestImage(binder, reqFrom);
             }
         }
         protected override void OnRequestScrollView(CssBox box)

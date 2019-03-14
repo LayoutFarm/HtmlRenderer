@@ -90,17 +90,23 @@ namespace LayoutFarm.HtmlBoxes
                 this.RunSizeMeasurePass = false;
                 if (value != null)
                 {
-                    value.ImageChanged += Binder_ImageChanged;
+                    switch (value.State)
+                    {
+                        case BinderState.Error:
+                        case BinderState.Loaded:
+                            break;
+                        default:
+                            //wait for img changed
+                            value.ImageChanged += Binder_ImageChanged;
+                            break;
+                    }
                 }
             }
         }
         public ImageBinder TempTranstionImageBinder
         {
             get => _tmpTransitionImgBinder;
-            set
-            {
-                _tmpTransitionImgBinder = value;
-            }
+            set => _tmpTransitionImgBinder = value;
         }
 
         void DrawWithTempTransitionImage(PaintVisitor p, RectangleF r)
@@ -154,7 +160,7 @@ namespace LayoutFarm.HtmlBoxes
             r.X = (float)Math.Floor(r.X);
             r.Y = (float)Math.Floor(r.Y);
             bool tryLoadOnce = false;
-            EVAL_STATE:
+        EVAL_STATE:
             switch (_imgRun.ImageBinder.State)
             {
                 case BinderState.Unload:
@@ -192,9 +198,6 @@ namespace LayoutFarm.HtmlBoxes
                             //*** clear tmp transition img after new image is loaded
                             _tmpTransitionImgBinder = null;
                         }
-
-
-
                         Image img;
                         if ((img = (Image)_imgRun.ImageBinder.LocalImage) != null) //assign and test
                         {

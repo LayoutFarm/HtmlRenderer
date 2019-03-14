@@ -270,9 +270,11 @@ namespace LayoutFarm.Composers
 
     sealed class HtmlImageElement : HtmlElement
     {
+        HtmlDocument _owner;
         internal HtmlImageElement(HtmlDocument owner, int prefix, int localNameIndex)
          : base(owner, prefix, localNameIndex)
         {
+            _owner = owner;
         }
         public override void SetAttribute(DomAttribute attr)
         {
@@ -287,12 +289,10 @@ namespace LayoutFarm.Composers
                         {
                             CssBoxImage boxImg = (CssBoxImage)_principalBox;
                             //implementation specific...                           
-
-                            boxImg.TempTranstionImageBinder = boxImg.ImageBinder;
-                            //check cache first, if we have 
-
-
-                            boxImg.ImageBinder = new ImageBinder(attr.Value); 
+                            ImageBinder found = _owner.GetImageBinder(attr.Value);
+                            //if the binder is loaded , not need TempTranstionImageBinder
+                            boxImg.TempTranstionImageBinder = (found.State == BinderState.Loaded) ? null : boxImg.ImageBinder;
+                            boxImg.ImageBinder = found;
                             boxImg.InvalidateGraphics();
                         }
                     }
