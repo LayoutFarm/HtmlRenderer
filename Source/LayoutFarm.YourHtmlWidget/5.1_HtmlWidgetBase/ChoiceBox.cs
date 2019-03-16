@@ -1,6 +1,7 @@
 ﻿//Apache2, 2014-present, WinterDev
 
 using System;
+using LayoutFarm.Composers;
 using LayoutFarm.WebDom;
 using LayoutFarm.WebDom.Extension;
 namespace LayoutFarm.HtmlWidgets
@@ -14,15 +15,21 @@ namespace LayoutFarm.HtmlWidgets
         /// <summary>
         /// presentation node
         /// </summary>
-        DomElement _pnode;
+        HtmlElement _pnode;
         DomElement _imgNode;
         bool _checked;
+        LayoutFarm.Composers.HtmlInputElement _htmlInput;
 
         public event EventHandler<EventArgs> CheckValueAssigned;
 
         public ChoiceBox(int w, int h)
             : base(w, h)
         {
+        }
+        public void SetHtmlInputBox(LayoutFarm.Composers.HtmlInputElement htmlInput)
+        {
+            //link to html input
+            _htmlInput = htmlInput;
         }
         //---------------------------------------------------------------------------
         public bool Checked
@@ -58,11 +65,13 @@ namespace LayoutFarm.HtmlWidgets
             get;
             set;
         }
-        public override DomElement GetPresentationDomNode(WebDom.Impl.HtmlDocument htmldoc)
+
+
+        public override HtmlElement GetPresentationDomNode(HtmlDocument htmldoc)
         {
             if (_pnode != null) return _pnode;
             //----------------------------------
-            _pnode = htmldoc.CreateElement("div");
+            _pnode = (HtmlElement)htmldoc.CreateElement("div");
             _pnode.SetAttribute("style", "display:inline-block;width:" + Width + "px;height:" + this.Height + "px;cursor:pointer");
             _pnode.AddChild("div", div2 =>
             {

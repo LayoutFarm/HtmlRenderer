@@ -12,11 +12,11 @@ namespace LayoutFarm.CustomWidgets
         HtmlHost _myHost;
         public MyCustomCssBoxGenerator(HtmlBoxes.HtmlHost myHost)
         {
-            _myHost = myHost; 
+            _myHost = myHost;
         }
 
         public override CssBox CreateCssBox(
-            DomElement domE,
+            HtmlElement domE,
             CssBox parentBox,
             BoxSpec spec,
             HtmlHost host)
@@ -47,8 +47,8 @@ namespace LayoutFarm.CustomWidgets
                         //TODO: review here
                         //software canvas ?
                         var canvas = new LayoutFarm.CustomWidgets.MiniAggCanvasBox(400, 400);
-                        var wrapperBox = CreateWrapper(
-                            host,
+                        CssBox wrapperBox = CreateCssWrapper(
+                             host,
                              canvas,
                              canvas.GetPrimaryRenderElement(_myHost.RootGfx),
                              spec, true);
@@ -60,7 +60,7 @@ namespace LayoutFarm.CustomWidgets
             //default unknown
             var simpleBox = new LayoutFarm.CustomWidgets.Box(100, 20);
             simpleBox.BackColor = PixelFarm.Drawing.Color.LightGray;
-            var wrapperBox2 = CreateWrapper(
+            CssBox wrapperBox2 = CreateCssWrapper(
                                host,
                                simpleBox,
                                simpleBox.GetPrimaryRenderElement(_myHost.RootGfx),
@@ -70,7 +70,7 @@ namespace LayoutFarm.CustomWidgets
         }
 
 
-        CssBox CreateSelectBox(DomElement domE,
+        CssBox CreateSelectBox(HtmlElement domE,
             CssBox parentBox,
             BoxSpec spec,
             LayoutFarm.RootGraphic rootgfx, HtmlHost host)
@@ -108,7 +108,7 @@ namespace LayoutFarm.CustomWidgets
                 }
             }
 
-            LayoutFarm.WebDom.Impl.HtmlElement hingeBoxDom = (LayoutFarm.WebDom.Impl.HtmlElement)hingeBox.GetPresentationDomNode((WebDom.Impl.HtmlDocument)domE.OwnerDocument);
+            LayoutFarm.WebDom.Impl.HtmlElement hingeBoxDom = (LayoutFarm.WebDom.Impl.HtmlElement)hingeBox.GetPresentationDomNode((HtmlDocument)domE.OwnerDocument);
             CssBox cssHingeBox = host.CreateCssBox(parentBox, hingeBoxDom, true); //create and append to the parentBox 
             //
             hingeBoxDom.SetSubParentNode(domE);
@@ -127,7 +127,7 @@ namespace LayoutFarm.CustomWidgets
             return cssHingeBox;
         }
 
-        CssBox CreateInputBox(DomElement domE,
+        CssBox CreateInputBox(HtmlElement domE,
             CssBox parentBox,
             BoxSpec spec,
             LayoutFarm.RootGraphic rootgfx, HtmlHost host)
@@ -157,9 +157,7 @@ namespace LayoutFarm.CustomWidgets
             //text
             //time
             //url
-            //week
-
-
+            //week 
 
             var typeAttr = domE.FindAttribute("type");
             if (typeAttr != null)
@@ -170,7 +168,7 @@ namespace LayoutFarm.CustomWidgets
                     case "password":
                         {
                             var textbox = new LayoutFarm.CustomWidgets.TextBoxContainer(100, 20, false, true);
-                            CssBox wrapperBox = CreateWrapper(
+                            CssBox wrapperBox = CreateCssWrapper(
                                  host,
                                  textbox,
                                  textbox.GetPrimaryRenderElement(rootgfx),
@@ -189,7 +187,7 @@ namespace LayoutFarm.CustomWidgets
                             // user can specific width of textbox 
                             //var textbox = new LayoutFarm.CustomWidgets.TextBox(100, 17, false);
                             var textbox = new LayoutFarm.CustomWidgets.TextBoxContainer(100, 20, false);
-                            CssBox wrapperBox = CreateWrapper(
+                            CssBox wrapperBox = CreateCssWrapper(
                                  host,
                                  textbox,
                                  textbox.GetPrimaryRenderElement(rootgfx),
@@ -233,6 +231,7 @@ namespace LayoutFarm.CustomWidgets
                             WebDom.Impl.HtmlElement chkBoxElem = (WebDom.Impl.HtmlElement)chkbox.GetPresentationDomNode((HtmlDocument)domE.OwnerDocument);
                             //buttonDom.SetAttribute("style", "width:20px;height:20px;background-color:red;cursor:pointer");
                             CssBox chkCssBox = host.CreateCssBox(parentBox, chkBoxElem, true); //create and append to the parentBox
+
 #if DEBUG
                             chkCssBox.dbugMark1 = 1;
 #endif
@@ -257,7 +256,7 @@ namespace LayoutFarm.CustomWidgets
                             //tempfix -> just copy the Button code,
                             //TODO: review here, use proper radio button 
                             var box = new LayoutFarm.CustomWidgets.Box(20, 20);
-                            CssBox wrapperBox = CreateWrapper(
+                            CssBox wrapperBox = CreateCssWrapper(
                                  host,
                                  box,
                                  box.GetPrimaryRenderElement(rootgfx),

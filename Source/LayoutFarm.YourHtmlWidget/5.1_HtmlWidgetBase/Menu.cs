@@ -1,5 +1,6 @@
 ﻿//Apache2, 2014-present, WinterDev
 
+using LayoutFarm.Composers;
 using LayoutFarm.WebDom;
 using LayoutFarm.WebDom.Extension;
 using System.Collections.Generic;
@@ -223,9 +224,9 @@ namespace LayoutFarm.HtmlWidgets
     {
         bool _showing;
         List<MenuItem> _menuItems;
-        DomElement _presentation;
+        HtmlElement _presentation;
         MenuItem _currentActiveMenuItem;
-        WebDom.Impl.HtmlDocument _htmldoc;
+        HtmlDocument _htmldoc;
 
 #if DEBUG
         static int s_dbugTotalId;
@@ -237,14 +238,12 @@ namespace LayoutFarm.HtmlWidgets
 
         }
         public bool IsLandPart { get; set; }
-
-        public override DomElement GetPresentationDomNode(WebDom.Impl.HtmlDocument htmldoc)
+        public override HtmlElement GetPresentationDomNode(HtmlDocument htmldoc)
         {
-
             if (_presentation != null) return _presentation;
             _htmldoc = htmldoc;
             //presentation main node
-            _presentation = htmldoc.CreateElement("div");
+            _presentation = (HtmlElement)htmldoc.CreateElement("div");
 
             //TODO: review IsLandPart again, this is temp fixed 
             if (!this.IsLandPart)
@@ -262,8 +261,9 @@ namespace LayoutFarm.HtmlWidgets
             }
             return _presentation;
         }
+
         //
-        internal WebDom.Impl.HtmlDocument HtmlDoc => _htmldoc;
+        internal HtmlDocument HtmlDoc => _htmldoc;
         //
         internal MenuItem CurrentActiveMenuItem
         {

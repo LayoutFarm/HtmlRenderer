@@ -57,6 +57,9 @@ namespace LayoutFarm.WebDom
     [JsType]
     public interface IHtmlInputElement : IHtmlElement
     {
+        [JsProperty("name")]
+        string InputName { get; set; }
+        [JsProperty("value")]
         string Value { get; set; }
         string inputType { get; }
     }

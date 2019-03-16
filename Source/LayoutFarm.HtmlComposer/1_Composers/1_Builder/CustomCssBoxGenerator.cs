@@ -7,13 +7,13 @@ namespace LayoutFarm.Composers
 {
     public abstract class CustomCssBoxGenerator
     {
-        public abstract CssBox CreateCssBox(LayoutFarm.WebDom.DomElement tag,
+        public abstract CssBox CreateCssBox(HtmlElement tag,
             CssBox parentBox,
             BoxSpec spec,
             HtmlHost host);
-        public static CssBox CreateWrapper(HtmlHost htmlhost,
-            object owner, 
-            RenderElement renderElement, 
+        public static CssBox CreateCssWrapper(HtmlHost htmlhost,
+            object owner,
+            RenderElement renderElement,
             BoxSpec spec,
             bool isInline)
         {

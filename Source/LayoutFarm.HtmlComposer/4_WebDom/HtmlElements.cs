@@ -27,7 +27,7 @@ namespace LayoutFarm.Composers
     /// <summary>
     /// general html implementation
     /// </summary>
-    class HtmlElement : LayoutFarm.WebDom.Impl.HtmlElement
+    public class HtmlElement : LayoutFarm.WebDom.Impl.HtmlElement
     {
         protected CssBox _principalBox;
         protected Css.BoxSpec _boxSpec;
@@ -271,7 +271,7 @@ namespace LayoutFarm.Composers
     }
 
 
-    sealed class HtmlImageElement : HtmlElement
+    sealed public class HtmlImageElement : HtmlElement
     {
         HtmlDocument _owner;
         internal HtmlImageElement(HtmlDocument owner, int prefix, int localNameIndex)
@@ -307,24 +307,45 @@ namespace LayoutFarm.Composers
             }
         }
     }
-    sealed class HtmlInputElement : HtmlElement, IHtmlInputElement
+    sealed public class HtmlInputElement : HtmlElement, IHtmlInputElement
     {
+        
         string _inputValue;
         string _inputType;
+        string _name;
         internal HtmlInputElement(HtmlDocument owner, int prefix, int localNameIndex)
         : base(owner, prefix, localNameIndex)
         {
             WellknownElementName = WellKnownDomNodeName.input;
         }
-        public string inputType
+
+        public string inputType => _inputType;
+         
+        public string InputName
         {
-            get => _inputType;
+            get => _name;
+            set => _name = value;
         }
         public string Value
         {
             //TODO: add 'live' feature (connect with actual dom)
-            get => _inputValue;
-            set => _inputValue = value;
+            get
+            {
+                if (_principalBox != null)
+                {
+                   
+                }
+                return _inputValue;
+            }
+            set
+            {
+                if (_principalBox != null)
+                {
+
+                }
+                _inputValue = value;
+            }
+
         }
         public override void SetAttribute(DomAttribute attr)
         {
@@ -332,6 +353,12 @@ namespace LayoutFarm.Composers
             SetDomAttribute(attr);
             switch ((WellknownName)attr.LocalNameIndex)
             {
+                case WellknownName.Name:
+                    _name = attr.Value;
+                    break;
+                case WellknownName.Value:
+                    _inputValue = attr.Value;
+                    break;
                 case WellknownName.Type:
                     _inputType = attr.Value;
                     break;
@@ -340,6 +367,9 @@ namespace LayoutFarm.Composers
                     break;
             }
         }
+
+        //-----------
+
     }
     sealed class HtmlOptionElement : HtmlElement, IHtmlOptionElement
     {

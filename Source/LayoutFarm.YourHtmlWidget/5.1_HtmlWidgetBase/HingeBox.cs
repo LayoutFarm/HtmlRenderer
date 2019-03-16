@@ -17,7 +17,7 @@ namespace LayoutFarm.HtmlWidgets
     public class HingeBox : HtmlWidgetBase
     {
         DomElement _floatPartDomElement;
-        DomElement _presentationNode;
+        HtmlElement _presentationNode;
         Color _backColor = Color.LightGray;
         bool _isOpen;
         HingeFloatPartStyle _floatPartStyle;
@@ -131,22 +131,23 @@ namespace LayoutFarm.HtmlWidgets
                 return _items.Count;
             }
         }
-        public override DomElement GetPresentationDomNode(WebDom.Impl.HtmlDocument htmldoc)
+
+        public override HtmlElement GetPresentationDomNode(HtmlDocument htmldoc)
         {
             if (_presentationNode != null)
             {
                 return _presentationNode;
             }
             //-------------------
-            _presentationNode = htmldoc.CreateElement("div");
+            _presentationNode = (HtmlElement)htmldoc.CreateElement("div");
             _presentationNode.AddChild("div", div =>
             {
                 div.SetAttribute("style", "font:10pt tahoma;");
 
                 div.AddChild("img", img =>
                 {
-                    //init 
-                    img.SetAttribute("src", WidgetResList.arrow_close);
+                        //init 
+                        img.SetAttribute("src", WidgetResList.arrow_close);
                     img.AttachMouseDownEvent(e =>
                     {
                         if (this.IsOpen)
@@ -160,8 +161,8 @@ namespace LayoutFarm.HtmlWidgets
                             this.OpenHinge();
                         }
 
-                        //----------------------------- 
-                        e.StopPropagation();
+                            //----------------------------- 
+                            e.StopPropagation();
                     });
                 });
 
@@ -182,7 +183,7 @@ namespace LayoutFarm.HtmlWidgets
             _floatPartDomElement = this.CreateFloatPartDom(htmldoc);
             return _presentationNode;
         }
-        //
+
         public bool IsOpen => _isOpen;
         //
         public HingeFloatPartStyle FloatPartStyle

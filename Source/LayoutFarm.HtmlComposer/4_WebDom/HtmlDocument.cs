@@ -53,7 +53,6 @@ namespace LayoutFarm.Composers
                            this,
                            AddStringIfNotExists(prefix),
                            AddStringIfNotExists(localName));
-
                     }
                     break;
                 case "option":

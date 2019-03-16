@@ -82,6 +82,9 @@ namespace LayoutFarm.WebDom
         MenuItem,
         [Map("meta")]
         Meta,
+        [Map("name")]
+        Name,
+
         [Map("param")]
         Param,
         [Map("background")]

@@ -17,6 +17,8 @@ namespace LayoutFarm.WebDom
         HtmlEventHandler _evhMouseDown;
         HtmlEventHandler _evhMouseUp;
         HtmlEventHandler _evhMouseLostFocus;
+
+
         public DomElement(WebDocument ownerDoc, int nodePrefixNameIndex, int nodeLocalNameIndex)
             : base(ownerDoc)
         {
@@ -167,6 +169,7 @@ namespace LayoutFarm.WebDom
                     }
             }
         }
+
 
         /// <summary>
         /// clear all children elements

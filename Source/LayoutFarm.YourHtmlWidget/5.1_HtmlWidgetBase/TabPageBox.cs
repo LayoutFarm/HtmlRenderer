@@ -6,6 +6,8 @@ using PixelFarm.Drawing;
 using LayoutFarm.WebDom;
 using LayoutFarm.WebDom.Extension;
 using LayoutFarm.UI;
+using LayoutFarm.Composers;
+
 namespace LayoutFarm.HtmlWidgets
 {
     //tab page similar to listview
@@ -102,7 +104,7 @@ namespace LayoutFarm.HtmlWidgets
     }
     public class TabPageContainer : HtmlWidgetBase
     {
-        DomElement _pnode;
+        HtmlElement _pnode;
         DomElement _titleBar;
         DomElement _contentNode;
         DomElement _tabTitleList;
@@ -116,13 +118,13 @@ namespace LayoutFarm.HtmlWidgets
         }
         //
         public List<TabPage> TabPageList => _tabPageCollection;
-        //
-        public override WebDom.DomElement GetPresentationDomNode(WebDom.Impl.HtmlDocument htmldoc)
+
+        public override HtmlElement GetPresentationDomNode(HtmlDocument htmldoc)
         {
             if (_pnode != null) return _pnode;
             //------------------------------
 
-            _pnode = htmldoc.CreateElement("div");
+            _pnode = (HtmlElement)htmldoc.CreateElement("div");
             _pnode.SetAttribute("style", "font:10pt tahoma");
             //------------------------------ 
             _titleBar = htmldoc.CreateElement("div");

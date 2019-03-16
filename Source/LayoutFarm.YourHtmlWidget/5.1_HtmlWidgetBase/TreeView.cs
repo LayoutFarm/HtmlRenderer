@@ -7,24 +7,27 @@ using PixelFarm.Drawing;
 using LayoutFarm.CustomWidgets;
 using LayoutFarm.WebDom;
 using LayoutFarm.WebDom.Extension;
+using LayoutFarm.Composers;
+
 namespace LayoutFarm.HtmlWidgets
 {
     public class TreeView : HtmlWidgetBase
     {
         //composite          
         List<TreeNode> _treeNodes = new List<TreeNode>();
-        DomElement _pnode;
+        HtmlElement _pnode;
         //content 
         public TreeView(int width, int height)
             : base(width, height)
         {
         }
-        public override DomElement GetPresentationDomNode(WebDom.Impl.HtmlDocument htmldoc)
+
+        public override HtmlElement GetPresentationDomNode(HtmlDocument htmldoc)
         {
             if (_pnode != null) return _pnode;
             //create primary presentation node
 
-            _pnode = htmldoc.CreateElement("div");
+            _pnode = (HtmlElement)htmldoc.CreateElement("div");
             _pnode.SetAttribute("style", "font:10pt tahoma");
             int j = _treeNodes.Count;
             for (int i = 0; i < j; ++i)

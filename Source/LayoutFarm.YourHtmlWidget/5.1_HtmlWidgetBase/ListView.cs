@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using PixelFarm.Drawing;
 using LayoutFarm.UI;
+using LayoutFarm.Composers;
+
 namespace LayoutFarm.HtmlWidgets
 {
     public class ListView : HtmlWidgetBase
@@ -13,16 +15,16 @@ namespace LayoutFarm.HtmlWidgets
         List<UICollection> _layers = new List<UICollection>(1);
         List<ListItem> _items = new List<ListItem>();
         int _selectedIndex = -1;//default = no selection
-        WebDom.DomElement _pnode;
+        HtmlElement _pnode;
         public ListView(int w, int h)
             : base(w, h)
         {
         }
-        public override WebDom.DomElement GetPresentationDomNode(WebDom.Impl.HtmlDocument htmldoc)
+        public override HtmlElement GetPresentationDomNode(HtmlDocument htmldoc)
         {
             if (_pnode != null) return _pnode;
             //--------------------------------
-            _pnode = htmldoc.CreateElement("div");
+            _pnode = (HtmlElement)htmldoc.CreateElement("div");
             _pnode.SetAttribute("style", "font:10pt tahoma;overflow:scroll;height:300px;");
             int j = _items.Count;
             if (j > 0)
@@ -35,6 +37,7 @@ namespace LayoutFarm.HtmlWidgets
             }
             return _pnode;
         }
+
         public void AddItem(ListItem ui)
         {
             _items.Add(ui);
@@ -128,7 +131,7 @@ namespace LayoutFarm.HtmlWidgets
         {
             if (_pnode != null) return _pnode;
             //------------------------------
-          
+
             var ownerdoc = hostNode.OwnerDocument;
             _pnode = ownerdoc.CreateElement("div");
             // pnode.SetAttribute("style", "font:10pt tahoma");
