@@ -20,11 +20,11 @@ namespace LayoutFarm.HtmlWidgets
             get => _buttonText;
             set => _buttonText = value;
         }
-        public override HtmlElement GetPresentationDomNode(HtmlDocument htmldoc)
+        public override HtmlElement GetPresentationDomNode(Composers.HtmlElement orgDomElem)
         {
             if (_pnode != null) return _pnode;
             //----------------------------------
-            _pnode = (HtmlElement)htmldoc.CreateElement("div");
+            _pnode = (HtmlElement)orgDomElem.OwnerHtmlDoc.CreateElement("div");
             _pnode.SetAttribute("style", "display:inline-block;width:" + Width + "px;height:" + this.Height + "px;cursor:pointer");
             _pnode.AddChild("div", div2 =>
             {

@@ -9,9 +9,9 @@ namespace LayoutFarm.HtmlWidgets
     /// <summary>
     /// for option box ,or check box
     /// </summary>
-    public class ChoiceBox : HtmlWidgetBase
+    public class ChoiceBox : HtmlWidgetBase, IHtmlInputSubDomExtender
     {
-        string _buttonText = "";
+
         /// <summary>
         /// presentation node
         /// </summary>
@@ -54,11 +54,6 @@ namespace LayoutFarm.HtmlWidgets
                 }
             }
         }
-        public string Text
-        {
-            get => _buttonText;
-            set => _buttonText = value;
-        }
 
         public bool OnlyOne
         {
@@ -66,18 +61,18 @@ namespace LayoutFarm.HtmlWidgets
             set;
         }
 
-
-        public override HtmlElement GetPresentationDomNode(HtmlDocument htmldoc)
+        public override HtmlElement GetPresentationDomNode(Composers.HtmlElement orgDomElem)
         {
             if (_pnode != null) return _pnode;
             //----------------------------------
-            _pnode = (HtmlElement)htmldoc.CreateElement("div");
+            _pnode = (HtmlElement)orgDomElem.OwnerDocument.CreateElement("div");
             _pnode.SetAttribute("style", "display:inline-block;width:" + Width + "px;height:" + this.Height + "px;cursor:pointer");
             _pnode.AddChild("div", div2 =>
             {
                 //init
                 //div2.SetAttribute("style", "background-color:#dddddd;color:black;");
                 div2.SetAttribute("style", "color:black;");
+
                 _imgNode = div2.AddChild("img");
 
                 _imgNode.SetAttribute("src", OnlyOne ? WidgetResList.opt_unchecked : WidgetResList.chk_unchecked);
@@ -119,6 +114,30 @@ namespace LayoutFarm.HtmlWidgets
                 });
             });
             return _pnode;
+        }
+
+
+        void IHtmlInputSubDomExtender.SetInputValue(string value)
+        {
+            if (value == "off")
+            {
+                Checked = false;
+            }
+            else
+            {
+                Checked = true;
+            }
+        }
+        string IHtmlInputSubDomExtender.GetInputValue()
+        {
+            if (Checked)
+            {
+                return "on";
+            }
+            else
+            {
+                return "off";
+            }
         }
     }
 

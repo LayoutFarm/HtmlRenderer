@@ -118,11 +118,11 @@ namespace LayoutFarm.HtmlWidgets
         }
         //
         public List<TabPage> TabPageList => _tabPageCollection;
-
-        public override HtmlElement GetPresentationDomNode(HtmlDocument htmldoc)
+        public override HtmlElement GetPresentationDomNode(HtmlElement orgDomElem)
         {
             if (_pnode != null) return _pnode;
             //------------------------------
+            HtmlDocument htmldoc = orgDomElem.OwnerHtmlDoc;
 
             _pnode = (HtmlElement)htmldoc.CreateElement("div");
             _pnode.SetAttribute("style", "font:10pt tahoma");
@@ -139,6 +139,7 @@ namespace LayoutFarm.HtmlWidgets
             //------------------------------
             return _pnode;
         }
+
         public void AddItem(TabPage tabPage)
         {
             //1. store in collection

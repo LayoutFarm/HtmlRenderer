@@ -132,22 +132,23 @@ namespace LayoutFarm.HtmlWidgets
             }
         }
 
-        public override HtmlElement GetPresentationDomNode(HtmlDocument htmldoc)
+        public override HtmlElement GetPresentationDomNode(Composers.HtmlElement orgDomElem)
         {
             if (_presentationNode != null)
             {
                 return _presentationNode;
             }
             //-------------------
-            _presentationNode = (HtmlElement)htmldoc.CreateElement("div");
+
+            _presentationNode = (HtmlElement)orgDomElem.OwnerHtmlDoc.CreateElement("div");
             _presentationNode.AddChild("div", div =>
             {
                 div.SetAttribute("style", "font:10pt tahoma;");
 
                 div.AddChild("img", img =>
                 {
-                        //init 
-                        img.SetAttribute("src", WidgetResList.arrow_close);
+                    //init 
+                    img.SetAttribute("src", WidgetResList.arrow_close);
                     img.AttachMouseDownEvent(e =>
                     {
                         if (this.IsOpen)
@@ -161,8 +162,8 @@ namespace LayoutFarm.HtmlWidgets
                             this.OpenHinge();
                         }
 
-                            //----------------------------- 
-                            e.StopPropagation();
+                        //----------------------------- 
+                        e.StopPropagation();
                     });
                 });
 
@@ -180,7 +181,7 @@ namespace LayoutFarm.HtmlWidgets
             });
             //-------------------
 
-            _floatPartDomElement = this.CreateFloatPartDom(htmldoc);
+            _floatPartDomElement = this.CreateFloatPartDom(orgDomElem.OwnerHtmlDoc);
             return _presentationNode;
         }
 

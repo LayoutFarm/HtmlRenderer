@@ -108,7 +108,7 @@ namespace LayoutFarm.CustomWidgets
                 }
             }
 
-            LayoutFarm.WebDom.Impl.HtmlElement hingeBoxDom = (LayoutFarm.WebDom.Impl.HtmlElement)hingeBox.GetPresentationDomNode((HtmlDocument)domE.OwnerDocument);
+            LayoutFarm.WebDom.Impl.HtmlElement hingeBoxDom = (LayoutFarm.WebDom.Impl.HtmlElement)hingeBox.GetPresentationDomNode(domE);
             CssBox cssHingeBox = host.CreateCssBox(parentBox, hingeBoxDom, true); //create and append to the parentBox 
             //
             hingeBoxDom.SetSubParentNode(domE);
@@ -216,7 +216,7 @@ namespace LayoutFarm.CustomWidgets
                                 button.Text = "testButton";
                             }
 
-                            WebDom.Impl.HtmlElement buttonDom = (WebDom.Impl.HtmlElement)button.GetPresentationDomNode((HtmlDocument)domE.OwnerDocument);
+                            WebDom.Impl.HtmlElement buttonDom = (WebDom.Impl.HtmlElement)button.GetPresentationDomNode(domE);
                             buttonDom.SetAttribute("style", "width:20px;height:20px;background-color:white;cursor:pointer");
                             CssBox buttonCssBox = host.CreateCssBox(parentBox, buttonDom, true);
                             parentBox.AppendChild(buttonCssBox);
@@ -225,12 +225,16 @@ namespace LayoutFarm.CustomWidgets
                     case "checkbox":
                         {
                             //implement with choice box + multiple value
+                            HtmlInputElement htmlInputElem = (HtmlInputElement)domE;
                             var chkbox = new HtmlWidgets.ChoiceBox(18, 10);
+                            chkbox.SetHtmlInputBox(htmlInputElem);
                             chkbox.OnlyOne = false; //*** show as checked box 
 
-                            WebDom.Impl.HtmlElement chkBoxElem = (WebDom.Impl.HtmlElement)chkbox.GetPresentationDomNode((HtmlDocument)domE.OwnerDocument);
+                            WebDom.Impl.HtmlElement chkBoxElem = (WebDom.Impl.HtmlElement)chkbox.GetPresentationDomNode(domE);
                             //buttonDom.SetAttribute("style", "width:20px;height:20px;background-color:red;cursor:pointer");
+
                             CssBox chkCssBox = host.CreateCssBox(parentBox, chkBoxElem, true); //create and append to the parentBox
+                            htmlInputElem.SubDomExtender = chkbox;//connect 
 
 #if DEBUG
                             chkCssBox.dbugMark1 = 1;
@@ -242,7 +246,7 @@ namespace LayoutFarm.CustomWidgets
                         {
                             var radio = new HtmlWidgets.ChoiceBox(10, 10);
                             radio.OnlyOne = true;// show as option box  
-                            WebDom.Impl.HtmlElement radioElem = (WebDom.Impl.HtmlElement)radio.GetPresentationDomNode((HtmlDocument)domE.OwnerDocument);
+                            WebDom.Impl.HtmlElement radioElem = (WebDom.Impl.HtmlElement)radio.GetPresentationDomNode(domE);
                             //buttonDom.SetAttribute("style", "width:20px;height:20px;background-color:red;cursor:pointer");
                             CssBox buttonCssBox = host.CreateCssBox(parentBox, radioElem, true); //create and append to the parentBox
 #if DEBUG

@@ -22,12 +22,12 @@ namespace LayoutFarm.HtmlWidgets
         {
         }
 
-        public override HtmlElement GetPresentationDomNode(HtmlDocument htmldoc)
+        public override HtmlElement GetPresentationDomNode(Composers.HtmlElement orgDomElem)
         {
             if (_pnode != null) return _pnode;
             //create primary presentation node
 
-            _pnode = (HtmlElement)htmldoc.CreateElement("div");
+            _pnode = (HtmlElement)orgDomElem.OwnerDocument.CreateElement("div");
             _pnode.SetAttribute("style", "font:10pt tahoma");
             int j = _treeNodes.Count;
             for (int i = 0; i < j; ++i)
