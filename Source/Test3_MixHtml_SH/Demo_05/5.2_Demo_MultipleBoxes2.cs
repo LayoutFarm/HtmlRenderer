@@ -23,7 +23,7 @@ namespace LayoutFarm.WebWidgets
             for (int i = 0; i < 2; ++i)
             {
                 var statedBox = new LayoutFarm.HtmlWidgets.ChoiceBox(100, boxHeight);
-                statedBox.Text = "chk" + i;
+                //statedBox.Text = "chk" + i;
                 statedBox.SetLocation(10, boxY);
                 boxY += boxHeight + 5;
                 AddToViewport(statedBox);
