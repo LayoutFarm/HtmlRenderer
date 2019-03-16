@@ -25,7 +25,7 @@ namespace LayoutFarm.Composers
             this.SetRootElement(new HtmlRootElement(this));
             //TODO: test only
 #if DEBUG
-            this.RegisterCustomElement("fivespace", CustomBoxGenSample1.CreateCssBox);
+            this.RegisterCustomElement("custom_div", CustomBoxGenSample1.CreateCssBox);
 #endif
         }
 
@@ -33,7 +33,7 @@ namespace LayoutFarm.Composers
 
         public override DomElement CreateElement(string prefix, string localName)
         {
-            //actual implementation ***
+            //actual dom implementation ***
 
             HtmlElement htmlElement = null;
             switch (localName)
@@ -44,7 +44,24 @@ namespace LayoutFarm.Composers
                             this,
                             AddStringIfNotExists(prefix),
                             AddStringIfNotExists(localName));
-                        htmlElement.WellknownElementName = WellKnownDomNodeName.img;
+                    }
+                    break;
+                case "input":
+                    {
+                        //input type
+                        htmlElement = new HtmlInputElement(
+                           this,
+                           AddStringIfNotExists(prefix),
+                           AddStringIfNotExists(localName));
+
+                    }
+                    break;
+                case "option":
+                    {
+                        htmlElement = new HtmlOptionElement(
+                           this,
+                           AddStringIfNotExists(prefix),
+                           AddStringIfNotExists(localName));
                     }
                     break;
                 default:

@@ -206,9 +206,9 @@ namespace LayoutFarm.HtmlBoxes
             //for public 
             UpdateChildBoxes((HtmlElement)parentElement, fullmode);
         }
-        public CssBox CreateBox(CssBox parentBox, WebDom.Impl.HtmlElement childElement, bool fullmode)
+        public CssBox CreateCssBox(CssBox parentBox, WebDom.Impl.HtmlElement childElement, bool fullmode)
         {
-            return CreateBoxInternal(parentBox, (HtmlElement)childElement, fullmode);
+            return CreateCssBoxInternal(parentBox, (HtmlElement)childElement, fullmode);
         }
         //-------------
 
@@ -376,14 +376,14 @@ namespace LayoutFarm.HtmlBoxes
 
                                         if (fullmode)
                                         {
-                                            CssBox box = CreateBoxInternal(hostBox, childElement, fullmode);
+                                            CssBox box = CreateCssBoxInternal(hostBox, childElement, fullmode);
                                         }
                                         else
                                         {
                                             CssBox existingCssBox = HtmlElement.InternalGetPrincipalBox(childElement);
                                             if (existingCssBox == null)
                                             {
-                                                CreateBoxInternal(hostBox, childElement, fullmode);
+                                                CreateCssBoxInternal(hostBox, childElement, fullmode);
                                             }
                                             else
                                             {
@@ -425,9 +425,9 @@ namespace LayoutFarm.HtmlBoxes
         CssBox CreateBoxInternal(HtmlElement parentElement, HtmlElement childElement, bool fullmode)
         {
             CssBox hostBox = HtmlElement.InternalGetPrincipalBox(parentElement);
-            return CreateBoxInternal(hostBox, childElement, fullmode);
+            return CreateCssBoxInternal(hostBox, childElement, fullmode);
         }
-        CssBox CreateBoxInternal(CssBox parentBox, HtmlElement childElement, bool fullmode)
+        CssBox CreateCssBoxInternal(CssBox parentBox, HtmlElement childElement, bool fullmode)
         {
             //----------------------------------------- 
             //1. create new box

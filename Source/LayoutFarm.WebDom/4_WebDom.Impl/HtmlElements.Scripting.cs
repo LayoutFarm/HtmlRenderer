@@ -1,7 +1,7 @@
 ﻿//MIT, 2015-present, WinterDev  
 
 using System.Collections.Generic;
-using LayoutFarm.Scripting;
+ 
 namespace LayoutFarm.WebDom.Impl
 {
     partial class HtmlElement : IHtmlElement

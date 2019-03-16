@@ -225,25 +225,17 @@ namespace LayoutFarm.WebDom
             }
         }
 
-
         public int AttributeCount => (_myAttributes != null) ? _myAttributes.Count : 0;
-
-
 
         public string Prefix => OwnerDocument.GetString(_nodePrefixNameIndex);
 
-
         public string LocalName => OwnerDocument.GetString(_nodeLocalNameIndex);
-
 
         public int LocalNameIndex => _nodeLocalNameIndex;
 
-
         public bool HasAttributeElementId => _attrElemId != null;
 
-
         public bool HasAttributeClass => _attrClass != null;
-
 
         public string AttrClassValue
         {
@@ -271,6 +263,8 @@ namespace LayoutFarm.WebDom
 
         public string Name => this.LocalName;
 
-        public object Tag { get; set; }
+        //public object Tag { get; set; }
+
+
     }
 }

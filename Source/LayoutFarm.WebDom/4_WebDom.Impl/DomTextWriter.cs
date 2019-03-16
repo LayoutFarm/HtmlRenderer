@@ -12,9 +12,13 @@ namespace LayoutFarm.WebDom
         {
             _stbuilder = stbuilder;
         }
-        public StringBuilder InnerStringBuilder
+        public void Clear() => _stbuilder.Length = 0;
+        public StringBuilder InnerStringBuilder => _stbuilder;
+        public override string ToString() => _stbuilder.ToString();
+
+        public void Write(char[] buffer)
         {
-            get { return _stbuilder; }
+            _stbuilder.Append(buffer);
         }
         public void Write(string s1)
         {

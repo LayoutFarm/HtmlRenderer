@@ -2,7 +2,7 @@
 
 namespace LayoutFarm.WebDom
 {
-    
+
     public enum WellknownName
     {
         Unknown,
@@ -134,6 +134,8 @@ namespace LayoutFarm.WebDom
         Reversed,
         [Map("wbr")]
         Wbr,
+        [Map("value")]
+        Value,
         //-------------------
         [Map("x")]
         Svg_X,

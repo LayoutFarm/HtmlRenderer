@@ -24,6 +24,9 @@ namespace LayoutFarm.Composers
         }
     }
 
+    /// <summary>
+    /// general html implementation
+    /// </summary>
     class HtmlElement : LayoutFarm.WebDom.Impl.HtmlElement
     {
         protected CssBox _principalBox;
@@ -275,6 +278,7 @@ namespace LayoutFarm.Composers
          : base(owner, prefix, localNameIndex)
         {
             _owner = owner;
+            WellknownElementName = WellKnownDomNodeName.img;
         }
         public override void SetAttribute(DomAttribute attr)
         {
@@ -303,5 +307,67 @@ namespace LayoutFarm.Composers
             }
         }
     }
-
+    sealed class HtmlInputElement : HtmlElement, IHtmlInputElement
+    {
+        string _inputValue;
+        string _inputType;
+        internal HtmlInputElement(HtmlDocument owner, int prefix, int localNameIndex)
+        : base(owner, prefix, localNameIndex)
+        {
+            WellknownElementName = WellKnownDomNodeName.input;
+        }
+        public string inputType
+        {
+            get => _inputType;
+        }
+        public string Value
+        {
+            //TODO: add 'live' feature (connect with actual dom)
+            get => _inputValue;
+            set => _inputValue = value;
+        }
+        public override void SetAttribute(DomAttribute attr)
+        {
+            //implementation specific...
+            SetDomAttribute(attr);
+            switch ((WellknownName)attr.LocalNameIndex)
+            {
+                case WellknownName.Type:
+                    _inputType = attr.Value;
+                    break;
+                default:
+                    ImplSetAttribute(attr);
+                    break;
+            }
+        }
+    }
+    sealed class HtmlOptionElement : HtmlElement, IHtmlOptionElement
+    {
+        string _optionValue;
+        internal HtmlOptionElement(HtmlDocument owner, int prefix, int localNameIndex)
+        : base(owner, prefix, localNameIndex)
+        {
+            WellknownElementName = WellKnownDomNodeName.option;
+        }
+        public override void SetAttribute(DomAttribute attr)
+        {
+            //implementation specific...
+            SetDomAttribute(attr);
+            switch ((WellknownName)attr.LocalNameIndex)
+            {
+                case WellknownName.Value:
+                    _optionValue = attr.Value;
+                    break;
+                default:
+                    ImplSetAttribute(attr);
+                    break;
+            }
+        }
+        public string Value
+        {
+            //TODO: add 'live' feature (connect with actual dom)
+            get => _optionValue;
+            set => _optionValue = value;
+        }
+    }
 }

@@ -72,16 +72,25 @@ namespace LayoutFarm.HtmlWidgets
         void ItemSelected(LayoutFarm.UI.UIEventArgs e)
         {
             //some item is selected
-            if (e.SourceHitElement is DomElement)
+            WebDom.Impl.HtmlElement srcElem = e.SourceHitElement as WebDom.Impl.HtmlElement;
+            if (srcElem != null)
             {
-                DomElement domElem = (DomElement)e.SourceHitElement;
-                if (domElem.Tag != null)
+                var domElem = e.SourceHitElement as WebDom.Impl.HtmlElement;
+                if (domElem != null)
                 {
                     //selected value
                     _span_textLabel.ClearAllElements();
-                    _span_textLabel.AddTextContent(domElem.Tag.ToString());
-                    NeedUpdateDom = true;
+                    _span_textLabel.AddTextContent(domElem.GetInnerText());
                 }
+                else
+                {
+#if DEBUG
+                    _span_textLabel.ClearAllElements();
+                    _span_textLabel.AddTextContent("???");
+#endif
+                }
+                NeedUpdateDom = true;
+                //}
             }
             e.StopPropagation();
             CloseHinge();
@@ -121,10 +130,7 @@ namespace LayoutFarm.HtmlWidgets
                 if (_items == null) return 0;
                 return _items.Count;
             }
-
         }
-
-
         public override DomElement GetPresentationDomNode(WebDom.Impl.HtmlDocument htmldoc)
         {
             if (_presentationNode != null)
@@ -136,7 +142,7 @@ namespace LayoutFarm.HtmlWidgets
             _presentationNode.AddChild("div", div =>
             {
                 div.SetAttribute("style", "font:10pt tahoma;");
-               
+
                 div.AddChild("img", img =>
                 {
                     //init 
