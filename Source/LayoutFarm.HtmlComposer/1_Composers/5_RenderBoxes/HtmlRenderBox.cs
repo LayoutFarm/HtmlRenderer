@@ -82,22 +82,24 @@ namespace LayoutFarm.HtmlBoxes
 #if DEBUG
                     //System.Diagnostics.Debug.WriteLine("inv_rect:" + _invalidateRect + "," + painter.ToString());
 #endif
-                    painter.PushLocalClipArea(
+                    if (painter.PushLocalClipArea(
                         _invalidateRect.Left, _invalidateRect.Top,
-                        _invalidateRect.Width, _invalidateRect.Height);
+                        _invalidateRect.Width, _invalidateRect.Height))
+                    {
 
 
 #if DEBUG
-                    //for debug , test clear with random color
-                    //another useful technique to see latest clear area frame-by-frame => use random color
-                    painter.Clear(Color.FromArgb(255, dbugRandom.Next(0, 255), dbugRandom.Next(0, 255), dbugRandom.Next(0, 255)));
+                        //for debug , test clear with random color
+                        //another useful technique to see latest clear area frame-by-frame => use random color
+                        painter.Clear(Color.FromArgb(255, dbugRandom.Next(0, 255), dbugRandom.Next(0, 255), dbugRandom.Next(0, 255)));
 #endif
-                    //painter.Clear(Color.White);
+                        //painter.Clear(Color.White);
 
-                    _myHtmlVisualRoot.PerformPaint(painter);
+                        _myHtmlVisualRoot.PerformPaint(painter);
+                    }
 
                     painter.PopLocalClipArea();
-
+                    //
                     _builtInBackBuffer.IsValid = true;
                     _hasAccumRect = false;
 
@@ -148,6 +150,9 @@ namespace LayoutFarm.HtmlBoxes
                 //painter.Clear(Color.FromArgb(255, dbugRandom.Next(0, 255), dbugRandom.Next(0, 255), dbugRandom.Next(0, 255)));
 #endif
 
+#if DEBUG
+                System.Diagnostics.Debug.WriteLine("inv_rect:" + _invalidateRect + "," + painter.ToString());
+#endif
                 //painter.SetClipRect(new Rectangle(0, 0, 200, 200));
                 _myHtmlVisualRoot.PerformPaint(painter);
 #if DEBUG
