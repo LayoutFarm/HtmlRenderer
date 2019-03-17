@@ -72,7 +72,7 @@ namespace LayoutFarm.HtmlBoxes
         internal bool PushLocalClipArea(float w, float h)
         {
             Rectangle currentClip = _drawBoard.CurrentClipRect;
-            return _drawBoard.PushClipAreaRect((int)w, (int)h, ref currentClip); 
+            return _drawBoard.PushClipAreaRect((int)w, (int)h, ref currentClip);
         }
 #if DEBUG
         public override string ToString()
@@ -83,7 +83,7 @@ namespace LayoutFarm.HtmlBoxes
         internal bool PushLocalClipArea(float left, float top, float w, float h)
         {
             Rectangle currentClip = _drawBoard.CurrentClipRect;
-            return _drawBoard.PushClipAreaRect((int)left, (int)top, (int)w, (int)h, ref currentClip); 
+            return _drawBoard.PushClipAreaRect((int)left, (int)top, (int)w, (int)h, ref currentClip);
         }
         internal void PopLocalClipArea()
         {
@@ -94,8 +94,8 @@ namespace LayoutFarm.HtmlBoxes
                 dbugLogRecords.Add(new string('<', dbugIndentLevel) + dbugIndentLevel.ToString() + " pop[]");
             }
 #endif
-            _drawBoard.PopClipAreaRect(); 
-        } 
+            _drawBoard.PopClipAreaRect();
+        }
 
         internal Rectangle CurrentClipRect => _drawBoard.CurrentClipRect;
         //
@@ -149,6 +149,7 @@ namespace LayoutFarm.HtmlBoxes
         }
 
         public Rectangle GetCurrentClipRect() => _drawBoard.CurrentClipRect;
+
         internal void PaintBorders(CssBox box, RectangleF stripArea, bool isFirstLine, bool isLastLine)
         {
             LayoutFarm.HtmlBoxes.BorderPaintHelper.DrawBoxBorders(this, box, stripArea, isFirstLine, isLastLine);
