@@ -72,7 +72,7 @@ namespace LayoutFarm.HtmlBoxes
 
                     float backupViewportW = painter.ViewportWidth; //backup
                     float backupViewportH = painter.ViewportHeight; //backup
-                    
+
                     painter.AttachTo(_builtInBackBuffer); //*** switch to builtInBackbuffer 
                     painter.SetViewportSize(this.Width, this.Height);
 
@@ -81,12 +81,17 @@ namespace LayoutFarm.HtmlBoxes
                         _invalidateRect = new Rectangle(0, 0, Width, Height);
                     }
 
+#if DEBUG
+                    //System.Diagnostics.Debug.WriteLine("inv_rect:" + _invalidateRect + "," + painter.ToString());
+#endif
                     painter.PushLocalClipArea(
                         _invalidateRect.Left, _invalidateRect.Top,
                         _invalidateRect.Width, _invalidateRect.Height);
 
-                    //for debug , test clear with random color
+
 #if DEBUG
+                    //for debug , test clear with random color
+                    //another useful technique to see latest clear area frame-by-frame => use random color
                     //painter.Clear(Color.FromArgb(255, dbugRandom.Next(0, 255), dbugRandom.Next(0, 255), dbugRandom.Next(0, 255)));
 #endif
                     painter.Clear(Color.White);
@@ -178,6 +183,7 @@ namespace LayoutFarm.HtmlBoxes
                 {
                     _invalidateRect = Rectangle.Union(_invalidateRect, totalBounds);
                 }
+
             }
 
             //base.OnInvalidateGraphicsNoti(totalBounds);//skip
