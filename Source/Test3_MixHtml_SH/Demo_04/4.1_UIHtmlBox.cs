@@ -1,5 +1,5 @@
 ﻿//Apache2, 2014-present, WinterDev 
-using LayoutFarm.CustomWidgets; 
+using LayoutFarm.CustomWidgets;
 
 namespace LayoutFarm
 {
@@ -26,7 +26,7 @@ namespace LayoutFarm
 
             //
             _htmlBox = new HtmlBox(htmlHost, 1024, 800);
-            //htmlBox.SetLocation(100, 0); //test
+            _htmlBox.SetLocation(0, 10); //test
             host.AddChild(_htmlBox);
             if (_htmltext == null)
             {
