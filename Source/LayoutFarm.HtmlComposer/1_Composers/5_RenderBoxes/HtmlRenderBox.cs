@@ -41,13 +41,11 @@ namespace LayoutFarm.HtmlBoxes
         }
         protected override void DrawBoxContent(DrawBoard canvas, Rectangle updateArea)
         {
-            //TODO: review here, 
-
-
+            //TODO: review here,  
             if (_myHtmlVisualRoot == null) { return; }
 
             bool useBackbuffer = canvas.IsGpuDrawBoard;
-            //useBackbuffer = false;
+            useBackbuffer = false;
 
             //... TODO: review here, check doc update here?
             _myHtmlVisualRoot.CheckDocUpdate();
@@ -92,9 +90,9 @@ namespace LayoutFarm.HtmlBoxes
 #if DEBUG
                     //for debug , test clear with random color
                     //another useful technique to see latest clear area frame-by-frame => use random color
-                    //painter.Clear(Color.FromArgb(255, dbugRandom.Next(0, 255), dbugRandom.Next(0, 255), dbugRandom.Next(0, 255)));
+                    painter.Clear(Color.FromArgb(255, dbugRandom.Next(0, 255), dbugRandom.Next(0, 255), dbugRandom.Next(0, 255)));
 #endif
-                    painter.Clear(Color.White);
+                    //painter.Clear(Color.White);
 
                     _myHtmlVisualRoot.PerformPaint(painter);
 
@@ -144,6 +142,10 @@ namespace LayoutFarm.HtmlBoxes
 #if DEBUG
                 //System.Diagnostics.Debug.WriteLine(">> 500x500");
                 painter.dbugDrawDiagonalBox(Color.Blue, this.X, this.Y, this.Width, this.Height);
+
+                //for debug , test clear with random color
+                //another useful technique to see latest clear area frame-by-frame => use random color
+                //painter.Clear(Color.FromArgb(255, dbugRandom.Next(0, 255), dbugRandom.Next(0, 255), dbugRandom.Next(0, 255)));
 #endif
 
                 //painter.SetClipRect(new Rectangle(0, 0, 200, 200));
@@ -164,14 +166,15 @@ namespace LayoutFarm.HtmlBoxes
         //
         public int HtmlHeight => (int)_myHtmlVisualRoot.ActualHeight;
         //
-        protected override void OnInvalidateGraphicsNoti(Rectangle totalBounds)
+        protected override void OnInvalidateGraphicsNoti(bool fromMe, Rectangle totalBounds)
         {
-#if DEBUG
-
-#endif
-            //------
             if (_builtInBackBuffer != null)
             {
+                if (!fromMe)
+                {
+                    totalBounds.Offset(-this.X, this.Y);
+                }
+
                 _builtInBackBuffer.IsValid = false;
 
                 if (!_hasAccumRect)
