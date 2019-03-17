@@ -43,10 +43,11 @@ namespace LayoutFarm.HtmlBoxes
         public override void InvalidateGraphics(Rectangle clientArea)
         {
             //send to container element
-//#if DEBUG
-//            System.Diagnostics.Debug.WriteLine("re-bridge_cssbox_invalidateGfx:" + clientArea.ToString());
-//#endif
+            //#if DEBUG
+            //            System.Diagnostics.Debug.WriteLine("re-bridge_cssbox_invalidateGfx:" + clientArea.ToString());
+            //#endif 
             //clientArea.Offset(_containerElement.X, _containerElement.Y);
+            RenderElement.BridgeAdjustBounds(_containerElement, ref clientArea);
             _containerElement.InvalidateParentGraphics(clientArea);
         }
         public LayoutFarm.RenderElement ContainerElement => _containerElement;

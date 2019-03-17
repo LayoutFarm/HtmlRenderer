@@ -175,6 +175,9 @@ namespace LayoutFarm.HtmlBoxes
         {
             if (_builtInBackBuffer != null)
             {
+                //TODO: review here,
+                //in this case, we copy to another rect
+                //since we don't want the offset to effect the total bounds 
                 if (!fromMe)
                 {
                     totalBounds.Offset(-this.X, -this.Y);
@@ -191,10 +194,16 @@ namespace LayoutFarm.HtmlBoxes
                 {
                     _invalidateRect = Rectangle.Union(_invalidateRect, totalBounds);
                 }
-
+            }
+            //base.OnInvalidateGraphicsNoti(totalBounds);//skip
+        }
+        protected override void OnBridgeAdjustBounds(ref Rectangle totalBounds)
+        {
+            if (_builtInBackBuffer == null)
+            {
+                totalBounds.Offset(this.X, this.Y);
             }
 
-            //base.OnInvalidateGraphicsNoti(totalBounds);//skip
         }
 
     }
