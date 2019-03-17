@@ -45,7 +45,7 @@ namespace LayoutFarm.HtmlBoxes
             if (_myHtmlVisualRoot == null) { return; }
 
             bool useBackbuffer = canvas.IsGpuDrawBoard;
-            useBackbuffer = false;
+            //useBackbuffer = false;
 
             //... TODO: review here, check doc update here?
             _myHtmlVisualRoot.CheckDocUpdate();
@@ -172,7 +172,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 if (!fromMe)
                 {
-                    totalBounds.Offset(-this.X, this.Y);
+                    totalBounds.Offset(-this.X, -this.Y);
                 }
 
                 _builtInBackBuffer.IsValid = false;
