@@ -8,7 +8,7 @@ namespace LayoutFarm.HtmlBoxes
     //----------------------------------------------------------------------------
     public class PaintVisitor : BoxVisitor
     {
-        Stack<Rectangle> _clipStacks = new Stack<Rectangle>();
+
         PointF[] _borderPoints = new PointF[4];
         HtmlVisualRoot _htmlVisualRoot;
         DrawBoard _drawBoard;
@@ -40,11 +40,8 @@ namespace LayoutFarm.HtmlBoxes
 
         public void UnBind()
         {
-            //clear
             _drawBoard = null;
             _htmlVisualRoot = null;
-            _clipStacks.Clear();
-
         }
         public void SetViewportSize(float width, float height)
         {
@@ -74,27 +71,8 @@ namespace LayoutFarm.HtmlBoxes
         /// <returns></returns>
         internal bool PushLocalClipArea(float w, float h)
         {
-            //return true;
-            //store lastest clip 
-            var latestClip = _drawBoard.CurrentClipRect;
-            _clipStacks.Push(latestClip);
-            ////make new clip global  
-            Rectangle intersectResult = Rectangle.Intersect(
-                latestClip,
-                new Rectangle(0, 0, (int)w, (int)h));
-            latestClip = intersectResult;
-#if DEBUG
-            if (this.dbugEnableLogRecord)
-            {
-                _drawBoard.DrawRectangle(Color.DeepPink,
-                    intersectResult.X, intersectResult.Y,
-                    intersectResult.Width, intersectResult.Height);
-                dbugLogRecords.Add(new string('>', dbugIndentLevel) + dbugIndentLevel.ToString() +
-                   " clip[" + intersectResult + "] ");
-            }
-#endif
-            _drawBoard.SetClipRect(intersectResult);
-            return !intersectResult.IsEmpty;
+            Rectangle currentClip = _drawBoard.CurrentClipRect;
+            return _drawBoard.PushClipAreaRect((int)w, (int)h, ref currentClip); 
         }
 #if DEBUG
         public override string ToString()
@@ -104,27 +82,8 @@ namespace LayoutFarm.HtmlBoxes
 #endif
         internal bool PushLocalClipArea(float left, float top, float w, float h)
         {
-            //return true;
-            //store lastest clip 
-            var latestClip = _drawBoard.CurrentClipRect;
-            _clipStacks.Push(latestClip);
-            ////make new clip global  
-            Rectangle intersectResult = Rectangle.Intersect(
-                latestClip,
-                new Rectangle((int)left, (int)top, (int)w, (int)h));
-            latestClip = intersectResult;
-#if DEBUG
-            if (this.dbugEnableLogRecord)
-            {
-                _drawBoard.DrawRectangle(Color.DeepPink,
-                    intersectResult.X, intersectResult.Y,
-                    intersectResult.Width, intersectResult.Height);
-                dbugLogRecords.Add(new string('>', dbugIndentLevel) + dbugIndentLevel.ToString() +
-                   " clip[" + intersectResult + "] ");
-            }
-#endif
-            _drawBoard.SetClipRect(intersectResult);
-            return !intersectResult.IsEmpty;
+            Rectangle currentClip = _drawBoard.CurrentClipRect;
+            return _drawBoard.PushClipAreaRect((int)left, (int)top, (int)w, (int)h, ref currentClip); 
         }
         internal void PopLocalClipArea()
         {
@@ -135,15 +94,8 @@ namespace LayoutFarm.HtmlBoxes
                 dbugLogRecords.Add(new string('<', dbugIndentLevel) + dbugIndentLevel.ToString() + " pop[]");
             }
 #endif
-            if (_clipStacks.Count > 0)
-            {
-                _drawBoard.SetClipRect(_clipStacks.Pop());
-            }
-            else
-            {
-            }
-        }
-        //
+            _drawBoard.PopClipAreaRect(); 
+        } 
 
         internal Rectangle CurrentClipRect => _drawBoard.CurrentClipRect;
         //
@@ -189,23 +141,10 @@ namespace LayoutFarm.HtmlBoxes
         //
         public void SetCanvasOrigin(int x, int y)
         {
-            //must move lastest clip to opposite direction
-#if DEBUG
-            if (_clipStacks.Count > 0)
-            {
-
-            }
-#endif
             _drawBoard.SetCanvasOrigin(x, y);
         }
         public void OffsetCanvasOrigin(int dx, int dy)
         {
-#if DEBUG
-            if (_clipStacks.Count > 0)
-            {
-
-            }
-#endif
             _drawBoard.OffsetCanvasOrigin(dx, dy);
         }
 
