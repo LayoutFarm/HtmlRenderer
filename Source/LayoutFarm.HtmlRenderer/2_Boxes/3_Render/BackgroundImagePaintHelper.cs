@@ -27,11 +27,11 @@ namespace LayoutFarm.HtmlBoxes
         /// Draw the background image of the given box in the given rectangle.<br/>
         /// Handle background-repeat and background-position values.
         /// </summary>
-        /// <param name="g">the device to draw into</param>
+        /// <param name="drawboard">the device to draw into</param>
         /// <param name="box">the box to draw its background image</param>
         /// <param name="imageLoadHandler">the handler that loads image to draw</param>
         /// <param name="rectangle">the rectangle to draw image in</param>
-        public static void DrawBackgroundImage(DrawBoard g, CssBox box, ImageBinder imageBinder, RectangleF rectangle)
+        public static void DrawBackgroundImage(DrawBoard drawboard, CssBox box, ImageBinder imageBinder, RectangleF rectangle)
         {
             Image image = imageBinder.LocalImage;
             //temporary comment image scale code 
@@ -49,31 +49,29 @@ namespace LayoutFarm.HtmlBoxes
             Rectangle destRect = new Rectangle(location, imgSize);
             // need to clip so repeated image will be cut on rectangle
 
-            Rectangle prevClip = g.CurrentClipRect;
-            PixelFarm.Drawing.Rectangle copyRect = new PixelFarm.Drawing.Rectangle(
-               (int)rectangle.X,
+            Rectangle prevClip = drawboard.CurrentClipRect;
+            drawboard.PushClipAreaRect((int)rectangle.X,
                (int)rectangle.Y,
                (int)rectangle.Width,
-               (int)rectangle.Height);
-            copyRect.Intersect(prevClip);
-            g.SetClipRect(copyRect);
+               (int)rectangle.Height,
+               ref prevClip); 
             switch (box.BackgroundRepeat)
             {
                 case CssBackgroundRepeat.NoRepeat:
-                    g.DrawImage(image, new RectangleF(location, imgSize), new RectangleF(0, 0, image.Width, image.Height));
+                    drawboard.DrawImage(image, new RectangleF(location, imgSize), new RectangleF(0, 0, image.Width, image.Height));
                     break;
                 case CssBackgroundRepeat.RepeatX:
-                    DrawRepeatX(g, image, rectangle, srcRect, destRect, imgSize);
+                    DrawRepeatX(drawboard, image, rectangle, srcRect, destRect, imgSize);
                     break;
                 case CssBackgroundRepeat.RepeatY:
-                    DrawRepeatY(g, image, rectangle, srcRect, destRect, imgSize);
+                    DrawRepeatY(drawboard, image, rectangle, srcRect, destRect, imgSize);
                     break;
                 default:
-                    DrawRepeat(g, image, rectangle, srcRect, destRect, imgSize);
+                    DrawRepeat(drawboard, image, rectangle, srcRect, destRect, imgSize);
                     break;
             }
-
-            g.SetClipRect(prevClip);
+            drawboard.PopClipAreaRect();
+            
         }
 
 
