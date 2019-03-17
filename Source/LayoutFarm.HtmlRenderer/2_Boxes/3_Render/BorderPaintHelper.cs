@@ -139,10 +139,7 @@ namespace LayoutFarm.HtmlBoxes
         static void DrawBorder(CssSide borderSide, CssBox box,
             PaintVisitor p, RectangleF rect, bool isLineStart, bool isLineEnd)
         {
-            float actualBorderWidth;
-            Color borderColor;
-            CssBorderStyle style;
-            GetBorderBorderDrawingInfo(box, borderSide, out style, out borderColor, out actualBorderWidth);
+            GetBorderBorderDrawingInfo(box, borderSide, out CssBorderStyle style, out Color borderColor, out float actualBorderWidth);
             DrawBoard g = p.InnerDrawBoard;
             if (box.HasSomeRoundCorner)
             {
