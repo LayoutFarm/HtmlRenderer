@@ -25,8 +25,30 @@ namespace LayoutFarm.WebDom.Impl
             _rootNode = rootE;
         }
         public override DomElement RootNode => _rootNode;
-
-
+        public HtmlElement QuerySelector(string pattern)
+        {
+            HtmlElement rootElm = _rootNode as HtmlElement;
+            if (rootElm == null) return null;
+            return rootElm.QuerySelector(pattern);
+        }
+        public HtmlElement QuerySelector(QuerySelectorPatterns patts)
+        {
+            HtmlElement rootElm = _rootNode as HtmlElement;
+            if (rootElm == null) return null;
+            return rootElm.QuerySelector(patts);
+        }
+        public HtmlNodeList QuerySelectAll(string pattern)
+        {
+            HtmlElement rootElm = _rootNode as HtmlElement;
+            if (rootElm == null) return null;
+            return rootElm.QuerySelectAll(pattern);
+        }
+        public HtmlNodeList QuerySelectAll(QuerySelectorPatterns patts)
+        {
+            HtmlElement rootElm = _rootNode as HtmlElement;
+            if (rootElm == null) return null;
+            return rootElm.QuerySelectAll(patts);
+        }
         public DomElement BodyElement
         {
             get

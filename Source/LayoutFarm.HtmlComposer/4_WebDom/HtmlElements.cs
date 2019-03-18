@@ -24,10 +24,16 @@ namespace LayoutFarm.Composers
         }
     }
 
-    class HtmlElement : LayoutFarm.WebDom.Impl.HtmlElement
+
+
+    /// <summary>
+    /// general html implementation
+    /// </summary>
+    public class HtmlElement : LayoutFarm.WebDom.Impl.HtmlElement
     {
         protected CssBox _principalBox;
         protected Css.BoxSpec _boxSpec;
+
         internal HtmlElement(HtmlDocument owner, int prefix, int localNameIndex)
             : base(owner, prefix, localNameIndex)
         {
@@ -186,6 +192,7 @@ namespace LayoutFarm.Composers
         }
         public override void GetGlobalLocationRelativeToRoot(out int x, out int y)
         {
+
             float globalX, globalY;
             _principalBox.GetGlobalLocationRelativeToRoot(out globalX, out globalY);
             x = (int)globalX;
@@ -265,16 +272,19 @@ namespace LayoutFarm.Composers
             }
             return base.RemoveChild(childNode);
         }
+
+        public HtmlDocument OwnerHtmlDoc => OwnerDocument as HtmlDocument;
     }
 
 
-    sealed class HtmlImageElement : HtmlElement
+    sealed public class HtmlImageElement : HtmlElement
     {
         HtmlDocument _owner;
         internal HtmlImageElement(HtmlDocument owner, int prefix, int localNameIndex)
          : base(owner, prefix, localNameIndex)
         {
             _owner = owner;
+            WellknownElementName = WellKnownDomNodeName.img;
         }
         public override void SetAttribute(DomAttribute attr)
         {
@@ -304,4 +314,112 @@ namespace LayoutFarm.Composers
         }
     }
 
+
+    public interface IHtmlInputSubDomExtender
+    {
+        string GetInputValue();
+        void SetInputValue(string value);
+    }
+    sealed public class HtmlInputElement : HtmlElement, IHtmlInputElement
+    {
+
+        string _inputValue;
+        string _inputType;
+        string _name;
+        IHtmlInputSubDomExtender _subdomExt;
+
+        internal HtmlInputElement(HtmlDocument owner, int prefix, int localNameIndex)
+        : base(owner, prefix, localNameIndex)
+        {
+            WellknownElementName = WellKnownDomNodeName.input;
+        }
+        public string inputType => _inputType;
+        public string InputName
+        {
+            get => _name;
+            set => _name = value;
+        }
+        public IHtmlInputSubDomExtender SubDomExtender
+        {
+            get => _subdomExt;
+            set => _subdomExt = value;
+        }
+        public string Value
+        {
+            //TODO: add 'live' feature (connect with actual dom)
+            get
+            {
+                if (_subdomExt != null)
+                {
+                    _inputValue = _subdomExt.GetInputValue();
+                }
+                return _inputValue;
+            }
+            set
+            {
+                if (_subdomExt != null)
+                {
+                    _subdomExt.SetInputValue(value);
+                }
+                _inputValue = value;
+            }
+
+        }
+        public override void SetAttribute(DomAttribute attr)
+        {
+            //implementation specific...
+            SetDomAttribute(attr);
+            switch ((WellknownName)attr.LocalNameIndex)
+            {
+                case WellknownName.Name:
+                    _name = attr.Value;
+                    break;
+                case WellknownName.Value:
+                    _inputValue = attr.Value;
+                    if (_subdomExt != null)
+                    {
+                        _subdomExt.SetInputValue(attr.Value);
+                    }
+                    break;
+                case WellknownName.Type:
+                    _inputType = attr.Value;
+                    break;
+                default:
+                    ImplSetAttribute(attr);
+                    break;
+            }
+        }
+
+        //-----------
+
+    }
+    sealed class HtmlOptionElement : HtmlElement, IHtmlOptionElement
+    {
+        string _optionValue;
+        internal HtmlOptionElement(HtmlDocument owner, int prefix, int localNameIndex)
+        : base(owner, prefix, localNameIndex)
+        {
+            WellknownElementName = WellKnownDomNodeName.option;
+        }
+        public override void SetAttribute(DomAttribute attr)
+        {
+            //implementation specific...
+            SetDomAttribute(attr);
+            switch ((WellknownName)attr.LocalNameIndex)
+            {
+                case WellknownName.Value:
+                    _optionValue = attr.Value;
+                    break;
+                default:
+                    ImplSetAttribute(attr);
+                    break;
+            }
+        }
+        public string Value
+        {
+            //TODO: add 'live' feature (connect with actual dom)
+            get => _optionValue;
+            set => _optionValue = value;
+        }
+    }
 }

@@ -2,7 +2,7 @@
 
 namespace LayoutFarm.WebDom
 {
-    
+
     public enum WellknownName
     {
         Unknown,
@@ -82,6 +82,9 @@ namespace LayoutFarm.WebDom
         MenuItem,
         [Map("meta")]
         Meta,
+        [Map("name")]
+        Name,
+
         [Map("param")]
         Param,
         [Map("background")]
@@ -134,6 +137,8 @@ namespace LayoutFarm.WebDom
         Reversed,
         [Map("wbr")]
         Wbr,
+        [Map("value")]
+        Value,
         //-------------------
         [Map("x")]
         Svg_X,

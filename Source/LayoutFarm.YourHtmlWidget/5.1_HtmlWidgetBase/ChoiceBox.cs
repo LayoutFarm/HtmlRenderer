@@ -1,6 +1,7 @@
 ﻿//Apache2, 2014-present, WinterDev
 
 using System;
+using LayoutFarm.Composers;
 using LayoutFarm.WebDom;
 using LayoutFarm.WebDom.Extension;
 namespace LayoutFarm.HtmlWidgets
@@ -8,21 +9,27 @@ namespace LayoutFarm.HtmlWidgets
     /// <summary>
     /// for option box ,or check box
     /// </summary>
-    public class ChoiceBox : HtmlWidgetBase
+    public class ChoiceBox : HtmlWidgetBase, IHtmlInputSubDomExtender
     {
-        string _buttonText = "";
+
         /// <summary>
         /// presentation node
         /// </summary>
-        DomElement _pnode;
+        HtmlElement _pnode;
         DomElement _imgNode;
         bool _checked;
+        LayoutFarm.Composers.HtmlInputElement _htmlInput;
 
         public event EventHandler<EventArgs> CheckValueAssigned;
 
         public ChoiceBox(int w, int h)
             : base(w, h)
         {
+        }
+        public void SetHtmlInputBox(LayoutFarm.Composers.HtmlInputElement htmlInput)
+        {
+            //link to html input
+            _htmlInput = htmlInput;
         }
         //---------------------------------------------------------------------------
         public bool Checked
@@ -38,19 +45,14 @@ namespace LayoutFarm.HtmlWidgets
                 {
                     if (value)
                     {
-                        _imgNode.SetAttribute("src", OnlyOne ? WidgetResList.opt_checked_png : WidgetResList.chk_checked_png);
+                        _imgNode.SetAttribute("src", OnlyOne ? WidgetResList.opt_checked : WidgetResList.chk_checked);
                     }
                     else
                     {
-                        _imgNode.SetAttribute("src", OnlyOne ? WidgetResList.opt_unchecked_png : WidgetResList.chk_unchecked_png);
+                        _imgNode.SetAttribute("src", OnlyOne ? WidgetResList.opt_unchecked : WidgetResList.chk_unchecked);
                     }
                 }
             }
-        }
-        public string Text
-        {
-            get => _buttonText;
-            set => _buttonText = value;
         }
 
         public bool OnlyOne
@@ -58,20 +60,22 @@ namespace LayoutFarm.HtmlWidgets
             get;
             set;
         }
-        public override DomElement GetPresentationDomNode(WebDom.Impl.HtmlDocument htmldoc)
+
+        public override HtmlElement GetPresentationDomNode(Composers.HtmlElement orgDomElem)
         {
             if (_pnode != null) return _pnode;
             //----------------------------------
-            _pnode = htmldoc.CreateElement("div");
+            _pnode = (HtmlElement)orgDomElem.OwnerDocument.CreateElement("div");
             _pnode.SetAttribute("style", "display:inline-block;width:" + Width + "px;height:" + this.Height + "px;cursor:pointer");
             _pnode.AddChild("div", div2 =>
             {
                 //init
                 //div2.SetAttribute("style", "background-color:#dddddd;color:black;");
                 div2.SetAttribute("style", "color:black;");
+
                 _imgNode = div2.AddChild("img");
 
-                _imgNode.SetAttribute("src", OnlyOne ? WidgetResList.opt_unchecked_png : WidgetResList.chk_unchecked_png);
+                _imgNode.SetAttribute("src", OnlyOne ? WidgetResList.opt_unchecked : WidgetResList.chk_unchecked);
 
                 _imgNode.AttachMouseDownEvent(e =>
                 {
@@ -110,6 +114,30 @@ namespace LayoutFarm.HtmlWidgets
                 });
             });
             return _pnode;
+        }
+
+
+        void IHtmlInputSubDomExtender.SetInputValue(string value)
+        {
+            if (value == "off")
+            {
+                Checked = false;
+            }
+            else
+            {
+                Checked = true;
+            }
+        }
+        string IHtmlInputSubDomExtender.GetInputValue()
+        {
+            if (Checked)
+            {
+                return "on";
+            }
+            else
+            {
+                return "off";
+            }
         }
     }
 

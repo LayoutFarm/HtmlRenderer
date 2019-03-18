@@ -8,19 +8,16 @@ namespace LayoutFarm.HtmlBoxes
     //----------------------------------------------------------------------------
     public class PaintVisitor : BoxVisitor
     {
-        Stack<Rectangle> _clipStacks = new Stack<Rectangle>();
+
         PointF[] _borderPoints = new PointF[4];
         HtmlVisualRoot _htmlVisualRoot;
         DrawBoard _drawBoard;
-        Rectangle _latestClip = new Rectangle(0, 0, CssBoxConstConfig.BOX_MAX_RIGHT, CssBoxConstConfig.BOX_MAX_BOTTOM);
+
         MultiLayerStack<CssBox> _latePaintStack = new MultiLayerStack<CssBox>();
 
         float _viewportWidth;
         float _viewportHeight;
         Color _cssBoxSelectionColor = Color.LightGray;
-
-
-
 
         public PaintVisitor()
         {
@@ -34,22 +31,17 @@ namespace LayoutFarm.HtmlBoxes
         {
             //save  
             _drawBoard.AttachToBackBuffer(attachToBackbuffer);
-            _latestClip = _drawBoard.CurrentClipRect;
         }
         public void AttachToNormalBuffer()
         {
             _drawBoard.SwitchBackToDefaultBuffer(null);
-            _latestClip = _drawBoard.CurrentClipRect;
         }
         public Color CssBoxSelectionColor => _cssBoxSelectionColor;
 
         public void UnBind()
         {
-            //clear
             _drawBoard = null;
             _htmlVisualRoot = null;
-            _clipStacks.Clear();
-            _latestClip = new Rectangle(0, 0, CssBoxConstConfig.BOX_MAX_RIGHT, CssBoxConstConfig.BOX_MAX_BOTTOM);
         }
         public void SetViewportSize(float width, float height)
         {
@@ -79,52 +71,19 @@ namespace LayoutFarm.HtmlBoxes
         /// <returns></returns>
         internal bool PushLocalClipArea(float w, float h)
         {
-            //return true;
-            //store lastest clip 
-            _latestClip = _drawBoard.CurrentClipRect;
-            _clipStacks.Push(_latestClip);
-            ////make new clip global  
-            Rectangle intersectResult = Rectangle.Intersect(
-                _latestClip,
-                new Rectangle(0, 0, (int)w, (int)h));
-            _latestClip = intersectResult;
-#if DEBUG
-            if (this.dbugEnableLogRecord)
-            {
-                _drawBoard.DrawRectangle(Color.DeepPink,
-                    intersectResult.X, intersectResult.Y,
-                    intersectResult.Width, intersectResult.Height);
-                dbugLogRecords.Add(new string('>', dbugIndentLevel) + dbugIndentLevel.ToString() +
-                   " clip[" + intersectResult + "] ");
-            }
-#endif
-            _drawBoard.SetClipRect(intersectResult);
-            return !intersectResult.IsEmpty;
+            Rectangle currentClip = _drawBoard.CurrentClipRect;
+            return _drawBoard.PushClipAreaRect((int)w, (int)h, ref currentClip);
         }
-
+#if DEBUG
+        public override string ToString()
+        {
+            return "clip:" + _drawBoard.CurrentClipRect + ",(ox,oy)=(" + _drawBoard.OriginX + "," + _drawBoard.OriginY + ")";
+        }
+#endif
         internal bool PushLocalClipArea(float left, float top, float w, float h)
         {
-            //return true;
-            //store lastest clip 
-            _latestClip = _drawBoard.CurrentClipRect;
-            _clipStacks.Push(_latestClip);
-            ////make new clip global  
-            Rectangle intersectResult = Rectangle.Intersect(
-                _latestClip,
-                new Rectangle((int)left, (int)top, (int)w, (int)h));
-            _latestClip = intersectResult;
-#if DEBUG
-            if (this.dbugEnableLogRecord)
-            {
-                _drawBoard.DrawRectangle(Color.DeepPink,
-                    intersectResult.X, intersectResult.Y,
-                    intersectResult.Width, intersectResult.Height);
-                dbugLogRecords.Add(new string('>', dbugIndentLevel) + dbugIndentLevel.ToString() +
-                   " clip[" + intersectResult + "] ");
-            }
-#endif
-            _drawBoard.SetClipRect(intersectResult);
-            return !intersectResult.IsEmpty;
+            Rectangle currentClip = _drawBoard.CurrentClipRect;
+            return _drawBoard.PushClipAreaRect((int)left, (int)top, (int)w, (int)h, ref currentClip);
         }
         internal void PopLocalClipArea()
         {
@@ -135,16 +94,10 @@ namespace LayoutFarm.HtmlBoxes
                 dbugLogRecords.Add(new string('<', dbugIndentLevel) + dbugIndentLevel.ToString() + " pop[]");
             }
 #endif
-            if (_clipStacks.Count > 0)
-            {
-                _drawBoard.SetClipRect(_latestClip = _clipStacks.Pop());
-            }
-            else
-            {
-            }
+            _drawBoard.PopClipAreaRect();
         }
-        //
-        internal Rectangle CurrentClipRect => _latestClip;
+
+        internal Rectangle CurrentClipRect => _drawBoard.CurrentClipRect;
         //
         /// <summary>
         /// async request for image
@@ -196,6 +149,7 @@ namespace LayoutFarm.HtmlBoxes
         }
 
         public Rectangle GetCurrentClipRect() => _drawBoard.CurrentClipRect;
+
         internal void PaintBorders(CssBox box, RectangleF stripArea, bool isFirstLine, bool isLastLine)
         {
             LayoutFarm.HtmlBoxes.BorderPaintHelper.DrawBoxBorders(this, box, stripArea, isFirstLine, isLastLine);

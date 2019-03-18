@@ -13,16 +13,15 @@ namespace LayoutFarm.WebWidgets
             int boxX = 0;
             for (int i = 0; i < 1; ++i)
             {
-                var hingeBox = CreateHingeBox(100, 30);
+                LayoutFarm.HtmlWidgets.HingeBox hingeBox = CreateHingeBox(100, 30);
                 for (int m = 0; m < 10; ++m)
                 {
                     var div = (HtmlElement)_groundHtmlDoc.CreateElement("div");
                     div.AddChild("div", div2 =>
                     {
                         div2.AddTextContent("HELLO!" + m);
-                        div2.Tag = m.ToString();
-                    });
-                    
+                        //div2.Tag = m.ToString();
+                    });                   
 
                     hingeBox.AddItem(div);
                 }

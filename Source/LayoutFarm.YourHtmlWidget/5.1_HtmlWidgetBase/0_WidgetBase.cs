@@ -52,7 +52,6 @@ namespace LayoutFarm.HtmlWidgets
             : base(w, h)
         {
         }
-        public abstract WebDom.DomElement GetPresentationDomNode(WebDom.Impl.HtmlDocument htmldoc);
-
+        public abstract Composers.HtmlElement GetPresentationDomNode(Composers.HtmlElement orgDomElem);
     }
 }

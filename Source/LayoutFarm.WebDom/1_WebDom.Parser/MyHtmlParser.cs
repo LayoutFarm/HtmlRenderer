@@ -79,8 +79,6 @@ namespace LayoutFarm.WebDom.Parser
                     {
                         //the lexer dose not store state of element name or attribute name
                         //so we use parseState to decide here
-
-
                         string name = _textSnapshot.Substring(startIndex, len);
                         switch (_parseState)
                         {

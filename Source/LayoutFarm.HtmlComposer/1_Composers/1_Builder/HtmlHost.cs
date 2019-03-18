@@ -206,9 +206,9 @@ namespace LayoutFarm.HtmlBoxes
             //for public 
             UpdateChildBoxes((HtmlElement)parentElement, fullmode);
         }
-        public CssBox CreateBox(CssBox parentBox, WebDom.Impl.HtmlElement childElement, bool fullmode)
+        public CssBox CreateCssBox(CssBox parentBox, WebDom.Impl.HtmlElement childElement, bool fullmode)
         {
-            return CreateBoxInternal(parentBox, (HtmlElement)childElement, fullmode);
+            return CreateCssBoxInternal(parentBox, (HtmlElement)childElement, fullmode);
         }
         //-------------
 
@@ -222,7 +222,7 @@ namespace LayoutFarm.HtmlBoxes
                 _requestImage(this, resReq);
             }
         }
-        
+
         internal ITextService GetTextService() => _textservice;
 
         internal void EnqueueCssUpdate(CssBox box)
@@ -376,14 +376,14 @@ namespace LayoutFarm.HtmlBoxes
 
                                         if (fullmode)
                                         {
-                                            CssBox box = CreateBoxInternal(hostBox, childElement, fullmode);
+                                            CssBox box = CreateCssBoxInternal(hostBox, childElement, fullmode);
                                         }
                                         else
                                         {
                                             CssBox existingCssBox = HtmlElement.InternalGetPrincipalBox(childElement);
                                             if (existingCssBox == null)
                                             {
-                                                CreateBoxInternal(hostBox, childElement, fullmode);
+                                                CreateCssBoxInternal(hostBox, childElement, fullmode);
                                             }
                                             else
                                             {
@@ -424,10 +424,9 @@ namespace LayoutFarm.HtmlBoxes
 
         CssBox CreateBoxInternal(HtmlElement parentElement, HtmlElement childElement, bool fullmode)
         {
-            CssBox hostBox = HtmlElement.InternalGetPrincipalBox(parentElement);
-            return CreateBoxInternal(hostBox, childElement, fullmode);
+            return CreateCssBoxInternal(HtmlElement.InternalGetPrincipalBox(parentElement), childElement, fullmode);
         }
-        CssBox CreateBoxInternal(CssBox parentBox, HtmlElement childElement, bool fullmode)
+        CssBox CreateCssBoxInternal(CssBox parentBox, HtmlElement childElement, bool fullmode)
         {
             //----------------------------------------- 
             //1. create new box
@@ -490,17 +489,9 @@ namespace LayoutFarm.HtmlBoxes
                     break;
                 //---------------------------------------------------
                 case WellKnownDomNodeName.select:
-                    newBox = this.CreateCustomCssBox(parentBox, childElement, childElement.Spec);
-                    if (newBox != null)
-                    {
-                        childElement.SetPrincipalBox(newBox);
-                        return newBox;
-                    }
-                    goto default; //else goto default ***  
                 case WellKnownDomNodeName.canvas:
                 case WellKnownDomNodeName.input:
-
-                    newBox = this.CreateCustomCssBox(parentBox, childElement, childElement.Spec);
+                    newBox = CreateCustomCssBox(parentBox, childElement, childElement.Spec);
                     if (newBox != null)
                     {
                         childElement.SetPrincipalBox(newBox);
@@ -607,12 +598,12 @@ namespace LayoutFarm.HtmlBoxes
 
 
         CssBox CreateCustomCssBox(CssBox parent,
-          LayoutFarm.WebDom.DomElement tag,
+          HtmlElement htmlElem,
           BoxSpec boxspec)
         {
             for (int i = _generators.Count - 1; i >= 0; --i)
             {
-                CssBox newbox = _generators[i].CreateCssBox(tag, parent, boxspec, this);
+                CssBox newbox = _generators[i].CreateCssBox(htmlElem, parent, boxspec, this);
                 if (newbox != null)
                 {
                     return newbox;

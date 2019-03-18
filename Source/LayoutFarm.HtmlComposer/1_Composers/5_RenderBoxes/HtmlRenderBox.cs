@@ -41,9 +41,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         protected override void DrawBoxContent(DrawBoard canvas, Rectangle updateArea)
         {
-            //TODO: review here, 
-
-
+            //TODO: review here,  
             if (_myHtmlVisualRoot == null) { return; }
 
             bool useBackbuffer = canvas.IsGpuDrawBoard;
@@ -72,7 +70,7 @@ namespace LayoutFarm.HtmlBoxes
 
                     float backupViewportW = painter.ViewportWidth; //backup
                     float backupViewportH = painter.ViewportHeight; //backup
-                    
+
                     painter.AttachTo(_builtInBackBuffer); //*** switch to builtInBackbuffer 
                     painter.SetViewportSize(this.Width, this.Height);
 
@@ -81,20 +79,27 @@ namespace LayoutFarm.HtmlBoxes
                         _invalidateRect = new Rectangle(0, 0, Width, Height);
                     }
 
-                    painter.PushLocalClipArea(
-                        _invalidateRect.Left, _invalidateRect.Top,
-                        _invalidateRect.Width, _invalidateRect.Height);
-
-                    //for debug , test clear with random color
 #if DEBUG
-                    //painter.Clear(Color.FromArgb(255, dbugRandom.Next(0, 255), dbugRandom.Next(0, 255), dbugRandom.Next(0, 255)));
+                    //System.Diagnostics.Debug.WriteLine("inv_rect:" + _invalidateRect + "," + painter.ToString());
 #endif
-                    painter.Clear(Color.White);
+                    if (painter.PushLocalClipArea(
+                        _invalidateRect.Left, _invalidateRect.Top,
+                        _invalidateRect.Width, _invalidateRect.Height))
+                    {
 
-                    _myHtmlVisualRoot.PerformPaint(painter);
+
+#if DEBUG
+                        //for debug , test clear with random color
+                        //another useful technique to see latest clear area frame-by-frame => use random color
+                        painter.Clear(Color.FromArgb(255, dbugRandom.Next(0, 255), dbugRandom.Next(0, 255), dbugRandom.Next(0, 255)));
+#endif
+                        //painter.Clear(Color.White);
+
+                        _myHtmlVisualRoot.PerformPaint(painter);
+                    }
 
                     painter.PopLocalClipArea();
-
+                    //
                     _builtInBackBuffer.IsValid = true;
                     _hasAccumRect = false;
 
@@ -139,8 +144,15 @@ namespace LayoutFarm.HtmlBoxes
 #if DEBUG
                 //System.Diagnostics.Debug.WriteLine(">> 500x500");
                 painter.dbugDrawDiagonalBox(Color.Blue, this.X, this.Y, this.Width, this.Height);
+
+                //for debug , test clear with random color
+                //another useful technique to see latest clear area frame-by-frame => use random color
+                //painter.Clear(Color.FromArgb(255, dbugRandom.Next(0, 255), dbugRandom.Next(0, 255), dbugRandom.Next(0, 255)));
 #endif
 
+#if DEBUG
+                System.Diagnostics.Debug.WriteLine("inv_rect:" + _invalidateRect + "," + painter.ToString());
+#endif
                 //painter.SetClipRect(new Rectangle(0, 0, 200, 200));
                 _myHtmlVisualRoot.PerformPaint(painter);
 #if DEBUG
@@ -159,14 +171,18 @@ namespace LayoutFarm.HtmlBoxes
         //
         public int HtmlHeight => (int)_myHtmlVisualRoot.ActualHeight;
         //
-        protected override void OnInvalidateGraphicsNoti(Rectangle totalBounds)
+        protected override void OnInvalidateGraphicsNoti(bool fromMe, ref Rectangle totalBounds)
         {
-#if DEBUG
-
-#endif
-            //------
             if (_builtInBackBuffer != null)
             {
+                //TODO: review here,
+                //in this case, we copy to another rect
+                //since we don't want the offset to effect the total bounds 
+                if (!fromMe)
+                {
+                    totalBounds.Offset(-this.X, -this.Y);
+                }
+
                 _builtInBackBuffer.IsValid = false;
 
                 if (!_hasAccumRect)
@@ -179,10 +195,12 @@ namespace LayoutFarm.HtmlBoxes
                     _invalidateRect = Rectangle.Union(_invalidateRect, totalBounds);
                 }
             }
-
+            else
+            {
+                totalBounds.Offset(this.X, this.Y);
+            }
             //base.OnInvalidateGraphicsNoti(totalBounds);//skip
-        }
-
+        } 
     }
 
     static class PaintVisitorStock

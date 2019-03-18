@@ -17,6 +17,8 @@ namespace LayoutFarm.WebDom
         HtmlEventHandler _evhMouseDown;
         HtmlEventHandler _evhMouseUp;
         HtmlEventHandler _evhMouseLostFocus;
+
+
         public DomElement(WebDocument ownerDoc, int nodePrefixNameIndex, int nodeLocalNameIndex)
             : base(ownerDoc)
         {
@@ -168,6 +170,7 @@ namespace LayoutFarm.WebDom
             }
         }
 
+
         /// <summary>
         /// clear all children elements
         /// </summary>
@@ -225,25 +228,17 @@ namespace LayoutFarm.WebDom
             }
         }
 
-
         public int AttributeCount => (_myAttributes != null) ? _myAttributes.Count : 0;
-
-
 
         public string Prefix => OwnerDocument.GetString(_nodePrefixNameIndex);
 
-
         public string LocalName => OwnerDocument.GetString(_nodeLocalNameIndex);
-
 
         public int LocalNameIndex => _nodeLocalNameIndex;
 
-
         public bool HasAttributeElementId => _attrElemId != null;
 
-
         public bool HasAttributeClass => _attrClass != null;
-
 
         public string AttrClassValue
         {
@@ -271,6 +266,8 @@ namespace LayoutFarm.WebDom
 
         public string Name => this.LocalName;
 
-        public object Tag { get; set; }
+        //public object Tag { get; set; }
+
+
     }
 }

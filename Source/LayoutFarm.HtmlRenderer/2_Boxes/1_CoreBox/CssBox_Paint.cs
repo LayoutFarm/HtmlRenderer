@@ -216,6 +216,7 @@ namespace LayoutFarm.HtmlBoxes
                         Rectangle currentClipRect = p.CurrentClipRect;
                         drawState = 1;//drawing in viewport area 
 #if DEBUG
+                        //System.Diagnostics.Debug.WriteLine("clip_rect:" + currentClipRect); 
                         dbugCounter.dbugLinePaintCount++;
 #endif
 
@@ -224,10 +225,9 @@ namespace LayoutFarm.HtmlBoxes
                         int cy = p.CanvasOriginY;
                         int newCy = cy + (int)line.CachedLineTop;
 
-                        if (newCy + line.CacheLineHeight >= currentClipRect.Top &&
-                            newCy <= currentClipRect.Bottom)
+                        if (newCy <= (cy + currentClipRect.Bottom) &&
+                            newCy + line.CacheLineHeight >= (cy + currentClipRect.Top))
                         {
-
                             p.SetCanvasOrigin(cX, newCy);
                             //1.                                 
                             line.PaintBackgroundAndBorder(p);
@@ -245,7 +245,7 @@ namespace LayoutFarm.HtmlBoxes
 
                             p.SetCanvasOrigin(cX, cy);//back
 
-                        } 
+                        }
 
                     }
                     else if (drawState == 1)

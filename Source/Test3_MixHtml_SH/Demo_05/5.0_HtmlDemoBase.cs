@@ -14,7 +14,7 @@ namespace LayoutFarm.WebWidgets
         protected override void OnStart(AppHost host)
         {
             _host = host;
-            _imgLoadingQ = new ContentManagers.ImageLoadingQueueManager(); 
+            _imgLoadingQ = new ContentManagers.ImageLoadingQueueManager();
             _imgLoadingQ.AskForImage += (s, e) =>
             {
                 e.SetResultImage(host.LoadImage(e.ImagSource));
@@ -42,7 +42,7 @@ namespace LayoutFarm.WebWidgets
         protected void AddToViewport(HtmlWidgets.HtmlWidgetBase htmlWidget)
         {
             //
-            WebDom.DomElement presentationDomNode = htmlWidget.GetPresentationDomNode(_groundHtmlDoc);
+            WebDom.DomElement presentationDomNode = htmlWidget.GetPresentationDomNode((HtmlElement)_groundHtmlDoc.RootNode);
             _groundHtmlDoc.BodyElement.AddChild(presentationDomNode);
         }
     }
