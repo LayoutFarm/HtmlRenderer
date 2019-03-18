@@ -6,8 +6,10 @@ using System.Collections.Generic;
 using LayoutFarm.WebDom;
 namespace LayoutFarm.Composers
 {
+
     public class HtmlDocument : LayoutFarm.WebDom.Impl.HtmlDocument
     {
+        //implementation specific...
         //foc custom elements 
         Dictionary<string, CreateCssBoxDelegate> _registeredCustomElemenGens = new Dictionary<string, CreateCssBoxDelegate>();
         internal HtmlDocument(HtmlBoxes.HtmlHost host)
@@ -23,7 +25,7 @@ namespace LayoutFarm.Composers
             this.SetRootElement(new HtmlRootElement(this));
             //TODO: test only
 #if DEBUG
-            this.RegisterCustomElement("fivespace", CustomBoxGenSample1.CreateCssBox);
+            this.RegisterCustomElement("custom_div", CustomBoxGenSample1.CreateCssBox);
 #endif
         }
 
@@ -31,11 +33,45 @@ namespace LayoutFarm.Composers
 
         public override DomElement CreateElement(string prefix, string localName)
         {
-            //actual implementation
-            var htmlElement = new HtmlElement(this,
-                AddStringIfNotExists(prefix),
-                AddStringIfNotExists(localName));
-            htmlElement.WellknownElementName = WellKnownDomNodeMap.EvaluateTagName(htmlElement.LocalName);
+            //actual dom implementation ***
+
+            HtmlElement htmlElement = null;
+            switch (localName)
+            {
+                case "img":
+                    {
+                        htmlElement = new HtmlImageElement(
+                            this,
+                            AddStringIfNotExists(prefix),
+                            AddStringIfNotExists(localName));
+                    }
+                    break;
+                case "input":
+                    {
+                        //input type
+                        htmlElement = new HtmlInputElement(
+                           this,
+                           AddStringIfNotExists(prefix),
+                           AddStringIfNotExists(localName));
+                    }
+                    break;
+                case "option":
+                    {
+                        htmlElement = new HtmlOptionElement(
+                           this,
+                           AddStringIfNotExists(prefix),
+                           AddStringIfNotExists(localName));
+                    }
+                    break;
+                default:
+                    {
+                        htmlElement = new HtmlElement(this,
+                           AddStringIfNotExists(prefix),
+                           AddStringIfNotExists(localName));
+                        htmlElement.WellknownElementName = WellKnownDomNodeMap.EvaluateTagName(htmlElement.LocalName);
+                    }
+                    break;
+            }
             return htmlElement;
         }
         public override DomNode CreateDocumentNodeElement()
@@ -77,6 +113,12 @@ namespace LayoutFarm.Composers
         public bool TryGetCustomBoxGenerator(string customElementName, out CreateCssBoxDelegate cssBoxGen)
         {
             return _registeredCustomElemenGens.TryGetValue(customElementName, out cssBoxGen);
+        }
+        public ImageBinder GetImageBinder(string imgurl)
+        {
+            ImageBinder imgBinder = new ImageBinder(imgurl);
+            Host.ChildRequestImage(imgBinder, null);
+            return imgBinder;
         }
     }
 }

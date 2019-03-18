@@ -25,6 +25,7 @@ namespace LayoutFarm.WebDom
         WebDocument _ownerDoc;
         DomNode _parentNode;
         HtmlNodeKind _nodeKind;
+        DomNode _subParentNode;
 #if DEBUG
         static int dbugTotalId;
         public int dbugId;
@@ -37,22 +38,14 @@ namespace LayoutFarm.WebDom
 #if DEBUG
             this.dbugId = dbugTotalId;
             dbugTotalId++;
-            //if (this.dbugId == 69)
-            //{
-
-            //}
 #endif
 
         }
         public DocumentState DocState => _ownerDoc.DocumentState;
 
-
         public DomNode ParentNode => _parentNode;
 
-
-        DomNode _subParentNode;
         public DomNode SubParentNode => _subParentNode;
-
 
         public void SetSubParentNode(DomNode subParentNode)
         {
@@ -69,8 +62,10 @@ namespace LayoutFarm.WebDom
 
         internal void SetParent(DomNode parentNode)
         {
-
             _parentNode = parentNode;
+        }
+        public virtual void CopyInnerText(DomTextWriter stbuilder)
+        {
         }
     }
 
@@ -100,6 +95,11 @@ namespace LayoutFarm.WebDom
         }
         public char[] GetOriginalBuffer() => _copyBuffer;
 
+
+        public override void CopyInnerText(DomTextWriter domTextWriter)
+        {
+            domTextWriter.Write(_copyBuffer);
+        }
 #if DEBUG
         public override string ToString()
         {
@@ -207,16 +207,11 @@ namespace LayoutFarm.WebDom
 
         public string Prefix => OwnerDocument.GetString(_nodePrefixNameIndex);
 
-
         public string LocalName => OwnerDocument.GetString(_nodeLocalNameIndex);
-
 
         public int LocalNameIndex => _nodeLocalNameIndex;
 
-
         public int PrefixNameIndex => _nodePrefixNameIndex;
-
-
 
 #if DEBUG
         public override string ToString()
@@ -244,8 +239,6 @@ namespace LayoutFarm.WebDom
         //-------------------------------
 
         public string Name => this.LocalName;
-
-
     }
 
 

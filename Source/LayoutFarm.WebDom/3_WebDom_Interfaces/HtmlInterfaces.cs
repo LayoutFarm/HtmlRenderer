@@ -19,6 +19,7 @@ namespace LayoutFarm.WebDom
         IHtmlElement createElement(string nodeName);
         IHtmlDocument createDocumentFragment();
         IHtmlElement createShadowRootElement();
+
     }
     [JsType]
     public interface IHtmlElement : INode
@@ -39,8 +40,40 @@ namespace LayoutFarm.WebDom
         string getData(string key);
         //----------------------
     }
+
+    [JsType]
+    public interface IHasValue
+    {
+        string Value { get; set; }
+    }
+    [JsType]
+    public interface IHtmlOptionElement : IHtmlElement, IHasValue
+    {
+    }
+
+
+
+
+    [JsType]
+    public interface IHtmlInputElement : IHtmlElement
+    {
+        [JsProperty("name")]
+        string InputName { get; set; }
+        [JsProperty("value")]
+        string Value { get; set; }
+        string inputType { get; }
+    }
+
+
+
     [JsType]
     public interface ITextNode : INode
     {
+    }
+
+    [JsType]
+    public interface INodeList
+    {
+
     }
 }

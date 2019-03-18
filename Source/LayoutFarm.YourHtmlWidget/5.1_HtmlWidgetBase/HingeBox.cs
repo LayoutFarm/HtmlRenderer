@@ -17,7 +17,7 @@ namespace LayoutFarm.HtmlWidgets
     public class HingeBox : HtmlWidgetBase
     {
         DomElement _floatPartDomElement;
-        DomElement _presentationNode;
+        HtmlElement _presentationNode;
         Color _backColor = Color.LightGray;
         bool _isOpen;
         HingeFloatPartStyle _floatPartStyle;
@@ -72,16 +72,25 @@ namespace LayoutFarm.HtmlWidgets
         void ItemSelected(LayoutFarm.UI.UIEventArgs e)
         {
             //some item is selected
-            if (e.SourceHitElement is DomElement)
+            WebDom.Impl.HtmlElement srcElem = e.SourceHitElement as WebDom.Impl.HtmlElement;
+            if (srcElem != null)
             {
-                DomElement domElem = (DomElement)e.SourceHitElement;
-                if (domElem.Tag != null)
+                var domElem = e.SourceHitElement as WebDom.Impl.HtmlElement;
+                if (domElem != null)
                 {
                     //selected value
                     _span_textLabel.ClearAllElements();
-                    _span_textLabel.AddTextContent(domElem.Tag.ToString());
-                    NeedUpdateDom = true;
+                    _span_textLabel.AddTextContent(domElem.GetInnerText());
                 }
+                else
+                {
+#if DEBUG
+                    _span_textLabel.ClearAllElements();
+                    _span_textLabel.AddTextContent("???");
+#endif
+                }
+                NeedUpdateDom = true;
+                //}
             }
             e.StopPropagation();
             CloseHinge();
@@ -121,47 +130,48 @@ namespace LayoutFarm.HtmlWidgets
                 if (_items == null) return 0;
                 return _items.Count;
             }
-
         }
 
-
-        public override DomElement GetPresentationDomNode(WebDom.Impl.HtmlDocument htmldoc)
+        public override HtmlElement GetPresentationDomNode(Composers.HtmlElement orgDomElem)
         {
             if (_presentationNode != null)
             {
                 return _presentationNode;
             }
             //-------------------
-            _presentationNode = htmldoc.CreateElement("div");
+
+            _presentationNode = (HtmlElement)orgDomElem.OwnerHtmlDoc.CreateElement("div");
             _presentationNode.AddChild("div", div =>
             {
                 div.SetAttribute("style", "font:10pt tahoma;");
-                div.AddChild("span", span1 =>
-                {
-                    _span_textLabel = span1;
-                    span1.SetAttribute("style", "background-color:white;width:50px;height:20px;");
-                    span1.AddTextContent("");
-                });
+
                 div.AddChild("img", img =>
                 {
                     //init 
-                    img.SetAttribute("src", "arrow_close.png");
+                    img.SetAttribute("src", WidgetResList.arrow_close);
                     img.AttachMouseDownEvent(e =>
                     {
                         if (this.IsOpen)
                         {
-                            img.SetAttribute("src", "arrow_close.png");
+                            img.SetAttribute("src", WidgetResList.arrow_close);
                             this.CloseHinge();
                         }
                         else
                         {
-                            img.SetAttribute("src", "arrow_open.png");
+                            img.SetAttribute("src", WidgetResList.arrow_open);
                             this.OpenHinge();
                         }
 
                         //----------------------------- 
                         e.StopPropagation();
                     });
+                });
+
+                div.AddChild("span", span1 =>
+                {
+                    _span_textLabel = span1;
+                    span1.SetAttribute("style", "background-color:white;width:50px;height:20px;");
+                    span1.AddTextContent("");
                 });
             });
 
@@ -171,10 +181,10 @@ namespace LayoutFarm.HtmlWidgets
             });
             //-------------------
 
-            _floatPartDomElement = this.CreateFloatPartDom(htmldoc);
+            _floatPartDomElement = this.CreateFloatPartDom(orgDomElem.OwnerHtmlDoc);
             return _presentationNode;
         }
-        //
+
         public bool IsOpen => _isOpen;
         //
         public HingeFloatPartStyle FloatPartStyle

@@ -5,8 +5,8 @@ namespace LayoutFarm.WebDom
 {
     public abstract partial class DomElement : DomNode
     {
-        internal int nodePrefixNameIndex;
-        internal int nodeLocalNameIndex;
+        internal readonly int _nodePrefixNameIndex;
+        internal readonly int _nodeLocalNameIndex;
         Dictionary<int, DomAttribute> _myAttributes;
         List<DomNode> _myChildrenNodes;
         //------------------------------------------- 
@@ -17,18 +17,20 @@ namespace LayoutFarm.WebDom
         HtmlEventHandler _evhMouseDown;
         HtmlEventHandler _evhMouseUp;
         HtmlEventHandler _evhMouseLostFocus;
+
+
         public DomElement(WebDocument ownerDoc, int nodePrefixNameIndex, int nodeLocalNameIndex)
             : base(ownerDoc)
         {
-            this.nodePrefixNameIndex = nodePrefixNameIndex;
-            this.nodeLocalNameIndex = nodeLocalNameIndex;
+            _nodePrefixNameIndex = nodePrefixNameIndex;
+            _nodeLocalNameIndex = nodeLocalNameIndex;
             SetNodeType(HtmlNodeKind.OpenElement);
         }
 
         public static bool EqualNames(DomElement node1, DomElement node2)
         {
-            return node1.nodeLocalNameIndex == node2.nodeLocalNameIndex
-                && node1.nodePrefixNameIndex == node2.nodePrefixNameIndex;
+            return node1._nodeLocalNameIndex == node2._nodeLocalNameIndex
+                && node1._nodePrefixNameIndex == node2._nodePrefixNameIndex;
         }
 #if DEBUG
         public override string ToString()
@@ -76,6 +78,10 @@ namespace LayoutFarm.WebDom
 
         public virtual void SetAttribute(DomAttribute attr)
         {
+            SetDomAttribute(attr);
+        }
+        protected void SetDomAttribute(DomAttribute attr)
+        {
             if (_myAttributes == null)
             {
                 _myAttributes = new Dictionary<int, DomAttribute>();
@@ -109,7 +115,7 @@ namespace LayoutFarm.WebDom
             domAttr.Value = value;
             SetAttribute(domAttr);
         }
-        
+
         public void AddAttribute(DomAttribute attr)
         {
             SetAttribute(attr);
@@ -163,6 +169,7 @@ namespace LayoutFarm.WebDom
                     }
             }
         }
+
 
         /// <summary>
         /// clear all children elements
@@ -221,25 +228,17 @@ namespace LayoutFarm.WebDom
             }
         }
 
-
         public int AttributeCount => (_myAttributes != null) ? _myAttributes.Count : 0;
 
+        public string Prefix => OwnerDocument.GetString(_nodePrefixNameIndex);
 
+        public string LocalName => OwnerDocument.GetString(_nodeLocalNameIndex);
 
-        public string Prefix => OwnerDocument.GetString(this.nodePrefixNameIndex);
-
-
-        public string LocalName => OwnerDocument.GetString(this.nodeLocalNameIndex);
-
-
-        public int LocalNameIndex => this.nodeLocalNameIndex;
-
+        public int LocalNameIndex => _nodeLocalNameIndex;
 
         public bool HasAttributeElementId => _attrElemId != null;
 
-
         public bool HasAttributeClass => _attrClass != null;
-
 
         public string AttrClassValue
         {
@@ -267,6 +266,8 @@ namespace LayoutFarm.WebDom
 
         public string Name => this.LocalName;
 
-        public object Tag { get; set; }
+        //public object Tag { get; set; }
+
+
     }
 }

@@ -8,6 +8,8 @@ using LayoutFarm.WebDom;
 namespace LayoutFarm.Composers
 {
 
+    //out actual html element implementation
+
     static class CssParserPool
     {
         static Stack<WebDom.Parser.CssParser> s_pool = new Stack<WebDom.Parser.CssParser>();
@@ -22,10 +24,16 @@ namespace LayoutFarm.Composers
         }
     }
 
-    class HtmlElement : LayoutFarm.WebDom.Impl.HtmlElement
+
+
+    /// <summary>
+    /// general html implementation
+    /// </summary>
+    public class HtmlElement : LayoutFarm.WebDom.Impl.HtmlElement
     {
-        CssBox _principalBox;
-        Css.BoxSpec _boxSpec;
+        protected CssBox _principalBox;
+        protected Css.BoxSpec _boxSpec;
+
         internal HtmlElement(HtmlDocument owner, int prefix, int localNameIndex)
             : base(owner, prefix, localNameIndex)
         {
@@ -33,60 +41,27 @@ namespace LayoutFarm.Composers
         }
         public override void AddChild(DomNode childNode)
         {
+#if DEBUG
             if (_principalBox != null && childNode.NodeKind == HtmlNodeKind.TextNode)
             {
-
             }
+#endif
             base.AddChild(childNode);
         }
-
         public override void SetAttribute(DomAttribute attr)
         {
-            //bool updateBaseAttr = true;
-            //switch ((WellknownName)attr.LocalNameIndex)
-            //{
-            //    case WellknownName.Src:
-            //        {
-            //            switch (this.WellknownElementName)
-            //            {
-            //                case WellKnownDomNodeName.img:
-            //                    {
-            //                        updateBaseAttr = true;
-            //                    }
-            //                    break;
-            //            }
-            //        }
-            //        break;
-            //}
+            SetDomAttribute(attr);
+            ImplSetAttribute(attr);
+        }
 
-            ////----------------------
-            //if (updateBaseAttr)
-            //{
-            base.SetAttribute(attr); //to base
-            //}
+        protected void ImplSetAttribute(DomAttribute attr)
+        {
 
-
+            //handle some attribute
+            //special for some attributes 
 
             switch ((WellknownName)attr.LocalNameIndex)
             {
-                case WellknownName.Src:
-                    {
-                        switch (this.WellknownElementName)
-                        {
-                            case WellKnownDomNodeName.img:
-                                {
-                                    if (_principalBox != null)
-                                    {
-                                        CssBoxImage boxImg = (CssBoxImage)_principalBox;
-                                        boxImg.TempTranstionImageBinder = boxImg.ImageBinder;
-                                        boxImg.ImageBinder = new ImageBinder(attr.Value);// new ImageBinder(attr.Value);
-                                        boxImg.InvalidateGraphics();
-                                    }
-                                }
-                                break;
-                        }
-                    }
-                    break;
                 case WellknownName.Style:
                     {
                         //TODO: parse and evaluate style here 
@@ -184,8 +159,7 @@ namespace LayoutFarm.Composers
 
             //create scrollbar
             //...?
-
-
+            //???
             var scrollView = new CssScrollView(((HtmlDocument)this.OwnerDocument).Host, boxSpec, box.RootGfx);
             scrollView.SetController(this);
             scrollView.SetVisualSize(box.VisualWidth, box.VisualHeight);
@@ -218,6 +192,7 @@ namespace LayoutFarm.Composers
         }
         public override void GetGlobalLocationRelativeToRoot(out int x, out int y)
         {
+
             float globalX, globalY;
             _principalBox.GetGlobalLocationRelativeToRoot(out globalX, out globalY);
             x = (int)globalX;
@@ -234,6 +209,7 @@ namespace LayoutFarm.Composers
                 DomAttribute domAttr;
                 if (this.TryGetAttribute(WellknownName.Style, out domAttr))
                 {
+                    //TODO: add to domAttr?
                     domAttr.Value += ";left:" + x + "px;top:" + y + "px;";
                 }
                 else
@@ -248,13 +224,10 @@ namespace LayoutFarm.Composers
             _principalBox = box;
             this.SkipPrincipalBoxEvalulation = true;
         }
+
         public override float ActualWidth => _principalBox.VisualWidth;
 
-
         public override float ActualHeight => _principalBox.VisualHeight;
-
-
-
 
         //-------------------------------------------
         internal virtual CssBox GetPrincipalBox(CssBox parentCssBox, HtmlHost host)
@@ -300,6 +273,153 @@ namespace LayoutFarm.Composers
             return base.RemoveChild(childNode);
         }
 
+        public HtmlDocument OwnerHtmlDoc => OwnerDocument as HtmlDocument;
+    }
 
+
+    sealed public class HtmlImageElement : HtmlElement
+    {
+        HtmlDocument _owner;
+        internal HtmlImageElement(HtmlDocument owner, int prefix, int localNameIndex)
+         : base(owner, prefix, localNameIndex)
+        {
+            _owner = owner;
+            WellknownElementName = WellKnownDomNodeName.img;
+        }
+        public override void SetAttribute(DomAttribute attr)
+        {
+            //implementation specific...
+            SetDomAttribute(attr);
+            //handle some attribute
+            switch ((WellknownName)attr.LocalNameIndex)
+            {
+                case WellknownName.Src:
+                    {
+                        if (_principalBox != null)
+                        {
+                            CssBoxImage boxImg = (CssBoxImage)_principalBox;
+                            //implementation specific...                           
+                            ImageBinder found = _owner.GetImageBinder(attr.Value);
+                            //if the binder is loaded , not need TempTranstionImageBinder
+                            boxImg.TempTranstionImageBinder = (found.State == BinderState.Loaded) ? null : boxImg.ImageBinder;
+                            boxImg.ImageBinder = found;
+                            boxImg.InvalidateGraphics();
+                        }
+                    }
+                    break;
+                default:
+                    ImplSetAttribute(attr);
+                    break;
+            }
+        }
+    }
+
+
+    public interface IHtmlInputSubDomExtender
+    {
+        string GetInputValue();
+        void SetInputValue(string value);
+    }
+    sealed public class HtmlInputElement : HtmlElement, IHtmlInputElement
+    {
+
+        string _inputValue;
+        string _inputType;
+        string _name;
+        IHtmlInputSubDomExtender _subdomExt;
+
+        internal HtmlInputElement(HtmlDocument owner, int prefix, int localNameIndex)
+        : base(owner, prefix, localNameIndex)
+        {
+            WellknownElementName = WellKnownDomNodeName.input;
+        }
+        public string inputType => _inputType;
+        public string InputName
+        {
+            get => _name;
+            set => _name = value;
+        }
+        public IHtmlInputSubDomExtender SubDomExtender
+        {
+            get => _subdomExt;
+            set => _subdomExt = value;
+        }
+        public string Value
+        {
+            //TODO: add 'live' feature (connect with actual dom)
+            get
+            {
+                if (_subdomExt != null)
+                {
+                    _inputValue = _subdomExt.GetInputValue();
+                }
+                return _inputValue;
+            }
+            set
+            {
+                if (_subdomExt != null)
+                {
+                    _subdomExt.SetInputValue(value);
+                }
+                _inputValue = value;
+            }
+
+        }
+        public override void SetAttribute(DomAttribute attr)
+        {
+            //implementation specific...
+            SetDomAttribute(attr);
+            switch ((WellknownName)attr.LocalNameIndex)
+            {
+                case WellknownName.Name:
+                    _name = attr.Value;
+                    break;
+                case WellknownName.Value:
+                    _inputValue = attr.Value;
+                    if (_subdomExt != null)
+                    {
+                        _subdomExt.SetInputValue(attr.Value);
+                    }
+                    break;
+                case WellknownName.Type:
+                    _inputType = attr.Value;
+                    break;
+                default:
+                    ImplSetAttribute(attr);
+                    break;
+            }
+        }
+
+        //-----------
+
+    }
+    sealed class HtmlOptionElement : HtmlElement, IHtmlOptionElement
+    {
+        string _optionValue;
+        internal HtmlOptionElement(HtmlDocument owner, int prefix, int localNameIndex)
+        : base(owner, prefix, localNameIndex)
+        {
+            WellknownElementName = WellKnownDomNodeName.option;
+        }
+        public override void SetAttribute(DomAttribute attr)
+        {
+            //implementation specific...
+            SetDomAttribute(attr);
+            switch ((WellknownName)attr.LocalNameIndex)
+            {
+                case WellknownName.Value:
+                    _optionValue = attr.Value;
+                    break;
+                default:
+                    ImplSetAttribute(attr);
+                    break;
+            }
+        }
+        public string Value
+        {
+            //TODO: add 'live' feature (connect with actual dom)
+            get => _optionValue;
+            set => _optionValue = value;
+        }
     }
 }

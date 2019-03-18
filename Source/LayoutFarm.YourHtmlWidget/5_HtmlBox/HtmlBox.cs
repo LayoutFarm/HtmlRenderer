@@ -341,7 +341,7 @@ namespace LayoutFarm.CustomWidgets
                 (s, e) => { this.RaiseLayoutFinished(); });
         }
         //
-        public WebDom.IHtmlDocument HtmlDoc => _htmlVisualRoot.WebDocument as WebDom.IHtmlDocument;
+        public WebDom.IHtmlDocument HtmlDoc => _htmlVisualRoot.WebDocument as WebDom.IHtmlDocument; 
 
         public override void SetViewport(int x, int y, object reqBy)
         {

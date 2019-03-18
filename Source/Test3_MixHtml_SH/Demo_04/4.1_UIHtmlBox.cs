@@ -1,8 +1,5 @@
-﻿//Apache2, 2014-present, WinterDev
-
-using PixelFarm.Drawing;
+﻿//Apache2, 2014-present, WinterDev 
 using LayoutFarm.CustomWidgets;
-using YourImplementation;
 
 namespace LayoutFarm
 {
@@ -10,9 +7,9 @@ namespace LayoutFarm
     class Demo_UIHtmlBox : App
     {
 
-        HtmlBox htmlBox;
-        string htmltext;
-        string documentRootPath;
+        HtmlBox _htmlBox;
+        string _htmltext;
+        string _documentRootPath;
         AppHost _host;
 
 
@@ -28,25 +25,48 @@ namespace LayoutFarm
                 contentMx_LoadStyleSheet);
 
             //
-            htmlBox = new HtmlBox(htmlHost, 1024, 800);
-            //htmlBox.SetLocation(100, 0); //test
-            host.AddChild(htmlBox);
-            if (htmltext == null)
+            _htmlBox = new HtmlBox(htmlHost, 1024, 800);
+            _htmlBox.SetLocation(0, 10); //test
+            host.AddChild(_htmlBox);
+            if (_htmltext == null)
             {
-                htmltext = @"<html><head></head><body>NOT FOUND!</body></html>";
+                _htmltext = @"<html><head></head><body>NOT FOUND!</body></html>";
             }
-            htmlBox.LoadHtmlString(htmltext);
+            _htmlBox.LoadHtmlString(_htmltext);
         }
+
+
         void loadingQueue_AskForImg(object sender, LayoutFarm.ContentManagers.ImageRequestEventArgs e)
         {
             //load resource -- sync or async? 
-            string absolutePath = documentRootPath + "\\" + e.ImagSource;
+            //if we enable cache in loadingQueue (default=> enable)
+            //if the loading queue dose not have the req img 
+            //then it will raise event to here
+
+            //we can resolve the req image to specific img
+            //eg. 
+            //1. built -in img from control may has special protocol
+            //2. check if the req want a local file
+            //3. or if req want to download from the network
+            //
+
+            //examples ...
+
+            string absolutePath = null;
+            if (e.ImagSource.StartsWith("built_in://imgs/"))
+            {
+                //substring
+                absolutePath = _documentRootPath + "\\" + e.ImagSource.Substring("built_in://imgs/".Length);
+            }
+            else
+            {
+                absolutePath = _documentRootPath + "\\" + e.ImagSource;
+            }
+
             if (!System.IO.File.Exists(absolutePath))
             {
                 return;
             }
-
-
             //load
             //lets host do img loading... 
 
@@ -56,7 +76,7 @@ namespace LayoutFarm
         }
         void contentMx_LoadStyleSheet(object sender, LayoutFarm.ContentManagers.TextRequestEventArgs e)
         {
-            string absolutePath = documentRootPath + "\\" + e.Src;
+            string absolutePath = _documentRootPath + "\\" + e.Src;
             if (!System.IO.File.Exists(absolutePath))
             {
                 return;
@@ -66,8 +86,8 @@ namespace LayoutFarm
         }
         public void LoadHtml(string documentRootPath, string htmltext)
         {
-            this.documentRootPath = System.IO.Path.GetDirectoryName(documentRootPath);
-            this.htmltext = htmltext;
+            this._documentRootPath = System.IO.Path.GetDirectoryName(documentRootPath);
+            this._htmltext = htmltext;
         }
     }
 }

@@ -1,16 +1,263 @@
 ﻿//BSD, 2014-present, WinterDev 
 //ArthurHub, Jose Manuel Menendez Poo 
 
+using System;
+using System.Collections.Generic;
 using System.Text;
+
 namespace LayoutFarm.WebDom.Impl
 {
+    //--------------------------------------------------
+
+    struct TempContext<T> : IDisposable
+    {
+        internal readonly T _tool;
+        internal TempContext(out T tool)
+        {
+            Temp<T>.GetFreeItem(out _tool);
+            tool = _tool;
+        }
+        public void Dispose()
+        {
+            Temp<T>.Release(_tool);
+        }
+    }
+
+    static class Temp<T>
+    {
+        [System.ThreadStatic]
+        static Stack<T> s_pool;
+        [System.ThreadStatic]
+        static Func<T> s_newHandler;
+        [System.ThreadStatic]
+        static Action<T> s_releaseCleanUp;
+
+        public static TempContext<T> Borrow(out T freeItem)
+        {
+            return new TempContext<T>(out freeItem);
+        }
+
+        public static void SetNewHandler(Func<T> newHandler, Action<T> releaseCleanUp = null)
+        {
+            //set new instance here, must set this first***
+            if (s_pool == null)
+            {
+                s_pool = new Stack<T>();
+            }
+            s_newHandler = newHandler;
+            s_releaseCleanUp = releaseCleanUp;
+        }
+        internal static void GetFreeItem(out T freeItem)
+        {
+            if (s_pool.Count > 0)
+            {
+                freeItem = s_pool.Pop();
+            }
+            else
+            {
+                freeItem = s_newHandler();
+            }
+        }
+        internal static void Release(T item)
+        {
+            s_releaseCleanUp?.Invoke(item);
+            s_pool.Push(item);
+            //... 
+        }
+        public static bool IsInit()
+        {
+            return s_pool != null;
+        }
+    }
+    static class DomTextWriterPool
+    {
+        public static TempContext<DomTextWriter> Borrow(out DomTextWriter writer)
+        {
+            if (!Temp<DomTextWriter>.IsInit())
+            {
+                Temp<DomTextWriter>.SetNewHandler(() => new DomTextWriter(new StringBuilder()),
+                s => s.Clear()
+                );
+            }
+            return Temp<DomTextWriter>.Borrow(out writer);
+        }
+    }
+
+    public class HtmlNodeList : INodeList
+    {
+        LinkedList<HtmlElement> _items = new LinkedList<HtmlElement>();
+        public void AddSelectedItem(HtmlElement elem)
+        {
+            _items.AddLast(elem);
+        }
+
+        public int Count => _items.Count;
+
+        public IEnumerable<HtmlElement> GetElemIter()
+        {
+            var node = _items.First;
+            while (node != null)
+            {
+                yield return node.Value;
+                node = node.Next;
+            }
+        }
+    }
+    public class QuerySelectorPatterns
+    {
+        LinkedList<QuerySelectorPattern> _patts = new LinkedList<QuerySelectorPattern>();
+        public void AddPattern(QuerySelectorPattern patt) => _patts.AddLast(patt);
+        public bool Evaluate(HtmlElement elem)
+        {
+            var node = _patts.First;
+            while (node != null)
+            {
+                if (node.Value.Test(elem))
+                {
+                    //test pass
+                    return true;
+                }
+                node = node.Next;
+            }
+            return false;
+        }
+    }
+
+    public abstract class QuerySelectorPattern
+    {
+        public abstract bool Test(HtmlElement elem);
+    }
+
+
+    public sealed class QuerySelectorPatternById : QuerySelectorPattern
+    {
+        public QuerySelectorPatternById(string id)
+        {
+            Id = id;
+        }
+        public string Id { get; private set; }
+        public override bool Test(HtmlElement elem)
+        {
+            //by id***
+            return elem.AttrElementId == Id;
+        }
+    }
+    public sealed class QuerySelectorPatternByNodeName : QuerySelectorPattern
+    {
+        public QuerySelectorPatternByNodeName(string nodeName) => NodeName = nodeName;
+        public string NodeName { get; private set; }
+        public string ClassName { get; set; }
+        public override bool Test(HtmlElement elem)
+        {
+            //by id***
+            if (NodeName != null)
+            {
+                if (elem.Name == NodeName)
+                {
+                    if (ClassName != null)
+                    {
+                        if (elem.HasAttributeClass &&
+                            elem.AttrClassValue == ClassName)
+                        {
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+            }
+            else if (ClassName != null && elem.HasAttributeClass &&
+                     elem.AttrClassValue == ClassName)
+            {
+                return true;
+            }
+            return false;
+        }
+    }
+    public static class QuerySelectorStringParser
+    {
+
+        static readonly char[] seps = new char[] { ',' };
+        public static QuerySelectorPatterns Parse(string querySelectorStr)
+        {
+            QuerySelectorPatterns querySelectorPattern = new QuerySelectorPatterns();
+
+
+            //https://developer.mozilla.org/en-US/docs/Web/API/Document_object_model/Locating_DOM_elements_using_selectors
+            //Selectors
+
+            //The selector methods accept one or more comma-separated selectors to determine what element or 
+            //elements should be returned. For example, to select all paragraph(p) elements in 
+            //a document whose CSS class is either warning or note, you can do the following:
+
+            //var special = document.querySelectorAll("p.warning, p.note");
+            //        You can also query by ID.For example:
+            //        var el = document.querySelector("#main, #basic, #exclamation");
+            //        After executing the above code, el contains the first element in the document whose ID is one of main, basic, or exclamation.
+            //        You may use any CSS selectors with the querySelector() and querySelectorAll() methods.
+
+            //TODO: review here again
+            string[] patts = querySelectorStr.Split(seps, StringSplitOptions.RemoveEmptyEntries);
+            for (int i = 0; i < patts.Length; ++i)
+            {
+                //parse each pattern
+                QuerySelectorPattern patt = ParsePattern(patts[i].Trim());
+                if (patt != null)
+                {
+                    querySelectorPattern.AddPattern(patt);
+                }
+            }
+            return querySelectorPattern;
+        }
+        static QuerySelectorPattern ParsePattern(string patt)
+        {
+            if (patt.StartsWith("#"))
+            {
+                //by ID
+                return new QuerySelectorPatternById(patt.Substring(1));
+            }
+            else
+            {
+                //TODO: implement more selector pattern 
+                //https://dom.spec.whatwg.org/#dom-parentnode-queryselectorall
+
+                //by elem name
+                int indexOfDot = patt.IndexOf('.');
+                if (indexOfDot < 0)
+                {
+                    return new QuerySelectorPatternByNodeName(patt);
+                }
+                else if (indexOfDot == 0)
+                {
+                    //no node name
+                    //class name only
+                    return new QuerySelectorPatternByNodeName(null)
+                    {
+                        ClassName = patt
+                    };
+                }
+                else
+                {
+                    //has some dot                     
+                    return new QuerySelectorPatternByNodeName(patt.Substring(indexOfDot))
+                    {
+                        ClassName = patt.Substring(indexOfDot)
+                    };
+                }
+            }
+        }
+    }
+
+
     public abstract partial class HtmlElement : DomElement
     {
         CssRuleSet _elementRuleSet;
-
         public HtmlElement(HtmlDocument owner, int prefix, int localNameIndex)
             : base(owner, prefix, localNameIndex)
         {
+
         }
         public WellKnownDomNodeName WellknownElementName { get; set; }
         public bool TryGetAttribute(WellknownName wellknownHtmlName, out DomAttribute result)
@@ -87,31 +334,119 @@ namespace LayoutFarm.WebDom.Impl
         public virtual string GetInnerHtml()
         {
             //get inner html*** 
-            StringBuilder stbuilder = new StringBuilder();
-            DomTextWriter textWriter = new DomTextWriter(stbuilder);
-            foreach (var childnode in this.GetChildNodeIterForward())
+
+            using (DomTextWriterPool.Borrow(out DomTextWriter textWriter))
             {
-                HtmlElement childHtmlNode = childnode as HtmlElement;
-                if (childHtmlNode != null)
+                foreach (var childnode in this.GetChildNodeIterForward())
                 {
-                    childHtmlNode.WriteNode(textWriter);
+                    HtmlElement childHtmlNode = childnode as HtmlElement;
+                    if (childHtmlNode != null)
+                    {
+                        childHtmlNode.WriteNode(textWriter);
+                    }
+                    HtmlTextNode htmlTextNode = childnode as HtmlTextNode;
+                    if (htmlTextNode != null)
+                    {
+                        htmlTextNode.WriteTextNode(textWriter);
+                    }
                 }
-                HtmlTextNode htmlTextNode = childnode as HtmlTextNode;
-                if (htmlTextNode != null)
+                return textWriter.ToString();
+            }
+        }
+ 
+        public HtmlNodeList QuerySelectAll(string pattern)
+        {
+            QuerySelectorPatterns patts = QuerySelectorStringParser.Parse(pattern);
+            if (patts == null) return null;
+            return QuerySelectAll(patts);
+        }
+        public HtmlNodeList QuerySelectAll(QuerySelectorPatterns patts)
+        {
+            HtmlNodeList nodelist = new HtmlNodeList();
+            QuerySelectAll(this, patts, nodelist);
+            return nodelist;
+        }
+        static void QuerySelectAll(HtmlElement elem, QuerySelectorPatterns patts, HtmlNodeList nodelist)
+        {
+            if (elem.ChildrenCount < 1) return;
+            //----------
+            foreach (DomNode childnode in elem.GetChildNodeIterForward())
+            {
+                if (childnode.NodeKind == HtmlNodeKind.OpenElement)
                 {
-                    htmlTextNode.WriteTextNode(textWriter);
+                    HtmlElement htmlElem = (HtmlElement)childnode;
+                    if (patts.Evaluate((HtmlElement)childnode))
+                    {
+                        //found
+                        nodelist.AddSelectedItem(htmlElem);
+                    }
+                    QuerySelectAll(htmlElem, patts, nodelist);
                 }
             }
-            return stbuilder.ToString();
         }
+        public HtmlElement QuerySelector(string pattern)
+        {
+            //TODO: 
+            //parse selector pattern 
+            QuerySelectorPatterns patts = QuerySelectorStringParser.Parse(pattern);
+            if (patts == null) return null;
+            return QuerySelector(patts);
+        }
+        public HtmlElement QuerySelector(QuerySelectorPatterns patts)
+        {
+            //eval child node
+            if (ChildrenCount < 1) return null;
+            //----------
+            foreach (DomNode childnode in this.GetChildNodeIterForward())
+            {
+                if (childnode.NodeKind == HtmlNodeKind.OpenElement)
+                {
+                    HtmlElement htmlElem = (HtmlElement)childnode;
+                    if (!patts.Evaluate((HtmlElement)childnode))
+                    {
+                        //not found
+                        HtmlElement found = ((HtmlElement)childnode).QuerySelector(patts);
+                        if (found != null) return found;
+                    }
+                    else
+                    {
+                        //found
+                        return (HtmlElement)childnode;
+                    }
+                }
 
+            }
+            return null;
+        }
+        public virtual string GetInnerText()
+        {
+
+            using (DomTextWriterPool.Borrow(out DomTextWriter textWriter))
+            {
+                foreach (var childnode in this.GetChildNodeIterForward())
+                {
+                    HtmlElement childHtmlNode = childnode as HtmlElement;
+                    if (childHtmlNode != null)
+                    {
+                        childHtmlNode.CopyInnerText(textWriter);
+                    }
+                    DomTextNode textnode = childnode as DomTextNode;
+                    if (textnode != null)
+                    {
+                        textnode.CopyInnerText(textWriter);
+                    }
+                }
+                return textWriter.ToString();
+            }
+
+        }
         public virtual void SetInnerHtml(string innerHtml)
         {
             //parse html and create dom node
             //clear content of this node
             this.ClearAllElements();
-
         }
+
         public virtual void WriteNode(DomTextWriter writer)
         {
             //write node

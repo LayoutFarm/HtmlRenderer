@@ -69,7 +69,7 @@ namespace LayoutFarm.HtmlBoxes
                 //add relation between viewpanel and scroll bar 
                 _vscRelation = new ScrollingRelation(_vscbar.SliderBox, _scrollView);
                 //---------------------- 
-                CssBox scBarWrapCssBox = LayoutFarm.Composers.CustomCssBoxGenerator.CreateWrapper(
+                CssBox scBarWrapCssBox = LayoutFarm.Composers.CustomCssBoxGenerator.CreateCssWrapper(
                             _htmlhost,
                              _vscbar,
                              _vscbar.GetPrimaryRenderElement((RootGraphic)this.GetInternalRootGfx()),
@@ -89,7 +89,7 @@ namespace LayoutFarm.HtmlBoxes
                 _hscRelation = new ScrollingRelation(_hscbar.SliderBox, _scrollView);
                 //---------------------- 
 
-                CssBox scBarWrapCssBox = LayoutFarm.Composers.CustomCssBoxGenerator.CreateWrapper(
+                CssBox scBarWrapCssBox = LayoutFarm.Composers.CustomCssBoxGenerator.CreateCssWrapper(
                         _htmlhost,
                          _hscbar,
                          _hscbar.GetPrimaryRenderElement((RootGraphic)this.GetInternalRootGfx()),

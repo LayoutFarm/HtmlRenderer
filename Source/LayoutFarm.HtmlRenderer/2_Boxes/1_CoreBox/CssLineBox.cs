@@ -135,7 +135,10 @@ namespace LayoutFarm.HtmlBoxes
         }
         internal float CachedLineBottom => this.CachedLineTop + this.CacheLineHeight;
         internal float CacheLineHeight { get; private set; }
-        internal float CachedLineTop { get; set; }//relative top compare to its parent
+        /// <summary>
+        /// line top relative to its parent 
+        /// </summary>
+        internal float CachedLineTop { get; set; }
         //
         internal float CachedLineContentWidth { get; set; }
         internal float CachedExactContentWidth { get; set; }
@@ -437,7 +440,22 @@ namespace LayoutFarm.HtmlBoxes
                 {
                     case CssRunKind.SolidContent:
                         {
-                            w.OwnerBox.Paint(p, new RectangleF(w.Left, w.Top, w.Width, w.Height));
+#if DEBUG
+                            //System.Diagnostics.Debug.WriteLine("ox,oy=" + p.CanvasOriginX + "," + p.CanvasOriginY);
+                            //System.Diagnostics.Debug.WriteLine("clip=" + p.CurrentClipRect); 
+#endif
+
+                            Rectangle currentClipRect = p.CurrentClipRect;
+                            Rectangle wRect = new Rectangle((int)w.Left, (int)w.Top, (int)w.Width, (int)w.Height);
+                            wRect.Intersect(currentClipRect);
+#if DEBUG
+                            //System.Diagnostics.Debug.WriteLine("empty_clip=" + (wRect.Height == 0 || wRect.Width == 0));
+#endif
+
+                            if (wRect.Height != 0 && wRect.Width != 0)
+                            {
+                                w.OwnerBox.Paint(p, new RectangleF(w.Left, w.Top, w.Width, w.Height));
+                            }
                         }
                         break;
                     case CssRunKind.BlockRun:

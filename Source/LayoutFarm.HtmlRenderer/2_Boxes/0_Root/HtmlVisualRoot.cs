@@ -252,8 +252,7 @@ namespace LayoutFarm.HtmlBoxes
         }
 
         //------------------------------------------------------------------
-        protected abstract void OnRequestImage(ImageBinder binder,
-            object reqFrom, bool _sync);
+        protected abstract void OnRequestImage(ImageBinder binder, object reqFrom);
 
         internal void RaiseImageRequest(
             ImageBinder binder,
@@ -262,7 +261,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             //async by default
 
-            OnRequestImage(binder, reqBy, false);
+            OnRequestImage(binder, reqBy);
         }
 
         protected abstract void OnRequestScrollView(CssBox box);

@@ -9,15 +9,14 @@ namespace LayoutFarm.CustomWidgets
 {
     public class MyCustomCssBoxGenerator : CustomCssBoxGenerator
     {
-        HtmlBoxes.HtmlHost myHost;
+        HtmlHost _myHost;
         public MyCustomCssBoxGenerator(HtmlBoxes.HtmlHost myHost)
         {
-            this.myHost = myHost;
-
+            _myHost = myHost;
         }
 
         public override CssBox CreateCssBox(
-            DomElement domE,
+            HtmlElement domE,
             CssBox parentBox,
             BoxSpec spec,
             HtmlHost host)
@@ -26,7 +25,7 @@ namespace LayoutFarm.CustomWidgets
             {
                 case "select":
                     {
-                        CssBox selectedBox = CreateSelectBox(domE, parentBox, spec, myHost.RootGfx, host);
+                        CssBox selectedBox = CreateSelectBox(domE, parentBox, spec, _myHost.RootGfx, host);
                         if (selectedBox != null)
                         {
                             return selectedBox;
@@ -35,7 +34,7 @@ namespace LayoutFarm.CustomWidgets
                     break;
                 case "input":
                     {
-                        CssBox inputBox = CreateInputBox(domE, parentBox, spec, myHost.RootGfx, host);
+                        CssBox inputBox = CreateInputBox(domE, parentBox, spec, _myHost.RootGfx, host);
                         if (inputBox != null)
                         {
                             return inputBox;
@@ -46,11 +45,12 @@ namespace LayoutFarm.CustomWidgets
                     {
                         //test only
                         //TODO: review here
+                        //software canvas ?
                         var canvas = new LayoutFarm.CustomWidgets.MiniAggCanvasBox(400, 400);
-                        var wrapperBox = CreateWrapper(
-                            host,
+                        CssBox wrapperBox = CreateCssWrapper(
+                             host,
                              canvas,
-                             canvas.GetPrimaryRenderElement(myHost.RootGfx),
+                             canvas.GetPrimaryRenderElement(_myHost.RootGfx),
                              spec, true);
                         parentBox.AppendChild(wrapperBox);
                         return wrapperBox;
@@ -60,17 +60,17 @@ namespace LayoutFarm.CustomWidgets
             //default unknown
             var simpleBox = new LayoutFarm.CustomWidgets.Box(100, 20);
             simpleBox.BackColor = PixelFarm.Drawing.Color.LightGray;
-            var wrapperBox2 = CreateWrapper(
+            CssBox wrapperBox2 = CreateCssWrapper(
                                host,
                                simpleBox,
-                               simpleBox.GetPrimaryRenderElement(myHost.RootGfx),
+                               simpleBox.GetPrimaryRenderElement(_myHost.RootGfx),
                                spec, false);
             parentBox.AppendChild(wrapperBox2);
             return wrapperBox2;
         }
 
 
-        CssBox CreateSelectBox(DomElement domE,
+        CssBox CreateSelectBox(HtmlElement domE,
             CssBox parentBox,
             BoxSpec spec,
             LayoutFarm.RootGraphic rootgfx, HtmlHost host)
@@ -78,10 +78,9 @@ namespace LayoutFarm.CustomWidgets
             //https://www.w3schools.com/html/html_form_elements.asp
 
             //1. as drop-down list
-            //2. as list-box
+            //2. as list-box 
 
-
-            WebDom.Impl.HtmlElement htmlElem = ((WebDom.Impl.HtmlElement)domE);
+            WebDom.Impl.HtmlElement htmlElem = (WebDom.Impl.HtmlElement)domE;
             htmlElem.HasSpecialPresentation = true;
             //
             LayoutFarm.HtmlWidgets.HingeBox hingeBox = new LayoutFarm.HtmlWidgets.HingeBox(100, 30); //actual controller
@@ -92,20 +91,25 @@ namespace LayoutFarm.CustomWidgets
                 if (childElem != null)
                 {
                     //find a value 
-                    if (childElem.WellknownElementName == WellKnownDomNodeName.option)
-                    {
-                        DomAttribute domAttr = childElem.FindAttribute("value");
-                        if (domAttr != null)
-                        {
-                            childElem.Tag = domAttr.Value;
-                        }
-                    }
+                    //if (childElem.WellknownElementName == WellKnownDomNodeName.option)
+                    //{
+                    //    WebDom.IHtmlOptionElement option = childElem as WebDom.IHtmlOptionElement;
+                    //    if (option != null)
+                    //    {
+
+                    //    }
+                    //    //DomAttribute domAttr = childElem.FindAttribute("value");
+                    //    //if (domAttr != null)
+                    //    //{
+                    //    //    childElem.Tag = domAttr.Value;
+                    //    //}
+                    //}
                     hingeBox.AddItem(childElem);
                 }
             }
 
-            LayoutFarm.WebDom.Impl.HtmlElement hingeBoxDom = (LayoutFarm.WebDom.Impl.HtmlElement)hingeBox.GetPresentationDomNode((WebDom.Impl.HtmlDocument)domE.OwnerDocument);
-            CssBox cssHingeBox = host.CreateBox(parentBox, hingeBoxDom, true); //create and append to the parentBox 
+            LayoutFarm.WebDom.Impl.HtmlElement hingeBoxDom = (LayoutFarm.WebDom.Impl.HtmlElement)hingeBox.GetPresentationDomNode(domE);
+            CssBox cssHingeBox = host.CreateCssBox(parentBox, hingeBoxDom, true); //create and append to the parentBox 
             //
             hingeBoxDom.SetSubParentNode(domE);
             cssHingeBox.IsReplacement = true;
@@ -123,7 +127,22 @@ namespace LayoutFarm.CustomWidgets
             return cssHingeBox;
         }
 
-        CssBox CreateInputBox(DomElement domE,
+
+        class TextBoxInputSubDomExtender : IHtmlInputSubDomExtender
+        {
+            LayoutFarm.CustomWidgets.TextBoxContainer _textboxContainer;
+            public TextBoxInputSubDomExtender(LayoutFarm.CustomWidgets.TextBoxContainer textboxContainer)
+            {
+                _textboxContainer = textboxContainer;
+            }
+
+            string IHtmlInputSubDomExtender.GetInputValue() => _textboxContainer.GetText();
+            void IHtmlInputSubDomExtender.SetInputValue(string value) => _textboxContainer.SetText(value);
+        }
+
+
+
+        CssBox CreateInputBox(HtmlElement domE,
             CssBox parentBox,
             BoxSpec spec,
             LayoutFarm.RootGraphic rootgfx, HtmlHost host)
@@ -153,10 +172,8 @@ namespace LayoutFarm.CustomWidgets
             //text
             //time
             //url
-            //week
-
-
-
+            //week 
+            HtmlInputElement htmlInputElem = (HtmlInputElement)domE;
             var typeAttr = domE.FindAttribute("type");
             if (typeAttr != null)
             {
@@ -165,13 +182,16 @@ namespace LayoutFarm.CustomWidgets
 
                     case "password":
                         {
-
                             var textbox = new LayoutFarm.CustomWidgets.TextBoxContainer(100, 20, false, true);
-                            CssBox wrapperBox = CreateWrapper(
+                            CssBox wrapperBox = CreateCssWrapper(
                                  host,
                                  textbox,
                                  textbox.GetPrimaryRenderElement(rootgfx),
                                  spec, true);
+
+                            var subdomExtender = new TextBoxInputSubDomExtender(textbox);
+                            htmlInputElem.SubDomExtender = subdomExtender;//connect 
+
                             //place holder support
                             DomAttribute placeHolderAttr = domE.FindAttribute("placeholder");
                             if (placeHolderAttr != null)
@@ -186,11 +206,15 @@ namespace LayoutFarm.CustomWidgets
                             // user can specific width of textbox 
                             //var textbox = new LayoutFarm.CustomWidgets.TextBox(100, 17, false);
                             var textbox = new LayoutFarm.CustomWidgets.TextBoxContainer(100, 20, false);
-                            CssBox wrapperBox = CreateWrapper(
+                            CssBox wrapperBox = CreateCssWrapper(
                                  host,
                                  textbox,
                                  textbox.GetPrimaryRenderElement(rootgfx),
                                  spec, true);
+
+                            var subdomExtender = new TextBoxInputSubDomExtender(textbox);
+                            htmlInputElem.SubDomExtender = subdomExtender;//connect 
+
                             //place holder support
                             DomAttribute placeHolderAttr = domE.FindAttribute("placeholder");
                             if (placeHolderAttr != null)
@@ -215,47 +239,46 @@ namespace LayoutFarm.CustomWidgets
                                 button.Text = "testButton";
                             }
 
-                            WebDom.Impl.HtmlElement buttonDom = (WebDom.Impl.HtmlElement)button.GetPresentationDomNode((HtmlDocument)domE.OwnerDocument);
+                            HtmlElement buttonDom = button.GetPresentationDomNode(domE);
                             buttonDom.SetAttribute("style", "width:20px;height:20px;background-color:white;cursor:pointer");
-                            CssBox buttonCssBox = host.CreateBox(parentBox, buttonDom, true);
+                            CssBox buttonCssBox = host.CreateCssBox(parentBox, buttonDom, true);
                             parentBox.AppendChild(buttonCssBox);
                             return buttonCssBox;
                         }
                     case "checkbox":
                         {
                             //implement with choice box + multiple value
-                            var button = new HtmlWidgets.ChoiceBox(10, 10);
-                            button.OnlyOne = false; //*** show as checked box 
-                            var ihtmlElement = domE as LayoutFarm.WebDom.IHtmlElement;
-                            WebDom.Impl.HtmlElement buttonDom = (WebDom.Impl.HtmlElement)button.GetPresentationDomNode((HtmlDocument)domE.OwnerDocument);
+
+                            var chkbox = new HtmlWidgets.ChoiceBox(18, 10);
+                            chkbox.SetHtmlInputBox(htmlInputElem);
+                            chkbox.OnlyOne = false; //*** show as checked box 
+
+
+
+
+                            HtmlElement chkBoxElem = chkbox.GetPresentationDomNode(domE);
                             //buttonDom.SetAttribute("style", "width:20px;height:20px;background-color:red;cursor:pointer");
-                            CssBox buttonCssBox = host.CreateBox(parentBox, buttonDom, true); //create and append to the parentBox
+
+                            CssBox chkCssBox = host.CreateCssBox(parentBox, chkBoxElem, true); //create and append to the parentBox
+                            htmlInputElem.SubDomExtender = chkbox;//connect 
+
 #if DEBUG
-                            buttonCssBox.dbugMark1 = 1;
+                            chkCssBox.dbugMark1 = 1;
 #endif
-                            return buttonCssBox;
+                            return chkCssBox;
                         }
 
                     case "radio":
                         {
-                            var button = new HtmlWidgets.ChoiceBox(10, 10);
-                            button.OnlyOne = true;// show as option box
 
-                            var ihtmlElement = domE as LayoutFarm.WebDom.IHtmlElement;
-
-                            //if (ihtmlElement != null)
-                            //{
-                            //    button.Text = ihtmlElement.innerHTML;
-                            //}
-                            //else
-                            //{
-                            //    button.Text = "testButton";
-                            //}
-                            //button.Text = "C";
-
-                            WebDom.Impl.HtmlElement buttonDom = (WebDom.Impl.HtmlElement)button.GetPresentationDomNode((HtmlDocument)domE.OwnerDocument);
+                            var radio = new HtmlWidgets.ChoiceBox(10, 10);
+                            radio.OnlyOne = true;// show as option box  
+                            HtmlElement radioElem = radio.GetPresentationDomNode(domE);
                             //buttonDom.SetAttribute("style", "width:20px;height:20px;background-color:red;cursor:pointer");
-                            CssBox buttonCssBox = host.CreateBox(parentBox, buttonDom, true); //create and append to the parentBox
+
+                            CssBox buttonCssBox = host.CreateCssBox(parentBox, radioElem, true); //create and append to the parentBox
+                            htmlInputElem.SubDomExtender = radio;//connect 
+
 #if DEBUG
                             buttonCssBox.dbugMark1 = 1;
 #endif
@@ -267,7 +290,7 @@ namespace LayoutFarm.CustomWidgets
                             //tempfix -> just copy the Button code,
                             //TODO: review here, use proper radio button 
                             var box = new LayoutFarm.CustomWidgets.Box(20, 20);
-                            CssBox wrapperBox = CreateWrapper(
+                            CssBox wrapperBox = CreateCssWrapper(
                                  host,
                                  box,
                                  box.GetPrimaryRenderElement(rootgfx),

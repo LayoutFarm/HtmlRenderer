@@ -1396,7 +1396,7 @@
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\LayoutFarm.HtmlComposer\7_Events\RenderElementEventPortal.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\0_WidgetBase.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\Button.cs" />
-    <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\CheckBox.cs" />
+    <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\ChoiceBox.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\ComboBox.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\HingeBox.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\HtmlDomExtension.cs" />
@@ -1405,6 +1405,7 @@
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\ScrollBar.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\TabPageBox.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\TreeView.cs" />
+    <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\WidgetResList.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\LayoutFarm.YourHtmlWidget\5_HtmlBox\HtmlBox.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\LayoutFarm.YourHtmlWidget\5_HtmlBox\HtmlHostContentManager.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\LayoutFarm.YourHtmlWidget\5_HtmlBox\HtmlHostExtensions.cs" />

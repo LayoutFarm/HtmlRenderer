@@ -1,6 +1,7 @@
 ﻿//Apache2, 2014-present, WinterDev
 
 
+using LayoutFarm.Composers;
 using LayoutFarm.WebDom;
 using LayoutFarm.WebDom.Extension;
 namespace LayoutFarm.HtmlWidgets
@@ -8,7 +9,7 @@ namespace LayoutFarm.HtmlWidgets
     public class Button : HtmlWidgetBase
     {
         string _buttonText = "";
-        DomElement _pnode;
+        HtmlElement _pnode;
         public Button(int w, int h)
             : base(w, h)
         {
@@ -19,11 +20,11 @@ namespace LayoutFarm.HtmlWidgets
             get => _buttonText;
             set => _buttonText = value;
         }
-        public override DomElement GetPresentationDomNode(WebDom.Impl.HtmlDocument htmldoc)
+        public override HtmlElement GetPresentationDomNode(Composers.HtmlElement orgDomElem)
         {
             if (_pnode != null) return _pnode;
             //----------------------------------
-            _pnode = htmldoc.CreateElement("div");
+            _pnode = (HtmlElement)orgDomElem.OwnerHtmlDoc.CreateElement("div");
             _pnode.SetAttribute("style", "display:inline-block;width:" + Width + "px;height:" + this.Height + "px;cursor:pointer");
             _pnode.AddChild("div", div2 =>
             {
@@ -42,9 +43,9 @@ namespace LayoutFarm.HtmlWidgets
 #endif
                 div2.AttachMouseDownEvent(e =>
                 {
-#if DEBUG
+            #if DEBUG
                     //                    div2.dbugMark = 1;
-#endif
+            #endif
                     // div2.SetAttribute("style", "padding:5px;background-color:#aaaaaa;");
                     //EaseScriptElement ee = new EaseScriptElement(div2);
                     //ee.ChangeBackgroundColor(Color.FromArgb(0xaa, 0xaa, 0xaa));
