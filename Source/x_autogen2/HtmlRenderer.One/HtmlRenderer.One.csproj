@@ -4121,9 +4121,6 @@
     <Compile Include="..\..\LayoutFarm.HtmlComposer\7_Events\HtmlInputEventAdapter.cs">
       <Link>LayoutFarm.HtmlComposer\7_Events\HtmlInputEventAdapter.cs</Link>
     </Compile>
-    <Compile Include="..\..\LayoutFarm.HtmlComposer\7_Events\RenderElementEventPortal.cs">
-      <Link>LayoutFarm.HtmlComposer\7_Events\RenderElementEventPortal.cs</Link>
-    </Compile>
     <Compile Include="..\..\LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\0_WidgetBase.cs">
       <Link>LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\0_WidgetBase.cs</Link>
     </Compile>

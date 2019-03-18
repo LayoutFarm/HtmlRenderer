@@ -483,7 +483,6 @@
     <Compile Include="6_Svg\SvgRootEventPortal.cs" />
     <Compile Include="6_Svg\SvgRootEventPortal_IEventPortal.cs" />
     <Compile Include="7_Events\HtmlInputEventAdapter.cs" />
-    <Compile Include="7_Events\RenderElementEventPortal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
