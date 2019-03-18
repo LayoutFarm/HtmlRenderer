@@ -20,7 +20,7 @@ namespace LayoutFarm.Composers
             var portalEvent = owner as IEventPortal;
             if (portalEvent == null)
             {
-                portalEvent = new RenderElementEventPortal2(renderElement);
+                portalEvent = new RenderElementEventPortal(renderElement);
             }
 
             if (isInline)

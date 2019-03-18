@@ -1394,7 +1394,6 @@
     <Compile Include="..\..\LayoutFarm.HtmlComposer\6_Svg\SvgRootEventPortal.cs" Link="LayoutFarm.HtmlComposer\6_Svg\SvgRootEventPortal.cs" />
     <Compile Include="..\..\LayoutFarm.HtmlComposer\6_Svg\SvgRootEventPortal_IEventPortal.cs" Link="LayoutFarm.HtmlComposer\6_Svg\SvgRootEventPortal_IEventPortal.cs" />
     <Compile Include="..\..\LayoutFarm.HtmlComposer\7_Events\HtmlInputEventAdapter.cs" Link="LayoutFarm.HtmlComposer\7_Events\HtmlInputEventAdapter.cs" />
-    <Compile Include="..\..\LayoutFarm.HtmlComposer\7_Events\RenderElementEventPortal.cs" Link="LayoutFarm.HtmlComposer\7_Events\RenderElementEventPortal.cs" />
     <Compile Include="..\..\LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\0_WidgetBase.cs" Link="LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\0_WidgetBase.cs" />
     <Compile Include="..\..\LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\Button.cs" Link="LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\Button.cs" />
     <Compile Include="..\..\LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\ChoiceBox.cs" Link="LayoutFarm.YourHtmlWidget\5.1_HtmlWidgetBase\ChoiceBox.cs" />

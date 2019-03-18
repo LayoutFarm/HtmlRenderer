@@ -39,8 +39,8 @@ x64/
 *.vssscc
 .builds
 Source/Deps/PixelFarm
-
 Source/Deps/PixelFarm/*
+Source/Deps_HtmlKit/NUnit-2.6.4
 
 # Visual C++ cache files
 ipch/
