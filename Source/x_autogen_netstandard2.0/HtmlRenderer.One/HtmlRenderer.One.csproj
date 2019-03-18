@@ -904,6 +904,7 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\LayoutFarm.YourBasicCustomWidgets_SH\8.2_Canvas\MiniAggCanvasRenderElement.cs" Link="PixelFarm\src\PixelFarm\LayoutFarm.YourBasicCustomWidgets_SH\8.2_Canvas\MiniAggCanvasRenderElement.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\LayoutFarm.YourBasicCustomWidgets_SH\9_TextContentSplitter\ContentTextSplitter.cs" Link="PixelFarm\src\PixelFarm\LayoutFarm.YourBasicCustomWidgets_SH\9_TextContentSplitter\ContentTextSplitter.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.AbstractPlatform\Accessories\KnownColors.cs" Link="PixelFarm\src\PixelFarm\PaintLab.AbstractPlatform\Accessories\KnownColors.cs" />
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.AbstractPlatform\TempContext.cs" Link="PixelFarm\src\PixelFarm\PaintLab.AbstractPlatform\TempContext.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.PlatformBridge\Common\Clipboard.cs" Link="PixelFarm\src\PixelFarm\PaintLab.PlatformBridge\Common\Clipboard.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.PlatformBridge\Common\GeneralEventListener.cs" Link="PixelFarm\src\PixelFarm\PaintLab.PlatformBridge\Common\GeneralEventListener.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.PlatformBridge\Common\IPlatformWindowBox.cs" Link="PixelFarm\src\PixelFarm\PaintLab.PlatformBridge\Common\IPlatformWindowBox.cs" />
@@ -1553,6 +1554,7 @@
     <Folder Include="PixelFarm\src\PixelFarm\LayoutFarm.YourBasicCustomWidgets_SH\8.2_Canvas" />
     <Folder Include="PixelFarm\src\PixelFarm\LayoutFarm.YourBasicCustomWidgets_SH\9_TextContentSplitter" />
     <Folder Include="PixelFarm\src\PixelFarm\PaintLab.AbstractPlatform\Accessories" />
+    <Folder Include="PixelFarm\src\PixelFarm\PaintLab.AbstractPlatform" />
     <Folder Include="PixelFarm\src\PixelFarm\PaintLab.PlatformBridge\Common" />
     <Folder Include="PixelFarm\src\PixelFarm\PaintLab.PlatformBridge\Events" />
     <Folder Include="PixelFarm\src\PixelFarm\PaintLab.RenderTree.TextSurface\1.1_EditableRuns" />

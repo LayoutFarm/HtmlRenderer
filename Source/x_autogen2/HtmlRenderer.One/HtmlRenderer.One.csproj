@@ -2651,6 +2651,9 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.AbstractPlatform\Accessories\KnownColors.cs">
       <Link>PixelFarm\src\PixelFarm\PaintLab.AbstractPlatform\Accessories\KnownColors.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.AbstractPlatform\TempContext.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.AbstractPlatform\TempContext.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.PlatformBridge\Common\Clipboard.cs">
       <Link>PixelFarm\src\PixelFarm\PaintLab.PlatformBridge\Common\Clipboard.cs</Link>
     </Compile>
