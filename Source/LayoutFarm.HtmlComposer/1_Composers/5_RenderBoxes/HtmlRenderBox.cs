@@ -171,7 +171,7 @@ namespace LayoutFarm.HtmlBoxes
         //
         public int HtmlHeight => (int)_myHtmlVisualRoot.ActualHeight;
         //
-        protected override void OnInvalidateGraphicsNoti(bool fromMe, Rectangle totalBounds)
+        protected override void OnInvalidateGraphicsNoti(bool fromMe, ref Rectangle totalBounds)
         {
             if (_builtInBackBuffer != null)
             {
@@ -195,17 +195,12 @@ namespace LayoutFarm.HtmlBoxes
                     _invalidateRect = Rectangle.Union(_invalidateRect, totalBounds);
                 }
             }
-            //base.OnInvalidateGraphicsNoti(totalBounds);//skip
-        }
-        protected override void OnBridgeAdjustBounds(ref Rectangle totalBounds)
-        {
-            if (_builtInBackBuffer == null)
+            else
             {
                 totalBounds.Offset(this.X, this.Y);
             }
-
-        }
-
+            //base.OnInvalidateGraphicsNoti(totalBounds);//skip
+        } 
     }
 
     static class PaintVisitorStock

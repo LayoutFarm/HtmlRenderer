@@ -23,7 +23,6 @@ namespace LayoutFarm.HtmlBoxes
 
     class CssIsolateBox : CssBox
     {
-
         public CssIsolateBox(BoxSpec spec, RootGraphic rootgfx)
             : base(spec, new CssBoxRootGfxBridge(rootgfx))
         {
@@ -40,18 +39,8 @@ namespace LayoutFarm.HtmlBoxes
         {
             _containerElement = containerElement;
         }
-        public override void InvalidateGraphics(Rectangle clientArea)
-        {
-            //send to container element
-            //#if DEBUG
-            //            System.Diagnostics.Debug.WriteLine("re-bridge_cssbox_invalidateGfx:" + clientArea.ToString());
-            //#endif 
-            //clientArea.Offset(_containerElement.X, _containerElement.Y);
-            RenderElement.BridgeAdjustBounds(_containerElement, ref clientArea);
-            _containerElement.InvalidateParentGraphics(clientArea);
-        }
+        public override void InvalidateGraphics(Rectangle clientArea) => _containerElement.InvalidateParentGraphics(clientArea);
         public LayoutFarm.RenderElement ContainerElement => _containerElement;
-
         protected override void GetGlobalLocationImpl(out float globalX, out float globalY)
         {
             Point p = _containerElement.GetGlobalLocation();
