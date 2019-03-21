@@ -60,20 +60,8 @@ namespace LayoutFarm.WebDom
             }
         }
 
-        public int ChildrenCount
-        {
-            get
-            {
-                if (_myChildrenNodes != null)
-                {
-                    return _myChildrenNodes.Count;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-        }
+        public int ChildrenCount => (_myChildrenNodes != null) ? _myChildrenNodes.Count : 0;
+
         public DomNode GetChildNode(int index) => _myChildrenNodes[index];
 
         public virtual void SetAttribute(DomAttribute attr)
@@ -111,7 +99,7 @@ namespace LayoutFarm.WebDom
         }
         public void SetAttribute(string attrName, string value)
         {
-            SetAttribute(this.OwnerDocument.CreateAttribute(attrName, value);
+            SetAttribute(this.OwnerDocument.CreateAttribute(attrName, value));
         }
 
         public void AddAttribute(DomAttribute attr)
@@ -186,6 +174,11 @@ namespace LayoutFarm.WebDom
             }
         }
 
+        /// <summary>
+        /// when we change dom element, the change may affect some part of dom/ or entire document
+        /// </summary>
+        /// <param name="changeKind"></param>
+        /// <param name="attr"></param>
         public void NotifyChange(ElementChangeKind changeKind, DomAttribute attr)
         {
             switch (this.DocState)
