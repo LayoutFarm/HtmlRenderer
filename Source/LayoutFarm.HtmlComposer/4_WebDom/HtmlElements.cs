@@ -33,6 +33,7 @@ namespace LayoutFarm.Composers
     {
         protected CssBox _principalBox;
         protected Css.BoxSpec _boxSpec;
+        HtmlElement _subParentNode;
 
         internal HtmlElement(HtmlDocument owner, int prefix, int localNameIndex)
             : base(owner, prefix, localNameIndex)
@@ -48,7 +49,12 @@ namespace LayoutFarm.Composers
 #endif
             base.AddChild(childNode);
         }
+        public HtmlElement SubParentNode => _subParentNode;
 
+        public void SetSubParentNode(HtmlElement subParentNode)
+        {
+            _subParentNode = subParentNode;
+        }
         public override void SetAttribute(DomAttribute attr)
         {
             SetDomAttribute(attr);
