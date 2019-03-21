@@ -25,7 +25,6 @@ namespace LayoutFarm.WebDom
         WebDocument _ownerDoc;
         DomNode _parentNode;
         HtmlNodeKind _nodeKind;
-        DomNode _subParentNode;
 #if DEBUG
         static int dbugTotalId;
         public int dbugId;
@@ -39,18 +38,11 @@ namespace LayoutFarm.WebDom
             this.dbugId = dbugTotalId;
             dbugTotalId++;
 #endif
-
         }
         public DocumentState DocState => _ownerDoc.DocumentState;
 
         public DomNode ParentNode => _parentNode;
 
-        public DomNode SubParentNode => _subParentNode;
-
-        public void SetSubParentNode(DomNode subParentNode)
-        {
-            _subParentNode = subParentNode;
-        }
         protected void SetNodeType(HtmlNodeKind nodekind)
         {
             _nodeKind = nodekind;
