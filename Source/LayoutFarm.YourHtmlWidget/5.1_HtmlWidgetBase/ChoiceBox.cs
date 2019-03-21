@@ -16,7 +16,7 @@ namespace LayoutFarm.HtmlWidgets
         /// presentation node
         /// </summary>
         HtmlElement _pnode;
-        DomElement _imgNode;
+        HtmlImageElement _imgNode;
         bool _checked;
         LayoutFarm.Composers.HtmlInputElement _htmlInput;
 
@@ -64,19 +64,19 @@ namespace LayoutFarm.HtmlWidgets
         public override HtmlElement GetPresentationDomNode(Composers.HtmlElement orgDomElem)
         {
             if (_pnode != null) return _pnode;
-            //----------------------------------
-            _pnode = (HtmlElement)orgDomElem.OwnerDocument.CreateElement("div");
+            //---------------------------------- 
+
+            _pnode = orgDomElem.OwnerHtmlDoc.CreateHtmlDiv();
             _pnode.SetAttribute("style", "display:inline-block;width:" + Width + "px;height:" + this.Height + "px;cursor:pointer");
-            _pnode.AddChild("div", div2 =>
+            _pnode.AddHtmlDivElement(div2 =>
             {
+
                 //init
                 //div2.SetAttribute("style", "background-color:#dddddd;color:black;");
                 div2.SetAttribute("style", "color:black;");
 
-                _imgNode = div2.AddChild("img");
-
+                _imgNode = div2.AddHtmlImageElement();
                 _imgNode.SetAttribute("src", OnlyOne ? WidgetResList.opt_unchecked : WidgetResList.chk_unchecked);
-
                 _imgNode.AttachMouseDownEvent(e =>
                 {
 
@@ -112,7 +112,10 @@ namespace LayoutFarm.HtmlWidgets
                     //                    //ee.ChangeBackgroundColor(Color.FromArgb(0xdd, 0xdd, 0xdd));
                     e.StopPropagation();
                 });
+
+
             });
+
             return _pnode;
         }
 
