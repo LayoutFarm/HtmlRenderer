@@ -37,9 +37,7 @@ namespace LayoutFarm.HtmlWidgets
             set
             {
                 _checked = value;
-                //
-                CheckValueAssigned?.Invoke(this, EventArgs.Empty);
-                //
+                // 
                 if (_imgNode != null)
                 {
                     if (value)
@@ -50,7 +48,9 @@ namespace LayoutFarm.HtmlWidgets
                     {
                         _imgNode.SetImageSource(OnlyOne ? WidgetResList.opt_unchecked : WidgetResList.chk_unchecked);
                     }
-                }
+                } 
+                //TODO: review here
+                CheckValueAssigned?.Invoke(this, EventArgs.Empty);
             }
         }
 
