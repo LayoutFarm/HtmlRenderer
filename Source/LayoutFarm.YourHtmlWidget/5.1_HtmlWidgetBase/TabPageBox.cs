@@ -13,8 +13,8 @@ namespace LayoutFarm.HtmlWidgets
     //tab page similar to listview
     public class TabPage
     {
-        DomElement _titleNode;
-        DomElement _contentNode;
+        HtmlElement _titleNode;
+        HtmlElement _contentNode;
         UIElement _contentUI;
         public TabPage()
         {
@@ -34,10 +34,10 @@ namespace LayoutFarm.HtmlWidgets
             //-------------------------------------
             if (_titleNode != null) return _titleNode;
             //create dom node
-            var ownerdoc = hostNode.OwnerDocument;
-            _titleNode = ownerdoc.CreateElement("div");
+            var ownerdoc = (HtmlDocument)hostNode.OwnerDocument;
+            _titleNode = ownerdoc.CreateHtmlDiv();
             _titleNode.SetAttribute("style", "display:inline");
-            _titleNode.AddChild("span", span =>
+            _titleNode.AddHtmlSpanElement(span =>
             {
                 if (PageTitle == null)
                 {
@@ -67,8 +67,8 @@ namespace LayoutFarm.HtmlWidgets
         public DomElement GetPageBody(DomElement hostNode)
         {
             if (_contentNode != null) return _contentNode;
-            WebDocument ownerdoc = hostNode.OwnerDocument;
-            _contentNode = ownerdoc.CreateElement("div");
+            HtmlDocument ownerdoc = (HtmlDocument)hostNode.OwnerDocument;
+            _contentNode = ownerdoc.CreateHtmlDiv();
             if (_contentUI != null)
             {
                 //add content ui to the body of page
@@ -105,9 +105,9 @@ namespace LayoutFarm.HtmlWidgets
     public class TabPageContainer : HtmlWidgetBase
     {
         HtmlElement _pnode;
-        DomElement _titleBar;
-        DomElement _contentNode;
-        DomElement _tabTitleList;
+        HtmlElement _titleBar;
+        HtmlElement _contentNode;
+        HtmlElement _tabTitleList;
         Color _backColor = Color.LightGray;
         List<TabPage> _tabPageCollection = new List<TabPage>();
         TabPage _currentPage;
@@ -123,19 +123,17 @@ namespace LayoutFarm.HtmlWidgets
             if (_pnode != null) return _pnode;
             //------------------------------
             HtmlDocument htmldoc = orgDomElem.OwnerHtmlDoc;
-
-            _pnode = (HtmlElement)htmldoc.CreateElement("div");
+            _pnode = htmldoc.CreateHtmlDiv();
             _pnode.SetAttribute("style", "font:10pt tahoma");
             //------------------------------ 
-            _titleBar = htmldoc.CreateElement("div");
+            _titleBar = htmldoc.CreateHtmlDiv();
             _titleBar.AddTextContent("hello tabPage");
             _pnode.AddChild(_titleBar);
             //------------------------------ 
-            _tabTitleList = htmldoc.CreateElement("div");
-            _pnode.AddChild(_tabTitleList);
-            //------------------------------ 
-            _contentNode = htmldoc.CreateElement("div");
-            _pnode.AddChild(_contentNode);
+          
+            _pnode.AddChild(_tabTitleList = htmldoc.CreateHtmlDiv());
+            //------------------------------  
+            _pnode.AddChild(_contentNode = htmldoc.CreateHtmlDiv());
             //------------------------------
             return _pnode;
         }

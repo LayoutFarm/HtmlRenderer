@@ -27,7 +27,7 @@ namespace LayoutFarm.HtmlWidgets
             if (_pnode != null) return _pnode;
             //create primary presentation node
 
-            _pnode = (HtmlElement)orgDomElem.OwnerDocument.CreateElement("div");
+            _pnode = orgDomElem.OwnerHtmlDoc.CreateHtmlDiv();
             _pnode.SetAttribute("style", "font:10pt tahoma");
             int j = _treeNodes.Count;
             for (int i = 0; i < j; ++i)
@@ -61,7 +61,7 @@ namespace LayoutFarm.HtmlWidgets
         TreeView _ownerTreeView;
         //-------------------------- 
 
-        DomElement _pnode;
+        HtmlElement _pnode;
         DomElement _nodeBar;
         DomElement _nodeIcon;
         DomElement _nodeSpan;
@@ -92,23 +92,23 @@ namespace LayoutFarm.HtmlWidgets
                 }
             });
         }
-        public DomElement GetPrimaryPresentationNode(DomElement hostNode)
+        public HtmlElement GetPrimaryPresentationNode(DomElement hostNode)
         {
             if (_pnode != null) return _pnode;
             //---------------------------------
-            var ownerdoc = hostNode.OwnerDocument;
-            _pnode = ownerdoc.CreateElement("div");
+            var ownerdoc = (HtmlDocument)hostNode.OwnerDocument;
+            _pnode = ownerdoc.CreateHtmlDiv();
             //---------------------------------
             //bar part
-            _pnode.AddChild("div", node_bar =>
+            _pnode.AddHtmlDivElement(node_bar =>
             {
                 _nodeBar = node_bar;
-                node_bar.AddChild("img", node_icon =>
+                node_bar.AddHtmlImageElement(node_icon =>
                 {
                     _nodeIcon = node_icon;
                     SetupNodeIconBehaviour(node_icon);
                 });
-                node_bar.AddChild("span", node_span =>
+                node_bar.AddHtmlSpanElement(node_span =>
                 {
                     _nodeSpan = node_span;
                     if (NodeText != null)
@@ -120,11 +120,11 @@ namespace LayoutFarm.HtmlWidgets
             //---------------------------------
             //content part
             //indent  
-            _pnode.AddChild("div", node_body =>
+            _pnode.AddHtmlDivElement(node_body =>
             {
                 _nodeBody = node_body;
                 node_body.SetAttribute("style", "padding-left:17px");
-                node_body.AddChild("div", node_content =>
+                node_body.AddHtmlDivElement(node_content =>
                 {
                     _nodeContent = node_content;
                     if (_childNodes != null)
@@ -141,93 +141,93 @@ namespace LayoutFarm.HtmlWidgets
             });
             return _pnode;
         }
-        DomElement GetPrimaryPresentationNode2(DomElement hostNode)
-        {
-            //implement wth table
+        //DomElement GetPrimaryPresentationNode2(DomElement hostNode)
+        //{
+        //    //implement wth table
 
-            if (_pnode != null) return _pnode;
-            //---------------------------------
-            var ownerdoc = hostNode.OwnerDocument;
-            _pnode = ownerdoc.CreateElement("div");
-            //---------------------------------
-            //bar part
-            _pnode.AddChild("div", node_bar =>
-            {
-                _nodeBar = node_bar;
-                node_bar.AddChild("img", node_icon =>
-                {
-                    _nodeIcon = node_icon;
-                    SetupNodeIconBehaviour(node_icon);
-                });
-                node_bar.AddChild("span", node_span =>
-                {
-                    _nodeSpan = node_span;
-                    if (NodeText != null)
-                    {
-                        node_span.AddTextContent(NodeText);
-                    }
-                });
-            });
-            //---------------------------------
-            //content part
-            //indent  
-            _pnode.AddChild("div", node_body =>
-            {
-                _nodeBody = node_body;
-                //implement with table
-                //plan: => implement with inline div***
+        //    if (_pnode != null) return _pnode;
+        //    //---------------------------------
+        //    var ownerdoc = hostNode.OwnerDocument;
+        //    _pnode = ownerdoc.CreateElement("div");
+        //    //---------------------------------
+        //    //bar part
+        //    _pnode.AddChild("div", node_bar =>
+        //    {
+        //        _nodeBar = node_bar;
+        //        node_bar.AddChild("img", node_icon =>
+        //        {
+        //            _nodeIcon = node_icon;
+        //            SetupNodeIconBehaviour(node_icon);
+        //        });
+        //        node_bar.AddChild("span", node_span =>
+        //        {
+        //            _nodeSpan = node_span;
+        //            if (NodeText != null)
+        //            {
+        //                node_span.AddTextContent(NodeText);
+        //            }
+        //        });
+        //    });
+        //    //---------------------------------
+        //    //content part
+        //    //indent  
+        //    _pnode.AddChild("div", node_body =>
+        //    {
+        //        _nodeBody = node_body;
+        //        //implement with table
+        //        //plan: => implement with inline div***
 
-                node_body.AddChild("table", table =>
-                {
-                    table.AddChild("tr", tr =>
-                    {
-                        tr.AddChild("td", td1 =>
-                        {
-                            //indent
-                            td1.SetAttribute("style", "width:20px");
-                        });
-                        tr.AddChild("td", td1 =>
-                        {
-                            _nodeContent = td1;
-                            if (_childNodes != null)
-                            {
-                                int j = _childNodes.Count;
-                                for (int i = 0; i < j; ++i)
-                                {
-                                    var childnode = _childNodes[i].GetPrimaryPresentationNode(_nodeContent);
-                                    _nodeContent.AddChild(childnode);
-                                }
-                            }
-                        });
-                    });
-                });
-                //node_body.SetAttribute("style", "background-color:yellow");
-                //node_body.AddChild("div", node_indent =>
-                //{
-                //    node_indent.SetAttribute("style", "width:32px;display:inline");
-                //    node_indent.AddChild("img", img2 => { });
+        //        node_body.AddChild("table", table =>
+        //        {
+        //            table.AddChild("tr", tr =>
+        //            {
+        //                tr.AddChild("td", td1 =>
+        //                {
+        //                    //indent
+        //                    td1.SetAttribute("style", "width:20px");
+        //                });
+        //                tr.AddChild("td", td1 =>
+        //                {
+        //                    _nodeContent = td1;
+        //                    if (_childNodes != null)
+        //                    {
+        //                        int j = _childNodes.Count;
+        //                        for (int i = 0; i < j; ++i)
+        //                        {
+        //                            var childnode = _childNodes[i].GetPrimaryPresentationNode(_nodeContent);
+        //                            _nodeContent.AddChild(childnode);
+        //                        }
+        //                    }
+        //                });
+        //            });
+        //        });
+        //        //node_body.SetAttribute("style", "background-color:yellow");
+        //        //node_body.AddChild("div", node_indent =>
+        //        //{
+        //        //    node_indent.SetAttribute("style", "width:32px;display:inline");
+        //        //    node_indent.AddChild("img", img2 => { });
 
-                //});
-                //node_body.AddChild("div", node_content =>
-                //{
-                //    node_content.SetAttribute("style", "display:inline");
-                //    //start with blank content
-                //    this.nodeContent = node_content;
-                //    if (childNodes != null)
-                //    {
-                //        int j = childNodes.Count;
-                //        for (int i = 0; i < j; ++i)
-                //        {
-                //            var childnode = childNodes[i].GetPrimaryPresentationNode(node_content);
-                //            node_content.AddChild(childnode);
-                //        }
-                //    }
+        //        //});
+        //        //node_body.AddChild("div", node_content =>
+        //        //{
+        //        //    node_content.SetAttribute("style", "display:inline");
+        //        //    //start with blank content
+        //        //    this.nodeContent = node_content;
+        //        //    if (childNodes != null)
+        //        //    {
+        //        //        int j = childNodes.Count;
+        //        //        for (int i = 0; i < j; ++i)
+        //        //        {
+        //        //            var childnode = childNodes[i].GetPrimaryPresentationNode(node_content);
+        //        //            node_content.AddChild(childnode);
+        //        //        }
+        //        //    }
 
-                //});
-            });
-            //---------------------
-            return _pnode;
-        }
+        //        //});
+        //    });
+        //    //---------------------
+        //    return _pnode;
+        //}
         //
         public bool IsOpen => _isOpen;
         //
