@@ -34,11 +34,11 @@ namespace LayoutFarm.WebDom.Parser
                                 {
                                     //open tag 
                                     DomElement elem = _resultHtmlDoc.CreateElement(null, tag.Name);
-                                    
+
                                     currentNode.AddChild(elem);
                                     foreach (var attribute in tag.Attributes)
                                     {
-                                        var attr = _resultHtmlDoc.CreateAttribute(null, attribute.Name);
+                                        var attr = _resultHtmlDoc.CreateAttribute(attribute.Name);
                                         if (attribute.Value != null)
                                         {
                                             attr.Value = attribute.Value;

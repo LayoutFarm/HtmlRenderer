@@ -72,7 +72,7 @@ namespace LayoutFarm.WebDom.Parser
                     {
                         //create attribute node and wait for its value
                         string nodename = _textSnapshot.Substring(startIndex, len);
-                        _curAttr = _resultHtmlDoc.CreateAttribute(null, nodename);
+                        _curAttr = _resultHtmlDoc.CreateAttribute(nodename);
                     }
                     break;
                 case HtmlLexerEvent.NodeNameOrAttribute:
@@ -104,8 +104,7 @@ namespace LayoutFarm.WebDom.Parser
                                     if (_waitingAttrName != null)
                                     {
                                         //push waiting attr
-                                        _curAttr = _resultHtmlDoc.CreateAttribute(null, _waitingAttrName);
-                                        _curAttr.Value = "";
+                                        _curAttr = _resultHtmlDoc.CreateAttribute(_waitingAttrName, "");
                                         _curHtmlNode.AddAttribute(_curAttr);
                                         _curAttr = null;
                                     }
@@ -217,8 +216,7 @@ namespace LayoutFarm.WebDom.Parser
 
                         if (_waitingAttrName != null)
                         {
-                            _curAttr = _resultHtmlDoc.CreateAttribute(null, _waitingAttrName);
-                            _curAttr.Value = "";
+                            _curAttr = _resultHtmlDoc.CreateAttribute(_waitingAttrName, "");
                             _curHtmlNode.AddAttribute(_curAttr);
                             _curAttr = null;
                         }

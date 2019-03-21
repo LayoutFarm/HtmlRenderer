@@ -111,9 +111,7 @@ namespace LayoutFarm.WebDom
         }
         public void SetAttribute(string attrName, string value)
         {
-            DomAttribute domAttr = this.OwnerDocument.CreateAttribute(null, attrName);
-            domAttr.Value = value;
-            SetAttribute(domAttr);
+            SetAttribute(this.OwnerDocument.CreateAttribute(attrName, value);
         }
 
         public void AddAttribute(DomAttribute attr)
@@ -194,10 +192,8 @@ namespace LayoutFarm.WebDom
             {
                 case DocumentState.ChangedAfterIdle:
                 case DocumentState.Idle:
-                    {
-                        //notify parent 
-                        OnElementChangedInIdleState(changeKind, attr);
-                    }
+                    //notify parent 
+                    OnElementChangedInIdleState(changeKind, attr);
                     break;
             }
         }
