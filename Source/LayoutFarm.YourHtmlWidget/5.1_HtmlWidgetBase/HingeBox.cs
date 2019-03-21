@@ -16,15 +16,15 @@ namespace LayoutFarm.HtmlWidgets
 
     public class HingeBox : HtmlWidgetBase
     {
-        DomElement _floatPartDomElement;
+        HtmlElement _floatPartDomElement;
         HtmlElement _presentationNode;
         Color _backColor = Color.LightGray;
         bool _isOpen;
         HingeFloatPartStyle _floatPartStyle;
-        DomElement _div_floatingPart;
-        DomElement _div_landingPoint;
-        DomElement _div_glassCover;
-        DomElement _span_textLabel;
+        HtmlElement _div_floatingPart;
+        HtmlElement _div_landingPoint;
+        HtmlElement _div_glassCover;
+        HtmlElement _span_textLabel;
 
         List<DomElement> _items;
         public HingeBox(int w, int h)
@@ -32,10 +32,10 @@ namespace LayoutFarm.HtmlWidgets
         {
 
         }
-        DomElement CreateFloatPartDom(WebDom.Impl.HtmlDocument htmldoc)
+        HtmlElement CreateFloatPartDom(HtmlDocument htmldoc)
         {
             //create land part 
-            _div_floatingPart = htmldoc.CreateElement("div");
+            _div_floatingPart = htmldoc.CreateHtmlDiv();
             _div_floatingPart.SetAttribute("style", "background-color:white;position:absolute;left:0px;top:0px;width:300px;height:500px;");
             if (_items != null)
             {
@@ -46,7 +46,7 @@ namespace LayoutFarm.HtmlWidgets
                 }
             }
             //---------------------------------------
-            _div_glassCover = htmldoc.CreateElement("div");
+            _div_glassCover = htmldoc.CreateHtmlDiv();
             _div_glassCover.SetAttribute("style", "position:absolute;width:100%;height:100%;");
             _div_glassCover.AddChild(_div_floatingPart);
             _div_glassCover.AttachMouseDownEvent(e =>
@@ -140,25 +140,24 @@ namespace LayoutFarm.HtmlWidgets
             }
             //-------------------
 
-            _presentationNode = (HtmlElement)orgDomElem.OwnerHtmlDoc.CreateElement("div");
-            _presentationNode.AddChild("div", div =>
+            _presentationNode = orgDomElem.OwnerHtmlDoc.CreateHtmlDiv();
+            _presentationNode.AddHtmlDivElement(div =>
             {
                 div.SetAttribute("style", "font:10pt tahoma;");
-
-                div.AddChild("img", img =>
+                div.AddHtmlImageElement(img =>
                 {
-                    //init 
-                    img.SetAttribute("src", WidgetResList.arrow_close);
+                    //init  
+                    img.SetImageSource(WidgetResList.arrow_close);
                     img.AttachMouseDownEvent(e =>
                     {
                         if (this.IsOpen)
                         {
-                            img.SetAttribute("src", WidgetResList.arrow_close);
+                            img.SetImageSource(WidgetResList.arrow_close);
                             this.CloseHinge();
                         }
                         else
                         {
-                            img.SetAttribute("src", WidgetResList.arrow_open);
+                            img.SetImageSource(WidgetResList.arrow_open);
                             this.OpenHinge();
                         }
 
@@ -167,7 +166,7 @@ namespace LayoutFarm.HtmlWidgets
                     });
                 });
 
-                div.AddChild("span", span1 =>
+                div.AddHtmlSpanElement(span1 =>
                 {
                     _span_textLabel = span1;
                     span1.SetAttribute("style", "background-color:white;width:50px;height:20px;");
@@ -175,10 +174,11 @@ namespace LayoutFarm.HtmlWidgets
                 });
             });
 
-            _div_landingPoint = _presentationNode.AddChild("div", div =>
+            _div_landingPoint = _presentationNode.AddHtmlDivElement(div =>
             {
                 div.SetAttribute("style", "display:block");
             });
+
             //-------------------
 
             _floatPartDomElement = this.CreateFloatPartDom(orgDomElem.OwnerHtmlDoc);

@@ -2,7 +2,6 @@
 
 using System;
 using LayoutFarm.Composers;
-using LayoutFarm.WebDom;
 using LayoutFarm.WebDom.Extension;
 namespace LayoutFarm.HtmlWidgets
 {
