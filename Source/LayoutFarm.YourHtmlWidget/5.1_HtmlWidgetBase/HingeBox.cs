@@ -21,12 +21,17 @@ namespace LayoutFarm.HtmlWidgets
         Color _backColor = Color.LightGray;
         bool _isOpen;
         HingeFloatPartStyle _floatPartStyle;
+
         HtmlElement _div_floatingPart;
+        HtmlElement _div_floatingPart_shadow;
+
         HtmlElement _div_landingPoint;
         HtmlElement _div_glassCover;
         HtmlElement _span_textLabel;
 
         List<DomElement> _items;
+
+        const int SHADOW_OFFSET = 5;
         public HingeBox(int w, int h)
             : base(w, h)
         {
@@ -34,7 +39,16 @@ namespace LayoutFarm.HtmlWidgets
         }
         void CreateFloatPartDom(HtmlDocument htmldoc)
         {
-            //create land part 
+
+            _div_glassCover = htmldoc.CreateHtmlDiv();
+            _div_glassCover.SetStyleAttribute("position:absolute;width:100%;height:100%;");
+
+            //---------------------------------------
+            //create shadow element for floating part
+            _div_floatingPart_shadow = htmldoc.CreateHtmlDiv();
+            _div_floatingPart_shadow.SetStyleAttribute("background-color:rgba(0,0,0,0.2);position:absolute;left:0px;top:0px;width:300px;height:500px;");
+            _div_glassCover.AddChild(_div_floatingPart_shadow);
+            //---------------------------------------
             _div_floatingPart = htmldoc.CreateHtmlDiv();
             _div_floatingPart.SetStyleAttribute("background-color:white;position:absolute;left:0px;top:0px;width:300px;height:500px;");
             if (_items != null)
@@ -44,16 +58,14 @@ namespace LayoutFarm.HtmlWidgets
                 {
                     _div_floatingPart.AddChild(_items[i]);
                 }
+
+                _div_glassCover.AddChild(_div_floatingPart);
+                _div_glassCover.AttachMouseDownEvent(e =>
+                {
+                    //when click on cover glass
+                    CloseHinge();
+                });
             }
-            //---------------------------------------
-            _div_glassCover = htmldoc.CreateHtmlDiv();
-            _div_glassCover.SetStyleAttribute("position:absolute;width:100%;height:100%;");
-            _div_glassCover.AddChild(_div_floatingPart);
-            _div_glassCover.AttachMouseDownEvent(e =>
-            {
-                //when click on cover glass
-                CloseHinge();
-            });
         }
         //--------------
         public void ClearItems()
@@ -210,6 +222,8 @@ namespace LayoutFarm.HtmlWidgets
                         //find location relate to the landing point 
                         _div_landingPoint.GetGlobalLocationRelativeToRoot(out int x, out int y);
                         //and set its location 
+
+                        _div_floatingPart_shadow.SetLocation(x + SHADOW_OFFSET, y + SHADOW_OFFSET);
                         _div_floatingPart.SetLocation(x, y);
                     }
                     break;
