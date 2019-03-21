@@ -24,11 +24,7 @@ namespace LayoutFarm.WebDom.Extension
         {
             DomElement newchild = elem.OwnerDocument.CreateElement(elementName);
             elem.AddChild(newchild);
-            if (d != null)
-            {
-                d(newchild);
-            }
-
+            d?.Invoke(newchild);
             return newchild;
         }
 
