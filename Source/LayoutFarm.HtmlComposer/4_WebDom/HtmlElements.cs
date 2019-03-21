@@ -101,27 +101,31 @@ namespace LayoutFarm.Composers
 
         protected override void OnElementChangedInIdleState(ElementChangeKind changeKind, DomAttribute attr)
         {
-
             //1. 
             this.OwnerDocument.SetDocumentState(DocumentState.ChangedAfterIdle);
             if (this.OwnerDocument.IsDocFragment) return;
             //------------------------------------------------------------------
-            //2. need box evaluation again
+            //2. need box-evaluation again ? 
+            //we need to check that attr affect the dom or not
+            //eg. font-color, bgcolor => not affect element size/layout
+            //    custom attr => not affect element size/layout
+
             this.SkipPrincipalBoxEvalulation = false;
 
 
-            //-------------------
-            if (this.WellknownElementName == WellKnownDomNodeName.img)
-            {
-                if (attr != null && attr.Name == "src")
-                {
-                    //TODO: review this
-                    //has local effect
-                    //no propagation up
-                    return;
-                }
-            }
-            //-------------------
+
+            ////-------------------
+            //if (this.WellknownElementName == WellKnownDomNodeName.img)
+            //{
+            //    if (attr != null && attr.Name == "src")
+            //    {
+            //        //TODO: review this
+            //        //has local effect
+            //        //no propagation up
+            //        return;
+            //    }
+            //}
+            ////-------------------
 
             //3. propagate
             HtmlElement cnode = (HtmlElement)this.ParentNode;
@@ -145,9 +149,10 @@ namespace LayoutFarm.Composers
                     }
                 }
             }
-            owner.IncDomVersion();
-        }
 
+            owner.IncDomVersion();
+
+        }
         protected override void OnElementChanged()
         {
             CssBox box = _principalBox;
@@ -321,8 +326,7 @@ namespace LayoutFarm.Composers
         }
         public void SetImageSource(ImageBinder imgBinder)
         {
-            DomAttribute attr = this.OwnerDocument.CreateAttribute("", "src");
-            attr.Value = imgBinder.ImageSource;
+            DomAttribute attr = this.OwnerDocument.CreateAttribute("src", imgBinder.ImageSource);
             SetDomAttribute(attr);
             //----
             if (_principalBox != null)
@@ -333,8 +337,7 @@ namespace LayoutFarm.Composers
         public void SetImageSource(string imgsrc)
         {
             //set image source
-            DomAttribute attr = this.OwnerDocument.CreateAttribute("", "src");
-            attr.Value = imgsrc;
+            DomAttribute attr = this.OwnerDocument.CreateAttribute("src", imgsrc);
             SetDomAttribute(attr);
             //----
             if (_principalBox != null)

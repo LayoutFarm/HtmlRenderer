@@ -18,7 +18,6 @@ namespace LayoutFarm.WebDom
         HtmlEventHandler _evhMouseUp;
         HtmlEventHandler _evhMouseLostFocus;
 
-
         public DomElement(WebDocument ownerDoc, int nodePrefixNameIndex, int nodeLocalNameIndex)
             : base(ownerDoc)
         {
@@ -101,13 +100,10 @@ namespace LayoutFarm.WebDom
         {
             SetAttribute(this.OwnerDocument.CreateAttribute(attrName, value));
         }
-
         public void AddAttribute(DomAttribute attr)
         {
             SetAttribute(attr);
         }
-
-
         public virtual void AddChild(DomNode childNode)
         {
             switch (childNode.NodeKind)
@@ -179,7 +175,7 @@ namespace LayoutFarm.WebDom
         /// </summary>
         /// <param name="changeKind"></param>
         /// <param name="attr"></param>
-        public void NotifyChange(ElementChangeKind changeKind, DomAttribute attr)
+        protected void NotifyChange(ElementChangeKind changeKind, DomAttribute attr)
         {
             switch (this.DocState)
             {
