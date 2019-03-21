@@ -36,7 +36,7 @@ namespace LayoutFarm.HtmlWidgets
             //create dom node
             var ownerdoc = (HtmlDocument)hostNode.OwnerDocument;
             _titleNode = ownerdoc.CreateHtmlDiv();
-            _titleNode.SetAttribute("style", "display:inline");
+            _titleNode.SetStyleAttribute("display:inline");
             _titleNode.AddHtmlSpanElement(span =>
             {
                 if (PageTitle == null)
@@ -124,13 +124,13 @@ namespace LayoutFarm.HtmlWidgets
             //------------------------------
             HtmlDocument htmldoc = orgDomElem.OwnerHtmlDoc;
             _pnode = htmldoc.CreateHtmlDiv();
-            _pnode.SetAttribute("style", "font:10pt tahoma");
+            _pnode.SetStyleAttribute("font:10pt tahoma");
             //------------------------------ 
             _titleBar = htmldoc.CreateHtmlDiv();
             _titleBar.AddTextContent("hello tabPage");
             _pnode.AddChild(_titleBar);
             //------------------------------ 
-          
+
             _pnode.AddChild(_tabTitleList = htmldoc.CreateHtmlDiv());
             //------------------------------  
             _pnode.AddChild(_contentNode = htmldoc.CreateHtmlDiv());

@@ -17,7 +17,7 @@ namespace LayoutFarm.HtmlWidgets
         HtmlElement _pnode;
         HtmlImageElement _imgNode;
         bool _checked;
-        LayoutFarm.Composers.HtmlInputElement _htmlInput;
+        HtmlInputElement _htmlInput;
 
         public event EventHandler<EventArgs> CheckValueAssigned;
 
@@ -44,11 +44,11 @@ namespace LayoutFarm.HtmlWidgets
                 {
                     if (value)
                     {
-                        _imgNode.SetAttribute("src", OnlyOne ? WidgetResList.opt_checked : WidgetResList.chk_checked);
+                        _imgNode.SetImageSource(OnlyOne ? WidgetResList.opt_checked : WidgetResList.chk_checked);
                     }
                     else
                     {
-                        _imgNode.SetAttribute("src", OnlyOne ? WidgetResList.opt_unchecked : WidgetResList.chk_unchecked);
+                        _imgNode.SetImageSource(OnlyOne ? WidgetResList.opt_unchecked : WidgetResList.chk_unchecked);
                     }
                 }
             }
@@ -66,16 +66,16 @@ namespace LayoutFarm.HtmlWidgets
             //---------------------------------- 
 
             _pnode = orgDomElem.OwnerHtmlDoc.CreateHtmlDiv();
-            _pnode.SetAttribute("style", "display:inline-block;width:" + Width + "px;height:" + this.Height + "px;cursor:pointer");
+            _pnode.SetStyleAttribute("display:inline-block;width:" + Width + "px;height:" + this.Height + "px;cursor:pointer");
             _pnode.AddHtmlDivElement(div2 =>
             {
 
                 //init
-                //div2.SetAttribute("style", "background-color:#dddddd;color:black;");
-                div2.SetAttribute("style", "color:black;");
+                //div2.SetAttribute("style", "background-color:#dddddd;color:black;"); 
+                div2.SetStyleAttribute("color:black;");
 
                 _imgNode = div2.AddHtmlImageElement();
-                _imgNode.SetAttribute("src", OnlyOne ? WidgetResList.opt_unchecked : WidgetResList.chk_unchecked);
+                _imgNode.SetImageSource(OnlyOne ? WidgetResList.opt_unchecked : WidgetResList.chk_unchecked);
                 _imgNode.AttachMouseDownEvent(e =>
                 {
                     Checked = !Checked; //toggle 
@@ -116,30 +116,8 @@ namespace LayoutFarm.HtmlWidgets
 
             return _pnode;
         }
-
-
-        void IHtmlInputSubDomExtender.SetInputValue(string value)
-        {
-            if (value == "off")
-            {
-                Checked = false;
-            }
-            else
-            {
-                Checked = true;
-            }
-        }
-        string IHtmlInputSubDomExtender.GetInputValue()
-        {
-            if (Checked)
-            {
-                return "on";
-            }
-            else
-            {
-                return "off";
-            }
-        }
+        void IHtmlInputSubDomExtender.SetInputValue(string value) => Checked = value == "off";
+        string IHtmlInputSubDomExtender.GetInputValue() => Checked ? "on" : "off";
     }
 
 

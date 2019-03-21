@@ -25,12 +25,11 @@ namespace LayoutFarm.HtmlWidgets
             if (_pnode != null) return _pnode;
             //----------------------------------
             _pnode = orgDomElem.OwnerHtmlDoc.CreateHtmlDiv();
-            _pnode.SetAttribute("style", "display:inline-block;width:" + Width + "px;height:" + this.Height + "px;cursor:pointer");
-
+            _pnode.SetStyleAttribute("display:inline-block;width:" + Width + "px;height:" + this.Height + "px;cursor:pointer");
             _pnode.AddHtmlDivElement(div2 =>
             {
-                //init
-                div2.SetAttribute("style", "padding:5px;background-color:#dddddd;color:black;");
+                //init                 
+                div2.SetStyleAttribute("padding:5px;background-color:#dddddd;color:black;");
                 //
                 HtmlImageElement imgNode = div2.AddHtmlImageElement();
                 imgNode.SetImageSource(WidgetResList.chk_unchecked);
@@ -45,8 +44,8 @@ namespace LayoutFarm.HtmlWidgets
 #endif
                     // div2.SetAttribute("style", "padding:5px;background-color:#aaaaaa;");
                     //EaseScriptElement ee = new EaseScriptElement(div2);
-                    //ee.ChangeBackgroundColor(Color.FromArgb(0xaa, 0xaa, 0xaa));
-                    div2.SetAttribute("style", "padding:5px;background-color:yellow;");
+                    //ee.ChangeBackgroundColor(Color.FromArgb(0xaa, 0xaa, 0xaa));                     
+                    div2.SetStyleAttribute("padding:5px;background-color:yellow;");
                     e.StopPropagation();
                 });
                 div2.AttachMouseUpEvent(e =>
@@ -54,7 +53,8 @@ namespace LayoutFarm.HtmlWidgets
 #if DEBUG
                     //                    div2.dbugMark = 2;
 #endif
-                    div2.SetAttribute("style", "padding:5px;background-color:#dddddd;");
+
+                    div2.SetStyleAttribute("padding:5px;background-color:#dddddd;");
                     //                    //EaseScriptElement ee = new EaseScriptElement(div2);
                     //                    //ee.ChangeBackgroundColor(Color.FromArgb(0xdd, 0xdd, 0xdd));
                     e.StopPropagation();

@@ -25,7 +25,7 @@ namespace LayoutFarm.HtmlWidgets
             if (_pnode != null) return _pnode;
             //--------------------------------
             _pnode = orgDomElem.OwnerHtmlDoc.CreateHtmlDiv();
-            _pnode.SetAttribute("style", "font:10pt tahoma;overflow:scroll;height:300px;");
+            _pnode.SetStyleAttribute("font:10pt tahoma;overflow:scroll;height:300px;");
             int j = _items.Count;
             if (j > 0)
             {

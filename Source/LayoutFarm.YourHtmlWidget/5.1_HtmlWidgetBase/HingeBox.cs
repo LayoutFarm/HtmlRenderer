@@ -36,7 +36,7 @@ namespace LayoutFarm.HtmlWidgets
         {
             //create land part 
             _div_floatingPart = htmldoc.CreateHtmlDiv();
-            _div_floatingPart.SetAttribute("style", "background-color:white;position:absolute;left:0px;top:0px;width:300px;height:500px;");
+            _div_floatingPart.SetStyleAttribute("background-color:white;position:absolute;left:0px;top:0px;width:300px;height:500px;");
             if (_items != null)
             {
                 int j = _items.Count;
@@ -47,7 +47,7 @@ namespace LayoutFarm.HtmlWidgets
             }
             //---------------------------------------
             _div_glassCover = htmldoc.CreateHtmlDiv();
-            _div_glassCover.SetAttribute("style", "position:absolute;width:100%;height:100%;");
+            _div_glassCover.SetStyleAttribute("position:absolute;width:100%;height:100%;");
             _div_glassCover.AddChild(_div_floatingPart);
             _div_glassCover.AttachMouseDownEvent(e =>
             {
@@ -143,7 +143,7 @@ namespace LayoutFarm.HtmlWidgets
             _presentationNode = orgDomElem.OwnerHtmlDoc.CreateHtmlDiv();
             _presentationNode.AddHtmlDivElement(div =>
             {
-                div.SetAttribute("style", "font:10pt tahoma;");
+                div.SetStyleAttribute("font:10pt tahoma;");
                 div.AddHtmlImageElement(img =>
                 {
                     //init  
@@ -169,14 +169,14 @@ namespace LayoutFarm.HtmlWidgets
                 div.AddHtmlSpanElement(span1 =>
                 {
                     _span_textLabel = span1;
-                    span1.SetAttribute("style", "background-color:white;width:50px;height:20px;");
+                    span1.SetStyleAttribute("background-color:white;width:50px;height:20px;");
                     span1.AddTextContent("");
                 });
             });
 
             _div_landingPoint = _presentationNode.AddHtmlDivElement(div =>
             {
-                div.SetAttribute("style", "display:block");
+                div.SetStyleAttribute("display:block");
             });
 
             //-------------------

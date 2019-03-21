@@ -482,5 +482,9 @@ namespace LayoutFarm.Composers
             elem.AddChild(imgElem);
             return imgElem;
         }
+        public static void SetStyleAttribute(this HtmlElement elem, string cssStyleValue)
+        {
+            elem.SetAttribute("style", cssStyleValue);
+        }
     }
 }

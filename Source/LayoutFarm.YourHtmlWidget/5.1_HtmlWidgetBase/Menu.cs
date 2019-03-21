@@ -251,7 +251,7 @@ namespace LayoutFarm.HtmlWidgets
             //TODO: review IsLandPart again, this is temp fixed 
             if (!this.IsLandPart)
             {
-                _presentation.SetAttribute("style", "position:absolute;width:" + this.Width + "px;height:" + this.Height + "px");
+                _presentation.SetStyleAttribute("position:absolute;width:" + this.Width + "px;height:" + this.Height + "px");
             }
 
             if (_menuItems != null)
