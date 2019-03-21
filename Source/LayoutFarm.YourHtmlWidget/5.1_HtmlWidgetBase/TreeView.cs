@@ -28,7 +28,7 @@ namespace LayoutFarm.HtmlWidgets
             //create primary presentation node
 
             _pnode = orgDomElem.OwnerHtmlDoc.CreateHtmlDiv();
-            _pnode.SetAttribute("style", "font:10pt tahoma");
+            _pnode.SetStyleAttribute("font:10pt tahoma");
             int j = _treeNodes.Count;
             for (int i = 0; i < j; ++i)
             {
@@ -62,11 +62,11 @@ namespace LayoutFarm.HtmlWidgets
         //-------------------------- 
 
         HtmlElement _pnode;
-        DomElement _nodeBar;
-        DomElement _nodeIcon;
-        DomElement _nodeSpan;
-        DomElement _nodeBody;
-        DomElement _nodeContent;
+        HtmlElement _nodeBar;
+        HtmlImageElement _nodeIcon;
+        HtmlElement _nodeSpan;
+        HtmlElement _nodeBody;
+        HtmlElement _nodeContent;
 
         int _width;
         int _height;
@@ -123,13 +123,13 @@ namespace LayoutFarm.HtmlWidgets
             _pnode.AddHtmlDivElement(node_body =>
             {
                 _nodeBody = node_body;
-                node_body.SetAttribute("style", "padding-left:17px");
+                node_body.SetStyleAttribute("padding-left:17px");
                 node_body.AddHtmlDivElement(node_content =>
                 {
                     _nodeContent = node_content;
                     if (_childNodes != null)
                     {
-                        _nodeContent.SetAttribute("style", "padding-left:0px");
+                        _nodeContent.SetStyleAttribute("padding-left:0px");
                         int j = _childNodes.Count;
                         for (int i = 0; i < j; ++i)
                         {
