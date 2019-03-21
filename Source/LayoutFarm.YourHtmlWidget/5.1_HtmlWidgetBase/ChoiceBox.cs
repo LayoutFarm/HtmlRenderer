@@ -79,7 +79,6 @@ namespace LayoutFarm.HtmlWidgets
                 _imgNode.SetAttribute("src", OnlyOne ? WidgetResList.opt_unchecked : WidgetResList.chk_unchecked);
                 _imgNode.AttachMouseDownEvent(e =>
                 {
-
                     Checked = !Checked; //toggle 
                     e.StopPropagation();
                 });
