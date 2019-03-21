@@ -64,7 +64,7 @@ namespace LayoutFarm.WebDom.Parser
                         else
                         {
                             _curAttr.Value = _textSnapshot.Substring(startIndex, len);
-                            _curHtmlNode.AddAttribute(_curAttr);
+                            _curHtmlNode.SetAttribute(_curAttr);
                         }
                     }
                     break;
@@ -105,7 +105,7 @@ namespace LayoutFarm.WebDom.Parser
                                     {
                                         //push waiting attr
                                         _curAttr = _resultHtmlDoc.CreateAttribute(_waitingAttrName, "");
-                                        _curHtmlNode.AddAttribute(_curAttr);
+                                        _curHtmlNode.SetAttribute(_curAttr);
                                         _curAttr = null;
                                     }
                                     _waitingAttrName = name;
@@ -217,7 +217,7 @@ namespace LayoutFarm.WebDom.Parser
                         if (_waitingAttrName != null)
                         {
                             _curAttr = _resultHtmlDoc.CreateAttribute(_waitingAttrName, "");
-                            _curHtmlNode.AddAttribute(_curAttr);
+                            _curHtmlNode.SetAttribute(_curAttr);
                             _curAttr = null;
                         }
 

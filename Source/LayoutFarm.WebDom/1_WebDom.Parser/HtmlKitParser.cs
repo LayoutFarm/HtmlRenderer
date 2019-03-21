@@ -38,12 +38,12 @@ namespace LayoutFarm.WebDom.Parser
                                     currentNode.AddChild(elem);
                                     foreach (var attribute in tag.Attributes)
                                     {
-                                        var attr = _resultHtmlDoc.CreateAttribute(attribute.Name);
+                                        DomAttribute attr = _resultHtmlDoc.CreateAttribute(attribute.Name);
                                         if (attribute.Value != null)
                                         {
                                             attr.Value = attribute.Value;
                                         }
-                                        elem.AddAttribute(attr);
+                                        elem.SetAttribute(attr);
                                     }
                                     if (!tag.IsEmptyElement)
                                     {

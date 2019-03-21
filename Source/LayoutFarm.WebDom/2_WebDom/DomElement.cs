@@ -12,6 +12,7 @@ namespace LayoutFarm.WebDom
         //------------------------------------------- 
         DomAttribute _attrElemId;
         DomAttribute _attrClass;
+        DomAttribute _attrStyle;
         //-------------------------------------------
 
         HtmlEventHandler _evhMouseDown;
@@ -67,6 +68,7 @@ namespace LayoutFarm.WebDom
         {
             SetDomAttribute(attr);
         }
+
         protected void SetDomAttribute(DomAttribute attr)
         {
             if (_myAttributes == null)
@@ -88,7 +90,16 @@ namespace LayoutFarm.WebDom
                         _attrClass = attr;
                     }
                     break;
+                case WellknownName.Style:
+                    {
+                        _attrStyle = attr;
+                    }
+                    break;
             }
+
+
+
+
             //--------------------
             int attrNameIndex = this.OwnerDocument.AddStringIfNotExists(attr.LocalName);
             _myAttributes[attrNameIndex] = attr;//update or replace 
@@ -100,17 +111,14 @@ namespace LayoutFarm.WebDom
         {
             SetAttribute(this.OwnerDocument.CreateAttribute(attrName, value));
         }
-        public void AddAttribute(DomAttribute attr)
-        {
-            SetAttribute(attr);
-        }
+        
         public virtual void AddChild(DomNode childNode)
         {
             switch (childNode.NodeKind)
             {
                 case HtmlNodeKind.Attribute:
                     {
-                        AddAttribute((DomAttribute)childNode);
+                        SetAttribute((DomAttribute)childNode);
                     }
                     break;
                 default:
