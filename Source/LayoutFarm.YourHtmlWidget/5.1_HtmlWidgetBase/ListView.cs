@@ -24,7 +24,7 @@ namespace LayoutFarm.HtmlWidgets
         {
             if (_pnode != null) return _pnode;
             //--------------------------------
-            _pnode = (HtmlElement)orgDomElem.OwnerHtmlDoc.CreateElement("div");
+            _pnode = orgDomElem.OwnerHtmlDoc.CreateHtmlDiv();
             _pnode.SetAttribute("style", "font:10pt tahoma;overflow:scroll;height:300px;");
             int j = _items.Count;
             if (j > 0)
@@ -113,10 +113,8 @@ namespace LayoutFarm.HtmlWidgets
     }
     public class ListItem
     {
-        WebDom.DomElement _pnode;
-        WebDom.DomElement _textSpanNode;
-
-
+        HtmlElement _pnode;
+        HtmlElement _textSpanNode;
         int width;
         int height;
         public ListItem(int width, int height)
@@ -127,16 +125,15 @@ namespace LayoutFarm.HtmlWidgets
         }
         public Color BackColor { get; set; }
         public string Text { get; set; }
-        public WebDom.DomElement GetPresentationNode(WebDom.DomElement hostNode)
+        public HtmlElement GetPresentationNode(WebDom.DomElement hostNode)
         {
             if (_pnode != null) return _pnode;
             //------------------------------
 
-            var ownerdoc = hostNode.OwnerDocument;
-            _pnode = ownerdoc.CreateElement("div");
+            var ownerdoc = (HtmlDocument)hostNode.OwnerDocument;
+            _pnode = ownerdoc.CreateHtmlDiv();
             // pnode.SetAttribute("style", "font:10pt tahoma");
-
-            _textSpanNode = ownerdoc.CreateElement("span");
+            _textSpanNode = ownerdoc.CreateHtmlSpan();
             _textSpanNode.AddChild(ownerdoc.CreateTextNode(Text.ToCharArray()));
             _pnode.AddChild(_textSpanNode);
             return _pnode;

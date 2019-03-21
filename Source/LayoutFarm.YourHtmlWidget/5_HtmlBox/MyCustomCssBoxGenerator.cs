@@ -108,7 +108,7 @@ namespace LayoutFarm.CustomWidgets
                 }
             }
 
-            LayoutFarm.WebDom.Impl.HtmlElement hingeBoxDom = (LayoutFarm.WebDom.Impl.HtmlElement)hingeBox.GetPresentationDomNode(domE);
+            HtmlElement hingeBoxDom = hingeBox.GetPresentationDomNode(domE);
             CssBox cssHingeBox = host.CreateCssBox(parentBox, hingeBoxDom, true); //create and append to the parentBox 
             //
             hingeBoxDom.SetSubParentNode(domE);

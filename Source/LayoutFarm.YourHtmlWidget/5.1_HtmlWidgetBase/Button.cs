@@ -24,28 +24,25 @@ namespace LayoutFarm.HtmlWidgets
         {
             if (_pnode != null) return _pnode;
             //----------------------------------
-            _pnode = (HtmlElement)orgDomElem.OwnerHtmlDoc.CreateElement("div");
+            _pnode = orgDomElem.OwnerHtmlDoc.CreateHtmlDiv();
             _pnode.SetAttribute("style", "display:inline-block;width:" + Width + "px;height:" + this.Height + "px;cursor:pointer");
-            _pnode.AddChild("div", div2 =>
+
+            _pnode.AddHtmlDivElement(div2 =>
             {
                 //init
                 div2.SetAttribute("style", "padding:5px;background-color:#dddddd;color:black;");
-                DomElement imgNode = div2.AddChild("img");
-                imgNode.SetAttribute("src", "chk_unchecked.png");
+                //
+                HtmlImageElement imgNode = div2.AddHtmlImageElement();
+                imgNode.SetImageSource(WidgetResList.chk_unchecked);
 
-                //div2.AddChild("span", span =>
-                //{
-                //    span.AddTextContent(this.buttonText);
-                //});
-                //------------------------------
 #if DEBUG
                 div2.dbugMark = 10;
 #endif
                 div2.AttachMouseDownEvent(e =>
                 {
-            #if DEBUG
+#if DEBUG
                     //                    div2.dbugMark = 1;
-            #endif
+#endif
                     // div2.SetAttribute("style", "padding:5px;background-color:#aaaaaa;");
                     //EaseScriptElement ee = new EaseScriptElement(div2);
                     //ee.ChangeBackgroundColor(Color.FromArgb(0xaa, 0xaa, 0xaa));
@@ -63,6 +60,7 @@ namespace LayoutFarm.HtmlWidgets
                     e.StopPropagation();
                 });
             });
+
             return _pnode;
         }
     }
