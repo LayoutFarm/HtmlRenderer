@@ -16,7 +16,7 @@ namespace LayoutFarm.HtmlWidgets
 
     public class HingeBox : HtmlWidgetBase
     {
-        HtmlElement _floatPartDomElement;
+
         HtmlElement _presentationNode;
         Color _backColor = Color.LightGray;
         bool _isOpen;
@@ -32,7 +32,7 @@ namespace LayoutFarm.HtmlWidgets
         {
 
         }
-        HtmlElement CreateFloatPartDom(HtmlDocument htmldoc)
+        void CreateFloatPartDom(HtmlDocument htmldoc)
         {
             //create land part 
             _div_floatingPart = htmldoc.CreateHtmlDiv();
@@ -54,7 +54,6 @@ namespace LayoutFarm.HtmlWidgets
                 //when click on cover glass
                 CloseHinge();
             });
-            return _div_floatingPart;
         }
         //--------------
         public void ClearItems()
@@ -181,7 +180,7 @@ namespace LayoutFarm.HtmlWidgets
 
             //-------------------
 
-            _floatPartDomElement = this.CreateFloatPartDom(orgDomElem.OwnerHtmlDoc);
+            CreateFloatPartDom(orgDomElem.OwnerHtmlDoc);
             return _presentationNode;
         }
 
@@ -204,16 +203,14 @@ namespace LayoutFarm.HtmlWidgets
                 case HingeFloatPartStyle.Popup:
                     {
 
-                        LayoutFarm.Composers.HtmlDocument htmldoc = _presentationNode.OwnerDocument as HtmlDocument;
-                        var floatPartE = _floatPartDomElement as WebDom.Impl.HtmlElement;
-                        var landPartE = _presentationNode as WebDom.Impl.HtmlElement;
+                        HtmlDocument htmldoc = _presentationNode.OwnerHtmlDoc;
 
                         //add the floating part to root node**
                         htmldoc.RootNode.AddChild(_div_glassCover);
                         //find location relate to the landing point 
                         _div_landingPoint.GetGlobalLocationRelativeToRoot(out int x, out int y);
                         //and set its location 
-                        floatPartE.SetLocation(x, y);
+                        _div_floatingPart.SetLocation(x, y);
                     }
                     break;
                 case HingeFloatPartStyle.Embeded:
@@ -227,7 +224,7 @@ namespace LayoutFarm.HtmlWidgets
             if (!_isOpen) return;
             //-------------------------------------
             _isOpen = false;
-            if (_floatPartDomElement == null)
+            if (_div_floatingPart == null)
             {
                 return;
             }
@@ -240,7 +237,7 @@ namespace LayoutFarm.HtmlWidgets
                     break;
                 case HingeFloatPartStyle.Popup:
                     {
-                        if (_floatPartDomElement != null && _floatPartDomElement.ParentNode != null)
+                        if (_div_floatingPart != null && _div_floatingPart.ParentNode != null)
                         {
                             ((IHtmlElement)_div_glassCover.ParentNode).removeChild(_div_glassCover);
                         }
