@@ -5,8 +5,8 @@ namespace LayoutFarm.WebDom
 {
     public abstract partial class DomElement : DomNode
     {
-        internal readonly int _nodePrefixNameIndex;
-        internal readonly int _nodeLocalNameIndex;
+
+        internal readonly int _nodeNameIndex; //prefix and localname
         Dictionary<int, DomAttribute> _myAttributes;
         List<DomNode> _myChildrenNodes;
         //------------------------------------------- 
@@ -22,15 +22,13 @@ namespace LayoutFarm.WebDom
         public DomElement(WebDocument ownerDoc, int nodePrefixNameIndex, int nodeLocalNameIndex)
             : base(ownerDoc)
         {
-            _nodePrefixNameIndex = nodePrefixNameIndex;
-            _nodeLocalNameIndex = nodeLocalNameIndex;
+            _nodeNameIndex = (nodePrefixNameIndex << 16) | nodeLocalNameIndex;
             SetNodeType(HtmlNodeKind.OpenElement);
         }
 
         public static bool EqualNames(DomElement node1, DomElement node2)
         {
-            return node1._nodeLocalNameIndex == node2._nodeLocalNameIndex
-                && node1._nodePrefixNameIndex == node2._nodePrefixNameIndex;
+            return node1._nodeNameIndex == node2._nodeNameIndex;
         }
 #if DEBUG
         public override string ToString()
@@ -75,8 +73,6 @@ namespace LayoutFarm.WebDom
 
         protected void SetDomAttribute(DomAttribute attr)
         {
-
-            //-----------
             //some wellknownattr 
             switch ((WellknownName)attr.LocalNameIndex)
             {
@@ -249,11 +245,11 @@ namespace LayoutFarm.WebDom
         }
 
 
-        public string Prefix => OwnerDocument.GetString(_nodePrefixNameIndex);
+        public string Prefix => OwnerDocument.GetString((_nodeNameIndex >> 16) & 0xffff);
 
-        public string LocalName => OwnerDocument.GetString(_nodeLocalNameIndex);
+        public string LocalName => OwnerDocument.GetString(_nodeNameIndex & 0xffff);
 
-        public int LocalNameIndex => _nodeLocalNameIndex;
+        public int LocalNameIndex => _nodeNameIndex & 0xffff;
 
         public bool HasAttributeElementId => _attrElemId != null;
 
@@ -278,15 +274,9 @@ namespace LayoutFarm.WebDom
                 {
                     return _attrElemId.Value;
                 }
-
                 return null;
             }
         }
-
         public string Name => this.LocalName;
-
-        //public object Tag { get; set; }
-
-
     }
 }
