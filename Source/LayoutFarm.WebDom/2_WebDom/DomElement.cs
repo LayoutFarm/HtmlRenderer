@@ -40,6 +40,10 @@ namespace LayoutFarm.WebDom
 #endif
         public IEnumerable<DomAttribute> GetAttributeIterForward()
         {
+            if (_attrElemId != null) yield return _attrElemId;
+            if (_attrStyle != null) yield return _attrStyle;
+            if (_attrClass != null) yield return _attrClass;
+
             if (_myAttributes != null)
             {
                 foreach (DomAttribute attr in _myAttributes.Values)
@@ -71,10 +75,7 @@ namespace LayoutFarm.WebDom
 
         protected void SetDomAttribute(DomAttribute attr)
         {
-            if (_myAttributes == null)
-            {
-                _myAttributes = new Dictionary<int, DomAttribute>();
-            }
+
             //-----------
             //some wellknownattr 
             switch ((WellknownName)attr.LocalNameIndex)
@@ -95,14 +96,18 @@ namespace LayoutFarm.WebDom
                         _attrStyle = attr;
                     }
                     break;
+                default:
+                    {
+                        if (_myAttributes == null)
+                        {
+                            _myAttributes = new Dictionary<int, DomAttribute>();
+                        }
+                        //--------------------
+                        int attrNameIndex = this.OwnerDocument.AddStringIfNotExists(attr.LocalName);
+                        _myAttributes[attrNameIndex] = attr;//update or replace 
+                    }
+                    break;
             }
-
-
-
-
-            //--------------------
-            int attrNameIndex = this.OwnerDocument.AddStringIfNotExists(attr.LocalName);
-            _myAttributes[attrNameIndex] = attr;//update or replace 
             attr.SetParent(this);
             NotifyChange(ElementChangeKind.SetAttribute, attr);
             //---------------------
@@ -111,7 +116,7 @@ namespace LayoutFarm.WebDom
         {
             SetAttribute(this.OwnerDocument.CreateAttribute(attrName, value));
         }
-        
+
         public virtual void AddChild(DomNode childNode)
         {
             switch (childNode.NodeKind)
@@ -196,10 +201,15 @@ namespace LayoutFarm.WebDom
         }
         protected virtual void OnElementChangedInIdleState(ElementChangeKind changeKind, DomAttribute attr)
         {
+
         }
         //------------------------------------------
         public DomAttribute FindAttribute(int attrLocalNameIndex)
         {
+            if (_attrElemId != null && attrLocalNameIndex == _attrElemId.LocalNameIndex) return _attrElemId;
+            if (_attrStyle != null && attrLocalNameIndex == _attrStyle.LocalNameIndex) return _attrStyle;
+            if (_attrClass != null && attrLocalNameIndex == _attrClass.LocalNameIndex) return _attrClass;
+
             if (_myAttributes != null)
             {
                 DomAttribute found;
@@ -221,7 +231,23 @@ namespace LayoutFarm.WebDom
             }
         }
 
-        public int AttributeCount => (_myAttributes != null) ? _myAttributes.Count : 0;
+
+        public bool HasSomeAttribute => _attrStyle != null || _attrClass != null || _attrElemId != null || _myAttributes != null;
+
+        public int AttributeCount
+        {
+            get
+            {
+                int count = 0;
+                if (_attrElemId != null) count++;
+                if (_attrStyle != null) count++;
+                if (_attrClass != null) count++;
+                if (_myAttributes != null) count += _myAttributes.Count;
+
+                return count;
+            }
+        }
+
 
         public string Prefix => OwnerDocument.GetString(_nodePrefixNameIndex);
 
