@@ -23,7 +23,7 @@ namespace LayoutFarm.WebDom
     public abstract class DomNode : INode
     {
         WebDocument _ownerDoc;
-        DomNode _parentNode;
+        DomElement _parentNode;
         HtmlNodeKind _nodeKind;
 #if DEBUG
         static int dbugTotalId;
@@ -52,7 +52,7 @@ namespace LayoutFarm.WebDom
 
         public WebDocument OwnerDocument => _ownerDoc;
 
-        internal void SetParent(DomNode parentNode)
+        internal void SetParent(DomElement parentNode)
         {
             _parentNode = parentNode;
         }
