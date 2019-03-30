@@ -270,10 +270,7 @@ namespace LayoutFarm.WebDom.Impl
             }
         }
 
-        public bool HasSpecialPresentation { get; set; }
-
-        public System.Action<object> SpecialPresentationUpdate;
-
+       
         protected override void OnElementChanged()
         {
         }
