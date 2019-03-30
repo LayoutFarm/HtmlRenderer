@@ -15,6 +15,7 @@ namespace LayoutFarm.WebDom
         DomAttribute _attrStyle;
         //-------------------------------------------
 
+        HtmlEventHandler _evhKeydown;
         HtmlEventHandler _evhMouseDown;
         HtmlEventHandler _evhMouseUp;
         HtmlEventHandler _evhMouseLostFocus;

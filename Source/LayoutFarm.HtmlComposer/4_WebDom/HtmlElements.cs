@@ -352,12 +352,11 @@ namespace LayoutFarm.Composers
             }
         }
     }
-
-
     public interface IHtmlInputSubDomExtender
     {
         string GetInputValue();
         void SetInputValue(string value);
+        void Focus();
     }
 
     public sealed class HtmlInputElement : HtmlElement, IHtmlInputElement
@@ -430,8 +429,10 @@ namespace LayoutFarm.Composers
             }
         }
 
-        //-----------
-
+        public void Focus()
+        {
+            _subdomExt?.Focus();
+        }
     }
     public sealed class HtmlOptionElement : HtmlElement, IHtmlOptionElement
     {

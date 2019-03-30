@@ -12,6 +12,11 @@ namespace LayoutFarm.WebDom
         {
             switch (eventName)
             {
+                case UIEventName.KeyDown:
+                    {
+                        _evhKeydown += handler;
+                    }
+                    break;
                 case UIEventName.MouseDown:
                     {
                         _evhMouseDown += handler;
@@ -123,6 +128,10 @@ namespace LayoutFarm.WebDom
 
         protected virtual void OnKeyDown(UIKeyEventArgs e)
         {
+            if (_evhKeydown != null)
+            {
+                _evhKeydown(e);
+            }
         }
         protected virtual void OnKeyUp(UIKeyEventArgs e)
         {

@@ -48,7 +48,7 @@ namespace LayoutFarm.HtmlWidgets
                     {
                         _imgNode.SetImageSource(OnlyOne ? WidgetResList.opt_unchecked : WidgetResList.chk_unchecked);
                     }
-                } 
+                }
                 //TODO: review here
                 CheckValueAssigned?.Invoke(this, EventArgs.Empty);
             }
@@ -118,6 +118,16 @@ namespace LayoutFarm.HtmlWidgets
         }
         void IHtmlInputSubDomExtender.SetInputValue(string value) => Checked = value == "off";
         string IHtmlInputSubDomExtender.GetInputValue() => Checked ? "on" : "off";
+        void IHtmlInputSubDomExtender.Focus()
+        {
+            //TODO:....
+            //if ChoiceBox accept keyboard focus
+            //then we should implement this
+#if DEBUG
+            System.Diagnostics.Debug.WriteLine("focus!");
+#endif
+
+        }
     }
 
 

@@ -135,9 +135,9 @@ namespace LayoutFarm.CustomWidgets
             {
                 _textboxContainer = textboxContainer;
             }
-
             string IHtmlInputSubDomExtender.GetInputValue() => _textboxContainer.GetText();
             void IHtmlInputSubDomExtender.SetInputValue(string value) => _textboxContainer.SetText(value);
+            void IHtmlInputSubDomExtender.Focus() => _textboxContainer.Focus();
         }
 
 
@@ -190,6 +190,7 @@ namespace LayoutFarm.CustomWidgets
                                  spec, true);
 
                             var subdomExtender = new TextBoxInputSubDomExtender(textbox);
+                            var evListener = new LayoutFarm.UI.GeneralEventListener();
                             htmlInputElem.SubDomExtender = subdomExtender;//connect 
 
                             //place holder support
@@ -204,14 +205,16 @@ namespace LayoutFarm.CustomWidgets
                     case "text":
                         {
                             // user can specific width of textbox 
-                            //var textbox = new LayoutFarm.CustomWidgets.TextBox(100, 17, false);
                             var textbox = new LayoutFarm.CustomWidgets.TextBoxContainer(100, 20, false);
                             CssBox wrapperBox = CreateCssWrapper(
                                  host,
                                  textbox,
                                  textbox.GetPrimaryRenderElement(rootgfx),
                                  spec, true);
-
+                            textbox.KeyDown += (s, e) =>
+                            {
+                                ((LayoutFarm.UI.IUIEventListener)htmlInputElem).ListenKeyDown(e);
+                            };
                             var subdomExtender = new TextBoxInputSubDomExtender(textbox);
                             htmlInputElem.SubDomExtender = subdomExtender;//connect 
 
