@@ -19,7 +19,7 @@ namespace LayoutFarm.WebDom
         public int AddStringIfNotExists(string uniqueString) => _uniqueStringTable.AddStringIfNotExist(uniqueString);
 
         public string GetString(int index) => _uniqueStringTable.GetString(index);
-
+        
         public int FindStringIndex(string uniqueString) => _uniqueStringTable.GetStringIndex(uniqueString);
 
         public DomAttribute CreateAttribute(string localName)

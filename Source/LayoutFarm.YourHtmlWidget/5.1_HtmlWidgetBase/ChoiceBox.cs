@@ -124,9 +124,15 @@ namespace LayoutFarm.HtmlWidgets
             //if ChoiceBox accept keyboard focus
             //then we should implement this
 #if DEBUG
-            System.Diagnostics.Debug.WriteLine("focus!");
+            System.Diagnostics.Debug.WriteLine("choice_box:focus!");
 #endif
 
+        }
+        void ISubDomExtender.Write(System.Text.StringBuilder stbuilder)
+        {
+#if DEBUG
+            System.Diagnostics.Debug.WriteLine("choice_box:write!");
+#endif
         }
     }
 

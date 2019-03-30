@@ -73,7 +73,9 @@ namespace LayoutFarm.HtmlBoxes
                             _htmlhost,
                              _vscbar,
                              _vscbar.GetPrimaryRenderElement((RootGraphic)this.GetInternalRootGfx()),
-                             CssBox.UnsafeGetBoxSpec(this), false);
+                             CssBox.UnsafeGetBoxSpec(this),
+                             null,
+                             false);
                 scBarWrapCssBox.SetLocation(newW, 0);
                 this.AppendToAbsoluteLayer(scBarWrapCssBox);
             }
@@ -93,7 +95,9 @@ namespace LayoutFarm.HtmlBoxes
                         _htmlhost,
                          _hscbar,
                          _hscbar.GetPrimaryRenderElement((RootGraphic)this.GetInternalRootGfx()),
-                         CssBox.UnsafeGetBoxSpec(this), false);
+                         CssBox.UnsafeGetBoxSpec(this),
+                         null,
+                         false);
                 scBarWrapCssBox.SetLocation(0, newH);
                 this.AppendToAbsoluteLayer(scBarWrapCssBox);
             }

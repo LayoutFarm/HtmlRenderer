@@ -51,7 +51,9 @@ namespace LayoutFarm.CustomWidgets
                              host,
                              canvas,
                              canvas.GetPrimaryRenderElement(_myHost.RootGfx),
-                             spec, true);
+                             spec,
+                             null,
+                             true);
                         parentBox.AppendChild(wrapperBox);
                         return wrapperBox;
                     }
@@ -64,7 +66,9 @@ namespace LayoutFarm.CustomWidgets
                                host,
                                simpleBox,
                                simpleBox.GetPrimaryRenderElement(_myHost.RootGfx),
-                               spec, false);
+                               spec,
+                               null,
+                               false);
             parentBox.AppendChild(wrapperBox2);
             return wrapperBox2;
         }
@@ -138,6 +142,10 @@ namespace LayoutFarm.CustomWidgets
             string IHtmlInputSubDomExtender.GetInputValue() => _textboxContainer.GetText();
             void IHtmlInputSubDomExtender.SetInputValue(string value) => _textboxContainer.SetText(value);
             void IHtmlInputSubDomExtender.Focus() => _textboxContainer.Focus();
+            void ISubDomExtender.Write(System.Text.StringBuilder stbuilder)
+            {
+                stbuilder.Append(_textboxContainer.GetText());
+            }
         }
 
 
@@ -183,13 +191,17 @@ namespace LayoutFarm.CustomWidgets
                     case "password":
                         {
                             var textbox = new LayoutFarm.CustomWidgets.TextBoxContainer(100, 20, false, true);
+                            var subdomExtender = new TextBoxInputSubDomExtender(textbox);
+
                             CssBox wrapperBox = CreateCssWrapper(
                                  host,
                                  textbox,
                                  textbox.GetPrimaryRenderElement(rootgfx),
-                                 spec, true);
+                                 spec,
+                                 subdomExtender,
+                                 true);
 
-                            var subdomExtender = new TextBoxInputSubDomExtender(textbox);
+
                             var evListener = new LayoutFarm.UI.GeneralEventListener();
                             htmlInputElem.SubDomExtender = subdomExtender;//connect 
 
@@ -206,16 +218,21 @@ namespace LayoutFarm.CustomWidgets
                         {
                             // user can specific width of textbox 
                             var textbox = new LayoutFarm.CustomWidgets.TextBoxContainer(100, 20, false);
+                            var subdomExtender = new TextBoxInputSubDomExtender(textbox);
+
                             CssBox wrapperBox = CreateCssWrapper(
                                  host,
                                  textbox,
                                  textbox.GetPrimaryRenderElement(rootgfx),
-                                 spec, true);
+                                 spec,
+                                 subdomExtender,
+                                 true);
+
                             textbox.KeyDown += (s, e) =>
                             {
                                 ((LayoutFarm.UI.IUIEventListener)htmlInputElem).ListenKeyDown(e);
                             };
-                            var subdomExtender = new TextBoxInputSubDomExtender(textbox);
+
                             htmlInputElem.SubDomExtender = subdomExtender;//connect 
 
                             //place holder support
@@ -256,9 +273,6 @@ namespace LayoutFarm.CustomWidgets
                             chkbox.SetHtmlInputBox(htmlInputElem);
                             chkbox.OnlyOne = false; //*** show as checked box 
 
-
-
-
                             HtmlElement chkBoxElem = chkbox.GetPresentationDomNode(domE);
                             //buttonDom.SetAttribute("style", "width:20px;height:20px;background-color:red;cursor:pointer");
 
@@ -297,7 +311,9 @@ namespace LayoutFarm.CustomWidgets
                                  host,
                                  box,
                                  box.GetPrimaryRenderElement(rootgfx),
-                                 spec, true);
+                                 spec,
+                                 null,
+                                 true);
                             parentBox.AppendChild(wrapperBox);
                             return wrapperBox;
                         }

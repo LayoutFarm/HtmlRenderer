@@ -85,6 +85,140 @@ namespace LayoutFarm.HtmlBoxes
             _startHitRunCharIndex = _endHitRunCharIndex = 0;
         }
 
+        //internal void CopyText(StringBuilder stbuilder)
+        //{
+        //    //copy selected text to stbuilder 
+        //    //this version just copy a plain text
+        //    int j = _selectedLines.Count;
+        //    for (int i = 0; i < j; ++i)
+        //    {
+        //        CssLineBox selLine = _selectedLines[i];
+        //        SelectionSegment selSeg = selLine.SelectionSegment;
+        //        switch (selSeg.Kind)
+        //        {
+        //            case SelectionSegmentKind.Partial:
+        //                {
+        //                    CssRun startRun = selSeg.StartHitRun;
+        //                    CssRun endHitRun = selSeg.EndHitRun;
+        //                    bool autoFirstRun = false;
+        //                    bool autoLastRun = false;
+        //                    if (startRun == null)
+        //                    {
+        //                        startRun = selLine.GetFirstRun();
+        //                        autoFirstRun = true;
+        //                    }
+        //                    if (endHitRun == null)
+        //                    {
+        //                        endHitRun = selLine.GetLastRun();
+        //                        autoLastRun = true;
+        //                    }
+
+        //                    if (startRun == endHitRun)
+        //                    {
+
+        //                        var rr = startRun as CssTextRun;
+        //                        if (rr == null)
+        //                        {
+
+        //                        }
+        //                        if (rr != null && _startHitRunCharIndex >= 0)
+        //                        {
+        //                            string alltext = rr.Text;
+        //                            string sub1 = alltext.Substring(_startHitRunCharIndex, _endHitRunCharIndex - _startHitRunCharIndex);
+        //                            stbuilder.Append(sub1);
+        //                        }
+        //                    }
+        //                    else
+        //                    {
+        //                        int runCount = selLine.RunCount;
+        //                        bool foundStartRun = false;
+        //                        for (int n = 0; n < runCount; ++n)
+        //                        {
+        //                            //temp fix here!
+        //                            //TODO: review this for other cssrun type
+
+        //                            CssRun run = selLine.GetRun(n);
+        //                            var rr = run as CssTextRun;
+
+
+
+        //                            if (rr == null)
+        //                            {
+        //                                continue;
+        //                            }
+        //                            if (rr == startRun)
+        //                            {
+        //                                foundStartRun = true;
+        //                                string alltext = rr.Text;
+        //                                if (autoFirstRun)
+        //                                {
+        //                                    stbuilder.Append(alltext);
+        //                                }
+        //                                else
+        //                                {
+        //                                    if (_startHitRunCharIndex >= 0)
+        //                                    {
+        //                                        string sub1 = alltext.Substring(_startHitRunCharIndex);
+        //                                        stbuilder.Append(sub1);
+        //                                    }
+        //                                }
+        //                            }
+        //                            else if (rr == endHitRun)
+        //                            {
+        //                                string alltext = rr.Text;
+        //                                if (autoLastRun)
+        //                                {
+        //                                    stbuilder.Append(alltext);
+        //                                }
+        //                                else
+        //                                {
+        //                                    if (_endHitRunCharIndex >= 0)
+        //                                    {
+        //                                        string sub1 = alltext.Substring(0, _endHitRunCharIndex);
+        //                                        stbuilder.Append(sub1);
+        //                                    }
+        //                                }
+        //                                //stop
+        //                                break;
+        //                            }
+        //                            else
+        //                            {
+        //                                if (foundStartRun)
+        //                                {
+        //                                    stbuilder.Append(rr.Text);
+        //                                }
+        //                            }
+        //                        }
+        //                    }
+        //                }
+        //                break;
+        //            default:
+        //                {
+        //                    int runCount = selLine.RunCount;
+        //                    for (int n = 0; n < runCount; ++n)
+        //                    {
+        //                        CssRun run = selLine.GetRun(n);
+        //                        CssTextRun r = run as CssTextRun;
+        //                        if (r != null)
+        //                        {
+        //                            stbuilder.Append(r.Text);
+        //                        }
+        //                        else
+        //                        {
+
+        //                        }
+        //                    }
+        //                }
+        //                break;
+        //        }
+
+        //        if (i < j - 1)
+        //        {
+        //            //if not lastline
+        //            stbuilder.AppendLine();
+        //        }
+        //    }
+        //}
         internal void CopyText(StringBuilder stbuilder)
         {
             //copy selected text to stbuilder 
@@ -115,12 +249,14 @@ namespace LayoutFarm.HtmlBoxes
 
                             if (startRun == endHitRun)
                             {
-                                var rr = startRun as CssTextRun;
-                                if (rr != null && _startHitRunCharIndex >= 0)
+
+                                if (startRun != null && _startHitRunCharIndex >= 0)
                                 {
-                                    string alltext = rr.Text;
-                                    string sub1 = alltext.Substring(_startHitRunCharIndex, _endHitRunCharIndex - _startHitRunCharIndex);
-                                    stbuilder.Append(sub1);
+                                    startRun.WriteContent(stbuilder, _startHitRunCharIndex, _endHitRunCharIndex - _startHitRunCharIndex);
+
+                                    //string alltext = rr.Text;
+                                    //string sub1 = alltext.Substring(_startHitRunCharIndex, _endHitRunCharIndex - _startHitRunCharIndex);
+                                    //stbuilder.Append(sub1);
                                 }
                             }
                             else
@@ -131,41 +267,39 @@ namespace LayoutFarm.HtmlBoxes
                                 {
                                     //temp fix here!
                                     //TODO: review this for other cssrun type
-                                    var rr = selLine.GetRun(n) as CssTextRun;
-                                    if (rr == null)
-                                    {
-                                        continue;
-                                    }
-                                    if (rr == startRun)
+
+                                    CssRun run = selLine.GetRun(n);
+
+                                    if (run == startRun)
                                     {
                                         foundStartRun = true;
-                                        string alltext = rr.Text;
                                         if (autoFirstRun)
                                         {
-                                            stbuilder.Append(alltext);
+                                            run.WriteContent(stbuilder);
                                         }
                                         else
                                         {
                                             if (_startHitRunCharIndex >= 0)
                                             {
-                                                string sub1 = alltext.Substring(_startHitRunCharIndex);
-                                                stbuilder.Append(sub1);
+                                                run.WriteContent(stbuilder, _startHitRunCharIndex);
                                             }
                                         }
                                     }
-                                    else if (rr == endHitRun)
+                                    else if (run == endHitRun)
                                     {
-                                        string alltext = rr.Text;
+
                                         if (autoLastRun)
                                         {
-                                            stbuilder.Append(alltext);
+                                            run.WriteContent(stbuilder);
+                                            //stbuilder.Append(alltext);
                                         }
                                         else
                                         {
                                             if (_endHitRunCharIndex >= 0)
                                             {
-                                                string sub1 = alltext.Substring(0, _endHitRunCharIndex);
-                                                stbuilder.Append(sub1);
+                                                run.WriteContent(stbuilder, 0, _endHitRunCharIndex);
+                                                //string sub1 = alltext.Substring(0, _endHitRunCharIndex);
+                                                //stbuilder.Append(sub1);
                                             }
                                         }
                                         //stop
@@ -175,7 +309,8 @@ namespace LayoutFarm.HtmlBoxes
                                     {
                                         if (foundStartRun)
                                         {
-                                            stbuilder.Append(rr.Text);
+                                            run.WriteContent(stbuilder);
+                                            //stbuilder.Append(rr.Text);
                                         }
                                     }
                                 }
@@ -187,11 +322,17 @@ namespace LayoutFarm.HtmlBoxes
                             int runCount = selLine.RunCount;
                             for (int n = 0; n < runCount; ++n)
                             {
-                                var r = selLine.GetRun(n) as CssTextRun;
-                                if (r != null)
-                                {
-                                    stbuilder.Append(r.Text);
-                                }
+                                CssRun run = selLine.GetRun(n);
+                                run.WriteContent(stbuilder);
+                                //CssTextRun r = run as CssTextRun;
+                                //if (r != null)
+                                //{
+                                //    stbuilder.Append(r.Text);
+                                //}
+                                //else
+                                //{
+
+                                //}
                             }
                         }
                         break;
@@ -204,7 +345,6 @@ namespace LayoutFarm.HtmlBoxes
                 }
             }
         }
-
         void SetupStartHitPoint(CssBoxHitChain startChain, ITextService textService)
         {
             //find global location of start point
@@ -733,7 +873,7 @@ namespace LayoutFarm.HtmlBoxes
                 //then walk up  ***
                 CssBox curBox = startLine.OwnerBox;
 
-                RETRY://***
+            RETRY://***
                 CssBox level1Sibling = BoxHitUtils.GetNextSibling(curBox);
                 while (level1Sibling != null)
                 {

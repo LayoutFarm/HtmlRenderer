@@ -11,10 +11,13 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
     {
         RenderElement _externalRenderE;
         Rectangle _renderElementRect;
-        public CssExternalRun(RenderElement externalRenderE)
+        LayoutFarm.Composers.ISubDomExtender _subDomExtender;
+
+        public CssExternalRun(RenderElement externalRenderE, LayoutFarm.Composers.ISubDomExtender subDomExtender)
             : base(CssRunKind.SolidContent) //act as image run****
         {
             //in this version we make it as as image run
+            _subDomExtender = subDomExtender;
             _externalRenderE = externalRenderE;
         }
         public RenderElement RenderElement => _externalRenderE;
@@ -30,7 +33,16 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
 
         public override void WriteContent(StringBuilder stbuilder, int start, int length)
         {
-            throw new NotImplementedException();
+#if DEBUG
+            System.Diagnostics.Debug.WriteLine("write_content: on CssBlockRun");
+#endif
+
+        }
+        public override void WriteContent(StringBuilder stbuilder, int start = 0)
+        {
+#if DEBUG
+            System.Diagnostics.Debug.WriteLine("write_content: on CssBlockRun");
+#endif
         }
 #if DEBUG
         /// <summary>
@@ -96,20 +108,19 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
     {
         CssExternalRun _externalRun;
         HtmlHost _htmlhost;
-
         public WrapperInlineCssBox(
             HtmlHost htmlhost,
             object controller, Css.BoxSpec boxSpec,
-            RootGraphic rootgfx, RenderElement re)
+            RootGraphic rootgfx, RenderElement re,
+            LayoutFarm.Composers.ISubDomExtender subDomExtender)
             : base(controller, boxSpec, re.Root, CssDisplay.Inline)
         {
+
             _htmlhost = htmlhost;
 
-            //int w = re.Width;
-            //int h = re.Height;
 
             ChangeDisplayType(this, CssDisplay.Inline);
-            _externalRun = new CssExternalRun(re);
+            _externalRun = new CssExternalRun(re, subDomExtender);
             _externalRun.SetOwner(this);
             var runlist = new List<CssRun>(1);
             runlist.Add(_externalRun);
@@ -199,14 +210,18 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
     {
         HtmlHost _htmlHost;
         RenderElement _renderE;
+
         public WrapperBlockCssBox(
              HtmlHost htmlHost,
              object controller,
              BoxSpec spec,
-             RenderElement renderElement)
+             RenderElement renderElement,
+             LayoutFarm.Composers.ISubDomExtender subDomExtender)
             : base(controller, spec, renderElement.Root, CssDisplay.Block)
         {
             _htmlHost = htmlHost;
+    
+
             SetAsCustomCssBox(this);
             int w = renderElement.Width;
             int h = renderElement.Height;
