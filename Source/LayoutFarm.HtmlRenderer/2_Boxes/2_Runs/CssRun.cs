@@ -264,7 +264,6 @@ namespace LayoutFarm.HtmlBoxes
             return string.Format("{0} ({1} char{2})",
                 txt.Replace(' ', '-').Replace("\n", "\\n"), txt.Length, txt.Length != 1 ? "s" : string.Empty);
         }
-
         internal void FindSelectionPoint(ITextService textService,
             int offset, out int selectionIndex,
             out int runSelectionOffsetPx)
@@ -294,12 +293,11 @@ namespace LayoutFarm.HtmlBoxes
                         CssTextRun textRun = (CssTextRun)this;
                         var textBuf = new TextBufferSpan(ownerTextBuff, textRun.TextStartIndex, textRun.TextLength);
 
+                        //temp fix add +3 ***because this is a selection, 
                         textService.MeasureString(ref textBuf,
-                            this.OwnerBox.ResolvedFont, maxWidth, out charFit, out charFitWidth);
+                            this.OwnerBox.ResolvedFont, maxWidth + 3, out charFit, out charFitWidth);
                         selectionIndex = charFit;
                         runSelectionOffsetPx = charFitWidth;
-
-
                     }
                     break;
                 case CssRunKind.Space:
