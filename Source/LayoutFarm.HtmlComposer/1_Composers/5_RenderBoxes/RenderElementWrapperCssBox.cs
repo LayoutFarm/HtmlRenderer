@@ -33,6 +33,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
 
         public override void WriteContent(StringBuilder stbuilder, int start, int length)
         {
+            _subDomExtender?.Write(stbuilder);
 #if DEBUG
             System.Diagnostics.Debug.WriteLine("write_content: on CssBlockRun");
 #endif
@@ -40,6 +41,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
         }
         public override void WriteContent(StringBuilder stbuilder, int start = 0)
         {
+            _subDomExtender?.Write(stbuilder);
 #if DEBUG
             System.Diagnostics.Debug.WriteLine("write_content: on CssBlockRun");
 #endif
@@ -220,7 +222,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
             : base(controller, spec, renderElement.Root, CssDisplay.Block)
         {
             _htmlHost = htmlHost;
-    
+
 
             SetAsCustomCssBox(this);
             int w = renderElement.Width;
