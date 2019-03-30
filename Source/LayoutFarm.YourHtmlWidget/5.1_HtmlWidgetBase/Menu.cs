@@ -63,7 +63,7 @@ namespace LayoutFarm.HtmlWidgets
                     this.UnmaintenanceParentOpenState();
                     e.StopPropagation();
                 });
-                _menuIcon.AttachEventOnMouseLostFocus(e =>
+                _menuIcon.AttachEvent(UI.UIEventName.MouseLostFocus, e =>
                 {
                     if (!this.MaintainOpenState)
                     {
