@@ -21,13 +21,9 @@ namespace LayoutFarm.Composers
         {
             _lazyCreator = lazyCreator;
         }
-        internal override bool HasCustomPrincipalBoxGenerator
-        {
-            get
-            {
-                return true;
-            }
-        }
+
+        internal override bool HasCustomPrincipalBoxGenerator => true;
+
         internal override CssBox GetPrincipalBox(CssBox parentCssBox, HtmlHost host)
         {
             if (this.CurrentPrincipalBox != null)
@@ -36,9 +32,14 @@ namespace LayoutFarm.Composers
             }
             else
             {
-
                 _lazyCreator(parentCssBox.GetInternalRootGfx(), out RenderElement re, out object controller);
-                CssBox wrapper = CustomCssBoxGenerator.CreateCssWrapper(((HtmlDocument)this.OwnerDocument).Host, controller, re, this.Spec, false);
+                CssBox wrapper = CustomCssBoxGenerator.CreateCssWrapper(
+                    ((HtmlDocument)this.OwnerDocument).Host,
+                    controller,
+                    re,
+                    this.Spec,
+                    null,
+                    false);
                 this.SetPrincipalBox(wrapper);
                 return wrapper;
             }

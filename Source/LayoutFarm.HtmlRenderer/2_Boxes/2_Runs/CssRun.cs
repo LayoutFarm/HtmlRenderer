@@ -69,6 +69,13 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="owner">the CSS box owner of the word</param>
         protected CssRun(CssRunKind rectKind)
         {
+#if DEBUG
+            if (dbugId == 19)
+            {
+
+            }
+#endif
+
             _runKind = rectKind;
         }
         public void SetOwner(CssBox owner)
@@ -246,6 +253,7 @@ namespace LayoutFarm.HtmlBoxes
         //
 
         public abstract void WriteContent(System.Text.StringBuilder stbuilder, int start, int length);
+        public abstract void WriteContent(System.Text.StringBuilder stbuilder, int start = 0);
         /// <summary>
         /// Represents this word for debugging purposes
         /// </summary>

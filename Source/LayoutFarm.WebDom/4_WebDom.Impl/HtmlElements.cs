@@ -4,9 +4,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
- 
+
 namespace LayoutFarm.WebDom.Impl
-{  
+{
     static class DomTextWriterPool
     {
         public static TempContext<DomTextWriter> Borrow(out DomTextWriter writer)
@@ -212,7 +212,16 @@ namespace LayoutFarm.WebDom.Impl
                 return false;
             }
         }
-
+        public bool TryGetAttribute(string attrName, out DomAttribute result)
+        {
+            int foundIndex = this.OwnerDocument.FindStringIndex(attrName);
+            if (foundIndex < 1)
+            {
+                result = null;
+                return false;
+            }
+            return (result = FindAttribute(foundIndex)) != null;
+        }
         public bool TryGetAttribute(WellknownName wellknownHtmlName, out string value)
         {
             DomAttribute found;

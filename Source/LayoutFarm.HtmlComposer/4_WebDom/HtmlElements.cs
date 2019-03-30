@@ -352,7 +352,12 @@ namespace LayoutFarm.Composers
             }
         }
     }
-    public interface IHtmlInputSubDomExtender
+
+    public interface ISubDomExtender
+    {
+        void Write(System.Text.StringBuilder stbuilder);
+    }
+    public interface IHtmlInputSubDomExtender : ISubDomExtender
     {
         string GetInputValue();
         void SetInputValue(string value);

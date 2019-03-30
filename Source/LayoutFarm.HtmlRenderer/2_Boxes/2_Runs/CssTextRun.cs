@@ -14,6 +14,8 @@
 // "The Art of War"
 
 
+using System.Text;
+
 namespace LayoutFarm.HtmlBoxes
 {
     /// <summary>
@@ -78,12 +80,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         //================================================================
 
-        public void MakeLength1()
-        {
-            _textLength = 1;
-        }
 
-        //
         public int TextLength => _textLength;
         //         
         internal int TextStartIndex => _textStartIndex;
@@ -118,6 +115,11 @@ namespace LayoutFarm.HtmlBoxes
                         }
                 }
             }
+        }
+
+        public override void WriteContent(StringBuilder stbuilder, int start = 0)
+        {
+            WriteContent(stbuilder, 0, _textLength);
         }
         public override void WriteContent(System.Text.StringBuilder stbuilder, int start, int length)
         {

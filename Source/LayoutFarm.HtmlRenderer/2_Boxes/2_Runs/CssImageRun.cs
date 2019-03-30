@@ -13,6 +13,7 @@
 
 //MIT, 2018-present, WinterDev
 
+using System.Text;
 using PixelFarm.Drawing;
 namespace LayoutFarm.HtmlBoxes
 {
@@ -72,7 +73,7 @@ namespace LayoutFarm.HtmlBoxes
                 return 1; //default image width
             }
         }
-        public bool HasUserImageContent => this.Image != null; 
+        public bool HasUserImageContent => this.Image != null;
         public ImageBinder ImageBinder
         {
             get => _imgBinder;
@@ -90,6 +91,15 @@ namespace LayoutFarm.HtmlBoxes
 
         public override void WriteContent(System.Text.StringBuilder stbuilder, int start, int length)
         {
+#if DEBUG
+            System.Diagnostics.Debug.WriteLine("copy_image:...");
+#endif
+        }
+        public override void WriteContent(StringBuilder stbuilder, int start = 0)
+        {
+#if DEBUG
+            System.Diagnostics.Debug.WriteLine("copy_image:...");
+#endif
         }
 
 #if DEBUG
