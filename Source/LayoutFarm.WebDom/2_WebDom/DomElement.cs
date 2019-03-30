@@ -13,12 +13,7 @@ namespace LayoutFarm.WebDom
         DomAttribute _attrElemId;
         DomAttribute _attrClass;
         DomAttribute _attrStyle;
-        //-------------------------------------------
-
-        HtmlEventHandler _evhKeydown;
-        HtmlEventHandler _evhMouseDown;
-        HtmlEventHandler _evhMouseUp;
-        HtmlEventHandler _evhMouseLostFocus;
+        //------------------------------------------- 
 
         public DomElement(WebDocument ownerDoc, int nodePrefixNameIndex, int nodeLocalNameIndex)
             : base(ownerDoc)
