@@ -74,7 +74,7 @@ namespace LayoutFarm.CustomWidgets
         }
 
 
-        CssBox CreateSelectBox(HtmlElement domE,
+        CssBox CreateSelectBox(HtmlElement htmlElem,
             CssBox parentBox,
             BoxSpec spec,
             LayoutFarm.RootGraphic rootgfx, HtmlHost host)
@@ -84,11 +84,11 @@ namespace LayoutFarm.CustomWidgets
             //1. as drop-down list
             //2. as list-box 
 
-            WebDom.Impl.HtmlElement htmlElem = (WebDom.Impl.HtmlElement)domE;
+
             htmlElem.HasSpecialPresentation = true;
             //
             LayoutFarm.HtmlWidgets.HingeBox hingeBox = new LayoutFarm.HtmlWidgets.HingeBox(100, 30); //actual controller
-            foreach (DomNode childNode in domE.GetChildNodeIterForward())
+            foreach (DomNode childNode in htmlElem.GetChildNodeIterForward())
             {
 
                 WebDom.Impl.HtmlElement childElem = childNode as WebDom.Impl.HtmlElement;
@@ -112,10 +112,10 @@ namespace LayoutFarm.CustomWidgets
                 }
             }
 
-            HtmlElement hingeBoxDom = hingeBox.GetPresentationDomNode(domE);
+            HtmlElement hingeBoxDom = hingeBox.GetPresentationDomNode(htmlElem);
             CssBox cssHingeBox = host.CreateCssBox(parentBox, hingeBoxDom, true); //create and append to the parentBox 
             //
-            hingeBoxDom.SetSubParentNode(domE);
+            hingeBoxDom.SetSubParentNode(htmlElem);
             cssHingeBox.IsReplacement = true;
             htmlElem.SpecialPresentationUpdate = (o) =>
             {
