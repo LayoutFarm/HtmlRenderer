@@ -290,6 +290,9 @@ namespace LayoutFarm.Composers
 
 
 
+        public bool HasSpecialPresentation { get; set; }
+
+        public System.Action<object> SpecialPresentationUpdate;
 
         //---------------------------------------------------------------------------------
 
