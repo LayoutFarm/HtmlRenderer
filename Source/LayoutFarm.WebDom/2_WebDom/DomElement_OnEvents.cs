@@ -8,45 +8,45 @@ namespace LayoutFarm.WebDom
     partial class DomElement : IUIEventListener
     {
         //------------------------------------------------------
-        public void AttachEvent(UIEventName eventName, HtmlEventHandler handler)
+        public virtual void AttachEvent(UIEventName eventName, HtmlEventHandler handler)
         {
-            switch (eventName)
-            {
-                case UIEventName.MouseDown:
-                    {
-                        _evhMouseDown += handler;
-                    }
-                    break;
-                case UIEventName.MouseUp:
-                    {
-                        _evhMouseUp += handler;
-                    }
-                    break;
-            }
+            //switch (eventName)
+            //{
+            //    case UIEventName.KeyDown:
+            //        {
+            //            _evhKeydown += handler;
+            //        }
+            //        break;
+            //    case UIEventName.MouseDown:
+            //        {
+            //            _evhMouseDown += handler;
+            //        }
+            //        break;
+            //    case UIEventName.MouseUp:
+            //        {
+            //            _evhMouseUp += handler;
+            //        }
+            //        break;
+            //}
         }
 
-        public void DetachEvent(UIEventName eventName, HtmlEventHandler handler)
+        public virtual void DetachEvent(UIEventName eventName, HtmlEventHandler handler)
         {
-            switch (eventName)
-            {
-                case UIEventName.MouseDown:
-                    {
-                        _evhMouseDown -= handler;
-                    }
-                    break;
-                case UIEventName.MouseUp:
-                    {
-                        _evhMouseUp -= handler;
-                    }
-                    break;
-            }
+            //switch (eventName)
+            //{
+            //    case UIEventName.MouseDown:
+            //        {
+            //            _evhMouseDown -= handler;
+            //        }
+            //        break;
+            //    case UIEventName.MouseUp:
+            //        {
+            //            _evhMouseUp -= handler;
+            //        }
+            //        break;
+            //}
         }
-        //-------------------------------------------------------
-        public void AttachEventOnMouseLostFocus(HtmlEventHandler handler)
-        {
-            _evhMouseLostFocus += handler;
-        }
-
+        
         //-------------------------------------------------------
         protected virtual void OnLostFocus(UIFocusEventArgs e)
         {
@@ -61,17 +61,17 @@ namespace LayoutFarm.WebDom
         }
         protected virtual void OnLostMouseFocus(UIMouseEventArgs e)
         {
-            if (_evhMouseLostFocus != null)
-            {
-                _evhMouseLostFocus(e);
-            }
+            //if (_evhMouseLostFocus != null)
+            //{
+            //    _evhMouseLostFocus(e);
+            //}
         }
         protected virtual void OnMouseDown(UIMouseEventArgs e)
         {
-            if (_evhMouseDown != null)
-            {
-                _evhMouseDown(e);
-            }
+            //if (_evhMouseDown != null)
+            //{
+            //    _evhMouseDown(e);
+            //}
             if (!e.CancelBubbling)
             {
                 DomElement parentAsDomElem = this.ParentNode as DomElement;
@@ -86,10 +86,10 @@ namespace LayoutFarm.WebDom
         }
         protected virtual void OnMouseUp(UIMouseEventArgs e)
         {
-            if (_evhMouseUp != null)
-            {
-                _evhMouseUp(e);
-            }
+            //if (_evhMouseUp != null)
+            //{
+            //    _evhMouseUp(e);
+            //}
             if (!e.CancelBubbling)
             {
                 DomElement parentAsDomElem = this.ParentNode as DomElement;
@@ -123,6 +123,10 @@ namespace LayoutFarm.WebDom
 
         protected virtual void OnKeyDown(UIKeyEventArgs e)
         {
+            //if (_evhKeydown != null)
+            //{
+            //    _evhKeydown(e);
+            //}
         }
         protected virtual void OnKeyUp(UIKeyEventArgs e)
         {

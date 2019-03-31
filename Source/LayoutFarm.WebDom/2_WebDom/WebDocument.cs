@@ -12,32 +12,37 @@ namespace LayoutFarm.WebDom
             _uniqueStringTable = uniqueStringTable;
             this.DocumentState = WebDom.DocumentState.Init;
         }
-        public abstract DomElement RootNode
-        {
-            get;
-        }
+        public abstract DomElement RootNode { get; }
         public abstract int DomUpdateVersion { get; }
         public abstract void IncDomVersion();
 
-        public int AddStringIfNotExists(string uniqueString)
-        {
-            return _uniqueStringTable.AddStringIfNotExist(uniqueString);
-        }
-        public string GetString(int index)
-        {
-            return _uniqueStringTable.GetString(index);
-        }
-        public int FindStringIndex(string uniqueString)
-        {
-            return _uniqueStringTable.GetStringIndex(uniqueString);
-        }
+        public int AddStringIfNotExists(string uniqueString) => _uniqueStringTable.AddStringIfNotExist(uniqueString);
 
-        public DomAttribute CreateAttribute(string prefix, string localName)
+        public string GetString(int index) => _uniqueStringTable.GetString(index);
+        
+        public int FindStringIndex(string uniqueString) => _uniqueStringTable.GetStringIndex(uniqueString);
+
+        public DomAttribute CreateAttribute(string localName)
+        {
+            return new DomAttribute(this,
+                0,
+                _uniqueStringTable.AddStringIfNotExist(localName));
+        }
+        public DomAttribute CreateAttribute(string localName, string value)
+        {
+            var attr = new DomAttribute(this,
+                0,
+                _uniqueStringTable.AddStringIfNotExist(localName));
+            attr.Value = value;
+            return attr;
+        }
+        public DomAttribute CreateAttributeWithPrefix(string prefix, string localName)
         {
             return new DomAttribute(this,
                 _uniqueStringTable.AddStringIfNotExist(prefix),
                 _uniqueStringTable.AddStringIfNotExist(localName));
         }
+
         public abstract DomElement CreateElement(string prefix, string localName);
         public abstract DomNode CreateDocumentNodeElement();
         public abstract DomElement CreateShadowRootElement();
@@ -46,20 +51,14 @@ namespace LayoutFarm.WebDom
             return this.CreateElement(null, localName);
         }
 
-        public DomComment CreateComent()
-        {
-            return new DomComment(this);
-        }
-        public DomProcessInstructionNode CreateProcessInstructionNode(int nameIndex)
-        {
-            return new DomProcessInstructionNode(this, nameIndex);
-        }
+        public DomComment CreateComent() => new DomComment(this);
+
+        public DomProcessInstructionNode CreateProcessInstructionNode(int nameIndex) => new DomProcessInstructionNode(this, nameIndex);
 
         public abstract DomTextNode CreateTextNode(char[] strBufferForElement);
-        public DomCDataNode CreateCDataNode()
-        {
-            return new DomCDataNode(this);
-        }
+
+        public DomCDataNode CreateCDataNode() => new DomCDataNode(this);
+
         //-------------------------------------------------------
         internal void RegisterElementById(DomElement element)
         {

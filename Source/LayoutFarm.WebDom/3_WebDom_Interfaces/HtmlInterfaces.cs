@@ -62,6 +62,7 @@ namespace LayoutFarm.WebDom
         [JsProperty("value")]
         string Value { get; set; }
         string inputType { get; }
+        void Focus();
     }
 
 

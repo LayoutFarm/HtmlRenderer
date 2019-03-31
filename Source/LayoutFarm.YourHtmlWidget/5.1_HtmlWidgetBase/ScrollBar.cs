@@ -612,10 +612,13 @@ namespace LayoutFarm.HtmlWidgets
             //1st evaluate  
             _scBar.MaxValue = _scrollableSurface.InnerHeight;
             _scBar.ReEvaluateScrollBar();
-            _scrollableSurface.LayoutFinished += (s, e) =>
+            _scrollableSurface.ViewportChanged += (s, e) =>
             {
-                _scBar.MaxValue = _scrollableSurface.InnerHeight;
-                _scBar.ReEvaluateScrollBar();
+                if (e.Kind == ViewportChangedEventArgs.ChangeKind.LayoutDone)
+                {
+                    _scBar.MaxValue = _scrollableSurface.InnerHeight;
+                    _scBar.ReEvaluateScrollBar();
+                }
             };
             _scBar.UserScroll += (s, e) =>
             {
@@ -648,10 +651,13 @@ namespace LayoutFarm.HtmlWidgets
             //1st evaluate  
             _scBar.MaxValue = _scrollableSurface.InnerWidth;
             _scBar.ReEvaluateScrollBar();
-            _scrollableSurface.LayoutFinished += (s, e) =>
+            _scrollableSurface.ViewportChanged += (s, e) =>
             {
-                _scBar.MaxValue = _scrollableSurface.InnerWidth;
-                _scBar.ReEvaluateScrollBar();
+                if (e.Kind == ViewportChangedEventArgs.ChangeKind.LayoutDone)
+                {
+                    _scBar.MaxValue = _scrollableSurface.InnerWidth;
+                    _scBar.ReEvaluateScrollBar();
+                }
             };
             _scBar.UserScroll += (s, e) =>
             {
