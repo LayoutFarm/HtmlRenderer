@@ -7,12 +7,19 @@ using LayoutFarm.HtmlBoxes;
 using LayoutFarm.WebDom;
 namespace LayoutFarm.CustomWidgets
 {
+
+
     public class MyCustomCssBoxGenerator : CustomCssBoxGenerator
     {
         HtmlHost _myHost;
+        TextBoxSwitcher _textboxSwitcher;
+
         public MyCustomCssBoxGenerator(HtmlBoxes.HtmlHost myHost)
         {
             _myHost = myHost;
+
+            _textboxSwitcher = new TextBoxSwitcher();
+
         }
 
         public override CssBox CreateCssBox(
@@ -191,6 +198,8 @@ namespace LayoutFarm.CustomWidgets
                     case "password":
                         {
                             var textbox = new LayoutFarm.CustomWidgets.TextBoxContainer(100, 20, false, true);
+                            textbox.TextBoxSwitcher = _textboxSwitcher;
+
                             var subdomExtender = new TextBoxInputSubDomExtender(textbox);
 
                             CssBox wrapperBox = CreateCssWrapper(
@@ -206,7 +215,7 @@ namespace LayoutFarm.CustomWidgets
                                 ((LayoutFarm.UI.IUIEventListener)htmlInputElem).ListenKeyDown(e);
                             };
 
-                         
+
                             htmlInputElem.SubDomExtender = subdomExtender;//connect 
 
                             //place holder support
@@ -222,6 +231,8 @@ namespace LayoutFarm.CustomWidgets
                         {
                             //TODO: user can specific width of textbox 
                             var textbox = new LayoutFarm.CustomWidgets.TextBoxContainer(100, 20, false);
+                            textbox.TextBoxSwitcher = _textboxSwitcher;
+
                             var subdomExtender = new TextBoxInputSubDomExtender(textbox);
 
                             CssBox wrapperBox = CreateCssWrapper(
@@ -326,4 +337,7 @@ namespace LayoutFarm.CustomWidgets
             return null;
         }
     }
+
+
+
 }
