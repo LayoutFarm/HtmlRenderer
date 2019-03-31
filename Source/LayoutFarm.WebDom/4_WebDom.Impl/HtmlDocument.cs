@@ -92,10 +92,12 @@ namespace LayoutFarm.WebDom.Impl
         public override void IncDomVersion()
         {
             _domUpdateVersion++;
-            if (_domUpdatedHandler != null)
-            {
-                _domUpdatedHandler(this, EventArgs.Empty);
-            }
+#if DEBUG
+            System.Diagnostics.Debug.WriteLine("dom_update:" + _domUpdateVersion);
+#endif
+
+            //eg. add to layout queue
+            _domUpdatedHandler?.Invoke(this, EventArgs.Empty);
         }
 
         class MyHtmlElement : HtmlElement

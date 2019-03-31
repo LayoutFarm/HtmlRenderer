@@ -231,10 +231,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         internal void NotifyHtmlVisualRootUpdate(HtmlVisualRoot htmlVisualRoot)
         {
-            if (_visualHtmlRootUpdateHandler != null)
-            {
-                _visualHtmlRootUpdateHandler(htmlVisualRoot);
-            }
+            _visualHtmlRootUpdateHandler?.Invoke(htmlVisualRoot);
         }
         /// update some or generate all cssbox
         /// </summary>

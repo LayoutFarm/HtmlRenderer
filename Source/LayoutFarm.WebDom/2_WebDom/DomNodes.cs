@@ -23,9 +23,8 @@ namespace LayoutFarm.WebDom
     public abstract class DomNode : INode
     {
         WebDocument _ownerDoc;
-        DomNode _parentNode;
+        DomElement _parentNode;
         HtmlNodeKind _nodeKind;
-        DomNode _subParentNode;
 #if DEBUG
         static int dbugTotalId;
         public int dbugId;
@@ -39,18 +38,11 @@ namespace LayoutFarm.WebDom
             this.dbugId = dbugTotalId;
             dbugTotalId++;
 #endif
-
         }
         public DocumentState DocState => _ownerDoc.DocumentState;
 
         public DomNode ParentNode => _parentNode;
 
-        public DomNode SubParentNode => _subParentNode;
-
-        public void SetSubParentNode(DomNode subParentNode)
-        {
-            _subParentNode = subParentNode;
-        }
         protected void SetNodeType(HtmlNodeKind nodekind)
         {
             _nodeKind = nodekind;
@@ -60,7 +52,7 @@ namespace LayoutFarm.WebDom
 
         public WebDocument OwnerDocument => _ownerDoc;
 
-        internal void SetParent(DomNode parentNode)
+        internal void SetParent(DomElement parentNode)
         {
             _parentNode = parentNode;
         }

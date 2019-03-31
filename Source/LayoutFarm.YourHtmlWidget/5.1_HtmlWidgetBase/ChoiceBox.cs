@@ -37,9 +37,7 @@ namespace LayoutFarm.HtmlWidgets
             set
             {
                 _checked = value;
-                //
-                CheckValueAssigned?.Invoke(this, EventArgs.Empty);
-                //
+                // 
                 if (_imgNode != null)
                 {
                     if (value)
@@ -51,6 +49,8 @@ namespace LayoutFarm.HtmlWidgets
                         _imgNode.SetImageSource(OnlyOne ? WidgetResList.opt_unchecked : WidgetResList.chk_unchecked);
                     }
                 }
+                //TODO: review here
+                CheckValueAssigned?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -118,6 +118,22 @@ namespace LayoutFarm.HtmlWidgets
         }
         void IHtmlInputSubDomExtender.SetInputValue(string value) => Checked = value == "off";
         string IHtmlInputSubDomExtender.GetInputValue() => Checked ? "on" : "off";
+        void IHtmlInputSubDomExtender.Focus()
+        {
+            //TODO:....
+            //if ChoiceBox accept keyboard focus
+            //then we should implement this
+#if DEBUG
+            System.Diagnostics.Debug.WriteLine("choice_box:focus!");
+#endif
+
+        }
+        void ISubDomExtender.Write(System.Text.StringBuilder stbuilder)
+        {
+#if DEBUG
+            System.Diagnostics.Debug.WriteLine("choice_box:write!");
+#endif
+        }
     }
 
 

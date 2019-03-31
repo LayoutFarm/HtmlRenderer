@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using LayoutFarm.HtmlBoxes;
+using LayoutFarm.UI;
 using LayoutFarm.WebDom;
 namespace LayoutFarm.Composers
 {
@@ -33,6 +34,7 @@ namespace LayoutFarm.Composers
     {
         protected CssBox _principalBox;
         protected Css.BoxSpec _boxSpec;
+        HtmlElement _subParentNode;
 
         internal HtmlElement(HtmlDocument owner, int prefix, int localNameIndex)
             : base(owner, prefix, localNameIndex)
@@ -48,7 +50,12 @@ namespace LayoutFarm.Composers
 #endif
             base.AddChild(childNode);
         }
+        public HtmlElement SubParentNode => _subParentNode;
 
+        public void SetSubParentNode(HtmlElement subParentNode)
+        {
+            _subParentNode = subParentNode;
+        }
         public override void SetAttribute(DomAttribute attr)
         {
             SetDomAttribute(attr);
@@ -101,27 +108,31 @@ namespace LayoutFarm.Composers
 
         protected override void OnElementChangedInIdleState(ElementChangeKind changeKind, DomAttribute attr)
         {
-
             //1. 
             this.OwnerDocument.SetDocumentState(DocumentState.ChangedAfterIdle);
             if (this.OwnerDocument.IsDocFragment) return;
             //------------------------------------------------------------------
-            //2. need box evaluation again
+            //2. need box-evaluation again ? 
+            //we need to check that attr affect the dom or not
+            //eg. font-color, bgcolor => not affect element size/layout
+            //    custom attr => not affect element size/layout
+
             this.SkipPrincipalBoxEvalulation = false;
 
 
-            //-------------------
-            if (this.WellknownElementName == WellKnownDomNodeName.img)
-            {
-                if (attr != null && attr.Name == "src")
-                {
-                    //TODO: review this
-                    //has local effect
-                    //no propagation up
-                    return;
-                }
-            }
-            //-------------------
+
+            ////-------------------
+            //if (this.WellknownElementName == WellKnownDomNodeName.img)
+            //{
+            //    if (attr != null && attr.Name == "src")
+            //    {
+            //        //TODO: review this
+            //        //has local effect
+            //        //no propagation up
+            //        return;
+            //    }
+            //}
+            ////-------------------
 
             //3. propagate
             HtmlElement cnode = (HtmlElement)this.ParentNode;
@@ -145,9 +156,10 @@ namespace LayoutFarm.Composers
                     }
                 }
             }
-            owner.IncDomVersion();
-        }
 
+            owner.IncDomVersion();
+
+        }
         protected override void OnElementChanged()
         {
             CssBox box = _principalBox;
@@ -275,6 +287,159 @@ namespace LayoutFarm.Composers
         }
 
         public HtmlDocument OwnerHtmlDoc => OwnerDocument as HtmlDocument;
+
+
+
+        public bool HasSpecialPresentation { get; set; }
+
+        public System.Action<object> SpecialPresentationUpdate;
+
+        //---------------------------------------------------------------------------------
+
+        HtmlEventHandler _mouseDownEventHandler;
+        HtmlEventHandler _mouseMoveEventHandler;
+        HtmlEventHandler _mouseUpEventHandler;
+        HtmlEventHandler _mouseLostFocusEventHandler;
+        HtmlEventHandler _keyDownEventHandler;
+
+        public override void AttachEvent(UIEventName eventName, HtmlEventHandler handler)
+        {
+            switch (eventName)
+            {
+                case UIEventName.MouseDown:
+                    {
+                        if (_mouseDownEventHandler == null)
+                        {
+                            _mouseDownEventHandler = handler;
+                        }
+                        else
+                        {
+                            _mouseDownEventHandler += handler;
+                        }
+                    }
+                    break;
+                case UIEventName.MouseMove:
+                    {
+                        if (_mouseMoveEventHandler == null)
+                        {
+                            _mouseMoveEventHandler = handler;
+                        }
+                        else
+                        {
+                            _mouseMoveEventHandler += handler;
+                        }
+                    }
+                    break;
+                case UIEventName.MouseUp:
+                    {
+                        if (_mouseUpEventHandler == null)
+                        {
+                            _mouseUpEventHandler = handler;
+                        }
+                        else
+                        {
+                            _mouseUpEventHandler += handler;
+                        }
+                    }
+                    break;
+                case UIEventName.MouseLostFocus:
+                    {
+                        if (_mouseLostFocusEventHandler == null)
+                        {
+                            _mouseLostFocusEventHandler = handler;
+                        }
+                        else
+                        {
+                            _mouseLostFocusEventHandler += handler;
+                        }
+                    }
+                    break;
+                case UIEventName.KeyDown:
+                    {
+                        if (_keyDownEventHandler == null)
+                        {
+                            _keyDownEventHandler = handler;
+                        }
+                        else
+                        {
+                            _keyDownEventHandler += handler;
+                        }
+                    }
+                    break;
+            }
+        }
+        public override void DetachEvent(UIEventName eventName, HtmlEventHandler handler)
+        {
+            switch (eventName)
+            {
+                case UIEventName.MouseDown:
+                    {
+                        if (_mouseDownEventHandler != null)
+                        {
+                            _mouseDownEventHandler -= handler;
+                        }
+                    }
+                    break;
+                case UIEventName.MouseMove:
+                    {
+                        if (_mouseMoveEventHandler != null)
+                        {
+                            _mouseMoveEventHandler -= handler;
+                        }
+                    }
+                    break;
+                case UIEventName.MouseUp:
+                    {
+                        if (_mouseUpEventHandler != null)
+                        {
+                            _mouseUpEventHandler -= handler;
+                        }
+                    }
+                    break;
+                case UIEventName.MouseLostFocus:
+                    {
+                        if (_mouseLostFocusEventHandler != null)
+                        {
+                            _mouseLostFocusEventHandler -= handler;
+                        }
+                    }
+                    break;
+                case UIEventName.KeyDown:
+                    {
+                        if (_keyDownEventHandler != null)
+                        {
+                            _keyDownEventHandler -= handler;
+                        }
+                    }
+                    break;
+            }
+        }
+        protected override void OnMouseDown(UIMouseEventArgs e)
+        {
+            _mouseDownEventHandler?.Invoke(e);
+            base.OnMouseDown(e);
+        }
+        protected override void OnMouseMove(UIMouseEventArgs e)
+        {
+            _mouseMoveEventHandler?.Invoke(e);
+            base.OnMouseMove(e);
+        }
+        protected override void OnMouseUp(UIMouseEventArgs e)
+        {
+            _mouseUpEventHandler?.Invoke(e);
+            base.OnMouseUp(e);
+        }
+        protected override void OnLostMouseFocus(UIMouseEventArgs e)
+        {
+            _mouseLostFocusEventHandler?.Invoke(e);
+            base.OnLostMouseFocus(e);
+        }
+        protected override void OnKeyDown(UIKeyEventArgs e)
+        {
+            _keyDownEventHandler?.Invoke(e);
+            base.OnKeyDown(e);
+        }
+
     }
 
 
@@ -321,8 +486,7 @@ namespace LayoutFarm.Composers
         }
         public void SetImageSource(ImageBinder imgBinder)
         {
-            DomAttribute attr = this.OwnerDocument.CreateAttribute("", "src");
-            attr.Value = imgBinder.ImageSource;
+            DomAttribute attr = this.OwnerDocument.CreateAttribute("src", imgBinder.ImageSource);
             SetDomAttribute(attr);
             //----
             if (_principalBox != null)
@@ -333,8 +497,7 @@ namespace LayoutFarm.Composers
         public void SetImageSource(string imgsrc)
         {
             //set image source
-            DomAttribute attr = this.OwnerDocument.CreateAttribute("", "src");
-            attr.Value = imgsrc;
+            DomAttribute attr = this.OwnerDocument.CreateAttribute("src", imgsrc);
             SetDomAttribute(attr);
             //----
             if (_principalBox != null)
@@ -344,11 +507,15 @@ namespace LayoutFarm.Composers
         }
     }
 
-
-    public interface IHtmlInputSubDomExtender
+    public interface ISubDomExtender
+    {
+        void Write(System.Text.StringBuilder stbuilder);
+    }
+    public interface IHtmlInputSubDomExtender : ISubDomExtender
     {
         string GetInputValue();
         void SetInputValue(string value);
+        void Focus();
     }
 
     public sealed class HtmlInputElement : HtmlElement, IHtmlInputElement
@@ -421,8 +588,10 @@ namespace LayoutFarm.Composers
             }
         }
 
-        //-----------
-
+        public void Focus()
+        {
+            _subdomExt?.Focus();
+        }
     }
     public sealed class HtmlOptionElement : HtmlElement, IHtmlOptionElement
     {
