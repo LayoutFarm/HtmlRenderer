@@ -64,6 +64,15 @@ namespace LayoutFarm.CustomWidgets
                         parentBox.AppendChild(wrapperBox);
                         return wrapperBox;
                     }
+                case "textarea":
+                    {
+                        CssBox textAreaCssBox = CreateTextAreaElement(domE, parentBox, spec, _myHost.RootGfx, host);
+                        if (textAreaCssBox != null)
+                        {
+                            return textAreaCssBox;
+                        }
+                    }
+                    break;
             }
 
             //default unknown
@@ -155,7 +164,121 @@ namespace LayoutFarm.CustomWidgets
             }
         }
 
+        class TextAreaInputSubDomExtender : IHtmlTextAreaSubDomExtender
+        {
+            LayoutFarm.CustomWidgets.TextBoxContainer _textboxContainer;
+            public TextAreaInputSubDomExtender(LayoutFarm.CustomWidgets.TextBoxContainer textboxContainer)
+            {
+                _textboxContainer = textboxContainer;
+            }
+            string IHtmlTextAreaSubDomExtender.GetInputValue() => _textboxContainer.GetText();
+            void IHtmlTextAreaSubDomExtender.SetInputValue(string value) => _textboxContainer.SetText(value);
+            void IHtmlTextAreaSubDomExtender.Focus() => _textboxContainer.Focus();
+            void ISubDomExtender.Write(System.Text.StringBuilder stbuilder)
+            {
+                stbuilder.Append(_textboxContainer.GetText());
+            }
+        }
 
+        CssBox CreateTextAreaElement(HtmlElement domE,
+            CssBox parentBox,
+            BoxSpec spec,
+            LayoutFarm.RootGraphic rootgfx, HtmlHost host)
+        {
+            //mulitline
+            //TODO: review default size of a textarea...
+
+            HtmlTextAreaElement htmlTextAreaElem = (HtmlTextAreaElement)domE;
+            var textbox = new LayoutFarm.CustomWidgets.TextBoxContainer(100, 60, true);
+            var subdomExtender = new TextAreaInputSubDomExtender(textbox);
+
+            CssBox wrapperBox = CreateCssWrapper(
+                 host,
+                 textbox,
+                 textbox.GetPrimaryRenderElement(rootgfx),
+                 spec,
+                 subdomExtender,
+                 true);
+
+            textbox.KeyDown += (s, e) =>
+            {
+                ((LayoutFarm.UI.IUIEventListener)domE).ListenKeyDown(e);
+            };
+
+            htmlTextAreaElem.SubDomExtender = subdomExtender;//connect 
+
+            //place holder support
+            DomAttribute placeHolderAttr = domE.FindAttribute("placeholder");
+            if (placeHolderAttr != null)
+            {
+                textbox.PlaceHolderText = placeHolderAttr.Value;
+            }
+            parentBox.AppendChild(wrapperBox);
+
+            //content of text area 
+            HtmlTextNode textNode = null;
+            foreach (DomNode child in domE.GetChildNodeIterForward())
+            {
+                switch (child.NodeKind)
+                {
+                    case HtmlNodeKind.TextNode:
+                        {
+                            textNode = (HtmlTextNode)child;
+                        }
+                        break;
+                }
+                if (textNode != null)
+                {
+                    break;
+                }
+            }
+            if (textNode != null)
+            {
+                //if first line is blank line we skip
+
+                //TODO: review here
+                System.Collections.Generic.List<string> strList = new System.Collections.Generic.List<string>();
+                int lineCount = 0;
+                using (System.IO.StringReader strReader = new System.IO.StringReader(new string(textNode.GetOriginalBuffer())))
+                {
+                    string line = strReader.ReadLine();
+                    while (line != null)
+                    {
+                        if (lineCount == 0)
+                        {
+                            if (line.Trim() != string.Empty)
+                            {
+                                strList.Add(line);
+                            }
+                        }
+                        else
+                        {
+                            strList.Add(line);
+                        }
+
+                        lineCount++;
+                        line = strReader.ReadLine();
+                    }
+
+                    if (strList.Count > 0)
+                    {
+                        //check last line
+                        line = strList[strList.Count - 1];
+                        if (line.Trim() == string.Empty)
+                        {
+                            strList.RemoveAt(strList.Count - 1);
+                        }
+                    }
+                }
+                //
+                if (strList.Count > 0)
+                {
+                    textbox.SetText(strList);
+                }
+            }
+
+            return wrapperBox;
+        }
 
         CssBox CreateInputBox(HtmlElement domE,
             CssBox parentBox,

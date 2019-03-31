@@ -55,6 +55,14 @@ namespace LayoutFarm.Composers
                            AddStringIfNotExists(localName));
                     }
                     break;
+                case "textarea":
+                    {
+                        htmlElement = new HtmlTextAreaElement(
+                           this,
+                           AddStringIfNotExists(prefix),
+                           AddStringIfNotExists(localName));
+                    }
+                    break;
                 case "option":
                     {
                         htmlElement = new HtmlOptionElement(
@@ -63,6 +71,7 @@ namespace LayoutFarm.Composers
                            AddStringIfNotExists(localName));
                     }
                     break;
+              
                 default:
                     {
                         htmlElement = new HtmlElement(this,

@@ -26,7 +26,7 @@ namespace LayoutFarm.WebDom.Impl
         public void WriteTextNode(DomTextWriter writer)
         {
             //write inner run
-            writer.InnerStringBuilder.Append(this.GetOriginalBuffer());
+            writer.Write(this.GetOriginalBuffer());
         }
     }
     public enum TextSplitPartKind : byte
