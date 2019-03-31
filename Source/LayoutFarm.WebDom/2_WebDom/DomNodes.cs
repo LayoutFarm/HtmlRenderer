@@ -287,6 +287,8 @@ namespace LayoutFarm.WebDom
         link,
         [Map("p")]
         p,
+        [Map("textarea")]
+        textarea,
         //----------------------------------
         [Map("table")]
         table,

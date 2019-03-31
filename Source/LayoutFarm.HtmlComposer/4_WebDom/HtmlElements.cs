@@ -517,6 +517,60 @@ namespace LayoutFarm.Composers
         void SetInputValue(string value);
         void Focus();
     }
+    public interface IHtmlTextAreaSubDomExtender : ISubDomExtender
+    {
+        string GetInputValue();
+        void SetInputValue(string value);
+        void Focus();
+    }
+
+    public sealed class HtmlTextAreaElement : HtmlElement, IHtmlTextArea
+    {
+        string _inputValue;
+        IHtmlTextAreaSubDomExtender _subdomExt;
+        internal HtmlTextAreaElement(HtmlDocument owner, int prefix, int localNameIndex)
+         : base(owner, prefix, localNameIndex)
+        {
+            WellknownElementName = WellKnownDomNodeName.textarea;
+        }
+        public void Focus()
+        {
+            _subdomExt?.Focus();
+        }
+        public string Value
+        {
+            //TODO: add 'live' feature (connect with actual dom)
+            get
+            {
+                if (_subdomExt != null)
+                {
+                    _inputValue = _subdomExt.GetInputValue();
+                }
+                return _inputValue;
+            }
+            set
+            {
+                if (_subdomExt != null)
+                {
+                    _subdomExt.SetInputValue(value);
+                }
+                _inputValue = value;
+            } 
+        }
+        public IHtmlTextAreaSubDomExtender SubDomExtender
+        {
+            get => _subdomExt;
+            set
+            {
+                _subdomExt = value;
+                if (value != null && _inputValue != null)
+                {
+                    _subdomExt.SetInputValue(_inputValue);
+                }
+            }
+        }
+    }
+
 
     public sealed class HtmlInputElement : HtmlElement, IHtmlInputElement
     {
@@ -540,7 +594,14 @@ namespace LayoutFarm.Composers
         public IHtmlInputSubDomExtender SubDomExtender
         {
             get => _subdomExt;
-            set => _subdomExt = value;
+            set
+            {
+                _subdomExt = value;
+                if (value != null && _inputValue != null)
+                {
+                    _subdomExt.SetInputValue(_inputValue);
+                }
+            }
         }
         public string Value
         {
