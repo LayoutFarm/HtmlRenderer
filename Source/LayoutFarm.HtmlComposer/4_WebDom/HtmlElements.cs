@@ -540,7 +540,14 @@ namespace LayoutFarm.Composers
         public IHtmlInputSubDomExtender SubDomExtender
         {
             get => _subdomExt;
-            set => _subdomExt = value;
+            set
+            {
+                _subdomExt = value;
+                if (value != null && _inputValue != null)
+                {
+                    _subdomExt.SetInputValue(_inputValue);
+                }
+            }
         }
         public string Value
         {
