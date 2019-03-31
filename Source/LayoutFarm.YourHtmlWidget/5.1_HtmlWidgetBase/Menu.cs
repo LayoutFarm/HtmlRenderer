@@ -9,8 +9,8 @@ namespace LayoutFarm.HtmlWidgets
     public class MenuItem
     {
 
-        DomElement _pnode;
-        DomElement _menuIcon;
+        HtmlElement _pnode;
+        HtmlImageElement _menuIcon;
         MenuBox _ownerMenuBox;
         bool _thisMenuOpened;
         //2. float part   
@@ -39,10 +39,9 @@ namespace LayoutFarm.HtmlWidgets
         {
             if (_pnode != null) return _pnode;
             //-----------------------------------
-            var doc = hostNode.OwnerDocument;
-            _pnode = doc.CreateElement("div");
-
-            _pnode.AddChild("img", item_icon =>
+            var doc = (HtmlDocument)hostNode.OwnerDocument;
+            _pnode = doc.CreateHtmlDiv();
+            _pnode.AddHtmlImageElement(item_icon =>
             {
                 _menuIcon = item_icon;
                 _menuIcon.AttachMouseDownEvent(e =>
@@ -64,7 +63,7 @@ namespace LayoutFarm.HtmlWidgets
                     this.UnmaintenanceParentOpenState();
                     e.StopPropagation();
                 });
-                _menuIcon.AttachEventOnMouseLostFocus(e =>
+                _menuIcon.AttachEvent(UI.UIEventName.MouseLostFocus, e =>
                 {
                     if (!this.MaintainOpenState)
                     {
@@ -72,7 +71,7 @@ namespace LayoutFarm.HtmlWidgets
                     }
                 });
             });
-            _pnode.AddChild("span", content =>
+            _pnode.AddHtmlSpanElement(content =>
             {
                 if (MenuItemText != null)
                 {
@@ -252,7 +251,7 @@ namespace LayoutFarm.HtmlWidgets
             //TODO: review IsLandPart again, this is temp fixed 
             if (!this.IsLandPart)
             {
-                _presentation.SetAttribute("style", "position:absolute;width:" + this.Width + "px;height:" + this.Height + "px");
+                _presentation.SetStyleAttribute("position:absolute;width:" + this.Width + "px;height:" + this.Height + "px");
             }
 
             if (_menuItems != null)

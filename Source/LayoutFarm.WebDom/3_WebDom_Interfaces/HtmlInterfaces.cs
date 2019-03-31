@@ -62,8 +62,15 @@ namespace LayoutFarm.WebDom
         [JsProperty("value")]
         string Value { get; set; }
         string inputType { get; }
+        void Focus();
     }
-
+    [JsType]
+    public interface IHtmlTextArea : IHtmlElement
+    {
+        [JsProperty("value")]
+        string Value { get; set; }
+        void Focus();
+    }
 
 
     [JsType]

@@ -5,32 +5,26 @@ namespace LayoutFarm.WebDom
 {
     public abstract partial class DomElement : DomNode
     {
-        internal readonly int _nodePrefixNameIndex;
-        internal readonly int _nodeLocalNameIndex;
+
+        internal readonly int _nodeNameIndex; //prefix and localname
         Dictionary<int, DomAttribute> _myAttributes;
         List<DomNode> _myChildrenNodes;
         //------------------------------------------- 
         DomAttribute _attrElemId;
         DomAttribute _attrClass;
-        //-------------------------------------------
-
-        HtmlEventHandler _evhMouseDown;
-        HtmlEventHandler _evhMouseUp;
-        HtmlEventHandler _evhMouseLostFocus;
-
+        DomAttribute _attrStyle;
+        //------------------------------------------- 
 
         public DomElement(WebDocument ownerDoc, int nodePrefixNameIndex, int nodeLocalNameIndex)
             : base(ownerDoc)
         {
-            _nodePrefixNameIndex = nodePrefixNameIndex;
-            _nodeLocalNameIndex = nodeLocalNameIndex;
+            _nodeNameIndex = (nodePrefixNameIndex << 16) | nodeLocalNameIndex;
             SetNodeType(HtmlNodeKind.OpenElement);
         }
 
         public static bool EqualNames(DomElement node1, DomElement node2)
         {
-            return node1._nodeLocalNameIndex == node2._nodeLocalNameIndex
-                && node1._nodePrefixNameIndex == node2._nodePrefixNameIndex;
+            return node1._nodeNameIndex == node2._nodeNameIndex;
         }
 #if DEBUG
         public override string ToString()
@@ -40,6 +34,10 @@ namespace LayoutFarm.WebDom
 #endif
         public IEnumerable<DomAttribute> GetAttributeIterForward()
         {
+            if (_attrElemId != null) yield return _attrElemId;
+            if (_attrStyle != null) yield return _attrStyle;
+            if (_attrClass != null) yield return _attrClass;
+
             if (_myAttributes != null)
             {
                 foreach (DomAttribute attr in _myAttributes.Values)
@@ -60,33 +58,17 @@ namespace LayoutFarm.WebDom
             }
         }
 
-        public int ChildrenCount
-        {
-            get
-            {
-                if (_myChildrenNodes != null)
-                {
-                    return _myChildrenNodes.Count;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-        }
+        public int ChildrenCount => (_myChildrenNodes != null) ? _myChildrenNodes.Count : 0;
+
         public DomNode GetChildNode(int index) => _myChildrenNodes[index];
 
         public virtual void SetAttribute(DomAttribute attr)
         {
             SetDomAttribute(attr);
         }
+
         protected void SetDomAttribute(DomAttribute attr)
         {
-            if (_myAttributes == null)
-            {
-                _myAttributes = new Dictionary<int, DomAttribute>();
-            }
-            //-----------
             //some wellknownattr 
             switch ((WellknownName)attr.LocalNameIndex)
             {
@@ -101,26 +83,31 @@ namespace LayoutFarm.WebDom
                         _attrClass = attr;
                     }
                     break;
+                case WellknownName.Style:
+                    {
+                        _attrStyle = attr;
+                    }
+                    break;
+                default:
+                    {
+                        if (_myAttributes == null)
+                        {
+                            _myAttributes = new Dictionary<int, DomAttribute>();
+                        }
+                        //--------------------
+                        int attrNameIndex = this.OwnerDocument.AddStringIfNotExists(attr.LocalName);
+                        _myAttributes[attrNameIndex] = attr;//update or replace 
+                    }
+                    break;
             }
-            //--------------------
-            int attrNameIndex = this.OwnerDocument.AddStringIfNotExists(attr.LocalName);
-            _myAttributes[attrNameIndex] = attr;//update or replace 
             attr.SetParent(this);
             NotifyChange(ElementChangeKind.SetAttribute, attr);
             //---------------------
         }
         public void SetAttribute(string attrName, string value)
         {
-            DomAttribute domAttr = this.OwnerDocument.CreateAttribute(null, attrName);
-            domAttr.Value = value;
-            SetAttribute(domAttr);
+            SetAttribute(this.OwnerDocument.CreateAttribute(attrName, value));
         }
-
-        public void AddAttribute(DomAttribute attr)
-        {
-            SetAttribute(attr);
-        }
-
 
         public virtual void AddChild(DomNode childNode)
         {
@@ -128,7 +115,7 @@ namespace LayoutFarm.WebDom
             {
                 case HtmlNodeKind.Attribute:
                     {
-                        AddAttribute((DomAttribute)childNode);
+                        SetAttribute((DomAttribute)childNode);
                     }
                     break;
                 default:
@@ -188,25 +175,33 @@ namespace LayoutFarm.WebDom
             }
         }
 
-        public void NotifyChange(ElementChangeKind changeKind, DomAttribute attr)
+        /// <summary>
+        /// when we change dom element, the change may affect some part of dom/ or entire document
+        /// </summary>
+        /// <param name="changeKind"></param>
+        /// <param name="attr"></param>
+        protected void NotifyChange(ElementChangeKind changeKind, DomAttribute attr)
         {
             switch (this.DocState)
             {
                 case DocumentState.ChangedAfterIdle:
                 case DocumentState.Idle:
-                    {
-                        //notify parent 
-                        OnElementChangedInIdleState(changeKind, attr);
-                    }
+                    //notify parent 
+                    OnElementChangedInIdleState(changeKind, attr);
                     break;
             }
         }
         protected virtual void OnElementChangedInIdleState(ElementChangeKind changeKind, DomAttribute attr)
         {
+
         }
         //------------------------------------------
         public DomAttribute FindAttribute(int attrLocalNameIndex)
         {
+            if (_attrElemId != null && attrLocalNameIndex == _attrElemId.LocalNameIndex) return _attrElemId;
+            if (_attrStyle != null && attrLocalNameIndex == _attrStyle.LocalNameIndex) return _attrStyle;
+            if (_attrClass != null && attrLocalNameIndex == _attrClass.LocalNameIndex) return _attrClass;
+
             if (_myAttributes != null)
             {
                 DomAttribute found;
@@ -228,13 +223,29 @@ namespace LayoutFarm.WebDom
             }
         }
 
-        public int AttributeCount => (_myAttributes != null) ? _myAttributes.Count : 0;
 
-        public string Prefix => OwnerDocument.GetString(_nodePrefixNameIndex);
+        public bool HasSomeAttribute => _attrStyle != null || _attrClass != null || _attrElemId != null || _myAttributes != null;
 
-        public string LocalName => OwnerDocument.GetString(_nodeLocalNameIndex);
+        public int AttributeCount
+        {
+            get
+            {
+                int count = 0;
+                if (_attrElemId != null) count++;
+                if (_attrStyle != null) count++;
+                if (_attrClass != null) count++;
+                if (_myAttributes != null) count += _myAttributes.Count;
 
-        public int LocalNameIndex => _nodeLocalNameIndex;
+                return count;
+            }
+        }
+
+
+        public string Prefix => OwnerDocument.GetString((_nodeNameIndex >> 16) & 0xffff);
+
+        public string LocalName => OwnerDocument.GetString(_nodeNameIndex & 0xffff);
+
+        public int LocalNameIndex => _nodeNameIndex & 0xffff;
 
         public bool HasAttributeElementId => _attrElemId != null;
 
@@ -259,15 +270,9 @@ namespace LayoutFarm.WebDom
                 {
                     return _attrElemId.Value;
                 }
-
                 return null;
             }
         }
-
         public string Name => this.LocalName;
-
-        //public object Tag { get; set; }
-
-
     }
 }

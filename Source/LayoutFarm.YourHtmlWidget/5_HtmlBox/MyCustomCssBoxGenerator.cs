@@ -7,12 +7,19 @@ using LayoutFarm.HtmlBoxes;
 using LayoutFarm.WebDom;
 namespace LayoutFarm.CustomWidgets
 {
+
+
     public class MyCustomCssBoxGenerator : CustomCssBoxGenerator
     {
         HtmlHost _myHost;
+        TextBoxSwitcher _textboxSwitcher;
+
         public MyCustomCssBoxGenerator(HtmlBoxes.HtmlHost myHost)
         {
             _myHost = myHost;
+
+            _textboxSwitcher = new TextBoxSwitcher();
+
         }
 
         public override CssBox CreateCssBox(
@@ -51,10 +58,21 @@ namespace LayoutFarm.CustomWidgets
                              host,
                              canvas,
                              canvas.GetPrimaryRenderElement(_myHost.RootGfx),
-                             spec, true);
+                             spec,
+                             null,
+                             true);
                         parentBox.AppendChild(wrapperBox);
                         return wrapperBox;
                     }
+                case "textarea":
+                    {
+                        CssBox textAreaCssBox = CreateTextAreaElement(domE, parentBox, spec, _myHost.RootGfx, host);
+                        if (textAreaCssBox != null)
+                        {
+                            return textAreaCssBox;
+                        }
+                    }
+                    break;
             }
 
             //default unknown
@@ -64,13 +82,15 @@ namespace LayoutFarm.CustomWidgets
                                host,
                                simpleBox,
                                simpleBox.GetPrimaryRenderElement(_myHost.RootGfx),
-                               spec, false);
+                               spec,
+                               null,
+                               false);
             parentBox.AppendChild(wrapperBox2);
             return wrapperBox2;
         }
 
 
-        CssBox CreateSelectBox(HtmlElement domE,
+        CssBox CreateSelectBox(HtmlElement htmlElem,
             CssBox parentBox,
             BoxSpec spec,
             LayoutFarm.RootGraphic rootgfx, HtmlHost host)
@@ -80,11 +100,11 @@ namespace LayoutFarm.CustomWidgets
             //1. as drop-down list
             //2. as list-box 
 
-            WebDom.Impl.HtmlElement htmlElem = (WebDom.Impl.HtmlElement)domE;
+
             htmlElem.HasSpecialPresentation = true;
             //
             LayoutFarm.HtmlWidgets.HingeBox hingeBox = new LayoutFarm.HtmlWidgets.HingeBox(100, 30); //actual controller
-            foreach (DomNode childNode in domE.GetChildNodeIterForward())
+            foreach (DomNode childNode in htmlElem.GetChildNodeIterForward())
             {
 
                 WebDom.Impl.HtmlElement childElem = childNode as WebDom.Impl.HtmlElement;
@@ -108,10 +128,10 @@ namespace LayoutFarm.CustomWidgets
                 }
             }
 
-            LayoutFarm.WebDom.Impl.HtmlElement hingeBoxDom = (LayoutFarm.WebDom.Impl.HtmlElement)hingeBox.GetPresentationDomNode(domE);
+            HtmlElement hingeBoxDom = hingeBox.GetPresentationDomNode(htmlElem);
             CssBox cssHingeBox = host.CreateCssBox(parentBox, hingeBoxDom, true); //create and append to the parentBox 
             //
-            hingeBoxDom.SetSubParentNode(domE);
+            hingeBoxDom.SetSubParentNode(htmlElem);
             cssHingeBox.IsReplacement = true;
             htmlElem.SpecialPresentationUpdate = (o) =>
             {
@@ -135,12 +155,130 @@ namespace LayoutFarm.CustomWidgets
             {
                 _textboxContainer = textboxContainer;
             }
-
             string IHtmlInputSubDomExtender.GetInputValue() => _textboxContainer.GetText();
             void IHtmlInputSubDomExtender.SetInputValue(string value) => _textboxContainer.SetText(value);
+            void IHtmlInputSubDomExtender.Focus() => _textboxContainer.Focus();
+            void ISubDomExtender.Write(System.Text.StringBuilder stbuilder)
+            {
+                stbuilder.Append(_textboxContainer.GetText());
+            }
         }
 
+        class TextAreaInputSubDomExtender : IHtmlTextAreaSubDomExtender
+        {
+            LayoutFarm.CustomWidgets.TextBoxContainer _textboxContainer;
+            public TextAreaInputSubDomExtender(LayoutFarm.CustomWidgets.TextBoxContainer textboxContainer)
+            {
+                _textboxContainer = textboxContainer;
+            }
+            string IHtmlTextAreaSubDomExtender.GetInputValue() => _textboxContainer.GetText();
+            void IHtmlTextAreaSubDomExtender.SetInputValue(string value) => _textboxContainer.SetText(value);
+            void IHtmlTextAreaSubDomExtender.Focus() => _textboxContainer.Focus();
+            void ISubDomExtender.Write(System.Text.StringBuilder stbuilder)
+            {
+                stbuilder.Append(_textboxContainer.GetText());
+            }
+        }
 
+        CssBox CreateTextAreaElement(HtmlElement domE,
+            CssBox parentBox,
+            BoxSpec spec,
+            LayoutFarm.RootGraphic rootgfx, HtmlHost host)
+        {
+            //mulitline
+            //TODO: review default size of a textarea...
+
+            HtmlTextAreaElement htmlTextAreaElem = (HtmlTextAreaElement)domE;
+            var textbox = new LayoutFarm.CustomWidgets.TextBoxContainer(100, 60, true);
+            var subdomExtender = new TextAreaInputSubDomExtender(textbox);
+
+            CssBox wrapperBox = CreateCssWrapper(
+                 host,
+                 textbox,
+                 textbox.GetPrimaryRenderElement(rootgfx),
+                 spec,
+                 subdomExtender,
+                 true);
+
+            textbox.KeyDown += (s, e) =>
+            {
+                ((LayoutFarm.UI.IUIEventListener)domE).ListenKeyDown(e);
+            };
+
+            htmlTextAreaElem.SubDomExtender = subdomExtender;//connect 
+
+            //place holder support
+            DomAttribute placeHolderAttr = domE.FindAttribute("placeholder");
+            if (placeHolderAttr != null)
+            {
+                textbox.PlaceHolderText = placeHolderAttr.Value;
+            }
+            parentBox.AppendChild(wrapperBox);
+
+            //content of text area 
+            HtmlTextNode textNode = null;
+            foreach (DomNode child in domE.GetChildNodeIterForward())
+            {
+                switch (child.NodeKind)
+                {
+                    case HtmlNodeKind.TextNode:
+                        {
+                            textNode = (HtmlTextNode)child;
+                        }
+                        break;
+                }
+                if (textNode != null)
+                {
+                    break;
+                }
+            }
+            if (textNode != null)
+            {
+                //if first line is blank line we skip
+
+                //TODO: review here
+                System.Collections.Generic.List<string> strList = new System.Collections.Generic.List<string>();
+                int lineCount = 0;
+                using (System.IO.StringReader strReader = new System.IO.StringReader(new string(textNode.GetOriginalBuffer())))
+                {
+                    string line = strReader.ReadLine();
+                    while (line != null)
+                    {
+                        if (lineCount == 0)
+                        {
+                            if (line.Trim() != string.Empty)
+                            {
+                                strList.Add(line);
+                            }
+                        }
+                        else
+                        {
+                            strList.Add(line);
+                        }
+
+                        lineCount++;
+                        line = strReader.ReadLine();
+                    }
+
+                    if (strList.Count > 0)
+                    {
+                        //check last line
+                        line = strList[strList.Count - 1];
+                        if (line.Trim() == string.Empty)
+                        {
+                            strList.RemoveAt(strList.Count - 1);
+                        }
+                    }
+                }
+                //
+                if (strList.Count > 0)
+                {
+                    textbox.SetText(strList);
+                }
+            }
+
+            return wrapperBox;
+        }
 
         CssBox CreateInputBox(HtmlElement domE,
             CssBox parentBox,
@@ -183,13 +321,24 @@ namespace LayoutFarm.CustomWidgets
                     case "password":
                         {
                             var textbox = new LayoutFarm.CustomWidgets.TextBoxContainer(100, 20, false, true);
+                            textbox.TextBoxSwitcher = _textboxSwitcher;
+
+                            var subdomExtender = new TextBoxInputSubDomExtender(textbox);
+
                             CssBox wrapperBox = CreateCssWrapper(
                                  host,
                                  textbox,
                                  textbox.GetPrimaryRenderElement(rootgfx),
-                                 spec, true);
+                                 spec,
+                                 subdomExtender,
+                                 true);
 
-                            var subdomExtender = new TextBoxInputSubDomExtender(textbox);
+                            textbox.KeyDown += (s, e) =>
+                            {
+                                ((LayoutFarm.UI.IUIEventListener)htmlInputElem).ListenKeyDown(e);
+                            };
+
+
                             htmlInputElem.SubDomExtender = subdomExtender;//connect 
 
                             //place holder support
@@ -203,16 +352,25 @@ namespace LayoutFarm.CustomWidgets
                         }
                     case "text":
                         {
-                            // user can specific width of textbox 
-                            //var textbox = new LayoutFarm.CustomWidgets.TextBox(100, 17, false);
+                            //TODO: user can specific width of textbox 
                             var textbox = new LayoutFarm.CustomWidgets.TextBoxContainer(100, 20, false);
+                            textbox.TextBoxSwitcher = _textboxSwitcher;
+
+                            var subdomExtender = new TextBoxInputSubDomExtender(textbox);
+
                             CssBox wrapperBox = CreateCssWrapper(
                                  host,
                                  textbox,
                                  textbox.GetPrimaryRenderElement(rootgfx),
-                                 spec, true);
+                                 spec,
+                                 subdomExtender,
+                                 true);
 
-                            var subdomExtender = new TextBoxInputSubDomExtender(textbox);
+                            textbox.KeyDown += (s, e) =>
+                            {
+                                ((LayoutFarm.UI.IUIEventListener)htmlInputElem).ListenKeyDown(e);
+                            };
+
                             htmlInputElem.SubDomExtender = subdomExtender;//connect 
 
                             //place holder support
@@ -253,9 +411,6 @@ namespace LayoutFarm.CustomWidgets
                             chkbox.SetHtmlInputBox(htmlInputElem);
                             chkbox.OnlyOne = false; //*** show as checked box 
 
-
-
-
                             HtmlElement chkBoxElem = chkbox.GetPresentationDomNode(domE);
                             //buttonDom.SetAttribute("style", "width:20px;height:20px;background-color:red;cursor:pointer");
 
@@ -294,7 +449,9 @@ namespace LayoutFarm.CustomWidgets
                                  host,
                                  box,
                                  box.GetPrimaryRenderElement(rootgfx),
-                                 spec, true);
+                                 spec,
+                                 null,
+                                 true);
                             parentBox.AppendChild(wrapperBox);
                             return wrapperBox;
                         }
@@ -303,4 +460,7 @@ namespace LayoutFarm.CustomWidgets
             return null;
         }
     }
+
+
+
 }

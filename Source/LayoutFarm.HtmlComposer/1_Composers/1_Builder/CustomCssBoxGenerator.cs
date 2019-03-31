@@ -5,16 +5,19 @@ using LayoutFarm.HtmlBoxes;
 using LayoutFarm.UI;
 namespace LayoutFarm.Composers
 {
+
     public abstract class CustomCssBoxGenerator
     {
         public abstract CssBox CreateCssBox(HtmlElement tag,
             CssBox parentBox,
             BoxSpec spec,
             HtmlHost host);
+
         public static CssBox CreateCssWrapper(HtmlHost htmlhost,
             object owner,
             RenderElement renderElement,
             BoxSpec spec,
+            ISubDomExtender subDomExtender,
             bool isInline)
         {
             var portalEvent = owner as IEventPortal;
@@ -25,11 +28,11 @@ namespace LayoutFarm.Composers
 
             if (isInline)
             {
-                return new LayoutFarm.HtmlBoxes.InternalWrappers.WrapperInlineCssBox(htmlhost, portalEvent, spec, renderElement.Root, renderElement);
+                return new LayoutFarm.HtmlBoxes.InternalWrappers.WrapperInlineCssBox(htmlhost, portalEvent, spec, renderElement.Root, renderElement, subDomExtender);
             }
             else
             {
-                return new LayoutFarm.HtmlBoxes.InternalWrappers.WrapperBlockCssBox(htmlhost, portalEvent, spec, renderElement);
+                return new LayoutFarm.HtmlBoxes.InternalWrappers.WrapperBlockCssBox(htmlhost, portalEvent, spec, renderElement, subDomExtender);
             }
         }
     }
