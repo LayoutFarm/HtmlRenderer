@@ -201,8 +201,12 @@ namespace LayoutFarm.CustomWidgets
                                  subdomExtender,
                                  true);
 
+                            textbox.KeyDown += (s, e) =>
+                            {
+                                ((LayoutFarm.UI.IUIEventListener)htmlInputElem).ListenKeyDown(e);
+                            };
 
-                            var evListener = new LayoutFarm.UI.GeneralEventListener();
+                         
                             htmlInputElem.SubDomExtender = subdomExtender;//connect 
 
                             //place holder support
@@ -216,7 +220,7 @@ namespace LayoutFarm.CustomWidgets
                         }
                     case "text":
                         {
-                            // user can specific width of textbox 
+                            //TODO: user can specific width of textbox 
                             var textbox = new LayoutFarm.CustomWidgets.TextBoxContainer(100, 20, false);
                             var subdomExtender = new TextBoxInputSubDomExtender(textbox);
 

@@ -309,9 +309,7 @@ namespace LayoutFarm.HtmlBoxes
                         textService.MeasureString(ref textBuf,
                             this.OwnerBox.ResolvedFont, maxWidth, out charFit, out charFitWidth);
                         selectionIndex = charFit;
-                        runSelectionOffsetPx = charFitWidth;
-
-
+                        runSelectionOffsetPx = charFitWidth; 
                     }
                     break;
                 case CssRunKind.SingleSpace:
