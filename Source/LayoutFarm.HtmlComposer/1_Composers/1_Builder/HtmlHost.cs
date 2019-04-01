@@ -488,6 +488,7 @@ namespace LayoutFarm.HtmlBoxes
                 case WellKnownDomNodeName.select:
                 case WellKnownDomNodeName.canvas:
                 case WellKnownDomNodeName.input:
+                case WellKnownDomNodeName.textarea:
                     newBox = CreateCustomCssBox(parentBox, childElement, childElement.Spec);
                     if (newBox != null)
                     {

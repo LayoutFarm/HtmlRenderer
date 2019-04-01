@@ -14,9 +14,12 @@ The HtmlRenderer example!
 ---
 
 
-![htmlbox_gles_with_selection](https://user-images.githubusercontent.com/7447159/49267623-fc952900-f48d-11e8-8ac8-03269c571c2c.png)
+![gles_html](https://user-images.githubusercontent.com/7447159/55290395-f93e8980-53fc-11e9-943a-a6ca6daf9aef.png)
 _pic 2: HtmlRenderer on GLES2 surface, text are renderered with the Typography_
 
+
+![gles_html](https://user-images.githubusercontent.com/7447159/55290398-12473a80-53fd-11e9-8135-62b707e52ad9.gif)
+_pic 3: HtmlRenderer on GLES2 surface_
 
 
 also, please note the text selection on the Html Surface.
@@ -36,10 +39,10 @@ How to build it, see https://github.com/PaintLab/pxdev
  Html input elements are built with 'html-fragment (sub dom)'
 
  see more at https://github.com/LayoutFarm/HtmlRenderer/issues/18
+ 
+![2019-03-31_21-55-37](https://user-images.githubusercontent.com/7447159/55290637-e6798400-53ff-11e9-8ca4-d3981e1da3d8.gif)
 
-![html_input_test1](https://user-images.githubusercontent.com/7447159/44319466-3a81ba80-a466-11e8-81c8-c95993b261d5.gif)
-
-_pic3 : developing Html-input, click to view full  size img_
+_pic3 : HtmlRenderer on GLES2 surface,developing Html-input, click to view full  size img_
 
 
 

@@ -7,7 +7,7 @@ using LayoutFarm.HtmlBoxes;
 using LayoutFarm.WebDom;
 namespace LayoutFarm.Composers
 {
-    class HtmlTextNode : DomTextNode
+    public class HtmlTextNode : DomTextNode
     {
         //---------------------------------
         //this node may be simple text node  
@@ -16,7 +16,7 @@ namespace LayoutFarm.Composers
         List<CssRun> _runs;
         bool _setSplitParts;
 
-        public HtmlTextNode(WebDocument ownerDoc, char[] buffer)
+        internal HtmlTextNode(WebDocument ownerDoc, char[] buffer)
             : base(ownerDoc, buffer)
         {
         }
@@ -49,7 +49,7 @@ namespace LayoutFarm.Composers
         public void WriteTextNode(DomTextWriter writer)
         {
             //write inner run
-            writer.InnerStringBuilder.Append(this.GetOriginalBuffer());
+            writer.Write(this.GetOriginalBuffer());
         }
     }
     public enum TextSplitPartKind : byte
