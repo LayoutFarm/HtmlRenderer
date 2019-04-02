@@ -797,7 +797,6 @@ namespace LayoutFarm.HtmlBoxes
                     }
                     else
                     {
-
                         box.SetCssBoxWidthLimitToContainerAvailableWidth(availableWidth);
                     }
                 }
@@ -857,6 +856,14 @@ namespace LayoutFarm.HtmlBoxes
                         //again!
                         switch (box.CssDisplay)
                         {
+                            case CssDisplay.InlineBlock:
+                                {
+                                    if (box.Width.IsEmptyOrAuto)
+                                    {
+                                        box.SetCssBoxWidth(box.InnerContentWidth);
+                                    }
+                                }
+                                break;
                             case CssDisplay.Flex:
                             case CssDisplay.InlineFlex:
                                 {
