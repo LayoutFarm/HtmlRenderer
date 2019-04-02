@@ -1,5 +1,4 @@
 ﻿//BSD, 2014-present, WinterDev 
-
 using System.Collections.Generic;
 namespace LayoutFarm.WebDom
 {
@@ -111,6 +110,12 @@ namespace LayoutFarm.WebDom
 
         public virtual void AddChild(DomNode childNode)
         {
+#if DEBUG
+            if (childNode.ParentNode != null)
+            {
+                throw new System.NotSupportedException();
+            }
+#endif
             switch (childNode.NodeKind)
             {
                 case HtmlNodeKind.Attribute:

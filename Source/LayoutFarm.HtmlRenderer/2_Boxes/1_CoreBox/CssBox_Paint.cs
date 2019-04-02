@@ -189,15 +189,18 @@ namespace LayoutFarm.HtmlBoxes
             //    this.Position == Css.CssPosition.Fixed)
             if (_renderBGAndBorder)
             {
-                RectangleF bound = new RectangleF(0, 0, this.VisualWidth, this.VisualHeight);
-                PaintBackground(p, bound, true, true);
+
+                RectangleF bounds = new RectangleF(0, 0, this.VisualWidth, this.VisualHeight);
+                PaintBackground(p, bounds, true, true);
                 if (this.HasSomeVisibleBorder)
                 {
-                    p.PaintBorders(this, bound, true, true);
+                    p.PaintBorders(this, bounds, true, true);
                 }
 #if DEBUG
-                dbugPaint(p, bound);
+                dbugPaint(p, bounds);
 #endif
+
+
             }
 
             //---------------------------------------------
