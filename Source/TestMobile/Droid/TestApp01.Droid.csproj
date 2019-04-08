@@ -47,6 +47,7 @@
     <Reference Include="OpenTK-1.0" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppHostAndroid.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -59,6 +60,7 @@
     <None Include="Properties\AndroidManifest.xml" />
     <None Include="Assets\AboutAssets.txt" />
     <AndroidAsset Include="SOV_Thanamas.ttf" />
+    <AndroidAsset Include="tahoma.ttf" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml" />
@@ -68,6 +70,12 @@
     <AndroidResource Include="Resources\mipmap-xhdpi\Icon.png" />
     <AndroidResource Include="Resources\mipmap-xxhdpi\Icon.png" />
     <AndroidResource Include="Resources\mipmap-xxxhdpi\Icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\x_autogen_xamarin_droid\HtmlRenderer.One\HtmlRenderer.One.Droid.csproj">
+      <Project>{40439fe4-2e8b-4ee6-85dd-0e7c0f07e60a}</Project>
+      <Name>HtmlRenderer.One.Droid</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="..\CustomApp01\CustomApp01.projitems" Label="Shared" Condition="Exists('..\CustomApp01\CustomApp01.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

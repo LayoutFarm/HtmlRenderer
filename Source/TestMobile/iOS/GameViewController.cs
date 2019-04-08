@@ -15,7 +15,12 @@ namespace TestApp01.iOS
     [Register("GameViewController")]
     public class GameViewController : GLKViewController, IGLKViewDelegate
     {
+        Demo_UIHtmlBox _htmlBox;
+        int _max;
+        int _view_width;
+        int _view_height;
 
+        LayoutFarm.AppHostIOS _appHost;
         EAGLContext context { get; set; }
         //[Export("initWithCoder:")]
         public GameViewController()
@@ -39,17 +44,11 @@ namespace TestApp01.iOS
             }
 
 
-            Typography.FontManagement.InstalledTypefaceCollectionExtensions.CustomSystemFontListLoader = LoadFonts;
-            var view = (GLKView)View;
-            view.Context = context;
-            view.DrawableDepthFormat = GLKViewDrawableDepthFormat.Format24;
-            _view_width = (int)view.Frame.Width;
-            _view_height = (int)view.Frame.Height;
             SetupGL();
         }
+        public int ViewWidth => _view_width;
+        public int ViewHeight => _view_height;
 
-
-        
         void LoadFonts(Typography.FontManagement.InstalledTypefaceCollection fontCollection)
         {
             LoadBundleFont(fontCollection, "DroidSans.ttf");
@@ -58,7 +57,7 @@ namespace TestApp01.iOS
         }
         static void LoadBundleFont(Typography.FontManagement.InstalledTypefaceCollection fontCollection, string fontFilename)
         {
-            
+
             if (File.Exists(fontFilename))
             {
                 using (Stream s = new FileStream(fontFilename, FileMode.Open, FileAccess.Read))
@@ -120,24 +119,26 @@ namespace TestApp01.iOS
             return true;
         }
 
-
-        CustomApp _customApp;
-        int _max;
-        int _view_width;
-        int _view_height;
         void SetupGL()
         {
+            Typography.FontManagement.InstalledTypefaceCollectionExtensions.CustomSystemFontListLoader = LoadFonts;
+            var view = (GLKView)View;
+            view.Context = context;
+            view.DrawableDepthFormat = GLKViewDrawableDepthFormat.Format24;
+            _view_width = (int)view.Frame.Width;
+            _view_height = (int)view.Frame.Height;
 
             EAGLContext.SetCurrentContext(context);
-            _customApp = new CustomApp();
+            //
             _max = Math.Max(_view_width * 2, _view_height * 2);
-            _customApp.Setup(_view_width * 2, _view_height * 2);
+            _appHost = new LayoutFarm.AppHostIOS(this, _max, _max);
+            _htmlBox = new Demo_UIHtmlBox(); 
+            _appHost.StartApp(_htmlBox);
         }
         public override void Update()
         {
             GL.Viewport(0, 0, _max, _max);
-            _customApp.RenderFrame();
-
+            _htmlBox.RenderFrame();
         }
         //----------------
         void TearDownGL()

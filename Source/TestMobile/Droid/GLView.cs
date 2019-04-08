@@ -8,7 +8,7 @@ using OpenTK.Graphics;
 using OpenTK.Platform.Android;
 using Android.Views;
 using Android.Content;
-using Android.Util; 
+using Android.Util;
 using OpenTK.Graphics.ES20;
 
 using PixelFarm;
@@ -18,37 +18,42 @@ namespace Test_Android_Glyph
 {
     class GLView1 : AndroidGameView
     {
-        CustomApp customApp;
-        int _max;
 
+        Demo_UIHtmlBox _htmlBox;
+        int _max;
+        LayoutFarm.AppHostAndroid _appHost;
+        int _viewWidth;
+        int _viewHeight;
         public GLView1(Context context) : base(context)
         {
 
-        } 
-      
+        }
+
         // This gets called when the drawing surface is ready
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
 
-
-            //-----------
-            customApp = new CustomApp();
-            //-----------
+             
             Android.Graphics.Point sc_size = new Android.Graphics.Point();
             Display.GetSize(sc_size);
 
-            int view_width = sc_size.X;
-            int view_height = sc_size.Y;
-            _max = Math.Max(view_width, view_height);
+            _viewWidth = sc_size.X;
+            _viewHeight = sc_size.Y;
 
             MakeCurrent();
             //-----------
-            customApp.Setup(view_width, view_height);
+
+            _max = Math.Max(_viewWidth, _viewHeight);
+            _appHost = new LayoutFarm.AppHostAndroid(this, _max, _max); 
+            _htmlBox = new Demo_UIHtmlBox();
+            _appHost.StartApp(_htmlBox);  
             //-----------
             // Run the render loop
             Run();
         }
+        public int ViewWidth => _viewWidth;
+        public int ViewHeight => _viewHeight;
 
         // This method is called everytime the context needs
         // to be recreated. Use it to set any egl-specific settings
@@ -93,12 +98,10 @@ namespace Test_Android_Glyph
         // This gets called on each frame render
         protected override void OnRenderFrame(FrameEventArgs e)
         {
-            base.OnRenderFrame(e);
-
-
+            base.OnRenderFrame(e); 
             GL.Viewport(0, 0, _max, _max);
             //
-            customApp.RenderFrame();
+            _htmlBox.RenderFrame();
             //
             SwapBuffers();
         }

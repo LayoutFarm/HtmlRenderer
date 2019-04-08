@@ -14,9 +14,8 @@ namespace TestGraphicPackage2
         static void Main()
         {
 
-            YourImplementation.FrameworkInitWinGDI.SetupDefaultValues();
+            YourImplementation.FrameworkInitWinGDI.SetupDefaultValues(); 
 
-#if GL_ENABLE
             YourImplementation.LocalFileStorageProvider file_storageProvider = new YourImplementation.LocalFileStorageProvider("");
             PixelFarm.Platforms.StorageService.RegisterProvider(file_storageProvider);
             YourImplementation.FrameworkInitGLES.SetupDefaultValues();
@@ -32,7 +31,7 @@ namespace TestGraphicPackage2
             }
             var dicProvider = new Typography.TextBreak.IcuSimpleTextFileDictionaryProvider() { DataDir = icu_datadir };
             Typography.TextBreak.CustomBreakerBuilder.Setup(dicProvider);
-#endif
+
 
             PixelFarm.CpuBlit.MemBitmapExtensions.DefaultMemBitmapIO = new PixelFarm.Drawing.WinGdi.GdiBitmapIO();
 

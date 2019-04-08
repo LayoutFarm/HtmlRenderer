@@ -19,7 +19,7 @@ namespace TestApp01.Droid
         static void LoadFonts(Typography.FontManagement.InstalledTypefaceCollection fontCollection)
         {
             LoadBundleFont(fontCollection, "DroidSans.ttf");
-            //LoadBundleFont(fontCollection, "tahoma.ttf");
+            LoadBundleFont(fontCollection, "tahoma.ttf");
             LoadBundleFont(fontCollection, "SOV_Thanamas.ttf");
         }
         static Stream LoadFont(string fontfile)
