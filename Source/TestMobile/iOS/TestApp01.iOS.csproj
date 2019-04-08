@@ -117,6 +117,14 @@
       <DependentUpon>GameViewController.cs</DependentUpon>
     </Compile>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\x_autogen_xamarin_ios\HtmlRenderer.One\HtmlRenderer.One.iOS.csproj">
+      <Project>{947230fa-30e0-4996-a7c4-35fed888c00d}</Project>
+      <Name>HtmlRenderer.One.iOS</Name>
+      <IsAppExtension>false</IsAppExtension>
+      <IsWatchApp>false</IsWatchApp>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="..\CustomApp01\CustomApp01.projitems" Label="Shared" Condition="Exists('..\CustomApp01\CustomApp01.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
