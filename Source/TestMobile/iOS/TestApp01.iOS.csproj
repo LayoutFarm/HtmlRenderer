@@ -108,8 +108,10 @@
     <None Include="Entitlements.plist" />
     <BundleResource Include="SOV_Thanamas.ttf" />
     <None Include="packages.config" />
+    <BundleResource Include="tahoma.ttf" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppHostIOS.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <Compile Include="GameViewController.cs" />

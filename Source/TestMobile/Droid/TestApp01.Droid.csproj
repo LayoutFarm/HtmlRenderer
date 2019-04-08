@@ -47,6 +47,7 @@
     <Reference Include="OpenTK-1.0" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppHostAndroid.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -59,6 +60,7 @@
     <None Include="Properties\AndroidManifest.xml" />
     <None Include="Assets\AboutAssets.txt" />
     <AndroidAsset Include="SOV_Thanamas.ttf" />
+    <AndroidAsset Include="tahoma.ttf" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml" />

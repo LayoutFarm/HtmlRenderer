@@ -2,106 +2,142 @@
 //MIT, 2017, WinterDev (modified from Xamarin's Android code template)
 
 using System.IO;
-using System; 
+using System;
+
+using LayoutFarm;
+using LayoutFarm.CustomWidgets;
+using LayoutFarm.HtmlBoxes;
+
+using PixelFarm.CpuBlit;
 using PixelFarm.DrawingGL;
 using PixelFarm.Drawing;
+
 using YourImplementation;
-using PixelFarm.CpuBlit;
+
 
 namespace CustomApp01
 {
-   
-    class CustomApp
+
+    class Demo_UIHtmlBox : App
     {
 
-        GLPainterContext _pcx;
-        GLPainter _painter; 
-
-        public void Setup(int canvasW, int canvasH)
+        HtmlBox _htmlBox;
+        string _htmltext;
+        string _documentRootPath;
+        AppHost _host;
+        GLPainter _painter;
+        RootGraphic _rootgfx;
+        RenderElement _rootE;
+        DrawBoard _drawBoard;
+        protected override void OnStart(AppHost host)
         {
-            //string curdir = Directory.GetCurrentDirectory();
-            //string oneLevelDir = Path.GetDirectoryName(curdir);
-            //string basedir = "/";// oneLevelDir + "/newdir";
-            //LocalFileStorageProvider.s_globalBaseDir = basedir;
-            //Directory.CreateDirectory(basedir);
-
-            string basedir = "";
-            PixelFarm.Platforms.StorageService.RegisterProvider(new LocalFileStorageProvider(basedir));
-            PixelFarm.CpuBlit.MemBitmapExtensions.DefaultMemBitmapIO = new YourImplementation.ImgCodecMemBitmapIO();
+            //html box
+            _host = host;
+            _painter = (GLPainter)host.GetPainter();
 
 
+            var loadingQueueMx = new LayoutFarm.ContentManagers.ImageLoadingQueueManager();
+            loadingQueueMx.AskForImage += loadingQueue_AskForImg;
 
-            int max = Math.Max(canvasW, canvasH);
-            _pcx = GLPainterContext.Create(max, max, canvasW, canvasH, true);
-            _pcx.OriginKind = PixelFarm.Drawing.RenderSurfaceOrientation.LeftTop;
+            HtmlHost htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(host,
+                 (s, e) => loadingQueueMx.AddRequestImage(e.ImageBinder),
+                 contentMx_LoadStyleSheet);
 
-            _painter = new GLPainter();
-            _painter.BindToPainterContext(_pcx);
-            _painter.SetClipBox(0, 0, canvasW, canvasH);
-            _painter.TextPrinter = new GLBitmapGlyphTextPrinter(_painter, PixelFarm.Drawing.GLES2.GLES2Platform.TextService);
+            //
+            _htmlBox = new HtmlBox(htmlHost, 1024, 800);
+            _htmlBox.SetLocation(0, 300); //test
+            _rootgfx = host.GetRootGraphics();
+            _rootE = _htmlBox.GetPrimaryRenderElement(_rootgfx);
 
-            ////--------------------------------------
-            ////TODO: review here again
+            _drawBoard = host.GetDrawBoard();
 
-            ////--------------------------------------
-            //simpleCanvas = new SimpleCanvas(canvasW, canvasH);
-
-            //var text = "Typography";
+            host.AddChild(_htmlBox);
 
 
-            ////optional ....
-            ////var directory = AndroidOS.Environment.ExternalStorageDirectory;
-            ////var fullFileName = Path.Combine(directory.ToString(), "TypographyTest.txt");
-            ////if (File.Exists(fullFileName))
-            ////{
-            ////    text = File.ReadAllText(fullFileName);
-            ////}
-            ////-------------------------------------------------------------------------- 
-            ////we want to create a prepared visual object ***
-            ////textContext = new TypographyTextContext()
-            ////{
-            ////    FontFamily = "DroidSans.ttf", //corresponding to font file Assets/DroidSans.ttf
-            ////    FontSize = 64,//size in Points
-            ////    FontStretch = FontStretch.Normal,
-            ////    FontStyle = FontStyle.Normal,
-            ////    FontWeight = FontWeight.Normal,
-            ////    Alignment = DrawingGL.Text.TextAlignment.Leading
-            ////};
-            ////-------------------------------------------------------------------------- 
-            ////create blank text run 
-            //textRun = new TextRun();
-            ////generate glyph run inside text text run
+            //-------
 
-            //TextPrinter textPrinter = simpleCanvas.TextPrinter;
-            //textPrinter.FontFilename = "DroidSans.ttf"; //corresponding to font file Assets/DroidSans.ttf
-            //textPrinter.FontSizeInPoints = 64;
-            ////
-            //simpleCanvas.TextPrinter.GenerateGlyphRuns(textRun, text.ToCharArray(), 0, text.Length);
-            ////-------------------------------------------------------------------------- 
+            _htmltext = @"<html>
+                    <head>
+                    <style> 
+                        .myfont1{font-size:30pt;background-color:yellow}
+                        .myfont2{font-size:24pt;background-color:rgb(255,215,0)}
+                    </style>
+                    </head>
+                    <body>
+                           <div class='myfont1'>Hello</div>
+                           <div class='myfont2'>... from HtmlRenderer</div>
+                    </body>        
+            </html>";
 
-            //_memBmp = PixelFarm.CpuBlit.MemBitmap.LoadBitmap("rgb_test1.pngx");
-
-            //_memBmp = new PixelFarm.CpuBlit.MemBitmap(64 * 2, 65);
-            //PixelFarm.CpuBlit.AggPainter p = PixelFarm.CpuBlit.AggPainter.Create(_memBmp);
-            //p.Clear(Color.Red);
-
-            //_memBmp.SaveImage("output.png");
-            //GL.Enable(EnableCap.Texture2D);
-        }
-        public void RenderFrame()
-        {
-            _painter.Clear(Color.White);
-            _painter.FillColor = Color.Yellow;
-            //for (int i = 0; i < 10; ++i)
+            //if (_htmltext == null)
             //{
-            //    _painter.FillRect(100 + i * 120, 200 + i * 120, 100, 100);
+            //    _htmltext = @"<html><head></head><body>NOT FOUND!</body></html>";
             //}
+            _htmlBox.LoadHtmlString(_htmltext);
+        }
 
-            _painter.FontFillColor = Color.Black;
-            _painter.FillRect(100, 250, 20, 20);
-            _painter.DrawString("Hello!", 100, 250);
-            _painter.DrawString("...from Typography", 100, 300);
+        public override void RenderFrame()
+        {
+            _drawBoard.SetCanvasOrigin(_htmlBox.Left, _htmlBox.Top);
+            _rootE.DrawToThisCanvas(_drawBoard, new Rectangle(0, 0, 1024, 800));
 
+            base.RenderFrame();
+
+            _drawBoard.SetCanvasOrigin(0, 0);
+        }
+        void loadingQueue_AskForImg(object sender, LayoutFarm.ContentManagers.ImageRequestEventArgs e)
+        {
+            //load resource -- sync or async? 
+            //if we enable cache in loadingQueue (default=> enable)
+            //if the loading queue dose not have the req img 
+            //then it will raise event to here
+
+            //we can resolve the req image to specific img
+            //eg. 
+            //1. built -in img from control may has special protocol
+            //2. check if the req want a local file
+            //3. or if req want to download from the network
+            //
+
+            //examples ...
+
+            string absolutePath = null;
+            if (e.ImagSource.StartsWith("built_in://imgs/"))
+            {
+                //substring
+                absolutePath = _documentRootPath + "\\" + e.ImagSource.Substring("built_in://imgs/".Length);
+            }
+            else
+            {
+                absolutePath = _documentRootPath + "\\" + e.ImagSource;
+            }
+
+            if (!System.IO.File.Exists(absolutePath))
+            {
+                return;
+            }
+            //load
+            //lets host do img loading... 
+
+            //we can do img resolve or caching here
+
+            e.SetResultImage(_host.LoadImage(absolutePath));
+        }
+        void contentMx_LoadStyleSheet(object sender, LayoutFarm.ContentManagers.TextRequestEventArgs e)
+        {
+            string absolutePath = _documentRootPath + "\\" + e.Src;
+            if (!System.IO.File.Exists(absolutePath))
+            {
+                return;
+            }
+            //if found
+            e.TextContent = System.IO.File.ReadAllText(absolutePath);
+        }
+        public void LoadHtml(string documentRootPath, string htmltext)
+        {
+            _documentRootPath = System.IO.Path.GetDirectoryName(documentRootPath);
+            _htmltext = htmltext;
         }
     }
+
 }
