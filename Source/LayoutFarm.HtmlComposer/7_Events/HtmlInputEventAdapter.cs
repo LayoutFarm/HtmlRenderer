@@ -35,7 +35,10 @@ namespace LayoutFarm.HtmlBoxes
         {
             _htmlVisualRoot = htmlVisualRoot;
             _isBinded = htmlVisualRoot != null;
-            _textService = htmlVisualRoot.GetTextService();
+            if (_isBinded)
+            {
+                _textService = htmlVisualRoot.GetTextService();
+            }
         }
         public void Unbind()
         {
@@ -120,7 +123,7 @@ namespace LayoutFarm.HtmlBoxes
             int x = e.X;
             int y = e.Y;
 
-            
+
             if (e.IsDragging && _latestMouseDownChain != null)
             {
                 //dragging *** , if changed

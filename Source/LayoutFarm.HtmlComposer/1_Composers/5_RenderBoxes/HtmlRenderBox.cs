@@ -204,6 +204,8 @@ namespace LayoutFarm.HtmlBoxes
             //base.OnInvalidateGraphicsNoti(totalBounds);//skip
         }
     }
+ 
+
 
     static class PaintVisitorStock
     {

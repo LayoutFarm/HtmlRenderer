@@ -73,7 +73,9 @@ namespace LayoutFarm.HtmlBoxes
                             _htmlhost,
                              _vscbar,
                              _vscbar.GetPrimaryRenderElement((RootGraphic)this.GetInternalRootGfx()),
-                             CssBox.UnsafeGetBoxSpec(this), false);
+                             CssBox.UnsafeGetBoxSpec(this),
+                             null,
+                             false);
                 scBarWrapCssBox.SetLocation(newW, 0);
                 this.AppendToAbsoluteLayer(scBarWrapCssBox);
             }
@@ -93,7 +95,9 @@ namespace LayoutFarm.HtmlBoxes
                         _htmlhost,
                          _hscbar,
                          _hscbar.GetPrimaryRenderElement((RootGraphic)this.GetInternalRootGfx()),
-                         CssBox.UnsafeGetBoxSpec(this), false);
+                         CssBox.UnsafeGetBoxSpec(this),
+                         null,
+                         false);
                 scBarWrapCssBox.SetLocation(0, newH);
                 this.AppendToAbsoluteLayer(scBarWrapCssBox);
             }
@@ -104,8 +108,7 @@ namespace LayoutFarm.HtmlBoxes
         class CssScrollWrapper : IScrollable
         {
             CssBox _cssbox;
-            EventHandler _layoutFinish;
-            EventHandler _viewportChanged;
+            EventHandler<ViewportChangedEventArgs> _viewportChanged;
             public CssScrollWrapper(CssBox cssbox)
             {
                 _cssbox = cssbox;
@@ -122,36 +125,13 @@ namespace LayoutFarm.HtmlBoxes
 
             int IScrollable.InnerHeight => (int)_cssbox.InnerContentHeight;   //content height of the cssbox
             int IScrollable.InnerWidth => (int)_cssbox.InnerContentWidth;    //content width of the cssbox
-
-            event EventHandler IScrollable.LayoutFinished
+             
+            event EventHandler<ViewportChangedEventArgs> IScrollable.ViewportChanged
             {
                 //TODO: review this
                 add
                 {
-                    if (_layoutFinish == null)
-                    {
-                        _layoutFinish = value;
-                    }
-                    else
-                    {
-                        _layoutFinish += value;
-
-                    }
-                }
-                remove
-                {
-                    if (_layoutFinish != null)
-                    {
-                        _layoutFinish -= value;
-                    }
-                }
-            }
-            event EventHandler IScrollable.ViewportChanged
-            {
-                //TODO: review this
-                add
-                {
-                    if (_layoutFinish == null)
+                    if (_viewportChanged == null)
                     {
                         _viewportChanged = value;
                     }

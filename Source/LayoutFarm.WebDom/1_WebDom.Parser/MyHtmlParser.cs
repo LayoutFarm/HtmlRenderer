@@ -64,7 +64,7 @@ namespace LayoutFarm.WebDom.Parser
                         else
                         {
                             _curAttr.Value = _textSnapshot.Substring(startIndex, len);
-                            _curHtmlNode.AddAttribute(_curAttr);
+                            _curHtmlNode.SetAttribute(_curAttr);
                         }
                     }
                     break;
@@ -72,7 +72,7 @@ namespace LayoutFarm.WebDom.Parser
                     {
                         //create attribute node and wait for its value
                         string nodename = _textSnapshot.Substring(startIndex, len);
-                        _curAttr = _resultHtmlDoc.CreateAttribute(null, nodename);
+                        _curAttr = _resultHtmlDoc.CreateAttribute(nodename);
                     }
                     break;
                 case HtmlLexerEvent.NodeNameOrAttribute:
@@ -104,9 +104,8 @@ namespace LayoutFarm.WebDom.Parser
                                     if (_waitingAttrName != null)
                                     {
                                         //push waiting attr
-                                        _curAttr = _resultHtmlDoc.CreateAttribute(null, _waitingAttrName);
-                                        _curAttr.Value = "";
-                                        _curHtmlNode.AddAttribute(_curAttr);
+                                        _curAttr = _resultHtmlDoc.CreateAttribute(_waitingAttrName, "");
+                                        _curHtmlNode.SetAttribute(_curAttr);
                                         _curAttr = null;
                                     }
                                     _waitingAttrName = name;
@@ -217,9 +216,8 @@ namespace LayoutFarm.WebDom.Parser
 
                         if (_waitingAttrName != null)
                         {
-                            _curAttr = _resultHtmlDoc.CreateAttribute(null, _waitingAttrName);
-                            _curAttr.Value = "";
-                            _curHtmlNode.AddAttribute(_curAttr);
+                            _curAttr = _resultHtmlDoc.CreateAttribute(_waitingAttrName, "");
+                            _curHtmlNode.SetAttribute(_curAttr);
                             _curAttr = null;
                         }
 

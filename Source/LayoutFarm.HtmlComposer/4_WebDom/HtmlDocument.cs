@@ -55,6 +55,14 @@ namespace LayoutFarm.Composers
                            AddStringIfNotExists(localName));
                     }
                     break;
+                case "textarea":
+                    {
+                        htmlElement = new HtmlTextAreaElement(
+                           this,
+                           AddStringIfNotExists(prefix),
+                           AddStringIfNotExists(localName));
+                    }
+                    break;
                 case "option":
                     {
                         htmlElement = new HtmlOptionElement(
@@ -63,6 +71,7 @@ namespace LayoutFarm.Composers
                            AddStringIfNotExists(localName));
                     }
                     break;
+              
                 default:
                     {
                         htmlElement = new HtmlElement(this,
@@ -103,7 +112,6 @@ namespace LayoutFarm.Composers
                 AddStringIfNotExists("shadow-root"));
         }
 
-
         //-------------------------------------------------------------
         public void RegisterCustomElement(string customElementName, CreateCssBoxDelegate cssBoxGen)
         {
@@ -121,4 +129,104 @@ namespace LayoutFarm.Composers
             return imgBinder;
         }
     }
+
+
+    public delegate void Decorate<T>(T h) where T : HtmlElement;
+
+    public static class HtmlDocumentExtensions
+    {
+        //explicit 
+        public static HtmlElement CreateHtmlElement(this HtmlDocument doc, string prefix, string localName)
+        {
+            //wellknown name?
+            HtmlElement htmlElement = null;
+            switch (localName)
+            {
+                case "img":
+                    {
+                        htmlElement = new HtmlImageElement(
+                            doc,
+                            doc.AddStringIfNotExists(prefix),
+                            doc.AddStringIfNotExists(localName));
+                    }
+                    break;
+                case "input":
+                    {
+                        //input type
+                        htmlElement = new HtmlInputElement(
+                           doc,
+                           doc.AddStringIfNotExists(prefix),
+                           doc.AddStringIfNotExists(localName));
+                    }
+                    break;
+                case "option":
+                    {
+                        htmlElement = new HtmlOptionElement(
+                           doc,
+                           doc.AddStringIfNotExists(prefix),
+                           doc.AddStringIfNotExists(localName));
+                    }
+                    break;
+                default:
+                    {
+                        htmlElement = new HtmlElement(doc,
+                           doc.AddStringIfNotExists(prefix),
+                           doc.AddStringIfNotExists(localName));
+                        htmlElement.WellknownElementName = WellKnownDomNodeMap.EvaluateTagName(htmlElement.LocalName);
+                    }
+                    break;
+            }
+            return htmlElement;
+        }
+
+        public static HtmlImageElement CreateHtmlImageElement(this HtmlDocument doc, Decorate<HtmlImageElement> dec = null)
+        {
+            var elem = new HtmlImageElement(
+                            doc,
+                            0, //null=> 0
+                            doc.AddStringIfNotExists("img"));
+            dec?.Invoke(elem);
+            return elem;
+        }
+
+        public static HtmlInputElement CreateHtmlInputElement(this HtmlDocument doc, Decorate<HtmlInputElement> dec = null)
+        {
+            var elem = new HtmlInputElement(
+                            doc,
+                            0,
+                            doc.AddStringIfNotExists("input"));
+            dec?.Invoke(elem);
+            return elem;
+        }
+        public static HtmlOptionElement CreateHtmlOption(this HtmlDocument doc, Decorate<HtmlOptionElement> dec = null)
+        {
+            var elem = new HtmlOptionElement(
+                            doc,
+                            0,
+                            doc.AddStringIfNotExists("option"));
+            dec?.Invoke(elem);
+            return elem;
+
+        }
+        public static HtmlElement CreateHtmlDiv(this HtmlDocument doc, Decorate<HtmlElement> dec = null)
+        {
+            var elem = new HtmlElement(
+                            doc,
+                            0,
+                            doc.AddStringIfNotExists("div"));
+            dec?.Invoke(elem);
+            return elem;
+
+        }
+        public static HtmlElement CreateHtmlSpan(this HtmlDocument doc, Decorate<HtmlElement> dec = null)
+        {
+            var elem = new HtmlElement(
+                            doc,
+                            0,
+                            doc.AddStringIfNotExists("span"));
+            dec?.Invoke(elem);
+            return elem;
+        }
+    }
+
 }
