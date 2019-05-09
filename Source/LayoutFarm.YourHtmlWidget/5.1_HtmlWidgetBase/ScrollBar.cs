@@ -28,7 +28,6 @@ namespace LayoutFarm.HtmlWidgets
         }
         //
         public override RenderElement CurrentPrimaryRenderElement => _mainBox;
-        protected override bool HasReadyRenderElement => _mainBox != null;
         //
         public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
         {

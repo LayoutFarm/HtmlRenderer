@@ -69,8 +69,6 @@ namespace LayoutFarm.CustomWidgets
         //
         public override RenderElement CurrentPrimaryRenderElement => _htmlRenderBox;
         //
-        protected override bool HasReadyRenderElement => _htmlRenderBox != null;
-        //
         HtmlInputEventAdapter GetInputEventAdapter()
         {
             if (_inputEventAdapter == null)
