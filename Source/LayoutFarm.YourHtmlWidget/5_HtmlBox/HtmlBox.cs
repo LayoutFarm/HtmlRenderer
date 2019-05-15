@@ -281,18 +281,26 @@ namespace LayoutFarm.CustomWidgets
                 RaiseLayoutFinished();
             }
         }
+
+        string _orgHtmlString;
+
+        public string GetOrgHtmlString()
+        {
+            //temp!
+            return _orgHtmlString;
+        }
         public void LoadHtmlString(string htmlString)
         {
 
             if (_htmlRenderBox == null)
             {
                 _waitingContentKind = WaitingContentKind.HtmlString;
-                _waitingHtmlString = htmlString;
+                _orgHtmlString = _waitingHtmlString = htmlString;
             }
             else
             {
                 //just parse content and load 
-                _htmlVisualRoot = HtmlHostExtensions.CreateHtmlVisualRootFromFullHtml(_htmlhost, htmlString, _htmlRenderBox);
+                _htmlVisualRoot = HtmlHostExtensions.CreateHtmlVisualRootFromFullHtml(_htmlhost, _orgHtmlString = htmlString, _htmlRenderBox);
                 SetHtmlContainerEventHandlers();
                 ClearWaitingContent();
                 RaiseLayoutFinished();
@@ -305,12 +313,12 @@ namespace LayoutFarm.CustomWidgets
             if (_htmlRenderBox == null)
             {
                 _waitingContentKind = WaitingContentKind.HtmlFragmentString;
-                _waitingHtmlString = fragmentHtmlString;
+                _orgHtmlString = _waitingHtmlString = fragmentHtmlString;
             }
             else
             {
                 //just parse content and load 
-                _htmlVisualRoot = HtmlHostExtensions.CreateHtmlVisualRootFromFragmentHtml(_htmlhost, fragmentHtmlString, _htmlRenderBox);
+                _htmlVisualRoot = HtmlHostExtensions.CreateHtmlVisualRootFromFragmentHtml(_htmlhost, _orgHtmlString = fragmentHtmlString, _htmlRenderBox);
                 SetHtmlContainerEventHandlers();
                 ClearWaitingContent();
             }
@@ -357,7 +365,7 @@ namespace LayoutFarm.CustomWidgets
 
         public override void Walk(UIVisitor visitor)
         {
-            visitor.BeginElement(this, "htmlbox");
+            visitor.BeginElement("htmlbox");
             this.Describe(visitor);
             visitor.EndElement();
         }

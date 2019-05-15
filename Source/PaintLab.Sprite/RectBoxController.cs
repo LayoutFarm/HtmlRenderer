@@ -21,7 +21,7 @@ namespace LayoutFarm.CustomWidgets
         }
         public override void Walk(UIVisitor visitor)
         {
-            visitor.BeginElement(this, "ctrlbox");
+            visitor.BeginElement( "ctrlbox");
             this.Describe(visitor);
             visitor.EndElement();
         }
