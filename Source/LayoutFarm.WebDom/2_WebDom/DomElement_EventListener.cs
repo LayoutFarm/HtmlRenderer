@@ -6,6 +6,8 @@ namespace LayoutFarm.WebDom
 {
     partial class DomElement : IUIEventListener
     {
+        public bool AcceptKeyboardFocus { get; set; }
+
         void IEventListener.ListenKeyPress(UIKeyEventArgs e)
         {
             OnKeyPress(e);

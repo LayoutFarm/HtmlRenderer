@@ -19,12 +19,7 @@ namespace LayoutFarm.CustomWidgets
             get;
             set;
         }
-        public override void Walk(UIVisitor visitor)
-        {
-            visitor.BeginElement(this, "ctrlbox");
-            this.Describe(visitor);
-            visitor.EndElement();
-        }
+       
 
         public int Index { get; set; }
         public MoveDirection MoveDirection { get; set; }
@@ -99,7 +94,7 @@ namespace LayoutFarm.CustomWidgets
             _hasPrimRenderE = true;
             return _groundBox.GetPrimaryRenderElement(rootgfx);
         }
-        public override void Walk(UIVisitor visitor)
+        public override void Accept(UIVisitor visitor)
         {
         }
         public override RenderElement CurrentPrimaryRenderElement => _groundBox.CurrentPrimaryRenderElement;
