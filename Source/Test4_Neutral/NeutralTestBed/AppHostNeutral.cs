@@ -37,7 +37,10 @@ namespace LayoutFarm
         {
             _vw.AddChild(renderElement, owner);
         }
-
+        public override Image LoadImage(byte[] rawImgFile, string imgTypeHint)
+        {
+            throw new NotImplementedException();
+        }
         public override Image LoadImage(string imgName, int reqW, int reqH)
         {
             if (!File.Exists(imgName)) //resolve to actual img 

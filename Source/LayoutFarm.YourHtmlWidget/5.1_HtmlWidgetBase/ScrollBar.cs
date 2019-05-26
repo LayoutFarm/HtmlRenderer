@@ -28,7 +28,6 @@ namespace LayoutFarm.HtmlWidgets
         }
         //
         public override RenderElement CurrentPrimaryRenderElement => _mainBox;
-        protected override bool HasReadyRenderElement => _mainBox != null;
         //
         public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
         {
@@ -503,10 +502,10 @@ namespace LayoutFarm.HtmlWidgets
             }
         }
 
-        public override void Walk(UIVisitor visitor)
+        public override void Accept(UIVisitor visitor)
         {
             //walk to control
-            visitor.BeginElement(this, "scrollbar");
+            visitor.BeginElement("scrollbar");
             this.Describe(visitor);
             visitor.EndElement();
         }
@@ -549,9 +548,9 @@ namespace LayoutFarm.HtmlWidgets
             this.OwnerScrollBar.ChildNotifyMouseWheel(e);
         }
 
-        public override void Walk(UIVisitor visitor)
+        public override void Accept(UIVisitor visitor)
         {
-            visitor.BeginElement(this, "scrollbutton");
+            visitor.BeginElement("scrollbutton");
             this.Describe(visitor);
             visitor.EndElement();
         }

@@ -69,8 +69,6 @@ namespace LayoutFarm.CustomWidgets
         //
         public override RenderElement CurrentPrimaryRenderElement => _htmlRenderBox;
         //
-        protected override bool HasReadyRenderElement => _htmlRenderBox != null;
-        //
         HtmlInputEventAdapter GetInputEventAdapter()
         {
             if (_inputEventAdapter == null)
@@ -283,18 +281,26 @@ namespace LayoutFarm.CustomWidgets
                 RaiseLayoutFinished();
             }
         }
+
+        string _orgHtmlString;
+
+        public string GetOrgHtmlString()
+        {
+            //temp!
+            return _orgHtmlString;
+        }
         public void LoadHtmlString(string htmlString)
         {
 
             if (_htmlRenderBox == null)
             {
                 _waitingContentKind = WaitingContentKind.HtmlString;
-                _waitingHtmlString = htmlString;
+                _orgHtmlString = _waitingHtmlString = htmlString;
             }
             else
             {
                 //just parse content and load 
-                _htmlVisualRoot = HtmlHostExtensions.CreateHtmlVisualRootFromFullHtml(_htmlhost, htmlString, _htmlRenderBox);
+                _htmlVisualRoot = HtmlHostExtensions.CreateHtmlVisualRootFromFullHtml(_htmlhost, _orgHtmlString = htmlString, _htmlRenderBox);
                 SetHtmlContainerEventHandlers();
                 ClearWaitingContent();
                 RaiseLayoutFinished();
@@ -307,12 +313,12 @@ namespace LayoutFarm.CustomWidgets
             if (_htmlRenderBox == null)
             {
                 _waitingContentKind = WaitingContentKind.HtmlFragmentString;
-                _waitingHtmlString = fragmentHtmlString;
+                _orgHtmlString = _waitingHtmlString = fragmentHtmlString;
             }
             else
             {
                 //just parse content and load 
-                _htmlVisualRoot = HtmlHostExtensions.CreateHtmlVisualRootFromFragmentHtml(_htmlhost, fragmentHtmlString, _htmlRenderBox);
+                _htmlVisualRoot = HtmlHostExtensions.CreateHtmlVisualRootFromFragmentHtml(_htmlhost, _orgHtmlString = fragmentHtmlString, _htmlRenderBox);
                 SetHtmlContainerEventHandlers();
                 ClearWaitingContent();
             }
@@ -357,12 +363,7 @@ namespace LayoutFarm.CustomWidgets
         public override int InnerWidth => _htmlRenderBox.HtmlWidth;
         public override int InnerHeight => _htmlRenderBox.HtmlHeight;
 
-        public override void Walk(UIVisitor visitor)
-        {
-            visitor.BeginElement(this, "htmlbox");
-            this.Describe(visitor);
-            visitor.EndElement();
-        }
+        
     }
 }
 

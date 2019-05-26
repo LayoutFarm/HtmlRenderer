@@ -74,7 +74,14 @@ namespace LayoutFarm
 
         public static PixelFarm.CpuBlit.MemBitmap LoadImage(string imgName)
         {
-            return PixelFarm.CpuBlit.MemBitmap.LoadBitmap(imgName);
+            if (PixelFarm.Platforms.StorageService.Provider.DataExists(imgName))
+            {
+                using (var stream = PixelFarm.Platforms.StorageService.Provider.ReadDataStream(imgName))
+                {
+                    return PixelFarm.CpuBlit.MemBitmap.LoadBitmap(stream);
+                }
+            }
+            return null;
             //return new PixelFarm.CpuBlit.MemBitmap()
             //if (!System.IO.File.Exists(imgName))
             //{
