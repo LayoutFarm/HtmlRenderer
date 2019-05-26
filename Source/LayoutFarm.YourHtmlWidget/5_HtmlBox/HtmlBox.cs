@@ -363,12 +363,7 @@ namespace LayoutFarm.CustomWidgets
         public override int InnerWidth => _htmlRenderBox.HtmlWidth;
         public override int InnerHeight => _htmlRenderBox.HtmlHeight;
 
-        public override void Walk(UIVisitor visitor)
-        {
-            visitor.BeginElement("htmlbox");
-            this.Describe(visitor);
-            visitor.EndElement();
-        }
+        
     }
 }
 

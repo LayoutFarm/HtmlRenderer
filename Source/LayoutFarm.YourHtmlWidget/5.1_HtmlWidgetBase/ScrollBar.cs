@@ -502,7 +502,7 @@ namespace LayoutFarm.HtmlWidgets
             }
         }
 
-        public override void Walk(UIVisitor visitor)
+        public override void Accept(UIVisitor visitor)
         {
             //walk to control
             visitor.BeginElement("scrollbar");
@@ -548,7 +548,7 @@ namespace LayoutFarm.HtmlWidgets
             this.OwnerScrollBar.ChildNotifyMouseWheel(e);
         }
 
-        public override void Walk(UIVisitor visitor)
+        public override void Accept(UIVisitor visitor)
         {
             visitor.BeginElement("scrollbutton");
             this.Describe(visitor);

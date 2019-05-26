@@ -1369,12 +1369,7 @@ namespace LayoutFarm
             : base(w, h)
         {
         }
-        public override void Walk(UIVisitor visitor)
-        {
-            visitor.BeginElement(this, "ctrlbox");
-            this.Describe(visitor);
-            visitor.EndElement();
-        }
+        
 
         public int Index { get; set; }
         public MoveDirection MoveDirection { get; set; }
@@ -1450,15 +1445,15 @@ namespace LayoutFarm
             renderE.TransparentForAllEvents = this.TransparentAllMouseEvents;
             return renderE;
         }
-        public override void Walk(UIVisitor visitor)
+        public override void Accept(UIVisitor visitor)
         {
 
         }
-        public void AddChild(UIElement ui)
+
+        public override void AddChild(UIElement ui)
         {
             _simpleBox.AddChild(ui);
         }
-
 
         public void SetLocation(int x, int y)
         {
