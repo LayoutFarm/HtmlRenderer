@@ -60,11 +60,11 @@ namespace LayoutFarm.CustomWidgets
         }
         protected override void OnContentLayout()
         {
-            //this.PerformContentLayout();
+            this.PerformContentLayout();
         }
         public override void PerformContentLayout()
         {
-            //this.RaiseLayoutFinished();
+            this.RaiseLayoutFinished();
         }
         //
         public override RenderElement CurrentPrimaryRenderElement => _htmlRenderBox;
@@ -298,9 +298,9 @@ namespace LayoutFarm.CustomWidgets
                 _orgHtmlString = _waitingHtmlString = htmlString;
             }
             else
-            {         
+            {
                 //just parse content and load 
-                _htmlVisualRoot = HtmlHostExtensions.CreateHtmlVisualRootFromFullHtml(_htmlhost, _orgHtmlString = htmlString, _htmlRenderBox); 
+                _htmlVisualRoot = HtmlHostExtensions.CreateHtmlVisualRootFromFullHtml(_htmlhost, _orgHtmlString = htmlString, _htmlRenderBox);
                 SetHtmlContainerEventHandlers();
                 ClearWaitingContent();
                 RaiseLayoutFinished();
