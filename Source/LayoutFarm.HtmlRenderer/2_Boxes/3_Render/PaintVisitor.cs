@@ -27,14 +27,14 @@ namespace LayoutFarm.HtmlBoxes
             _htmlVisualRoot = htmlVisualRoot;
             _drawBoard = drawBoard;
         }
-        public void AttachTo(DrawboardBuffer attachToBackbuffer)
+        public void EnterNewDrawboardBuffer(DrawboardBuffer attachToBackbuffer)
         {
             //save  
-            _drawBoard.AttachToBackBuffer(attachToBackbuffer);
+            _drawBoard.EnterNewDrawboardBuffer(attachToBackbuffer);
         }
-        public void AttachToNormalBuffer()
+        public void ExitCurrentDrawboardBuffer()
         {
-            _drawBoard.SwitchBackToDefaultBuffer(null);
+            _drawBoard.ExitCurrentDrawboardBuffer();
         }
         public Color CssBoxSelectionColor => _cssBoxSelectionColor;
 

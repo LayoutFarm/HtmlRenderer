@@ -10,8 +10,8 @@ namespace LayoutFarm.HtmlBoxes
     {
         MyHtmlVisualRoot _myHtmlVisualRoot;
         CssBox _cssBox;
-        DrawboardBuffer _builtInBackBuffer;
 
+        DrawboardBuffer _builtInBackBuffer;
         bool _hasAccumRect;
         Rectangle _invalidateRect;
 
@@ -71,7 +71,7 @@ namespace LayoutFarm.HtmlBoxes
                     float backupViewportW = painter.ViewportWidth; //backup
                     float backupViewportH = painter.ViewportHeight; //backup
 
-                    painter.AttachTo(_builtInBackBuffer); //*** switch to builtInBackbuffer 
+                    painter.EnterNewDrawboardBuffer(_builtInBackBuffer); //*** switch to builtInBackbuffer 
                     painter.SetViewportSize(this.Width, this.Height);
 
                     if (!_hasAccumRect)
@@ -105,7 +105,7 @@ namespace LayoutFarm.HtmlBoxes
                     _builtInBackBuffer.IsValid = true;
                     _hasAccumRect = false;
 
-                    painter.AttachToNormalBuffer();//*** switch back
+                    painter.ExitCurrentDrawboardBuffer();//*** switch back
                     painter.SetViewportSize(backupViewportW, backupViewportH);//restore viewport size
                 }
 
@@ -113,8 +113,7 @@ namespace LayoutFarm.HtmlBoxes
 
                 PaintVisitorStock.ReleaseSharedPaintVisitor(painter);
             }
-            else if (PreferSoftwareRenderer &&
-                 canvas.IsGpuDrawBoard)
+            else if (PreferSoftwareRenderer && canvas.IsGpuDrawBoard)
             {
                 //TODO: review this again ***
                 //test built-in 'shared' software rendering surface
@@ -204,7 +203,7 @@ namespace LayoutFarm.HtmlBoxes
             //base.OnInvalidateGraphicsNoti(totalBounds);//skip
         }
     }
- 
+
 
 
     static class PaintVisitorStock
