@@ -76,7 +76,7 @@ namespace LayoutFarm.UI
                     }
 #endif
                     svgHitChain.WithSubPartTest = this.EnableSubSvgHitTest;
-                    svgHitChain.SetHitTestPos(hitChain.TextPointX, hitChain.TextPointY);
+                    svgHitChain.SetHitTestPos(hitChain.TestPointX, hitChain.TestPointY);
                     bool hitResult = false;
                     if (HitTestOnSubPart(this, svgHitChain))
                     {

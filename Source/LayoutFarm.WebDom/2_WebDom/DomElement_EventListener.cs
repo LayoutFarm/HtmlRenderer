@@ -7,7 +7,7 @@ namespace LayoutFarm.WebDom
     partial class DomElement : IUIEventListener
     {
         public bool AcceptKeyboardFocus { get; set; }
-
+        bool IUIEventListener.DisableAutoMouseCapture => false;
         void IEventListener.ListenKeyPress(UIKeyEventArgs e)
         {
             OnKeyPress(e);

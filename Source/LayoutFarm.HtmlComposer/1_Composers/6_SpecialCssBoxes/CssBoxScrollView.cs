@@ -125,7 +125,8 @@ namespace LayoutFarm.HtmlBoxes
 
             int IScrollable.InnerHeight => (int)_cssbox.InnerContentHeight;   //content height of the cssbox
             int IScrollable.InnerWidth => (int)_cssbox.InnerContentWidth;    //content width of the cssbox
-             
+
+            
             event EventHandler<ViewportChangedEventArgs> IScrollable.ViewportChanged
             {
                 //TODO: review this

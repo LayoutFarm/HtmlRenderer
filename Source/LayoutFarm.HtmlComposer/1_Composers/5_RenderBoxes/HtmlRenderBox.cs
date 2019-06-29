@@ -17,7 +17,6 @@ namespace LayoutFarm.HtmlBoxes
 
 #if DEBUG
         public bool dbugBreak;
-        System.Random dbugRandom = new System.Random();
         public readonly int dbugHtmlRenderBoxId = dbugTotalId++;
         static int dbugTotalId;
 #endif
@@ -29,7 +28,7 @@ namespace LayoutFarm.HtmlBoxes
             NeedInvalidateRectEvent = true;
         }
         public CssBox CssBox => _cssBox;
-
+        protected override PlainLayer CreateDefaultLayer() => new PlainLayer(this);
         public void SetHtmlVisualRoot(MyHtmlVisualRoot htmlVisualRoot, CssBox box)
         {
             _myHtmlVisualRoot = htmlVisualRoot;
@@ -91,7 +90,7 @@ namespace LayoutFarm.HtmlBoxes
 #if DEBUG
                         //for debug , test clear with random color
                         //another useful technique to see latest clear area frame-by-frame => use random color
-                        //painter.Clear(Color.FromArgb(255, dbugRandom.Next(0, 255), dbugRandom.Next(0, 255), dbugRandom.Next(0, 255)));
+                        //painter.Clear(ColorEx.dbugGetRandomColor());
 
                         painter.Clear(Color.White);
 #else
