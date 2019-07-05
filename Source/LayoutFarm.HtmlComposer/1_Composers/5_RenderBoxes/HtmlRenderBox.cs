@@ -112,7 +112,8 @@ namespace LayoutFarm.HtmlBoxes
 
                 PaintVisitorStock.ReleaseSharedPaintVisitor(painter);
             }
-            else if (PreferSoftwareRenderer && canvas.IsGpuDrawBoard)
+#if DEBUG
+            else if (dbugPreferSoftwareRenderer && canvas.IsGpuDrawBoard)
             {
                 //TODO: review this again ***
                 //test built-in 'shared' software rendering surface
@@ -136,6 +137,7 @@ namespace LayoutFarm.HtmlBoxes
                     canvas.BlitFrom(cpuDrawBoard, X, Y, this.Width, this.Height, 0, 0);
                 }
             }
+#endif
             else
             {
 
