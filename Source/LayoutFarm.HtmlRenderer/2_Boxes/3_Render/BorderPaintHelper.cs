@@ -241,6 +241,10 @@ namespace LayoutFarm.HtmlBoxes
         static void SetInOutsetRectanglePoints(CssSide border, CssBox b, RectangleF r, bool isLineStart, bool isLineEnd,
             PointF[] _borderPts)
         {
+
+            PointF Offset(PointF p, float dx, float dy) => new PointF(p.X + dx, p.Y + dy);
+
+
             switch (border)
             {
                 case CssSide.Top:
@@ -249,9 +253,17 @@ namespace LayoutFarm.HtmlBoxes
                     _borderPts[2] = new PointF(r.Right, r.Top + b.ActualBorderTopWidth);
                     _borderPts[3] = new PointF(r.Left, r.Top + b.ActualBorderTopWidth);
                     if (isLineEnd)
-                        _borderPts[2].X -= b.ActualBorderRightWidth;
+                    {
+                        //_borderPts[2].X -= b.ActualBorderRightWidth;
+                        _borderPts[2] = Offset(_borderPts[2], -b.ActualBorderRightWidth, 0);
+                    }
+
                     if (isLineStart)
-                        _borderPts[3].X += b.ActualBorderLeftWidth;
+                    {
+                        //_borderPts[3].X += b.ActualBorderLeftWidth;
+                        _borderPts[3] = Offset(_borderPts[3], b.ActualBorderLeftWidth, 0);
+                    }
+
                     break;
                 case CssSide.Right:
                     _borderPts[0] = new PointF(r.Right - b.ActualBorderRightWidth, r.Top + b.ActualBorderTopWidth);
@@ -265,9 +277,15 @@ namespace LayoutFarm.HtmlBoxes
                     _borderPts[2] = new PointF(r.Right, r.Bottom);
                     _borderPts[3] = new PointF(r.Left, r.Bottom);
                     if (isLineStart)
-                        _borderPts[0].X += b.ActualBorderLeftWidth;
+                    {
+                        _borderPts[0] = Offset(_borderPts[0], b.ActualBorderLeftWidth, 0);
+                        //_borderPts[0].X += b.ActualBorderLeftWidth;
+                    }
                     if (isLineEnd)
-                        _borderPts[1].X -= b.ActualBorderRightWidth;
+                    {
+                        //_borderPts[1].X -= b.ActualBorderRightWidth;
+                        _borderPts[1] = Offset(_borderPts[1], b.ActualBorderRightWidth, 0);
+                    }
                     break;
                 case CssSide.Left:
                     _borderPts[0] = new PointF(r.Left, r.Top);

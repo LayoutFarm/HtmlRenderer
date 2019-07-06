@@ -795,9 +795,15 @@ namespace LayoutFarm.HtmlBoxes
 
                 }
 #endif
-                location.Offset(
-                    (int)(_justBlockRun.Left),
-                    (int)(_justBlockRun.Top + _justBlockRun.HostLine.CachedLineTop));
+
+                //location.Offset(
+                //    (int)(_justBlockRun.Left),
+                //    (int)(_justBlockRun.Top + _justBlockRun.HostLine.CachedLineTop));
+
+                location = new PointF(
+                   location.X + (int)(_justBlockRun.Left),
+                   location.Y + (int)(_justBlockRun.Top + _justBlockRun.HostLine.CachedLineTop)
+                   );
 
                 //recursive
                 _justBlockRun.HostLine.OwnerBox.GetGlobalLocationRelativeToRoot(ref location);
@@ -813,7 +819,12 @@ namespace LayoutFarm.HtmlBoxes
 
                 }
 #endif
-                location.Offset((int)this.LocalX - _viewportX, (int)this.LocalY - _viewportY);
+                //location.Offset((int)this.LocalX - _viewportX, (int)this.LocalY - _viewportY);
+
+                location = new PointF(
+                    location.X + (int)this.LocalX - _viewportX,
+                    location.Y + (int)this.LocalY - _viewportY
+                    );
                 //recursive
                 parentBox.GetGlobalLocationRelativeToRoot(ref location);
             }
