@@ -160,7 +160,7 @@ namespace LayoutFarm
             //  |       |
             //  SW-----SE
 
-            var path = new GraphicsPath();
+            var path = new PixelFarm.CpuBlit.CpuBlitGraphicsPath();
             nwRadius *= 2;
             neRadius *= 2;
             seRadius *= 2;

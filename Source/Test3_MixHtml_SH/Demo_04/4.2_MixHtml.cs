@@ -37,7 +37,9 @@ namespace LayoutFarm
                 HtmlBoxes.HtmlHost htmlhost = HtmlHostCreatorHelper.CreateHtmlHost(host, null, null);
                 //html box             
                 var htmlBox = new HtmlBox(htmlhost, 800, 400);
-                htmlBox.PreferSoftwareRenderer = true;
+#if DEBUG
+                htmlBox.dbugPreferSoftwareRenderer = true;
+#endif
                 htmlBox.SetLocation(0, 610);//**
                 host.AddChild(htmlBox);
                 string html = @"<html><head></head><body><div>OK3</div><div>OK4</div></body></html>";

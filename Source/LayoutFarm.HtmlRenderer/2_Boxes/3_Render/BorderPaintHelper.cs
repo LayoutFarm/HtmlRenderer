@@ -23,6 +23,22 @@ namespace LayoutFarm.HtmlBoxes
     /// </summary>
     static class BorderPaintHelper
     {
+
+        class GdiPath : GraphicsPath
+        {
+            public override int PointCount => throw new NotImplementedException();
+
+            public override GraphicsPath Clone()
+            {
+                throw new NotImplementedException();
+            }
+
+            public override RectangleF GetBounds()
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         static PixelFarm.CpuBlit.VertexProcessing.SimpleRectBorderBuilder s_simpleRectBorderBuilder = new PixelFarm.CpuBlit.VertexProcessing.SimpleRectBorderBuilder();
         static float[] s_reusableBorderCoords = new float[16];
 
@@ -314,7 +330,7 @@ namespace LayoutFarm.HtmlBoxes
                     if (b.ActualCornerNW > 0 || b.ActualCornerNE > 0)
                     {
 
-                        path = new GraphicsPath();
+                        path = new GdiPath();
                         if (b.ActualCornerNW > 0)
                             path.AddArc(r.Left + b.ActualBorderLeftWidth / 2, r.Top + b.ActualBorderTopWidth / 2, b.ActualCornerNW * 2, b.ActualCornerNW * 2, 180f, 90f);
                         else
@@ -328,7 +344,7 @@ namespace LayoutFarm.HtmlBoxes
                 case CssSide.Bottom:
                     if (b.ActualCornerSW > 0 || b.ActualCornerSE > 0)
                     {
-                        path = new GraphicsPath();
+                        path = new GdiPath();
                         if (b.ActualCornerSE > 0)
                             path.AddArc(r.Right - b.ActualCornerNE * 2 - b.ActualBorderRightWidth / 2, r.Bottom - b.ActualCornerSE * 2 - b.ActualBorderBottomWidth / 2, b.ActualCornerSE * 2, b.ActualCornerSE * 2, 0f, 90f);
                         else
@@ -342,7 +358,7 @@ namespace LayoutFarm.HtmlBoxes
                 case CssSide.Right:
                     if (b.ActualCornerNE > 0 || b.ActualCornerSE > 0)
                     {
-                        path = new GraphicsPath();
+                        path = new GdiPath();
                         if (b.ActualCornerNE > 0 && b.BorderTopStyle >= CssBorderStyle.Visible)
                         {
                             path.AddArc(r.Right - b.ActualCornerNE * 2 - b.ActualBorderRightWidth / 2, r.Top + b.ActualBorderTopWidth / 2, b.ActualCornerNE * 2, b.ActualCornerNE * 2, 270f, 90f);
@@ -366,7 +382,7 @@ namespace LayoutFarm.HtmlBoxes
                 case CssSide.Left:
                     if (b.ActualCornerNW > 0 || b.ActualCornerSW > 0)
                     {
-                        path = new GraphicsPath();
+                        path = new GdiPath();
                         if (b.ActualCornerSW > 0 && b.BorderTopStyle >= CssBorderStyle.Visible)//(b.BorderTopStyle == CssConstants.None || b.BorderTopStyle == CssConstants.Hidden))
                         {
                             path.AddArc(r.Left + b.ActualBorderLeftWidth / 2, r.Bottom - b.ActualCornerSW * 2 - b.ActualBorderBottomWidth / 2, b.ActualCornerSW * 2, b.ActualCornerSW * 2, 90f, 90f);

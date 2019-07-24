@@ -49,6 +49,7 @@ namespace LayoutFarm.CustomWidgets
                 debug_PreferSoftwareRenderer = value;
                 if (_htmlRenderBox != null)
                 {
+                    
                     _htmlRenderBox.dbugPreferSoftwareRenderer = value;
                 }
             }
