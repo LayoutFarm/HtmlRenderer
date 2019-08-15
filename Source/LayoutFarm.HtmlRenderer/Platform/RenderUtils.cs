@@ -144,77 +144,79 @@ namespace LayoutFarm
             var image = GetErrorImage();
             p.DrawImage(image, new RectangleF(r.Left + 3, r.Top + 3, image.Width, image.Height));
         }
-        /// <summary>
-        /// Creates a rounded rectangle using the specified corner radius
-        /// </summary>
-        /// <param name="rect">Rectangle to round</param>
-        /// <param name="nwRadius">Radius of the north east corner</param>
-        /// <param name="neRadius">Radius of the north west corner</param>
-        /// <param name="seRadius">Radius of the south east corner</param>
-        /// <param name="swRadius">Radius of the south west corner</param>
-        /// <returns>GraphicsPath with the lines of the rounded rectangle ready to be painted</returns>
-        public static GraphicsPath GetRoundRect(RectangleF rect, float nwRadius, float neRadius, float seRadius, float swRadius)
-        {
-            //  NW-----NE
-            //  |       |
-            //  |       |
-            //  SW-----SE
-
-            var path = new PixelFarm.CpuBlit.CpuBlitGraphicsPath();
-            nwRadius *= 2;
-            neRadius *= 2;
-            seRadius *= 2;
-            swRadius *= 2;
-            //NW ---- NE
-            path.AddLine(rect.X + nwRadius, rect.Y, rect.Right - neRadius, rect.Y);
-            //NE Arc
-            if (neRadius > 0f)
-            {
-                path.AddArc(
-                    RectangleF.FromLTRB(rect.Right - neRadius, rect.Top, rect.Right, rect.Top + neRadius),
-                    -90, 90);
-            }
-
-            // NE
-            //  |
-            // SE
-            path.AddLine(rect.Right, rect.Top + neRadius, rect.Right, rect.Bottom - seRadius);
-            //SE Arc
-            if (seRadius > 0f)
-            {
-                path.AddArc(
-                    RectangleF.FromLTRB(rect.Right - seRadius, rect.Bottom - seRadius, rect.Right, rect.Bottom),
-                    0, 90);
-            }
-
-            // SW --- SE
-            path.AddLine(rect.Right - seRadius, rect.Bottom, rect.Left + swRadius, rect.Bottom);
-            //SW Arc
-            if (swRadius > 0f)
-            {
-                path.AddArc(
-                    RectangleF.FromLTRB(rect.Left, rect.Bottom - swRadius, rect.Left + swRadius, rect.Bottom),
-                    90, 90);
-            }
-
-            // NW
-            // |
-            // SW
-            path.AddLine(rect.Left, rect.Bottom - swRadius, rect.Left, rect.Top + nwRadius);
-            //NW Arc
-            if (nwRadius > 0f)
-            {
-                path.AddArc(
-                    RectangleF.FromLTRB(rect.Left, rect.Top, rect.Left + nwRadius, rect.Top + nwRadius),
-                    180, 90);
-            }
-
-            path.CloseFigure();
-            return path;
-        }
 
 
-        #region Private methods
+        ///// <summary>
+        ///// Creates a rounded rectangle using the specified corner radius
+        ///// </summary>
+        ///// <param name="rect">Rectangle to round</param>
+        ///// <param name="nwRadius">Radius of the north east corner</param>
+        ///// <param name="neRadius">Radius of the north west corner</param>
+        ///// <param name="seRadius">Radius of the south east corner</param>
+        ///// <param name="swRadius">Radius of the south west corner</param>
+        ///// <returns>GraphicsPath with the lines of the rounded rectangle ready to be painted</returns>
+        //public static GraphicsPath GetRoundRect(RectangleF rect, float nwRadius, float neRadius, float seRadius, float swRadius)
+        //{
+        //    //  NW-----NE
+        //    //  |       |
+        //    //  |       |
+        //    //  SW-----SE
+
+        //    var path = new PixelFarm.CpuBlit.CpuBlitGraphicsPath();
+        //    nwRadius *= 2;
+        //    neRadius *= 2;
+        //    seRadius *= 2;
+        //    swRadius *= 2;
+        //    //NW ---- NE
+        //    path.AddLine(rect.X + nwRadius, rect.Y, rect.Right - neRadius, rect.Y);
+        //    //NE Arc
+        //    if (neRadius > 0f)
+        //    {
+        //        path.AddArc(
+        //            RectangleF.FromLTRB(rect.Right - neRadius, rect.Top, rect.Right, rect.Top + neRadius),
+        //            -90, 90);
+        //    }
+
+        //    // NE
+        //    //  |
+        //    // SE
+        //    path.AddLine(rect.Right, rect.Top + neRadius, rect.Right, rect.Bottom - seRadius);
+        //    //SE Arc
+        //    if (seRadius > 0f)
+        //    {
+        //        path.AddArc(
+        //            RectangleF.FromLTRB(rect.Right - seRadius, rect.Bottom - seRadius, rect.Right, rect.Bottom),
+        //            0, 90);
+        //    }
+
+        //    // SW --- SE
+        //    path.AddLine(rect.Right - seRadius, rect.Bottom, rect.Left + swRadius, rect.Bottom);
+        //    //SW Arc
+        //    if (swRadius > 0f)
+        //    {
+        //        path.AddArc(
+        //            RectangleF.FromLTRB(rect.Left, rect.Bottom - swRadius, rect.Left + swRadius, rect.Bottom),
+        //            90, 90);
+        //    }
+
+        //    // NW
+        //    // |
+        //    // SW
+        //    path.AddLine(rect.Left, rect.Bottom - swRadius, rect.Left, rect.Top + nwRadius);
+        //    //NW Arc
+        //    if (nwRadius > 0f)
+        //    {
+        //        path.AddArc(
+        //            RectangleF.FromLTRB(rect.Left, rect.Top, rect.Left + nwRadius, rect.Top + nwRadius),
+        //            180, 90);
+        //    }
+
+        //    path.CloseFigure();
+        //    return path;
+        //}
+
+
+   
 
         /// <summary>
         /// Get singleton instance of load image.
@@ -238,6 +240,6 @@ namespace LayoutFarm
             return _errorImage;
         }
 
-        #endregion
+        
     }
 }
