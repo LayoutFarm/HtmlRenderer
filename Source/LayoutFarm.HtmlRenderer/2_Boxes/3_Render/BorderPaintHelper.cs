@@ -15,6 +15,9 @@
 
 using System;
 using PixelFarm.Drawing;
+using PixelFarm.CpuBlit;
+using PixelFarm.CpuBlit.VertexProcessing;
+
 using LayoutFarm.Css;
 namespace LayoutFarm.HtmlBoxes
 {
@@ -159,25 +162,12 @@ namespace LayoutFarm.HtmlBoxes
             DrawBoard g = p.InnerDrawBoard;
             if (box.HasSomeRoundCorner)
             {
-                //GraphicsPath borderPath = GetRoundedBorderPath(p, borderSide, box, rect);
-                //if (borderPath != null)
-                //{
-                //    // rounded border need special path 
-                //    var smooth = g.SmoothingMode;
-                //    if (!p.AvoidGeometryAntialias && box.HasSomeRoundCorner)
-                //    {
-                //        g.SmoothingMode = SmoothingMode.AntiAlias;
-                //    }
-
-
-                //    p.DrawPath(borderPath, borderColor, actualBorderWidth);
-                //    //using (var pen = GetPen(p.Platform, style, borderColor, actualBorderWidth))
-                //    //using (borderPath)
-                //    //{
-                //    //    g.DrawPath(pen, borderPath);
-                //    //}
-                //    g.SmoothingMode = smooth;
-                //}
+                using (VxsTemp.Borrow(out var v1))
+                {
+                    RenderUtils.WriteRoundRect(v1, rect, 2, 2, 2, 2);//temp
+                    Painter pp = g.GetPainter();
+                    pp.FillStroke(v1, actualBorderWidth, borderColor);
+                } 
             }
             else
             {
@@ -196,8 +186,6 @@ namespace LayoutFarm.HtmlBoxes
                     default:
                         {
                             // solid/dotted/dashed border draw as simple line
-
-
                             //using (var pen = GetPen(p.Platform, style, borderColor, actualBorderWidth))
                             //{
                             var prevColor = g.StrokeColor;
