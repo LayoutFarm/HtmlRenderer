@@ -13,17 +13,12 @@ namespace TestGraphicPackage2
         [STAThread]
         static void Main()
         {
+            PixelFarm.Platforms.StorageService.RegisterProvider(new YourImplementation.LocalFileStorageProvider(""));
 
-            YourImplementation.FrameworkInitWinGDI.SetupDefaultValues(); 
-
-            YourImplementation.LocalFileStorageProvider file_storageProvider = new YourImplementation.LocalFileStorageProvider("");
-            PixelFarm.Platforms.StorageService.RegisterProvider(file_storageProvider);
+            YourImplementation.FrameworkInitWinGDI.SetupDefaultValues();
             YourImplementation.FrameworkInitGLES.SetupDefaultValues();
 
-            //2.2 Icu Text Break info
-            //test Typography's custom text break,
-            //check if we have that data?            
-            //-------------------------------------------  
+           
             string icu_datadir = YourImplementation.RelativePathBuilder.SearchBackAndBuildFolderPath(System.IO.Directory.GetCurrentDirectory(), "HtmlRenderer", @"..\Typography\Typography.TextBreak\icu62\brkitr");
             if (!System.IO.Directory.Exists(icu_datadir))
             {
@@ -34,7 +29,7 @@ namespace TestGraphicPackage2
 
 
             PixelFarm.CpuBlit.MemBitmapExtensions.DefaultMemBitmapIO = new PixelFarm.Drawing.WinGdi.GdiBitmapIO();
-
+            YourImplementation.TestBedStartup.Setup();
 #if DEBUG
             PixelFarm.CpuBlit.Imaging.PngImageWriter.InstallImageSaveToFileService((IntPtr imgBuffer, int stride, int width, int height, string filename) =>
             {
@@ -53,10 +48,6 @@ namespace TestGraphicPackage2
             //-------------------------------
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //temp
-            //TODO: fix this , 
-            //LayoutFarm.Composers.Default.TextBreaker = new LayoutFarm.Composers.MyManagedTextBreaker();
-            //LayoutFarm.Composers.Default.TextBreaker = new LayoutFarm.Composers.MyNativeTextBreaker();
 
             ////------------------------------- 
             formDemoList = new LayoutFarm.Dev.FormDemoList();
