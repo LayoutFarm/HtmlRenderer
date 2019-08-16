@@ -15,6 +15,9 @@
 
 using System;
 using PixelFarm.Drawing;
+using PixelFarm.CpuBlit;
+using PixelFarm.CpuBlit.VertexProcessing;
+
 using LayoutFarm.Css;
 namespace LayoutFarm.HtmlBoxes
 {
@@ -23,6 +26,22 @@ namespace LayoutFarm.HtmlBoxes
     /// </summary>
     static class BorderPaintHelper
     {
+
+        //class GdiPath : GraphicsPath
+        //{
+        //    public override int PointCount => throw new NotImplementedException();
+
+        //    public override GraphicsPath Clone()
+        //    {
+        //        throw new NotImplementedException();
+        //    }
+
+        //    public override RectangleF GetBounds()
+        //    {
+        //        throw new NotImplementedException();
+        //    }
+        //}
+
         static PixelFarm.CpuBlit.VertexProcessing.SimpleRectBorderBuilder s_simpleRectBorderBuilder = new PixelFarm.CpuBlit.VertexProcessing.SimpleRectBorderBuilder();
         static float[] s_reusableBorderCoords = new float[16];
 
@@ -143,25 +162,12 @@ namespace LayoutFarm.HtmlBoxes
             DrawBoard g = p.InnerDrawBoard;
             if (box.HasSomeRoundCorner)
             {
-                GraphicsPath borderPath = GetRoundedBorderPath(p, borderSide, box, rect);
-                if (borderPath != null)
+                using (VxsTemp.Borrow(out var v1))
                 {
-                    // rounded border need special path 
-                    var smooth = g.SmoothingMode;
-                    if (!p.AvoidGeometryAntialias && box.HasSomeRoundCorner)
-                    {
-                        g.SmoothingMode = SmoothingMode.AntiAlias;
-                    }
-
-
-                    p.DrawPath(borderPath, borderColor, actualBorderWidth);
-                    //using (var pen = GetPen(p.Platform, style, borderColor, actualBorderWidth))
-                    //using (borderPath)
-                    //{
-                    //    g.DrawPath(pen, borderPath);
-                    //}
-                    g.SmoothingMode = smooth;
-                }
+                    RenderUtils.WriteRoundRect(v1, rect, 2, 2, 2, 2);//temp
+                    Painter pp = g.GetPainter();
+                    pp.FillStroke(v1, actualBorderWidth, borderColor);
+                } 
             }
             else
             {
@@ -180,8 +186,6 @@ namespace LayoutFarm.HtmlBoxes
                     default:
                         {
                             // solid/dotted/dashed border draw as simple line
-
-
                             //using (var pen = GetPen(p.Platform, style, borderColor, actualBorderWidth))
                             //{
                             var prevColor = g.StrokeColor;
@@ -241,6 +245,10 @@ namespace LayoutFarm.HtmlBoxes
         static void SetInOutsetRectanglePoints(CssSide border, CssBox b, RectangleF r, bool isLineStart, bool isLineEnd,
             PointF[] _borderPts)
         {
+
+            PointF Offset(PointF p, float dx, float dy) => new PointF(p.X + dx, p.Y + dy);
+
+
             switch (border)
             {
                 case CssSide.Top:
@@ -249,9 +257,17 @@ namespace LayoutFarm.HtmlBoxes
                     _borderPts[2] = new PointF(r.Right, r.Top + b.ActualBorderTopWidth);
                     _borderPts[3] = new PointF(r.Left, r.Top + b.ActualBorderTopWidth);
                     if (isLineEnd)
-                        _borderPts[2].X -= b.ActualBorderRightWidth;
+                    {
+                        //_borderPts[2].X -= b.ActualBorderRightWidth;
+                        _borderPts[2] = Offset(_borderPts[2], -b.ActualBorderRightWidth, 0);
+                    }
+
                     if (isLineStart)
-                        _borderPts[3].X += b.ActualBorderLeftWidth;
+                    {
+                        //_borderPts[3].X += b.ActualBorderLeftWidth;
+                        _borderPts[3] = Offset(_borderPts[3], b.ActualBorderLeftWidth, 0);
+                    }
+
                     break;
                 case CssSide.Right:
                     _borderPts[0] = new PointF(r.Right - b.ActualBorderRightWidth, r.Top + b.ActualBorderTopWidth);
@@ -265,9 +281,15 @@ namespace LayoutFarm.HtmlBoxes
                     _borderPts[2] = new PointF(r.Right, r.Bottom);
                     _borderPts[3] = new PointF(r.Left, r.Bottom);
                     if (isLineStart)
-                        _borderPts[0].X += b.ActualBorderLeftWidth;
+                    {
+                        _borderPts[0] = Offset(_borderPts[0], b.ActualBorderLeftWidth, 0);
+                        //_borderPts[0].X += b.ActualBorderLeftWidth;
+                    }
                     if (isLineEnd)
-                        _borderPts[1].X -= b.ActualBorderRightWidth;
+                    {
+                        //_borderPts[1].X -= b.ActualBorderRightWidth;
+                        _borderPts[1] = Offset(_borderPts[1], b.ActualBorderRightWidth, 0);
+                    }
                     break;
                 case CssSide.Left:
                     _borderPts[0] = new PointF(r.Left, r.Top);
@@ -278,101 +300,101 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
 
-        /// <summary>
-        /// Makes a border path for rounded borders.<br/>
-        /// To support rounded dotted/dashed borders we need to use arc in the border path.<br/>
-        /// Return null if the border is not rounded.<br/>
-        /// </summary>
-        /// <param name="border">Desired border</param>
-        /// <param name="b">Box which the border corresponds</param>
-        /// <param name="r">the rectangle the border is enclosing</param>
-        /// <returns>Beveled border path, null if there is no rounded corners</returns>
-        static GraphicsPath GetRoundedBorderPath(PaintVisitor p, CssSide border, CssBox b, RectangleF r)
-        {
-            GraphicsPath path = null;
-            switch (border)
-            {
-                case CssSide.Top:
-                    if (b.ActualCornerNW > 0 || b.ActualCornerNE > 0)
-                    {
+        ///// <summary>
+        ///// Makes a border path for rounded borders.<br/>
+        ///// To support rounded dotted/dashed borders we need to use arc in the border path.<br/>
+        ///// Return null if the border is not rounded.<br/>
+        ///// </summary>
+        ///// <param name="border">Desired border</param>
+        ///// <param name="b">Box which the border corresponds</param>
+        ///// <param name="r">the rectangle the border is enclosing</param>
+        ///// <returns>Beveled border path, null if there is no rounded corners</returns>
+        //static GraphicsPath GetRoundedBorderPath(PaintVisitor p, CssSide border, CssBox b, RectangleF r)
+        //{
+        //    GraphicsPath path = null;
+        //    switch (border)
+        //    {
+        //        case CssSide.Top:
+        //            if (b.ActualCornerNW > 0 || b.ActualCornerNE > 0)
+        //            {
 
-                        path = new GraphicsPath();
-                        if (b.ActualCornerNW > 0)
-                            path.AddArc(r.Left + b.ActualBorderLeftWidth / 2, r.Top + b.ActualBorderTopWidth / 2, b.ActualCornerNW * 2, b.ActualCornerNW * 2, 180f, 90f);
-                        else
-                            path.AddLine(r.Left + b.ActualBorderLeftWidth / 2, r.Top + b.ActualBorderTopWidth / 2, r.Left + b.ActualBorderLeftWidth, r.Top + b.ActualBorderTopWidth / 2);
-                        if (b.ActualCornerNE > 0)
-                            path.AddArc(r.Right - b.ActualCornerNE * 2 - b.ActualBorderRightWidth / 2, r.Top + b.ActualBorderTopWidth / 2, b.ActualCornerNE * 2, b.ActualCornerNE * 2, 270f, 90f);
-                        else
-                            path.AddLine(r.Right - b.ActualCornerNE * 2 - b.ActualBorderRightWidth, r.Top + b.ActualBorderTopWidth / 2, r.Right - b.ActualBorderRightWidth / 2, r.Top + b.ActualBorderTopWidth / 2);
-                    }
-                    break;
-                case CssSide.Bottom:
-                    if (b.ActualCornerSW > 0 || b.ActualCornerSE > 0)
-                    {
-                        path = new GraphicsPath();
-                        if (b.ActualCornerSE > 0)
-                            path.AddArc(r.Right - b.ActualCornerNE * 2 - b.ActualBorderRightWidth / 2, r.Bottom - b.ActualCornerSE * 2 - b.ActualBorderBottomWidth / 2, b.ActualCornerSE * 2, b.ActualCornerSE * 2, 0f, 90f);
-                        else
-                            path.AddLine(r.Right - b.ActualBorderRightWidth / 2, r.Bottom - b.ActualBorderBottomWidth / 2, r.Right - b.ActualBorderRightWidth / 2, r.Bottom - b.ActualBorderBottomWidth / 2 - .1f);
-                        if (b.ActualCornerSW > 0)
-                            path.AddArc(r.Left + b.ActualBorderLeftWidth / 2, r.Bottom - b.ActualCornerSW * 2 - b.ActualBorderBottomWidth / 2, b.ActualCornerSW * 2, b.ActualCornerSW * 2, 90f, 90f);
-                        else
-                            path.AddLine(r.Left + b.ActualBorderLeftWidth / 2 + .1f, r.Bottom - b.ActualBorderBottomWidth / 2, r.Left + b.ActualBorderLeftWidth / 2, r.Bottom - b.ActualBorderBottomWidth / 2);
-                    }
-                    break;
-                case CssSide.Right:
-                    if (b.ActualCornerNE > 0 || b.ActualCornerSE > 0)
-                    {
-                        path = new GraphicsPath();
-                        if (b.ActualCornerNE > 0 && b.BorderTopStyle >= CssBorderStyle.Visible)
-                        {
-                            path.AddArc(r.Right - b.ActualCornerNE * 2 - b.ActualBorderRightWidth / 2, r.Top + b.ActualBorderTopWidth / 2, b.ActualCornerNE * 2, b.ActualCornerNE * 2, 270f, 90f);
-                        }
-                        else
-                        {
-                            path.AddLine(r.Right - b.ActualBorderRightWidth / 2, r.Top + b.ActualCornerNE + b.ActualBorderTopWidth / 2, r.Right - b.ActualBorderRightWidth / 2, r.Top + b.ActualCornerNE + b.ActualBorderTopWidth / 2 + .1f);
-                        }
+        //                path = new GdiPath();
+        //                if (b.ActualCornerNW > 0)
+        //                    path.AddArc(r.Left + b.ActualBorderLeftWidth / 2, r.Top + b.ActualBorderTopWidth / 2, b.ActualCornerNW * 2, b.ActualCornerNW * 2, 180f, 90f);
+        //                else
+        //                    path.AddLine(r.Left + b.ActualBorderLeftWidth / 2, r.Top + b.ActualBorderTopWidth / 2, r.Left + b.ActualBorderLeftWidth, r.Top + b.ActualBorderTopWidth / 2);
+        //                if (b.ActualCornerNE > 0)
+        //                    path.AddArc(r.Right - b.ActualCornerNE * 2 - b.ActualBorderRightWidth / 2, r.Top + b.ActualBorderTopWidth / 2, b.ActualCornerNE * 2, b.ActualCornerNE * 2, 270f, 90f);
+        //                else
+        //                    path.AddLine(r.Right - b.ActualCornerNE * 2 - b.ActualBorderRightWidth, r.Top + b.ActualBorderTopWidth / 2, r.Right - b.ActualBorderRightWidth / 2, r.Top + b.ActualBorderTopWidth / 2);
+        //            }
+        //            break;
+        //        case CssSide.Bottom:
+        //            if (b.ActualCornerSW > 0 || b.ActualCornerSE > 0)
+        //            {
+        //                path = new GdiPath();
+        //                if (b.ActualCornerSE > 0)
+        //                    path.AddArc(r.Right - b.ActualCornerNE * 2 - b.ActualBorderRightWidth / 2, r.Bottom - b.ActualCornerSE * 2 - b.ActualBorderBottomWidth / 2, b.ActualCornerSE * 2, b.ActualCornerSE * 2, 0f, 90f);
+        //                else
+        //                    path.AddLine(r.Right - b.ActualBorderRightWidth / 2, r.Bottom - b.ActualBorderBottomWidth / 2, r.Right - b.ActualBorderRightWidth / 2, r.Bottom - b.ActualBorderBottomWidth / 2 - .1f);
+        //                if (b.ActualCornerSW > 0)
+        //                    path.AddArc(r.Left + b.ActualBorderLeftWidth / 2, r.Bottom - b.ActualCornerSW * 2 - b.ActualBorderBottomWidth / 2, b.ActualCornerSW * 2, b.ActualCornerSW * 2, 90f, 90f);
+        //                else
+        //                    path.AddLine(r.Left + b.ActualBorderLeftWidth / 2 + .1f, r.Bottom - b.ActualBorderBottomWidth / 2, r.Left + b.ActualBorderLeftWidth / 2, r.Bottom - b.ActualBorderBottomWidth / 2);
+        //            }
+        //            break;
+        //        case CssSide.Right:
+        //            if (b.ActualCornerNE > 0 || b.ActualCornerSE > 0)
+        //            {
+        //                path = new GdiPath();
+        //                if (b.ActualCornerNE > 0 && b.BorderTopStyle >= CssBorderStyle.Visible)
+        //                {
+        //                    path.AddArc(r.Right - b.ActualCornerNE * 2 - b.ActualBorderRightWidth / 2, r.Top + b.ActualBorderTopWidth / 2, b.ActualCornerNE * 2, b.ActualCornerNE * 2, 270f, 90f);
+        //                }
+        //                else
+        //                {
+        //                    path.AddLine(r.Right - b.ActualBorderRightWidth / 2, r.Top + b.ActualCornerNE + b.ActualBorderTopWidth / 2, r.Right - b.ActualBorderRightWidth / 2, r.Top + b.ActualCornerNE + b.ActualBorderTopWidth / 2 + .1f);
+        //                }
 
-                        if (b.ActualCornerSE > 0 &&
-                            b.BorderBottomStyle >= CssBorderStyle.Visible)
-                        {
-                            path.AddArc(r.Right - b.ActualCornerSE * 2 - b.ActualBorderRightWidth / 2, r.Bottom - b.ActualCornerSE * 2 - b.ActualBorderBottomWidth / 2, b.ActualCornerSE * 2, b.ActualCornerSE * 2, 0f, 90f);
-                        }
-                        else
-                        {
-                            path.AddLine(r.Right - b.ActualBorderRightWidth / 2, r.Bottom - b.ActualCornerSE - b.ActualBorderBottomWidth / 2 - .1f, r.Right - b.ActualBorderRightWidth / 2, r.Bottom - b.ActualCornerSE - b.ActualBorderBottomWidth / 2);
-                        }
-                    }
-                    break;
-                case CssSide.Left:
-                    if (b.ActualCornerNW > 0 || b.ActualCornerSW > 0)
-                    {
-                        path = new GraphicsPath();
-                        if (b.ActualCornerSW > 0 && b.BorderTopStyle >= CssBorderStyle.Visible)//(b.BorderTopStyle == CssConstants.None || b.BorderTopStyle == CssConstants.Hidden))
-                        {
-                            path.AddArc(r.Left + b.ActualBorderLeftWidth / 2, r.Bottom - b.ActualCornerSW * 2 - b.ActualBorderBottomWidth / 2, b.ActualCornerSW * 2, b.ActualCornerSW * 2, 90f, 90f);
-                        }
-                        else
-                        {
-                            path.AddLine(r.Left + b.ActualBorderLeftWidth / 2, r.Bottom - b.ActualCornerSW - b.ActualBorderBottomWidth / 2, r.Left + b.ActualBorderLeftWidth / 2, r.Bottom - b.ActualCornerSW - b.ActualBorderBottomWidth / 2 - .1f);
-                        }
+        //                if (b.ActualCornerSE > 0 &&
+        //                    b.BorderBottomStyle >= CssBorderStyle.Visible)
+        //                {
+        //                    path.AddArc(r.Right - b.ActualCornerSE * 2 - b.ActualBorderRightWidth / 2, r.Bottom - b.ActualCornerSE * 2 - b.ActualBorderBottomWidth / 2, b.ActualCornerSE * 2, b.ActualCornerSE * 2, 0f, 90f);
+        //                }
+        //                else
+        //                {
+        //                    path.AddLine(r.Right - b.ActualBorderRightWidth / 2, r.Bottom - b.ActualCornerSE - b.ActualBorderBottomWidth / 2 - .1f, r.Right - b.ActualBorderRightWidth / 2, r.Bottom - b.ActualCornerSE - b.ActualBorderBottomWidth / 2);
+        //                }
+        //            }
+        //            break;
+        //        case CssSide.Left:
+        //            if (b.ActualCornerNW > 0 || b.ActualCornerSW > 0)
+        //            {
+        //                path = new GdiPath();
+        //                if (b.ActualCornerSW > 0 && b.BorderTopStyle >= CssBorderStyle.Visible)//(b.BorderTopStyle == CssConstants.None || b.BorderTopStyle == CssConstants.Hidden))
+        //                {
+        //                    path.AddArc(r.Left + b.ActualBorderLeftWidth / 2, r.Bottom - b.ActualCornerSW * 2 - b.ActualBorderBottomWidth / 2, b.ActualCornerSW * 2, b.ActualCornerSW * 2, 90f, 90f);
+        //                }
+        //                else
+        //                {
+        //                    path.AddLine(r.Left + b.ActualBorderLeftWidth / 2, r.Bottom - b.ActualCornerSW - b.ActualBorderBottomWidth / 2, r.Left + b.ActualBorderLeftWidth / 2, r.Bottom - b.ActualCornerSW - b.ActualBorderBottomWidth / 2 - .1f);
+        //                }
 
-                        if (b.ActualCornerNW > 0 &&
-                            b.BorderBottomStyle >= CssBorderStyle.Visible)
-                        {
-                            path.AddArc(r.Left + b.ActualBorderLeftWidth / 2, r.Top + b.ActualBorderTopWidth / 2, b.ActualCornerNW * 2, b.ActualCornerNW * 2, 180f, 90f);
-                        }
-                        else
-                        {
-                            path.AddLine(r.Left + b.ActualBorderLeftWidth / 2, r.Top + b.ActualCornerNW + b.ActualBorderTopWidth / 2 + .1f, r.Left + b.ActualBorderLeftWidth / 2, r.Top + b.ActualCornerNW + b.ActualBorderTopWidth / 2);
-                        }
-                    }
-                    break;
-            }
+        //                if (b.ActualCornerNW > 0 &&
+        //                    b.BorderBottomStyle >= CssBorderStyle.Visible)
+        //                {
+        //                    path.AddArc(r.Left + b.ActualBorderLeftWidth / 2, r.Top + b.ActualBorderTopWidth / 2, b.ActualCornerNW * 2, b.ActualCornerNW * 2, 180f, 90f);
+        //                }
+        //                else
+        //                {
+        //                    path.AddLine(r.Left + b.ActualBorderLeftWidth / 2, r.Top + b.ActualCornerNW + b.ActualBorderTopWidth / 2 + .1f, r.Left + b.ActualBorderLeftWidth / 2, r.Top + b.ActualCornerNW + b.ActualBorderTopWidth / 2);
+        //                }
+        //            }
+        //            break;
+        //    }
 
-            return path;
-        }
+        //    return path;
+        //}
 
         /// <summary>
         /// Get pen to be used for border draw respecting its style.

@@ -539,7 +539,7 @@ namespace LayoutFarm.CustomWidgets
                 //}
 
                 //box.SetLocation((int)newX, (int)newY); 
-                PixelFarm.CpuBlit.VertexProcessing.Affine aff = PixelFarm.CpuBlit.VertexProcessing.Affine.NewMatix(
+                PixelFarm.CpuBlit.VertexProcessing.Affine aff = PixelFarm.CpuBlit.VertexProcessing.Affine.New(
                     //PixelFarm.CpuBlit.VertexProcessing.AffinePlan.Translate(-x1, -y1),
                     PixelFarm.CpuBlit.VertexProcessing.AffinePlan.Rotate(_rotateAngleDiff));
 

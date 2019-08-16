@@ -853,7 +853,7 @@ namespace LayoutFarm
             //        AffinePlan.Translate((_rotateCenterX - _srcCenterX), (_rotateCenterY - _srcCenterY)), //move back to constrain position
             //        AffinePlan.Translate(_srcCenterX, _srcCenterY)
             //       );   
-            return Affine.NewMatix(
+            return Affine.New(
                    AffinePlan.Translate(-_srcCenterX, -_srcCenterY),
                    AffinePlan.Scale(_scaleW, _scaleH),
                    AffinePlan.Translate(_translate_X1 + _translate_X2 - (_rotateCenterX - _srcCenterX), _translateY_1 + _translate_Y2 + -(_rotateCenterY - _srcCenterY)),

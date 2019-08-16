@@ -30,25 +30,31 @@ namespace LayoutFarm.CustomWidgets
         //presentation
         HtmlRenderBox _htmlRenderBox;
         HtmlInputEventAdapter _inputEventAdapter;
-        bool _preferSoftwareRenderer;
+
+
 
         public HtmlBox(HtmlHost htmlHost, int width, int height)
             : base(width, height)
         {
             _htmlhost = htmlHost;
         }
-        public bool PreferSoftwareRenderer
+
+#if DEBUG
+        bool debug_PreferSoftwareRenderer;
+        public bool dbugPreferSoftwareRenderer
         {
-            get => _preferSoftwareRenderer;
+            get => debug_PreferSoftwareRenderer;
             set
             {
-                _preferSoftwareRenderer = value;
+                debug_PreferSoftwareRenderer = value;
                 if (_htmlRenderBox != null)
                 {
-                    _htmlRenderBox.PreferSoftwareRenderer = value;
+                    
+                    _htmlRenderBox.dbugPreferSoftwareRenderer = value;
                 }
             }
         }
+#endif
         //
         internal HtmlHost HtmlHost => _htmlhost;
         //
@@ -230,7 +236,9 @@ namespace LayoutFarm.CustomWidgets
                 newHtmlRenderBox.SetController(this);
                 newHtmlRenderBox.HasSpecificWidthAndHeight = true;
                 newHtmlRenderBox.SetLocation(this.Left, this.Top);
-                newHtmlRenderBox.PreferSoftwareRenderer = this.PreferSoftwareRenderer;
+#if DEBUG
+                newHtmlRenderBox.dbugPreferSoftwareRenderer = this.dbugPreferSoftwareRenderer;
+#endif
                 //set to this field if ready
                 _htmlRenderBox = newHtmlRenderBox;
             }
@@ -363,7 +371,7 @@ namespace LayoutFarm.CustomWidgets
         public override int InnerWidth => _htmlRenderBox.HtmlWidth;
         public override int InnerHeight => _htmlRenderBox.HtmlHeight;
 
-        
+
     }
 }
 

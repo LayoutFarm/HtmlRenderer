@@ -80,15 +80,17 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
         //
         RenderElement RenderBoxes.IParentLink.ParentRenderElement => this.GetParentRenderElement(out int globalX, out int globalY);
         //
-        protected abstract void AdjustLocalLocation(ref Point p);
-        void RenderBoxes.IParentLink.AdjustLocation(ref Point p)
+        protected abstract void AdjustLocalLocation(ref int p_x, ref int p_y);
+        void RenderBoxes.IParentLink.AdjustLocation(ref int p_x, ref int p_y)
         {
-            AdjustLocalLocation(ref p);
+            AdjustLocalLocation(ref p_x, ref p_y);
+
             this.GetGlobalLocationRelativeToRoot(out float gx, out float gy);
             _adjustX = (int)gx;
             _adjustY = (int)gy;
 
-            p.Offset(_adjustX, _adjustY);
+            p_x += _adjustX;
+            p_y += _adjustY;
         }
         RenderElement RenderBoxes.IParentLink.FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
         {
@@ -131,9 +133,10 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
             //---------------------------------------------------  
             LayoutFarm.RenderElement.SetParentLink(re, this);
         }
-        protected override void AdjustLocalLocation(ref Point p)
+        protected override void AdjustLocalLocation(ref int p_x, ref int p_y)
         {
-            p.Offset((int)_externalRun.Left, (int)_externalRun.Top);
+            p_x += (int)_externalRun.Left;
+            p_y += (int)(int)_externalRun.Top;
         }
         public override void Clear()
         {
@@ -232,7 +235,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
             this.SetVisualSize(w, h);
             LayoutFarm.RenderElement.SetParentLink(renderElement, this);
         }
-        protected override void AdjustLocalLocation(ref Point p)
+        protected override void AdjustLocalLocation(ref int p_x, ref int p_y)
         {
 
         }

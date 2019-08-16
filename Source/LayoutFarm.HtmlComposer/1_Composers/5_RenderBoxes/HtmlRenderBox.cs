@@ -10,14 +10,13 @@ namespace LayoutFarm.HtmlBoxes
     {
         MyHtmlVisualRoot _myHtmlVisualRoot;
         CssBox _cssBox;
-        DrawboardBuffer _builtInBackBuffer;
 
+        DrawboardBuffer _builtInBackBuffer;
         bool _hasAccumRect;
         Rectangle _invalidateRect;
 
 #if DEBUG
         public bool dbugBreak;
-        System.Random dbugRandom = new System.Random();
         public readonly int dbugHtmlRenderBoxId = dbugTotalId++;
         static int dbugTotalId;
 #endif
@@ -29,7 +28,7 @@ namespace LayoutFarm.HtmlBoxes
             NeedInvalidateRectEvent = true;
         }
         public CssBox CssBox => _cssBox;
-
+        protected override PlainLayer CreateDefaultLayer() => new PlainLayer(this);
         public void SetHtmlVisualRoot(MyHtmlVisualRoot htmlVisualRoot, CssBox box)
         {
             _myHtmlVisualRoot = htmlVisualRoot;
@@ -71,7 +70,7 @@ namespace LayoutFarm.HtmlBoxes
                     float backupViewportW = painter.ViewportWidth; //backup
                     float backupViewportH = painter.ViewportHeight; //backup
 
-                    painter.AttachTo(_builtInBackBuffer); //*** switch to builtInBackbuffer 
+                    painter.EnterNewDrawboardBuffer(_builtInBackBuffer); //*** switch to builtInBackbuffer 
                     painter.SetViewportSize(this.Width, this.Height);
 
                     if (!_hasAccumRect)
@@ -91,7 +90,7 @@ namespace LayoutFarm.HtmlBoxes
 #if DEBUG
                         //for debug , test clear with random color
                         //another useful technique to see latest clear area frame-by-frame => use random color
-                        //painter.Clear(Color.FromArgb(255, dbugRandom.Next(0, 255), dbugRandom.Next(0, 255), dbugRandom.Next(0, 255)));
+                        //painter.Clear(ColorEx.dbugGetRandomColor());
 
                         painter.Clear(Color.White);
 #else
@@ -105,7 +104,7 @@ namespace LayoutFarm.HtmlBoxes
                     _builtInBackBuffer.IsValid = true;
                     _hasAccumRect = false;
 
-                    painter.AttachToNormalBuffer();//*** switch back
+                    painter.ExitCurrentDrawboardBuffer();//*** switch back
                     painter.SetViewportSize(backupViewportW, backupViewportH);//restore viewport size
                 }
 
@@ -113,8 +112,8 @@ namespace LayoutFarm.HtmlBoxes
 
                 PaintVisitorStock.ReleaseSharedPaintVisitor(painter);
             }
-            else if (PreferSoftwareRenderer &&
-                 canvas.IsGpuDrawBoard)
+#if DEBUG
+            else if (dbugPreferSoftwareRenderer && canvas.IsGpuDrawBoard)
             {
                 //TODO: review this again ***
                 //test built-in 'shared' software rendering surface
@@ -138,6 +137,7 @@ namespace LayoutFarm.HtmlBoxes
                     canvas.BlitFrom(cpuDrawBoard, X, Y, this.Width, this.Height, 0, 0);
                 }
             }
+#endif
             else
             {
 
@@ -204,7 +204,7 @@ namespace LayoutFarm.HtmlBoxes
             //base.OnInvalidateGraphicsNoti(totalBounds);//skip
         }
     }
- 
+
 
 
     static class PaintVisitorStock
