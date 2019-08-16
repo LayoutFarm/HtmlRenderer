@@ -32,9 +32,9 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="text">the word chars </param>
         /// <param name="hasSpaceBefore">was there a whitespace before the word chars (before trim)</param>
         /// <param name="hasSpaceAfter">was there a whitespace after the word chars (before trim)</param>
-        private CssTextRun(CssRunKind rectKind,
+        private CssTextRun(CssRunKind kind,
             int start, int len)
-            : base(rectKind)
+            : base(kind)
         {
             _textStartIndex = start;
             _textLength = len;
