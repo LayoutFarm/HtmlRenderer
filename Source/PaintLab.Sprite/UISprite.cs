@@ -76,7 +76,7 @@ namespace LayoutFarm.UI
                     }
 #endif
                     svgHitChain.WithSubPartTest = this.EnableSubSvgHitTest;
-                    svgHitChain.SetHitTestPos(hitChain.TextPointX, hitChain.TextPointY);
+                    svgHitChain.SetHitTestPos(hitChain.TestPointX, hitChain.TestPointY);
                     bool hitResult = false;
                     if (HitTestOnSubPart(this, svgHitChain))
                     {
@@ -414,7 +414,7 @@ namespace LayoutFarm.UI
             }
         }
 
-        public void BringToTopMost()
+        public override void BringToTopMost()
         {
             CustomWidgets.AbstractBox parentBox = this.ParentUI as CustomWidgets.AbstractBox;
             if (parentBox != null)
@@ -492,7 +492,7 @@ namespace LayoutFarm.UI
         protected virtual void OnUpdateVgVisualElement() { }
 
 
-        public override void Walk(UIVisitor visitor)
+        public override void Accept(UIVisitor visitor)
         {
 
         }

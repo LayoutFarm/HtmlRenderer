@@ -543,11 +543,11 @@ namespace LayoutFarm.HtmlBoxes
                     // atodo: handle it correctly (tables background)
                     // if (isLast)
                     //  rectangle.Width -= ActualWordSpacing + CssUtils.GetWordEndWhitespace(ActualFont); 
-                    GraphicsPath roundrect = null;
+                    //GraphicsPath roundrect = null;
                     bool hasSomeRoundCorner = this.HasSomeRoundCorner;
                     if (hasSomeRoundCorner)
                     {
-                        roundrect = RenderUtils.GetRoundRect(rect, ActualCornerNW, ActualCornerNE, ActualCornerSE, ActualCornerSW);
+                        //roundrect = RenderUtils.GetRoundRect(rect, ActualCornerNW, ActualCornerNE, ActualCornerSE, ActualCornerSW);
                     }
 
                     if (!p.AvoidGeometryAntialias && hasSomeRoundCorner)
@@ -555,17 +555,17 @@ namespace LayoutFarm.HtmlBoxes
                         g.SmoothingMode = SmoothingMode.AntiAlias;
                     }
 
-                    if (roundrect != null)
-                    {
-                        g.FillPath(brush, roundrect);
-                    }
-                    else
-                    {
+                    //if (roundrect != null)
+                    //{
+                    //    g.FillPath(brush, roundrect);
+                    //}
+                    //else
+                    //{
                         g.FillRectangle(brush, (float)Math.Ceiling(rect.X), (float)Math.Ceiling(rect.Y), rect.Width, rect.Height);
-                    }
+                    //}
 
                     g.SmoothingMode = smooth;
-                    if (roundrect != null) roundrect.Dispose();
+                    //if (roundrect != null) roundrect.Dispose();
                     if (dispose) brush.Dispose();
                 }
 

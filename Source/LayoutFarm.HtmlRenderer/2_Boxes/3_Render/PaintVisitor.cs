@@ -27,14 +27,14 @@ namespace LayoutFarm.HtmlBoxes
             _htmlVisualRoot = htmlVisualRoot;
             _drawBoard = drawBoard;
         }
-        public void AttachTo(DrawboardBuffer attachToBackbuffer)
+        public void EnterNewDrawboardBuffer(DrawboardBuffer attachToBackbuffer)
         {
             //save  
-            _drawBoard.AttachToBackBuffer(attachToBackbuffer);
+            _drawBoard.EnterNewDrawboardBuffer(attachToBackbuffer);
         }
-        public void AttachToNormalBuffer()
+        public void ExitCurrentDrawboardBuffer()
         {
-            _drawBoard.SwitchBackToDefaultBuffer(null);
+            _drawBoard.ExitCurrentDrawboardBuffer();
         }
         public Color CssBoxSelectionColor => _cssBoxSelectionColor;
 
@@ -215,21 +215,21 @@ namespace LayoutFarm.HtmlBoxes
         }
 #endif
         //-------
-        public void FillPath(GraphicsPath path, Color fillColor)
-        {
-            _drawBoard.FillPath(fillColor, path);
-        }
-        public void DrawPath(GraphicsPath path, Color strokeColor, float strokeW)
-        {
-            var g = _drawBoard;
-            var prevW = g.StrokeWidth;
-            var prevColor = g.StrokeColor;
-            g.StrokeColor = strokeColor;
-            g.StrokeWidth = strokeW;
-            g.DrawPath(path);
-            g.StrokeWidth = prevW;
-            g.StrokeColor = prevColor;
-        }
+        //public void FillPath(GraphicsPath path, Color fillColor)
+        //{
+        //    _drawBoard.FillPath(fillColor, path);
+        //}
+        //public void DrawPath(GraphicsPath path, Color strokeColor, float strokeW)
+        //{
+        //    var g = _drawBoard;
+        //    var prevW = g.StrokeWidth;
+        //    var prevColor = g.StrokeColor;
+        //    g.StrokeColor = strokeColor;
+        //    g.StrokeWidth = strokeW;
+        //    g.DrawPath(path);
+        //    g.StrokeWidth = prevW;
+        //    g.StrokeColor = prevColor;
+        //}
         public void DrawLine(float x1, float y1, float x2, float y2, Color strokeColor, float strokeW)
         {
             var g = _drawBoard;

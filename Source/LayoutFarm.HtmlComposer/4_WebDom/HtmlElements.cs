@@ -295,7 +295,7 @@ namespace LayoutFarm.Composers
         public System.Action<object> SpecialPresentationUpdate;
 
         //---------------------------------------------------------------------------------
-
+        //TODO: review how to handle events
         HtmlEventHandler _mouseDownEventHandler;
         HtmlEventHandler _mouseMoveEventHandler;
         HtmlEventHandler _mouseUpEventHandler;
@@ -364,6 +364,37 @@ namespace LayoutFarm.Composers
                         {
                             _keyDownEventHandler += handler;
                         }
+                    }
+                    break;
+            }
+        }
+        public override void RaiseEvent(UIEventName eventName, UIEventArgs e)
+        {
+            switch (eventName)
+            {
+                case UIEventName.MouseDown:
+                    {
+                        _mouseDownEventHandler?.Invoke((UIMouseEventArgs)e);
+                    }
+                    break;
+                case UIEventName.MouseMove:
+                    {
+                        _mouseMoveEventHandler?.Invoke((UIMouseEventArgs)e);
+                    }
+                    break;
+                case UIEventName.MouseUp:
+                    {
+                        _mouseUpEventHandler?.Invoke((UIMouseEventArgs)e);
+                    }
+                    break;
+                case UIEventName.MouseLostFocus:
+                    {
+                        _mouseLostFocusEventHandler?.Invoke(e);
+                    }
+                    break;
+                case UIEventName.KeyDown:
+                    {
+                        _keyDownEventHandler?.Invoke((UIKeyEventArgs)e);
                     }
                     break;
             }
@@ -555,7 +586,7 @@ namespace LayoutFarm.Composers
                     _subdomExt.SetInputValue(value);
                 }
                 _inputValue = value;
-            } 
+            }
         }
         public IHtmlTextAreaSubDomExtender SubDomExtender
         {
@@ -632,6 +663,12 @@ namespace LayoutFarm.Composers
             {
                 case WellknownName.Name:
                     _name = attr.Value;
+#if DEBUG
+                    if (_name.StartsWith("."))
+                    {
+
+                    }
+#endif
                     break;
                 case WellknownName.Value:
                     _inputValue = attr.Value;
@@ -653,6 +690,7 @@ namespace LayoutFarm.Composers
         {
             _subdomExt?.Focus();
         }
+
     }
     public sealed class HtmlOptionElement : HtmlElement, IHtmlOptionElement
     {

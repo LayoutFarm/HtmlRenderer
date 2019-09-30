@@ -8,64 +8,14 @@ namespace LayoutFarm.WebDom
     partial class DomElement : IUIEventListener
     {
         //------------------------------------------------------
-        public virtual void AttachEvent(UIEventName eventName, HtmlEventHandler handler)
-        {
-            //switch (eventName)
-            //{
-            //    case UIEventName.KeyDown:
-            //        {
-            //            _evhKeydown += handler;
-            //        }
-            //        break;
-            //    case UIEventName.MouseDown:
-            //        {
-            //            _evhMouseDown += handler;
-            //        }
-            //        break;
-            //    case UIEventName.MouseUp:
-            //        {
-            //            _evhMouseUp += handler;
-            //        }
-            //        break;
-            //}
-        }
-
-        public virtual void DetachEvent(UIEventName eventName, HtmlEventHandler handler)
-        {
-            //switch (eventName)
-            //{
-            //    case UIEventName.MouseDown:
-            //        {
-            //            _evhMouseDown -= handler;
-            //        }
-            //        break;
-            //    case UIEventName.MouseUp:
-            //        {
-            //            _evhMouseUp -= handler;
-            //        }
-            //        break;
-            //}
-        }
-        
+        public virtual void AttachEvent(UIEventName eventName, HtmlEventHandler handler) { }
+        public virtual void DetachEvent(UIEventName eventName, HtmlEventHandler handler) { }
+        public virtual void RaiseEvent(UIEventName eventName, UIEventArgs e) { }
         //-------------------------------------------------------
-        protected virtual void OnLostFocus(UIFocusEventArgs e)
-        {
-        }
-
-        protected virtual void OnGotFocus(UIFocusEventArgs e)
-        {
-        }
-
-        protected virtual void OnDoubleClick(UIMouseEventArgs e)
-        {
-        }
-        protected virtual void OnLostMouseFocus(UIMouseEventArgs e)
-        {
-            //if (_evhMouseLostFocus != null)
-            //{
-            //    _evhMouseLostFocus(e);
-            //}
-        }
+        protected virtual void OnLostFocus(UIFocusEventArgs e) { }
+        protected virtual void OnGotFocus(UIFocusEventArgs e) { }
+        protected virtual void OnDoubleClick(UIMouseEventArgs e) { }
+        protected virtual void OnLostMouseFocus(UIMouseEventArgs e) { }
         protected virtual void OnMouseDown(UIMouseEventArgs e)
         {
             //if (_evhMouseDown != null)
@@ -102,38 +52,16 @@ namespace LayoutFarm.WebDom
                 }
             }
         }
-        protected virtual void OnMouseWheel(UIMouseEventArgs e)
-        {
-        }
-        protected virtual void OnCollapsed()
-        {
-        }
-        protected virtual void OnExpanded()
-        {
-        }
-        protected virtual void OnElementLanded()
-        {
-        }
-        protected virtual void OnShown()
-        {
-        }
-        protected virtual void OnHide()
-        {
-        }
+        protected virtual void OnMouseWheel(UIMouseEventArgs e) { }
+        protected virtual void OnCollapsed() { }
+        protected virtual void OnExpanded() { }
+        protected virtual void OnElementLanded() { }
+        protected virtual void OnShown() { }
+        protected virtual void OnHide() { }
 
-        protected virtual void OnKeyDown(UIKeyEventArgs e)
-        {
-            //if (_evhKeydown != null)
-            //{
-            //    _evhKeydown(e);
-            //}
-        }
-        protected virtual void OnKeyUp(UIKeyEventArgs e)
-        {
-        }
-        protected virtual void OnKeyPress(UIKeyEventArgs e)
-        {
-        }
+        protected virtual void OnKeyDown(UIKeyEventArgs e) { }
+        protected virtual void OnKeyUp(UIKeyEventArgs e) { }
+        protected virtual void OnKeyPress(UIKeyEventArgs e) { }
         protected virtual bool OnProcessDialogKey(UIKeyEventArgs e)
         {
             return false;

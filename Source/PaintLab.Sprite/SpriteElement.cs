@@ -38,10 +38,7 @@ namespace LayoutFarm.UI
         {
 
         }
-        public override void Walk(UIVisitor visitor)
-        {
 
-        }
         public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
         {
             if (_backboardRenderE != null)

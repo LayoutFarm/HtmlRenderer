@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>LayoutFarm.HtmlComposer</RootNamespace>
     <AssemblyName>LayoutFarm.HtmlComposer</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -478,7 +478,6 @@
     <Compile Include="4_WebDom\HtmlSharedDocument.cs" />
     <Compile Include="4_WebDom\HtmlTextNode.cs" />
     <Compile Include="4_WebDom\SpecialHtmlElements.cs" />
-    <Compile Include="5_RenderBasedUI\CustomRenderElements.cs" />
     <Compile Include="5_RenderBasedUI\RenderElementExtension.cs" />
     <Compile Include="6_Svg\CssBoxSvgRoot.cs" />
     <Compile Include="6_Svg\SvgCreator.cs" />

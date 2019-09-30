@@ -30,25 +30,31 @@ namespace LayoutFarm.CustomWidgets
         //presentation
         HtmlRenderBox _htmlRenderBox;
         HtmlInputEventAdapter _inputEventAdapter;
-        bool _preferSoftwareRenderer;
+
+
 
         public HtmlBox(HtmlHost htmlHost, int width, int height)
             : base(width, height)
         {
             _htmlhost = htmlHost;
         }
-        public bool PreferSoftwareRenderer
+
+#if DEBUG
+        bool debug_PreferSoftwareRenderer;
+        public bool dbugPreferSoftwareRenderer
         {
-            get => _preferSoftwareRenderer;
+            get => debug_PreferSoftwareRenderer;
             set
             {
-                _preferSoftwareRenderer = value;
+                debug_PreferSoftwareRenderer = value;
                 if (_htmlRenderBox != null)
                 {
-                    _htmlRenderBox.PreferSoftwareRenderer = value;
+                    
+                    _htmlRenderBox.dbugPreferSoftwareRenderer = value;
                 }
             }
         }
+#endif
         //
         internal HtmlHost HtmlHost => _htmlhost;
         //
@@ -68,8 +74,6 @@ namespace LayoutFarm.CustomWidgets
         }
         //
         public override RenderElement CurrentPrimaryRenderElement => _htmlRenderBox;
-        //
-        protected override bool HasReadyRenderElement => _htmlRenderBox != null;
         //
         HtmlInputEventAdapter GetInputEventAdapter()
         {
@@ -232,7 +236,9 @@ namespace LayoutFarm.CustomWidgets
                 newHtmlRenderBox.SetController(this);
                 newHtmlRenderBox.HasSpecificWidthAndHeight = true;
                 newHtmlRenderBox.SetLocation(this.Left, this.Top);
-                newHtmlRenderBox.PreferSoftwareRenderer = this.PreferSoftwareRenderer;
+#if DEBUG
+                newHtmlRenderBox.dbugPreferSoftwareRenderer = this.dbugPreferSoftwareRenderer;
+#endif
                 //set to this field if ready
                 _htmlRenderBox = newHtmlRenderBox;
             }
@@ -283,18 +289,26 @@ namespace LayoutFarm.CustomWidgets
                 RaiseLayoutFinished();
             }
         }
+
+        string _orgHtmlString;
+
+        public string GetOrgHtmlString()
+        {
+            //temp!
+            return _orgHtmlString;
+        }
         public void LoadHtmlString(string htmlString)
         {
 
             if (_htmlRenderBox == null)
             {
                 _waitingContentKind = WaitingContentKind.HtmlString;
-                _waitingHtmlString = htmlString;
+                _orgHtmlString = _waitingHtmlString = htmlString;
             }
             else
             {
                 //just parse content and load 
-                _htmlVisualRoot = HtmlHostExtensions.CreateHtmlVisualRootFromFullHtml(_htmlhost, htmlString, _htmlRenderBox);
+                _htmlVisualRoot = HtmlHostExtensions.CreateHtmlVisualRootFromFullHtml(_htmlhost, _orgHtmlString = htmlString, _htmlRenderBox);
                 SetHtmlContainerEventHandlers();
                 ClearWaitingContent();
                 RaiseLayoutFinished();
@@ -325,12 +339,12 @@ namespace LayoutFarm.CustomWidgets
             if (_htmlRenderBox == null)
             {
                 _waitingContentKind = WaitingContentKind.HtmlFragmentString;
-                _waitingHtmlString = fragmentHtmlString;
+                _orgHtmlString = _waitingHtmlString = fragmentHtmlString;
             }
             else
             {
                 //just parse content and load 
-                _htmlVisualRoot = HtmlHostExtensions.CreateHtmlVisualRootFromFragmentHtml(_htmlhost, fragmentHtmlString, _htmlRenderBox);
+                _htmlVisualRoot = HtmlHostExtensions.CreateHtmlVisualRootFromFragmentHtml(_htmlhost, _orgHtmlString = fragmentHtmlString, _htmlRenderBox);
                 SetHtmlContainerEventHandlers();
                 ClearWaitingContent();
             }
@@ -375,12 +389,7 @@ namespace LayoutFarm.CustomWidgets
         public override int InnerWidth => _htmlRenderBox.HtmlWidth;
         public override int InnerHeight => _htmlRenderBox.HtmlHeight;
 
-        public override void Walk(UIVisitor visitor)
-        {
-            visitor.BeginElement(this, "htmlbox");
-            this.Describe(visitor);
-            visitor.EndElement();
-        }
+
     }
 }
 
