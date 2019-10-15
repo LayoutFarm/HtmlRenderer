@@ -8,6 +8,7 @@
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AssemblyName>HtmlRenderer.One</AssemblyName>
+    <ProjectGuid>{F5BEA096-849F-4D53-BA70-2D47092002AD}</ProjectGuid>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -17,7 +18,7 @@
     <Optimize>false</Optimize>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <DefineConstants> TRACE; DEBUG; PIXEL_FARM; PIXEL_FARM_NET20; NET20; MINIMAL; GLES; GL_ENABLE; NETSTANDARD; SHARPZIPLIB;</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;PIXEL_FARM; PIXEL_FARM_NET20; NET20; MINIMAL; GLES; SHARPZIPLIB;</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -4184,6 +4185,9 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.MiniOpenTK\src\OpenTK\WindowState.cs">
       <Link>PixelFarm\src\PixelFarm\BackEnd.MiniOpenTK\src\OpenTK\WindowState.cs</Link>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
