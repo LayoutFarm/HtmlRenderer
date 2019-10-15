@@ -923,35 +923,8 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.TreeCollection\General\SegmentTree.cs">
       <Link>PixelFarm\src\PixelFarm\BackEnd.TreeCollection\General\SegmentTree.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.TreeCollection\HeightTree\DocumentLocation.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.TreeCollection\HeightTree\DocumentLocation.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.TreeCollection\HeightTree\HeightTree.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.TreeCollection\HeightTree\HeightTree.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.TreeCollection\PlainDocument\PlainTextDocument.cs">
       <Link>PixelFarm\src\PixelFarm\BackEnd.TreeCollection\PlainDocument\PlainTextDocument.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.TreeCollection\TextDocument\IDocumentLine.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.TreeCollection\TextDocument\IDocumentLine.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.TreeCollection\TextDocument\IReadonlyTextDocument.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.TreeCollection\TextDocument\IReadonlyTextDocument.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.TreeCollection\TextDocument\ITextSource.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.TreeCollection\TextDocument\ITextSource.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.TreeCollection\TextDocument\ITextSourceVersion.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.TreeCollection\TextDocument\ITextSourceVersion.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.TreeCollection\TextDocument\StringTextSource.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.TreeCollection\TextDocument\StringTextSource.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.TreeCollection\TextDocument\TextChangeEventArgs.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.TreeCollection\TextDocument\TextChangeEventArgs.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.TreeCollection\TextDocument\UnicodeNewLine.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.TreeCollection\TextDocument\UnicodeNewLine.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Triangulation\Delaunay\AdvancingFront.cs">
       <Link>PixelFarm\src\PixelFarm\BackEnd.Triangulation\Delaunay\AdvancingFront.cs</Link>
@@ -2293,9 +2266,6 @@
     </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\2_Abstract_DrawingElements\DashStyle.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\2_Abstract_DrawingElements\DashStyle.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\2_Abstract_DrawingElements\GraphicsPath.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\2_Abstract_DrawingElements\GraphicsPath.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\2_Abstract_DrawingElements\Image.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\2_Abstract_DrawingElements\Image.cs</Link>
