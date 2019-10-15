@@ -82,6 +82,7 @@
   </ItemGroup>
   <Import Project="..\..\..\PixelFarm\src\Tests\WinFormTestBed2\WinFormTestBed2.projitems" Label="Shared" />
   <Import Project="..\Test3_MixHtml_SH\Test3_MixHtml_SH.projitems" Label="Shared" />
+  <Import Project="..\..\..\PixelFarm\src\PixelFarm\PaintLab.AppHost\PaintLab.AppHost.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

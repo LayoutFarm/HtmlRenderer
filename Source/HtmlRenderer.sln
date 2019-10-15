@@ -96,17 +96,22 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlComposer", "x_merge_pro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlComposer", "x_autogen\HtmlComposer\HtmlComposer.csproj", "{227DB748-F028-4CD7-ABCC-56E2FE632DE0}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "PaintLab.AppHost", "..\..\PixelFarm\src\PixelFarm\PaintLab.AppHost\PaintLab.AppHost.shproj", "{F45871BD-806E-487A-A0B3-1E95853F693B}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Test3_MixHtml_SH\Test3_MixHtml_SH.projitems*{14840a73-6d38-4a2a-a71c-f84dc4fb4620}*SharedItemsImports = 4
+		..\..\PixelFarm\src\PixelFarm\PaintLab.AppHost\PaintLab.AppHost.projitems*{14840a73-6d38-4a2a-a71c-f84dc4fb4620}*SharedItemsImports = 4
 		..\..\PixelFarm\src\Tests\WinFormTestBed2\WinFormTestBed2.projitems*{14840a73-6d38-4a2a-a71c-f84dc4fb4620}*SharedItemsImports = 4
 		..\..\PixelFarm\src\PixelFarm\BackEnd.MiniOpenTK\src\OpenTK\MiniOpenTK_Core1.projitems*{17b7fb0c-7638-4c89-aadf-f3835803cb17}*SharedItemsImports = 13
 		..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing.GdiPlus_SH\PixelFarm.Drawing.GdiPlus_SH.projitems*{1aa171e3-523c-4dd5-a169-de6322991ff5}*SharedItemsImports = 4
+		..\..\PixelFarm\src\PixelFarm\PaintLab.AppHost\PaintLab.AppHost.projitems*{24b58983-d06b-48bf-bbd3-7cb919003520}*SharedItemsImports = 4
 		..\..\PixelFarm\src\Tests\WinFormTestBed2\WinFormTestBed2.projitems*{24b58983-d06b-48bf-bbd3-7cb919003520}*SharedItemsImports = 4
 		..\..\PixelFarm\src\PixelFarm\BackEnd.NativeWindows_SH\BackEnd.NativeWindows_SH.projitems*{2854a4f1-0110-4b47-b773-9a5fd462755e}*SharedItemsImports = 4
 		..\..\PixelFarm\src\PixelFarm\MiniOpenTKWinForms_SH\MiniOpenTKWinForms_SH.projitems*{4602b28b-eeec-4a69-854c-b00b8b616837}*SharedItemsImports = 4
 		..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing.GdiPlus_SH\PixelFarm.Drawing.GdiPlus_SH.projitems*{4602b28b-eeec-4a69-854c-b00b8b616837}*SharedItemsImports = 4
 		Test3_MixHtml_SH\Test3_MixHtml_SH.projitems*{47b9575b-01ad-4e4c-9fc8-34eef262d87a}*SharedItemsImports = 4
+		..\..\PixelFarm\src\PixelFarm\PaintLab.AppHost\PaintLab.AppHost.projitems*{47b9575b-01ad-4e4c-9fc8-34eef262d87a}*SharedItemsImports = 4
 		..\..\PixelFarm\src\PixelFarm\BackEnd.PaintFx\PdnSharedProject\PdnSharedProject.projitems*{51d63482-5697-4b16-8401-506965624657}*SharedItemsImports = 4
 		..\..\Typography\Typography.GlyphLayout\Typography.GlyphLayout.projitems*{5278fab9-33f0-40e0-adca-7237ea0e935b}*SharedItemsImports = 4
 		..\..\Typography\Typography.OpenFont\Typography.OpenFont.projitems*{5278fab9-33f0-40e0-adca-7237ea0e935b}*SharedItemsImports = 4
@@ -124,6 +129,7 @@ Global
 		..\..\Typography\Typography.TextBreak\Typography.TextBreak\Typography.TextBreak.projitems*{ec1307c6-309f-43ea-bfcc-5219e2f5a103}*SharedItemsImports = 4
 		..\..\Typography\Typography.TextFlow\Typography.TextFlow.projitems*{ec1307c6-309f-43ea-bfcc-5219e2f5a103}*SharedItemsImports = 4
 		..\..\Typography\Typography.TextServices\Typography.TextServices.projitems*{ec1307c6-309f-43ea-bfcc-5219e2f5a103}*SharedItemsImports = 4
+		..\..\PixelFarm\src\PixelFarm\PaintLab.AppHost\PaintLab.AppHost.projitems*{f45871bd-806e-487a-a0b3-1e95853f693b}*SharedItemsImports = 13
 		..\..\PixelFarm\src\PixelFarm\BackEnd.MiniOpenTK\src\OpenTK\MiniOpenTK_Core1.projitems*{f5a89623-87b9-42a3-a58c-abee7c9bbca2}*SharedItemsImports = 4
 		..\..\PixelFarm\src\PixelFarm\BackEnd.MiniOpenTK\src\OpenTK\MiniOpenTK_Core2.projitems*{f5a89623-87b9-42a3-a58c-abee7c9bbca2}*SharedItemsImports = 4
 		..\..\PixelFarm\src\PixelFarm\BackEnd.MiniOpenTK\src\OpenTK\MiniOpenTK_Core2.projitems*{ff741509-c054-49d1-aa4f-c3e10bb2a63e}*SharedItemsImports = 13
@@ -779,6 +785,7 @@ Global
 		{05995C72-AAF9-4F97-95FB-8DA4B0647D0F} = {66102BF3-4C83-431A-B231-CA6137763AB5}
 		{7DBD0C50-C862-410B-B412-31EFD926055A} = {66102BF3-4C83-431A-B231-CA6137763AB5}
 		{227DB748-F028-4CD7-ABCC-56E2FE632DE0} = {C65EA1B4-7D9E-4AD0-AAA7-A6A105139866}
+		{F45871BD-806E-487A-A0B3-1E95853F693B} = {C3BA1377-B139-4BD6-A0D1-F486FB6E29BE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8E122BCF-9C21-4ED3-ADDC-19E7F173F4BF}
