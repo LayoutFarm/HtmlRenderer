@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using PixelFarm.CpuBlit;
 
 namespace LayoutFarm
 {
@@ -74,32 +75,34 @@ namespace LayoutFarm
             return htmlhost;
         }
 
-        public static PixelFarm.CpuBlit.MemBitmap LoadImage(string imgName)
+        public static MemBitmap LoadImage(string imgName)
         {
             //TODO: review here again
             //1. do not access the system file directly
             //2.  ask for a file from 'host'
-            if (!System.IO.File.Exists(imgName))
-            {
-                return null;
-            }
+            //if (!System.IO.File.Exists(imgName))
+            //{
+            //    return null;
+            //}
 
-            using (System.Drawing.Bitmap gdiBmp = new System.Drawing.Bitmap(imgName))
-            {
-                int w = gdiBmp.Width;
-                int h = gdiBmp.Height;
+            return MemBitmap.LoadBitmap(imgName);
 
-                var bmpData = gdiBmp.LockBits(new System.Drawing.Rectangle(0, 0, w, h),
-                    System.Drawing.Imaging.ImageLockMode.ReadOnly,
-                    System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            //using (System.Drawing.Bitmap gdiBmp = new System.Drawing.Bitmap(imgName))
+            //{
+            //    int w = gdiBmp.Width;
+            //    int h = gdiBmp.Height;
 
-                PixelFarm.CpuBlit.MemBitmap newBmp = PixelFarm.CpuBlit.MemBitmap.CreateFromCopy(w, h,
-                     w * h * 4,
-                    bmpData.Scan0);
-                gdiBmp.UnlockBits(bmpData);
+            //    var bmpData = gdiBmp.LockBits(new System.Drawing.Rectangle(0, 0, w, h),
+            //        System.Drawing.Imaging.ImageLockMode.ReadOnly,
+            //        System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
-                return newBmp;
-            }
+            //    PixelFarm.CpuBlit.MemBitmap newBmp = PixelFarm.CpuBlit.MemBitmap.CreateFromCopy(w, h,
+            //         w * h * 4,
+            //        bmpData.Scan0);
+            //    gdiBmp.UnlockBits(bmpData);
+
+            //    return newBmp;
+            //}
 
         }
     }
