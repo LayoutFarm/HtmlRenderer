@@ -143,10 +143,10 @@ namespace LayoutFarm.HtmlBoxes
         {
             _drawBoard.SetCanvasOrigin(x, y);
         }
-        public void OffsetCanvasOrigin(int dx, int dy)
-        {
-            _drawBoard.OffsetCanvasOrigin(dx, dy);
-        }
+        //public void OffsetCanvasOrigin(int dx, int dy)
+        //{
+        //    _drawBoard.OffsetCanvasOrigin(dx, dy);
+        //}
 
         public Rectangle GetCurrentClipRect() => _drawBoard.CurrentClipRect;
 

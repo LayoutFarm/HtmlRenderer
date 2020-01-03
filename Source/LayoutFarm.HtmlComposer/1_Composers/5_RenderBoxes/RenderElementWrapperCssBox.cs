@@ -151,10 +151,13 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
             int x = (int)updateArea.Left;
             int y = (int)updateArea.Top;
             DrawBoard canvasPage = p.InnerDrawBoard;
-            canvasPage.OffsetCanvasOrigin(x, y);
+
+            int enter_canvas_x = canvasPage.OriginX;
+            int enter_canvas_y = canvasPage.OriginY;
+            canvasPage.SetCanvasOrigin(enter_canvas_x + x, enter_canvas_y + y);
             updateArea.Offset(-x, -y);
             _externalRun.RenderElement.DrawToThisCanvas(canvasPage, updateArea);
-            canvasPage.OffsetCanvasOrigin(-x, -y);
+            canvasPage.SetCanvasOrigin(enter_canvas_x, enter_canvas_y);//restore
         }
 
         protected override void PaintImp(PaintVisitor p)

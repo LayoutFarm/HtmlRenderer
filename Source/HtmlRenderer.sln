@@ -74,8 +74,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixelFarm.Typography", "..\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Typography.One", "..\..\PixelFarm\src\PixelFarm\Typography.One\Typography.One.csproj", "{5278FAB9-33F0-40E0-ADCA-7237EA0E935B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaintLab.Platforms.WinForms", "..\..\PixelFarm\src\PixelFarm\PaintLab.Platforms.WinForms\PaintLab.Platforms.WinForms.csproj", "{4602B28B-EEEC-4A69-854C-B00B8B616837}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaintLab.Platforms.WinNeutral", "..\..\PixelFarm\src\PixelFarm\PaintLab.Platforms.WinNeutral\PaintLab.Platforms.WinNeutral.csproj", "{2854A4F1-0110-4B47-B773-9A5FD462755E}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Test3_MixHtml_SH", "Test3_MixHtml_SH\Test3_MixHtml_SH.shproj", "{BFF5F427-429E-4B22-ACBB-0C741EF63895}"
@@ -108,8 +106,6 @@ Global
 		..\..\PixelFarm\src\PixelFarm\PaintLab.AppHost\PaintLab.AppHost.projitems*{24b58983-d06b-48bf-bbd3-7cb919003520}*SharedItemsImports = 4
 		..\..\PixelFarm\src\Tests\WinFormTestBed2\WinFormTestBed2.projitems*{24b58983-d06b-48bf-bbd3-7cb919003520}*SharedItemsImports = 4
 		..\..\PixelFarm\src\PixelFarm\BackEnd.NativeWindows_SH\BackEnd.NativeWindows_SH.projitems*{2854a4f1-0110-4b47-b773-9a5fd462755e}*SharedItemsImports = 4
-		..\..\PixelFarm\src\PixelFarm\MiniOpenTKWinForms_SH\MiniOpenTKWinForms_SH.projitems*{4602b28b-eeec-4a69-854c-b00b8b616837}*SharedItemsImports = 4
-		..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing.GdiPlus_SH\PixelFarm.Drawing.GdiPlus_SH.projitems*{4602b28b-eeec-4a69-854c-b00b8b616837}*SharedItemsImports = 4
 		Test3_MixHtml_SH\Test3_MixHtml_SH.projitems*{47b9575b-01ad-4e4c-9fc8-34eef262d87a}*SharedItemsImports = 4
 		..\..\PixelFarm\src\PixelFarm\PaintLab.AppHost\PaintLab.AppHost.projitems*{47b9575b-01ad-4e4c-9fc8-34eef262d87a}*SharedItemsImports = 4
 		..\..\PixelFarm\src\PixelFarm\BackEnd.PaintFx\PdnSharedProject\PdnSharedProject.projitems*{51d63482-5697-4b16-8401-506965624657}*SharedItemsImports = 4
@@ -598,24 +594,6 @@ Global
 		{5278FAB9-33F0-40E0-ADCA-7237EA0E935B}.Release64|Mixed Platforms.Build.0 = Release|Any CPU
 		{5278FAB9-33F0-40E0-ADCA-7237EA0E935B}.Release64|x86.ActiveCfg = Release|Any CPU
 		{5278FAB9-33F0-40E0-ADCA-7237EA0E935B}.Release64|x86.Build.0 = Release|Any CPU
-		{4602B28B-EEEC-4A69-854C-B00B8B616837}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4602B28B-EEEC-4A69-854C-B00B8B616837}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4602B28B-EEEC-4A69-854C-B00B8B616837}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{4602B28B-EEEC-4A69-854C-B00B8B616837}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{4602B28B-EEEC-4A69-854C-B00B8B616837}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{4602B28B-EEEC-4A69-854C-B00B8B616837}.Debug|x86.Build.0 = Debug|Any CPU
-		{4602B28B-EEEC-4A69-854C-B00B8B616837}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4602B28B-EEEC-4A69-854C-B00B8B616837}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4602B28B-EEEC-4A69-854C-B00B8B616837}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{4602B28B-EEEC-4A69-854C-B00B8B616837}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{4602B28B-EEEC-4A69-854C-B00B8B616837}.Release|x86.ActiveCfg = Release|Any CPU
-		{4602B28B-EEEC-4A69-854C-B00B8B616837}.Release|x86.Build.0 = Release|Any CPU
-		{4602B28B-EEEC-4A69-854C-B00B8B616837}.Release64|Any CPU.ActiveCfg = Release|Any CPU
-		{4602B28B-EEEC-4A69-854C-B00B8B616837}.Release64|Any CPU.Build.0 = Release|Any CPU
-		{4602B28B-EEEC-4A69-854C-B00B8B616837}.Release64|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{4602B28B-EEEC-4A69-854C-B00B8B616837}.Release64|Mixed Platforms.Build.0 = Release|Any CPU
-		{4602B28B-EEEC-4A69-854C-B00B8B616837}.Release64|x86.ActiveCfg = Release|Any CPU
-		{4602B28B-EEEC-4A69-854C-B00B8B616837}.Release64|x86.Build.0 = Release|Any CPU
 		{2854A4F1-0110-4B47-B773-9A5FD462755E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2854A4F1-0110-4B47-B773-9A5FD462755E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2854A4F1-0110-4B47-B773-9A5FD462755E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -774,7 +752,6 @@ Global
 		{1AA171E3-523C-4DD5-A169-DE6322991FF5} = {7C48D8C8-22E8-43DB-9118-DB8A849B9D70}
 		{EC1307C6-309F-43EA-BFCC-5219E2F5A103} = {7C48D8C8-22E8-43DB-9118-DB8A849B9D70}
 		{5278FAB9-33F0-40E0-ADCA-7237EA0E935B} = {7C48D8C8-22E8-43DB-9118-DB8A849B9D70}
-		{4602B28B-EEEC-4A69-854C-B00B8B616837} = {7C48D8C8-22E8-43DB-9118-DB8A849B9D70}
 		{2854A4F1-0110-4B47-B773-9A5FD462755E} = {7C48D8C8-22E8-43DB-9118-DB8A849B9D70}
 		{BFF5F427-429E-4B22-ACBB-0C741EF63895} = {C3BA1377-B139-4BD6-A0D1-F486FB6E29BE}
 		{CD84811D-3E2C-4CFA-81BB-07BF8886120B} = {C65EA1B4-7D9E-4AD0-AAA7-A6A105139866}
