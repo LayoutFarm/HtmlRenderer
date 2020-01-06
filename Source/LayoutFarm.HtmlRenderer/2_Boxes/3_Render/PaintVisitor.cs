@@ -278,10 +278,10 @@ namespace LayoutFarm.HtmlBoxes
         {
             return _drawBoard.GetPainter().CreateRenderVx(str, startAt, len);
         }
-        public void DrawText(RenderVxFormattedString formattedStr, PointF point, SizeF size)
-        {
-            _drawBoard.GetPainter().DrawString(formattedStr, point.X, point.Y);
-        }
+        //public void DrawText(RenderVxFormattedString formattedStr, PointF point, SizeF size)
+        //{
+        //    _drawBoard.GetPainter().DrawString(formattedStr, point.X, point.Y);
+        //}
         public DrawboardBuffer CreateOffscreenDrawBoard(int width, int height)
         {
             return _drawBoard.CreateBackbuffer(width, height);

@@ -24,7 +24,7 @@ namespace LayoutFarm
 
             //1.
             HtmlBoxes.HtmlHost htmlhost = new HtmlBoxes.HtmlHost(config);  //create html host with config 
-            appHost.RootGfx.ClearingBeforeRender += (s, e) =>
+            appHost.RootGfx.PreRenderEvent += (s, e) =>
             {
                 //
                 htmlhost.ClearUpdateWaitingCssBoxes();

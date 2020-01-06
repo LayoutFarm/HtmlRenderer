@@ -97,9 +97,11 @@ namespace LayoutFarm.HtmlBoxes
                         painter.Clear(Color.White);
 #endif
                         _myHtmlVisualRoot.PerformPaint(painter);
+
+                        painter.PopLocalClipArea();
                     }
 
-                    painter.PopLocalClipArea();
+
                     //
                     _builtInBackBuffer.IsValid = true;
                     _hasAccumRect = false;

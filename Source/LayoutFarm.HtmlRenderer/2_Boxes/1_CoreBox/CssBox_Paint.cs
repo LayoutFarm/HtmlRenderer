@@ -306,8 +306,9 @@ namespace LayoutFarm.HtmlBoxes
                             if (p.PushLocalClipArea(b.VisualWidth, b.VisualHeight))
                             {
                                 b.Paint(p);
+                                p.PopLocalClipArea();
                             }
-                            p.PopLocalClipArea();
+                            
                         }
                         else
                         {

@@ -50,27 +50,30 @@ namespace LayoutFarm.HtmlBoxes
             // need to clip so repeated image will be cut on rectangle
 
             Rectangle prevClip = drawboard.CurrentClipRect;
-            drawboard.PushClipAreaRect((int)rectangle.X,
+
+            if (drawboard.PushClipAreaRect((int)rectangle.X,
                (int)rectangle.Y,
                (int)rectangle.Width,
                (int)rectangle.Height,
-               ref prevClip); 
-            switch (box.BackgroundRepeat)
+               ref prevClip))
             {
-                case CssBackgroundRepeat.NoRepeat:
-                    drawboard.DrawImage(image, new RectangleF(location, imgSize), new RectangleF(0, 0, image.Width, image.Height));
-                    break;
-                case CssBackgroundRepeat.RepeatX:
-                    DrawRepeatX(drawboard, image, rectangle, srcRect, destRect, imgSize);
-                    break;
-                case CssBackgroundRepeat.RepeatY:
-                    DrawRepeatY(drawboard, image, rectangle, srcRect, destRect, imgSize);
-                    break;
-                default:
-                    DrawRepeat(drawboard, image, rectangle, srcRect, destRect, imgSize);
-                    break;
+                switch (box.BackgroundRepeat)
+                {
+                    case CssBackgroundRepeat.NoRepeat:
+                        drawboard.DrawImage(image, new RectangleF(location, imgSize), new RectangleF(0, 0, image.Width, image.Height));
+                        break;
+                    case CssBackgroundRepeat.RepeatX:
+                        DrawRepeatX(drawboard, image, rectangle, srcRect, destRect, imgSize);
+                        break;
+                    case CssBackgroundRepeat.RepeatY:
+                        DrawRepeatY(drawboard, image, rectangle, srcRect, destRect, imgSize);
+                        break;
+                    default:
+                        DrawRepeat(drawboard, image, rectangle, srcRect, destRect, imgSize);
+                        break;
+                }
+                drawboard.PopClipAreaRect();
             }
-            drawboard.PopClipAreaRect();
             
         }
 
