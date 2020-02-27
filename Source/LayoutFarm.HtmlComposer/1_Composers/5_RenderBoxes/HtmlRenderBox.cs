@@ -38,12 +38,12 @@ namespace LayoutFarm.HtmlBoxes
         public override void ClearAllChildren()
         {
         }
-        protected override void DrawBoxContent(DrawBoard canvas, Rectangle updateArea)
+        protected override void RenderClientContent(DrawBoard d, UpdateArea updateArea)
         {
             //TODO: review here,  
             if (_myHtmlVisualRoot == null) { return; }
 
-            bool useBackbuffer = canvas.IsGpuDrawBoard;
+            bool useBackbuffer = d.IsGpuDrawBoard;
             //useBackbuffer = false;
 
             //... TODO: review here, check doc update here?
@@ -51,7 +51,7 @@ namespace LayoutFarm.HtmlBoxes
 
             if (useBackbuffer)
             {
-                PaintVisitor painter = PaintVisitorStock.GetSharedPaintVisitor(_myHtmlVisualRoot, canvas);
+                PaintVisitor painter = PaintVisitorStock.GetSharedPaintVisitor(_myHtmlVisualRoot, d);
 
                 if (_builtInBackBuffer == null)
                 {
@@ -115,12 +115,12 @@ namespace LayoutFarm.HtmlBoxes
                 PaintVisitorStock.ReleaseSharedPaintVisitor(painter);
             }
 #if DEBUG
-            else if (dbugPreferSoftwareRenderer && canvas.IsGpuDrawBoard)
+            else if (dbugPreferSoftwareRenderer && d.IsGpuDrawBoard)
             {
                 //TODO: review this again ***
                 //test built-in 'shared' software rendering surface
                 DrawBoard cpuDrawBoard = null;
-                if ((cpuDrawBoard = canvas.GetCpuBlitDrawBoard()) != null)
+                if ((cpuDrawBoard = d.GetCpuBlitDrawBoard()) != null)
                 {
                     cpuDrawBoard.Clear(Color.White);
                     PaintVisitor painter = PaintVisitorStock.GetSharedPaintVisitor(_myHtmlVisualRoot, cpuDrawBoard);
@@ -136,14 +136,14 @@ namespace LayoutFarm.HtmlBoxes
                     PaintVisitorStock.ReleaseSharedPaintVisitor(painter);
 
                     //then copy from cpu to gpu 
-                    canvas.BlitFrom(cpuDrawBoard, X, Y, this.Width, this.Height, 0, 0);
+                    d.BlitFrom(cpuDrawBoard, X, Y, this.Width, this.Height, 0, 0);
                 }
             }
 #endif
             else
             {
 
-                PaintVisitor painter = PaintVisitorStock.GetSharedPaintVisitor(_myHtmlVisualRoot, canvas);
+                PaintVisitor painter = PaintVisitorStock.GetSharedPaintVisitor(_myHtmlVisualRoot, d);
                 painter.SetViewportSize(this.Width, this.Height);
 #if DEBUG
                 //System.Diagnostics.Debug.WriteLine(">> 500x500");

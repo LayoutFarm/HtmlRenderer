@@ -119,24 +119,21 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
             LayoutFarm.Composers.ISubDomExtender subDomExtender)
             : base(controller, boxSpec, re.Root, CssDisplay.Inline)
         {
-
             _htmlhost = htmlhost;
-
 
             ChangeDisplayType(this, CssDisplay.Inline);
             _externalRun = new CssExternalRun(re, subDomExtender);
             _externalRun.SetOwner(this);
-            var runlist = new List<CssRun>(1);
-            runlist.Add(_externalRun);
-            CssBox.UnsafeSetContentRuns(this, runlist, false);
+
+            CssBox.UnsafeSetContentRuns(this, new List<CssRun>(1) { _externalRun }, false);
             ChangeDisplayType(this, Css.CssDisplay.Inline);
-            //---------------------------------------------------  
+
             LayoutFarm.RenderElement.SetParentLink(re, this);
         }
         protected override void AdjustLocalLocation(ref int p_x, ref int p_y)
         {
             p_x += (int)_externalRun.Left;
-            p_y += (int)(int)_externalRun.Top;
+            p_y += (int)_externalRun.Top;
         }
         public override void Clear()
         {
@@ -150,15 +147,35 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
             var updateArea = new Rectangle((int)r.Left, (int)r.Top, (int)r.Width, (int)r.Height);
             int x = (int)updateArea.Left;
             int y = (int)updateArea.Top;
-            DrawBoard canvasPage = p.InnerDrawBoard;
+            DrawBoard d = p.InnerDrawBoard;
 
-            int enter_canvas_x = canvasPage.OriginX;
-            int enter_canvas_y = canvasPage.OriginY;
-            canvasPage.SetCanvasOrigin(enter_canvas_x + x, enter_canvas_y + y);
+            int enter_canvas_x = d.OriginX;
+            int enter_canvas_y = d.OriginY;
+            d.SetCanvasOrigin(enter_canvas_x + x, enter_canvas_y + y);
             updateArea.Offset(-x, -y);
-            _externalRun.RenderElement.DrawToThisCanvas(canvasPage, updateArea);
-            canvasPage.SetCanvasOrigin(enter_canvas_x, enter_canvas_y);//restore
+
+            UpdateArea u = GetFreeUpdateArea();
+            u.CurrentRect = updateArea;
+            RenderElement.Render(_externalRun.RenderElement, d, u);
+            ReleaseUpdateArea(u);
+
+            d.SetCanvasOrigin(enter_canvas_x, enter_canvas_y);//restore
         }
+
+        //-------
+
+        static Stack<UpdateArea> _updateAreaPool = new Stack<UpdateArea>();
+
+        static UpdateArea GetFreeUpdateArea() => (_updateAreaPool.Count == 0) ? new UpdateArea() : _updateAreaPool.Pop();
+
+        static void ReleaseUpdateArea(UpdateArea u)
+        {
+            u.Reset();
+            _updateAreaPool.Push(u);
+        }
+
+        //-------
+
 
         protected override void PaintImp(PaintVisitor p)
         {
@@ -268,13 +285,29 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
 #if DEBUG
             p.dbugEnterNewContext(this, PaintVisitor.PaintVisitorContextName.Init);
 #endif
-            Rectangle rect = new Rectangle(0, 0, _renderE.Width, _renderE.Height);
-            _renderE.DrawToThisCanvas(p.InnerDrawBoard, rect);
+
+            UpdateArea u = GetFreeUpdateArea();
+            u.CurrentRect = new Rectangle(0, 0, _renderE.Width, _renderE.Height);
+            RenderElement.Render(_renderE, p.InnerDrawBoard, u);
+            ReleaseUpdateArea(u);
+
 #if DEBUG
             p.dbugExitContext();
 #endif
         }
+        //-------
 
+        static Stack<UpdateArea> _updateAreaPool = new Stack<UpdateArea>();
+
+        static UpdateArea GetFreeUpdateArea() => (_updateAreaPool.Count == 0) ? new UpdateArea() : _updateAreaPool.Pop();
+
+        static void ReleaseUpdateArea(UpdateArea u)
+        {
+            u.Reset();
+            _updateAreaPool.Push(u);
+        }
+
+        //-------
         internal override RenderElement GetParentRenderElement(out int globalX, out int globalY)
         {
             CssBox cbox = this;

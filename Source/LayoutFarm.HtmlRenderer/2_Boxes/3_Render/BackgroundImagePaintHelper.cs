@@ -49,14 +49,17 @@ namespace LayoutFarm.HtmlBoxes
             Rectangle destRect = new Rectangle(location, imgSize);
             // need to clip so repeated image will be cut on rectangle
 
-            Rectangle prevClip = drawboard.CurrentClipRect;
+            //Rectangle prevClip = drawboard.CurrentClipRect;
+            UpdateArea u1 = new UpdateArea();
+            u1.CurrentRect = drawboard.CurrentClipRect;
 
             if (drawboard.PushClipAreaRect((int)rectangle.X,
                (int)rectangle.Y,
                (int)rectangle.Width,
                (int)rectangle.Height,
-               ref prevClip))
+               u1))
             {
+
                 switch (box.BackgroundRepeat)
                 {
                     case CssBackgroundRepeat.NoRepeat:
@@ -74,7 +77,7 @@ namespace LayoutFarm.HtmlBoxes
                 }
                 drawboard.PopClipAreaRect();
             }
-            
+
         }
 
 
