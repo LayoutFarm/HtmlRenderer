@@ -40,24 +40,6 @@
     <Compile Include="..\..\..\PixelFarm\src\Tests\TestGLES_GLFW_Neutral\LocalFileStorageProvider.cs">
       <Link>NeutralTestBed\LocalFileStorageProvider.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\PixelFarm\src\Tests\WinFormTestBed2\YourImplementation\App.cs">
-      <Link>NeutralTestBed\YourImplementation\App.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\PixelFarm\src\Tests\WinFormTestBed2\YourImplementation\AppHost.cs">
-      <Link>NeutralTestBed\YourImplementation\AppHost.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\PixelFarm\src\Tests\WinFormTestBed2\YourImplementation\AppHostExtensions.cs">
-      <Link>NeutralTestBed\YourImplementation\AppHostExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\PixelFarm\src\Tests\WinFormTestBed2\YourImplementation\DemoNote.cs">
-      <Link>NeutralTestBed\YourImplementation\DemoNote.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\PixelFarm\src\Tests\WinFormTestBed2\YourImplementation\MyTextBreaker.cs">
-      <Link>NeutralTestBed\YourImplementation\MyTextBreaker.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\PixelFarm\src\Tests\WinFormTestBed2\YourImplementation\RelativePathBuilder.cs">
-      <Link>NeutralTestBed\YourImplementation\RelativePathBuilder.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Typography\Typography.TextBreak\TextBreakerTest\IcuSimpleTextFileDictionaryProvider.cs">
       <Link>IcuSimpleTextFileDictionaryProvider.cs</Link>
     </Compile>
@@ -87,10 +69,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.Platforms.WinNeutral\PaintLab.Platforms.WinNeutral.csproj">
-      <Project>{2854a4f1-0110-4b47-b773-9a5fd462755e}</Project>
-      <Name>PaintLab.Platforms.WinNeutral</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\PixelFarm.One.HtmlRenderer.csproj">
       <Project>{367ae189-bede-436c-8186-362a771f35b2}</Project>
       <Name>PixelFarm.One.HtmlRenderer</Name>
@@ -109,5 +87,6 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="..\Test3_MixHtml_SH\Test3_MixHtml_SH.projitems" Label="Shared" />
+  <Import Project="..\..\..\PixelFarm\src\PixelFarm\PaintLab.AppHost\PaintLab.AppHost.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

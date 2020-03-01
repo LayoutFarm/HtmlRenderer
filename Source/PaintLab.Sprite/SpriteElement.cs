@@ -10,25 +10,17 @@ namespace LayoutFarm.UI
 
     class BackBoardRenderElement : LayoutFarm.CustomWidgets.CustomRenderBox
     {
-
-        DrawBoard _canvas;
+        DrawBoard _d;
         public BackBoardRenderElement(RootGraphic rootgfx, int width, int height)
            : base(rootgfx, width, height)
         {
-
         }
-        protected override void DrawBoxContent(DrawBoard canvas, Rectangle updateArea)
+        protected override void RenderClientContent(DrawBoard d, UpdateArea updateArea)
         {
-            _canvas = canvas;
-#if DEBUG
-            if (this.debugDefaultLayerHasChild)
-            {
-
-            }
-#endif
-
-            base.DrawBoxContent(canvas, updateArea);
+            _d = d;
+            base.RenderClientContent(d, updateArea);
         }
+
     }
     public class BackDrawBoardUI : LayoutFarm.CustomWidgets.AbstractBox
     {

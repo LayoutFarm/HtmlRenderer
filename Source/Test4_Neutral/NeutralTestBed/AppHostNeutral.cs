@@ -21,11 +21,11 @@ namespace LayoutFarm
             //---------------------------------------
             _vw = vw;
         }
-        public override string OwnerFormTitle
-        {
-            get => "";
-            set { }
-        }
+        //public override string OwnerFormTitle
+        //{
+        //    get => "";
+        //    set { }
+        //}
         //
         public override RootGraphic RootGfx => _vw.RootGfx;
         //

@@ -79,7 +79,7 @@ namespace LayoutFarm.HtmlWidgets
                 _imgNode.AttachMouseDownEvent(e =>
                 {
                     Checked = !Checked; //toggle 
-                    _htmlInput.RaiseEvent(UI.UIEventName.MouseDown, e);
+                    _htmlInput?.RaiseEvent(UI.UIEventName.MouseDown, e);
                     e.StopPropagation();
                 });
 

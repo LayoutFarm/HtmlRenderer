@@ -60,10 +60,9 @@
     <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\3_FontFaceImpl\NOpenFontFace.cs" Link="Typography\PixelFarm.Typography\3_FontFaceImpl\NOpenFontFace.cs" />
     <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\3_FontFaceImpl\OpenFontLoader.cs" Link="Typography\PixelFarm.Typography\3_FontFaceImpl\OpenFontLoader.cs" />
     <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\3_FontFaceImpl\ScriptLangConv.cs" Link="Typography\PixelFarm.Typography\3_FontFaceImpl\ScriptLangConv.cs" />
-    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\3_FontFaceImpl\TextureFontLoader.cs" Link="Typography\PixelFarm.Typography\3_FontFaceImpl\TextureFontLoader.cs" />
     <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\4_TextPrinter\GlyphMeshCollection.cs" Link="Typography\PixelFarm.Typography\4_TextPrinter\GlyphMeshCollection.cs" />
     <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\4_TextPrinter\GlyphOutlineAnalyzer.cs" Link="Typography\PixelFarm.Typography\4_TextPrinter\GlyphOutlineAnalyzer.cs" />
-    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\4_TextPrinter\GlyphPathBuilderBase.cs" Link="Typography\PixelFarm.Typography\4_TextPrinter\GlyphPathBuilderBase.cs" />
+    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\4_TextPrinter\GlyphOutlineBuilderBase.cs" Link="Typography\PixelFarm.Typography\4_TextPrinter\GlyphOutlineBuilderBase.cs" />
     <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\4_TextPrinter\TextPrinterBase.cs" Link="Typography\PixelFarm.Typography\4_TextPrinter\TextPrinterBase.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.GlyphLayout\GlyphIndexList.cs" Link="Typography\Typography.GlyphLayout\GlyphIndexList.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.GlyphLayout\GlyphLayout.cs" Link="Typography\Typography.GlyphLayout\GlyphLayout.cs" />
@@ -85,7 +84,6 @@
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\AdditionalInfo\MacPostFormat1.cs" Link="Typography\Typography.OpenFont\AdditionalInfo\MacPostFormat1.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\AdditionalInfo\OS2_IBMFontClassParameters.cs" Link="Typography\Typography.OpenFont\AdditionalInfo\OS2_IBMFontClassParameters.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\Bounds.cs" Link="Typography\Typography.OpenFont\Bounds.cs" />
-    <Compile Include="..\..\..\..\Typography\Typography.OpenFont\CharacterMap.cs" Link="Typography\Typography.OpenFont\CharacterMap.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\Geometry.cs" Link="Typography\Typography.OpenFont\Geometry.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\Glyph.cs" Link="Typography\Typography.OpenFont\Glyph.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\IGlyphTranslator.cs" Link="Typography\Typography.OpenFont\IGlyphTranslator.cs" />
@@ -123,6 +121,7 @@
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\Tables.CFF\CffEvaluationEngine.cs" Link="Typography\Typography.OpenFont\Tables.CFF\CffEvaluationEngine.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\Tables.CFF\CFFTable.cs" Link="Typography\Typography.OpenFont\Tables.CFF\CFFTable.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\Tables.CFF\Type2CharStringParser.cs" Link="Typography\Typography.OpenFont\Tables.CFF\Type2CharStringParser.cs" />
+    <Compile Include="..\..\..\..\Typography\Typography.OpenFont\Tables.CFF\Type2InstructionCompacter.cs" Link="Typography\Typography.OpenFont\Tables.CFF\Type2InstructionCompacter.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\Tables.Others\HorizontalDeviceMetrics.cs" Link="Typography\Typography.OpenFont\Tables.Others\HorizontalDeviceMetrics.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\Tables.Others\Kern.cs" Link="Typography\Typography.OpenFont\Tables.Others\Kern.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\Tables.Others\LinearThreashold.cs" Link="Typography\Typography.OpenFont\Tables.Others\LinearThreashold.cs" />
@@ -145,6 +144,7 @@
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\Tables.Variations\HVar.cs" Link="Typography\Typography.OpenFont\Tables.Variations\HVar.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\Tables.Variations\MVar.cs" Link="Typography\Typography.OpenFont\Tables.Variations\MVar.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\Tables.Variations\VVar.cs" Link="Typography\Typography.OpenFont\Tables.Variations\VVar.cs" />
+    <Compile Include="..\..\..\..\Typography\Typography.OpenFont\Tables\CharacterMap.cs" Link="Typography\Typography.OpenFont\Tables\CharacterMap.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\Tables\Cmap.cs" Link="Typography\Typography.OpenFont\Tables\Cmap.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\Tables\Head.cs" Link="Typography\Typography.OpenFont\Tables\Head.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\Tables\HorizontalHeader.cs" Link="Typography\Typography.OpenFont\Tables\HorizontalHeader.cs" />
@@ -157,8 +157,8 @@
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\Tables\TableEntryCollection.cs" Link="Typography\Typography.OpenFont\Tables\TableEntryCollection.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\Tables\TableHeader.cs" Link="Typography\Typography.OpenFont\Tables\TableHeader.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\Tables\Utils.cs" Link="Typography\Typography.OpenFont\Tables\Utils.cs" />
-    <Compile Include="..\..\..\..\Typography\Typography.OpenFont\TrueTypeInterperter\Interpreter.cs" Link="Typography\Typography.OpenFont\TrueTypeInterperter\Interpreter.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\TrueTypeInterperter\InvalidFontException.cs" Link="Typography\Typography.OpenFont\TrueTypeInterperter\InvalidFontException.cs" />
+    <Compile Include="..\..\..\..\Typography\Typography.OpenFont\TrueTypeInterperter\TrueTypeInterpreter.cs" Link="Typography\Typography.OpenFont\TrueTypeInterperter\TrueTypeInterpreter.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\Typeface.cs" Link="Typography\Typography.OpenFont\Typeface.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\WebFont\Woff2Reader.cs" Link="Typography\Typography.OpenFont\WebFont\Woff2Reader.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\WebFont\WoffReader.cs" Link="Typography\Typography.OpenFont\WebFont\WoffReader.cs" />
@@ -328,16 +328,7 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.TreeCollection\General\ISegment.cs" Link="PixelFarm\src\PixelFarm\BackEnd.TreeCollection\General\ISegment.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.TreeCollection\General\RedBlackTree.cs" Link="PixelFarm\src\PixelFarm\BackEnd.TreeCollection\General\RedBlackTree.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.TreeCollection\General\SegmentTree.cs" Link="PixelFarm\src\PixelFarm\BackEnd.TreeCollection\General\SegmentTree.cs" />
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.TreeCollection\HeightTree\DocumentLocation.cs" Link="PixelFarm\src\PixelFarm\BackEnd.TreeCollection\HeightTree\DocumentLocation.cs" />
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.TreeCollection\HeightTree\HeightTree.cs" Link="PixelFarm\src\PixelFarm\BackEnd.TreeCollection\HeightTree\HeightTree.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.TreeCollection\PlainDocument\PlainTextDocument.cs" Link="PixelFarm\src\PixelFarm\BackEnd.TreeCollection\PlainDocument\PlainTextDocument.cs" />
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.TreeCollection\TextDocument\IDocumentLine.cs" Link="PixelFarm\src\PixelFarm\BackEnd.TreeCollection\TextDocument\IDocumentLine.cs" />
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.TreeCollection\TextDocument\IReadonlyTextDocument.cs" Link="PixelFarm\src\PixelFarm\BackEnd.TreeCollection\TextDocument\IReadonlyTextDocument.cs" />
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.TreeCollection\TextDocument\ITextSource.cs" Link="PixelFarm\src\PixelFarm\BackEnd.TreeCollection\TextDocument\ITextSource.cs" />
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.TreeCollection\TextDocument\ITextSourceVersion.cs" Link="PixelFarm\src\PixelFarm\BackEnd.TreeCollection\TextDocument\ITextSourceVersion.cs" />
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.TreeCollection\TextDocument\StringTextSource.cs" Link="PixelFarm\src\PixelFarm\BackEnd.TreeCollection\TextDocument\StringTextSource.cs" />
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.TreeCollection\TextDocument\TextChangeEventArgs.cs" Link="PixelFarm\src\PixelFarm\BackEnd.TreeCollection\TextDocument\TextChangeEventArgs.cs" />
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.TreeCollection\TextDocument\UnicodeNewLine.cs" Link="PixelFarm\src\PixelFarm\BackEnd.TreeCollection\TextDocument\UnicodeNewLine.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Triangulation\Delaunay\AdvancingFront.cs" Link="PixelFarm\src\PixelFarm\BackEnd.Triangulation\Delaunay\AdvancingFront.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Triangulation\Delaunay\AdvancingFrontNode.cs" Link="PixelFarm\src\PixelFarm\BackEnd.Triangulation\Delaunay\AdvancingFrontNode.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Triangulation\Delaunay\DelaunayTriangle.cs" Link="PixelFarm\src\PixelFarm\BackEnd.Triangulation\Delaunay\DelaunayTriangle.cs" />
@@ -621,6 +612,7 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\LayoutFarm.YourBasicCustomWidgets_SH\8.2_Canvas\MiniAggCanvasRenderElement.cs" Link="PixelFarm\src\PixelFarm\LayoutFarm.YourBasicCustomWidgets_SH\8.2_Canvas\MiniAggCanvasRenderElement.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\LayoutFarm.YourBasicCustomWidgets_SH\9_TextContentSplitter\ContentTextSplitter.cs" Link="PixelFarm\src\PixelFarm\LayoutFarm.YourBasicCustomWidgets_SH\9_TextContentSplitter\ContentTextSplitter.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.AbstractPlatform\Accessories\KnownColors.cs" Link="PixelFarm\src\PixelFarm\PaintLab.AbstractPlatform\Accessories\KnownColors.cs" />
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.AbstractPlatform\CanvasViewport.cs" Link="PixelFarm\src\PixelFarm\PaintLab.AbstractPlatform\CanvasViewport.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.AbstractPlatform\TempContext.cs" Link="PixelFarm\src\PixelFarm\PaintLab.AbstractPlatform\TempContext.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.PlatformBridge\Common\Clipboard.cs" Link="PixelFarm\src\PixelFarm\PaintLab.PlatformBridge\Common\Clipboard.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.PlatformBridge\Common\GeneralEventListener.cs" Link="PixelFarm\src\PixelFarm\PaintLab.PlatformBridge\Common\GeneralEventListener.cs" />
@@ -671,6 +663,8 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.RenderTree\1_Root\1_RootGraphic_p2_dbug.cs" Link="PixelFarm\src\PixelFarm\PaintLab.RenderTree\1_Root\1_RootGraphic_p2_dbug.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.RenderTree\1_Root\2_RenderRequest.cs" Link="PixelFarm\src\PixelFarm\PaintLab.RenderTree\1_Root\2_RenderRequest.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.RenderTree\1_Root\3_GraphicsTimerTask.cs" Link="PixelFarm\src\PixelFarm\PaintLab.RenderTree\1_Root\3_GraphicsTimerTask.cs" />
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.RenderTree\1_Root\4_InvalidateGfxArgs.cs" Link="PixelFarm\src\PixelFarm\PaintLab.RenderTree\1_Root\4_InvalidateGfxArgs.cs" />
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.RenderTree\1_Root\5_GfxUpdatePlan.cs" Link="PixelFarm\src\PixelFarm\PaintLab.RenderTree\1_Root\5_GfxUpdatePlan.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.RenderTree\2_RenderElement\0_RenderElement.cs" Link="PixelFarm\src\PixelFarm\PaintLab.RenderTree\2_RenderElement\0_RenderElement.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.RenderTree\2_RenderElement\1_RenderElement.ElementPositioning_NoBoundChanged.cs" Link="PixelFarm\src\PixelFarm\PaintLab.RenderTree\2_RenderElement\1_RenderElement.ElementPositioning_NoBoundChanged.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.RenderTree\2_RenderElement\2_RenderElement.ElementPositioning_1_WithSizeChanged.cs" Link="PixelFarm\src\PixelFarm\PaintLab.RenderTree\2_RenderElement\2_RenderElement.ElementPositioning_1_WithSizeChanged.cs" />
@@ -785,7 +779,6 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\2_Abstract_DrawingElements\Brushes_Pens.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\2_Abstract_DrawingElements\Brushes_Pens.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\2_Abstract_DrawingElements\CombineMode.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\2_Abstract_DrawingElements\CombineMode.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\2_Abstract_DrawingElements\DashStyle.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\2_Abstract_DrawingElements\DashStyle.cs" />
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\2_Abstract_DrawingElements\GraphicsPath.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\2_Abstract_DrawingElements\GraphicsPath.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\2_Abstract_DrawingElements\Image.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\2_Abstract_DrawingElements\Image.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\2_Abstract_DrawingElements\Region.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\2_Abstract_DrawingElements\Region.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\3_DrawBoard\0_VertexCommandAndOrientation.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\3_DrawBoard\0_VertexCommandAndOrientation.cs" />
@@ -885,6 +878,7 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Painter\2_General\ColorEx.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Painter\2_General\ColorEx.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Painter\2_General\ITextPrinter.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Painter\2_General\ITextPrinter.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Painter\2_General\TempContext.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Painter\2_General\TempContext.cs" />
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Painter\2_General\TextBaseline.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Painter\2_General\TextBaseline.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Painter\3_Cpu_Blit\ColorRGBAf.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Painter\3_Cpu_Blit\ColorRGBAf.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Painter\3_Cpu_Blit\MemBitmap.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Painter\3_Cpu_Blit\MemBitmap.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Painter\3_Cpu_Blit\PainterExtensions.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Painter\3_Cpu_Blit\PainterExtensions.cs" />
@@ -1487,9 +1481,7 @@
     <Folder Include="PixelFarm\src\PixelFarm\BackEnd.SharpZipLib\Zip" />
     <Folder Include="PixelFarm\src\PixelFarm\BackEnd.Tesselate" />
     <Folder Include="PixelFarm\src\PixelFarm\BackEnd.TreeCollection\General" />
-    <Folder Include="PixelFarm\src\PixelFarm\BackEnd.TreeCollection\HeightTree" />
     <Folder Include="PixelFarm\src\PixelFarm\BackEnd.TreeCollection\PlainDocument" />
-    <Folder Include="PixelFarm\src\PixelFarm\BackEnd.TreeCollection\TextDocument" />
     <Folder Include="PixelFarm\src\PixelFarm\BackEnd.Triangulation\Delaunay" />
     <Folder Include="PixelFarm\src\PixelFarm\BackEnd.Triangulation" />
     <Folder Include="PixelFarm\src\PixelFarm\BackEnd.Triangulation\Polygon" />
