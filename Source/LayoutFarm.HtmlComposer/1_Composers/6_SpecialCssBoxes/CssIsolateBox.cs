@@ -39,7 +39,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         public override void InvalidateGraphics(Rectangle clientArea)
         {
-            ContainerElement.InvalidateParentGraphics(clientArea);
+            ContainerElement.InvalidateGraphics(clientArea);
         }
         public LayoutFarm.RenderElement ContainerElement { get; private set; }
         protected override void GetGlobalLocationImpl(out float globalX, out float globalY)
