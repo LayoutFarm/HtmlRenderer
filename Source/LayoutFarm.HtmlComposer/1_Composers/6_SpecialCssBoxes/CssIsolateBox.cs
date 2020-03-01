@@ -6,12 +6,11 @@ namespace LayoutFarm.HtmlBoxes
 {
     public class CssBoxRootGfxBridge : IRootGraphics
     {
-        LayoutFarm.RootGraphic _rootgfx;
         public CssBoxRootGfxBridge(LayoutFarm.RootGraphic rootgfx)
         {
-            _rootgfx = rootgfx;
+            RootGfx = rootgfx;
         }
-        public LayoutFarm.RootGraphic RootGfx => _rootgfx;
+        public LayoutFarm.RootGraphic RootGfx { get; private set; }
     }
     static class CssBoxExtensions
     {
@@ -31,19 +30,21 @@ namespace LayoutFarm.HtmlBoxes
 
     class RenderElementBridgeCssBox : CssBox
     {
-        RenderElement _containerElement;
         public RenderElementBridgeCssBox(BoxSpec spec,
             RenderElement containerElement,
             RootGraphic rootgfx)
             : base(spec, new CssBoxRootGfxBridge(rootgfx))
         {
-            _containerElement = containerElement;
+            ContainerElement = containerElement;
         }
-        public override void InvalidateGraphics(Rectangle clientArea) => _containerElement.InvalidateParentGraphics(clientArea);
-        public LayoutFarm.RenderElement ContainerElement => _containerElement;
+        public override void InvalidateGraphics(Rectangle clientArea)
+        {
+            ContainerElement.InvalidateParentGraphics(clientArea);
+        }
+        public LayoutFarm.RenderElement ContainerElement { get; private set; }
         protected override void GetGlobalLocationImpl(out float globalX, out float globalY)
         {
-            Point p = _containerElement.GetGlobalLocation();
+            Point p = ContainerElement.GetGlobalLocation();
             globalX = p.X;
             globalY = p.Y;
         }

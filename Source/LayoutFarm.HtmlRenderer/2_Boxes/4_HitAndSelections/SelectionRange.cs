@@ -12,14 +12,11 @@ namespace LayoutFarm.HtmlBoxes
 
         CssLineBox _startHitHostLine;
         List<CssLineBox> _selectedLines;
-        bool _isValid = true;
         CssRun _startHitRun;
         int _startHitRunCharIndex;
         int _startLineBeginSelectionAtPixel;
         CssRun _endHitRun;
         int _endHitRunCharIndex;
-        Rectangle _snapSelectionArea;
-
 
         internal SelectionRange(
             CssBoxHitChain startChain,
@@ -53,15 +50,15 @@ namespace LayoutFarm.HtmlBoxes
             //2. 
             if (_startHitHostLine == null)
             {
-                _isValid = false;
+                IsValid = false;
                 return;
             }
 
             this.SetupEndHitPoint(startChain, endChain, ifonts);
-            _snapSelectionArea = this.GetSelectionRectArea();
+            SnapSelectionArea = this.GetSelectionRectArea();
         }
-        public Rectangle SnapSelectionArea => _snapSelectionArea;
-        public bool IsValid => _isValid;
+        public Rectangle SnapSelectionArea { get; private set; }
+        public bool IsValid { get; private set; } = true;
         //
 
         internal void ClearSelection()
