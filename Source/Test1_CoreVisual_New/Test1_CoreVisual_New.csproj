@@ -43,6 +43,9 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\PixelFarm\src\Tests\Test_BasicPixelFarm\0_Start\AppHostWithRootGfx1.cs">
+      <Link>AppHostWithRootGfx1.cs</Link>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -54,9 +57,9 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.Platforms.WinForms\PaintLab.Platforms.WinForms.csproj">
-      <Project>{4602b28b-eeec-4a69-854c-b00b8b616837}</Project>
-      <Name>PaintLab.Platforms.WinForms</Name>
+    <ProjectReference Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.Platforms.Win32\PaintLab.Platforms.Win32.csproj">
+      <Project>{e5f2b317-2205-4727-92c4-6190a2fa3ddc}</Project>
+      <Name>PaintLab.Platforms.Win32</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\PixelFarm.One.HtmlRenderer.csproj">
       <Project>{367ae189-bede-436c-8186-362a771f35b2}</Project>
@@ -74,6 +77,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="..\..\..\PixelFarm\src\Tests\WinFormTestBed2\WinFormTestBed2.projitems" Label="Shared" />
+  <Import Project="..\..\..\PixelFarm\src\PixelFarm\PaintLab.AppHost\PaintLab.AppHost.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

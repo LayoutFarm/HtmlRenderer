@@ -314,6 +314,24 @@ namespace LayoutFarm.CustomWidgets
                 RaiseLayoutFinished();
                 _htmlRenderBox.InvalidateGraphics();
             }
+        }
+        public void LoadHtml(ExternalHtmlTreeWalker externalHtmlTreeWalker)
+        {
+
+            if (_htmlRenderBox == null)
+            {
+                _waitingContentKind = WaitingContentKind.HtmlString;
+                _waitingHtmlString = "";
+            }
+            else
+            {
+                //just parse content and load 
+                _htmlVisualRoot = HtmlHostExtensions.CreateHtmlVisualRootFromFullHtml(_htmlhost, externalHtmlTreeWalker, _htmlRenderBox);
+                SetHtmlContainerEventHandlers();
+                ClearWaitingContent();
+                RaiseLayoutFinished();
+                _htmlRenderBox.InvalidateGraphics();
+            }
 
         }
         public void LoadHtmlFragmentString(string fragmentHtmlString)

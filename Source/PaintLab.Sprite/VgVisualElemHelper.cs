@@ -66,7 +66,7 @@ namespace LayoutFarm
             }
             _glyphMaskStore.SetFont(typeface, sizeInPts);
             //-----------------
-            VertexStore vxs = _glyphMaskStore.GetGlyphMesh(typeface.LookupIndex(c));
+            VertexStore vxs = _glyphMaskStore.GetGlyphMesh(typeface.GetGlyphIndex(c));
             var spec = new SvgPathSpec() { FillColor = Color.Red };
             VgVisualDoc renderRoot = new VgVisualDoc();
             VgVisualElement renderE = new VgVisualElement(WellknownSvgElementName.Path, spec, renderRoot);

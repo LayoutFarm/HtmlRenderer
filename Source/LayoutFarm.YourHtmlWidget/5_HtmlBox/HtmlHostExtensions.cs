@@ -3,8 +3,40 @@
 using LayoutFarm.Composers;
 namespace LayoutFarm.HtmlBoxes
 {
+   
+
     static class HtmlHostExtensions
     {
+        public static MyHtmlVisualRoot CreateHtmlVisualRootFromFullHtml(
+               HtmlHost htmlHost,
+               ExternalHtmlTreeWalker externalHtmlTreeWalker,
+               HtmlRenderBox htmlRenderBox)
+        {
+            HtmlDocument htmldoc = WebDocumentParser.ParseDocument(
+                 htmlHost,
+                 externalHtmlTreeWalker);
+            //1. builder 
+            RenderTreeBuilder renderTreeBuilder = htmlHost.GetRenderTreeBuilder();
+            //------------------------------------------------------------------- 
+            //2. generate render tree
+            ////build rootbox from htmldoc
+
+            CssBox rootElement = renderTreeBuilder.BuildCssRenderTree(htmldoc,
+                htmlHost.BaseStylesheet,
+                htmlRenderBox);
+            //3. create small htmlContainer
+
+            MyHtmlVisualRoot htmlContainer = new MyHtmlVisualRoot(htmlHost);
+            htmlContainer.WebDocument = htmldoc;
+            htmlContainer.SetRootCssBox(rootElement);
+            htmlContainer.SetMaxSize(htmlRenderBox.Width, 0);
+            //
+            LayoutVisitor lay = htmlHost.GetSharedHtmlLayoutVisitor(htmlContainer);
+            htmlContainer.PerformLayout(lay);
+            htmlHost.ReleaseHtmlLayoutVisitor(lay);
+            htmlRenderBox.SetHtmlVisualRoot(htmlContainer, rootElement);
+            return htmlContainer;
+        }
         public static MyHtmlVisualRoot CreateHtmlVisualRootFromFullHtml(
             HtmlHost htmlHost,
             string fullHtmlString,

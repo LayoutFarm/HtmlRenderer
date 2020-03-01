@@ -111,9 +111,19 @@ namespace LayoutFarm.HtmlBoxes
 
                 if (_mayHasViewport)
                 {
-                    p.OffsetCanvasOrigin(-this.ViewportX, -this.ViewportY);
-                    PaintImp(p);
-                    p.OffsetCanvasOrigin(this.ViewportX, this.ViewportY);
+                    if (ViewportX != 0 || ViewportY != 0)
+                    {
+                        int enter_canvas_X = p.CanvasOriginX;
+                        int enter_canvas_Y = p.CanvasOriginY;
+
+                        p.SetCanvasOrigin(enter_canvas_X - ViewportX, enter_canvas_Y - ViewportY);
+                        PaintImp(p);
+                        p.SetCanvasOrigin(enter_canvas_X, enter_canvas_Y);//restore
+                    }
+                    else
+                    {
+                        PaintImp(p);
+                    }                    
                 }
                 else
                 {
@@ -296,8 +306,9 @@ namespace LayoutFarm.HtmlBoxes
                             if (p.PushLocalClipArea(b.VisualWidth, b.VisualHeight))
                             {
                                 b.Paint(p);
+                                p.PopLocalClipArea();
                             }
-                            p.PopLocalClipArea();
+                            
                         }
                         else
                         {
@@ -561,7 +572,7 @@ namespace LayoutFarm.HtmlBoxes
                     //}
                     //else
                     //{
-                        g.FillRectangle(brush, (float)Math.Ceiling(rect.X), (float)Math.Ceiling(rect.Y), rect.Width, rect.Height);
+                    g.FillRectangle(brush, (float)Math.Ceiling(rect.X), (float)Math.Ceiling(rect.Y), rect.Width, rect.Height);
                     //}
 
                     g.SmoothingMode = smooth;

@@ -28,12 +28,13 @@ using System;
 using System.IO;
 using System.Text;
 using HtmlKit;
-using NUnit.Framework;
+using static System.Diagnostics.Debug;
 namespace UnitTests
 {
-    [TestFixture]
+
     public class HtmlTokenizerTests
     {
+
         static string Quote(string text)
         {
             if (text == null)
@@ -59,7 +60,8 @@ namespace UnitTests
             {
                 var tokenizer = new HtmlTokenizer(textReader);
                 HtmlToken token;
-                Assert.AreEqual(HtmlTokenizerState.Data, tokenizer.TokenizerState);
+                Assert(HtmlTokenizerState.Data == tokenizer.TokenizerState);
+
                 while (tokenizer.ReadNextToken(out token))
                 {
                     actual.AppendFormat("{0}: ", token.Kind);
@@ -120,32 +122,32 @@ namespace UnitTests
                             actual.AppendLine();
                             break;
                         default:
-                            Assert.Fail("Unhandled token type: {0}", token.Kind);
+                            Fail($"Unhandled token type: {token.Kind}");
                             break;
                     }
                 }
-
-                Assert.AreEqual(HtmlTokenizerState.EndOfFile, tokenizer.TokenizerState);
+                Assert(HtmlTokenizerState.EndOfFile == tokenizer.TokenizerState);
             }
 
             if (!File.Exists(tokens))
                 File.WriteAllText(tokens, actual.ToString());
-            Assert.AreEqual(expected, actual.ToString(), "The token stream does not match the expected tokens.");
+
+            Assert(expected == actual.ToString(), "The token stream does not match the expected tokens.");
         }
 
-        [Test]
+        //[Test]
         public void TestGoogleSignInAttemptBlocked()
         {
             VerifyHtmlTokenizerOutput(CombinePath("..", "..", "TestData", "html", "blocked.html"));
         }
 
-        [Test]
+        //[Test]
         public void TestXamarin3SampleHtml()
         {
             VerifyHtmlTokenizerOutput(CombinePath("..", "..", "TestData", "html", "xamarin3.html"));
         }
 
-        [Test]
+        //[Test]
         public void TestTokenizer()
         {
             VerifyHtmlTokenizerOutput(CombinePath("..", "..", "TestData", "html", "test.html"));

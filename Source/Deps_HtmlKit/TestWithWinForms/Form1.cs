@@ -3,7 +3,7 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using HtmlKit;
-using NUnit.Framework;
+ 
 namespace TestWithWinForms
 {
     public partial class Form1 : Form
@@ -65,7 +65,8 @@ namespace TestWithWinForms
             {
                 var tokenizer = new HtmlTokenizer(textReader);
                 HtmlToken token;
-                Assert.AreEqual(HtmlTokenizerState.Data, tokenizer.TokenizerState);
+
+                System.Diagnostics.Debug.Assert(HtmlTokenizerState.Data == tokenizer.TokenizerState);
                 while (tokenizer.ReadNextToken(out token))
                 {
                     actual.AppendFormat("{0}: ", token.Kind);
@@ -126,17 +127,19 @@ namespace TestWithWinForms
                             actual.AppendLine();
                             break;
                         default:
-                            Assert.Fail("Unhandled token type: {0}", token.Kind);
+
+                            System.Diagnostics.Debug.Fail($"Unhandled token type: {token.Kind}");
+
                             break;
                     }
                 }
-
-                Assert.AreEqual(HtmlTokenizerState.EndOfFile, tokenizer.TokenizerState);
+                System.Diagnostics.Debug.Assert(HtmlTokenizerState.EndOfFile == tokenizer.TokenizerState);
             }
 
             if (!File.Exists(tokens))
                 File.WriteAllText(tokens, actual.ToString());
-            Assert.AreEqual(expected, actual.ToString(), "The token stream does not match the expected tokens.");
+            System.Diagnostics.Debug.Assert(expected == actual.ToString(), "The token stream does not match the expected tokens.");
+
         }
     }
 }

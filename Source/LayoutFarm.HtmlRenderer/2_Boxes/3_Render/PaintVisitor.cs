@@ -63,6 +63,8 @@ namespace LayoutFarm.HtmlBoxes
         internal float ViewportBottom => _viewportHeight;
 
         //=========================================================
+
+        UpdateArea _u = new UpdateArea();
         /// <summary>
         /// push clip area relative to (0,0) of current CssBox
         /// </summary>
@@ -71,9 +73,11 @@ namespace LayoutFarm.HtmlBoxes
         /// <returns></returns>
         internal bool PushLocalClipArea(float w, float h)
         {
-            Rectangle currentClip = _drawBoard.CurrentClipRect;
-            return _drawBoard.PushClipAreaRect((int)w, (int)h, ref currentClip);
+            _u.CurrentRect = _drawBoard.CurrentClipRect;
+            return _drawBoard.PushClipAreaRect((int)w, (int)h, _u);
         }
+
+
 #if DEBUG
         public override string ToString()
         {
@@ -82,8 +86,8 @@ namespace LayoutFarm.HtmlBoxes
 #endif
         internal bool PushLocalClipArea(float left, float top, float w, float h)
         {
-            Rectangle currentClip = _drawBoard.CurrentClipRect;
-            return _drawBoard.PushClipAreaRect((int)left, (int)top, (int)w, (int)h, ref currentClip);
+            _u.CurrentRect = _drawBoard.CurrentClipRect;
+            return _drawBoard.PushClipAreaRect((int)left, (int)top, (int)w, (int)h, _u);
         }
         internal void PopLocalClipArea()
         {
@@ -143,10 +147,10 @@ namespace LayoutFarm.HtmlBoxes
         {
             _drawBoard.SetCanvasOrigin(x, y);
         }
-        public void OffsetCanvasOrigin(int dx, int dy)
-        {
-            _drawBoard.OffsetCanvasOrigin(dx, dy);
-        }
+        //public void OffsetCanvasOrigin(int dx, int dy)
+        //{
+        //    _drawBoard.OffsetCanvasOrigin(dx, dy);
+        //}
 
         public Rectangle GetCurrentClipRect() => _drawBoard.CurrentClipRect;
 
@@ -278,10 +282,10 @@ namespace LayoutFarm.HtmlBoxes
         {
             return _drawBoard.GetPainter().CreateRenderVx(str, startAt, len);
         }
-        public void DrawText(RenderVxFormattedString formattedStr, PointF point, SizeF size)
-        {
-            _drawBoard.GetPainter().DrawString(formattedStr, point.X, point.Y);
-        }
+        //public void DrawText(RenderVxFormattedString formattedStr, PointF point, SizeF size)
+        //{
+        //    _drawBoard.GetPainter().DrawString(formattedStr, point.X, point.Y);
+        //}
         public DrawboardBuffer CreateOffscreenDrawBoard(int width, int height)
         {
             return _drawBoard.CreateBackbuffer(width, height);

@@ -171,11 +171,8 @@ namespace LayoutFarm.UI
         }
         public bool DisableBitmapCache { get; set; }
 
-
-
-        public override void CustomDrawToThisCanvas(DrawBoard canvas, Rectangle updateArea)
+        protected override void RenderClientContent(DrawBoard d, UpdateArea updateArea)
         {
-
             if (_vgVisualElem == null) return;
             //-----------------------
 
@@ -192,7 +189,7 @@ namespace LayoutFarm.UI
             if (!_useAggPainter)
             {
                 //the use default canvas
-                Painter canvas_p = canvas.GetPainter();
+                Painter canvas_p = d.GetPainter();
                 if (canvas_p != null)
                 {
                     PaintVgWithPainter(canvas_p, _vgVisualElem);
@@ -208,7 +205,7 @@ namespace LayoutFarm.UI
 
                 AggPainter painter = null;
                 if (DisableBitmapCache &&
-                   ((painter = canvas.GetPainter() as PixelFarm.CpuBlit.AggPainter) != null))
+                   ((painter = d.GetPainter() as PixelFarm.CpuBlit.AggPainter) != null))
                 {
                     PaintVgWithPainter(painter, _vgVisualElem);
                 }
@@ -219,7 +216,7 @@ namespace LayoutFarm.UI
                     if (_vgVisualElem.HasBitmapSnapshot)
                     {
                         Image backimg = _vgVisualElem.BackingImage;
-                        canvas.DrawImage(backimg, new RectangleF(0, 0, backimg.Width, backimg.Height));
+                        d.DrawImage(backimg, new RectangleF(0, 0, backimg.Width, backimg.Height));
                     }
                     else
                     {
@@ -250,14 +247,14 @@ namespace LayoutFarm.UI
                             height = this.Height;
                         }
                         //--------------------
-                        painter = canvas.GetPainter() as PixelFarm.CpuBlit.AggPainter;
+                        painter = d.GetPainter() as PixelFarm.CpuBlit.AggPainter;
 
                         MemBitmap backimg = new MemBitmap(width, height);
 #if DEBUG
                         backimg._dbugNote = "vg_bridge_renderElement " + this.dbug_obj_id;
 #endif
                         AggPainter painter2 = AggPainter.Create(backimg);
-                        painter2.CurrentFont = canvas.CurrentFont;
+                        painter2.CurrentFont = d.CurrentFont;
                         painter2.Clear(Color.FromArgb(0, Color.White));
 
                         if (painter != null)
@@ -276,7 +273,7 @@ namespace LayoutFarm.UI
                         //
                         PaintVgWithPainter(painter2, _vgVisualElem);
 
-                        canvas.DrawImage(backimg, new RectangleF(0, 0, backimg.Width, backimg.Height));
+                        d.DrawImage(backimg, new RectangleF(0, 0, backimg.Width, backimg.Height));
                         //
                         _vgVisualElem.SetBitmapSnapshot(backimg, true);
                         //temp fix ....
@@ -289,8 +286,8 @@ namespace LayoutFarm.UI
                     }
                 }
             }
-
         }
+ 
 
 
         static void PaintVgWithPainter(Painter painter, VgVisualElement vgVisualElem)

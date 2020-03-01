@@ -19,6 +19,32 @@ using LayoutFarm.WebDom;
 using LayoutFarm.WebDom.Parser;
 namespace LayoutFarm.Composers
 {
+    public abstract class ExternalHtmlTreeWalker
+    {
+        public abstract IEnumerable<ExternalHtmlNode> GetHtmlNodeIter();
+    }
+    public enum ExternalHtmlNodeKind
+    {
+        Element,
+        Document,
+        TextNode,
+
+        Attribute,
+
+        EnterChildContext,//special
+        ExitChildContext,//special
+    }
+    public abstract class ExternalHtmlNode
+    {
+        public abstract object ActualHtmlNode { get; }
+        public abstract string HtmlElementName { get; }
+        public abstract ExternalHtmlNodeKind HtmlNodeKind { get; }
+        public abstract string CurrentTextNodeContent { get; }
+        public abstract int Level { get; }
+        public abstract void GetAttributeNameAndValue(out string name, out string value);
+    }
+
+
     public static class WebDocumentParser
     {
         /// <summary>
@@ -34,7 +60,58 @@ namespace LayoutFarm.Composers
             FreeHtmlParser(parser);
             return newdoc;
         }
+        public static HtmlDocument ParseDocument(LayoutFarm.HtmlBoxes.HtmlHost htmlHost, ExternalHtmlTreeWalker externalTreeWalker)
+        {
+            HtmlDocument newdoc = new HtmlDocument(htmlHost);
+            //start from 
+            HtmlElement domElem = (HtmlElement)newdoc.RootNode;
+            Stack<HtmlElement> elemStack = new Stack<HtmlElement>();
+            HtmlElement newDomElem = null;
+            foreach (ExternalHtmlNode node in externalTreeWalker.GetHtmlNodeIter())
+            {
+                switch (node.HtmlNodeKind)
+                {
+                    case ExternalHtmlNodeKind.EnterChildContext:
+                        {
+                            elemStack.Push(domElem);
+                            if (newDomElem != null)
+                            {
+                                domElem = newDomElem;
+                            }
+                        }
+                        break;
+                    case ExternalHtmlNodeKind.ExitChildContext:
+                        {
+                            domElem = elemStack.Pop();
+                        }
+                        break;
+                    case ExternalHtmlNodeKind.Attribute:
+                        {
+                            node.GetAttributeNameAndValue(out string attrName, out string attrValue);
+                            DomAttribute attr = newdoc.CreateAttribute(attrName, attrValue);
+                            newDomElem.SetAttribute(attr);
+                        }
+                        break;
+                    case ExternalHtmlNodeKind.Element:
 
+                        newDomElem = (HtmlElement)newdoc.CreateElement(node.HtmlElementName);
+                        domElem.AddChild(newDomElem);
+
+                        //System.Diagnostics.Debug.WriteLine(new string(' ', node.Level) + node.HtmlElementName);
+                        break;
+                    case ExternalHtmlNodeKind.TextNode:
+                        DomTextNode textnode = newdoc.CreateTextNode(node.CurrentTextNodeContent.ToCharArray());
+                        domElem.AddChild(textnode);
+                        //System.Diagnostics.Debug.WriteLine(new string(' ', node.Level) + node.CurrentTextNodeContent);
+                        break;
+                    case ExternalHtmlNodeKind.Document:
+                        //System.Diagnostics.Debug.WriteLine("Root");
+                        break;
+                }
+
+            }
+            return newdoc;
+        }
         public static void ParseHtmlDom(TextSource snapSource, IHtmlDocument htmldoc, WebDom.DomElement parentElement)
         {
             HtmlParser parser = GetHtmlParser();
