@@ -34,7 +34,7 @@ Typography => https://github.com/LayoutFarm/Typography)
 
 **How to build it**
 
-see https://github.com/PaintLab/pxdev
+see https://github.com/LayoutFarm/HtmlRenderer.Build
 
 ---
 
