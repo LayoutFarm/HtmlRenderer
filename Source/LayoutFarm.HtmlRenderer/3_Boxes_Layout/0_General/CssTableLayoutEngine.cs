@@ -55,7 +55,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             //TODO: reuse table layout engine?
             var table = new CssTableLayoutEngine(tableBox, hostAvailableWidth);
-            table._tmpIFonts = lay.SampleIFonts;
+            table._tmpIFonts = lay.TextService;
             table.Layout(lay);
             table._tmpIFonts = null;
         }
@@ -101,7 +101,7 @@ namespace LayoutFarm.HtmlBoxes
             if (box != null)
             {
                 float box_fontsize = box.ResolvedFont.SizeInPixels;
-                ITextService ifonts = lay.SampleIFonts;
+                ITextService ifonts = lay.TextService;
                 foreach (CssBox childBox in box.GetChildBoxIter())
                 {
                     childBox.ReEvaluateFont(ifonts, box_fontsize);

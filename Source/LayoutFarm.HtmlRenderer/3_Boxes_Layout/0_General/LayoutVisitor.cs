@@ -20,10 +20,10 @@ namespace LayoutFarm.HtmlBoxes
         FloatingContextStack _floatingContextStack = new FloatingContextStack();
         static int s_totalLayoutIdEpisode = 0;
         int _episodeId = 1;
-        ITextService _fontService;
+        ITextService _textService;
         internal LayoutVisitor(ITextService fontService)
         {
-            _fontService = fontService;
+            _textService = fontService;
         }
         internal void Bind(HtmlVisualRoot htmlVisualRoot)
         {
@@ -48,7 +48,7 @@ namespace LayoutFarm.HtmlBoxes
 
         }
         internal bool InAbsoluteLayerMode { get; set; }
-        internal ITextService SampleIFonts => _fontService;
+        internal ITextService TextService => _textService;
 
         protected override void OnPushDifferentContainingBlock(CssBox box)
         {
@@ -128,7 +128,7 @@ namespace LayoutFarm.HtmlBoxes
         internal float MeasureWhiteSpace(CssBox box)
         {
             //depends on Font of this box           
-            float w = this.SampleIFonts.MeasureWhitespace(box.ResolvedFont);
+            float w = this.TextService.MeasureWhitespace(box.ResolvedFont);
             if (!(box.WordSpacing.IsEmpty || box.WordSpacing.IsNormalWordSpacing))
             {
                 w += LayoutFarm.WebDom.Parser.CssValueParser.ConvertToPxWithFontAdjust(box.WordSpacing, 0, box);
@@ -138,13 +138,13 @@ namespace LayoutFarm.HtmlBoxes
         internal float MeasureStringWidth(char[] buffer, int startIndex, int len, RequestFont f)
         {
             TextBufferSpan textSpan = new TextBufferSpan(buffer, startIndex, len);
-            return this.SampleIFonts.MeasureString(ref textSpan, f).Width;
+            return this.TextService.MeasureString(ref textSpan, f).Width;
 
         }
         internal Size MeasureStringSize(char[] buffer, int startIndex, int len, RequestFont f)
         {
             TextBufferSpan textSpan = new TextBufferSpan(buffer, startIndex, len);
-            return this.SampleIFonts.MeasureString(ref textSpan, f);
+            return this.TextService.MeasureString(ref textSpan, f);
         }
         //---------------------------------------------------------------
         internal Dictionary<CssBox, PartialBoxStrip> GetReadyStripDic()

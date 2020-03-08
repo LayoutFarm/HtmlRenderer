@@ -14,13 +14,7 @@ namespace LayoutFarm.CustomWidgets
             : base(w, h)
         {
         }
-        public LayoutFarm.UI.AbstractRectUI TargetBox
-        {
-            get;
-            set;
-        }
-       
-
+        public LayoutFarm.UI.AbstractRectUI TargetBox { get; set; }
         public int Index { get; set; }
         public MoveDirection MoveDirection { get; set; }
 
@@ -434,10 +428,8 @@ namespace LayoutFarm.CustomWidgets
             //------------
         }
 
-        public AbstractBox ControllerBoxMain
-        {
-            get { return _centralBox; }
-        }
+        public AbstractBox ControllerBoxMain => _centralBox;
+
         void SetupControllerBoxProperties(UIControllerBox controllerBox)
         {
             //for controller box  
