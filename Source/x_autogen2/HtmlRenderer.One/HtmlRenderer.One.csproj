@@ -32,18 +32,6 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.MiniOpenTK\src\Builds\NETSTD2\MiniOpenTKLevel1\Minimal.cs">
       <Link>PixelFarm\src\PixelFarm\BackEnd.MiniOpenTK\src\Builds\NETSTD2\MiniOpenTKLevel1\Minimal.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Win32Utils\MyWin32.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Win32Utils\MyWin32.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Win32Utils\NativeWin32MemoryDc.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Win32Utils\NativeWin32MemoryDc.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing.GdiPlus\Properties\Resources.Designer.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.Drawing.GdiPlus\Properties\Resources.Designer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing.GdiPlus\Properties\Settings.Designer.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.Drawing.GdiPlus\Properties\Settings.Designer.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\..\Typography\Build\N20\Typography.OpenFont\System.Numerics.ForNet20.cs">
       <Link>Typography\Build\N20\Typography.OpenFont\System.Numerics.ForNet20.cs</Link>
     </Compile>
@@ -2468,9 +2456,6 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\Msdf\MsdfGen.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\Msdf\MsdfGen.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\Msdf\MsdfGen2.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\Msdf\MsdfGen2.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\Msdf\MsdfGen3.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\Msdf\MsdfGen3.cs</Link>
     </Compile>
@@ -4207,45 +4192,6 @@
     </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.MiniOpenTK\src\OpenTK\WindowState.cs">
       <Link>PixelFarm\src\PixelFarm\BackEnd.MiniOpenTK\src\OpenTK\WindowState.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing.GdiPlus_SH\0_Start\WinGdiPlusPlatform.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.Drawing.GdiPlus_SH\0_Start\WinGdiPlusPlatform.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing.GdiPlus_SH\DrawBoard\1_GdiPlusDrawBoard_Specific.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.Drawing.GdiPlus_SH\DrawBoard\1_GdiPlusDrawBoard_Specific.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing.GdiPlus_SH\DrawBoard\2_GdiPlusDrawBoard_CoordinateAndClip.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.Drawing.GdiPlus_SH\DrawBoard\2_GdiPlusDrawBoard_CoordinateAndClip.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing.GdiPlus_SH\DrawBoard\3_GdiPlusDrawBoard_DrawGraphics.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.Drawing.GdiPlus_SH\DrawBoard\3_GdiPlusDrawBoard_DrawGraphics.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing.GdiPlus_SH\DrawBoard\4_GdiPlusDrawBoard_TextAndFonts.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.Drawing.GdiPlus_SH\DrawBoard\4_GdiPlusDrawBoard_TextAndFonts.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing.GdiPlus_SH\DrawBoard\Conv.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.Drawing.GdiPlus_SH\DrawBoard\Conv.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing.GdiPlus_SH\Painter\BitmapHelper.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.Drawing.GdiPlus_SH\Painter\BitmapHelper.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing.GdiPlus_SH\Painter\BufferBitmapStore.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.Drawing.GdiPlus_SH\Painter\BufferBitmapStore.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing.GdiPlus_SH\Painter\GdiMemBitmapIO.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.Drawing.GdiPlus_SH\Painter\GdiMemBitmapIO.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing.GdiPlus_SH\Painter\GdiPlusRenderVx.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.Drawing.GdiPlus_SH\Painter\GdiPlusRenderVx.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing.GdiPlus_SH\Painter\NativeTextWin32.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.Drawing.GdiPlus_SH\Painter\NativeTextWin32.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing.GdiPlus_SH\Painter\VxsHelper.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.Drawing.GdiPlus_SH\Painter\VxsHelper.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing.GdiPlus_SH\RenderSurface\GdiPlusRenderSurface.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.Drawing.GdiPlus_SH\RenderSurface\GdiPlusRenderSurface.cs</Link>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
