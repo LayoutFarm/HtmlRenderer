@@ -35,9 +35,6 @@
     <Compile Include="..\..\..\..\Typography\Build\N20\Typography.OpenFont\System.Numerics.ForNet20.cs">
       <Link>Typography\Build\N20\Typography.OpenFont\System.Numerics.ForNet20.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Typography\FontAtlas\BinPacker.cs">
-      <Link>Typography\FontAtlas\BinPacker.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\..\Typography\FontAtlas\FontAtlasFile.cs">
       <Link>Typography\FontAtlas\FontAtlasFile.cs</Link>
     </Compile>
@@ -86,21 +83,6 @@
     <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\1.1_Drawing_Fonts\VxsTextPrinter.cs">
       <Link>Typography\PixelFarm.Typography\1.1_Drawing_Fonts\VxsTextPrinter.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\1.3_DrawingFonts\ManagedShapingService.cs">
-      <Link>Typography\PixelFarm.Typography\1.3_DrawingFonts\ManagedShapingService.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\1.3_DrawingFonts\TextShapingAndLayoutService.cs">
-      <Link>Typography\PixelFarm.Typography\1.3_DrawingFonts\TextShapingAndLayoutService.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\2_Drawing_Text\ActualFont.cs">
-      <Link>Typography\PixelFarm.Typography\2_Drawing_Text\ActualFont.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\2_Drawing_Text\FontFace.cs">
-      <Link>Typography\PixelFarm.Typography\2_Drawing_Text\FontFace.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\2_Drawing_Text\FontGlyph.cs">
-      <Link>Typography\PixelFarm.Typography\2_Drawing_Text\FontGlyph.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\3_FontFaceImpl\AggGlyphTextureGen.cs">
       <Link>Typography\PixelFarm.Typography\3_FontFaceImpl\AggGlyphTextureGen.cs</Link>
     </Compile>
@@ -109,12 +91,6 @@
     </Compile>
     <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\3_FontFaceImpl\GlyphTextureBitmapGenerator.cs">
       <Link>Typography\PixelFarm.Typography\3_FontFaceImpl\GlyphTextureBitmapGenerator.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\3_FontFaceImpl\NOpenFontFace.cs">
-      <Link>Typography\PixelFarm.Typography\3_FontFaceImpl\NOpenFontFace.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\3_FontFaceImpl\OpenFontLoader.cs">
-      <Link>Typography\PixelFarm.Typography\3_FontFaceImpl\OpenFontLoader.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\3_FontFaceImpl\ScriptLangConv.cs">
       <Link>Typography\PixelFarm.Typography\3_FontFaceImpl\ScriptLangConv.cs</Link>
@@ -151,30 +127,6 @@
     </Compile>
     <Compile Include="..\..\..\..\Typography\Typography.GlyphLayout\UserCharToGlyphIndexMap.cs">
       <Link>Typography\Typography.GlyphLayout\UserCharToGlyphIndexMap.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Typography\Typography.MsdfGen\BasicElements.cs">
-      <Link>Typography\Typography.MsdfGen\BasicElements.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Typography\Typography.MsdfGen\EdgeColor.cs">
-      <Link>Typography\Typography.MsdfGen\EdgeColor.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Typography\Typography.MsdfGen\EdgeColoring.cs">
-      <Link>Typography\Typography.MsdfGen\EdgeColoring.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Typography\Typography.MsdfGen\EdgeHolder.cs">
-      <Link>Typography\Typography.MsdfGen\EdgeHolder.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Typography\Typography.MsdfGen\EdgeSegment.cs">
-      <Link>Typography\Typography.MsdfGen\EdgeSegment.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Typography\Typography.MsdfGen\EquationSolver.cs">
-      <Link>Typography\Typography.MsdfGen\EquationSolver.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Typography\Typography.MsdfGen\MsdfGen.cs">
-      <Link>Typography\Typography.MsdfGen\MsdfGen.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Typography\Typography.MsdfGen\SignedDistance.cs">
-      <Link>Typography\Typography.MsdfGen\SignedDistance.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\AdditionalInfo\AdobeGlyphList.cs">
       <Link>Typography\Typography.OpenFont\AdditionalInfo\AdobeGlyphList.cs</Link>
@@ -2432,14 +2384,20 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\DrawBoard\VertexStoreExtensions2.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\DrawBoard\VertexStoreExtensions2.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\Msdf3\ContourCornerAndAnalyzingElems.cs">
+      <Link>PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\Msdf3\ContourCornerAndAnalyzingElems.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\Msdf3\EdgeBmpLut.cs">
+      <Link>PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\Msdf3\EdgeBmpLut.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\Msdf3\MsdfGen3.cs">
+      <Link>PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\Msdf3\MsdfGen3.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\Msdf3\SpriteTextureMapData.cs">
+      <Link>PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\Msdf3\SpriteTextureMapData.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\Msdf\BasicElements.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\Msdf\BasicElements.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\Msdf\ContourCornerAndAnalyzingElems.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\Msdf\ContourCornerAndAnalyzingElems.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\Msdf\EdgeBmpLut.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\Msdf\EdgeBmpLut.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\Msdf\EdgeColor.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\Msdf\EdgeColor.cs</Link>
@@ -2456,14 +2414,8 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\Msdf\MsdfGen.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\Msdf\MsdfGen.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\Msdf\MsdfGen3.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\Msdf\MsdfGen3.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\Msdf\SignedDistance.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\Msdf\SignedDistance.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\Msdf\SpriteTextureMapData.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\Msdf\SpriteTextureMapData.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\Others\1_Base\BorderDouble.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\Others\1_Base\BorderDouble.cs</Link>
