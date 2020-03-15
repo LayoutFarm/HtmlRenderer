@@ -114,7 +114,6 @@ Global
 		..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing.GdiPlus_SH\PixelFarm.Drawing.GdiPlus_SH.projitems*{e5f2b317-2205-4727-92c4-6190a2fa3ddc}*SharedItemsImports = 4
 		..\..\PixelFarm\src\PixelFarm\BackEnd.MiniOpenTK\src\OpenTK\MiniOpenTK_Core1.projitems*{e9a5d738-bc13-4909-94d8-d7a13d7068ff}*SharedItemsImports = 4
 		..\..\PixelFarm\src\PixelFarm\BackEnd.MiniOpenTK\src\OpenTK\MiniOpenTK_Core2.projitems*{e9a5d738-bc13-4909-94d8-d7a13d7068ff}*SharedItemsImports = 4
-		..\..\Typography\FontAtlas\FontAtlas.projitems*{ec1307c6-309f-43ea-bfcc-5219e2f5a103}*SharedItemsImports = 4
 		..\..\Typography\Typography.GlyphLayout\Typography.GlyphLayout.projitems*{ec1307c6-309f-43ea-bfcc-5219e2f5a103}*SharedItemsImports = 4
 		..\..\Typography\Typography.OpenFont\Typography.OpenFont.projitems*{ec1307c6-309f-43ea-bfcc-5219e2f5a103}*SharedItemsImports = 4
 		..\..\Typography\Typography.TextBreak\Typography.TextBreak\Typography.TextBreak.projitems*{ec1307c6-309f-43ea-bfcc-5219e2f5a103}*SharedItemsImports = 4
