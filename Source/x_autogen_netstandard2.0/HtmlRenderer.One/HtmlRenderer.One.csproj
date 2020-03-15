@@ -32,30 +32,22 @@
   <ItemGroup>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.MiniOpenTK\src\Builds\NETSTD2\MiniOpenTKLevel1\Minimal.cs" Link="PixelFarm\src\PixelFarm\BackEnd.MiniOpenTK\src\Builds\NETSTD2\MiniOpenTKLevel1\Minimal.cs" />
     <Compile Include="..\..\..\..\Typography\Build\N20\Typography.OpenFont\System.Numerics.ForNet20.cs" Link="Typography\Build\N20\Typography.OpenFont\System.Numerics.ForNet20.cs" />
-    <Compile Include="..\..\..\..\Typography\FontAtlas\FontAtlasFile.cs" Link="Typography\FontAtlas\FontAtlasFile.cs" />
-    <Compile Include="..\..\..\..\Typography\FontAtlas\GlyphImages.cs" Link="Typography\FontAtlas\GlyphImages.cs" />
-    <Compile Include="..\..\..\..\Typography\FontAtlas\MsdfGlyphGen.cs" Link="Typography\FontAtlas\MsdfGlyphGen.cs" />
-    <Compile Include="..\..\..\..\Typography\FontAtlas\MultiSizeFontAtlas.cs" Link="Typography\FontAtlas\MultiSizeFontAtlas.cs" />
-    <Compile Include="..\..\..\..\Typography\FontAtlas\MultiSizeFontAtlasBuilder.cs" Link="Typography\FontAtlas\MultiSizeFontAtlasBuilder.cs" />
-    <Compile Include="..\..\..\..\Typography\FontAtlas\SimpleFontAtlas.cs" Link="Typography\FontAtlas\SimpleFontAtlas.cs" />
-    <Compile Include="..\..\..\..\Typography\FontAtlas\SimpleFontAtlasBuilder.cs" Link="Typography\FontAtlas\SimpleFontAtlasBuilder.cs" />
-    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\1.1_Drawing_Fonts\FontAtlasTextPrinter.cs" Link="Typography\PixelFarm.Typography\1.1_Drawing_Fonts\FontAtlasTextPrinter.cs" />
-    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\1.1_Drawing_Fonts\FontStyleExtensions.cs" Link="Typography\PixelFarm.Typography\1.1_Drawing_Fonts\FontStyleExtensions.cs" />
-    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\1.1_Drawing_Fonts\GlyphBitmapStore.cs" Link="Typography\PixelFarm.Typography\1.1_Drawing_Fonts\GlyphBitmapStore.cs" />
-    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\1.1_Drawing_Fonts\GlyphMeshStore.cs" Link="Typography\PixelFarm.Typography\1.1_Drawing_Fonts\GlyphMeshStore.cs" />
-    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\1.1_Drawing_Fonts\GlyphPathBuilder.cs" Link="Typography\PixelFarm.Typography\1.1_Drawing_Fonts\GlyphPathBuilder.cs" />
-    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\1.1_Drawing_Fonts\GlyphSvgStore.cs" Link="Typography\PixelFarm.Typography\1.1_Drawing_Fonts\GlyphSvgStore.cs" />
-    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\1.1_Drawing_Fonts\GlyphTranslatorToVxs.cs" Link="Typography\PixelFarm.Typography\1.1_Drawing_Fonts\GlyphTranslatorToVxs.cs" />
-    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\1.1_Drawing_Fonts\OpenFontTextService.cs" Link="Typography\PixelFarm.Typography\1.1_Drawing_Fonts\OpenFontTextService.cs" />
-    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\1.1_Drawing_Fonts\VxsTextPrinter.cs" Link="Typography\PixelFarm.Typography\1.1_Drawing_Fonts\VxsTextPrinter.cs" />
-    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\3_FontFaceImpl\AggGlyphTextureGen.cs" Link="Typography\PixelFarm.Typography\3_FontFaceImpl\AggGlyphTextureGen.cs" />
-    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\3_FontFaceImpl\BitmapFontMx.cs" Link="Typography\PixelFarm.Typography\3_FontFaceImpl\BitmapFontMx.cs" />
-    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\3_FontFaceImpl\GlyphTextureBitmapGenerator.cs" Link="Typography\PixelFarm.Typography\3_FontFaceImpl\GlyphTextureBitmapGenerator.cs" />
-    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\3_FontFaceImpl\ScriptLangConv.cs" Link="Typography\PixelFarm.Typography\3_FontFaceImpl\ScriptLangConv.cs" />
-    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\4_TextPrinter\GlyphMeshCollection.cs" Link="Typography\PixelFarm.Typography\4_TextPrinter\GlyphMeshCollection.cs" />
-    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\4_TextPrinter\GlyphOutlineAnalyzer.cs" Link="Typography\PixelFarm.Typography\4_TextPrinter\GlyphOutlineAnalyzer.cs" />
-    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\4_TextPrinter\GlyphOutlineBuilderBase.cs" Link="Typography\PixelFarm.Typography\4_TextPrinter\GlyphOutlineBuilderBase.cs" />
-    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\4_TextPrinter\TextPrinterBase.cs" Link="Typography\PixelFarm.Typography\4_TextPrinter\TextPrinterBase.cs" />
+    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\1_General\FontStyleExtensions.cs" Link="Typography\PixelFarm.Typography\1_General\FontStyleExtensions.cs" />
+    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\1_General\OpenFontTextService.cs" Link="Typography\PixelFarm.Typography\1_General\OpenFontTextService.cs" />
+    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\1_General\VxsTextPrinter.cs" Link="Typography\PixelFarm.Typography\1_General\VxsTextPrinter.cs" />
+    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\2_CpuBlit_BitmapAtlas\AggGlyphTextureGen.cs" Link="Typography\PixelFarm.Typography\2_CpuBlit_BitmapAtlas\AggGlyphTextureGen.cs" />
+    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\2_CpuBlit_BitmapAtlas\BitmapCacheForSvgGlyph.cs" Link="Typography\PixelFarm.Typography\2_CpuBlit_BitmapAtlas\BitmapCacheForSvgGlyph.cs" />
+    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\2_CpuBlit_BitmapAtlas\BitmapFontMx.cs" Link="Typography\PixelFarm.Typography\2_CpuBlit_BitmapAtlas\BitmapFontMx.cs" />
+    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\2_CpuBlit_BitmapAtlas\FontAtlasTextPrinter.cs" Link="Typography\PixelFarm.Typography\2_CpuBlit_BitmapAtlas\FontAtlasTextPrinter.cs" />
+    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\2_CpuBlit_BitmapAtlas\GlyphBitmapStore.cs" Link="Typography\PixelFarm.Typography\2_CpuBlit_BitmapAtlas\GlyphBitmapStore.cs" />
+    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\2_CpuBlit_BitmapAtlas\GlyphTextureBitmapGenerator.cs" Link="Typography\PixelFarm.Typography\2_CpuBlit_BitmapAtlas\GlyphTextureBitmapGenerator.cs" />
+    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\3_Typography_Contours\GlyphMeshCollection.cs" Link="Typography\PixelFarm.Typography\3_Typography_Contours\GlyphMeshCollection.cs" />
+    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\3_Typography_Contours\GlyphMeshStore.cs" Link="Typography\PixelFarm.Typography\3_Typography_Contours\GlyphMeshStore.cs" />
+    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\3_Typography_Contours\GlyphOutlineBuilderBase.cs" Link="Typography\PixelFarm.Typography\3_Typography_Contours\GlyphOutlineBuilderBase.cs" />
+    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\3_Typography_Contours\GlyphPathBuilder.cs" Link="Typography\PixelFarm.Typography\3_Typography_Contours\GlyphPathBuilder.cs" />
+    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\3_Typography_Contours\TextPrinterBase.cs" Link="Typography\PixelFarm.Typography\3_Typography_Contours\TextPrinterBase.cs" />
+    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\4_PixelFarm_Contours\GlyphOutlineAnalyzer.cs" Link="Typography\PixelFarm.Typography\4_PixelFarm_Contours\GlyphOutlineAnalyzer.cs" />
+    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\4_PixelFarm_Contours\GlyphTranslatorToVxs.cs" Link="Typography\PixelFarm.Typography\4_PixelFarm_Contours\GlyphTranslatorToVxs.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.GlyphLayout\GlyphIndexList.cs" Link="Typography\Typography.GlyphLayout\GlyphIndexList.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.GlyphLayout\GlyphLayout.cs" Link="Typography\Typography.GlyphLayout\GlyphLayout.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.GlyphLayout\GlyphPosition.cs" Link="Typography\Typography.GlyphLayout\GlyphPosition.cs" />
@@ -797,7 +789,8 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingGL\DrawingGL\RenderSuface\SmoothMode.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.DrawingGL\DrawingGL\RenderSuface\SmoothMode.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingGL\DrawingGL\RenderSuface\VertexBufferObject.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.DrawingGL\DrawingGL\RenderSuface\VertexBufferObject.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingGL\DrawingGL\RenderSuface\VertexPositionColor.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.DrawingGL\DrawingGL\RenderSuface\VertexPositionColor.cs" />
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\4_PlatformServices\StorageService.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Drawing\4_PlatformServices\StorageService.cs" />
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\4_IO\ImageReaders.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Drawing\4_IO\ImageReaders.cs" />
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\4_IO\StorageService.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Drawing\4_IO\StorageService.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\5_VertexProcessoring\Figures.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Drawing\5_VertexProcessoring\Figures.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\AggPainter\AggPainter.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\AggPainter\AggPainter.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\AggPainter\AggPainterPool.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\AggPainter\AggPainterPool.cs" />
@@ -818,7 +811,6 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\Msdf3\ContourCornerAndAnalyzingElems.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\Msdf3\ContourCornerAndAnalyzingElems.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\Msdf3\EdgeBmpLut.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\Msdf3\EdgeBmpLut.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\Msdf3\MsdfGen3.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\Msdf3\MsdfGen3.cs" />
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\Msdf3\SpriteTextureMapData.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\Msdf3\SpriteTextureMapData.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\Msdf\BasicElements.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\Msdf\BasicElements.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\Msdf\EdgeColor.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\Msdf\EdgeColor.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\Msdf\EdgeColoring.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\Msdf\EdgeColoring.cs" />
@@ -850,13 +842,16 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\PathReconstruction\VxsRegion.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\PathReconstruction\VxsRegion.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\RenderSurface\AggRenderSurface.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\RenderSurface\AggRenderSurface.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\RenderSurface\AggRenderSurface_RenderImages.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\RenderSurface\AggRenderSurface_RenderImages.cs" />
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\8_ImgReaders\ImageReaders.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Drawing\8_ImgReaders\ImageReaders.cs" />
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\9_BitmapAtlas\AtlasItemImage.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Drawing\9_BitmapAtlas\AtlasItemImage.cs" />
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\9_BitmapAtlas\AtlasImageBinder.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Drawing\9_BitmapAtlas\AtlasImageBinder.cs" />
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\9_BitmapAtlas\AtlasItem.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Drawing\9_BitmapAtlas\AtlasItem.cs" />
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\9_BitmapAtlas\AtlasItemSource.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Drawing\9_BitmapAtlas\AtlasItemSource.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\9_BitmapAtlas\BinPacker.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Drawing\9_BitmapAtlas\BinPacker.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\9_BitmapAtlas\BitmapAtlasFile.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Drawing\9_BitmapAtlas\BitmapAtlasFile.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\9_BitmapAtlas\BitmapAtlasManager.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Drawing\9_BitmapAtlas\BitmapAtlasManager.cs" />
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\9_BitmapAtlas\MsdfImageGen.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Drawing\9_BitmapAtlas\MsdfImageGen.cs" />
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\9_BitmapAtlas\MultiGlyphSizeBitmapAtlasBuilder.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Drawing\9_BitmapAtlas\MultiGlyphSizeBitmapAtlasBuilder.cs" />
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\9_BitmapAtlas\SimpleBitmapAtlas.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Drawing\9_BitmapAtlas\SimpleBitmapAtlas.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\9_BitmapAtlas\SimpleBitmapAtlasBuilder.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Drawing\9_BitmapAtlas\SimpleBitmapAtlasBuilder.cs" />
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\9_BitmapAtlas\SimpleBitmaptAtlas.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Drawing\9_BitmapAtlas\SimpleBitmaptAtlas.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Painter\0_Base\ForNet20.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Painter\0_Base\ForNet20.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Painter\2_General\ColorEx.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Painter\2_General\ColorEx.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Painter\2_General\ITextPrinter.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Painter\2_General\ITextPrinter.cs" />
@@ -1406,10 +1401,10 @@
   <ItemGroup>
     <Folder Include="PixelFarm\src\PixelFarm\BackEnd.MiniOpenTK\src\Builds\NETSTD2\MiniOpenTKLevel1" />
     <Folder Include="Typography\Build\N20\Typography.OpenFont" />
-    <Folder Include="Typography\FontAtlas" />
-    <Folder Include="Typography\PixelFarm.Typography\1.1_Drawing_Fonts" />
-    <Folder Include="Typography\PixelFarm.Typography\3_FontFaceImpl" />
-    <Folder Include="Typography\PixelFarm.Typography\4_TextPrinter" />
+    <Folder Include="Typography\PixelFarm.Typography\1_General" />
+    <Folder Include="Typography\PixelFarm.Typography\2_CpuBlit_BitmapAtlas" />
+    <Folder Include="Typography\PixelFarm.Typography\3_Typography_Contours" />
+    <Folder Include="Typography\PixelFarm.Typography\4_PixelFarm_Contours" />
     <Folder Include="Typography\Typography.GlyphLayout" />
     <Folder Include="Typography\Typography.OpenFont\AdditionalInfo" />
     <Folder Include="Typography\Typography.OpenFont" />
@@ -1537,7 +1532,7 @@
     <Folder Include="PixelFarm\src\PixelFarm\PixelFarm.DrawingGL\DrawingGL\GLShader" />
     <Folder Include="PixelFarm\src\PixelFarm\PixelFarm.DrawingGL\DrawingGL\GLTexture" />
     <Folder Include="PixelFarm\src\PixelFarm\PixelFarm.DrawingGL\DrawingGL\RenderSuface" />
-    <Folder Include="PixelFarm\src\PixelFarm\PixelFarm.Drawing\4_PlatformServices" />
+    <Folder Include="PixelFarm\src\PixelFarm\PixelFarm.Drawing\4_IO" />
     <Folder Include="PixelFarm\src\PixelFarm\PixelFarm.Drawing\5_VertexProcessoring" />
     <Folder Include="PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\AggPainter" />
     <Folder Include="PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\DrawBoard" />
@@ -1547,7 +1542,6 @@
     <Folder Include="PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\Others\3_Filter" />
     <Folder Include="PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\PathReconstruction" />
     <Folder Include="PixelFarm\src\PixelFarm\PixelFarm.Drawing\7_CpuBlitPainter\RenderSurface" />
-    <Folder Include="PixelFarm\src\PixelFarm\PixelFarm.Drawing\8_ImgReaders" />
     <Folder Include="PixelFarm\src\PixelFarm\PixelFarm.Drawing\9_BitmapAtlas" />
     <Folder Include="PixelFarm\src\PixelFarm\PixelFarm.Painter\0_Base" />
     <Folder Include="PixelFarm\src\PixelFarm\PixelFarm.Painter\2_General" />
