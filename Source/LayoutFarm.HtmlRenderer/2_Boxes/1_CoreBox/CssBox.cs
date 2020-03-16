@@ -386,7 +386,7 @@ namespace LayoutFarm.HtmlBoxes
                 default:
                     {
                         //others ... 
-                        if (this.NeedComputedValueEvaluation) { this.ReEvaluateComputedValues(lay.SampleIFonts, lay.LatestContainingBlock); }
+                        if (this.NeedComputedValueEvaluation) { this.ReEvaluateComputedValues(lay.TextService, lay.LatestContainingBlock); }
                         this.MeasureRunsSize(lay);
                     }
                     break;
@@ -402,7 +402,7 @@ namespace LayoutFarm.HtmlBoxes
                         //this box may be used for ...
                         // 1) line formatting context  , or
                         // 2) block formatting context  
-                        if (this.NeedComputedValueEvaluation) { this.ReEvaluateComputedValues(lay.SampleIFonts, lay.LatestContainingBlock); }
+                        if (this.NeedComputedValueEvaluation) { this.ReEvaluateComputedValues(lay.TextService, lay.LatestContainingBlock); }
                         this.MeasureRunsSize(lay);
                         //for general block layout 
                         CssLayoutEngine.PerformContentLayout(this, lay);

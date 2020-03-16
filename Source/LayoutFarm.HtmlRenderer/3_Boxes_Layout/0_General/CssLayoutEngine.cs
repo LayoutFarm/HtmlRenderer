@@ -297,7 +297,7 @@ namespace LayoutFarm.HtmlBoxes
             else
             {
                 int childNumber = 0;
-                var ifonts = lay.SampleIFonts;
+                var ifonts = lay.TextService;
                 CssBoxCollection children = CssBox.UnsafeGetChildren(srcBox);
                 var cNode = children.GetFirstLinkedNode();
                 while (cNode != null)
@@ -830,7 +830,7 @@ namespace LayoutFarm.HtmlBoxes
                         if (box.IsCustomCssBox)
                         {
                             //has custom layout method
-                            box.ReEvaluateComputedValues(lay.SampleIFonts, lay.LatestContainingBlock);
+                            box.ReEvaluateComputedValues(lay.TextService, lay.LatestContainingBlock);
                             box.CustomRecomputedValue(lay.LatestContainingBlock);
                         }
                         else
@@ -1138,7 +1138,7 @@ namespace LayoutFarm.HtmlBoxes
                     //   and move to new anon block box
 
                     CssBox anoForInline = CreateAnonBlock(box, childBox);
-                    anoForInline.ReEvaluateComputedValues(lay.SampleIFonts, box);
+                    anoForInline.ReEvaluateComputedValues(lay.TextService, box);
                     var tmp = cnode.Next;
                     do
                     {
@@ -1340,7 +1340,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             if (srcBox.JustTempContainer) return;
 
-            PixelFarm.Drawing.ITextService ifonts = lay.SampleIFonts;
+            PixelFarm.Drawing.ITextService ifonts = lay.TextService;
             //css3 jan2015: absolute position
             //use offset relative to its normal the box's containing box***
 

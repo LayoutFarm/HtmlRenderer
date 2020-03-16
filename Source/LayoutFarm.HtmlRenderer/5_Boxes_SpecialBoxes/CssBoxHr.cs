@@ -47,7 +47,7 @@ namespace LayoutFarm.HtmlBoxes
             var myContainingBlock = lay.LatestContainingBlock;
             if (this.NeedComputedValueEvaluation)
             {
-                this.ReEvaluateComputedValues(lay.SampleIFonts, myContainingBlock);
+                this.ReEvaluateComputedValues(lay.TextService, myContainingBlock);
             }
 
             float localLeft = myContainingBlock.GetClientLeft() + this.ActualMarginLeft;
