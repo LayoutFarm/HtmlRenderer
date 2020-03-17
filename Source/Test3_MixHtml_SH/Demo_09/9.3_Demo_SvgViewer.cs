@@ -141,7 +141,7 @@ namespace LayoutFarm.ColorBlenderSample
             uiSprite.LoadVg(vgVisElem);
 
             _backBoard.ClearChildren();
-            _backBoard.AddChild(uiSprite);
+            _backBoard.Add(uiSprite);
         }
     }
 }

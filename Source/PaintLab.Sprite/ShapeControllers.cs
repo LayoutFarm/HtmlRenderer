@@ -1450,9 +1450,9 @@ namespace LayoutFarm
 
         }
 
-        public override void AddChild(UIElement ui)
+        public override void Add(UIElement ui)
         {
-            _simpleBox.AddChild(ui);
+            _simpleBox.Add(ui);
         }
 
         public void SetLocation(int x, int y)
@@ -1483,7 +1483,7 @@ namespace LayoutFarm
             if (parentBox != null)
             {
                 RemoveSelf();
-                parentBox.AddChild(this);
+                parentBox.Add(this);
             }
             else
             {
@@ -1533,7 +1533,7 @@ namespace LayoutFarm
             int m = controlPoints.Count;
             for (int i = 0; i < m; ++i)
             {
-                _simpleBox.AddChild(controlPoints[i]);
+                _simpleBox.Add(controlPoints[i]);
             }
         }
 
@@ -1618,7 +1618,7 @@ namespace LayoutFarm
                             SetupCornerBoxController(ctrlPoint);
                             _controls.Add(ctrlPoint);
                             //...
-                            _simpleBox.AddChild(ctrlPoint);
+                            _simpleBox.Add(ctrlPoint);
                         }
                         break;
                     case PixelFarm.CpuBlit.VertexCmd.LineTo:
@@ -1629,7 +1629,7 @@ namespace LayoutFarm
                             SetupCornerBoxController(ctrlPoint);
                             _controls.Add(ctrlPoint);
                             //...
-                            _simpleBox.AddChild(ctrlPoint);
+                            _simpleBox.Add(ctrlPoint);
                         }
                         break;
                     case PixelFarm.CpuBlit.VertexCmd.Close:

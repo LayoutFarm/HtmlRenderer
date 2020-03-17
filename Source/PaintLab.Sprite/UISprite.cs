@@ -417,7 +417,7 @@ namespace LayoutFarm.UI
             if (parentBox != null)
             {
                 this.RemoveSelf();
-                parentBox.AddChild(this);
+                parentBox.Add(this);
             }
             else
             {
