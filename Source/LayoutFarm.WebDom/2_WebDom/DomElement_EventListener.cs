@@ -92,7 +92,7 @@ namespace LayoutFarm.WebDom
         }
 
 
-        void IEventListener.ListenGuestTalk(UIGuestTalkEventArgs e)
+        void IEventListener.ListenGuestMsg(UIGuestMsgEventArgs e)
         {
         }
         void IUIEventListener.GetGlobalLocation(out int x, out int y)
