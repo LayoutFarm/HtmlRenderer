@@ -92,8 +92,6 @@ namespace LayoutFarm.WebDom
         protected virtual void OnElementChanged()
         {
         }
-        protected virtual void OnInterComponentMsg(object sender, int msgcode, string msg)
-        {
-        }
+         
     }
 }

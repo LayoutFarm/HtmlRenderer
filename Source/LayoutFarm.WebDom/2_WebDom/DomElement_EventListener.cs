@@ -68,10 +68,7 @@ namespace LayoutFarm.WebDom
         {
             get { return false; }
         }
-        void IEventListener.ListenInterComponentMsg(object sender, int msgcode, string msg)
-        {
-            this.OnInterComponentMsg(sender, msgcode, msg);
-        }
+         
 
         //--------------
         void IUIEventListener.HandleContentLayout()
