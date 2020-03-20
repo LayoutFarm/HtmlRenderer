@@ -75,7 +75,10 @@ namespace LayoutFarm.ColorBlenderSample
 
 
                 //string[] allFiles = System.IO.Directory.GetFiles("../../../HtmlRenderer.SomeTestResources/Svg/noto_emoji", "*.svg");
-                string[] allFiles = System.IO.Directory.GetFiles("../../../HtmlRenderer.SomeTestResources/Svg/error1", "*.svg");
+
+                string rootSampleFolder = "..\\Test8_HtmlRenderer.Demo\\Samples\\Svg\\others";
+
+                string[] allFiles = System.IO.Directory.GetFiles(rootSampleFolder, "*.svg");
                 int i = 0;
                 int lim = Math.Min(allFiles.Length, 150);
 
@@ -103,7 +106,7 @@ namespace LayoutFarm.ColorBlenderSample
             var svgParser = new SvgParser(docBuilder);
 
             //TODO: ask file content from host,
-            
+
             string svgContent = System.IO.File.ReadAllText(svgFile);
             WebLexer.TextSnapshot textSnapshot = new WebLexer.TextSnapshot(svgContent);
             svgParser.ParseDocument(textSnapshot);
