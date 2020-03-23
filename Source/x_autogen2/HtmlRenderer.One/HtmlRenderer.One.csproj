@@ -8,7 +8,6 @@
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AssemblyName>HtmlRenderer.One</AssemblyName>
-    <ProjectGuid>{B32971C4-3A5B-4778-A8EB-BF9606A8DB69}</ProjectGuid>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -18,7 +17,7 @@
     <Optimize>false</Optimize>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <DefineConstants>TRACE;DEBUG; PIXEL_FARM; PIXEL_FARM_NET20; NET20; MINIMAL; GLES; GL_ENABLE; SHARPZIPLIB;</DefineConstants>
+    <DefineConstants> TRACE; DEBUG; PIXEL_FARM; PIXEL_FARM_NET20; NET20; MINIMAL; GLES; GL_ENABLE; NETSTANDARD; SHARPZIPLIB;</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -1023,6 +1022,9 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\ImgCodec.Gif\LZWDecoder.cs">
       <Link>PixelFarm\src\PixelFarm\ImgCodec.Gif\LZWDecoder.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\ImgCodec.IconAndCursor\IconAndCursorFile.cs">
+      <Link>PixelFarm\src\PixelFarm\ImgCodec.IconAndCursor\IconAndCursorFile.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\ImgCodec.Jpeg\FluxJpeg.Core\DCT.cs">
       <Link>PixelFarm\src\PixelFarm\ImgCodec.Jpeg\FluxJpeg.Core\DCT.cs</Link>
     </Compile>
@@ -1661,9 +1663,6 @@
     </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\LayoutFarm.YourBasicCustomWidgets_SH\4.1_Composites\ComboBox.cs">
       <Link>PixelFarm\src\PixelFarm\LayoutFarm.YourBasicCustomWidgets_SH\4.1_Composites\ComboBox.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\LayoutFarm.YourBasicCustomWidgets_SH\4.1_Composites\HingeBox.cs">
-      <Link>PixelFarm\src\PixelFarm\LayoutFarm.YourBasicCustomWidgets_SH\4.1_Composites\HingeBox.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\LayoutFarm.YourBasicCustomWidgets_SH\4.1_Composites\HingeRelation.cs">
       <Link>PixelFarm\src\PixelFarm\LayoutFarm.YourBasicCustomWidgets_SH\4.1_Composites\HingeRelation.cs</Link>
@@ -4131,9 +4130,6 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.MiniOpenTK\src\OpenTK\WindowState.cs">
       <Link>PixelFarm\src\PixelFarm\BackEnd.MiniOpenTK\src\OpenTK\WindowState.cs</Link>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="System" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

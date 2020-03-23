@@ -361,6 +361,7 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\ImgCodec.Gif\GifImageDescriptor.cs" Link="PixelFarm\src\PixelFarm\ImgCodec.Gif\GifImageDescriptor.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\ImgCodec.Gif\GifLogicalScreenDescriptor.cs" Link="PixelFarm\src\PixelFarm\ImgCodec.Gif\GifLogicalScreenDescriptor.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\ImgCodec.Gif\LZWDecoder.cs" Link="PixelFarm\src\PixelFarm\ImgCodec.Gif\LZWDecoder.cs" />
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\ImgCodec.IconAndCursor\IconAndCursorFile.cs" Link="PixelFarm\src\PixelFarm\ImgCodec.IconAndCursor\IconAndCursorFile.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\ImgCodec.Jpeg\FluxJpeg.Core\DCT.cs" Link="PixelFarm\src\PixelFarm\ImgCodec.Jpeg\FluxJpeg.Core\DCT.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\ImgCodec.Jpeg\FluxJpeg.Core\DecodedJpeg.cs" Link="PixelFarm\src\PixelFarm\ImgCodec.Jpeg\FluxJpeg.Core\DecodedJpeg.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\ImgCodec.Jpeg\FluxJpeg.Core\Decoder\HuffmanTable.cs" Link="PixelFarm\src\PixelFarm\ImgCodec.Jpeg\FluxJpeg.Core\Decoder\HuffmanTable.cs" />
@@ -574,7 +575,6 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\LayoutFarm.YourBasicCustomWidgets_SH\3_Grid\5_GridBox.cs" Link="PixelFarm\src\PixelFarm\LayoutFarm.YourBasicCustomWidgets_SH\3_Grid\5_GridBox.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\LayoutFarm.YourBasicCustomWidgets_SH\4.1_Composites\CheckBox.cs" Link="PixelFarm\src\PixelFarm\LayoutFarm.YourBasicCustomWidgets_SH\4.1_Composites\CheckBox.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\LayoutFarm.YourBasicCustomWidgets_SH\4.1_Composites\ComboBox.cs" Link="PixelFarm\src\PixelFarm\LayoutFarm.YourBasicCustomWidgets_SH\4.1_Composites\ComboBox.cs" />
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\LayoutFarm.YourBasicCustomWidgets_SH\4.1_Composites\HingeBox.cs" Link="PixelFarm\src\PixelFarm\LayoutFarm.YourBasicCustomWidgets_SH\4.1_Composites\HingeBox.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\LayoutFarm.YourBasicCustomWidgets_SH\4.1_Composites\HingeRelation.cs" Link="PixelFarm\src\PixelFarm\LayoutFarm.YourBasicCustomWidgets_SH\4.1_Composites\HingeRelation.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\LayoutFarm.YourBasicCustomWidgets_SH\4.1_Composites\ListView.cs" Link="PixelFarm\src\PixelFarm\LayoutFarm.YourBasicCustomWidgets_SH\4.1_Composites\ListView.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\LayoutFarm.YourBasicCustomWidgets_SH\4.1_Composites\Menu.cs" Link="PixelFarm\src\PixelFarm\LayoutFarm.YourBasicCustomWidgets_SH\4.1_Composites\Menu.cs" />
@@ -1469,6 +1469,7 @@
     <Folder Include="PixelFarm\src\PixelFarm\ImgCodec.Core\Helpers" />
     <Folder Include="PixelFarm\src\PixelFarm\ImgCodec.Core\IO" />
     <Folder Include="PixelFarm\src\PixelFarm\ImgCodec.Gif" />
+    <Folder Include="PixelFarm\src\PixelFarm\ImgCodec.IconAndCursor" />
     <Folder Include="PixelFarm\src\PixelFarm\ImgCodec.Jpeg\FluxJpeg.Core" />
     <Folder Include="PixelFarm\src\PixelFarm\ImgCodec.Jpeg\FluxJpeg.Core\Decoder" />
     <Folder Include="PixelFarm\src\PixelFarm\ImgCodec.Jpeg\FluxJpeg.Core\Encoder" />

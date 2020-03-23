@@ -360,6 +360,7 @@
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\ImgCodec.Gif\GifImageDescriptor.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\ImgCodec.Gif\GifLogicalScreenDescriptor.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\ImgCodec.Gif\LZWDecoder.cs" />
+    <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\ImgCodec.IconAndCursor\IconAndCursorFile.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\ImgCodec.Jpeg\FluxJpeg.Core\DCT.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\ImgCodec.Jpeg\FluxJpeg.Core\DecodedJpeg.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\ImgCodec.Jpeg\FluxJpeg.Core\Decoder\HuffmanTable.cs" />
@@ -573,7 +574,6 @@
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\LayoutFarm.YourBasicCustomWidgets_SH\3_Grid\5_GridBox.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\LayoutFarm.YourBasicCustomWidgets_SH\4.1_Composites\CheckBox.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\LayoutFarm.YourBasicCustomWidgets_SH\4.1_Composites\ComboBox.cs" />
-    <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\LayoutFarm.YourBasicCustomWidgets_SH\4.1_Composites\HingeBox.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\LayoutFarm.YourBasicCustomWidgets_SH\4.1_Composites\HingeRelation.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\LayoutFarm.YourBasicCustomWidgets_SH\4.1_Composites\ListView.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\LayoutFarm.YourBasicCustomWidgets_SH\4.1_Composites\Menu.cs" />

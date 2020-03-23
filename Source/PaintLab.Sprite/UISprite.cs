@@ -530,7 +530,7 @@ namespace LayoutFarm.UI
                 vgBridgeRenderElem.SetController(this);
 
                 _vgBridgeRenderElement = vgBridgeRenderElem;//set to field after init-setting.
-                _vgBridgeRenderElement.TransparentForAllEvents = this.TransparentAllMouseEvents;
+                _vgBridgeRenderElement.TransparentForMouseEvents = this.TransparentForMouseEvents;
 
                 this.SetSize((int)bounds.Width, (int)bounds.Height);
             }

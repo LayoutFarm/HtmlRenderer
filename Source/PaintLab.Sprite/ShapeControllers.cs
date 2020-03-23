@@ -1419,7 +1419,7 @@ namespace LayoutFarm
         {
 
             _simpleBox = new Box(10, 10);
-            _simpleBox.TransparentAllMouseEvents = true;
+            _simpleBox.TransparentForMouseEvents = true;
 
             //_simpleBox.BackColor = Color.Transparent;//*** 
 #if DEBUG
@@ -1442,7 +1442,7 @@ namespace LayoutFarm
         {
             _hasPrimRenderE = true;
             RenderElement renderE = _simpleBox.GetPrimaryRenderElement(rootgfx);
-            renderE.TransparentForAllEvents = this.TransparentAllMouseEvents;
+            renderE.TransparentForMouseEvents = this.TransparentForMouseEvents;
             return renderE;
         }
         public override void Accept(UIVisitor visitor)
