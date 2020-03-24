@@ -92,7 +92,7 @@ namespace LayoutFarm
             //  |       |
             //  |       |
             //  SW-----SE
-            using (PixelFarm.Drawing.VectorToolBox.Borrow(out PixelFarm.CpuBlit.VertexProcessing.RoundedRect roundRect))
+            using (Tools.BorrowRoundedRect(out PixelFarm.CpuBlit.VertexProcessing.RoundedRect roundRect))
             {
                 //TODO: review here again
                 roundRect.SetRect(rect.Left, rect.Bottom, rect.Right, rect.Top);

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 
 using PixelFarm.Drawing;
+using PixelFarm.CpuBlit;
 using PixelFarm.CpuBlit.VertexProcessing;
 using PaintLab.Svg;
 using LayoutFarm.UI;
@@ -154,8 +155,8 @@ namespace LayoutFarm
             //...
             //_simpleBox = new Box(100, 100);
 
-            using (VxsTemp.Borrow(out var v1, out var v2))
-            using (VectorToolBox.Borrow(out Stroke stroke))
+            using (Tools.BorrowVxs(out var v1, out var v2))
+            using (Tools.BorrowStroke(out var stroke))
             {
                 stroke.Width = 2;
 
@@ -182,8 +183,8 @@ namespace LayoutFarm
 
         void UpdateLineShapes()
         {
-            using (VxsTemp.Borrow(out var v1, out var v2))
-            using (VectorToolBox.Borrow(out Stroke stroke))
+            using (Tools.BorrowVxs(out var v1, out var v2))
+            using (Tools.BorrowStroke(out var stroke))
             {
                 stroke.Width = 2;
                 //vxs is relative to  left and top of this UI
@@ -1247,8 +1248,8 @@ namespace LayoutFarm
             VgVisualDoc vgVisualDoc = new VgVisualDoc();
             VgVisualElement vgVisElem = new VgVisualElement(WellknownSvgElementName.Path, spec, vgVisualDoc);
 
-            using (VectorToolBox.Borrow(out SimpleRect rect))
-            using (VxsTemp.Borrow(out VertexStore v1))
+            using (Tools.BorrowRect(out var rect))
+            using (Tools.BorrowVxs(out var v1))
             {
 
                 rect.SetRect(_src_left, _src_top + _src_h, _src_left + _src_w, _src_top);
@@ -1269,9 +1270,8 @@ namespace LayoutFarm
             VgVisualDoc vgVisualDoc = new VgVisualDoc();
             VgVisualElement vgVisElem = new VgVisualElement(WellknownSvgElementName.Path, spec, vgVisualDoc);
 
-
-            using (VxsTemp.Borrow(out var v1, out var v2))
-            using (VectorToolBox.Borrow(out Stroke stroke))
+            using (Tools.BorrowVxs(out var v1, out var v2))
+            using (Tools.BorrowStroke(out var stroke))
             {
                 stroke.Width = 2;
                 v1.AddMoveTo(_x0, _y0);
@@ -1369,7 +1369,7 @@ namespace LayoutFarm
             : base(w, h)
         {
         }
-        
+
 
         public int Index { get; set; }
         public MoveDirection MoveDirection { get; set; }
