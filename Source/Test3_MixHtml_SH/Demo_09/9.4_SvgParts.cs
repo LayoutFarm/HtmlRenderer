@@ -1,8 +1,8 @@
 ﻿//MIT, 2014-present, WinterDev
 
 using System.IO;
-
 using PixelFarm.Drawing;
+using PixelFarm.CpuBlit;
 using PixelFarm.CpuBlit.VertexProcessing;
 using PaintLab.Svg;
 using LayoutFarm.UI;
@@ -89,13 +89,14 @@ namespace LayoutFarm
                         //
                         uiSprite.GetElementBounds(out float left, out float top, out float right, out float bottom);
                         //
-                        using (VectorToolBox.Borrow(out SimpleRect s))
-                        using (VxsTemp.Borrow(out var v1))
+                        using (Tools.BorrowRect(out SimpleRect s))
+                        using (Tools.BorrowVxs(out var v1))
                         {
                             s.SetRect(left - uiSprite.ActualXOffset,
                                 bottom - uiSprite.ActualYOffset,
                                 right - uiSprite.ActualXOffset,
                                 top - uiSprite.ActualYOffset);
+                            //TODO: review here
                             //s.MakeVxs(v1);
                             //_polygonController.UpdateControlPoints(v1.CreateTrim());
                         }
@@ -129,7 +130,7 @@ namespace LayoutFarm
             VgVisualElement vgVisualElem = _vgVisualDoc.VgRootElem;
             {
                 UISprite wholeImgSprite = CreateUISpriteFromVgVisualElem(vgVisualElem);
-                
+
             }
             // 
             if (_vgVisualDoc.TryGetVgVisualElementById("path62_larva3", out VgVisualElement vgPart))
