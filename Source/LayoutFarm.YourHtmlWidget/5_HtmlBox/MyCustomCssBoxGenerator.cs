@@ -77,7 +77,7 @@ namespace LayoutFarm.CustomWidgets
 
             //default unknown
             var simpleBox = new LayoutFarm.CustomWidgets.Box(100, 20);
-            simpleBox.BackColor = PixelFarm.Drawing.Color.LightGray;
+            simpleBox.BackColor = PixelFarm.Drawing.KnownColors.LightGray;
             CssBox wrapperBox2 = CreateCssWrapper(
                                host,
                                simpleBox,

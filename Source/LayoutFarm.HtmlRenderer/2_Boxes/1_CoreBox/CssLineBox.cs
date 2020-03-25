@@ -559,7 +559,7 @@ namespace LayoutFarm.HtmlBoxes
             //return; 
             foreach (CssRun w in _runs)
             {
-                p.DrawRectangle(Color.DeepPink, w.Left, w.Top, w.Width, w.Height);
+                p.DrawRectangle(KnownColors.DeepPink, w.Left, w.Top, w.Width, w.Height);
                 //p.dbugDrawDiagonalBox(Color.DeepPink, w.Left, w.Top, w.Width, w.Height);
             }
 

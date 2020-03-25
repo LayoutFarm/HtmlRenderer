@@ -11,7 +11,7 @@ namespace LayoutFarm.HtmlWidgets
     public class ListView : HtmlWidgetBase
     {
         //composite           
-        Color _backColor = Color.LightGray;
+        Color _backColor = KnownColors.LightGray;
         List<UICollection> _layers = new List<UICollection>(1);
         List<ListItem> _items = new List<ListItem>();
         int _selectedIndex = -1;//default = no selection
@@ -89,7 +89,7 @@ namespace LayoutFarm.HtmlWidgets
                         if (_selectedIndex > -1)
                         {
                             //switch back
-                            GetItem(_selectedIndex).BackColor = Color.LightGray;
+                            GetItem(_selectedIndex).BackColor = KnownColors.LightGray;
                         }
 
                         _selectedIndex = value;

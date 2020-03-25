@@ -49,12 +49,8 @@ namespace LayoutFarm.HtmlWidgets
             }
             return _mainBox;
         }
-        public ScrollBarType ScrollBarType
-        {
-            get;
-            set;
-        }
-        //--------------------------------------------------------------------------
+
+        public ScrollBarType ScrollBarType { get; set; }        
 
         public int MinMaxButtonHeight => _minmax_boxHeight;
         public int ScrollBoxSizeLimit => SCROLL_BOX_SIZE_LIMIT;
@@ -501,14 +497,6 @@ namespace LayoutFarm.HtmlWidgets
                 this.StepSmallToMin();
             }
         }
-
-        public override void Accept(UIVisitor visitor)
-        {
-            //walk to control
-            visitor.BeginElement("scrollbar");
-            this.Describe(visitor);
-            visitor.EndElement();
-        }
     }
 
     public class ScrollBarCreationParameters
@@ -538,21 +526,10 @@ namespace LayoutFarm.HtmlWidgets
         {
             this.OwnerScrollBar = owner;
         }
-        internal ScrollBar OwnerScrollBar
-        {
-            get;
-            set;
-        }
+        internal ScrollBar OwnerScrollBar { get; set; }
         protected override void OnMouseWheel(UIMouseEventArgs e)
         {
             this.OwnerScrollBar.ChildNotifyMouseWheel(e);
-        }
-
-        public override void Accept(UIVisitor visitor)
-        {
-            visitor.BeginElement("scrollbutton");
-            this.Describe(visitor);
-            visitor.EndElement();
         }
     }
 

@@ -108,7 +108,7 @@ namespace LayoutFarm.HtmlWidgets
         HtmlElement _titleBar;
         HtmlElement _contentNode;
         HtmlElement _tabTitleList;
-        Color _backColor = Color.LightGray;
+        Color _backColor = PixelFarm.Drawing.KnownColors.LightGray;
         List<TabPage> _tabPageCollection = new List<TabPage>();
         TabPage _currentPage;
         int _currentSelectedIndex;

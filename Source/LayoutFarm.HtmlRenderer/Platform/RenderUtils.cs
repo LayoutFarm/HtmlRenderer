@@ -50,13 +50,13 @@ namespace LayoutFarm
         /// <param name="r">the rectangle to draw icon in</param>
         public static void DrawImageLoadingIcon(DrawBoard g, RectangleF r)
         {
-            g.DrawRectangle(Color.LightGray, r.Left + 3, r.Top + 3, 13, 14);
+            g.DrawRectangle(KnownColors.LightGray, r.Left + 3, r.Top + 3, 13, 14);
             var image = GetLoadImage();
             g.DrawImage(image, new RectangleF(r.Left + 4, r.Top + 4, image.Width, image.Height));
         }
         public static void DrawImageLoadingIcon(LayoutFarm.HtmlBoxes.PaintVisitor p, RectangleF r)
         {
-            p.DrawRectangle(Color.LightGray, r.Left + 3, r.Top + 3, 13, 14);
+            p.DrawRectangle(KnownColors.LightGray, r.Left + 3, r.Top + 3, 13, 14);
             var image = GetLoadImage();
             p.DrawImage(image, new RectangleF(r.Left + 4, r.Top + 4, image.Width, image.Height));
 
@@ -68,7 +68,7 @@ namespace LayoutFarm
         /// <param name="r">the rectangle to draw icon in</param>
         public static void DrawImageErrorIcon(DrawBoard g, RectangleF r)
         {
-            g.DrawRectangle(Color.LightGray, r.Left + 2, r.Top + 2, 15, 15);
+            g.DrawRectangle(KnownColors.LightGray, r.Left + 2, r.Top + 2, 15, 15);
             var image = GetErrorImage();
             g.DrawImage(image, new RectangleF(r.Left + 3, r.Top + 3, image.Width, image.Height));
         }
@@ -80,7 +80,7 @@ namespace LayoutFarm
         /// <param name="r">the rectangle to draw icon in</param>
         public static void DrawImageErrorIcon(LayoutFarm.HtmlBoxes.PaintVisitor p, RectangleF r)
         {
-            p.DrawRectangle(Color.LightGray, r.Left + 2, r.Top + 2, 15, 15);
+            p.DrawRectangle(KnownColors.LightGray, r.Left + 2, r.Top + 2, 15, 15);
             var image = GetErrorImage();
             p.DrawImage(image, new RectangleF(r.Left + 3, r.Top + 3, image.Width, image.Height));
         }

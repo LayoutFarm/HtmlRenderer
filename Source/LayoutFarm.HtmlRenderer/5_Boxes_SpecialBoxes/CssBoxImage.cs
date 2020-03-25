@@ -236,7 +236,7 @@ namespace LayoutFarm.HtmlBoxes
                             RenderUtils.DrawImageLoadingIcon(p.InnerDrawBoard, r);
                             if (r.Width > 19 && r.Height > 19)
                             {
-                                p.DrawRectangle(Color.LightGray, r.X, r.Y, r.Width, r.Height);
+                                p.DrawRectangle(KnownColors.LightGray, r.X, r.Y, r.Width, r.Height);
                             }
                         }
                     }
