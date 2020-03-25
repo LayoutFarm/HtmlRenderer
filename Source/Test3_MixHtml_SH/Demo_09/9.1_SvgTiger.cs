@@ -38,7 +38,7 @@ namespace LayoutFarm
             VgVisualElement vgVisElem = vgDocRoot.VgRootElem;
             var uiSprite = new UISprite(10, 10);
             uiSprite.LoadVg(vgVisElem);
-            _backBoard.AddChild(uiSprite);
+            _backBoard.Add(uiSprite);
 
 
             //
@@ -47,14 +47,14 @@ namespace LayoutFarm
             _redBox.SetLocation(10, 10);
             //box1.dbugTag = 1;
             SetupActiveBoxProperties(_redBox);
-            _backBoard.AddChild(_redBox);
+            _backBoard.Add(_redBox);
             //----------------------
 
 
             //-------- 
             _rectBoxController = new CustomWidgets.RectBoxController();
             _rectBoxController.Init();
-            _backBoard.AddChild(_rectBoxController);
+            _backBoard.Add(_rectBoxController);
 
             //foreach (var ui in rectBoxController.GetControllerIter())
             //{

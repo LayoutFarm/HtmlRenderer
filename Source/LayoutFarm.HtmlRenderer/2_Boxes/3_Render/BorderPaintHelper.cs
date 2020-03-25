@@ -162,7 +162,7 @@ namespace LayoutFarm.HtmlBoxes
             DrawBoard g = p.InnerDrawBoard;
             if (box.HasSomeRoundCorner)
             {
-                using (VxsTemp.Borrow(out var v1))
+                using (Tools.BorrowVxs(out var v1))
                 {
                     RenderUtils.WriteRoundRect(v1, rect, 2, 2, 2, 2);//temp
                     Painter pp = g.GetPainter();

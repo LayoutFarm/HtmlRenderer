@@ -1,6 +1,7 @@
 ﻿//MIT, 2014-present, WinterDev
 using LayoutFarm.UI;
 using PaintLab.Svg;
+using PixelFarm.CpuBlit;
 using PixelFarm.CpuBlit.VertexProcessing;
 using PixelFarm.Drawing;
 
@@ -25,8 +26,8 @@ namespace LayoutFarm
         }
         VgVisualElement CreateEllipseVxs(PixelFarm.CpuBlit.RectD newBounds)
         {
-            using (VxsTemp.Borrow(out var v1))
-            using (VectorToolBox.Borrow(out Ellipse ellipse))
+            using (Tools.BorrowVxs(out var v1))
+            using (Tools.BorrowEllipse(out Ellipse ellipse))
             {
                 ellipse.Set((newBounds.Left + newBounds.Right) * 0.5,
                                              (newBounds.Bottom + newBounds.Top) * 0.5,
@@ -48,16 +49,15 @@ namespace LayoutFarm
             VgVisualDoc renderRoot = new VgVisualDoc();
             VgVisualElement renderE = new VgVisualElement(WellknownSvgElementName.Path, spec, renderRoot);
 
-
-            using (VxsTemp.Borrow(out VertexStore vxs))
+            using (Tools.BorrowVxs(out var v1))
             {
                 //red-triangle ***
-                vxs.AddMoveTo(10, 10);
-                vxs.AddLineTo(60, 10);
-                vxs.AddLineTo(60, 30);
-                vxs.AddLineTo(10, 30);
-                vxs.AddCloseFigure();
-                renderE.VxsPath = vxs.CreateTrim();
+                v1.AddMoveTo(10, 10);
+                v1.AddLineTo(60, 10);
+                v1.AddLineTo(60, 30);
+                v1.AddLineTo(10, 30);
+                v1.AddCloseFigure();
+                renderE.VxsPath = v1.CreateTrim();
             }
 
             return renderE;
@@ -75,8 +75,7 @@ namespace LayoutFarm
         {
             ImageBinder imgBinder = _appHost.LoadImageAndBind(filename);
 
-            var spec = new SvgImageSpec()
-            {
+            var spec = new SvgImageSpec() {
                 ImageSrc = filename,
                 Width = new Css.CssLength(imgBinder.Width, Css.CssUnitOrNames.Pixels),
                 Height = new Css.CssLength(imgBinder.Height, Css.CssUnitOrNames.Pixels),
@@ -90,8 +89,7 @@ namespace LayoutFarm
         VgVisualElement CreateTestRenderVx_FromImg2(string filename)
         {
 
-            var spec = new SvgImageSpec()
-            {
+            var spec = new SvgImageSpec() {
                 ImageSrc = filename,
                 Width = new Css.CssLength(50, Css.CssUnitOrNames.Pixels),
                 Height = new Css.CssLength(50, Css.CssUnitOrNames.Pixels),
@@ -347,8 +345,8 @@ namespace LayoutFarm
                         //
                         _uiSprite.GetElementBounds(out float left, out float top, out float right, out float bottom);
                         //
-                        using (VectorToolBox.Borrow(out SimpleRect s))
-                        using (VxsTemp.Borrow(out var v1))
+                        using (Tools.BorrowRect(out SimpleRect s))
+                        using (Tools.BorrowVxs(out var v1))
                         {
                             s.SetRect(left - _uiSprite.ActualXOffset,
                                 bottom - _uiSprite.ActualYOffset,

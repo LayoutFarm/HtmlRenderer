@@ -8,6 +8,7 @@
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AssemblyName>HtmlComposer</AssemblyName>
+    <ProjectGuid>{227DB748-F028-4CD7-ABCC-56E2FE632DE0}</ProjectGuid>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -221,6 +222,12 @@
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlComposer\..\..\LayoutFarm.YourHtmlWidget\5_HtmlBox\HtmlHostContentManager.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlComposer\..\..\LayoutFarm.YourHtmlWidget\5_HtmlBox\HtmlHostExtensions.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlComposer\..\..\LayoutFarm.YourHtmlWidget\5_HtmlBox\MyCustomCssBoxGenerator.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\PixelFarm.One.HtmlRenderer.csproj">
+      <Project>{662f2274-d6f8-413a-a908-1b2f10c01348}</Project>
+      <Name>PixelFarm.One.HtmlRenderer</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

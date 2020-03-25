@@ -1,5 +1,6 @@
 ﻿//MS-PL, Apache2, 2014-present, WinterDev
 using PixelFarm.Drawing;
+using PixelFarm.CpuBlit;
 using PaintLab.Svg;
 
 namespace LayoutFarm.HtmlBoxes
@@ -83,7 +84,7 @@ namespace LayoutFarm.HtmlBoxes
                 //painter.StrokeWidth = 1;//default 
                 //painter.FillColor = Color.Black; 
 
-                using (VgPaintArgsPool.Borrow(painter, out var paintArgs))
+                using (Tools.More.BorrowVgPaintArgs(painter, out var paintArgs))
                 {
                     if (_vgVisualElem.CoordTx != null)
                     {
@@ -126,7 +127,7 @@ namespace LayoutFarm.HtmlBoxes
                 //
                 double prevStrokeW = painter.StrokeWidth;
 
-                using (VgPaintArgsPool.Borrow(painter, out VgPaintArgs paintArgs))
+                using (Tools.More.BorrowVgPaintArgs(painter, out VgPaintArgs paintArgs))
                 {
                     if (_vgVisualElem.CoordTx != null)
                     {

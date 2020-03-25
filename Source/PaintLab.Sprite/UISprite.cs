@@ -298,7 +298,7 @@ namespace LayoutFarm.UI
             SmoothingMode smoothingMode = painter.SmoothingMode;
             painter.SmoothingMode = SmoothingMode.HighQuality;
 
-            using (VgPaintArgsPool.Borrow(painter, out VgPaintArgs paintArgs))
+            using (Tools.More.BorrowVgPaintArgs(painter, out VgPaintArgs paintArgs))
             {
                 if (vgVisualElem.CoordTx != null)
                 {
@@ -417,7 +417,7 @@ namespace LayoutFarm.UI
             if (parentBox != null)
             {
                 this.RemoveSelf();
-                parentBox.AddChild(this);
+                parentBox.Add(this);
             }
             else
             {
@@ -530,7 +530,7 @@ namespace LayoutFarm.UI
                 vgBridgeRenderElem.SetController(this);
 
                 _vgBridgeRenderElement = vgBridgeRenderElem;//set to field after init-setting.
-                _vgBridgeRenderElement.TransparentForAllEvents = this.TransparentAllMouseEvents;
+                _vgBridgeRenderElement.TransparentForMouseEvents = this.TransparentForMouseEvents;
 
                 this.SetSize((int)bounds.Width, (int)bounds.Height);
             }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 
 using PixelFarm.Drawing;
+using PixelFarm.CpuBlit;
 using PixelFarm.CpuBlit.VertexProcessing;
 using PaintLab.Svg;
 using LayoutFarm.UI;
@@ -154,8 +155,8 @@ namespace LayoutFarm
             //...
             //_simpleBox = new Box(100, 100);
 
-            using (VxsTemp.Borrow(out var v1, out var v2))
-            using (VectorToolBox.Borrow(out Stroke stroke))
+            using (Tools.BorrowVxs(out var v1, out var v2))
+            using (Tools.BorrowStroke(out var stroke))
             {
                 stroke.Width = 2;
 
@@ -182,8 +183,8 @@ namespace LayoutFarm
 
         void UpdateLineShapes()
         {
-            using (VxsTemp.Borrow(out var v1, out var v2))
-            using (VectorToolBox.Borrow(out Stroke stroke))
+            using (Tools.BorrowVxs(out var v1, out var v2))
+            using (Tools.BorrowStroke(out var stroke))
             {
                 stroke.Width = 2;
                 //vxs is relative to  left and top of this UI
@@ -1247,8 +1248,8 @@ namespace LayoutFarm
             VgVisualDoc vgVisualDoc = new VgVisualDoc();
             VgVisualElement vgVisElem = new VgVisualElement(WellknownSvgElementName.Path, spec, vgVisualDoc);
 
-            using (VectorToolBox.Borrow(out SimpleRect rect))
-            using (VxsTemp.Borrow(out VertexStore v1))
+            using (Tools.BorrowRect(out var rect))
+            using (Tools.BorrowVxs(out var v1))
             {
 
                 rect.SetRect(_src_left, _src_top + _src_h, _src_left + _src_w, _src_top);
@@ -1269,9 +1270,8 @@ namespace LayoutFarm
             VgVisualDoc vgVisualDoc = new VgVisualDoc();
             VgVisualElement vgVisElem = new VgVisualElement(WellknownSvgElementName.Path, spec, vgVisualDoc);
 
-
-            using (VxsTemp.Borrow(out var v1, out var v2))
-            using (VectorToolBox.Borrow(out Stroke stroke))
+            using (Tools.BorrowVxs(out var v1, out var v2))
+            using (Tools.BorrowStroke(out var stroke))
             {
                 stroke.Width = 2;
                 v1.AddMoveTo(_x0, _y0);
@@ -1369,7 +1369,7 @@ namespace LayoutFarm
             : base(w, h)
         {
         }
-        
+
 
         public int Index { get; set; }
         public MoveDirection MoveDirection { get; set; }
@@ -1419,7 +1419,7 @@ namespace LayoutFarm
         {
 
             _simpleBox = new Box(10, 10);
-            _simpleBox.TransparentAllMouseEvents = true;
+            _simpleBox.TransparentForMouseEvents = true;
 
             //_simpleBox.BackColor = Color.Transparent;//*** 
 #if DEBUG
@@ -1442,7 +1442,7 @@ namespace LayoutFarm
         {
             _hasPrimRenderE = true;
             RenderElement renderE = _simpleBox.GetPrimaryRenderElement(rootgfx);
-            renderE.TransparentForAllEvents = this.TransparentAllMouseEvents;
+            renderE.TransparentForMouseEvents = this.TransparentForMouseEvents;
             return renderE;
         }
         public override void Accept(UIVisitor visitor)
@@ -1450,9 +1450,9 @@ namespace LayoutFarm
 
         }
 
-        public override void AddChild(UIElement ui)
+        public override void Add(UIElement ui)
         {
-            _simpleBox.AddChild(ui);
+            _simpleBox.Add(ui);
         }
 
         public void SetLocation(int x, int y)
@@ -1483,7 +1483,7 @@ namespace LayoutFarm
             if (parentBox != null)
             {
                 RemoveSelf();
-                parentBox.AddChild(this);
+                parentBox.Add(this);
             }
             else
             {
@@ -1533,7 +1533,7 @@ namespace LayoutFarm
             int m = controlPoints.Count;
             for (int i = 0; i < m; ++i)
             {
-                _simpleBox.AddChild(controlPoints[i]);
+                _simpleBox.Add(controlPoints[i]);
             }
         }
 
@@ -1618,7 +1618,7 @@ namespace LayoutFarm
                             SetupCornerBoxController(ctrlPoint);
                             _controls.Add(ctrlPoint);
                             //...
-                            _simpleBox.AddChild(ctrlPoint);
+                            _simpleBox.Add(ctrlPoint);
                         }
                         break;
                     case PixelFarm.CpuBlit.VertexCmd.LineTo:
@@ -1629,7 +1629,7 @@ namespace LayoutFarm
                             SetupCornerBoxController(ctrlPoint);
                             _controls.Add(ctrlPoint);
                             //...
-                            _simpleBox.AddChild(ctrlPoint);
+                            _simpleBox.Add(ctrlPoint);
                         }
                         break;
                     case PixelFarm.CpuBlit.VertexCmd.Close:

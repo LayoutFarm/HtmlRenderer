@@ -68,10 +68,7 @@ namespace LayoutFarm.WebDom
         {
             get { return false; }
         }
-        void IEventListener.ListenInterComponentMsg(object sender, int msgcode, string msg)
-        {
-            this.OnInterComponentMsg(sender, msgcode, msg);
-        }
+         
 
         //--------------
         void IUIEventListener.HandleContentLayout()
@@ -92,7 +89,7 @@ namespace LayoutFarm.WebDom
         }
 
 
-        void IEventListener.ListenGuestTalk(UIGuestTalkEventArgs e)
+        void IEventListener.ListenGuestMsg(UIGuestMsgEventArgs e)
         {
         }
         void IUIEventListener.GetGlobalLocation(out int x, out int y)

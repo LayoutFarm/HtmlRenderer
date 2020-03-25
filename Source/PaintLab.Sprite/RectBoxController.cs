@@ -212,7 +212,7 @@ namespace LayoutFarm.CustomWidgets
                 }
 
             };
-            _groundBox.AddChild(_boxLeftTop);
+            _groundBox.Add(_boxLeftTop);
             //------------
             _boxLeftBottom = new UIControllerBox(20, 20) { BackColor = Color.Yellow, Visible = false };
             SetupCorner_Controller(_boxLeftBottom);
@@ -231,7 +231,7 @@ namespace LayoutFarm.CustomWidgets
                 }
 
             };
-            _groundBox.AddChild(_boxLeftBottom);
+            _groundBox.Add(_boxLeftBottom);
             //------------ 
 
             _boxRightTop = new UIControllerBox(20, 20) { BackColor = Color.Yellow, Visible = false };
@@ -251,7 +251,7 @@ namespace LayoutFarm.CustomWidgets
                     UpdateControllerBoxes(target1);
                 }
             };
-            _groundBox.AddChild(_boxRightTop);
+            _groundBox.Add(_boxRightTop);
 
             //------------ 
             _boxRightBottom = new UIControllerBox(20, 20) { BackColor = Color.Yellow, Visible = false };
@@ -277,7 +277,7 @@ namespace LayoutFarm.CustomWidgets
                 //}
 
             };
-            _groundBox.AddChild(_boxRightBottom);
+            _groundBox.Add(_boxRightBottom);
             //------------ 
 
         }
@@ -350,7 +350,7 @@ namespace LayoutFarm.CustomWidgets
                 }
 
             };
-            _groundBox.AddChild(_midLeftSide);
+            _groundBox.Add(_midLeftSide);
             //------------
             _midRightSide = new UIControllerBox(20, 20) { MoveDirection = MoveDirection.XAxis, BackColor = Color.Blue, Visible = false };
             SetupEdge_Controller(_midRightSide);
@@ -369,7 +369,7 @@ namespace LayoutFarm.CustomWidgets
                 UpdateControllerBoxes(target1);
 
             };
-            _groundBox.AddChild(_midRightSide);
+            _groundBox.Add(_midRightSide);
             //------------ 
 
             _midTop = new UIControllerBox(20, 20) { MoveDirection = MoveDirection.YAxis, BackColor = Color.Blue, Visible = false };
@@ -386,7 +386,7 @@ namespace LayoutFarm.CustomWidgets
                 //update other controller
                 UpdateControllerBoxes(target1);
             };
-            _groundBox.AddChild(_midTop);
+            _groundBox.Add(_midTop);
 
             //------------ 
             _midBottom = new UIControllerBox(20, 20) { MoveDirection = MoveDirection.YAxis, BackColor = Color.Blue, Visible = false };
@@ -404,7 +404,7 @@ namespace LayoutFarm.CustomWidgets
                 //update other controller
                 UpdateControllerBoxes(target1);
             };
-            _groundBox.AddChild(_midBottom);
+            _groundBox.Add(_midBottom);
             //------------ 
         }
         public void Init()
@@ -421,7 +421,7 @@ namespace LayoutFarm.CustomWidgets
                 //viewport.AddChild(controllerBox1);
                 _controls.Add(_centralBox);
             }
-            _groundBox.AddChild(_centralBox);
+            _groundBox.Add(_centralBox);
             //------------
             InitCornerControlBoxes();
             InitEdgeControlBoxes();
