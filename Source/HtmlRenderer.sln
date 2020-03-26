@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27004.2009
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29920.165
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test1_CoreVisual_New", "Test1_CoreVisual_New\Test1_CoreVisual_New.csproj", "{24B58983-D06B-48BF-BBD3-7CB919003520}"
 EndProject
@@ -94,6 +94,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaintLab.Platforms.Win32", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackEnd.TreeCollection", "..\..\PixelFarm\src\PixelFarm\BackEnd.TreeCollection\BackEnd.TreeCollection.csproj", "{39475DD4-6793-454F-8C48-06452F42C300}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackEnd.Color", "..\..\PixelFarm\src\PixelFarm\BackEnd.Color\BackEnd.Color.csproj", "{9CC6310F-C116-449D-BE97-63D152F98746}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Test3_MixHtml_SH\Test3_MixHtml_SH.projitems*{14840a73-6d38-4a2a-a71c-f84dc4fb4620}*SharedItemsImports = 4
@@ -110,6 +112,7 @@ Global
 		..\..\Typography\Typography.TextFlow\Typography.TextFlow.projitems*{5278fab9-33f0-40e0-adca-7237ea0e935b}*SharedItemsImports = 4
 		..\..\Typography\Typography.TextServices\Typography.TextServices.projitems*{5278fab9-33f0-40e0-adca-7237ea0e935b}*SharedItemsImports = 4
 		..\..\PixelFarm\src\Tests\WinFormTestBed2\WinFormTestBed2.projitems*{5cf69768-3249-45d4-8be3-b686f88c4ea0}*SharedItemsImports = 13
+		..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Colorful_SH.projitems*{9cc6310f-c116-449d-be97-63d152f98746}*SharedItemsImports = 4
 		Test3_MixHtml_SH\Test3_MixHtml_SH.projitems*{bff5f427-429e-4b22-acbb-0c741ef63895}*SharedItemsImports = 13
 		..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing.GdiPlus_SH\PixelFarm.Drawing.GdiPlus_SH.projitems*{e5f2b317-2205-4727-92c4-6190a2fa3ddc}*SharedItemsImports = 4
 		..\..\PixelFarm\src\PixelFarm\BackEnd.MiniOpenTK\src\OpenTK\MiniOpenTK_Core1.projitems*{e9a5d738-bc13-4909-94d8-d7a13d7068ff}*SharedItemsImports = 4
@@ -696,6 +699,24 @@ Global
 		{39475DD4-6793-454F-8C48-06452F42C300}.Release64|Mixed Platforms.Build.0 = Release|Any CPU
 		{39475DD4-6793-454F-8C48-06452F42C300}.Release64|x86.ActiveCfg = Release|Any CPU
 		{39475DD4-6793-454F-8C48-06452F42C300}.Release64|x86.Build.0 = Release|Any CPU
+		{9CC6310F-C116-449D-BE97-63D152F98746}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CC6310F-C116-449D-BE97-63D152F98746}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CC6310F-C116-449D-BE97-63D152F98746}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{9CC6310F-C116-449D-BE97-63D152F98746}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{9CC6310F-C116-449D-BE97-63D152F98746}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9CC6310F-C116-449D-BE97-63D152F98746}.Debug|x86.Build.0 = Debug|Any CPU
+		{9CC6310F-C116-449D-BE97-63D152F98746}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CC6310F-C116-449D-BE97-63D152F98746}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CC6310F-C116-449D-BE97-63D152F98746}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{9CC6310F-C116-449D-BE97-63D152F98746}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{9CC6310F-C116-449D-BE97-63D152F98746}.Release|x86.ActiveCfg = Release|Any CPU
+		{9CC6310F-C116-449D-BE97-63D152F98746}.Release|x86.Build.0 = Release|Any CPU
+		{9CC6310F-C116-449D-BE97-63D152F98746}.Release64|Any CPU.ActiveCfg = Release|Any CPU
+		{9CC6310F-C116-449D-BE97-63D152F98746}.Release64|Any CPU.Build.0 = Release|Any CPU
+		{9CC6310F-C116-449D-BE97-63D152F98746}.Release64|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{9CC6310F-C116-449D-BE97-63D152F98746}.Release64|Mixed Platforms.Build.0 = Release|Any CPU
+		{9CC6310F-C116-449D-BE97-63D152F98746}.Release64|x86.ActiveCfg = Release|Any CPU
+		{9CC6310F-C116-449D-BE97-63D152F98746}.Release64|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -738,6 +759,7 @@ Global
 		{F45871BD-806E-487A-A0B3-1E95853F693B} = {C3BA1377-B139-4BD6-A0D1-F486FB6E29BE}
 		{E5F2B317-2205-4727-92C4-6190A2FA3DDC} = {7C48D8C8-22E8-43DB-9118-DB8A849B9D70}
 		{39475DD4-6793-454F-8C48-06452F42C300} = {7C48D8C8-22E8-43DB-9118-DB8A849B9D70}
+		{9CC6310F-C116-449D-BE97-63D152F98746} = {7C48D8C8-22E8-43DB-9118-DB8A849B9D70}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8E122BCF-9C21-4ED3-ADDC-19E7F173F4BF}
