@@ -148,7 +148,7 @@ namespace LayoutFarm.HtmlBoxes
                 //     new PointF(r.Left + 10, r.Top + 10), new SizeF(r.Width, r.Height));
                 //f.Dispose();
 
-                p.dbugDrawDiagonalBox(Color.Gray, r.Left, r.Top, r.Right, r.Bottom);
+                p.dbugDrawDiagonalBox(KnownColors.Gray, r.Left, r.Top, r.Right, r.Bottom);
             }
             else
             {
@@ -156,7 +156,7 @@ namespace LayoutFarm.HtmlBoxes
                 switch (_cssDisplay)
                 {
                     case Css.CssDisplay.TableCell:
-                        color = Color.OrangeRed;
+                        color = KnownColors.OrangeRed;
                         break;
                 }
                 p.dbugDrawDiagonalBox(color, r.Left, r.Top, r.Right, r.Bottom);

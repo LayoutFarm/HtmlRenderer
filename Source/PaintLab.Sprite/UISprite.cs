@@ -487,13 +487,8 @@ namespace LayoutFarm.UI
         /// derived class should prepare _vgVisualElem ***
         /// </summary>
         protected virtual void OnUpdateVgVisualElement() { }
-
-
-        public override void Accept(UIVisitor visitor)
-        {
-
-        }
-        //
+         
+        
         protected override bool HasReadyRenderElement => _vgBridgeRenderElement != null;
         //
         public override RenderElement CurrentPrimaryRenderElement => _vgBridgeRenderElement;
@@ -715,13 +710,7 @@ namespace LayoutFarm.UI
         {
         }
         protected virtual void Describe(UIVisitor visitor)
-        {
-            visitor.Attribute("left", this.Left);
-            visitor.Attribute("top", this.Top);
-            visitor.Attribute("width", this.Width);
-            visitor.Attribute("height", this.Height);
-        }
-
-
+        { 
+        } 
     }
 }

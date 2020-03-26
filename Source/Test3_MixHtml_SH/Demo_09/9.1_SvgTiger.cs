@@ -143,7 +143,7 @@ namespace LayoutFarm
             box.MouseUp += (s, e) =>
             {
                 e.MouseCursorStyle = MouseCursorStyle.Default;
-                box.BackColor = Color.LightGray;
+                box.BackColor = KnownColors.LightGray;
                 //controllerBox1.Visible = false;
                 //controllerBox1.TargetBox = null;
             };

@@ -1445,10 +1445,7 @@ namespace LayoutFarm
             renderE.TransparentForMouseEvents = this.TransparentForMouseEvents;
             return renderE;
         }
-        public override void Accept(UIVisitor visitor)
-        {
-
-        }
+         
 
         public override void Add(UIElement ui)
         {

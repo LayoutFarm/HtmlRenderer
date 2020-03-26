@@ -17,7 +17,7 @@ namespace LayoutFarm.HtmlBoxes
 
         float _viewportWidth;
         float _viewportHeight;
-        Color _cssBoxSelectionColor = Color.LightGray;
+        Color _cssBoxSelectionColor = KnownColors.LightGray;
 
         public PaintVisitor()
         {

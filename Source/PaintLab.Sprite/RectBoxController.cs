@@ -88,9 +88,6 @@ namespace LayoutFarm.CustomWidgets
             _hasPrimRenderE = true;
             return _groundBox.GetPrimaryRenderElement(rootgfx);
         }
-        public override void Accept(UIVisitor visitor)
-        {
-        }
         public override RenderElement CurrentPrimaryRenderElement => _groundBox.CurrentPrimaryRenderElement;
         //-------------
 

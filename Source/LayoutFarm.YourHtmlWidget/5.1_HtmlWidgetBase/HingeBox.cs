@@ -18,7 +18,7 @@ namespace LayoutFarm.HtmlWidgets
     {
 
         HtmlElement _presentationNode;
-        Color _backColor = Color.LightGray;
+        Color _backColor = PixelFarm.Drawing.KnownColors.LightGray;
         bool _isOpen;
         HingeFloatPartStyle _floatPartStyle;
 
