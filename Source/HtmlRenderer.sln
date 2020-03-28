@@ -94,7 +94,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaintLab.Platforms.Win32", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackEnd.TreeCollection", "..\..\PixelFarm\src\PixelFarm\BackEnd.TreeCollection\BackEnd.TreeCollection.csproj", "{39475DD4-6793-454F-8C48-06452F42C300}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackEnd.Color", "..\..\PixelFarm\src\PixelFarm\BackEnd.Color\BackEnd.Color.csproj", "{9CC6310F-C116-449D-BE97-63D152F98746}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaintLab.Color", "..\..\PixelFarm\src\PixelFarm\PaintLab.Color\PaintLab.Color.csproj", "{9CC6310F-C116-449D-BE97-63D152F98746}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -112,8 +112,9 @@ Global
 		..\..\Typography\Typography.TextFlow\Typography.TextFlow.projitems*{5278fab9-33f0-40e0-adca-7237ea0e935b}*SharedItemsImports = 4
 		..\..\Typography\Typography.TextServices\Typography.TextServices.projitems*{5278fab9-33f0-40e0-adca-7237ea0e935b}*SharedItemsImports = 4
 		..\..\PixelFarm\src\Tests\WinFormTestBed2\WinFormTestBed2.projitems*{5cf69768-3249-45d4-8be3-b686f88c4ea0}*SharedItemsImports = 13
-		..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Colorful_SH.projitems*{9cc6310f-c116-449d-be97-63d152f98746}*SharedItemsImports = 4
+		..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Colorful_SH.projitems*{9cc6310f-c116-449d-be97-63d152f98746}*SharedItemsImports = 4
 		Test3_MixHtml_SH\Test3_MixHtml_SH.projitems*{bff5f427-429e-4b22-acbb-0c741ef63895}*SharedItemsImports = 13
+		..\..\PixelFarm\src\PixelFarm\PaintLab.Platforms.SH\PaintLab.Platforms.SH.projitems*{e5f2b317-2205-4727-92c4-6190a2fa3ddc}*SharedItemsImports = 4
 		..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing.GdiPlus_SH\PixelFarm.Drawing.GdiPlus_SH.projitems*{e5f2b317-2205-4727-92c4-6190a2fa3ddc}*SharedItemsImports = 4
 		..\..\PixelFarm\src\PixelFarm\BackEnd.MiniOpenTK\src\OpenTK\MiniOpenTK_Core1.projitems*{e9a5d738-bc13-4909-94d8-d7a13d7068ff}*SharedItemsImports = 4
 		..\..\PixelFarm\src\PixelFarm\BackEnd.MiniOpenTK\src\OpenTK\MiniOpenTK_Core2.projitems*{e9a5d738-bc13-4909-94d8-d7a13d7068ff}*SharedItemsImports = 4

@@ -49,7 +49,7 @@ namespace LayoutFarm.CustomWidgets
                 debug_PreferSoftwareRenderer = value;
                 if (_htmlRenderBox != null)
                 {
-                    
+
                     _htmlRenderBox.dbugPreferSoftwareRenderer = value;
                 }
             }
@@ -85,12 +85,12 @@ namespace LayoutFarm.CustomWidgets
             return _inputEventAdapter;
         }
 
-        void IEventPortal.PortalMouseUp(UIMouseEventArgs e)
+        void IEventPortal.PortalMouseUp(UIMouseUpEventArgs e)
         {
             e.CurrentContextElement = this;
             GetInputEventAdapter().MouseUp(e, _htmlRenderBox.CssBox);
         }
-        void IEventPortal.PortalMouseDown(UIMouseEventArgs e)
+        void IEventPortal.PortalMouseDown(UIMouseDownEventArgs e)
         {
             this.Focus();
             e.CurrentContextElement = this;
@@ -133,12 +133,12 @@ namespace LayoutFarm.CustomWidgets
                 _latest_selMouseDownY = e.Y; //set new
             }
         }
-        void IEventPortal.PortalMouseMove(UIMouseEventArgs e)
+        void IEventPortal.PortalMouseMove(UIMouseMoveEventArgs e)
         {
             e.CurrentContextElement = this;
             GetInputEventAdapter().MouseMove(e, _htmlRenderBox.CssBox);
         }
-        void IEventPortal.PortalMouseWheel(UIMouseEventArgs e)
+        void IEventPortal.PortalMouseWheel(UIMouseWheelEventArgs e)
         {
             e.CurrentContextElement = this;
         }
@@ -172,26 +172,30 @@ namespace LayoutFarm.CustomWidgets
             e.CurrentContextElement = this;
         }
 
+
+        readonly UIMouseDownEventArgs _sel_MouseDownArgs = new UIMouseDownEventArgs();
+        readonly UIMouseMoveEventArgs _sel_MouseMoveArgs = new UIMouseMoveEventArgs();
+        readonly UIMouseUpEventArgs _selMouseUpArgs = new UIMouseUpEventArgs();
+
         void SimulateMouseSelection(int startX, int startY, int endX, int endY)
         {
             //TODO: review here again***
             HtmlInputEventAdapter evAdapter = GetInputEventAdapter();
             {
-                UIMouseEventArgs mouseDown = new UIMouseEventArgs();
-                mouseDown.SetLocation(startX, startY);
-                evAdapter.MouseDown(mouseDown);
+
+                _sel_MouseDownArgs.SetLocation(startX, startY);
+                evAdapter.MouseDown(_sel_MouseDownArgs);
             }
 
             {
-                UIMouseEventArgs mouseDrag = new UIMouseEventArgs();
-                mouseDrag.IsDragging = true;
-                mouseDrag.SetLocation(endX, endY);
-                evAdapter.MouseMove(mouseDrag);
+                _sel_MouseMoveArgs.IsDragging = true;
+                _sel_MouseMoveArgs.SetLocation(endX, endY);
+                evAdapter.MouseMove(_sel_MouseMoveArgs);
             }
             {
-                UIMouseEventArgs mouseUp = new UIMouseEventArgs();
-                mouseUp.SetLocation(endX, endY);
-                evAdapter.MouseUp(mouseUp);
+
+                _selMouseUpArgs.SetLocation(endX, endY);
+                evAdapter.MouseUp(_selMouseUpArgs);
             }
 
         }

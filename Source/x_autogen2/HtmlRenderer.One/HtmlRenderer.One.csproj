@@ -449,267 +449,6 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.BurningMineCurve\curveutils\VectorHelper.cs">
       <Link>PixelFarm\src\PixelFarm\BackEnd.BurningMineCurve\curveutils\VectorHelper.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\ChromaJs\Chroma.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\ChromaJs\Chroma.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\ColorBlender\Algorithms\Analogue.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\ColorBlender\Algorithms\Analogue.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\ColorBlender\Algorithms\ClassicBlend.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\ColorBlender\Algorithms\ClassicBlend.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\ColorBlender\Algorithms\ColorExplorer.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\ColorBlender\Algorithms\ColorExplorer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\ColorBlender\Algorithms\Complementary.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\ColorBlender\Algorithms\Complementary.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\ColorBlender\Algorithms\SingleHue.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\ColorBlender\Algorithms\SingleHue.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\ColorBlender\Algorithms\SplitComplementary.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\ColorBlender\Algorithms\SplitComplementary.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\ColorBlender\Algorithms\Square.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\ColorBlender\Algorithms\Square.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\ColorBlender\Algorithms\Triadic.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\ColorBlender\Algorithms\Triadic.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\ColorBlender\Blend.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\ColorBlender\Blend.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\ColorBlender\ColorMatch.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\ColorBlender\ColorMatch.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\ColorBlender\HSV.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\ColorBlender\HSV.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\ColorBlender\IAlgorithm.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\ColorBlender\IAlgorithm.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\ColorBlender\MathHelpers.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\ColorBlender\MathHelpers.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\ColorBlender\RGB.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\ColorBlender\RGB.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Colors\HunterLabColor.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Colors\HunterLabColor.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Colors\IColorVector.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Colors\IColorVector.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Colors\Illuminants.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Colors\Illuminants.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Colors\IRGBWorkingSpace.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Colors\IRGBWorkingSpace.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Colors\LabColor.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Colors\LabColor.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Colors\LChabColor.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Colors\LChabColor.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Colors\LChuvColor.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Colors\LChuvColor.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Colors\LinearRGBColor.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Colors\LinearRGBColor.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Colors\LMSColor.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Colors\LMSColor.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Colors\LuvColor.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Colors\LuvColor.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Colors\MacbethColorChecker.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Colors\MacbethColorChecker.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Colors\RGBColor.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Colors\RGBColor.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Colors\RGBWorkingSpaces.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Colors\RGBWorkingSpaces.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Colors\xyChromaticityCoordinates.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Colors\xyChromaticityCoordinates.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Colors\xyYColor.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Colors\xyYColor.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Colors\XYZColor.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Colors\XYZColor.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Conversion\ColourfulConverter.Adapt.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Conversion\ColourfulConverter.Adapt.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Conversion\ColourfulConverter.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Conversion\ColourfulConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Conversion\ColourfulConverter.ToHunterLab.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Conversion\ColourfulConverter.ToHunterLab.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Conversion\ColourfulConverter.ToLab.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Conversion\ColourfulConverter.ToLab.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Conversion\ColourfulConverter.ToLChab.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Conversion\ColourfulConverter.ToLChab.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Conversion\ColourfulConverter.ToLChuv.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Conversion\ColourfulConverter.ToLChuv.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Conversion\ColourfulConverter.ToLinearRGB.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Conversion\ColourfulConverter.ToLinearRGB.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Conversion\ColourfulConverter.ToLMS.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Conversion\ColourfulConverter.ToLMS.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Conversion\ColourfulConverter.ToLuv.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Conversion\ColourfulConverter.ToLuv.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Conversion\ColourfulConverter.ToRGB.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Conversion\ColourfulConverter.ToRGB.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Conversion\ColourfulConverter.ToxyY.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Conversion\ColourfulConverter.ToxyY.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Conversion\ColourfulConverter.ToXYZ.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Conversion\ColourfulConverter.ToXYZ.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Conversion\IChromaticAdaptation.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Conversion\IChromaticAdaptation.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Conversion\VonKriesChromaticAdaptation.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Conversion\VonKriesChromaticAdaptation.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Difference\CIE76ColorDifference.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Difference\CIE76ColorDifference.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Difference\CIE94ColorDifference.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Difference\CIE94ColorDifference.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Difference\CIEDE2000ColorDifference.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Difference\CIEDE2000ColorDifference.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Difference\CMCColorDifference.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Difference\CMCColorDifference.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Difference\IColorDifference.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Difference\IColorDifference.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\Conversion\CIEConstants.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\Conversion\CIEConstants.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\Conversion\HunterLab\HunterLabToXYZConverter.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\Conversion\HunterLab\HunterLabToXYZConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\Conversion\HunterLab\XYZAndHunterLabConverterBase.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\Conversion\HunterLab\XYZAndHunterLabConverterBase.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\Conversion\HunterLab\XYZToHunterLabConverter.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\Conversion\HunterLab\XYZToHunterLabConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\Conversion\IColorConversion.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\Conversion\IColorConversion.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\Conversion\Lab\LabToXYZConverter.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\Conversion\Lab\LabToXYZConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\Conversion\Lab\XYZToLabConverter.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\Conversion\Lab\XYZToLabConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\Conversion\LChab\LabToLChabConverter.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\Conversion\LChab\LabToLChabConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\Conversion\LChab\LChabToLabConverter.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\Conversion\LChab\LChabToLabConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\Conversion\LChuv\LChuvToLuvConverter.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\Conversion\LChuv\LChuvToLuvConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\Conversion\LChuv\LuvToLChuvConverter.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\Conversion\LChuv\LuvToLChuvConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\Conversion\LMS\LMSTransformationMatrix.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\Conversion\LMS\LMSTransformationMatrix.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\Conversion\LMS\XYZAndLMSConverter.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\Conversion\LMS\XYZAndLMSConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\Conversion\Luv\LuvToXYZConverter.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\Conversion\Luv\LuvToXYZConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\Conversion\Luv\XYZToLuvConverter.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\Conversion\Luv\XYZToLuvConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\Conversion\RGB\LinearRGBAndXYZConverterBase.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\Conversion\RGB\LinearRGBAndXYZConverterBase.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\Conversion\RGB\LinearRGBToRGBConverter.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\Conversion\RGB\LinearRGBToRGBConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\Conversion\RGB\LinearRGBToXYZConverter.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\Conversion\RGB\LinearRGBToXYZConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\Conversion\RGB\RGBToLinearRGBConverter.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\Conversion\RGB\RGBToLinearRGBConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\Conversion\RGB\XYZToLinearRGBConverter.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\Conversion\RGB\XYZToLinearRGBConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\Conversion\xyY\xyYAndXYZConverter.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\Conversion\xyY\xyYAndXYZConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\RGB\GammaCompanding.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\RGB\GammaCompanding.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\RGB\ICompanding.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\RGB\ICompanding.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\RGB\LCompanding.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\RGB\LCompanding.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\RGB\Rec2020Companding.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\RGB\Rec2020Companding.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\RGB\Rec709Companding.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\RGB\Rec709Companding.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\RGB\RGBPrimariesChromaticityCoordinates.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\RGB\RGBPrimariesChromaticityCoordinates.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\RGB\RGBWorkingSpace.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\RGB\RGBWorkingSpace.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\RGB\sRGBCompanding.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\RGB\sRGBCompanding.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\Utils\Angle.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\Utils\Angle.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\Utils\Extensions.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\Utils\Extensions.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\Utils\MathUtils.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\Utils\MathUtils.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\Utils\MatrixFactory.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Implementation\Utils\MatrixFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\NET20Impl.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\NET20Impl.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Other\CCTConverter.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Other\CCTConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Other\SaturationLChFormulas.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Other\SaturationLChFormulas.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\KnownColors.cs">
-      <Link>PixelFarm\src\PixelFarm\BackEnd.Color\KnownColors.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.PaintFx\PdnSharedProject\01_Core\Color\ColorBgra.cs">
       <Link>PixelFarm\src\PixelFarm\BackEnd.PaintFx\PdnSharedProject\01_Core\Color\ColorBgra.cs</Link>
     </Compile>
@@ -1966,6 +1705,267 @@
     </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.AbstractPlatform\TempContext.cs">
       <Link>PixelFarm\src\PixelFarm\PaintLab.AbstractPlatform\TempContext.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\ChromaJs\Chroma.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\ChromaJs\Chroma.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\ColorBlender\Algorithms\Analogue.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\ColorBlender\Algorithms\Analogue.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\ColorBlender\Algorithms\ClassicBlend.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\ColorBlender\Algorithms\ClassicBlend.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\ColorBlender\Algorithms\ColorExplorer.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\ColorBlender\Algorithms\ColorExplorer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\ColorBlender\Algorithms\Complementary.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\ColorBlender\Algorithms\Complementary.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\ColorBlender\Algorithms\SingleHue.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\ColorBlender\Algorithms\SingleHue.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\ColorBlender\Algorithms\SplitComplementary.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\ColorBlender\Algorithms\SplitComplementary.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\ColorBlender\Algorithms\Square.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\ColorBlender\Algorithms\Square.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\ColorBlender\Algorithms\Triadic.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\ColorBlender\Algorithms\Triadic.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\ColorBlender\Blend.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\ColorBlender\Blend.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\ColorBlender\ColorMatch.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\ColorBlender\ColorMatch.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\ColorBlender\HSV.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\ColorBlender\HSV.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\ColorBlender\IAlgorithm.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\ColorBlender\IAlgorithm.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\ColorBlender\MathHelpers.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\ColorBlender\MathHelpers.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\ColorBlender\RGB.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\ColorBlender\RGB.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Colors\HunterLabColor.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Colors\HunterLabColor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Colors\IColorVector.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Colors\IColorVector.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Colors\Illuminants.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Colors\Illuminants.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Colors\IRGBWorkingSpace.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Colors\IRGBWorkingSpace.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Colors\LabColor.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Colors\LabColor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Colors\LChabColor.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Colors\LChabColor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Colors\LChuvColor.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Colors\LChuvColor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Colors\LinearRGBColor.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Colors\LinearRGBColor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Colors\LMSColor.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Colors\LMSColor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Colors\LuvColor.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Colors\LuvColor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Colors\MacbethColorChecker.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Colors\MacbethColorChecker.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Colors\RGBColor.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Colors\RGBColor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Colors\RGBWorkingSpaces.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Colors\RGBWorkingSpaces.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Colors\xyChromaticityCoordinates.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Colors\xyChromaticityCoordinates.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Colors\xyYColor.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Colors\xyYColor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Colors\XYZColor.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Colors\XYZColor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Conversion\ColourfulConverter.Adapt.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Conversion\ColourfulConverter.Adapt.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Conversion\ColourfulConverter.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Conversion\ColourfulConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Conversion\ColourfulConverter.ToHunterLab.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Conversion\ColourfulConverter.ToHunterLab.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Conversion\ColourfulConverter.ToLab.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Conversion\ColourfulConverter.ToLab.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Conversion\ColourfulConverter.ToLChab.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Conversion\ColourfulConverter.ToLChab.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Conversion\ColourfulConverter.ToLChuv.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Conversion\ColourfulConverter.ToLChuv.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Conversion\ColourfulConverter.ToLinearRGB.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Conversion\ColourfulConverter.ToLinearRGB.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Conversion\ColourfulConverter.ToLMS.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Conversion\ColourfulConverter.ToLMS.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Conversion\ColourfulConverter.ToLuv.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Conversion\ColourfulConverter.ToLuv.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Conversion\ColourfulConverter.ToRGB.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Conversion\ColourfulConverter.ToRGB.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Conversion\ColourfulConverter.ToxyY.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Conversion\ColourfulConverter.ToxyY.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Conversion\ColourfulConverter.ToXYZ.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Conversion\ColourfulConverter.ToXYZ.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Conversion\IChromaticAdaptation.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Conversion\IChromaticAdaptation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Conversion\VonKriesChromaticAdaptation.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Conversion\VonKriesChromaticAdaptation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Difference\CIE76ColorDifference.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Difference\CIE76ColorDifference.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Difference\CIE94ColorDifference.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Difference\CIE94ColorDifference.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Difference\CIEDE2000ColorDifference.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Difference\CIEDE2000ColorDifference.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Difference\CMCColorDifference.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Difference\CMCColorDifference.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Difference\IColorDifference.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Difference\IColorDifference.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\Conversion\CIEConstants.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\Conversion\CIEConstants.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\Conversion\HunterLab\HunterLabToXYZConverter.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\Conversion\HunterLab\HunterLabToXYZConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\Conversion\HunterLab\XYZAndHunterLabConverterBase.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\Conversion\HunterLab\XYZAndHunterLabConverterBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\Conversion\HunterLab\XYZToHunterLabConverter.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\Conversion\HunterLab\XYZToHunterLabConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\Conversion\IColorConversion.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\Conversion\IColorConversion.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\Conversion\Lab\LabToXYZConverter.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\Conversion\Lab\LabToXYZConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\Conversion\Lab\XYZToLabConverter.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\Conversion\Lab\XYZToLabConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\Conversion\LChab\LabToLChabConverter.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\Conversion\LChab\LabToLChabConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\Conversion\LChab\LChabToLabConverter.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\Conversion\LChab\LChabToLabConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\Conversion\LChuv\LChuvToLuvConverter.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\Conversion\LChuv\LChuvToLuvConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\Conversion\LChuv\LuvToLChuvConverter.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\Conversion\LChuv\LuvToLChuvConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\Conversion\LMS\LMSTransformationMatrix.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\Conversion\LMS\LMSTransformationMatrix.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\Conversion\LMS\XYZAndLMSConverter.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\Conversion\LMS\XYZAndLMSConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\Conversion\Luv\LuvToXYZConverter.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\Conversion\Luv\LuvToXYZConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\Conversion\Luv\XYZToLuvConverter.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\Conversion\Luv\XYZToLuvConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\Conversion\RGB\LinearRGBAndXYZConverterBase.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\Conversion\RGB\LinearRGBAndXYZConverterBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\Conversion\RGB\LinearRGBToRGBConverter.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\Conversion\RGB\LinearRGBToRGBConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\Conversion\RGB\LinearRGBToXYZConverter.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\Conversion\RGB\LinearRGBToXYZConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\Conversion\RGB\RGBToLinearRGBConverter.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\Conversion\RGB\RGBToLinearRGBConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\Conversion\RGB\XYZToLinearRGBConverter.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\Conversion\RGB\XYZToLinearRGBConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\Conversion\xyY\xyYAndXYZConverter.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\Conversion\xyY\xyYAndXYZConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\RGB\GammaCompanding.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\RGB\GammaCompanding.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\RGB\ICompanding.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\RGB\ICompanding.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\RGB\LCompanding.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\RGB\LCompanding.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\RGB\Rec2020Companding.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\RGB\Rec2020Companding.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\RGB\Rec709Companding.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\RGB\Rec709Companding.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\RGB\RGBPrimariesChromaticityCoordinates.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\RGB\RGBPrimariesChromaticityCoordinates.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\RGB\RGBWorkingSpace.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\RGB\RGBWorkingSpace.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\RGB\sRGBCompanding.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\RGB\sRGBCompanding.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\Utils\Angle.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\Utils\Angle.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\Utils\Extensions.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\Utils\Extensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\Utils\MathUtils.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\Utils\MathUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\Utils\MatrixFactory.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Implementation\Utils\MatrixFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\NET20Impl.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\NET20Impl.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Other\CCTConverter.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Other\CCTConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Other\SaturationLChFormulas.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Other\SaturationLChFormulas.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\KnownColors.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\KnownColors.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.PlatformBridge\Common\Clipboard.cs">
       <Link>PixelFarm\src\PixelFarm\PaintLab.PlatformBridge\Common\Clipboard.cs</Link>

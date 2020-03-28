@@ -239,7 +239,8 @@ namespace LayoutFarm.HtmlBoxes
             p.dbugResetLogRecords();
             dbugPaintN++;
 #endif
-            _rootBox.Paint(p);
+            CssBox.Paint(_rootBox, p);
+            
             p.PopContainingBlock();
 #if DEBUG
 

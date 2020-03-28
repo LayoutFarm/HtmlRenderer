@@ -24,8 +24,7 @@ namespace LayoutFarm.WebDom
             //}
             if (!e.CancelBubbling)
             {
-                DomElement parentAsDomElem = this.ParentNode as DomElement;
-                if (parentAsDomElem != null)
+                if (this.ParentNode is DomElement parentAsDomElem)
                 {
                     //recursive to its parent
                     parentAsDomElem.OnMouseDown(e);
@@ -42,8 +41,7 @@ namespace LayoutFarm.WebDom
             //}
             if (!e.CancelBubbling)
             {
-                DomElement parentAsDomElem = this.ParentNode as DomElement;
-                if (parentAsDomElem != null)
+                if (this.ParentNode is DomElement parentAsDomElem)
                 {
                     //recursive to its parent
                     parentAsDomElem.OnMouseUp(e);
@@ -51,6 +49,10 @@ namespace LayoutFarm.WebDom
                     //e.CancelBubbling = true;
                 }
             }
+        }
+        protected virtual void OnMousePress(UIMousePressEventArgs e)
+        {
+
         }
         protected virtual void OnMouseWheel(UIMouseEventArgs e) { }
         protected virtual void OnCollapsed() { }
@@ -92,6 +94,6 @@ namespace LayoutFarm.WebDom
         protected virtual void OnElementChanged()
         {
         }
-         
+
     }
 }

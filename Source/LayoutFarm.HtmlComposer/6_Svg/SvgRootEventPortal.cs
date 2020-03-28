@@ -67,7 +67,7 @@ namespace PaintLab.Svg
             //}
         }
 
-        static void ForEachOnlyEventPortalBubbleUp(UIEventArgs e, VgHitChain hitPointChain, EventPortalAction eventPortalAction)
+        static void ForEachOnlyEventPortalBubbleUp(UIEventArgs e, VgHitChain hitPointChain, System.Func<IEventPortal, bool> eventPortalAction)
         {
             //only listener that need tunnel down 
             for (int i = hitPointChain.Count - 1; i >= 0; --i)
@@ -90,7 +90,7 @@ namespace PaintLab.Svg
             }
         }
 
-        static void ForEachEventListenerBubbleUp(UIEventArgs e, VgHitChain hitChain, EventListenerAction listenerAction)
+        static void ForEachEventListenerBubbleUp(UIEventArgs e, VgHitChain hitChain, System.Func<bool> listenerAction)
         {
             for (int i = hitChain.Count - 1; i >= 0; --i)
             {
@@ -132,7 +132,7 @@ namespace PaintLab.Svg
             }
         }
 
-        static void ForEachSvgElementBubbleUp(UIEventArgs e, VgHitChain hitChain, EventListenerAction listenerAction)
+        static void ForEachSvgElementBubbleUp(UIEventArgs e, VgHitChain hitChain, System.Func<bool> listenerAction)
         {
             for (int i = hitChain.Count - 1; i >= 0; --i)
             {

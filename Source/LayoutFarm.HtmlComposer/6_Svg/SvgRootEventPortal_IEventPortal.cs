@@ -8,7 +8,7 @@ namespace PaintLab.Svg
 {
     partial class SvgRootEventPortal : IEventPortal
     {
-        void IEventPortal.PortalMouseDown(UIMouseEventArgs e)
+        void IEventPortal.PortalMouseDown(UIMouseDownEventArgs e)
         {
             //find hit svg graphics....
             VgHitChain hitChain = GetFreeHitChain();
@@ -42,7 +42,7 @@ namespace PaintLab.Svg
             e.CancelBubbling = true;
             ReleaseHitChain(hitChain);
         }
-        void IEventPortal.PortalMouseUp(UIMouseEventArgs e)
+        void IEventPortal.PortalMouseUp(UIMouseUpEventArgs e)
         {
             //find hit svg graphics....
             VgHitChain hitChain = GetFreeHitChain();
@@ -69,7 +69,7 @@ namespace PaintLab.Svg
             e.CancelBubbling = true;
             ReleaseHitChain(hitChain);
         }
-        void IEventPortal.PortalMouseMove(UIMouseEventArgs e)
+        void IEventPortal.PortalMouseMove(UIMouseMoveEventArgs e)
         {
             int x = e.X;
             int y = e.Y;
@@ -146,7 +146,7 @@ namespace PaintLab.Svg
                 ReleaseHitChain(hitChain);
             }
         }
-        void IEventPortal.PortalMouseWheel(UIMouseEventArgs e)
+        void IEventPortal.PortalMouseWheel(UIMouseWheelEventArgs e)
         {
             //this.OnMouseWheel(e);
         }
