@@ -64,7 +64,7 @@ namespace LayoutFarm
             //--------
             var svgEvListener = new GeneralEventListener();
             //uiSprite.AttachExternalEventListener(svgEvListener);
-            svgEvListener.MouseDown += (e) =>
+            svgEvListener.MouseDown += (s,e) =>
             {
 
                 //e.MouseCursorStyle = MouseCursorStyle.Pointer;

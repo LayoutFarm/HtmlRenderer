@@ -1178,20 +1178,20 @@ namespace LayoutFarm
         }
 
 
-        public event UIEventHandler<UIMouseMoveEventArgs> Drag;
-        public event UIEventHandler<UIMouseUpEventArgs> MouseUp;
+        public event System.EventHandler<UIMouseMoveEventArgs> Drag;
+        public event System.EventHandler<UIMouseUpEventArgs> MouseUp;
 
-        public event UIEventHandler<UIMouseEventArgs> MouseDblClick;
+        public event System.EventHandler<UIMouseEventArgs> MouseDblClick;
 
         protected override void OnDoubleClick(UIMouseEventArgs e)
         {
             base.OnDoubleClick(e);
-            MouseDblClick?.Invoke(e);
+            MouseDblClick?.Invoke(this, e);
         }
         protected override void OnMouseUp(UIMouseUpEventArgs e)
         {
             base.OnMouseUp(e);
-            MouseUp?.Invoke(e);
+            MouseUp?.Invoke(this, e);
         }
         protected override void OnMouseMove(UIMouseMoveEventArgs e)
         {
@@ -1210,7 +1210,7 @@ namespace LayoutFarm
                 UpdateTransformedShape(this, System.EventArgs.Empty);
                 //
                 //
-                Drag?.Invoke(e);
+                Drag?.Invoke(this, e);
             }
             base.OnMouseMove(e);
         }

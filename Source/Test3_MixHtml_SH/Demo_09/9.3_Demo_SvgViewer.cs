@@ -120,7 +120,7 @@ namespace LayoutFarm.ColorBlenderSample
             var uiSprite = new UISprite(10, 10);
             var evListener = new GeneralEventListener();
             uiSprite.AttachExternalEventListener(evListener);
-            evListener.MouseDown += (e) =>
+            evListener.MouseDown += (s, e) =>
             {
                 //hit on svg color- area
                 VgHitInfo hitInfo = uiSprite.FindRenderElementAtPos(e.X, e.Y, false);

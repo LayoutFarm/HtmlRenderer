@@ -229,7 +229,7 @@ namespace LayoutFarm
 
 
 
-            _quadController.Drag += ev =>
+            _quadController.Drag += (s1, ev) =>
             {
                 _rotationUI.SetLocation(
                     _rotationUI.Left + ev.XDiff,
@@ -239,7 +239,7 @@ namespace LayoutFarm
 
             var spriteEvListener = new GeneralEventListener();
             _uiSprite.AttachExternalEventListener(spriteEvListener);
-            spriteEvListener.MouseMove += e1 =>
+            spriteEvListener.MouseMove += (s1, e1) =>
             {
 
                 if (e1.IsDragging)
@@ -280,99 +280,99 @@ namespace LayoutFarm
                     //_rotationControllerPointUI.InvalidateGraphics();
                 }
             };
-            spriteEvListener.MouseDown += e1 =>
-            {
-                //mousedown on ui sprite 
-                //find exact part ...  
+            spriteEvListener.MouseDown += (s1, e1) =>
+             {
+                 //mousedown on ui sprite 
+                 //find exact part ...  
 
-                _quadController.BringToTopMost();
-                _quadController.Visible = true;
-                _quadPolygonController.Visible = true;
-                _quadController.Focus();
+                 _quadController.BringToTopMost();
+                 _quadController.Visible = true;
+                 _quadPolygonController.Visible = true;
+                 _quadController.Focus();
 
-                // _polygonController.BringToTopMost();
+                 // _polygonController.BringToTopMost();
 
-                if (_hitTestOnSubPath)
-                {
-                    //find which part ...
+                 if (_hitTestOnSubPath)
+                 {
+                     //find which part ...
 
-                    double e1_x = e1.X;
-                    double e1_y = e1.Y;
-                    ICoordTransformer tx1 = _quadController.GetCoordTransformer();
-                    if (tx1 != null)
-                    {
-                        //if the sprite is transformed before render
-                        //we must invert x,y back to 
-                        ICoordTransformer tx1_inv = tx1.CreateInvert();
-                        tx1_inv.Transform(ref e1_x, ref e1_y);
-                    }
+                     double e1_x = e1.X;
+                     double e1_y = e1.Y;
+                     ICoordTransformer tx1 = _quadController.GetCoordTransformer();
+                     if (tx1 != null)
+                     {
+                         //if the sprite is transformed before render
+                         //we must invert x,y back to 
+                         ICoordTransformer tx1_inv = tx1.CreateInvert();
+                         tx1_inv.Transform(ref e1_x, ref e1_y);
+                     }
 
-                    VgHitInfo hitInfo = _uiSprite.FindRenderElementAtPos((float)e1_x, (float)e1_y, true);
+                     VgHitInfo hitInfo = _uiSprite.FindRenderElementAtPos((float)e1_x, (float)e1_y, true);
 
-                    if (hitInfo.hitElem != null &&
-                        hitInfo.hitElem.VxsPath != null)
-                    {
+                     if (hitInfo.hitElem != null &&
+                         hitInfo.hitElem.VxsPath != null)
+                     {
 
-                        PixelFarm.CpuBlit.RectD bounds = hitInfo.copyOfVxs.GetBoundingRect();
+                         PixelFarm.CpuBlit.RectD bounds = hitInfo.copyOfVxs.GetBoundingRect();
 
-                        _quadPolygonController.ClearControlPoints();//clear old control points
-                        _quadPolygonController.UpdateControlPoints( //create new control points
-                            hitInfo.copyOfVxs,
-                            _uiSprite.ActualXOffset, _uiSprite.ActualYOffset, tx1);
+                         _quadPolygonController.ClearControlPoints();//clear old control points
+                         _quadPolygonController.UpdateControlPoints( //create new control points
+                              hitInfo.copyOfVxs,
+                              _uiSprite.ActualXOffset, _uiSprite.ActualYOffset, tx1);
 
-                        ////move redbox and its controller
-                        //_rectBoundsWidgetBox.SetLocationAndSize(
-                        //    (int)(bounds.Left + _uiSprite.ActualXOffset), (int)(bounds.Top - bounds.Height + _uiSprite.ActualYOffset),
-                        //    (int)bounds.Width, (int)bounds.Height);
-                        ////_rectBoxController.UpdateControllerBoxes(_rectBoundsWidgetBox);
+                         ////move redbox and its controller
+                         //_rectBoundsWidgetBox.SetLocationAndSize(
+                         //    (int)(bounds.Left + _uiSprite.ActualXOffset), (int)(bounds.Top - bounds.Height + _uiSprite.ActualYOffset),
+                         //    (int)bounds.Width, (int)bounds.Height);
+                         ////_rectBoxController.UpdateControllerBoxes(_rectBoundsWidgetBox);
 
-                        //_rectBoundsWidgetBox.Visible = true;
-                        ////_rectBoxController.Visible = true;
-                        //show bounds
-                    }
-                    else
-                    {
-                        //_rectBoundsWidgetBox.Visible = false;
-                        // _rectBoxController.Visible = false;
-                    }
-                }
-                else
-                {
-                    //hit on sprite  
-                    if (e1.Ctrl)
-                    {
-                        //test*** 
-                        //
-                        _uiSprite.GetElementBounds(out float left, out float top, out float right, out float bottom);
-                        //
-                        using (Tools.BorrowRect(out SimpleRect s))
-                        using (Tools.BorrowVxs(out var v1))
-                        {
-                            s.SetRect(left - _uiSprite.ActualXOffset,
-                                bottom - _uiSprite.ActualYOffset,
-                                right - _uiSprite.ActualXOffset,
-                                top - _uiSprite.ActualYOffset);
-                            s.MakeVxs(v1);
-                            //_polygonController.UpdateControlPoints(v1.CreateTrim());
-                        }
-                    }
-                    else
-                    {
+                         //_rectBoundsWidgetBox.Visible = true;
+                         ////_rectBoxController.Visible = true;
+                         //show bounds
+                     }
+                     else
+                     {
+                         //_rectBoundsWidgetBox.Visible = false;
+                         // _rectBoxController.Visible = false;
+                     }
+                 }
+                 else
+                 {
+                     //hit on sprite  
+                     if (e1.Ctrl)
+                     {
+                         //test*** 
+                         //
+                         _uiSprite.GetElementBounds(out float left, out float top, out float right, out float bottom);
+                         //
+                         using (Tools.BorrowRect(out SimpleRect s))
+                         using (Tools.BorrowVxs(out var v1))
+                         {
+                             s.SetRect(left - _uiSprite.ActualXOffset,
+                                 bottom - _uiSprite.ActualYOffset,
+                                 right - _uiSprite.ActualXOffset,
+                                 top - _uiSprite.ActualYOffset);
+                             s.MakeVxs(v1);
+                             //_polygonController.UpdateControlPoints(v1.CreateTrim());
+                         }
+                     }
+                     else
+                     {
 
-                        //_rectBoundsWidgetBox.SetTarget(_uiSprite);
-                        //_rectBoundsWidgetBox.SetLocationAndSize(    //blue
-                        //      (int)_uiSprite.Left, (int)_uiSprite.Top,
-                        //      (int)_uiSprite.Width, (int)_uiSprite.Height);
-                        ////_rectBoxController.SetTarget(_uiSprite);
+                         //_rectBoundsWidgetBox.SetTarget(_uiSprite);
+                         //_rectBoundsWidgetBox.SetLocationAndSize(    //blue
+                         //      (int)_uiSprite.Left, (int)_uiSprite.Top,
+                         //      (int)_uiSprite.Width, (int)_uiSprite.Height);
+                         ////_rectBoxController.SetTarget(_uiSprite);
 
-                        ////_rectBoxController.UpdateControllerBoxes(_rectBoundsWidgetBox);  //control 4 corners
-                        //_rectBoundsWidgetBox.Visible = true;
-                        ////_rectBoxController.Visible = true;
+                         ////_rectBoxController.UpdateControllerBoxes(_rectBoundsWidgetBox);  //control 4 corners
+                         //_rectBoundsWidgetBox.Visible = true;
+                         ////_rectBoxController.Visible = true;
 
-                        //UpdateTransformedShape2();
-                    }
-                }
-            };
+                         //UpdateTransformedShape2();
+                     }
+                 }
+             };
         }
         private void _rotationUI_AngleUpdated(object sender, System.EventArgs e)
         {
