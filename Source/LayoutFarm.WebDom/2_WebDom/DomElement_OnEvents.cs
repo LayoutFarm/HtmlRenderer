@@ -15,7 +15,7 @@ namespace LayoutFarm.WebDom
         protected virtual void OnLostFocus(UIFocusEventArgs e) { }
         protected virtual void OnGotFocus(UIFocusEventArgs e) { }
         protected virtual void OnDoubleClick(UIMouseEventArgs e) { }
-        protected virtual void OnLostMouseFocus(UIMouseEventArgs e) { }
+        protected virtual void OnLostMouseFocus(UIMouseLostFocusEventArgs e) { }
         protected virtual void OnMouseDown(UIMouseEventArgs e)
         {
             //if (_evhMouseDown != null)
@@ -79,7 +79,7 @@ namespace LayoutFarm.WebDom
         protected virtual void OnMouseEnter(UIMouseEventArgs e)
         {
         }
-        protected virtual void OnMouseLeave(UIMouseEventArgs e)
+        protected virtual void OnMouseLeave(UIMouseLeaveEventArgs e)
         {
         }
 

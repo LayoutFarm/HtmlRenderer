@@ -27,6 +27,7 @@ namespace LayoutFarm.HtmlBoxes
         int _lastDomLayoutVersion;
         const int DOUBLE_CLICK_SENSE = 150;//ms 
         Stack<CssBoxHitChain> _hitChainPools = new Stack<CssBoxHitChain>();
+        UIMouseLostFocusEventArgs _mouseLostFocus = new UIMouseLostFocusEventArgs();
 
         public HtmlInputEventAdapter()
         {
@@ -101,7 +102,7 @@ namespace LayoutFarm.HtmlBoxes
                     if (prevMouseDownElement != null &&
                         prevMouseDownElement != _currentMouseDown)
                     {
-                        prevMouseDownElement.ListenLostMouseFocus(e);
+                        prevMouseDownElement.ListenLostMouseFocus(_mouseLostFocus);
                     }
 
                     return e.CancelBubbling;

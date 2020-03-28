@@ -21,7 +21,7 @@ namespace LayoutFarm.WebDom
         {
             OnMouseDown(e);
         }
-        void IEventListener.ListenLostMouseFocus(UIMouseEventArgs e)
+        void IEventListener.ListenLostMouseFocus(UIMouseLostFocusEventArgs e)
         {
             OnLostMouseFocus(e);
         }
@@ -50,7 +50,7 @@ namespace LayoutFarm.WebDom
         {
             OnMouseEnter(e);
         }
-        void IEventListener.ListenMouseLeave(UIMouseMoveEventArgs e)
+        void IEventListener.ListenMouseLeave(UIMouseLeaveEventArgs e)
         {
             OnMouseLeave(e);
         }
