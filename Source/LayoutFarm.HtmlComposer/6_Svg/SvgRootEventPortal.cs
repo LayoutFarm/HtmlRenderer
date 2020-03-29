@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using LayoutFarm.Composers;
 using LayoutFarm.HtmlBoxes;
 using LayoutFarm.UI;
+using LayoutFarm.UI.ForImplementator;
 
 namespace PaintLab.Svg
 {
@@ -121,8 +122,8 @@ namespace PaintLab.Svg
                 if (controller != null)
                 {
                     //found controller
-
-                    e.CurrentContextElement = controller;
+                     
+                    e.SetCurrentContextElement(controller);
                     e.SetLocation((int)hitInfo.x, (int)hitInfo.y);
                     if (listenerAction())
                     {
@@ -154,7 +155,7 @@ namespace PaintLab.Svg
             if (count > 0)
             {
                 var hitInfo = hitChain.GetHitInfo(count - 1);
-                e.ExactHitObject = hitInfo;
+                e.SetExactHitObject(hitInfo);                 
             }
         }
         void ClearPreviousSelection()

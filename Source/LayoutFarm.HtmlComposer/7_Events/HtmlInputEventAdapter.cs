@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using PixelFarm.Drawing;
 using LayoutFarm.UI;
+using LayoutFarm.UI.ForImplementator;
+
 namespace LayoutFarm.HtmlBoxes
 {
     /// <summary>
@@ -51,7 +53,7 @@ namespace LayoutFarm.HtmlBoxes
             int count = hitChain.Count;
             if (count > 0)
             {
-                e.ExactHitObject = hitChain.GetHitInfo(count - 1).hitObject;
+                e.SetExactHitObject(hitChain.GetHitInfo(count - 1).hitObject);
             }
         }
         public void MouseDown(UIMouseDownEventArgs e, CssBox startAt)
@@ -92,8 +94,9 @@ namespace LayoutFarm.HtmlBoxes
             });
             if (!e.CancelBubbling)
             {
-                var prevMouseDownElement = _currentMouseDown;
-                e.CurrentContextElement = _currentMouseDown = null; //clear
+                IUIEventListener prevMouseDownElement = _currentMouseDown;
+                _currentMouseDown = null; //clear                 
+                e.SetCurrentContextElement(null);
                 ForEachEventListenerBubbleUp(e, hitChain, () =>
                 {
                     //TODO: check accept keyboard
@@ -468,10 +471,10 @@ namespace LayoutFarm.HtmlBoxes
                     //found controller
                     if (e.SourceHitElement == null)
                     {
-                        e.SourceHitElement = controller;
+                        e.SetSourceHitObject(controller);
                     }
 
-                    e.CurrentContextElement = controller;
+                    e.SetCurrentContextElement(controller);
                     e.SetLocation(hitInfo.localX, hitInfo.localY);
                     if (listenerAction())
                     {

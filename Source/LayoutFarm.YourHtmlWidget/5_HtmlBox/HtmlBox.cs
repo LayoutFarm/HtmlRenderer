@@ -5,6 +5,8 @@ using System.Text;
 using LayoutFarm.Composers;
 using LayoutFarm.HtmlBoxes;
 using LayoutFarm.UI;
+using LayoutFarm.UI.ForImplementator;
+
 namespace LayoutFarm.CustomWidgets
 {
     public class HtmlBox : AbstractRectUI, IEventPortal
@@ -87,13 +89,14 @@ namespace LayoutFarm.CustomWidgets
 
         void IEventPortal.PortalMouseUp(UIMouseUpEventArgs e)
         {
-            e.CurrentContextElement = this;
+
+            e.SetCurrentContextElement(this);//?
             GetInputEventAdapter().MouseUp(e, _htmlRenderBox.CssBox);
         }
         void IEventPortal.PortalMouseDown(UIMouseDownEventArgs e)
         {
             this.Focus();
-            e.CurrentContextElement = this;
+            e.SetCurrentContextElement(this);//?
             GetInputEventAdapter().MouseDown(e, _htmlRenderBox.CssBox);
 
             if (e.Shift && !e.CancelBubbling)
@@ -135,41 +138,43 @@ namespace LayoutFarm.CustomWidgets
         }
         void IEventPortal.PortalMouseMove(UIMouseMoveEventArgs e)
         {
-            e.CurrentContextElement = this;
+            //TODO: review this again
+            //this set current context element should be automatically set
+            e.SetCurrentContextElement(this);
+
             GetInputEventAdapter().MouseMove(e, _htmlRenderBox.CssBox);
         }
         void IEventPortal.PortalMouseWheel(UIMouseWheelEventArgs e)
         {
-            e.CurrentContextElement = this;
+            e.SetCurrentContextElement(this);
         }
         void IEventPortal.PortalKeyDown(UIKeyEventArgs e)
         {
-            e.CurrentContextElement = this;
+            e.SetCurrentContextElement(this);
             GetInputEventAdapter().KeyDown(e, _htmlRenderBox.CssBox);
         }
         void IEventPortal.PortalKeyPress(UIKeyEventArgs e)
         {
-            e.CurrentContextElement = this;
+            e.SetCurrentContextElement(this);
             GetInputEventAdapter().KeyPress(e, _htmlRenderBox.CssBox);
         }
         void IEventPortal.PortalKeyUp(UIKeyEventArgs e)
         {
-
-            e.CurrentContextElement = this;
+            e.SetCurrentContextElement(this);
             GetInputEventAdapter().KeyUp(e, _htmlRenderBox.CssBox);
         }
         bool IEventPortal.PortalProcessDialogKey(UIKeyEventArgs e)
         {
-            e.CurrentContextElement = this;
+            e.SetCurrentContextElement(this);
             return GetInputEventAdapter().ProcessDialogKey(e, _htmlRenderBox.CssBox);
         }
         void IEventPortal.PortalGotFocus(UIFocusEventArgs e)
         {
-            e.CurrentContextElement = this;
+            e.SetCurrentContextElement(this);
         }
         void IEventPortal.PortalLostFocus(UIFocusEventArgs e)
         {
-            e.CurrentContextElement = this;
+            e.SetCurrentContextElement(this);
         }
 
 
@@ -230,7 +235,8 @@ namespace LayoutFarm.CustomWidgets
                 }
             }
 
-            e.CurrentContextElement = this;
+            //??? review here
+            e.SetCurrentContextElement(this);
         }
         public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
         {
