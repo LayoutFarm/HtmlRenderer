@@ -87,7 +87,7 @@ namespace LayoutFarm.HtmlBoxes
             BoxHitUtils.HitTest(startAt, x, y, hitChain);
             //2. propagate events
             SetEventOrigin(e, hitChain);
-            ForEachOnlyEventPortalBubbleUp(e, hitChain, (portal) =>
+            ForEachOnlyEventPortalBubbleUp(e, hitChain, portal =>
             {
                 portal.PortalMouseDown(e);
                 return true;

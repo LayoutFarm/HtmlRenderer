@@ -17,7 +17,7 @@ namespace PaintLab.Svg
             HitTestCore(this.SvgRoot.SvgDoc.Root, hitChain, e.X, e.Y);
             SetEventOrigin(e, hitChain);
             //2. propagate event  portal
-            ForEachOnlyEventPortalBubbleUp(e, hitChain, (portal) =>
+            ForEachOnlyEventPortalBubbleUp(e, hitChain, portal =>
             {
                 portal.PortalMouseDown(e);
                 return true;

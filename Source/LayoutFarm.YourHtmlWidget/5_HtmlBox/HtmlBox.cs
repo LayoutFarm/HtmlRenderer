@@ -86,17 +86,15 @@ namespace LayoutFarm.CustomWidgets
             }
             return _inputEventAdapter;
         }
-
         void IEventPortal.PortalMouseUp(UIMouseUpEventArgs e)
         {
-
-            e.SetCurrentContextElement(this);//?
+            e.SetCurrentContextElement(this);
             GetInputEventAdapter().MouseUp(e, _htmlRenderBox.CssBox);
         }
         void IEventPortal.PortalMouseDown(UIMouseDownEventArgs e)
         {
+            e.SetCurrentContextElement(this);
             this.Focus();
-            e.SetCurrentContextElement(this);//?
             GetInputEventAdapter().MouseDown(e, _htmlRenderBox.CssBox);
 
             if (e.Shift && !e.CancelBubbling)
@@ -186,22 +184,16 @@ namespace LayoutFarm.CustomWidgets
         {
             //TODO: review here again***
             HtmlInputEventAdapter evAdapter = GetInputEventAdapter();
-            {
 
-                _sel_MouseDownArgs.SetLocation(startX, startY);
-                evAdapter.MouseDown(_sel_MouseDownArgs);
-            }
+            _sel_MouseDownArgs.SetLocation(startX, startY);
+            evAdapter.MouseDown(_sel_MouseDownArgs);
 
-            {
-                _sel_MouseMoveArgs.IsDragging = true;
-                _sel_MouseMoveArgs.SetLocation(endX, endY);
-                evAdapter.MouseMove(_sel_MouseMoveArgs);
-            }
-            {
+            _sel_MouseMoveArgs.SetIsDragging(true);
+            _sel_MouseMoveArgs.SetLocation(endX, endY);
+            evAdapter.MouseMove(_sel_MouseMoveArgs);
 
-                _selMouseUpArgs.SetLocation(endX, endY);
-                evAdapter.MouseUp(_selMouseUpArgs);
-            }
+            _selMouseUpArgs.SetLocation(endX, endY);
+            evAdapter.MouseUp(_selMouseUpArgs);
 
         }
         protected override void OnKeyUp(UIKeyEventArgs e)
