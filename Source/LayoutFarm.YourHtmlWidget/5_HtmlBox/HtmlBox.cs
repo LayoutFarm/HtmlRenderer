@@ -5,6 +5,8 @@ using System.Text;
 using LayoutFarm.Composers;
 using LayoutFarm.HtmlBoxes;
 using LayoutFarm.UI;
+using LayoutFarm.UI.ForImplementator;
+
 namespace LayoutFarm.CustomWidgets
 {
     public class HtmlBox : AbstractRectUI, IEventPortal
@@ -49,7 +51,7 @@ namespace LayoutFarm.CustomWidgets
                 debug_PreferSoftwareRenderer = value;
                 if (_htmlRenderBox != null)
                 {
-                    
+
                     _htmlRenderBox.dbugPreferSoftwareRenderer = value;
                 }
             }
@@ -84,16 +86,15 @@ namespace LayoutFarm.CustomWidgets
             }
             return _inputEventAdapter;
         }
-
-        void IEventPortal.PortalMouseUp(UIMouseEventArgs e)
+        void IEventPortal.PortalMouseUp(UIMouseUpEventArgs e)
         {
-            e.CurrentContextElement = this;
+            e.SetCurrentContextElement(this);
             GetInputEventAdapter().MouseUp(e, _htmlRenderBox.CssBox);
         }
-        void IEventPortal.PortalMouseDown(UIMouseEventArgs e)
+        void IEventPortal.PortalMouseDown(UIMouseDownEventArgs e)
         {
+            e.SetCurrentContextElement(this);
             this.Focus();
-            e.CurrentContextElement = this;
             GetInputEventAdapter().MouseDown(e, _htmlRenderBox.CssBox);
 
             if (e.Shift && !e.CancelBubbling)
@@ -133,66 +134,66 @@ namespace LayoutFarm.CustomWidgets
                 _latest_selMouseDownY = e.Y; //set new
             }
         }
-        void IEventPortal.PortalMouseMove(UIMouseEventArgs e)
+        void IEventPortal.PortalMouseMove(UIMouseMoveEventArgs e)
         {
-            e.CurrentContextElement = this;
+            //TODO: review this again
+            //this set current context element should be automatically set
+            e.SetCurrentContextElement(this);
+
             GetInputEventAdapter().MouseMove(e, _htmlRenderBox.CssBox);
         }
-        void IEventPortal.PortalMouseWheel(UIMouseEventArgs e)
+        void IEventPortal.PortalMouseWheel(UIMouseWheelEventArgs e)
         {
-            e.CurrentContextElement = this;
+            e.SetCurrentContextElement(this);
         }
         void IEventPortal.PortalKeyDown(UIKeyEventArgs e)
         {
-            e.CurrentContextElement = this;
+            e.SetCurrentContextElement(this);
             GetInputEventAdapter().KeyDown(e, _htmlRenderBox.CssBox);
         }
         void IEventPortal.PortalKeyPress(UIKeyEventArgs e)
         {
-            e.CurrentContextElement = this;
+            e.SetCurrentContextElement(this);
             GetInputEventAdapter().KeyPress(e, _htmlRenderBox.CssBox);
         }
         void IEventPortal.PortalKeyUp(UIKeyEventArgs e)
         {
-
-            e.CurrentContextElement = this;
+            e.SetCurrentContextElement(this);
             GetInputEventAdapter().KeyUp(e, _htmlRenderBox.CssBox);
         }
         bool IEventPortal.PortalProcessDialogKey(UIKeyEventArgs e)
         {
-            e.CurrentContextElement = this;
+            e.SetCurrentContextElement(this);
             return GetInputEventAdapter().ProcessDialogKey(e, _htmlRenderBox.CssBox);
         }
         void IEventPortal.PortalGotFocus(UIFocusEventArgs e)
         {
-            e.CurrentContextElement = this;
+            e.SetCurrentContextElement(this);
         }
         void IEventPortal.PortalLostFocus(UIFocusEventArgs e)
         {
-            e.CurrentContextElement = this;
+            e.SetCurrentContextElement(this);
         }
+
+
+        readonly UIMouseDownEventArgs _sel_MouseDownArgs = new UIMouseDownEventArgs();
+        readonly UIMouseMoveEventArgs _sel_MouseMoveArgs = new UIMouseMoveEventArgs();
+        readonly UIMouseUpEventArgs _selMouseUpArgs = new UIMouseUpEventArgs();
 
         void SimulateMouseSelection(int startX, int startY, int endX, int endY)
         {
             //TODO: review here again***
             HtmlInputEventAdapter evAdapter = GetInputEventAdapter();
-            {
-                UIMouseEventArgs mouseDown = new UIMouseEventArgs();
-                mouseDown.SetLocation(startX, startY);
-                evAdapter.MouseDown(mouseDown);
-            }
 
-            {
-                UIMouseEventArgs mouseDrag = new UIMouseEventArgs();
-                mouseDrag.IsDragging = true;
-                mouseDrag.SetLocation(endX, endY);
-                evAdapter.MouseMove(mouseDrag);
-            }
-            {
-                UIMouseEventArgs mouseUp = new UIMouseEventArgs();
-                mouseUp.SetLocation(endX, endY);
-                evAdapter.MouseUp(mouseUp);
-            }
+            _sel_MouseDownArgs.SetLocation(startX, startY);
+            evAdapter.MouseDown(_sel_MouseDownArgs);
+
+            _sel_MouseMoveArgs.SetIsDragging(true);
+            _sel_MouseMoveArgs.SetLocation(endX, endY);
+            evAdapter.MouseMove(_sel_MouseMoveArgs);
+
+            _selMouseUpArgs.SetLocation(endX, endY);
+            evAdapter.MouseUp(_selMouseUpArgs);
 
         }
         protected override void OnKeyUp(UIKeyEventArgs e)
@@ -226,7 +227,8 @@ namespace LayoutFarm.CustomWidgets
                 }
             }
 
-            e.CurrentContextElement = this;
+            //??? review here
+            e.SetCurrentContextElement(this);
         }
         public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
         {

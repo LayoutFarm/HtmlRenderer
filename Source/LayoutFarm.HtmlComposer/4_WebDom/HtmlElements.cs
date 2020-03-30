@@ -460,7 +460,7 @@ namespace LayoutFarm.Composers
             _mouseUpEventHandler?.Invoke(e);
             base.OnMouseUp(e);
         }
-        protected override void OnLostMouseFocus(UIMouseEventArgs e)
+        protected override void OnLostMouseFocus(UIMouseLostFocusEventArgs e)
         {
             _mouseLostFocusEventHandler?.Invoke(e);
             base.OnLostMouseFocus(e);

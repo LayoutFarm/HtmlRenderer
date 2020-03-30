@@ -48,7 +48,7 @@ namespace LayoutFarm
 
             var spriteEvListener = new GeneralEventListener();
             uiSprite.AttachExternalEventListener(spriteEvListener);
-            spriteEvListener.MouseMove += e1 =>
+            spriteEvListener.MouseMove += (s1, e1) =>
             {
                 if (e1.IsDragging)
                 {
@@ -59,50 +59,50 @@ namespace LayoutFarm
                         uiSprite.Top + e1.YDiff);
                 }
             };
-            spriteEvListener.MouseDown += e1 =>
-            {
-                if (_hitTestOnSubPath)
-                {
+            spriteEvListener.MouseDown += (s1, e1) =>
+             {
+                 if (_hitTestOnSubPath)
+                 {
                     //find which part ...
                     VgHitInfo hitInfo = uiSprite.FindRenderElementAtPos(e1.X, e1.Y, true);
 
-                    if (hitInfo.hitElem != null &&
-                        hitInfo.hitElem.VxsPath != null)
-                    {
+                     if (hitInfo.hitElem != null &&
+                         hitInfo.hitElem.VxsPath != null)
+                     {
 
-                        PixelFarm.CpuBlit.RectD bounds = hitInfo.copyOfVxs.GetBoundingRect();
+                         PixelFarm.CpuBlit.RectD bounds = hitInfo.copyOfVxs.GetBoundingRect();
 
 
-                    }
-                    else
-                    {
+                     }
+                     else
+                     {
                         //_rectBoundsWidgetBox.Visible = false;
                         // _rectBoxController.Visible = false;
                     }
-                }
-                else
-                {
+                 }
+                 else
+                 {
                     //hit on sprite  
                     if (e1.Ctrl)
-                    {
+                     {
                         //test*** 
                         //
                         uiSprite.GetElementBounds(out float left, out float top, out float right, out float bottom);
                         //
                         using (Tools.BorrowRect(out SimpleRect s))
-                        using (Tools.BorrowVxs(out var v1))
-                        {
-                            s.SetRect(left - uiSprite.ActualXOffset,
-                                bottom - uiSprite.ActualYOffset,
-                                right - uiSprite.ActualXOffset,
-                                top - uiSprite.ActualYOffset);
+                         using (Tools.BorrowVxs(out var v1))
+                         {
+                             s.SetRect(left - uiSprite.ActualXOffset,
+                                 bottom - uiSprite.ActualYOffset,
+                                 right - uiSprite.ActualXOffset,
+                                 top - uiSprite.ActualYOffset);
                             //TODO: review here
                             //s.MakeVxs(v1);
                             //_polygonController.UpdateControlPoints(v1.CreateTrim());
                         }
-                    }
-                    else
-                    {
+                     }
+                     else
+                     {
 
                         //_rectBoundsWidgetBox.SetTarget(_uiSprite);
                         //_rectBoundsWidgetBox.SetLocationAndSize(    //blue
@@ -116,8 +116,8 @@ namespace LayoutFarm
 
                         //UpdateTransformedShape2();
                     }
-                }
-            };
+                 }
+             };
 
             return uiSprite;
         }

@@ -802,7 +802,7 @@ namespace LayoutFarm
             x = box.TargetX;
             y = box.TargetY;
         }
-        protected override void OnMouseDown(UIMouseEventArgs e)
+        protected override void OnMouseDown(UIMouseDownEventArgs e)
         {
             base.OnMouseDown(e);
             this.Focus(); //if we not focus => we can't get keyboard input**
@@ -1178,20 +1178,22 @@ namespace LayoutFarm
         }
 
 
-        public event UIEventHandler<UIMouseEventArgs> Drag;
-        public event UIEventHandler<UIMouseEventArgs> MouseUp;
-        public event UIEventHandler<UIMouseEventArgs> MouseDblClick;
+        public event System.EventHandler<UIMouseMoveEventArgs> Drag;
+        public event System.EventHandler<UIMouseUpEventArgs> MouseUp;
+
+        public event System.EventHandler<UIMouseEventArgs> MouseDblClick;
+
         protected override void OnDoubleClick(UIMouseEventArgs e)
         {
             base.OnDoubleClick(e);
-            MouseDblClick?.Invoke(e);
+            MouseDblClick?.Invoke(this, e);
         }
-        protected override void OnMouseUp(UIMouseEventArgs e)
+        protected override void OnMouseUp(UIMouseUpEventArgs e)
         {
             base.OnMouseUp(e);
-            MouseUp?.Invoke(e);
+            MouseUp?.Invoke(this, e);
         }
-        protected override void OnMouseMove(UIMouseEventArgs e)
+        protected override void OnMouseMove(UIMouseMoveEventArgs e)
         {
             if (e.IsDragging)
             {
@@ -1208,7 +1210,7 @@ namespace LayoutFarm
                 UpdateTransformedShape(this, System.EventArgs.Empty);
                 //
                 //
-                Drag?.Invoke(e);
+                Drag?.Invoke(this, e);
             }
             base.OnMouseMove(e);
         }
@@ -1445,7 +1447,7 @@ namespace LayoutFarm
             renderE.TransparentForMouseEvents = this.TransparentForMouseEvents;
             return renderE;
         }
-         
+
 
         public override void Add(UIElement ui)
         {

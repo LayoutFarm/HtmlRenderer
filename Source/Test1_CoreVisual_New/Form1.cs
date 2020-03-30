@@ -43,8 +43,8 @@ namespace TestGraphicPackage
 
         static AbstractTopWindowBridge GetTopWindowBridge(
           InnerViewportKind innerViewportKind,
-           LayoutFarm.RootGraphic rootgfx,
-          LayoutFarm.UI.InputBridge.ITopWindowEventRoot topWindowEventRoot)
+          LayoutFarm.RootGraphic rootgfx,
+          ITopWindowEventRoot topWindowEventRoot)
         {
             switch (innerViewportKind)
             {

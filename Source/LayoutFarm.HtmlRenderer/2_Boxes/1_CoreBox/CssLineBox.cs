@@ -466,7 +466,9 @@ namespace LayoutFarm.HtmlBoxes
                             int oy = p.CanvasOriginY;
                             //p.SetCanvasOrigin(ox + (int)(blockRun.Left + blockRun.ContentBox.LocalX), oy + (int)blockRun.Top);
                             p.SetCanvasOrigin(ox + (int)(blockRun.Left), oy + (int)blockRun.Top);
-                            blockRun.ContentBox.Paint(p);
+                             
+                            CssBox.Paint(blockRun.ContentBox, p);
+
                             p.SetCanvasOrigin(ox, oy);
                         }
                         break;

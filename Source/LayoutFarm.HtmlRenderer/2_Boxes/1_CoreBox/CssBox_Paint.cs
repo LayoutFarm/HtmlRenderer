@@ -2,7 +2,6 @@
 //ArthurHub, Jose Manuel Menendez Poo
 
 using System;
-using System.Collections.Generic;
 using PixelFarm.Drawing;
 namespace LayoutFarm.HtmlBoxes
 {
@@ -96,38 +95,34 @@ namespace LayoutFarm.HtmlBoxes
                 parentBox.InvalidateGraphics(clientArea);
             }
         }
-        public void Paint(PaintVisitor p)
-        {
-#if DEBUG
-            //if (__aa_dbugId == 5)
-            //{
 
-            //}
+        public static void Paint(CssBox box, PaintVisitor p)
+        {
+#if DEBUG         
             dbugCounter.dbugBoxPaintCount++;
 #endif
-            if (_isVisible)
+            if (box._isVisible)
             {
                 //offset 
-
-                if (_mayHasViewport)
+                if (box._mayHasViewport)
                 {
-                    if (ViewportX != 0 || ViewportY != 0)
+                    if (box.ViewportX != 0 || box.ViewportY != 0)
                     {
                         int enter_canvas_X = p.CanvasOriginX;
                         int enter_canvas_Y = p.CanvasOriginY;
 
-                        p.SetCanvasOrigin(enter_canvas_X - ViewportX, enter_canvas_Y - ViewportY);
-                        PaintImp(p);
+                        p.SetCanvasOrigin(enter_canvas_X - box.ViewportX, enter_canvas_Y - box.ViewportY);
+                        box.PaintImp(p);
                         p.SetCanvasOrigin(enter_canvas_X, enter_canvas_Y);//restore
                     }
                     else
                     {
-                        PaintImp(p);
-                    }                    
+                        box.PaintImp(p);
+                    }
                 }
                 else
                 {
-                    PaintImp(p);
+                    box.PaintImp(p);
                 }
             }
         }
@@ -305,14 +300,14 @@ namespace LayoutFarm.HtmlBoxes
                         {
                             if (p.PushLocalClipArea(b.VisualWidth, b.VisualHeight))
                             {
-                                b.Paint(p);
+                                CssBox.Paint(b, p);
                                 p.PopLocalClipArea();
                             }
-                            
+
                         }
                         else
                         {
-                            b.Paint(p);
+                            CssBox.Paint(b, p);
                         }
 
                         node = node.Next;
@@ -335,7 +330,8 @@ namespace LayoutFarm.HtmlBoxes
                             continue;
                         }
                         p.SetCanvasOrigin(ox + (int)b.LocalX, oy + (int)b.LocalY);
-                        b.Paint(p);
+
+                        CssBox.Paint(b, p);
                         node = node.Next;
                     }
                     p.SetCanvasOrigin(ox, oy);
@@ -362,7 +358,7 @@ namespace LayoutFarm.HtmlBoxes
                         continue;
                     }
                     p.SetCanvasOrigin(ox + (int)b.LocalX, oy + (int)b.LocalY);
-                    b.Paint(p);
+                    CssBox.Paint(b, p);
                 }
                 //var node = _absPosLayer.GetFirstLinkedNode();
                 //while (node != null)
@@ -398,7 +394,7 @@ namespace LayoutFarm.HtmlBoxes
                         continue;
                     }
                     p.SetCanvasOrigin(ox + (int)box.LocalX, oy + (int)box.LocalY);
-                    box.Paint(p);
+                    CssBox.Paint(box, p);
                     p.SetCanvasOrigin(ox, oy);
                 }
                 p.PopContainingBlock();

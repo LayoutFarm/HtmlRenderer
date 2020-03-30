@@ -20,8 +20,7 @@ namespace LayoutFarm.Composers
             ISubDomExtender subDomExtender,
             bool isInline)
         {
-            var portalEvent = owner as IEventPortal;
-            if (portalEvent == null)
+            if (!(owner is IEventPortal portalEvent))
             {
                 portalEvent = new RenderElementEventPortal(renderElement);
             }
