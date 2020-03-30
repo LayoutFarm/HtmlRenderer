@@ -96,6 +96,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackEnd.TreeCollection", ".
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaintLab.Color", "..\..\PixelFarm\src\PixelFarm\PaintLab.Color\PaintLab.Color.csproj", "{9CC6310F-C116-449D-BE97-63D152F98746}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaintLab.PaintFx", "..\..\PixelFarm\src\PixelFarm\PaintLab.PaintFx\PaintLab.PaintFx.csproj", "{A533E1C7-AB74-4BCF-BC7A-12D4DBBFA918}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Test3_MixHtml_SH\Test3_MixHtml_SH.projitems*{14840a73-6d38-4a2a-a71c-f84dc4fb4620}*SharedItemsImports = 4
@@ -105,7 +107,6 @@ Global
 		..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing.GdiPlus_SH\PixelFarm.Drawing.GdiPlus_SH.projitems*{1aa171e3-523c-4dd5-a169-de6322991ff5}*SharedItemsImports = 4
 		..\..\PixelFarm\src\PixelFarm\PaintLab.AppHost\PaintLab.AppHost.projitems*{24b58983-d06b-48bf-bbd3-7cb919003520}*SharedItemsImports = 4
 		..\..\PixelFarm\src\Tests\WinFormTestBed2\WinFormTestBed2.projitems*{24b58983-d06b-48bf-bbd3-7cb919003520}*SharedItemsImports = 4
-		..\..\PixelFarm\src\PixelFarm\BackEnd.PaintFx\PdnSharedProject\PdnSharedProject.projitems*{51d63482-5697-4b16-8401-506965624657}*SharedItemsImports = 4
 		..\..\Typography\Typography.GlyphLayout\Typography.GlyphLayout.projitems*{5278fab9-33f0-40e0-adca-7237ea0e935b}*SharedItemsImports = 4
 		..\..\Typography\Typography.OpenFont\Typography.OpenFont.projitems*{5278fab9-33f0-40e0-adca-7237ea0e935b}*SharedItemsImports = 4
 		..\..\Typography\Typography.TextBreak\Typography.TextBreak\Typography.TextBreak.projitems*{5278fab9-33f0-40e0-adca-7237ea0e935b}*SharedItemsImports = 4
@@ -718,6 +719,24 @@ Global
 		{9CC6310F-C116-449D-BE97-63D152F98746}.Release64|Mixed Platforms.Build.0 = Release|Any CPU
 		{9CC6310F-C116-449D-BE97-63D152F98746}.Release64|x86.ActiveCfg = Release|Any CPU
 		{9CC6310F-C116-449D-BE97-63D152F98746}.Release64|x86.Build.0 = Release|Any CPU
+		{A533E1C7-AB74-4BCF-BC7A-12D4DBBFA918}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A533E1C7-AB74-4BCF-BC7A-12D4DBBFA918}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A533E1C7-AB74-4BCF-BC7A-12D4DBBFA918}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{A533E1C7-AB74-4BCF-BC7A-12D4DBBFA918}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{A533E1C7-AB74-4BCF-BC7A-12D4DBBFA918}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A533E1C7-AB74-4BCF-BC7A-12D4DBBFA918}.Debug|x86.Build.0 = Debug|Any CPU
+		{A533E1C7-AB74-4BCF-BC7A-12D4DBBFA918}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A533E1C7-AB74-4BCF-BC7A-12D4DBBFA918}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A533E1C7-AB74-4BCF-BC7A-12D4DBBFA918}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{A533E1C7-AB74-4BCF-BC7A-12D4DBBFA918}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{A533E1C7-AB74-4BCF-BC7A-12D4DBBFA918}.Release|x86.ActiveCfg = Release|Any CPU
+		{A533E1C7-AB74-4BCF-BC7A-12D4DBBFA918}.Release|x86.Build.0 = Release|Any CPU
+		{A533E1C7-AB74-4BCF-BC7A-12D4DBBFA918}.Release64|Any CPU.ActiveCfg = Release|Any CPU
+		{A533E1C7-AB74-4BCF-BC7A-12D4DBBFA918}.Release64|Any CPU.Build.0 = Release|Any CPU
+		{A533E1C7-AB74-4BCF-BC7A-12D4DBBFA918}.Release64|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{A533E1C7-AB74-4BCF-BC7A-12D4DBBFA918}.Release64|Mixed Platforms.Build.0 = Release|Any CPU
+		{A533E1C7-AB74-4BCF-BC7A-12D4DBBFA918}.Release64|x86.ActiveCfg = Release|Any CPU
+		{A533E1C7-AB74-4BCF-BC7A-12D4DBBFA918}.Release64|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -761,6 +780,7 @@ Global
 		{E5F2B317-2205-4727-92C4-6190A2FA3DDC} = {7C48D8C8-22E8-43DB-9118-DB8A849B9D70}
 		{39475DD4-6793-454F-8C48-06452F42C300} = {7C48D8C8-22E8-43DB-9118-DB8A849B9D70}
 		{9CC6310F-C116-449D-BE97-63D152F98746} = {7C48D8C8-22E8-43DB-9118-DB8A849B9D70}
+		{A533E1C7-AB74-4BCF-BC7A-12D4DBBFA918} = {7C48D8C8-22E8-43DB-9118-DB8A849B9D70}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8E122BCF-9C21-4ED3-ADDC-19E7F173F4BF}
