@@ -244,13 +244,17 @@
     <Compile Include="Platform\RenderUtils.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\PixelFarm\src\PixelFarm\BackEnd.Color\BackEnd.Color.csproj">
-      <Project>{9cc6310f-c116-449d-be97-63d152f98746}</Project>
-      <Name>BackEnd.Color</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.AbstractPlatform\PaintLab.AbstractPlatform.csproj">
       <Project>{d2cc5cef-3003-4a5d-a532-8eb7e4fa40f2}</Project>
       <Name>PaintLab.AbstractPlatform</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\PaintLab.Color.csproj">
+      <Project>{9cc6310f-c116-449d-be97-63d152f98746}</Project>
+      <Name>PaintLab.Color</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.PaintFx\PaintLab.PaintFx.csproj">
+      <Project>{a533e1c7-ab74-4bcf-bc7a-12d4dbbfa918}</Project>
+      <Name>PaintLab.PaintFx</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\PixelFarm.Drawing.csproj">
       <Project>{51d63482-5697-4b16-8401-506965624657}</Project>

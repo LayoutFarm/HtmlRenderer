@@ -8,35 +8,28 @@ namespace LayoutFarm.WebDom
     {
         public bool AcceptKeyboardFocus { get; set; }
         bool IUIEventListener.DisableAutoMouseCapture => false;
-        void IEventListener.ListenKeyPress(UIKeyEventArgs e)
-        {
-            OnKeyPress(e);
-        }
-        void IEventListener.ListenKeyDown(UIKeyEventArgs e)
-        {
-            OnKeyDown(e);
-        }
-        void IEventListener.ListenKeyUp(UIKeyEventArgs e)
-        {
-            OnKeyUp(e);
-        }
+        void IEventListener.ListenKeyPress(UIKeyEventArgs e) => OnKeyPress(e);
+        void IEventListener.ListenMousePress(UIMousePressEventArgs e) => OnMousePress(e);
+        void IEventListener.ListenKeyDown(UIKeyEventArgs e) => OnKeyDown(e);
+        void IEventListener.ListenKeyUp(UIKeyEventArgs e) => OnKeyUp(e);
+
         bool IEventListener.ListenProcessDialogKey(UIKeyEventArgs e)
         {
             return OnProcessDialogKey(e);
         }
-        void IEventListener.ListenMouseDown(UIMouseEventArgs e)
+        void IEventListener.ListenMouseDown(UIMouseDownEventArgs e)
         {
             OnMouseDown(e);
         }
-        void IEventListener.ListenLostMouseFocus(UIMouseEventArgs e)
+        void IEventListener.ListenLostMouseFocus(UIMouseLostFocusEventArgs e)
         {
             OnLostMouseFocus(e);
         }
-        void IEventListener.ListenMouseMove(UIMouseEventArgs e)
+        void IEventListener.ListenMouseMove(UIMouseMoveEventArgs e)
         {
             OnMouseMove(e);
         }
-        void IEventListener.ListenMouseUp(UIMouseEventArgs e)
+        void IEventListener.ListenMouseUp(UIMouseUpEventArgs e)
         {
             //1. mouse up
             OnMouseUp(e);
@@ -48,11 +41,16 @@ namespace LayoutFarm.WebDom
         {
             OnDoubleClick(e);
         }
-        void IEventListener.ListenMouseWheel(UIMouseEventArgs e)
+        void IEventListener.ListenMouseWheel(UIMouseWheelEventArgs e)
         {
             OnMouseWheel(e);
         }
-        void IEventListener.ListenMouseLeave(UIMouseEventArgs e)
+
+        void IEventListener.ListenMouseEnter(UIMouseMoveEventArgs e)
+        {
+            OnMouseEnter(e);
+        }
+        void IEventListener.ListenMouseLeave(UIMouseLeaveEventArgs e)
         {
             OnMouseLeave(e);
         }
@@ -64,11 +62,8 @@ namespace LayoutFarm.WebDom
         {
             OnLostFocus(e);
         }
-        bool IUIEventListener.AutoStopMouseEventPropagation
-        {
-            get { return false; }
-        }
-         
+
+        bool IUIEventListener.AutoStopMouseEventPropagation => false;
 
         //--------------
         void IUIEventListener.HandleContentLayout()
@@ -102,6 +97,10 @@ namespace LayoutFarm.WebDom
         }
         public abstract void GetGlobalLocation(out int x, out int y);
         public abstract void GetGlobalLocationRelativeToRoot(out int x, out int y);
-        public abstract void GetViewport(out int x, out int y);
+        public abstract void GetViewport(out int x, out int y);         
+        public void ListenMouseHover(UIMouseHoverEventArgs e)
+        {
+
+        }
     }
 }

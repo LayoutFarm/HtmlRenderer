@@ -94,7 +94,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaintLab.Platforms.Win32", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackEnd.TreeCollection", "..\..\PixelFarm\src\PixelFarm\BackEnd.TreeCollection\BackEnd.TreeCollection.csproj", "{39475DD4-6793-454F-8C48-06452F42C300}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackEnd.Color", "..\..\PixelFarm\src\PixelFarm\BackEnd.Color\BackEnd.Color.csproj", "{9CC6310F-C116-449D-BE97-63D152F98746}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaintLab.Color", "..\..\PixelFarm\src\PixelFarm\PaintLab.Color\PaintLab.Color.csproj", "{9CC6310F-C116-449D-BE97-63D152F98746}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaintLab.PaintFx", "..\..\PixelFarm\src\PixelFarm\PaintLab.PaintFx\PaintLab.PaintFx.csproj", "{A533E1C7-AB74-4BCF-BC7A-12D4DBBFA918}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -105,15 +107,16 @@ Global
 		..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing.GdiPlus_SH\PixelFarm.Drawing.GdiPlus_SH.projitems*{1aa171e3-523c-4dd5-a169-de6322991ff5}*SharedItemsImports = 4
 		..\..\PixelFarm\src\PixelFarm\PaintLab.AppHost\PaintLab.AppHost.projitems*{24b58983-d06b-48bf-bbd3-7cb919003520}*SharedItemsImports = 4
 		..\..\PixelFarm\src\Tests\WinFormTestBed2\WinFormTestBed2.projitems*{24b58983-d06b-48bf-bbd3-7cb919003520}*SharedItemsImports = 4
-		..\..\PixelFarm\src\PixelFarm\BackEnd.PaintFx\PdnSharedProject\PdnSharedProject.projitems*{51d63482-5697-4b16-8401-506965624657}*SharedItemsImports = 4
 		..\..\Typography\Typography.GlyphLayout\Typography.GlyphLayout.projitems*{5278fab9-33f0-40e0-adca-7237ea0e935b}*SharedItemsImports = 4
 		..\..\Typography\Typography.OpenFont\Typography.OpenFont.projitems*{5278fab9-33f0-40e0-adca-7237ea0e935b}*SharedItemsImports = 4
 		..\..\Typography\Typography.TextBreak\Typography.TextBreak\Typography.TextBreak.projitems*{5278fab9-33f0-40e0-adca-7237ea0e935b}*SharedItemsImports = 4
 		..\..\Typography\Typography.TextFlow\Typography.TextFlow.projitems*{5278fab9-33f0-40e0-adca-7237ea0e935b}*SharedItemsImports = 4
 		..\..\Typography\Typography.TextServices\Typography.TextServices.projitems*{5278fab9-33f0-40e0-adca-7237ea0e935b}*SharedItemsImports = 4
 		..\..\PixelFarm\src\Tests\WinFormTestBed2\WinFormTestBed2.projitems*{5cf69768-3249-45d4-8be3-b686f88c4ea0}*SharedItemsImports = 13
-		..\..\PixelFarm\src\PixelFarm\BackEnd.Color\Colorful_SH\Colorful_SH.projitems*{9cc6310f-c116-449d-be97-63d152f98746}*SharedItemsImports = 4
+		..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Colorful_SH.projitems*{9cc6310f-c116-449d-be97-63d152f98746}*SharedItemsImports = 4
+		..\..\PixelFarm\src\PixelFarm\BackEnd.PaintFx\PdnSharedProject\PdnSharedProject.projitems*{a533e1c7-ab74-4bcf-bc7a-12d4dbbfa918}*SharedItemsImports = 4
 		Test3_MixHtml_SH\Test3_MixHtml_SH.projitems*{bff5f427-429e-4b22-acbb-0c741ef63895}*SharedItemsImports = 13
+		..\..\PixelFarm\src\PixelFarm\PaintLab.Platforms.SH\PaintLab.Platforms.SH.projitems*{e5f2b317-2205-4727-92c4-6190a2fa3ddc}*SharedItemsImports = 4
 		..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing.GdiPlus_SH\PixelFarm.Drawing.GdiPlus_SH.projitems*{e5f2b317-2205-4727-92c4-6190a2fa3ddc}*SharedItemsImports = 4
 		..\..\PixelFarm\src\PixelFarm\BackEnd.MiniOpenTK\src\OpenTK\MiniOpenTK_Core1.projitems*{e9a5d738-bc13-4909-94d8-d7a13d7068ff}*SharedItemsImports = 4
 		..\..\PixelFarm\src\PixelFarm\BackEnd.MiniOpenTK\src\OpenTK\MiniOpenTK_Core2.projitems*{e9a5d738-bc13-4909-94d8-d7a13d7068ff}*SharedItemsImports = 4
@@ -717,6 +720,24 @@ Global
 		{9CC6310F-C116-449D-BE97-63D152F98746}.Release64|Mixed Platforms.Build.0 = Release|Any CPU
 		{9CC6310F-C116-449D-BE97-63D152F98746}.Release64|x86.ActiveCfg = Release|Any CPU
 		{9CC6310F-C116-449D-BE97-63D152F98746}.Release64|x86.Build.0 = Release|Any CPU
+		{A533E1C7-AB74-4BCF-BC7A-12D4DBBFA918}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A533E1C7-AB74-4BCF-BC7A-12D4DBBFA918}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A533E1C7-AB74-4BCF-BC7A-12D4DBBFA918}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{A533E1C7-AB74-4BCF-BC7A-12D4DBBFA918}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{A533E1C7-AB74-4BCF-BC7A-12D4DBBFA918}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A533E1C7-AB74-4BCF-BC7A-12D4DBBFA918}.Debug|x86.Build.0 = Debug|Any CPU
+		{A533E1C7-AB74-4BCF-BC7A-12D4DBBFA918}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A533E1C7-AB74-4BCF-BC7A-12D4DBBFA918}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A533E1C7-AB74-4BCF-BC7A-12D4DBBFA918}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{A533E1C7-AB74-4BCF-BC7A-12D4DBBFA918}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{A533E1C7-AB74-4BCF-BC7A-12D4DBBFA918}.Release|x86.ActiveCfg = Release|Any CPU
+		{A533E1C7-AB74-4BCF-BC7A-12D4DBBFA918}.Release|x86.Build.0 = Release|Any CPU
+		{A533E1C7-AB74-4BCF-BC7A-12D4DBBFA918}.Release64|Any CPU.ActiveCfg = Release|Any CPU
+		{A533E1C7-AB74-4BCF-BC7A-12D4DBBFA918}.Release64|Any CPU.Build.0 = Release|Any CPU
+		{A533E1C7-AB74-4BCF-BC7A-12D4DBBFA918}.Release64|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{A533E1C7-AB74-4BCF-BC7A-12D4DBBFA918}.Release64|Mixed Platforms.Build.0 = Release|Any CPU
+		{A533E1C7-AB74-4BCF-BC7A-12D4DBBFA918}.Release64|x86.ActiveCfg = Release|Any CPU
+		{A533E1C7-AB74-4BCF-BC7A-12D4DBBFA918}.Release64|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -760,6 +781,7 @@ Global
 		{E5F2B317-2205-4727-92C4-6190A2FA3DDC} = {7C48D8C8-22E8-43DB-9118-DB8A849B9D70}
 		{39475DD4-6793-454F-8C48-06452F42C300} = {7C48D8C8-22E8-43DB-9118-DB8A849B9D70}
 		{9CC6310F-C116-449D-BE97-63D152F98746} = {7C48D8C8-22E8-43DB-9118-DB8A849B9D70}
+		{A533E1C7-AB74-4BCF-BC7A-12D4DBBFA918} = {7C48D8C8-22E8-43DB-9118-DB8A849B9D70}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8E122BCF-9C21-4ED3-ADDC-19E7F173F4BF}

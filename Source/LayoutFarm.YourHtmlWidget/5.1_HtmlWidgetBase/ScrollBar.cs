@@ -324,10 +324,7 @@ namespace LayoutFarm.HtmlWidgets
                 _scrollValue = (float)(_onePixelFor * currentMarkAt);
                 newYPos = CalculateThumbPosition() + _minmax_boxHeight;
                 scroll_button.SetLocation(pos.X, newYPos);
-                if (this.UserScroll != null)
-                {
-                    this.UserScroll(this, EventArgs.Empty);
-                }
+                this.UserScroll?.Invoke(this, EventArgs.Empty);
 
                 e.StopPropagation();
             };
@@ -473,7 +470,7 @@ namespace LayoutFarm.HtmlWidgets
 
         public event EventHandler<EventArgs> UserScroll;
         //tempfix here
-        internal void ChildNotifyMouseWheel(UIMouseEventArgs e)
+        internal void ChildNotifyMouseWheel(UIMouseWheelEventArgs e)
         {
             if (e.Delta < 0)
             {   //scroll down
@@ -485,7 +482,7 @@ namespace LayoutFarm.HtmlWidgets
                 this.StepSmallToMin();
             }
         }
-        protected override void OnMouseWheel(UIMouseEventArgs e)
+        protected override void OnMouseWheel(UIMouseWheelEventArgs e)
         {
             if (e.Delta < 0)
             {   //scroll down
@@ -527,7 +524,7 @@ namespace LayoutFarm.HtmlWidgets
             this.OwnerScrollBar = owner;
         }
         internal ScrollBar OwnerScrollBar { get; set; }
-        protected override void OnMouseWheel(UIMouseEventArgs e)
+        protected override void OnMouseWheel(UIMouseWheelEventArgs e)
         {
             this.OwnerScrollBar.ChildNotifyMouseWheel(e);
         }

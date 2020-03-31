@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using PixelFarm.Drawing;
 using LayoutFarm.UI;
+using LayoutFarm.UI.ForImplementator;
+
 namespace LayoutFarm.HtmlBoxes
 {
     /// <summary>
@@ -27,6 +29,7 @@ namespace LayoutFarm.HtmlBoxes
         int _lastDomLayoutVersion;
         const int DOUBLE_CLICK_SENSE = 150;//ms 
         Stack<CssBoxHitChain> _hitChainPools = new Stack<CssBoxHitChain>();
+        UIMouseLostFocusEventArgs _mouseLostFocus = new UIMouseLostFocusEventArgs();
 
         public HtmlInputEventAdapter()
         {
@@ -50,10 +53,10 @@ namespace LayoutFarm.HtmlBoxes
             int count = hitChain.Count;
             if (count > 0)
             {
-                e.ExactHitObject = hitChain.GetHitInfo(count - 1).hitObject;
+                e.SetExactHitObject(hitChain.GetHitInfo(count - 1).hitObject);
             }
         }
-        public void MouseDown(UIMouseEventArgs e, CssBox startAt)
+        public void MouseDown(UIMouseDownEventArgs e, CssBox startAt)
         {
             if (!_isBinded) return;
             if (startAt == null) return;
@@ -84,15 +87,16 @@ namespace LayoutFarm.HtmlBoxes
             BoxHitUtils.HitTest(startAt, x, y, hitChain);
             //2. propagate events
             SetEventOrigin(e, hitChain);
-            ForEachOnlyEventPortalBubbleUp(e, hitChain, (portal) =>
+            ForEachOnlyEventPortalBubbleUp(e, hitChain, portal =>
             {
                 portal.PortalMouseDown(e);
                 return true;
             });
             if (!e.CancelBubbling)
             {
-                var prevMouseDownElement = _currentMouseDown;
-                e.CurrentContextElement = _currentMouseDown = null; //clear
+                IUIEventListener prevMouseDownElement = _currentMouseDown;
+                _currentMouseDown = null; //clear                 
+                e.SetCurrentContextElement(null);
                 ForEachEventListenerBubbleUp(e, hitChain, () =>
                 {
                     //TODO: check accept keyboard
@@ -101,7 +105,7 @@ namespace LayoutFarm.HtmlBoxes
                     if (prevMouseDownElement != null &&
                         prevMouseDownElement != _currentMouseDown)
                     {
-                        prevMouseDownElement.ListenLostMouseFocus(e);
+                        prevMouseDownElement.ListenLostMouseFocus(_mouseLostFocus);
                     }
 
                     return e.CancelBubbling;
@@ -111,11 +115,11 @@ namespace LayoutFarm.HtmlBoxes
             //save mousedown hitchain
             _latestMouseDownChain = hitChain;
         }
-        public void MouseDown(UIMouseEventArgs e)
+        public void MouseDown(UIMouseDownEventArgs e)
         {
             this.MouseDown(e, _htmlVisualRoot.RootCssBox);
         }
-        public void MouseMove(UIMouseEventArgs e, CssBox startAt)
+        public void MouseMove(UIMouseMoveEventArgs e, CssBox startAt)
         {
             if (!_isBinded) return;
             if (startAt == null) return;
@@ -270,13 +274,13 @@ namespace LayoutFarm.HtmlBoxes
                 ReleaseHitChain(hitChain);
             }
         }
-        public void MouseMove(UIMouseEventArgs e)
+        public void MouseMove(UIMouseMoveEventArgs e)
         {
             if (!_isBinded) return;
             //---------------------------------------------------- 
             this.MouseMove(e, _htmlVisualRoot.RootCssBox);
         }
-        public void MouseUp(UIMouseEventArgs e, CssBox startAt)
+        public void MouseUp(UIMouseUpEventArgs e, CssBox startAt)
         {
             if (!_isBinded) return;
             if (startAt == null) return;
@@ -342,15 +346,15 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
         //int dbugNN = 0;
-        public void MouseUp(UIMouseEventArgs e)
+        public void MouseUp(UIMouseUpEventArgs e)
         {
             MouseUp(e, _htmlVisualRoot.RootCssBox);
         }
-        public void MouseWheel(UIMouseEventArgs e)
+        public void MouseWheel(UIMouseWheelEventArgs e)
         {
             this.MouseWheel(e, _htmlVisualRoot.RootCssBox);
         }
-        public void MouseWheel(UIMouseEventArgs e, CssBox startAt)
+        public void MouseWheel(UIMouseWheelEventArgs e, CssBox startAt)
         {
         }
         void ClearPreviousSelection()
@@ -394,14 +398,14 @@ namespace LayoutFarm.HtmlBoxes
         {
         }
 
-        static void ForEachOnlyEventPortalBubbleUp(UIEventArgs e, CssBoxHitChain hitPointChain, EventPortalAction eventPortalAction)
+        static void ForEachOnlyEventPortalBubbleUp(UIEventArgs e, CssBoxHitChain hitPointChain, System.Func<IEventPortal, bool> eventPortalAction)
         {
             //only listener that need tunnel down 
             for (int i = hitPointChain.Count - 1; i >= 0; --i)
             {
                 //propagate up 
                 var hitInfo = hitPointChain.GetHitInfo(i);
-                IEventPortal controller = null;
+                IEventPortal controller;
                 switch (hitInfo.hitObjectKind)
                 {
                     default:
@@ -434,7 +438,7 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
 
-        static void ForEachEventListenerBubbleUp(UIEventArgs e, CssBoxHitChain hitChain, EventListenerAction listenerAction)
+        static void ForEachEventListenerBubbleUp(UIEventArgs e, CssBoxHitChain hitChain, System.Func<bool> listenerAction)
         {
             for (int i = hitChain.Count - 1; i >= 0; --i)
             {
@@ -467,10 +471,10 @@ namespace LayoutFarm.HtmlBoxes
                     //found controller
                     if (e.SourceHitElement == null)
                     {
-                        e.SourceHitElement = controller;
+                        e.SetSourceHitObject(controller);
                     }
 
-                    e.CurrentContextElement = controller;
+                    e.SetCurrentContextElement(controller);
                     e.SetLocation(hitInfo.localX, hitInfo.localY);
                     if (listenerAction())
                     {

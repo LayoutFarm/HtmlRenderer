@@ -64,7 +64,7 @@ namespace LayoutFarm
             //--------
             var svgEvListener = new GeneralEventListener();
             //uiSprite.AttachExternalEventListener(svgEvListener);
-            svgEvListener.MouseDown += (e) =>
+            svgEvListener.MouseDown += (s, e) =>
             {
 
                 //e.MouseCursorStyle = MouseCursorStyle.Pointer;
@@ -74,7 +74,10 @@ namespace LayoutFarm
                 _rectBoxController.Focus();
                 //System.Console.WriteLine("click :" + (count++));
             };
-            _rectBoxController.ControllerBoxMain.KeyDown += (s1, e1) =>
+
+
+            GeneralEventListener controllBoxMainListener = new GeneralEventListener();
+            controllBoxMainListener.KeyDown += (s1, e1) =>
             {
                 if (e1.KeyCode == UIKeys.C && e1.Ctrl)
                 {
@@ -112,6 +115,8 @@ namespace LayoutFarm
 
                 }
             };
+
+            _rectBoxController.ControllerBoxMain.AttachExternalEventListener(controllBoxMainListener);
         }
         VgVisualDoc ReadSvgFile(string filename)
         {
@@ -135,7 +140,7 @@ namespace LayoutFarm
                 box.BackColor = KnownColors.FromKnownColor(KnownColor.DeepSkyBlue);
                 e.MouseCursorStyle = MouseCursorStyle.Pointer;
                 //--------------------------------------------
-                e.SetMouseCaptureElement(_rectBoxController.ControllerBoxMain);
+                e.SetMouseCapturedElement(_rectBoxController.ControllerBoxMain);
                 _rectBoxController.UpdateControllerBoxes(box);
                 _rectBoxController.Focus();
             };

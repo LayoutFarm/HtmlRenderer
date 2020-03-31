@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using LayoutFarm.Composers;
 using LayoutFarm.HtmlBoxes;
 using LayoutFarm.UI;
+using LayoutFarm.UI.ForImplementator;
 
 namespace PaintLab.Svg
 {
@@ -67,7 +68,7 @@ namespace PaintLab.Svg
             //}
         }
 
-        static void ForEachOnlyEventPortalBubbleUp(UIEventArgs e, VgHitChain hitPointChain, EventPortalAction eventPortalAction)
+        static void ForEachOnlyEventPortalBubbleUp(UIEventArgs e, VgHitChain hitPointChain, System.Func<IEventPortal, bool> eventPortalAction)
         {
             //only listener that need tunnel down 
             for (int i = hitPointChain.Count - 1; i >= 0; --i)
@@ -90,7 +91,7 @@ namespace PaintLab.Svg
             }
         }
 
-        static void ForEachEventListenerBubbleUp(UIEventArgs e, VgHitChain hitChain, EventListenerAction listenerAction)
+        static void ForEachEventListenerBubbleUp(UIEventArgs e, VgHitChain hitChain, System.Func<bool> listenerAction)
         {
             for (int i = hitChain.Count - 1; i >= 0; --i)
             {
@@ -121,8 +122,8 @@ namespace PaintLab.Svg
                 if (controller != null)
                 {
                     //found controller
-
-                    e.CurrentContextElement = controller;
+                     
+                    e.SetCurrentContextElement(controller);
                     e.SetLocation((int)hitInfo.x, (int)hitInfo.y);
                     if (listenerAction())
                     {
@@ -132,7 +133,7 @@ namespace PaintLab.Svg
             }
         }
 
-        static void ForEachSvgElementBubbleUp(UIEventArgs e, VgHitChain hitChain, EventListenerAction listenerAction)
+        static void ForEachSvgElementBubbleUp(UIEventArgs e, VgHitChain hitChain, System.Func<bool> listenerAction)
         {
             for (int i = hitChain.Count - 1; i >= 0; --i)
             {
@@ -154,7 +155,7 @@ namespace PaintLab.Svg
             if (count > 0)
             {
                 var hitInfo = hitChain.GetHitInfo(count - 1);
-                e.ExactHitObject = hitInfo;
+                e.SetExactHitObject(hitInfo);                 
             }
         }
         void ClearPreviousSelection()
