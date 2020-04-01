@@ -1625,6 +1625,9 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\LayoutFarm.YourBasicCustomWidgets_SH\1_UIElement\5_IScrollable.cs">
       <Link>PixelFarm\src\PixelFarm\LayoutFarm.YourBasicCustomWidgets_SH\1_UIElement\5_IScrollable.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\LayoutFarm.YourBasicCustomWidgets_SH\1_UIElement\ElementBehaviors.cs">
+      <Link>PixelFarm\src\PixelFarm\LayoutFarm.YourBasicCustomWidgets_SH\1_UIElement\ElementBehaviors.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\LayoutFarm.YourBasicCustomWidgets_SH\1_UIElement\UIDragHitCollection.cs">
       <Link>PixelFarm\src\PixelFarm\LayoutFarm.YourBasicCustomWidgets_SH\1_UIElement\UIDragHitCollection.cs</Link>
     </Compile>
@@ -2816,8 +2819,8 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Painter\4_CpuBlit_VertexProcessing\VxsClipping.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.Painter\4_CpuBlit_VertexProcessing\VxsClipping.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.PrimitiveGeo\AffinePlan.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.PrimitiveGeo\AffinePlan.cs</Link>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.PrimitiveGeo\AffineMat.cs">
+      <Link>PixelFarm\src\PixelFarm\PixelFarm.PrimitiveGeo\AffineMat.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.PrimitiveGeo\BasicGeometries.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.PrimitiveGeo\BasicGeometries.cs</Link>
