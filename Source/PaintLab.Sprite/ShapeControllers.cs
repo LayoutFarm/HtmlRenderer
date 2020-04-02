@@ -408,7 +408,7 @@ namespace LayoutFarm
         double _rotateCenterY;
 
         Bilinear _bilinearTx;
-        Affine _affineFinalTx;
+        ReusableAffineMatrix _affineFinalTx;
 
 
         QuadTransformStyle _currentTransformStyle = QuadTransformStyle.Affine_ScaleAndTranslate;
@@ -579,7 +579,7 @@ namespace LayoutFarm
         {
 
             _rotateAngle = newAngle;
-            _affineFinalTx = UpdateAffineMatrix();
+            UpdateAffineMatrix();
             //--------------------------------- 
             //_simpleBox.InvalidateOuterGraphics(); 
             foreach (PointControllerBox ctrl in _controlBoxes)
@@ -602,7 +602,7 @@ namespace LayoutFarm
             box.MouseDown += (s, e) =>
             {
                 UpdateRotationCenter(box.Index);
-                _affineFinalTx = UpdateAffineMatrix();
+                UpdateAffineMatrix();
 
             };
 
@@ -632,7 +632,7 @@ namespace LayoutFarm
                         break;
                     case QuadTransformStyle.Affine_ScaleAndTranslate:
                         {
-                            _affineFinalTx = UpdateAffineMatrix();
+                            UpdateAffineMatrix();
                             box.SetLocationRelativeToTarget(newX, newY);
                         }
                         break;
@@ -667,7 +667,7 @@ namespace LayoutFarm
                             }
 
                             //update affine matrix
-                            _affineFinalTx = UpdateAffineMatrix();
+                            UpdateAffineMatrix();
                             box.SetLocationRelativeToTarget(newX, newY);
                         }
                         break;
@@ -842,7 +842,8 @@ namespace LayoutFarm
                     break;
             }
         }
-        Affine UpdateAffineMatrix()
+
+        void UpdateAffineMatrix()
         {
             //preserve***
             //return Affine.NewMatix2(
@@ -854,17 +855,16 @@ namespace LayoutFarm
             //        AffinePlan.Translate((_rotateCenterX - _srcCenterX), (_rotateCenterY - _srcCenterY)), //move back to constrain position
             //        AffinePlan.Translate(_srcCenterX, _srcCenterY)
             //       );   
-            return Affine.New(
-                   AffinePlan.Translate(-_srcCenterX, -_srcCenterY),
-                   AffinePlan.Scale(_scaleW, _scaleH),
-                   AffinePlan.Translate(_translate_X1 + _translate_X2 - (_rotateCenterX - _srcCenterX), _translateY_1 + _translate_Y2 + -(_rotateCenterY - _srcCenterY)),
-                   AffinePlan.Rotate(_rotateAngle),
-                   AffinePlan.Translate((_rotateCenterX - _srcCenterX) + _srcCenterX, (_rotateCenterY - _srcCenterY) + _srcCenterY)
-                  );
+
+            AffineMat mat = AffineMat.Iden;
+            mat.Translate(-_srcCenterX, -_srcCenterY);
+            mat.Scale(_scaleW, _scaleH);
+            mat.Translate(_translate_X1 + _translate_X2 - (_rotateCenterX - _srcCenterX), _translateY_1 + _translate_Y2 + -(_rotateCenterY - _srcCenterY));
+            mat.Rotate(_rotateAngle);
+            mat.Translate((_rotateCenterX - _srcCenterX) + _srcCenterX, (_rotateCenterY - _srcCenterY) + _srcCenterY);
+
+            _affineFinalTx.SetElems(mat);
         }
-
-
-
         public void UpdateRelatedControls()
         {
 
@@ -996,16 +996,16 @@ namespace LayoutFarm
                             }
 
 
-                            Affine mat2 = UpdateAffineMatrix();
+                            UpdateAffineMatrix();
                             double x0 = _src_x0, y0 = _src_y0,
                                    x1 = _src_x1, y1 = _src_y1,
                                    x2 = _src_x2, y2 = _src_y2,
                                    x3 = _src_x3, y3 = _src_y3;
 
-                            mat2.Transform(ref x0, ref y0);
-                            mat2.Transform(ref x1, ref y1);
-                            mat2.Transform(ref x2, ref y2);
-                            mat2.Transform(ref x3, ref y3);
+                            _affineFinalTx.Transform(ref x0, ref y0);
+                            _affineFinalTx.Transform(ref x1, ref y1);
+                            _affineFinalTx.Transform(ref x2, ref y2);
+                            _affineFinalTx.Transform(ref x3, ref y3);
 
                             _x0 = x0; _y0 = y0;
                             _x1 = x1; _y1 = y1;
