@@ -866,7 +866,6 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingGL\DrawingGL\GLShader\ColorFillShaderBase.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.DrawingGL\DrawingGL\GLShader\ColorFillShaderBase.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingGL\DrawingGL\GLShader\FilterEffectShaders.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.DrawingGL\DrawingGL\GLShader\FilterEffectShaders.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingGL\DrawingGL\GLShader\GradientShaders.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.DrawingGL\DrawingGL\GLShader\GradientShaders.cs" />
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingGL\DrawingGL\GLShader\InvertAlphaLineSmoothShader.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.DrawingGL\DrawingGL\GLShader\InvertAlphaLineSmoothShader.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingGL\DrawingGL\GLShader\ShaderBase.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.DrawingGL\DrawingGL\GLShader\ShaderBase.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingGL\DrawingGL\GLShader\SignedDistanceFieldShader.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.DrawingGL\DrawingGL\GLShader\SignedDistanceFieldShader.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingGL\DrawingGL\GLShader\SimpleRectTextureShader.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.DrawingGL\DrawingGL\GLShader\SimpleRectTextureShader.cs" />
@@ -1016,7 +1015,6 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Vectors\6_Contours\MyMath.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Vectors\6_Contours\MyMath.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Vectors\6_Contours\OutlineWalker.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Vectors\6_Contours\OutlineWalker.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Vectors\6_Contours\PartFlattener.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Vectors\6_Contours\PartFlattener.cs" />
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Vectors\6_Contours\Rect.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Vectors\6_Contours\Rect.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Vectors\6_Contours\Vertex.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Vectors\6_Contours\Vertex.cs" />
     <Compile Include="..\..\..\..\pixelfarm\src\pixelfarm\paintlab.cssbase\cssbase\CssConstants.cs" Link="pixelfarm\src\pixelfarm\paintlab.cssbase\cssbase\CssConstants.cs" />
     <Compile Include="..\..\..\..\pixelfarm\src\pixelfarm\paintlab.cssbase\cssbase\CssLength.cs" Link="pixelfarm\src\pixelfarm\paintlab.cssbase\cssbase\CssLength.cs" />

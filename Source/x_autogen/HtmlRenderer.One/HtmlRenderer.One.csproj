@@ -865,7 +865,6 @@
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PixelFarm.DrawingGL\DrawingGL\GLShader\ColorFillShaderBase.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PixelFarm.DrawingGL\DrawingGL\GLShader\FilterEffectShaders.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PixelFarm.DrawingGL\DrawingGL\GLShader\GradientShaders.cs" />
-    <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PixelFarm.DrawingGL\DrawingGL\GLShader\InvertAlphaLineSmoothShader.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PixelFarm.DrawingGL\DrawingGL\GLShader\ShaderBase.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PixelFarm.DrawingGL\DrawingGL\GLShader\SignedDistanceFieldShader.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PixelFarm.DrawingGL\DrawingGL\GLShader\SimpleRectTextureShader.cs" />
@@ -1015,7 +1014,6 @@
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PixelFarm.Vectors\6_Contours\MyMath.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PixelFarm.Vectors\6_Contours\OutlineWalker.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PixelFarm.Vectors\6_Contours\PartFlattener.cs" />
-    <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PixelFarm.Vectors\6_Contours\Rect.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PixelFarm.Vectors\6_Contours\Vertex.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\LayoutFarm.HtmlComposer\..\..\..\pixelfarm\src\pixelfarm\paintlab.cssbase\cssbase\CssConstants.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\LayoutFarm.HtmlComposer\..\..\..\pixelfarm\src\pixelfarm\paintlab.cssbase\cssbase\CssLength.cs" />
