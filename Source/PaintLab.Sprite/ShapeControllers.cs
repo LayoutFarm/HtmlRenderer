@@ -856,7 +856,7 @@ namespace LayoutFarm
             //        AffinePlan.Translate(_srcCenterX, _srcCenterY)
             //       );   
 
-            AffineMat mat = AffineMat.Iden;
+            AffineMat mat = AffineMat.Iden();
             mat.Translate(-_srcCenterX, -_srcCenterY);
             mat.Scale(_scaleW, _scaleH);
             mat.Translate(_translate_X1 + _translate_X2 - (_rotateCenterX - _srcCenterX), _translateY_1 + _translate_Y2 + -(_rotateCenterY - _srcCenterY));

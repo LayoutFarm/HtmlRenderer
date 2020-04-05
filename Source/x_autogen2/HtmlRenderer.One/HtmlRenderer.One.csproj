@@ -2537,9 +2537,6 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingGL\DrawingGL\GLShader\GradientShaders.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.DrawingGL\DrawingGL\GLShader\GradientShaders.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingGL\DrawingGL\GLShader\InvertAlphaLineSmoothShader.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.DrawingGL\DrawingGL\GLShader\InvertAlphaLineSmoothShader.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingGL\DrawingGL\GLShader\ShaderBase.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.DrawingGL\DrawingGL\GLShader\ShaderBase.cs</Link>
     </Compile>
@@ -2986,9 +2983,6 @@
     </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Vectors\6_Contours\PartFlattener.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.Vectors\6_Contours\PartFlattener.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Vectors\6_Contours\Rect.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.Vectors\6_Contours\Rect.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Vectors\6_Contours\Vertex.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.Vectors\6_Contours\Vertex.cs</Link>

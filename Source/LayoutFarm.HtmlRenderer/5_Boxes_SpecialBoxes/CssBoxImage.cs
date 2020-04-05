@@ -156,9 +156,8 @@ namespace LayoutFarm.HtmlBoxes
             //--------------------------------------------------------- 
             RectangleF r = _imgRun.Rectangle;
             r.Height -= ActualBorderTopWidth + ActualBorderBottomWidth + ActualPaddingTop + ActualPaddingBottom;
-            r.Y += ActualBorderTopWidth + ActualPaddingTop;
-            r.X = (float)Math.Floor(r.X);
-            r.Y = (float)Math.Floor(r.Y);
+            r.Location = new PointF((float)Math.Floor(r.Left), (float)Math.Floor(r.Top + ActualBorderTopWidth + ActualPaddingTop));
+             
             bool tryLoadOnce = false;
         EVAL_STATE:
             switch (_imgRun.ImageBinder.State)
@@ -236,7 +235,7 @@ namespace LayoutFarm.HtmlBoxes
                             RenderUtils.DrawImageLoadingIcon(p.InnerDrawBoard, r);
                             if (r.Width > 19 && r.Height > 19)
                             {
-                                p.DrawRectangle(KnownColors.LightGray, r.X, r.Y, r.Width, r.Height);
+                                p.DrawRectangle(KnownColors.LightGray, r.Left, r.Top, r.Width, r.Height);
                             }
                         }
                     }
