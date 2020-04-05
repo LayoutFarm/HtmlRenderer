@@ -53,8 +53,8 @@ namespace LayoutFarm.HtmlBoxes
             UpdateArea u1 = new UpdateArea();
             u1.CurrentRect = drawboard.CurrentClipRect;
 
-            if (drawboard.PushClipAreaRect((int)rectangle.X,
-               (int)rectangle.Y,
+            if (drawboard.PushClipAreaRect((int)rectangle.Left,
+               (int)rectangle.Top,
                (int)rectangle.Width,
                (int)rectangle.Height,
                u1))
@@ -144,7 +144,7 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         static void DrawRepeatX(DrawBoard g, Image img, RectangleF rectangle, Rectangle srcRect, Rectangle destRect, Size imgSize)
         {
-            while (destRect.X > rectangle.X)
+            while (destRect.X > rectangle.Left)
                 destRect.X -= imgSize.Width;
             //TODO: replement texture brysg again;
 
@@ -161,7 +161,7 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         private static void DrawRepeatY(DrawBoard g, Image img, RectangleF rectangle, Rectangle srcRect, Rectangle destRect, Size imgSize)
         {
-            while (destRect.Y > rectangle.Y)
+            while (destRect.Y > rectangle.Top)
                 destRect.Y -= imgSize.Height;
             //TODO: reimplement this again
             //using (var brush = g.Platform.CreateTextureBrush(img, srcRect))
@@ -177,9 +177,9 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         private static void DrawRepeat(DrawBoard g, Image img, RectangleF rectangle, Rectangle srcRect, Rectangle destRect, Size imgSize)
         {
-            while (destRect.X > rectangle.X)
+            while (destRect.X > rectangle.Left)
                 destRect.X -= imgSize.Width;
-            while (destRect.Y > rectangle.Y)
+            while (destRect.Y > rectangle.Top)
                 destRect.Y -= imgSize.Height;
             //TODO: reimplement this again
             //using (var brush = g.Platform.CreateTextureBrush(img, srcRect))

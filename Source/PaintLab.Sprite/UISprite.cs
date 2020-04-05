@@ -287,7 +287,7 @@ namespace LayoutFarm.UI
                 }
             }
         }
- 
+
 
 
         static void PaintVgWithPainter(Painter painter, VgVisualElement vgVisualElem)
@@ -487,8 +487,8 @@ namespace LayoutFarm.UI
         /// derived class should prepare _vgVisualElem ***
         /// </summary>
         protected virtual void OnUpdateVgVisualElement() { }
-         
-        
+
+
         protected override bool HasReadyRenderElement => _vgBridgeRenderElement != null;
         //
         public override RenderElement CurrentPrimaryRenderElement => _vgBridgeRenderElement;
@@ -511,8 +511,7 @@ namespace LayoutFarm.UI
                 //------------------------------------------------
 
                 this.DisableBmpCache = true;
-                var vgBridgeRenderElem = new VgBridgeRenderElement(rootgfx, 10, 10)
-                {
+                var vgBridgeRenderElem = new VgBridgeRenderElement(rootgfx, 10, 10) {
                     RenderOriginXOffset = (float)_actualXOffset,
                     RenderOriginYOffset = (float)_actualYOffset,
                     VgVisualElem = _vgVisualElem,
@@ -604,12 +603,16 @@ namespace LayoutFarm.UI
                 tx.Transform(ref _b_x2, ref _b_y2);
                 tx.Transform(ref _b_x3, ref _b_y3);
 
-                _post_TransformRectBounds = RectD.ZeroIntersection;
-                PixelFarm.CpuBlit.VertexProcessing.BoundingRect.GetBoundingRect(_b_x0, _b_y0, ref _post_TransformRectBounds);
-                PixelFarm.CpuBlit.VertexProcessing.BoundingRect.GetBoundingRect(_b_x1, _b_y1, ref _post_TransformRectBounds);
-                PixelFarm.CpuBlit.VertexProcessing.BoundingRect.GetBoundingRect(_b_x2, _b_y2, ref _post_TransformRectBounds);
-                PixelFarm.CpuBlit.VertexProcessing.BoundingRect.GetBoundingRect(_b_x3, _b_y3, ref _post_TransformRectBounds);
 
+                var rectBounds = new PixelFarm.CpuBlit.VertexProcessing.RectBoundsAccum();
+                rectBounds.Init();
+                rectBounds.Update(_b_x0, _b_y0);
+                rectBounds.Update(_b_x1, _b_y1);
+                rectBounds.Update(_b_x2, _b_y2);
+                rectBounds.Update(_b_x3, _b_y3);
+
+                RectangleF bounds1 = rectBounds.ToRectF();
+                _post_TransformRectBounds = RectD.CreateFromLTWH(bounds1.Left, bounds1.Top, bounds1.Width, bounds1.Height);
             }
 
 
@@ -710,7 +713,7 @@ namespace LayoutFarm.UI
         {
         }
         protected virtual void Describe(UIVisitor visitor)
-        { 
-        } 
+        {
+        }
     }
 }

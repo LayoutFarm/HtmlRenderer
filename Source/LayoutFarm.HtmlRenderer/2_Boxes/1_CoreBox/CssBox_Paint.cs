@@ -568,7 +568,7 @@ namespace LayoutFarm.HtmlBoxes
                     //}
                     //else
                     //{
-                    g.FillRectangle(brush, (float)Math.Ceiling(rect.X), (float)Math.Ceiling(rect.Y), rect.Width, rect.Height);
+                    g.FillRectangle(brush, (float)Math.Ceiling(rect.Left), (float)Math.Ceiling(rect.Top), rect.Width, rect.Height);
                     //}
 
                     g.SmoothingMode = smooth;
@@ -613,7 +613,7 @@ namespace LayoutFarm.HtmlBoxes
 
             //y -= ActualPaddingBottom - ActualBorderBottomWidth;
             y -= (ActualPaddingBottom + ActualBorderBottomWidth);
-            float x1 = rectangle.X;
+            float x1 = rectangle.Left;
             if (isFirst)
             {
                 x1 += ActualPaddingLeft + ActualBorderLeftWidth;

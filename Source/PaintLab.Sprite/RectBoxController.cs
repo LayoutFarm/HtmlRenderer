@@ -527,10 +527,9 @@ namespace LayoutFarm.CustomWidgets
                 //    diff = -1;
                 //}
 
-         
 
-                PixelFarm.CpuBlit.VertexProcessing.AffineMat aff = PixelFarm.CpuBlit.VertexProcessing.AffineMat.Iden;
-                aff.Rotate(_rotateAngleDiff);
+
+                PixelFarm.CpuBlit.AffineMat aff = PixelFarm.CpuBlit.AffineMat.GetRotateMat(_rotateAngleDiff);
 
                 aff.Transform(ref x1, ref y1);
                 _actualX = x1;

@@ -544,7 +544,7 @@ namespace LayoutFarm.HtmlBoxes
 
                     //Console.WriteLine(new Rectangle((int)selArea.X, (int)selArea.Y, (int)selArea.Width, (int)selArea.Height).ToString());
                     //return new Rectangle(0, 0, 800, 600);
-                    return new Rectangle((int)selArea.X, (int)selArea.Y, (int)selArea.Width, (int)selArea.Height);
+                    return new Rectangle((int)selArea.Left, (int)selArea.Top, (int)selArea.Width, (int)selArea.Height);
                 }
             }
             return Rectangle.Empty;

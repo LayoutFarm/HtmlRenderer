@@ -121,7 +121,7 @@ namespace LayoutFarm.HtmlBoxes
             var rect = new RectangleF(0, 0, this.VisualWidth, this.VisualHeight);
             if (rect.Height > 2 && RenderUtils.IsColorVisible(ActualBackgroundColor))
             {
-                p.FillRectangle(ActualBackgroundColor, rect.X, rect.Y, rect.Width, rect.Height);
+                p.FillRectangle(ActualBackgroundColor, rect.Left, rect.Top, rect.Width, rect.Height);
             }
 
             if (rect.Height > 1)
