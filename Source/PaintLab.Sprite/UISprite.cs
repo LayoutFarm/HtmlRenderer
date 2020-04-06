@@ -26,7 +26,7 @@ namespace LayoutFarm.UI
                _b_x3, _b_y3; //bottom -left
 
         //post transform bounds
-        RectD _post_TransformRectBounds;
+        PixelFarm.CpuBlit.VertexProcessing.RectD _post_TransformRectBounds;
 
         public VgBridgeRenderElement(RootGraphic rootGfx, int width, int height)
             : base(rootGfx, width, height)
@@ -51,7 +51,7 @@ namespace LayoutFarm.UI
         public override bool HasCustomHitTest => true;
         protected override bool CustomHitTest(HitChain hitChain)
         {
-            RectD bound = _vgVisualElem.GetRectBounds();
+            PixelFarm.CpuBlit.VertexProcessing.RectD bound = _vgVisualElem.GetRectBounds();
             bound.Offset(RenderOriginXOffset, RenderOriginYOffset);
             if (bound.Contains(hitChain.TestPoint.X, hitChain.TestPoint.Y))
             {
@@ -222,7 +222,7 @@ namespace LayoutFarm.UI
                     {
                         //convert vg to bitmap 
                         //**
-                        PixelFarm.CpuBlit.RectD bounds = _vgVisualElem.GetRectBounds();
+                        PixelFarm.CpuBlit.VertexProcessing.RectD bounds = _vgVisualElem.GetRectBounds();
                         //
                         int width = (int)Math.Ceiling(bounds.Width);
                         int height = (int)Math.Ceiling(bounds.Height);
@@ -323,7 +323,7 @@ namespace LayoutFarm.UI
 
         }
 
-        public void SetPostTransformationBounds(RectD postTransformationBounds)
+        public void SetPostTransformationBounds(PixelFarm.CpuBlit.VertexProcessing.RectD postTransformationBounds)
         {
             _post_TransformRectBounds = postTransformationBounds;
 
@@ -403,7 +403,7 @@ namespace LayoutFarm.UI
             if (_vgBridgeRenderElement != null)
             {
                 _vgBridgeRenderElement.VgVisualElem = vgVisualElem;
-                RectD bounds = _vgVisualElem.GetRectBounds();
+                PixelFarm.CpuBlit.VertexProcessing.RectD bounds = _vgVisualElem.GetRectBounds();
                 _actualXOffset = (float)-bounds.Left;
                 _actualYOffset = (float)-bounds.Bottom;
 
@@ -478,7 +478,7 @@ namespace LayoutFarm.UI
                 //_svgRenderVx.SetBitmapSnapshot(null); 
                 //_svgRenderElement.RenderVx = _svgRenderVx;
                 //_svgRenderVx.InvalidateBounds(); 
-                RectD bounds = _vgVisualElem.GetRectBounds();
+                PixelFarm.CpuBlit.VertexProcessing.RectD bounds = _vgVisualElem.GetRectBounds();
                 this.SetSize((int)bounds.Width, (int)bounds.Height);
             }
         }
@@ -500,13 +500,13 @@ namespace LayoutFarm.UI
 
                 OnUpdateVgVisualElement(); //**
 
-                RectD bounds = _vgVisualElem.GetRectBounds();
+                PixelFarm.CpuBlit.VertexProcessing.RectD bounds = _vgVisualElem.GetRectBounds();
 
                 //****
                 //temp fix
                 if (bounds.Width == 0 || bounds.Height == 0)
                 {
-                    bounds.SetRect(0, 0, this.Width, this.Height);
+                    bounds = new PixelFarm.CpuBlit.VertexProcessing.RectD(0, 0, this.Width, this.Height);
                 }
                 //------------------------------------------------
 
@@ -558,7 +558,7 @@ namespace LayoutFarm.UI
                _b_x1, _b_y1, //top-right
                _b_x2, _b_y2, //bottom-right
                _b_x3, _b_y3; //bottom -left 
-        RectD _post_TransformRectBounds;
+        PixelFarm.CpuBlit.VertexProcessing.RectD _post_TransformRectBounds;
 
         //post transform bounds
         //
@@ -585,7 +585,7 @@ namespace LayoutFarm.UI
             _vgVisualElem.InvalidateBounds();
 
 
-            RectD bounds = _vgVisualElem.GetRectBounds(); //org bounds
+            PixelFarm.CpuBlit.VertexProcessing.RectD bounds = _vgVisualElem.GetRectBounds(); //org bounds
             _actualXOffset = -bounds.Left;
             _actualYOffset = -bounds.Bottom;
             _post_TransformRectBounds = bounds;
@@ -612,7 +612,7 @@ namespace LayoutFarm.UI
                 rectBounds.Update(_b_x3, _b_y3);
 
                 RectangleF bounds1 = rectBounds.ToRectF();
-                _post_TransformRectBounds = RectD.CreateFromLTWH(bounds1.Left, bounds1.Top, bounds1.Width, bounds1.Height);
+                _post_TransformRectBounds = PixelFarm.CpuBlit.VertexProcessing.RectD.CreateFromLTWH(bounds1.Left, bounds1.Top, bounds1.Width, bounds1.Height);
             }
 
 

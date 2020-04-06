@@ -1706,6 +1706,9 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.AbstractPlatform\CanvasViewport.cs">
       <Link>PixelFarm\src\PixelFarm\PaintLab.AbstractPlatform\CanvasViewport.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.AbstractPlatform\ClipboardServices.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.AbstractPlatform\ClipboardServices.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.AbstractPlatform\TempContext.cs">
       <Link>PixelFarm\src\PixelFarm\PaintLab.AbstractPlatform\TempContext.cs</Link>
     </Compile>
@@ -2581,6 +2584,9 @@
     </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingGL\DrawingGL\RenderSuface\VertexPositionColor.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.DrawingGL\DrawingGL\RenderSuface\VertexPositionColor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\1_IO\ImageBinder.cs">
+      <Link>PixelFarm\src\PixelFarm\PixelFarm.Drawing\1_IO\ImageBinder.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\1_IO\ImageReaders.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.Drawing\1_IO\ImageReaders.cs</Link>

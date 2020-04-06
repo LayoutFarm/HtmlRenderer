@@ -24,7 +24,7 @@ namespace LayoutFarm
             _vgVisualDocHost = new VgVisualDocHost();
             _vgVisualDocHost.SetImgRequestDelgate(LoadRawImg);
         }
-        VgVisualElement CreateEllipseVxs(PixelFarm.CpuBlit.RectD newBounds)
+        VgVisualElement CreateEllipseVxs(PixelFarm.CpuBlit.VertexProcessing.RectD newBounds)
         {
             using (Tools.BorrowVxs(out var v1))
             using (Tools.BorrowEllipse(out Ellipse ellipse))
@@ -136,7 +136,7 @@ namespace LayoutFarm
             //PixelFarm.CpuBlit.RectD org_rectD = _svgRenderVx.GetBounds(); 
             //_svgRenderVx = CreateEllipseVxs(org_rectD);
 
-            PixelFarm.CpuBlit.RectD org_rectD = _vgVisualElem.GetRectBounds();
+            PixelFarm.CpuBlit.VertexProcessing.RectD org_rectD = _vgVisualElem.GetRectBounds();
             org_rectD.Offset(-org_rectD.Left, -org_rectD.Bottom);
             //
             _quadController.SetSrcRect(org_rectD.Left, org_rectD.Bottom, org_rectD.Right, org_rectD.Top);
@@ -190,7 +190,7 @@ namespace LayoutFarm
             //_quadController.Visible = _quadPolygonController.Visible = false;
             //_rectBoxController.Init();
 
-            PixelFarm.CpuBlit.RectD svg_bounds = _vgVisualElem.GetRectBounds(); //bounds of graphic shape
+            PixelFarm.CpuBlit.VertexProcessing.RectD svg_bounds = _vgVisualElem.GetRectBounds(); //bounds of graphic shape
             //ICoordTransformer tx = ((ICoordTransformer)_bilinearTx).MultiplyWith(scaleMat);
             ICoordTransformer tx = _quadController.GetCoordTransformer();
             //svgRenderVx._coordTx = tx; 
@@ -223,8 +223,12 @@ namespace LayoutFarm
             }
 
             _rotationUI.SetReferenceOwner(_quadController);
-            _rotationUI.SetCenter(svg_bounds.XCenter, svg_bounds.YCenter);
-            _rotationUI.SetRadius(svg_bounds.XCenter + 200, svg_bounds.YCenter);
+
+            double x_center = (svg_bounds.Left + svg_bounds.Right) / 2;
+            double y_center = (svg_bounds.Top + svg_bounds.Bottom) / 2;
+            _rotationUI.SetCenter(x_center, y_center);
+            _rotationUI.SetRadius(x_center + 200, y_center);
+
             host.AddChild(_rotationUI);
 
 
@@ -313,7 +317,7 @@ namespace LayoutFarm
                          hitInfo.hitElem.VxsPath != null)
                      {
 
-                         PixelFarm.CpuBlit.RectD bounds = hitInfo.copyOfVxs.GetBoundingRect();
+                         PixelFarm.CpuBlit.VertexProcessing.RectD bounds = hitInfo.copyOfVxs.GetBoundingRect();
 
                          _quadPolygonController.ClearControlPoints();//clear old control points
                          _quadPolygonController.UpdateControlPoints( //create new control points
