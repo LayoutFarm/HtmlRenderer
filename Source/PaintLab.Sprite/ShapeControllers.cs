@@ -325,9 +325,9 @@ namespace LayoutFarm
             {
                 switch (vxs.GetVertex(i, out double x, out double y))
                 {
-                    case PixelFarm.CpuBlit.VertexCmd.NoMore:
+                    case VertexCmd.NoMore:
                         return;//**
-                    case PixelFarm.CpuBlit.VertexCmd.MoveTo:
+                    case VertexCmd.MoveTo:
                         {
                             var ctrlPoint = new PointControllerBox(8, 8);
                             ctrlPoint.Index = i;
@@ -343,7 +343,7 @@ namespace LayoutFarm
                             controls.Add(ctrlPoint);
                         }
                         break;
-                    case PixelFarm.CpuBlit.VertexCmd.LineTo:
+                    case VertexCmd.LineTo:
                         {
                             var ctrlPoint = new PointControllerBox(8, 8);
                             ctrlPoint.Index = i;
@@ -359,7 +359,7 @@ namespace LayoutFarm
                             controls.Add(ctrlPoint);
                         }
                         break;
-                    case PixelFarm.CpuBlit.VertexCmd.Close:
+                    case VertexCmd.Close:
                         break;
                 }
             }
@@ -757,9 +757,9 @@ namespace LayoutFarm
             {
                 switch (vxs.GetVertex(i, out double x, out double y))
                 {
-                    case PixelFarm.CpuBlit.VertexCmd.NoMore:
+                    case VertexCmd.NoMore:
                         return;
-                    case PixelFarm.CpuBlit.VertexCmd.MoveTo:
+                    case VertexCmd.MoveTo:
                         {
                             var ctrlPoint = new PointControllerBox(8, 8);
                             ctrlPoint.Index = i;
@@ -775,7 +775,7 @@ namespace LayoutFarm
                             controls.Add(ctrlPoint);
                         }
                         break;
-                    case PixelFarm.CpuBlit.VertexCmd.LineTo:
+                    case VertexCmd.LineTo:
                         {
                             var ctrlPoint = new PointControllerBox(8, 8);
                             ctrlPoint.Index = i;
@@ -791,7 +791,7 @@ namespace LayoutFarm
                             controls.Add(ctrlPoint);
                         }
                         break;
-                    case PixelFarm.CpuBlit.VertexCmd.Close:
+                    case VertexCmd.Close:
                         break;
                 }
             }
@@ -1564,19 +1564,19 @@ namespace LayoutFarm
 
                         switch (cmd)
                         {
-                            case PixelFarm.CpuBlit.VertexCmd.NoMore:
+                            case VertexCmd.NoMore:
                                 return;
-                            case PixelFarm.CpuBlit.VertexCmd.MoveTo:
+                            case VertexCmd.MoveTo:
                                 {
                                     _controls[i].SetLocation((int)(x + offsetX), (int)(y + offsetY));
                                 }
                                 break;
-                            case PixelFarm.CpuBlit.VertexCmd.LineTo:
+                            case VertexCmd.LineTo:
                                 {
                                     _controls[i].SetLocation((int)(x + offsetX), (int)(y + offsetY));
                                 }
                                 break;
-                            case PixelFarm.CpuBlit.VertexCmd.Close:
+                            case VertexCmd.Close:
                                 break;
                         }
                     }
@@ -1606,9 +1606,9 @@ namespace LayoutFarm
 
                 switch (cmd)
                 {
-                    case PixelFarm.CpuBlit.VertexCmd.NoMore:
+                    case VertexCmd.NoMore:
                         return;
-                    case PixelFarm.CpuBlit.VertexCmd.MoveTo:
+                    case VertexCmd.MoveTo:
                         {
 
                             var ctrlPoint = new PointControllerBox(8, 8);
@@ -1620,7 +1620,7 @@ namespace LayoutFarm
                             _simpleBox.Add(ctrlPoint);
                         }
                         break;
-                    case PixelFarm.CpuBlit.VertexCmd.LineTo:
+                    case VertexCmd.LineTo:
                         {
                             var ctrlPoint = new PointControllerBox(8, 8);
                             ctrlPoint.Index = i;
@@ -1631,7 +1631,7 @@ namespace LayoutFarm
                             _simpleBox.Add(ctrlPoint);
                         }
                         break;
-                    case PixelFarm.CpuBlit.VertexCmd.Close:
+                    case VertexCmd.Close:
                         break;
                 }
             }
