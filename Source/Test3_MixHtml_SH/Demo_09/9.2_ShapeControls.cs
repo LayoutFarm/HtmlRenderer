@@ -24,7 +24,7 @@ namespace LayoutFarm
             _vgVisualDocHost = new VgVisualDocHost();
             _vgVisualDocHost.SetImgRequestDelgate(LoadRawImg);
         }
-        VgVisualElement CreateEllipseVxs(PixelFarm.CpuBlit.VertexProcessing.RectD newBounds)
+        VgVisualElement CreateEllipseVxs(PixelFarm.CpuBlit.VertexProcessing.Q1RectD newBounds)
         {
             using (Tools.BorrowVxs(out var v1))
             using (Tools.BorrowEllipse(out Ellipse ellipse))
@@ -136,7 +136,7 @@ namespace LayoutFarm
             //PixelFarm.CpuBlit.RectD org_rectD = _svgRenderVx.GetBounds(); 
             //_svgRenderVx = CreateEllipseVxs(org_rectD);
 
-            PixelFarm.CpuBlit.VertexProcessing.RectD org_rectD = _vgVisualElem.GetRectBounds();
+            PixelFarm.CpuBlit.VertexProcessing.Q1RectD org_rectD = _vgVisualElem.GetRectBounds();
             org_rectD.Offset(-org_rectD.Left, -org_rectD.Bottom);
             //
             _quadController.SetSrcRect(org_rectD.Left, org_rectD.Bottom, org_rectD.Right, org_rectD.Top);
@@ -190,7 +190,7 @@ namespace LayoutFarm
             //_quadController.Visible = _quadPolygonController.Visible = false;
             //_rectBoxController.Init();
 
-            PixelFarm.CpuBlit.VertexProcessing.RectD svg_bounds = _vgVisualElem.GetRectBounds(); //bounds of graphic shape
+            PixelFarm.CpuBlit.VertexProcessing.Q1RectD svg_bounds = _vgVisualElem.GetRectBounds(); //bounds of graphic shape
             //ICoordTransformer tx = ((ICoordTransformer)_bilinearTx).MultiplyWith(scaleMat);
             ICoordTransformer tx = _quadController.GetCoordTransformer();
             //svgRenderVx._coordTx = tx; 
@@ -317,7 +317,7 @@ namespace LayoutFarm
                          hitInfo.hitElem.VxsPath != null)
                      {
 
-                         PixelFarm.CpuBlit.VertexProcessing.RectD bounds = hitInfo.copyOfVxs.GetBoundingRect();
+                         PixelFarm.CpuBlit.VertexProcessing.Q1RectD bounds = hitInfo.copyOfVxs.GetBoundingRect();
 
                          _quadPolygonController.ClearControlPoints();//clear old control points
                          _quadPolygonController.UpdateControlPoints( //create new control points

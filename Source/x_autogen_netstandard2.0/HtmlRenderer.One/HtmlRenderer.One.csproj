@@ -969,7 +969,6 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.PrimitiveGeo\NativeMemMx.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.PrimitiveGeo\NativeMemMx.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.PrimitiveGeo\Rectangle.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.PrimitiveGeo\Rectangle.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.PrimitiveGeo\RectangleF.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.PrimitiveGeo\RectangleF.cs" />
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.PrimitiveGeo\RectInt.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.PrimitiveGeo\RectInt.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Vectors\1_vectormaths\AggMath.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Vectors\1_vectormaths\AggMath.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Vectors\1_vectormaths\AxisAlignedBoundingBox.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Vectors\1_vectormaths\AxisAlignedBoundingBox.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Vectors\1_vectormaths\BezierCurve.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Vectors\1_vectormaths\BezierCurve.cs" />
@@ -990,7 +989,8 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Vectors\2_geometry\Collections.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Vectors\2_geometry\Collections.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Vectors\2_geometry\Curves.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Vectors\2_geometry\Curves.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Vectors\2_geometry\Ellipse.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Vectors\2_geometry\Ellipse.cs" />
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Vectors\2_geometry\RectD.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Vectors\2_geometry\RectD.cs" />
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Vectors\2_Geometry\Q1Rect.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Vectors\2_Geometry\Q1Rect.cs" />
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Vectors\2_Geometry\Q1RectD.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Vectors\2_Geometry\Q1RectD.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Vectors\3_transform\1_Affine.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Vectors\3_transform\1_Affine.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Vectors\3_transform\2_Bilinear.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Vectors\3_transform\2_Bilinear.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Vectors\3_transform\3_Perspective.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Vectors\3_transform\3_Perspective.cs" />

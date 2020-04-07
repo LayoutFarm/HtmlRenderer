@@ -109,7 +109,7 @@ namespace LayoutFarm.HtmlBoxes
             else
             {
 
-                PixelFarm.CpuBlit.VertexProcessing.RectD bound = _vgVisualElem.GetRectBounds();
+                PixelFarm.CpuBlit.VertexProcessing.Q1RectD bound = _vgVisualElem.GetRectBounds();
                 //create
                 PixelFarm.CpuBlit.MemBitmap backimg = new PixelFarm.CpuBlit.MemBitmap((int)bound.Width + 10, (int)bound.Height + 10);
 #if DEBUG

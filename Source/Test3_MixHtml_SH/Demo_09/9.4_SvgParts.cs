@@ -31,7 +31,7 @@ namespace LayoutFarm
 
             }
 
-            PixelFarm.CpuBlit.VertexProcessing.RectD org_rectD = vgVisualElem.GetRectBounds();
+            PixelFarm.CpuBlit.VertexProcessing.Q1RectD org_rectD = vgVisualElem.GetRectBounds();
             org_rectD.Offset(-org_rectD.Left, -org_rectD.Bottom);
             vgVisualElem.DisableBackingImage = true;
             //-----------------------------------------             

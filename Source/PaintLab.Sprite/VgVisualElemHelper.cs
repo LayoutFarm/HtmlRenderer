@@ -76,9 +76,8 @@ namespace LayoutFarm
             //PixelFarm.CpuBlit.RectD bounds = vxs.GetBoundingRect();
             //Affine translate = Affine.NewTranslation(-bounds.Left, -bounds.Bottom);
             //renderE._vxsPath = vxs.CreateTrim(translate);
-
-
-            RectD bounds = vxs.GetBoundingRect();
+             
+            Q1RectD bounds = vxs.GetBoundingRect();
             Affine translate = Affine.NewTranslation(-bounds.Left, -bounds.Bottom);
             renderE.VxsPath = vxs.CreateTrim(translate);
             return renderE;

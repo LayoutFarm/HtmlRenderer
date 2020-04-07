@@ -2846,9 +2846,6 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.PrimitiveGeo\RectangleF.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.PrimitiveGeo\RectangleF.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.PrimitiveGeo\RectInt.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.PrimitiveGeo\RectInt.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Vectors\1_vectormaths\AggMath.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.Vectors\1_vectormaths\AggMath.cs</Link>
     </Compile>
@@ -2909,8 +2906,11 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Vectors\2_geometry\Ellipse.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.Vectors\2_geometry\Ellipse.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Vectors\2_geometry\RectD.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.Vectors\2_geometry\RectD.cs</Link>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Vectors\2_Geometry\Q1Rect.cs">
+      <Link>PixelFarm\src\PixelFarm\PixelFarm.Vectors\2_Geometry\Q1Rect.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Vectors\2_Geometry\Q1RectD.cs">
+      <Link>PixelFarm\src\PixelFarm\PixelFarm.Vectors\2_Geometry\Q1RectD.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Vectors\3_transform\1_Affine.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.Vectors\3_transform\1_Affine.cs</Link>
