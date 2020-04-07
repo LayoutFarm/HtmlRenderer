@@ -45,9 +45,9 @@
     <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\3_Typography_Contours\GlyphMeshStore.cs" Link="Typography\PixelFarm.Typography\3_Typography_Contours\GlyphMeshStore.cs" />
     <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\3_Typography_Contours\GlyphOutlineBuilderBase.cs" Link="Typography\PixelFarm.Typography\3_Typography_Contours\GlyphOutlineBuilderBase.cs" />
     <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\3_Typography_Contours\GlyphPathBuilder.cs" Link="Typography\PixelFarm.Typography\3_Typography_Contours\GlyphPathBuilder.cs" />
+    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\3_Typography_Contours\GlyphTranslatorToVxs.cs" Link="Typography\PixelFarm.Typography\3_Typography_Contours\GlyphTranslatorToVxs.cs" />
     <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\3_Typography_Contours\TextPrinterBase.cs" Link="Typography\PixelFarm.Typography\3_Typography_Contours\TextPrinterBase.cs" />
     <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\4_PixelFarm_Contours\GlyphOutlineAnalyzer.cs" Link="Typography\PixelFarm.Typography\4_PixelFarm_Contours\GlyphOutlineAnalyzer.cs" />
-    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\4_PixelFarm_Contours\GlyphTranslatorToVxs.cs" Link="Typography\PixelFarm.Typography\4_PixelFarm_Contours\GlyphTranslatorToVxs.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.GlyphLayout\GlyphIndexList.cs" Link="Typography\Typography.GlyphLayout\GlyphIndexList.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.GlyphLayout\GlyphLayout.cs" Link="Typography\Typography.GlyphLayout\GlyphLayout.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.GlyphLayout\GlyphPosition.cs" Link="Typography\Typography.GlyphLayout\GlyphPosition.cs" />
