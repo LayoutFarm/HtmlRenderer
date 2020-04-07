@@ -503,7 +503,7 @@ namespace LayoutFarm.Composers
                     break;
             }
         }
-        void InternalSetImageBinder(ImageBinder imgBinder)
+        void InternalSetImageBinder(PixelFarm.Drawing.ImageBinder imgBinder)
         {
             if (_principalBox == null) return;
 
@@ -511,11 +511,11 @@ namespace LayoutFarm.Composers
             CssBoxImage boxImg = (CssBoxImage)_principalBox;
             //implementation specific...                                           
             //if the binder is loaded , not need TempTranstionImageBinder
-            boxImg.TempTranstionImageBinder = (imgBinder.State == BinderState.Loaded) ? null : boxImg.ImageBinder;
+            boxImg.TempTranstionImageBinder = (imgBinder.State == PixelFarm.Drawing.BinderState.Loaded) ? null : boxImg.ImageBinder;
             boxImg.ImageBinder = imgBinder;
             boxImg.InvalidateGraphics();
         }
-        public void SetImageSource(ImageBinder imgBinder)
+        public void SetImageSource(PixelFarm.Drawing.ImageBinder imgBinder)
         {
             DomAttribute attr = this.OwnerDocument.CreateAttribute("src", imgBinder.ImageSource);
             SetDomAttribute(attr);

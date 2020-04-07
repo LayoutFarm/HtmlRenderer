@@ -16,8 +16,7 @@ namespace LayoutFarm
         {
             List<HtmlBoxes.HtmlVisualRoot> htmlVisualRootUpdateList = new List<HtmlBoxes.HtmlVisualRoot>();
 
-            var config = new HtmlBoxes.HtmlHostCreationConfig()
-            {
+            var config = new HtmlBoxes.HtmlHostCreationConfig() {
                 RootGraphic = appHost.RootGfx,
                 TextService = appHost.RootGfx.TextServices
             };
@@ -66,7 +65,7 @@ namespace LayoutFarm
                     //
                     e.SetResultImage(LoadImage(e.ImagSource));
                 };
-                PaintLab.Svg.VgResourceIO.VgImgIOHandler = (LayoutFarm.ImageBinder binder, PaintLab.Svg.VgVisualElement imgRun, object requestFrom) =>
+                PaintLab.Svg.VgResourceIO.VgImgIOHandler = (PixelFarm.Drawing.ImageBinder binder, PaintLab.Svg.VgVisualElement imgRun, object requestFrom) =>
                 {
                     imgLoadingQ.AddRequestImage(binder);
                 };

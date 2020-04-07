@@ -1706,6 +1706,9 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.AbstractPlatform\CanvasViewport.cs">
       <Link>PixelFarm\src\PixelFarm\PaintLab.AbstractPlatform\CanvasViewport.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.AbstractPlatform\ClipboardServices.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.AbstractPlatform\ClipboardServices.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.AbstractPlatform\TempContext.cs">
       <Link>PixelFarm\src\PixelFarm\PaintLab.AbstractPlatform\TempContext.cs</Link>
     </Compile>
@@ -2582,6 +2585,9 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingGL\DrawingGL\RenderSuface\VertexPositionColor.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.DrawingGL\DrawingGL\RenderSuface\VertexPositionColor.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\1_IO\ImageBinder.cs">
+      <Link>PixelFarm\src\PixelFarm\PixelFarm.Drawing\1_IO\ImageBinder.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\1_IO\ImageReaders.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.Drawing\1_IO\ImageReaders.cs</Link>
     </Compile>
@@ -2840,9 +2846,6 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.PrimitiveGeo\RectangleF.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.PrimitiveGeo\RectangleF.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.PrimitiveGeo\RectInt.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.PrimitiveGeo\RectInt.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Vectors\1_vectormaths\AggMath.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.Vectors\1_vectormaths\AggMath.cs</Link>
     </Compile>
@@ -2903,8 +2906,11 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Vectors\2_geometry\Ellipse.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.Vectors\2_geometry\Ellipse.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Vectors\2_geometry\RectD.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.Vectors\2_geometry\RectD.cs</Link>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Vectors\2_Geometry\Q1Rect.cs">
+      <Link>PixelFarm\src\PixelFarm\PixelFarm.Vectors\2_Geometry\Q1Rect.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Vectors\2_Geometry\Q1RectD.cs">
+      <Link>PixelFarm\src\PixelFarm\PixelFarm.Vectors\2_Geometry\Q1RectD.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Vectors\3_transform\1_Affine.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.Vectors\3_transform\1_Affine.cs</Link>

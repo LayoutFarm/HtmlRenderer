@@ -93,11 +93,11 @@ namespace LayoutFarm.ColorBlenderSample
 
             }
         }
-        void ImgBinderLoadImg(ImageBinder reqImgBinder, VgVisualElement vgVisualE, object o)
+        void ImgBinderLoadImg(PixelFarm.Drawing.ImageBinder reqImgBinder, VgVisualElement vgVisualE, object o)
         {
             PixelFarm.Drawing.Image img = _host.LoadImage(reqImgBinder.ImageSource);
             reqImgBinder.SetLocalImage(img);
-            reqImgBinder.State = BinderState.Loaded;
+            reqImgBinder.State = PixelFarm.Drawing.BinderState.Loaded;
         }
         void ParseAndRenderSvgFile(string svgFile)
         {

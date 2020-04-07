@@ -588,6 +588,7 @@
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\LayoutFarm.YourBasicCustomWidgets_SH\8.2_Canvas\MiniAggCanvasRenderElement.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\LayoutFarm.YourBasicCustomWidgets_SH\9_TextContentSplitter\ContentTextSplitter.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PaintLab.AbstractPlatform\CanvasViewport.cs" />
+    <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PaintLab.AbstractPlatform\ClipboardServices.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PaintLab.AbstractPlatform\TempContext.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PaintLab.BitmapBufferEx\BitmapBufferEx\BitmapBuffer.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PaintLab.BitmapBufferEx\BitmapBufferEx\BitmapBufferExtensions\BaseExtensions.cs" />
@@ -880,6 +881,7 @@
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PixelFarm.DrawingGL\DrawingGL\RenderSuface\SmoothMode.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PixelFarm.DrawingGL\DrawingGL\RenderSuface\VertexBufferObject.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PixelFarm.DrawingGL\DrawingGL\RenderSuface\VertexPositionColor.cs" />
+    <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PixelFarm.Drawing\1_IO\ImageBinder.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PixelFarm.Drawing\1_IO\ImageReaders.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PixelFarm.Drawing\1_IO\StorageService.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PixelFarm.Drawing\2_AggPainter\AggPainter.cs" />
@@ -966,7 +968,6 @@
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PixelFarm.PrimitiveGeo\NativeMemMx.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PixelFarm.PrimitiveGeo\Rectangle.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PixelFarm.PrimitiveGeo\RectangleF.cs" />
-    <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PixelFarm.PrimitiveGeo\RectInt.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PixelFarm.Vectors\1_vectormaths\AggMath.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PixelFarm.Vectors\1_vectormaths\AxisAlignedBoundingBox.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PixelFarm.Vectors\1_vectormaths\BezierCurve.cs" />
@@ -987,7 +988,8 @@
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PixelFarm.Vectors\2_geometry\Collections.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PixelFarm.Vectors\2_geometry\Curves.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PixelFarm.Vectors\2_geometry\Ellipse.cs" />
-    <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PixelFarm.Vectors\2_geometry\RectD.cs" />
+    <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PixelFarm.Vectors\2_Geometry\Q1Rect.cs" />
+    <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PixelFarm.Vectors\2_Geometry\Q1RectD.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PixelFarm.Vectors\3_transform\1_Affine.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PixelFarm.Vectors\3_transform\2_Bilinear.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PixelFarm.Vectors\3_transform\3_Perspective.cs" />
