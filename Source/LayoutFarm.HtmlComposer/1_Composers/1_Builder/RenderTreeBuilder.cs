@@ -819,13 +819,13 @@ namespace LayoutFarm.Composers
                                     if (tag.TryGetAttribute(WellknownName.Src, out imgsrc))
                                     {
                                         CssBoxImage cssBoxImage1 = HtmlElement.InternalGetPrincipalBox(tag) as CssBoxImage;
-                                        ImageBinder imgbinder1 = cssBoxImage1.ImageBinder;
+                                        PixelFarm.Drawing.ImageBinder imgbinder1 = cssBoxImage1.ImageBinder;
                                         if (imgbinder1.ImageSource != imgsrc)
                                         {
                                             //var clientImageBinder = new ClientImageBinder(imgsrc);
                                             //imgbinder1 = clientImageBinder;
                                             //clientImageBinder.SetOwner(tag);
-                                            cssBoxImage1.ImageBinder = new ImageBinder(imgsrc);
+                                            cssBoxImage1.ImageBinder = new PixelFarm.Drawing.ImageBinder(imgsrc);
                                         }
                                     }
                                     else

@@ -122,9 +122,9 @@ namespace LayoutFarm.Composers
         {
             return _registeredCustomElemenGens.TryGetValue(customElementName, out cssBoxGen);
         }
-        public ImageBinder GetImageBinder(string imgurl)
+        public PixelFarm.Drawing.ImageBinder GetImageBinder(string imgurl)
         {
-            ImageBinder imgBinder = new ImageBinder(imgurl);
+            PixelFarm.Drawing.ImageBinder imgBinder = new PixelFarm.Drawing.ImageBinder(imgurl);
             Host.ChildRequestImage(imgBinder, null);
             return imgBinder;
         }
