@@ -939,7 +939,6 @@
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PixelFarm.Painter\CpuBlit.VertexProcessing\BoundingRect.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PixelFarm.Painter\CpuBlit.VertexProcessing\CurveFlattener.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PixelFarm.Painter\CpuBlit.VertexProcessing\LineWalker.cs" />
-    <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PixelFarm.Painter\CpuBlit.VertexProcessing\PathWriter.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PixelFarm.Painter\CpuBlit.VertexProcessing\RoundedRect.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PixelFarm.Painter\CpuBlit.VertexProcessing\SimpleRect.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PixelFarm.Painter\CpuBlit.VertexProcessing\Stroke.cs" />
@@ -955,6 +954,7 @@
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PixelFarm.Painter\CpuBlit.VertexProcessing\VxsClipping.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PixelFarm.Painter\CpuBlit\ColorRGBAf.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PixelFarm.Painter\CpuBlit\MemBitmap.cs" />
+    <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PixelFarm.Painter\CpuBlit\PathWriter.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PixelFarm.Painter\CpuBlit\TempMemPtr.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PixelFarm.Painter\Drawing.Internal\CO.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\..\..\PixelFarm\PixelFarm.Painter\Drawing.Internal\MicroPainter.cs" />
