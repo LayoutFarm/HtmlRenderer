@@ -294,7 +294,7 @@ namespace LayoutFarm.HtmlBoxes
                         var textBuf = new TextBufferSpan(ownerTextBuff, textRun.TextStartIndex, textRun.TextLength);
 
                         //temp fix add +3 ***because this is a selection, 
-                        textService.MeasureString(ref textBuf,
+                        textService.MeasureString(textBuf,
                             this.OwnerBox.ResolvedFont, maxWidth + 3, out charFit, out charFitWidth);
                         selectionIndex = charFit;
                         runSelectionOffsetPx = charFitWidth;
@@ -306,10 +306,10 @@ namespace LayoutFarm.HtmlBoxes
                         CssTextRun textRun = (CssTextRun)this;
                         var textBuf = new TextBufferSpan(ownerTextBuff, textRun.TextStartIndex, textRun.TextLength);
 
-                        textService.MeasureString(ref textBuf,
+                        textService.MeasureString(textBuf,
                             this.OwnerBox.ResolvedFont, maxWidth, out charFit, out charFitWidth);
                         selectionIndex = charFit;
-                        runSelectionOffsetPx = charFitWidth; 
+                        runSelectionOffsetPx = charFitWidth;
                     }
                     break;
                 case CssRunKind.SingleSpace:
