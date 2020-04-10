@@ -55,7 +55,7 @@ namespace TestGraphicPackage2
 
                     PixelFarm.CpuBlit.BitmapHelper.CopyFromGdiPlusBitmapSameSizeTo32BitsBuffer(gdiBmp, memBmp);
                     return memBmp;
-                } 
+                }
             };
             PixelFarm.Platforms.ImageIOPortal.Setup(pars);
 
@@ -66,7 +66,7 @@ namespace TestGraphicPackage2
 
             ////------------------------------- 
             formDemoList = new LayoutFarm.Dev.FormDemoList();
-            formDemoList.LoadDemoList(typeof(Program));
+            formDemoList.LoadDemoList(typeof(Program).Assembly);
             LoadHtmlSamples(formDemoList.SamplesTreeView);
             Application.Run(formDemoList);
         }
