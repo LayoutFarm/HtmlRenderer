@@ -137,14 +137,13 @@ namespace LayoutFarm.HtmlBoxes
         }
         internal float MeasureStringWidth(char[] buffer, int startIndex, int len, RequestFont f)
         {
-            TextBufferSpan textSpan = new TextBufferSpan(buffer, startIndex, len);
-            return this.TextService.MeasureString(ref textSpan, f).Width;
-
+            var textSpan = new TextBufferSpan(buffer, startIndex, len);
+            return this.TextService.MeasureString(textSpan, f).Width;
         }
         internal Size MeasureStringSize(char[] buffer, int startIndex, int len, RequestFont f)
         {
-            TextBufferSpan textSpan = new TextBufferSpan(buffer, startIndex, len);
-            return this.TextService.MeasureString(ref textSpan, f);
+            var textSpan = new TextBufferSpan(buffer, startIndex, len);
+            return this.TextService.MeasureString(textSpan, f);
         }
         //---------------------------------------------------------------
         internal Dictionary<CssBox, PartialBoxStrip> GetReadyStripDic()

@@ -43,9 +43,6 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\PixelFarm\src\Tests\Test_BasicPixelFarm\0_Start\AppHostWithRootGfx1.cs">
-      <Link>AppHostWithRootGfx1.cs</Link>
-    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

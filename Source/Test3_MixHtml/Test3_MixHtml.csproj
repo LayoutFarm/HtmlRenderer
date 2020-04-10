@@ -47,9 +47,6 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\PixelFarm\src\Tests\Test_BasicPixelFarm\0_Start\AppHostWithRootGfx1.cs">
-      <Link>AppHostWithRootGfx1.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\Typography\Typography.TextBreak\TextBreakerTest\IcuSimpleTextFileDictionaryProvider.cs">
       <Link>IcuSimpleTextFileDictionaryProvider.cs</Link>
     </Compile>

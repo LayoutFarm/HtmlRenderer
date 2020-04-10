@@ -18,7 +18,7 @@ namespace TestGraphicPackage2
             YourImplementation.FrameworkInitWinGDI.SetupDefaultValues();
             YourImplementation.FrameworkInitGLES.SetupDefaultValues();
 
-           
+
             string icu_datadir = YourImplementation.RelativePathBuilder.SearchBackAndBuildFolderPath(System.IO.Directory.GetCurrentDirectory(), "HtmlRenderer", @"..\Typography\Typography.TextBreak\icu62\brkitr");
             if (!System.IO.Directory.Exists(icu_datadir))
             {
@@ -30,19 +30,34 @@ namespace TestGraphicPackage2
 
             PixelFarm.CpuBlit.MemBitmapExtensions.DefaultMemBitmapIO = new PixelFarm.Drawing.WinGdi.GdiBitmapIO();
             YourImplementation.TestBedStartup.Setup();
-#if DEBUG
-            PixelFarm.CpuBlit.Imaging.PngImageWriter.InstallImageSaveToFileService((IntPtr imgBuffer, int stride, int width, int height, string filename) =>
-            {
 
+
+            PixelFarm.Platforms.ImageIOSetupParameters pars = new PixelFarm.Platforms.ImageIOSetupParameters();
+            pars.SaveToPng = (IntPtr imgBuffer, int stride, int width, int height, string filename) =>
+            {
                 using (System.Drawing.Bitmap newBmp = new System.Drawing.Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb))
                 {
                     PixelFarm.CpuBlit.BitmapHelper.CopyToGdiPlusBitmapSameSize(imgBuffer, newBmp);
                     //save
                     newBmp.Save(filename);
                 }
-            });
-#endif
+            };
+            pars.ReadFromMemStream = (System.IO.MemoryStream ms, string kind) =>
+            {
+                //read  
+                //TODO: review here again
+                using (System.Drawing.Bitmap gdiBmp = new System.Drawing.Bitmap(ms))
+                {
+                    PixelFarm.CpuBlit.MemBitmap memBmp = new PixelFarm.CpuBlit.MemBitmap(gdiBmp.Width, gdiBmp.Height);
+                    //#if DEBUG
+                    //                        memBmp._dbugNote = "img;
+                    //#endif
 
+                    PixelFarm.CpuBlit.BitmapHelper.CopyFromGdiPlusBitmapSameSizeTo32BitsBuffer(gdiBmp, memBmp);
+                    return memBmp;
+                }
+            };
+            PixelFarm.Platforms.ImageIOPortal.Setup(pars);
 
 
             //-------------------------------
@@ -51,7 +66,7 @@ namespace TestGraphicPackage2
 
             ////------------------------------- 
             formDemoList = new LayoutFarm.Dev.FormDemoList();
-            formDemoList.LoadDemoList(typeof(Program));
+            formDemoList.LoadDemoList(typeof(Program).Assembly);
             LoadHtmlSamples(formDemoList.SamplesTreeView);
             Application.Run(formDemoList);
         }
