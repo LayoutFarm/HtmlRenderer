@@ -371,6 +371,7 @@ namespace LayoutFarm.HtmlBoxes
             //send focus to current input element
 
         }
+        public void MouseLeaveFromViewport() { }
 
         public void KeyPress(UIKeyEventArgs e)
         {
