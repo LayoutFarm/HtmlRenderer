@@ -178,5 +178,10 @@ namespace PaintLab.Svg
         {
             //this.OnLostFocus(e);
         }
+
+        public void PortalMouseLeaveFromViewport()
+        {
+             
+        }
     }
 }

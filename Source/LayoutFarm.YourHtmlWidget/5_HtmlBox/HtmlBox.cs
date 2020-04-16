@@ -142,6 +142,10 @@ namespace LayoutFarm.CustomWidgets
 
             GetInputEventAdapter().MouseMove(e, _htmlRenderBox.CssBox);
         }
+        void IEventPortal.PortalMouseLeaveFromViewport()
+        {
+            GetInputEventAdapter().MouseLeaveFromViewport();
+        }
         void IEventPortal.PortalMouseWheel(UIMouseWheelEventArgs e)
         {
             e.SetCurrentContextElement(this);
