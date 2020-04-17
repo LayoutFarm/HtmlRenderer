@@ -2003,6 +2003,9 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Other\SaturationLChFormulas.cs">
       <Link>PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Other\SaturationLChFormulas.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\ColorToolExtensions.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.Color\ColorToolExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\KnownColors.cs">
       <Link>PixelFarm\src\PixelFarm\PaintLab.Color\KnownColors.cs</Link>
     </Compile>
@@ -2474,44 +2477,50 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing.GLES\TextPrinter\MySimpleGLBitmapFontManager.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.Drawing.GLES\TextPrinter\MySimpleGLBitmapFontManager.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\Drawing\Brushes_Pens.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\Drawing\Brushes_Pens.cs</Link>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\Brushes_Pens.cs">
+      <Link>PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\Brushes_Pens.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\Drawing\CombineMode.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\Drawing\CombineMode.cs</Link>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\CombineMode.cs">
+      <Link>PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\CombineMode.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\Drawing\CRC32Calculator.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\Drawing\CRC32Calculator.cs</Link>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\CRC32Calculator.cs">
+      <Link>PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\CRC32Calculator.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\Drawing\DashStyle.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\Drawing\DashStyle.cs</Link>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\DashStyle.cs">
+      <Link>PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\DashStyle.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\Drawing\DrawBoard.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\Drawing\DrawBoard.cs</Link>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\DrawBoard.cs">
+      <Link>PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\DrawBoard.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\Drawing\Image.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\Drawing\Image.cs</Link>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\Image.cs">
+      <Link>PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\Image.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\Drawing\LenAndLenUnit.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\Drawing\LenAndLenUnit.cs</Link>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\LenAndLenUnit.cs">
+      <Link>PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\LenAndLenUnit.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\Drawing\Painter.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\Drawing\Painter.cs</Link>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\MemMx.cs">
+      <Link>PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\MemMx.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\Drawing\Region.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\Drawing\Region.cs</Link>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\NativeMemMx.cs">
+      <Link>PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\NativeMemMx.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\Drawing\RenderVx.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\Drawing\RenderVx.cs</Link>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\Painter.cs">
+      <Link>PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\Painter.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\Drawing\RequestFont.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\Drawing\RequestFont.cs</Link>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\Region.cs">
+      <Link>PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\Region.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\Drawing\VertexCommandAndOrientation.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\Drawing\VertexCommandAndOrientation.cs</Link>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\RenderVx.cs">
+      <Link>PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\RenderVx.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\Drawing\VertexStore.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\Drawing\VertexStore.cs</Link>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\RequestFont.cs">
+      <Link>PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\RequestFont.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\VertexCommandAndOrientation.cs">
+      <Link>PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\VertexCommandAndOrientation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\VertexStore.cs">
+      <Link>PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\VertexStore.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingGL\DrawingGL\EsUtils\ES2Utils.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.DrawingGL\DrawingGL\EsUtils\ES2Utils.cs</Link>
@@ -2839,12 +2848,6 @@
     </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.PrimitiveGeo\ICoordTransformer.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.PrimitiveGeo\ICoordTransformer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.PrimitiveGeo\MemMx.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.PrimitiveGeo\MemMx.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.PrimitiveGeo\NativeMemMx.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.PrimitiveGeo\NativeMemMx.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.PrimitiveGeo\Rectangle.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.PrimitiveGeo\Rectangle.cs</Link>
