@@ -2495,9 +2495,6 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\Image.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\Image.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\LenAndLenUnit.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\LenAndLenUnit.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\MemMx.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\MemMx.cs</Link>
     </Compile>
@@ -2837,14 +2834,17 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Painter\TempContext.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.Painter\TempContext.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.PrimitiveGeo\AffineMat.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.PrimitiveGeo\AffineMat.cs</Link>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.PrimitiveDrawing\AffineMat.cs">
+      <Link>PixelFarm\src\PixelFarm\PixelFarm.PrimitiveDrawing\AffineMat.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.PrimitiveDrawing\Color.cs">
+      <Link>PixelFarm\src\PixelFarm\PixelFarm.PrimitiveDrawing\Color.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.PrimitiveDrawing\LenAndLenUnit.cs">
+      <Link>PixelFarm\src\PixelFarm\PixelFarm.PrimitiveDrawing\LenAndLenUnit.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.PrimitiveGeo\BasicGeometries.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.PrimitiveGeo\BasicGeometries.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.PrimitiveGeo\Color.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.PrimitiveGeo\Color.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.PrimitiveGeo\ICoordTransformer.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.PrimitiveGeo\ICoordTransformer.cs</Link>

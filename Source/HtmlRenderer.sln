@@ -100,6 +100,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaintLab.PaintFx", "..\..\P
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.HtmlLayout", "LayoutFarm.HtmlLayout\LayoutFarm.HtmlLayout.csproj", "{A1070BA8-979C-4A02-A699-31BC54FE1EA3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixelFarm.PrimitiveDrawing", "..\..\PixelFarm\src\PixelFarm\PixelFarm.PrimitiveDrawing\PixelFarm.PrimitiveDrawing.csproj", "{112196BA-8717-4435-BAF1-5014C2E05CFD}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Test3_MixHtml_SH\Test3_MixHtml_SH.projitems*{14840a73-6d38-4a2a-a71c-f84dc4fb4620}*SharedItemsImports = 4
@@ -758,6 +760,24 @@ Global
 		{A1070BA8-979C-4A02-A699-31BC54FE1EA3}.Release64|Mixed Platforms.Build.0 = Release|Any CPU
 		{A1070BA8-979C-4A02-A699-31BC54FE1EA3}.Release64|x86.ActiveCfg = Release|Any CPU
 		{A1070BA8-979C-4A02-A699-31BC54FE1EA3}.Release64|x86.Build.0 = Release|Any CPU
+		{112196BA-8717-4435-BAF1-5014C2E05CFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{112196BA-8717-4435-BAF1-5014C2E05CFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{112196BA-8717-4435-BAF1-5014C2E05CFD}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{112196BA-8717-4435-BAF1-5014C2E05CFD}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{112196BA-8717-4435-BAF1-5014C2E05CFD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{112196BA-8717-4435-BAF1-5014C2E05CFD}.Debug|x86.Build.0 = Debug|Any CPU
+		{112196BA-8717-4435-BAF1-5014C2E05CFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{112196BA-8717-4435-BAF1-5014C2E05CFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{112196BA-8717-4435-BAF1-5014C2E05CFD}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{112196BA-8717-4435-BAF1-5014C2E05CFD}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{112196BA-8717-4435-BAF1-5014C2E05CFD}.Release|x86.ActiveCfg = Release|Any CPU
+		{112196BA-8717-4435-BAF1-5014C2E05CFD}.Release|x86.Build.0 = Release|Any CPU
+		{112196BA-8717-4435-BAF1-5014C2E05CFD}.Release64|Any CPU.ActiveCfg = Release|Any CPU
+		{112196BA-8717-4435-BAF1-5014C2E05CFD}.Release64|Any CPU.Build.0 = Release|Any CPU
+		{112196BA-8717-4435-BAF1-5014C2E05CFD}.Release64|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{112196BA-8717-4435-BAF1-5014C2E05CFD}.Release64|Mixed Platforms.Build.0 = Release|Any CPU
+		{112196BA-8717-4435-BAF1-5014C2E05CFD}.Release64|x86.ActiveCfg = Release|Any CPU
+		{112196BA-8717-4435-BAF1-5014C2E05CFD}.Release64|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -803,6 +823,7 @@ Global
 		{9CC6310F-C116-449D-BE97-63D152F98746} = {7C48D8C8-22E8-43DB-9118-DB8A849B9D70}
 		{A533E1C7-AB74-4BCF-BC7A-12D4DBBFA918} = {7C48D8C8-22E8-43DB-9118-DB8A849B9D70}
 		{A1070BA8-979C-4A02-A699-31BC54FE1EA3} = {3BA8D292-2DD5-49D2-8D77-AB7113B6E007}
+		{112196BA-8717-4435-BAF1-5014C2E05CFD} = {7C48D8C8-22E8-43DB-9118-DB8A849B9D70}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8E122BCF-9C21-4ED3-ADDC-19E7F173F4BF}
