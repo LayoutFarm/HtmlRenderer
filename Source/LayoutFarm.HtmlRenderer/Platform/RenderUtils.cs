@@ -28,11 +28,11 @@ namespace LayoutFarm
         ///// <summary>
         ///// image used to draw loading image icon
         ///// </summary>
-        //static Image _loadImage;
+        static Image _loadImage;
         ///// <summary>
         ///// image used to draw error image icon
         ///// </summary>
-        //static Image _errorImage;
+        static Image _errorImage;
         /// <summary>
         /// Check if the given color is visible if painted (has alpha and color values)
         /// </summary>
