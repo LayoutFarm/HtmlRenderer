@@ -1,6 +1,9 @@
-﻿//BSD, 2014-present, WinterDev 
+﻿//MIT, 2020, WinterDev
+using System;
+using System.Collections.Generic;
+using PixelFarm.Drawing;
 
-namespace LayoutFarm
+namespace LayoutFarm.Css
 {
     static class FontDefaultConfig
     {
@@ -11,4 +14,5 @@ namespace LayoutFarm
         /// </summary>
         public const float DEFAULT_FONT_SIZE = 10f;
     }
+
 }

@@ -304,10 +304,9 @@ namespace LayoutFarm.HtmlBoxes
             //---------------------------------------------------------------------------
             //evaluate bg 
 
-
-
             if (BackgroundGradient != Color.Transparent ||
-               (ActualBackgroundColor.A > 0))
+                (ActualBackgroundColor.A > 0))
+
             {
                 tmpBoxCompactFlags |= BoxFlags.HAS_VISIBLE_BG;
             }
@@ -357,24 +356,23 @@ namespace LayoutFarm.HtmlBoxes
             //    _actualLineHeight = .9f * (this.GetEmHeight());
             //} 
 
-            //-------
-            //TODO: review decorator here
-            //if (_myspec.HasBoxShadow)
-            //{
-            //    //temp fix here
-            //    //TODO: review move shadow to external decoration object/box
-            //    if (_decorator == null)
-            //    {
-            //        _decorator = new CssBoxDecorator();
-            //    }
-            //    _decorator.HBoxShadowOffset = (int)CssValueParser.ConvertToPx(spec.BoxShadowHOffset, 0, this);
-            //    _decorator.VBoxShadowOffset = (int)CssValueParser.ConvertToPx(spec.BoxShadowVOffset, 0, this);
-            //    _decorator.Color = spec.BoxShadowColor;
-            //}
-            //else
-            //{
-            //    _decorator = null;
-            //}
+
+            if (_myspec.HasBoxShadow)
+            {
+                //temp fix here
+                //TODO: review move shadow to external decoration object/box
+                if (_decorator == null)
+                {
+                    _decorator = new CssBoxDecorator();
+                }
+                _decorator.HBoxShadowOffset = (int)CssValueParser.ConvertToPx(spec.BoxShadowHOffset, 0, this);
+                _decorator.VBoxShadowOffset = (int)CssValueParser.ConvertToPx(spec.BoxShadowVOffset, 0, this);
+                _decorator.Color = spec.BoxShadowColor;
+            }
+            else
+            {
+                _decorator = null;
+            }
         }
 
         //------------------------------------------ 
@@ -881,6 +879,5 @@ namespace LayoutFarm.HtmlBoxes
             _mayHasViewport = true;
             this.InvalidateGraphics();
         }
-
     }
 }

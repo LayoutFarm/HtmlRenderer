@@ -33,27 +33,6 @@ namespace LayoutFarm.HtmlBoxes
         public int StartHitCharIndex { get; set; }
         public CssRun EndHitRun { get; set; }
         public int EndHitCharIndex { get; set; }
-
-        //public void PaintSelection(PaintVisitor p, CssLineBox line)
-        //{
-        //    if (this.Kind == SelectionSegmentKind.FullLine)
-        //    {
-        //        p.FillRectangle(p.CssBoxSelectionColor, //should  be configurable
-        //               0,
-        //               0,
-        //               line.CachedLineContentWidth,
-        //               line.CacheLineHeight);
-
-        //    }
-        //    else
-        //    {
-        //        p.FillRectangle(
-        //              p.CssBoxSelectionColor,
-        //              this.BeginAtPx, 0,
-        //              this.WidthPx,
-        //              (int)line.CacheLineHeight);
-
-        //    }
-        //}
+ 
     }
 }

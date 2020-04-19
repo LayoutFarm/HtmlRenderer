@@ -207,155 +207,173 @@
     <Compile Include="..\Deps_HtmlKit\HtmlKit\ICharArray.cs">
       <Link>0_REF_LayoutFarm.WebDom\5_HtmlKit\ICharArray.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\1_Css\BoxSpec.cs">
-      <Link>0_REF_LayoutFarm.HtmlRenderer\1_Css\BoxSpec.cs</Link>
+    <Compile Include="..\layoutfarm.htmllayout\1_css\BoxSpec.cs">
+      <Link>0_REF_LayoutFarm.HtmlLayout\1_Css\BoxSpec.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\1_Css\BoxSpecNode.cs">
-      <Link>0_REF_LayoutFarm.HtmlRenderer\1_Css\BoxSpecNode.cs</Link>
+    <Compile Include="..\layoutfarm.htmllayout\1_css\BoxSpecNode.cs">
+      <Link>0_REF_LayoutFarm.HtmlLayout\1_Css\BoxSpecNode.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\1_Css\BoxSpec_CopyAndVersioning.cs">
-      <Link>0_REF_LayoutFarm.HtmlRenderer\1_Css\BoxSpec_CopyAndVersioning.cs</Link>
+    <Compile Include="..\layoutfarm.htmllayout\1_css\BoxSpec_CopyAndVersioning.cs">
+      <Link>0_REF_LayoutFarm.HtmlLayout\1_Css\BoxSpec_CopyAndVersioning.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\1_Css\CssFeatures.cs">
-      <Link>0_REF_LayoutFarm.HtmlRenderer\1_Css\CssFeatures.cs</Link>
+    <Compile Include="..\layoutfarm.htmllayout\1_css\CssFeatures.cs">
+      <Link>0_REF_LayoutFarm.HtmlLayout\1_Css\CssFeatures.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\2_Boxes\0_Root\CssBoxConstConfig.cs">
-      <Link>0_REF_LayoutFarm.HtmlRenderer\2_Boxes\0_Root\CssBoxConstConfig.cs</Link>
+    <Compile Include="..\layoutfarm.htmllayout\1_css\FontDefaultConfig.cs">
+      <Link>0_REF_LayoutFarm.HtmlLayout\1_Css\FontDefaultConfig.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\2_Boxes\0_Root\HtmlVisualRoot.cs">
-      <Link>0_REF_LayoutFarm.HtmlRenderer\2_Boxes\0_Root\HtmlVisualRoot.cs</Link>
+    <Compile Include="..\layoutfarm.htmllayout\2_boxes\0_root\CssBoxConstConfig.cs">
+      <Link>0_REF_LayoutFarm.HtmlLayout\2_Boxes\0_Root\CssBoxConstConfig.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\2_Boxes\0_Root\IRootGraphics.cs">
-      <Link>0_REF_LayoutFarm.HtmlRenderer\2_Boxes\0_Root\IRootGraphics.cs</Link>
+    <Compile Include="..\layoutfarm.htmllayout\2_boxes\0_root\HtmlVisualRoot.cs">
+      <Link>0_REF_LayoutFarm.HtmlLayout\2_Boxes\0_Root\HtmlVisualRoot.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\BoxVisitor.cs">
-      <Link>0_REF_LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\BoxVisitor.cs</Link>
+    <Compile Include="..\layoutfarm.htmllayout\2_boxes\0_root\IRootGraphics.cs">
+      <Link>0_REF_LayoutFarm.HtmlLayout\2_Boxes\0_Root\IRootGraphics.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssBox.cs">
-      <Link>0_REF_LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssBox.cs</Link>
+    <Compile Include="..\layoutfarm.htmllayout\2_boxes\1_corebox\BoxVisitor.cs">
+      <Link>0_REF_LayoutFarm.HtmlLayout\2_Boxes\1_CoreBox\BoxVisitor.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssBoxCollection.cs">
-      <Link>0_REF_LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssBoxCollection.cs</Link>
+    <Compile Include="..\layoutfarm.htmllayout\2_boxes\1_corebox\CssBox.cs">
+      <Link>0_REF_LayoutFarm.HtmlLayout\2_Boxes\1_CoreBox\CssBox.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssBox_BoxFlags.cs">
-      <Link>0_REF_LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssBox_BoxFlags.cs</Link>
+    <Compile Include="..\layoutfarm.htmllayout\2_boxes\1_corebox\CssBoxCollection.cs">
+      <Link>0_REF_LayoutFarm.HtmlLayout\2_Boxes\1_CoreBox\CssBoxCollection.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssBox_Fields.cs">
-      <Link>0_REF_LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssBox_Fields.cs</Link>
+    <Compile Include="..\layoutfarm.htmllayout\2_boxes\1_corebox\CssBox_BoxFlags.cs">
+      <Link>0_REF_LayoutFarm.HtmlLayout\2_Boxes\1_CoreBox\CssBox_BoxFlags.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssBox_Flex.cs">
-      <Link>0_REF_LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssBox_Flex.cs</Link>
+    <Compile Include="..\layoutfarm.htmllayout\2_boxes\1_corebox\CssBox_Fields.cs">
+      <Link>0_REF_LayoutFarm.HtmlLayout\2_Boxes\1_CoreBox\CssBox_Fields.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssBox_OtherActualValues.cs">
-      <Link>0_REF_LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssBox_OtherActualValues.cs</Link>
+    <Compile Include="..\layoutfarm.htmllayout\2_boxes\1_corebox\CssBox_Flex.cs">
+      <Link>0_REF_LayoutFarm.HtmlLayout\2_Boxes\1_CoreBox\CssBox_Flex.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssBox_Paint.cs">
-      <Link>0_REF_LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssBox_Paint.cs</Link>
+    <Compile Include="..\layoutfarm.htmllayout\2_boxes\1_corebox\CssBox_OtherActualValues.cs">
+      <Link>0_REF_LayoutFarm.HtmlLayout\2_Boxes\1_CoreBox\CssBox_OtherActualValues.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssBox_Positions.cs">
-      <Link>0_REF_LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssBox_Positions.cs</Link>
+    <Compile Include="..\layoutfarm.htmllayout\2_boxes\1_corebox\CssBox_Positions.cs">
+      <Link>0_REF_LayoutFarm.HtmlLayout\2_Boxes\1_CoreBox\CssBox_Positions.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssBox_Spec_ReadOnly.cs">
-      <Link>0_REF_LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssBox_Spec_ReadOnly.cs</Link>
+    <Compile Include="..\layoutfarm.htmllayout\2_boxes\1_corebox\CssBox_Spec_ReadOnly.cs">
+      <Link>0_REF_LayoutFarm.HtmlLayout\2_Boxes\1_CoreBox\CssBox_Spec_ReadOnly.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssBox_Spec_Snap.cs">
-      <Link>0_REF_LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssBox_Spec_Snap.cs</Link>
+    <Compile Include="..\layoutfarm.htmllayout\2_boxes\1_corebox\CssBox_Spec_Snap.cs">
+      <Link>0_REF_LayoutFarm.HtmlLayout\2_Boxes\1_CoreBox\CssBox_Spec_Snap.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssBox_Unsafe.cs">
-      <Link>0_REF_LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssBox_Unsafe.cs</Link>
+    <Compile Include="..\layoutfarm.htmllayout\2_boxes\1_corebox\CssBox_Unsafe.cs">
+      <Link>0_REF_LayoutFarm.HtmlLayout\2_Boxes\1_CoreBox\CssBox_Unsafe.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssLineBox.cs">
-      <Link>0_REF_LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssLineBox.cs</Link>
+    <Compile Include="..\layoutfarm.htmllayout\2_boxes\1_corebox\CssLineBox.cs">
+      <Link>0_REF_LayoutFarm.HtmlLayout\2_Boxes\1_CoreBox\CssLineBox.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssSideAndOrientation.cs">
-      <Link>0_REF_LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\CssSideAndOrientation.cs</Link>
+    <Compile Include="..\layoutfarm.htmllayout\2_boxes\1_corebox\CssSideAndOrientation.cs">
+      <Link>0_REF_LayoutFarm.HtmlLayout\2_Boxes\1_CoreBox\CssSideAndOrientation.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\SelectionSegment.cs">
-      <Link>0_REF_LayoutFarm.HtmlRenderer\2_Boxes\1_CoreBox\SelectionSegment.cs</Link>
+    <Compile Include="..\layoutfarm.htmllayout\2_boxes\1_corebox\SelectionSegment.cs">
+      <Link>0_REF_LayoutFarm.HtmlLayout\2_Boxes\1_CoreBox\SelectionSegment.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\2_Boxes\2_Runs\CssBlockRun.cs">
-      <Link>0_REF_LayoutFarm.HtmlRenderer\2_Boxes\2_Runs\CssBlockRun.cs</Link>
+    <Compile Include="..\layoutfarm.htmllayout\2_boxes\2_runs\CssBlockRun.cs">
+      <Link>0_REF_LayoutFarm.HtmlLayout\2_Boxes\2_Runs\CssBlockRun.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\2_Boxes\2_Runs\CssImageRun.cs">
-      <Link>0_REF_LayoutFarm.HtmlRenderer\2_Boxes\2_Runs\CssImageRun.cs</Link>
+    <Compile Include="..\layoutfarm.htmllayout\2_boxes\2_runs\CssImageRun.cs">
+      <Link>0_REF_LayoutFarm.HtmlLayout\2_Boxes\2_Runs\CssImageRun.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\2_Boxes\2_Runs\CssRun.cs">
-      <Link>0_REF_LayoutFarm.HtmlRenderer\2_Boxes\2_Runs\CssRun.cs</Link>
+    <Compile Include="..\layoutfarm.htmllayout\2_boxes\2_runs\CssRun.cs">
+      <Link>0_REF_LayoutFarm.HtmlLayout\2_Boxes\2_Runs\CssRun.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\2_Boxes\2_Runs\CssTextRun.cs">
-      <Link>0_REF_LayoutFarm.HtmlRenderer\2_Boxes\2_Runs\CssTextRun.cs</Link>
+    <Compile Include="..\layoutfarm.htmllayout\2_boxes\2_runs\CssTextRun.cs">
+      <Link>0_REF_LayoutFarm.HtmlLayout\2_Boxes\2_Runs\CssTextRun.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\2_Boxes\3_Render\BackgroundImagePaintHelper.cs">
-      <Link>0_REF_LayoutFarm.HtmlRenderer\2_Boxes\3_Render\BackgroundImagePaintHelper.cs</Link>
+    <Compile Include="..\layoutfarm.htmllayout\3_boxes_layout\0_general\BoxHitUtils.cs">
+      <Link>0_REF_LayoutFarm.HtmlLayout\3_Boxes_Layout\0_General\BoxHitUtils.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\2_Boxes\3_Render\BorderPaintHelper.cs">
-      <Link>0_REF_LayoutFarm.HtmlRenderer\2_Boxes\3_Render\BorderPaintHelper.cs</Link>
+    <Compile Include="..\layoutfarm.htmllayout\3_boxes_layout\0_general\CssBoxLayoutExtension.cs">
+      <Link>0_REF_LayoutFarm.HtmlLayout\3_Boxes_Layout\0_General\CssBoxLayoutExtension.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\2_Boxes\3_Render\CssBoxDecorator.cs">
-      <Link>0_REF_LayoutFarm.HtmlRenderer\2_Boxes\3_Render\CssBoxDecorator.cs</Link>
+    <Compile Include="..\layoutfarm.htmllayout\3_boxes_layout\0_general\CssLayoutEngine.cs">
+      <Link>0_REF_LayoutFarm.HtmlLayout\3_Boxes_Layout\0_General\CssLayoutEngine.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\2_Boxes\3_Render\MultiLayerStack.cs">
-      <Link>0_REF_LayoutFarm.HtmlRenderer\2_Boxes\3_Render\MultiLayerStack.cs</Link>
+    <Compile Include="..\layoutfarm.htmllayout\3_boxes_layout\0_general\CssLayoutEngine.FloatFormattingContext.cs">
+      <Link>0_REF_LayoutFarm.HtmlLayout\3_Boxes_Layout\0_General\CssLayoutEngine.FloatFormattingContext.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\2_Boxes\3_Render\PaintVisitor.cs">
-      <Link>0_REF_LayoutFarm.HtmlRenderer\2_Boxes\3_Render\PaintVisitor.cs</Link>
+    <Compile Include="..\layoutfarm.htmllayout\3_boxes_layout\0_general\CssTableLayoutEngine.cs">
+      <Link>0_REF_LayoutFarm.HtmlLayout\3_Boxes_Layout\0_General\CssTableLayoutEngine.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\2_Boxes\4_HitAndSelections\BoxHitChain.cs">
-      <Link>0_REF_LayoutFarm.HtmlRenderer\2_Boxes\4_HitAndSelections\BoxHitChain.cs</Link>
+    <Compile Include="..\layoutfarm.htmllayout\3_boxes_layout\0_general\CssTableLayoutEngine.CssVerticalCellSpacingBox.cs">
+      <Link>0_REF_LayoutFarm.HtmlLayout\3_Boxes_Layout\0_General\CssTableLayoutEngine.CssVerticalCellSpacingBox.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\2_Boxes\4_HitAndSelections\SelectionRange.cs">
-      <Link>0_REF_LayoutFarm.HtmlRenderer\2_Boxes\4_HitAndSelections\SelectionRange.cs</Link>
+    <Compile Include="..\layoutfarm.htmllayout\3_boxes_layout\0_general\CssTableLayoutEngine.TableColumns.cs">
+      <Link>0_REF_LayoutFarm.HtmlLayout\3_Boxes_Layout\0_General\CssTableLayoutEngine.TableColumns.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\3_Boxes_Layout\0_General\BoxHitUtils.cs">
-      <Link>0_REF_LayoutFarm.HtmlRenderer\3_Boxes_Layout\0_General\BoxHitUtils.cs</Link>
+    <Compile Include="..\layoutfarm.htmllayout\3_boxes_layout\0_general\LayoutVisitor.cs">
+      <Link>0_REF_LayoutFarm.HtmlLayout\3_Boxes_Layout\0_General\LayoutVisitor.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\3_Boxes_Layout\0_General\CssBoxLayoutExtension.cs">
-      <Link>0_REF_LayoutFarm.HtmlRenderer\3_Boxes_Layout\0_General\CssBoxLayoutExtension.cs</Link>
+    <Compile Include="..\layoutfarm.htmllayout\3_boxes_layout\1_flex\FlexContainer.cs">
+      <Link>0_REF_LayoutFarm.HtmlLayout\3_Boxes_Layout\1_Flex\FlexContainer.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\3_Boxes_Layout\0_General\CssLayoutEngine.cs">
-      <Link>0_REF_LayoutFarm.HtmlRenderer\3_Boxes_Layout\0_General\CssLayoutEngine.cs</Link>
+    <Compile Include="..\layoutfarm.htmllayout\4_hitandselections\BoxHitChain.cs">
+      <Link>0_REF_LayoutFarm.HtmlLayout\2_Boxes\4_HitAndSelections\BoxHitChain.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\3_Boxes_Layout\0_General\CssLayoutEngine.FloatFormattingContext.cs">
-      <Link>0_REF_LayoutFarm.HtmlRenderer\3_Boxes_Layout\0_General\CssLayoutEngine.FloatFormattingContext.cs</Link>
+    <Compile Include="..\layoutfarm.htmllayout\4_hitandselections\SelectionRange.cs">
+      <Link>0_REF_LayoutFarm.HtmlLayout\2_Boxes\4_HitAndSelections\SelectionRange.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\3_Boxes_Layout\0_General\CssTableLayoutEngine.cs">
-      <Link>0_REF_LayoutFarm.HtmlRenderer\3_Boxes_Layout\0_General\CssTableLayoutEngine.cs</Link>
+    <Compile Include="..\layoutfarm.htmllayout\5_boxes_specialboxes\CssBoxFrame.cs">
+      <Link>0_REF_LayoutFarm.HtmlLayout\5_Boxes_SpecialBoxes\CssBoxFrame.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\3_Boxes_Layout\0_General\CssTableLayoutEngine.CssVerticalCellSpacingBox.cs">
-      <Link>0_REF_LayoutFarm.HtmlRenderer\3_Boxes_Layout\0_General\CssTableLayoutEngine.CssVerticalCellSpacingBox.cs</Link>
+    <Compile Include="..\layoutfarm.htmllayout\5_boxes_specialboxes\CssBoxHr.cs">
+      <Link>0_REF_LayoutFarm.HtmlLayout\5_Boxes_SpecialBoxes\CssBoxHr.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\3_Boxes_Layout\0_General\CssTableLayoutEngine.TableColumns.cs">
-      <Link>0_REF_LayoutFarm.HtmlRenderer\3_Boxes_Layout\0_General\CssTableLayoutEngine.TableColumns.cs</Link>
+    <Compile Include="..\layoutfarm.htmllayout\5_boxes_specialboxes\CssBoxImage.cs">
+      <Link>0_REF_LayoutFarm.HtmlLayout\5_Boxes_SpecialBoxes\CssBoxImage.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\3_Boxes_Layout\0_General\LayoutVisitor.cs">
-      <Link>0_REF_LayoutFarm.HtmlRenderer\3_Boxes_Layout\0_General\LayoutVisitor.cs</Link>
+    <Compile Include="..\layoutfarm.htmllayout\5_boxes_specialboxes\CssBoxListItem.cs">
+      <Link>0_REF_LayoutFarm.HtmlLayout\5_Boxes_SpecialBoxes\CssBoxListItem.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\3_Boxes_Layout\1_Flex\FlexContainer.cs">
-      <Link>0_REF_LayoutFarm.HtmlRenderer\3_Boxes_Layout\1_Flex\FlexContainer.cs</Link>
+    <Compile Include="..\layoutfarm.htmllayout\5_boxes_specialboxes\CssFloatContainerBox.cs">
+      <Link>0_REF_LayoutFarm.HtmlLayout\5_Boxes_SpecialBoxes\CssFloatContainerBox.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\5_Boxes_SpecialBoxes\CssBoxFrame.cs">
-      <Link>0_REF_LayoutFarm.HtmlRenderer\5_Boxes_SpecialBoxes\CssBoxFrame.cs</Link>
+    <Compile Include="..\LayoutFarm.HtmlRenderer\BackgroundImagePaintHelper.cs">
+      <Link>0_REF_LayoutFarm.HtmlRenderer\BackgroundImagePaintHelper.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\5_Boxes_SpecialBoxes\CssBoxHr.cs">
-      <Link>0_REF_LayoutFarm.HtmlRenderer\5_Boxes_SpecialBoxes\CssBoxHr.cs</Link>
+    <Compile Include="..\LayoutFarm.HtmlRenderer\BorderPaintHelper.cs">
+      <Link>0_REF_LayoutFarm.HtmlRenderer\BorderPaintHelper.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\5_Boxes_SpecialBoxes\CssBoxImage.cs">
-      <Link>0_REF_LayoutFarm.HtmlRenderer\5_Boxes_SpecialBoxes\CssBoxImage.cs</Link>
+    <Compile Include="..\LayoutFarm.HtmlRenderer\CssBoxDecorator.cs">
+      <Link>0_REF_LayoutFarm.HtmlRenderer\CssBoxDecorator.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\5_Boxes_SpecialBoxes\CssBoxListItem.cs">
-      <Link>0_REF_LayoutFarm.HtmlRenderer\5_Boxes_SpecialBoxes\CssBoxListItem.cs</Link>
+    <Compile Include="..\LayoutFarm.HtmlRenderer\CssBoxHr_R.cs">
+      <Link>0_REF_LayoutFarm.HtmlRenderer\CssBoxHr_R.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\5_Boxes_SpecialBoxes\CssFloatContainerBox.cs">
-      <Link>0_REF_LayoutFarm.HtmlRenderer\5_Boxes_SpecialBoxes\CssFloatContainerBox.cs</Link>
+    <Compile Include="..\LayoutFarm.HtmlRenderer\CssBoxImage_R.cs">
+      <Link>0_REF_LayoutFarm.HtmlRenderer\CssBoxImage_R.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\6_Diagnostics\dbug.cs">
-      <Link>0_REF_LayoutFarm.HtmlRenderer\6_Diagnostics\dbug.cs</Link>
+    <Compile Include="..\LayoutFarm.HtmlRenderer\CssBox_Paint.cs">
+      <Link>0_REF_LayoutFarm.HtmlRenderer\CssBox_Paint.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\Platform\FontDefaultConfig.cs">
-      <Link>0_REF_LayoutFarm.HtmlRenderer\Platform\FontDefaultConfig.cs</Link>
+    <Compile Include="..\LayoutFarm.HtmlRenderer\CssLineBox_R.cs">
+      <Link>0_REF_LayoutFarm.HtmlRenderer\CssLineBox_R.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\Platform\RenderUtils.cs">
-      <Link>0_REF_LayoutFarm.HtmlRenderer\Platform\RenderUtils.cs</Link>
+    <Compile Include="..\LayoutFarm.HtmlRenderer\CssTextRun_R.cs">
+      <Link>0_REF_LayoutFarm.HtmlRenderer\CssTextRun_R.cs</Link>
+    </Compile>
+    <Compile Include="..\LayoutFarm.HtmlRenderer\dbug.cs">
+      <Link>0_REF_LayoutFarm.HtmlRenderer\dbug.cs</Link>
+    </Compile>
+    <Compile Include="..\LayoutFarm.HtmlRenderer\MultiLayerStack.cs">
+      <Link>0_REF_LayoutFarm.HtmlRenderer\MultiLayerStack.cs</Link>
+    </Compile>
+    <Compile Include="..\LayoutFarm.HtmlRenderer\PaintVisitor.cs">
+      <Link>0_REF_LayoutFarm.HtmlRenderer\PaintVisitor.cs</Link>
+    </Compile>
+    <Compile Include="..\LayoutFarm.HtmlRenderer\RenderUtils.cs">
+      <Link>0_REF_LayoutFarm.HtmlRenderer\RenderUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\LayoutFarm.HtmlRenderer\SelectionSegment_R.cs">
+      <Link>0_REF_LayoutFarm.HtmlRenderer\SelectionSegment_R.cs</Link>
+    </Compile>
+    <Compile Include="..\LayoutFarm.HtmlRenderer\VisualRoot_R.cs">
+      <Link>0_REF_LayoutFarm.HtmlRenderer\VisualRoot_R.cs</Link>
     </Compile>
     <Compile Include="..\LayoutFarm.WebDom\0_REF_HtmlKit\HtmlAttributeId.cs">
       <Link>0_REF_LayoutFarm.WebDom\5_HtmlKit\HtmlAttributeId.cs</Link>
@@ -479,10 +497,10 @@
     <Compile Include="4_WebDom\HtmlTextNode.cs" />
     <Compile Include="4_WebDom\SpecialHtmlElements.cs" />
     <Compile Include="5_RenderBasedUI\RenderElementExtension.cs" />
-    <Compile Include="6_Svg\CssBoxSvgRoot.cs" />
-    <Compile Include="6_Svg\SvgCreator.cs" />
-    <Compile Include="6_Svg\SvgRootEventPortal.cs" />
-    <Compile Include="6_Svg\SvgRootEventPortal_IEventPortal.cs" />
+    <Compile Include="0_REF_PaintLab_Svg\CssBoxSvgRoot.cs" />
+    <Compile Include="0_REF_PaintLab_Svg\SvgCreator.cs" />
+    <Compile Include="0_REF_PaintLab_Svg\SvgRootEventPortal.cs" />
+    <Compile Include="0_REF_PaintLab_Svg\SvgRootEventPortal_IEventPortal.cs" />
     <Compile Include="7_Events\HtmlInputEventAdapter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

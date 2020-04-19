@@ -5,31 +5,13 @@ using System.Collections.Generic;
 using PixelFarm.Drawing;
 namespace LayoutFarm.HtmlBoxes
 {
-
-    public class HtmlVisualRoot
-    {
-        internal void RaiseImageRequest(ImageBinder binder, object requestFrom, bool anotherThread)
-        {
-            //send to image request queue
-            //_htmlVisualRoot.RaiseImageRequest(binder,
-            //    requestFrom,
-            //    anotherThread);
-        }
-        internal void RequestScrollView(CssBox box)
-        {
-
-        }
-        internal void UpdateSizeIfWiderOrHigher(float width, float height)
-        {
-
-        }
-    }
     public class LayoutVisitor : BoxVisitor
     {
         //---------
         //reusable
         //---------
 
+        HtmlVisualRoot _htmlVisualRoot;
         float _totalMarginLeftAndRight;
         Queue<Dictionary<CssBox, PartialBoxStrip>> _dicStripPool;
         Queue<List<PartialBoxStrip>> _listStripPool;
@@ -38,9 +20,7 @@ namespace LayoutFarm.HtmlBoxes
         FloatingContextStack _floatingContextStack = new FloatingContextStack();
         static int s_totalLayoutIdEpisode = 0;
         int _episodeId = 1;
-
         ITextService _textService;
-        HtmlVisualRoot _htmlVisualRoot;
         internal LayoutVisitor(ITextService fontService)
         {
             _textService = fontService;
@@ -57,7 +37,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         internal void UnBind()
         {
-            //_htmlVisualRoot = null;
+            _htmlVisualRoot = null;
             if (_dicStripPool != null) _dicStripPool.Clear();
             if (_listStripPool != null) _listStripPool.Clear();
             _readyDicStrip.Clear();
@@ -115,7 +95,6 @@ namespace LayoutFarm.HtmlBoxes
             float candidateRootWidth = Math.Max(
                 box.CalculateMinimumWidth(_episodeId) + CalculateWidthMarginTotalUp(box),
                 (box.VisualWidth + this.ContainerBlockGlobalX) < CssBoxConstConfig.BOX_MAX_RIGHT ? box.VisualWidth : 0);
-
             _htmlVisualRoot.UpdateSizeIfWiderOrHigher(
                 this.ContainerBlockGlobalX + candidateRootWidth,
                 this.ContainerBlockGlobalY + box.VisualHeight);

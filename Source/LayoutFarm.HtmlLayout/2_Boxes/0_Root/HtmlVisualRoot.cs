@@ -19,7 +19,7 @@ using PixelFarm.Drawing;
 namespace LayoutFarm.HtmlBoxes
 {
 
-    public abstract class HtmlVisualRoot : IDisposable
+    public abstract partial class HtmlVisualRoot : IDisposable
     {
 
         protected ITextService _textService;
@@ -53,7 +53,7 @@ namespace LayoutFarm.HtmlBoxes
 #endif
         public CssBox RootCssBox => _rootBox;
 
-        public RenderElement RootRenderElement { get; set; }
+       
 
         public void SetRootCssBox(CssBox rootCssBox)
         {
@@ -226,31 +226,7 @@ namespace LayoutFarm.HtmlBoxes
 #if DEBUG
         public static int dbugPaintN;
 #endif
-        public void PerformPaint(PaintVisitor p)
-        {
-            if (_rootBox == null)
-            {
-                return;
-            }
 
-            p.PushContaingBlock(_rootBox);
-#if DEBUG
-            p.dbugEnableLogRecord = false;
-            p.dbugResetLogRecords();
-            dbugPaintN++;
-#endif
-            CssBox.Paint(_rootBox, p);
-            
-            p.PopContainingBlock();
-#if DEBUG
-
-            if (p.dbugEnableLogRecord)
-            {
-
-            }
-#endif
-
-        }
 
         //------------------------------------------------------------------
         protected abstract void OnRequestImage(ImageBinder binder, object reqFrom);

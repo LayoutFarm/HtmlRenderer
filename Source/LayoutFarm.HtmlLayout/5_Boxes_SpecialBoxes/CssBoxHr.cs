@@ -19,7 +19,7 @@ namespace LayoutFarm.HtmlBoxes
     /// <summary>
     /// CSS box for hr element.
     /// </summary>
-    public sealed class CssBoxHr : CssBox
+    public sealed partial class CssBoxHr : CssBox
     {
         /// <summary>
         /// Init.
@@ -108,33 +108,6 @@ namespace LayoutFarm.HtmlBoxes
             this.SetVisualSize(width, height);
             this.SetVisualHeight(ActualPaddingTop + ActualPaddingBottom + height);
         }
-
-//        /// <summary>
-//        /// Paints the fragment
-//        /// </summary>
-//        /// <param name="g">the device to draw to</param>
-//        protected override void PaintImp(PaintVisitor p)
-//        {
-//#if DEBUG
-//            p.dbugEnterNewContext(this, PaintVisitor.PaintVisitorContextName.Init);
-//#endif
-//            var rect = new RectangleF(0, 0, this.VisualWidth, this.VisualHeight);
-//            if (rect.Height > 2 && RenderUtils.IsColorVisible(ActualBackgroundColor))
-//            {
-//                p.FillRectangle(ActualBackgroundColor, rect.Left, rect.Top, rect.Width, rect.Height);
-//            }
-
-//            if (rect.Height > 1)
-//            {
-//                p.PaintBorders(this, rect);
-//            }
-//            else
-//            {
-//                p.PaintBorder(this, CssSide.Top, this.BorderTopColor, rect);
-//            }
-//#if DEBUG
-//            p.dbugExitContext();
-//#endif
-//        }
+        
     }
 }
