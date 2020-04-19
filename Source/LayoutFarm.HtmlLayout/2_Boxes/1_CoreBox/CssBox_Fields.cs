@@ -62,7 +62,7 @@ namespace LayoutFarm.HtmlBoxes
         //only in condition 3
         char[] _buffer;
         //----------------------------------------------------    
-        CssBoxDecorator _decorator;
+        //CssBoxDecorator _decorator;
         bool _mayHasViewport;
         bool _isOutOfFlowBox;
 
@@ -78,11 +78,11 @@ namespace LayoutFarm.HtmlBoxes
         internal int RunCount => _aa_contentRuns != null ? _aa_contentRuns.Count : 0;
 
 
-        internal CssBoxDecorator Decorator
-        {
-            get => _decorator;
-            set => _decorator = value;
-        }
+        //internal CssBoxDecorator Decorator
+        //{
+        //    get => _decorator;
+        //    set => _decorator = value;
+        //}
         public CssBlockRun JustBlockRun
         {
             get => _justBlockRun;
@@ -109,7 +109,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             if (_absPosLayer != null)
             {
-               
+                int j = _absPosLayer.Count;
                 for (int i = _absPosLayer.Count - 1; i >= 0; --i)
                 {
                     yield return _absPosLayer.GetBox(i);

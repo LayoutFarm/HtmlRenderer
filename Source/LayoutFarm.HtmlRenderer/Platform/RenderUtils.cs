@@ -25,14 +25,14 @@ namespace LayoutFarm
     static class RenderUtils
     {
 
-        /// <summary>
-        /// image used to draw loading image icon
-        /// </summary>
-        static Image _loadImage;
-        /// <summary>
-        /// image used to draw error image icon
-        /// </summary>
-        static Image _errorImage;
+        ///// <summary>
+        ///// image used to draw loading image icon
+        ///// </summary>
+        //static Image _loadImage;
+        ///// <summary>
+        ///// image used to draw error image icon
+        ///// </summary>
+        //static Image _errorImage;
         /// <summary>
         /// Check if the given color is visible if painted (has alpha and color values)
         /// </summary>

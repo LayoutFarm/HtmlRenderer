@@ -4,9 +4,7 @@ namespace LayoutFarm
 {
     static class FontDefaultConfig
     {
-        /// <summary>
-        /// serif
-        /// </summary>
+
         internal static string DEFAULT_FONT_NAME = "Tahoma";
         /// <summary>
         /// Default font size in points. Change this value to modify the default font size.

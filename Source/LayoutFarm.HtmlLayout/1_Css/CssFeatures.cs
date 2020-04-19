@@ -784,7 +784,7 @@ namespace LayoutFarm.Css
                this.VOffset =
                this.BlurRadius =
                this.SpreadDistance = CssLength.ZeroNoUnit;
-            this.ShadowColor = Color.FromArgb(220, 0x80, 0x80, 0x80);
+            this.ShadowColor = Color.FromArgb(220, 54, 54, 54);
         }
         private CssBoxShadowFeature(object newOwner, CssBoxShadowFeature inheritFrom)
             : base(newOwner)
