@@ -27,6 +27,7 @@ namespace LayoutFarm.HtmlBoxes
 
             NeedInvalidateRectEvent = true;
         }
+       
         public CssBox CssBox => _cssBox;
         protected override PlainLayer CreateDefaultLayer() => new PlainLayer(this);
         public void SetHtmlVisualRoot(MyHtmlVisualRoot htmlVisualRoot, CssBox box)

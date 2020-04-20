@@ -109,13 +109,13 @@
       <Project>{68f1daf6-2b35-476e-b2f8-5eadbc823935}</Project>
       <Name>BackEnd.TypeMirror</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.AbstractPlatform\PaintLab.AbstractPlatform.csproj">
-      <Project>{d2cc5cef-3003-4a5d-a532-8eb7e4fa40f2}</Project>
-      <Name>PaintLab.AbstractPlatform</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.CssBase\PaintLab.CssBase.csproj">
       <Project>{bf5f9590-f680-403d-932a-7cdd12af89fb}</Project>
       <Name>PaintLab.CssBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.PlatformBridge\PaintLab.PlatformBridge.csproj">
+      <Project>{465cb0ff-c9fa-4371-ad10-51c6dff537b8}</Project>
+      <Name>PaintLab.PlatformBridge</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebDom\PaintLab.WebDom.csproj">
       <Project>{7ff733c1-dce3-4735-b772-bb2d362eca54}</Project>
