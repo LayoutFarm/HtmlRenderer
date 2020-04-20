@@ -155,24 +155,6 @@
     <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.webdom\iscriptable\JsScriptAttributes.cs">
       <Link>0_REF_PaintLab.WebDom\IScriptable\JsScriptAttributes.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.weblexer\CssLexer.cs">
-      <Link>0_REF_PaintLab.WebLexer\CssLexer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.weblexer\dbugLexerReport.cs">
-      <Link>0_REF_PaintLab.WebLexer\dbugLexerReport.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.weblexer\MyXmlLexer.cs">
-      <Link>0_REF_PaintLab.WebLexer\MyXmlLexer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.weblexer\TextSnapshot.cs">
-      <Link>0_REF_PaintLab.WebLexer\TextSnapshot.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.weblexer\XmlLexer.cs">
-      <Link>0_REF_PaintLab.WebLexer\XmlLexer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.weblexer\XmlLexer_debug.cs">
-      <Link>0_REF_PaintLab.WebLexer\XmlLexer_debug.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\pixelfarm\src\pixelfarm\pixelfarm.drawingcore\ExtensionAttribute.cs">
       <Link>0_REF_PaintLab.WebDom\Net20\ExtensionAttribute.cs</Link>
     </Compile>
@@ -340,6 +322,10 @@
     <ProjectReference Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.PaintFx\PaintLab.PaintFx.csproj">
       <Project>{a533e1c7-ab74-4bcf-bc7a-12d4dbbfa918}</Project>
       <Name>PaintLab.PaintFx</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.WebLexer\PaintLab.WebLexer.csproj">
+      <Project>{8fba6297-44a9-4c3f-b22d-d33e00669942}</Project>
+      <Name>PaintLab.WebLexer</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\PixelFarm.Drawing.csproj">
       <Project>{51d63482-5697-4b16-8401-506965624657}</Project>
