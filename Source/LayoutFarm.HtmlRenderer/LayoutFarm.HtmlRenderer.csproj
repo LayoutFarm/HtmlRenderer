@@ -155,9 +155,6 @@
     <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.webdom\iscriptable\JsScriptAttributes.cs">
       <Link>0_REF_PaintLab.WebDom\IScriptable\JsScriptAttributes.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\pixelfarm\src\pixelfarm\pixelfarm.drawingcore\ExtensionAttribute.cs">
-      <Link>0_REF_PaintLab.WebDom\Net20\ExtensionAttribute.cs</Link>
-    </Compile>
     <Compile Include="..\LayoutFarm.HtmlLayout\1_Css\BoxSpec.cs">
       <Link>0_REF_LayoutFarm.HtmlLayout_\1_Css\BoxSpec.cs</Link>
     </Compile>
