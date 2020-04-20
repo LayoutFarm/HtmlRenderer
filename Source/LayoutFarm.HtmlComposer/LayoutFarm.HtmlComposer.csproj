@@ -240,6 +240,9 @@
     <Compile Include="..\layoutfarm.htmllayout\2_boxes\1_corebox\CssBoxCollection.cs">
       <Link>0_REF_LayoutFarm.HtmlLayout\2_Boxes\1_CoreBox\CssBoxCollection.cs</Link>
     </Compile>
+    <Compile Include="..\LayoutFarm.HtmlLayout\2_Boxes\1_CoreBox\CssBoxDecorator.cs">
+      <Link>0_REF_LayoutFarm.HtmlLayout\2_Boxes\1_CoreBox\CssBoxDecorator.cs</Link>
+    </Compile>
     <Compile Include="..\layoutfarm.htmllayout\2_boxes\1_corebox\CssBox_BoxFlags.cs">
       <Link>0_REF_LayoutFarm.HtmlLayout\2_Boxes\1_CoreBox\CssBox_BoxFlags.cs</Link>
     </Compile>
@@ -339,8 +342,8 @@
     <Compile Include="..\LayoutFarm.HtmlRenderer\BorderPaintHelper.cs">
       <Link>0_REF_LayoutFarm.HtmlRenderer\BorderPaintHelper.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlRenderer\CssBoxDecorator.cs">
-      <Link>0_REF_LayoutFarm.HtmlRenderer\CssBoxDecorator.cs</Link>
+    <Compile Include="..\LayoutFarm.HtmlRenderer\CssBoxDecorator_R.cs">
+      <Link>0_REF_LayoutFarm.HtmlRenderer\CssBoxDecorator_R.cs</Link>
     </Compile>
     <Compile Include="..\LayoutFarm.HtmlRenderer\CssBoxHr_R.cs">
       <Link>0_REF_LayoutFarm.HtmlRenderer\CssBoxHr_R.cs</Link>

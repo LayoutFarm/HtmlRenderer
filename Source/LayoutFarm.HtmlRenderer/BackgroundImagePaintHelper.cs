@@ -46,10 +46,11 @@ namespace LayoutFarm.HtmlBoxes
             //                  : new Rectangle(imageLoadHandler.Rectangle.Left, imageLoadHandler.Rectangle.Top, imgSize.Width, imgSize.Height);
             var srcRect = new Rectangle(0, 0, image.Width, image.Height);
             // initial image destination rectangle
-            Rectangle destRect = new Rectangle(location, imgSize);
+            var destRect = new Rectangle(location, imgSize);
             // need to clip so repeated image will be cut on rectangle
 
             //Rectangle prevClip = drawboard.CurrentClipRect;
+            //TODO: use u1 from pool
             UpdateArea u1 = new UpdateArea();
             u1.CurrentRect = drawboard.CurrentClipRect;
 

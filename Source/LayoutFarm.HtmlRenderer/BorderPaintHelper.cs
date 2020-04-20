@@ -16,7 +16,6 @@
 using System;
 using PixelFarm.Drawing;
 using PixelFarm.CpuBlit;
-using PixelFarm.CpuBlit.VertexProcessing;
 
 using LayoutFarm.Css;
 namespace LayoutFarm.HtmlBoxes
@@ -167,7 +166,7 @@ namespace LayoutFarm.HtmlBoxes
                     RenderUtils.WriteRoundRect(v1, rect, 2, 2, 2, 2);//temp
                     Painter pp = g.GetPainter();
                     pp.FillStroke(v1, actualBorderWidth, borderColor);
-                } 
+                }
             }
             else
             {

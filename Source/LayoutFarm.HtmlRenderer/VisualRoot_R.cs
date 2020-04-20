@@ -1,9 +1,7 @@
 ﻿//BSD, 2014-present, WinterDev
 //ArthurHub, Jose Manuel Menendez Poo 
 
-using System;
-using System.Collections.Generic;
-using PixelFarm.Drawing;
+
 namespace LayoutFarm.HtmlBoxes
 {
     partial class HtmlVisualRoot

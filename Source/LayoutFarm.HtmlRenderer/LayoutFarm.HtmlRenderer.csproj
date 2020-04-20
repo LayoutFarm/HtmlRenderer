@@ -224,6 +224,9 @@
     <Compile Include="..\LayoutFarm.HtmlLayout\2_Boxes\1_CoreBox\CssBoxCollection.cs">
       <Link>2_Boxes\1_CoreBox\CssBoxCollection.cs</Link>
     </Compile>
+    <Compile Include="..\LayoutFarm.HtmlLayout\2_Boxes\1_CoreBox\CssBoxDecorator.cs">
+      <Link>0_REF_LayoutFarm.HtmlLayout\2_Boxes\1_CoreBox\CssBoxDecorator.cs</Link>
+    </Compile>
     <Compile Include="..\LayoutFarm.HtmlLayout\2_Boxes\1_CoreBox\CssBox_BoxFlags.cs">
       <Link>2_Boxes\1_CoreBox\CssBox_BoxFlags.cs</Link>
     </Compile>
@@ -319,7 +322,7 @@
     </Compile>
     <Compile Include="CssBoxHr_R.cs" />
     <Compile Include="CssBoxImage_R.cs" />
-    <Compile Include="CssBoxDecorator.cs" />
+    <Compile Include="CssBoxDecorator_R.cs" />
     <Compile Include="SelectionSegment_R.cs" />
     <Compile Include="MultiLayerStack.cs" />
     <Compile Include="VisualRoot_R.cs" />

@@ -1,14 +1,15 @@
 ﻿//MIT, 2020, WinterDev
 using System;
 using System.Collections.Generic;
-using PixelFarm.Drawing; 
- 
+using PixelFarm.Drawing;
+
 namespace LayoutFarm.HtmlBoxes
 {
-    partial class CssBox
+
+    static class CssBoxRenderExt
     {
-        public void InvalidateGraphics() { }
-        public void InvalidateGraphics(RectangleF r) { }
+        public static void InvalidateGraphics(this CssBox box) { }
+        public static void InvalidateGraphics(this CssBox box, RectangleF r) { }
     }
 
 }

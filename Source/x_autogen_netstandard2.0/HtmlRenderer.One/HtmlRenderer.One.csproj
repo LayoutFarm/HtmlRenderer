@@ -1088,6 +1088,7 @@
     <Compile Include="..\..\layoutfarm.htmllayout\2_boxes\1_corebox\BoxVisitor.cs" Link="layoutfarm.htmllayout\2_boxes\1_corebox\BoxVisitor.cs" />
     <Compile Include="..\..\layoutfarm.htmllayout\2_boxes\1_corebox\CssBox.cs" Link="layoutfarm.htmllayout\2_boxes\1_corebox\CssBox.cs" />
     <Compile Include="..\..\layoutfarm.htmllayout\2_boxes\1_corebox\CssBoxCollection.cs" Link="layoutfarm.htmllayout\2_boxes\1_corebox\CssBoxCollection.cs" />
+    <Compile Include="..\..\LayoutFarm.HtmlLayout\2_Boxes\1_CoreBox\CssBoxDecorator.cs" Link="LayoutFarm.HtmlLayout\2_Boxes\1_CoreBox\CssBoxDecorator.cs" />
     <Compile Include="..\..\layoutfarm.htmllayout\2_boxes\1_corebox\CssBox_BoxFlags.cs" Link="layoutfarm.htmllayout\2_boxes\1_corebox\CssBox_BoxFlags.cs" />
     <Compile Include="..\..\layoutfarm.htmllayout\2_boxes\1_corebox\CssBox_Fields.cs" Link="layoutfarm.htmllayout\2_boxes\1_corebox\CssBox_Fields.cs" />
     <Compile Include="..\..\layoutfarm.htmllayout\2_boxes\1_corebox\CssBox_Flex.cs" Link="layoutfarm.htmllayout\2_boxes\1_corebox\CssBox_Flex.cs" />
@@ -1121,7 +1122,7 @@
     <Compile Include="..\..\layoutfarm.htmllayout\5_boxes_specialboxes\CssFloatContainerBox.cs" Link="layoutfarm.htmllayout\5_boxes_specialboxes\CssFloatContainerBox.cs" />
     <Compile Include="..\..\LayoutFarm.HtmlRenderer\BackgroundImagePaintHelper.cs" Link="LayoutFarm.HtmlRenderer\BackgroundImagePaintHelper.cs" />
     <Compile Include="..\..\LayoutFarm.HtmlRenderer\BorderPaintHelper.cs" Link="LayoutFarm.HtmlRenderer\BorderPaintHelper.cs" />
-    <Compile Include="..\..\LayoutFarm.HtmlRenderer\CssBoxDecorator.cs" Link="LayoutFarm.HtmlRenderer\CssBoxDecorator.cs" />
+    <Compile Include="..\..\LayoutFarm.HtmlRenderer\CssBoxDecorator_R.cs" Link="LayoutFarm.HtmlRenderer\CssBoxDecorator_R.cs" />
     <Compile Include="..\..\LayoutFarm.HtmlRenderer\CssBoxHr_R.cs" Link="LayoutFarm.HtmlRenderer\CssBoxHr_R.cs" />
     <Compile Include="..\..\LayoutFarm.HtmlRenderer\CssBoxImage_R.cs" Link="LayoutFarm.HtmlRenderer\CssBoxImage_R.cs" />
     <Compile Include="..\..\LayoutFarm.HtmlRenderer\CssBox_Paint.cs" Link="LayoutFarm.HtmlRenderer\CssBox_Paint.cs" />
