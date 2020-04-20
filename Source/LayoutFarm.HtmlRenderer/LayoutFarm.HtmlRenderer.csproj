@@ -228,7 +228,7 @@
       <Link>0_REF_LayoutFarm.HtmlLayout_\2_Boxes\1_CoreBox\CssBoxCollection.cs</Link>
     </Compile>
     <Compile Include="..\LayoutFarm.HtmlLayout\2_Boxes\1_CoreBox\CssBoxDecorator.cs">
-      <Link>0_REF_LayoutFarm.HtmlLayout\2_Boxes\1_CoreBox\CssBoxDecorator.cs</Link>
+      <Link>0_REF_LayoutFarm.HtmlLayout_\2_Boxes\1_CoreBox\CssBoxDecorator.cs</Link>
     </Compile>
     <Compile Include="..\LayoutFarm.HtmlLayout\2_Boxes\1_CoreBox\CssBox_BoxFlags.cs">
       <Link>0_REF_LayoutFarm.HtmlLayout_\2_Boxes\1_CoreBox\CssBox_BoxFlags.cs</Link>
