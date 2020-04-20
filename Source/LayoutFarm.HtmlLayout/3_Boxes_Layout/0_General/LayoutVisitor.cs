@@ -131,7 +131,7 @@ namespace LayoutFarm.HtmlBoxes
             float w = this.TextService.MeasureWhitespace(box.ResolvedFont);
             if (!(box.WordSpacing.IsEmpty || box.WordSpacing.IsNormalWordSpacing))
             {
-                w += LayoutFarm.WebDom.Parser.CssValueParser.ConvertToPxWithFontAdjust(box.WordSpacing, 0, box);
+                w += LayoutFarm.WebDom.Parser.CssLengthExt.ConvertToPxWithFontAdjust(box.WordSpacing, 0, box);
             }
             return w;
         }

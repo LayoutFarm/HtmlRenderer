@@ -50,69 +50,6 @@
     <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.cssbase\cssbase\MapAttribute.cs">
       <Link>0_REF_PaintLab.CssBase\MapAttribute.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.webdom\1_css\CssActiveSheet.cs">
-      <Link>0_REF_PaintLab.WebDom\1_Css\CssActiveSheet.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.webdom\1_css\CssAttributeSelector.cs">
-      <Link>0_REF_PaintLab.WebDom\1_Css\CssAttributeSelector.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.webdom\1_css\CssCodeValueExpressions.cs">
-      <Link>0_REF_PaintLab.WebDom\1_Css\CssCodeValueExpressions.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.webdom\1_css\CssDocMembers.cs">
-      <Link>0_REF_PaintLab.WebDom\1_Css\CssDocMembers.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.webdom\1_css\CssDocument.cs">
-      <Link>0_REF_PaintLab.WebDom\1_Css\CssDocument.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.webdom\1_css\CssElementSelectors.cs">
-      <Link>0_REF_PaintLab.WebDom\1_Css\CssElementSelectors.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.webdom\1_css\CssPropertyDeclaration.cs">
-      <Link>0_REF_PaintLab.WebDom\1_Css\CssPropertyDeclaration.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.webdom\1_css\UserMapUtil.cs">
-      <Link>0_REF_PaintLab.WebDom\1_Css\UserMapUtil.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.webdom\1_css\ValueMaps.cs">
-      <Link>0_REF_PaintLab.WebDom\1_Css\ValueMaps.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.webdom\1_css\WellknownCssPropertyName.cs">
-      <Link>0_REF_PaintLab.WebDom\1_Css\WellknownCssPropertyName.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.webdom\1_css_parser\CssParser.cs">
-      <Link>0_REF_PaintLab.WebDom\1_Css_Parser\CssParser.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.webdom\1_css_parser\CssParserHelper.cs">
-      <Link>0_REF_PaintLab.WebDom\1_Css_Parser\CssParserHelper.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.webdom\1_css_parser\CssValueParser.cs">
-      <Link>0_REF_PaintLab.WebDom\1_Css_Parser\CssValueParser.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.webdom\iscriptable\JsScriptAttributes.cs">
-      <Link>0_REF_PaintLab.WebDom\IScriptable\JsScriptAttributes.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.weblexer\CssLexer.cs">
-      <Link>0_REF_PaintLab.WebLexer\CssLexer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.weblexer\dbugLexerReport.cs">
-      <Link>0_REF_PaintLab.WebLexer\dbugLexerReport.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.weblexer\MyXmlLexer.cs">
-      <Link>0_REF_PaintLab.WebLexer\MyXmlLexer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.weblexer\TextSnapshot.cs">
-      <Link>0_REF_PaintLab.WebLexer\TextSnapshot.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.weblexer\XmlLexer.cs">
-      <Link>0_REF_PaintLab.WebLexer\XmlLexer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.weblexer\XmlLexer_debug.cs">
-      <Link>0_REF_PaintLab.WebLexer\XmlLexer_debug.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\pixelfarm\src\pixelfarm\pixelfarm.drawingcore\ExtensionAttribute.cs">
-      <Link>0_REF_PaintLab.WebDom\Net20\ExtensionAttribute.cs</Link>
-    </Compile>
     <Compile Include="1_Css\BoxSpec.cs" />
     <Compile Include="1_Css\BoxSpecNode.cs" />
     <Compile Include="1_Css\BoxSpec_CopyAndVersioning.cs" />
@@ -156,6 +93,7 @@
     <Compile Include="5_Boxes_SpecialBoxes\CssBoxImage.cs" />
     <Compile Include="5_Boxes_SpecialBoxes\CssBoxListItem.cs" />
     <Compile Include="5_Boxes_SpecialBoxes\CssFloatContainerBox.cs" />
+    <Compile Include="1_Css\CssLengthExt.cs" />
     <Compile Include="PORT.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

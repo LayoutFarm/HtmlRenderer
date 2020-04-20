@@ -115,7 +115,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 return 0;
             }
-            return CssValueParser.ConvertToPx(margin, cbWidth, this);
+            return CssLengthExt.ConvertToPx(margin, cbWidth, this);
         }
         /// <summary>
         /// recalculate padding
@@ -132,7 +132,7 @@ namespace LayoutFarm.HtmlBoxes
                 return 0;
             }
 
-            return CssValueParser.ConvertToPx(padding, cbWidth, this);
+            return CssLengthExt.ConvertToPx(padding, cbWidth, this);
         }
 
         //=============================================================
@@ -159,7 +159,7 @@ namespace LayoutFarm.HtmlBoxes
             else
             {
                 _actualWordSpacing = iFonts.MeasureWhitespace(_resolvedFont) +
-                                          CssValueParser.ConvertToPx(_myspec.WordSpacing, 1, this);
+                                          CssLengthExt.ConvertToPx(_myspec.WordSpacing, 1, this);
             }
         }
 
@@ -265,10 +265,10 @@ namespace LayoutFarm.HtmlBoxes
             //-----------------------------------------------------------------------
             //borders         
             float a1, a2, a3, a4;
-            _actualBorderLeftWidth = a1 = (spec.BorderLeftStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(spec.BorderLeftWidth, this);
-            _actualBorderTopWidth = a2 = (spec.BorderTopStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(spec.BorderTopWidth, this);
-            _actualBorderRightWidth = a3 = (spec.BorderRightStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(spec.BorderRightWidth, this);
-            _actualBorderBottomWidth = a4 = (spec.BorderBottomStyle == CssBorderStyle.None) ? 0 : CssValueParser.GetActualBorderWidth(spec.BorderBottomWidth, this);
+            _actualBorderLeftWidth = a1 = (spec.BorderLeftStyle == CssBorderStyle.None) ? 0 : CssLengthExt.GetActualBorderWidth(spec.BorderLeftWidth, this);
+            _actualBorderTopWidth = a2 = (spec.BorderTopStyle == CssBorderStyle.None) ? 0 : CssLengthExt.GetActualBorderWidth(spec.BorderTopWidth, this);
+            _actualBorderRightWidth = a3 = (spec.BorderRightStyle == CssBorderStyle.None) ? 0 : CssLengthExt.GetActualBorderWidth(spec.BorderRightWidth, this);
+            _actualBorderBottomWidth = a4 = (spec.BorderBottomStyle == CssBorderStyle.None) ? 0 : CssLengthExt.GetActualBorderWidth(spec.BorderBottomWidth, this);
             //---------------------------------------------------------------------------
 
             _borderLeftVisible = a1 > 0 && spec.BorderLeftStyle >= CssBorderStyle.Visible;
@@ -288,10 +288,10 @@ namespace LayoutFarm.HtmlBoxes
             }
             //---------------------------------------------------------------------------
 
-            _actualCornerNE = a1 = CssValueParser.ConvertToPx(spec.CornerNERadius, 0, this);
-            _actualCornerNW = a2 = CssValueParser.ConvertToPx(spec.CornerNWRadius, 0, this);
-            _actualCornerSE = a3 = CssValueParser.ConvertToPx(spec.CornerSERadius, 0, this);
-            _actualCornerSW = a4 = CssValueParser.ConvertToPx(spec.CornerSWRadius, 0, this);
+            _actualCornerNE = a1 = CssLengthExt.ConvertToPx(spec.CornerNERadius, 0, this);
+            _actualCornerNW = a2 = CssLengthExt.ConvertToPx(spec.CornerNWRadius, 0, this);
+            _actualCornerSE = a3 = CssLengthExt.ConvertToPx(spec.CornerSERadius, 0, this);
+            _actualCornerSW = a4 = CssLengthExt.ConvertToPx(spec.CornerSWRadius, 0, this);
             if ((a1 + a2 + a3 + a4) > 0)
             {
                 //evaluate 
@@ -325,14 +325,14 @@ namespace LayoutFarm.HtmlBoxes
             else
             {
                 _actualWordSpacing = iFonts.MeasureWhitespace(_resolvedFont)
-                    + CssValueParser.ConvertToPx(spec.WordSpacing, 1, this);
+                    + CssLengthExt.ConvertToPx(spec.WordSpacing, 1, this);
             }
             //---------------------------------------------- 
             _boxCompactFlags = tmpBoxCompactFlags;
             //---------------------------------------------- 
 
             //text indent   
-            _actualTextIndent = CssValueParser.ConvertToPx(spec.TextIndent, containingBlock.VisualWidth, this);
+            _actualTextIndent = CssLengthExt.ConvertToPx(spec.TextIndent, containingBlock.VisualWidth, this);
             _actualBorderSpacingHorizontal = spec.BorderSpacingHorizontal.Number;
             _actualBorderSpacingVertical = spec.BorderSpacingVertical.Number;
             //-----------------------
@@ -365,8 +365,8 @@ namespace LayoutFarm.HtmlBoxes
                 {
                     _decorator = new CssBoxDecorator();
                 }
-                _decorator.HBoxShadowOffset = (int)CssValueParser.ConvertToPx(spec.BoxShadowHOffset, 0, this);
-                _decorator.VBoxShadowOffset = (int)CssValueParser.ConvertToPx(spec.BoxShadowVOffset, 0, this);
+                _decorator.HBoxShadowOffset = (int)CssLengthExt.ConvertToPx(spec.BoxShadowHOffset, 0, this);
+                _decorator.VBoxShadowOffset = (int)CssLengthExt.ConvertToPx(spec.BoxShadowVOffset, 0, this);
                 _decorator.Color = spec.BoxShadowColor;
             }
             else

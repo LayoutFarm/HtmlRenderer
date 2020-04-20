@@ -219,6 +219,9 @@
     <Compile Include="..\layoutfarm.htmllayout\1_css\CssFeatures.cs">
       <Link>0_REF_LayoutFarm.HtmlLayout\1_Css\CssFeatures.cs</Link>
     </Compile>
+    <Compile Include="..\LayoutFarm.HtmlLayout\1_Css\CssLengthExt.cs">
+      <Link>0_REF_LayoutFarm.HtmlLayout\1_Css\CssLengthExt.cs</Link>
+    </Compile>
     <Compile Include="..\layoutfarm.htmllayout\1_css\FontDefaultConfig.cs">
       <Link>0_REF_LayoutFarm.HtmlLayout\1_Css\FontDefaultConfig.cs</Link>
     </Compile>

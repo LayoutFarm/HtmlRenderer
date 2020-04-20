@@ -351,7 +351,7 @@ namespace LayoutFarm.HtmlBoxes
                                     }
                                     else
                                     {
-                                        float cellBoxWidth = CssValueParser.ConvertToPx(childBox.Width, availbleWidthForAllCells, childBox) +
+                                        float cellBoxWidth = CssLengthExt.ConvertToPx(childBox.Width, availbleWidthForAllCells, childBox) +
                                                              childBox.ActualPaddingLeft + childBox.ActualPaddingRight;
 
                                         if (cellBoxWidth > 0) //If some width specified
@@ -1035,7 +1035,7 @@ namespace LayoutFarm.HtmlBoxes
             if (tblen.Number > 0)
             {
                 //has specific number
-                return CssValueParser.ConvertToPx(_tableBox.Width, _hostAvaliableWidth, _tableBox);
+                return CssLengthExt.ConvertToPx(_tableBox.Width, _hostAvaliableWidth, _tableBox);
             }
             else
             {
@@ -1059,7 +1059,7 @@ namespace LayoutFarm.HtmlBoxes
             CssLength tblen = _tableBox.MaxWidth;
             if (tblen.Number > 0)
             {
-                return CssValueParser.ConvertToPx(_tableBox.MaxWidth, _tableBox.ParentBox.GetClientWidth(), _tableBox);
+                return CssLengthExt.ConvertToPx(_tableBox.MaxWidth, _tableBox.ParentBox.GetClientWidth(), _tableBox);
             }
             else
             {

@@ -1081,6 +1081,7 @@
     <Compile Include="..\..\layoutfarm.htmllayout\1_css\BoxSpecNode.cs" Link="layoutfarm.htmllayout\1_css\BoxSpecNode.cs" />
     <Compile Include="..\..\layoutfarm.htmllayout\1_css\BoxSpec_CopyAndVersioning.cs" Link="layoutfarm.htmllayout\1_css\BoxSpec_CopyAndVersioning.cs" />
     <Compile Include="..\..\layoutfarm.htmllayout\1_css\CssFeatures.cs" Link="layoutfarm.htmllayout\1_css\CssFeatures.cs" />
+    <Compile Include="..\..\LayoutFarm.HtmlLayout\1_Css\CssLengthExt.cs" Link="LayoutFarm.HtmlLayout\1_Css\CssLengthExt.cs" />
     <Compile Include="..\..\layoutfarm.htmllayout\1_css\FontDefaultConfig.cs" Link="layoutfarm.htmllayout\1_css\FontDefaultConfig.cs" />
     <Compile Include="..\..\layoutfarm.htmllayout\2_boxes\0_root\CssBoxConstConfig.cs" Link="layoutfarm.htmllayout\2_boxes\0_root\CssBoxConstConfig.cs" />
     <Compile Include="..\..\layoutfarm.htmllayout\2_boxes\0_root\HtmlVisualRoot.cs" Link="layoutfarm.htmllayout\2_boxes\0_root\HtmlVisualRoot.cs" />

@@ -562,8 +562,8 @@ namespace LayoutFarm.HtmlBoxes
             if (srcBox.Position == CssPosition.Relative)
             {
                 //offset content relative to it 'flow' position'
-                var left = CssValueParser.ConvertToPx(srcBox.Left, hostBox.VisualWidth, srcBox);
-                var top = CssValueParser.ConvertToPx(srcBox.Top, hostBox.VisualWidth, srcBox);
+                var left = CssLengthExt.ConvertToPx(srcBox.Left, hostBox.VisualWidth, srcBox);
+                var top = CssLengthExt.ConvertToPx(srcBox.Top, hostBox.VisualWidth, srcBox);
                 srcBox.SetLocation(srcBox.LocalX + left, srcBox.LocalY + top);
             }
         }
@@ -575,7 +575,7 @@ namespace LayoutFarm.HtmlBoxes
             box.InnerContentHeight = innerContentH;
             if (!box.Height.IsEmptyOrAuto)
             {
-                var h = CssValueParser.ConvertToPx(box.Height, lay.LatestContainingBlock.VisualWidth, lay.LatestContainingBlock);
+                var h = CssLengthExt.ConvertToPx(box.Height, lay.LatestContainingBlock.VisualWidth, lay.LatestContainingBlock);
                 box.SetExpectedSize(box.ExpectedWidth, h);
                 box.SetVisualHeight(h);
                 box.SetCssBoxHeight(h);
@@ -593,7 +593,7 @@ namespace LayoutFarm.HtmlBoxes
             if (!box.Width.IsEmptyOrAuto)
             {
                 //find max line width  
-                var w = CssValueParser.ConvertToPx(box.Width, lay.LatestContainingBlock.VisualWidth, lay.LatestContainingBlock);
+                var w = CssLengthExt.ConvertToPx(box.Width, lay.LatestContainingBlock.VisualWidth, lay.LatestContainingBlock);
                 box.SetExpectedSize(w, box.ExpectedHeight);
                 box.SetVisualWidth(w);
                 box.SetCssBoxWidth(w);
@@ -791,7 +791,7 @@ namespace LayoutFarm.HtmlBoxes
 
                     if (!box.Width.IsEmptyOrAuto)
                     {
-                        float w = CssValueParser.ConvertToPx(box.Width, availableWidth, box);
+                        float w = CssLengthExt.ConvertToPx(box.Width, availableWidth, box);
                         //specific width
                         box.SetCssBoxWidth(w);
                     }
@@ -1249,7 +1249,7 @@ namespace LayoutFarm.HtmlBoxes
             box.InnerContentHeight = innerContentH;
             if (!box.Height.IsEmptyOrAuto)
             {
-                float h = CssValueParser.ConvertToPx(box.Height, lay.LatestContainingBlock.VisualWidth, lay.LatestContainingBlock);
+                float h = CssLengthExt.ConvertToPx(box.Height, lay.LatestContainingBlock.VisualWidth, lay.LatestContainingBlock);
                 box.SetExpectedSize(box.ExpectedWidth, h);
                 box.SetVisualHeight(h);
                 box.SetCssBoxHeight(h);
@@ -1267,7 +1267,7 @@ namespace LayoutFarm.HtmlBoxes
             if (!box.Width.IsEmptyOrAuto)
             {
                 //find max line width  
-                float w = CssValueParser.ConvertToPx(box.Width, lay.LatestContainingBlock.VisualWidth, lay.LatestContainingBlock);
+                float w = CssLengthExt.ConvertToPx(box.Width, lay.LatestContainingBlock.VisualWidth, lay.LatestContainingBlock);
                 box.SetExpectedSize(w, box.ExpectedHeight);
                 box.SetVisualWidth(w);
                 box.SetCssBoxWidth(w);
@@ -1368,8 +1368,8 @@ namespace LayoutFarm.HtmlBoxes
                 b.MeasureRunsSize(lay);
                 PerformContentLayout(b, lay);
                 b.SetLocation(
-                     CssValueParser.ConvertToPx(b.Left, containerW, b),
-                     CssValueParser.ConvertToPx(b.Top, containerW, b));
+                     CssLengthExt.ConvertToPx(b.Left, containerW, b),
+                     CssLengthExt.ConvertToPx(b.Top, containerW, b));
                 float localRight = b.LocalVisualRight;
                 float localBottom = b.LocalVisualBottom;
                 if (maxRight < localRight)
