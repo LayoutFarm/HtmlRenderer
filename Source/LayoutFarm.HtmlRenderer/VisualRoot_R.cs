@@ -6,7 +6,7 @@ namespace LayoutFarm.HtmlBoxes
 {
     partial class HtmlVisualRoot
     {
-        public RenderElement RootRenderElement { get; set; }
+        
 
         public void PerformPaint(PaintVisitor p)
         {

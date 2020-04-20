@@ -28,6 +28,7 @@ namespace LayoutFarm.HtmlBoxes
             _textService = htmlhost.GetTextService();
 
         }
+        public RenderElement RootRenderElement { get; set; }
         public void AttachEssentialHandlers(EventHandler domVisualRefreshHandler,
             EventHandler domRequestRebuildHandler,
             EventHandler containerInvalidateGfxHanlder,
