@@ -62,21 +62,6 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.cssbase\cssbase\CssConstants.cs">
-      <Link>0_REF_PaintLab.CssBase\CssConstants.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.cssbase\cssbase\CssLength.cs">
-      <Link>0_REF_PaintLab.CssBase\CssLength.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.cssbase\cssbase\CssProps.cs">
-      <Link>0_REF_PaintLab.CssBase\CssProps.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.cssbase\cssbase\CssUnitOrNames.cs">
-      <Link>0_REF_PaintLab.CssBase\CssUnitOrNames.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.cssbase\cssbase\MapAttribute.cs">
-      <Link>0_REF_PaintLab.CssBase\MapAttribute.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.Svg\Visuals\MyVgPathDataParser.cs">
       <Link>0_REF_PaintLab.Svg\Visuals\MyVgPathDataParser.cs</Link>
     </Compile>
@@ -347,6 +332,10 @@
     <ProjectReference Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.Color\PaintLab.Color.csproj">
       <Project>{9cc6310f-c116-449d-be97-63d152f98746}</Project>
       <Name>PaintLab.Color</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.CssBase\PaintLab.CssBase.csproj">
+      <Project>{bf5f9590-f680-403d-932a-7cdd12af89fb}</Project>
+      <Name>PaintLab.CssBase</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.PaintFx\PaintLab.PaintFx.csproj">
       <Project>{a533e1c7-ab74-4bcf-bc7a-12d4dbbfa918}</Project>
