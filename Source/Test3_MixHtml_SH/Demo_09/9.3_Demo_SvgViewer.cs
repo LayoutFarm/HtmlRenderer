@@ -12,7 +12,7 @@ namespace LayoutFarm.ColorBlenderSample
     {
         AppHost _host;
 
-        ListView _lstvw_svgFiles;
+        ListBox _lstvw_svgFiles;
         BackDrawBoardUI _backBoard;
         VgVisualDocHost _vgDocHost;
         protected override void OnStart(AppHost host)
@@ -35,7 +35,7 @@ namespace LayoutFarm.ColorBlenderSample
                 host.AddChild(_backBoard);
             }
             {
-                _lstvw_svgFiles = new ListView(200, 400);
+                _lstvw_svgFiles = new ListBox(200, 400);
                 _lstvw_svgFiles.SetLocation(500, 20);
                 host.AddChild(_lstvw_svgFiles);
                 //
