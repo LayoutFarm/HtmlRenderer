@@ -10,16 +10,14 @@ namespace LayoutFarm.UI
 
     class BackBoardRenderElement : LayoutFarm.CustomWidgets.CustomRenderBox
     {
-        DrawBoard _d;
         public BackBoardRenderElement(RootGraphic rootgfx, int width, int height)
            : base(rootgfx, width, height)
         {
         }
-        protected override void RenderClientContent(DrawBoard d, UpdateArea updateArea)
-        {
-            _d = d;
-            base.RenderClientContent(d, updateArea);
-        }
+        //protected override void RenderClientContent(DrawBoard d, UpdateArea updateArea)
+        //{
+        //    base.RenderClientContent(d, updateArea);
+        //}
 
     }
     public class BackDrawBoardUI : LayoutFarm.CustomWidgets.AbstractControlBox
@@ -41,8 +39,8 @@ namespace LayoutFarm.UI
             _backboardRenderE = new BackBoardRenderElement(rootgfx, this.Width, this.Height);
             _backboardRenderE.SetLocation(this.Left, this.Top);
             _backboardRenderE.NeedClipArea = true;
+            SetCommonProperties(_backboardRenderE, this);
             SetPrimaryRenderElement(_backboardRenderE);
-            BuildChildrenRenderElement(_backboardRenderE);
 
             return _backboardRenderE;
         }
