@@ -1361,7 +1361,7 @@ namespace LayoutFarm
         }
     }
 
-    public class PointControllerBox : LayoutFarm.CustomWidgets.AbstractBox
+    public class PointControllerBox : LayoutFarm.CustomWidgets.AbstractControlBox
     {
 #if DEBUG
         static int s_total;
@@ -1381,10 +1381,6 @@ namespace LayoutFarm
         public double TargetX { get; set; }
         public double TargetY { get; set; }
 
-        public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
-        {
-            return base.GetPrimaryRenderElement(rootgfx);
-        }
         public void SetLocationRelativeToTarget(double targetBoxX, double targetBoxY)
         {
             this.TargetX = targetBoxX;
@@ -1448,11 +1444,7 @@ namespace LayoutFarm
             return renderE;
         }
 
-
-        public override void Add(UIElement ui)
-        {
-            _simpleBox.Add(ui);
-        }
+        public void Add(UIElement ui) => _simpleBox.Add(ui);
 
         public void SetLocation(int x, int y)
         {
@@ -1464,38 +1456,36 @@ namespace LayoutFarm
                 ctrl.InvalidateOuterGraphics();
             }
             _simpleBox.SetLocation(x, y);
-
         }
 
         public int Left => _simpleBox.Left;
         public int Top => _simpleBox.Top;
 
-
         public void SetTargetListener(IUIEventListener uiListener)
         {
             _uiListener = uiListener;
         }
-        //--------------------
-        public void BringToTopMost()
-        {
-            AbstractBox parentBox = this.ParentUI as AbstractBox;
-            if (parentBox != null)
-            {
-                RemoveSelf();
-                parentBox.Add(this);
-            }
-            else
-            {
-                //may be at top level
-                var parentBox2 = this.CurrentPrimaryRenderElement.ParentRenderElement as LayoutFarm.RenderElement;
-                if (parentBox2 != null)
-                {
-                    parentBox2.RemoveChild(this.CurrentPrimaryRenderElement);
-                }
-                parentBox2.AddChild(CurrentPrimaryRenderElement);
-                InvalidateOuterGraphics();
-            }
-        }
+        ////--------------------
+        //public void BringToTopMost()
+        //{
+        //    AbstractBox parentBox = this.ParentUI as AbstractBox;
+        //    if (parentBox != null)
+        //    {
+        //        RemoveSelf();
+        //        parentBox.Add(this);
+        //    }
+        //    else
+        //    {
+        //        //may be at top level
+        //        var parentBox2 = this.CurrentPrimaryRenderElement.ParentRenderElement as LayoutFarm.RenderElement;
+        //        if (parentBox2 != null)
+        //        {
+        //            parentBox2.RemoveChild(this.CurrentPrimaryRenderElement);
+        //        }
+        //        parentBox2.AddChild(CurrentPrimaryRenderElement);
+        //        InvalidateOuterGraphics();
+        //    }
+        //}
 
 
         public override bool Visible

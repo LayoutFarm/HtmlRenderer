@@ -17,7 +17,7 @@ namespace LayoutFarm.CustomWidgets
         public LayoutFarm.UI.AbstractRectUI TargetBox { get; set; }
         public int Index { get; set; }
         public MoveDirection MoveDirection { get; set; }
-
+        protected override IUICollection<UIElement> GetDefaultChildrenIter() => null;
         //public double SrcX { get; set; }
         //public double SrcY { get; set; }
         //public double TargetX { get; set; }
@@ -77,7 +77,7 @@ namespace LayoutFarm.CustomWidgets
             }
         }
         //
-        public override object Tag { get; set; }
+
         public UIControllerBox CentralBox => _centralBox;
         public List<UIControllerBox> ControlBoxes => _controls;
         //

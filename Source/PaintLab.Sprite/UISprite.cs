@@ -411,22 +411,22 @@ namespace LayoutFarm.UI
             }
         }
 
-        public override void BringToTopMost()
-        {
-            CustomWidgets.AbstractBox parentBox = this.ParentUI as CustomWidgets.AbstractBox;
-            if (parentBox != null)
-            {
-                this.RemoveSelf();
-                parentBox.Add(this);
-            }
-            else
-            {
-                if (_vgBridgeRenderElement != null && _vgBridgeRenderElement.HasParent)
-                {
+        //public override void BringToTopMost()
+        //{
+        //    CustomWidgets.AbstractBox parentBox = this.ParentUI as CustomWidgets.AbstractBox;
+        //    if (parentBox != null)
+        //    {
+        //        this.RemoveSelf();
+        //        parentBox.Add(this);
+        //    }
+        //    else
+        //    {
+        //        if (_vgBridgeRenderElement != null && _vgBridgeRenderElement.HasParent)
+        //        {
 
-                }
-            }
-        }
+        //        }
+        //    }
+        //}
 
 
         public float ActualXOffset
