@@ -26,6 +26,7 @@ namespace LayoutFarm.HtmlWidgets
             : base(width, height)
         {
         }
+        protected override IUICollection<UIElement> GetDefaultChildrenIter() => null;
         //
         public override RenderElement CurrentPrimaryRenderElement => _mainBox;
         //
@@ -50,7 +51,7 @@ namespace LayoutFarm.HtmlWidgets
             return _mainBox;
         }
 
-        public ScrollBarType ScrollBarType { get; set; }        
+        public ScrollBarType ScrollBarType { get; set; }
 
         public int MinMaxButtonHeight => _minmax_boxHeight;
         public int ScrollBoxSizeLimit => SCROLL_BOX_SIZE_LIMIT;
@@ -523,6 +524,7 @@ namespace LayoutFarm.HtmlWidgets
         {
             this.OwnerScrollBar = owner;
         }
+        protected override IUICollection<UIElement> GetDefaultChildrenIter() => null;
         internal ScrollBar OwnerScrollBar { get; set; }
         protected override void OnMouseWheel(UIMouseWheelEventArgs e)
         {

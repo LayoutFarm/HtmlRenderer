@@ -22,7 +22,7 @@ namespace LayoutFarm.UI
         }
 
     }
-    public class BackDrawBoardUI : LayoutFarm.CustomWidgets.AbstractBox
+    public class BackDrawBoardUI : LayoutFarm.CustomWidgets.AbstractControlBox
     {
         BackBoardRenderElement _backboardRenderE;
         public BackDrawBoardUI(int w, int h)
@@ -30,7 +30,8 @@ namespace LayoutFarm.UI
         {
 
         }
-
+        public void Add(UIElement ui) => AddChild(ui);
+        public void ClearChildren() => Clear();
         public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
         {
             if (_backboardRenderE != null)
