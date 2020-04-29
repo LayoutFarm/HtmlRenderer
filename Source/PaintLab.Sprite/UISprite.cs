@@ -318,10 +318,7 @@ namespace LayoutFarm.UI
             painter.SmoothingMode = smoothingMode;
             painter.StrokeWidth = prevStrokeW;//restore  
         }
-        public override void ResetRootGraphics(RootGraphic rootgfx)
-        {
-
-        }
+        
 
         public void SetPostTransformationBounds(PixelFarm.CpuBlit.VertexProcessing.Q1RectD postTransformationBounds)
         {
