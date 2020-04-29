@@ -29,7 +29,7 @@ namespace LayoutFarm.HtmlBoxes
         }
        
         public CssBox CssBox => _cssBox;
-        protected override PlainLayer CreateDefaultLayer() => new PlainLayer(this);
+        
         public void SetHtmlVisualRoot(MyHtmlVisualRoot htmlVisualRoot, CssBox box)
         {
             _myHtmlVisualRoot = htmlVisualRoot;

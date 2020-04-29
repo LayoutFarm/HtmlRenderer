@@ -1598,6 +1598,9 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\LayoutFarm.YourBasicCustomWidgets_SH\0_CustomRenderElements\CustomImageRenderBox.cs">
       <Link>PixelFarm\src\PixelFarm\LayoutFarm.YourBasicCustomWidgets_SH\0_CustomRenderElements\CustomImageRenderBox.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\LayoutFarm.YourBasicCustomWidgets_SH\0_CustomRenderElements\CustomRenderBoxSpec.cs">
+      <Link>PixelFarm\src\PixelFarm\LayoutFarm.YourBasicCustomWidgets_SH\0_CustomRenderElements\CustomRenderBoxSpec.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\LayoutFarm.YourBasicCustomWidgets_SH\0_CustomRenderElements\CustomRenderElements.cs">
       <Link>PixelFarm\src\PixelFarm\LayoutFarm.YourBasicCustomWidgets_SH\0_CustomRenderElements\CustomRenderElements.cs</Link>
     </Compile>
@@ -2204,6 +2207,9 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.RenderTree\2_RenderElement\4_RenderElement.Bubble_Repaint.cs">
       <Link>PixelFarm\src\PixelFarm\PaintLab.RenderTree\2_RenderElement\4_RenderElement.Bubble_Repaint.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.RenderTree\2_RenderElement\5_RenderElementCollection.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.RenderTree\2_RenderElement\5_RenderElementCollection.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.RenderTree\2_RenderElement\RenderElementConst.cs">
       <Link>PixelFarm\src\PixelFarm\PaintLab.RenderTree\2_RenderElement\RenderElementConst.cs</Link>
     </Compile>
@@ -2215,15 +2221,6 @@
     </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.RenderTree\2_RenderElement\x_RenderElement_LocationHelper.cs">
       <Link>PixelFarm\src\PixelFarm\PaintLab.RenderTree\2_RenderElement\x_RenderElement_LocationHelper.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.RenderTree\3_Layers\0_IParentLink.cs">
-      <Link>PixelFarm\src\PixelFarm\PaintLab.RenderTree\3_Layers\0_IParentLink.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.RenderTree\3_Layers\1_RenderElementLayer.cs">
-      <Link>PixelFarm\src\PixelFarm\PaintLab.RenderTree\3_Layers\1_RenderElementLayer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.RenderTree\3_Layers\2_PlainLayer.cs">
-      <Link>PixelFarm\src\PixelFarm\PaintLab.RenderTree\3_Layers\2_PlainLayer.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.RenderTree\4_Boxes\IBoxElement.cs">
       <Link>PixelFarm\src\PixelFarm\PaintLab.RenderTree\4_Boxes\IBoxElement.cs</Link>

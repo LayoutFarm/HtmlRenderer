@@ -165,7 +165,7 @@ namespace LayoutFarm.HtmlWidgets
         //
         int CalculateThumbPosition() => (int)(_scrollValue / _onePixelFor);
         //
-        void SetupMinButtonProperties(RenderElement container)
+        void SetupMinButtonProperties(RenderBoxBase container)
         {
             ScrollBarButton min_button;
             if (this.ScrollBarType == ScrollBarType.Horizontal)
@@ -181,7 +181,7 @@ namespace LayoutFarm.HtmlWidgets
             container.AddChild(min_button);
             _minButton = min_button;
         }
-        void SetupMaxButtonProperties(RenderElement container)
+        void SetupMaxButtonProperties(RenderBoxBase container)
         {
             ScrollBarButton max_button;
             if (this.ScrollBarType == ScrollBarType.Horizontal)
@@ -290,7 +290,7 @@ namespace LayoutFarm.HtmlWidgets
                 this.InvalidateOuterGraphics();
             }
         }
-        void SetupVerticalScrollButtonProperties(RenderElement container)
+        void SetupVerticalScrollButtonProperties(RenderBoxBase container)
         {
             var scroll_button = new ScrollBarButton(this.Width, 10, this); //create with default value
             scroll_button.BackColor = KnownColors.FromKnownColor(KnownColor.DarkBlue);
@@ -389,7 +389,7 @@ namespace LayoutFarm.HtmlWidgets
                 throw new NotSupportedException();
             }
         }
-        void SetupHorizontalScrollButtonProperties(RenderElement container)
+        void SetupHorizontalScrollButtonProperties(RenderBoxBase container)
         {
             var scroll_button = new ScrollBarButton(10, this.Height, this); //create with default value
             scroll_button.BackColor = KnownColors.FromKnownColor(KnownColor.DarkBlue);
