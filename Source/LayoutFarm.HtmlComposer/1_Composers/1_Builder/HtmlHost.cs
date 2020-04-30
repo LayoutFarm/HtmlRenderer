@@ -434,7 +434,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 case WellKnownDomNodeName.br:
                     //special treatment for br
-                    newBox = new CssBox(childElement.Spec, parentBox.RootGfx);
+                    newBox = new CssBox(childElement.Spec);
                     newBox.SetController(childElement);
                     CssBox.SetAsBrBox(newBox);
                     CssBox.ChangeDisplayType(newBox, CssDisplay.Block);
@@ -448,7 +448,7 @@ namespace LayoutFarm.HtmlBoxes
                     childElement.SetPrincipalBox(newBox);
                     return newBox;
                 case WellKnownDomNodeName.hr:
-                    newBox = new CssBoxHr(childElement.Spec, parentBox.RootGfx);
+                    newBox = new CssBoxHr(childElement.Spec);
                     newBox.SetController(childElement);
                     parentBox.AppendChild(newBox);
                     childElement.SetPrincipalBox(newBox);
@@ -553,7 +553,7 @@ namespace LayoutFarm.HtmlBoxes
                                 newBox = ListItemBoxCreator.CreateListItemBox(parentBox, childElement);
                                 break;
                             default:
-                                newBox = new CssBox(childSpec, parentBox.RootGfx);
+                                newBox = new CssBox(childSpec);
                                 newBox.SetController(childElement);
                                 parentBox.AppendChild(newBox);
                                 break;
@@ -588,7 +588,7 @@ namespace LayoutFarm.HtmlBoxes
                 imgBinder = clientImageBinder;
             }
 
-            CssBoxImage boxImage = new CssBoxImage(childElement.Spec, parent.RootGfx, imgBinder);
+            CssBoxImage boxImage = new CssBoxImage(childElement.Spec,  imgBinder);
             boxImage.SetController(childElement);
             parent.AppendChild(boxImage);
             return boxImage;
@@ -611,23 +611,23 @@ namespace LayoutFarm.HtmlBoxes
         }
 
 
-        internal static CssBox CreateBridgeBox(ITextService iFonts, LayoutFarm.RenderElement containerElement, RootGraphic rootgfx)
+        internal static CssBox CreateBridgeBox(ITextService iFonts, LayoutFarm.RenderElement containerElement)
         {
             var spec = new BoxSpec();
             spec.CssDisplay = CssDisplay.Block;
             spec.Freeze();
-            var box = new RenderElementBridgeCssBox(spec, containerElement, rootgfx);
+            var box = new RenderElementBridgeCssBox(spec, containerElement);
             //------------------------------------
             box.ReEvaluateFont(iFonts, 10);
             //------------------------------------
             return box;
         }
-        internal static CssBox CreateIsolateBox(ITextService iFonts, RootGraphic rootgfx)
+        internal static CssBox CreateIsolateBox(ITextService iFonts)
         {
             var spec = new BoxSpec();
             spec.CssDisplay = CssDisplay.Block;
             spec.Freeze();
-            var box = new CssIsolateBox(spec, rootgfx);
+            var box = new CssIsolateBox(spec);
             //------------------------------------
             box.ReEvaluateFont(iFonts, 10);
             //------------------------------------

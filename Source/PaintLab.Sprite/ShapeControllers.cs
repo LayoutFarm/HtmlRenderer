@@ -1321,10 +1321,10 @@ namespace LayoutFarm
             LoadVg(CreateQuadVgFromDestQuad());
 
         }
-        public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
-        {
-            return base.GetPrimaryRenderElement(rootgfx);
-        }
+        //public override RenderElement GetPrimaryRenderElement()
+        //{
+        //    return base.GetPrimaryRenderElement();
+        //}
         public void BuildControlBoxes()
         {
             //*** after set dest
@@ -1436,10 +1436,10 @@ namespace LayoutFarm
         protected override bool HasReadyRenderElement => _hasPrimRenderE;
         public override RenderElement CurrentPrimaryRenderElement => _simpleBox.CurrentPrimaryRenderElement;
         //
-        public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
+        public override RenderElement GetPrimaryRenderElement()
         {
             _hasPrimRenderE = true;
-            RenderElement renderE = _simpleBox.GetPrimaryRenderElement(rootgfx);
+            RenderElement renderE = _simpleBox.GetPrimaryRenderElement();
             renderE.TransparentForMouseEvents = this.TransparentForMouseEvents;
             return renderE;
         }

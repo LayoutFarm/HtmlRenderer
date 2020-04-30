@@ -173,7 +173,7 @@ namespace LayoutFarm.Composers
             //create scrollbar
             //...?
             //???
-            var scrollView = new CssScrollView(((HtmlDocument)this.OwnerDocument).Host, boxSpec, box.RootGfx);
+            var scrollView = new CssScrollView(((HtmlDocument)this.OwnerDocument).Host, boxSpec);
             scrollView.SetController(this);
             scrollView.SetVisualSize(box.VisualWidth, box.VisualHeight);
             scrollView.SetExpectedSize(box.VisualWidth, box.VisualHeight);

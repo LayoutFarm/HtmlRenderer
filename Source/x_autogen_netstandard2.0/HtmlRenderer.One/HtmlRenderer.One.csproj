@@ -1084,7 +1084,6 @@
     <Compile Include="..\..\layoutfarm.htmllayout\1_css\FontDefaultConfig.cs" Link="layoutfarm.htmllayout\1_css\FontDefaultConfig.cs" />
     <Compile Include="..\..\layoutfarm.htmllayout\2_boxes\0_root\CssBoxConstConfig.cs" Link="layoutfarm.htmllayout\2_boxes\0_root\CssBoxConstConfig.cs" />
     <Compile Include="..\..\layoutfarm.htmllayout\2_boxes\0_root\HtmlVisualRoot.cs" Link="layoutfarm.htmllayout\2_boxes\0_root\HtmlVisualRoot.cs" />
-    <Compile Include="..\..\layoutfarm.htmllayout\2_boxes\0_root\IRootGraphics.cs" Link="layoutfarm.htmllayout\2_boxes\0_root\IRootGraphics.cs" />
     <Compile Include="..\..\layoutfarm.htmllayout\2_boxes\1_corebox\BoxVisitor.cs" Link="layoutfarm.htmllayout\2_boxes\1_corebox\BoxVisitor.cs" />
     <Compile Include="..\..\layoutfarm.htmllayout\2_boxes\1_corebox\CssBox.cs" Link="layoutfarm.htmllayout\2_boxes\1_corebox\CssBox.cs" />
     <Compile Include="..\..\layoutfarm.htmllayout\2_boxes\1_corebox\CssBoxCollection.cs" Link="layoutfarm.htmllayout\2_boxes\1_corebox\CssBoxCollection.cs" />

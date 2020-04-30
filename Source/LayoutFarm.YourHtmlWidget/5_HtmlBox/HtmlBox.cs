@@ -234,11 +234,11 @@ namespace LayoutFarm.CustomWidgets
             //??? review here
             e.SetCurrentContextElement(this);
         }
-        public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
+        public override RenderElement GetPrimaryRenderElement()
         {
             if (_htmlRenderBox == null)
             {
-                var newHtmlRenderBox = new HtmlRenderBox(rootgfx, this.Width, this.Height);
+                var newHtmlRenderBox = new HtmlRenderBox(this.Width, this.Height);
                 newHtmlRenderBox.SetController(this);
                 newHtmlRenderBox.HasSpecificWidthAndHeight = true;
                 newHtmlRenderBox.SetLocation(this.Left, this.Top);

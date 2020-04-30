@@ -30,7 +30,7 @@ namespace LayoutFarm.HtmlWidgets
         //
         public override RenderElement CurrentPrimaryRenderElement => _mainBox;
         //
-        public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
+        public override RenderElement GetPrimaryRenderElement()
         {
             if (_mainBox == null)
             {
@@ -38,12 +38,12 @@ namespace LayoutFarm.HtmlWidgets
                 {
                     case ScrollBarType.Horizontal:
                         {
-                            CreateHScrollbarContent(rootgfx);
+                            CreateHScrollbarContent();
                         }
                         break;
                     default:
                         {
-                            CreateVScrollbarContent(rootgfx);
+                            CreateVScrollbarContent();
                         }
                         break;
                 }
@@ -127,9 +127,9 @@ namespace LayoutFarm.HtmlWidgets
 
 
         //--------------------------------------------------------------------------
-        void CreateVScrollbarContent(RootGraphic rootgfx)
+        void CreateVScrollbarContent()
         {
-            CustomRenderBox bgBox = new CustomRenderBox(rootgfx, this.Width, this.Height);
+            CustomRenderBox bgBox = new CustomRenderBox(this.Width, this.Height);
             bgBox.HasSpecificWidthAndHeight = true;
             bgBox.SetController(this);
             bgBox.SetLocation(this.Left, this.Top);
@@ -142,9 +142,9 @@ namespace LayoutFarm.HtmlWidgets
             //--------------
             _mainBox = bgBox;
         }
-        void CreateHScrollbarContent(RootGraphic rootgfx)
+        void CreateHScrollbarContent()
         {
-            CustomRenderBox bgBox = new CustomRenderBox(rootgfx, this.Width, this.Height);
+            CustomRenderBox bgBox = new CustomRenderBox(this.Width, this.Height);
             bgBox.HasSpecificWidthAndHeight = true;
             bgBox.SetController(this);
             bgBox.SetLocation(this.Left, this.Top);

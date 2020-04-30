@@ -1083,7 +1083,6 @@
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\LayoutFarm.HtmlComposer\..\layoutfarm.htmllayout\1_css\FontDefaultConfig.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\LayoutFarm.HtmlComposer\..\layoutfarm.htmllayout\2_boxes\0_root\CssBoxConstConfig.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\LayoutFarm.HtmlComposer\..\layoutfarm.htmllayout\2_boxes\0_root\HtmlVisualRoot.cs" />
-    <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\LayoutFarm.HtmlComposer\..\layoutfarm.htmllayout\2_boxes\0_root\IRootGraphics.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\LayoutFarm.HtmlComposer\..\layoutfarm.htmllayout\2_boxes\1_corebox\BoxVisitor.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\LayoutFarm.HtmlComposer\..\layoutfarm.htmllayout\2_boxes\1_corebox\CssBox.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\LayoutFarm.HtmlComposer\..\layoutfarm.htmllayout\2_boxes\1_corebox\CssBoxCollection.cs" />

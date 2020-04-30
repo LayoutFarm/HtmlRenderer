@@ -3191,9 +3191,6 @@
     <Compile Include="..\..\layoutfarm.htmllayout\2_boxes\0_root\HtmlVisualRoot.cs">
       <Link>layoutfarm.htmllayout\2_boxes\0_root\HtmlVisualRoot.cs</Link>
     </Compile>
-    <Compile Include="..\..\layoutfarm.htmllayout\2_boxes\0_root\IRootGraphics.cs">
-      <Link>layoutfarm.htmllayout\2_boxes\0_root\IRootGraphics.cs</Link>
-    </Compile>
     <Compile Include="..\..\layoutfarm.htmllayout\2_boxes\1_corebox\BoxVisitor.cs">
       <Link>layoutfarm.htmllayout\2_boxes\1_corebox\BoxVisitor.cs</Link>
     </Compile>

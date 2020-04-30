@@ -179,9 +179,6 @@
     <Compile Include="..\LayoutFarm.HtmlLayout\2_Boxes\0_Root\HtmlVisualRoot.cs">
       <Link>0_REF_LayoutFarm.HtmlLayout_\2_Boxes\1_Root\HtmlVisualRoot.cs</Link>
     </Compile>
-    <Compile Include="..\LayoutFarm.HtmlLayout\2_Boxes\0_Root\IRootGraphics.cs">
-      <Link>0_REF_LayoutFarm.HtmlLayout_\2_Boxes\1_Root\IRootGraphics.cs</Link>
-    </Compile>
     <Compile Include="..\LayoutFarm.HtmlLayout\2_Boxes\1_CoreBox\BoxVisitor.cs">
       <Link>0_REF_LayoutFarm.HtmlLayout_\2_Boxes\1_CoreBox\BoxVisitor.cs</Link>
     </Compile>

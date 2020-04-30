@@ -20,16 +20,16 @@ namespace LayoutFarm.HtmlBoxes
         public readonly int dbugHtmlRenderBoxId = dbugTotalId++;
         static int dbugTotalId;
 #endif
-        public HtmlRenderBox(RootGraphic rootgfx,
+        public HtmlRenderBox(
             int width, int height)
-            : base(rootgfx, width, height)
+            : base(width, height)
         {
 
             NeedInvalidateRectEvent = true;
         }
-       
+
         public CssBox CssBox => _cssBox;
-        
+
         public void SetHtmlVisualRoot(MyHtmlVisualRoot htmlVisualRoot, CssBox box)
         {
             _myHtmlVisualRoot = htmlVisualRoot;

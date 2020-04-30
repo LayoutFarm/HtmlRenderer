@@ -18,9 +18,8 @@ namespace LayoutFarm.HtmlBoxes
         CssBox _innerBox;
         HtmlHost _htmlhost;
 
-        public CssScrollView(HtmlHost htmlhost, Css.BoxSpec boxSpec,
-            IRootGraphics rootgfx)
-            : base(boxSpec, rootgfx)
+        public CssScrollView(HtmlHost htmlhost, Css.BoxSpec boxSpec)
+            : base(boxSpec)
         {
             _htmlhost = htmlhost;
         }
@@ -72,7 +71,7 @@ namespace LayoutFarm.HtmlBoxes
                 CssBox scBarWrapCssBox = LayoutFarm.Composers.CustomCssBoxGenerator.CreateCssWrapper(
                             _htmlhost,
                              _vscbar,
-                             _vscbar.GetPrimaryRenderElement((RootGraphic)this.GetInternalRootGfx()),
+                             _vscbar.GetPrimaryRenderElement(),
                              CssBox.UnsafeGetBoxSpec(this),
                              null,
                              false);
@@ -94,7 +93,7 @@ namespace LayoutFarm.HtmlBoxes
                 CssBox scBarWrapCssBox = LayoutFarm.Composers.CustomCssBoxGenerator.CreateCssWrapper(
                         _htmlhost,
                          _hscbar,
-                         _hscbar.GetPrimaryRenderElement((RootGraphic)this.GetInternalRootGfx()),
+                         _hscbar.GetPrimaryRenderElement(),
                          CssBox.UnsafeGetBoxSpec(this),
                          null,
                          false);
@@ -126,7 +125,7 @@ namespace LayoutFarm.HtmlBoxes
             int IScrollable.InnerHeight => (int)_cssbox.InnerContentHeight;   //content height of the cssbox
             int IScrollable.InnerWidth => (int)_cssbox.InnerContentWidth;    //content width of the cssbox
 
-            
+
             event EventHandler<ViewportChangedEventArgs> IScrollable.ViewportChanged
             {
                 //TODO: review this

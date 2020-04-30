@@ -12,7 +12,7 @@ namespace LayoutFarm.HtmlBoxes
         public static CssBox CreateOtherPredefinedTableElement(CssBox parent,
             HtmlElement childElement, CssDisplay selectedCssDisplayType)
         {
-            var newBox = new CssBox(childElement.Spec, parent.RootGfx, selectedCssDisplayType);
+            var newBox = new CssBox(childElement.Spec, selectedCssDisplayType);
             newBox.SetController(childElement);
             parent.AppendChild(newBox);
             return newBox;
@@ -23,11 +23,11 @@ namespace LayoutFarm.HtmlBoxes
             CssBox col = null;
             if (fixDisplayType)
             {
-                col = new CssBox(childElement.Spec, parent.RootGfx, selectedCssDisplayType);
+                col = new CssBox(childElement.Spec, selectedCssDisplayType);
             }
             else
             {
-                col = new CssBox(childElement.Spec, parent.RootGfx);
+                col = new CssBox(childElement.Spec);
             }
             col.SetController(childElement);
             parent.AppendChild(col);
@@ -53,11 +53,11 @@ namespace LayoutFarm.HtmlBoxes
             CssBox tableCell = null;
             if (fixDisplayType)
             {
-                tableCell = new CssBox(childElement.Spec, parent.RootGfx, CssDisplay.TableCell);
+                tableCell = new CssBox(childElement.Spec, CssDisplay.TableCell);
             }
             else
             {
-                tableCell = new CssBox(childElement.Spec, parent.RootGfx);
+                tableCell = new CssBox(childElement.Spec);
             }
             tableCell.SetController(childElement);
             parent.AppendChild(tableCell);
@@ -99,19 +99,19 @@ namespace LayoutFarm.HtmlBoxes
         static ListItemBoxCreator()
         {
             splitter = new Composers.HtmlContentTextSplitter();
-            
+
         }
 
         public static CssBox CreateListItemBox(CssBox parent, HtmlElement childElement)
         {
             var spec = childElement.Spec;
-            var newBox = new CssBoxListItem(spec, parent.RootGfx);
+            var newBox = new CssBoxListItem(spec);
             newBox.SetController(childElement);
             parent.AppendChild(newBox);
             if (spec.ListStyleType != CssListStyleType.None)
             {
                 //create sub item collection 
-                var itemBulletBox = new CssBox(spec.GetAnonVersion(), parent.RootGfx);
+                var itemBulletBox = new CssBox(spec.GetAnonVersion());
                 newBox.BulletBox = itemBulletBox;
                 CssBox.UnsafeSetParent(itemBulletBox, newBox);
                 CssBox.ChangeDisplayType(itemBulletBox, CssDisplay.Inline);

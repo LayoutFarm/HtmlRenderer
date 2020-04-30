@@ -83,10 +83,10 @@ namespace LayoutFarm.CustomWidgets
         //
         protected override bool HasReadyRenderElement => _hasPrimRenderE;
         //
-        public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
+        public override RenderElement GetPrimaryRenderElement()
         {
             _hasPrimRenderE = true;
-            return _groundBox.GetPrimaryRenderElement(rootgfx);
+            return _groundBox.GetPrimaryRenderElement();
         }
         public override RenderElement CurrentPrimaryRenderElement => _groundBox.CurrentPrimaryRenderElement;
         //-------------

@@ -6,7 +6,7 @@ namespace LayoutFarm.InternalUI
     {
         public static void AddChild(this RenderBoxBase renderBox, UIElement ui)
         {
-            renderBox.AddChild(ui.GetPrimaryRenderElement(renderBox.Root));
+            renderBox.AddChild(ui.GetPrimaryRenderElement());
         }
     }
 }

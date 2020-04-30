@@ -402,7 +402,7 @@ namespace LayoutFarm.HtmlBoxes
 
                                     var newAnonBlock = new CssFloatContainerBox(
                                         CssBox.UnsafeGetBoxSpec(b),
-                                        b.RootGfx, CssDisplay.Block);
+                                        CssDisplay.Block);
                                     newAnonBlock.ReEvaluateComputedValues(ifonts, hostBox);
                                     //add to abs layer
                                     hostBox.AppendToAbsoluteLayer(newAnonBlock);
@@ -457,7 +457,7 @@ namespace LayoutFarm.HtmlBoxes
                                     //flow content in to this new box
                                     var newAnonBlock = new CssFloatContainerBox(
                                         CssBox.UnsafeGetBoxSpec(b),
-                                        b.RootGfx, CssDisplay.Block);
+                                        CssDisplay.Block);
                                     newAnonBlock.ReEvaluateComputedValues(ifonts, hostBox);
                                     //add to abs layer
                                     hostBox.AppendToAbsoluteLayer(newAnonBlock);
@@ -1329,7 +1329,7 @@ namespace LayoutFarm.HtmlBoxes
         static CssBox CreateAnonBlock(CssBox parent, CssBox insertBefore)
         {
             //auto gen by layout engine ***
-            var newBox = new CssBox(CssBox.UnsafeGetBoxSpec(parent).GetAnonVersion(), parent.RootGfx);
+            var newBox = new CssBox(CssBox.UnsafeGetBoxSpec(parent).GetAnonVersion());
             CssBox.ChangeDisplayType(newBox, Css.CssDisplay.Block);
             parent.InsertChild(insertBefore, newBox);
             return newBox;

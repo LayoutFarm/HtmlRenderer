@@ -29,7 +29,7 @@ namespace LayoutFarm.HtmlBoxes
             /// </summary>
             readonly int _endRow;
             public CssVerticalCellSpacingBox(CssBox extendedBox, int startRow)
-                : base(s_specForVCell, extendedBox.RootGfx)
+                : base(s_specForVCell)
             {
                 _extendedBox = extendedBox;
                 this.SetRowSpanAndColSpan(1, 1);
