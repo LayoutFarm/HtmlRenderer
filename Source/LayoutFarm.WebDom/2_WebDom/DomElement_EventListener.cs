@@ -65,24 +65,20 @@ namespace LayoutFarm.WebDom
 
         bool IUIEventListener.AutoStopMouseEventPropagation => false;
 
-        //--------------
-        void IUIEventListener.HandleContentLayout()
-        {
-            OnContentLayout();
-        }
-        void IUIEventListener.HandleContentUpdate()
-        {
-            OnContentUpdate();
-        }
+        ////--------------
+        //void IUIEventListener.HandleContentLayout()
+        //{
+        //    OnContentLayout();
+        //}
+        //void IUIEventListener.HandleContentUpdate()
+        //{
+        //    OnContentUpdate();
+        //}
         void IUIEventListener.HandleElementUpdate()
         {
             OnElementChanged();
         }
-        bool IUIEventListener.BypassAllMouseEvents
-        {
-            get { return false; }
-        }
-
+        bool IUIEventListener.BypassAllMouseEvents => false;
 
         void IEventListener.ListenGuestMsg(UIGuestMsgEventArgs e)
         {
@@ -97,7 +93,7 @@ namespace LayoutFarm.WebDom
         }
         public abstract void GetGlobalLocation(out int x, out int y);
         public abstract void GetGlobalLocationRelativeToRoot(out int x, out int y);
-        public abstract void GetViewport(out int x, out int y);         
+        public abstract void GetViewport(out int x, out int y);
         public void ListenMouseHover(UIMouseHoverEventArgs e)
         {
 

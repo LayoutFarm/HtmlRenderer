@@ -130,7 +130,7 @@ namespace LayoutFarm.HtmlWidgets
         void CreateVScrollbarContent()
         {
             CustomRenderBox bgBox = new CustomRenderBox(this.Width, this.Height);
-            bgBox.HasSpecificWidthAndHeight = true;
+            //bgBox.HasSpecificWidthAndHeight = true;
             bgBox.SetController(this);
             bgBox.SetLocation(this.Left, this.Top);
             //MinButton
@@ -145,7 +145,7 @@ namespace LayoutFarm.HtmlWidgets
         void CreateHScrollbarContent()
         {
             CustomRenderBox bgBox = new CustomRenderBox(this.Width, this.Height);
-            bgBox.HasSpecificWidthAndHeight = true;
+            //bgBox.HasSpecificWidthAndHeight = true;
             bgBox.SetController(this);
             bgBox.SetLocation(this.Left, this.Top);
             //---------------------------------------------------------
@@ -287,7 +287,7 @@ namespace LayoutFarm.HtmlWidgets
                 _scrollButton.SetSize(
                     _scrollButton.Width,
                     scrollBoxLength);
-                this.InvalidateOuterGraphics();
+                this.InvalidateGraphics();
             }
         }
         void SetupVerticalScrollButtonProperties(RenderBoxBase container)

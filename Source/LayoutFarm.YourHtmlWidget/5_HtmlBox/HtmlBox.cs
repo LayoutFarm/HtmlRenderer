@@ -64,16 +64,13 @@ namespace LayoutFarm.CustomWidgets
         {
             get => _htmlhost.BaseUrl;
             set => _htmlhost.BaseUrl = value;
+        }
 
-        }
-        protected override void OnContentLayout()
+        public override void PerformContentLayout(LayoutUpdateArgs layoutArgs)
         {
-            this.PerformContentLayout();
+            this.RaiseLayoutFinished();//?
         }
-        public override void PerformContentLayout()
-        {
-            this.RaiseLayoutFinished();
-        }
+         
         //
         public override RenderElement CurrentPrimaryRenderElement => _htmlRenderBox;
         //
@@ -240,7 +237,7 @@ namespace LayoutFarm.CustomWidgets
             {
                 var newHtmlRenderBox = new HtmlRenderBox(this.Width, this.Height);
                 newHtmlRenderBox.SetController(this);
-                newHtmlRenderBox.HasSpecificWidthAndHeight = true;
+                //newHtmlRenderBox.HasSpecificWidthAndHeight = true;
                 newHtmlRenderBox.SetLocation(this.Left, this.Top);
 #if DEBUG
                 newHtmlRenderBox.dbugPreferSoftwareRenderer = this.dbugPreferSoftwareRenderer;

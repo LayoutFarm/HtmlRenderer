@@ -113,10 +113,8 @@ namespace LayoutFarm.HtmlBoxes
         {
             int j = _waitForUpdateBoxes.Count;
             for (int i = 0; i < j; ++i)
-            {
-                CssBox cssbox = _waitForUpdateBoxes[i];
-                var controller = HtmlBoxes.CssBox.UnsafeGetController(cssbox) as UI.IUIEventListener;
-                if (controller != null)
+            { 
+                if (HtmlBoxes.CssBox.UnsafeGetController(_waitForUpdateBoxes[i]) is UI.IUIEventListener controller)
                 {
                     controller.HandleElementUpdate();
                 }
@@ -164,7 +162,7 @@ namespace LayoutFarm.HtmlBoxes
         //---
         public LayoutVisitor GetSharedHtmlLayoutVisitor(HtmlVisualRoot htmlVisualRoot)
         {
-            LayoutVisitor lay = null;
+            LayoutVisitor lay;
             if (_htmlLayoutVisitorStock.Count == 0)
             {
                 lay = new LayoutVisitor(this.GetTextService());
@@ -189,10 +187,7 @@ namespace LayoutFarm.HtmlBoxes
                 _renderTreeBuilder = new Composers.RenderTreeBuilder(this);
                 _renderTreeBuilder.RequestStyleSheet += (e) =>
                 {
-                    if (_requestStyleSheet != null)
-                    {
-                        _requestStyleSheet(this, e);
-                    }
+                    _requestStyleSheet?.Invoke(this, e);
                 };
             }
             return _renderTreeBuilder;
@@ -518,8 +513,7 @@ namespace LayoutFarm.HtmlBoxes
                         }
 
                         //----------------------------------------------- 
-                        LayoutFarm.Composers.CreateCssBoxDelegate foundBoxGen;
-                        if (((HtmlDocument)childElement.OwnerDocument).TryGetCustomBoxGenerator(childElement.Name, out foundBoxGen))
+                        if (((HtmlDocument)childElement.OwnerDocument).TryGetCustomBoxGenerator(childElement.Name, out CreateCssBoxDelegate foundBoxGen))
                         {
                             //create custom box 
                             newBox = foundBoxGen(childElement, parentBox, childElement.Spec, this);
@@ -574,18 +568,15 @@ namespace LayoutFarm.HtmlBoxes
 
         CssBox CreateImageBox(CssBox parent, HtmlElement childElement)
         {
-            string imgsrc;
-            ImageBinder imgBinder = null;
-            if (childElement.TryGetAttribute(WellknownName.Src, out imgsrc))
-            {
-                var clientImageBinder = new ImageBinder(imgsrc);
-                imgBinder = clientImageBinder;
-
+            ImageBinder imgBinder;
+            if (childElement.TryGetAttribute(WellknownName.Src, out string imgsrc))
+            { 
+                imgBinder = new ImageBinder(imgsrc); 
             }
             else
             {
-                var clientImageBinder = new ImageBinder(null as string);
-                imgBinder = clientImageBinder;
+              
+                imgBinder = new ImageBinder(null as string);
             }
 
             CssBoxImage boxImage = new CssBoxImage(childElement.Spec,  imgBinder);

@@ -91,10 +91,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
             p_x += _adjustX;
             p_y += _adjustY;
         }
-        RenderElement RenderBoxes.IParentLink.FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
-        {
-            return null;
-        }
+        
 
 #if DEBUG
         string LayoutFarm.RenderBoxes.IParentLink.dbugGetLinkInfo()

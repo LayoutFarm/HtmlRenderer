@@ -306,7 +306,7 @@ namespace LayoutFarm
                 foreach (PointControllerBox ctrl in _controlBoxes)
                 {
                     //update before move 
-                    ctrl.InvalidateOuterGraphics();
+                    ctrl.InvalidateGraphics();
                 }
                 //then update the vxs shape 
                 //_vxs.ReplaceVertex(box.Index, newX, newY);
@@ -585,7 +585,7 @@ namespace LayoutFarm
             foreach (PointControllerBox ctrl in _controlBoxes)
             {
                 //update before move 
-                ctrl.InvalidateOuterGraphics();
+                ctrl.InvalidateGraphics();
             }
             //then update the vxs shape 
             //_vxs.ReplaceVertex(box.Index, newX, newY);
@@ -678,7 +678,7 @@ namespace LayoutFarm
                 foreach (PointControllerBox ctrl in _controlBoxes)
                 {
                     //update before move 
-                    ctrl.InvalidateOuterGraphics();
+                    ctrl.InvalidateGraphics();
                 }
                 //then update the vxs shape 
                 //_vxs.ReplaceVertex(box.Index, newX, newY);
@@ -1201,11 +1201,11 @@ namespace LayoutFarm
                 this.SetLocation(
                     this.Left + e.XDiff,
                     this.Top + e.YDiff);
-                _polygonController.InvalidateOuterGraphics();
+                _polygonController.InvalidateGraphics();
                 _polygonController.SetLocation(
                     _polygonController.Left + e.XDiff,
                     _polygonController.Top + e.YDiff);
-                _polygonController.InvalidateOuterGraphics();
+                _polygonController.InvalidateGraphics();
 
                 UpdateTransformedShape(this, System.EventArgs.Empty);
                 //
@@ -1391,10 +1391,7 @@ namespace LayoutFarm
         {
             CurrentPrimaryRenderElement?.InvalidateGraphics();
         }
-        public override void InvalidateOuterGraphics()
-        {
-            CurrentPrimaryRenderElement?.InvalidateGraphics();
-        }
+        
 #if DEBUG
         public override string ToString() => this.dbugControllerId + " ," + Left + "," + Top;
 #endif
@@ -1450,10 +1447,10 @@ namespace LayoutFarm
         {
             //TODO: review here again***
             //temp fix for invalidate area of overlap children
-            _simpleBox.InvalidateOuterGraphics();
+            _simpleBox.InvalidateGraphics();
             foreach (var ctrl in _controls)
             {
-                ctrl.InvalidateOuterGraphics();
+                ctrl.InvalidateGraphics();
             }
             _simpleBox.SetLocation(x, y);
         }
@@ -1649,10 +1646,10 @@ namespace LayoutFarm
                 //}
                 e.CancelBubbling = true;
                 //---------------------------------
-                _simpleBox.InvalidateOuterGraphics();
+                _simpleBox.InvalidateGraphics();
                 foreach (var ctrl in _controls)
                 {
-                    ctrl.InvalidateOuterGraphics();
+                    ctrl.InvalidateGraphics();
                 }
                 //then update the vxs shape 
                 //_vxs.ReplaceVertex(box.Index, newX, newY);
