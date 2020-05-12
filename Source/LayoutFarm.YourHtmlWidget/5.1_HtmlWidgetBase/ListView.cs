@@ -12,7 +12,7 @@ namespace LayoutFarm.HtmlWidgets
     {
         //composite           
         Color _backColor = KnownColors.LightGray;
-        List<UICollection> _layers = new List<UICollection>(1);
+        
         List<ListItem> _items = new List<ListItem>();
         int _selectedIndex = -1;//default = no selection
         HtmlElement _pnode;

@@ -8,7 +8,7 @@ using LayoutFarm.HtmlBoxes;
 namespace PaintLab.Svg
 {
     class SvgCreator
-    { 
+    {
         VgDocBuilder _svgDocBuilder = new VgDocBuilder();
         VgDocument _currentDoc;
         public CssBoxSvgRoot CreateSvgBox(CssBox parentBox,
@@ -34,7 +34,6 @@ namespace PaintLab.Svg
             SvgRootEventPortal svgRootController = new SvgRootEventPortal(elementNode);
             CssBoxSvgRoot svgRoot = new CssBoxSvgRoot(
                 elementNode.Spec,
-                parentBox.RootGfx,
                 svgdoc);
 
             svgRoot.SetController(svgRootController);

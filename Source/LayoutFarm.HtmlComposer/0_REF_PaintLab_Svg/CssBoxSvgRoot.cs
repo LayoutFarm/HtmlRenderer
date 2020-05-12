@@ -14,8 +14,8 @@ namespace LayoutFarm.HtmlBoxes
         VgVisualDocHost _vgVisualDocHost;
 
         static OpenFontTextService s_openfontTextService;
-        public CssBoxSvgRoot(Css.BoxSpec spec, IRootGraphics rootgfx, VgDocument svgdoc)
-            : base(spec, rootgfx, Css.CssDisplay.Block)
+        public CssBoxSvgRoot(Css.BoxSpec spec, VgDocument svgdoc)
+            : base(spec, Css.CssDisplay.Block)
         {
             //----------
             _vgVisualDocHost = new PaintLab.Svg.VgVisualDocHost();

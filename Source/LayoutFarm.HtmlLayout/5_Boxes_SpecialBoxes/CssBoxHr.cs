@@ -26,8 +26,8 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         /// <param name="parent">the parent box of this box</param>
         /// <param name="controller">the html tag data of this box</param>
-        public CssBoxHr(Css.BoxSpec spec, IRootGraphics rootgfx)
-            : base(spec, rootgfx)
+        public CssBoxHr(Css.BoxSpec spec)
+            : base(spec)
         {
             ChangeDisplayType(this, Css.CssDisplay.Block);
         }
@@ -108,6 +108,6 @@ namespace LayoutFarm.HtmlBoxes
             this.SetVisualSize(width, height);
             this.SetVisualHeight(ActualPaddingTop + ActualPaddingBottom + height);
         }
-        
+
     }
 }

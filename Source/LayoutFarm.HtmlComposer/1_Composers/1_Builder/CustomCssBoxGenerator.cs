@@ -27,7 +27,7 @@ namespace LayoutFarm.Composers
 
             if (isInline)
             {
-                return new LayoutFarm.HtmlBoxes.InternalWrappers.WrapperInlineCssBox(htmlhost, portalEvent, spec, renderElement.Root, renderElement, subDomExtender);
+                return new LayoutFarm.HtmlBoxes.InternalWrappers.WrapperInlineCssBox(htmlhost, portalEvent, spec, renderElement, subDomExtender);
             }
             else
             {

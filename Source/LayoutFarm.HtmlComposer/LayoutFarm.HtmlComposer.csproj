@@ -231,9 +231,6 @@
     <Compile Include="..\layoutfarm.htmllayout\2_boxes\0_root\HtmlVisualRoot.cs">
       <Link>0_REF_LayoutFarm.HtmlLayout\2_Boxes\0_Root\HtmlVisualRoot.cs</Link>
     </Compile>
-    <Compile Include="..\layoutfarm.htmllayout\2_boxes\0_root\IRootGraphics.cs">
-      <Link>0_REF_LayoutFarm.HtmlLayout\2_Boxes\0_Root\IRootGraphics.cs</Link>
-    </Compile>
     <Compile Include="..\layoutfarm.htmllayout\2_boxes\1_corebox\BoxVisitor.cs">
       <Link>0_REF_LayoutFarm.HtmlLayout\2_Boxes\1_CoreBox\BoxVisitor.cs</Link>
     </Compile>

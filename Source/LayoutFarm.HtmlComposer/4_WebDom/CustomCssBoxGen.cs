@@ -32,7 +32,7 @@ namespace LayoutFarm.Composers
             newspec.Position = CssPosition.Absolute;
             newspec.Freeze(); //freeze before use
             HtmlElement htmlElement = (HtmlElement)domE;
-            var newBox = new CssBox(newspec, parentBox.RootGfx);
+            var newBox = new CssBox(newspec);
             newBox.SetController(domE);
             htmlElement.SetPrincipalBox(newBox);
             //auto set bc of the element
@@ -44,5 +44,5 @@ namespace LayoutFarm.Composers
         }
     }
     //------------------------------------------------------------
-    public delegate void LazyCssBoxCreator(RootGraphic rootgfx, out RenderElement re, out object controller);
+    public delegate void LazyCssBoxCreator(out RenderElement re, out object controller);
 }

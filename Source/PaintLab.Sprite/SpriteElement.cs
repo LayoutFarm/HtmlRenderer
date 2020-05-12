@@ -10,19 +10,17 @@ namespace LayoutFarm.UI
 
     class BackBoardRenderElement : LayoutFarm.CustomWidgets.CustomRenderBox
     {
-        DrawBoard _d;
-        public BackBoardRenderElement(RootGraphic rootgfx, int width, int height)
-           : base(rootgfx, width, height)
+        public BackBoardRenderElement(int width, int height)
+           : base(width, height)
         {
         }
-        protected override void RenderClientContent(DrawBoard d, UpdateArea updateArea)
-        {
-            _d = d;
-            base.RenderClientContent(d, updateArea);
-        }
+        //protected override void RenderClientContent(DrawBoard d, UpdateArea updateArea)
+        //{
+        //    base.RenderClientContent(d, updateArea);
+        //}
 
     }
-    public class BackDrawBoardUI : LayoutFarm.CustomWidgets.AbstractBox
+    public class BackDrawBoardUI : LayoutFarm.CustomWidgets.AbstractControlBox
     {
         BackBoardRenderElement _backboardRenderE;
         public BackDrawBoardUI(int w, int h)
@@ -30,18 +28,19 @@ namespace LayoutFarm.UI
         {
 
         }
-
-        public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
+        public void Add(UIElement ui) => AddChild(ui);
+        public void ClearChildren() => Clear();
+        public override RenderElement GetPrimaryRenderElement()
         {
             if (_backboardRenderE != null)
             {
                 return _backboardRenderE;
             }
-            _backboardRenderE = new BackBoardRenderElement(rootgfx, this.Width, this.Height);
+            _backboardRenderE = new BackBoardRenderElement(this.Width, this.Height);
             _backboardRenderE.SetLocation(this.Left, this.Top);
             _backboardRenderE.NeedClipArea = true;
+            SetCommonProperties(_backboardRenderE, this);
             SetPrimaryRenderElement(_backboardRenderE);
-            BuildChildrenRenderElement(_backboardRenderE);
 
             return _backboardRenderE;
         }

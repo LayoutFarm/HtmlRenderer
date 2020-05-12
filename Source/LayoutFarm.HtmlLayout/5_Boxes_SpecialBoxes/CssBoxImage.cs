@@ -34,8 +34,8 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="parent">the parent box of this box</param>
         /// <param name="controller">the html tag data of this box</param>
         public CssBoxImage(Css.BoxSpec boxSpec,
-            IRootGraphics rootgfx, ImageBinder binder)
-            : base(boxSpec, rootgfx)
+             ImageBinder binder)
+            : base(boxSpec)
         {
             _imgRun = new CssImageRun();
             _imgRun.ImageBinder = binder;
@@ -109,7 +109,7 @@ namespace LayoutFarm.HtmlBoxes
             set => _tmpTransitionImgBinder = value;
         }
 
-     
+
         /// <summary>
         /// Assigns words its width and height
         /// </summary>

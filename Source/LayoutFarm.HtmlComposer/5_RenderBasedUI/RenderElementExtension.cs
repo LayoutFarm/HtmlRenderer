@@ -4,9 +4,9 @@ namespace LayoutFarm.InternalUI
 {
     static class RenderElementExtension
     {
-        public static void AddChild(this RenderElement renderBox, UIElement ui)
+        public static void AddChild(this RenderBoxBase renderBox, UIElement ui)
         {
-            renderBox.AddChild(ui.GetPrimaryRenderElement(renderBox.Root));
+            renderBox.AddChild(ui.GetPrimaryRenderElement());
         }
     }
 }

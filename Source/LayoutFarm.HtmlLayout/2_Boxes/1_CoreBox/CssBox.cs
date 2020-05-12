@@ -36,7 +36,7 @@ namespace LayoutFarm.HtmlBoxes
     {
         readonly Css.BoxSpec _myspec;
         object _controller;
-        IRootGraphics _rootgfx;
+
 #if DEBUG
         public int dbugMark1;
         public readonly int __aa_dbugId = dbugTotalId++;
@@ -45,11 +45,8 @@ namespace LayoutFarm.HtmlBoxes
         public bool dbugIsInAbsLayer;
 
 #endif
-        public CssBox(BoxSpec spec, IRootGraphics rootgfx)
+        public CssBox(BoxSpec spec)
         {
-
-
-            _rootgfx = rootgfx;
             _aa_boxes = new CssBoxCollection();
 #if DEBUG
 
@@ -69,9 +66,9 @@ namespace LayoutFarm.HtmlBoxes
             EvaluateSpec(spec);
             ChangeDisplayType(this, _myspec.CssDisplay);
         }
-        public CssBox(BoxSpec spec, IRootGraphics rootgfx, CssDisplay displayType)
+        public CssBox(BoxSpec spec, CssDisplay displayType)
         {
-            _rootgfx = rootgfx;
+
             _aa_boxes = new CssBoxCollection();
 #if DEBUG
             //if (__aa_dbugId == 13)
@@ -98,7 +95,6 @@ namespace LayoutFarm.HtmlBoxes
         }
         public bool IsReplacement { get; set; }
         internal bool IsBody { get; set; }
-        public IRootGraphics RootGfx => _rootgfx;
 
 
         /// <summary>
@@ -764,7 +760,7 @@ namespace LayoutFarm.HtmlBoxes
         public static CssBox AddNewAnonInline(CssBox parent)
         {
             BoxSpec spec = CssBox.UnsafeGetBoxSpec(parent);
-            CssBox newBox = new CssBox(spec.GetAnonVersion(), parent._rootgfx);
+            CssBox newBox = new CssBox(spec.GetAnonVersion());
             parent.AppendChild(newBox);
             CssBox.ChangeDisplayType(newBox, Css.CssDisplay.Inline);
             return newBox;

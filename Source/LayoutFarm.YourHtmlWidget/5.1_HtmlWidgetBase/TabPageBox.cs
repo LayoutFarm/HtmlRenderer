@@ -78,11 +78,10 @@ namespace LayoutFarm.HtmlWidgets
                 //reimpl here again
                 LayoutFarm.Composers.HtmlDocument htmldoc = (LayoutFarm.Composers.HtmlDocument)ownerdoc;
                 var wrapperElement = htmldoc.CreateWrapperElement("x",
-                 (RootGraphic rootgfx, out RenderElement renderE, out object controller) =>
+                 (out RenderElement renderE, out object controller) =>
                  {
-                     renderE = _contentUI.GetPrimaryRenderElement(rootgfx);
+                     renderE = _contentUI.GetPrimaryRenderElement();
                      controller = _contentUI;
-
                  });
                 _contentNode.AddChild(wrapperElement);
 

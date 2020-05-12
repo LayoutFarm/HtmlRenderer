@@ -12,7 +12,7 @@ namespace LayoutFarm.ColorBlenderSample
     {
         AppHost _host;
 
-        ListView _lstvw_svgFiles;
+        ListBox _lstbox_svgFiles;
         BackDrawBoardUI _backBoard;
         VgVisualDocHost _vgDocHost;
         protected override void OnStart(AppHost host)
@@ -35,15 +35,15 @@ namespace LayoutFarm.ColorBlenderSample
                 host.AddChild(_backBoard);
             }
             {
-                _lstvw_svgFiles = new ListView(200, 400);
-                _lstvw_svgFiles.SetLocation(500, 20);
-                host.AddChild(_lstvw_svgFiles);
+                _lstbox_svgFiles = new ListBox(200, 400);
+                _lstbox_svgFiles.SetLocation(500, 20);
+                host.AddChild(_lstbox_svgFiles);
                 //
-                _lstvw_svgFiles.ListItemMouseEvent += (s, e) =>
+                _lstbox_svgFiles.ListItemMouseEvent += (s, e) =>
                 {
-                    if (_lstvw_svgFiles.SelectedIndex > -1)
+                    if (_lstbox_svgFiles.SelectedIndex > -1)
                     {
-                        string filename = _lstvw_svgFiles.GetItem(_lstvw_svgFiles.SelectedIndex).Tag as string;
+                        string filename = _lstbox_svgFiles.GetItem(_lstbox_svgFiles.SelectedIndex).Tag as string;
                         if (filename != null)
                         {
                             ParseAndRenderSvgFile(filename);
@@ -88,7 +88,7 @@ namespace LayoutFarm.ColorBlenderSample
                     ListItem listItem = new ListItem(200, 20);
                     listItem.Text = System.IO.Path.GetFileName(file);
                     listItem.Tag = file;
-                    _lstvw_svgFiles.AddItem(listItem);
+                    _lstbox_svgFiles.AddItem(listItem);
                 }
 
             }

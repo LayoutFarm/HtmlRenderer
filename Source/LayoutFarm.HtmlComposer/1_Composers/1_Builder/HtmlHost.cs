@@ -113,10 +113,8 @@ namespace LayoutFarm.HtmlBoxes
         {
             int j = _waitForUpdateBoxes.Count;
             for (int i = 0; i < j; ++i)
-            {
-                CssBox cssbox = _waitForUpdateBoxes[i];
-                var controller = HtmlBoxes.CssBox.UnsafeGetController(cssbox) as UI.IUIEventListener;
-                if (controller != null)
+            { 
+                if (HtmlBoxes.CssBox.UnsafeGetController(_waitForUpdateBoxes[i]) is UI.IUIEventListener controller)
                 {
                     controller.HandleElementUpdate();
                 }
@@ -164,7 +162,7 @@ namespace LayoutFarm.HtmlBoxes
         //---
         public LayoutVisitor GetSharedHtmlLayoutVisitor(HtmlVisualRoot htmlVisualRoot)
         {
-            LayoutVisitor lay = null;
+            LayoutVisitor lay;
             if (_htmlLayoutVisitorStock.Count == 0)
             {
                 lay = new LayoutVisitor(this.GetTextService());
@@ -189,10 +187,7 @@ namespace LayoutFarm.HtmlBoxes
                 _renderTreeBuilder = new Composers.RenderTreeBuilder(this);
                 _renderTreeBuilder.RequestStyleSheet += (e) =>
                 {
-                    if (_requestStyleSheet != null)
-                    {
-                        _requestStyleSheet(this, e);
-                    }
+                    _requestStyleSheet?.Invoke(this, e);
                 };
             }
             return _renderTreeBuilder;
@@ -434,7 +429,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 case WellKnownDomNodeName.br:
                     //special treatment for br
-                    newBox = new CssBox(childElement.Spec, parentBox.RootGfx);
+                    newBox = new CssBox(childElement.Spec);
                     newBox.SetController(childElement);
                     CssBox.SetAsBrBox(newBox);
                     CssBox.ChangeDisplayType(newBox, CssDisplay.Block);
@@ -448,7 +443,7 @@ namespace LayoutFarm.HtmlBoxes
                     childElement.SetPrincipalBox(newBox);
                     return newBox;
                 case WellKnownDomNodeName.hr:
-                    newBox = new CssBoxHr(childElement.Spec, parentBox.RootGfx);
+                    newBox = new CssBoxHr(childElement.Spec);
                     newBox.SetController(childElement);
                     parentBox.AppendChild(newBox);
                     childElement.SetPrincipalBox(newBox);
@@ -518,8 +513,7 @@ namespace LayoutFarm.HtmlBoxes
                         }
 
                         //----------------------------------------------- 
-                        LayoutFarm.Composers.CreateCssBoxDelegate foundBoxGen;
-                        if (((HtmlDocument)childElement.OwnerDocument).TryGetCustomBoxGenerator(childElement.Name, out foundBoxGen))
+                        if (((HtmlDocument)childElement.OwnerDocument).TryGetCustomBoxGenerator(childElement.Name, out CreateCssBoxDelegate foundBoxGen))
                         {
                             //create custom box 
                             newBox = foundBoxGen(childElement, parentBox, childElement.Spec, this);
@@ -553,7 +547,7 @@ namespace LayoutFarm.HtmlBoxes
                                 newBox = ListItemBoxCreator.CreateListItemBox(parentBox, childElement);
                                 break;
                             default:
-                                newBox = new CssBox(childSpec, parentBox.RootGfx);
+                                newBox = new CssBox(childSpec);
                                 newBox.SetController(childElement);
                                 parentBox.AppendChild(newBox);
                                 break;
@@ -574,21 +568,18 @@ namespace LayoutFarm.HtmlBoxes
 
         CssBox CreateImageBox(CssBox parent, HtmlElement childElement)
         {
-            string imgsrc;
-            ImageBinder imgBinder = null;
-            if (childElement.TryGetAttribute(WellknownName.Src, out imgsrc))
-            {
-                var clientImageBinder = new ImageBinder(imgsrc);
-                imgBinder = clientImageBinder;
-
+            ImageBinder imgBinder;
+            if (childElement.TryGetAttribute(WellknownName.Src, out string imgsrc))
+            { 
+                imgBinder = new ImageBinder(imgsrc); 
             }
             else
             {
-                var clientImageBinder = new ImageBinder(null as string);
-                imgBinder = clientImageBinder;
+              
+                imgBinder = new ImageBinder(null as string);
             }
 
-            CssBoxImage boxImage = new CssBoxImage(childElement.Spec, parent.RootGfx, imgBinder);
+            CssBoxImage boxImage = new CssBoxImage(childElement.Spec,  imgBinder);
             boxImage.SetController(childElement);
             parent.AppendChild(boxImage);
             return boxImage;
@@ -611,23 +602,23 @@ namespace LayoutFarm.HtmlBoxes
         }
 
 
-        internal static CssBox CreateBridgeBox(ITextService iFonts, LayoutFarm.RenderElement containerElement, RootGraphic rootgfx)
+        internal static CssBox CreateBridgeBox(ITextService iFonts, LayoutFarm.RenderElement containerElement)
         {
             var spec = new BoxSpec();
             spec.CssDisplay = CssDisplay.Block;
             spec.Freeze();
-            var box = new RenderElementBridgeCssBox(spec, containerElement, rootgfx);
+            var box = new RenderElementBridgeCssBox(spec, containerElement);
             //------------------------------------
             box.ReEvaluateFont(iFonts, 10);
             //------------------------------------
             return box;
         }
-        internal static CssBox CreateIsolateBox(ITextService iFonts, RootGraphic rootgfx)
+        internal static CssBox CreateIsolateBox(ITextService iFonts)
         {
             var spec = new BoxSpec();
             spec.CssDisplay = CssDisplay.Block;
             spec.Freeze();
-            var box = new CssIsolateBox(spec, rootgfx);
+            var box = new CssIsolateBox(spec);
             //------------------------------------
             box.ReEvaluateFont(iFonts, 10);
             //------------------------------------
