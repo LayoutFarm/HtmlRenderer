@@ -17,7 +17,7 @@ namespace LayoutFarm.CustomWidgets
         public LayoutFarm.UI.AbstractRectUI TargetBox { get; set; }
         public int Index { get; set; }
         public MoveDirection MoveDirection { get; set; }
-
+        protected override IUICollection<UIElement> GetDefaultChildrenIter() => null;
         //public double SrcX { get; set; }
         //public double SrcY { get; set; }
         //public double TargetX { get; set; }
@@ -77,16 +77,16 @@ namespace LayoutFarm.CustomWidgets
             }
         }
         //
-        public override object Tag { get; set; }
+
         public UIControllerBox CentralBox => _centralBox;
         public List<UIControllerBox> ControlBoxes => _controls;
         //
         protected override bool HasReadyRenderElement => _hasPrimRenderE;
         //
-        public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
+        public override RenderElement GetPrimaryRenderElement()
         {
             _hasPrimRenderE = true;
-            return _groundBox.GetPrimaryRenderElement(rootgfx);
+            return _groundBox.GetPrimaryRenderElement();
         }
         public override RenderElement CurrentPrimaryRenderElement => _groundBox.CurrentPrimaryRenderElement;
         //-------------
@@ -95,10 +95,10 @@ namespace LayoutFarm.CustomWidgets
         {
             //TODO: review here again***
             //temp fix for invalidate area of overlap children
-            _groundBox.InvalidateOuterGraphics();
+            _groundBox.InvalidateGraphics();
             foreach (var ctrl in _controls)
             {
-                ctrl.InvalidateOuterGraphics();
+                ctrl.InvalidateGraphics();
             }
             _groundBox.SetLocation(x, y);
         }

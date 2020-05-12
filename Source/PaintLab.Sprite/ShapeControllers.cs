@@ -306,7 +306,7 @@ namespace LayoutFarm
                 foreach (PointControllerBox ctrl in _controlBoxes)
                 {
                     //update before move 
-                    ctrl.InvalidateOuterGraphics();
+                    ctrl.InvalidateGraphics();
                 }
                 //then update the vxs shape 
                 //_vxs.ReplaceVertex(box.Index, newX, newY);
@@ -585,7 +585,7 @@ namespace LayoutFarm
             foreach (PointControllerBox ctrl in _controlBoxes)
             {
                 //update before move 
-                ctrl.InvalidateOuterGraphics();
+                ctrl.InvalidateGraphics();
             }
             //then update the vxs shape 
             //_vxs.ReplaceVertex(box.Index, newX, newY);
@@ -678,7 +678,7 @@ namespace LayoutFarm
                 foreach (PointControllerBox ctrl in _controlBoxes)
                 {
                     //update before move 
-                    ctrl.InvalidateOuterGraphics();
+                    ctrl.InvalidateGraphics();
                 }
                 //then update the vxs shape 
                 //_vxs.ReplaceVertex(box.Index, newX, newY);
@@ -1201,11 +1201,11 @@ namespace LayoutFarm
                 this.SetLocation(
                     this.Left + e.XDiff,
                     this.Top + e.YDiff);
-                _polygonController.InvalidateOuterGraphics();
+                _polygonController.InvalidateGraphics();
                 _polygonController.SetLocation(
                     _polygonController.Left + e.XDiff,
                     _polygonController.Top + e.YDiff);
-                _polygonController.InvalidateOuterGraphics();
+                _polygonController.InvalidateGraphics();
 
                 UpdateTransformedShape(this, System.EventArgs.Empty);
                 //
@@ -1321,10 +1321,10 @@ namespace LayoutFarm
             LoadVg(CreateQuadVgFromDestQuad());
 
         }
-        public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
-        {
-            return base.GetPrimaryRenderElement(rootgfx);
-        }
+        //public override RenderElement GetPrimaryRenderElement()
+        //{
+        //    return base.GetPrimaryRenderElement();
+        //}
         public void BuildControlBoxes()
         {
             //*** after set dest
@@ -1361,7 +1361,7 @@ namespace LayoutFarm
         }
     }
 
-    public class PointControllerBox : LayoutFarm.CustomWidgets.AbstractBox
+    public class PointControllerBox : LayoutFarm.CustomWidgets.AbstractControlBox
     {
 #if DEBUG
         static int s_total;
@@ -1381,10 +1381,6 @@ namespace LayoutFarm
         public double TargetX { get; set; }
         public double TargetY { get; set; }
 
-        public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
-        {
-            return base.GetPrimaryRenderElement(rootgfx);
-        }
         public void SetLocationRelativeToTarget(double targetBoxX, double targetBoxY)
         {
             this.TargetX = targetBoxX;
@@ -1395,10 +1391,7 @@ namespace LayoutFarm
         {
             CurrentPrimaryRenderElement?.InvalidateGraphics();
         }
-        public override void InvalidateOuterGraphics()
-        {
-            CurrentPrimaryRenderElement?.InvalidateGraphics();
-        }
+        
 #if DEBUG
         public override string ToString() => this.dbugControllerId + " ," + Left + "," + Top;
 #endif
@@ -1440,62 +1433,56 @@ namespace LayoutFarm
         protected override bool HasReadyRenderElement => _hasPrimRenderE;
         public override RenderElement CurrentPrimaryRenderElement => _simpleBox.CurrentPrimaryRenderElement;
         //
-        public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
+        public override RenderElement GetPrimaryRenderElement()
         {
             _hasPrimRenderE = true;
-            RenderElement renderE = _simpleBox.GetPrimaryRenderElement(rootgfx);
+            RenderElement renderE = _simpleBox.GetPrimaryRenderElement();
             renderE.TransparentForMouseEvents = this.TransparentForMouseEvents;
             return renderE;
         }
 
-
-        public override void Add(UIElement ui)
-        {
-            _simpleBox.Add(ui);
-        }
+        public void Add(UIElement ui) => _simpleBox.Add(ui);
 
         public void SetLocation(int x, int y)
         {
             //TODO: review here again***
             //temp fix for invalidate area of overlap children
-            _simpleBox.InvalidateOuterGraphics();
+            _simpleBox.InvalidateGraphics();
             foreach (var ctrl in _controls)
             {
-                ctrl.InvalidateOuterGraphics();
+                ctrl.InvalidateGraphics();
             }
             _simpleBox.SetLocation(x, y);
-
         }
 
         public int Left => _simpleBox.Left;
         public int Top => _simpleBox.Top;
 
-
         public void SetTargetListener(IUIEventListener uiListener)
         {
             _uiListener = uiListener;
         }
-        //--------------------
-        public void BringToTopMost()
-        {
-            AbstractBox parentBox = this.ParentUI as AbstractBox;
-            if (parentBox != null)
-            {
-                RemoveSelf();
-                parentBox.Add(this);
-            }
-            else
-            {
-                //may be at top level
-                var parentBox2 = this.CurrentPrimaryRenderElement.ParentRenderElement as LayoutFarm.RenderElement;
-                if (parentBox2 != null)
-                {
-                    parentBox2.RemoveChild(this.CurrentPrimaryRenderElement);
-                }
-                parentBox2.AddChild(CurrentPrimaryRenderElement);
-                InvalidateOuterGraphics();
-            }
-        }
+        ////--------------------
+        //public void BringToTopMost()
+        //{
+        //    AbstractBox parentBox = this.ParentUI as AbstractBox;
+        //    if (parentBox != null)
+        //    {
+        //        RemoveSelf();
+        //        parentBox.Add(this);
+        //    }
+        //    else
+        //    {
+        //        //may be at top level
+        //        var parentBox2 = this.CurrentPrimaryRenderElement.ParentRenderElement as LayoutFarm.RenderElement;
+        //        if (parentBox2 != null)
+        //        {
+        //            parentBox2.RemoveChild(this.CurrentPrimaryRenderElement);
+        //        }
+        //        parentBox2.AddChild(CurrentPrimaryRenderElement);
+        //        InvalidateOuterGraphics();
+        //    }
+        //}
 
 
         public override bool Visible
@@ -1659,10 +1646,10 @@ namespace LayoutFarm
                 //}
                 e.CancelBubbling = true;
                 //---------------------------------
-                _simpleBox.InvalidateOuterGraphics();
+                _simpleBox.InvalidateGraphics();
                 foreach (var ctrl in _controls)
                 {
-                    ctrl.InvalidateOuterGraphics();
+                    ctrl.InvalidateGraphics();
                 }
                 //then update the vxs shape 
                 //_vxs.ReplaceVertex(box.Index, newX, newY);

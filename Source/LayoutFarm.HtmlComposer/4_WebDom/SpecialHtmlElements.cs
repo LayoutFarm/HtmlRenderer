@@ -32,7 +32,7 @@ namespace LayoutFarm.Composers
             }
             else
             {
-                _lazyCreator(parentCssBox.GetInternalRootGfx(), out RenderElement re, out object controller);
+                _lazyCreator(out RenderElement re, out object controller);
                 CssBox wrapper = CustomCssBoxGenerator.CreateCssWrapper(
                     ((HtmlDocument)this.OwnerDocument).Host,
                     controller,
@@ -78,11 +78,10 @@ namespace LayoutFarm.Composers
                 ////build rootbox from htmldoc
 
                 var rootElement = renderTreeBuilder.BuildCssRenderTree2(_shadowDoc,
-                    htmlHost.BaseStylesheet,
-                    htmlHost.RootGfx);
+                    htmlHost.BaseStylesheet);
                 //3. create small htmlContainer
 
-                _rootbox = new CssBox(this.Spec, parentCssBox.RootGfx);
+                _rootbox = new CssBox(this.Spec);
                 root.SetPrincipalBox(_rootbox);
                 htmlHost.UpdateChildBoxes(root, true);
                 return _rootbox;

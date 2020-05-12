@@ -28,8 +28,8 @@ namespace LayoutFarm.UI
         //post transform bounds
         PixelFarm.CpuBlit.VertexProcessing.Q1RectD _post_TransformRectBounds;
 
-        public VgBridgeRenderElement(RootGraphic rootGfx, int width, int height)
-            : base(rootGfx, width, height)
+        public VgBridgeRenderElement(int width, int height)
+            : base(width, height)
         {
             this.MayHasChild = true;
         }
@@ -318,10 +318,7 @@ namespace LayoutFarm.UI
             painter.SmoothingMode = smoothingMode;
             painter.StrokeWidth = prevStrokeW;//restore  
         }
-        public override void ResetRootGraphics(RootGraphic rootgfx)
-        {
 
-        }
 
         public void SetPostTransformationBounds(PixelFarm.CpuBlit.VertexProcessing.Q1RectD postTransformationBounds)
         {
@@ -411,22 +408,22 @@ namespace LayoutFarm.UI
             }
         }
 
-        public override void BringToTopMost()
-        {
-            CustomWidgets.AbstractBox parentBox = this.ParentUI as CustomWidgets.AbstractBox;
-            if (parentBox != null)
-            {
-                this.RemoveSelf();
-                parentBox.Add(this);
-            }
-            else
-            {
-                if (_vgBridgeRenderElement != null && _vgBridgeRenderElement.HasParent)
-                {
+        //public override void BringToTopMost()
+        //{
+        //    CustomWidgets.AbstractBox parentBox = this.ParentUI as CustomWidgets.AbstractBox;
+        //    if (parentBox != null)
+        //    {
+        //        this.RemoveSelf();
+        //        parentBox.Add(this);
+        //    }
+        //    else
+        //    {
+        //        if (_vgBridgeRenderElement != null && _vgBridgeRenderElement.HasParent)
+        //        {
 
-                }
-            }
-        }
+        //        }
+        //    }
+        //}
 
 
         public float ActualXOffset
@@ -493,7 +490,7 @@ namespace LayoutFarm.UI
         //
         public override RenderElement CurrentPrimaryRenderElement => _vgBridgeRenderElement;
         //
-        public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
+        public override RenderElement GetPrimaryRenderElement()
         {
             if (_vgBridgeRenderElement == null)
             {
@@ -511,7 +508,8 @@ namespace LayoutFarm.UI
                 //------------------------------------------------
 
                 this.DisableBmpCache = true;
-                var vgBridgeRenderElem = new VgBridgeRenderElement(rootgfx, 10, 10) {
+                var vgBridgeRenderElem = new VgBridgeRenderElement(10, 10)
+                {
                     RenderOriginXOffset = (float)_actualXOffset,
                     RenderOriginYOffset = (float)_actualYOffset,
                     VgVisualElem = _vgVisualElem,

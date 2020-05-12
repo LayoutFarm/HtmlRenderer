@@ -32,7 +32,7 @@ namespace LayoutFarm.CustomWidgets
             {
                 case "select":
                     {
-                        CssBox selectedBox = CreateSelectBox(domE, parentBox, spec, _myHost.RootGfx, host);
+                        CssBox selectedBox = CreateSelectBox(domE, parentBox, spec, host);
                         if (selectedBox != null)
                         {
                             return selectedBox;
@@ -41,7 +41,7 @@ namespace LayoutFarm.CustomWidgets
                     break;
                 case "input":
                     {
-                        CssBox inputBox = CreateInputBox(domE, parentBox, spec, _myHost.RootGfx, host);
+                        CssBox inputBox = CreateInputBox(domE, parentBox, spec, host);
                         if (inputBox != null)
                         {
                             return inputBox;
@@ -57,7 +57,7 @@ namespace LayoutFarm.CustomWidgets
                         CssBox wrapperBox = CreateCssWrapper(
                              host,
                              canvas,
-                             canvas.GetPrimaryRenderElement(_myHost.RootGfx),
+                             canvas.GetPrimaryRenderElement(),
                              spec,
                              null,
                              true);
@@ -66,7 +66,7 @@ namespace LayoutFarm.CustomWidgets
                     }
                 case "textarea":
                     {
-                        CssBox textAreaCssBox = CreateTextAreaElement(domE, parentBox, spec, _myHost.RootGfx, host);
+                        CssBox textAreaCssBox = CreateTextAreaElement(domE, parentBox, spec, host);
                         if (textAreaCssBox != null)
                         {
                             return textAreaCssBox;
@@ -81,7 +81,7 @@ namespace LayoutFarm.CustomWidgets
             CssBox wrapperBox2 = CreateCssWrapper(
                                host,
                                simpleBox,
-                               simpleBox.GetPrimaryRenderElement(_myHost.RootGfx),
+                               simpleBox.GetPrimaryRenderElement(),
                                spec,
                                null,
                                false);
@@ -93,7 +93,7 @@ namespace LayoutFarm.CustomWidgets
         CssBox CreateSelectBox(HtmlElement htmlElem,
             CssBox parentBox,
             BoxSpec spec,
-            LayoutFarm.RootGraphic rootgfx, HtmlHost host)
+            HtmlHost host)
         {
             //https://www.w3schools.com/html/html_form_elements.asp
 
@@ -183,7 +183,7 @@ namespace LayoutFarm.CustomWidgets
         CssBox CreateTextAreaElement(HtmlElement domE,
             CssBox parentBox,
             BoxSpec spec,
-            LayoutFarm.RootGraphic rootgfx, HtmlHost host)
+            HtmlHost host)
         {
             //mulitline
             //TODO: review default size of a textarea...
@@ -195,7 +195,7 @@ namespace LayoutFarm.CustomWidgets
             CssBox wrapperBox = CreateCssWrapper(
                  host,
                  textbox,
-                 textbox.GetPrimaryRenderElement(rootgfx),
+                 textbox.GetPrimaryRenderElement(),
                  spec,
                  subdomExtender,
                  true);
@@ -283,7 +283,7 @@ namespace LayoutFarm.CustomWidgets
         CssBox CreateInputBox(HtmlElement domE,
             CssBox parentBox,
             BoxSpec spec,
-            LayoutFarm.RootGraphic rootgfx, HtmlHost host)
+            HtmlHost host)
         {
 
 
@@ -328,7 +328,7 @@ namespace LayoutFarm.CustomWidgets
                             CssBox wrapperBox = CreateCssWrapper(
                                  host,
                                  textbox,
-                                 textbox.GetPrimaryRenderElement(rootgfx),
+                                 textbox.GetPrimaryRenderElement(),
                                  spec,
                                  subdomExtender,
                                  true);
@@ -361,7 +361,7 @@ namespace LayoutFarm.CustomWidgets
                             CssBox wrapperBox = CreateCssWrapper(
                                  host,
                                  textbox,
-                                 textbox.GetPrimaryRenderElement(rootgfx),
+                                 textbox.GetPrimaryRenderElement(),
                                  spec,
                                  subdomExtender,
                                  true);
@@ -448,7 +448,7 @@ namespace LayoutFarm.CustomWidgets
                             CssBox wrapperBox = CreateCssWrapper(
                                  host,
                                  box,
-                                 box.GetPrimaryRenderElement(rootgfx),
+                                 box.GetPrimaryRenderElement(),
                                  spec,
                                  null,
                                  true);

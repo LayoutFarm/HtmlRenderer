@@ -183,10 +183,10 @@ namespace LayoutFarm.Composers
             TopDownActiveCssTemplate activeTemplate = new TopDownActiveCssTemplate(cssActiveSheet);
             PrepareStylesAndContentOfChildNodes((HtmlElement)htmldoc.RootNode, activeTemplate);
             //----------------------------------------------------------------  
-            RootGraphic rootgfx = (containerElement != null) ? containerElement.Root : null;
+             
 
             //TODO: review here, we should create cssbox at  document.body? 
-            CssBox bridgeBox = HtmlHost.CreateBridgeBox(_htmlHost.GetTextService(), containerElement, rootgfx);
+            CssBox bridgeBox = HtmlHost.CreateBridgeBox(_htmlHost.GetTextService(), containerElement);
             ((HtmlElement)htmldoc.RootNode).SetPrincipalBox(bridgeBox);//set bridgeBox as principal box of root node
             _htmlHost.UpdateChildBoxes((HtmlRootElement)htmldoc.RootNode, true);
             htmldoc.SetDocumentState(DocumentState.Idle);
@@ -197,15 +197,14 @@ namespace LayoutFarm.Composers
 
         public CssBox BuildCssRenderTree2(
            LayoutFarm.WebDom.Impl.HtmlDocument htmldoc,
-           CssActiveSheet cssActiveSheet,
-           RootGraphic rootgfx)
+           CssActiveSheet cssActiveSheet)
         {
             htmldoc.CssActiveSheet = cssActiveSheet;
             htmldoc.SetDocumentState(DocumentState.Building);
             TopDownActiveCssTemplate activeTemplate = new TopDownActiveCssTemplate(cssActiveSheet);
             PrepareStylesAndContentOfChildNodes((HtmlElement)htmldoc.RootNode, activeTemplate);
             //TODO: review here, we should create cssbox at document.body?  
-            CssBox rootBox = HtmlHost.CreateIsolateBox(_htmlHost.GetTextService(), rootgfx);
+            CssBox rootBox = HtmlHost.CreateIsolateBox(_htmlHost.GetTextService());
             ((HtmlElement)htmldoc.RootNode).SetPrincipalBox(rootBox);
             _htmlHost.UpdateChildBoxes((HtmlRootElement)htmldoc.RootNode, true);
             htmldoc.SetDocumentState(DocumentState.Idle);

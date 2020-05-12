@@ -153,14 +153,14 @@ namespace LayoutFarm
                 //after quadController is updated then 
                 //we use the coordTransformer to transform target uiSprite
                 _uiSprite.SetTransformation(_quadController.GetCoordTransformer());
-                _uiSprite.InvalidateOuterGraphics();
+                _uiSprite.InvalidateGraphics();
                 if (_quadController.Left != 0 || _quadController.Top != 0)
                 {
                     float xxdiff = _quadController.Left - _uiSprite.Left;
                     float yydiff = _quadController.Top - _uiSprite.Top;
 
                     _uiSprite.SetLocation(_quadController.Left, _quadController.Top);
-                    _uiSprite.InvalidateOuterGraphics();
+                    _uiSprite.InvalidateGraphics();
 
 
                     //_rotationUI.InvalidateGraphics();
@@ -251,25 +251,25 @@ namespace LayoutFarm
                     //when drag on sprie 
 
 
-                    _uiSprite.InvalidateOuterGraphics();
+                    _uiSprite.InvalidateGraphics();
                     _uiSprite.SetLocation(
                         _uiSprite.Left + e1.XDiff,
                         _uiSprite.Top + e1.YDiff
                         );
                     //we also move quadController and _quadPolygonController
                     //
-                    _quadController.InvalidateOuterGraphics();
+                    _quadController.InvalidateGraphics();
                     _quadController.SetLocation(
                         _quadController.Left + e1.XDiff,
                         _quadController.Top + e1.YDiff);
-                    _quadController.InvalidateOuterGraphics();
+                    _quadController.InvalidateGraphics();
                     //
-                    _quadPolygonController.InvalidateOuterGraphics();
+                    _quadPolygonController.InvalidateGraphics();
                     _quadPolygonController.SetLocation(
                         _quadPolygonController.Left + e1.XDiff,
                         _quadPolygonController.Top + e1.YDiff
                         );
-                    _quadPolygonController.InvalidateOuterGraphics();
+                    _quadPolygonController.InvalidateGraphics();
                     // 
                     _rotationUI.InvalidateGraphics();
                     _rotationUI.SetLocation(

@@ -53,7 +53,7 @@ namespace LayoutFarm
                 if (e1.IsDragging)
                 {
                     //when drag on sprie  
-                    uiSprite.InvalidateOuterGraphics();
+                    uiSprite.InvalidateGraphics();
                     uiSprite.SetLocation(
                         uiSprite.Left + e1.XDiff,
                         uiSprite.Top + e1.YDiff);

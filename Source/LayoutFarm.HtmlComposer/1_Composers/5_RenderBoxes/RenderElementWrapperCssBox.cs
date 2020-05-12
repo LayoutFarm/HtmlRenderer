@@ -69,9 +69,8 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
         /// </summary>
         protected int _adjustY;
         public WrapperCssBoxBase(object controller,
-             BoxSpec spec,
-             RootGraphic rootgfx, CssDisplay display)
-            : base(spec, new CssBoxRootGfxBridge(rootgfx), display)
+             BoxSpec spec, CssDisplay display)
+            : base(spec, display)
         {
             this.SetController(controller);
         }
@@ -92,10 +91,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
             p_x += _adjustX;
             p_y += _adjustY;
         }
-        RenderElement RenderBoxes.IParentLink.FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
-        {
-            return null;
-        }
+        
 
 #if DEBUG
         string LayoutFarm.RenderBoxes.IParentLink.dbugGetLinkInfo()
@@ -115,9 +111,9 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
         public WrapperInlineCssBox(
             HtmlHost htmlhost,
             object controller, Css.BoxSpec boxSpec,
-            RootGraphic rootgfx, RenderElement re,
+            RenderElement re,
             LayoutFarm.Composers.ISubDomExtender subDomExtender)
-            : base(controller, boxSpec, re.Root, CssDisplay.Inline)
+            : base(controller, boxSpec, CssDisplay.Inline)
         {
             _htmlhost = htmlhost;
 
@@ -242,7 +238,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
              BoxSpec spec,
              RenderElement renderElement,
              LayoutFarm.Composers.ISubDomExtender subDomExtender)
-            : base(controller, spec, renderElement.Root, CssDisplay.Block)
+            : base(controller, spec, CssDisplay.Block)
         {
             _htmlHost = htmlHost;
 

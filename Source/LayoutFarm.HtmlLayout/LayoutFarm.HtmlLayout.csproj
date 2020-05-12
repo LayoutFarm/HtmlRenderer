@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A1070BA8-979C-4A02-A699-31BC54FE1EA3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LayoutFarm.HtmlLayout</RootNamespace>
+    <AssemblyName>LayoutFarm.HtmlLayout</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="1_Css\BoxSpec.cs" />
+    <Compile Include="1_Css\BoxSpecNode.cs" />
+    <Compile Include="1_Css\BoxSpec_CopyAndVersioning.cs" />
+    <Compile Include="1_Css\CssFeatures.cs" />
+    <Compile Include="1_Css\FontDefaultConfig.cs" />
+    <Compile Include="2_Boxes\0_Root\CssBoxConstConfig.cs" />
+    <Compile Include="2_Boxes\0_Root\HtmlVisualRoot.cs" />
+    <Compile Include="2_Boxes\1_CoreBox\BoxVisitor.cs" />
+    <Compile Include="2_Boxes\1_CoreBox\CssBox.cs" />
+    <Compile Include="2_Boxes\1_CoreBox\CssBoxCollection.cs" />
+    <Compile Include="2_Boxes\1_CoreBox\CssBoxDecorator.cs" />
+    <Compile Include="2_Boxes\1_CoreBox\CssBox_BoxFlags.cs" />
+    <Compile Include="2_Boxes\1_CoreBox\CssBox_Fields.cs" />
+    <Compile Include="2_Boxes\1_CoreBox\CssBox_Flex.cs" />
+    <Compile Include="2_Boxes\1_CoreBox\CssBox_OtherActualValues.cs" />
+    <Compile Include="2_Boxes\1_CoreBox\CssBox_Positions.cs" />
+    <Compile Include="2_Boxes\1_CoreBox\CssBox_Spec_ReadOnly.cs" />
+    <Compile Include="2_Boxes\1_CoreBox\CssBox_Spec_Snap.cs" />
+    <Compile Include="2_Boxes\1_CoreBox\CssBox_Unsafe.cs" />
+    <Compile Include="2_Boxes\1_CoreBox\CssLineBox.cs" />
+    <Compile Include="2_Boxes\1_CoreBox\CssSideAndOrientation.cs" />
+    <Compile Include="2_Boxes\1_CoreBox\SelectionSegment.cs" />
+    <Compile Include="2_Boxes\2_Runs\CssBlockRun.cs" />
+    <Compile Include="2_Boxes\2_Runs\CssImageRun.cs" />
+    <Compile Include="2_Boxes\2_Runs\CssRun.cs" />
+    <Compile Include="2_Boxes\2_Runs\CssTextRun.cs" />
+    <Compile Include="3_Boxes_Layout\0_General\BoxHitUtils.cs" />
+    <Compile Include="3_Boxes_Layout\0_General\CssBoxLayoutExtension.cs" />
+    <Compile Include="3_Boxes_Layout\0_General\CssLayoutEngine.cs" />
+    <Compile Include="3_Boxes_Layout\0_General\CssLayoutEngine.FloatFormattingContext.cs" />
+    <Compile Include="3_Boxes_Layout\0_General\CssTableLayoutEngine.cs" />
+    <Compile Include="3_Boxes_Layout\0_General\CssTableLayoutEngine.CssVerticalCellSpacingBox.cs" />
+    <Compile Include="3_Boxes_Layout\0_General\CssTableLayoutEngine.TableColumns.cs" />
+    <Compile Include="3_Boxes_Layout\0_General\LayoutVisitor.cs" />
+    <Compile Include="3_Boxes_Layout\1_Flex\FlexContainer.cs" />
+    <Compile Include="4_HitAndSelections\BoxHitChain.cs" />
+    <Compile Include="4_HitAndSelections\SelectionRange.cs" />
+    <Compile Include="5_Boxes_SpecialBoxes\CssBoxFrame.cs" />
+    <Compile Include="5_Boxes_SpecialBoxes\CssBoxHr.cs" />
+    <Compile Include="5_Boxes_SpecialBoxes\CssBoxImage.cs" />
+    <Compile Include="5_Boxes_SpecialBoxes\CssBoxListItem.cs" />
+    <Compile Include="5_Boxes_SpecialBoxes\CssFloatContainerBox.cs" />
+    <Compile Include="1_Css\CssLengthExt.cs" />
+    <Compile Include="PORT.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.CssBase\PaintLab.CssBase.csproj">
+      <Project>{bf5f9590-f680-403d-932a-7cdd12af89fb}</Project>
+      <Name>PaintLab.CssBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\PixelFarm\src\PixelFarm\PixelFarm.PrimitiveDrawing\PixelFarm.PrimitiveDrawing.csproj">
+      <Project>{112196ba-8717-4435-baf1-5014c2e05cfd}</Project>
+      <Name>PixelFarm.PrimitiveDrawing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\PixelFarm\src\PixelFarm\PixelFarm.PrimitiveGeo\PixelFarm.PrimitiveGeo.csproj">
+      <Project>{b951ff5b-d7a0-4259-880d-cb7a0c001956}</Project>
+      <Name>PixelFarm.PrimitiveGeo</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
