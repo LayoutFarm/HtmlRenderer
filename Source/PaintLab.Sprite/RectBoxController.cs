@@ -95,10 +95,10 @@ namespace LayoutFarm.CustomWidgets
         {
             //TODO: review here again***
             //temp fix for invalidate area of overlap children
-            _groundBox.InvalidateOuterGraphics();
+            _groundBox.InvalidateGraphics();
             foreach (var ctrl in _controls)
             {
-                ctrl.InvalidateOuterGraphics();
+                ctrl.InvalidateGraphics();
             }
             _groundBox.SetLocation(x, y);
         }
