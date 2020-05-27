@@ -12,7 +12,7 @@ namespace LayoutFarm.WebDom
         void IEventListener.ListenMousePress(UIMousePressEventArgs e) => OnMousePress(e);
         void IEventListener.ListenKeyDown(UIKeyEventArgs e) => OnKeyDown(e);
         void IEventListener.ListenKeyUp(UIKeyEventArgs e) => OnKeyUp(e);
-
+        bool IUIEventListener.Enabled { get; set; }
         bool IEventListener.ListenProcessDialogKey(UIKeyEventArgs e)
         {
             return OnProcessDialogKey(e);
