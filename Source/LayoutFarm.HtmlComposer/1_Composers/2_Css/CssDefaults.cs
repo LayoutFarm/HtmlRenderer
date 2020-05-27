@@ -33,7 +33,7 @@ namespace LayoutFarm.Composers
         /// <remarks>
         /// http://www.w3.org/TR/CSS21/sample.html
         /// </remarks>
-        public const string DefaultStyleSheet = @"
+        public static string DefaultStyleSheet = @"
         html, address,
         blockquote,
         body, dd, div,
