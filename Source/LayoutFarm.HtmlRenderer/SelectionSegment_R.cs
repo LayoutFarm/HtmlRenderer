@@ -24,7 +24,6 @@ namespace LayoutFarm.HtmlBoxes
                       this.BeginAtPx, 0,
                       this.WidthPx,
                       (int)line.CacheLineHeight);
-
             }
         }
     }

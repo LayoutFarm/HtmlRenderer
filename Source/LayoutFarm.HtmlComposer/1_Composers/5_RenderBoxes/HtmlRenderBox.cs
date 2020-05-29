@@ -214,22 +214,14 @@ namespace LayoutFarm.HtmlBoxes
     {
         internal static PaintVisitor GetSharedPaintVisitor(HtmlVisualRoot htmlVisualRoot, DrawBoard canvas)
         {
-            PaintVisitor painter = null;
-            if (s_paintVisitorStock.Count == 0)
-            {
-                painter = new PaintVisitor();
-            }
-            else
-            {
-                painter = s_paintVisitorStock.Dequeue();
-            }
-
+            PaintVisitor painter = (s_paintVisitorStock.Count == 0) ? new PaintVisitor() : s_paintVisitorStock.Dequeue();
             painter.Bind(htmlVisualRoot, canvas);
             return painter;
         }
         internal static void ReleaseSharedPaintVisitor(PaintVisitor p)
         {
             p.UnBind();
+            p.CurrentSolidBackgroundColorHint = Color.Transparent;
             s_paintVisitorStock.Enqueue(p);
         }
         static Queue<PaintVisitor> s_paintVisitorStock = new Queue<PaintVisitor>();

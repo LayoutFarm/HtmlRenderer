@@ -94,7 +94,9 @@ namespace LayoutFarm.HtmlBoxes
                 SelectionSegment selSeg = selLine.SelectionSegment;
                 switch (selSeg.Kind)
                 {
-                    case SelectionSegmentKind.Partial:
+                    case SelectionSegmentKind.SingleLine:
+                    case SelectionSegmentKind.PartialBegin:
+                    case SelectionSegmentKind.PartialEnd:
                         {
                             CssRun startRun = selSeg.StartHitRun;
                             CssRun endHitRun = selSeg.EndHitRun;
@@ -183,20 +185,12 @@ namespace LayoutFarm.HtmlBoxes
                         break;
                     default:
                         {
+                            //full line
                             int runCount = selLine.RunCount;
                             for (int n = 0; n < runCount; ++n)
                             {
                                 CssRun run = selLine.GetRun(n);
                                 run.WriteContent(stbuilder);
-                                //CssTextRun r = run as CssTextRun;
-                                //if (r != null)
-                                //{
-                                //    stbuilder.Append(r.Text);
-                                //}
-                                //else
-                                //{
-
-                                //}
                             }
                         }
                         break;
@@ -222,12 +216,11 @@ namespace LayoutFarm.HtmlBoxes
                     {
                         CssRun run = (CssRun)startHit.hitObject;
                         //-------------------------------------------------------
-                        int sel_index;
-                        int sel_offset;
+
                         run.FindSelectionPoint(textService,
                              startHit.localX,
-                             out sel_index,
-                             out sel_offset);
+                             out int sel_index,
+                             out int sel_offset);
                         _startHitRunCharIndex = sel_index;
                         //modify hitpoint
                         _startHitHostLine = (CssLineBox)startChain.GetHitInfo(startChain.Count - 2).hitObject;
@@ -347,11 +340,9 @@ namespace LayoutFarm.HtmlBoxes
 
             if (FindCommonGround(startChain, endChain, out int breakAtLevel) && breakAtLevel > 0)
             {
-
-                CssBlockRun hitBlockRun = endChain.GetHitInfo(breakAtLevel).hitObject as CssBlockRun;
                 //multiple select 
                 //1. first part        
-                if (hitBlockRun != null)
+                if (endChain.GetHitInfo(breakAtLevel).hitObject is CssBlockRun hitBlockRun)
                 {
                     _startHitHostLine.Select(_startLineBeginSelectionAtPixel, (int)hitBlockRun.Left,
                      _startHitRun, _startHitRunCharIndex,
@@ -484,8 +475,7 @@ namespace LayoutFarm.HtmlBoxes
                     //find global position of box
                     latestLineBoxOwner = lineBox.OwnerBox;
                     //TODO: review here , duplicate GetGlobalLocation 
-                    float gx, gy;
-                    latestLineBoxOwner.GetGlobalLocation(out gx, out gy);
+                    latestLineBoxOwner.GetGlobalLocation(out float gx, out float gy);
                     latestLineBoxGlobalYPos = gy;
                 }
 
@@ -645,8 +635,7 @@ namespace LayoutFarm.HtmlBoxes
                         bool isOK = false;
                         for (int i = 0; i < j && !isOK; ++i)
                         {
-                            var run3 = ln.GetRun(i) as CssBlockRun;
-                            if (run3 == null) continue;
+                            if (!(ln.GetRun(i) is CssBlockRun run3)) continue;
                             //recursive here 
                             InnerWalk(endLineBox, del, GetLineWalkDownIter(this, run3.ContentBox));
                             if (i > 0)
@@ -811,12 +800,8 @@ namespace LayoutFarm.HtmlBoxes
             FullLine,
             EndLine,
             PartialLine
-        }
-
-
-    }
-
-
+        }  
+    } 
 
     static class CssLineBoxExtension
     {
@@ -830,7 +815,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             //from startAt to end of line 
 
-            lineBox.SelectionSegment = new SelectionSegment(startAtPx, (int)lineBox.CachedLineContentWidth - startAtPx)
+            lineBox.SelectionSegment = new SelectionSegment(startAtPx, (int)lineBox.CachedLineContentWidth - startAtPx, SelectionSegmentKind.PartialBegin)
             {
                 StartHitRun = startRun,
                 StartHitCharIndex = startRunIndex
@@ -840,7 +825,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             //from start of line to endAt             
 
-            lineBox.SelectionSegment = new SelectionSegment(0, endAtPx)
+            lineBox.SelectionSegment = new SelectionSegment(0, endAtPx, SelectionSegmentKind.PartialEnd)
             {
                 EndHitRun = endRun,
                 EndHitCharIndex = endRunIndex
@@ -851,7 +836,7 @@ namespace LayoutFarm.HtmlBoxes
             CssRun startRun, int startRunIndex,
             CssRun endRun, int endRunIndex)
         {
-            lineBox.SelectionSegment = new SelectionSegment(startAtPx, endAt - startAtPx)
+            lineBox.SelectionSegment = new SelectionSegment(startAtPx, endAt - startAtPx, SelectionSegmentKind.SingleLine)
             {
                 StartHitRun = startRun,
                 StartHitCharIndex = startRunIndex,

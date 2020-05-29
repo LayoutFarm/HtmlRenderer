@@ -180,10 +180,12 @@ namespace LayoutFarm.HtmlBoxes
             {
                 return;
             }
+
+
 #if DEBUG
             p.dbugEnterNewContext(this, PaintVisitor.PaintVisitorContextName.Init);
 #endif
-
+            Color prevBgColorHint = p.CurrentSolidBackgroundColorHint;
             //----------------------------------------------- 
             bool hasPrevClip = false;
             RectangleF prevClip = RectangleF.Empty;
@@ -204,7 +206,6 @@ namespace LayoutFarm.HtmlBoxes
 #if DEBUG
                 dbugPaint(p, bounds);
 #endif
-
 
             }
 
@@ -228,7 +229,6 @@ namespace LayoutFarm.HtmlBoxes
                         dbugCounter.dbugLinePaintCount++;
 #endif
 
-
                         int cX = p.CanvasOriginX;
                         int cy = p.CanvasOriginY;
                         int newCy = cy + (int)line.CachedLineTop;
@@ -239,12 +239,68 @@ namespace LayoutFarm.HtmlBoxes
                             p.SetCanvasOrigin(cX, newCy);
                             //1.                                 
                             line.PaintBackgroundAndBorder(p);
-                            if (line.SelectionSegment != null)
+
+                            SelectionSegment selSegment = line.SelectionSegment;
+                            if (selSegment != null)
                             {
-                                line.SelectionSegment.PaintSelection(p, line);
+                                switch (selSegment.Kind)
+                                {
+                                    case SelectionSegmentKind.FullLine:
+                                        {
+                                            Color prevColor2 = p.CurrentSolidBackgroundColorHint;//save2
+                                            p.CurrentSolidBackgroundColorHint = p.CssBoxSelectionColor;
+
+                                            selSegment.PaintSelection(p, line);
+
+                                            line.PaintRuns(p);
+
+                                            p.CurrentSolidBackgroundColorHint = prevColor2; //restore2
+                                        }
+                                        break;
+                                    case SelectionSegmentKind.PartialBegin:
+                                    case SelectionSegmentKind.SingleLine:
+                                    case SelectionSegmentKind.PartialEnd:
+                                        {
+                                            //TODO: review here again***
+                                            //partial line
+
+                                            //[A]
+                                            line.PaintRuns(p); //normal line
+                                                               //-----
+
+                                            //[B]
+                                            //selection part with clip rect
+
+                                            Color prevColor2 = p.CurrentSolidBackgroundColorHint;//save2
+                                            //p.CurrentSolidBackgroundColorHint = prevBgColorHint;
+
+
+                                            int xpos = selSegment.BeginAtPx;
+                                            int w = selSegment.WidthPx;
+
+                                            Rectangle clipRect = p.CurrentClipRect;
+                                            p.SetClipArea(xpos, 0, w, (int)line.CacheLineHeight);
+                                            selSegment.PaintSelection(p, line);
+
+                                            p.CurrentSolidBackgroundColorHint = p.CssBoxSelectionColor;
+
+                                            line.PaintRuns(p);
+                                            p.SetClipArea(clipRect.X, clipRect.Top, clipRect.Width, clipRect.Height);//restore
+
+                                            p.CurrentSolidBackgroundColorHint = prevColor2; //restore2
+                                        }
+                                        break;
+                                }
+
                             }
-                            //2.                                
-                            line.PaintRuns(p);
+                            else
+                            {
+                                //2.
+
+                                line.PaintRuns(p);
+                            }
+
+
                             //3. 
                             line.PaintDecoration(p);
 #if DEBUG
@@ -407,6 +463,9 @@ namespace LayoutFarm.HtmlBoxes
                 p.PopLocalClipArea();
             }
 
+            p.CurrentSolidBackgroundColorHint = prevBgColorHint;
+
+
 #if DEBUG
             p.dbugExitContext();
 #endif
@@ -506,85 +565,89 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="isLast">is it the last rectangle of the element</param>
         internal void PaintBackground(PaintVisitor p, RectangleF rect, bool isFirst, bool isLast)
         {
-            //return;
-            //if (this.dbugMark1 > 0)
-            //{
-            //    Console.WriteLine(this.dbugMark1);
-            //    if ((this.dbugMark1 % 2) == 0)
-            //    {
-            //    }
-            //    else
-            //    {
-            //    }
-            //}
+
             if (!this.HasVisibleBgColor)
             {
                 return;
             }
 
-            if (rect.Width > 0 && rect.Height > 0)
+            if (rect.Width == 0 || rect.Height == 0)
             {
-                Brush brush = null;
-                bool dispose = false;
-                if (BackgroundGradient != Color.Transparent)
+                return;
+            }
+
+            Brush brush = null;
+            bool dispose = false;
+            if (BackgroundGradient != Color.Transparent)
+            {
+                //use bg gradient 
+
+                p.CurrentSolidBackgroundColorHint = Color.Transparent;
+
+                //linear brush
+                brush = CreateLinearGradientBrush(rect,
+                    ActualBackgroundColor,
+                    ActualBackgroundGradient,
+                    ActualBackgroundGradientAngle);
+
+                dispose = true; //dispose***
+            }
+            else if (RenderUtils.IsColorVisible(ActualBackgroundColor))
+            {
+                //TODO: review here,
+                //
+                //solid brush hint for text
+                p.CurrentSolidBackgroundColorHint = (ActualBackgroundColor.A == 255) ? ActualBackgroundColor : Color.Transparent;
+
+                brush = new SolidBrush(this.ActualBackgroundColor);
+                dispose = true;
+            }
+
+
+            DrawBoard g = p.InnerDrawBoard;
+            SmoothingMode smooth = g.SmoothingMode;
+            if (brush != null)
+            {
+                // atodo: handle it correctly (tables background)
+                // if (isLast)
+                //  rectangle.Width -= ActualWordSpacing + CssUtils.GetWordEndWhitespace(ActualFont); 
+                //GraphicsPath roundrect = null;
+                bool hasSomeRoundCorner = this.HasSomeRoundCorner;
+                if (hasSomeRoundCorner)
                 {
-                    //use bg gradient 
-
-                    brush = CreateLinearGradientBrush(rect,
-                        ActualBackgroundColor,
-                        ActualBackgroundGradient,
-                        ActualBackgroundGradientAngle);
-                    dispose = true;
-                }
-                else if (RenderUtils.IsColorVisible(ActualBackgroundColor))
-                {
-                    brush = new SolidBrush(this.ActualBackgroundColor);
-                    dispose = true;
-                }
-
-
-                DrawBoard g = p.InnerDrawBoard;
-                SmoothingMode smooth = g.SmoothingMode;
-                if (brush != null)
-                {
-                    // atodo: handle it correctly (tables background)
-                    // if (isLast)
-                    //  rectangle.Width -= ActualWordSpacing + CssUtils.GetWordEndWhitespace(ActualFont); 
-                    //GraphicsPath roundrect = null;
-                    bool hasSomeRoundCorner = this.HasSomeRoundCorner;
-                    if (hasSomeRoundCorner)
-                    {
-                        //roundrect = RenderUtils.GetRoundRect(rect, ActualCornerNW, ActualCornerNE, ActualCornerSE, ActualCornerSW);
-                    }
-
-                    if (!p.AvoidGeometryAntialias && hasSomeRoundCorner)
-                    {
-                        g.SmoothingMode = SmoothingMode.AntiAlias;
-                    }
-
-                    //if (roundrect != null)
-                    //{
-                    //    g.FillPath(brush, roundrect);
-                    //}
-                    //else
-                    //{
-                    g.FillRectangle(brush, (float)Math.Ceiling(rect.Left), (float)Math.Ceiling(rect.Top), rect.Width, rect.Height);
-                    //}
-
-                    g.SmoothingMode = smooth;
-                    //if (roundrect != null) roundrect.Dispose();
-                    if (dispose) brush.Dispose();
+                    //roundrect = RenderUtils.GetRoundRect(rect, ActualCornerNW, ActualCornerNE, ActualCornerSE, ActualCornerSW);
                 }
 
-                if (isFirst)
+                if (!p.AvoidGeometryAntialias && hasSomeRoundCorner)
                 {
-                    ImageBinder bgImageBinder = this.BackgroundImageBinder;
-                    if (bgImageBinder != null && bgImageBinder.LocalImage != null)
-                    {
-                        BackgroundImagePaintHelper.DrawBackgroundImage(g, this, bgImageBinder, rect);
-                    }
+                    g.SmoothingMode = SmoothingMode.AntiAlias;
+                }
+
+                //if (roundrect != null)
+                //{
+                //    g.FillPath(brush, roundrect);
+                //}
+                //else
+                //{
+
+                g.FillRectangle(brush, (float)Math.Ceiling(rect.Left), (float)Math.Ceiling(rect.Top), rect.Width, rect.Height);
+
+                //}
+
+                g.SmoothingMode = smooth;
+                //if (roundrect != null) roundrect.Dispose();
+                if (dispose) brush.Dispose();
+            }
+
+            if (isFirst)
+            {
+                ImageBinder bgImageBinder = this.BackgroundImageBinder;
+                if (bgImageBinder != null && bgImageBinder.LocalImage != null)
+                {
+                    BackgroundImagePaintHelper.DrawBackgroundImage(g, this, bgImageBinder, rect);
                 }
             }
+
         }
         internal void PaintDecoration(DrawBoard g, RectangleF rectangle, bool isFirst, bool isLast)
         {

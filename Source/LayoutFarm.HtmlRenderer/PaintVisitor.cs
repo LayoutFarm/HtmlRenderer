@@ -64,7 +64,7 @@ namespace LayoutFarm.HtmlBoxes
 
         //=========================================================
 
-        UpdateArea _u = new UpdateArea();
+        readonly UpdateArea _u = new UpdateArea();
         /// <summary>
         /// push clip area relative to (0,0) of current CssBox
         /// </summary>
@@ -84,6 +84,10 @@ namespace LayoutFarm.HtmlBoxes
             return "clip:" + _drawBoard.CurrentClipRect + ",(ox,oy)=(" + _drawBoard.OriginX + "," + _drawBoard.OriginY + ")";
         }
 #endif
+        internal void SetClipArea(int left, int top, int w, int h)
+        {
+            _drawBoard.SetClipRect(new Rectangle(left, top, w, h));
+        }
         internal bool PushLocalClipArea(float left, float top, float w, float h)
         {
             _u.CurrentRect = _drawBoard.CurrentClipRect;
@@ -102,6 +106,8 @@ namespace LayoutFarm.HtmlBoxes
         }
 
         internal Rectangle CurrentClipRect => _drawBoard.CurrentClipRect;
+        public Color CurrentSolidBackgroundColorHint { get; set; } = Color.Transparent;
+
         //
         /// <summary>
         /// async request for image
@@ -280,14 +286,44 @@ namespace LayoutFarm.HtmlBoxes
                   (int)size.Width, (int)size.Height), 0
                   );
         }
+        public void DrawText(RenderVxFormattedString renderVxFormattedString, float x, float y)
+        {
+#if DEBUG
+            dbugCounter.dbugDrawStringCount++;
+#endif
+            switch (renderVxFormattedString.State)
+            {
+                case RenderVxFormattedString.VxState.Ready:
+                    {
+                        //int ox = _drawBoard.OriginX;
+                        //int oy = _drawBoard.OriginY;
+                        //_drawBoard.SetCanvasOrigin((int)point.X, (int)point.Y);
+                        _drawBoard.TextBackgroundColorHint = this.CurrentSolidBackgroundColorHint;
+                        _drawBoard.DrawRenderVx(renderVxFormattedString, x, y);
+                        //_drawBoard.SetCanvasOrigin(ox, oy);//restore
+                    }
+                    break;
+                case RenderVxFormattedString.VxState.NoStrip:
+                    {
+                        //put this to the update queue system
+                        //(TODO: add extension method for this)
+
+                        //GlobalRootGraphic.CurrentRootGfx.EnqueueRenderRequest(
+                        //    new RenderBoxes.RenderElementRequest(
+                        //        s_currentRenderE,
+                        //        RenderBoxes.RequestCommand.ProcessFormattedString,
+                        //        renderVxFormattedString));
+                    }
+                    break;
+            }
+
+
+        }
         public RenderVxFormattedString CreateRenderVx(char[] str, int startAt, int len)
         {
             return _drawBoard.GetPainter().CreateRenderVx(str, startAt, len);
         }
-        //public void DrawText(RenderVxFormattedString formattedStr, PointF point, SizeF size)
-        //{
-        //    _drawBoard.GetPainter().DrawString(formattedStr, point.X, point.Y);
-        //}
+
         public DrawboardBuffer CreateOffscreenDrawBoard(int width, int height)
         {
             return _drawBoard.CreateBackbuffer(width, height);

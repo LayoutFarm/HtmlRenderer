@@ -57,13 +57,16 @@ namespace LayoutFarm.HtmlBoxes
 #if DEBUG
             p.dbugEnterNewContext(this, PaintVisitor.PaintVisitorContextName.Init);
 #endif
+
+            Color bgColorHint = p.CurrentSolidBackgroundColorHint;//save
+
+            p.CurrentSolidBackgroundColorHint = Color.Transparent;
+
             DrawBoard drawBoard = p.InnerDrawBoard;
 
             if (DisableBmpCache)
             {
-
-                PixelFarm.CpuBlit.AggPainter painter = drawBoard.GetPainter() as PixelFarm.CpuBlit.AggPainter;
-                if (painter == null)
+                if (!(drawBoard.GetPainter() is PixelFarm.CpuBlit.AggPainter painter))
                 {
                     return;
                 }
@@ -146,12 +149,11 @@ namespace LayoutFarm.HtmlBoxes
                 drawBoard.DrawImage(backimg, new RectangleF(0, 0, backimg.Width, backimg.Height));
 
             }
+
+
+            p.CurrentSolidBackgroundColorHint = bgColorHint;
         }
-        public VgDocument SvgDoc
-        {
-            get;
-            set;
-        }
+        public VgDocument SvgDoc { get; set; }
 
         public override bool CustomContentHitTest(float x, float y, CssBoxHitChain hitChain)
         {
