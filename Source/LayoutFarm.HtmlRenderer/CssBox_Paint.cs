@@ -205,7 +205,6 @@ namespace LayoutFarm.HtmlBoxes
                 dbugPaint(p, bounds);
 #endif
 
-
             }
 
             //---------------------------------------------
@@ -506,85 +505,78 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="isLast">is it the last rectangle of the element</param>
         internal void PaintBackground(PaintVisitor p, RectangleF rect, bool isFirst, bool isLast)
         {
-            //return;
-            //if (this.dbugMark1 > 0)
-            //{
-            //    Console.WriteLine(this.dbugMark1);
-            //    if ((this.dbugMark1 % 2) == 0)
-            //    {
-            //    }
-            //    else
-            //    {
-            //    }
-            //}
+            
             if (!this.HasVisibleBgColor)
             {
                 return;
             }
 
-            if (rect.Width > 0 && rect.Height > 0)
+            if (rect.Width == 0 || rect.Height == 0)
             {
-                Brush brush = null;
-                bool dispose = false;
-                if (BackgroundGradient != Color.Transparent)
+                return;
+            }
+
+            Brush brush = null;
+            bool dispose = false;
+            if (BackgroundGradient != Color.Transparent)
+            {
+                //use bg gradient 
+
+                brush = CreateLinearGradientBrush(rect,
+                    ActualBackgroundColor,
+                    ActualBackgroundGradient,
+                    ActualBackgroundGradientAngle);
+                dispose = true;
+            }
+            else if (RenderUtils.IsColorVisible(ActualBackgroundColor))
+            {
+                brush = new SolidBrush(this.ActualBackgroundColor);
+                dispose = true;
+            }
+
+
+            DrawBoard g = p.InnerDrawBoard;
+            SmoothingMode smooth = g.SmoothingMode;
+            if (brush != null)
+            {
+                // atodo: handle it correctly (tables background)
+                // if (isLast)
+                //  rectangle.Width -= ActualWordSpacing + CssUtils.GetWordEndWhitespace(ActualFont); 
+                //GraphicsPath roundrect = null;
+                bool hasSomeRoundCorner = this.HasSomeRoundCorner;
+                if (hasSomeRoundCorner)
                 {
-                    //use bg gradient 
-
-                    brush = CreateLinearGradientBrush(rect,
-                        ActualBackgroundColor,
-                        ActualBackgroundGradient,
-                        ActualBackgroundGradientAngle);
-                    dispose = true;
-                }
-                else if (RenderUtils.IsColorVisible(ActualBackgroundColor))
-                {
-                    brush = new SolidBrush(this.ActualBackgroundColor);
-                    dispose = true;
-                }
-
-
-                DrawBoard g = p.InnerDrawBoard;
-                SmoothingMode smooth = g.SmoothingMode;
-                if (brush != null)
-                {
-                    // atodo: handle it correctly (tables background)
-                    // if (isLast)
-                    //  rectangle.Width -= ActualWordSpacing + CssUtils.GetWordEndWhitespace(ActualFont); 
-                    //GraphicsPath roundrect = null;
-                    bool hasSomeRoundCorner = this.HasSomeRoundCorner;
-                    if (hasSomeRoundCorner)
-                    {
-                        //roundrect = RenderUtils.GetRoundRect(rect, ActualCornerNW, ActualCornerNE, ActualCornerSE, ActualCornerSW);
-                    }
-
-                    if (!p.AvoidGeometryAntialias && hasSomeRoundCorner)
-                    {
-                        g.SmoothingMode = SmoothingMode.AntiAlias;
-                    }
-
-                    //if (roundrect != null)
-                    //{
-                    //    g.FillPath(brush, roundrect);
-                    //}
-                    //else
-                    //{
-                    g.FillRectangle(brush, (float)Math.Ceiling(rect.Left), (float)Math.Ceiling(rect.Top), rect.Width, rect.Height);
-                    //}
-
-                    g.SmoothingMode = smooth;
-                    //if (roundrect != null) roundrect.Dispose();
-                    if (dispose) brush.Dispose();
+                    //roundrect = RenderUtils.GetRoundRect(rect, ActualCornerNW, ActualCornerNE, ActualCornerSE, ActualCornerSW);
                 }
 
-                if (isFirst)
+                if (!p.AvoidGeometryAntialias && hasSomeRoundCorner)
                 {
-                    ImageBinder bgImageBinder = this.BackgroundImageBinder;
-                    if (bgImageBinder != null && bgImageBinder.LocalImage != null)
-                    {
-                        BackgroundImagePaintHelper.DrawBackgroundImage(g, this, bgImageBinder, rect);
-                    }
+                    g.SmoothingMode = SmoothingMode.AntiAlias;
+                }
+
+                //if (roundrect != null)
+                //{
+                //    g.FillPath(brush, roundrect);
+                //}
+                //else
+                //{
+                g.FillRectangle(brush, (float)Math.Ceiling(rect.Left), (float)Math.Ceiling(rect.Top), rect.Width, rect.Height);
+                //}
+
+                g.SmoothingMode = smooth;
+                //if (roundrect != null) roundrect.Dispose();
+                if (dispose) brush.Dispose();
+            }
+
+            if (isFirst)
+            {
+                ImageBinder bgImageBinder = this.BackgroundImageBinder;
+                if (bgImageBinder != null && bgImageBinder.LocalImage != null)
+                {
+                    BackgroundImagePaintHelper.DrawBackgroundImage(g, this, bgImageBinder, rect);
                 }
             }
+
         }
         internal void PaintDecoration(DrawBoard g, RectangleF rectangle, bool isFirst, bool isLast)
         {

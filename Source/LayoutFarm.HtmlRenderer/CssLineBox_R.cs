@@ -190,10 +190,7 @@ namespace LayoutFarm.HtmlBoxes
         internal void PaintBackgroundAndBorder(PaintVisitor p)
         {
             //iterate each strip
-            //if (_bottomUpBoxStrips == null)
-            //{
-            //    return;
-            //}
+
             for (int i = _bottomUpBoxStrips.Length - 1; i >= 0; --i)
             {
                 PartialBoxStrip strip = _bottomUpBoxStrips[i];
@@ -202,11 +199,11 @@ namespace LayoutFarm.HtmlBoxes
                 {
                     continue;
                 }
-                //-----------------------------------------------------------------
+
                 RectangleF stripArea = strip.Bound;
-                bool isFirstLine, isLastLine;
-                CssBox.GetSplitInfo(stripOwner, this, out isFirstLine, out isLastLine);
+                CssBox.GetSplitInfo(stripOwner, this, out bool isFirstLine, out bool isLastLine);
                 stripOwner.PaintBackground(p, stripArea, isFirstLine, isLastLine);
+
                 //if (stripOwner.CssDisplay != Css.CssDisplay.TableCell
                 //    && stripOwner.HasSomeVisibleBorder)
                 //{
@@ -218,16 +215,12 @@ namespace LayoutFarm.HtmlBoxes
 
         internal void PaintDecoration(PaintVisitor p)
         {
-            //if (_bottomUpBoxStrips == null)
-            //{
-            //    return;
-            //}
+            
             for (int i = _bottomUpBoxStrips.Length - 1; i >= 0; --i)
             {
                 PartialBoxStrip strip = _bottomUpBoxStrips[i];
                 CssBox ownerBox = strip.owner;
-                bool isFirstLine, isLastLine;
-                CssBox.GetSplitInfo(ownerBox, this, out isFirstLine, out isLastLine);
+                CssBox.GetSplitInfo(ownerBox, this, out bool isFirstLine, out bool isLastLine);
                 ownerBox.PaintDecoration(p.InnerDrawBoard, strip.Bound, isFirstLine, isLastLine);
             }
         }
