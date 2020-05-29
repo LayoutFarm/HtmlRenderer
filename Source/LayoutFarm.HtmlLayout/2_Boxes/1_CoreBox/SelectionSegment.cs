@@ -5,8 +5,11 @@ namespace LayoutFarm.HtmlBoxes
 {
     enum SelectionSegmentKind
     {
+        SingleLine,
+
         FullLine,
-        Partial
+        PartialBegin,
+        PartialEnd,
     }
 
     partial class SelectionSegment
@@ -16,9 +19,9 @@ namespace LayoutFarm.HtmlBoxes
         {
             this.Kind = SelectionSegmentKind.FullLine;
         }
-        public SelectionSegment(int beginAtPixel, int width)
+        public SelectionSegment(int beginAtPixel, int width, SelectionSegmentKind kind)
         {
-            this.Kind = SelectionSegmentKind.Partial;
+            this.Kind = kind;
             this.BeginAtPx = beginAtPixel;
             this.WidthPx = width;
         }
@@ -33,6 +36,6 @@ namespace LayoutFarm.HtmlBoxes
         public int StartHitCharIndex { get; set; }
         public CssRun EndHitRun { get; set; }
         public int EndHitCharIndex { get; set; }
- 
+
     }
 }

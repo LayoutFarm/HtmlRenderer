@@ -119,7 +119,7 @@ namespace LayoutFarm.HtmlBoxes
                             CssBlockRun blockRun = (CssBlockRun)w;
                             int ox = p.CanvasOriginX;
                             int oy = p.CanvasOriginY;
-                            //p.SetCanvasOrigin(ox + (int)(blockRun.Left + blockRun.ContentBox.LocalX), oy + (int)blockRun.Top);
+
                             p.SetCanvasOrigin(ox + (int)(blockRun.Left), oy + (int)blockRun.Top);
 
                             CssBox.Paint(blockRun.ContentBox, p);
@@ -140,37 +140,50 @@ namespace LayoutFarm.HtmlBoxes
                             }
 
                             CssTextRun textRun = (CssTextRun)w;
-                            p.DrawText(CssBox.UnsafeGetTextBuffer(w.OwnerBox),
-                                                          textRun.TextStartIndex,
-                                                          textRun.TextLength,
-                                                          new PointF(w.Left, w.Top),
-                                                          new SizeF(w.Width, w.Height));
 
 
-                            //RenderVxFormattedString formattedStr = CssTextRun.GetCachedFormatString(textRun);
-                            //if (formattedStr == null)
-                            //{
-                            //    formattedStr = p.CreateRenderVx(CssBox.UnsafeGetTextBuffer(w.OwnerBox),
-                            //                                textRun.TextStartIndex,
-                            //                                textRun.TextLength);
+                            if (p.CurrentSolidBackgroundColorHint.A == 255)
+                            {
+                                //solid bg
+                                
+                                RenderVxFormattedString formattedStr = CssTextRun.GetCachedFormatString(textRun);
+                                if (formattedStr == null)
+                                {
+                                    char[] buffer = CssBox.UnsafeGetTextBuffer(w.OwnerBox);
 
-                            //    CssTextRun.SetCachedFormattedString(textRun, formattedStr);
-                            //}
-                            //if (formattedStr != null)
-                            //{
-                            //    p.DrawText(formattedStr,
-                            //                               new PointF(w.Left, w.Top),
-                            //                               new SizeF(w.Width, w.Height));
-                            //}
-                            //else
-                            //{
-                            //    p.DrawText(CssBox.UnsafeGetTextBuffer(w.OwnerBox),
-                            //                               textRun.TextStartIndex,
-                            //                               textRun.TextLength,
-                            //                               new PointF(w.Left, w.Top),
-                            //                               new SizeF(w.Width, w.Height));
-                            //}
+                                    formattedStr = p.CreateRenderVx(buffer, textRun.TextStartIndex, textRun.TextLength);
 
+                                    //TODO: see _renderVxFormattedString = d.CreateFormattedString(_mybuffer, 0, _mybuffer.Length, DelayFormattedString);
+
+                                    if (formattedStr != null)
+                                    {
+                                        CssTextRun.SetCachedFormattedString(textRun, formattedStr);
+                                        p.DrawText(formattedStr, w.Left, w.Top);
+                                    }
+                                    else
+                                    {
+                                        //still null
+                                        p.DrawText(CssBox.UnsafeGetTextBuffer(w.OwnerBox),
+                                                           textRun.TextStartIndex,
+                                                           textRun.TextLength,
+                                                           new PointF(w.Left, w.Top),
+                                                           new SizeF(w.Width, w.Height));
+                                    }
+                                }
+                                else
+                                {
+                                    p.DrawText(formattedStr, w.Left, w.Top);
+                                }
+                            }
+                            else
+                            {
+                                p.DrawText(CssBox.UnsafeGetTextBuffer(w.OwnerBox),
+                                                       textRun.TextStartIndex,
+                                                       textRun.TextLength,
+                                                       new PointF(w.Left, w.Top),
+                                                       new SizeF(w.Width, w.Height));
+                            }
+                          
                         }
                         break;
                     default:
@@ -192,10 +205,7 @@ namespace LayoutFarm.HtmlBoxes
         internal void PaintBackgroundAndBorder(PaintVisitor p)
         {
             //iterate each strip
-            //if (_bottomUpBoxStrips == null)
-            //{
-            //    return;
-            //}
+
             for (int i = _bottomUpBoxStrips.Length - 1; i >= 0; --i)
             {
                 PartialBoxStrip strip = _bottomUpBoxStrips[i];
@@ -204,11 +214,11 @@ namespace LayoutFarm.HtmlBoxes
                 {
                     continue;
                 }
-                //-----------------------------------------------------------------
+
                 RectangleF stripArea = strip.Bound;
-                bool isFirstLine, isLastLine;
-                CssBox.GetSplitInfo(stripOwner, this, out isFirstLine, out isLastLine);
+                CssBox.GetSplitInfo(stripOwner, this, out bool isFirstLine, out bool isLastLine);
                 stripOwner.PaintBackground(p, stripArea, isFirstLine, isLastLine);
+
                 //if (stripOwner.CssDisplay != Css.CssDisplay.TableCell
                 //    && stripOwner.HasSomeVisibleBorder)
                 //{
@@ -220,16 +230,12 @@ namespace LayoutFarm.HtmlBoxes
 
         internal void PaintDecoration(PaintVisitor p)
         {
-            //if (_bottomUpBoxStrips == null)
-            //{
-            //    return;
-            //}
+
             for (int i = _bottomUpBoxStrips.Length - 1; i >= 0; --i)
             {
                 PartialBoxStrip strip = _bottomUpBoxStrips[i];
                 CssBox ownerBox = strip.owner;
-                bool isFirstLine, isLastLine;
-                CssBox.GetSplitInfo(ownerBox, this, out isFirstLine, out isLastLine);
+                CssBox.GetSplitInfo(ownerBox, this, out bool isFirstLine, out bool isLastLine);
                 ownerBox.PaintDecoration(p.InnerDrawBoard, strip.Bound, isFirstLine, isLastLine);
             }
         }

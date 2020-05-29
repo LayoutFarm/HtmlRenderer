@@ -58,7 +58,10 @@ namespace LayoutFarm.HtmlBoxes
         }
         public override void Paint(PaintVisitor p, RectangleF rect)
         {
+            Color bgColorHint = p.CurrentSolidBackgroundColorHint;//save
+
             PaintBackground(p, rect, true, true);
+
             if (this.HasSomeVisibleBorder)
             {
                 p.PaintBorders(this, rect, true, true);
@@ -164,6 +167,8 @@ namespace LayoutFarm.HtmlBoxes
             //#if DEBUG
             //            p.FillRectangle(Color.Red, rect.X, rect.Y, rect.Width, rect.Height);
             //#endif
+             
+            p.CurrentSolidBackgroundColorHint = bgColorHint;//restore
         }
 
         /// <summary>
