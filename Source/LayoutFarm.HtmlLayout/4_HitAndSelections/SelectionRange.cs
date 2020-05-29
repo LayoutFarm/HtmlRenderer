@@ -222,12 +222,11 @@ namespace LayoutFarm.HtmlBoxes
                     {
                         CssRun run = (CssRun)startHit.hitObject;
                         //-------------------------------------------------------
-                        int sel_index;
-                        int sel_offset;
+
                         run.FindSelectionPoint(textService,
                              startHit.localX,
-                             out sel_index,
-                             out sel_offset);
+                             out int sel_index,
+                             out int sel_offset);
                         _startHitRunCharIndex = sel_index;
                         //modify hitpoint
                         _startHitHostLine = (CssLineBox)startChain.GetHitInfo(startChain.Count - 2).hitObject;
@@ -347,11 +346,9 @@ namespace LayoutFarm.HtmlBoxes
 
             if (FindCommonGround(startChain, endChain, out int breakAtLevel) && breakAtLevel > 0)
             {
-
-                CssBlockRun hitBlockRun = endChain.GetHitInfo(breakAtLevel).hitObject as CssBlockRun;
                 //multiple select 
                 //1. first part        
-                if (hitBlockRun != null)
+                if (endChain.GetHitInfo(breakAtLevel).hitObject is CssBlockRun hitBlockRun)
                 {
                     _startHitHostLine.Select(_startLineBeginSelectionAtPixel, (int)hitBlockRun.Left,
                      _startHitRun, _startHitRunCharIndex,
@@ -484,8 +481,7 @@ namespace LayoutFarm.HtmlBoxes
                     //find global position of box
                     latestLineBoxOwner = lineBox.OwnerBox;
                     //TODO: review here , duplicate GetGlobalLocation 
-                    float gx, gy;
-                    latestLineBoxOwner.GetGlobalLocation(out gx, out gy);
+                    latestLineBoxOwner.GetGlobalLocation(out float gx, out float gy);
                     latestLineBoxGlobalYPos = gy;
                 }
 
@@ -645,8 +641,7 @@ namespace LayoutFarm.HtmlBoxes
                         bool isOK = false;
                         for (int i = 0; i < j && !isOK; ++i)
                         {
-                            var run3 = ln.GetRun(i) as CssBlockRun;
-                            if (run3 == null) continue;
+                            if (!(ln.GetRun(i) is CssBlockRun run3)) continue;
                             //recursive here 
                             InnerWalk(endLineBox, del, GetLineWalkDownIter(this, run3.ContentBox));
                             if (i > 0)
