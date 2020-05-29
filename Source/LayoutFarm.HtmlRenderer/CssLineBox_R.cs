@@ -141,34 +141,49 @@ namespace LayoutFarm.HtmlBoxes
 
                             CssTextRun textRun = (CssTextRun)w;
 
-                            RenderVxFormattedString formattedStr = CssTextRun.GetCachedFormatString(textRun);
-                            if (formattedStr == null)
+
+                            if (p.CurrentSolidBackgroundColorHint.A == 255)
                             {
-                                char[] buffer = CssBox.UnsafeGetTextBuffer(w.OwnerBox);
-
-                                formattedStr = p.CreateRenderVx(buffer, textRun.TextStartIndex, textRun.TextLength);
-
-                                //TODO: see _renderVxFormattedString = d.CreateFormattedString(_mybuffer, 0, _mybuffer.Length, DelayFormattedString);
-
-                                if (formattedStr != null)
+                                //solid bg
+                                
+                                RenderVxFormattedString formattedStr = CssTextRun.GetCachedFormatString(textRun);
+                                if (formattedStr == null)
                                 {
-                                    CssTextRun.SetCachedFormattedString(textRun, formattedStr);
-                                    p.DrawText(formattedStr, w.Left, w.Top);
+                                    char[] buffer = CssBox.UnsafeGetTextBuffer(w.OwnerBox);
+
+                                    formattedStr = p.CreateRenderVx(buffer, textRun.TextStartIndex, textRun.TextLength);
+
+                                    //TODO: see _renderVxFormattedString = d.CreateFormattedString(_mybuffer, 0, _mybuffer.Length, DelayFormattedString);
+
+                                    if (formattedStr != null)
+                                    {
+                                        CssTextRun.SetCachedFormattedString(textRun, formattedStr);
+                                        p.DrawText(formattedStr, w.Left, w.Top);
+                                    }
+                                    else
+                                    {
+                                        //still null
+                                        p.DrawText(CssBox.UnsafeGetTextBuffer(w.OwnerBox),
+                                                           textRun.TextStartIndex,
+                                                           textRun.TextLength,
+                                                           new PointF(w.Left, w.Top),
+                                                           new SizeF(w.Width, w.Height));
+                                    }
                                 }
                                 else
                                 {
-                                    //still null
-                                    p.DrawText(CssBox.UnsafeGetTextBuffer(w.OwnerBox),
-                                                       textRun.TextStartIndex,
-                                                       textRun.TextLength,
-                                                       new PointF(w.Left, w.Top),
-                                                       new SizeF(w.Width, w.Height));
+                                    p.DrawText(formattedStr, w.Left, w.Top);
                                 }
                             }
                             else
                             {
-                                p.DrawText(formattedStr, w.Left, w.Top);
+                                p.DrawText(CssBox.UnsafeGetTextBuffer(w.OwnerBox),
+                                                       textRun.TextStartIndex,
+                                                       textRun.TextLength,
+                                                       new PointF(w.Left, w.Top),
+                                                       new SizeF(w.Width, w.Height));
                             }
+                          
                         }
                         break;
                     default:
@@ -215,7 +230,7 @@ namespace LayoutFarm.HtmlBoxes
 
         internal void PaintDecoration(PaintVisitor p)
         {
-            
+
             for (int i = _bottomUpBoxStrips.Length - 1; i >= 0; --i)
             {
                 PartialBoxStrip strip = _bottomUpBoxStrips[i];

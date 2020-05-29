@@ -27,6 +27,7 @@ namespace LayoutFarm.HtmlBoxes
 #if DEBUG
             p.dbugEnterNewContext(this, PaintVisitor.PaintVisitorContextName.Init);
 #endif
+            Color bgColorHint = p.CurrentSolidBackgroundColorHint;//save
             var rect = new RectangleF(0, 0, this.VisualWidth, this.VisualHeight);
             if (rect.Height > 2 && RenderUtils.IsColorVisible(ActualBackgroundColor))
             {
@@ -41,6 +42,8 @@ namespace LayoutFarm.HtmlBoxes
             {
                 p.PaintBorder(this, CssSide.Top, this.BorderTopColor, rect);
             }
+            p.CurrentSolidBackgroundColorHint = bgColorHint;//restore
+
 #if DEBUG
             p.dbugExitContext();
 #endif

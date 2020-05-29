@@ -64,7 +64,7 @@ namespace LayoutFarm.HtmlBoxes
 
         //=========================================================
 
-        UpdateArea _u = new UpdateArea();
+        readonly UpdateArea _u = new UpdateArea();
         /// <summary>
         /// push clip area relative to (0,0) of current CssBox
         /// </summary>
@@ -102,6 +102,8 @@ namespace LayoutFarm.HtmlBoxes
         }
 
         internal Rectangle CurrentClipRect => _drawBoard.CurrentClipRect;
+        public Color CurrentSolidBackgroundColorHint { get; set; } = Color.Transparent;
+
         //
         /// <summary>
         /// async request for image
@@ -292,6 +294,7 @@ namespace LayoutFarm.HtmlBoxes
                         //int ox = _drawBoard.OriginX;
                         //int oy = _drawBoard.OriginY;
                         //_drawBoard.SetCanvasOrigin((int)point.X, (int)point.Y);
+                        _drawBoard.TextBackgroundColorHint = this.CurrentSolidBackgroundColorHint;
                         _drawBoard.DrawRenderVx(renderVxFormattedString, x, y);
                         //_drawBoard.SetCanvasOrigin(ox, oy);//restore
                     }

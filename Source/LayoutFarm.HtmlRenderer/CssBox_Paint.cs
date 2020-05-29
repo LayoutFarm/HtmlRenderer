@@ -180,10 +180,12 @@ namespace LayoutFarm.HtmlBoxes
             {
                 return;
             }
+
+
 #if DEBUG
             p.dbugEnterNewContext(this, PaintVisitor.PaintVisitorContextName.Init);
 #endif
-
+            Color prevBgColorHint = p.CurrentSolidBackgroundColorHint;
             //----------------------------------------------- 
             bool hasPrevClip = false;
             RectangleF prevClip = RectangleF.Empty;
@@ -406,6 +408,9 @@ namespace LayoutFarm.HtmlBoxes
                 p.PopLocalClipArea();
             }
 
+            p.CurrentSolidBackgroundColorHint = prevBgColorHint;
+
+
 #if DEBUG
             p.dbugExitContext();
 #endif
@@ -505,7 +510,7 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="isLast">is it the last rectangle of the element</param>
         internal void PaintBackground(PaintVisitor p, RectangleF rect, bool isFirst, bool isLast)
         {
-            
+
             if (!this.HasVisibleBgColor)
             {
                 return;
@@ -522,14 +527,23 @@ namespace LayoutFarm.HtmlBoxes
             {
                 //use bg gradient 
 
+                p.CurrentSolidBackgroundColorHint = Color.Transparent;
+
+                //linear brush
                 brush = CreateLinearGradientBrush(rect,
                     ActualBackgroundColor,
                     ActualBackgroundGradient,
                     ActualBackgroundGradientAngle);
-                dispose = true;
+
+                dispose = true; //dispose***
             }
             else if (RenderUtils.IsColorVisible(ActualBackgroundColor))
             {
+                //TODO: review here,
+                //
+                //solid brush hint for text
+                p.CurrentSolidBackgroundColorHint = (ActualBackgroundColor.A == 255) ? ActualBackgroundColor : Color.Transparent;
+
                 brush = new SolidBrush(this.ActualBackgroundColor);
                 dispose = true;
             }
@@ -560,7 +574,9 @@ namespace LayoutFarm.HtmlBoxes
                 //}
                 //else
                 //{
+
                 g.FillRectangle(brush, (float)Math.Ceiling(rect.Left), (float)Math.Ceiling(rect.Top), rect.Width, rect.Height);
+
                 //}
 
                 g.SmoothingMode = smooth;

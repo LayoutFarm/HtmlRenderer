@@ -91,7 +91,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
             p_x += _adjustX;
             p_y += _adjustY;
         }
-        
+
 
 #if DEBUG
         string LayoutFarm.RenderBoxes.IParentLink.dbugGetLinkInfo()
@@ -281,12 +281,14 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
 #if DEBUG
             p.dbugEnterNewContext(this, PaintVisitor.PaintVisitorContextName.Init);
 #endif
+            Color prevBgColorHint = p.CurrentSolidBackgroundColorHint;
 
             UpdateArea u = GetFreeUpdateArea();
             u.CurrentRect = new Rectangle(0, 0, _renderE.Width, _renderE.Height);
             RenderElement.Render(_renderE, p.InnerDrawBoard, u);
             ReleaseUpdateArea(u);
 
+            p.CurrentSolidBackgroundColorHint = prevBgColorHint;
 #if DEBUG
             p.dbugExitContext();
 #endif
