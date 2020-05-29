@@ -84,6 +84,10 @@ namespace LayoutFarm.HtmlBoxes
             return "clip:" + _drawBoard.CurrentClipRect + ",(ox,oy)=(" + _drawBoard.OriginX + "," + _drawBoard.OriginY + ")";
         }
 #endif
+        internal void SetClipArea(int left, int top, int w, int h)
+        {
+            _drawBoard.SetClipRect(new Rectangle(left, top, w, h));
+        }
         internal bool PushLocalClipArea(float left, float top, float w, float h)
         {
             _u.CurrentRect = _drawBoard.CurrentClipRect;

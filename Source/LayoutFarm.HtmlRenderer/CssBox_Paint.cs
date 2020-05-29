@@ -229,7 +229,6 @@ namespace LayoutFarm.HtmlBoxes
                         dbugCounter.dbugLinePaintCount++;
 #endif
 
-
                         int cX = p.CanvasOriginX;
                         int cy = p.CanvasOriginY;
                         int newCy = cy + (int)line.CachedLineTop;
@@ -240,12 +239,68 @@ namespace LayoutFarm.HtmlBoxes
                             p.SetCanvasOrigin(cX, newCy);
                             //1.                                 
                             line.PaintBackgroundAndBorder(p);
-                            if (line.SelectionSegment != null)
+
+                            SelectionSegment selSegment = line.SelectionSegment;
+                            if (selSegment != null)
                             {
-                                line.SelectionSegment.PaintSelection(p, line);
+                                switch (selSegment.Kind)
+                                {
+                                    case SelectionSegmentKind.FullLine:
+                                        {
+                                            Color prevColor2 = p.CurrentSolidBackgroundColorHint;//save2
+                                            p.CurrentSolidBackgroundColorHint = p.CssBoxSelectionColor;
+
+                                            selSegment.PaintSelection(p, line);
+
+                                            line.PaintRuns(p);
+
+                                            p.CurrentSolidBackgroundColorHint = prevColor2; //restore2
+                                        }
+                                        break;
+                                    case SelectionSegmentKind.PartialBegin:
+                                    case SelectionSegmentKind.SingleLine:
+                                    case SelectionSegmentKind.PartialEnd:
+                                        {
+                                            //TODO: review here again***
+                                            //partial line
+
+                                            //[A]
+                                            line.PaintRuns(p); //normal line
+                                                               //-----
+
+                                            //[B]
+                                            //selection part with clip rect
+
+                                            Color prevColor2 = p.CurrentSolidBackgroundColorHint;//save2
+                                            //p.CurrentSolidBackgroundColorHint = prevBgColorHint;
+
+
+                                            int xpos = selSegment.BeginAtPx;
+                                            int w = selSegment.WidthPx;
+
+                                            Rectangle clipRect = p.CurrentClipRect;
+                                            p.SetClipArea(xpos, 0, w, (int)line.CacheLineHeight);
+                                            selSegment.PaintSelection(p, line);
+
+                                            p.CurrentSolidBackgroundColorHint = p.CssBoxSelectionColor;
+
+                                            line.PaintRuns(p);
+                                            p.SetClipArea(clipRect.X, clipRect.Top, clipRect.Width, clipRect.Height);//restore
+
+                                            p.CurrentSolidBackgroundColorHint = prevColor2; //restore2
+                                        }
+                                        break;
+                                }
+
                             }
-                            //2.                                
-                            line.PaintRuns(p);
+                            else
+                            {
+                                //2.
+
+                                line.PaintRuns(p);
+                            }
+
+
                             //3. 
                             line.PaintDecoration(p);
 #if DEBUG

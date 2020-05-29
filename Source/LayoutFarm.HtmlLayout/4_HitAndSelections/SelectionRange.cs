@@ -94,7 +94,9 @@ namespace LayoutFarm.HtmlBoxes
                 SelectionSegment selSeg = selLine.SelectionSegment;
                 switch (selSeg.Kind)
                 {
-                    case SelectionSegmentKind.Partial:
+                    case SelectionSegmentKind.SingleLine:
+                    case SelectionSegmentKind.PartialBegin:
+                    case SelectionSegmentKind.PartialEnd:
                         {
                             CssRun startRun = selSeg.StartHitRun;
                             CssRun endHitRun = selSeg.EndHitRun;
@@ -183,20 +185,12 @@ namespace LayoutFarm.HtmlBoxes
                         break;
                     default:
                         {
+                            //full line
                             int runCount = selLine.RunCount;
                             for (int n = 0; n < runCount; ++n)
                             {
                                 CssRun run = selLine.GetRun(n);
                                 run.WriteContent(stbuilder);
-                                //CssTextRun r = run as CssTextRun;
-                                //if (r != null)
-                                //{
-                                //    stbuilder.Append(r.Text);
-                                //}
-                                //else
-                                //{
-
-                                //}
                             }
                         }
                         break;
@@ -806,12 +800,8 @@ namespace LayoutFarm.HtmlBoxes
             FullLine,
             EndLine,
             PartialLine
-        }
-
-
-    }
-
-
+        }  
+    } 
 
     static class CssLineBoxExtension
     {
@@ -825,7 +815,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             //from startAt to end of line 
 
-            lineBox.SelectionSegment = new SelectionSegment(startAtPx, (int)lineBox.CachedLineContentWidth - startAtPx)
+            lineBox.SelectionSegment = new SelectionSegment(startAtPx, (int)lineBox.CachedLineContentWidth - startAtPx, SelectionSegmentKind.PartialBegin)
             {
                 StartHitRun = startRun,
                 StartHitCharIndex = startRunIndex
@@ -835,7 +825,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             //from start of line to endAt             
 
-            lineBox.SelectionSegment = new SelectionSegment(0, endAtPx)
+            lineBox.SelectionSegment = new SelectionSegment(0, endAtPx, SelectionSegmentKind.PartialEnd)
             {
                 EndHitRun = endRun,
                 EndHitCharIndex = endRunIndex
@@ -846,7 +836,7 @@ namespace LayoutFarm.HtmlBoxes
             CssRun startRun, int startRunIndex,
             CssRun endRun, int endRunIndex)
         {
-            lineBox.SelectionSegment = new SelectionSegment(startAtPx, endAt - startAtPx)
+            lineBox.SelectionSegment = new SelectionSegment(startAtPx, endAt - startAtPx, SelectionSegmentKind.SingleLine)
             {
                 StartHitRun = startRun,
                 StartHitCharIndex = startRunIndex,
