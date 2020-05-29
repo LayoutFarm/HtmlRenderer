@@ -280,14 +280,43 @@ namespace LayoutFarm.HtmlBoxes
                   (int)size.Width, (int)size.Height), 0
                   );
         }
+        public void DrawText(RenderVxFormattedString renderVxFormattedString, PointF point, SizeF size)
+        {
+#if DEBUG
+            dbugCounter.dbugDrawStringCount++;
+#endif
+            switch (renderVxFormattedString.State)
+            {
+                case RenderVxFormattedString.VxState.Ready:
+                    {
+                        int ox = _drawBoard.OriginX;
+                        int oy = _drawBoard.OriginY;
+                        //_drawBoard.SetCanvasOrigin((int)point.X, (int)point.Y);
+                        _drawBoard.DrawRenderVx(renderVxFormattedString, point.X, point.Y);
+                        //_drawBoard.SetCanvasOrigin(ox, oy);//restore
+                    }
+                    break;
+                case RenderVxFormattedString.VxState.NoStrip:
+                    {
+                        //put this to the update queue system
+                        //(TODO: add extension method for this)
+
+                        //GlobalRootGraphic.CurrentRootGfx.EnqueueRenderRequest(
+                        //    new RenderBoxes.RenderElementRequest(
+                        //        s_currentRenderE,
+                        //        RenderBoxes.RequestCommand.ProcessFormattedString,
+                        //        renderVxFormattedString));
+                    }
+                    break;
+            }
+
+
+        }
         public RenderVxFormattedString CreateRenderVx(char[] str, int startAt, int len)
         {
             return _drawBoard.GetPainter().CreateRenderVx(str, startAt, len);
         }
-        //public void DrawText(RenderVxFormattedString formattedStr, PointF point, SizeF size)
-        //{
-        //    _drawBoard.GetPainter().DrawString(formattedStr, point.X, point.Y);
-        //}
+
         public DrawboardBuffer CreateOffscreenDrawBoard(int width, int height)
         {
             return _drawBoard.CreateBackbuffer(width, height);

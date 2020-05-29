@@ -119,7 +119,7 @@ namespace LayoutFarm.HtmlBoxes
                             CssBlockRun blockRun = (CssBlockRun)w;
                             int ox = p.CanvasOriginX;
                             int oy = p.CanvasOriginY;
-                            //p.SetCanvasOrigin(ox + (int)(blockRun.Left + blockRun.ContentBox.LocalX), oy + (int)blockRun.Top);
+
                             p.SetCanvasOrigin(ox + (int)(blockRun.Left), oy + (int)blockRun.Top);
 
                             CssBox.Paint(blockRun.ContentBox, p);
@@ -140,37 +140,38 @@ namespace LayoutFarm.HtmlBoxes
                             }
 
                             CssTextRun textRun = (CssTextRun)w;
-                            p.DrawText(CssBox.UnsafeGetTextBuffer(w.OwnerBox),
-                                                          textRun.TextStartIndex,
-                                                          textRun.TextLength,
-                                                          new PointF(w.Left, w.Top),
-                                                          new SizeF(w.Width, w.Height));
 
+                            RenderVxFormattedString formattedStr = CssTextRun.GetCachedFormatString(textRun);
+                            if (formattedStr == null)
+                            {
+                                char[] buffer = CssBox.UnsafeGetTextBuffer(w.OwnerBox);
 
-                            //RenderVxFormattedString formattedStr = CssTextRun.GetCachedFormatString(textRun);
-                            //if (formattedStr == null)
-                            //{
-                            //    formattedStr = p.CreateRenderVx(CssBox.UnsafeGetTextBuffer(w.OwnerBox),
-                            //                                textRun.TextStartIndex,
-                            //                                textRun.TextLength);
+                                formattedStr = p.CreateRenderVx(buffer, textRun.TextStartIndex, textRun.TextLength);
 
-                            //    CssTextRun.SetCachedFormattedString(textRun, formattedStr);
-                            //}
-                            //if (formattedStr != null)
-                            //{
-                            //    p.DrawText(formattedStr,
-                            //                               new PointF(w.Left, w.Top),
-                            //                               new SizeF(w.Width, w.Height));
-                            //}
-                            //else
-                            //{
-                            //    p.DrawText(CssBox.UnsafeGetTextBuffer(w.OwnerBox),
-                            //                               textRun.TextStartIndex,
-                            //                               textRun.TextLength,
-                            //                               new PointF(w.Left, w.Top),
-                            //                               new SizeF(w.Width, w.Height));
-                            //}
+                                //TODO: see _renderVxFormattedString = d.CreateFormattedString(_mybuffer, 0, _mybuffer.Length, DelayFormattedString);
 
+                                if (formattedStr != null)
+                                {
+                                    CssTextRun.SetCachedFormattedString(textRun, formattedStr);
+                                    p.DrawText(formattedStr, new PointF(w.Left, w.Top),
+                                                             new SizeF(w.Width, w.Height));
+                                    
+                                }
+                                else
+                                {
+                                    //still null
+                                    p.DrawText(CssBox.UnsafeGetTextBuffer(w.OwnerBox),
+                                                       textRun.TextStartIndex,
+                                                       textRun.TextLength,
+                                                       new PointF(w.Left, w.Top),
+                                                       new SizeF(w.Width, w.Height));
+                                }
+                            }
+                            else
+                            {
+                                p.DrawText(formattedStr, new PointF(w.Left, w.Top),
+                                                        new SizeF(w.Width, w.Height)); 
+                            } 
                         }
                         break;
                     default:
