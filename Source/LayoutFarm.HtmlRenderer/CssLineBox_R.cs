@@ -153,9 +153,7 @@ namespace LayoutFarm.HtmlBoxes
                                 if (formattedStr != null)
                                 {
                                     CssTextRun.SetCachedFormattedString(textRun, formattedStr);
-                                    p.DrawText(formattedStr, new PointF(w.Left, w.Top),
-                                                             new SizeF(w.Width, w.Height));
-                                    
+                                    p.DrawText(formattedStr, w.Left, w.Top);
                                 }
                                 else
                                 {
@@ -169,9 +167,8 @@ namespace LayoutFarm.HtmlBoxes
                             }
                             else
                             {
-                                p.DrawText(formattedStr, new PointF(w.Left, w.Top),
-                                                        new SizeF(w.Width, w.Height)); 
-                            } 
+                                p.DrawText(formattedStr, w.Left, w.Top);
+                            }
                         }
                         break;
                     default:

@@ -280,7 +280,7 @@ namespace LayoutFarm.HtmlBoxes
                   (int)size.Width, (int)size.Height), 0
                   );
         }
-        public void DrawText(RenderVxFormattedString renderVxFormattedString, PointF point, SizeF size)
+        public void DrawText(RenderVxFormattedString renderVxFormattedString, float x, float y)
         {
 #if DEBUG
             dbugCounter.dbugDrawStringCount++;
@@ -289,10 +289,10 @@ namespace LayoutFarm.HtmlBoxes
             {
                 case RenderVxFormattedString.VxState.Ready:
                     {
-                        int ox = _drawBoard.OriginX;
-                        int oy = _drawBoard.OriginY;
+                        //int ox = _drawBoard.OriginX;
+                        //int oy = _drawBoard.OriginY;
                         //_drawBoard.SetCanvasOrigin((int)point.X, (int)point.Y);
-                        _drawBoard.DrawRenderVx(renderVxFormattedString, point.X, point.Y);
+                        _drawBoard.DrawRenderVx(renderVxFormattedString, x, y);
                         //_drawBoard.SetCanvasOrigin(ox, oy);//restore
                     }
                     break;
