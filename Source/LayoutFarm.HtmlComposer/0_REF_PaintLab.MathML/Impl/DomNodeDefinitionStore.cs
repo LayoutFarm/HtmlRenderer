@@ -1,7 +1,7 @@
 ﻿//MIT, 2020, Brezza92
 using LayoutFarm.Composers;
 using System;
-using System.Collections.Generic; 
+using System.Collections.Generic;
 namespace MathLayout
 {
 
@@ -21,9 +21,9 @@ namespace MathLayout
         {
             _nodeCreatorDic.Add(nodeName, creatorFunc);
         }
-        public MathNode CreateMathNode(HtmlElement xmlElem)
+        public MathNode CreateMathNode(string nodename)
         {
-            if (!_nodeCreatorDic.TryGetValue(xmlElem.Name, out MathNodeCreatorDelegate creator))
+            if (!_nodeCreatorDic.TryGetValue(nodename, out MathNodeCreatorDelegate creator))
             {
                 System.Diagnostics.Debugger.Break();//???
             }

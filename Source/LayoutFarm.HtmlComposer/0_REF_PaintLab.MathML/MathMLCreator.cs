@@ -1,10 +1,14 @@
 ﻿//MIT, 2020-present, WinterDev
 
 using System;
+using System.Collections.Generic;
+
 using LayoutFarm.Composers;
 using LayoutFarm.HtmlBoxes;
-using MathLayout;
 using LayoutFarm.WebDom;
+
+using MathLayout;
+
 namespace PaintLab.MathML
 {
 
@@ -29,7 +33,12 @@ namespace PaintLab.MathML
             _currentDoc = doc;
             _docBuilder.ResultDoc = doc;
             _docBuilder.OnBegin();
+
+            math mathNode = new math();
+            _docBuilder.CurrentMathNode = mathNode;
+
             CreateBoxContent(elementNode);
+
             _docBuilder.OnEnd();
 
             MathMLRootEventPortal mathMLController = new MathMLRootEventPortal(elementNode);
@@ -133,6 +142,7 @@ namespace PaintLab.MathML
     class MathMLDocBuilder
     {
         DomNodeDefinitionStore _nodeDefs = new DomNodeDefinitionStore();
+        Stack<MathNode> _nodes = new Stack<MathNode>();
         public MathMLDocBuilder()
         {
         }
@@ -140,7 +150,7 @@ namespace PaintLab.MathML
         public MathMLDocument ResultDoc { get; set; }
         public void OnBegin()
         {
-
+            _nodes.Clear();
         }
         public void OnEnd()
         {
@@ -148,15 +158,25 @@ namespace PaintLab.MathML
         }
         public void OnVisitNewElement(string elemName)
         {
+            if (elemName == "math")
+            {
+
+                return;
+            }
+
+            MathNode currNode = CurrentMathNode;
+
+            CurrentMathNode = _nodeDefs.CreateMathNode(elemName);
+            currNode.AppendChild(CurrentMathNode);
 
         }
         public void OnEnteringElementBody()
         {
-
+            _nodes.Push(CurrentMathNode);
         }
         public void OnExitingElementBody()
         {
-
+            CurrentMathNode = _nodes.Pop();
         }
         public void OnAttribute(string attrName, string value)
         {
