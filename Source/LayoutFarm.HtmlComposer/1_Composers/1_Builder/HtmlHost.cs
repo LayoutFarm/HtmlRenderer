@@ -113,7 +113,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             int j = _waitForUpdateBoxes.Count;
             for (int i = 0; i < j; ++i)
-            { 
+            {
                 if (HtmlBoxes.CssBox.UnsafeGetController(_waitForUpdateBoxes[i]) is UI.IUIEventListener controller)
                 {
                     controller.HandleElementUpdate();
@@ -499,6 +499,8 @@ namespace LayoutFarm.HtmlBoxes
                         childElement.SetPrincipalBox(newBox);
                         return newBox;
                     }
+               
+                //---------------------------------------------------
                 case WellKnownDomNodeName.NotAssign:
                 case WellKnownDomNodeName.Unknown:
                     {
@@ -570,16 +572,16 @@ namespace LayoutFarm.HtmlBoxes
         {
             ImageBinder imgBinder;
             if (childElement.TryGetAttribute(WellknownName.Src, out string imgsrc))
-            { 
-                imgBinder = new ImageBinder(imgsrc); 
+            {
+                imgBinder = new ImageBinder(imgsrc);
             }
             else
             {
-              
+
                 imgBinder = new ImageBinder(null as string);
             }
 
-            CssBoxImage boxImage = new CssBoxImage(childElement.Spec,  imgBinder);
+            CssBoxImage boxImage = new CssBoxImage(childElement.Spec, imgBinder);
             boxImage.SetController(childElement);
             parent.AppendChild(boxImage);
             return boxImage;

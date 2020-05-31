@@ -35,7 +35,7 @@ namespace LayoutFarm.Composers
         {
             //actual dom implementation ***
 
-            HtmlElement htmlElement = null;
+            HtmlElement htmlElement;
             switch (localName)
             {
                 case "img":
@@ -70,10 +70,10 @@ namespace LayoutFarm.Composers
                            AddStringIfNotExists(prefix),
                            AddStringIfNotExists(localName));
                     }
-                    break;
-              
+                    break; 
                 default:
-                    {
+                    {                            
+                         
                         htmlElement = new HtmlElement(this,
                            AddStringIfNotExists(prefix),
                            AddStringIfNotExists(localName));
@@ -135,11 +135,11 @@ namespace LayoutFarm.Composers
 
     public static class HtmlDocumentExtensions
     {
-        //explicit 
+
         public static HtmlElement CreateHtmlElement(this HtmlDocument doc, string prefix, string localName)
         {
             //wellknown name?
-            HtmlElement htmlElement = null;
+            HtmlElement htmlElement;
             switch (localName)
             {
                 case "img":
@@ -166,7 +166,7 @@ namespace LayoutFarm.Composers
                            doc.AddStringIfNotExists(prefix),
                            doc.AddStringIfNotExists(localName));
                     }
-                    break;
+                    break; 
                 default:
                     {
                         htmlElement = new HtmlElement(doc,
