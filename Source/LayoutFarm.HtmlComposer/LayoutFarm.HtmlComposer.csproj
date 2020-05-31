@@ -468,6 +468,7 @@
     <Compile Include="..\LayoutFarm.WebDom\HtmlLexer\MyHtmlLexer_dbug.cs">
       <Link>0_REF_LayoutFarm.WebDom\HtmlLexer\MyHtmlLexer_dbug.cs</Link>
     </Compile>
+    <Compile Include="0_REF_PaintLab.MathML\MathMLCreator.cs" />
     <Compile Include="0_Start\ComposerConfig.cs" />
     <Compile Include="1_Composers\1_Builder\BulletNumberFormatter.cs" />
     <Compile Include="1_Composers\1_Builder\CustomCssBoxGenerator.cs" />

@@ -11,6 +11,9 @@ namespace PaintLab.Svg
     {
         VgDocBuilder _svgDocBuilder = new VgDocBuilder();
         VgDocument _currentDoc;
+#if DEBUG
+        public SvgCreator() { }
+#endif
         public CssBoxSvgRoot CreateSvgBox(CssBox parentBox,
             HtmlElement elementNode,
             LayoutFarm.Css.BoxSpec spec)

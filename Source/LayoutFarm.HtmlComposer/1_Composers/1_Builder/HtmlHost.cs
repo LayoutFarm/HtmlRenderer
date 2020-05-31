@@ -69,6 +69,8 @@ namespace LayoutFarm.HtmlBoxes
 
         ITextService _textservice;
         PaintLab.Svg.SvgCreator _svgCreator;
+        PaintLab.MathML.MathMLBoxTreeCreator _mathMLCreator;
+
         string _baseUrl;
 
         public HtmlHost(HtmlHostCreationConfig config)
@@ -99,7 +101,7 @@ namespace LayoutFarm.HtmlBoxes
 
             _textservice = config.TextService;
             _svgCreator = new PaintLab.Svg.SvgCreator();
-
+            _mathMLCreator = new PaintLab.MathML.MathMLBoxTreeCreator();
 
         }
 
@@ -499,7 +501,11 @@ namespace LayoutFarm.HtmlBoxes
                         childElement.SetPrincipalBox(newBox);
                         return newBox;
                     }
-               
+                case WellKnownDomNodeName.math:
+                    {
+                        //math-element presentation
+                        return null;
+                    }
                 //---------------------------------------------------
                 case WellKnownDomNodeName.NotAssign:
                 case WellKnownDomNodeName.Unknown:

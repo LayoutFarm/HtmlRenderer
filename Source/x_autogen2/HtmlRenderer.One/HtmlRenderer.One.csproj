@@ -3428,6 +3428,9 @@
     <Compile Include="..\..\LayoutFarm.WebDom\HtmlLexer\MyHtmlLexer_dbug.cs">
       <Link>LayoutFarm.WebDom\HtmlLexer\MyHtmlLexer_dbug.cs</Link>
     </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\0_REF_PaintLab.MathML\MathMLCreator.cs">
+      <Link>LayoutFarm.HtmlComposer\0_REF_PaintLab.MathML\MathMLCreator.cs</Link>
+    </Compile>
     <Compile Include="..\..\LayoutFarm.HtmlComposer\0_REF_PaintLab_Svg\CssBoxSvgRoot.cs">
       <Link>LayoutFarm.HtmlComposer\0_REF_PaintLab_Svg\CssBoxSvgRoot.cs</Link>
     </Compile>
