@@ -3128,6 +3128,27 @@
     <Compile Include="..\..\..\..\pixelfarm\src\pixelfarm\paintlab.weblexer\XmlLexer_debug.cs">
       <Link>pixelfarm\src\pixelfarm\paintlab.weblexer\XmlLexer_debug.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\Typography\Demo\Windows\MathLayout\PaintLab.MathML\Box\GlyphBox.cs">
+      <Link>Typography\Demo\Windows\MathLayout\PaintLab.MathML\Box\GlyphBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Typography\Demo\Windows\MathLayout\PaintLab.MathML\Box\MathBoxTreeBuilderBase.cs">
+      <Link>Typography\Demo\Windows\MathLayout\PaintLab.MathML\Box\MathBoxTreeBuilderBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Typography\Demo\Windows\MathLayout\PaintLab.MathML\Box\Points_Rects.cs">
+      <Link>Typography\Demo\Windows\MathLayout\PaintLab.MathML\Box\Points_Rects.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Typography\Demo\Windows\MathLayout\PaintLab.MathML\Box\StackChild.cs">
+      <Link>Typography\Demo\Windows\MathLayout\PaintLab.MathML\Box\StackChild.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Typography\Demo\Windows\MathLayout\PaintLab.MathML\MathMLDom\AttributesEnum.cs">
+      <Link>Typography\Demo\Windows\MathLayout\PaintLab.MathML\MathMLDom\AttributesEnum.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Typography\Demo\Windows\MathLayout\PaintLab.MathML\MathMLDom\MathNode.cs">
+      <Link>Typography\Demo\Windows\MathLayout\PaintLab.MathML\MathMLDom\MathNode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Typography\Demo\Windows\MathLayout\PaintLab.MathML\MathMLDom\OperatorTableAutogen.cs">
+      <Link>Typography\Demo\Windows\MathLayout\PaintLab.MathML\MathMLDom\OperatorTableAutogen.cs</Link>
+    </Compile>
     <Compile Include="..\..\Deps_HtmlKit\HtmlKit\HtmlAttribute.cs">
       <Link>Deps_HtmlKit\HtmlKit\HtmlAttribute.cs</Link>
     </Compile>
@@ -3427,6 +3448,9 @@
     </Compile>
     <Compile Include="..\..\LayoutFarm.WebDom\HtmlLexer\MyHtmlLexer_dbug.cs">
       <Link>LayoutFarm.WebDom\HtmlLexer\MyHtmlLexer_dbug.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\0_REF_PaintLab.MathML\CssBoxMathMLRoot.cs">
+      <Link>LayoutFarm.HtmlComposer\0_REF_PaintLab.MathML\CssBoxMathMLRoot.cs</Link>
     </Compile>
     <Compile Include="..\..\LayoutFarm.HtmlComposer\0_REF_PaintLab.MathML\MathMLCreator.cs">
       <Link>LayoutFarm.HtmlComposer\0_REF_PaintLab.MathML\MathMLCreator.cs</Link>

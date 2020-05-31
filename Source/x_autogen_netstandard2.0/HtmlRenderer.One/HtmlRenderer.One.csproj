@@ -1063,6 +1063,13 @@
     <Compile Include="..\..\..\..\pixelfarm\src\pixelfarm\paintlab.weblexer\TextSnapshot.cs" Link="pixelfarm\src\pixelfarm\paintlab.weblexer\TextSnapshot.cs" />
     <Compile Include="..\..\..\..\pixelfarm\src\pixelfarm\paintlab.weblexer\XmlLexer.cs" Link="pixelfarm\src\pixelfarm\paintlab.weblexer\XmlLexer.cs" />
     <Compile Include="..\..\..\..\pixelfarm\src\pixelfarm\paintlab.weblexer\XmlLexer_debug.cs" Link="pixelfarm\src\pixelfarm\paintlab.weblexer\XmlLexer_debug.cs" />
+    <Compile Include="..\..\..\..\Typography\Demo\Windows\MathLayout\PaintLab.MathML\Box\GlyphBox.cs" Link="Typography\Demo\Windows\MathLayout\PaintLab.MathML\Box\GlyphBox.cs" />
+    <Compile Include="..\..\..\..\Typography\Demo\Windows\MathLayout\PaintLab.MathML\Box\MathBoxTreeBuilderBase.cs" Link="Typography\Demo\Windows\MathLayout\PaintLab.MathML\Box\MathBoxTreeBuilderBase.cs" />
+    <Compile Include="..\..\..\..\Typography\Demo\Windows\MathLayout\PaintLab.MathML\Box\Points_Rects.cs" Link="Typography\Demo\Windows\MathLayout\PaintLab.MathML\Box\Points_Rects.cs" />
+    <Compile Include="..\..\..\..\Typography\Demo\Windows\MathLayout\PaintLab.MathML\Box\StackChild.cs" Link="Typography\Demo\Windows\MathLayout\PaintLab.MathML\Box\StackChild.cs" />
+    <Compile Include="..\..\..\..\Typography\Demo\Windows\MathLayout\PaintLab.MathML\MathMLDom\AttributesEnum.cs" Link="Typography\Demo\Windows\MathLayout\PaintLab.MathML\MathMLDom\AttributesEnum.cs" />
+    <Compile Include="..\..\..\..\Typography\Demo\Windows\MathLayout\PaintLab.MathML\MathMLDom\MathNode.cs" Link="Typography\Demo\Windows\MathLayout\PaintLab.MathML\MathMLDom\MathNode.cs" />
+    <Compile Include="..\..\..\..\Typography\Demo\Windows\MathLayout\PaintLab.MathML\MathMLDom\OperatorTableAutogen.cs" Link="Typography\Demo\Windows\MathLayout\PaintLab.MathML\MathMLDom\OperatorTableAutogen.cs" />
     <Compile Include="..\..\Deps_HtmlKit\HtmlKit\HtmlAttribute.cs" Link="Deps_HtmlKit\HtmlKit\HtmlAttribute.cs" />
     <Compile Include="..\..\Deps_HtmlKit\HtmlKit\HtmlAttributeCollection.cs" Link="Deps_HtmlKit\HtmlKit\HtmlAttributeCollection.cs" />
     <Compile Include="..\..\Deps_HtmlKit\HtmlKit\HtmlEntityDecoder.cs" Link="Deps_HtmlKit\HtmlKit\HtmlEntityDecoder.cs" />
@@ -1163,6 +1170,7 @@
     <Compile Include="..\..\LayoutFarm.WebDom\HtmlLexer\HtmlLexer.cs" Link="LayoutFarm.WebDom\HtmlLexer\HtmlLexer.cs" />
     <Compile Include="..\..\LayoutFarm.WebDom\HtmlLexer\MyHtmlLexer.cs" Link="LayoutFarm.WebDom\HtmlLexer\MyHtmlLexer.cs" />
     <Compile Include="..\..\LayoutFarm.WebDom\HtmlLexer\MyHtmlLexer_dbug.cs" Link="LayoutFarm.WebDom\HtmlLexer\MyHtmlLexer_dbug.cs" />
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\0_REF_PaintLab.MathML\CssBoxMathMLRoot.cs" Link="LayoutFarm.HtmlComposer\0_REF_PaintLab.MathML\CssBoxMathMLRoot.cs" />
     <Compile Include="..\..\LayoutFarm.HtmlComposer\0_REF_PaintLab.MathML\MathMLCreator.cs" Link="LayoutFarm.HtmlComposer\0_REF_PaintLab.MathML\MathMLCreator.cs" />
     <Compile Include="..\..\LayoutFarm.HtmlComposer\0_REF_PaintLab_Svg\CssBoxSvgRoot.cs" Link="LayoutFarm.HtmlComposer\0_REF_PaintLab_Svg\CssBoxSvgRoot.cs" />
     <Compile Include="..\..\LayoutFarm.HtmlComposer\0_REF_PaintLab_Svg\SvgCreator.cs" Link="LayoutFarm.HtmlComposer\0_REF_PaintLab_Svg\SvgCreator.cs" />
@@ -1673,6 +1681,8 @@
     <Folder Include="pixelfarm\src\pixelfarm\paintlab.webdom\2_svg" />
     <Folder Include="pixelfarm\src\pixelfarm\paintlab.webdom\iscriptable" />
     <Folder Include="pixelfarm\src\pixelfarm\paintlab.weblexer" />
+    <Folder Include="Typography\Demo\Windows\MathLayout\PaintLab.MathML\Box" />
+    <Folder Include="Typography\Demo\Windows\MathLayout\PaintLab.MathML\MathMLDom" />
     <Folder Include="Deps_HtmlKit\HtmlKit" />
     <Folder Include="layoutfarm.htmllayout\1_css" />
     <Folder Include="layoutfarm.htmllayout\2_boxes\0_root" />

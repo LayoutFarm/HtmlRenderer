@@ -168,6 +168,27 @@
     <Compile Include="..\..\..\pixelfarm\src\pixelfarm\pixelfarm.drawingcore\ExtensionAttribute.cs">
       <Link>0_REF_PaintLab.WebDom\Net20\ExtensionAttribute.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Typography\Demo\Windows\MathLayout\PaintLab.MathML\Box\GlyphBox.cs">
+      <Link>0_REF_PaintLab.MathML\Visual\GlyphBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Typography\Demo\Windows\MathLayout\PaintLab.MathML\Box\MathBoxTreeBuilderBase.cs">
+      <Link>0_REF_PaintLab.MathML\Visual\MathBoxTreeBuilderBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Typography\Demo\Windows\MathLayout\PaintLab.MathML\Box\Points_Rects.cs">
+      <Link>0_REF_PaintLab.MathML\Visual\Points_Rects.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Typography\Demo\Windows\MathLayout\PaintLab.MathML\Box\StackChild.cs">
+      <Link>0_REF_PaintLab.MathML\Visual\StackChild.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Typography\Demo\Windows\MathLayout\PaintLab.MathML\MathMLDom\AttributesEnum.cs">
+      <Link>0_REF_PaintLab.MathML\Dom\AttributesEnum.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Typography\Demo\Windows\MathLayout\PaintLab.MathML\MathMLDom\MathNode.cs">
+      <Link>0_REF_PaintLab.MathML\Dom\MathNode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Typography\Demo\Windows\MathLayout\PaintLab.MathML\MathMLDom\OperatorTableAutogen.cs">
+      <Link>0_REF_PaintLab.MathML\Dom\OperatorTableAutogen.cs</Link>
+    </Compile>
     <Compile Include="..\Deps_HtmlKit\HtmlKit\HtmlAttribute.cs">
       <Link>0_REF_LayoutFarm.WebDom\5_HtmlKit\HtmlAttribute.cs</Link>
     </Compile>
@@ -468,6 +489,7 @@
     <Compile Include="..\LayoutFarm.WebDom\HtmlLexer\MyHtmlLexer_dbug.cs">
       <Link>0_REF_LayoutFarm.WebDom\HtmlLexer\MyHtmlLexer_dbug.cs</Link>
     </Compile>
+    <Compile Include="0_REF_PaintLab.MathML\CssBoxMathMLRoot.cs" />
     <Compile Include="0_REF_PaintLab.MathML\MathMLCreator.cs" />
     <Compile Include="0_Start\ComposerConfig.cs" />
     <Compile Include="1_Composers\1_Builder\BulletNumberFormatter.cs" />

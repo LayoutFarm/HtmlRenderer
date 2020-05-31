@@ -9,6 +9,11 @@ namespace PaintLab.MathML
 
     class MathMLBoxTreeCreator
     {
+        //see also PaintLab.Svg.SvgCreator
+#if DEBUG
+        public MathMLBoxTreeCreator() { }
+#endif
+
 
     }
 }
