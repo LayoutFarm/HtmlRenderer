@@ -1,7 +1,7 @@
 ﻿//MS-PL, Apache2, 2014-present, WinterDev
 using PixelFarm.Drawing;
 using PixelFarm.CpuBlit;
-using PaintLab.Svg;
+ 
 
 namespace LayoutFarm.HtmlBoxes
 {

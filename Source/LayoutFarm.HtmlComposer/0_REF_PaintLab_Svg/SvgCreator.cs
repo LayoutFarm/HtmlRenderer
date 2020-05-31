@@ -69,9 +69,7 @@ namespace PaintLab.Svg
                 {
                     case LayoutFarm.WebDom.HtmlNodeKind.OpenElement:
                         {
-
-                            HtmlElement htmlElem = childNode as HtmlElement;
-                            if (htmlElem != null)
+                            if (childNode is HtmlElement htmlElem)
                             {
                                 //recursive ***
                                 CreateBoxContent(htmlElem);
@@ -80,8 +78,7 @@ namespace PaintLab.Svg
                         break;
                     case LayoutFarm.WebDom.HtmlNodeKind.TextNode:
                         {
-                            HtmlTextNode textnode = childNode as HtmlTextNode;
-                            if (textnode != null)
+                            if (childNode is HtmlTextNode textnode)
                             {
                                 if (elem.WellknownElementName == LayoutFarm.WebDom.WellKnownDomNodeName.style)
                                 {

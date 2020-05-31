@@ -4,7 +4,7 @@
 
 using LayoutFarm.UI;
 
-namespace PaintLab.Svg
+namespace PaintLab.MathML
 {
     partial class MathMLRootEventPortal : IEventPortal
     {

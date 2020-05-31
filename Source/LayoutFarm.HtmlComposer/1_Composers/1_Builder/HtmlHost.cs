@@ -503,8 +503,10 @@ namespace LayoutFarm.HtmlBoxes
                     }
                 case WellKnownDomNodeName.math:
                     {
-                        //math-element presentation
-                        return null;
+                        //math-element container node
+                        newBox = _mathMLCreator.CreateMathMLBox(parentBox, childElement, childElement.Spec);
+                        childElement.SetPrincipalBox(newBox);
+                        return newBox;
                     }
                 //---------------------------------------------------
                 case WellKnownDomNodeName.NotAssign:
