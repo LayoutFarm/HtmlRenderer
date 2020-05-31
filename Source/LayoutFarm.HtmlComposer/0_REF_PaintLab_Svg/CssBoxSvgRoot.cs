@@ -13,10 +13,11 @@ namespace LayoutFarm.HtmlBoxes
         VgVisualElement _vgVisualElem;
         VgVisualDocHost _vgVisualDocHost;
 
-        static OpenFontTextService s_openfontTextService;
+        
         public CssBoxSvgRoot(Css.BoxSpec spec, VgDocument svgdoc)
             : base(spec, Css.CssDisplay.Block)
         {
+            
             //----------
             _vgVisualDocHost = new PaintLab.Svg.VgVisualDocHost();
             _vgVisualDocHost.SetImgRequestDelgate((ImageBinder reqImgBinder, PaintLab.Svg.VgVisualElement vgVisualE, object requestFrom) =>
@@ -37,11 +38,7 @@ namespace LayoutFarm.HtmlBoxes
             //convert svgElem to agg-based 
             ChangeDisplayType(this, Css.CssDisplay.Block);
         }
-        public bool DisableBmpCache
-        {
-            get;
-            set;
-        }
+        public bool DisableBmpCache { get; set; }
         public override void CustomRecomputedValue(CssBox containingBlock)
         {
             //TODO: review here again***
@@ -72,11 +69,7 @@ namespace LayoutFarm.HtmlBoxes
                 }
                 //TODO: review here
                 //temp fix
-                if (s_openfontTextService == null)
-                {
-                    s_openfontTextService = new OpenFontTextService();
-                }
-
+                 
                 //painter.CurrentFont = new RequestFont("tahoma", 14);
                 //var textPrinter = new PixelFarm.Drawing.Fonts.VxsTextPrinter(painter, s_openfontTextService);
                 //painter.TextPrinter = textPrinter;
@@ -121,11 +114,7 @@ namespace LayoutFarm.HtmlBoxes
                 PixelFarm.CpuBlit.AggPainter painter = PixelFarm.CpuBlit.AggPainter.Create(backimg);
                 //TODO: review here
                 //temp fix
-                if (s_openfontTextService == null)
-                {
-                    s_openfontTextService = new OpenFontTextService();
-                }
-
+                
 
                 //
                 double prevStrokeW = painter.StrokeWidth;
