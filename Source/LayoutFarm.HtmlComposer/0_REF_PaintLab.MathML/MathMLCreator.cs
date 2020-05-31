@@ -94,8 +94,7 @@ namespace PaintLab.MathML
                         break;
                     case LayoutFarm.WebDom.HtmlNodeKind.TextNode:
                         {
-                            HtmlTextNode textnode = childNode as HtmlTextNode;
-                            if (textnode != null)
+                            if (childNode is HtmlTextNode textnode)
                             {
                                 if (elem.WellknownElementName == LayoutFarm.WebDom.WellKnownDomNodeName.style)
                                 {
@@ -133,6 +132,7 @@ namespace PaintLab.MathML
 
     class MathMLDocBuilder
     {
+        DomNodeDefinitionStore _nodeDefs = new DomNodeDefinitionStore();
         public MathMLDocBuilder()
         {
         }

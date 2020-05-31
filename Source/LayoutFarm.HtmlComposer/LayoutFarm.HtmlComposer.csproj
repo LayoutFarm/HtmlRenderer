@@ -168,6 +168,9 @@
     <Compile Include="..\..\..\pixelfarm\src\pixelfarm\pixelfarm.drawingcore\ExtensionAttribute.cs">
       <Link>0_REF_PaintLab.WebDom\Net20\ExtensionAttribute.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\Typography\Demo\Windows\MathLayout\MathLayout\MathMLDom\DomAutoGen.cs">
+      <Link>0_REF_PaintLab.MathML\Impl\DomAutoGen.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Typography\Demo\Windows\MathLayout\PaintLab.MathML\Box\GlyphBox.cs">
       <Link>0_REF_PaintLab.MathML\Visual\GlyphBox.cs</Link>
     </Compile>
@@ -490,6 +493,7 @@
       <Link>0_REF_LayoutFarm.WebDom\HtmlLexer\MyHtmlLexer_dbug.cs</Link>
     </Compile>
     <Compile Include="0_REF_PaintLab.MathML\CssBoxMathMLRoot.cs" />
+    <Compile Include="0_REF_PaintLab.MathML\Impl\DomNodeDefinitionStore.cs" />
     <Compile Include="0_REF_PaintLab.MathML\MathMLCreator.cs" />
     <Compile Include="0_REF_PaintLab.MathML\MathMLRootEventPortal.cs" />
     <Compile Include="0_REF_PaintLab.MathML\MathMLRootEventPortal_IEventPortal.cs" />
@@ -539,6 +543,7 @@
       <Name>PixelFarm.One.HtmlRenderer</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

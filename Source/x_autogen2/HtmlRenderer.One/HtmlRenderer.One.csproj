@@ -3128,6 +3128,9 @@
     <Compile Include="..\..\..\..\pixelfarm\src\pixelfarm\paintlab.weblexer\XmlLexer_debug.cs">
       <Link>pixelfarm\src\pixelfarm\paintlab.weblexer\XmlLexer_debug.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\Typography\Demo\Windows\MathLayout\MathLayout\MathMLDom\DomAutoGen.cs">
+      <Link>Typography\Demo\Windows\MathLayout\MathLayout\MathMLDom\DomAutoGen.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\Typography\Demo\Windows\MathLayout\PaintLab.MathML\Box\GlyphBox.cs">
       <Link>Typography\Demo\Windows\MathLayout\PaintLab.MathML\Box\GlyphBox.cs</Link>
     </Compile>
@@ -3451,6 +3454,9 @@
     </Compile>
     <Compile Include="..\..\LayoutFarm.HtmlComposer\0_REF_PaintLab.MathML\CssBoxMathMLRoot.cs">
       <Link>LayoutFarm.HtmlComposer\0_REF_PaintLab.MathML\CssBoxMathMLRoot.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\0_REF_PaintLab.MathML\Impl\DomNodeDefinitionStore.cs">
+      <Link>LayoutFarm.HtmlComposer\0_REF_PaintLab.MathML\Impl\DomNodeDefinitionStore.cs</Link>
     </Compile>
     <Compile Include="..\..\LayoutFarm.HtmlComposer\0_REF_PaintLab.MathML\MathMLCreator.cs">
       <Link>LayoutFarm.HtmlComposer\0_REF_PaintLab.MathML\MathMLCreator.cs</Link>

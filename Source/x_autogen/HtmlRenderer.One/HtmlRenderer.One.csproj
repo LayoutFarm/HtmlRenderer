@@ -1062,6 +1062,7 @@
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\LayoutFarm.HtmlComposer\..\..\..\pixelfarm\src\pixelfarm\paintlab.weblexer\TextSnapshot.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\LayoutFarm.HtmlComposer\..\..\..\pixelfarm\src\pixelfarm\paintlab.weblexer\XmlLexer.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\LayoutFarm.HtmlComposer\..\..\..\pixelfarm\src\pixelfarm\paintlab.weblexer\XmlLexer_debug.cs" />
+    <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\LayoutFarm.HtmlComposer\..\..\..\Typography\Demo\Windows\MathLayout\MathLayout\MathMLDom\DomAutoGen.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\LayoutFarm.HtmlComposer\..\..\..\Typography\Demo\Windows\MathLayout\PaintLab.MathML\Box\GlyphBox.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\LayoutFarm.HtmlComposer\..\..\..\Typography\Demo\Windows\MathLayout\PaintLab.MathML\Box\MathBoxTreeBuilderBase.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\LayoutFarm.HtmlComposer\..\..\..\Typography\Demo\Windows\MathLayout\PaintLab.MathML\Box\Points_Rects.cs" />
@@ -1170,6 +1171,7 @@
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\LayoutFarm.HtmlComposer\..\LayoutFarm.WebDom\HtmlLexer\MyHtmlLexer.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\LayoutFarm.HtmlComposer\..\LayoutFarm.WebDom\HtmlLexer\MyHtmlLexer_dbug.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\LayoutFarm.HtmlComposer\0_REF_PaintLab.MathML\CssBoxMathMLRoot.cs" />
+    <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\LayoutFarm.HtmlComposer\0_REF_PaintLab.MathML\Impl\DomNodeDefinitionStore.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\LayoutFarm.HtmlComposer\0_REF_PaintLab.MathML\MathMLCreator.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\LayoutFarm.HtmlComposer\0_REF_PaintLab.MathML\MathMLHitChain.cs" />
     <Compile Include="D:\projects\HtmlRenderer\Source\x_merge_projects\HtmlRenderer.One\..\..\LayoutFarm.HtmlComposer\0_REF_PaintLab.MathML\MathMLRootEventPortal.cs" />

@@ -1063,6 +1063,7 @@
     <Compile Include="..\..\..\..\pixelfarm\src\pixelfarm\paintlab.weblexer\TextSnapshot.cs" Link="pixelfarm\src\pixelfarm\paintlab.weblexer\TextSnapshot.cs" />
     <Compile Include="..\..\..\..\pixelfarm\src\pixelfarm\paintlab.weblexer\XmlLexer.cs" Link="pixelfarm\src\pixelfarm\paintlab.weblexer\XmlLexer.cs" />
     <Compile Include="..\..\..\..\pixelfarm\src\pixelfarm\paintlab.weblexer\XmlLexer_debug.cs" Link="pixelfarm\src\pixelfarm\paintlab.weblexer\XmlLexer_debug.cs" />
+    <Compile Include="..\..\..\..\Typography\Demo\Windows\MathLayout\MathLayout\MathMLDom\DomAutoGen.cs" Link="Typography\Demo\Windows\MathLayout\MathLayout\MathMLDom\DomAutoGen.cs" />
     <Compile Include="..\..\..\..\Typography\Demo\Windows\MathLayout\PaintLab.MathML\Box\GlyphBox.cs" Link="Typography\Demo\Windows\MathLayout\PaintLab.MathML\Box\GlyphBox.cs" />
     <Compile Include="..\..\..\..\Typography\Demo\Windows\MathLayout\PaintLab.MathML\Box\MathBoxTreeBuilderBase.cs" Link="Typography\Demo\Windows\MathLayout\PaintLab.MathML\Box\MathBoxTreeBuilderBase.cs" />
     <Compile Include="..\..\..\..\Typography\Demo\Windows\MathLayout\PaintLab.MathML\Box\Points_Rects.cs" Link="Typography\Demo\Windows\MathLayout\PaintLab.MathML\Box\Points_Rects.cs" />
@@ -1171,6 +1172,7 @@
     <Compile Include="..\..\LayoutFarm.WebDom\HtmlLexer\MyHtmlLexer.cs" Link="LayoutFarm.WebDom\HtmlLexer\MyHtmlLexer.cs" />
     <Compile Include="..\..\LayoutFarm.WebDom\HtmlLexer\MyHtmlLexer_dbug.cs" Link="LayoutFarm.WebDom\HtmlLexer\MyHtmlLexer_dbug.cs" />
     <Compile Include="..\..\LayoutFarm.HtmlComposer\0_REF_PaintLab.MathML\CssBoxMathMLRoot.cs" Link="LayoutFarm.HtmlComposer\0_REF_PaintLab.MathML\CssBoxMathMLRoot.cs" />
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\0_REF_PaintLab.MathML\Impl\DomNodeDefinitionStore.cs" Link="LayoutFarm.HtmlComposer\0_REF_PaintLab.MathML\Impl\DomNodeDefinitionStore.cs" />
     <Compile Include="..\..\LayoutFarm.HtmlComposer\0_REF_PaintLab.MathML\MathMLCreator.cs" Link="LayoutFarm.HtmlComposer\0_REF_PaintLab.MathML\MathMLCreator.cs" />
     <Compile Include="..\..\LayoutFarm.HtmlComposer\0_REF_PaintLab.MathML\MathMLHitChain.cs" Link="LayoutFarm.HtmlComposer\0_REF_PaintLab.MathML\MathMLHitChain.cs" />
     <Compile Include="..\..\LayoutFarm.HtmlComposer\0_REF_PaintLab.MathML\MathMLRootEventPortal.cs" Link="LayoutFarm.HtmlComposer\0_REF_PaintLab.MathML\MathMLRootEventPortal.cs" />
@@ -1684,6 +1686,7 @@
     <Folder Include="pixelfarm\src\pixelfarm\paintlab.webdom\2_svg" />
     <Folder Include="pixelfarm\src\pixelfarm\paintlab.webdom\iscriptable" />
     <Folder Include="pixelfarm\src\pixelfarm\paintlab.weblexer" />
+    <Folder Include="Typography\Demo\Windows\MathLayout\MathLayout\MathMLDom" />
     <Folder Include="Typography\Demo\Windows\MathLayout\PaintLab.MathML\Box" />
     <Folder Include="Typography\Demo\Windows\MathLayout\PaintLab.MathML\MathMLDom" />
     <Folder Include="Deps_HtmlKit\HtmlKit" />
@@ -1703,6 +1706,7 @@
     <Folder Include="LayoutFarm.WebDom\4_WebDom.Impl" />
     <Folder Include="LayoutFarm.WebDom\HtmlLexer" />
     <Folder Include="LayoutFarm.HtmlComposer\0_REF_PaintLab.MathML" />
+    <Folder Include="LayoutFarm.HtmlComposer\0_REF_PaintLab.MathML\Impl" />
     <Folder Include="LayoutFarm.HtmlComposer\0_REF_PaintLab_Svg" />
     <Folder Include="LayoutFarm.HtmlComposer\0_Start" />
     <Folder Include="LayoutFarm.HtmlComposer\1_Composers\1_Builder" />
