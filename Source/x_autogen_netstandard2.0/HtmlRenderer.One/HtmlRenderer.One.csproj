@@ -1172,6 +1172,9 @@
     <Compile Include="..\..\LayoutFarm.WebDom\HtmlLexer\MyHtmlLexer_dbug.cs" Link="LayoutFarm.WebDom\HtmlLexer\MyHtmlLexer_dbug.cs" />
     <Compile Include="..\..\LayoutFarm.HtmlComposer\0_REF_PaintLab.MathML\CssBoxMathMLRoot.cs" Link="LayoutFarm.HtmlComposer\0_REF_PaintLab.MathML\CssBoxMathMLRoot.cs" />
     <Compile Include="..\..\LayoutFarm.HtmlComposer\0_REF_PaintLab.MathML\MathMLCreator.cs" Link="LayoutFarm.HtmlComposer\0_REF_PaintLab.MathML\MathMLCreator.cs" />
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\0_REF_PaintLab.MathML\MathMLHitChain.cs" Link="LayoutFarm.HtmlComposer\0_REF_PaintLab.MathML\MathMLHitChain.cs" />
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\0_REF_PaintLab.MathML\MathMLRootEventPortal.cs" Link="LayoutFarm.HtmlComposer\0_REF_PaintLab.MathML\MathMLRootEventPortal.cs" />
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\0_REF_PaintLab.MathML\MathMLRootEventPortal_IEventPortal.cs" Link="LayoutFarm.HtmlComposer\0_REF_PaintLab.MathML\MathMLRootEventPortal_IEventPortal.cs" />
     <Compile Include="..\..\LayoutFarm.HtmlComposer\0_REF_PaintLab_Svg\CssBoxSvgRoot.cs" Link="LayoutFarm.HtmlComposer\0_REF_PaintLab_Svg\CssBoxSvgRoot.cs" />
     <Compile Include="..\..\LayoutFarm.HtmlComposer\0_REF_PaintLab_Svg\SvgCreator.cs" Link="LayoutFarm.HtmlComposer\0_REF_PaintLab_Svg\SvgCreator.cs" />
     <Compile Include="..\..\LayoutFarm.HtmlComposer\0_REF_PaintLab_Svg\SvgRootEventPortal.cs" Link="LayoutFarm.HtmlComposer\0_REF_PaintLab_Svg\SvgRootEventPortal.cs" />

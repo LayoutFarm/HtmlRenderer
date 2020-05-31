@@ -3455,6 +3455,15 @@
     <Compile Include="..\..\LayoutFarm.HtmlComposer\0_REF_PaintLab.MathML\MathMLCreator.cs">
       <Link>LayoutFarm.HtmlComposer\0_REF_PaintLab.MathML\MathMLCreator.cs</Link>
     </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\0_REF_PaintLab.MathML\MathMLHitChain.cs">
+      <Link>LayoutFarm.HtmlComposer\0_REF_PaintLab.MathML\MathMLHitChain.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\0_REF_PaintLab.MathML\MathMLRootEventPortal.cs">
+      <Link>LayoutFarm.HtmlComposer\0_REF_PaintLab.MathML\MathMLRootEventPortal.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlComposer\0_REF_PaintLab.MathML\MathMLRootEventPortal_IEventPortal.cs">
+      <Link>LayoutFarm.HtmlComposer\0_REF_PaintLab.MathML\MathMLRootEventPortal_IEventPortal.cs</Link>
+    </Compile>
     <Compile Include="..\..\LayoutFarm.HtmlComposer\0_REF_PaintLab_Svg\CssBoxSvgRoot.cs">
       <Link>LayoutFarm.HtmlComposer\0_REF_PaintLab_Svg\CssBoxSvgRoot.cs</Link>
     </Compile>

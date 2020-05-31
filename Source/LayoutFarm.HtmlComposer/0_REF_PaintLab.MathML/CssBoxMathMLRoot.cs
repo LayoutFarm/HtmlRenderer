@@ -7,8 +7,7 @@ namespace LayoutFarm.HtmlBoxes
 {
 
     public sealed class CssBoxMathMLRoot : CssBox
-    {
-        //
+    {   
         public CssBoxMathMLRoot(Css.BoxSpec spec)
          : base(spec, Css.CssDisplay.Block)
         {
