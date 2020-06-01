@@ -93,7 +93,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             run._hostline = hostline;
         }
-
+       
         internal void InvalidateGraphics()
         {
             switch (_runKind)

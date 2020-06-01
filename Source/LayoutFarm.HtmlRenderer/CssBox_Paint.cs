@@ -647,14 +647,15 @@ namespace LayoutFarm.HtmlBoxes
         }
         internal void PaintDecoration(DrawBoard g, RectangleF rectangle, bool isFirst, bool isLast)
         {
-            float y = 0f;
+            float y;
             switch (this.TextDecoration)
             {
                 default:
                     return;
                 case Css.CssTextDecoration.Underline:
                     {
-                        y = (float)Math.Round(rectangle.Bottom - 1);
+                        //TODO: review here,  //temp fix with 3
+                        y = (float)Math.Round(rectangle.Bottom - 3);
                     }
                     break;
                 case Css.CssTextDecoration.LineThrough:
@@ -668,9 +669,7 @@ namespace LayoutFarm.HtmlBoxes
                     }
                     break;
             }
-
-
-            //y -= ActualPaddingBottom - ActualBorderBottomWidth;
+            
             y -= (ActualPaddingBottom + ActualBorderBottomWidth);
             float x1 = rectangle.Left;
             if (isFirst)

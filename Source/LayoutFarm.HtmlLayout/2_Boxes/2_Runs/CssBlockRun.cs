@@ -13,7 +13,7 @@ namespace LayoutFarm.HtmlBoxes
             _contentBlockBox = contentBlockBox;
         }
         public CssBox ContentBox => _contentBlockBox;
-
+        
         public override void WriteContent(System.Text.StringBuilder stbuilder, int start, int length)
         {
             //nothing to write?
