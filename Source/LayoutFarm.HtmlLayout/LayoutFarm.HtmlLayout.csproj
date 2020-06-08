@@ -86,13 +86,13 @@
       <Project>{bf5f9590-f680-403d-932a-7cdd12af89fb}</Project>
       <Name>PaintLab.CssBase</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\PixelFarm\src\PixelFarm\PixelFarm.PrimitiveDrawing\PixelFarm.PrimitiveDrawing.csproj">
-      <Project>{112196ba-8717-4435-baf1-5014c2e05cfd}</Project>
-      <Name>PixelFarm.PrimitiveDrawing</Name>
+    <ProjectReference Include="..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing\PixelFarm.Drawing.csproj">
+      <Project>{51d63482-5697-4b16-8401-506965624657}</Project>
+      <Name>PixelFarm.Drawing</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\PixelFarm\src\PixelFarm\PixelFarm.PrimitiveGeo\PixelFarm.PrimitiveGeo.csproj">
-      <Project>{b951ff5b-d7a0-4259-880d-cb7a0c001956}</Project>
-      <Name>PixelFarm.PrimitiveGeo</Name>
+    <ProjectReference Include="..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Typography\PixelFarm.Typography.csproj">
+      <Project>{ec1307c6-309f-43ea-bfcc-5219e2f5a103}</Project>
+      <Name>PixelFarm.Typography</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
