@@ -259,8 +259,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             _drawBoard.FillRectangle(c, x, y, w, h);
         }
-        public void SetLatestFillAsTextBackgroundColorHint() => _drawBoard.SetLatestFillAsTextBackgroundColorHint();
-
+       
         public void DrawRectangle(Color c, float x, float y, float w, float h)
         {
             _drawBoard.DrawRectangle(c, x, y, w, h);
