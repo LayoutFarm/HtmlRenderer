@@ -54,10 +54,10 @@
     <Compile Include="..\..\..\..\Typography\Typography.GlyphLayout\GlyphSubstitution.cs" Link="Typography\Typography.GlyphLayout\GlyphSubstitution.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.GlyphLayout\MeasureStringBox.cs" Link="Typography\Typography.GlyphLayout\MeasureStringBox.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.GlyphLayout\PixelScaleLayoutExtensions.cs" Link="Typography\Typography.GlyphLayout\PixelScaleLayoutExtensions.cs" />
-    <Compile Include="..\..\..\..\Typography\Typography.GlyphLayout\ScriptLang.cs" Link="Typography\Typography.GlyphLayout\ScriptLang.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.GlyphLayout\UserCharToGlyphIndexMap.cs" Link="Typography\Typography.GlyphLayout\UserCharToGlyphIndexMap.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\AdditionalInfo\AdobeGlyphList.cs" Link="Typography\Typography.OpenFont\AdditionalInfo\AdobeGlyphList.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\AdditionalInfo\AdobeGlyphListForNewFont.cs" Link="Typography\Typography.OpenFont\AdditionalInfo\AdobeGlyphListForNewFont.cs" />
+    <Compile Include="..\..\..\..\Typography\Typography.OpenFont\AdditionalInfo\Languages.cs" Link="Typography\Typography.OpenFont\AdditionalInfo\Languages.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\AdditionalInfo\MacPostFormat1.cs" Link="Typography\Typography.OpenFont\AdditionalInfo\MacPostFormat1.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\AdditionalInfo\OS2_IBMFontClassParameters.cs" Link="Typography\Typography.OpenFont\AdditionalInfo\OS2_IBMFontClassParameters.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\Bounds.cs" Link="Typography\Typography.OpenFont\Bounds.cs" />
@@ -66,6 +66,7 @@
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\IGlyphTranslator.cs" Link="Typography\Typography.OpenFont\IGlyphTranslator.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\IO\ByteOrderSwappingBinaryReader.cs" Link="Typography\Typography.OpenFont\IO\ByteOrderSwappingBinaryReader.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\OpenFontReader.cs" Link="Typography\Typography.OpenFont\OpenFontReader.cs" />
+    <Compile Include="..\..\..\..\Typography\Typography.OpenFont\ScriptLang.cs" Link="Typography\Typography.OpenFont\ScriptLang.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\Tables.AdvancedLayout\AttachmentListTable.cs" Link="Typography\Typography.OpenFont\Tables.AdvancedLayout\AttachmentListTable.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\Tables.AdvancedLayout\Base.cs" Link="Typography\Typography.OpenFont\Tables.AdvancedLayout\Base.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\Tables.AdvancedLayout\ClassDefTable.cs" Link="Typography\Typography.OpenFont\Tables.AdvancedLayout\ClassDefTable.cs" />
