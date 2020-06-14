@@ -74,6 +74,12 @@ namespace LayoutFarm.WebDom
         //{
         //    OnContentUpdate();
         //}
+#if DEBUG
+        void IUIEventListener.dbugDevWriteInfo()
+        {
+
+        }
+#endif
         void IUIEventListener.HandleElementUpdate()
         {
             OnElementChanged();
