@@ -94,6 +94,10 @@
       <Project>{b951ff5b-d7a0-4259-880d-cb7a0c001956}</Project>
       <Name>PixelFarm.PrimitiveGeo</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\PixelFarm\src\PixelFarm\Typography.One\Typography.One.csproj">
+      <Project>{5278fab9-33f0-40e0-adca-7237ea0e935b}</Project>
+      <Name>Typography.One</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

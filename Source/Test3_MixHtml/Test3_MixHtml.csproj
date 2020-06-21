@@ -47,6 +47,9 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\Typography\Demo\Windows\PixelFarmSample.WinForms\FontAtlasBuilderHelper.cs">
+      <Link>FontAtlasBuilderHelper.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Typography\Typography.TextBreak\TextBreakerTest\IcuSimpleTextFileDictionaryProvider.cs">
       <Link>IcuSimpleTextFileDictionaryProvider.cs</Link>
     </Compile>
