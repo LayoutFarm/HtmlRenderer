@@ -145,20 +145,25 @@ namespace LayoutFarm.HtmlBoxes
         internal bool NeedComputedValueEvaluation => (_boxCompactFlags & BoxFlags.LAY_EVAL_COMPUTE_VALUES) == 0;
 
 
+
         public void ReEvaluateFont(ITextService iFonts, float parentFontSize)
         {
-            RequestFont fontInfo = _myspec.GetFont(parentFontSize);
 
+            RequestFont fontInfo = _myspec.GetFont(parentFontSize);
             _resolvedFont = fontInfo;
+            _resolvedFont1 = GlobalTextService.TextService2.ResolveFont(fontInfo);
 
 
             if (_myspec.WordSpacing.IsNormalWordSpacing)
             {
-                _actualWordSpacing = iFonts.MeasureWhitespace(_resolvedFont);
+                //use normal spacing
+                _actualWordSpacing = _resolvedFont1.WhitespaceWidth;//use pre-rounding (int) or exact scaled value ???
             }
             else
             {
-                _actualWordSpacing = iFonts.MeasureWhitespace(_resolvedFont) +
+                //TODO: review here,***
+                //additional to original whitespacing or REPLACE with the new value
+                _actualWordSpacing = _resolvedFont1.WhitespaceWidth +//use pre-rounding (int) or exact scaled value ???
                                           CssLengthExt.ConvertToPx(_myspec.WordSpacing, 1, this);
             }
         }
@@ -176,11 +181,13 @@ namespace LayoutFarm.HtmlBoxes
                 if (this.ParentBox.ResolvedFont == null)
                 {
                     //TODO: review this ... WHY?
-                    ReEvaluateFont(iFonts, containingBlock.ResolvedFont.SizeInPixels);
+
+                    //SIZE in point unit or pixel???
+                    ReEvaluateFont(iFonts, containingBlock._resolvedFont1.SizeInPoints);
                 }
                 else
                 {
-                    ReEvaluateFont(iFonts, this.ParentBox.ResolvedFont.SizeInPixels);
+                    ReEvaluateFont(iFonts, this.ParentBox._resolvedFont1.SizeInPoints);
                 }
 
 
@@ -191,7 +198,7 @@ namespace LayoutFarm.HtmlBoxes
             }
             else
             {
-                ReEvaluateFont(iFonts, containingBlock.ResolvedFont.SizeInPixels);
+                ReEvaluateFont(iFonts, containingBlock._resolvedFont1.SizeInPoints);
                 //_actualFont = this.Spec.GetFont(containingBlock.Spec);
             }
 

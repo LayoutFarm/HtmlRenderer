@@ -163,7 +163,8 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         internal RequestFont ResolvedFont => _resolvedFont;
 
-
+        ResolvedFont _resolvedFont1;
+        internal ResolvedFont ResolvedFont1 => _resolvedFont1;
         /// <summary>
         /// Gets the height of the font in the specified units
         /// </summary>
