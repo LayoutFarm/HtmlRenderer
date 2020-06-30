@@ -3,7 +3,7 @@
 using System.Collections.Generic;
 namespace LayoutFarm.HtmlBoxes
 {
-    public struct HitInfo
+    public readonly struct HitInfo
     {
         public readonly int localX;
         public readonly int localY;

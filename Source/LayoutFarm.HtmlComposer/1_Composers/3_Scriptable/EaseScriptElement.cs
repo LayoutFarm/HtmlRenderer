@@ -6,9 +6,9 @@ using LayoutFarm.HtmlBoxes;
 using LayoutFarm.WebDom;
 namespace LayoutFarm.Composers
 {
-    public struct EaseScriptElement
+    public readonly struct EaseScriptElement
     {
-        HtmlElement _elem;
+        readonly HtmlElement _elem;
         public EaseScriptElement(DomElement elem)
         {
             _elem = elem as HtmlElement;
