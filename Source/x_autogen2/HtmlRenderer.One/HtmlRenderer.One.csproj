@@ -188,9 +188,6 @@
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\Tables.AdvancedLayout\MathTable.cs">
       <Link>Typography\Typography.OpenFont\Tables.AdvancedLayout\MathTable.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Typography\Typography.OpenFont\Tables.AdvancedLayout\ScriptLang.cs">
-      <Link>Typography\Typography.OpenFont\Tables.AdvancedLayout\ScriptLang.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\Tables.AdvancedLayout\ScriptList.cs">
       <Link>Typography\Typography.OpenFont\Tables.AdvancedLayout\ScriptList.cs</Link>
     </Compile>
@@ -349,6 +346,9 @@
     </Compile>
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\Typeface.cs">
       <Link>Typography\Typography.OpenFont\Typeface.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Typography\Typography.OpenFont\Typeface_TrimableExtensions.cs">
+      <Link>Typography\Typography.OpenFont\Typeface_TrimableExtensions.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\WebFont\Woff2Reader.cs">
       <Link>Typography\Typography.OpenFont\WebFont\Woff2Reader.cs</Link>
@@ -2417,6 +2417,9 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.CpuBlit\03_rasterization\5_DestBitmapRasterizer.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.CpuBlit\03_rasterization\5_DestBitmapRasterizer.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.CpuBlit\03_Rasterization\AggMathRound.cs">
+      <Link>PixelFarm\src\PixelFarm\PixelFarm.CpuBlit\03_Rasterization\AggMathRound.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.CpuBlit\03_rasterization\SubPixConst.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.CpuBlit\03_rasterization\SubPixConst.cs</Link>
     </Compile>
@@ -2564,8 +2567,14 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing.GLES\TextPrinter\GLBitmapGlyphTextPrinter.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.Drawing.GLES\TextPrinter\GLBitmapGlyphTextPrinter.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing.GLES\TextPrinter\GLRenderVxFormattedString.cs">
+      <Link>PixelFarm\src\PixelFarm\PixelFarm.Drawing.GLES\TextPrinter\GLRenderVxFormattedString.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing.GLES\TextPrinter\MySimpleGLBitmapFontManager.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.Drawing.GLES\TextPrinter\MySimpleGLBitmapFontManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing.GLES\TextPrinter\WordPlateAndWordPlateMx.cs">
+      <Link>PixelFarm\src\PixelFarm\PixelFarm.Drawing.GLES\TextPrinter\WordPlateAndWordPlateMx.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\Brushes_Pens.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\Brushes_Pens.cs</Link>
@@ -2576,8 +2585,8 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\DashStyle.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\DashStyle.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\DrawBoard.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\DrawBoard.cs</Link>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\FillingRule.cs">
+      <Link>PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\FillingRule.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\MemMx.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\MemMx.cs</Link>
@@ -2585,17 +2594,11 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\NativeMemMx.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\NativeMemMx.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\Painter.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\Painter.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\Region.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\Region.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\RenderVx.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\RenderVx.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\VertexCommandAndOrientation.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\VertexCommandAndOrientation.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\VertexStore.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.DrawingCore\VertexStore.cs</Link>
@@ -2882,8 +2885,14 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Painter\CpuBlit\ColorRGBAf.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.Painter\CpuBlit\ColorRGBAf.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Painter\CpuBlit\IBitmapSrc.cs">
+      <Link>PixelFarm\src\PixelFarm\PixelFarm.Painter\CpuBlit\IBitmapSrc.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Painter\CpuBlit\MemBitmap.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.Painter\CpuBlit\MemBitmap.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Painter\CpuBlit\MemBitmapExt.cs">
+      <Link>PixelFarm\src\PixelFarm\PixelFarm.Painter\CpuBlit\MemBitmapExt.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Painter\CpuBlit\PathWriter.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.Painter\CpuBlit\PathWriter.cs</Link>
@@ -2903,17 +2912,32 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Painter\Drawing\ColorEx.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.Painter\Drawing\ColorEx.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Painter\Drawing\DrawBoard.cs">
+      <Link>PixelFarm\src\PixelFarm\PixelFarm.Painter\Drawing\DrawBoard.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Painter\Drawing\ITextPrinter.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.Painter\Drawing\ITextPrinter.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Painter\Drawing\Painter.cs">
+      <Link>PixelFarm\src\PixelFarm\PixelFarm.Painter\Drawing\Painter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Painter\Drawing\RequestFont.cs">
+      <Link>PixelFarm\src\PixelFarm\PixelFarm.Painter\Drawing\RequestFont.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Painter\Drawing\TextBaseline.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.Painter\Drawing\TextBaseline.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Painter\Drawing\TextMeasurement.cs">
+      <Link>PixelFarm\src\PixelFarm\PixelFarm.Painter\Drawing\TextMeasurement.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Painter\TempContext.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.Painter\TempContext.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.PrimitiveDrawing\AffineMat.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.PrimitiveDrawing\AffineMat.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.PrimitiveDrawing\BitmapBufferFormat.cs">
+      <Link>PixelFarm\src\PixelFarm\PixelFarm.PrimitiveDrawing\BitmapBufferFormat.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.PrimitiveDrawing\Color.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.PrimitiveDrawing\Color.cs</Link>
@@ -2929,12 +2953,6 @@
     </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.PrimitiveDrawing\LenAndLenUnit.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.PrimitiveDrawing\LenAndLenUnit.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.PrimitiveDrawing\RequestFont.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.PrimitiveDrawing\RequestFont.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.PrimitiveDrawing\TextMeasurement.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.PrimitiveDrawing\TextMeasurement.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.PrimitiveGeo\BasicGeometries.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.PrimitiveGeo\BasicGeometries.cs</Link>

@@ -84,7 +84,7 @@ namespace LayoutFarm
             //    return null;
             //}
 
-            return MemBitmap.LoadBitmap(imgName);
+            return MemBitmapExt.LoadBitmap(imgName);
 
             //using (System.Drawing.Bitmap gdiBmp = new System.Drawing.Bitmap(imgName))
             //{

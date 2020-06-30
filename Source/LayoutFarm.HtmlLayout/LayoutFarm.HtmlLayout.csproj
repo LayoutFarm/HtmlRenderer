@@ -40,6 +40,7 @@
     <Compile Include="1_Css\BoxSpec_CopyAndVersioning.cs" />
     <Compile Include="1_Css\CssFeatures.cs" />
     <Compile Include="1_Css\FontDefaultConfig.cs" />
+    <Compile Include="1_Css\IHtmlTextService.cs" />
     <Compile Include="2_Boxes\0_Root\CssBoxConstConfig.cs" />
     <Compile Include="2_Boxes\0_Root\HtmlVisualRoot.cs" />
     <Compile Include="2_Boxes\1_CoreBox\BoxVisitor.cs" />

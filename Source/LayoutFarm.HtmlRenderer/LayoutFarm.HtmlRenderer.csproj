@@ -173,6 +173,9 @@
     <Compile Include="..\LayoutFarm.HtmlLayout\1_Css\FontDefaultConfig.cs">
       <Link>0_REF_LayoutFarm.HtmlLayout_\1_Css\FontDefaultConfig.cs</Link>
     </Compile>
+    <Compile Include="..\LayoutFarm.HtmlLayout\1_Css\IHtmlTextService.cs">
+      <Link>0_REF_LayoutFarm.HtmlLayout_\1_Css\IHtmlTextService.cs</Link>
+    </Compile>
     <Compile Include="..\LayoutFarm.HtmlLayout\2_Boxes\0_Root\CssBoxConstConfig.cs">
       <Link>0_REF_LayoutFarm.HtmlLayout_\2_Boxes\1_Root\CssBoxConstConfig.cs</Link>
     </Compile>
@@ -328,6 +331,10 @@
     <ProjectReference Include="..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Typography\PixelFarm.Typography.csproj">
       <Project>{ec1307c6-309f-43ea-bfcc-5219e2f5a103}</Project>
       <Name>PixelFarm.Typography</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\PixelFarm\src\PixelFarm\Typography.One\Typography.One.csproj">
+      <Project>{5278fab9-33f0-40e0-adca-7237ea0e935b}</Project>
+      <Name>Typography.One</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
