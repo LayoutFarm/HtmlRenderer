@@ -144,8 +144,6 @@ namespace LayoutFarm.HtmlBoxes
         //
         internal bool NeedComputedValueEvaluation => (_boxCompactFlags & BoxFlags.LAY_EVAL_COMPUTE_VALUES) == 0;
 
-
-
         public void ReEvaluateFont(ITextService iFonts, float parentFontSize)
         {
 

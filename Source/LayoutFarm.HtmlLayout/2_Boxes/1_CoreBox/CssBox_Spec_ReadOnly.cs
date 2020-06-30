@@ -122,49 +122,33 @@ namespace LayoutFarm.HtmlBoxes
         CssWordBreak WordBreak => _myspec.WordBreak;
 
         //-----------------------------------  
-        public CssOverflow Overflow => _myspec.Overflow;
-
-        //----------------------------------- 
-
-
+        public CssOverflow Overflow => _myspec.Overflow; 
         /// <summary>
         /// Gets the second color that creates a gradient for the background
         /// </summary>
-        public Color ActualBackgroundGradient => _myspec.BackgroundGradient;
-
-
-
+        public Color ActualBackgroundGradient => _myspec.BackgroundGradient; 
         /// <summary>
         /// Gets the actual angle specified for the background gradient
         /// </summary>
-        public float ActualBackgroundGradientAngle => _myspec.BackgroundGradientAngle;
-
-
-
+        public float ActualBackgroundGradientAngle => _myspec.BackgroundGradientAngle; 
         /// <summary>
         /// 
         /// Gets the actual color for the text.
         /// </summary>
-        public Color ActualColor => _myspec.ActualColor;
-
-
-
+        public Color ActualColor => _myspec.ActualColor; 
         /// <summary>
         /// Gets the actual background color of the box
         /// </summary>
-        public Color ActualBackgroundColor => _myspec.ActualBackgroundColor;
+        public Color ActualBackgroundColor => _myspec.ActualBackgroundColor; 
 
-
-        public CssCursorName CursorName => _myspec.CursorName;
-
-
+        public CssCursorName CursorName => _myspec.CursorName; 
         /// <summary>
         /// Gets the font that should be actually used to paint the text of the box
         /// </summary>
         internal RequestFont ResolvedFont => _resolvedFont;
 
-        ResolvedFont _resolvedFont1;
-        internal ResolvedFont ResolvedFont1 => _resolvedFont1;
+        //ResolvedFont _resolvedFont1;
+        //internal ResolvedFont ResolvedFont1 => _resolvedFont1;
         /// <summary>
         /// Gets the height of the font in the specified units
         /// </summary>

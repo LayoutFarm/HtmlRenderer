@@ -424,6 +424,16 @@ namespace LayoutFarm.HtmlBoxes
         {
             this.SetVisualHeight(0);
         }
+
+        ResolvedFont _resolvedFont1;
+        public ResolvedFont ResolvedFont1
+        {
+            get => _resolvedFont1;
+            set
+            {
+                _resolvedFont1 = value;
+            }
+        }
         /// <summary>
         /// Assigns words its width and height
         /// </summary>

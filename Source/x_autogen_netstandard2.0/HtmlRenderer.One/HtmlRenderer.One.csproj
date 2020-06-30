@@ -33,7 +33,10 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.MiniOpenTK\src\Builds\NETSTD2\MiniOpenTKLevel1\Minimal.cs" Link="PixelFarm\src\PixelFarm\BackEnd.MiniOpenTK\src\Builds\NETSTD2\MiniOpenTKLevel1\Minimal.cs" />
     <Compile Include="..\..\..\..\Typography\Build\N20\Typography.OpenFont\System.Numerics.ForNet20.cs" Link="Typography\Build\N20\Typography.OpenFont\System.Numerics.ForNet20.cs" />
     <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\1_General\FontStyleExtensions.cs" Link="Typography\PixelFarm.Typography\1_General\FontStyleExtensions.cs" />
+    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\1_General\LineSegmentsAndWordVisitors.cs" Link="Typography\PixelFarm.Typography\1_General\LineSegmentsAndWordVisitors.cs" />
     <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\1_General\OpenFontTextService.cs" Link="Typography\PixelFarm.Typography\1_General\OpenFontTextService.cs" />
+    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\1_General\OpenFontTextService_Part2.cs" Link="Typography\PixelFarm.Typography\1_General\OpenFontTextService_Part2.cs" />
+    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\1_General\ResolvedFonts.cs" Link="Typography\PixelFarm.Typography\1_General\ResolvedFonts.cs" />
     <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\1_General\VxsTextPrinter.cs" Link="Typography\PixelFarm.Typography\1_General\VxsTextPrinter.cs" />
     <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\2_CpuBlit_BitmapAtlas\AggGlyphTextureGen.cs" Link="Typography\PixelFarm.Typography\2_CpuBlit_BitmapAtlas\AggGlyphTextureGen.cs" />
     <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\2_CpuBlit_BitmapAtlas\BitmapFontMx.cs" Link="Typography\PixelFarm.Typography\2_CpuBlit_BitmapAtlas\BitmapFontMx.cs" />
@@ -994,7 +997,6 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Painter\Drawing\DrawBoard.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Painter\Drawing\DrawBoard.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Painter\Drawing\ITextPrinter.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Painter\Drawing\ITextPrinter.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Painter\Drawing\Painter.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Painter\Drawing\Painter.cs" />
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Painter\Drawing\RequestFont.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Painter\Drawing\RequestFont.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Painter\Drawing\TextBaseline.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Painter\Drawing\TextBaseline.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Painter\Drawing\TextMeasurement.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Painter\Drawing\TextMeasurement.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Painter\TempContext.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.Painter\TempContext.cs" />
@@ -1005,6 +1007,7 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.PrimitiveDrawing\Image.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.PrimitiveDrawing\Image.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.PrimitiveDrawing\ImageBinder.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.PrimitiveDrawing\ImageBinder.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.PrimitiveDrawing\LenAndLenUnit.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.PrimitiveDrawing\LenAndLenUnit.cs" />
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.PrimitiveDrawing\RequestFont.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.PrimitiveDrawing\RequestFont.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.PrimitiveGeo\BasicGeometries.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.PrimitiveGeo\BasicGeometries.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.PrimitiveGeo\ICoordTransformer.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.PrimitiveGeo\ICoordTransformer.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.PrimitiveGeo\Rectangle.cs" Link="PixelFarm\src\PixelFarm\PixelFarm.PrimitiveGeo\Rectangle.cs" />
