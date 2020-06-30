@@ -11,6 +11,7 @@
     <RootNamespace>LayoutFarm.WebDom</RootNamespace>
     <AssemblyName>LayoutFarm.WebDom</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+	  <LangVersion>8.0</LangVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">

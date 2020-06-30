@@ -11,6 +11,7 @@
     <RootNamespace>TestGraphicPackage</RootNamespace>
     <AssemblyName>TestGraphicPackage</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+	  <LangVersion>8.0</LangVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
     </FileUpgradeFlags>

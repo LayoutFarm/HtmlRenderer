@@ -8,6 +8,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <OutputType>Library</OutputType>
     <FileAlignment>512</FileAlignment>
+	  <LangVersion>8.0</LangVersion>
     <AssemblyName>HtmlRenderer.One</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">

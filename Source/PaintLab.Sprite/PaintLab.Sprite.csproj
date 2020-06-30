@@ -10,6 +10,7 @@
     <RootNamespace>PaintLab.Sprite</RootNamespace>
     <AssemblyName>PaintLab.Sprite</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+	  <LangVersion>8.0</LangVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
   </PropertyGroup>

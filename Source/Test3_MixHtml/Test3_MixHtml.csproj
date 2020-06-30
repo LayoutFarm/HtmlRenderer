@@ -11,6 +11,7 @@
     <RootNamespace>Test3_MixHtml</RootNamespace>
     <AssemblyName>Test3_MixHtml</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+	  <LangVersion>8.0</LangVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
