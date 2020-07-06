@@ -11,7 +11,7 @@
     <RootNamespace>LayoutFarm.HtmlComposer</RootNamespace>
     <AssemblyName>LayoutFarm.HtmlComposer</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
-	  <LangVersion>8.0</LangVersion>
+    <LangVersion>8.0</LangVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -165,9 +165,6 @@
     </Compile>
     <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.weblexer\XmlLexer_debug.cs">
       <Link>0_REF_PaintLab.WebLexer\XmlLexer_debug.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\pixelfarm\src\pixelfarm\pixelfarm.drawingcore\ExtensionAttribute.cs">
-      <Link>0_REF_PaintLab.WebDom\Net20\ExtensionAttribute.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Typography\Demo\Windows\MathLayout\MathLayout\MathMLDom\DomAutoGen.cs">
       <Link>0_REF_PaintLab.MathML\Impl\DomAutoGen.cs</Link>

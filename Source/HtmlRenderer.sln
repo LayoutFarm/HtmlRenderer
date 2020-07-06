@@ -64,8 +64,6 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "WinFormTestBed2", "..\..\Pi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaintLab.Sprite", "PaintLab.Sprite\PaintLab.Sprite.csproj", "{5C694901-F73A-4AB7-9FA6-024DD591C33E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixelFarm.PrimitiveGeo", "..\..\PixelFarm\src\PixelFarm\PixelFarm.PrimitiveGeo\PixelFarm.PrimitiveGeo.csproj", "{B951FF5B-D7A0-4259-880D-CB7A0C001956}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixelFarm.Drawing.GdiPlus", "..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing.GdiPlus\PixelFarm.Drawing.GdiPlus.csproj", "{1AA171E3-523C-4DD5-A169-DE6322991FF5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixelFarm.Typography", "..\..\PixelFarm\src\PixelFarm\PixelFarm.Typography\PixelFarm.Typography.csproj", "{EC1307C6-309F-43EA-BFCC-5219E2F5A103}"
@@ -98,9 +96,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaintLab.PaintFx", "..\..\P
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.HtmlLayout", "LayoutFarm.HtmlLayout\LayoutFarm.HtmlLayout.csproj", "{A1070BA8-979C-4A02-A699-31BC54FE1EA3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixelFarm.PrimitiveDrawing", "..\..\PixelFarm\src\PixelFarm\PixelFarm.PrimitiveDrawing\PixelFarm.PrimitiveDrawing.csproj", "{112196BA-8717-4435-BAF1-5014C2E05CFD}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaintLab.PlatformBridge", "..\..\PixelFarm\src\PixelFarm\PaintLab.PlatformBridge\PaintLab.PlatformBridge.csproj", "{465CB0FF-C9FA-4371-AD10-51C6DFF537B8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixelFarm.BasicVisualElements", "..\..\PixelFarm\src\PixelFarm\PixelFarm.BasicVisualElements\PixelFarm.BasicVisualElements.csproj", "{CB83E3B5-E8B9-4AC4-BA6C-B4764E815E6B}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -111,6 +109,15 @@ Global
 		..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing.GdiPlus_SH\PixelFarm.Drawing.GdiPlus_SH.projitems*{1aa171e3-523c-4dd5-a169-de6322991ff5}*SharedItemsImports = 4
 		..\..\PixelFarm\src\PixelFarm\PaintLab.AppHost\PaintLab.AppHost.projitems*{24b58983-d06b-48bf-bbd3-7cb919003520}*SharedItemsImports = 4
 		..\..\PixelFarm\src\Tests\WinFormTestBed2\WinFormTestBed2.projitems*{24b58983-d06b-48bf-bbd3-7cb919003520}*SharedItemsImports = 4
+		..\..\PixelFarm\src\PixelFarm\BackEnd.Tesselate_SH\BackEnd.Tesselate_SH.projitems*{51d63482-5697-4b16-8401-506965624657}*SharedItemsImports = 4
+		..\..\PixelFarm\src\PixelFarm\BackEnd.Triangulation\Triangulation.projitems*{51d63482-5697-4b16-8401-506965624657}*SharedItemsImports = 4
+		..\..\PixelFarm\src\PixelFarm\PixelFarm.BasicVisualElements_SH\PixelFarm.BasicVisualElements_SH.projitems*{51d63482-5697-4b16-8401-506965624657}*SharedItemsImports = 4
+		..\..\PixelFarm\src\PixelFarm\PixelFarm.CpuBlit_Layer1\PixelFarm.CpuBlit_Layer1_SH.projitems*{51d63482-5697-4b16-8401-506965624657}*SharedItemsImports = 4
+		..\..\PixelFarm\src\PixelFarm\PixelFarm.CpuBlit_Layer2\PixelFarm.CpuBlit_Layer2.projitems*{51d63482-5697-4b16-8401-506965624657}*SharedItemsImports = 4
+		..\..\PixelFarm\src\PixelFarm\PixelFarm.Painter_Layer1_SH\PixelFarm.Painter_Layer1_SH.projitems*{51d63482-5697-4b16-8401-506965624657}*SharedItemsImports = 4
+		..\..\PixelFarm\src\PixelFarm\PixelFarm.Painter_Layer2_SH\PixelFarm.Painter_Layer2_SH.projitems*{51d63482-5697-4b16-8401-506965624657}*SharedItemsImports = 4
+		..\..\PixelFarm\src\PixelFarm\PixelFarm.Vectors_SH\PixelFarm.Vectors_SH.projitems*{51d63482-5697-4b16-8401-506965624657}*SharedItemsImports = 4
+		..\..\PixelFarm\src\PixelFarm\PixelFarm.Vectors_Utils_SH\PixelFarm.Vectors_Utils_SH.projitems*{51d63482-5697-4b16-8401-506965624657}*SharedItemsImports = 4
 		..\..\Typography\Typography.GlyphLayout\Typography.GlyphLayout.projitems*{5278fab9-33f0-40e0-adca-7237ea0e935b}*SharedItemsImports = 4
 		..\..\Typography\Typography.OpenFont\Typography.OpenFont.projitems*{5278fab9-33f0-40e0-adca-7237ea0e935b}*SharedItemsImports = 4
 		..\..\Typography\Typography.TextBreak\Typography.TextBreak\Typography.TextBreak.projitems*{5278fab9-33f0-40e0-adca-7237ea0e935b}*SharedItemsImports = 4
@@ -120,6 +127,7 @@ Global
 		..\..\PixelFarm\src\PixelFarm\PaintLab.Color\Colorful_SH\Colorful_SH.projitems*{9cc6310f-c116-449d-be97-63d152f98746}*SharedItemsImports = 4
 		..\..\PixelFarm\src\PixelFarm\BackEnd.PaintFx\PdnSharedProject\PdnSharedProject.projitems*{a533e1c7-ab74-4bcf-bc7a-12d4dbbfa918}*SharedItemsImports = 4
 		Test3_MixHtml_SH\Test3_MixHtml_SH.projitems*{bff5f427-429e-4b22-acbb-0c741ef63895}*SharedItemsImports = 13
+		..\..\PixelFarm\src\PixelFarm\PixelFarm.BasicVisualElements_SH\PixelFarm.BasicVisualElements_SH.projitems*{cb83e3b5-e8b9-4ac4-ba6c-b4764e815e6b}*SharedItemsImports = 4
 		..\..\PixelFarm\src\PixelFarm\PaintLab.Platforms.SH\PaintLab.Platforms.SH.projitems*{e5f2b317-2205-4727-92c4-6190a2fa3ddc}*SharedItemsImports = 4
 		..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing.GdiPlus_SH\PixelFarm.Drawing.GdiPlus_SH.projitems*{e5f2b317-2205-4727-92c4-6190a2fa3ddc}*SharedItemsImports = 4
 		..\..\PixelFarm\src\PixelFarm\BackEnd.MiniOpenTK\src\OpenTK\MiniOpenTK_Core1.projitems*{e9a5d738-bc13-4909-94d8-d7a13d7068ff}*SharedItemsImports = 4
@@ -503,24 +511,6 @@ Global
 		{5C694901-F73A-4AB7-9FA6-024DD591C33E}.Release64|Mixed Platforms.Build.0 = Release|Any CPU
 		{5C694901-F73A-4AB7-9FA6-024DD591C33E}.Release64|x86.ActiveCfg = Release|Any CPU
 		{5C694901-F73A-4AB7-9FA6-024DD591C33E}.Release64|x86.Build.0 = Release|Any CPU
-		{B951FF5B-D7A0-4259-880D-CB7A0C001956}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B951FF5B-D7A0-4259-880D-CB7A0C001956}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B951FF5B-D7A0-4259-880D-CB7A0C001956}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{B951FF5B-D7A0-4259-880D-CB7A0C001956}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{B951FF5B-D7A0-4259-880D-CB7A0C001956}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{B951FF5B-D7A0-4259-880D-CB7A0C001956}.Debug|x86.Build.0 = Debug|Any CPU
-		{B951FF5B-D7A0-4259-880D-CB7A0C001956}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B951FF5B-D7A0-4259-880D-CB7A0C001956}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B951FF5B-D7A0-4259-880D-CB7A0C001956}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{B951FF5B-D7A0-4259-880D-CB7A0C001956}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{B951FF5B-D7A0-4259-880D-CB7A0C001956}.Release|x86.ActiveCfg = Release|Any CPU
-		{B951FF5B-D7A0-4259-880D-CB7A0C001956}.Release|x86.Build.0 = Release|Any CPU
-		{B951FF5B-D7A0-4259-880D-CB7A0C001956}.Release64|Any CPU.ActiveCfg = Release|Any CPU
-		{B951FF5B-D7A0-4259-880D-CB7A0C001956}.Release64|Any CPU.Build.0 = Release|Any CPU
-		{B951FF5B-D7A0-4259-880D-CB7A0C001956}.Release64|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{B951FF5B-D7A0-4259-880D-CB7A0C001956}.Release64|Mixed Platforms.Build.0 = Release|Any CPU
-		{B951FF5B-D7A0-4259-880D-CB7A0C001956}.Release64|x86.ActiveCfg = Release|Any CPU
-		{B951FF5B-D7A0-4259-880D-CB7A0C001956}.Release64|x86.Build.0 = Release|Any CPU
 		{1AA171E3-523C-4DD5-A169-DE6322991FF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1AA171E3-523C-4DD5-A169-DE6322991FF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1AA171E3-523C-4DD5-A169-DE6322991FF5}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -737,24 +727,6 @@ Global
 		{A1070BA8-979C-4A02-A699-31BC54FE1EA3}.Release64|Mixed Platforms.Build.0 = Release|Any CPU
 		{A1070BA8-979C-4A02-A699-31BC54FE1EA3}.Release64|x86.ActiveCfg = Release|Any CPU
 		{A1070BA8-979C-4A02-A699-31BC54FE1EA3}.Release64|x86.Build.0 = Release|Any CPU
-		{112196BA-8717-4435-BAF1-5014C2E05CFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{112196BA-8717-4435-BAF1-5014C2E05CFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{112196BA-8717-4435-BAF1-5014C2E05CFD}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{112196BA-8717-4435-BAF1-5014C2E05CFD}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{112196BA-8717-4435-BAF1-5014C2E05CFD}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{112196BA-8717-4435-BAF1-5014C2E05CFD}.Debug|x86.Build.0 = Debug|Any CPU
-		{112196BA-8717-4435-BAF1-5014C2E05CFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{112196BA-8717-4435-BAF1-5014C2E05CFD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{112196BA-8717-4435-BAF1-5014C2E05CFD}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{112196BA-8717-4435-BAF1-5014C2E05CFD}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{112196BA-8717-4435-BAF1-5014C2E05CFD}.Release|x86.ActiveCfg = Release|Any CPU
-		{112196BA-8717-4435-BAF1-5014C2E05CFD}.Release|x86.Build.0 = Release|Any CPU
-		{112196BA-8717-4435-BAF1-5014C2E05CFD}.Release64|Any CPU.ActiveCfg = Release|Any CPU
-		{112196BA-8717-4435-BAF1-5014C2E05CFD}.Release64|Any CPU.Build.0 = Release|Any CPU
-		{112196BA-8717-4435-BAF1-5014C2E05CFD}.Release64|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{112196BA-8717-4435-BAF1-5014C2E05CFD}.Release64|Mixed Platforms.Build.0 = Release|Any CPU
-		{112196BA-8717-4435-BAF1-5014C2E05CFD}.Release64|x86.ActiveCfg = Release|Any CPU
-		{112196BA-8717-4435-BAF1-5014C2E05CFD}.Release64|x86.Build.0 = Release|Any CPU
 		{465CB0FF-C9FA-4371-AD10-51C6DFF537B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{465CB0FF-C9FA-4371-AD10-51C6DFF537B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{465CB0FF-C9FA-4371-AD10-51C6DFF537B8}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -773,6 +745,24 @@ Global
 		{465CB0FF-C9FA-4371-AD10-51C6DFF537B8}.Release64|Mixed Platforms.Build.0 = Release|Any CPU
 		{465CB0FF-C9FA-4371-AD10-51C6DFF537B8}.Release64|x86.ActiveCfg = Release|Any CPU
 		{465CB0FF-C9FA-4371-AD10-51C6DFF537B8}.Release64|x86.Build.0 = Release|Any CPU
+		{CB83E3B5-E8B9-4AC4-BA6C-B4764E815E6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB83E3B5-E8B9-4AC4-BA6C-B4764E815E6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB83E3B5-E8B9-4AC4-BA6C-B4764E815E6B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{CB83E3B5-E8B9-4AC4-BA6C-B4764E815E6B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{CB83E3B5-E8B9-4AC4-BA6C-B4764E815E6B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CB83E3B5-E8B9-4AC4-BA6C-B4764E815E6B}.Debug|x86.Build.0 = Debug|Any CPU
+		{CB83E3B5-E8B9-4AC4-BA6C-B4764E815E6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB83E3B5-E8B9-4AC4-BA6C-B4764E815E6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB83E3B5-E8B9-4AC4-BA6C-B4764E815E6B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{CB83E3B5-E8B9-4AC4-BA6C-B4764E815E6B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{CB83E3B5-E8B9-4AC4-BA6C-B4764E815E6B}.Release|x86.ActiveCfg = Release|Any CPU
+		{CB83E3B5-E8B9-4AC4-BA6C-B4764E815E6B}.Release|x86.Build.0 = Release|Any CPU
+		{CB83E3B5-E8B9-4AC4-BA6C-B4764E815E6B}.Release64|Any CPU.ActiveCfg = Release|Any CPU
+		{CB83E3B5-E8B9-4AC4-BA6C-B4764E815E6B}.Release64|Any CPU.Build.0 = Release|Any CPU
+		{CB83E3B5-E8B9-4AC4-BA6C-B4764E815E6B}.Release64|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{CB83E3B5-E8B9-4AC4-BA6C-B4764E815E6B}.Release64|Mixed Platforms.Build.0 = Release|Any CPU
+		{CB83E3B5-E8B9-4AC4-BA6C-B4764E815E6B}.Release64|x86.ActiveCfg = Release|Any CPU
+		{CB83E3B5-E8B9-4AC4-BA6C-B4764E815E6B}.Release64|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -800,7 +790,6 @@ Global
 		{466DD2AE-EADC-4E20-82B3-DA6D018006C5} = {7C48D8C8-22E8-43DB-9118-DB8A849B9D70}
 		{5CF69768-3249-45D4-8BE3-B686F88C4EA0} = {C3BA1377-B139-4BD6-A0D1-F486FB6E29BE}
 		{5C694901-F73A-4AB7-9FA6-024DD591C33E} = {C3BA1377-B139-4BD6-A0D1-F486FB6E29BE}
-		{B951FF5B-D7A0-4259-880D-CB7A0C001956} = {7C48D8C8-22E8-43DB-9118-DB8A849B9D70}
 		{1AA171E3-523C-4DD5-A169-DE6322991FF5} = {7C48D8C8-22E8-43DB-9118-DB8A849B9D70}
 		{EC1307C6-309F-43EA-BFCC-5219E2F5A103} = {7C48D8C8-22E8-43DB-9118-DB8A849B9D70}
 		{5278FAB9-33F0-40E0-ADCA-7237EA0E935B} = {7C48D8C8-22E8-43DB-9118-DB8A849B9D70}
@@ -817,8 +806,8 @@ Global
 		{9CC6310F-C116-449D-BE97-63D152F98746} = {7C48D8C8-22E8-43DB-9118-DB8A849B9D70}
 		{A533E1C7-AB74-4BCF-BC7A-12D4DBBFA918} = {7C48D8C8-22E8-43DB-9118-DB8A849B9D70}
 		{A1070BA8-979C-4A02-A699-31BC54FE1EA3} = {3BA8D292-2DD5-49D2-8D77-AB7113B6E007}
-		{112196BA-8717-4435-BAF1-5014C2E05CFD} = {7C48D8C8-22E8-43DB-9118-DB8A849B9D70}
 		{465CB0FF-C9FA-4371-AD10-51C6DFF537B8} = {7C48D8C8-22E8-43DB-9118-DB8A849B9D70}
+		{CB83E3B5-E8B9-4AC4-BA6C-B4764E815E6B} = {7C48D8C8-22E8-43DB-9118-DB8A849B9D70}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8E122BCF-9C21-4ED3-ADDC-19E7F173F4BF}
