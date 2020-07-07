@@ -108,6 +108,9 @@
     <Compile Include="..\..\..\..\Typography\Typography.GlyphLayout\PixelScaleLayoutExtensions.cs">
       <Link>Typography\Typography.GlyphLayout\PixelScaleLayoutExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\Typography\Typography.GlyphLayout\ScriptLang.cs">
+      <Link>Typography\Typography.GlyphLayout\ScriptLang.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\Typography\Typography.GlyphLayout\UserCharToGlyphIndexMap.cs">
       <Link>Typography\Typography.GlyphLayout\UserCharToGlyphIndexMap.cs</Link>
     </Compile>
@@ -143,9 +146,6 @@
     </Compile>
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\OpenFontReader.cs">
       <Link>Typography\Typography.OpenFont\OpenFontReader.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Typography\Typography.OpenFont\ScriptLang.cs">
-      <Link>Typography\Typography.OpenFont\ScriptLang.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\Tables.AdvancedLayout\AttachmentListTable.cs">
       <Link>Typography\Typography.OpenFont\Tables.AdvancedLayout\AttachmentListTable.cs</Link>
