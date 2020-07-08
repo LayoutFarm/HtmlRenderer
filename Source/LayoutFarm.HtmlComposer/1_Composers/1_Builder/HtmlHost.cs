@@ -67,7 +67,7 @@ namespace LayoutFarm.HtmlBoxes
         Queue<LayoutVisitor> _htmlLayoutVisitorStock = new Queue<LayoutVisitor>();
         RenderTreeBuilder _renderTreeBuilder;
 
-        ITextService _textservice;
+        TextServiceClient _textservice;
         PaintLab.Svg.SvgCreator _svgCreator;
         PaintLab.MathML.MathMLBoxTreeCreator _mathMLCreator;
 
@@ -99,7 +99,8 @@ namespace LayoutFarm.HtmlBoxes
             }
             _rootgfx = config.RootGraphic;
 
-            _textservice = config.TextService;
+            _textservice = GlobalTextService.TextService2.CreateNewServiceClient(); //config.TextService;
+
             _svgCreator = new PaintLab.Svg.SvgCreator();
             _mathMLCreator = new PaintLab.MathML.MathMLBoxTreeCreator();
 
@@ -167,7 +168,7 @@ namespace LayoutFarm.HtmlBoxes
             LayoutVisitor lay;
             if (_htmlLayoutVisitorStock.Count == 0)
             {
-                lay = new LayoutVisitor(this.GetTextService());
+                lay = new LayoutVisitor(_textservice);
             }
             else
             {

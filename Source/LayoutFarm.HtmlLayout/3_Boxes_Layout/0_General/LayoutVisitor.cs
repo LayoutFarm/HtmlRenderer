@@ -20,10 +20,11 @@ namespace LayoutFarm.HtmlBoxes
         FloatingContextStack _floatingContextStack = new FloatingContextStack();
         static int s_totalLayoutIdEpisode = 0;
         int _episodeId = 1;
-        ITextService _textService;
-        internal LayoutVisitor(ITextService fontService)
+       
+        TextServiceClient _txtClient;
+        internal LayoutVisitor(TextServiceClient txtClient)
         {
-            _textService = fontService;
+            _txtClient = txtClient;
         }
         internal void Bind(HtmlVisualRoot htmlVisualRoot)
         {
@@ -48,7 +49,7 @@ namespace LayoutFarm.HtmlBoxes
 
         }
         internal bool InAbsoluteLayerMode { get; set; }
-        internal ITextService TextService => _textService;
+        internal ITextService TextService => _txtClient;
 
         protected override void OnPushDifferentContainingBlock(CssBox box)
         {
@@ -148,7 +149,8 @@ namespace LayoutFarm.HtmlBoxes
         internal Size MeasureStringSize(char[] buffer, int startIndex, int len, ResolvedFont f)
         {
             var textSpan = new TextBufferSpan(buffer, startIndex, len);
-            return GlobalTextService.TextService2.MeasureString(textSpan, f);
+            return _txtClient.MeasureString(textSpan, f);
+            //return GlobalTextService.TextService2.MeasureString(textSpan, f);
 
             //return this.TextService.MeasureString(textSpan, f);
 
