@@ -16,8 +16,7 @@ namespace LayoutFarm.WebDom.Parser
             using (var textReader = new System.IO.StreamReader(ms))
             {
                 var tokenizer = new HtmlTokenizer(textReader);
-                HtmlToken token;
-                while (tokenizer.ReadNextToken(out token))
+                while (tokenizer.ReadNextToken(out HtmlToken token))
                 {
                     switch (token.Kind)
                     {
@@ -31,12 +30,12 @@ namespace LayoutFarm.WebDom.Parser
                             {
                                 var tag = (HtmlTagToken)token;
                                 if (!tag.IsEndTag)
-                                {
+                                { 
                                     //open tag 
                                     DomElement elem = _resultHtmlDoc.CreateElement(null, tag.Name);
 
                                     currentNode.AddChild(elem);
-                                    foreach (var attribute in tag.Attributes)
+                                    foreach (HtmlAttribute attribute in tag.Attributes)
                                     {
                                         DomAttribute attr = _resultHtmlDoc.CreateAttribute(attribute.Name);
                                         if (attribute.Value != null)

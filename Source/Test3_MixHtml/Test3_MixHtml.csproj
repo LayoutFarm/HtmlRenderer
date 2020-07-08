@@ -11,6 +11,7 @@
     <RootNamespace>Test3_MixHtml</RootNamespace>
     <AssemblyName>Test3_MixHtml</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+	  <LangVersion>8.0</LangVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -47,6 +48,9 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\Typography\Demo\Windows\PixelFarmSample.WinForms\FontAtlasBuilderHelper.cs">
+      <Link>FontAtlasBuilderHelper.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Typography\Typography.TextBreak\TextBreakerTest\IcuSimpleTextFileDictionaryProvider.cs">
       <Link>IcuSimpleTextFileDictionaryProvider.cs</Link>
     </Compile>

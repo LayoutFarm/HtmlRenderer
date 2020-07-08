@@ -100,7 +100,7 @@ namespace LayoutFarm.HtmlBoxes
             //recursive
             if (box != null)
             {
-                float box_fontsize = box.ResolvedFont.SizeInPixels;
+                float box_fontsize = box.ResolvedFont1.SizeInPoints;
                 ITextService ifonts = lay.TextService;
                 foreach (CssBox childBox in box.GetChildBoxIter())
                 {

@@ -198,16 +198,14 @@ namespace LayoutFarm.Composers
         }
         public override void GetGlobalLocation(out int x, out int y)
         {
-            float globalX, globalY;
-            _principalBox.GetGlobalLocation(out globalX, out globalY);
+
+            _principalBox.GetGlobalLocation(out float globalX, out float globalY);
             x = (int)globalX;
             y = (int)globalY;
         }
         public override void GetGlobalLocationRelativeToRoot(out int x, out int y)
         {
-
-            float globalX, globalY;
-            _principalBox.GetGlobalLocationRelativeToRoot(out globalX, out globalY);
+            _principalBox.GetGlobalLocationRelativeToRoot(out float globalX, out float globalY);
             x = (int)globalX;
             y = (int)globalY;
         }
@@ -219,8 +217,7 @@ namespace LayoutFarm.Composers
             }
             else
             {
-                DomAttribute domAttr;
-                if (this.TryGetAttribute(WellknownName.Style, out domAttr))
+                if (this.TryGetAttribute(WellknownName.Style, out DomAttribute domAttr))
                 {
                     //TODO: add to domAttr?
                     domAttr.Value += ";left:" + x + "px;top:" + y + "px;";
@@ -250,16 +247,8 @@ namespace LayoutFarm.Composers
         }
         //
         internal virtual bool HasCustomPrincipalBoxGenerator => false;//use builtin cssbox generator***
-        internal bool IsStyleEvaluated
-        {
-            get;
-            set;
-        }
-        internal bool SkipPrincipalBoxEvalulation
-        {
-            get;
-            set;
-        }
+        internal bool IsStyleEvaluated { get; set; }
+        internal bool SkipPrincipalBoxEvalulation { get; set; }
         //
         internal static CssBox InternalGetPrincipalBox(HtmlElement element) => element._principalBox;
         //
@@ -270,12 +259,11 @@ namespace LayoutFarm.Composers
         public override bool RemoveChild(DomNode childNode)
         {
             //remove presentation
-            var childElement = childNode as HtmlElement;
-            if (childElement != null && childElement.ParentNode == this)
+            if (childNode is HtmlElement childElement && childElement.ParentNode == this)
             {
                 if (_principalBox != null)
                 {
-                    var cssbox = childElement.CurrentPrincipalBox;
+                    CssBox cssbox = childElement.CurrentPrincipalBox;
                     if (cssbox != null)
                     {
                         //remove from parent
@@ -287,8 +275,6 @@ namespace LayoutFarm.Composers
         }
 
         public HtmlDocument OwnerHtmlDoc => OwnerDocument as HtmlDocument;
-
-
 
         public bool HasSpecialPresentation { get; set; }
 
@@ -476,7 +462,7 @@ namespace LayoutFarm.Composers
 
     sealed public class HtmlImageElement : HtmlElement
     {
-        HtmlDocument _owner;
+        readonly HtmlDocument _owner;
         internal HtmlImageElement(HtmlDocument owner, int prefix, int localNameIndex)
          : base(owner, prefix, localNameIndex)
         {
@@ -491,11 +477,9 @@ namespace LayoutFarm.Composers
             switch ((WellknownName)attr.LocalNameIndex)
             {
                 case WellknownName.Src:
+                    if (_principalBox != null)
                     {
-                        if (_principalBox != null)
-                        {
-                            InternalSetImageBinder(_owner.GetImageBinder(attr.Value));
-                        }
+                        InternalSetImageBinder(_owner.GetImageBinder(attr.Value));
                     }
                     break;
                 default:
@@ -607,8 +591,6 @@ namespace LayoutFarm.Composers
     {
 
         string _inputValue;
-        string _inputType;
-        string _name;
         IHtmlInputSubDomExtender _subdomExt;
 
         internal HtmlInputElement(HtmlDocument owner, int prefix, int localNameIndex)
@@ -616,12 +598,8 @@ namespace LayoutFarm.Composers
         {
             WellknownElementName = WellKnownDomNodeName.input;
         }
-        public string inputType => _inputType;
-        public string InputName
-        {
-            get => _name;
-            set => _name = value;
-        }
+        public string inputType { get; private set; }
+        public string InputName { get; set; }
         public IHtmlInputSubDomExtender SubDomExtender
         {
             get => _subdomExt;
@@ -662,9 +640,9 @@ namespace LayoutFarm.Composers
             switch ((WellknownName)attr.LocalNameIndex)
             {
                 case WellknownName.Name:
-                    _name = attr.Value;
+                    InputName = attr.Value;
 #if DEBUG
-                    if (_name.StartsWith("."))
+                    if (InputName.StartsWith("."))
                     {
 
                     }
@@ -678,7 +656,7 @@ namespace LayoutFarm.Composers
                     }
                     break;
                 case WellknownName.Type:
-                    _inputType = attr.Value;
+                    inputType = attr.Value;
                     break;
                 default:
                     ImplSetAttribute(attr);
@@ -694,7 +672,6 @@ namespace LayoutFarm.Composers
     }
     public sealed class HtmlOptionElement : HtmlElement, IHtmlOptionElement
     {
-        string _optionValue;
         internal HtmlOptionElement(HtmlDocument owner, int prefix, int localNameIndex)
         : base(owner, prefix, localNameIndex)
         {
@@ -707,21 +684,18 @@ namespace LayoutFarm.Composers
             switch ((WellknownName)attr.LocalNameIndex)
             {
                 case WellknownName.Value:
-                    _optionValue = attr.Value;
+                    Value = attr.Value;
                     break;
                 default:
                     ImplSetAttribute(attr);
                     break;
             }
         }
-        public string Value
-        {
-            //TODO: add 'live' feature (connect with actual dom)
-            get => _optionValue;
-            set => _optionValue = value;
-        }
+
+        public string Value { get; set; } //TODO: add 'live' feature (connect with actual dom)  
     }
 
+    
 
     public static class HtmlElementExtensions
     {

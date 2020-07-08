@@ -215,7 +215,7 @@ namespace LayoutFarm.HtmlBoxes
                     continue;
                 }
 
-                RectangleF stripArea = strip.Bound;
+                RectangleF stripArea = strip.Bounds;
                 CssBox.GetSplitInfo(stripOwner, this, out bool isFirstLine, out bool isLastLine);
                 stripOwner.PaintBackground(p, stripArea, isFirstLine, isLastLine);
 
@@ -236,7 +236,7 @@ namespace LayoutFarm.HtmlBoxes
                 PartialBoxStrip strip = _bottomUpBoxStrips[i];
                 CssBox ownerBox = strip.owner;
                 CssBox.GetSplitInfo(ownerBox, this, out bool isFirstLine, out bool isLastLine);
-                ownerBox.PaintDecoration(p.InnerDrawBoard, strip.Bound, isFirstLine, isLastLine);
+                ownerBox.PaintDecoration(p.InnerDrawBoard, strip.Bounds, isFirstLine, isLastLine);
             }
         }
 

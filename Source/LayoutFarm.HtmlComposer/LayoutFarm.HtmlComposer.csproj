@@ -11,6 +11,7 @@
     <RootNamespace>LayoutFarm.HtmlComposer</RootNamespace>
     <AssemblyName>LayoutFarm.HtmlComposer</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <LangVersion>8.0</LangVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -165,8 +166,29 @@
     <Compile Include="..\..\..\pixelfarm\src\pixelfarm\paintlab.weblexer\XmlLexer_debug.cs">
       <Link>0_REF_PaintLab.WebLexer\XmlLexer_debug.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\pixelfarm\src\pixelfarm\pixelfarm.drawingcore\ExtensionAttribute.cs">
-      <Link>0_REF_PaintLab.WebDom\Net20\ExtensionAttribute.cs</Link>
+    <Compile Include="..\..\..\Typography\Demo\Windows\MathLayout\MathLayout\MathMLDom\DomAutoGen.cs">
+      <Link>0_REF_PaintLab.MathML\Impl\DomAutoGen.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Typography\Demo\Windows\MathLayout\PaintLab.MathML\Box\GlyphBox.cs">
+      <Link>0_REF_PaintLab.MathML\Visual\GlyphBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Typography\Demo\Windows\MathLayout\PaintLab.MathML\Box\MathBoxTreeBuilderBase.cs">
+      <Link>0_REF_PaintLab.MathML\Visual\MathBoxTreeBuilderBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Typography\Demo\Windows\MathLayout\PaintLab.MathML\Box\Points_Rects.cs">
+      <Link>0_REF_PaintLab.MathML\Visual\Points_Rects.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Typography\Demo\Windows\MathLayout\PaintLab.MathML\Box\StackChild.cs">
+      <Link>0_REF_PaintLab.MathML\Visual\StackChild.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Typography\Demo\Windows\MathLayout\PaintLab.MathML\MathMLDom\AttributesEnum.cs">
+      <Link>0_REF_PaintLab.MathML\Dom\AttributesEnum.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Typography\Demo\Windows\MathLayout\PaintLab.MathML\MathMLDom\MathNode.cs">
+      <Link>0_REF_PaintLab.MathML\Dom\MathNode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Typography\Demo\Windows\MathLayout\PaintLab.MathML\MathMLDom\OperatorTableAutogen.cs">
+      <Link>0_REF_PaintLab.MathML\Dom\OperatorTableAutogen.cs</Link>
     </Compile>
     <Compile Include="..\Deps_HtmlKit\HtmlKit\HtmlAttribute.cs">
       <Link>0_REF_LayoutFarm.WebDom\5_HtmlKit\HtmlAttribute.cs</Link>
@@ -468,6 +490,12 @@
     <Compile Include="..\LayoutFarm.WebDom\HtmlLexer\MyHtmlLexer_dbug.cs">
       <Link>0_REF_LayoutFarm.WebDom\HtmlLexer\MyHtmlLexer_dbug.cs</Link>
     </Compile>
+    <Compile Include="0_REF_PaintLab.MathML\CssBoxMathMLRoot.cs" />
+    <Compile Include="0_REF_PaintLab.MathML\Impl\DomNodeDefinitionStore.cs" />
+    <Compile Include="0_REF_PaintLab.MathML\MathMLCreator.cs" />
+    <Compile Include="0_REF_PaintLab.MathML\MathMLRootEventPortal.cs" />
+    <Compile Include="0_REF_PaintLab.MathML\MathMLRootEventPortal_IEventPortal.cs" />
+    <Compile Include="0_REF_PaintLab.MathML\MathMLHitChain.cs" />
     <Compile Include="0_Start\ComposerConfig.cs" />
     <Compile Include="1_Composers\1_Builder\BulletNumberFormatter.cs" />
     <Compile Include="1_Composers\1_Builder\CustomCssBoxGenerator.cs" />
@@ -513,6 +541,7 @@
       <Name>PixelFarm.One.HtmlRenderer</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

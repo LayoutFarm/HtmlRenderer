@@ -43,8 +43,7 @@ namespace LayoutFarm.ColorBlenderSample
                 {
                     if (_lstbox_svgFiles.SelectedIndex > -1)
                     {
-                        string filename = _lstbox_svgFiles.GetItem(_lstbox_svgFiles.SelectedIndex).Tag as string;
-                        if (filename != null)
+                        if (_lstbox_svgFiles.GetItem(_lstbox_svgFiles.SelectedIndex).Tag is string filename)
                         {
                             ParseAndRenderSvgFile(filename);
                         }

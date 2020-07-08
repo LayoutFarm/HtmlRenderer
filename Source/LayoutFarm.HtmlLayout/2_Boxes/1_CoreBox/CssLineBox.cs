@@ -47,7 +47,7 @@ namespace LayoutFarm.HtmlBoxes
         //
         public float Bottom => _y + _height;
         //
-        public RectangleF Bound => new RectangleF(_x, _y, this.Width, this.Height);
+        public RectangleF Bounds => new RectangleF(_x, _y, this.Width, this.Height);
         //
 
         public void MergeBound(float left, float top, float right, float bottom)
@@ -118,21 +118,8 @@ namespace LayoutFarm.HtmlBoxes
             _ownerBox = ownerBox;
         }
 
-        internal CssLineBox NextLine
-        {
-            get
-            {
-                var nn = this.linkedNode.Next;
-                if (nn == null)
-                {
-                    return null;
-                }
-                else
-                {
-                    return nn.Value;
-                }
-            }
-        }
+        internal CssLineBox NextLine => linkedNode.Next?.Value;
+
         internal float CachedLineBottom => this.CachedLineTop + this.CacheLineHeight;
         internal float CacheLineHeight { get; private set; }
         /// <summary>
@@ -395,7 +382,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             List<CssRun> tmpRuns = _runs;
             int j = tmpRuns.Count;
-            CssRun run = null;
+            CssRun run;
             for (int i = 0; i < j; ++i)
             {
                 if ((run = tmpRuns[i]).OwnerBox == box)
@@ -470,8 +457,7 @@ namespace LayoutFarm.HtmlBoxes
             float left, float top, float right, float bottom,
             List<PartialBoxStrip> newStrips, Dictionary<CssBox, PartialBoxStrip> dic)
         {
-            PartialBoxStrip strip;
-            if (!dic.TryGetValue(runOwner, out strip))
+            if (!dic.TryGetValue(runOwner, out PartialBoxStrip strip))
             {
                 strip = new PartialBoxStrip(runOwner, left, top, right - left, bottom - top);
                 dic.Add(runOwner, strip);

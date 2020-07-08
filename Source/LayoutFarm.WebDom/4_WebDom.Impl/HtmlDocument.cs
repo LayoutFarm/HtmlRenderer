@@ -27,26 +27,22 @@ namespace LayoutFarm.WebDom.Impl
         public override DomElement RootNode => _rootNode;
         public HtmlElement QuerySelector(string pattern)
         {
-            HtmlElement rootElm = _rootNode as HtmlElement;
-            if (rootElm == null) return null;
+            if (!(_rootNode is HtmlElement rootElm)) return null;
             return rootElm.QuerySelector(pattern);
         }
         public HtmlElement QuerySelector(QuerySelectorPatterns patts)
         {
-            HtmlElement rootElm = _rootNode as HtmlElement;
-            if (rootElm == null) return null;
+            if (!(_rootNode is HtmlElement rootElm)) return null;
             return rootElm.QuerySelector(patts);
         }
         public HtmlNodeList QuerySelectAll(string pattern)
         {
-            HtmlElement rootElm = _rootNode as HtmlElement;
-            if (rootElm == null) return null;
+            if (!(_rootNode is HtmlElement rootElm)) return null;
             return rootElm.QuerySelectAll(pattern);
         }
         public HtmlNodeList QuerySelectAll(QuerySelectorPatterns patts)
         {
-            HtmlElement rootElm = _rootNode as HtmlElement;
-            if (rootElm == null) return null;
+            if (!(_rootNode is HtmlElement rootElm)) return null;
             return rootElm.QuerySelectAll(patts);
         }
         public DomElement BodyElement
@@ -60,8 +56,7 @@ namespace LayoutFarm.WebDom.Impl
                     int j = _rootNode.ChildrenCount;
                     for (int i = 0; i < j; ++i)
                     {
-                        HtmlElement node = _rootNode.GetChildNode(i) as HtmlElement;
-                        if (node != null)
+                        if (_rootNode.GetChildNode(i) is HtmlElement node)
                         {
                             if (node.Name == "body")
                             {
@@ -70,10 +65,9 @@ namespace LayoutFarm.WebDom.Impl
                             }
                             else if (node.Name == "html")
                             {
-                                foreach (var childNode in node.GetChildNodeIterForward())
+                                foreach (DomNode childNode in node.GetChildNodeIterForward())
                                 {
-                                    HtmlElement childNodeE = childNode as HtmlElement;
-                                    if (childNodeE != null && childNodeE.Name == "body")
+                                    if (childNode is HtmlElement childNodeE && childNodeE.Name == "body")
                                     {
                                         return _bodyElement = childNodeE;
                                     }
@@ -144,11 +138,8 @@ namespace LayoutFarm.WebDom.Impl
         {
             _domUpdatedHandler = h;
         }
-        public CssActiveSheet CssActiveSheet
-        {
-            get;
-            set;
-        }
+        public CssActiveSheet CssActiveSheet { get; set; }
+
         public EventHandler DomUpdateHandler => _domUpdatedHandler;
 
         protected void RaiseUpdateEvent()
