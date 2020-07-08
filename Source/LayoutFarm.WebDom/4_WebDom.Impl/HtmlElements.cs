@@ -10,7 +10,7 @@ namespace LayoutFarm.WebDom.Impl
 
     //--------
     //copy temp context from pixelfarm
-    struct TempContext<T> : IDisposable
+    readonly struct TempContext<T> : IDisposable
     {
         internal readonly T _tool;
         internal TempContext(out T tool)
@@ -79,7 +79,7 @@ namespace LayoutFarm.WebDom.Impl
 
     static class Temp<Owner, T>
     {
-        public struct TempContext : IDisposable
+        public readonly struct TempContext : IDisposable
         {
             internal readonly T _tool;
             internal TempContext(out T tool)

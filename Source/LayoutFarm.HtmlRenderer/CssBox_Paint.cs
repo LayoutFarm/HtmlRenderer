@@ -71,12 +71,15 @@ namespace LayoutFarm.HtmlBoxes
             //adjust to 
             //adjust client area 
 
+#if DEBUG
             if (_viewportY != 0)
             {
-#if DEBUG
+
                 System.Diagnostics.Debug.WriteLine(__aa_dbugId + ":i1_" + _viewportY.ToString());
-#endif
+
             }
+#endif
+
             if (_justBlockRun != null)
             {
 
@@ -101,30 +104,23 @@ namespace LayoutFarm.HtmlBoxes
 #if DEBUG         
             dbugCounter.dbugBoxPaintCount++;
 #endif
-            if (box._isVisible)
-            {
-                //offset 
-                if (box._mayHasViewport)
-                {
-                    if (box.ViewportX != 0 || box.ViewportY != 0)
-                    {
-                        int enter_canvas_X = p.CanvasOriginX;
-                        int enter_canvas_Y = p.CanvasOriginY;
+            if (!box._isVisible) { return; }
 
-                        p.SetCanvasOrigin(enter_canvas_X - box.ViewportX, enter_canvas_Y - box.ViewportY);
-                        box.PaintImp(p);
-                        p.SetCanvasOrigin(enter_canvas_X, enter_canvas_Y);//restore
-                    }
-                    else
-                    {
-                        box.PaintImp(p);
-                    }
-                }
-                else
-                {
-                    box.PaintImp(p);
-                }
+            //offset 
+            if (box._mayHasViewport && (box.ViewportX != 0 || box.ViewportY != 0))
+            {
+                int enter_canvas_X = p.CanvasOriginX;
+                int enter_canvas_Y = p.CanvasOriginY;
+
+                p.SetCanvasOrigin(enter_canvas_X - box.ViewportX, enter_canvas_Y - box.ViewportY);
+                box.PaintImp(p);
+                p.SetCanvasOrigin(enter_canvas_X, enter_canvas_Y);//restore
             }
+            else
+            {
+                box.PaintImp(p);
+            }
+
         }
 #if DEBUG
         public void dbugPaint(PaintVisitor p, RectangleF r)
@@ -651,14 +647,15 @@ namespace LayoutFarm.HtmlBoxes
         }
         internal void PaintDecoration(DrawBoard g, RectangleF rectangle, bool isFirst, bool isLast)
         {
-            float y = 0f;
+            float y;
             switch (this.TextDecoration)
             {
                 default:
                     return;
                 case Css.CssTextDecoration.Underline:
                     {
-                        y = (float)Math.Round(rectangle.Bottom - 1);
+                        //TODO: review here,  //temp fix with 3
+                        y = (float)Math.Round(rectangle.Bottom - 3);
                     }
                     break;
                 case Css.CssTextDecoration.LineThrough:
@@ -672,9 +669,7 @@ namespace LayoutFarm.HtmlBoxes
                     }
                     break;
             }
-
-
-            //y -= ActualPaddingBottom - ActualBorderBottomWidth;
+            
             y -= (ActualPaddingBottom + ActualBorderBottomWidth);
             float x1 = rectangle.Left;
             if (isFirst)

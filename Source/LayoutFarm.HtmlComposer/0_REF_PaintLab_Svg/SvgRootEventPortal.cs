@@ -12,35 +12,20 @@ namespace PaintLab.Svg
 {
     partial class SvgRootEventPortal
     {
-        Stack<VgHitChain> hitChainPools = new Stack<VgHitChain>();
-        HtmlElement _elementNode;
+        readonly Stack<VgHitChain> _hitChainPools = new Stack<VgHitChain>();
+        readonly HtmlElement _elementNode;
         public SvgRootEventPortal(HtmlElement elementNode)
         {
             _elementNode = elementNode;
         }
-        public CssBoxSvgRoot SvgRoot
-        {
-            get;
-            set;
-        }
+        public CssBoxSvgRoot SvgRoot { get; set; }
 
+        VgHitChain GetFreeHitChain() => (_hitChainPools.Count > 0) ? _hitChainPools.Pop() : new VgHitChain();
 
-        //==================================================
-        VgHitChain GetFreeHitChain()
-        {
-            if (hitChainPools.Count > 0)
-            {
-                return hitChainPools.Pop();
-            }
-            else
-            {
-                return new VgHitChain();
-            }
-        }
         void ReleaseHitChain(VgHitChain hitChain)
         {
             hitChain.Clear();
-            this.hitChainPools.Push(hitChain);
+            this._hitChainPools.Push(hitChain);
         }
 
         public static void HitTestCore(SvgElement root, VgHitChain chain, float x, float y)
@@ -74,18 +59,14 @@ namespace PaintLab.Svg
             for (int i = hitPointChain.Count - 1; i >= 0; --i)
             {
                 //propagate up 
-                var hitInfo = hitPointChain.GetHitInfo(i);
-                SvgElement svg = hitInfo.hitElem.GetController() as SvgElement;
-                if (svg != null)
+                VgHitInfo hitInfo = hitPointChain.GetHitInfo(i);
+                if (hitInfo.hitElem.GetController() is SvgElement svg &&
+                   SvgElement.UnsafeGetController(svg) is IEventPortal controller)
                 {
-                    var controller = SvgElement.UnsafeGetController(svg) as IEventPortal;
-                    if (controller != null)
+                    e.SetLocation((int)hitInfo.x, (int)hitInfo.y);
+                    if (eventPortalAction(controller))
                     {
-                        e.SetLocation((int)hitInfo.x, (int)hitInfo.y);
-                        if (eventPortalAction(controller))
-                        {
-                            return;
-                        }
+                        return;
                     }
                 }
             }
@@ -98,7 +79,6 @@ namespace PaintLab.Svg
                 //propagate up 
                 VgHitInfo hitInfo = hitChain.GetHitInfo(i);
 
-                IUIEventListener controller = SvgElement.UnsafeGetController(hitInfo.GetSvgElement()) as IUIEventListener;
                 //switch (hitInfo.hitObjectKind)
                 //{
                 //    default:
@@ -119,10 +99,10 @@ namespace PaintLab.Svg
                 //}
 
                 //---------------------
-                if (controller != null)
+                if (SvgElement.UnsafeGetController(hitInfo.GetSvgElement()) is IUIEventListener controller)
                 {
                     //found controller
-                     
+
                     e.SetCurrentContextElement(controller);
                     e.SetLocation((int)hitInfo.x, (int)hitInfo.y);
                     if (listenerAction())
@@ -138,7 +118,7 @@ namespace PaintLab.Svg
             for (int i = hitChain.Count - 1; i >= 0; --i)
             {
                 //propagate up 
-                var hitInfo = hitChain.GetHitInfo(i);
+                VgHitInfo hitInfo = hitChain.GetHitInfo(i);
                 //---------------------
                 //hit on element  
 
@@ -154,8 +134,8 @@ namespace PaintLab.Svg
             int count = hitChain.Count;
             if (count > 0)
             {
-                var hitInfo = hitChain.GetHitInfo(count - 1);
-                e.SetExactHitObject(hitInfo);                 
+                VgHitInfo hitInfo = hitChain.GetHitInfo(count - 1);
+                e.SetExactHitObject(hitInfo);
             }
         }
         void ClearPreviousSelection()

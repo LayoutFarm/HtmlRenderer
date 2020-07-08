@@ -28,7 +28,7 @@ namespace TestGraphicPackage2
             Typography.TextBreak.CustomBreakerBuilder.Setup(dicProvider);
 
 
-            PixelFarm.CpuBlit.MemBitmapExtensions.DefaultMemBitmapIO = new PixelFarm.Drawing.WinGdi.GdiBitmapIO();
+            PixelFarm.CpuBlit.MemBitmapExt.DefaultMemBitmapIO = new PixelFarm.Drawing.WinGdi.GdiBitmapIO();
             YourImplementation.TestBedStartup.Setup();
 
 
@@ -103,8 +103,7 @@ namespace TestGraphicPackage2
         }
         static void _samplesTreeView_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            var filename = e.Node.Tag as string;
-            if (filename != null)
+            if (e.Node.Tag is string filename)
             {
                 //load html from file 
                 string fileContent = System.IO.File.ReadAllText(filename);

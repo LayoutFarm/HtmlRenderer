@@ -237,10 +237,7 @@ namespace LayoutFarm.WebDom
     public static class WellKnownDomNodeMap
     {
         static readonly ValueMap<WellKnownDomNodeName> s_wellknownHtmlTagNameMap = new ValueMap<WellKnownDomNodeName>();
-        public static WellKnownDomNodeName EvaluateTagName(string name)
-        {
-            return s_wellknownHtmlTagNameMap.GetValueFromString(name, WellKnownDomNodeName.Unknown);
-        }
+        public static WellKnownDomNodeName EvaluateTagName(string name) => s_wellknownHtmlTagNameMap.GetValueFromString(name, WellKnownDomNodeName.Unknown);
 
     }
 
@@ -324,7 +321,11 @@ namespace LayoutFarm.WebDom
 
         [Map("iframe")]
         iframe,
-        ////----------------------------------------
+
+
+
+
+        //----------------------------------------
         //[FeatureDeprecated("not support in Html5")]
         //[Map("frame")]
         //frame,
@@ -363,7 +364,11 @@ namespace LayoutFarm.WebDom
         [Map("image")]
         svg_image,
         [Map("g")]
-        svg_g
+        svg_g,
+        //----------------------------------------
+
+        [Map("math")]
+        math,
     }
 
 }

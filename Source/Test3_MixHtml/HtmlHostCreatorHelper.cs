@@ -18,7 +18,7 @@ namespace LayoutFarm
 
             var config = new HtmlBoxes.HtmlHostCreationConfig() {
                 RootGraphic = appHost.RootGfx,
-                TextService = appHost.RootGfx.TextServices
+                TextService = GlobalTextService.TextService
             };
 
             //1.
@@ -84,7 +84,7 @@ namespace LayoutFarm
             //    return null;
             //}
 
-            return MemBitmap.LoadBitmap(imgName);
+            return MemBitmapExt.LoadBitmap(imgName);
 
             //using (System.Drawing.Bitmap gdiBmp = new System.Drawing.Bitmap(imgName))
             //{

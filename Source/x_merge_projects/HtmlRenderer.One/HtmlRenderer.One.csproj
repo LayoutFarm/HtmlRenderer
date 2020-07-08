@@ -9,6 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>HtmlRenderer.One</RootNamespace>
     <AssemblyName>HtmlRenderer.One</AssemblyName>
+	  <LangVersion>8.0</LangVersion>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

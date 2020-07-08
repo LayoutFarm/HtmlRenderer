@@ -424,6 +424,16 @@ namespace LayoutFarm.HtmlBoxes
         {
             this.SetVisualHeight(0);
         }
+
+        ResolvedFont _resolvedFont1;
+        public ResolvedFont ResolvedFont1
+        {
+            get => _resolvedFont1;
+            set
+            {
+                _resolvedFont1 = value;
+            }
+        }
         /// <summary>
         /// Assigns words its width and height
         /// </summary>
@@ -449,10 +459,8 @@ namespace LayoutFarm.HtmlBoxes
             {
                 //find word spacing  
                 float actualWordspacing = _actualWordSpacing;
-                RequestFont actualFont = this.ResolvedFont;
 
-
-                float fontHeight = (actualFont.AscentInPixels - actualFont.DescentInPixels + actualFont.LineGapInPixels);
+                float fontHeight = (_resolvedFont1.AscentInPixels - _resolvedFont1.DescentInPixels + _resolvedFont1.LineGapInPx);
                 fontHeight += 4; //TODO: why +4 ????***
 
                 List<CssRun> tmpRuns = this.Runs;
@@ -469,7 +477,7 @@ namespace LayoutFarm.HtmlBoxes
                                 Size ss = lay.MeasureStringSize(CssBox.UnsafeGetTextBuffer(this),
                                     textRun.TextStartIndex,
                                     textRun.TextLength,
-                                    actualFont);
+                                    _resolvedFont1);
                                 run.SetSize(ss.Width, ss.Height);
 
                             }

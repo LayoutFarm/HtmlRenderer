@@ -11,6 +11,7 @@
     <RootNamespace>TestGraphicPackage</RootNamespace>
     <AssemblyName>TestGraphicPackage</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+	  <LangVersion>8.0</LangVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -43,6 +44,9 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\Typography\Demo\Windows\PixelFarmSample.WinForms\FontAtlasBuilderHelper.cs">
+      <Link>FontAtlasBuilderHelper.cs</Link>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

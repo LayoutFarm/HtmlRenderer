@@ -86,8 +86,8 @@ namespace LayoutFarm
         }
         public void LoadHtml(string documentRootPath, string htmltext)
         {
-            this._documentRootPath = System.IO.Path.GetDirectoryName(documentRootPath);
-            this._htmltext = htmltext;
+            _documentRootPath = System.IO.Path.GetDirectoryName(documentRootPath);
+            _htmltext = htmltext;
         }
     }
 }

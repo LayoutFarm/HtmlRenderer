@@ -35,7 +35,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             Image image = imageBinder.LocalImage;
             //temporary comment image scale code 
-            Size imgSize = image.Size;
+            Size imgSize = new Size(image.Width, image.Height);
             //new Size(imageLoadHandler.Rectangle == Rectangle.Empty ? imageLoadHandler.Image.Width : imageLoadHandler.Rectangle.Width,
             //                 imageLoadHandler.Rectangle == Rectangle.Empty ? imageLoadHandler.Image.Height : imageLoadHandler.Rectangle.Height);
 

@@ -67,8 +67,10 @@ namespace LayoutFarm.HtmlBoxes
         Queue<LayoutVisitor> _htmlLayoutVisitorStock = new Queue<LayoutVisitor>();
         RenderTreeBuilder _renderTreeBuilder;
 
-        ITextService _textservice;
+        TextServiceClient _textservice;
         PaintLab.Svg.SvgCreator _svgCreator;
+        PaintLab.MathML.MathMLBoxTreeCreator _mathMLCreator;
+
         string _baseUrl;
 
         public HtmlHost(HtmlHostCreationConfig config)
@@ -97,9 +99,10 @@ namespace LayoutFarm.HtmlBoxes
             }
             _rootgfx = config.RootGraphic;
 
-            _textservice = config.TextService;
-            _svgCreator = new PaintLab.Svg.SvgCreator();
+            _textservice = GlobalTextService.TextService2.CreateNewServiceClient(); //config.TextService;
 
+            _svgCreator = new PaintLab.Svg.SvgCreator();
+            _mathMLCreator = new PaintLab.MathML.MathMLBoxTreeCreator();
 
         }
 
@@ -113,7 +116,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             int j = _waitForUpdateBoxes.Count;
             for (int i = 0; i < j; ++i)
-            { 
+            {
                 if (HtmlBoxes.CssBox.UnsafeGetController(_waitForUpdateBoxes[i]) is UI.IUIEventListener controller)
                 {
                     controller.HandleElementUpdate();
@@ -165,7 +168,7 @@ namespace LayoutFarm.HtmlBoxes
             LayoutVisitor lay;
             if (_htmlLayoutVisitorStock.Count == 0)
             {
-                lay = new LayoutVisitor(this.GetTextService());
+                lay = new LayoutVisitor(_textservice);
             }
             else
             {
@@ -499,6 +502,14 @@ namespace LayoutFarm.HtmlBoxes
                         childElement.SetPrincipalBox(newBox);
                         return newBox;
                     }
+                case WellKnownDomNodeName.math:
+                    {
+                        //math-element container node
+                        newBox = _mathMLCreator.CreateMathMLBox(parentBox, childElement, childElement.Spec);
+                        childElement.SetPrincipalBox(newBox);
+                        return newBox;
+                    }
+                //---------------------------------------------------
                 case WellKnownDomNodeName.NotAssign:
                 case WellKnownDomNodeName.Unknown:
                     {
@@ -570,16 +581,16 @@ namespace LayoutFarm.HtmlBoxes
         {
             ImageBinder imgBinder;
             if (childElement.TryGetAttribute(WellknownName.Src, out string imgsrc))
-            { 
-                imgBinder = new ImageBinder(imgsrc); 
+            {
+                imgBinder = new ImageBinder(imgsrc);
             }
             else
             {
-              
+
                 imgBinder = new ImageBinder(null as string);
             }
 
-            CssBoxImage boxImage = new CssBoxImage(childElement.Spec,  imgBinder);
+            CssBoxImage boxImage = new CssBoxImage(childElement.Spec, imgBinder);
             boxImage.SetController(childElement);
             parent.AppendChild(boxImage);
             return boxImage;
