@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using PixelFarm.Drawing;
+using Typography.TextServices;
 namespace LayoutFarm.HtmlBoxes
 {
     public class LayoutVisitor : BoxVisitor
@@ -20,7 +21,7 @@ namespace LayoutFarm.HtmlBoxes
         FloatingContextStack _floatingContextStack = new FloatingContextStack();
         static int s_totalLayoutIdEpisode = 0;
         int _episodeId = 1;
-       
+
         TextServiceClient _txtClient;
         internal LayoutVisitor(TextServiceClient txtClient)
         {
