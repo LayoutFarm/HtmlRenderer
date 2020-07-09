@@ -45,7 +45,10 @@
     <Compile Include="..\..\..\Typography\PixelFarm.Typography\1_General\OpenFontTextService.cs">
       <Link>PORT\OpenFontTextService.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Typography\PixelFarm.Typography\1_General\ResolvedFonts.cs">
+    <Compile Include="..\..\..\Typography\PixelFarm.Typography\1_General\TextServiceClient.cs">
+      <Link>PORT\TextServiceClient.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Typography\PixelFarm.Typography\4_Typography01\ResolvedFonts.cs">
       <Link>PORT\ResolvedFonts.cs</Link>
     </Compile>
     <Compile Include="1_Css\BoxSpec.cs" />

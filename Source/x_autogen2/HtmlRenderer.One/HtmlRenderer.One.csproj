@@ -42,14 +42,20 @@
     <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\1_General\LineSegmentsAndWordVisitors.cs">
       <Link>Typography\PixelFarm.Typography\1_General\LineSegmentsAndWordVisitors.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\1_General\MultiLayerGlyphTx.cs">
+      <Link>Typography\PixelFarm.Typography\1_General\MultiLayerGlyphTx.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\1_General\OpenFontTextService.cs">
       <Link>Typography\PixelFarm.Typography\1_General\OpenFontTextService.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\1_General\OpenFontTextService_Part2.cs">
       <Link>Typography\PixelFarm.Typography\1_General\OpenFontTextService_Part2.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\1_General\ResolvedFonts.cs">
-      <Link>Typography\PixelFarm.Typography\1_General\ResolvedFonts.cs</Link>
+    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\1_General\SvgBmpBuilderReq.cs">
+      <Link>Typography\PixelFarm.Typography\1_General\SvgBmpBuilderReq.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\1_General\TextServiceClient.cs">
+      <Link>Typography\PixelFarm.Typography\1_General\TextServiceClient.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\1_General\VxsTextPrinter.cs">
       <Link>Typography\PixelFarm.Typography\1_General\VxsTextPrinter.cs</Link>
@@ -87,8 +93,17 @@
     <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\3_Typography_Contours\TextPrinterBase.cs">
       <Link>Typography\PixelFarm.Typography\3_Typography_Contours\TextPrinterBase.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\4_PixelFarm_Contours\GlyphOutlineAnalyzer.cs">
-      <Link>Typography\PixelFarm.Typography\4_PixelFarm_Contours\GlyphOutlineAnalyzer.cs</Link>
+    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\4_Typography01\FormattedGlyphPlanSeq.cs">
+      <Link>Typography\PixelFarm.Typography\4_Typography01\FormattedGlyphPlanSeq.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\4_Typography01\MyAlternativeTypefaceSelector.cs">
+      <Link>Typography\PixelFarm.Typography\4_Typography01\MyAlternativeTypefaceSelector.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\4_Typography01\ResolvedFonts.cs">
+      <Link>Typography\PixelFarm.Typography\4_Typography01\ResolvedFonts.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\5_PixelFarm_Contours\GlyphOutlineAnalyzer.cs">
+      <Link>Typography\PixelFarm.Typography\5_PixelFarm_Contours\GlyphOutlineAnalyzer.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\Typography\Typography.GlyphLayout\GlyphIndexList.cs">
       <Link>Typography\Typography.GlyphLayout\GlyphIndexList.cs</Link>

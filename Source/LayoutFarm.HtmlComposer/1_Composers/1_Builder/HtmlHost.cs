@@ -11,7 +11,7 @@ using LayoutFarm.Composers;
 using LayoutFarm.ContentManagers;
 using LayoutFarm.Css;
 using LayoutFarm.WebDom;
-
+using Typography.TextServices;
 namespace LayoutFarm.HtmlBoxes
 {
 
