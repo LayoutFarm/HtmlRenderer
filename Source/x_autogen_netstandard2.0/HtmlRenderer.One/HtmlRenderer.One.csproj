@@ -204,6 +204,14 @@
     <Compile Include="..\..\..\..\Typography\Typography.TextServices\IcuData\LangCodes.cs" Link="Typography\Typography.TextServices\IcuData\LangCodes.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.TextServices\TextServices.cs" Link="Typography\Typography.TextServices\TextServices.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.TextServices\Utils\CRC32.cs" Link="Typography\Typography.TextServices\Utils\CRC32.cs" />
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.BurningMineCurve_SH\CubicBezier.cs" Link="PixelFarm\src\PixelFarm\BackEnd.BurningMineCurve_SH\CubicBezier.cs" />
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.BurningMineCurve_SH\CurveBuilder.cs" Link="PixelFarm\src\PixelFarm\BackEnd.BurningMineCurve_SH\CurveBuilder.cs" />
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.BurningMineCurve_SH\CurveFit.cs" Link="PixelFarm\src\PixelFarm\BackEnd.BurningMineCurve_SH\CurveFit.cs" />
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.BurningMineCurve_SH\CurveFitBase.cs" Link="PixelFarm\src\PixelFarm\BackEnd.BurningMineCurve_SH\CurveFitBase.cs" />
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.BurningMineCurve_SH\CurvePreprocess.cs" Link="PixelFarm\src\PixelFarm\BackEnd.BurningMineCurve_SH\CurvePreprocess.cs" />
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.BurningMineCurve_SH\Spline.cs" Link="PixelFarm\src\PixelFarm\BackEnd.BurningMineCurve_SH\Spline.cs" />
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.BurningMineCurve_SH\SplineBuilder.cs" Link="PixelFarm\src\PixelFarm\BackEnd.BurningMineCurve_SH\SplineBuilder.cs" />
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.BurningMineCurve_SH\VectorHelper.cs" Link="PixelFarm\src\PixelFarm\BackEnd.BurningMineCurve_SH\VectorHelper.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.PaintFx\PdnSharedProject\01_Core\Color\ColorBgra.cs" Link="PixelFarm\src\PixelFarm\BackEnd.PaintFx\PdnSharedProject\01_Core\Color\ColorBgra.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.PaintFx\PdnSharedProject\01_Core\Color\HsvColor.cs" Link="PixelFarm\src\PixelFarm\BackEnd.PaintFx\PdnSharedProject\01_Core\Color\HsvColor.cs" />
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.PaintFx\PdnSharedProject\01_Core\Color\RgbColor.cs" Link="PixelFarm\src\PixelFarm\BackEnd.PaintFx\PdnSharedProject\01_Core\Color\RgbColor.cs" />
@@ -1575,6 +1583,7 @@
     <Folder Include="Typography\Typography.TextServices\IcuData" />
     <Folder Include="Typography\Typography.TextServices" />
     <Folder Include="Typography\Typography.TextServices\Utils" />
+    <Folder Include="PixelFarm\src\PixelFarm\BackEnd.BurningMineCurve_SH" />
     <Folder Include="PixelFarm\src\PixelFarm\BackEnd.PaintFx\PdnSharedProject\01_Core\Color" />
     <Folder Include="PixelFarm\src\PixelFarm\BackEnd.PaintFx\PdnSharedProject\01_Core" />
     <Folder Include="PixelFarm\src\PixelFarm\BackEnd.PaintFx\PdnSharedProject\01_Core\PixelOps" />
