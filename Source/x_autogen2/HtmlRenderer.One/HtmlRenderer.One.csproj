@@ -150,6 +150,9 @@
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\OpenFontReader.cs">
       <Link>Typography\Typography.OpenFont\OpenFontReader.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\Typography\Typography.OpenFont\PreviewFontInfo.cs">
+      <Link>Typography\Typography.OpenFont\PreviewFontInfo.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\Tables.AdvancedLayout\AttachmentListTable.cs">
       <Link>Typography\Typography.OpenFont\Tables.AdvancedLayout\AttachmentListTable.cs</Link>
     </Compile>

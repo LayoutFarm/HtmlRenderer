@@ -71,6 +71,7 @@
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\IGlyphTranslator.cs" Link="Typography\Typography.OpenFont\IGlyphTranslator.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\IO\ByteOrderSwappingBinaryReader.cs" Link="Typography\Typography.OpenFont\IO\ByteOrderSwappingBinaryReader.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\OpenFontReader.cs" Link="Typography\Typography.OpenFont\OpenFontReader.cs" />
+    <Compile Include="..\..\..\..\Typography\Typography.OpenFont\PreviewFontInfo.cs" Link="Typography\Typography.OpenFont\PreviewFontInfo.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\Tables.AdvancedLayout\AttachmentListTable.cs" Link="Typography\Typography.OpenFont\Tables.AdvancedLayout\AttachmentListTable.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\Tables.AdvancedLayout\Base.cs" Link="Typography\Typography.OpenFont\Tables.AdvancedLayout\Base.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\Tables.AdvancedLayout\ClassDefTable.cs" Link="Typography\Typography.OpenFont\Tables.AdvancedLayout\ClassDefTable.cs" />
