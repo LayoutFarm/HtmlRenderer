@@ -150,13 +150,7 @@ namespace LayoutFarm.HtmlBoxes
         internal Size MeasureStringSize(char[] buffer, int startIndex, int len, ResolvedFont f)
         {
             var textSpan = new Typography.Text.TextBufferSpan(buffer, startIndex, len);
-            return _txtClient.MeasureString(textSpan, f);
-            //return GlobalTextService.TextService2.MeasureString(textSpan, f);
-
-            //return this.TextService.MeasureString(textSpan, f);
-
-            //var textSpan = new TextBufferSpan(buffer, startIndex, len);
-            //return this.TextService.MeasureString(textSpan, f);
+            return _txtClient.MeasureString(textSpan, f); 
         }
         //---------------------------------------------------------------
         internal Dictionary<CssBox, PartialBoxStrip> GetReadyStripDic()
