@@ -139,17 +139,17 @@ namespace LayoutFarm.HtmlBoxes
         }
         internal float MeasureStringWidth(char[] buffer, int startIndex, int len, RequestFont f)
         {
-            var textSpan = new TextBufferSpan(buffer, startIndex, len);
+            var textSpan = new PixelFarm.Drawing.TextBufferSpan(buffer, startIndex, len);
             return this.TextService.MeasureString(textSpan, f).Width;
         }
         internal Size MeasureStringSize(char[] buffer, int startIndex, int len, RequestFont f)
         {
-            var textSpan = new TextBufferSpan(buffer, startIndex, len);
+            var textSpan = new PixelFarm.Drawing.TextBufferSpan(buffer, startIndex, len);
             return this.TextService.MeasureString(textSpan, f);
         }
         internal Size MeasureStringSize(char[] buffer, int startIndex, int len, ResolvedFont f)
         {
-            var textSpan = new TextBufferSpan(buffer, startIndex, len);
+            var textSpan = new Typography.Text.TextBufferSpan(buffer, startIndex, len);
             return _txtClient.MeasureString(textSpan, f);
             //return GlobalTextService.TextService2.MeasureString(textSpan, f);
 
