@@ -8,7 +8,7 @@ using Typography.OpenFont;
 using Typography.OpenFont.Extensions;
 
 using Typography.TextLayout;
-using Typography.TextServices;
+using Typography.Text;
 using Typography.FontManagement;
 using Typography.TextBreak;
 

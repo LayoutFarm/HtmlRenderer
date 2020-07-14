@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 using PixelFarm.Drawing;
-using Typography.TextServices;
+using Typography.Text;
 namespace LayoutFarm.HtmlBoxes
 {
     public class LayoutVisitor : BoxVisitor

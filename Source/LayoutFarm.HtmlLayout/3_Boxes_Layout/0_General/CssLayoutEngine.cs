@@ -649,7 +649,7 @@ namespace LayoutFarm.HtmlBoxes
             // Applies vertical alignment to the linebox 
             return;
             //TODO: review here
-            lineBox.ApplyBaseline(lineBox.CalculateTotalBoxBaseLine(lay));
+            //lineBox.ApplyBaseline(lineBox.CalculateTotalBoxBaseLine(lay));
             //---------------------------------------------  
         }
 
