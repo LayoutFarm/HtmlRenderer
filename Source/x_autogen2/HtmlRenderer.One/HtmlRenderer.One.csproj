@@ -36,11 +36,11 @@
     <Compile Include="..\..\..\..\Typography\Build\N20\Typography.OpenFont\System.Numerics.ForNet20.cs">
       <Link>Typography\Build\N20\Typography.OpenFont\System.Numerics.ForNet20.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\1_General\AlternativeTypefaceSelector.cs">
+      <Link>Typography\PixelFarm.Typography\1_General\AlternativeTypefaceSelector.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\1_General\FontStyleExtensions.cs">
       <Link>Typography\PixelFarm.Typography\1_General\FontStyleExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\1_General\LineSegmentsAndWordVisitors.cs">
-      <Link>Typography\PixelFarm.Typography\1_General\LineSegmentsAndWordVisitors.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\1_General\MultiLayerGlyphTx.cs">
       <Link>Typography\PixelFarm.Typography\1_General\MultiLayerGlyphTx.cs</Link>
@@ -57,8 +57,8 @@
     <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\1_General\TextServiceClient.cs">
       <Link>Typography\PixelFarm.Typography\1_General\TextServiceClient.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\1_General\VxsTextPrinter.cs">
-      <Link>Typography\PixelFarm.Typography\1_General\VxsTextPrinter.cs</Link>
+    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\1_General\VxsTextSpanPrinter.cs">
+      <Link>Typography\PixelFarm.Typography\1_General\VxsTextSpanPrinter.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\2_CpuBlit_BitmapAtlas\AggGlyphTextureGen.cs">
       <Link>Typography\PixelFarm.Typography\2_CpuBlit_BitmapAtlas\AggGlyphTextureGen.cs</Link>
@@ -81,6 +81,9 @@
     <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\3_Typography_Contours\GlyphMeshStore.cs">
       <Link>Typography\PixelFarm.Typography\3_Typography_Contours\GlyphMeshStore.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\3_Typography_Contours\GlyphOutlineAnalyzer.cs">
+      <Link>Typography\PixelFarm.Typography\3_Typography_Contours\GlyphOutlineAnalyzer.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\3_Typography_Contours\GlyphOutlineBuilderBase.cs">
       <Link>Typography\PixelFarm.Typography\3_Typography_Contours\GlyphOutlineBuilderBase.cs</Link>
     </Compile>
@@ -89,21 +92,6 @@
     </Compile>
     <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\3_Typography_Contours\GlyphTranslatorToVxs.cs">
       <Link>Typography\PixelFarm.Typography\3_Typography_Contours\GlyphTranslatorToVxs.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\3_Typography_Contours\TextPrinterBase.cs">
-      <Link>Typography\PixelFarm.Typography\3_Typography_Contours\TextPrinterBase.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\4_Typography01\FormattedGlyphPlanSeq.cs">
-      <Link>Typography\PixelFarm.Typography\4_Typography01\FormattedGlyphPlanSeq.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\4_Typography01\MyAlternativeTypefaceSelector.cs">
-      <Link>Typography\PixelFarm.Typography\4_Typography01\MyAlternativeTypefaceSelector.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\4_Typography01\ResolvedFonts.cs">
-      <Link>Typography\PixelFarm.Typography\4_Typography01\ResolvedFonts.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\5_PixelFarm_Contours\GlyphOutlineAnalyzer.cs">
-      <Link>Typography\PixelFarm.Typography\5_PixelFarm_Contours\GlyphOutlineAnalyzer.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\Typography\Typography.GlyphLayout\GlyphIndexList.cs">
       <Link>Typography\Typography.GlyphLayout\GlyphIndexList.cs</Link>
@@ -390,6 +378,9 @@
     <Compile Include="..\..\..\..\Typography\Typography.TextBreak\Typography.TextBreak\BreakingEngine.cs">
       <Link>Typography\Typography.TextBreak\Typography.TextBreak\BreakingEngine.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\Typography\Typography.TextBreak\Typography.TextBreak\BreakingParameters.cs">
+      <Link>Typography\Typography.TextBreak\Typography.TextBreak\BreakingParameters.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\Typography\Typography.TextBreak\Typography.TextBreak\CustomBreaker.cs">
       <Link>Typography\Typography.TextBreak\Typography.TextBreak\CustomBreaker.cs</Link>
     </Compile>
@@ -417,23 +408,20 @@
     <Compile Include="..\..\..\..\Typography\Typography.TextBreak\Typography.TextBreak\EngBreakingEngine.cs">
       <Link>Typography\Typography.TextBreak\Typography.TextBreak\EngBreakingEngine.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Typography\Typography.TextBreak\Typography.TextBreak\LineSegments\BreakingParameters.cs">
-      <Link>Typography\Typography.TextBreak\Typography.TextBreak\LineSegments\BreakingParameters.cs</Link>
+    <Compile Include="..\..\..\..\Typography\Typography.TextBreak\Typography.TextBreak\ScriptAndUnicodeInfo\LangCodes.cs">
+      <Link>Typography\Typography.TextBreak\Typography.TextBreak\ScriptAndUnicodeInfo\LangCodes.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Typography\Typography.TextBreak\Typography.TextBreak\LineSegments\ILineSegments.cs">
-      <Link>Typography\Typography.TextBreak\Typography.TextBreak\LineSegments\ILineSegments.cs</Link>
+    <Compile Include="..\..\..\..\Typography\Typography.TextBreak\Typography.TextBreak\ScriptAndUnicodeInfo\ScriptLangInfo.cs">
+      <Link>Typography\Typography.TextBreak\Typography.TextBreak\ScriptAndUnicodeInfo\ScriptLangInfo.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Typography\Typography.TextBreak\Typography.TextBreak\ScriptTagsAndLanguageSystemTags\OpenFontBitPosInfo.cs">
-      <Link>Typography\Typography.TextBreak\Typography.TextBreak\ScriptTagsAndLanguageSystemTags\OpenFontBitPosInfo.cs</Link>
+    <Compile Include="..\..\..\..\Typography\Typography.TextBreak\Typography.TextBreak\ScriptAndUnicodeInfo\Unicode13RangeInfoList.cs">
+      <Link>Typography\Typography.TextBreak\Typography.TextBreak\ScriptAndUnicodeInfo\Unicode13RangeInfoList.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Typography\Typography.TextBreak\Typography.TextBreak\ScriptTagsAndLanguageSystemTags\ScriptLangInfo.cs">
-      <Link>Typography\Typography.TextBreak\Typography.TextBreak\ScriptTagsAndLanguageSystemTags\ScriptLangInfo.cs</Link>
+    <Compile Include="..\..\..\..\Typography\Typography.TextBreak\Typography.TextBreak\ScriptAndUnicodeInfo\UnicodeRangeFinder.cs">
+      <Link>Typography\Typography.TextBreak\Typography.TextBreak\ScriptAndUnicodeInfo\UnicodeRangeFinder.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Typography\Typography.TextBreak\Typography.TextBreak\ScriptTagsAndLanguageSystemTags\UnicodeRangeFinder.cs">
-      <Link>Typography\Typography.TextBreak\Typography.TextBreak\ScriptTagsAndLanguageSystemTags\UnicodeRangeFinder.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Typography\Typography.TextBreak\Typography.TextBreak\ScriptTagsAndLanguageSystemTags\UnicodeRangeInfo.cs">
-      <Link>Typography\Typography.TextBreak\Typography.TextBreak\ScriptTagsAndLanguageSystemTags\UnicodeRangeInfo.cs</Link>
+    <Compile Include="..\..\..\..\Typography\Typography.TextBreak\Typography.TextBreak\ScriptAndUnicodeInfo\UnicodeRangeInfo.cs">
+      <Link>Typography\Typography.TextBreak\Typography.TextBreak\ScriptAndUnicodeInfo\UnicodeRangeInfo.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\Typography\Typography.TextBreak\Typography.TextBreak\SheenBidi\BaseDirection.cs">
       <Link>Typography\Typography.TextBreak\Typography.TextBreak\SheenBidi\BaseDirection.cs</Link>
@@ -507,11 +495,8 @@
     <Compile Include="..\..\..\..\Typography\Typography.TextBreak\Typography.TextBreak\SheenBidi\Text\UnicodeLocator.cs">
       <Link>Typography\Typography.TextBreak\Typography.TextBreak\SheenBidi\Text\UnicodeLocator.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Typography\Typography.TextBreak\Typography.TextBreak\TextBuffer.cs">
-      <Link>Typography\Typography.TextBreak\Typography.TextBreak\TextBuffer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Typography\Typography.TextBreak\Typography.TextBreak\UnicodeInfo\Unicode13RangeInfoList.cs">
-      <Link>Typography\Typography.TextBreak\Typography.TextBreak\UnicodeInfo\Unicode13RangeInfoList.cs</Link>
+    <Compile Include="..\..\..\..\Typography\Typography.TextBreak\Typography.TextBreak\SpanBreakInfo.cs">
+      <Link>Typography\Typography.TextBreak\Typography.TextBreak\SpanBreakInfo.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\Typography\Typography.TextBreak\Typography.TextBreak\WordKind.cs">
       <Link>Typography\Typography.TextBreak\Typography.TextBreak\WordKind.cs</Link>
@@ -519,35 +504,68 @@
     <Compile Include="..\..\..\..\Typography\Typography.TextBreak\Typography.TextBreak\WordVisitor.cs">
       <Link>Typography\Typography.TextBreak\Typography.TextBreak\WordVisitor.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Typography\Typography.TextFlow\Dom\EditableTextBlockLayoutEngine.cs">
-      <Link>Typography\Typography.TextFlow\Dom\EditableTextBlockLayoutEngine.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Typography\Typography.TextFlow\Dom\EditableTextLine.cs">
-      <Link>Typography\Typography.TextFlow\Dom\EditableTextLine.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Typography\Typography.TextFlow\Dom\IRun.cs">
-      <Link>Typography\Typography.TextFlow\Dom\IRun.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Typography\Typography.TextFlow\Dom\TextRun.cs">
-      <Link>Typography\Typography.TextFlow\Dom\TextRun.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Typography\Typography.TextFlow\Simple\SmallLine.cs">
-      <Link>Typography\Typography.TextFlow\Simple\SmallLine.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Typography\Typography.TextFlow\TextLexer\TextLexer.cs">
-      <Link>Typography\Typography.TextFlow\TextLexer\TextLexer.cs</Link>
+    <Compile Include="..\..\..\..\Typography\Typography.TextServices\AbstractTextSpanPrinter.cs">
+      <Link>Typography\Typography.TextServices\AbstractTextSpanPrinter.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\Typography\Typography.TextServices\FontStoreAndManagment\FontManagement.cs">
       <Link>Typography\Typography.TextServices\FontStoreAndManagment\FontManagement.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Typography\Typography.TextServices\IcuData\LangCodes.cs">
-      <Link>Typography\Typography.TextServices\IcuData\LangCodes.cs</Link>
+    <Compile Include="..\..\..\..\Typography\Typography.TextServices\FontStoreAndManagment\OpenFontBitPosInfo.cs">
+      <Link>Typography\Typography.TextServices\FontStoreAndManagment\OpenFontBitPosInfo.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Typography\Typography.TextServices\TextServices.cs">
-      <Link>Typography\Typography.TextServices\TextServices.cs</Link>
+    <Compile Include="..\..\..\..\Typography\Typography.TextServices\FontStoreAndManagment\OpenFontUnicodeUtilExtensions.cs">
+      <Link>Typography\Typography.TextServices\FontStoreAndManagment\OpenFontUnicodeUtilExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Typography\Typography.TextServices\Utils\CRC32.cs">
-      <Link>Typography\Typography.TextServices\Utils\CRC32.cs</Link>
+    <Compile Include="..\..\..\..\Typography\Typography.TextServices\MeasureStringArgs.cs">
+      <Link>Typography\Typography.TextServices\MeasureStringArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Typography\Typography.TextServices\ResolvedFonts.cs">
+      <Link>Typography\Typography.TextServices\ResolvedFonts.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Typography\Typography.TextServices\TextBaseline.cs">
+      <Link>Typography\Typography.TextServices\TextBaseline.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Typography\Typography.TextServices\TextBufferSpan.cs">
+      <Link>Typography\Typography.TextServices\TextBufferSpan.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Typography\Typography.TextServices\TextLayout\CRC32.cs">
+      <Link>Typography\Typography.TextServices\TextLayout\CRC32.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Typography\Typography.TextServices\TextLayout\FormattedGlyphPlanSeq.cs">
+      <Link>Typography\Typography.TextServices\TextLayout\FormattedGlyphPlanSeq.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Typography\Typography.TextServices\TextLayout\GlyphPlanCache.cs">
+      <Link>Typography\Typography.TextServices\TextLayout\GlyphPlanCache.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Typography\Typography.TextServices\TextLayout\LineSegmentsAndWordVisitors.cs">
+      <Link>Typography\Typography.TextServices\TextLayout\LineSegmentsAndWordVisitors.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Typography\Typography.TextServices\VirtualTextSpanPrinter.cs">
+      <Link>Typography\Typography.TextServices\VirtualTextSpanPrinter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.BurningMineCurve_SH\CubicBezier.cs">
+      <Link>PixelFarm\src\PixelFarm\BackEnd.BurningMineCurve_SH\CubicBezier.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.BurningMineCurve_SH\CurveBuilder.cs">
+      <Link>PixelFarm\src\PixelFarm\BackEnd.BurningMineCurve_SH\CurveBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.BurningMineCurve_SH\CurveFit.cs">
+      <Link>PixelFarm\src\PixelFarm\BackEnd.BurningMineCurve_SH\CurveFit.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.BurningMineCurve_SH\CurveFitBase.cs">
+      <Link>PixelFarm\src\PixelFarm\BackEnd.BurningMineCurve_SH\CurveFitBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.BurningMineCurve_SH\CurvePreprocess.cs">
+      <Link>PixelFarm\src\PixelFarm\BackEnd.BurningMineCurve_SH\CurvePreprocess.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.BurningMineCurve_SH\Spline.cs">
+      <Link>PixelFarm\src\PixelFarm\BackEnd.BurningMineCurve_SH\Spline.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.BurningMineCurve_SH\SplineBuilder.cs">
+      <Link>PixelFarm\src\PixelFarm\BackEnd.BurningMineCurve_SH\SplineBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.BurningMineCurve_SH\VectorHelper.cs">
+      <Link>PixelFarm\src\PixelFarm\BackEnd.BurningMineCurve_SH\VectorHelper.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.PaintFx\PdnSharedProject\01_Core\Color\ColorBgra.cs">
       <Link>PixelFarm\src\PixelFarm\BackEnd.PaintFx\PdnSharedProject\01_Core\Color\ColorBgra.cs</Link>

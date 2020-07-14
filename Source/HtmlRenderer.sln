@@ -100,7 +100,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaintLab.PlatformBridge", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixelFarm.BasicVisualElements", "..\..\PixelFarm\src\PixelFarm\PixelFarm.BasicVisualElements\PixelFarm.BasicVisualElements.csproj", "{CB83E3B5-E8B9-4AC4-BA6C-B4764E815E6B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DepCtrl_PixelFarm_Painter_With_TextSupport", "..\..\PixelFarm\src\DepCtrls\DepCtrl_PixelFarm_Painter_With_TextSupport\DepCtrl_PixelFarm_Painter_With_TextSupport.csproj", "{C8C4EB0F-C324-4E11-832C-C701CF3E5D27}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DepCtrl_Painter_Layer1_With_TextSupport", "..\..\PixelFarm\src\DepCtrls\DepCtrl_Painter_Layer1_With_TextSupport\DepCtrl_Painter_Layer1_With_TextSupport.csproj", "{C8C4EB0F-C324-4E11-832C-C701CF3E5D27}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -111,6 +111,7 @@ Global
 		..\..\PixelFarm\src\PixelFarm\PixelFarm.Drawing.GdiPlus_SH\PixelFarm.Drawing.GdiPlus_SH.projitems*{1aa171e3-523c-4dd5-a169-de6322991ff5}*SharedItemsImports = 4
 		..\..\PixelFarm\src\PixelFarm\PaintLab.AppHost\PaintLab.AppHost.projitems*{24b58983-d06b-48bf-bbd3-7cb919003520}*SharedItemsImports = 4
 		..\..\PixelFarm\src\Tests\WinFormTestBed2\WinFormTestBed2.projitems*{24b58983-d06b-48bf-bbd3-7cb919003520}*SharedItemsImports = 4
+		..\..\PixelFarm\src\PixelFarm\BackEnd.BurningMineCurve_SH\BackEnd.BurningMineCurve_SH.projitems*{51d63482-5697-4b16-8401-506965624657}*SharedItemsImports = 4
 		..\..\PixelFarm\src\PixelFarm\BackEnd.Tesselate_SH\BackEnd.Tesselate_SH.projitems*{51d63482-5697-4b16-8401-506965624657}*SharedItemsImports = 4
 		..\..\PixelFarm\src\PixelFarm\BackEnd.Triangulation\Triangulation.projitems*{51d63482-5697-4b16-8401-506965624657}*SharedItemsImports = 4
 		..\..\PixelFarm\src\PixelFarm\PixelFarm.BasicVisualElements_SH\PixelFarm.BasicVisualElements_SH.projitems*{51d63482-5697-4b16-8401-506965624657}*SharedItemsImports = 4

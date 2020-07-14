@@ -13,7 +13,7 @@
     <StartupObject>
     </StartupObject>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
-	  <LangVersion>8.0</LangVersion>
+    <LangVersion>8.0</LangVersion>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
