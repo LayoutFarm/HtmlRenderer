@@ -41,7 +41,7 @@ namespace LayoutFarm
             return vgx;
         }
 
-        static Typography.Contours.GlyphMeshStore _glyphMaskStore = null;
+        static Typography.OpenFont.Contours.GlyphMeshStore _glyphMaskStore = null;
 
         static Dictionary<string, Typography.OpenFont.Typeface> s_loadedTypefaces = new Dictionary<string, Typography.OpenFont.Typeface>();
 
@@ -61,7 +61,7 @@ namespace LayoutFarm
             }
             if (_glyphMaskStore == null)
             {
-                _glyphMaskStore = new Typography.Contours.GlyphMeshStore();
+                _glyphMaskStore = new Typography.OpenFont.Contours.GlyphMeshStore();
                 _glyphMaskStore.FlipGlyphUpward = true;
             }
             _glyphMaskStore.SetFont(typeface, sizeInPts);

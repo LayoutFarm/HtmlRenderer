@@ -1,6 +1,6 @@
 ﻿//Apache2, 2014-present, WinterDev
 using System;
-using Typography.TextServices;
+using Typography.Text;
 namespace PixelFarm.Drawing
 {
     public static class GlobalTextService

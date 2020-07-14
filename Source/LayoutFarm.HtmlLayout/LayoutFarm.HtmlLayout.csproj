@@ -36,20 +36,17 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\Typography\PixelFarm.Typography\1_General\AlternativeTypefaceSelector.cs">
+      <Link>PORT\AlternativeTypefaceSelector.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\Typography\PixelFarm.Typography\1_General\FontStyleExtensions.cs">
       <Link>PORT\FontStyleExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Typography\PixelFarm.Typography\1_General\LineSegmentsAndWordVisitors.cs">
-      <Link>PORT\LineSegmentsAndWordVisitors.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Typography\PixelFarm.Typography\1_General\OpenFontTextService.cs">
       <Link>PORT\OpenFontTextService.cs</Link>
     </Compile>
     <Compile Include="..\..\..\Typography\PixelFarm.Typography\1_General\TextServiceClient.cs">
       <Link>PORT\TextServiceClient.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\Typography\PixelFarm.Typography\4_Typography01\ResolvedFonts.cs">
-      <Link>PORT\ResolvedFonts.cs</Link>
     </Compile>
     <Compile Include="1_Css\BoxSpec.cs" />
     <Compile Include="1_Css\BoxSpecNode.cs" />
@@ -99,9 +96,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\PixelFarm\src\DepCtrls\DepCtrl_PixelFarm_Painter_With_TextSupport\DepCtrl_PixelFarm_Painter_With_TextSupport.csproj">
+    <ProjectReference Include="..\..\..\PixelFarm\src\DepCtrls\DepCtrl_Painter_Layer1_With_TextSupport\DepCtrl_Painter_Layer1_With_TextSupport.csproj">
       <Project>{c8c4eb0f-c324-4e11-832c-c701cf3e5d27}</Project>
-      <Name>DepCtrl_PixelFarm_Painter_With_TextSupport</Name>
+      <Name>DepCtrl_Painter_Layer1_With_TextSupport</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\PixelFarm\src\PixelFarm\PaintLab.CssBase\PaintLab.CssBase.csproj">
       <Project>{bf5f9590-f680-403d-932a-7cdd12af89fb}</Project>

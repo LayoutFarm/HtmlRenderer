@@ -100,7 +100,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaintLab.PlatformBridge", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixelFarm.BasicVisualElements", "..\..\PixelFarm\src\PixelFarm\PixelFarm.BasicVisualElements\PixelFarm.BasicVisualElements.csproj", "{CB83E3B5-E8B9-4AC4-BA6C-B4764E815E6B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DepCtrl_PixelFarm_Painter_With_TextSupport", "..\..\PixelFarm\src\DepCtrls\DepCtrl_PixelFarm_Painter_With_TextSupport\DepCtrl_PixelFarm_Painter_With_TextSupport.csproj", "{C8C4EB0F-C324-4E11-832C-C701CF3E5D27}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DepCtrl_Painter_Layer1_With_TextSupport", "..\..\PixelFarm\src\DepCtrls\DepCtrl_Painter_Layer1_With_TextSupport\DepCtrl_Painter_Layer1_With_TextSupport.csproj", "{C8C4EB0F-C324-4E11-832C-C701CF3E5D27}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution

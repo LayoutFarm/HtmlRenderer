@@ -79,7 +79,7 @@ namespace TestGraphicPackage
             int h = 600;
 
             //PixelFarm.Drawing.ITextService textService = new PixelFarm.Drawing.OpenFontTextService();
-            var textService = new Typography.TextServices.OpenFontTextService();
+            var textService = new Typography.Text.OpenFontTextService();
             MyRootGraphic myRootGfx = new MyRootGraphic(w, h, textService.CreateNewServiceClient());
 
             var viewport = new GraphicsViewRoot(screenClientAreaRect.Width, screenClientAreaRect.Height);
