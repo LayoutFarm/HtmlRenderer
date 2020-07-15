@@ -78,9 +78,10 @@ namespace TestGraphicPackage
             int w = 800;
             int h = 600;
 
-            //PixelFarm.Drawing.ITextService textService = new PixelFarm.Drawing.OpenFontTextService();
+
             var textService = new Typography.Text.OpenFontTextService();
-            MyRootGraphic myRootGfx = new MyRootGraphic(w, h, textService.CreateNewServiceClient());
+            Typography.Text.TextServiceClient client = textService.CreateNewServiceClient();
+            MyRootGraphic myRootGfx = new MyRootGraphic(w, h);
 
             var viewport = new GraphicsViewRoot(screenClientAreaRect.Width, screenClientAreaRect.Height);
 
@@ -91,15 +92,14 @@ namespace TestGraphicPackage
 
             IGpuOpenGLSurfaceView viewAbstraction = actualWinUI.CreateWindowWrapper(bridge);
 
+            var rootgfx = new MyRootGraphic(w, h);
 
-            var rootgfx = new MyRootGraphic(
-                w, h,
-                PixelFarm.Drawing.WinGdi.WinGdiPlusPlatform.GetTextService());
             viewport.InitRootGraphics(rootgfx,
                 rootgfx.TopWinEventPortal,
                 InnerViewportKind.GdiPlus,
                 viewAbstraction,
-                bridge);
+            bridge);
+
 
             viewport.PaintToOutputWindow();
             simpleForm.Show();

@@ -144,13 +144,9 @@ namespace LayoutFarm.HtmlBoxes
         //
         internal bool NeedComputedValueEvaluation => (_boxCompactFlags & BoxFlags.LAY_EVAL_COMPUTE_VALUES) == 0;
 
-        public void ReEvaluateFont(ITextService iFonts, float parentFontSize)
+        public void ReEvaluateFont(IHtmlTextService txtsx, float parentFontSize)
         {
-
-            RequestFont fontInfo = _myspec.GetFont(parentFontSize);
-            _resolvedFont = fontInfo;
-            _resolvedFont1 = GlobalTextService.TextService2.ResolveFont(fontInfo);
-
+            _resolvedFont1 = txtsx.ResolveFont(_reqFont = _myspec.GetFont(parentFontSize));
 
             if (_myspec.WordSpacing.IsNormalWordSpacing)
             {
@@ -169,7 +165,7 @@ namespace LayoutFarm.HtmlBoxes
         /// <summary>
         /// evaluate computed value
         /// </summary>
-        internal void ReEvaluateComputedValues(ITextService iFonts, CssBox containingBlock)
+        internal void ReEvaluateComputedValues(IHtmlTextService iFonts, CssBox containingBlock)
         {
 
             //depend on parent
@@ -325,11 +321,11 @@ namespace LayoutFarm.HtmlBoxes
 
             if (spec.WordSpacing.IsNormalWordSpacing)
             {
-                _actualWordSpacing = iFonts.MeasureWhitespace(_resolvedFont);
+                _actualWordSpacing = iFonts.MeasureWhitespace(_reqFont);
             }
             else
             {
-                _actualWordSpacing = iFonts.MeasureWhitespace(_resolvedFont)
+                _actualWordSpacing = iFonts.MeasureWhitespace(_reqFont)
                     + CssLengthExt.ConvertToPx(spec.WordSpacing, 1, this);
             }
             //---------------------------------------------- 
