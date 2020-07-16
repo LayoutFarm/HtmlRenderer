@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using LayoutFarm.Css;
 using PixelFarm.Drawing;
 using Typography.Text;
 namespace LayoutFarm.HtmlBoxes
@@ -22,8 +23,8 @@ namespace LayoutFarm.HtmlBoxes
         static int s_totalLayoutIdEpisode = 0;
         int _episodeId = 1;
 
-        TextServiceClient _txtClient;
-        internal LayoutVisitor(TextServiceClient txtClient)
+        IHtmlTextService _txtClient;
+        internal LayoutVisitor(IHtmlTextService txtClient)
         {
             _txtClient = txtClient;
         }
@@ -50,7 +51,7 @@ namespace LayoutFarm.HtmlBoxes
 
         }
         internal bool InAbsoluteLayerMode { get; set; }
-        internal ITextService TextService => _txtClient;
+        internal IHtmlTextService TextService => _txtClient;
 
         protected override void OnPushDifferentContainingBlock(CssBox box)
         {
@@ -137,20 +138,11 @@ namespace LayoutFarm.HtmlBoxes
             }
             return w;
         }
-        internal float MeasureStringWidth(char[] buffer, int startIndex, int len, RequestFont f)
-        {
-            var textSpan = new PixelFarm.Drawing.TextBufferSpan(buffer, startIndex, len);
-            return this.TextService.MeasureString(textSpan, f).Width;
-        }
-        internal Size MeasureStringSize(char[] buffer, int startIndex, int len, RequestFont f)
-        {
-            var textSpan = new PixelFarm.Drawing.TextBufferSpan(buffer, startIndex, len);
-            return this.TextService.MeasureString(textSpan, f);
-        }
+       
         internal Size MeasureStringSize(char[] buffer, int startIndex, int len, ResolvedFont f)
         {
-            var textSpan = new Typography.Text.TextBufferSpan(buffer, startIndex, len);
-            return _txtClient.MeasureString(textSpan, f); 
+            var textSpan = new PixelFarm.Drawing.TextBufferSpan(buffer, startIndex, len);
+            return _txtClient.MeasureString(textSpan, f);
         }
         //---------------------------------------------------------------
         internal Dictionary<CssBox, PartialBoxStrip> GetReadyStripDic()

@@ -53,6 +53,7 @@
     <Compile Include="1_Css\BoxSpec_CopyAndVersioning.cs" />
     <Compile Include="1_Css\CssFeatures.cs" />
     <Compile Include="1_Css\FontDefaultConfig.cs" />
+    <Compile Include="1_Css\IHtmlTextService.cs" />
     <Compile Include="2_Boxes\0_Root\CssBoxConstConfig.cs" />
     <Compile Include="2_Boxes\0_Root\HtmlVisualRoot.cs" />
     <Compile Include="2_Boxes\1_CoreBox\BoxVisitor.cs" />
@@ -92,7 +93,6 @@
     <Compile Include="5_Boxes_SpecialBoxes\CssFloatContainerBox.cs" />
     <Compile Include="1_Css\CssLengthExt.cs" />
     <Compile Include="PORT.cs" />
-    <Compile Include="PORT_NOTMERGE\MiniOpenFontService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -12,6 +12,7 @@ using LayoutFarm.ContentManagers;
 using LayoutFarm.Css;
 using LayoutFarm.WebDom;
 using Typography.Text;
+
 namespace LayoutFarm.HtmlBoxes
 {
 
@@ -23,7 +24,7 @@ namespace LayoutFarm.HtmlBoxes
 
         }
         public CssActiveSheet ActiveSheet { get; set; }
-        public ITextService TextService { get; set; }
+        public IHtmlTextService TextService { get; set; }
         public RootGraphic RootGraphic { get; set; }
         public bool ValidateConfig()
         {
@@ -42,12 +43,9 @@ namespace LayoutFarm.HtmlBoxes
 
             return validatePass;
         }
-        public string GetValidationResult()
-        {
-            return (_validateResult == null) ? null : _validateResult.ToString();
-        }
-    }
 
+        public string GetValidationResult() => _validateResult?.ToString();
+    }
 
     public class HtmlHost
     {
@@ -56,21 +54,19 @@ namespace LayoutFarm.HtmlBoxes
         //  1. manages multiple HtmlVisual roots
         //  2. controls shared I/O
 
-        List<CustomCssBoxGenerator> _generators = new List<CustomCssBoxGenerator>();
+        readonly List<CustomCssBoxGenerator> _generators = new List<CustomCssBoxGenerator>();
+        readonly List<CssBox> _waitForUpdateBoxes = new List<CssBox>();
+        readonly HtmlDocument _commonHtmlDoc;
+        readonly RootGraphic _rootgfx;
+        readonly Queue<LayoutVisitor> _htmlLayoutVisitorStock = new Queue<LayoutVisitor>();
+        readonly IHtmlTextService _txtsx;
+        readonly PaintLab.Svg.SvgCreator _svgCreator;
+        readonly PaintLab.MathML.MathMLBoxTreeCreator _mathMLCreator;
+
         HtmlVisualRootUpdateHandler _visualHtmlRootUpdateHandler;
         EventHandler<ImageRequestEventArgs> _requestImage;
         EventHandler<TextRequestEventArgs> _requestStyleSheet;
-        List<CssBox> _waitForUpdateBoxes = new List<CssBox>();
-
-        HtmlDocument _commonHtmlDoc;
-        RootGraphic _rootgfx;
-        Queue<LayoutVisitor> _htmlLayoutVisitorStock = new Queue<LayoutVisitor>();
         RenderTreeBuilder _renderTreeBuilder;
-
-        TextServiceClient _textservice;
-        PaintLab.Svg.SvgCreator _svgCreator;
-        PaintLab.MathML.MathMLBoxTreeCreator _mathMLCreator;
-
         string _baseUrl;
 
         public HtmlHost(HtmlHostCreationConfig config)
@@ -97,13 +93,11 @@ namespace LayoutFarm.HtmlBoxes
                      LayoutFarm.Composers.CssDefaults.DefaultCssData,
                     true);
             }
+
             _rootgfx = config.RootGraphic;
-
-            _textservice = GlobalTextService.TextService2.CreateNewServiceClient(); //config.TextService;
-
+            _txtsx = config.TextService;
             _svgCreator = new PaintLab.Svg.SvgCreator();
             _mathMLCreator = new PaintLab.MathML.MathMLBoxTreeCreator();
-
         }
 
         public string BaseUrl
@@ -140,18 +134,14 @@ namespace LayoutFarm.HtmlBoxes
             _requestImage = null;
             _requestStyleSheet = null;
         }
-        //----------------------
 
         public void SetHtmlVisualRootUpdateHandler(HtmlVisualRootUpdateHandler visualHtmlRootUpdateHandler)
         {
             _visualHtmlRootUpdateHandler = visualHtmlRootUpdateHandler;
         }
 
-        //---
-        public HtmlDocument CreateNewDocumentFragment()
-        {
-            return new HtmlDocumentFragment(_commonHtmlDoc);
-        }
+        public HtmlDocument CreateNewDocumentFragment() => new HtmlDocumentFragment(_commonHtmlDoc);
+
         public HtmlDocument CreateNewSharedHtmlDoc()
         {
             //!!! this is my extension *** 
@@ -162,13 +152,13 @@ namespace LayoutFarm.HtmlBoxes
         }
 
         public WebDom.CssActiveSheet BaseStylesheet { get; private set; }
-        //---
+
         public LayoutVisitor GetSharedHtmlLayoutVisitor(HtmlVisualRoot htmlVisualRoot)
         {
             LayoutVisitor lay;
             if (_htmlLayoutVisitorStock.Count == 0)
             {
-                lay = new LayoutVisitor(_textservice);
+                lay = new LayoutVisitor(_txtsx);
             }
             else
             {
@@ -215,13 +205,13 @@ namespace LayoutFarm.HtmlBoxes
         {
             if (_requestImage != null)
             {
-                ImageRequestEventArgs resReq = new ImageRequestEventArgs(binder);
+                var resReq = new ImageRequestEventArgs(binder);
                 resReq.requestBy = reqFrom;
                 _requestImage(this, resReq);
             }
         }
 
-        internal ITextService GetTextService() => _textservice;
+        internal IHtmlTextService GetHtmlTextService() => _txtsx;
 
         internal void EnqueueCssUpdate(CssBox box)
         {
@@ -613,7 +603,7 @@ namespace LayoutFarm.HtmlBoxes
         }
 
 
-        internal static CssBox CreateBridgeBox(ITextService iFonts, LayoutFarm.RenderElement containerElement)
+        internal static CssBox CreateBridgeBox(IHtmlTextService iFonts, LayoutFarm.RenderElement containerElement)
         {
             var spec = new BoxSpec();
             spec.CssDisplay = CssDisplay.Block;
@@ -624,7 +614,7 @@ namespace LayoutFarm.HtmlBoxes
             //------------------------------------
             return box;
         }
-        internal static CssBox CreateIsolateBox(ITextService iFonts)
+        internal static CssBox CreateIsolateBox(IHtmlTextService iFonts)
         {
             var spec = new BoxSpec();
             spec.CssDisplay = CssDisplay.Block;

@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using PixelFarm.CpuBlit;
+using PixelFarm.Drawing;
 
 namespace LayoutFarm
 {
@@ -10,15 +11,40 @@ namespace LayoutFarm
 
     public static class HtmlHostCreatorHelper
     {
+        class MyHtmlTextService : LayoutFarm.Css.IHtmlTextService
+        {
+            readonly Typography.Text.TextServiceClient _txtsx;
+            public MyHtmlTextService(Typography.Text.TextServiceClient txtsx)
+                => _txtsx = txtsx;
+
+            public float MeasureBlankLineHeight(RequestFont f) => _txtsx.MeasureWhitespace(f);
+
+            public Size MeasureString(in PixelFarm.Drawing.TextBufferSpan textBufferSpan, RequestFont font)
+                => _txtsx.MeasureString(textBufferSpan, font);
+
+            public void MeasureString(in PixelFarm.Drawing.TextBufferSpan textBufferSpan, RequestFont font, int maxWidth, out int charFit, out int charFitWidth)
+                => _txtsx.MeasureString(textBufferSpan, font, maxWidth, out charFit, out charFitWidth);
+
+            public float MeasureWhitespace(RequestFont f)
+                => _txtsx.MeasureWhitespace(f);
+
+            public Typography.Text.ResolvedFont ResolveFont(RequestFont reqFont)
+               => _txtsx.ResolveFont(reqFont);
+
+            public Size MeasureString(in PixelFarm.Drawing.TextBufferSpan textBufferSpan, Typography.Text.ResolvedFont font)
+               => _txtsx.MeasureString(textBufferSpan, font);
+        }
+
         public static HtmlBoxes.HtmlHost CreateHtmlHost(AppHost appHost,
             EventHandler<ContentManagers.ImageRequestEventArgs> imageReqHandler,
             EventHandler<ContentManagers.TextRequestEventArgs> textReq)
         {
             List<HtmlBoxes.HtmlVisualRoot> htmlVisualRootUpdateList = new List<HtmlBoxes.HtmlVisualRoot>();
 
-            var config = new HtmlBoxes.HtmlHostCreationConfig() {
+            var config = new HtmlBoxes.HtmlHostCreationConfig()
+            {
                 RootGraphic = appHost.RootGfx,
-                TextService = GlobalTextService.TextService
+                TextService = new MyHtmlTextService(GlobalTextService.TxtClient)
             };
 
             //1.

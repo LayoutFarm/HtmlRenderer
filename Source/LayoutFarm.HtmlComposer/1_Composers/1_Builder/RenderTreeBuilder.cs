@@ -186,7 +186,7 @@ namespace LayoutFarm.Composers
              
 
             //TODO: review here, we should create cssbox at  document.body? 
-            CssBox bridgeBox = HtmlHost.CreateBridgeBox(_htmlHost.GetTextService(), containerElement);
+            CssBox bridgeBox = HtmlHost.CreateBridgeBox(_htmlHost.GetHtmlTextService(), containerElement);
             ((HtmlElement)htmldoc.RootNode).SetPrincipalBox(bridgeBox);//set bridgeBox as principal box of root node
             _htmlHost.UpdateChildBoxes((HtmlRootElement)htmldoc.RootNode, true);
             htmldoc.SetDocumentState(DocumentState.Idle);
@@ -204,7 +204,7 @@ namespace LayoutFarm.Composers
             TopDownActiveCssTemplate activeTemplate = new TopDownActiveCssTemplate(cssActiveSheet);
             PrepareStylesAndContentOfChildNodes((HtmlElement)htmldoc.RootNode, activeTemplate);
             //TODO: review here, we should create cssbox at document.body?  
-            CssBox rootBox = HtmlHost.CreateIsolateBox(_htmlHost.GetTextService());
+            CssBox rootBox = HtmlHost.CreateIsolateBox(_htmlHost.GetHtmlTextService());
             ((HtmlElement)htmldoc.RootNode).SetPrincipalBox(rootBox);
             _htmlHost.UpdateChildBoxes((HtmlRootElement)htmldoc.RootNode, true);
             htmldoc.SetDocumentState(DocumentState.Idle);

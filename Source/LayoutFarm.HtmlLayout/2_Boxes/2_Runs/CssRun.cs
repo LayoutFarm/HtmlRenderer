@@ -15,6 +15,7 @@
 
 using System;
 using PixelFarm.Drawing;
+
 namespace LayoutFarm.HtmlBoxes
 {
     public enum CssRunKind : byte
@@ -93,7 +94,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             run._hostline = hostline;
         }
-       
+
         internal void InvalidateGraphics()
         {
             switch (_runKind)
@@ -264,7 +265,7 @@ namespace LayoutFarm.HtmlBoxes
             return string.Format("{0} ({1} char{2})",
                 txt.Replace(' ', '-').Replace("\n", "\\n"), txt.Length, txt.Length != 1 ? "s" : string.Empty);
         }
-        internal void FindSelectionPoint(ITextService textService,
+        internal void FindSelectionPoint(LayoutFarm.Css.IHtmlTextService textService,
             int offset, out int selectionIndex,
             out int runSelectionOffsetPx)
         {

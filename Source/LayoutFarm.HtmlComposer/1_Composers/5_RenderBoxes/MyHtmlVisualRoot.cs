@@ -7,6 +7,8 @@ using PixelFarm.Drawing;
 using LayoutFarm.WebDom;
 namespace LayoutFarm.HtmlBoxes
 {
+   
+
     public delegate void HtmlVisualRootUpdateHandler(HtmlVisualRoot htmlVisualRoot);
     public sealed class MyHtmlVisualRoot : HtmlVisualRoot
     {
@@ -24,10 +26,14 @@ namespace LayoutFarm.HtmlBoxes
         //
         public MyHtmlVisualRoot(HtmlHost htmlhost)
         {
-            _htmlhost = htmlhost;
-            _textService = htmlhost.GetTextService();
+            _htmlhost = htmlhost; 
+            _textService = htmlhost.GetHtmlTextService();
 
         }
+
+
+       
+
         public RenderElement RootRenderElement { get; set; }
         public void AttachEssentialHandlers(EventHandler domVisualRefreshHandler,
             EventHandler domRequestRebuildHandler,

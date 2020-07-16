@@ -145,7 +145,7 @@ namespace LayoutFarm.HtmlBoxes
         /// <summary>
         /// Gets the font that should be actually used to paint the text of the box
         /// </summary>
-        internal RequestFont ResolvedFont => _resolvedFont;
+        internal RequestFont ResolvedFont => _reqFont;
 
         //ResolvedFont _resolvedFont1;
         //internal ResolvedFont ResolvedFont1 => _resolvedFont1;
