@@ -150,6 +150,9 @@
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\OpenFontReader.cs">
       <Link>Typography\Typography.OpenFont\OpenFontReader.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\Typography\Typography.OpenFont\PreviewFontInfo.cs">
+      <Link>Typography\Typography.OpenFont\PreviewFontInfo.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\Tables.AdvancedLayout\AttachmentListTable.cs">
       <Link>Typography\Typography.OpenFont\Tables.AdvancedLayout\AttachmentListTable.cs</Link>
     </Compile>
@@ -509,6 +512,12 @@
     </Compile>
     <Compile Include="..\..\..\..\Typography\Typography.TextServices\FontStoreAndManagment\FontManagement.cs">
       <Link>Typography\Typography.TextServices\FontStoreAndManagment\FontManagement.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Typography\Typography.TextServices\FontStoreAndManagment\InstalledTypeface.cs">
+      <Link>Typography\Typography.TextServices\FontStoreAndManagment\InstalledTypeface.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Typography\Typography.TextServices\FontStoreAndManagment\InstalledTypefaceCollection.cs">
+      <Link>Typography\Typography.TextServices\FontStoreAndManagment\InstalledTypefaceCollection.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\Typography\Typography.TextServices\FontStoreAndManagment\OpenFontBitPosInfo.cs">
       <Link>Typography\Typography.TextServices\FontStoreAndManagment\OpenFontBitPosInfo.cs</Link>
@@ -3323,6 +3332,9 @@
     </Compile>
     <Compile Include="..\..\layoutfarm.htmllayout\1_css\FontDefaultConfig.cs">
       <Link>layoutfarm.htmllayout\1_css\FontDefaultConfig.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.HtmlLayout\1_Css\IHtmlTextService.cs">
+      <Link>LayoutFarm.HtmlLayout\1_Css\IHtmlTextService.cs</Link>
     </Compile>
     <Compile Include="..\..\layoutfarm.htmllayout\2_boxes\0_root\CssBoxConstConfig.cs">
       <Link>layoutfarm.htmllayout\2_boxes\0_root\CssBoxConstConfig.cs</Link>

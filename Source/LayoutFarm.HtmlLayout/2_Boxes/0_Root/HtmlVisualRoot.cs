@@ -15,14 +15,16 @@
 
 using System;
 using System.Collections.Generic;
+using LayoutFarm.Css;
 using PixelFarm.Drawing;
+
 namespace LayoutFarm.HtmlBoxes
 {
 
     public abstract partial class HtmlVisualRoot : IDisposable
     {
 
-        protected ITextService _textService;
+        protected IHtmlTextService _textService;
         /// <summary>
         /// the root css box of the parsed html
         /// </summary>
@@ -45,15 +47,15 @@ namespace LayoutFarm.HtmlBoxes
         public HtmlVisualRoot()
         {
         }
-        public ITextService GetTextService() => _textService;
 
+        public IHtmlTextService GetHtmlTextService() => _textService;
 
 #if DEBUG
         public static int dbugCount02 = 0;
 #endif
         public CssBox RootCssBox => _rootBox;
 
-       
+
 
         public void SetRootCssBox(CssBox rootCssBox)
         {

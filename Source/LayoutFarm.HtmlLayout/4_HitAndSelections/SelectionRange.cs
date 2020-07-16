@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
+using LayoutFarm.Css;
 namespace LayoutFarm.HtmlBoxes
 {
     public class SelectionRange
@@ -21,7 +22,7 @@ namespace LayoutFarm.HtmlBoxes
         internal SelectionRange(
             CssBoxHitChain startChain,
             CssBoxHitChain endChain,
-            ITextService ifonts)
+            IHtmlTextService textservice)
         {
             if (IsOnTheSameLine(startChain, endChain))
             {
@@ -46,7 +47,7 @@ namespace LayoutFarm.HtmlBoxes
             }
 
             //1.
-            this.SetupStartHitPoint(startChain, ifonts);
+            this.SetupStartHitPoint(startChain, textservice);
             //2. 
             if (_startHitHostLine == null)
             {
@@ -54,7 +55,7 @@ namespace LayoutFarm.HtmlBoxes
                 return;
             }
 
-            this.SetupEndHitPoint(startChain, endChain, ifonts);
+            this.SetupEndHitPoint(startChain, endChain, textservice);
             SnapSelectionArea = this.GetSelectionRectArea();
         }
         public Rectangle SnapSelectionArea { get; private set; }
@@ -203,7 +204,7 @@ namespace LayoutFarm.HtmlBoxes
                 }
             }
         }
-        void SetupStartHitPoint(CssBoxHitChain startChain, ITextService textService)
+        void SetupStartHitPoint(CssBoxHitChain startChain, IHtmlTextService textService)
         {
             //find global location of start point
             HitInfo startHit = startChain.GetLastHit();
@@ -260,7 +261,7 @@ namespace LayoutFarm.HtmlBoxes
         }
 
 
-        void SetupEndHitPoint(CssBoxHitChain startChain, CssBoxHitChain endChain, ITextService textService)
+        void SetupEndHitPoint(CssBoxHitChain startChain, CssBoxHitChain endChain, IHtmlTextService textService)
         {
             //find global location of end point 
             HitInfo endHit = endChain.GetLastHit();
@@ -800,8 +801,8 @@ namespace LayoutFarm.HtmlBoxes
             FullLine,
             EndLine,
             PartialLine
-        }  
-    } 
+        }
+    }
 
     static class CssLineBoxExtension
     {

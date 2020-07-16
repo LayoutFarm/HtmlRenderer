@@ -71,6 +71,7 @@
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\IGlyphTranslator.cs" Link="Typography\Typography.OpenFont\IGlyphTranslator.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\IO\ByteOrderSwappingBinaryReader.cs" Link="Typography\Typography.OpenFont\IO\ByteOrderSwappingBinaryReader.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\OpenFontReader.cs" Link="Typography\Typography.OpenFont\OpenFontReader.cs" />
+    <Compile Include="..\..\..\..\Typography\Typography.OpenFont\PreviewFontInfo.cs" Link="Typography\Typography.OpenFont\PreviewFontInfo.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\Tables.AdvancedLayout\AttachmentListTable.cs" Link="Typography\Typography.OpenFont\Tables.AdvancedLayout\AttachmentListTable.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\Tables.AdvancedLayout\Base.cs" Link="Typography\Typography.OpenFont\Tables.AdvancedLayout\Base.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\Tables.AdvancedLayout\ClassDefTable.cs" Link="Typography\Typography.OpenFont\Tables.AdvancedLayout\ClassDefTable.cs" />
@@ -191,6 +192,8 @@
     <Compile Include="..\..\..\..\Typography\Typography.TextBreak\Typography.TextBreak\WordVisitor.cs" Link="Typography\Typography.TextBreak\Typography.TextBreak\WordVisitor.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.TextServices\AbstractTextSpanPrinter.cs" Link="Typography\Typography.TextServices\AbstractTextSpanPrinter.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.TextServices\FontStoreAndManagment\FontManagement.cs" Link="Typography\Typography.TextServices\FontStoreAndManagment\FontManagement.cs" />
+    <Compile Include="..\..\..\..\Typography\Typography.TextServices\FontStoreAndManagment\InstalledTypeface.cs" Link="Typography\Typography.TextServices\FontStoreAndManagment\InstalledTypeface.cs" />
+    <Compile Include="..\..\..\..\Typography\Typography.TextServices\FontStoreAndManagment\InstalledTypefaceCollection.cs" Link="Typography\Typography.TextServices\FontStoreAndManagment\InstalledTypefaceCollection.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.TextServices\FontStoreAndManagment\OpenFontBitPosInfo.cs" Link="Typography\Typography.TextServices\FontStoreAndManagment\OpenFontBitPosInfo.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.TextServices\FontStoreAndManagment\OpenFontUnicodeUtilExtensions.cs" Link="Typography\Typography.TextServices\FontStoreAndManagment\OpenFontUnicodeUtilExtensions.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.TextServices\MeasureStringArgs.cs" Link="Typography\Typography.TextServices\MeasureStringArgs.cs" />
@@ -1129,6 +1132,7 @@
     <Compile Include="..\..\layoutfarm.htmllayout\1_css\CssFeatures.cs" Link="layoutfarm.htmllayout\1_css\CssFeatures.cs" />
     <Compile Include="..\..\LayoutFarm.HtmlLayout\1_Css\CssLengthExt.cs" Link="LayoutFarm.HtmlLayout\1_Css\CssLengthExt.cs" />
     <Compile Include="..\..\layoutfarm.htmllayout\1_css\FontDefaultConfig.cs" Link="layoutfarm.htmllayout\1_css\FontDefaultConfig.cs" />
+    <Compile Include="..\..\LayoutFarm.HtmlLayout\1_Css\IHtmlTextService.cs" Link="LayoutFarm.HtmlLayout\1_Css\IHtmlTextService.cs" />
     <Compile Include="..\..\layoutfarm.htmllayout\2_boxes\0_root\CssBoxConstConfig.cs" Link="layoutfarm.htmllayout\2_boxes\0_root\CssBoxConstConfig.cs" />
     <Compile Include="..\..\layoutfarm.htmllayout\2_boxes\0_root\HtmlVisualRoot.cs" Link="layoutfarm.htmllayout\2_boxes\0_root\HtmlVisualRoot.cs" />
     <Compile Include="..\..\layoutfarm.htmllayout\2_boxes\1_corebox\BoxVisitor.cs" Link="layoutfarm.htmllayout\2_boxes\1_corebox\BoxVisitor.cs" />

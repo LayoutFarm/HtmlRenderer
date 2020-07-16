@@ -247,6 +247,9 @@
     <Compile Include="..\layoutfarm.htmllayout\1_css\FontDefaultConfig.cs">
       <Link>0_REF_LayoutFarm.HtmlLayout\1_Css\FontDefaultConfig.cs</Link>
     </Compile>
+    <Compile Include="..\LayoutFarm.HtmlLayout\1_Css\IHtmlTextService.cs">
+      <Link>0_REF_LayoutFarm.HtmlLayout\1_Css\IHtmlTextService.cs</Link>
+    </Compile>
     <Compile Include="..\layoutfarm.htmllayout\2_boxes\0_root\CssBoxConstConfig.cs">
       <Link>0_REF_LayoutFarm.HtmlLayout\2_Boxes\0_Root\CssBoxConstConfig.cs</Link>
     </Compile>

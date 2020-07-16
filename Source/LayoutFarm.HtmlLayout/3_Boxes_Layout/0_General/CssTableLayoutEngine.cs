@@ -31,7 +31,7 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         readonly CssBox _tableBox;
         readonly List<CssBox> _allRowBoxes = new List<CssBox>();
-        ITextService _tmpIFonts;
+        IHtmlTextService _tmpIFonts;
         TableColumnCollection _columnCollection;
         const int MAX_COL_AT_THIS_VERSION = 20;
         float _hostAvaliableWidth;
@@ -101,7 +101,7 @@ namespace LayoutFarm.HtmlBoxes
             if (box != null)
             {
                 float box_fontsize = box.ResolvedFont1.SizeInPoints;
-                ITextService ifonts = lay.TextService;
+                IHtmlTextService ifonts = lay.TextService;
                 foreach (CssBox childBox in box.GetChildBoxIter())
                 {
                     childBox.ReEvaluateFont(ifonts, box_fontsize);
@@ -217,7 +217,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 int rIndex = 0;
                 int bodyRowCount = bodyrows.Count;
-                ITextService ifonts = _tmpIFonts;
+                IHtmlTextService ifonts = _tmpIFonts;
                 foreach (CssBox row in bodyrows)
                 {
                     //'row' loop 
@@ -1080,7 +1080,7 @@ namespace LayoutFarm.HtmlBoxes
             int col_count = _columnCollection.Count;
             if (s4_onlyNonCalculated)
             {
-                ITextService ifonts = _tmpIFonts;
+                IHtmlTextService ifonts = _tmpIFonts;
                 foreach (CssBox row in _allRowBoxes)
                 {
                     int gridIndex = 0;
@@ -1119,7 +1119,7 @@ namespace LayoutFarm.HtmlBoxes
             }
             else
             {
-                ITextService ifonts = _tmpIFonts;
+                IHtmlTextService ifonts = _tmpIFonts;
                 foreach (CssBox row in _allRowBoxes)
                 {
                     int gridIndex = 0;
@@ -1155,7 +1155,7 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="maxWidth">The total width the content can take without line wrapping (with padding).</param>
         static void CalculateMinMaxContentWidths(CssBox box,
             CssBox cbBox,
-            ITextService iFonts,
+            IHtmlTextService iFonts,
             out float minWidth, out float maxWidth)
         {
             float min = 0f;
@@ -1180,7 +1180,7 @@ namespace LayoutFarm.HtmlBoxes
         static void CalculateMinMaxSumWords(
             CssBox box,
             CssBox cbBox,
-            ITextService iFonts,
+            IHtmlTextService iFonts,
             ref float min,
             ref float maxSum,
             ref float paddingSum,

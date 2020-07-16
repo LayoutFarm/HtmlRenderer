@@ -1340,7 +1340,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             if (srcBox.JustTempContainer) return;
 
-            PixelFarm.Drawing.ITextService ifonts = lay.TextService;
+            IHtmlTextService ifonts = lay.TextService;
             //css3 jan2015: absolute position
             //use offset relative to its normal the box's containing box***
 

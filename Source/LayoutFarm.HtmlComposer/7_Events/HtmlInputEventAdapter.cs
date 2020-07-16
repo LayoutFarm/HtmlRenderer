@@ -24,7 +24,7 @@ namespace LayoutFarm.HtmlBoxes
         CssBox _mouseDownStartAt;
         //-----------------------------------------------
 
-        ITextService _textService;
+        LayoutFarm.Css.IHtmlTextService _textService;
         bool _isBinded;
         int _lastDomLayoutVersion;
         const int DOUBLE_CLICK_SENSE = 150;//ms 
@@ -40,7 +40,7 @@ namespace LayoutFarm.HtmlBoxes
             _isBinded = htmlVisualRoot != null;
             if (_isBinded)
             {
-                _textService = htmlVisualRoot.GetTextService();
+                _textService = htmlVisualRoot.GetHtmlTextService();
             }
         }
         public void Unbind()
