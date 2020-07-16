@@ -513,6 +513,12 @@
     <Compile Include="..\..\..\..\Typography\Typography.TextServices\FontStoreAndManagment\FontManagement.cs">
       <Link>Typography\Typography.TextServices\FontStoreAndManagment\FontManagement.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\Typography\Typography.TextServices\FontStoreAndManagment\InstalledTypeface.cs">
+      <Link>Typography\Typography.TextServices\FontStoreAndManagment\InstalledTypeface.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Typography\Typography.TextServices\FontStoreAndManagment\InstalledTypefaceCollection.cs">
+      <Link>Typography\Typography.TextServices\FontStoreAndManagment\InstalledTypefaceCollection.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\Typography\Typography.TextServices\FontStoreAndManagment\OpenFontBitPosInfo.cs">
       <Link>Typography\Typography.TextServices\FontStoreAndManagment\OpenFontBitPosInfo.cs</Link>
     </Compile>

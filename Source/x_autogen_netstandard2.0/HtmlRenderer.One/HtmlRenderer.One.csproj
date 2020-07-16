@@ -192,6 +192,8 @@
     <Compile Include="..\..\..\..\Typography\Typography.TextBreak\Typography.TextBreak\WordVisitor.cs" Link="Typography\Typography.TextBreak\Typography.TextBreak\WordVisitor.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.TextServices\AbstractTextSpanPrinter.cs" Link="Typography\Typography.TextServices\AbstractTextSpanPrinter.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.TextServices\FontStoreAndManagment\FontManagement.cs" Link="Typography\Typography.TextServices\FontStoreAndManagment\FontManagement.cs" />
+    <Compile Include="..\..\..\..\Typography\Typography.TextServices\FontStoreAndManagment\InstalledTypeface.cs" Link="Typography\Typography.TextServices\FontStoreAndManagment\InstalledTypeface.cs" />
+    <Compile Include="..\..\..\..\Typography\Typography.TextServices\FontStoreAndManagment\InstalledTypefaceCollection.cs" Link="Typography\Typography.TextServices\FontStoreAndManagment\InstalledTypefaceCollection.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.TextServices\FontStoreAndManagment\OpenFontBitPosInfo.cs" Link="Typography\Typography.TextServices\FontStoreAndManagment\OpenFontBitPosInfo.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.TextServices\FontStoreAndManagment\OpenFontUnicodeUtilExtensions.cs" Link="Typography\Typography.TextServices\FontStoreAndManagment\OpenFontUnicodeUtilExtensions.cs" />
     <Compile Include="..\..\..\..\Typography\Typography.TextServices\MeasureStringArgs.cs" Link="Typography\Typography.TextServices\MeasureStringArgs.cs" />

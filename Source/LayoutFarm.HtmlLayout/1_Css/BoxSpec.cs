@@ -644,19 +644,24 @@ namespace LayoutFarm.Css
 
             //-----------------------------------------------------------------------------
             //style
-            FontStyle st = PixelFarm.Drawing.FontStyle.Regular;
+
+            NewCssFontStyle cssFontStyle = NewCssFontStyle.Regular;
             switch (FontStyle)
             {
                 case CssFontStyle.Italic:
                 case CssFontStyle.Oblique:
-                    st |= PixelFarm.Drawing.FontStyle.Italic;
+                    cssFontStyle = NewCssFontStyle.Italic;
                     break;
             }
             //-----------------------------------------------------
             //weight
+
             CssFontWeight fontWight = this.FontWeight;
+            ushort fontWeight1 = 400;//default
+
             switch (this.FontWeight)
             {
+                case CssFontWeight._400:
                 case CssFontWeight.Normal:
                 case CssFontWeight.Lighter:
                 case CssFontWeight.NotAssign:
@@ -665,9 +670,27 @@ namespace LayoutFarm.Css
                         //do nothing
                     }
                     break;
+                case CssFontWeight.Bold:
+                    fontWeight1 = (ushort)RequestFontWeight.Bold;
+                    break;
+                case CssFontWeight._100:
+                    fontWeight1 = 100;
+                    break;
+                case CssFontWeight._200:
+                    fontWeight1 = 200;
+                    break;
+                case CssFontWeight._300:
+                    fontWeight1 = 300;
+                    break;
+                case CssFontWeight._500:
+                    fontWeight1 = 500;
+                    break;
+                case CssFontWeight._600:
+                    fontWeight1 = 600;
+                    break;
                 default:
                     {
-                        st |= PixelFarm.Drawing.FontStyle.Bold;
+
                     }
                     break;
             }
@@ -737,12 +760,8 @@ namespace LayoutFarm.Css
                 fsize = FontDefaultConfig.DEFAULT_FONT_SIZE;
             }
 
-            _reqFont = new RequestFont(fontFam, fsize, st);
-            //resolve
-            //TODO: review here again
-            //review font resolve here...
-            //throw new NotFiniteNumberException();
-            //ActualFontResolver.Resolver.Resolve(_reqFont);
+            _reqFont = new RequestFont(fontFam, fsize,fontWeight1, cssFontStyle);
+         
             return _reqFont;
         }
 
