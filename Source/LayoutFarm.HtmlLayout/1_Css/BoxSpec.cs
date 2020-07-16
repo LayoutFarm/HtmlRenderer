@@ -645,12 +645,12 @@ namespace LayoutFarm.Css
             //-----------------------------------------------------------------------------
             //style
 
-            NewCssFontStyle cssFontStyle = NewCssFontStyle.Regular;
+            RequestFontStyle cssFontStyle = RequestFontStyle.Regular;
             switch (FontStyle)
             {
                 case CssFontStyle.Italic:
                 case CssFontStyle.Oblique:
-                    cssFontStyle = NewCssFontStyle.Italic;
+                    cssFontStyle = RequestFontStyle.Italic;
                     break;
             }
             //-----------------------------------------------------
