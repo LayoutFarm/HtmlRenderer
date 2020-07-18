@@ -135,6 +135,9 @@
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\Bounds.cs">
       <Link>Typography\Typography.OpenFont\Bounds.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\Typography\Typography.OpenFont\ByteOrderSwappingBinaryReader.cs">
+      <Link>Typography\Typography.OpenFont\ByteOrderSwappingBinaryReader.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\Geometry.cs">
       <Link>Typography\Typography.OpenFont\Geometry.cs</Link>
     </Compile>
@@ -143,9 +146,6 @@
     </Compile>
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\IGlyphTranslator.cs">
       <Link>Typography\Typography.OpenFont\IGlyphTranslator.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Typography\Typography.OpenFont\IO\ByteOrderSwappingBinaryReader.cs">
-      <Link>Typography\Typography.OpenFont\IO\ByteOrderSwappingBinaryReader.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\Typography\Typography.OpenFont\OpenFontReader.cs">
       <Link>Typography\Typography.OpenFont\OpenFontReader.cs</Link>
@@ -507,35 +507,20 @@
     <Compile Include="..\..\..\..\Typography\Typography.TextBreak\Typography.TextBreak\WordVisitor.cs">
       <Link>Typography\Typography.TextBreak\Typography.TextBreak\WordVisitor.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Typography\Typography.TextServices\AbstractTextSpanPrinter.cs">
-      <Link>Typography\Typography.TextServices\AbstractTextSpanPrinter.cs</Link>
+    <Compile Include="..\..\..\..\Typography\Typography.TextServices\FontCollections\FontManagement.cs">
+      <Link>Typography\Typography.TextServices\FontCollections\FontManagement.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Typography\Typography.TextServices\FontStoreAndManagment\FontManagement.cs">
-      <Link>Typography\Typography.TextServices\FontStoreAndManagment\FontManagement.cs</Link>
+    <Compile Include="..\..\..\..\Typography\Typography.TextServices\FontCollections\InstalledTypeface.cs">
+      <Link>Typography\Typography.TextServices\FontCollections\InstalledTypeface.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Typography\Typography.TextServices\FontStoreAndManagment\InstalledTypeface.cs">
-      <Link>Typography\Typography.TextServices\FontStoreAndManagment\InstalledTypeface.cs</Link>
+    <Compile Include="..\..\..\..\Typography\Typography.TextServices\FontCollections\InstalledTypefaceCollection.cs">
+      <Link>Typography\Typography.TextServices\FontCollections\InstalledTypefaceCollection.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Typography\Typography.TextServices\FontStoreAndManagment\InstalledTypefaceCollection.cs">
-      <Link>Typography\Typography.TextServices\FontStoreAndManagment\InstalledTypefaceCollection.cs</Link>
+    <Compile Include="..\..\..\..\Typography\Typography.TextServices\OpenFont\OpenFontBitPosInfo.cs">
+      <Link>Typography\Typography.TextServices\OpenFont\OpenFontBitPosInfo.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Typography\Typography.TextServices\FontStoreAndManagment\OpenFontBitPosInfo.cs">
-      <Link>Typography\Typography.TextServices\FontStoreAndManagment\OpenFontBitPosInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Typography\Typography.TextServices\FontStoreAndManagment\OpenFontUnicodeUtilExtensions.cs">
-      <Link>Typography\Typography.TextServices\FontStoreAndManagment\OpenFontUnicodeUtilExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Typography\Typography.TextServices\MeasureStringArgs.cs">
-      <Link>Typography\Typography.TextServices\MeasureStringArgs.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Typography\Typography.TextServices\ResolvedFonts.cs">
-      <Link>Typography\Typography.TextServices\ResolvedFonts.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Typography\Typography.TextServices\TextBaseline.cs">
-      <Link>Typography\Typography.TextServices\TextBaseline.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\Typography\Typography.TextServices\TextBufferSpan.cs">
-      <Link>Typography\Typography.TextServices\TextBufferSpan.cs</Link>
+    <Compile Include="..\..\..\..\Typography\Typography.TextServices\OpenFont\OpenFontUnicodeUtilExtensions.cs">
+      <Link>Typography\Typography.TextServices\OpenFont\OpenFontUnicodeUtilExtensions.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\Typography\Typography.TextServices\TextLayout\CRC32.cs">
       <Link>Typography\Typography.TextServices\TextLayout\CRC32.cs</Link>
@@ -549,8 +534,23 @@
     <Compile Include="..\..\..\..\Typography\Typography.TextServices\TextLayout\LineSegmentsAndWordVisitors.cs">
       <Link>Typography\Typography.TextServices\TextLayout\LineSegmentsAndWordVisitors.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\Typography\Typography.TextServices\VirtualTextSpanPrinter.cs">
-      <Link>Typography\Typography.TextServices\VirtualTextSpanPrinter.cs</Link>
+    <Compile Include="..\..\..\..\Typography\Typography.TextServices\Text\AbstractTextSpanPrinter.cs">
+      <Link>Typography\Typography.TextServices\Text\AbstractTextSpanPrinter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Typography\Typography.TextServices\Text\MeasureStringArgs.cs">
+      <Link>Typography\Typography.TextServices\Text\MeasureStringArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Typography\Typography.TextServices\Text\ResolvedFonts.cs">
+      <Link>Typography\Typography.TextServices\Text\ResolvedFonts.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Typography\Typography.TextServices\Text\TextBaseline.cs">
+      <Link>Typography\Typography.TextServices\Text\TextBaseline.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Typography\Typography.TextServices\Text\TextBufferSpan.cs">
+      <Link>Typography\Typography.TextServices\Text\TextBufferSpan.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\Typography\Typography.TextServices\Text\VirtualTextSpanPrinter.cs">
+      <Link>Typography\Typography.TextServices\Text\VirtualTextSpanPrinter.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\BackEnd.BurningMineCurve_SH\CubicBezier.cs">
       <Link>PixelFarm\src\PixelFarm\BackEnd.BurningMineCurve_SH\CubicBezier.cs</Link>
@@ -2186,9 +2186,6 @@
     </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.RenderTree.TextSurface\1.0_Common\DoubleBufferCustomRenderBox.cs">
       <Link>PixelFarm\src\PixelFarm\PaintLab.RenderTree.TextSurface\1.0_Common\DoubleBufferCustomRenderBox.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.RenderTree.TextSurface\1.0_Common\ITextService.cs">
-      <Link>PixelFarm\src\PixelFarm\PaintLab.RenderTree.TextSurface\1.0_Common\ITextService.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.RenderTree.TextSurface\1.0_Common\PlainTextDocumentHelper.cs">
       <Link>PixelFarm\src\PixelFarm\PaintLab.RenderTree.TextSurface\1.0_Common\PlainTextDocumentHelper.cs</Link>
