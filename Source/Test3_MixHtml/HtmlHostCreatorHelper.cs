@@ -44,7 +44,7 @@ namespace LayoutFarm
             var config = new HtmlBoxes.HtmlHostCreationConfig()
             {
                 RootGraphic = appHost.RootGfx,
-                TextService = new MyHtmlTextService(GlobalTextService.TxtClient)
+                TextService = new MyHtmlTextService(Typography.Text.GlobalTextService.TxtClient)
             };
 
             //1.
