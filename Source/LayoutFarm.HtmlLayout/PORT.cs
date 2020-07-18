@@ -2,15 +2,7 @@
 using System;
 using System.Collections.Generic;
 using PixelFarm.Drawing;
-
-
-using Typography.OpenFont;
-using Typography.OpenFont.Extensions;
-
-using Typography.TextLayout;
-using Typography.Text;
-using Typography.FontManagement;
-using Typography.TextBreak;
+ 
 
 
 namespace LayoutFarm.HtmlBoxes
