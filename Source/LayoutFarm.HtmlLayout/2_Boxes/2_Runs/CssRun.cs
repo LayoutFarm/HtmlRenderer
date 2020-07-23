@@ -292,8 +292,8 @@ namespace LayoutFarm.HtmlBoxes
                     {
                         char[] ownerTextBuff = CssBox.UnsafeGetTextBuffer(this.OwnerBox);
                         CssTextRun textRun = (CssTextRun)this;
-                        var textBuf = new TextBufferSpan(ownerTextBuff, textRun.TextStartIndex, textRun.TextLength);
-
+                        var textBuf = new Typography.Text.TextBufferSpan(ownerTextBuff, textRun.TextStartIndex, textRun.TextLength);
+                        
                         //temp fix add +3 ***because this is a selection, 
                         textService.MeasureString(textBuf,
                             this.OwnerBox.ResolvedFont, maxWidth + 3, out charFit, out charFitWidth);
@@ -305,7 +305,7 @@ namespace LayoutFarm.HtmlBoxes
                     {
                         char[] ownerTextBuff = CssBox.UnsafeGetTextBuffer(this.OwnerBox);
                         CssTextRun textRun = (CssTextRun)this;
-                        var textBuf = new TextBufferSpan(ownerTextBuff, textRun.TextStartIndex, textRun.TextLength);
+                        var textBuf = new Typography.Text.TextBufferSpan(ownerTextBuff, textRun.TextStartIndex, textRun.TextLength);
 
                         textService.MeasureString(textBuf,
                             this.OwnerBox.ResolvedFont, maxWidth, out charFit, out charFitWidth);

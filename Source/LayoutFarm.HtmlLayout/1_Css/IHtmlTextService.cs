@@ -1,7 +1,7 @@
 ﻿//MIT, 2020-present, WinterDev
 
 using PixelFarm.Drawing;
- 
+using Typography.Text;
 
 namespace LayoutFarm.Css
 {

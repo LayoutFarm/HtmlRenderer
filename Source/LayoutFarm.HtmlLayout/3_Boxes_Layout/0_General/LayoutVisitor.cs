@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using LayoutFarm.Css;
 using PixelFarm.Drawing;
 using Typography.Text;
+
 namespace LayoutFarm.HtmlBoxes
 {
     public class LayoutVisitor : BoxVisitor
@@ -138,10 +139,10 @@ namespace LayoutFarm.HtmlBoxes
             }
             return w;
         }
-       
+
         internal Size MeasureStringSize(char[] buffer, int startIndex, int len, ResolvedFont f)
         {
-            var textSpan = new PixelFarm.Drawing.TextBufferSpan(buffer, startIndex, len);
+            var textSpan = new Typography.Text.TextBufferSpan(buffer, startIndex, len);
             return _txtClient.MeasureString(textSpan, f);
         }
         //---------------------------------------------------------------
