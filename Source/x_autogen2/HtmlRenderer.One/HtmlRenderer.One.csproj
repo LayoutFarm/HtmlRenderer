@@ -39,6 +39,9 @@
     <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\1_General\AlternativeTypefaceSelector.cs">
       <Link>Typography\PixelFarm.Typography\1_General\AlternativeTypefaceSelector.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\1_General\CharSourceAndCharSpan.cs">
+      <Link>Typography\PixelFarm.Typography\1_General\CharSourceAndCharSpan.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\Typography\PixelFarm.Typography\1_General\FontStyleExtensions.cs">
       <Link>Typography\PixelFarm.Typography\1_General\FontStyleExtensions.cs</Link>
     </Compile>
@@ -2241,11 +2244,14 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.RenderTree.TextSurface\1.2_Lines\debugActivityRecorder.cs">
       <Link>PixelFarm\src\PixelFarm\PaintLab.RenderTree.TextSurface\1.2_Lines\debugActivityRecorder.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.RenderTree.TextSurface\1.2_Lines\RunListPool.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.RenderTree.TextSurface\1.2_Lines\RunListPool.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.RenderTree.TextSurface\1.2_Lines\TextCopyBuffer.cs">
+      <Link>PixelFarm\src\PixelFarm\PaintLab.RenderTree.TextSurface\1.2_Lines\TextCopyBuffer.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.RenderTree.TextSurface\1.2_Lines\TextLineWalker.cs">
       <Link>PixelFarm\src\PixelFarm\PaintLab.RenderTree.TextSurface\1.2_Lines\TextLineWalker.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.RenderTree.TextSurface\1.2_Lines\TextRangeCopy.cs">
-      <Link>PixelFarm\src\PixelFarm\PaintLab.RenderTree.TextSurface\1.2_Lines\TextRangeCopy.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PaintLab.RenderTree.TextSurface\1.3_Layer\ITextFlowOwner.cs">
       <Link>PixelFarm\src\PixelFarm\PaintLab.RenderTree.TextSurface\1.3_Layer\ITextFlowOwner.cs</Link>
@@ -2958,9 +2964,6 @@
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Painter_Layer2_SH\Drawing\DrawBoard.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.Painter_Layer2_SH\Drawing\DrawBoard.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Painter_Layer2_SH\Drawing\ITextPrinter.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.Painter_Layer2_SH\Drawing\ITextPrinter.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Painter_Layer2_SH\Drawing\Painter.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.Painter_Layer2_SH\Drawing\Painter.cs</Link>
     </Compile>
@@ -2984,9 +2987,6 @@
     </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Painter_Layer2_SH\_ESS_LINK_WITH_TY\TextBufferSpan.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.Painter_Layer2_SH\_ESS_LINK_WITH_TY\TextBufferSpan.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Painter_Layer2_SH\_ESS_LINK_WITH_TY\TextSpanMeasureResult.cs">
-      <Link>PixelFarm\src\PixelFarm\PixelFarm.Painter_Layer2_SH\_ESS_LINK_WITH_TY\TextSpanMeasureResult.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\PixelFarm\src\PixelFarm\PixelFarm.Vectors_SH\1_VectorMaths\AggMath.cs">
       <Link>PixelFarm\src\PixelFarm\PixelFarm.Vectors_SH\1_VectorMaths\AggMath.cs</Link>
