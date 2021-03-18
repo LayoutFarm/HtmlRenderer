@@ -93,24 +93,80 @@
       <Link>libGLESv2.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\..\..\Typography\Typography.TextBreak\icu63\brkitr\de.txt">
+      <Link>icu\brkitr\de.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="..\..\..\Typography\Typography.TextBreak\icu63\brkitr\dictionaries\burmesedict.txt">
-      <Link>icu\brkitr\burmesedict.txt</Link>
+      <Link>icu\brkitr\dictionaries\burmesedict.txt</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\..\..\Typography\Typography.TextBreak\icu63\brkitr\dictionaries\cjdict.txt">
-      <Link>icu\brkitr\cjdict.txt</Link>
+      <Link>icu\brkitr\dictionaries\cjdict.txt</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\..\..\Typography\Typography.TextBreak\icu63\brkitr\dictionaries\khmerdict.txt">
-      <Link>icu\brkitr\khmerdict.txt</Link>
+      <Link>icu\brkitr\dictionaries\khmerdict.txt</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\..\..\Typography\Typography.TextBreak\icu63\brkitr\dictionaries\laodict.txt">
-      <Link>icu\brkitr\laodict.txt</Link>
+      <Link>icu\brkitr\dictionaries\laodict.txt</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\..\..\Typography\Typography.TextBreak\icu63\brkitr\dictionaries\thaidict.txt">
-      <Link>icu\brkitr\thaidict.txt</Link>
+      <Link>icu\brkitr\dictionaries\thaidict.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Typography\Typography.TextBreak\icu63\brkitr\el.txt">
+      <Link>icu\brkitr\el.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Typography\Typography.TextBreak\icu63\brkitr\en.txt">
+      <Link>icu\brkitr\en.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Typography\Typography.TextBreak\icu63\brkitr\en_US.txt">
+      <Link>icu\brkitr\en_US.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Typography\Typography.TextBreak\icu63\brkitr\en_US_POSIX.txt">
+      <Link>icu\brkitr\en_US_POSIX.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Typography\Typography.TextBreak\icu63\brkitr\es.txt">
+      <Link>icu\brkitr\es.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Typography\Typography.TextBreak\icu63\brkitr\fr.txt">
+      <Link>icu\brkitr\fr.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Typography\Typography.TextBreak\icu63\brkitr\it.txt">
+      <Link>icu\brkitr\it.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Typography\Typography.TextBreak\icu63\brkitr\ja.txt">
+      <Link>icu\brkitr\ja.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Typography\Typography.TextBreak\icu63\brkitr\pt.txt">
+      <Link>icu\brkitr\pt.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Typography\Typography.TextBreak\icu63\brkitr\root.txt">
+      <Link>icu\brkitr\root.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Typography\Typography.TextBreak\icu63\brkitr\ru.txt">
+      <Link>icu\brkitr\ru.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Typography\Typography.TextBreak\icu63\brkitr\zh.txt">
+      <Link>icu\brkitr\zh.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Typography\Typography.TextBreak\icu63\brkitr\zh_Hant.txt">
+      <Link>icu\brkitr\zh_Hant.txt</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
