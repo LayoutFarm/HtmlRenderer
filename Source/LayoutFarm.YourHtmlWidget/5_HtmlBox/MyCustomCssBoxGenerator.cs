@@ -235,46 +235,48 @@ namespace LayoutFarm.CustomWidgets
             if (textNode != null)
             {
                 //if first line is blank line we skip
-
                 //TODO: review here
-                System.Collections.Generic.List<string> strList = new System.Collections.Generic.List<string>();
-                int lineCount = 0;
-                using (System.IO.StringReader strReader = new System.IO.StringReader(new string(textNode.GetOriginalBuffer())))
-                {
-                    string line = strReader.ReadLine();
-                    while (line != null)
-                    {
-                        if (lineCount == 0)
-                        {
-                            if (line.Trim() != string.Empty)
-                            {
-                                strList.Add(line);
-                            }
-                        }
-                        else
-                        {
-                            strList.Add(line);
-                        }
 
-                        lineCount++;
-                        line = strReader.ReadLine();
-                    }
+                textbox.SetText(new string(textNode.GetOriginalBuffer()));
 
-                    if (strList.Count > 0)
-                    {
-                        //check last line
-                        line = strList[strList.Count - 1];
-                        if (line.Trim() == string.Empty)
-                        {
-                            strList.RemoveAt(strList.Count - 1);
-                        }
-                    }
-                }
-                //
-                if (strList.Count > 0)
-                {
-                    textbox.SetText(strList);
-                }
+                //System.Collections.Generic.List<string> strList = new System.Collections.Generic.List<string>();
+                //int lineCount = 0;
+                //using (System.IO.StringReader strReader = new System.IO.StringReader())
+                //{
+                //    string line = strReader.ReadLine();
+                //    while (line != null)
+                //    {
+                //        if (lineCount == 0)
+                //        {
+                //            if (line.Trim() != string.Empty)
+                //            {
+                //                strList.Add(line);
+                //            }
+                //        }
+                //        else
+                //        {
+                //            strList.Add(line);
+                //        }
+
+                //        lineCount++;
+                //        line = strReader.ReadLine();
+                //    }
+
+                //    if (strList.Count > 0)
+                //    {
+                //        //check last line
+                //        line = strList[strList.Count - 1];
+                //        if (line.Trim() == string.Empty)
+                //        {
+                //            strList.RemoveAt(strList.Count - 1);
+                //        }
+                //    }
+                //}
+                ////
+                //if (strList.Count > 0)
+                //{
+                //    textbox.SetText(strList);
+                //}
             }
 
             return wrapperBox;

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using PixelFarm.CpuBlit;
 using PixelFarm.Drawing;
+using Typography.Text;
 
 namespace LayoutFarm
 {
@@ -19,10 +20,10 @@ namespace LayoutFarm
 
             public float MeasureBlankLineHeight(RequestFont f) => _txtsx.MeasureWhitespace(f);
 
-            public Size MeasureString(in PixelFarm.Drawing.TextBufferSpan textBufferSpan, RequestFont font)
+            public Size MeasureString(in TextBufferSpan textBufferSpan, RequestFont font)
                 => _txtsx.MeasureString(textBufferSpan, font);
 
-            public void MeasureString(in PixelFarm.Drawing.TextBufferSpan textBufferSpan, RequestFont font, int maxWidth, out int charFit, out int charFitWidth)
+            public void MeasureString(in TextBufferSpan textBufferSpan, RequestFont font, int maxWidth, out int charFit, out int charFitWidth)
                 => _txtsx.MeasureString(textBufferSpan, font, maxWidth, out charFit, out charFitWidth);
 
             public float MeasureWhitespace(RequestFont f)
@@ -31,7 +32,7 @@ namespace LayoutFarm
             public Typography.Text.ResolvedFont ResolveFont(RequestFont reqFont)
                => _txtsx.ResolveFont(reqFont);
 
-            public Size MeasureString(in PixelFarm.Drawing.TextBufferSpan textBufferSpan, Typography.Text.ResolvedFont font)
+            public Size MeasureString(in TextBufferSpan textBufferSpan, Typography.Text.ResolvedFont font)
                => _txtsx.MeasureString(textBufferSpan, font);
         }
 

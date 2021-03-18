@@ -539,12 +539,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\PixelFarm.One.HtmlRenderer.csproj">
-      <Project>{662f2274-d6f8-413a-a908-1b2f10c01348}</Project>
-      <Name>PixelFarm.One.HtmlRenderer</Name>
+    <ProjectReference Include="..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One\PixelFarm.One.csproj">
+      <Project>{5b9fe9f1-12ce-4775-bcef-0ad3cb614ee5}</Project>
+      <Name>PixelFarm.One</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

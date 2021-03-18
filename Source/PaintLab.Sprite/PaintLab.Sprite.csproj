@@ -10,7 +10,7 @@
     <RootNamespace>PaintLab.Sprite</RootNamespace>
     <AssemblyName>PaintLab.Sprite</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
-	  <LangVersion>8.0</LangVersion>
+    <LangVersion>8.0</LangVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
@@ -43,9 +43,9 @@
     <Compile Include="VgVisualElemHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\PixelFarm.One.HtmlRenderer.csproj">
-      <Project>{367ae189-bede-436c-8186-362a771f35b2}</Project>
-      <Name>PixelFarm.One.HtmlRenderer</Name>
+    <ProjectReference Include="..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One\PixelFarm.One.csproj">
+      <Project>{48687c19-8f1a-46a5-8a3a-31c3abd78b5d}</Project>
+      <Name>PixelFarm.One</Name>
     </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.HtmlComposer\LayoutFarm.HtmlComposer.csproj">
       <Project>{1af17e34-4c2d-4657-b993-e0608c555111}</Project>

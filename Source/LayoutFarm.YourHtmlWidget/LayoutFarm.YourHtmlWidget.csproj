@@ -10,7 +10,7 @@
     <RootNamespace>LayoutFarm.YourHtmlWidget</RootNamespace>
     <AssemblyName>LayoutFarm.YourHtmlWidget</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
-	  <LangVersion>8.0</LangVersion>
+    <LangVersion>8.0</LangVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -56,9 +56,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One.HtmlRenderer\PixelFarm.One.HtmlRenderer.csproj">
-      <Project>{662f2274-d6f8-413a-a908-1b2f10c01348}</Project>
-      <Name>PixelFarm.One.HtmlRenderer</Name>
+    <ProjectReference Include="..\..\..\PixelFarm\src\x_autogen2\PixelFarm.One\PixelFarm.One.csproj">
+      <Project>{5b9fe9f1-12ce-4775-bcef-0ad3cb614ee5}</Project>
+      <Name>PixelFarm.One</Name>
     </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.HtmlComposer\LayoutFarm.HtmlComposer.csproj">
       <Project>{1af17e34-4c2d-4657-b993-e0608c555111}</Project>

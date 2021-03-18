@@ -18,8 +18,7 @@ namespace TestGraphicPackage2
             YourImplementation.FrameworkInitWinGDI.SetupDefaultValues();
             YourImplementation.FrameworkInitGLES.SetupDefaultValues();
 
-
-            string icu_datadir = YourImplementation.RelativePathBuilder.SearchBackAndBuildFolderPath(System.IO.Directory.GetCurrentDirectory(), "HtmlRenderer", @"..\Typography\Typography.TextBreak\icu62\brkitr");
+            string icu_datadir = "icu\\brkitr";
             if (!System.IO.Directory.Exists(icu_datadir))
             {
                 throw new System.NotSupportedException("dic");
